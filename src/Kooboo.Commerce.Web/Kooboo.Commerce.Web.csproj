@@ -315,6 +315,17 @@
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingMethodEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingMethodRowModel.cs" />
     <Compile Include="Areas\Commerce\CommerceApplicationEvents.cs" />
+    <Compile Include="Areas\Media\Controllers\UploadController.cs" />
+    <Compile Include="Areas\Media\Handlers\FilesStatus.cs" />
+    <Compile Include="Areas\Media\Handlers\FileType.cs" />
+    <Compile Include="Areas\Media\Handlers\ImageHandler.ashx.cs">
+      <DependentUpon>ImageHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Media\Handlers\ImageHelper.cs" />
+    <Compile Include="Areas\Media\Handlers\UploadHandler.ashx.cs">
+      <DependentUpon>UploadHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Media\MediaAreaRegistration.cs" />
     <Compile Include="Extensions\ABTest\SampleABRule.cs" />
     <Compile Include="Extensions\ContentEvent\CustomContentEventSubscriber.cs" />
     <Compile Include="Extensions\MembershipConnectClient\DictionaryExtensions.cs" />
@@ -348,6 +359,15 @@
     <Content Include="Areas\Commerce\Styles\images\line.png" />
     <Content Include="Areas\Commerce\Styles\images\media-library.png" />
     <Content Include="Areas\Commerce\Styles\images\stripe.png" />
+    <Content Include="Areas\Media\Scripts\jquery.fileupload-fp.js" />
+    <Content Include="Areas\Media\Scripts\jquery.fileupload-locale.js" />
+    <Content Include="Areas\Media\Scripts\jquery.fileupload.js" />
+    <Content Include="Areas\Media\Scripts\jquery.Jcrop.min.js" />
+    <Content Include="Areas\Media\Scripts\knockout.ext.js" />
+    <Content Include="Areas\Media\Scripts\knockout.vm.js" />
+    <Content Include="Areas\Media\Scripts\Kooboo_CMS.js" />
+    <Content Include="Areas\Media\Scripts\upload.js" />
+    <Content Include="Areas\Media\Scripts\utils.js" />
     <Content Include="Styles\base.css" />
     <Content Include="Styles\common.css" />
     <Content Include="Styles\ie.css" />
@@ -2176,6 +2196,15 @@
     <Content Include="Areas\Commerce\Views\Order\_AddressDetail.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ExtendedQueryParameter.cshtml" />
     <Content Include="Areas\Commerce\Views\CommerceInstance\Edit.cshtml" />
+    <Content Include="Areas\Media\Handlers\ImageHandler.ashx" />
+    <Content Include="Areas\Media\Handlers\UploadHandler.ashx" />
+    <Content Include="Areas\Media\Views\Shared\Files.cshtml" />
+    <Content Include="Areas\Media\Views\Shared\ImageCrop.cshtml" />
+    <Content Include="Areas\Media\Views\Shared\InlineUpload.cshtml" />
+    <Content Include="Areas\Media\Views\Shared\OpenUpload.cshtml" />
+    <Content Include="Areas\Media\Views\Upload\Index.cshtml" />
+    <Content Include="Areas\Media\Views\Web.config" />
+    <Content Include="Areas\Media\WebResources.config" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -2222,6 +2251,7 @@
     <Content Include="Styles\select2\select2x2.png" />
     <Content Include="Styles\select2\spinner.gif" />
     <Content Include="Styles\validation.css" />
+    <Content Include="Uploads\placeholder.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2255,6 +2285,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Media\Models\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Category\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Comment\~contents\" />

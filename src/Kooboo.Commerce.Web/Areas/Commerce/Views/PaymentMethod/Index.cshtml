@@ -9,7 +9,9 @@
         buttons.AddCreateButton();
         buttons.AddEnableButton();
         buttons.AddDisableButton();
-        buttons.AddAjaxPostButton("Settings", "setting", "Settings", new { @return = Request.RawUrl }).VisibleWhen(GridChecked.Single);
+        buttons.AddAjaxPostButton("Settings", "setting", "Settings", new { @return = Request.RawUrl })
+               .VisibleWhen(GridChecked.Single)
+               .VisibleWhenSelected(".configurable");
         buttons.AddDeleteButton();
     }))
 }

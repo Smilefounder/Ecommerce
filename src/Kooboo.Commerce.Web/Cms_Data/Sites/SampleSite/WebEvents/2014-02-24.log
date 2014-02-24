@@ -157,3 +157,280 @@ Custom event details:
    在 System.Data.Entity.Core.EntityClient.Internal.EntityCommandDefinition.ExecuteStoreCommands(EntityCommand entityCommand, CommandBehavior behavior)
 
 --------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/2/24 10:43:12
+事件时间(UTC): 2014/2/24 2:43:12
+事件 ID: 524c38ea78ca4f15a6a9c665353648c8
+事件序列: 241
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-1-130376830322199007
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 2448
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.InvalidOperationException
+    异常消息: Commerce instance "Demo" not exists.
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/Category?commerceName=Demo
+    请求路径: /Commerce/Category
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 22
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 Kooboo.Commerce.Data.CommerceInstanceManager.OpenInstance(String name) 位置 e:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Infrastructure\Data\CommerceInstanceManager.cs:行号 117
+   在 Kooboo.Commerce.Web.Areas.Commerce.HttpCommerceInstanceContext.get_CurrentInstance() 位置 e:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Web\Areas\Commerce\HttpCommerceContext.cs:行号 40
+   在 Kooboo.Commerce.Web.Areas.Commerce.Dependencies.DataAccessDependencyRegistrar.<Register>b__0(IContext ctx) 位置 e:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Web\Areas\Commerce\Dependencies\DataAccessDependencyRegistrar.cs:行号 28
+   在 Ninject.Activation.Providers.CallbackProvider`1.CreateInstance(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\CallbackProvider.cs:行号 45
+   在 Ninject.Activation.Provider`1.Create(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Provider.cs:行号 38
+   在 Ninject.Activation.Context.Resolve() 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Context.cs:行号 157
+   在 Ninject.KernelBase.<>c__DisplayClass10.<Resolve>b__c(IBinding binding) 位置 c:\Projects\Ninject\ninject\src\Ninject\KernelBase.cs:行号 386
+   在 System.Linq.Enumerable.<>c__DisplayClass12`3.<CombineSelectors>b__11(TSource x)
+   在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   在 System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   在 Ninject.Planning.Targets.Target`1.GetValue(Type service, IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 197
+   在 Ninject.Planning.Targets.Target`1.ResolveWithin(IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 165
+   在 Ninject.Activation.Providers.StandardProvider.GetValue(IContext context, ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 114
+   在 Ninject.Activation.Providers.StandardProvider.<>c__DisplayClass4.<Create>b__2(ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 System.Linq.Enumerable.WhereSelectArrayIterator`2.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Ninject.Activation.Providers.StandardProvider.Create(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 Ninject.Activation.Context.Resolve() 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Context.cs:行号 157
+   在 Ninject.KernelBase.<>c__DisplayClass10.<Resolve>b__c(IBinding binding) 位置 c:\Projects\Ninject\ninject\src\Ninject\KernelBase.cs:行号 386
+   在 System.Linq.Enumerable.<>c__DisplayClass12`3.<CombineSelectors>b__11(TSource x)
+   在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   在 System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   在 Ninject.Planning.Targets.Target`1.GetValue(Type service, IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 197
+   在 Ninject.Planning.Targets.Target`1.ResolveWithin(IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 165
+   在 Ninject.Activation.Providers.StandardProvider.GetValue(IContext context, ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 114
+   在 Ninject.Activation.Providers.StandardProvider.<>c__DisplayClass4.<Create>b__2(ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 System.Linq.Enumerable.WhereSelectArrayIterator`2.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Ninject.Activation.Providers.StandardProvider.Create(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 Ninject.Activation.Context.Resolve() 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Context.cs:行号 157
+   在 Ninject.KernelBase.<>c__DisplayClass10.<Resolve>b__c(IBinding binding) 位置 c:\Projects\Ninject\ninject\src\Ninject\KernelBase.cs:行号 386
+   在 System.Linq.Enumerable.<>c__DisplayClass12`3.<CombineSelectors>b__11(TSource x)
+   在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   在 System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   在 Ninject.Planning.Targets.Target`1.GetValue(Type service, IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 197
+   在 Ninject.Planning.Targets.Target`1.ResolveWithin(IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 165
+   在 Ninject.Activation.Providers.StandardProvider.GetValue(IContext context, ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 114
+   在 Ninject.Activation.Providers.StandardProvider.<>c__DisplayClass4.<Create>b__2(ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 System.Linq.Enumerable.WhereSelectArrayIterator`2.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Ninject.Activation.Providers.StandardProvider.Create(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 Ninject.Activation.Context.Resolve() 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Context.cs:行号 157
+   在 Ninject.KernelBase.<>c__DisplayClass10.<Resolve>b__c(IBinding binding) 位置 c:\Projects\Ninject\ninject\src\Ninject\KernelBase.cs:行号 386
+   在 System.Linq.Enumerable.<>c__DisplayClass12`3.<CombineSelectors>b__11(TSource x)
+   在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   在 System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   在 Ninject.ResolutionExtensions.TryGet[T](IEnumerable`1 iterator) 位置 c:\Projects\Ninject\ninject\src\Ninject\Syntax\ResolutionExtensions.cs:行号 270
+   在 Kooboo.CMS.Common.Runtime.Dependency.Ninject.ContainerManager.TryResolve(Type type, String key, Parameter[] parameters) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Common.Runtime.Dependency.Ninject\ContainerManager.cs:行号 200
+   在 Kooboo.CMS.Common.Runtime.Dependency.Ninject.NinjectEngine.TryResolve(Type type, Parameter[] parameters) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Common.Runtime.Dependency.Ninject\NinjectEngine.cs:行号 128
+   在 Kooboo.CMS.Common.Runtime.Mvc.MvcDependencyResolver.GetService(Type serviceType) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Common\Runtime\Mvc\MvcDependencyResolver.cs:行号 32
+   在 System.Web.Mvc.DefaultControllerFactory.DefaultControllerActivator.Create(RequestContext requestContext, Type controllerType)
+
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: 未将对象引用设置到对象的实例。
+Event time: 2014/2/24 10:57:00
+Event time (UTC): 2014/2/24 2:57:00
+Event ID: 2ba9ef6755364aa09d3e3823e8abfa42
+Event sequence: 758
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-4-130376835693100605
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.NullReferenceException
+    Exception message: 未将对象引用设置到对象的实例。
+
+Request information:
+    Request URL: /Commerce/PaymentMethod/Settings?commerceName=Sample&return=%2FCommerce%2FPaymentMethod%3FcommerceName%3DSample
+    Request path: /Commerce/PaymentMethod/Settings
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 8
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.Commerce.Web.Areas.Commerce.Controllers.PaymentMethodController.Settings(PaymentMethodRowModel[] model) 位置 e:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Web\Areas\Commerce\Controllers\PaymentMethodController.cs:行号 85
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/2/24 11:02:48
+事件时间(UTC): 2014/2/24 3:02:48
+事件 ID: 58bbc8dd03964564bc0e508317f0c2b7
+事件序列: 137
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-5-130376844316228701
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 2448
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.Data.Entity.Core.ProviderIncompatibleException
+    异常消息: The provider did not return a ProviderManifestToken string.
+
+内部异常信息(级别 1):
+    异常类型: System.Data.SqlClient.SqlException
+    异常消息: 在与 SQL Server 建立连接时出现与网络相关的或特定于实例的错误。未找到或无法访问服务器。请验证实例名称是否正确并且 SQL Server 已配置为允许远程连接。 (provider: SQL Network Interfaces, error: 26 - 定位指定的服务器/实例时出错)
+
+请求信息:
+    请求 URL: http://localhost:63739/Kooboo.Commerce.Shipping.ByWeight?methodId=1&commerceName=Sample&return=%2FCommerce%2FShippingMethod%3FcommerceName%3DSample
+    请求路径: /Kooboo.Commerce.Shipping.ByWeight
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 27
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.Data.Entity.Core.Common.DbProviderServices.GetProviderManifestToken(DbConnection connection)
+   在 System.Data.Entity.Utilities.DbProviderServicesExtensions.GetProviderManifestTokenChecked(DbProviderServices providerServices, DbConnection connection)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/2/24 11:09:54
+事件时间(UTC): 2014/2/24 3:09:54
+事件 ID: d249e6b722b2433db0fb14b4a44582cb
+事件序列: 6
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-6-130376849860957679
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 2448
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.InvalidOperationException
+    异常消息: Commerce instance "Sample2" not exists.
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/Brand?commerceName=Sample2
+    请求路径: /Commerce/Brand
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 21
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 Kooboo.Commerce.Data.CommerceInstanceManager.OpenInstance(String name) 位置 e:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Infrastructure\Data\CommerceInstanceManager.cs:行号 117
+   在 Kooboo.Commerce.Web.Areas.Commerce.HttpCommerceInstanceContext.get_CurrentInstance() 位置 e:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Web\Areas\Commerce\HttpCommerceContext.cs:行号 40
+   在 Kooboo.Commerce.Web.Areas.Commerce.Dependencies.DataAccessDependencyRegistrar.<Register>b__0(IContext ctx) 位置 e:\Projects\Yardi\Ecommerce\src\Kooboo.Commerce.Web\Areas\Commerce\Dependencies\DataAccessDependencyRegistrar.cs:行号 28
+   在 Ninject.Activation.Providers.CallbackProvider`1.CreateInstance(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\CallbackProvider.cs:行号 45
+   在 Ninject.Activation.Provider`1.Create(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Provider.cs:行号 38
+   在 Ninject.Activation.Context.Resolve() 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Context.cs:行号 157
+   在 Ninject.KernelBase.<>c__DisplayClass10.<Resolve>b__c(IBinding binding) 位置 c:\Projects\Ninject\ninject\src\Ninject\KernelBase.cs:行号 386
+   在 System.Linq.Enumerable.<>c__DisplayClass12`3.<CombineSelectors>b__11(TSource x)
+   在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   在 System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   在 Ninject.Planning.Targets.Target`1.GetValue(Type service, IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 197
+   在 Ninject.Planning.Targets.Target`1.ResolveWithin(IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 165
+   在 Ninject.Activation.Providers.StandardProvider.GetValue(IContext context, ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 114
+   在 Ninject.Activation.Providers.StandardProvider.<>c__DisplayClass4.<Create>b__2(ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 System.Linq.Enumerable.WhereSelectArrayIterator`2.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Ninject.Activation.Providers.StandardProvider.Create(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 Ninject.Activation.Context.Resolve() 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Context.cs:行号 157
+   在 Ninject.KernelBase.<>c__DisplayClass10.<Resolve>b__c(IBinding binding) 位置 c:\Projects\Ninject\ninject\src\Ninject\KernelBase.cs:行号 386
+   在 System.Linq.Enumerable.<>c__DisplayClass12`3.<CombineSelectors>b__11(TSource x)
+   在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   在 System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   在 Ninject.Planning.Targets.Target`1.GetValue(Type service, IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 197
+   在 Ninject.Planning.Targets.Target`1.ResolveWithin(IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 165
+   在 Ninject.Activation.Providers.StandardProvider.GetValue(IContext context, ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 114
+   在 Ninject.Activation.Providers.StandardProvider.<>c__DisplayClass4.<Create>b__2(ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 System.Linq.Enumerable.WhereSelectArrayIterator`2.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Ninject.Activation.Providers.StandardProvider.Create(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 Ninject.Activation.Context.Resolve() 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Context.cs:行号 157
+   在 Ninject.KernelBase.<>c__DisplayClass10.<Resolve>b__c(IBinding binding) 位置 c:\Projects\Ninject\ninject\src\Ninject\KernelBase.cs:行号 386
+   在 System.Linq.Enumerable.<>c__DisplayClass12`3.<CombineSelectors>b__11(TSource x)
+   在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   在 System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   在 Ninject.Planning.Targets.Target`1.GetValue(Type service, IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 197
+   在 Ninject.Planning.Targets.Target`1.ResolveWithin(IContext parent) 位置 c:\Projects\Ninject\ninject\src\Ninject\Planning\Targets\Target.cs:行号 165
+   在 Ninject.Activation.Providers.StandardProvider.GetValue(IContext context, ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 114
+   在 Ninject.Activation.Providers.StandardProvider.<>c__DisplayClass4.<Create>b__2(ITarget target) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 System.Linq.Enumerable.WhereSelectArrayIterator`2.MoveNext()
+   在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   在 Ninject.Activation.Providers.StandardProvider.Create(IContext context) 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Providers\StandardProvider.cs:行号 96
+   在 Ninject.Activation.Context.Resolve() 位置 c:\Projects\Ninject\ninject\src\Ninject\Activation\Context.cs:行号 157
+   在 Ninject.KernelBase.<>c__DisplayClass10.<Resolve>b__c(IBinding binding) 位置 c:\Projects\Ninject\ninject\src\Ninject\KernelBase.cs:行号 386
+   在 System.Linq.Enumerable.<>c__DisplayClass12`3.<CombineSelectors>b__11(TSource x)
+   在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   在 System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   在 Ninject.ResolutionExtensions.TryGet[T](IEnumerable`1 iterator) 位置 c:\Projects\Ninject\ninject\src\Ninject\Syntax\ResolutionExtensions.cs:行号 270
+   在 Kooboo.CMS.Common.Runtime.Dependency.Ninject.ContainerManager.TryResolve(Type type, String key, Parameter[] parameters) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Common.Runtime.Dependency.Ninject\ContainerManager.cs:行号 200
+   在 Kooboo.CMS.Common.Runtime.Dependency.Ninject.NinjectEngine.TryResolve(Type type, Parameter[] parameters) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Common.Runtime.Dependency.Ninject\NinjectEngine.cs:行号 128
+   在 Kooboo.CMS.Common.Runtime.Mvc.MvcDependencyResolver.GetService(Type serviceType) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Common\Runtime\Mvc\MvcDependencyResolver.cs:行号 32
+   在 System.Web.Mvc.DefaultControllerFactory.DefaultControllerActivator.Create(RequestContext requestContext, Type controllerType)
+
+--------------------------------------------------------------------------------------------------------

@@ -39,7 +39,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var methods = _paymentMethodService.Query()
                                  .OrderByDescending(x => x.Id)
                                  .ToPagedList(page ?? 1, pageSize ?? 50)
-                                 .Transform(x => new PaymentMethodRowModel(x));
+                                 .Transform(x =>
+                                 {
+                                     var model = new PaymentMethodRowModel(x);
+                                     var views = _gatewayViewsFactory.FindByPaymentGateway(model.PaymentGatewayName);
+                                     model.IsConfigurable = views != null;
+
+                                     return model;
+                                 });
             return View(methods);
         }
 

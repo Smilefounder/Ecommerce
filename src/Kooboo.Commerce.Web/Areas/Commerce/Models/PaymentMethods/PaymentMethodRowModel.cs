@@ -25,6 +25,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         [BooleanGridColumn]
         public bool IsEnabled { get; set; }
 
+        public bool IsConfigurable { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public PaymentMethodRowModel() { }

@@ -17,7 +17,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods.Grid2
         public override IHtmlString RenderItemContainerAtts()
         {
             var model = (PaymentMethodRowModel)DataItem;
-            return MvcHtmlString.Create(String.Format("class='{0}'", model.IsEnabled ? "enabled" : "disabled"));
+
+            var cssClass = model.IsConfigurable ? "configurable" : "unconfigurable";
+            cssClass += " " + (model.IsEnabled ? "enabled" : "disabled");
+
+            return new HtmlString("class=\"" + cssClass + "\"");
         }
     }
 }

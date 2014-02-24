@@ -8,7 +8,7 @@
 			</d3p1:KeyValueOfstringstring>
 			<d3p1:KeyValueOfstringstring>
 				<d3p1:Key>Database</d3p1:Key>
-				<d3p1:Value>Kooboo.Commerce2</d3p1:Value>
+				<d3p1:Value>Kooboo.Commerce</d3p1:Value>
 			</d3p1:KeyValueOfstringstring>
 			<d3p1:KeyValueOfstringstring>
 				<d3p1:Key>User ID</d3p1:Key>
@@ -19,11 +19,11 @@
 				<d3p1:Value>abc123</d3p1:Value>
 			</d3p1:KeyValueOfstringstring>
 		</ConnectionStringParameters>
-		<CreatedAtUtc>2014-02-21T09:11:16.826688Z</CreatedAtUtc>
+		<CreatedAtUtc>2014-02-24T02:39:17.1704195Z</CreatedAtUtc>
 		<DbProviderInvariantName>System.Data.SqlClient</DbProviderInvariantName>
 		<DbProviderManifestToken>2012</DbProviderManifestToken>
-		<DbSchema>Sample2</DbSchema>
-		<DisplayName>Sample2</DisplayName>
-		<Name>Sample2</Name>
+		<DbSchema>Sample</DbSchema>
+		<DisplayName>Sample</DisplayName>
+		<Name>Sample</Name>
 	</CommerceInstanceMetadata>
 </ArrayOfCommerceInstanceMetadata>

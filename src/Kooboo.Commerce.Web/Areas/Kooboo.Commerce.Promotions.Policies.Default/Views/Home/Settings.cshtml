@@ -11,25 +11,25 @@
                 <tr>
                     <th>@Html.DisplayNameFor(m => m.DiscountAppliedTo)</th>
                     <td>
-                        @Html.DropDownListFor(m => m.DiscountAppliedTo, Model.AvailableDiscountAppliedTos)
+                        @Html.DropDownListFor(m => m.DiscountAppliedTo, Model.AvailableDiscountAppliedTos, new { @class = "xlarge" })
                     </td>
                 </tr>
                 <tr>
                     <th>@Html.DisplayNameFor(m => m.DiscountMode)</th>
                     <td>
-                        @Html.DropDownListFor(m => m.DiscountMode, Model.AvailableDiscountModes)
+                        @Html.DropDownListFor(m => m.DiscountMode, Model.AvailableDiscountModes, new { @class = "xlarge" })
                     </td>
                 </tr>
                 <tr class="discount-amount-holder" style="display:none">
                     <th>@Html.DisplayNameFor(m => m.DiscountAmount)</th>
                     <td>
-                        @Html.TextBoxFor(m => m.DiscountAmount)
+                        @Html.TextBoxFor(m => m.DiscountAmount, new { @class = "xlarge" })
                     </td>
                 </tr>
                 <tr class="discount-percent-holder" style="display:none">
                     <th>@Html.DisplayNameFor(m => m.DiscountPercent)</th>
                     <td>
-                        @Html.TextBoxFor(m => m.DiscountPercent) %
+                        @Html.TextBoxFor(m => m.DiscountPercent, new { @class = "xlarge" }) %
                     </td>
                 </tr>
             </tbody>

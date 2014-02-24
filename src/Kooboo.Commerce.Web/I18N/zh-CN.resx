@@ -2606,4 +2606,10 @@ Are you sure you want to use this size?</value>
   <data name="Activity to attach" xml:space="preserve">
     <value>Activity to attach</value>
   </data>
+  <data name="Commerce cluster" xml:space="preserve">
+    <value>Commerce cluster</value>
+  </data>
+  <data name="Table list view" xml:space="preserve">
+    <value>Table list view</value>
+  </data>
 </root>

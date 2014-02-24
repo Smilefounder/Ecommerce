@@ -1,0 +1,103 @@
+﻿@using Kooboo.Commerce.Handlers;
+@model IDictionary<string, object>
+@{
+    Layout = null;
+    var model = Model ?? new Dictionary<string, object>();
+    string fileType = model.ContainsKey("fileType") ? model["fileType"].ToString() : "files";
+    int maxFiles = model.ContainsKey("maxFiles") ? Convert.ToInt32(model["maxFiles"]) : -1;
+    int limitSize = model.ContainsKey("limitSize") ? Convert.ToInt32(model["limitSize"]) : 50 * 1024 * 1024; // 50MB
+    string autoStart = model.ContainsKey("autoStart") ? model["autoStart"].ToString().ToLower() : "false";
+    string owner = model.ContainsKey("owner") ? model["owner"].ToString() : "";
+    string property = model.ContainsKey("property") ? model["property"].ToString() : "";
+    string suffix = model.ContainsKey("suffix") ? model["suffix"].ToString() : DateTime.Now.Ticks.ToString();
+    bool showPreview = model.ContainsKey("showPreview") ? Convert.ToBoolean(model["showPreview"]) : false; 
+    
+    var ft = FileType.CommonTypes.FirstOrDefault(o => o.TypeCode == fileType);
+    var fileTypes = ft == null ? ".+$" : ft.RegexPattern;
+}
+
+<form id="uploadForm@(suffix)" action="/Areas/Commerce/Handlers/UploadHandler.ashx?owner=@owner" method="POST" enctype="multipart/form-data" onload="InitForm">
+    <div class="alert alert-block spanfull flex">
+        <h5 class="alert-heading">注：</h5>
+        <ol>
+            @if (!string.IsNullOrEmpty(fileTypes) && fileTypes != ".+$")
+            {
+                <li>仅能上传@(ft.TypeName)文件</li>
+            }
+            @if (limitSize > 0)
+            {
+                <li>文件大小不超过&nbsp;@(FileType.GetFriendlyFileSize(limitSize))</li>
+            }
+            @if (maxFiles > 0)
+            {
+                <li>只能上传@(maxFiles)个文件</li>
+            }
+        </ol>
+    </div>
+    <div class="clear" style="line-height:35px;">
+        <button type="button" class="btn btn-primary" onclick="utils.openDialog('选择现有文件', '/Commerce/Upload/Index?fileTypes=@(fileTypes)&owner=@(owner)&property=@(property)');" dialog-width="800" dialog-height="600" data-bind="enable: $root.CanAddFile()">
+            <i class="icon-picture"></i>
+            <span>选择现有文件</span>
+        </button>
+        <button type="button" class="btn btn-primary" onclick="$('#fileSelector@(suffix)').trigger('click');" data-bind="enable: $root.CanAddFile()">
+            <i class="icon-plus"></i>
+            <span>选择文件</span>
+        </button>
+        <button type="button" class="btn btn-primary" onclick="vfm@(suffix).StartUpload();">
+            <i class="icon-upload"></i>
+            <span>上传</span>
+        </button>
+    </div>
+    <div data-bind="foreach:Files">
+        <div class="panel ui-corner-all lgap0">
+            <div>
+                @if (showPreview)
+                {
+                    <div class="bg-none text-center">
+                        <img class="img-none rect-small ui-corner-all" data-bind="attr: { src: $root.GetImageUrl($data) }" />
+                    </div>
+                }
+                <a data-bind="attr: { href: url }" target="_blank"><span data-bind="text:name"></span></a>
+                (<span data-bind="text:$root.formatFileSize(size())"></span>)
+                <button type="button" class="btn btn-warning btn-circle btn-mini" data-bind="visible: $root.Uploading($data), click: $root.CancelFile" title="取消上传">
+                    <i class="icon-ban-circle">cancel</i>
+                </button>
+                <button type="button" class="btn btn-danger btn-circle btn-mini" data-bind="click: $root.RemoveFile" title="删除文件">
+                    <i class="icon-remove">remove</i>
+                </button>
+            </div>
+            <div class="progress progress-striped active" style="height: 8px; margin-bottom: 0px; margin-top: 6px;">
+                <div class="bar" data-bind="style:{ width: $data.progress() + '%'}, attr: { title: $data.progress() + '%'} " style="height: 8px;"></div>
+            </div>
+        </div>
+    </div>
+    <input id="fileSelector@(suffix)" type="file" name="files[]" style="display: none;">
+</form>
+
+<script type="text/javascript">
+    var vfm@(suffix);
+    $(function () {
+        vfm@(suffix) = new FUVM('uploadForm@(suffix)', {
+            acceptFileTypes: /@(fileTypes)/i,
+            maxFiles: @(maxFiles),
+            autoStart: @(autoStart),
+            owner: '@(owner)',
+            property: '@(property)'
+        });
+        ko.applyBindings(vfm@(suffix), document.getElementById('uploadForm@(suffix)'));
+        utils.onReceiveMessage('fileselected', function (data) {
+            if (data.owner == "@(owner)") {
+                $.each(data.files, function (i, n) {
+                    f = {
+                        name: ko.observable(n.name),
+                        url: ko.observable(n.url),
+                        progress: ko.observable(100),
+                        size: ko.observable(0)
+                    };
+                    vfm@(suffix).Files.push(f);
+                });
+            }
+        });
+    });
+</script>
+

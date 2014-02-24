@@ -1,0 +1,174 @@
+﻿@model IDictionary<string, object>
+@{
+    Layout = "~/Views/Shared/Blank.cshtml";
+    var model = Model ?? new Dictionary<string, object>();
+    string dialogId = model.ContainsKey("file") ? model["dialogId"].ToString() : "";
+    string file = model.ContainsKey("file") ? model["file"].ToString() : "/Images/nopicture.gif";
+    int width = model.ContainsKey("width") ? Convert.ToInt32(model["width"]) : 120;
+    int height = model.ContainsKey("height") ? Convert.ToInt32(model["height"]) : 120;
+    string owner = model.ContainsKey("owner") ? model["owner"].ToString() : "";
+    string property = model.ContainsKey("property") ? model["property"].ToString() : "";
+    string args = model.ContainsKey("args") ? model["args"].ToString() : "";
+}
+
+<div class="row flex">
+    <div class="flex3">
+        <div style="z-index: 1; position: relative;">
+            <img id="originalImg" class="img-none" src="" style="display: inline-block; max-width: 500px; max-height: 500px; min-width: 120px; min-height: 120px;" />
+        </div>
+    </div>
+    <div class="flex1">
+        <div style="width:@(width)px; height:@(height)px; overflow:hidden;">
+            <img id="cropImg" class="img-none" src="" style="display: inline-block;" />
+        </div>
+        <div class="tgap3">
+            <form id="uploadForm" action="/Areas/Commerce/Handlers/UploadHandler.ashx?owner=@(owner)" method="POST" enctype="multipart/form-data">
+                <div class="alert alert-block">
+                    <h5 class="alert-heading">注：</h5>
+                    <ol>
+                        <li>仅能上传图片文件（.png, .jpg, .jpeg, .gif）</li>
+                        <li>文件大小不超过&nbsp;5MB</li>
+                    </ol>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="$('#fileSelector').trigger('click');">
+                    <i class="icon-upload"></i>
+                    <span>选择图片</span>
+                </button>
+                <input id="fileSelector" type="file" name="files[]" style="display: none;">
+            </form>
+        </div>
+        <div class="row form-actions">
+            <button class="btn btn-success" type="button" onclick="CropImage();">
+                <i class="icon-ok"></i><span>保存裁剪图片</span></button>
+            <button class="btn" type="button" onclick="NotCropImage();">
+                <i class="icon-ok"></i><span>使用未裁剪图片</span></button>
+            <button class="btn" type="button" onclick="Cancel();">
+                <i class="icon-remove"></i><span>取消</span></button>
+        </div>
+    </div>
+</div>
+
+@section ScriptCSS {
+    <script type="text/javascript">
+        var jcrop_api;
+        var dim, cropCoords;
+
+        $(function () {
+            $('#uploadForm').fileupload({
+                maxFileSize: 5 * 1024 * 1024,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                add: function (e, data) {
+                    $(this).fileupload('process', data).done(function () {
+                        data.submit();
+                    });
+                },
+                done: function (e, data) {
+                    utils.progress();
+                    var results = eval(data.result);
+                    var file = ($.isArray(results) && results[0]) || { error: 'emptyResult' };
+                    if(file && file.url){
+                        InitImage(file.url);
+                    }
+                },
+                progress: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    utils.progress(progress);
+                }
+            });
+
+            $('#originalImg').bind('load', function(){
+                var src = $('#originalImg').prop('src');
+                $('#cropImg').prop('src', src);
+                $('#originalImg').Jcrop({
+                    onChange: ShowPreview,
+                    onSelect: ShowPreview
+                }, function(){
+                    jcrop_api = this;
+                    dim = jcrop_api.getBounds();
+                    jcrop_api.setSelect([ 0, 0, @width, @height ]);
+                    jcrop_api.setOptions({ aspectRatio: @((double)width/height) });
+                    jcrop_api.focus();
+                    $('#cropImg').css({ width: dim[0].toString() + 'px', height: dim[1].toString() + 'px' });
+                });
+            });
+
+        @if(!string.IsNullOrEmpty(file)){
+            @:InitImage('@file');
+        }
+
+        });
+
+        function InitImage(file)
+        {
+            if(jcrop_api){
+                jcrop_api.destroy();
+            };
+            var src = utils.appendUrl(file, 'v', new Date().getTime());
+            $('#originalImg').prop('src', src).css({ width: 'auto', height: 'auto' });
+        }
+
+        function ShowPreview(coords) {
+            if (parseInt(coords.w) > 0)
+            {
+                cropCoords = coords;
+                var rx = @(width) / coords.w;
+                var ry = @(height) / coords.h;
+
+                var iw = $('#originalImg').width();
+                var ih = $('#originalImg').height();
+
+                $('#cropImg').css({
+                    width: Math.round(rx * iw) + 'px',
+                    height: Math.round(ry * ih) + 'px',
+                    marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                    marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                });
+            }
+        }
+
+        function CalculateTrueCoords()
+        {
+            var tw = $('#originalImg').prop('width');
+            var th = $('#originalImg').prop('height');
+            var bw = $('#originalImg').width();
+            var bh = $('#originalImg').height();
+
+            var cx = cropCoords.x / bw * tw;
+            var cy = cropCoords.y / bh * th;
+            var cw = cropCoords.w / bw * tw;
+            var ch = cropCoords.h / bh * th;
+            return { x: cx, y: cy, w: cw, h: ch };
+        }
+
+        function CropImage() {
+            var src = $('#originalImg').attr('src');
+            var tcoords = CalculateTrueCoords();
+            var url = "/Commerce/Upload/SaveImage?file=" + escape(src) +"&x=" + tcoords.x + '&y=' + tcoords.y + '&width=' + tcoords.w + '&height=' + tcoords.h;
+            utils.getJson(url, function(data) {
+                InitImage(src);
+                if(typeof window.OnCroppedImage == "function"){
+                    window.OnCroppedImage(data, '@args', '@dialogId');
+                }
+                utils.postMessage("cropimage", { url: data, owner: '@owner', property: '@property', args:'@args', dialogId:'@dialogId' });
+                utils.closeDialog('@dialogId');
+            });
+        }
+
+        function NotCropImage() {
+            var src = $('#originalImg').attr('src');
+            if(typeof window.OnCroppedImage == "function"){
+                window.OnCroppedImage(src, '@args', '@dialogId');
+            }
+            utils.postMessage("cropimage", { url: src, owner: '@owner', property: '@property', args:'@args', dialogId:'@dialogId' });
+            utils.closeDialog('@dialogId');
+        }
+
+        function Cancel(){
+            if(typeof window.OnCancel == "function"){
+                window.OnCancel('@dialogId');
+            }
+            utils.postMessage('canceldialog', { dialogId:'@dialogId' });
+            utils.closeDialog('@dialogId');
+        }
+    </script>
+}

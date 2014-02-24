@@ -1,22 +1,58 @@
 ﻿@model BrandEditorModel
 
-@using (Html.BeginForm("Save", "Brand", RouteValues.From(Request.QueryString))) {
+<script src="/Areas/Media/Scripts/jquery.fileupload.js"></script>
+<script src="/Areas/Media/Scripts/jquery.fileupload-fp.js"></script>
+<script src="/Areas/Media/Scripts/jquery.Jcrop.min.js"></script>
+<script src="/Areas/Media/Scripts/upload.js"></script>
+@using (Html.BeginForm("Save", "Brand", RouteValues.From(Request.QueryString)))
+{
     @Html.ValidationSummary(true)
 
     @Html.HiddenFor(m => m.Id)
     <div class="common-form">
         <table>
             @Html.EditorFor(m => m.Name)
-            @Html.EditorFor(o => o.Logo)
+            <tr>
+                <th><label>@("Logo".Localize())</label></th>
+                <td>
+                    <img id="logoImg" src="@Model.Logo" style="display: @(string.IsNullOrEmpty(Model.Logo) ? "none" : "block")" />
+                    <a href="javascript:;" class="upload" data-owner="commerce" data-property="brand" data-src="@Model.Logo">
+                        @Html.IconImage("plus small")
+                    </a>
+                    <a id="btnRemove" href="javascript:;" onclick="RemoveImage();" style="display: @(string.IsNullOrEmpty(Model.Logo) ? "none" : "block")">
+                        @Html.IconImage("minus small")
+                    </a>
+                    <input type="hidden" id="Logo" name="Logo" value="@Model.Logo" />
+                </td>
+            </tr>
             <tr>
                 <th>
                     <label for="Description">
-                        @("Description".Localize())</label>
+                        @("Description".Localize())
+                    </label>
                 </th>
                 <td>
                     <textarea id="Description" name="Description" style="min-height: 100px;">@Model.Description</textarea>
                 </td>
             </tr>
         </table>
-    </div> 
+    </div>
 }
+
+<script type="text/javascript">
+    $(function () {
+        $('.upload').upload({
+            on_file_select: function (file) {
+                $('#Logo').val(file.Url);
+                $('#logoImg').attr('src', file.Url).show();
+                $('#btnRemove').show();
+            }
+        });
+    })
+
+    function RemoveImage() {
+        $('#Logo').val('');
+        $('#logoImg').attr('src', '').hide();
+        $('#btnRemove').hide();
+    }
+</script>
