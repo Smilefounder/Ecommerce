@@ -90,7 +90,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             try
             {
                 _customerService.Save(obj);
-                return RedirectToAction("Index", RouteValues.From(Request.QueryString));
+                return this.JsonNet(new { status = 0, message = "customer succssfully saved." });
             }
             catch (Exception ex)
             {
@@ -178,7 +178,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 var paras = _extendedQueryManager.GetExtendedQueryParameters<Customer>(name);
 
-                model = query.Query<CustomerRowModel>(paras, _db, page ?? 1, pageSize ?? 50, (o) => new CustomerRowModel(o.Customer, o.Orders));
+                model = query.Query<CustomerRowModel>(paras, _db, page ?? 1, pageSize ?? 50, o => new CustomerRowModel(o.Customer, o.Orders));
 
             }
             else

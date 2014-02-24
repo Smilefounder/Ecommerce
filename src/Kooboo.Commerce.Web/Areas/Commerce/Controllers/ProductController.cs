@@ -88,7 +88,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             try
             {
                 _productService.Update(obj);
-                return RedirectToAction("Index", RouteValues.From(Request.QueryString));
+                return this.JsonNet(new { status = 0, message = "product succssfully saved." });
             }
             catch (Exception ex)
             {

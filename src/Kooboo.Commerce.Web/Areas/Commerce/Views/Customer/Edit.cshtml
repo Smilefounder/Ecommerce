@@ -287,7 +287,8 @@
             },
             onSaveSuccess: function (self, info) {
                 utils.showMessage('Notice', info.message, 'info');
-                $('#J_CustomerTabs').tabs();
+                window.location.href = '/Commerce/Customer/Index?commerceName=@Request.QueryString["commerceName"]';
+                //$('#J_CustomerTabs').tabs();
             },
             onInit: function (self) {
                 self.Orders = ko.observableArray([]);

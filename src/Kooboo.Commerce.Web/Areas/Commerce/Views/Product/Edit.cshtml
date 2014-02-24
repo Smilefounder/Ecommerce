@@ -252,8 +252,9 @@
             },
             onSaveSuccess: function (self, info) {
                 utils.showMessage('Notice', info.message, 'info');
-                $('#J_ProductTabs').tabs();
-                $('#category_tree li.tree-node').treeNode();
+                window.location.href = '/Commerce/Product/Index?commerceName=@Request.QueryString["commerceName"]';
+                //$('#J_ProductTabs').tabs();
+                //$('#category_tree li.tree-node').treeNode();
             },
             onReceiveData: function (self, data) {
                 if ('Success' in data) { data.status = data.Success ? 0 : 1; }
