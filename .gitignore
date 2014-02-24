@@ -8,3 +8,4 @@ TestResults
 *.log
 /src/packages
 /src/Kooboo.Commerce.Web/Uploads/commerce
+/src/Kooboo.Commerce.Web/App_Data/Commerce/Instances.xml
