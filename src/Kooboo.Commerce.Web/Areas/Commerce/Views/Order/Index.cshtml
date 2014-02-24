@@ -2,10 +2,11 @@
 @model PagedList<Kooboo.Commerce.Orders.Order>
 @{
     ViewBag.Title = "Index";
-    IEnumerable<IExtendedQuery<Order>> extendedQueries = ViewBag.ExtendedQueries as IEnumerable<IExtendedQuery<Order>>;
+    IEnumerable<IExtendedQuery<Order, OrderQueryModel>> extendedQueries = ViewBag.ExtendedQueries as IEnumerable<IExtendedQuery<Order, OrderQueryModel>>;
     var extendedQueryViewModel = new ViewDataDictionary();
     extendedQueryViewModel.Add("GetExtendedParametersUrl", "/Commerce/Order/GetParameters");
     extendedQueryViewModel.Add("SaveExtendedParametersUrl", "/Commerce/Order/SaveParameters");
+    extendedQueryViewModel.Add("ExecuteQueryUrl", "/Commerce/Order/ExtendQuery");
 }
 
 @helper RenderSingleItem(string text, string url) {

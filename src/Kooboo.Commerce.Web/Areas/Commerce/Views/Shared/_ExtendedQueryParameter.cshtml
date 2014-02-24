@@ -2,6 +2,7 @@
 @{
     var getUrl = ViewData["GetExtendedParametersUrl"];
     var saveurl = ViewData["SaveExtendedParametersUrl"];
+    var executeurl = ViewData["ExecuteQueryUrl"];
 }
 
 <div class="more-search common-form" style="display:none;">
@@ -9,7 +10,7 @@
         @foreach (var q in Model)
         {
             <li>
-                <a href="/Commerce/Customer/ExtendQuery?commerceName=@Request.QueryString["commerceName"]&name=@(q.Name)&return=/Commerce/Customer?commerceName=@Request.QueryString["commerceName"]">@(q.Name)</a>
+                <a href="@(executeurl)?commerceName=@Request.QueryString["commerceName"]&name=@(q.Name)&return=/Commerce/Customer?commerceName=@Request.QueryString["commerceName"]">@(q.Name)</a>
                 <a href="javascript:EditParameters('@(q.Name)');">Parameters</a>
             </li>
         }

@@ -4,7 +4,7 @@
 		<ConnectionStringParameters xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
 			<d3p1:KeyValueOfstringstring>
 				<d3p1:Key>Server</d3p1:Key>
-				<d3p1:Value>.\sqlexpress</d3p1:Value>
+				<d3p1:Value>.\sql2012</d3p1:Value>
 			</d3p1:KeyValueOfstringstring>
 			<d3p1:KeyValueOfstringstring>
 				<d3p1:Key>Database</d3p1:Key>
@@ -16,14 +16,41 @@
 			</d3p1:KeyValueOfstringstring>
 			<d3p1:KeyValueOfstringstring>
 				<d3p1:Key>Password</d3p1:Key>
-				<d3p1:Value>abc123</d3p1:Value>
+				<d3p1:Value>kooboo</d3p1:Value>
 			</d3p1:KeyValueOfstringstring>
 		</ConnectionStringParameters>
 		<CreatedAtUtc>2014-02-24T02:39:17.1704195Z</CreatedAtUtc>
 		<DbProviderInvariantName>System.Data.SqlClient</DbProviderInvariantName>
 		<DbProviderManifestToken>2012</DbProviderManifestToken>
 		<DbSchema>Sample</DbSchema>
-		<DisplayName>Sample</DisplayName>
+		<DisplayName>dbo</DisplayName>
 		<Name>Sample</Name>
+	</CommerceInstanceMetadata>
+	<CommerceInstanceMetadata>
+		<ConnectionString i:nil="true" />
+		<ConnectionStringParameters xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+			<d3p1:KeyValueOfstringstring>
+				<d3p1:Key>Server</d3p1:Key>
+				<d3p1:Value>.\sql2012</d3p1:Value>
+			</d3p1:KeyValueOfstringstring>
+			<d3p1:KeyValueOfstringstring>
+				<d3p1:Key>Database</d3p1:Key>
+				<d3p1:Value>kooboo.commerce</d3p1:Value>
+			</d3p1:KeyValueOfstringstring>
+			<d3p1:KeyValueOfstringstring>
+				<d3p1:Key>User ID</d3p1:Key>
+				<d3p1:Value>sa</d3p1:Value>
+			</d3p1:KeyValueOfstringstring>
+			<d3p1:KeyValueOfstringstring>
+				<d3p1:Key>Password</d3p1:Key>
+				<d3p1:Value>kooboo</d3p1:Value>
+			</d3p1:KeyValueOfstringstring>
+		</ConnectionStringParameters>
+		<CreatedAtUtc>2014-02-24T03:24:29.6687879Z</CreatedAtUtc>
+		<DbProviderInvariantName>System.Data.SqlClient</DbProviderInvariantName>
+		<DbProviderManifestToken>2012</DbProviderManifestToken>
+		<DbSchema>dbo</DbSchema>
+		<DisplayName>test</DisplayName>
+		<Name>test</Name>
 	</CommerceInstanceMetadata>
 </ArrayOfCommerceInstanceMetadata>

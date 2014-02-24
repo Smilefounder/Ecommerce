@@ -9,8 +9,8 @@ using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Orders.ExtendedQuery
 {
-    [Dependency(typeof(IExtendedQuery<Order>), ComponentLifeStyle.Transient, Key = "RecentOrder")]
-    public class RecentOrder : IExtendedQuery<Order>
+    [Dependency(typeof(IExtendedQuery<Order, OrderQueryModel>), ComponentLifeStyle.Transient, Key = "RecentOrder")]
+    public class RecentOrder : IExtendedQuery<Order, OrderQueryModel>
     {
         public string Name
         {
@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Orders.ExtendedQuery
             }
         }
 
-        public IPagedList<TResult> Query<TResult>(IEnumerable<ExtendedQueryParameter> parameters, ICommerceDatabase db, int pageIndex, int pageSize, Func<dynamic, TResult> func)
+        public IPagedList<TResult> Query<TResult>(IEnumerable<ExtendedQueryParameter> parameters, ICommerceDatabase db, int pageIndex, int pageSize, Func<OrderQueryModel, TResult> func)
         {
             if (pageIndex <= 1)
                 pageIndex = 1;
@@ -50,16 +50,17 @@ namespace Kooboo.Commerce.Orders.ExtendedQuery
             DateTime lastDate = DateTime.Today.AddDays(-1 * days);
 
             var customerQuery = db.GetRepository<Customer>().Query();
-            IQueryable<dynamic> query = db.GetRepository<Order>().Query()
+            IQueryable<OrderQueryModel> query = db.GetRepository<Order>().Query()
                 .Join(customerQuery,
                            order => order.CustomerId,
                            customer => customer.Id,
                            (order, customer) => new { Order = order, Customer = customer })
+                .Select(o => new OrderQueryModel() { Customer = o.Customer, Order = o.Order })
                 .Where(o => o.Order.CreatedAtUtc > lastDate)
                 .OrderByDescending(groupedItem => groupedItem.Order.Id);
             var total = query.Count();
             var data = query.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToArray();
-            return new PagedList<TResult>(data.Select<dynamic, TResult>(o => func(o)), pageIndex, pageSize, total);
+            return new PagedList<TResult>(data.Select<OrderQueryModel, TResult>(o => func(o)), pageIndex, pageSize, total);
         }
     }
 }

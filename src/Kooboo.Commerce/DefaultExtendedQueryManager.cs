@@ -17,27 +17,30 @@ namespace Kooboo.Commerce
             _persistence = persistence;
         }
 
-        public IEnumerable<IExtendedQuery<T>> GetExtendedQueries<T>()
+        public IEnumerable<IExtendedQuery<T, Q>> GetExtendedQueries<T, Q>()
             where T : class, new()
+            where Q : class, new()
         {
-            return EngineContext.Current.ResolveAll<IExtendedQuery<T>>();
+            return EngineContext.Current.ResolveAll<IExtendedQuery<T, Q>>();
         }
 
-        public IExtendedQuery<T> GetExtendedQuery<T>(string name)
+        public IExtendedQuery<T, Q> GetExtendedQuery<T, Q>(string name)
             where T : class, new()
+            where Q : class, new()
         {
-            var queries = GetExtendedQueries<T>();
+            var queries = GetExtendedQueries<T, Q>();
             return queries.FirstOrDefault(o => o.Name == name);
         }
 
-        public IEnumerable<ExtendedQueryParameter> GetExtendedQueryParameters<T>(string name)
+        public IEnumerable<ExtendedQueryParameter> GetExtendedQueryParameters<T, Q>(string name)
             where T : class, new()
+            where Q : class, new()
         {
             var folder = string.Format("{0}/{1}", typeof(T).Name, name);
             IEnumerable<ExtendedQueryParameter> paras = _persistence.GetObject<IEnumerable<ExtendedQueryParameter>>(folder);
             if(paras == null)
             {
-                var query = GetExtendedQuery<T>(name);
+                var query = GetExtendedQuery<T, Q>(name);
                 paras = query.Parameters;
             }
             foreach(var para in paras)
@@ -48,8 +51,9 @@ namespace Kooboo.Commerce
             return paras;
         }
 
-        public void SaveExtendedQueryParameters<T>(string name, IEnumerable<ExtendedQueryParameter> parameters)
+        public void SaveExtendedQueryParameters<T, Q>(string name, IEnumerable<ExtendedQueryParameter> parameters)
             where T : class, new()
+            where Q : class, new()
         {
             var folder = string.Format("{0}/{1}", typeof(T).Name, name);
             _persistence.SaveObject<IEnumerable<ExtendedQueryParameter>>(folder, parameters);

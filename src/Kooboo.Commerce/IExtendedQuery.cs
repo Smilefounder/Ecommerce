@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce
 {
-    public interface IExtendedQuery<TModel> where TModel : class, new()
+    public interface IExtendedQuery<TModel, QModel> where TModel : class, new() where QModel : class, new()
     {
         string Name { get; }
         string Title { get; }
@@ -16,7 +16,7 @@ namespace Kooboo.Commerce
 
         ExtendedQueryParameter[] Parameters { get; }
 
-        IPagedList<TResult> Query<TResult>(IEnumerable<ExtendedQueryParameter> parameters, ICommerceDatabase db, int pageIndex, int pageSize, Func<dynamic, TResult> func);
+        IPagedList<TResult> Query<TResult>(IEnumerable<ExtendedQueryParameter> parameters, ICommerceDatabase db, int pageIndex, int pageSize, Func<QModel, TResult> func);
     }
 
     public class ExtendedQueryParameter
