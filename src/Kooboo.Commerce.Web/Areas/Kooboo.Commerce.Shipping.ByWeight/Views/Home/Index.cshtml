@@ -7,53 +7,65 @@
 @using (Html.BeginForm())
 {
     @Html.HiddenFor(m => m.ShippingMethodId)
-    <div class="common-form">
-        <ul class="filter-list" data-bind="foreach: rules">
-            <li class="clearfix" data-bind="if: !isEditing()">
-                <span style="width:400px">
-                    <span style="float:none;margin-right:0;" data-bind="html: fromWeight"></span> @("KG".Localize())
-                    -
-                    <span style="float: none; margin-right: 0;" data-bind="html: toWeight"></span> @("KG".Localize()), 
-                    @("Freight charge".Localize()):
-                    $<span style="float: none; margin-right: 0;" data-bind="html: shippingPrice"></span>
-                    <!--ko text: $root.priceUnitDisplayName($data.priceUnit()) --><!-- /ko -->
-                </span>
+    <div class="simple-table">
+        <div class="toolbar">
+            <a class="button" href="#" data-bind="click: addRule">@("Add Rule".Localize())</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>@("From weight".Localize())</th>
+                    <th>@("To weight".Localize())</th>
+                    <th>@("Charge".Localize())</th>
+                    <th class="mini"></th>
+                    <th class="mini"></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: rules">
+                <tr data-bind="if: !isEditing()">
+                    <td>
+                        <span style="float:none;margin-right:0;" data-bind="html: fromWeight"></span> @("KG".Localize())
+                    </td>
+                    <td>
+                        <span style="float: none; margin-right: 0;" data-bind="html: toWeight"></span> @("KG".Localize())
+                    </td>
+                    <td>
+                        $<span style="float: none; margin-right: 0;" data-bind="html: shippingPrice"></span>
+                        <!--ko text: $root.priceUnitDisplayName($data.priceUnit()) --><!-- /ko -->
+                    </td>
+                    <td>
+                        <a class="action" data-bind="click: $root.editRule" href="#">@Html.IconImage("edit small")</a>
+                    </td>
+                    <td>
+                        <a class="action" data-bind="click: $root.removeRule" href="#">@Html.IconImage("minus small")</a>
 
-                <a class="action" data-bind="click: $root.editRule" href="#">@Html.IconImage("edit small")</a>
-                <a class="action" data-bind="click: $root.removeRule" href="#">@Html.IconImage("minus small")</a>
-
-                <!-- hidden fields for submit -->
-                <input type="hidden" data-bind="value: fromWeight, attr: { name: 'Rules[' + $index() + '].FromWeight' }" />
-                <input type="hidden" data-bind="value: toWeight, attr: { name: 'Rules[' + $index() + '].ToWeight' }" />
-                <input type="hidden" data-bind="value: shippingPrice, attr: { name: 'Rules[' + $index() + '].ShippingPrice' }" />
-                <input type="hidden" data-bind="value: priceUnit, attr: { name: 'Rules[' + $index() + '].PriceUnit' }" />
-            </li>
-            <li class="clearfix" data-bind="if: isEditing">
-                <div class="filter-form clearfix">
-                    <h5></h5>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    @("From weight".Localize()):
-                                    <input type="text" data-bind="value: fromWeight" class="mini" style="float:none" placeholder="@("KG".Localize())" />
-                                    @("to weight".Localize()): &nbsp;
-                                    <input type="text" data-bind="value: toWeight" class="mini" style="float:none" placeholder="@("KG".Localize())" />
-                                    @("Freight charge".Localize()):
-                                    <input type="text" data-bind="value: shippingPrice" class="mini" style="float:none" />
-                                    <select style="float:none" data-bind="options: $root.availablePriceUnits, optionsText: 'text', optionsValue: 'value', value: priceUnit"></select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <a class="button save" data-bind="click: $root.commitRuleEditing">Save</a>
-                    <a class="button cancel gray action" data-bind="click: $root.cancelRuleEditing">Cancel</a>
-                </div>
-            </li>
-        </ul>
-        <a class="action" href="#" data-bind="click: addRule">
-            @Html.IconImage("plus small")
-        </a>
+                        <!-- hidden fields for submit -->
+                        <input type="hidden" data-bind="value: fromWeight, attr: { name: 'Rules[' + $index() + '].FromWeight' }" />
+                        <input type="hidden" data-bind="value: toWeight, attr: { name: 'Rules[' + $index() + '].ToWeight' }" />
+                        <input type="hidden" data-bind="value: shippingPrice, attr: { name: 'Rules[' + $index() + '].ShippingPrice' }" />
+                        <input type="hidden" data-bind="value: priceUnit, attr: { name: 'Rules[' + $index() + '].PriceUnit' }" />
+                    </td>
+                </tr>
+                <tr data-bind="if: isEditing">
+                    <td>
+                        <input type="text" data-bind="value: fromWeight" class="mini" style="float:none" placeholder="@("KG".Localize())" />
+                    </td>
+                    <td>
+                        <input type="text" data-bind="value: toWeight" class="mini" style="float:none" placeholder="@("KG".Localize())" />
+                    </td>
+                    <td>
+                        <input type="text" data-bind="value: shippingPrice" class="mini" style="float:none" />
+                        <select style="float:none;width:100px" data-bind="options: $root.availablePriceUnits, optionsText: 'text', optionsValue: 'value', value: priceUnit"></select>
+                    </td>
+                    <td>
+                        <a data-bind="click: $root.commitRuleEditing">@Html.IconImage("save small")</a>
+                    </td>
+                    <td>
+                        <a data-bind="click: $root.cancelRuleEditing">@Html.IconImage("minus small")</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 }
 

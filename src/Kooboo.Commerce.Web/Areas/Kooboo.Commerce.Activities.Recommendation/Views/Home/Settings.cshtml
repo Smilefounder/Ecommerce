@@ -1,0 +1,20 @@
+﻿@model Kooboo.Commerce.Activities.Recommendation.RecommendationActivitySettings
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_ActivitySettings.cshtml";
+    ViewBag.Title = "Recommendation Activity Settings".Localize();
+
+    var binding = ViewBag.ActivityBinding as ActivityBinding;
+}
+
+<div class="common-form">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.ApiKey)
+                @Html.EditorFor(m => m.ApiSecret)
+            </tbody>
+        </table>
+    }
+</div>
