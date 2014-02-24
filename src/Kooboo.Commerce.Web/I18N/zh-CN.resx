@@ -2618,4 +2618,22 @@ Are you sure you want to use this size?</value>
   <data name="Charge" xml:space="preserve">
     <value>Charge</value>
   </data>
+  <data name="Kooboo BigData Recommendation" xml:space="preserve">
+    <value>Kooboo BigData Recommendation</value>
+  </data>
+  <data name="Recommendation Activity Settings" xml:space="preserve">
+    <value>Recommendation Activity Settings</value>
+  </data>
+  <data name="Api key 字段是必需的。" xml:space="preserve">
+    <value>Api key 字段是必需的。</value>
+  </data>
+  <data name="Api key" xml:space="preserve">
+    <value>Api key</value>
+  </data>
+  <data name="Api secret 字段是必需的。" xml:space="preserve">
+    <value>Api secret 字段是必需的。</value>
+  </data>
+  <data name="Api secret" xml:space="preserve">
+    <value>Api secret</value>
+  </data>
 </root>

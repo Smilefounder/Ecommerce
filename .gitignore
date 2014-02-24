@@ -1,15 +1,10 @@
 [Dd]ebug/
-
 [Rr]elease/
-
 [Bb]in/
-
 [Oo]bj/
-
 TestResults
-
 *.suo
-
 *.user
+*.log
 /src/packages
 /src/Kooboo.Commerce.Web/Uploads/commerce
