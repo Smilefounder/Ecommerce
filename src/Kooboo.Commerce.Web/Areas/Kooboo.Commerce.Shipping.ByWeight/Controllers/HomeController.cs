@@ -1,9 +1,10 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Shipping.ByWeight.Data;
 using Kooboo.Commerce.Shipping.ByWeight.Domain;
 using Kooboo.Commerce.Shipping.ByWeight.Models;
+using Kooboo.Commerce.Shipping.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,26 +15,22 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
-        [Inject]
-        public AddInDbContext DbContext { get; set; }
+        private IShippingMethodService _service;
+
+        public HomeController(IShippingMethodService service)
+        {
+            _service = service;
+        }
 
         public ActionResult Index(int methodId)
         {
-            var rules = DbContext.ByWeightShippingRules
-                                 .Where(x => x.ShippingMethodId == methodId)
-                                 .OrderBy(x => x.FromWeight)
-                                 .ThenBy(x => x.ToWeight)
-                                 .ThenBy(x => x.Id)
-                                 .ToList()
-                                 .Select(x => new ByWeightShippingRuleModel
-                                 {
-                                     Id = x.Id,
-                                     FromWeight = x.FromWeight.ToString("f2"),
-                                     ToWeight = x.ToWeight.ToString("f2"),
-                                     ShippingPrice = x.ShippingPrice.ToString("f2"),
-                                     PriceUnit = x.PriceUnit.ToString()
-                                 })
-                                 .ToList();
+            var method = _service.GetById(methodId);
+            var rules = new List<ByWeightShippingRuleModel>();
+
+            if (!String.IsNullOrWhiteSpace(method.ShippingRateProviderData))
+            {
+                rules = JsonConvert.DeserializeObject<List<ByWeightShippingRuleModel>>(method.ShippingRateProviderData);
+            }
 
             var model = new ByWeightShippingRulesModel
             {
@@ -44,40 +41,11 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Index(ByWeightShippingRulesModel model, string @return)
         {
-            var currentRules = DbContext.ByWeightShippingRules.Where(x => x.ShippingMethodId == model.ShippingMethodId).ToList();
-
-            // Handle deleted rules
-            var deletedRules = currentRules.Where(x => !model.HasRule(x.Id)).ToList();
-
-            foreach (var rule in deletedRules)
-            {
-                currentRules.Remove(rule);
-                DbContext.ByWeightShippingRules.Remove(rule);
-            }
-
-            // Handle added and updated rules
-            foreach (var ruleModel in model.Rules)
-            {
-                var currentRule = currentRules.FirstOrDefault(x => x.Id == ruleModel.Id);
-                if (currentRule == null)
-                {
-                    currentRule = new ByWeightShippingRule
-                    {
-                        ShippingMethodId = model.ShippingMethodId
-                    };
-                    DbContext.ByWeightShippingRules.Add(currentRule);
-                }
-
-                currentRule.FromWeight = decimal.Parse(ruleModel.FromWeight);
-                currentRule.ToWeight = decimal.Parse(ruleModel.ToWeight);
-                currentRule.ShippingPrice = decimal.Parse(ruleModel.ShippingPrice);
-                currentRule.PriceUnit = (ShippingPriceUnit)Enum.Parse(typeof(ShippingPriceUnit), ruleModel.PriceUnit);
-            }
-
-            DbContext.SaveChanges();
+            var method = _service.GetById(model.ShippingMethodId);
+            method.ShippingRateProviderData = JsonConvert.SerializeObject(model.Rules);
 
             return AjaxForm().RedirectTo(@return);
         }

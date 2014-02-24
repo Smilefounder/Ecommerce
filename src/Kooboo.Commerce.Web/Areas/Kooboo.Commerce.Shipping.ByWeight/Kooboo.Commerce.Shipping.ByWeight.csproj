@@ -130,9 +130,7 @@
     <Compile Include="ByWeightShippingRateProvider.cs" />
     <Compile Include="ByWeightShippingRateProviderViews.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Data\AddInDbContext.cs" />
     <Compile Include="Domain\ByWeightShippingRule.cs" />
-    <Compile Include="Data\Mapping\ByWeightShippingRuleMap.cs" />
     <Compile Include="Domain\ShippingPriceUnit.cs" />
     <Compile Include="Models\ByWeightShippingRuleModel.cs" />
     <Compile Include="Models\ByWeightShippingRulesModel.cs" />

@@ -2612,4 +2612,10 @@ Are you sure you want to use this size?</value>
   <data name="Table list view" xml:space="preserve">
     <value>Table list view</value>
   </data>
+  <data name="Add Rule" xml:space="preserve">
+    <value>Add Rule</value>
+  </data>
+  <data name="Charge" xml:space="preserve">
+    <value>Charge</value>
+  </data>
 </root>
