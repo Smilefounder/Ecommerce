@@ -2636,4 +2636,7 @@ Are you sure you want to use this size?</value>
   <data name="Api secret" xml:space="preserve">
     <value>Api secret</value>
   </data>
+  <data name="Desktop Compuer" xml:space="preserve">
+    <value>Desktop Compuer</value>
+  </data>
 </root>
