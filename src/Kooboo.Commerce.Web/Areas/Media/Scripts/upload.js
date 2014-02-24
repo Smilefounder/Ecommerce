@@ -44,10 +44,13 @@
         },
         _init: function () {
         },
+        _setOption: function (key, value) {
+            this.options = $.extend(this.options, { key: value });
+        },
         open: function () {
             var ops = this.options;
             var url = ops.url + '?owner=' + ops.owner + '&path=' + ops.property + '&width=' + ops.width + '&height=' + ops.height + '&max_file_size=' + ops.max_file_size + '&accept_file_types=' + ops.accept_file_types + '&crop=' + ops.crop_image + '&file=' + ops.src;
-            utils.openDialog('select file...', url, 800, 600);
+            utils.openDialog('select file...', url, 800, 500);
         },
         destroy: function () {
             $.Widget.prototype.destroy.call(this);

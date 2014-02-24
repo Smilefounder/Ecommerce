@@ -18,8 +18,8 @@
                 </button>
             </div>
             <ul class="view-switch">
-                <li class="list" data-bind="css: { active: vm.ListStyle() == 'list' }"><a href="javascript:;" title="@("Table list view".Localize())">@Html.IconImage("list")</a></li>
-                <li class="grid" data-bind="css: { active: vm.ListStyle() == 'grid' }"><a href="javascript:;" title="@("Thumbnails view".Localize())">@Html.IconImage("grid")</a></li>
+                <li class="list" data-bind="css: { active: vm.ListStyle() == 'list' }"><a href="javascript:;" title="@("Table list view".Localize())" onclick="vm.ListStyle('list');">@Html.IconImage("list")</a></li>
+                <li class="grid" data-bind="css: { active: vm.ListStyle() == 'grid' }"><a href="javascript:;" title="@("Thumbnails view".Localize())" onclick="vm.ListStyle('grid');">@Html.IconImage("grid")</a></li>
             </ul>
         </div>
 
@@ -42,13 +42,15 @@
             @("Upload".Localize())
         </a>
     </form>
-    <a href="javascript:;" class="button action right" onclick="vm.InsertFile();">@("Insert".Localize())</a>
     <a href="javascript:;" class="button gray cancel action right" onclick="utils.closeDialog();">@("Cancel".Localize())</a>
+    <a href="javascript:;" class="button action right" onclick="vm.InsertFile();">@("Insert".Localize())</a>
 </div>
 
 <script id="breadcrumb" type="text/html">
+    <!-- ko if: $index() > 0 -->
     @Html.IconImage("arrow gray-right")
-    <a href="javascript:;" data-bind="text: $data, click: $root.GetFolderByIndex($index())"></a>
+    <!-- /ko -->
+    <a href="javascript:;" data-bind="text: $data, click: function (data, event) { vm.GetFolderByIndex($index()); }"></a>
 </script>
 
 <script id="table_list" type="text/html">
@@ -176,7 +178,7 @@
         self.SelectedFile = ko.observable(null);
         self.SearchWord = ko.observable(null);
         self.ListStyle = ko.observable('list');
-        self.CurrentPathIndex = ko.observable(-1);
+        self.CurrentPathIndex = ko.observable(0);
         self.PageIndex = ko.observable(0);
         self.PageSize = ko.observable(50);
         self.IsEmpty = ko.computed(function () {
@@ -187,13 +189,29 @@
         }, self);
         self.getData = function (path) {
             if(!path) {
-                path = '@Request.QueryString["path"]';
+                path = self.GetCurrentPath();
             }
-            var url = '/Media/Upload/Files?owner=@Request.QueryString["owner"]&path=' + path + '&file=@Request.QueryString["file"]';
+            var url = '/Media/Upload/Files?owner=@Request.QueryString["owner"]&path=' + path + '&search=' + self.SearchWord();
             utils.getJson(url, null, function (data) {
                 ko.mapping.viewModel(data, vm.data);
+                vm.CurrentPathIndex(data.Paths.length - 1);
+                var postUrl = '/Areas/Media/Handlers/UploadHandler.ashx?owner=@Request.QueryString["owner"]&path=' + path;
+                $('#upload_form').attr('action', postUrl);
                 $('div.loading').hide();
             })
+        };
+        self.GetCurrentPath = function () {
+            var idx = self.CurrentPathIndex();
+            var path = '@Request.QueryString["path"]';
+            if(vm.data()) {
+                var paths = $.grep(vm.data().Paths(), function (n, i) { return i <= idx && i > 0; });
+                if(paths.length > 0) {
+                    path = paths.join('/');
+                } else {
+                    path = '';
+                }
+            }
+            return path;
         };
         self.AddFile = function (file) {
             var f = {
@@ -207,13 +225,13 @@
             self.data().Files.push(f);
         };
         self.IsNewFolder = function (item) {
-            return item && item.IsNew;
+            return item && item.IsNew && item.IsNew();
         };
         self.CreateFolder = function () {
             var folder = {
-                Name: ko.observable(null)
+                Name: ko.observable(null),
+                IsNew: ko.observable(true)
             };
-            folder.IsNew = true;
             self.data().Folders.push(folder);
         };
         self.CheckFolder = function (item) {
@@ -226,10 +244,10 @@
         };
         self.SaveFolder = function (item) {
             if(vm.CheckFolder(item)) {
-                var url = '/Media/Upload/Files?owner=@Request.QueryString["owner"]&path=@Request.QueryString["path"]&folder=' + item.Name();
+                var url = '/Media/Upload/AddFolder?owner=@Request.QueryString["owner"]&path=' + vm.GetCurrentPath() + '&folder=' + item.Name();
                 utils.getJson(url, null, function(data) {
                     utils.showMessage('info', data.message, data.status == 0 ? 'info' : 'error');
-                    item.IsNew = false;
+                    item.IsNew(false);
                 })
             }
         };
@@ -237,16 +255,14 @@
             self.data().Folders.remove(item);
         };
         self.GetFolder = function (item) {
-            var path = '@Request.QueryString["path"]/' + item.Name()
+            var path = self.GetCurrentPath() + "/" + item.Name()
             self.getData(path);
         };
         self.GetFolderByIndex = function (idx) {
-            //var paths = $.grep(vm.data().Paths(), function (n, i) { return i <= idx && i > 0; });
-            //var path = null;
-            //if(paths.length > 0) {
-            //    path = paths.join('/');
-            //}
-            //vm.getData(path);
+            if(idx == vm.CurrentPathIndex()) { return; }
+            vm.CurrentPathIndex(idx);
+            path = vm.GetCurrentPath();
+            vm.getData(path);
         };
         self.InsertFile = function () {
             utils.postMessage("fileselected", { owner: '@Request.QueryString["owner"]', property: '@Request.QueryString["path"]', file: ko.toJS(vm.SelectedFile()) }, window.top);

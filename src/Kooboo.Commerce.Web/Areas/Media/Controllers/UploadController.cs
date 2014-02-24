@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Web.Areas.Media.Controllers
         }
 
         [HttpGet]
-        public ActionResult Files(string owner, string path, string file = null, int orderBy = 0, int pi = 0, int ps = 50)
+        public ActionResult Files(string owner, string path, string search = null, int orderBy = 0, int pi = 0, int ps = 50)
         {
             string[] paths = new string[0];
             var dir = GetFolder(owner, path, out paths);
