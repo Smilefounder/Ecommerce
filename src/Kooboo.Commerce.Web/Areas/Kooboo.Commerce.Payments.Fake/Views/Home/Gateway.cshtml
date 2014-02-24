@@ -1,0 +1,15 @@
+﻿@model Kooboo.Commerce.Payments.Fake.Models.GatewayViewModel
+@{
+    ViewBag.Title = "Gateway";
+}
+
+<h1>#@Model.OrderId</h1>
+
+<div>
+    Amount: @Model.Amount.ToString("f2")
+</div>
+
+<div>
+    <a href="@Url.Action("FakeSuccess", new { orderId = Model.OrderId, commerceReturnUrl = Model.CommerceReturnUrl })">Fake Success</a>
+    <a href="@Url.Action("FakeFailure", new { orderId = Model.OrderId, commerceReturnUrl = Model.CommerceReturnUrl })">Fake Failure</a>
+</div>

@@ -1,0 +1,53 @@
+﻿@model Kooboo.Commerce.Promotions.Conditions.HasOneProduct.HasOneProductConditionData
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_PromotionConditionSettings.cshtml";
+}
+
+@using (Html.BeginForm()) { 
+<div id="main-container">
+    <div class="wrap">
+        <div class="topbar clearfix">
+            <h1 class="title">@("Settings".Localize())</h1>
+        </div>
+        <div class="common-form" style="margin-top:30px">
+            <p>
+                @("This condition is fulfilled when any of the specified products is added to cart.")
+            </p>
+            <table style="margin-top:20px">
+                <tbody>
+                    <tr>
+                        <th>@("Product IDs".Localize()):</th>
+                        <td>
+                            @Html.TextBoxFor(m => m.ProductIds)
+                            <em class="tip">@("Comma separated id array".Localize())</em>
+                            @Html.ValidationMessageFor(m => m.ProductIds)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="buttons">
+            <a class="button save" data-ajaxform="">
+                @("OK".Localize())
+            </a>
+            <a class="button gray cancel action">@("Cancel".Localize())</a>
+        </p>
+    </div>
+</div>
+}
+
+<script>
+    $(function () {
+
+        window.ajaxFormParam = {
+            success: function () {
+                EditorContext.accept();
+            }
+        }
+
+        $('.cancel').click(function () {
+            EditorContext.cancel();
+            return false;
+        })
+    })
+</script>

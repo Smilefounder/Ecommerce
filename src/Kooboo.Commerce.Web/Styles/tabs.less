@@ -1,0 +1,102 @@
+﻿/* Tabs
+----------------------------------------------------------*/
+.tabs {
+	.tab-index {
+		border-bottom: 1px solid #BABABA;
+		margin-bottom: 20px;
+		.clearfix();
+
+		li {
+			float: left;
+			margin-right: 5px;
+			position: relative;
+
+			&.active {
+				bottom: -1px;
+
+				a {
+					background: #5EA8DE;
+					color: #FFF;
+				}
+
+				.arrow {
+					display: block;
+				}
+			}
+		}
+
+		a {
+			background: #F0F1F4;
+			color: #000;
+			display: block;
+			font-size: 13px;
+			line-height: 30px;
+			min-width: 120px;
+			padding: 0 10px;
+			text-align: center;
+			text-transform: uppercase;
+			-moz-transition: none;
+			-webkit-transition: none;
+			transition: none;
+		}
+
+		.arrow {
+			bottom: -9px;
+			display: none;
+			left: 50%;
+			margin-left: -9px;
+			position: absolute;
+		}
+	}
+
+	.tab-content {
+		display: none;
+
+		&.active {
+			display: block;
+		}
+	}
+
+	&.vertical {
+		.tab-index {
+			border: none;
+			float: left;
+			margin: 20px 0;
+
+			li {
+				float: none;
+				margin: 0 0 10px;
+
+				&.active {
+					bottom: 0;
+					margin-right: -1px;
+
+					a {
+						background: #FFF;
+						border-color: #BABABA;
+						border-right: none;
+						color: #000;
+						padding-right: 12px;
+					}
+				}
+			}
+
+			a {
+				border: 1px solid #F0F1F4;
+				text-align: left;
+			}
+		}
+
+		.tab-content {
+			border-left: 1px solid #BABABA;
+			min-height: 500px;
+			overflow: hidden;
+			padding: 20px;
+
+			.block {
+				margin: 0 0 20px;
+				padding: 0 !important;
+			}
+		}
+	}
+}

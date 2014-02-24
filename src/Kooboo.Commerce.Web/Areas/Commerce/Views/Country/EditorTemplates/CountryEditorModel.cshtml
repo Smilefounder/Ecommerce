@@ -1,0 +1,16 @@
+﻿@model CountryEditorModel
+
+@using (Html.BeginForm("Save", "Country", RouteValues.From(Request.QueryString)))
+{
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(m => m.Id)
+    <div class="common-form">
+        <table>
+            @Html.EditorFor(m => m.Name)
+            @Html.EditorFor(m => m.ThreeLetterISOCode)
+            @Html.EditorFor(m => m.TwoLetterISOCode)
+            @Html.EditorFor(m => m.NumericISOCode)
+        </table>
+    </div> 
+}

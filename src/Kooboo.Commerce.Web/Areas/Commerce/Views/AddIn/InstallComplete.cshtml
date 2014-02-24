@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Add-in installation".Localize();
+    ViewBag.FullWidth = true;
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Finish".Localize())
+            </a>
+        </li>
+    </ul>
+}
+
+<div class="block">
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <span>@("Add-in selection".Localize())</span>
+            <span>@("Installation".Localize())</span>
+            <span class="current">@("Finish".Localize())<b></b></span>
+        </div>
+    </div>
+    <div class="block content">
+        <p></p>
+        <b>@("The add-in has been installed.".Localize())</b>
+        <p></p>
+        <p></p>
+    </div>
+</div>
+

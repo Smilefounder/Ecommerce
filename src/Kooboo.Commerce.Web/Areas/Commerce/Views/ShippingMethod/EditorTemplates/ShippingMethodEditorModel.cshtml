@@ -1,0 +1,27 @@
+﻿@model ShippingMethodEditorModel
+
+@using (Html.BeginForm("Save", "ShippingMethod", RouteValues.From(Request.QueryString)))
+{
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ShippingRateProviderName)
+    <div class="common-form">
+        <table>
+            @Html.EditorFor(m => m.Name)
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.Description)</th>
+                <td>
+                    @Html.TextAreaFor(m => m.Description)
+                    @Html.ValidationMessageFor(m => m.Description)
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.ShippingRateProviderName)</th>
+                <td>
+                    @Html.DropDownListFor(m => m.ShippingRateProviderName, Model.AvailableShippingRateProviders)
+                    @Html.ValidationMessageFor(m => m.ShippingRateProviderName)
+                </td>
+            </tr>
+            @Html.EditorFor(m => m.IsEnabled)
+        </table>
+    </div>
+}

@@ -1,0 +1,160 @@
+﻿@model SettingEditorModel
+
+@using (Html.BeginForm("Index", "Setting", RouteValues.From(Request.QueryString)))
+{
+    @Html.ValidationSummary(true)
+
+    <div id="setting_tabs">
+        <ul>
+            <li>
+                <a href="#General">@("General".Localize())</a>
+            </li>
+            <li>
+                <a href="#Image">@("Image".Localize())</a>
+            </li>
+            <li>
+                <a href="#Product">@("Product".Localize())</a>
+            </li>
+        </ul>
+        <div id="General">
+            <div class="common-form">
+                <table>
+                    @Html.EditorFor(m => m.StoreSetting.PriceIndex, new { HtmlAttributes = new { @class = "medium" } })
+                    @Html.EditorFor(m => m.StoreSetting.Culture, new { HtmlAttributes = new { @class = "medium" } })
+                    @Html.EditorFor(m => m.StoreSetting.CurrencyISOCode, new { HtmlAttributes = new { @class = "medium" } })
+                    @Html.EditorFor(m => m.StoreSetting.WeightUnitName, new { HtmlAttributes = new { @class = "medium" } })
+                    @Html.EditorFor(m => m.StoreSetting.SizeUnitName, new { HtmlAttributes = new { @class = "medium" } })
+                </table>
+            </div>
+        </div>
+        <div id="Image">
+            <div class="common-form">
+                <table id="image_setting_editor">
+                    <!--ko foreach:definedSizes-->
+                    <!--ko template: { name: 'image_size_editor_template' }--><!--/ko-->
+                    <!--/ko-->
+                    <!--ko foreach:customSizes-->
+                    <!--ko template: { name: 'image_size_editor_template' }--><!--/ko-->
+                    <!--/ko-->
+                    <tr>
+                        <th>
+                            <a class="action" data-bind="click:addRow">@Html.IconImage("plus")</a>
+                        </th>
+                        <td></td>
+                    </tr>
+                </table>
+                <div class="none">
+                    <script type="text/html" id="image_size_editor_template">
+                        <tr>
+                            <th>
+                                <input type="hidden" data-bind="attr:{name:$parent.attName($data,'IsSystemDefault')}, value:(IsSystemDefault()+'')" />
+                                <!--ko if:IsSystemDefault-->
+                                <input type="hidden" data-bind="attr:{name:$parent.attName($data,'Name')}, value:Name" />
+                                <label data-bind="text:Name"></label>
+                                <!--/ko-->
+                                <!--ko ifnot:IsSystemDefault-->
+                                <input type="text" data-val="true" data-val-required="The Name field is required." data-val-distinctname="The Name value is duplicated."
+                                       data-bind="attr:{name:$parent.attName($data,'Name'),'data-index':index}, value:Name">
+                                <!--/ko-->
+                            </th>
+                            <td>
+                                <div class="form-row">
+                                    <div class="span2">
+                                        <input type="text" defaultvalue="0" data-val="true" data-val-number="The field Width must be a number." data-val-required="The Width field is required."
+                                               data-bind="attr:{name:$parent.attName($data,'Width')}, value:Width" class="mini">
+                                        <span class="text">x</span>
+                                        <input type="text" defaultvalue="0" data-val="true" data-val-number="The field Height must be a number." data-val-required="The Height field is required."
+                                               data-bind="attr:{name:$parent.attName($data,'Height')}, value:Height" class="mini">
+                                    </div>
+                                    <div class="span2">
+                                        <div class="checkbox-field">
+                                            <input type="checkbox" value="true" data-bind="attr:{name:$parent.attName($data,'IsEnabled'),id:$parent.attId($data,'IsEnabled')}, checked:IsEnabled" />
+                                            <label class="inline" data-bind="attr:{'for':$parent.attId($data,'IsEnabled')}">@("IsEnabled".Localize())</label>
+                                        </div>
+                                    </div>
+                                    <div class="span8">
+                                        <!--ko ifnot:IsSystemDefault-->
+                                        <a class="action" data-bind="click:$parent.delRow">@Html.IconImage("minus")</a>
+                                        <!--/ko-->
+                                        <span class="field-validation-valid" data-valmsg-for="{ko}" data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for':$parent.attName($data,'Name')}"></span>
+                                        <span class="field-validation-valid" data-valmsg-for="{ko}" data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for':$parent.attName($data,'Width')}"></span>
+                                        <span class="field-validation-valid" data-valmsg-for="{ko}" data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for':$parent.attName($data,'Height')}"></span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </script>
+                    <script type="text/javascript">
+                        var emptyImageSize = @Html.Raw(new ImageSizeEditorModel() { IsSystemDefault = false, IsEnabled = true }.ToJson(PropertyNaming.Default));
+                        var imageSettData = @Html.Raw(Model.ImageSetting.ToJson(PropertyNaming.Default));
+                        var updateSettingValidation = function(){
+                            var form = $('#setting_tabs').parents('form');
+                            form.removeData('validator').removeData('unobtrusiveValidation');
+                            $.validator.unobtrusive.parse(form);
+                        };
+                        // ko model
+                        var imageSettModel = function () {
+                            var self = this;
+                            $.each(imageSettData.CustomSizes, function (i) { this.index = i; });
+                            var mapped = ko.mapping.fromJS(imageSettData);
+                            //
+                            this.definedSizes = ko.observableArray([mapped.Thumbnail, mapped.Detail, mapped.List, mapped.Cart]);
+                            this.customSizes = mapped.CustomSizes;
+                            this.addRow = function () {
+                                var rawObj = emptyImageSize;
+                                rawObj.index = self.customSizes().length;
+                                self.customSizes.push(ko.mapping.fromJS(rawObj));
+                                //
+                                window.leaveConfirm.stop();
+                                updateSettingValidation();
+                            };
+                            this.delRow = function () {
+                                self.customSizes.remove(this);
+                                var sizes = self.customSizes();
+                                $.each(sizes, function (i) { this.index(i); });
+                                self.customSizes([]); self.customSizes(sizes);
+                                window.leaveConfirm.stop();
+                            };
+                            this.attId = function (item, field) {
+                                return self.attName(item, field).replace(/\.|\[|\]/ig, '_');
+                            };
+                            this.attName = function (item, field) {
+                                var txt = item.Name();
+                                if (item.index) { txt = 'CustomSizes[' + item.index() + ']'; }
+                                return 'ImageSetting.' + txt + '.' + field;
+                            };
+                        };
+                        var model = new imageSettModel();
+                        // validate
+                        $.validator.addMethod('distinctSizeName', function (value, element, param) {
+                            var index = $(element).data('index');
+                            var exist = false, equal = function (s1, s2) { if (s1 && s2) { return s1.toLowerCase() === s2.toLowerCase(); } };
+                            $.each(model.definedSizes(), function () { if (equal(value, this.Name())) { exist = true; } });
+                            $.each(model.customSizes(), function () { if (index != this.index() && equal(value, this.Name())) { exist = true; } });
+                            return !exist;
+                        });
+                        $.validator.unobtrusive.adapters.add('distinctName', ['value'], function (options) {
+                            options.rules['distinctSizeName'] = options.params;
+                            options.messages['distinctSizeName'] = options.message;
+                        });
+                        // apply
+                        ko.applyBindings(model, document.getElementById('image_setting_editor'));
+                        updateSettingValidation();
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div id="Product">
+            @{var gridViewData = new ViewDataDictionary();
+            gridViewData.Add("CreateButtonText", "Create system field".Localize());}
+            @Html.Partial("_CustomFieldsGrid", Model.ProductSetting.SystemFields, gridViewData)
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#setting_tabs').tabs();
+            $('#Product').customFields({ data: @Html.Raw(Model.ProductSetting.SystemFields.ToJson(PropertyNaming.Default)), nameFmt: 'ProductSetting.SystemFields[{0}].{1}' });
+        });
+    </script>
+}
+@Html.Partial("_CustomFieldsScripts", ViewData)

@@ -1,0 +1,2468 @@
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:09:30
+事件时间(UTC): 2014/1/27 3:09:30
+事件 ID: 30fd52397c0744178a741cd19df716f2
+事件序列: 32
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-1-130352657196797499
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 4232
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.InvalidOperationException
+    异常消息: The model backing the 'EfDbContext' context has changed since the database was created. Consider using Code First Migrations to update the database (http://go.microsoft.com/fwlink/?LinkId=238269).
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/Promotion
+    请求路径: /Commerce/Promotion
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 5
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.Data.Entity.CreateDatabaseIfNotExists`1.InitializeDatabase(TContext context)
+   在 System.Data.Entity.Internal.InternalContext.<>c__DisplayClass9`1.<CreateInitializationAction>b__8()
+   在 System.Data.Entity.Internal.InternalContext.PerformInitializationAction(Action action)
+   在 System.Data.Entity.Internal.InternalContext.PerformDatabaseInitialization()
+   在 System.Data.Entity.Internal.LazyInternalContext.<InitializeDatabase>b__4(InternalContext c)
+   在 System.Data.Entity.Internal.RetryAction`1.PerformAction(TInput input)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabaseAction(Action`1 action)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabase()
+   在 System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   在 System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   在 System.Linq.Queryable.OrderByDescending[TSource,TKey](IQueryable`1 source, Expression`1 keySelector)
+   在 Kooboo.Commerce.Web.Areas.Commerce.Controllers.PromotionController.Index(Nullable`1 page, Nullable`1 pageSize) 位置 e:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\Areas\Commerce\Controllers\PromotionController.cs:行号 40
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   在 System.Web.Mvc.Controller.<>c__DisplayClass1d.<BeginExecuteCore>b__19()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__3(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:26:30
+事件时间(UTC): 2014/1/27 3:26:30
+事件 ID: 4f05348c7a3a4eb7ae13d793794af6a6
+事件序列: 43
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-2-130352667568687893
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.InvalidOperationException
+    异常消息: The model backing the 'EfDbContext' context has changed since the database was created. Consider using Code First Migrations to update the database (http://go.microsoft.com/fwlink/?LinkId=238269).
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/Promotion
+    请求路径: /Commerce/Promotion
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 8
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.Data.Entity.CreateDatabaseIfNotExists`1.InitializeDatabase(TContext context)
+   在 System.Data.Entity.Internal.InternalContext.<>c__DisplayClass9`1.<CreateInitializationAction>b__8()
+   在 System.Data.Entity.Internal.InternalContext.PerformInitializationAction(Action action)
+   在 System.Data.Entity.Internal.InternalContext.PerformDatabaseInitialization()
+   在 System.Data.Entity.Internal.LazyInternalContext.<InitializeDatabase>b__4(InternalContext c)
+   在 System.Data.Entity.Internal.RetryAction`1.PerformAction(TInput input)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabaseAction(Action`1 action)
+   在 System.Data.Entity.Internal.LazyInternalContext.InitializeDatabase()
+   在 System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   在 System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   在 System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   在 System.Linq.Queryable.OrderByDescending[TSource,TKey](IQueryable`1 source, Expression`1 keySelector)
+   在 Kooboo.Commerce.Web.Areas.Commerce.Controllers.PromotionController.Index(Nullable`1 page, Nullable`1 pageSize) 位置 e:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\Areas\Commerce\Controllers\PromotionController.cs:行号 40
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   在 System.Web.Mvc.Controller.<>c__DisplayClass1d.<BeginExecuteCore>b__19()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__3(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:27:06
+事件时间(UTC): 2014/1/27 3:27:06
+事件 ID: 1ac6b84f93244ee0b6ec463e02a5e126
+事件序列: 133
+事件匹配项: 2
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-2-130352667568687893
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.NullReferenceException
+    异常消息: 未将对象引用设置到对象的实例。
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/PaymentMethod
+    请求路径: /Commerce/PaymentMethod
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 11
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 Kooboo.Commerce.Web.Areas.Commerce.Controllers.PaymentMethodController.Index(Nullable`1 page, Nullable`1 pageSize) 位置 e:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\Areas\Commerce\Controllers\PaymentMethodController.cs:行号 34
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   在 System.Web.Mvc.Controller.<>c__DisplayClass1d.<BeginExecuteCore>b__19()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__3(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:35:27
+事件时间(UTC): 2014/1/27 3:35:27
+事件 ID: a4b8331b4b384582999fcb75fba48f71
+事件序列: 5
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-5-130352673219882084
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.NullReferenceException
+    异常消息: 未将对象引用设置到对象的实例。
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/PaymentMethod
+    请求路径: /Commerce/PaymentMethod
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 10
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 Kooboo.Commerce.Web.Areas.Commerce.Controllers.PaymentMethodController.Index(Nullable`1 page, Nullable`1 pageSize) 位置 e:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\Areas\Commerce\Controllers\PaymentMethodController.cs:行号 34
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   在 System.Web.Mvc.Controller.<>c__DisplayClass1d.<BeginExecuteCore>b__19()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__3(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:40:25
+事件时间(UTC): 2014/1/27 3:40:25
+事件 ID: b80be711decc4fe8b24205c0c2c930e5
+事件序列: 5
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-6-130352676211252193
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.NullReferenceException
+    异常消息: 未将对象引用设置到对象的实例。
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/PaymentMethod
+    请求路径: /Commerce/PaymentMethod
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 24
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 Kooboo.Commerce.Web.Areas.Commerce.Controllers.PaymentMethodController.Index(Nullable`1 page, Nullable`1 pageSize) 位置 e:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\Areas\Commerce\Controllers\PaymentMethodController.cs:行号 34
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   在 System.Web.Mvc.Controller.<>c__DisplayClass1d.<BeginExecuteCore>b__19()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__3(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:41:51
+事件时间(UTC): 2014/1/27 3:41:51
+事件 ID: e8e815666f414e37a43e7bfe18e720b8
+事件序列: 5
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-7-130352677062626516
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.MissingMethodException
+    异常消息: 没有为该对象定义无参数的构造函数。
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/PaymentMethod
+    请求路径: /Commerce/PaymentMethod
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 24
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 System.Web.Mvc.DefaultControllerFactory.DefaultControllerActivator.Create(RequestContext requestContext, Type controllerType)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:42:24
+事件时间(UTC): 2014/1/27 3:42:24
+事件 ID: be1eb9c1d922400ab218ffd7c4ea1753
+事件序列: 5
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-8-130352677395712975
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.MissingMethodException
+    异常消息: 没有为该对象定义无参数的构造函数。
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/PaymentMethod
+    请求路径: /Commerce/PaymentMethod
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 25
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 System.Web.Mvc.DefaultControllerFactory.DefaultControllerActivator.Create(RequestContext requestContext, Type controllerType)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:42:44
+事件时间(UTC): 2014/1/27 3:42:44
+事件 ID: 97fac760f2834fc488a51327f4e5c43f
+事件序列: 5
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-9-130352677594272910
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.MissingMethodException
+    异常消息: 没有为该对象定义无参数的构造函数。
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/PaymentMethod
+    请求路径: /Commerce/PaymentMethod
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 25
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 System.Web.Mvc.DefaultControllerFactory.DefaultControllerActivator.Create(RequestContext requestContext, Type controllerType)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:43:58
+事件时间(UTC): 2014/1/27 3:43:58
+事件 ID: 44bc464171e242289794065d156f68d1
+事件序列: 5
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-10-130352678329846723
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.MissingMethodException
+    异常消息: 没有为该对象定义无参数的构造函数。
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/Home/Index
+    请求路径: /Commerce/Home/Index
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 25
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 System.Web.Mvc.DefaultControllerFactory.DefaultControllerActivator.Create(RequestContext requestContext, Type controllerType)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:44:37
+事件时间(UTC): 2014/1/27 3:44:37
+事件 ID: fa6636392cec459583921bd64dc13f75
+事件序列: 5
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-11-130352678731608632
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.MissingMethodException
+    异常消息: 没有为该对象定义无参数的构造函数。
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/Home/Index
+    请求路径: /Commerce/Home/Index
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 25
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 System.Web.Mvc.DefaultControllerFactory.DefaultControllerActivator.Create(RequestContext requestContext, Type controllerType)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 11:45:48
+事件时间(UTC): 2014/1/27 3:45:48
+事件 ID: 039e432d3f1f4e46a428b6ced66e751b
+事件序列: 5
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-13-130352679436066602
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.InvalidOperationException
+    异常消息: NULL
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/Home/Index
+    请求路径: /Commerce/Home/Index
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 21
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 Kooboo.Commerce.Web.Areas.Commerce.Controllers.HomeController.Index() 位置 e:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\Areas\Commerce\Controllers\HomeController.cs:行号 30
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   在 System.Web.Mvc.Controller.<>c__DisplayClass1d.<BeginExecuteCore>b__19()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__3(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 11:56:50
+Event time (UTC): 2014/1/27 3:56:50
+Event ID: 34f2fdaa98f94fc78fc8132b619c380c
+Event sequence: 193
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-15-130352682752895158
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FPaymentMethod%2FEdit%3FId%3D1%26return%3D%252FCommerce%252FPaymentMethod&browserName=Chrome&_=1390795010722
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 11
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 12:01:53
+Event time (UTC): 2014/1/27 4:01:53
+Event ID: 2bf3ed2f64ec425a8cc008e12679222e
+Event sequence: 3
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-16-130352689107327525
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FPaymentMethod%2FEdit%3FId%3D1%26return%3D%252FCommerce%252FPaymentMethod&browserName=Chrome&_=1390795310709
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 32
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 12:06:50
+Event time (UTC): 2014/1/27 4:06:50
+Event ID: cab96caebae74e5b8baae966014c3eae
+Event sequence: 5
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-16-130352689107327525
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FPaymentMethod%2FEdit%3FId%3D1%26return%3D%252FCommerce%252FPaymentMethod&browserName=Chrome&_=1390795610719
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 30
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 12:11:50
+Event time (UTC): 2014/1/27 4:11:50
+Event ID: 296fd754a4e84ca4851e06afa714e730
+Event sequence: 7
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-16-130352689107327525
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FPaymentMethod%2FEdit%3FId%3D1%26return%3D%252FCommerce%252FPaymentMethod&browserName=Chrome&_=1390795910723
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 23
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 12:16:50
+Event time (UTC): 2014/1/27 4:16:50
+Event ID: 2132da4a8b9347399df2d907e15743a8
+Event sequence: 9
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-16-130352689107327525
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FPaymentMethod%2FEdit%3FId%3D1%26return%3D%252FCommerce%252FPaymentMethod&browserName=Chrome&_=1390796210717
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 43
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 12:21:51
+Event time (UTC): 2014/1/27 4:21:51
+Event ID: d7a03e25589c420ab3cf5ae3bbb03042
+Event sequence: 11
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-16-130352689107327525
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FPaymentMethod%2FEdit%3FId%3D1%26return%3D%252FCommerce%252FPaymentMethod&browserName=Chrome&_=1390796511074
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 56
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 12:26:51
+Event time (UTC): 2014/1/27 4:26:51
+Event ID: a1806961de1344f98877d19454b9c050
+Event sequence: 13
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-16-130352689107327525
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FPaymentMethod%2FEdit%3FId%3D1%26return%3D%252FCommerce%252FPaymentMethod&browserName=Chrome&_=1390796811065
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 67
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 16:11:51
+事件时间(UTC): 2014/1/27 8:11:51
+事件 ID: 13bcb1e56a1940e4ad6e3b6dbcb940df
+事件序列: 42
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-17-130352838249394747
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 5140
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.NullReferenceException
+    异常消息: 未将对象引用设置到对象的实例。
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce/Product
+    请求路径: /Commerce/Product
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 151
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 Kooboo.Commerce.Web.Areas.Commerce.Controllers.ProductController.Index(Nullable`1 page, Nullable`1 pageSize) 位置 e:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\Areas\Commerce\Controllers\ProductController.cs:行号 28
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   在 System.Web.Mvc.Controller.<>c__DisplayClass1d.<BeginExecuteCore>b__19()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__3(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 16:15:37
+事件时间(UTC): 2014/1/27 8:15:37
+事件 ID: ebce8983234e4d12b120b29343178181
+事件序列: 51
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-1-130352840749797162
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 9660
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.FormatException
+    异常消息: 输入字符串的格式不正确。
+
+请求信息:
+    请求 URL: http://localhost:63739/__browserLink/requestData/7b1687dd7c32494698ac20885f4c7b94
+    请求路径: /__browserLink/requestData/7b1687dd7c32494698ac20885f4c7b94
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 6
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.Text.StringBuilder.AppendFormat(IFormatProvider provider, String format, Object[] args)
+   在 System.String.Format(IFormatProvider provider, String format, Object[] args)
+   在 System.String.Format(String format, Object arg0)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateSelectorIfUnique(List`1 elements, String selectorFormatString)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateSelectorsFromIds(List`1 elements, String selectorFormatString)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateSelectorsInternal(IEnumerable`1 elements, String selectorFormatString, Func`2 isUniqueTagName, Boolean indexAsLastResort)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateGlobalScopeSelectors(IEnumerable`1 elements)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateSelectors(IEnumerable`1 elements)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.ProcessDataIntoJsonObjects(IEnumerable`1 renderedOutputList)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.Tracing.RequestDataHttpHandler.System.Web.IHttpHandler.ProcessRequest(HttpContext context)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 16:16:11
+事件时间(UTC): 2014/1/27 8:16:11
+事件 ID: 8d5d3cf1850442f8884f8a66fd61390a
+事件序列: 139
+事件匹配项: 3
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-1-130352840749797162
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 9660
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.IO.FileNotFoundException
+    异常消息: 未能找到文件“E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\Styles\reset.css”。
+
+请求信息:
+    请求 URL: http://localhost:63739/Account/WebResource?name=siteStyles&version=20131218
+    请求路径: /Account/WebResource
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 6
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+   在 System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)
+   在 System.IO.File.ReadAllText(String path)
+   在 Kooboo.Web.Mvc.WebResourceLoader.WebResourceController.Index(String name, String version, String condition) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo\Web\Mvc\WebResourceLoader\WebResourceController.cs:行号 120
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.<>c__DisplayClass1.<WrapVoidAction>b__0(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   在 System.Web.Mvc.Controller.<>c__DisplayClass1d.<BeginExecuteCore>b__19()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__3(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 16:18:35
+事件时间(UTC): 2014/1/27 8:18:35
+事件 ID: 923c0404e01e49c58fc553111b488762
+事件序列: 5
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-2-130352843090514625
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 9660
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.IO.FileNotFoundException
+    异常消息: 未能找到文件“E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\Styles\reset.css”。
+
+请求信息:
+    请求 URL: http://localhost:63739/Account/WebResource?name=siteStyles&version=20131218
+    请求路径: /Account/WebResource
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 9
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   在 System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+   在 System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)
+   在 System.IO.File.ReadAllText(String path)
+   在 Kooboo.Web.Mvc.WebResourceLoader.WebResourceController.Index(String name, String version, String condition) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo\Web\Mvc\WebResourceLoader\WebResourceController.cs:行号 120
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ActionMethodDispatcher.<>c__DisplayClass1.<WrapVoidAction>b__0(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<InvokeActionMethodWithFilters>b__10()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   在 System.Web.Mvc.Controller.<>c__DisplayClass1d.<BeginExecuteCore>b__19()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__3(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass4.<MakeVoidDelegate>b__3(IAsyncResult ar)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
+   在 System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 16:27:52
+Event time (UTC): 2014/1/27 8:27:52
+Event ID: 67667927d4cd4195a3300b4a2b58b1d6
+Event sequence: 216
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-2-130352843090514625
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FCategory&browserName=Chrome&_=1390811272850
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 8
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 16:32:53
+Event time (UTC): 2014/1/27 8:32:53
+Event ID: f29e0a9e0eaa4ef0babe2c3fb619bc93
+Event sequence: 218
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-2-130352843090514625
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FCategory&browserName=Chrome&_=1390811573135
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 39
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/27 16:38:00
+事件时间(UTC): 2014/1/27 8:38:00
+事件 ID: 2f89f424c11e44c6a19379b5059c0269
+事件序列: 110
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-3-130352853436186808
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 9660
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.FormatException
+    异常消息: 输入字符串的格式不正确。
+
+请求信息:
+    请求 URL: http://localhost:63739/__browserLink/requestData/d7187bd662f14479b68ec5d33483e6a8
+    请求路径: /__browserLink/requestData/d7187bd662f14479b68ec5d33483e6a8
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 36
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.Text.StringBuilder.AppendFormat(IFormatProvider provider, String format, Object[] args)
+   在 System.String.Format(IFormatProvider provider, String format, Object[] args)
+   在 System.String.Format(String format, Object arg0)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateSelectorIfUnique(List`1 elements, String selectorFormatString)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateSelectorsFromIds(List`1 elements, String selectorFormatString)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateSelectorsInternal(IEnumerable`1 elements, String selectorFormatString, Func`2 isUniqueTagName, Boolean indexAsLastResort)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateGlobalScopeSelectors(IEnumerable`1 elements)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.GenerateSelectors(IEnumerable`1 elements)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.MappingData.MappingDataUtilities.ProcessDataIntoJsonObjects(IEnumerable`1 renderedOutputList)
+   在 Microsoft.VisualStudio.Web.PageInspector.Runtime.Tracing.RequestDataHttpHandler.System.Web.IHttpHandler.ProcessRequest(HttpContext context)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 16:43:07
+Event time (UTC): 2014/1/27 8:43:07
+Event ID: 88d34f21d3a940bf832160bb2c39fba3
+Event sequence: 124
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390812187117
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 10
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 16:48:07
+Event time (UTC): 2014/1/27 8:48:07
+Event ID: 35bee659c419492997482f67eb559148
+Event sequence: 126
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390812487124
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 32
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 16:53:07
+Event time (UTC): 2014/1/27 8:53:07
+Event ID: c739910f786942cd9f6c7866dd0f656c
+Event sequence: 128
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390812787129
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 20
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 16:58:07
+Event time (UTC): 2014/1/27 8:58:07
+Event ID: 5ef80dca946a4084948ee8feeae46297
+Event sequence: 130
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390813087114
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 11
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:03:07
+Event time (UTC): 2014/1/27 9:03:07
+Event ID: 8715f8483985483f982e562981bb7696
+Event sequence: 132
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390813387124
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 42
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:08:07
+Event time (UTC): 2014/1/27 9:08:07
+Event ID: 510f3f4a146e47788e6ed7205969d825
+Event sequence: 134
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390813687125
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 56
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:13:07
+Event time (UTC): 2014/1/27 9:13:07
+Event ID: b75bb8b330ee4f25a04b6f9b4cf7ef54
+Event sequence: 136
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390813987122
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 65
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:18:07
+Event time (UTC): 2014/1/27 9:18:07
+Event ID: f6e5b551ed294fb3b2b3ace6491a0634
+Event sequence: 138
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390814287133
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 69
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:23:07
+Event time (UTC): 2014/1/27 9:23:07
+Event ID: a2d8b49c40d4448fa02444536a0f8167
+Event sequence: 140
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390814587133
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 79
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:28:07
+Event time (UTC): 2014/1/27 9:28:07
+Event ID: 87e6caff85444bed8cf3baf58ca9520d
+Event sequence: 142
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390814887115
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 71
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:33:07
+Event time (UTC): 2014/1/27 9:33:07
+Event ID: befec7711c8e47ca96ecbd6d374d4636
+Event sequence: 144
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390815187125
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 63
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:38:07
+Event time (UTC): 2014/1/27 9:38:07
+Event ID: a1f1adedd1c04a9f9113545291628e6a
+Event sequence: 146
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390815487109
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 60
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:43:07
+Event time (UTC): 2014/1/27 9:43:07
+Event ID: 65f6ae9279d546e283ec7f40a4f0b480
+Event sequence: 148
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390815787119
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 56
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:48:07
+Event time (UTC): 2014/1/27 9:48:07
+Event ID: 899ca848f5a8498abd10a5cead63ce0c
+Event sequence: 150
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-3-130352853436186808
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390816087133
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 56
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:53:19
+Event time (UTC): 2014/1/27 9:53:19
+Event ID: 1f0092d5879f4263aa1360401fcd05f7
+Event sequence: 5
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-4-130352899873490150
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390816387120
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 46
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 17:58:14
+Event time (UTC): 2014/1/27 9:58:14
+Event ID: 283bb1d45ee54e4fbda9dd298fc8d033
+Event sequence: 5
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-5-130352902872830200
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390816687118
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 57
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 18:03:19
+Event time (UTC): 2014/1/27 10:03:19
+Event ID: 4da13e6fc9b841f9a21f11aee2e2453d
+Event sequence: 5
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-6-130352905871525047
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390816987122
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 48
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 18:13:13
+Event time (UTC): 2014/1/27 10:13:13
+Event ID: 8e6ab9245f8843cfb8bd910f10152f9d
+Event sequence: 5
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-8-130352911871474308
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390817587119
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 47
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 18:18:07
+Event time (UTC): 2014/1/27 10:18:07
+Event ID: 2390e26a6e694d0a8c4b3e03bac8d49f
+Event sequence: 7
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-8-130352911871474308
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390817887128
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 62
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 18:23:07
+Event time (UTC): 2014/1/27 10:23:07
+Event ID: de196b9cd28c448db4a93cb83ff8ce45
+Event sequence: 9
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-8-130352911871474308
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390818187114
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 67
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+Event time: 2014/1/27 18:28:07
+Event time (UTC): 2014/1/27 10:28:07
+Event ID: fa78707efc8e4907ab22f05a0bd8519f
+Event sequence: 11
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-8-130352911871474308
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/918b7160f5984e3688794d2999ca93c7/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2FCommerce%2FProduct%2FCreate%3Freturn%3D%252FCommerce%252FProduct&browserName=Chrome&_=1390818487119
+    Request path: /918b7160f5984e3688794d2999ca93c7/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 71
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------

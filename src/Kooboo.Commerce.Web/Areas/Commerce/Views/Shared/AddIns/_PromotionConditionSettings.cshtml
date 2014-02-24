@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "~/Views/Shared/Popup.cshtml";
+}
+
+<script>
+    window.kb = window.top.kb;
+    window.EditorContext = kb.commerce.promotions.ConditionEditorContext.current();
+</script>
+
+@RenderBody()

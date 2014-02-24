@@ -1,0 +1,82 @@
+﻿@using Kooboo.Commerce.Customers;
+@model PagedList<CustomerRowModel>
+@{
+    ViewBag.Title = "Customers".Localize();
+    IEnumerable<IExtendedQuery<Customer>> extendedQueries = ViewBag.ExtendedQueries as IEnumerable<IExtendedQuery<Customer>>;
+    var extendedQueryViewModel = new ViewDataDictionary();
+    extendedQueryViewModel.Add("GetExtendedParametersUrl", "/Commerce/Customer/GetParameters");
+    extendedQueryViewModel.Add("SaveExtendedParametersUrl", "/Commerce/Customer/SaveParameters");
+}
+
+@section Panel {
+    @(Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddCreateButton();
+        buttons.AddDeleteButton();
+    }))
+}
+
+@section Topbar {
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="search-panel">
+        @Html.Partial("_Search")
+        <a class="more">@Html.IconImage("arrow small black-down")</a>
+        @Html.Partial("_ExtendedQueryParameter", extendedQueries, extendedQueryViewModel)
+    </div>
+}
+
+<div class="common-table">
+    @using (Html.BeginForm("Delete", "Customer", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class="no-stop" }))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th class="checkbox">
+                        <input type="checkbox" class="select-all">
+                    </th>
+                    <th>
+                        @("Name".Localize())
+                    </th>
+                    <th>
+                        @("Email".Localize())
+                    </th>
+                    <th>
+                        @("Orders".Localize())
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td class="checkbox ">
+                            <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
+                        </td>
+                        <td>
+                            <a href="/Commerce/Customer/Edit?commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=/Commerce/Customer?commerceName=@Request.QueryString["commercename"]">@p.Name</a>
+                        </td>
+                        <td>
+                            @p.Email
+                        </td>
+                        <td>
+                            @p.Orders
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <script type="text/javascript">
+        $(function () {
+            var table = $('.common-table table');
+            table.checkableTable();
+            table.grid();
+        });
+    </script>
+</div>
+
+@*@Html.GridFor2(typeof(CustomerRowModel), Model)*@
+<div class="pagination right">
+    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+</div>
+

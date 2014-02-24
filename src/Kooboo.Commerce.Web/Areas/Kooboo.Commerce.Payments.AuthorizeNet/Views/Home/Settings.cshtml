@@ -1,0 +1,19 @@
+﻿@model Kooboo.Commerce.Payments.AuthorizeNet.AuthorizeNetSettings
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_PaymentGatewaySettings.cshtml";
+    ViewBag.Title = "Authorize.net settings".Localize();
+}
+
+<div class="block common-form">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.LoginId)
+                @Html.EditorFor(m => m.TransactionKey)
+                @Html.EditorFor(m => m.SandboxMode)
+            </tbody>
+        </table>
+    }
+</div>

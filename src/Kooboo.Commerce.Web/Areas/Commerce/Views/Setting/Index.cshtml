@@ -1,0 +1,13 @@
+﻿@model SettingEditorModel
+@{
+    ViewBag.Title = "Settings".Localize();
+}
+
+@section Panel{
+    @(Html.HeaderPanel().Buttons(buttons => 
+    {
+        buttons.Add("Save", "save").AsAjaxFormTrigger();
+    }))
+}
+
+@Html.Partial("_SettingEditor", Model)

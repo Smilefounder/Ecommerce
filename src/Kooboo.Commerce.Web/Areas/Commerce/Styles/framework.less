@@ -1,0 +1,72 @@
+@import "less-element.less";
+@import "grid.less";
+@import "base.less";
+
+.block.framework {
+	margin-bottom: 20px;
+
+	> .box {
+		min-height: 200px;
+		position: relative;
+	}
+	/* Notification
+	---------------------------------------------------------------*/
+	.block.notification {
+		margin-bottom: 20px;
+		padding: 10px 30px 10px 10px !important;
+		position: relative;
+		right: 0;
+		top: 0;
+		width: 50%;
+		z-index: 1;
+	}
+	/* Message
+	---------------------------------------------------------------*/
+	.block.message {
+		margin-bottom: 20px;
+	}
+	/* Loading
+	---------------------------------------------------------------*/
+	.block.loading {
+		display: block;
+
+		.layer {
+			z-index: 1;
+		}
+
+		.wrap {
+			z-index: 2;
+		}
+	}
+	/* Buttons
+	---------------------------------------------------------------*/
+	.box.buttons {
+		.button,
+		button,
+		input[type="submit"],
+		input[type="reset"],
+		input[type="button"] {
+			float: left;
+			margin: 0 5px 5px 0;
+		}
+	}
+	/* Icon list
+	---------------------------------------------------------------*/
+	.icon-list {
+		.clearfix();
+		li {
+			float: left;
+			margin-bottom: 10px;
+			width: 10%;
+		}
+
+		.icon {
+			float: left;
+			margin-right: 5px;
+		}
+	}
+
+	.box.bg-light-blue .icon-list {
+		color: #FFF;
+	}
+}

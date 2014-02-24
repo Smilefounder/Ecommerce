@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "~/Views/Shared/Blank.cshtml";
+
+    if (String.IsNullOrEmpty(ViewBag.Title as string))
+    {
+        ViewBag.Title = "Shipping rave provider settings".Localize();
+    }
+}
+
+@section Panel {
+    @if (IsSectionDefined("Panel"))
+    {
+        @RenderSection("Panel")
+    }
+    else
+    {
+        @Html.HeaderPanel().Buttons(buttons =>
+       {
+           buttons.AddSaveButton();
+           buttons.AddCancelButton();
+       })
+    }
+}
+
+<div class="block">
+    @RenderBody()
+</div>

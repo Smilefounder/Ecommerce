@@ -1,0 +1,70 @@
+﻿@model IEnumerable<AddInMeta>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@Url.Action("Install", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
+                @Html.IconImage("add") @("Install".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("GoingToUninstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("delete") @("Uninstall".Localize())
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Reinstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))' data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("reset") @("Reinstall".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Versions", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("version") @("Versions".Localize())
+            </a>
+        </li>
+    </ul>
+}
+
+@if (Model.Count() == 0)
+{
+    <div class="topbar">
+        <h1 class="title">@(ViewBag.Title)</h1>
+    </div>
+    <div class="block fixed">
+        <div class="sitemap-panel clearfix">
+            <div class="blank">
+                <p>
+                    @("You do not have any add-in yet, click the button below to installl an add-in.".Localize())
+                </p>
+                @Html.ActionLink("Install", "Install", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary(new { @class = "button" }))
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="topbar">
+        <h1 class="title">@(ViewBag.Title)</h1>
+    </div>
+    <div class="block fixed" id="module_list">
+        @foreach (var addIn in Model)
+        {
+            <div class="content-block module">
+                <div class="content-block-header">
+                    @addIn.Id
+                    <input type="radio" name="select" class="select" value="@addIn.Id" id="@addIn.Id.Replace('.','_')" data-id-property="Id"><label for="@addIn.Id.Replace('.','_')"></label><span class="corner"></span>
+                </div>
+
+                <ul>
+                    <li>
+                        @("Version:".Localize()) @addIn.Version
+                    </li>
+                </ul>
+            </div>
+        }
+    </div>
+}

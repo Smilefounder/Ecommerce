@@ -1,0 +1,106 @@
+Event code: 100000
+Event message: Path '/7bb259b0fac649b79221b2ad6b082cb4/arterySignalR/ping' was not found.
+Event time: 2014/1/28 9:28:33
+Event time (UTC): 2014/1/28 1:28:33
+Event ID: 2b1d2ee9664f4e898c5d94d801f3aba7
+Event sequence: 17
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/28/ROOT-1-130353457889340230
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    Machine name: SYM-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/7bb259b0fac649b79221b2ad6b082cb4/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /7bb259b0fac649b79221b2ad6b082cb4/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A63739%2F&browserName=Chrome&_=1390872513628
+    Request path: /7bb259b0fac649b79221b2ad6b082cb4/arterySignalR/ping
+    User host address: ::1
+    User: 
+    Is authenticated: False
+    Authentication Type: 
+    Thread account name: SYM-PC\Mouhong
+
+Thread information:
+    Thread ID: 7
+    Thread account name: SYM-PC\Mouhong
+    Is impersonating: False
+    Stack trace:    在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 66
+   在 Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) 位置 e:\Projects\Yardi\Kooboo\Kooboo.CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:行号 40
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   在 System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+事件代码: 3005
+事件消息: 发生了未经处理的异常。
+事件时间: 2014/1/28 9:34:23
+事件时间(UTC): 2014/1/28 1:34:23
+事件 ID: 6d2ced91b696467da2ac62e7687b6b84
+事件序列: 17
+事件匹配项: 1
+事件详细信息代码: 0
+
+应用程序信息:
+    应用程序域: /LM/W3SVC/28/ROOT-1-130353464045424956
+    信任级别: Full
+    应用程序虚拟路径: /
+    应用程序路径: E:\Projects\Yardi\NewCommerce\Kooboo.Commerce.Web\
+    计算机名称: SYM-PC
+
+进程信息:
+    进程 ID: 9124
+    进程名: iisexpress.exe
+    帐户名: SYM-PC\Mouhong
+
+异常信息:
+    异常类型: System.Data.Entity.Core.UpdateException
+    异常消息: An error occurred while updating the entries. See the inner exception for details.
+
+内部异常信息(级别 1):
+    异常类型: System.Data.SqlClient.SqlException
+    异常消息: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_dbo.Product_dbo.Brand_BrandId". The conflict occurred in database "Kooboo.Commerce", table "dbo.Brand", column 'Id'.
+The statement has been terminated.
+
+请求信息:
+    请求 URL: http://localhost:63739/Commerce
+    请求路径: /Commerce
+    用户主机地址: ::1
+    用户: 
+    通过身份验证: False
+    身份验证类型: 
+    线程帐户名: SYM-PC\Mouhong
+
+线程信息:
+    线程 ID: 6
+    线程帐户名: SYM-PC\Mouhong
+    正在模拟: False
+    堆栈跟踪:    在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.EntityClient.Internal.EntityAdapter.<Update>b__2(UpdateTranslator ut)
+   在 System.Data.Entity.Core.EntityClient.Internal.EntityAdapter.Update[T](T noChangesResult, Func`2 updateFunction, Boolean throwOnClosedConnection)
+   在 System.Data.Entity.Core.EntityClient.Internal.EntityAdapter.Update(Boolean throwOnClosedConnection)
+   在 System.Data.Entity.Core.Objects.ObjectContext.<SaveChangesToStore>b__b()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy)
+   在 System.Data.Entity.Core.Objects.ObjectContext.<>c__DisplayClass9.<SaveChanges>b__6()
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+
+--------------------------------------------------------------------------------------------------------

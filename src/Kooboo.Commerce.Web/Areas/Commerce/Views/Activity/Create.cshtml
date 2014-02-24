@@ -1,0 +1,28 @@
+﻿@model ActivityBindingEditorModel
+@{
+    Layout = "~/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "Attach Activity".Localize();
+}
+
+@section Panel{
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        if (Model.IsConfigurable)
+        {
+            buttons.AddSaveButton().WithText("Next").WithIcon("next");
+        }
+        else
+        {
+            buttons.AddSaveButton();
+        }
+
+        buttons.AddCancelButton();
+    })
+}
+
+<div class="block common-form">
+    @using (Html.BeginForm())
+    { 
+        @Html.EditorForModel()
+    }
+</div>

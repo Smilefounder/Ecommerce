@@ -1,0 +1,154 @@
+﻿@model ByWeightShippingRulesModel
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_ShippingRateProviderSettings.cshtml";
+    ViewBag.Title = "By weight shipping rules".Localize();
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.ShippingMethodId)
+    <div class="common-form">
+        <ul class="filter-list" data-bind="foreach: rules">
+            <li class="clearfix" data-bind="if: !isEditing()">
+                <span style="width:400px">
+                    <span style="float:none;margin-right:0;" data-bind="html: fromWeight"></span> @("KG".Localize())
+                    -
+                    <span style="float: none; margin-right: 0;" data-bind="html: toWeight"></span> @("KG".Localize()), 
+                    @("Freight charge".Localize()):
+                    $<span style="float: none; margin-right: 0;" data-bind="html: shippingPrice"></span>
+                    <!--ko text: $root.priceUnitDisplayName($data.priceUnit()) --><!-- /ko -->
+                </span>
+
+                <a class="action" data-bind="click: $root.editRule" href="#">@Html.IconImage("edit small")</a>
+                <a class="action" data-bind="click: $root.removeRule" href="#">@Html.IconImage("minus small")</a>
+
+                <!-- hidden fields for submit -->
+                <input type="hidden" data-bind="value: fromWeight, attr: { name: 'Rules[' + $index() + '].FromWeight' }" />
+                <input type="hidden" data-bind="value: toWeight, attr: { name: 'Rules[' + $index() + '].ToWeight' }" />
+                <input type="hidden" data-bind="value: shippingPrice, attr: { name: 'Rules[' + $index() + '].ShippingPrice' }" />
+                <input type="hidden" data-bind="value: priceUnit, attr: { name: 'Rules[' + $index() + '].PriceUnit' }" />
+            </li>
+            <li class="clearfix" data-bind="if: isEditing">
+                <div class="filter-form clearfix">
+                    <h5></h5>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @("From weight".Localize()):
+                                    <input type="text" data-bind="value: fromWeight" class="mini" style="float:none" placeholder="@("KG".Localize())" />
+                                    @("to weight".Localize()): &nbsp;
+                                    <input type="text" data-bind="value: toWeight" class="mini" style="float:none" placeholder="@("KG".Localize())" />
+                                    @("Freight charge".Localize()):
+                                    <input type="text" data-bind="value: shippingPrice" class="mini" style="float:none" />
+                                    <select style="float:none" data-bind="options: $root.availablePriceUnits, optionsText: 'text', optionsValue: 'value', value: priceUnit"></select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a class="button save" data-bind="click: $root.commitRuleEditing">Save</a>
+                    <a class="button cancel gray action" data-bind="click: $root.cancelRuleEditing">Cancel</a>
+                </div>
+            </li>
+        </ul>
+        <a class="action" href="#" data-bind="click: addRule">
+            @Html.IconImage("plus small")
+        </a>
+    </div>
+}
+
+<script>
+    var jsModel = @Html.Raw(Model.ToJson(PropertyNaming.CamelCase));
+
+    var RulesViewModel = function () {
+        var _this = this;
+
+        this.priceUnitDisplayName = function (name) {
+            var unit = _.find(_this.availablePriceUnits(), function (x) {
+                return x.value() == name;
+            });
+
+            if (unit) {
+                return unit.text();
+            }
+
+            return name;
+        }
+
+        this.addRule = function () {
+            var rule = new RuleViewModel();
+            rule.isEditing(true);
+            _this.rules.push(rule);
+        }
+
+        this.editRule = function (rule) {
+            createRuleMemo(rule);
+            rule.isEditing(true);
+        }
+
+        this.removeRule = function (rule) {
+            _this.rules.remove(rule);
+        }
+
+        this.commitRuleEditing = function (rule) {
+            destroyRuleMemo(rule);
+            rule.isEditing(false);
+        }
+
+        this.cancelRuleEditing = function (rule) {
+            if (rule.memo) {
+                recoverRuleFromMemo(rule);
+                rule.isEditing(false);
+            } else { // is creating rule
+                _this.rules.remove(rule);
+            }
+        }
+
+        function createRuleMemo(rule) {
+            rule.memo = ko.mapping.toJS(rule);
+        }
+
+        function recoverRuleFromMemo(rule) {
+            if (rule.memo) {
+                ko.mapping.fromJS(rule.memo, {}, rule);
+                delete rule.memo;
+            }
+        }
+
+        function destroyRuleMemo(rule) {
+            delete rule.memo;
+        }
+    };
+
+    var RuleViewModel = function () {
+
+        this.isEditing = ko.observable(false);
+
+        this.id = ko.observable(0);
+
+        this.fromWeight = ko.observable();
+
+        this.toWeight = ko.observable();
+
+        this.shippingPrice = ko.observable();
+
+        this.priceUnit = ko.observable();
+    };
+
+    var viewModel = new RulesViewModel();
+    var mappingOptions = {
+        rules: {
+            create: function (args) {
+                var data = args.data;
+                var vm = new RuleViewModel();
+                ko.mapping.fromJS(data, {}, vm);
+                return vm;
+            }
+        }
+    };
+    viewModel = ko.mapping.fromJS(jsModel, mappingOptions, viewModel);
+
+    $(function () {
+        ko.applyBindings(viewModel, document.getElementById('#byweight-shipping-rules-form'));
+    });
+</script>

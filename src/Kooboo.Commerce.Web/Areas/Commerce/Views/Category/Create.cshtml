@@ -1,0 +1,14 @@
+﻿@model CategoryEditorModel
+@{
+    ViewBag.Title = "New Category".Localize();
+}
+
+@section Panel{
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddCancelButton();
+    })
+}
+
+@Html.Partial("_CategoryEditor", Model)

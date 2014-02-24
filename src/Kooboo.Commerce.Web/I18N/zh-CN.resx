@@ -1,0 +1,2609 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="You do not have any module yet, click the button below to installl a module." xml:space="preserve">
+    <value>You do not have any module yet, click the button below to installl a module.</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Reinstall" xml:space="preserve">
+    <value>Reinstall</value>
+  </data>
+  <data name="Versions" xml:space="preserve">
+    <value>Versions</value>
+  </data>
+  <data name="You do not have any add-in yet, click the button below to installl an add-in." xml:space="preserve">
+    <value>You do not have any add-in yet, click the button below to installl an add-in.</value>
+  </data>
+  <data name="Module installation" xml:space="preserve">
+    <value>Module installation</value>
+  </data>
+  <data name="Module selection" xml:space="preserve">
+    <value>Module selection</value>
+  </data>
+  <data name="Installation" xml:space="preserve">
+    <value>Installation</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="Upload module installation file" xml:space="preserve">
+    <value>Upload module installation file</value>
+  </data>
+  <data name="Select file" xml:space="preserve">
+    <value>Select file</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Add-In installation" xml:space="preserve">
+    <value>Add-In installation</value>
+  </data>
+  <data name="Add-in selection" xml:space="preserve">
+    <value>Add-in selection</value>
+  </data>
+  <data name="Upload add-in installation file" xml:space="preserve">
+    <value>Upload add-in installation file</value>
+  </data>
+  <data name="You have uploaded below module installation file. If this is not the module file you want, " xml:space="preserve">
+    <value>You have uploaded below module installation file. If this is not the module file you want, </value>
+  </data>
+  <data name="Click to select file" xml:space="preserve">
+    <value>Click to select file</value>
+  </data>
+  <data name="click here" xml:space="preserve">
+    <value>click here</value>
+  </data>
+  <data name="to select a new module file." xml:space="preserve">
+    <value>to select a new module file.</value>
+  </data>
+  <data name="Add-in ID" xml:space="preserve">
+    <value>Add-in ID</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Target Commerce version" xml:space="preserve">
+    <value>Target Commerce version</value>
+  </data>
+  <data name="Some assembly files are conflicted:" xml:space="preserve">
+    <value>Some assembly files are conflicted:</value>
+  </data>
+  <data name="Assembly file" xml:space="preserve">
+    <value>Assembly file</value>
+  </data>
+  <data name="System version" xml:space="preserve">
+    <value>System version</value>
+  </data>
+  <data name="Add-in version" xml:space="preserve">
+    <value>Add-in version</value>
+  </data>
+  <data name="Solution" xml:space="preserve">
+    <value>Solution</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="We are about to install your add-in. In this step, we will perform the following actions:" xml:space="preserve">
+    <value>We are about to install your add-in. In this step, we will perform the following actions:</value>
+  </data>
+  <data name="Copy the module files into Kooboo CMS system." xml:space="preserve">
+    <value>Copy the module files into Kooboo CMS system.</value>
+  </data>
+  <data name="Run the 'Installation' events defined by add-in developers" xml:space="preserve">
+    <value>Run the 'Installation' events defined by add-in developers</value>
+  </data>
+  <data name="When you are ready, click the &lt;strong&gt;Next&lt;/strong&gt; button to start the installation." xml:space="preserve">
+    <value>When you are ready, click the &lt;strong&gt;Next&lt;/strong&gt; button to start the installation.</value>
+  </data>
+  <data name="Add-in already exists" xml:space="preserve">
+    <value>Add-in already exists</value>
+  </data>
+  <data name="The add-in has been installed." xml:space="preserve">
+    <value>The add-in has been installed.</value>
+  </data>
+  <data name="Version:" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="You have uploaded below add-in installation file. If this is not the add-in file you want, " xml:space="preserve">
+    <value>You have uploaded below add-in installation file. If this is not the add-in file you want, </value>
+  </data>
+  <data name="to select a new add-in file." xml:space="preserve">
+    <value>to select a new add-in file.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="SelectedActivityType" xml:space="preserve">
+    <value>SelectedActivityType</value>
+  </data>
+  <data name="Activity type" xml:space="preserve">
+    <value>Activity type</value>
+  </data>
+  <data name="Event type" xml:space="preserve">
+    <value>Event type</value>
+  </data>
+  <data name="Event category" xml:space="preserve">
+    <value>Event category</value>
+  </data>
+  <data name="Activity" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Additional fee" xml:space="preserve">
+    <value>Additional fee</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="Brands" xml:space="preserve">
+    <value>Brands</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="Shop" xml:space="preserve">
+    <value>Shop</value>
+  </data>
+  <data name="Promotions" xml:space="preserve">
+    <value>Promotions</value>
+  </data>
+  <data name="Payment methods" xml:space="preserve">
+    <value>Payment methods</value>
+  </data>
+  <data name="Shippings" xml:space="preserve">
+    <value>Shippings</value>
+  </data>
+  <data name="Taxes" xml:space="preserve">
+    <value>Taxes</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="Add-Ins" xml:space="preserve">
+    <value>Add-Ins</value>
+  </data>
+  <data name="Activities" xml:space="preserve">
+    <value>Activities</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Are you sure to delete this activity?" xml:space="preserve">
+    <value>Are you sure to delete this activity?</value>
+  </data>
+  <data name="Select activity type" xml:space="preserve">
+    <value>Select activity type</value>
+  </data>
+  <data name="Select event" xml:space="preserve">
+    <value>Select event</value>
+  </data>
+  <data name="Select activity" xml:space="preserve">
+    <value>Select activity</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="No event is available for the selected activity type" xml:space="preserve">
+    <value>No event is available for the selected activity type</value>
+  </data>
+  <data name="No activity is available for the selected activity type" xml:space="preserve">
+    <value>No activity is available for the selected activity type</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Edit Activity" xml:space="preserve">
+    <value>Edit Activity</value>
+  </data>
+  <data name="New Activity" xml:space="preserve">
+    <value>New Activity</value>
+  </data>
+  <data name="New promotion" xml:space="preserve">
+    <value>New promotion</value>
+  </data>
+  <data name="Basic info" xml:space="preserve">
+    <value>Basic info</value>
+  </data>
+  <data name="Promotion strategy" xml:space="preserve">
+    <value>Promotion strategy</value>
+  </data>
+  <data name="Requirement rules" xml:space="preserve">
+    <value>Requirement rules</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="hours" xml:space="preserve">
+    <value>hours</value>
+  </data>
+  <data name="minutes" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="seconds" xml:space="preserve">
+    <value>seconds</value>
+  </data>
+  <data name="Immediately" xml:space="preserve">
+    <value>Immediately</value>
+  </data>
+  <data name="From now" xml:space="preserve">
+    <value>From now</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>StartTime</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>EndTime</value>
+  </data>
+  <data name="DiscountType 字段是必需的。" xml:space="preserve">
+    <value>DiscountType 字段是必需的。</value>
+  </data>
+  <data name="DiscountAmount 字段是必需的。" xml:space="preserve">
+    <value>DiscountAmount 字段是必需的。</value>
+  </data>
+  <data name="DiscountPercent 字段是必需的。" xml:space="preserve">
+    <value>DiscountPercent 字段是必需的。</value>
+  </data>
+  <data name="Configure promotion strategy" xml:space="preserve">
+    <value>Configure promotion strategy</value>
+  </data>
+  <data name="IsEdit 字段是必需的。" xml:space="preserve">
+    <value>IsEdit 字段是必需的。</value>
+  </data>
+  <data name="Exclusive promotions" xml:space="preserve">
+    <value>Exclusive promotions</value>
+  </data>
+  <data name="Prioity" xml:space="preserve">
+    <value>Prioity</value>
+  </data>
+  <data name="Requirements" xml:space="preserve">
+    <value>Requirements</value>
+  </data>
+  <data name="Add any of the specified products to cart" xml:space="preserve">
+    <value>Add any of the specified products to cart</value>
+  </data>
+  <data name="Require at least one of the specified products is added to cart" xml:space="preserve">
+    <value>Require at least one of the specified products is added to cart</value>
+  </data>
+  <data name="At least one of the specified products is added to cart" xml:space="preserve">
+    <value>At least one of the specified products is added to cart</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Strategy" xml:space="preserve">
+    <value>Strategy</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="Promotion &quot;{0}&quot; is successfully created/updated" xml:space="preserve">
+    <value>Promotion "{0}" is successfully created/updated</value>
+  </data>
+  <data name="Enable this promotion" xml:space="preserve">
+    <value>Enable this promotion</value>
+  </data>
+  <data name="Back to promotion list" xml:space="preserve">
+    <value>Back to promotion list</value>
+  </data>
+  <data name="IsEnabled" xml:space="preserve">
+    <value>IsEnabled</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Are you sure to delete this promotion?" xml:space="preserve">
+    <value>Are you sure to delete this promotion?</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>Empty</value>
+  </data>
+  <data name="-" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>YES</value>
+  </data>
+  <data name="Stores" xml:space="preserve">
+    <value>Stores</value>
+  </data>
+  <data name="Id 字段是必需的。" xml:space="preserve">
+    <value>Id 字段是必需的。</value>
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>DisplayName</value>
+  </data>
+  <data name="AdditionalFee" xml:space="preserve">
+    <value>AdditionalFee</value>
+  </data>
+  <data name="Are you sure to delete this payment method?" xml:space="preserve">
+    <value>Are you sure to delete this payment method?</value>
+  </data>
+  <data name="DisplayName 字段是必需的。" xml:space="preserve">
+    <value>DisplayName 字段是必需的。</value>
+  </data>
+  <data name="PaymentGateway 字段是必需的。" xml:space="preserve">
+    <value>PaymentGateway 字段是必需的。</value>
+  </data>
+  <data name="AdditionalFeeChargeMode 字段是必需的。" xml:space="preserve">
+    <value>AdditionalFeeChargeMode 字段是必需的。</value>
+  </data>
+  <data name="AdditionalFeeAmount 字段是必需的。" xml:space="preserve">
+    <value>AdditionalFeeAmount 字段是必需的。</value>
+  </data>
+  <data name="AdditionalFeePercent 字段是必需的。" xml:space="preserve">
+    <value>AdditionalFeePercent 字段是必需的。</value>
+  </data>
+  <data name="IsEnabled 字段是必需的。" xml:space="preserve">
+    <value>IsEnabled 字段是必需的。</value>
+  </data>
+  <data name="字段 AdditionalFeePercent 必须在 0 和 100 之间。" xml:space="preserve">
+    <value>字段 AdditionalFeePercent 必须在 0 和 100 之间。</value>
+  </data>
+  <data name="GoLive 字段是必需的。" xml:space="preserve">
+    <value>GoLive 字段是必需的。</value>
+  </data>
+  <data name="iDeal settings" xml:space="preserve">
+    <value>iDeal settings</value>
+  </data>
+  <data name="PartnerId" xml:space="preserve">
+    <value>PartnerId</value>
+  </data>
+  <data name="TestMode 字段是必需的。" xml:space="preserve">
+    <value>TestMode 字段是必需的。</value>
+  </data>
+  <data name="TestMode" xml:space="preserve">
+    <value>TestMode</value>
+  </data>
+  <data name="Payment gateway settings" xml:space="preserve">
+    <value>Payment gateway settings</value>
+  </data>
+  <data name="PartnerId 字段是必需的。" xml:space="preserve">
+    <value>PartnerId 字段是必需的。</value>
+  </data>
+  <data name="Edit payment method" xml:space="preserve">
+    <value>Edit payment method</value>
+  </data>
+  <data name="New payment method" xml:space="preserve">
+    <value>New payment method</value>
+  </data>
+  <data name="Catalogs" xml:space="preserve">
+    <value>Catalogs</value>
+  </data>
+  <data name="RequireCouponCode 字段是必需的。" xml:space="preserve">
+    <value>RequireCouponCode 字段是必需的。</value>
+  </data>
+  <data name="RequireCouponCode" xml:space="preserve">
+    <value>RequireCouponCode</value>
+  </data>
+  <data name="CouponCode" xml:space="preserve">
+    <value>CouponCode</value>
+  </data>
+  <data name="Priority 字段是必需的。" xml:space="preserve">
+    <value>Priority 字段是必需的。</value>
+  </data>
+  <data name="PromotionStrategy" xml:space="preserve">
+    <value>PromotionStrategy</value>
+  </data>
+  <data name="IsEdit" xml:space="preserve">
+    <value>IsEdit</value>
+  </data>
+  <data name="Countries" xml:space="preserve">
+    <value>Countries</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="Product types" xml:space="preserve">
+    <value>Product types</value>
+  </data>
+  <data name="New product type" xml:space="preserve">
+    <value>New product type</value>
+  </data>
+  <data name="SkuAlias" xml:space="preserve">
+    <value>SkuAlias</value>
+  </data>
+  <data name="Please save basic info first" xml:space="preserve">
+    <value>Please save basic info first</value>
+  </data>
+  <data name="Edit product type" xml:space="preserve">
+    <value>Edit product type</value>
+  </data>
+  <data name="HasPackageSize" xml:space="preserve">
+    <value>HasPackageSize</value>
+  </data>
+  <data name="HasWeight" xml:space="preserve">
+    <value>HasWeight</value>
+  </data>
+  <data name="HasPackageSize 字段是必需的。" xml:space="preserve">
+    <value>HasPackageSize 字段是必需的。</value>
+  </data>
+  <data name="HasWeight 字段是必需的。" xml:space="preserve">
+    <value>HasWeight 字段是必需的。</value>
+  </data>
+  <data name="Are you sure to delete this country?" xml:space="preserve">
+    <value>Are you sure to delete this country?</value>
+  </data>
+  <data name="Are you sure to delete this store?" xml:space="preserve">
+    <value>Are you sure to delete this store?</value>
+  </data>
+  <data name="Are you sure to delete this product type?" xml:space="preserve">
+    <value>Are you sure to delete this product type?</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="New Category" xml:space="preserve">
+    <value>New Category</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Catalog</value>
+  </data>
+  <data name="Add new field" xml:space="preserve">
+    <value>Add new field</value>
+  </data>
+  <data name=" - Kooboo CMS" xml:space="preserve">
+    <value> - Kooboo CMS</value>
+  </data>
+  <data name="Back to site manager" xml:space="preserve">
+    <value>Back to site manager</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Change language" xml:space="preserve">
+    <value>Change language</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="Sign out" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="Site cluster" xml:space="preserve">
+    <value>Site cluster</value>
+  </data>
+  <data name="Relation" xml:space="preserve">
+    <value>Relation</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="Memberships" xml:space="preserve">
+    <value>Memberships</value>
+  </data>
+  <data name="Site templates" xml:space="preserve">
+    <value>Site templates</value>
+  </data>
+  <data name="Modules" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="Site level A/B Test" xml:space="preserve">
+    <value>Site level A/B Test</value>
+  </data>
+  <data name="A/B rules" xml:space="preserve">
+    <value>A/B rules</value>
+  </data>
+  <data name="A/B site settings" xml:space="preserve">
+    <value>A/B site settings</value>
+  </data>
+  <data name="Powered by Kooboo CMS" xml:space="preserve">
+    <value>Powered by Kooboo CMS</value>
+  </data>
+  <data name="Kooboo team" xml:space="preserve">
+    <value>Kooboo team</value>
+  </data>
+  <data name="All your changes might be lost." xml:space="preserve">
+    <value>All your changes might be lost.</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Created date" xml:space="preserve">
+    <value>Created date</value>
+  </data>
+  <data name="Order status" xml:space="preserve">
+    <value>Order status</value>
+  </data>
+  <data name="Payment status" xml:space="preserve">
+    <value>Payment status</value>
+  </data>
+  <data name="Edit Setting" xml:space="preserve">
+    <value>Edit Setting</value>
+  </data>
+  <data name="Image size" xml:space="preserve">
+    <value>Image size</value>
+  </data>
+  <data name="Other setting" xml:space="preserve">
+    <value>Other setting</value>
+  </data>
+  <data name="The Id field is required." xml:space="preserve">
+    <value>The Id field is required.</value>
+  </data>
+  <data name="The HasPackageSize field is required." xml:space="preserve">
+    <value>The HasPackageSize field is required.</value>
+  </data>
+  <data name="The HasWeight field is required." xml:space="preserve">
+    <value>The HasWeight field is required.</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="The PriceIndex field is required." xml:space="preserve">
+    <value>The PriceIndex field is required.</value>
+  </data>
+  <data name="The Culture field is required." xml:space="preserve">
+    <value>The Culture field is required.</value>
+  </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Culture</value>
+  </data>
+  <data name="The CurrencyISOCode field is required." xml:space="preserve">
+    <value>The CurrencyISOCode field is required.</value>
+  </data>
+  <data name="CurrencyISOCode" xml:space="preserve">
+    <value>CurrencyISOCode</value>
+  </data>
+  <data name="The WeightUnitName field is required." xml:space="preserve">
+    <value>The WeightUnitName field is required.</value>
+  </data>
+  <data name="WeightUnitName" xml:space="preserve">
+    <value>WeightUnitName</value>
+  </data>
+  <data name="The SizeUnitName field is required." xml:space="preserve">
+    <value>The SizeUnitName field is required.</value>
+  </data>
+  <data name="SizeUnitName" xml:space="preserve">
+    <value>SizeUnitName</value>
+  </data>
+  <data name="PriceIndex" xml:space="preserve">
+    <value>PriceIndex</value>
+  </data>
+  <data name="Create New" xml:space="preserve">
+    <value>Create New</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="Customer Events" xml:space="preserve">
+    <value>Customer Events</value>
+  </data>
+  <data name="CustomerCreated" xml:space="preserve">
+    <value>CustomerCreated</value>
+  </data>
+  <data name="Product Events" xml:space="preserve">
+    <value>Product Events</value>
+  </data>
+  <data name="Cart Events" xml:space="preserve">
+    <value>Cart Events</value>
+  </data>
+  <data name="Order Events" xml:space="preserve">
+    <value>Order Events</value>
+  </data>
+  <data name="OrderCanceled" xml:space="preserve">
+    <value>OrderCanceled</value>
+  </data>
+  <data name="OrderPaid" xml:space="preserve">
+    <value>OrderPaid</value>
+  </data>
+  <data name="IsConfigurable 字段是必需的。" xml:space="preserve">
+    <value>IsConfigurable 字段是必需的。</value>
+  </data>
+  <data name="-Kooboo CMS" xml:space="preserve">
+    <value>-Kooboo CMS</value>
+  </data>
+  <data name="No activity available" xml:space="preserve">
+    <value>No activity available</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Rules</value>
+  </data>
+  <data name="Policy" xml:space="preserve">
+    <value>Policy</value>
+  </data>
+  <data name="Overlapping mode" xml:space="preserve">
+    <value>Overlapping mode</value>
+  </data>
+  <data name="OverlappingMode 字段是必需的。" xml:space="preserve">
+    <value>OverlappingMode 字段是必需的。</value>
+  </data>
+  <data name="Overlapping usage" xml:space="preserve">
+    <value>Overlapping usage</value>
+  </data>
+  <data name="OverlappingUsage 字段是必需的。" xml:space="preserve">
+    <value>OverlappingUsage 字段是必需的。</value>
+  </data>
+  <data name="The Width field is required." xml:space="preserve">
+    <value>The Width field is required.</value>
+  </data>
+  <data name="The Height field is required." xml:space="preserve">
+    <value>The Height field is required.</value>
+  </data>
+  <data name="New Store" xml:space="preserve">
+    <value>New Store</value>
+  </data>
+  <data name="Edit Store" xml:space="preserve">
+    <value>Edit Store</value>
+  </data>
+  <data name="Thumbnail" xml:space="preserve">
+    <value>Thumbnail</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="Cart" xml:space="preserve">
+    <value>Cart</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="The IsEnabled field is required." xml:space="preserve">
+    <value>The IsEnabled field is required.</value>
+  </data>
+  <data name="Condition Rules" xml:space="preserve">
+    <value>Condition Rules</value>
+  </data>
+  <data name="Promotion Policy" xml:space="preserve">
+    <value>Promotion Policy</value>
+  </data>
+  <data name="This promotion is available, when a customer fullfills all of following conditions." xml:space="preserve">
+    <value>This promotion is available, when a customer fullfills all of following conditions.</value>
+  </data>
+  <data name="If no condition is defined, then it's available for all customers." xml:space="preserve">
+    <value>If no condition is defined, then it's available for all customers.</value>
+  </data>
+  <data name="Available rules" xml:space="preserve">
+    <value>Available rules</value>
+  </data>
+  <data name="If no condition is defined, then this promotion is available for all customers." xml:space="preserve">
+    <value>If no condition is defined, then this promotion is available for all customers.</value>
+  </data>
+  <data name="This promotion is available for customers who fullfill all of following conditions." xml:space="preserve">
+    <value>This promotion is available for customers who fullfill all of following conditions.</value>
+  </data>
+  <data name="Comma separated product ids" xml:space="preserve">
+    <value>Comma separated product ids</value>
+  </data>
+  <data name="Product IDs" xml:space="preserve">
+    <value>Product IDs</value>
+  </data>
+  <data name="Product IDs 字段是必需的。" xml:space="preserve">
+    <value>Product IDs 字段是必需的。</value>
+  </data>
+  <data name="ProductIds 字段是必需的。" xml:space="preserve">
+    <value>ProductIds 字段是必需的。</value>
+  </data>
+  <data name="Comma separated id array" xml:space="preserve">
+    <value>Comma separated id array</value>
+  </data>
+  <data name="Conditions" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="DiscountAppliedTo 字段是必需的。" xml:space="preserve">
+    <value>DiscountAppliedTo 字段是必需的。</value>
+  </data>
+  <data name="DiscountMode 字段是必需的。" xml:space="preserve">
+    <value>DiscountMode 字段是必需的。</value>
+  </data>
+  <data name="Default Promotion Policy Settings" xml:space="preserve">
+    <value>Default Promotion Policy Settings</value>
+  </data>
+  <data name="Promotion Conditions" xml:space="preserve">
+    <value>Promotion Conditions</value>
+  </data>
+  <data name="Promotion Basic Info" xml:space="preserve">
+    <value>Promotion Basic Info</value>
+  </data>
+  <data name="Overlappable promotions" xml:space="preserve">
+    <value>Overlappable promotions</value>
+  </data>
+  <data name="There's no promotion currently available for selection." xml:space="preserve">
+    <value>There's no promotion currently available for selection.</value>
+  </data>
+  <data name="Requires coupon code 字段是必需的。" xml:space="preserve">
+    <value>Requires coupon code 字段是必需的。</value>
+  </data>
+  <data name="Requires coupon code" xml:space="preserve">
+    <value>Requires coupon code</value>
+  </data>
+  <data name="Start time" xml:space="preserve">
+    <value>Start time</value>
+  </data>
+  <data name="End time" xml:space="preserve">
+    <value>End time</value>
+  </data>
+  <data name="Overlapping usage 字段是必需的。" xml:space="preserve">
+    <value>Overlapping usage 字段是必需的。</value>
+  </data>
+  <data name="Coupon code 字段是必需的。" xml:space="preserve">
+    <value>Coupon code 字段是必需的。</value>
+  </data>
+  <data name="Coupon" xml:space="preserve">
+    <value>Coupon</value>
+  </data>
+  <data name="Coupon code" xml:space="preserve">
+    <value>Coupon code</value>
+  </data>
+  <data name="Available conditions" xml:space="preserve">
+    <value>Available conditions</value>
+  </data>
+  <data name="Product Fields" xml:space="preserve">
+    <value>Product Fields</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="The IsSystemDefault field is required." xml:space="preserve">
+    <value>The IsSystemDefault field is required.</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="Add Child" xml:space="preserve">
+    <value>Add Child</value>
+  </data>
+  <data name="Add New Size" xml:space="preserve">
+    <value>Add New Size</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="IsSystemDefault" xml:space="preserve">
+    <value>IsSystemDefault</value>
+  </data>
+  <data name="Shipping methods" xml:space="preserve">
+    <value>Shipping methods</value>
+  </data>
+  <data name="Shipping rate provider" xml:space="preserve">
+    <value>Shipping rate provider</value>
+  </data>
+  <data name="Shipment trackers" xml:space="preserve">
+    <value>Shipment trackers</value>
+  </data>
+  <data name="Edit shipping method" xml:space="preserve">
+    <value>Edit shipping method</value>
+  </data>
+  <data name="Shipping rate provider 字段是必需的。" xml:space="preserve">
+    <value>Shipping rate provider 字段是必需的。</value>
+  </data>
+  <data name="Enabled 字段是必需的。" xml:space="preserve">
+    <value>Enabled 字段是必需的。</value>
+  </data>
+  <data name="By weight shipping rules" xml:space="preserve">
+    <value>By weight shipping rules</value>
+  </data>
+  <data name="From weight" xml:space="preserve">
+    <value>From weight</value>
+  </data>
+  <data name="To weight" xml:space="preserve">
+    <value>To weight</value>
+  </data>
+  <data name="Shipping price" xml:space="preserve">
+    <value>Shipping price</value>
+  </data>
+  <data name="Add new rule" xml:space="preserve">
+    <value>Add new rule</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="to" xml:space="preserve">
+    <value>to</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="KG" xml:space="preserve">
+    <value>KG</value>
+  </data>
+  <data name="ShippingMethodId 字段是必需的。" xml:space="preserve">
+    <value>ShippingMethodId 字段是必需的。</value>
+  </data>
+  <data name="FromWeigth 字段是必需的。" xml:space="preserve">
+    <value>FromWeigth 字段是必需的。</value>
+  </data>
+  <data name="ShippingPrice 字段是必需的。" xml:space="preserve">
+    <value>ShippingPrice 字段是必需的。</value>
+  </data>
+  <data name="Freight charge" xml:space="preserve">
+    <value>Freight charge</value>
+  </data>
+  <data name="New shipping method" xml:space="preserve">
+    <value>New shipping method</value>
+  </data>
+  <data name="The Shipping rate provider field is required." xml:space="preserve">
+    <value>The Shipping rate provider field is required.</value>
+  </data>
+  <data name="The Enabled field is required." xml:space="preserve">
+    <value>The Enabled field is required.</value>
+  </data>
+  <data name="The PaymentGateway field is required." xml:space="preserve">
+    <value>The PaymentGateway field is required.</value>
+  </data>
+  <data name="The DisplayName field is required." xml:space="preserve">
+    <value>The DisplayName field is required.</value>
+  </data>
+  <data name="The AdditionalFeeChargeMode field is required." xml:space="preserve">
+    <value>The AdditionalFeeChargeMode field is required.</value>
+  </data>
+  <data name="The AdditionalFeeAmount field is required." xml:space="preserve">
+    <value>The AdditionalFeeAmount field is required.</value>
+  </data>
+  <data name="The field AdditionalFeePercent must be between 0 and 100." xml:space="preserve">
+    <value>The field AdditionalFeePercent must be between 0 and 100.</value>
+  </data>
+  <data name="The AdditionalFeePercent field is required." xml:space="preserve">
+    <value>The AdditionalFeePercent field is required.</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="Tooltip" xml:space="preserve">
+    <value>Tooltip</value>
+  </data>
+  <data name="Sequence" xml:space="preserve">
+    <value>Sequence</value>
+  </data>
+  <data name="ControlType" xml:space="preserve">
+    <value>ControlType</value>
+  </data>
+  <data name="ParentCategory" xml:space="preserve">
+    <value>ParentCategory</value>
+  </data>
+  <data name="Parent Category" xml:space="preserve">
+    <value>Parent Category</value>
+  </data>
+  <data name="Edit Category" xml:space="preserve">
+    <value>Edit Category</value>
+  </data>
+  <data name="The Parent Category field is required." xml:space="preserve">
+    <value>The Parent Category field is required.</value>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Published</value>
+  </data>
+  <data name="The Published field is required." xml:space="preserve">
+    <value>The Published field is required.</value>
+  </data>
+  <data name="[None]" xml:space="preserve">
+    <value>[None]</value>
+  </data>
+  <data name="Custom fields" xml:space="preserve">
+    <value>Custom fields</value>
+  </data>
+  <data name="Variation" xml:space="preserve">
+    <value>Variation</value>
+  </data>
+  <data name="The HasSummary field is required." xml:space="preserve">
+    <value>The HasSummary field is required.</value>
+  </data>
+  <data name="HasSummary" xml:space="preserve">
+    <value>HasSummary</value>
+  </data>
+  <data name="The HasDescription field is required." xml:space="preserve">
+    <value>The HasDescription field is required.</value>
+  </data>
+  <data name="HasDescription" xml:space="preserve">
+    <value>HasDescription</value>
+  </data>
+  <data name="Supported carriers" xml:space="preserve">
+    <value>Supported carriers</value>
+  </data>
+  <data name="UPS settings" xml:space="preserve">
+    <value>UPS settings</value>
+  </data>
+  <data name="AccessKey 字段是必需的。" xml:space="preserve">
+    <value>AccessKey 字段是必需的。</value>
+  </data>
+  <data name="AccessKey" xml:space="preserve">
+    <value>AccessKey</value>
+  </data>
+  <data name="Username 字段是必需的。" xml:space="preserve">
+    <value>Username 字段是必需的。</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Password 字段是必需的。" xml:space="preserve">
+    <value>Password 字段是必需的。</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Discount applied to 字段是必需的。" xml:space="preserve">
+    <value>Discount applied to 字段是必需的。</value>
+  </data>
+  <data name="Discount mode 字段是必需的。" xml:space="preserve">
+    <value>Discount mode 字段是必需的。</value>
+  </data>
+  <data name="Discount amount 字段是必需的。" xml:space="preserve">
+    <value>Discount amount 字段是必需的。</value>
+  </data>
+  <data name="Discount percent 字段是必需的。" xml:space="preserve">
+    <value>Discount percent 字段是必需的。</value>
+  </data>
+  <data name="ControlName" xml:space="preserve">
+    <value>ControlName</value>
+  </data>
+  <data name="Control type" xml:space="preserve">
+    <value>Control type</value>
+  </data>
+  <data name="Summary field" xml:space="preserve">
+    <value>Summary field</value>
+  </data>
+  <data name="Content list page" xml:space="preserve">
+    <value>Content list page</value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Are you sure you want to delete this item?" xml:space="preserve">
+    <value>Are you sure you want to delete this item?</value>
+  </data>
+  <data name="The Name field is required." xml:space="preserve">
+    <value>The Name field is required.</value>
+  </data>
+  <data name="The ControlName field is required." xml:space="preserve">
+    <value>The ControlName field is required.</value>
+  </data>
+  <data name="This name is being used by other columns." xml:space="preserve">
+    <value>This name is being used by other columns.</value>
+  </data>
+  <data name="The ControlType field is required." xml:space="preserve">
+    <value>The ControlType field is required.</value>
+  </data>
+  <data name="Name of your field, it uses the same naming rule as C# veriable name." xml:space="preserve">
+    <value>Name of your field, it uses the same naming rule as C# veriable name.</value>
+  </data>
+  <data name="Descriptive label of your field on the content editing page." xml:space="preserve">
+    <value>Descriptive label of your field on the content editing page.</value>
+  </data>
+  <data name="The way that you would like to input your content." xml:space="preserve">
+    <value>The way that you would like to input your content.</value>
+  </data>
+  <data name="DefaultValue" xml:space="preserve">
+    <value>DefaultValue</value>
+  </data>
+  <data name="Invalid column name." xml:space="preserve">
+    <value>Invalid column name.</value>
+  </data>
+  <data name="The Control type field is required." xml:space="preserve">
+    <value>The Control type field is required.</value>
+  </data>
+  <data name="Default value" xml:space="preserve">
+    <value>Default value</value>
+  </data>
+  <data name="Show this field in the CMS content list page." xml:space="preserve">
+    <value>Show this field in the CMS content list page.</value>
+  </data>
+  <data name="Input tip while users are editing content." xml:space="preserve">
+    <value>Input tip while users are editing content.</value>
+  </data>
+  <data name="Modifiable" xml:space="preserve">
+    <value>Modifiable</value>
+  </data>
+  <data name="Enable the modification of this field in the content editing page." xml:space="preserve">
+    <value>Enable the modification of this field in the content editing page.</value>
+  </data>
+  <data name="Length" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="Allow null" xml:space="preserve">
+    <value>Allow null</value>
+  </data>
+  <data name="Allows null value in this field" xml:space="preserve">
+    <value>Allows null value in this field</value>
+  </data>
+  <data name="Validation" xml:space="preserve">
+    <value>Validation</value>
+  </data>
+  <data name="Next &gt;&gt;" xml:space="preserve">
+    <value>Next &gt;&gt;</value>
+  </data>
+  <data name="« Previous" xml:space="preserve">
+    <value>« Previous</value>
+  </data>
+  <data name="Next »" xml:space="preserve">
+    <value>Next »</value>
+  </data>
+  <data name="Show this field in the content list page." xml:space="preserve">
+    <value>Show this field in the content list page.</value>
+  </data>
+  <data name="Data type" xml:space="preserve">
+    <value>Data type</value>
+  </data>
+  <data name="The Summary field will be used as a title or summary to describe your content item." xml:space="preserve">
+    <value>The Summary field will be used as a title or summary to describe your content item.</value>
+  </data>
+  <data name="Has" xml:space="preserve">
+    <value>Has</value>
+  </data>
+  <data name="ValidationType" xml:space="preserve">
+    <value>ValidationType</value>
+  </data>
+  <data name="Error message" xml:space="preserve">
+    <value>Error message</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="The field Length must be a number." xml:space="preserve">
+    <value>The field Length must be a number.</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="Pattern" xml:space="preserve">
+    <value>Pattern</value>
+  </data>
+  <data name="Selection value" xml:space="preserve">
+    <value>Selection value</value>
+  </data>
+  <data name="Custom settings" xml:space="preserve">
+    <value>Custom settings</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Style Editor" xml:space="preserve">
+    <value>Style Editor</value>
+  </data>
+  <data name="Open Style Editor" xml:space="preserve">
+    <value>Open Style Editor</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>Publish</value>
+  </data>
+  <data name="This item has not been published yet.&lt;br/&gt;Click to publish this item." xml:space="preserve">
+    <value>This item has not been published yet.&lt;br/&gt;Click to publish this item.</value>
+  </data>
+  <data name="Font family" xml:space="preserve">
+    <value>Font family</value>
+  </data>
+  <data name="Font size" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="Font color" xml:space="preserve">
+    <value>Font color</value>
+  </data>
+  <data name="Background color" xml:space="preserve">
+    <value>Background color</value>
+  </data>
+  <data name="Color picker" xml:space="preserve">
+    <value>Color picker</value>
+  </data>
+  <data name="Select a color or insert a hex code value." xml:space="preserve">
+    <value>Select a color or insert a hex code value.</value>
+  </data>
+  <data name="Original:" xml:space="preserve">
+    <value>Original:</value>
+  </data>
+  <data name="New:" xml:space="preserve">
+    <value>New:</value>
+  </data>
+  <data name="Hex value:" xml:space="preserve">
+    <value>Hex value:</value>
+  </data>
+  <data name="Invalid input width" xml:space="preserve">
+    <value>Invalid input width</value>
+  </data>
+  <data name="Invalid input height" xml:space="preserve">
+    <value>Invalid input height</value>
+  </data>
+  <data name="The image size is too big for this layout.&#xA;Are you sure you want to use this size?" xml:space="preserve">
+    <value>The image size is too big for this layout.
+Are you sure you want to use this size?</value>
+  </data>
+  <data name="Are you sure you want to delete this image?" xml:space="preserve">
+    <value>Are you sure you want to delete this image?</value>
+  </data>
+  <data name="Are you sure you want to delete the link?" xml:space="preserve">
+    <value>Are you sure you want to delete the link?</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Bold</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Italic</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Underline</value>
+  </data>
+  <data name="Align left" xml:space="preserve">
+    <value>Align left</value>
+  </data>
+  <data name="Align center" xml:space="preserve">
+    <value>Align center</value>
+  </data>
+  <data name="Align right" xml:space="preserve">
+    <value>Align right</value>
+  </data>
+  <data name="Align justify" xml:space="preserve">
+    <value>Align justify</value>
+  </data>
+  <data name="Number list" xml:space="preserve">
+    <value>Number list</value>
+  </data>
+  <data name="Bullet list" xml:space="preserve">
+    <value>Bullet list</value>
+  </data>
+  <data name="Increase indent" xml:space="preserve">
+    <value>Increase indent</value>
+  </data>
+  <data name="Decrease indent" xml:space="preserve">
+    <value>Decrease indent</value>
+  </data>
+  <data name="Insert image" xml:space="preserve">
+    <value>Insert image</value>
+  </data>
+  <data name="Insert link" xml:space="preserve">
+    <value>Insert link</value>
+  </data>
+  <data name="Edit source" xml:space="preserve">
+    <value>Edit source</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="Remove format" xml:space="preserve">
+    <value>Remove format</value>
+  </data>
+  <data name="Insert horizontal ruler" xml:space="preserve">
+    <value>Insert horizontal ruler</value>
+  </data>
+  <data name="Paste with plain text" xml:space="preserve">
+    <value>Paste with plain text</value>
+  </data>
+  <data name="Network error, the action has been cancelled." xml:space="preserve">
+    <value>Network error, the action has been cancelled.</value>
+  </data>
+  <data name="Copying..." xml:space="preserve">
+    <value>Copying...</value>
+  </data>
+  <data name="Deleting..." xml:space="preserve">
+    <value>Deleting...</value>
+  </data>
+  <data name="Publishing..." xml:space="preserve">
+    <value>Publishing...</value>
+  </data>
+  <data name="Copy successfully." xml:space="preserve">
+    <value>Copy successfully.</value>
+  </data>
+  <data name="Delete successfully." xml:space="preserve">
+    <value>Delete successfully.</value>
+  </data>
+  <data name="Publish successfully." xml:space="preserve">
+    <value>Publish successfully.</value>
+  </data>
+  <data name="The attempt to copy has failed." xml:space="preserve">
+    <value>The attempt to copy has failed.</value>
+  </data>
+  <data name="The attempt to delete has failed." xml:space="preserve">
+    <value>The attempt to delete has failed.</value>
+  </data>
+  <data name="The attempt to publish has failed." xml:space="preserve">
+    <value>The attempt to publish has failed.</value>
+  </data>
+  <data name="Saving..." xml:space="preserve">
+    <value>Saving...</value>
+  </data>
+  <data name="Save successfully." xml:space="preserve">
+    <value>Save successfully.</value>
+  </data>
+  <data name="The attempt to save has failed." xml:space="preserve">
+    <value>The attempt to save has failed.</value>
+  </data>
+  <data name="Image options" xml:space="preserve">
+    <value>Image options</value>
+  </data>
+  <data name="Image library" xml:space="preserve">
+    <value>Image library</value>
+  </data>
+  <data name="URL" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="ALT" xml:space="preserve">
+    <value>ALT</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="LINK" xml:space="preserve">
+    <value>LINK</value>
+  </data>
+  <data name="Please input the url." xml:space="preserve">
+    <value>Please input the url.</value>
+  </data>
+  <data name="Link panel" xml:space="preserve">
+    <value>Link panel</value>
+  </data>
+  <data name="Unlink" xml:space="preserve">
+    <value>Unlink</value>
+  </data>
+  <data name="Text:" xml:space="preserve">
+    <value>Text:</value>
+  </data>
+  <data name="Url:" xml:space="preserve">
+    <value>Url:</value>
+  </data>
+  <data name="Title:" xml:space="preserve">
+    <value>Title:</value>
+  </data>
+  <data name="Link type:" xml:space="preserve">
+    <value>Link type:</value>
+  </data>
+  <data name="Open in a new window" xml:space="preserve">
+    <value>Open in a new window</value>
+  </data>
+  <data name="Text panel" xml:space="preserve">
+    <value>Text panel</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Create Product" xml:space="preserve">
+    <value>Create Product</value>
+  </data>
+  <data name="Product Info" xml:space="preserve">
+    <value>Product Info</value>
+  </data>
+  <data name="Product Categories" xml:space="preserve">
+    <value>Product Categories</value>
+  </data>
+  <data name="Product Images" xml:space="preserve">
+    <value>Product Images</value>
+  </data>
+  <data name="Product Variants" xml:space="preserve">
+    <value>Product Variants</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="Product Type" xml:space="preserve">
+    <value>Product Type</value>
+  </data>
+  <data name="Is Deleted" xml:space="preserve">
+    <value>Is Deleted</value>
+  </data>
+  <data name="Is Published" xml:space="preserve">
+    <value>Is Published</value>
+  </data>
+  <data name="Created At" xml:space="preserve">
+    <value>Created At</value>
+  </data>
+  <data name="Published At" xml:space="preserve">
+    <value>Published At</value>
+  </data>
+  <data name="Deleted At" xml:space="preserve">
+    <value>Deleted At</value>
+  </data>
+  <data name="The field is required." xml:space="preserve">
+    <value>The field is required.</value>
+  </data>
+  <data name="Must be a number." xml:space="preserve">
+    <value>Must be a number.</value>
+  </data>
+  <data name="Must be a number" xml:space="preserve">
+    <value>Must be a number</value>
+  </data>
+  <data name="Create system field" xml:space="preserve">
+    <value>Create system field</value>
+  </data>
+  <data name="Create field" xml:space="preserve">
+    <value>Create field</value>
+  </data>
+  <data name="Create custom field" xml:space="preserve">
+    <value>Create custom field</value>
+  </data>
+  <data name="Create variation field" xml:space="preserve">
+    <value>Create variation field</value>
+  </data>
+  <data name="Raise all prices by the specified percentage." xml:space="preserve">
+    <value>Raise all prices by the specified percentage.</value>
+  </data>
+  <data name="The culture shown on your website. This is used to display currency, date, number and other culture related content." xml:space="preserve">
+    <value>The culture shown on your website. This is used to display currency, date, number and other culture related content.</value>
+  </data>
+  <data name="Select a currency for the prices of your products." xml:space="preserve">
+    <value>Select a currency for the prices of your products.</value>
+  </data>
+  <data name="Stands for &quot;Stock Keeping Unit&quot;" xml:space="preserve">
+    <value>Stands for "Stock Keeping Unit"</value>
+  </data>
+  <data name="Control type 字段是必需的。" xml:space="preserve">
+    <value>Control type 字段是必需的。</value>
+  </data>
+  <data name="Sign in" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Remember me 字段是必需的。" xml:space="preserve">
+    <value>Remember me 字段是必需的。</value>
+  </data>
+  <data name="Remember me" xml:space="preserve">
+    <value>Remember me</value>
+  </data>
+  <data name="Redirect to home page 字段是必需的。" xml:space="preserve">
+    <value>Redirect to home page 字段是必需的。</value>
+  </data>
+  <data name="Redirect to home page" xml:space="preserve">
+    <value>Redirect to home page</value>
+  </data>
+  <data name="Forgot password?" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="Back to home page" xml:space="preserve">
+    <value>Back to home page</value>
+  </data>
+  <data name="About kooboo CMS" xml:space="preserve">
+    <value>About kooboo CMS</value>
+  </data>
+  <data name="This Enterprise CMS system saves time and allows you the freedom that you need to develop high-quality websites with a personal touch. We've streamlined the web development process." xml:space="preserve">
+    <value>This Enterprise CMS system saves time and allows you the freedom that you need to develop high-quality websites with a personal touch. We've streamlined the web development process.</value>
+  </data>
+  <data name="For a list of newly added features and a quick start guide,&lt;br /&gt;See: &lt;a href=&quot;http://www.kooboo.com/documents&quot; target=&quot;_blank&quot;&gt;http://www.kooboo.com/documents&lt;/a&gt;" xml:space="preserve">
+    <value>For a list of newly added features and a quick start guide,&lt;br /&gt;See: &lt;a href="http://www.kooboo.com/documents" target="_blank"&gt;http://www.kooboo.com/documents&lt;/a&gt;</value>
+  </data>
+  <data name="Sign in to the CMS and create your first Kooboo website, the default login is: &lt;strong&gt;admin/admin&lt;/strong&gt;" xml:space="preserve">
+    <value>Sign in to the CMS and create your first Kooboo website, the default login is: &lt;strong&gt;admin/admin&lt;/strong&gt;</value>
+  </data>
+  <data name="Sku" xml:space="preserve">
+    <value>Sku</value>
+  </data>
+  <data name="PurchasePrice" xml:space="preserve">
+    <value>PurchasePrice</value>
+  </data>
+  <data name="RetailPrice" xml:space="preserve">
+    <value>RetailPrice</value>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>Stock</value>
+  </data>
+  <data name="DeliveryDays" xml:space="preserve">
+    <value>DeliveryDays</value>
+  </data>
+  <data name="Variants" xml:space="preserve">
+    <value>Variants</value>
+  </data>
+  <data name="Published 字段是必需的。" xml:space="preserve">
+    <value>Published 字段是必需的。</value>
+  </data>
+  <data name="PriceIndex 字段是必需的。" xml:space="preserve">
+    <value>PriceIndex 字段是必需的。</value>
+  </data>
+  <data name="Culture 字段是必需的。" xml:space="preserve">
+    <value>Culture 字段是必需的。</value>
+  </data>
+  <data name="CurrencyISOCode 字段是必需的。" xml:space="preserve">
+    <value>CurrencyISOCode 字段是必需的。</value>
+  </data>
+  <data name="WeightUnitName 字段是必需的。" xml:space="preserve">
+    <value>WeightUnitName 字段是必需的。</value>
+  </data>
+  <data name="SizeUnitName 字段是必需的。" xml:space="preserve">
+    <value>SizeUnitName 字段是必需的。</value>
+  </data>
+  <data name="Edit Brand" xml:space="preserve">
+    <value>Edit Brand</value>
+  </data>
+  <data name="Content databases" xml:space="preserve">
+    <value>Content databases</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Are you sure you want to delete the content database?" xml:space="preserve">
+    <value>Are you sure you want to delete the content database?</value>
+  </data>
+  <data name="Media library" xml:space="preserve">
+    <value>Media library</value>
+  </data>
+  <data name="Details view" xml:space="preserve">
+    <value>Details view</value>
+  </data>
+  <data name="Thumbnails view" xml:space="preserve">
+    <value>Thumbnails view</value>
+  </data>
+  <data name="All Elements" xml:space="preserve">
+    <value>All Elements</value>
+  </data>
+  <data name="Only Documents" xml:space="preserve">
+    <value>Only Documents</value>
+  </data>
+  <data name="Only Folders" xml:space="preserve">
+    <value>Only Folders</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Invalid folder name." xml:space="preserve">
+    <value>Invalid folder name.</value>
+  </data>
+  <data name="Create folder" xml:space="preserve">
+    <value>Create folder</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>Insert</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Root" xml:space="preserve">
+    <value>Root</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="JPG" xml:space="preserve">
+    <value>JPG</value>
+  </data>
+  <data name="Media content" xml:space="preserve">
+    <value>Media content</value>
+  </data>
+  <data name="No policy available" xml:space="preserve">
+    <value>No policy available</value>
+  </data>
+  <data name="Commerce Instances" xml:space="preserve">
+    <value>Commerce Instances</value>
+  </data>
+  <data name="You do not have any commerce instance yet, click the button below to create a commerce instance." xml:space="preserve">
+    <value>You do not have any commerce instance yet, click the button below to create a commerce instance.</value>
+  </data>
+  <data name="Are you sure you want to delete this instance?" xml:space="preserve">
+    <value>Are you sure you want to delete this instance?</value>
+  </data>
+  <data name="Instances" xml:space="preserve">
+    <value>Instances</value>
+  </data>
+  <data name="New commerce instance" xml:space="preserve">
+    <value>New commerce instance</value>
+  </data>
+  <data name="Name 字段是必需的。" xml:space="preserve">
+    <value>Name 字段是必需的。</value>
+  </data>
+  <data name="字段 Name 必须与正则表达式“^[\w_]+$”匹配。" xml:space="preserve">
+    <value>字段 Name 必须与正则表达式“^[\w_]+$”匹配。</value>
+  </data>
+  <data name="字段 DbSchema 必须与正则表达式“^[\w_]+$”匹配。" xml:space="preserve">
+    <value>字段 DbSchema 必须与正则表达式“^[\w_]+$”匹配。</value>
+  </data>
+  <data name="DbSchema 字段是必需的。" xml:space="preserve">
+    <value>DbSchema 字段是必需的。</value>
+  </data>
+  <data name="DbSchema" xml:space="preserve">
+    <value>DbSchema</value>
+  </data>
+  <data name="Db Provider" xml:space="preserve">
+    <value>Db Provider</value>
+  </data>
+  <data name="Db Provider 字段是必需的。" xml:space="preserve">
+    <value>Db Provider 字段是必需的。</value>
+  </data>
+  <data name="ConnectionString 字段是必需的。" xml:space="preserve">
+    <value>ConnectionString 字段是必需的。</value>
+  </data>
+  <data name="ConnectionString" xml:space="preserve">
+    <value>ConnectionString</value>
+  </data>
+  <data name="字段 Name 必须与正则表达式“^[a-zA-Z][\w_]$$”匹配。" xml:space="preserve">
+    <value>字段 Name 必须与正则表达式“^[a-zA-Z][\w_]$$”匹配。</value>
+  </data>
+  <data name="字段 DbSchema 必须与正则表达式“^[a-zA-Z][\w_]*$”匹配。" xml:space="preserve">
+    <value>字段 DbSchema 必须与正则表达式“^[a-zA-Z][\w_]*$”匹配。</value>
+  </data>
+  <data name="Invalid name format" xml:space="preserve">
+    <value>Invalid name format</value>
+  </data>
+  <data name="Invalid schema format" xml:space="preserve">
+    <value>Invalid schema format</value>
+  </data>
+  <data name="Activity Settings" xml:space="preserve">
+    <value>Activity Settings</value>
+  </data>
+  <data name="Parter ID 字段是必需的。" xml:space="preserve">
+    <value>Parter ID 字段是必需的。</value>
+  </data>
+  <data name="Parter ID" xml:space="preserve">
+    <value>Parter ID</value>
+  </data>
+  <data name="Test mode 字段是必需的。" xml:space="preserve">
+    <value>Test mode 字段是必需的。</value>
+  </data>
+  <data name="Test mode" xml:space="preserve">
+    <value>Test mode</value>
+  </data>
+  <data name="Access key 字段是必需的。" xml:space="preserve">
+    <value>Access key 字段是必需的。</value>
+  </data>
+  <data name="Access key" xml:space="preserve">
+    <value>Access key</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Are you sure to delete this customer?" xml:space="preserve">
+    <value>Are you sure to delete this customer?</value>
+  </data>
+  <data name="New Customer" xml:space="preserve">
+    <value>New Customer</value>
+  </data>
+  <data name="Invalid email address" xml:space="preserve">
+    <value>Invalid email address</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>FirstName</value>
+  </data>
+  <data name="MiddleName" xml:space="preserve">
+    <value>MiddleName</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>LastName</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Edit Customer" xml:space="preserve">
+    <value>Edit Customer</value>
+  </data>
+  <data name="ThreeLetterISOCode" xml:space="preserve">
+    <value>ThreeLetterISOCode</value>
+  </data>
+  <data name="TwoLetterISOCode" xml:space="preserve">
+    <value>TwoLetterISOCode</value>
+  </data>
+  <data name="NumericISOCode" xml:space="preserve">
+    <value>NumericISOCode</value>
+  </data>
+  <data name="Create Date" xml:space="preserve">
+    <value>Create Date</value>
+  </data>
+  <data name="(Offline)" xml:space="preserve">
+    <value>(Offline)</value>
+  </data>
+  <data name="Create a subsite" xml:space="preserve">
+    <value>Create a subsite</value>
+  </data>
+  <data name="New sub site" xml:space="preserve">
+    <value>New sub site</value>
+  </data>
+  <data name="Import database" xml:space="preserve">
+    <value>Import database</value>
+  </data>
+  <data name="Take offline" xml:space="preserve">
+    <value>Take offline</value>
+  </data>
+  <data name="Clear cache" xml:space="preserve">
+    <value>Clear cache</value>
+  </data>
+  <data name="'Name' is invalid." xml:space="preserve">
+    <value>'Name' is invalid.</value>
+  </data>
+  <data name="A name cannot contain a space or any of the following characters:\/:*?&lt;&gt;|~" xml:space="preserve">
+    <value>A name cannot contain a space or any of the following characters:\/:*?&lt;&gt;|~</value>
+  </data>
+  <data name="The site name" xml:space="preserve">
+    <value>The site name</value>
+  </data>
+  <data name="The parent website which this new website will be based on." xml:space="preserve">
+    <value>The parent website which this new website will be based on.</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>Parent</value>
+  </data>
+  <data name="A new site" xml:space="preserve">
+    <value>A new site</value>
+  </data>
+  <data name="A new subsite" xml:space="preserve">
+    <value>A new subsite</value>
+  </data>
+  <data name="Start - Sitemap" xml:space="preserve">
+    <value>Start - Sitemap</value>
+  </data>
+  <data name="Static page" xml:space="preserve">
+    <value>Static page</value>
+  </data>
+  <data name="Dynamic page" xml:space="preserve">
+    <value>Dynamic page</value>
+  </data>
+  <data name="Inherited page" xml:space="preserve">
+    <value>Inherited page</value>
+  </data>
+  <data name="Unsynced page" xml:space="preserve">
+    <value>Unsynced page</value>
+  </data>
+  <data name="Unpublished page" xml:space="preserve">
+    <value>Unpublished page</value>
+  </data>
+  <data name="Show in menu" xml:space="preserve">
+    <value>Show in menu</value>
+  </data>
+  <data name="A/B Test" xml:space="preserve">
+    <value>A/B Test</value>
+  </data>
+  <data name="New sub page" xml:space="preserve">
+    <value>New sub page</value>
+  </data>
+  <data name="Are you sure you want to delete this page?" xml:space="preserve">
+    <value>Are you sure you want to delete this page?</value>
+  </data>
+  <data name="Unpublish" xml:space="preserve">
+    <value>Unpublish</value>
+  </data>
+  <data name="Are you sure you want to unpublish this page?" xml:space="preserve">
+    <value>Are you sure you want to unpublish this page?</value>
+  </data>
+  <data name="Move To" xml:space="preserve">
+    <value>Move To</value>
+  </data>
+  <data name="Go to site cluster" xml:space="preserve">
+    <value>Go to site cluster</value>
+  </data>
+  <data name="Site manager" xml:space="preserve">
+    <value>Site manager</value>
+  </data>
+  <data name="Site users" xml:space="preserve">
+    <value>Site users</value>
+  </data>
+  <data name="Custom errors" xml:space="preserve">
+    <value>Custom errors</value>
+  </data>
+  <data name="Url redirects" xml:space="preserve">
+    <value>Url redirects</value>
+  </data>
+  <data name="Robots.txt" xml:space="preserve">
+    <value>Robots.txt</value>
+  </data>
+  <data name="Diagnosis" xml:space="preserve">
+    <value>Diagnosis</value>
+  </data>
+  <data name="A/B page settings" xml:space="preserve">
+    <value>A/B page settings</value>
+  </data>
+  <data name="A/B test reports" xml:space="preserve">
+    <value>A/B test reports</value>
+  </data>
+  <data name="Development" xml:space="preserve">
+    <value>Development</value>
+  </data>
+  <data name="Layouts" xml:space="preserve">
+    <value>Layouts</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Views</value>
+  </data>
+  <data name="Labels" xml:space="preserve">
+    <value>Labels</value>
+  </data>
+  <data name="Scripts" xml:space="preserve">
+    <value>Scripts</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Themes</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="Page mapping" xml:space="preserve">
+    <value>Page mapping</value>
+  </data>
+  <data name="Submission setting" xml:space="preserve">
+    <value>Submission setting</value>
+  </data>
+  <data name="Extension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="Plug-ins" xml:space="preserve">
+    <value>Plug-ins</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Pages</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Indexed data" xml:space="preserve">
+    <value>Indexed data</value>
+  </data>
+  <data name="Content type" xml:space="preserve">
+    <value>Content type</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Contents</value>
+  </data>
+  <data name="Html block" xml:space="preserve">
+    <value>Html block</value>
+  </data>
+  <data name="Commerce" xml:space="preserve">
+    <value>Commerce</value>
+  </data>
+  <data name="Extended Queries" xml:space="preserve">
+    <value>Extended Queries</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="Are you sure you want to reset these templates?" xml:space="preserve">
+    <value>Are you sure you want to reset these templates?</value>
+  </data>
+  <data name="Reset templates" xml:space="preserve">
+    <value>Reset templates</value>
+  </data>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Selectable" xml:space="preserve">
+    <value>Selectable</value>
+  </data>
+  <data name="More..." xml:space="preserve">
+    <value>More...</value>
+  </data>
+  <data name="Are you sure you want to delete these items?" xml:space="preserve">
+    <value>Are you sure you want to delete these items?</value>
+  </data>
+  <data name="Relations" xml:space="preserve">
+    <value>Relations</value>
+  </data>
+  <data name="Copy content type" xml:space="preserve">
+    <value>Copy content type</value>
+  </data>
+  <data name="Return url" xml:space="preserve">
+    <value>Return url</value>
+  </data>
+  <data name="Report url" xml:space="preserve">
+    <value>Report url</value>
+  </data>
+  <data name="Mollie iDeal settings" xml:space="preserve">
+    <value>Mollie iDeal settings</value>
+  </data>
+  <data name="PayPal settings" xml:space="preserve">
+    <value>PayPal settings</value>
+  </data>
+  <data name="Application ID" xml:space="preserve">
+    <value>Application ID</value>
+  </data>
+  <data name="API username" xml:space="preserve">
+    <value>API username</value>
+  </data>
+  <data name="API password" xml:space="preserve">
+    <value>API password</value>
+  </data>
+  <data name="API signature" xml:space="preserve">
+    <value>API signature</value>
+  </data>
+  <data name="Merchant account" xml:space="preserve">
+    <value>Merchant account</value>
+  </data>
+  <data name="Sandbox mode 字段是必需的。" xml:space="preserve">
+    <value>Sandbox mode 字段是必需的。</value>
+  </data>
+  <data name="Sandbox mode" xml:space="preserve">
+    <value>Sandbox mode</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Addresses" xml:space="preserve">
+    <value>Addresses</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Middle Name" xml:space="preserve">
+    <value>Middle Name</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Saving Points" xml:space="preserve">
+    <value>Saving Points</value>
+  </data>
+  <data name="New Password" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Address1" xml:space="preserve">
+    <value>Address1</value>
+  </data>
+  <data name="IsDefault" xml:space="preserve">
+    <value>IsDefault</value>
+  </data>
+  <data name="Order Date" xml:space="preserve">
+    <value>Order Date</value>
+  </data>
+  <data name="Total Price" xml:space="preserve">
+    <value>Total Price</value>
+  </data>
+  <data name="Total Weight" xml:space="preserve">
+    <value>Total Weight</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>OrderStatus</value>
+  </data>
+  <data name="PaymentStatus" xml:space="preserve">
+    <value>PaymentStatus</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="Postcode" xml:space="preserve">
+    <value>Postcode</value>
+  </data>
+  <data name="Address2" xml:space="preserve">
+    <value>Address2</value>
+  </data>
+  <data name="Are you sure to delete this record?" xml:space="preserve">
+    <value>Are you sure to delete this record?</value>
+  </data>
+  <data name="Discount Promotion" xml:space="preserve">
+    <value>Discount Promotion</value>
+  </data>
+  <data name="RecentOrder" xml:space="preserve">
+    <value>RecentOrder</value>
+  </data>
+  <data name="No available activity" xml:space="preserve">
+    <value>No available activity</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Order Invoice Mailing Activity" xml:space="preserve">
+    <value>Order Invoice Mailing Activity</value>
+  </data>
+  <data name="RecentOrderedCustomer" xml:space="preserve">
+    <value>RecentOrderedCustomer</value>
+  </data>
+  <data name="Notebook" xml:space="preserve">
+    <value>Notebook</value>
+  </data>
+  <data name="New Brand" xml:space="preserve">
+    <value>New Brand</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>test</value>
+  </data>
+  <data name="Create an Order" xml:space="preserve">
+    <value>Create an Order</value>
+  </data>
+  <data name="Select a Customer" xml:space="preserve">
+    <value>Select a Customer</value>
+  </data>
+  <data name="Select Products" xml:space="preserve">
+    <value>Select Products</value>
+  </data>
+  <data name="Fill Order Info" xml:space="preserve">
+    <value>Fill Order Info</value>
+  </data>
+  <data name="Full Name" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="New Country" xml:space="preserve">
+    <value>New Country</value>
+  </data>
+  <data name="Order Detail" xml:space="preserve">
+    <value>Order Detail</value>
+  </data>
+  <data name="Product Name" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
+  <data name="Unit Price" xml:space="preserve">
+    <value>Unit Price</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Order info" xml:space="preserve">
+    <value>Order info</value>
+  </data>
+  <data name="Order Id" xml:space="preserve">
+    <value>Order Id</value>
+  </data>
+  <data name="Shopping Cart" xml:space="preserve">
+    <value>Shopping Cart</value>
+  </data>
+  <data name="Order totals" xml:space="preserve">
+    <value>Order totals</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
+  </data>
+  <data name="Total Tax" xml:space="preserve">
+    <value>Total Tax</value>
+  </data>
+  <data name="Shipping Cost" xml:space="preserve">
+    <value>Shipping Cost</value>
+  </data>
+  <data name="Payment Method" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="Payment Method Cost" xml:space="preserve">
+    <value>Payment Method Cost</value>
+  </data>
+  <data name="Shipping address" xml:space="preserve">
+    <value>Shipping address</value>
+  </data>
+  <data name="Phone number" xml:space="preserve">
+    <value>Phone number</value>
+  </data>
+  <data name="Billing address" xml:space="preserve">
+    <value>Billing address</value>
+  </data>
+  <data name="Order remark" xml:space="preserve">
+    <value>Order remark</value>
+  </data>
+  <data name="mobile" xml:space="preserve">
+    <value>mobile</value>
+  </data>
+  <data name="Edit content type" xml:space="preserve">
+    <value>Edit content type</value>
+  </data>
+  <data name="Tree style data 字段是必需的。" xml:space="preserve">
+    <value>Tree style data 字段是必需的。</value>
+  </data>
+  <data name="Tree style data" xml:space="preserve">
+    <value>Tree style data</value>
+  </data>
+  <data name="Create the tree style data and management interface." xml:space="preserve">
+    <value>Create the tree style data and management interface.</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="From folder" xml:space="preserve">
+    <value>From folder</value>
+  </data>
+  <data name="Invalid file name." xml:space="preserve">
+    <value>Invalid file name.</value>
+  </data>
+  <data name="New folder" xml:space="preserve">
+    <value>New folder</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Html blocks" xml:space="preserve">
+    <value>Html blocks</value>
+  </data>
+  <data name="Localize" xml:space="preserve">
+    <value>Localize</value>
+  </data>
+  <data name="Display text" xml:space="preserve">
+    <value>Display text</value>
+  </data>
+  <data name="Inheritance" xml:space="preserve">
+    <value>Inheritance</value>
+  </data>
+  <data name="Site" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="Are you sure you want to publish these items?" xml:space="preserve">
+    <value>Are you sure you want to publish these items?</value>
+  </data>
+  <data name="Are you sure you want to unpublish these items?" xml:space="preserve">
+    <value>Are you sure you want to unpublish these items?</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="Domain" xml:space="preserve">
+    <value>Domain</value>
+  </data>
+  <data name="Web resource" xml:space="preserve">
+    <value>Web resource</value>
+  </data>
+  <data name="SMTP" xml:space="preserve">
+    <value>SMTP</value>
+  </data>
+  <data name="HTML meta" xml:space="preserve">
+    <value>HTML meta</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="The name of your website how it would be displayed on this CMS" xml:space="preserve">
+    <value>The name of your website how it would be displayed on this CMS</value>
+  </data>
+  <data name="Only alphameric and numeric are allowed in the field name" xml:space="preserve">
+    <value>Only alphameric and numeric are allowed in the field name</value>
+  </data>
+  <data name="Select the database where &lt;br/&gt; your content is stored or create a new database." xml:space="preserve">
+    <value>Select the database where &lt;br/&gt; your content is stored or create a new database.</value>
+  </data>
+  <data name="Content database" xml:space="preserve">
+    <value>Content database</value>
+  </data>
+  <data name="Select a membership data source for the site." xml:space="preserve">
+    <value>Select a membership data source for the site.</value>
+  </data>
+  <data name="Membership" xml:space="preserve">
+    <value>Membership</value>
+  </data>
+  <data name="The culture shown on your website. &lt;br /&gt; This is used to display currency, date, number and other culture related content." xml:space="preserve">
+    <value>The culture shown on your website. &lt;br /&gt; This is used to display currency, date, number and other culture related content.</value>
+  </data>
+  <data name="Time zone" xml:space="preserve">
+    <value>Time zone</value>
+  </data>
+  <data name="Show start sitemap" xml:space="preserve">
+    <value>Show start sitemap</value>
+  </data>
+  <data name="Shows the sitemap as the start page in the menu." xml:space="preserve">
+    <value>Shows the sitemap as the start page in the menu.</value>
+  </data>
+  <data name="Enable versioning" xml:space="preserve">
+    <value>Enable versioning</value>
+  </data>
+  <data name="Enable version control on Layout, View and Page." xml:space="preserve">
+    <value>Enable version control on Layout, View and Page.</value>
+  </data>
+  <data name="Your website domains, without &quot;http://&quot;" xml:space="preserve">
+    <value>Your website domains, without "http://"</value>
+  </data>
+  <data name="Domains" xml:space="preserve">
+    <value>Domains</value>
+  </data>
+  <data name="The virtual path of your website. You may create a subsite eg. www.kooboo.com/china, &lt;b&gt;china&lt;/b&gt; is the Site path." xml:space="preserve">
+    <value>The virtual path of your website. You may create a subsite eg. www.kooboo.com/china, &lt;b&gt;china&lt;/b&gt; is the Site path.</value>
+  </data>
+  <data name="Site path" xml:space="preserve">
+    <value>Site path</value>
+  </data>
+  <data name="Alternate SSL detection via HTTP header, please fill in http header name and value. &lt;a href='https://github.com/plack/Plack/wiki/How-to-detect-reverse-proxy-and-SSL-frontend' target='_blank'&gt;Click&lt;/a&gt; for more." xml:space="preserve">
+    <value>Alternate SSL detection via HTTP header, please fill in http header name and value. &lt;a href='https://github.com/plack/Plack/wiki/How-to-detect-reverse-proxy-and-SSL-frontend' target='_blank'&gt;Click&lt;/a&gt; for more.</value>
+  </data>
+  <data name="Alternate SSL detection" xml:space="preserve">
+    <value>Alternate SSL detection</value>
+  </data>
+  <data name="Load theme CSS files from the theme folder" xml:space="preserve">
+    <value>Load theme CSS files from the theme folder</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Give your website a version number, it can be any number as you like." xml:space="preserve">
+    <value>Give your website a version number, it can be any number as you like.</value>
+  </data>
+  <data name="Used to generate resource links different with site domain. e.g: Generate CDN links for scripts and styles." xml:space="preserve">
+    <value>Used to generate resource links different with site domain. e.g: Generate CDN links for scripts and styles.</value>
+  </data>
+  <data name="Resource domain" xml:space="preserve">
+    <value>Resource domain</value>
+  </data>
+  <data name="Use &lt;b&gt;debug&lt;/b&gt; on development and use &lt;b&gt;release&lt;/b&gt; on live site. &lt;b&gt;Release&lt;/b&gt; mode utilizes CSS/JS compression and other techniques." xml:space="preserve">
+    <value>Use &lt;b&gt;debug&lt;/b&gt; on development and use &lt;b&gt;release&lt;/b&gt; on live site. &lt;b&gt;Release&lt;/b&gt; mode utilizes CSS/JS compression and other techniques.</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="Enable inline editing" xml:space="preserve">
+    <value>Enable inline editing</value>
+  </data>
+  <data name="Enables you to edit content from the front end of your website." xml:space="preserve">
+    <value>Enables you to edit content from the front end of your website.</value>
+  </data>
+  <data name="JQuery" xml:space="preserve">
+    <value>JQuery</value>
+  </data>
+  <data name="Load JQuery and JQuery validation files." xml:space="preserve">
+    <value>Load JQuery and JQuery validation files.</value>
+  </data>
+  <data name="Enable SSL" xml:space="preserve">
+    <value>Enable SSL</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="SMTP Server" xml:space="preserve">
+    <value>SMTP Server</value>
+  </data>
+  <data name="The FROM email address of emails sent out by the system. For example: user registration confirmation email." xml:space="preserve">
+    <value>The FROM email address of emails sent out by the system. For example: user registration confirmation email.</value>
+  </data>
+  <data name="From address" xml:space="preserve">
+    <value>From address</value>
+  </data>
+  <data name="The receiver's Email addresses of your contact form" xml:space="preserve">
+    <value>The receiver's Email addresses of your contact form</value>
+  </data>
+  <data name="To address" xml:space="preserve">
+    <value>To address</value>
+  </data>
+  <data name="The title tag and value that appear in the page HTML header and also used by browsers as the page title. &lt;br /&gt;This value can be accessed via API: @Html.FrontHtml().HtmlTitle()" xml:space="preserve">
+    <value>The title tag and value that appear in the page HTML header and also used by browsers as the page title. &lt;br /&gt;This value can be accessed via API: @Html.FrontHtml().HtmlTitle()</value>
+  </data>
+  <data name="Html title" xml:space="preserve">
+    <value>Html title</value>
+  </data>
+  <data name="Used in SEO, see: http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html" xml:space="preserve">
+    <value>Used in SEO, see: http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html</value>
+  </data>
+  <data name="Canonical" xml:space="preserve">
+    <value>Canonical</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Keywords" xml:space="preserve">
+    <value>Keywords</value>
+  </data>
+  <data name="Custom fields for HTML meta values" xml:space="preserve">
+    <value>Custom fields for HTML meta values</value>
+  </data>
+  <data name="Custom meta fields" xml:space="preserve">
+    <value>Custom meta fields</value>
+  </data>
+  <data name="字段 Encrypt key 必须是一个字符串，其最小长度为 8，最大长度为 8。" xml:space="preserve">
+    <value>字段 Encrypt key 必须是一个字符串，其最小长度为 8，最大长度为 8。</value>
+  </data>
+  <data name="The encrypt key for SecurityHelper.Encrypt/Decrypt." xml:space="preserve">
+    <value>The encrypt key for SecurityHelper.Encrypt/Decrypt.</value>
+  </data>
+  <data name="Encrypt key" xml:space="preserve">
+    <value>Encrypt key</value>
+  </data>
+  <data name="Turn on submission api 字段是必需的。" xml:space="preserve">
+    <value>Turn on submission api 字段是必需的。</value>
+  </data>
+  <data name="Turn on submission api" xml:space="preserve">
+    <value>Turn on submission api</value>
+  </data>
+  <data name=" Turn on/off the content submission API such as ContentService and SendEmail API. The 'ContentService' was obsolete in 4.1 verion, it is recommended to trun off for security reason." xml:space="preserve">
+    <value> Turn on/off the content submission API such as ContentService and SendEmail API. The 'ContentService' was obsolete in 4.1 verion, it is recommended to trun off for security reason.</value>
+  </data>
+  <data name="Custom field values that can be accessed in front end site via API: @Site.Current.CustomFields[&quot;key&quot;]." xml:space="preserve">
+    <value>Custom field values that can be accessed in front end site via API: @Site.Current.CustomFields["key"].</value>
+  </data>
+  <data name="Test SMTP" xml:space="preserve">
+    <value>Test SMTP</value>
+  </data>
+  <data name="Input URL/Pattern" xml:space="preserve">
+    <value>Input URL/Pattern</value>
+  </data>
+  <data name="Output URL/Pattern" xml:space="preserve">
+    <value>Output URL/Pattern</value>
+  </data>
+  <data name="Regex" xml:space="preserve">
+    <value>Regex</value>
+  </data>
+  <data name="Redirect type" xml:space="preserve">
+    <value>Redirect type</value>
+  </data>
+  <data name="Sample robots.txt" xml:space="preserve">
+    <value>Sample robots.txt</value>
+  </data>
+  <data name="Cms_Data folder read/write permission" xml:space="preserve">
+    <value>Cms_Data folder read/write permission</value>
+  </data>
+  <data name="Test if Kooboo cms has read/write permission on this folder." xml:space="preserve">
+    <value>Test if Kooboo cms has read/write permission on this folder.</value>
+  </data>
+  <data name="Content db connectivity" xml:space="preserve">
+    <value>Content db connectivity</value>
+  </data>
+  <data name="SMTP connectivity" xml:space="preserve">
+    <value>SMTP connectivity</value>
+  </data>
+  <data name="Site domain setting" xml:space="preserve">
+    <value>Site domain setting</value>
+  </data>
+  <data name="System diagnosis" xml:space="preserve">
+    <value>System diagnosis</value>
+  </data>
+  <data name="System info" xml:space="preserve">
+    <value>System info</value>
+  </data>
+  <data name="Machine name" xml:space="preserve">
+    <value>Machine name</value>
+  </data>
+  <data name="Application virtual path" xml:space="preserve">
+    <value>Application virtual path</value>
+  </data>
+  <data name="Trust level" xml:space="preserve">
+    <value>Trust level</value>
+  </data>
+  <data name="Content provider" xml:space="preserve">
+    <value>Content provider</value>
+  </data>
+  <data name="Tip: Click rectangles to view the relations." xml:space="preserve">
+    <value>Tip: Click rectangles to view the relations.</value>
+  </data>
+  <data name="Create new membership" xml:space="preserve">
+    <value>Create new membership</value>
+  </data>
+  <data name="Create new site" xml:space="preserve">
+    <value>Create new site</value>
+  </data>
+  <data name="Create new content database" xml:space="preserve">
+    <value>Create new content database</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>Members</value>
+  </data>
+  <data name="User name" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="Provider type" xml:space="preserve">
+    <value>Provider type</value>
+  </data>
+  <data name="Is approved" xml:space="preserve">
+    <value>Is approved</value>
+  </data>
+  <data name="Is locked out" xml:space="preserve">
+    <value>Is locked out</value>
+  </data>
+  <data name="Login date" xml:space="preserve">
+    <value>Login date</value>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="Connects" xml:space="preserve">
+    <value>Connects</value>
+  </data>
+  <data name="Are you sure you want to delete the membership?" xml:space="preserve">
+    <value>Are you sure you want to delete the membership?</value>
+  </data>
+  <data name="Browse more templates online" xml:space="preserve">
+    <value>Browse more templates online</value>
+  </data>
+  <data name="Sites in use:" xml:space="preserve">
+    <value>Sites in use:</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Create content type" xml:space="preserve">
+    <value>Create content type</value>
+  </data>
+  <data name="Text content" xml:space="preserve">
+    <value>Text content</value>
+  </data>
+  <data name="Advanced search" xml:space="preserve">
+    <value>Advanced search</value>
+  </data>
+  <data name="Add content" xml:space="preserve">
+    <value>Add content</value>
+  </data>
+  <data name="Re-broadcast" xml:space="preserve">
+    <value>Re-broadcast</value>
+  </data>
+  <data name="Computer" xml:space="preserve">
+    <value>Computer</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>FileName</value>
+  </data>
+  <data name="View types" xml:space="preserve">
+    <value>View types</value>
+  </data>
+  <data name="Submission settings" xml:space="preserve">
+    <value>Submission settings</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="OrderStatus 字段是必需的。" xml:space="preserve">
+    <value>OrderStatus 字段是必需的。</value>
+  </data>
+  <data name="PaymentStatus 字段是必需的。" xml:space="preserve">
+    <value>PaymentStatus 字段是必需的。</value>
+  </data>
+  <data name="SubTotal 字段是必需的。" xml:space="preserve">
+    <value>SubTotal 字段是必需的。</value>
+  </data>
+  <data name="Discount 字段是必需的。" xml:space="preserve">
+    <value>Discount 字段是必需的。</value>
+  </data>
+  <data name="TotalTax 字段是必需的。" xml:space="preserve">
+    <value>TotalTax 字段是必需的。</value>
+  </data>
+  <data name="TotalWeight 字段是必需的。" xml:space="preserve">
+    <value>TotalWeight 字段是必需的。</value>
+  </data>
+  <data name="ShippingCost 字段是必需的。" xml:space="preserve">
+    <value>ShippingCost 字段是必需的。</value>
+  </data>
+  <data name="PaymentMethodCost 字段是必需的。" xml:space="preserve">
+    <value>PaymentMethodCost 字段是必需的。</value>
+  </data>
+  <data name="Total 字段是必需的。" xml:space="preserve">
+    <value>Total 字段是必需的。</value>
+  </data>
+  <data name="Save Order" xml:space="preserve">
+    <value>Save Order</value>
+  </data>
+  <data name="Edit Country" xml:space="preserve">
+    <value>Edit Country</value>
+  </data>
+  <data name="DbProviderDisplayName" xml:space="preserve">
+    <value>DbProviderDisplayName</value>
+  </data>
+  <data name="Advanced mode 字段是必需的。" xml:space="preserve">
+    <value>Advanced mode 字段是必需的。</value>
+  </data>
+  <data name="Select database provider" xml:space="preserve">
+    <value>Select database provider</value>
+  </data>
+  <data name="Select DB Provider" xml:space="preserve">
+    <value>Select DB Provider</value>
+  </data>
+  <data name="IsNew 字段是必需的。" xml:space="preserve">
+    <value>IsNew 字段是必需的。</value>
+  </data>
+  <data name="PC" xml:space="preserve">
+    <value>PC</value>
+  </data>
+  <data name="Edit commerce instance" xml:space="preserve">
+    <value>Edit commerce instance</value>
+  </data>
+  <data name="Display name 字段是必需的。" xml:space="preserve">
+    <value>Display name 字段是必需的。</value>
+  </data>
+  <data name="Database Schema 字段是必需的。" xml:space="preserve">
+    <value>Database Schema 字段是必需的。</value>
+  </data>
+  <data name="Payment gateway 字段是必需的。" xml:space="preserve">
+    <value>Payment gateway 字段是必需的。</value>
+  </data>
+  <data name="Additional fee charge mode 字段是必需的。" xml:space="preserve">
+    <value>Additional fee charge mode 字段是必需的。</value>
+  </data>
+  <data name="Additional fee amount 字段是必需的。" xml:space="preserve">
+    <value>Additional fee amount 字段是必需的。</value>
+  </data>
+  <data name="字段 Additional fee percent 必须在 0 和 100 之间。" xml:space="preserve">
+    <value>字段 Additional fee percent 必须在 0 和 100 之间。</value>
+  </data>
+  <data name="Additional fee percent 字段是必需的。" xml:space="preserve">
+    <value>Additional fee percent 字段是必需的。</value>
+  </data>
+  <data name="Authorize.net settings" xml:space="preserve">
+    <value>Authorize.net settings</value>
+  </data>
+  <data name="Login ID" xml:space="preserve">
+    <value>Login ID</value>
+  </data>
+  <data name="Transaction key" xml:space="preserve">
+    <value>Transaction key</value>
+  </data>
+  <data name="Sandbox 字段是必需的。" xml:space="preserve">
+    <value>Sandbox 字段是必需的。</value>
+  </data>
+  <data name="Sandbox" xml:space="preserve">
+    <value>Sandbox</value>
+  </data>
+  <data name="Login ID 字段是必需的。" xml:space="preserve">
+    <value>Login ID 字段是必需的。</value>
+  </data>
+  <data name="Transaction key 字段是必需的。" xml:space="preserve">
+    <value>Transaction key 字段是必需的。</value>
+  </data>
+  <data name="DeliveryBegan" xml:space="preserve">
+    <value>DeliveryBegan</value>
+  </data>
+  <data name="OrderCreated" xml:space="preserve">
+    <value>OrderCreated</value>
+  </data>
+  <data name="OrderCancelled" xml:space="preserve">
+    <value>OrderCancelled</value>
+  </data>
+  <data name="FindOne" xml:space="preserve">
+    <value>FindOne</value>
+  </data>
+  <data name="GetAlternatives" xml:space="preserve">
+    <value>GetAlternatives</value>
+  </data>
+  <data name="GetRecommendations" xml:space="preserve">
+    <value>GetRecommendations</value>
+  </data>
+  <data name="ProductCreated" xml:space="preserve">
+    <value>ProductCreated</value>
+  </data>
+  <data name="ProductDeleted" xml:space="preserve">
+    <value>ProductDeleted</value>
+  </data>
+  <data name="ProductUpdated" xml:space="preserve">
+    <value>ProductUpdated</value>
+  </data>
+  <data name="Attach Activities" xml:space="preserve">
+    <value>Attach Activities</value>
+  </data>
+  <data name="Invoice reminder" xml:space="preserve">
+    <value>Invoice reminder</value>
+  </data>
+  <data name="Attach Activity" xml:space="preserve">
+    <value>Attach Activity</value>
+  </data>
+  <data name="Target event" xml:space="preserve">
+    <value>Target event</value>
+  </data>
+  <data name="Activity to attach" xml:space="preserve">
+    <value>Activity to attach</value>
+  </data>
+</root>

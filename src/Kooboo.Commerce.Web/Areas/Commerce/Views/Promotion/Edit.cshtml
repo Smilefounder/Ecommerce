@@ -1,0 +1,17 @@
+﻿@model PromotionEditorModel
+@{
+    Layout = "~/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "Promotion Basic Info".Localize();
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(_ => _.AddCancelButton())
+}
+
+<div class="block">
+    @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 1 })
+    @Html.EditorForModel()
+    <div class="process-button">
+        <a data-ajaxform="" class="button">@("Next".Localize())</a>
+    </div>
+</div>

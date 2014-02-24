@@ -1,0 +1,20 @@
+﻿@model PagedList<ActivityEventRowModel>
+@{
+    ViewBag.Title = "Events".Localize();
+
+    var category = ViewBag.Category as string;
+
+    if (String.IsNullOrEmpty(category))
+    {
+        ViewBag.Title = "Events".Localize();
+    }
+    else
+    {
+        ViewBag.Title = category.Localize();
+    }
+}
+
+@Html.GridFor2(typeof(ActivityEventRowModel), Model)
+<div class="pagination right">
+    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+</div>

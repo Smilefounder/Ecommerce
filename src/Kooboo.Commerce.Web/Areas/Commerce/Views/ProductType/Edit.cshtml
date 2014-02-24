@@ -1,0 +1,14 @@
+﻿@model ProductTypeEditorModel
+@{
+    ViewBag.Title = "Edit product type".Localize();
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddCancelButton();
+    })
+}
+
+@Html.EditorForModel()

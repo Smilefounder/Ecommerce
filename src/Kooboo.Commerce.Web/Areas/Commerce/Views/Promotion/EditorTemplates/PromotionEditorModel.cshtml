@@ -1,0 +1,72 @@
+﻿@model PromotionEditorModel
+
+@using (Html.BeginForm("Save", "Promotion", RouteValues.From(Request.QueryString))) 
+{ 
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.PromotionPolicy)
+    <div class="common-form">
+        <table>
+            @Html.EditorFor(m => m.Name)
+            @Html.EditorFor(m => m.RequireCouponCode)
+            <tr class="coupon-code-holder" style="display:none">
+                <th>@Html.DisplayNameFor(m => m.CouponCode)</th>
+                <td>
+                    @Html.TextBoxFor(m => m.CouponCode, new { @class = "medium" })
+                    @Html.ValidationMessageFor(m => m.CouponCode)
+                </td>
+            </tr>
+            @Html.EditorFor(m => m.StartTime)
+            @Html.EditorFor(m => m.EndTime)
+            @Html.EditorFor(m => m.Priority)
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.OverlappingUsage)</th>
+                <td>
+                    <div class="clearfix">
+                        @Html.DropDownListFor(m => m.OverlappingUsage, Model.AvailableOverlappingUsages)
+                    </div>
+                    @Html.Partial("_SelectOverlappablePromotions", Model.OtherPromotions)
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
+<script>
+    $(function () {
+
+        // Coupon code
+        var $requireCoupon = $(':checkbox[name="RequireCouponCode"]');
+
+        onRequireCouponCodeChanged($requireCoupon.is(':checked'));
+
+        $requireCoupon.click(function () {
+            onRequireCouponCodeChanged($(this).is(':checked'));
+        });
+        
+        function onRequireCouponCodeChanged(required) {
+            if (required) {
+                $('.coupon-code-holder').show();
+            } else {
+                $('.coupon-code-holder').hide();
+            }
+        }
+
+        // Overlapping Usage Dropdown
+
+        var $overlappingUsage = $('select[name="OverlappingUsage"]');
+
+        onOverlappingUsageChanged($overlappingUsage.val());
+
+        $overlappingUsage.change(function () {
+            onOverlappingUsageChanged($(this).val());
+        });
+
+        function onOverlappingUsageChanged(value) {
+            if (value == 'AllowedWithSpecifiedPromotions') {
+                $('.other-promotions').show();
+            } else {
+                $('.other-promotions').hide();
+            }
+        }
+    });
+</script>

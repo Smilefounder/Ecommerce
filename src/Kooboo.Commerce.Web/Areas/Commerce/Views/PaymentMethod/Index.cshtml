@@ -1,0 +1,21 @@
+﻿@model PagedList<PaymentMethodRowModel>
+@{
+    ViewBag.Title = "Payment methods".Localize();
+}
+
+@section Panel {
+    @(Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddCreateButton();
+        buttons.AddEnableButton();
+        buttons.AddDisableButton();
+        buttons.AddAjaxPostButton("Settings", "setting", "Settings", new { @return = Request.RawUrl }).VisibleWhen(GridChecked.Single);
+        buttons.AddDeleteButton();
+    }))
+}
+
+@Html.GridFor2(typeof(PaymentMethodRowModel), Model)
+
+<div class="pagination right">
+    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+</div>

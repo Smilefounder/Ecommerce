@@ -1,0 +1,17 @@
+﻿@model PaymentMethodEditorModel
+@{
+    Layout = "~/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "New payment method".Localize();
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.Add("Next", "next").AsAjaxFormTrigger();
+        buttons.AddCancelButton();
+    })
+}
+
+<div class="block common-form">
+    @Html.EditorForModel()
+</div>

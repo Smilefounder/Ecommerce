@@ -1,0 +1,19 @@
+﻿@model PagedList<ProductTypeRowModel>
+@{
+    ViewBag.Title = "Product types".Localize();
+}
+
+@section Panel {
+    @(Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddCreateButton();
+        buttons.AddEnableButton();
+        buttons.AddDisableButton();
+        buttons.AddDeleteButton();
+    }))
+}
+
+@Html.GridFor2(typeof(ProductTypeRowModel), Model)
+<div class="pagination right">
+    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+</div>

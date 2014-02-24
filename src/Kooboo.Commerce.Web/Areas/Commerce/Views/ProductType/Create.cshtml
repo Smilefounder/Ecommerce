@@ -1,0 +1,15 @@
+﻿@model ProductTypeEditorModel
+@{
+    ViewBag.Title = "New product type".Localize();
+    ViewBag.FullWidth = true;
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddCancelButton();
+    })
+}
+
+@Html.EditorForModel()

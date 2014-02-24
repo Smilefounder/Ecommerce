@@ -1,0 +1,60 @@
+﻿@model DefaultPolicySettingsModel
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_PromotionPolicySettings.cshtml";
+}
+
+<div class="common-form">
+    @using (Html.BeginForm())
+    {
+        <table>
+            <tbody>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.DiscountAppliedTo)</th>
+                    <td>
+                        @Html.DropDownListFor(m => m.DiscountAppliedTo, Model.AvailableDiscountAppliedTos)
+                    </td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.DiscountMode)</th>
+                    <td>
+                        @Html.DropDownListFor(m => m.DiscountMode, Model.AvailableDiscountModes)
+                    </td>
+                </tr>
+                <tr class="discount-amount-holder" style="display:none">
+                    <th>@Html.DisplayNameFor(m => m.DiscountAmount)</th>
+                    <td>
+                        @Html.TextBoxFor(m => m.DiscountAmount)
+                    </td>
+                </tr>
+                <tr class="discount-percent-holder" style="display:none">
+                    <th>@Html.DisplayNameFor(m => m.DiscountPercent)</th>
+                    <td>
+                        @Html.TextBoxFor(m => m.DiscountPercent) %
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>
+
+<script>
+    $(function () {
+        var $discountModel = $('select[name="DiscountMode"]');
+
+        onDiscountModeChanged($discountModel.val());
+
+        $discountModel.change(function () {
+            onDiscountModeChanged($(this).val());
+        });
+
+        function onDiscountModeChanged(mode) {
+            if (mode == 'ByAmount') {
+                $('.discount-amount-holder').show();
+                $('.discount-percent-holder').hide();
+            } else {
+                $('.discount-amount-holder').hide();
+                $('.discount-percent-holder').show();
+            }
+        }
+    });
+</script>

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+@section Panel {
+    @if (IsSectionDefined("Panel"))
+    {
+        @RenderSection("Panel")
+    }
+    else
+    {
+        @Html.HeaderPanel().Buttons(buttons =>
+       {
+           buttons.AddSaveButton();
+           buttons.AddCancelButton();
+       })
+    }
+}
+
+<div class="block">
+    @RenderBody()
+</div>

@@ -1,0 +1,28 @@
+﻿@model PagedList<PromotionRowModel>
+@{
+    ViewBag.Title = "Promotions".Localize();
+}
+
+@section Panel {
+    @(Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.Add("Create", "add").Dropdown(items =>
+        {
+            var policies = (IEnumerable<System.Web.Mvc.SelectListItem>)ViewData["AllPolicies"];
+            foreach (var policy in policies)
+            {
+                items.Add(policy.Text)
+                     .WithUrl(Url.Action("Create", RouteValues.From(Request.QueryString).Merge("policy", policy.Value).Merge("return", Request.RawUrl)));
+            }
+        });
+        
+        buttons.AddEnableButton();
+        buttons.AddDisableButton();
+        buttons.AddDeleteButton();
+    }))
+}
+
+@Html.GridFor2(typeof(PromotionRowModel), Model)
+<div class="pagination right">
+    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+</div>

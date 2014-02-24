@@ -1,0 +1,101 @@
+﻿@model ProductTypeEditorModel
+
+@using (Html.BeginForm("Save", "ProductType", RouteValues.From(Request.QueryString)))
+{
+    @Html.HiddenFor(m => m.Id)
+    <div id="product_type_tabs">
+        <ul>
+            <li>
+                <a href="#BasicInfo">@("Basic info".Localize())</a>
+            </li>
+            <li>
+                <a href="#CustomFields">@("Custom fields".Localize())</a>
+            </li>
+            <li>
+                <a href="#VariationFields">@("Variation".Localize())</a>
+            </li>
+        </ul>
+        <div id="BasicInfo">
+            @Html.Partial("_BasicInfo", Model)
+            @*<div class="block command">
+                    <a href="#CustomFields" class="button">@("Next »".Localize())</a>
+                </div>*@
+        </div>
+        <div id="CustomFields">
+            @{var customGridViewData = new ViewDataDictionary();
+            customGridViewData.Add("CreateButtonText", "Create custom field".Localize());}
+            @Html.Partial("_CustomFieldsGrid", Model.CustomFields, customGridViewData)
+            @*<br />
+                <div class="block command">
+                    <a href="#BasicInfo" class="button">@("« Previous".Localize())</a>
+                    <a href="#VariationFields" class="button">@("Next »".Localize())</a>
+                </div>*@
+        </div>
+        <div id="VariationFields">
+            @{var variationGridViewData = new ViewDataDictionary();
+            variationGridViewData.Add("CreateButtonText", "Create variation field".Localize());}
+            @Html.Partial("_CustomFieldsGrid", Model.VariationFields, variationGridViewData)
+            @*<br />
+                <div class="block command">
+                    <a href="#CustomFields" class="button">@("« Previous".Localize())</a>
+                </div>*@
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#product_type_tabs').tabs();
+            $('#CustomFields').customFields({ data: @Html.Raw(Model.CustomFields.ToJson(PropertyNaming.Default)), nameFmt: 'CustomFields[{0}].{1}' });
+            $('#VariationFields').customFields({ data: @Html.Raw(Model.VariationFields.ToJson(PropertyNaming.Default)), nameFmt: 'VariationFields[{0}].{1}' });
+            var updateProductTypeValidation = function(){
+                var form = $('#product_type_tabs').parents('form');
+                form.removeData('validator').removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse(form);
+            };
+            //
+            var basicInfoViewModel = function (data) {
+                var self = this, fieldsGridModel = $('#CustomFields').data('fieldsGridModel');
+                var strEq = function (str1, str2) {
+                    return (str1 || '').toLowerCase() === (str2 || '').toLowerCase();
+                };
+                var firstItem = function (name) {
+                    var has = false;
+                    $.each(fieldsGridModel.fields(), function () {
+                        if (strEq(name, this.Name())) {
+                            has = this;
+                            return false;
+                        }
+                    });
+                    return has;
+                };
+                //
+                this.systemFields = ko.mapping.fromJS(data);
+                $.each(this.systemFields(), function () {
+                    this.mChecked = ko.observable(!!firstItem(this.Name()));
+                });
+                //
+                $.each(this.systemFields(), function () {
+                    var item = this, name = this.Name();
+                    this.mChecked.subscribe(function (val) {
+                        var found = firstItem(name);
+                        if (val && !found) {
+                            fieldsGridModel.insertField(item);
+                        }
+                        if (!val && found) {
+                            var ret = fieldsGridModel.removeField(found);
+                            if (!ret) { setTimeout(function () { item.mChecked(true); }, 64); }
+                        }
+                    });
+                });
+                fieldsGridModel.fields.subscribe(function () {
+                    $.each(self.systemFields(), function () {
+                        this.mChecked(!!firstItem(this.Name()));
+                    });
+                });
+            };
+            var model = new basicInfoViewModel(@Html.Raw(Model.SystemFields.ToJson(PropertyNaming.Default)));
+            ko.applyBindings(model, document.getElementById('BasicInfo'));
+            updateProductTypeValidation();
+        });
+    </script>
+}
+@Html.Partial("_CustomFieldsScripts", ViewData)

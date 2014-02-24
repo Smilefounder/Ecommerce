@@ -1,0 +1,82 @@
+﻿@model Kooboo.Commerce.Orders.Order
+@{
+    ViewBag.Title = "Create an Order".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+@section Panel{
+    <ul class="header-panel">
+    <li>
+        <a href="@ViewBag.Return">
+            @Html.IconImage("cancel") @("Cancel".Localize())
+        </a>
+    </li>
+    <li>
+        <a href="javascript:;" onclick="window.leaveConfirm.pass(); $('form').submit();">
+            @Html.IconImage("next") @("Next".Localize())
+        </a>
+    </li>
+</ul>
+}
+
+
+<div class="block">
+    <div class="wizard">
+        <div class="container">
+            <span class="active">@("Select a Customer".Localize())<b></b></span>
+            <span>@("Select Products".Localize())</span>
+            <span>@("Fill Order Info".Localize())</span>
+        </div>
+    </div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="message block error">
+            @TempData["Message"]
+        </div>
+    }
+
+    @using (Html.BeginForm("SelectProduct", "Order", RouteValues.From(Request.QueryString)))
+    {
+        <div class="simple-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="checkbox">
+                            
+                        </th>
+                        <th>
+                            @("Full Name".Localize())
+                        </th>
+                        <th>
+                            @("Phone".Localize())
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in ViewBag.Customers)
+                    {
+                        <tr>
+                            <td class="checkbox ">
+                                <input type="radio" class="select" name="selected_customer" value="@p.Id" autocomplete="off" @Html.Raw(Model.CustomerId == p.Id ? "checked='checked'" : "")>
+                            </td>
+                            <td>
+                                @p.FullName
+                            </td>
+                            <td>
+                                @p.Phone
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(function () {
+        var table = $('.simple-table table');
+        table.checkableTable();
+        table.grid();
+    });
+</script>
+

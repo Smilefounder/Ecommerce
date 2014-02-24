@@ -1,0 +1,42 @@
+﻿/* Columns (Based on Semantic.gs)
+------------------------------------------------------*/
+@columns: 12;
+@column-width: 63.5;
+@gutter-width: 18;
+@total-width: 100%;
+@gridsystem-width: (@column-width*@columns) + (@gutter-width*(@columns - 1)) * 1px;
+
+.column(@x,@columns: @columns) {
+	display: inline;
+	float: left;
+	width: @total-width * ((@column-width*@x+@gutter-width*(@x - 1)) / @gridsystem-width);
+	margin: 0 @total-width * (@gutter-width/@gridsystem-width) @total-width * (@gutter-width/@gridsystem-width) 0;
+	/* Reset nth for media queries */
+	&:nth-child(n) {
+		margin-right: @total-width * (@gutter-width/@gridsystem-width);
+	}
+
+	@nselector: @columns / @x;
+
+	&:nth-child(@{nselector}n) {
+		margin-right: 0;
+	}
+}
+
+.grid > div:last-child {
+	margin-right: 0 !important;
+}
+
+/* Columns
+----------------------------------------------------------*/
+.columns {
+	.clearfix();
+
+	> div {
+		float: left;
+	}
+
+	.col-21 {
+		.column(6);
+	}
+}

@@ -1,0 +1,16 @@
+﻿@model CountryEditorModel
+@{
+    ViewBag.Title = "Edit Country".Localize();
+}
+
+@section Panel{
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddCancelButton();
+    })
+}
+
+<div class="block common-form">
+    @Html.EditorForModel()
+</div>

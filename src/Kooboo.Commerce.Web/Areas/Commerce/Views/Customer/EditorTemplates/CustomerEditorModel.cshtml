@@ -1,0 +1,35 @@
+﻿@model CustomerEditorModel
+
+@using (Html.BeginForm("Save", "Customer", RouteValues.From(Request.QueryString))) {
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(m => m.Id)
+    <div class="common-form">
+        <table>
+            @Html.EditorFor(m => m.Email)
+
+            @Html.EditorFor(m => m.FirstName)
+            @Html.EditorFor(m => m.MiddleName)
+            @Html.EditorFor(m => m.LastName)
+            
+            <tr>
+                <th>@("Gender".Localize())</th>
+                <td>
+                    @Html.DropDownListFor(m => m.Gender, Model.GenderList)
+                    @Html.ValidationMessageFor(m => m.Gender)
+                </td>
+            </tr>
+            
+            @Html.EditorFor(m => m.Phone)
+
+            <tr>
+                <th>@("Country".Localize())</th>
+                <td>
+                    @Html.DropDownListFor(m => m.CountryId, Model.CountryList)
+                </td>
+            </tr>
+            
+            @Html.EditorFor(m => m.City)
+        </table>
+    </div> 
+}

@@ -1,0 +1,22 @@
+﻿@model Kooboo.Commerce.Payments.PayPal.PayPalPaymentGatewayData
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_PaymentGatewaySettings.cshtml";
+    ViewBag.Title = "PayPal settings".Localize();
+}
+
+<div class="block common-form">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.ApplicationId)
+                @Html.EditorFor(m => m.ApiUserName)
+                @Html.EditorFor(m => m.ApiPassword)
+                @Html.EditorFor(m => m.ApiSignature)
+                @Html.EditorFor(m => m.MerchantAccount)
+                @Html.EditorFor(m => m.SandboxMode)
+            </tbody>
+        </table>
+    }
+</div>

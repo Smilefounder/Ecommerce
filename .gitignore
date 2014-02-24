@@ -1,0 +1,14 @@
+[Dd]ebug/
+
+[Rr]elease/
+
+[Bb]in/
+
+[Oo]bj/
+
+TestResults
+
+*.suo
+
+*.user
+/src/packages

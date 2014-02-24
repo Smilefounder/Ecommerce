@@ -1,0 +1,218 @@
+﻿@model CustomFieldEditorModel
+
+<form class="common-form" id="custom_field_editor_form">
+    <div class="tabs" id="custom_field_editor_tabs">
+        <ul class="tab-index clearfix">
+            <li><a class="active" href="#tabBasicInfo">@("Basic".Localize())</a></li>
+            <li><a href="#tabMoreOption">@("Advanced".Localize())</a></li>
+            <li><a href="#tabValidation">@("Validation".Localize())</a></li>
+            <li data-bind="visible:showSelectionValueContents"><a href="#tabSelectListItems">@("Selection value".Localize())</a></li>
+        </ul>
+        <div class="tab-content active" id="tabBasicInfo">
+            <table>
+                @Html.EditorFor(it => it.Name, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "id", "column-name" }, { "data-val-uniquecolumn", "This name is being used by other columns.".Localize() }, { "data-bind", "value:dataMap.Name, attr:{disabled:IsExistedField}" } } })
+                @Html.EditorFor(it => it.Label, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.Label" } } })
+                @Html.EditorFor(it => it.ControlType, new { NotSelect2 = true, HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.ControlType" } } })
+                @Html.EditorFor(it => it.DataType, new { NotSelect2 = true, HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.DataType" } } })
+                @Html.EditorFor(it => it.DefaultValue, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.DefaultValue" } } })
+                @Html.EditorFor(it => it.Summarize, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.Summarize" } } })
+                @Html.EditorFor(it => it.ShowInGrid, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.ShowInGrid" } } })
+            </table>
+        </div>
+        <div class="tab-content" id="tabMoreOption">
+            <table>
+                @Html.EditorFor(it => it.Tooltip, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.Tooltip" } } })
+                @Html.EditorFor(it => it.Length, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.Length" } } })
+                @Html.EditorFor(it => it.AllowNull, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.AllowNull" } } })
+                @Html.EditorFor(it => it.Modifiable, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.Modifiable" } } })
+                <tr>
+                    <th>
+                        <label>
+                            @("Custom settings".Localize())
+                        </label>
+                    </th>
+                    <td>
+                        <table class="key-value" data-bind="with:dataMap.CustomSettingsObj">
+                            <thead>
+                                <tr data-bind="visible:items().length>0">
+                                    <th>@("Key".Localize())</th>
+                                    <th>@("Value".Localize())</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach:items">
+                                <tr>
+                                    <td>
+                                        <input type="text" title="key" class="short" data-bind="value:Key" />
+                                    </td>
+                                    <td>
+                                        <input type="text" title="value" class="medium" data-bind="value:Value" />
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" class="inline-action" data-bind="click:$parent.remove">@Html.IconImage("minus")</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><a href="javascript:;" class="key-value-add" data-bind="click:add">@Html.IconImage("plus")</a></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <em class="tip">@("Enable the modification of this field in the content editing page.".Localize())</em>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-content" id="tabValidation">
+            <div class="form-row">
+                <div class="span4">
+                    <select data-bind="options: validationTypes, value: selectedValidationType, visible: validationTypes().length > 0"></select>
+                </div>
+                <div class="span8">
+                    <a href="javascript:;" class="action" data-bind="click: addValidationRule, visible: validationTypes().length > 0">@Html.IconImage("plus")</a>
+                </div>
+            </div>
+            <table>
+                <tbody data-bind="foreach: { data: dataMap.ValidationRules, as: 'Validation' }">
+                    <tr class="border">
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>@("ValidationType".Localize())</label>
+                        </td>
+                        <td data-bind="text: Validation.ValidatorName"></td>
+                        <td style="width: 26px;">
+                            <a title="Remove" class="action" href="javascript:;" data-bind="click: $root.removeValidationRule">@Html.IconImage("minus")</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>@("Error message".Localize())</label>
+                        </td>
+                        <td colspan="2">
+                            <input type="text" class="medium" name="error-message"
+                                   @*data-val="true"
+                                   data-val-required="@("Required".Localize())" *@
+                                   data-bind="value: Validation.ErrorMessage">
+                            <span class="field-validation-valid" data-valmsg-for="error-message" data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+
+                    <!-- ko if: Validation.ValidatorName() =='StringLength' -->
+                    <tr>
+                        <td>
+                            <label>@("Min".Localize())</label>
+                        </td>
+                        <td colspan="2">
+                            <input type="text" name="min-length" class="medium"
+                                   data-val="true"
+                                   data-val-required="@("Required".Localize())"
+                                   data-val-number="@("Must be a number".Localize())"
+                                   data-value-type="int32"
+                                   data-bind="value: Validation.ValidatorDataObj.Min">
+                            <span class="field-validation-valid"
+                                  data-valmsg-for="min-length"
+                                  data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>@("Max".Localize())</label>
+                        </td>
+                        <td colspan="2">
+                            <input type="text" name="max-length" class="medium"
+                                   data-val="true"
+                                   data-val-required="@("Required".Localize())"
+                                   data-val-number="@("Must be a number".Localize())"
+                                   data-bind="value: Validation.ValidatorDataObj.Max">
+                            <span class="field-validation-valid"
+                                  data-valmsg-for="max-length"
+                                  data-valmsg-replace="true"></span>
+
+                        </td>
+                    </tr>
+                    <!-- /ko -->
+                    <!-- ko if: Validation.ValidatorName()=='Range' -->
+                    <tr>
+                        <td>
+                            <label>@("Start".Localize())</label>
+                        </td>
+                        <td colspan="2">
+                            <input type="text" name="range-start" class="medium"
+                                   data-val="true"
+                                   data-val-required="@("Required".Localize())"
+                                   data-val-number="@("Must be a number".Localize())"
+                                   data-bind="value: Validation.ValidatorDataObj.Start">
+                            <span class="field-validation-valid"
+                                  data-valmsg-for="range-start"
+                                  data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>@("End".Localize())</label>
+                        </td>
+                        <td colspan="2">
+                            <input type="text" name="range-end" class="medium"
+                                   data-val="true"
+                                   data-val-required="@("Required".Localize())"
+                                   data-val-number="@("Must be a number".Localize())"
+                                   data-bind="value: Validation.ValidatorDataObj.End">
+                            <span class="field-validation-valid"
+                                  data-valmsg-for="range-end"
+                                  data-valmsg-replace="true"></span>
+
+                        </td>
+                    </tr>
+                    <!-- /ko -->
+                    <!-- ko if: Validation.ValidatorName()=='Regex' -->
+                    <tr>
+                        <td>
+                            <label>@("Pattern".Localize())</label>
+                        </td>
+                        <td colspan="2">
+                            <input type="text" class="medium" data-bind="value: Validation.ValidatorDataObj.Pattern">
+                        </td>
+                    </tr>
+                    <!-- /ko -->
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-content" id="tabSelectListItems">
+            <table class="key-value clear" data-bind="with:dataMap.SelectionItemsObj">
+                <thead data-bind="visible:items().length>0">
+                    <tr>
+                        <th><label class="short">@("Text".Localize())</label></th>
+                        <th><label class="short">@("Value".Localize())</label></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach:items">
+                    <tr>
+                        <td>
+                            <input type="text" class="short" data-bind="value:Key" />
+                        </td>
+                        <td>
+                            <input type="text" class="short" data-bind="value:Value" />
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="form-action" data-bind="click: $parent.remove">@Html.IconImage("minus")</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <a href="javascript:;" class="form-action" data-bind="click:add">@Html.IconImage("plus")</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <p class="buttons">
+        <input type="button" class="button" data-bind="click:save" value="@("Save".Localize())">
+        <a class="button gray" data-bind="click:cancel">@("Cancel".Localize())</a>
+    </p>
+</form>

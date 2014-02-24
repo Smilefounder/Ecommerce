@@ -1,0 +1,464 @@
+﻿@{
+    ViewBag.Title = "Create Product".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.Add("Save", "save").WithUrl("javascript:vm.saveData();");
+        buttons.AddCancelButton();
+    })
+}
+
+@section Topbar { }
+
+<div class="block" data-bind="with:data">
+    <h1 class="title"><span>@ViewBag.Title:</span><span data-bind="text: Name"></span></h1>
+    <form>
+        <div id="J_ProductTabs">
+            <ul>
+                <li><a href="#basicInfo">@("Product Info".Localize())</a></li>
+                <li><a href="#categories">@("Product Categories".Localize())</a></li>
+                <li><a href="#images">@("Product Images".Localize())</a></li>
+                <li data-bind="visible: ProductTypeId"><a href="#variants">@("Product Variants".Localize())</a></li>
+                <li data-bind="visible: ProductTypeId"><a href="#customFields">@("Custom Fields".Localize())</a></li>
+            </ul>
+            <div id="basicInfo">
+                <div class="common-form">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>@("Name".Localize())</th>
+                                <td><input type="text" data-bind="value:Name" class="medium"></td>
+                            </tr>
+                            <tr>
+                                <th>@("Brand".Localize())</th>
+                                <td><select data-bind="options: $root.Brands, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: BrandId" class="medium"></select></td>
+                            </tr>
+                            <tr>
+                                <th>@("Product Type".Localize())</th>
+                                <td data-bind="with: $root.ProductType"><span data-bind="text: Name"></span></td>
+                            </tr>
+                            @*<tr>
+                                    <th>@("Is Deleted".Localize())</th>
+                                    <td><input type="checkbox" data-bind="checked: IsDeleted" /></td>
+                                </tr>*@
+                            <tr>
+                                <th>@("Is Published".Localize())</th>
+                                <td><input type="checkbox" data-bind="checked: IsPublished" /></td>
+                            </tr>
+                            <tr>
+                                <th>@("Created At".Localize())</th>
+                                <td><span data-bind="format:CreatedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
+                            </tr>
+                            <tr>
+                                <th>@("Published At".Localize())</th>
+                                <td><span data-bind="format:PublishedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
+                            </tr>
+                            <tr>
+                                <th>@("Deleted At".Localize())</th>
+                                <td><span data-bind="format:DeletedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="categories">
+                <div class="block treeview">
+                    <ul id="category_tree" data-bind="template: { name: 'category_template', foreach: $root.Categories }"></ul>
+                </div>
+            </div>
+            <div id="images">
+                <div class="common-form">
+                    <table>
+                        <tbody data-bind="template: { name: 'image_type_template', foreach: $root.ImageTypes }"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="variants">
+                <div class="simple-table">
+                    <div class="toolbar">
+                        <a class="button" href="javascript:;" data-bind="click: $root.AddPrice">Add</a>
+                        @*<a class="button gray" href="javascript:;" onclick="vm.data().PriceList.removeAll();">Remove all</a>*@
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>@("Sku".Localize())</th>
+                                <!-- ko foreach: $root.ProductType().VariationFields() -->
+                                <th data-bind="text: Name"></th>
+                                <!-- /ko -->
+                                <th class="mini">@("PurchasePrice".Localize())</th>
+                                <th class="mini">@("RetailPrice".Localize())</th>
+                                <th class="mini">@("Stock".Localize())</th>
+                                <th class="mini">@("DeliveryDays".Localize())</th>
+                                <th class="mini">@("Publish".Localize())</th>
+                                <th class="action"></th>
+                                <th class="action"></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: $root.data().PriceList">
+                            <!-- ko if: !$root.IsEditingPrice($data) -->
+                            <tr>
+                                <td data-bind="text:Sku"></td>
+                                <!-- ko foreach: $root.ProductType().VariationFields() -->
+                                <td data-bind="text: $root.GetPriceVaiantText($data, $parents[0])"></td>
+                                <!-- /ko -->
+                                <td class="mini" data-bind="text:PurchasePrice"></td>
+                                <td class="mini" data-bind="text:RetailPrice"></td>
+                                <td class="mini" data-bind="text:Stock"></td>
+                                <td class="mini" data-bind="text:DeliveryDays"></td>
+                                <td class="mini" data-bind="text:IsPublished"></td>
+                                <td><a href="javascript:;" data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit small")</a></td>
+                                <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Delete">@Html.IconImage("minus small")</a></td>
+                            </tr>
+                            <!-- /ko -->
+                            <!-- ko if: $root.IsEditingPrice($data) -->
+                            <tr>
+                                @*<td><input type="text" data-bind="value:Name" class="mini"></td>*@
+                                <td><input type="text" data-bind="value:Sku"></td>
+                                <!-- ko foreach: $root.ProductType().VariationFields() -->
+                                <td data-bind="template: { name: 'variant_field_template', data: $data }"></td>
+                                <!-- /ko -->
+                                <td class="mini"><input type="text" data-bind="value:PurchasePrice" class="mini"></td>
+                                <td class="mini"><input type="text" data-bind="value:RetailPrice" class="mini"></td>
+                                <td class="mini"><input type="text" data-bind="value:Stock" class="mini"></td>
+                                <td class="mini"><input type="text" data-bind="value:DeliveryDays" class="mini"></td>
+                                <td class="mini"><input type="checkbox" data-bind="checked:IsPublished"></td>
+                                <td><a href="javascript:;" onclick="vm.EditingPrice(null);" title="Save">@Html.IconImage("save small")</a></td>
+                                <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Cancel">@Html.IconImage("minus small")</a></td>
+                            </tr>
+                            <!-- /ko -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="customFields">
+                <div class="common-form">
+                    <table data-bind="with: $root.ProductType">
+                        <tbody data-bind="foreach: CustomFields">
+                            <tr>
+                                <th data-bind="text:Name"></th>
+                                <td data-bind="template: { name: 'custom_field_template', data: $data }"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script id="category_template" type="text/html">
+    <li class="tree-node clearfix">
+        @Html.IconImage("folder")
+        @Html.IconImage("tree-icon")
+        <input type="checkbox" data-bind="checked: $root.SelectedCategories, value:Id" />
+        <span data-bind="text:Name"></span>
+        <!-- ko if: Children() && Children().length > 0 -->
+        <ul data-bind="template: { name: 'category_template', foreach: Children }"></ul>
+        <!-- /ko -->
+    </li>
+</script>
+<script id="image_type_template" type="text/html">
+    <tr>
+        <th data-bind="text:Name"></th>
+        <td>
+            <div class="mediafile">
+                <ul class="clearfix" data-bind="foreach: $root.GetImageUrl($data)">
+                    <li class="img">
+                        <span class="preview"></span>
+                        <a class="action" data-bind="click: $root.RemoveImage">@Html.IconImage("minus small")</a>
+                        <img data-bind="attr:{src:ImageUrl}" height="100" width="100">
+                    </li>
+                </ul>
+                <!-- ko if: IsMultiple() || $root.GetImageUrl($data).length < 1 -->
+                <a class="action add" href='javascript:;' data-bind="click: OpenImage">@Html.IconImage("plus small")</a>
+                <!-- /ko -->
+            </div>
+            @*<div data-bind="foreach: $root.GetImageUrl($data)">
+                    <div class="block">
+                        <img data-bind="attr: { src: ImageUrl }" />
+                        <a href="javascript:;" data-bind="click: $root.RemoveImage">@Html.IconImage("minus")</a>
+                    </div>
+                </div>
+                <!-- ko if: IsMultiple() || $root.GetImageUrl($data).length < 1 -->
+                <a href="javascript:;" data-bind="click: OpenImage">@Html.IconImage("plus")</a>
+                <!-- /ko -->*@
+        </td>
+    </tr>
+</script>
+<script id="variant_field_template" type="text/html">
+    <!-- ko if: ControlType().toLowerCase() == "textbox" -->
+    <input type="text" data-bind="value: vm.BindCustomFieldValue($data, $parents)">
+    <!-- /ko -->
+    <!-- ko if: ControlType().toLowerCase() == "checkbox" -->
+    <input type="checkbox" data-bind="checked: vm.BindCustomFieldValue($data, $parents)">
+    <!-- /ko -->
+    <!-- ko if: ControlType().toLowerCase() == "radio" -->
+    <input type="radio" data-bind="checked: vm.BindCustomFieldValue($data, $parents)">
+    <!-- /ko -->
+    <!-- ko if: ControlType().toLowerCase() == "dropdownlist" -->
+    <select data-bind="options: $root.GetFieldSelectOptions($data), optionsText: 'Key', optionsValue: 'Value', optionsCaption: ' ', value: vm.BindCustomFieldValue($data, $parents)"></select>
+    <!-- /ko -->
+    <!-- ko if: ControlType().toLowerCase() == "password" -->
+    <input type="password" data-bind="value: vm.BindCustomFieldValue($data, $parents)">
+    <!-- /ko -->
+    @* todo: add validation rules *@
+</script>
+<script id="custom_field_template" type="text/html">
+    <!-- ko if: ControlType().toLowerCase() == "textbox" -->
+    <input type="text" data-bind="value: vm.BindCustomFieldValue($data, $parents)" class="medium">
+    <!-- /ko -->
+    <!-- ko if: ControlType().toLowerCase() == "checkbox" -->
+    <input type="checkbox" data-bind="checked: vm.BindCustomFieldValue($data, $parents)">
+    <!-- /ko -->
+    <!-- ko if: ControlType().toLowerCase() == "radio" -->
+    <input type="radio" data-bind="checked: vm.BindCustomFieldValue($data, $parents)">
+    <!-- /ko -->
+    <!-- ko if: ControlType().toLowerCase() == "dropdownlist" -->
+    <select data-bind="options: $root.GetFieldSelectOptions($data), optionsText: 'Key', optionsValue: 'Value', optionsCaption: ' ', value: vm.BindCustomFieldValue($data, $parents)" class="medium"></select>
+    <!-- /ko -->
+    <!-- ko if: ControlType().toLowerCase() == "password" -->
+    <input type="password" data-bind="value: vm.BindCustomFieldValue($data, $parents)" class="medium">
+    <!-- /ko -->
+    @* todo: add validation rules *@
+    @* add tooltip *@
+    <!-- ko if: Tooltip() -->
+    <em class="form-tip" data-bind="text: Tooltip"></em>
+    <!-- /ko -->
+</script>
+<script type="text/javascript">
+    utils.showMessage = function (title, message, level, funcClose) {
+        info.show(message, (level || 'info') == 'info');
+    };
+
+    var vm;
+    $(function () {
+        vm = new ObjectModel({
+            getQueryUrl: function (self) {
+                return '/Commerce/Product/Get?commerceName=@(Request.QueryString["commerceName"])&id=@(Request.QueryString["Id"])&productTypeId=@(Request.QueryString["productTypeId"])';
+            },
+            getSaveUrl: function (self) {
+                return '/Commerce/Product/Save?commerceName=@(Request.QueryString["commerceName"])';
+            },
+            onQuerySuccess: function (self) {
+                self.SelectedCategories.removeAll();
+                self.LoadingCategory = true;
+                $.each(self.data().Categories().select(function (o) { return o.CategoryId(); }), function (i, n) { self.SelectedCategories.push(n.toString()); });
+                self.LoadingCategory = false;
+                $('#J_ProductTabs').tabs();
+                $('#category_tree li.tree-node').treeNode();
+            },
+            onSaveSuccess: function (self, info) {
+                utils.showMessage('Notice', info.message, 'info');
+                $('#J_ProductTabs').tabs();
+                $('#category_tree li.tree-node').treeNode();
+            },
+            onReceiveData: function (self, data) {
+                if ('Success' in data) { data.status = data.Success ? 0 : 1; }
+                if ('Messages' in data) { data.message = data.Messages[0]; }
+                return data;
+            },
+            onInit: function (self) {
+                self.ImageTypes = ko.observableArray([]);
+                self.ProductType = ko.observable(null);
+                self.Brands = ko.observableArray([]);
+                self.Categories = ko.observableArray([]);
+                self.LoadingCategory = true;
+
+                self.SelectedCategories = ko.observableArray([]);
+                self.SelectedCategories.subscribe(function (nval) {
+                    if (self.LoadingCategory) return;
+                    var cates = [];
+                    self.GetCategoriesByIds(nval, cates, null);
+                    self.data().Categories.removeAll();
+                    $.each(cates, function (i, n) {
+                        self.data().Categories.push({
+                            ProductId: ko.observable(vm.data().Id()),
+                            CategoryId: ko.observable(n.Id())
+                        });
+                    });
+                });
+                self.GetCategoriesByIds = function (ids, cates, array) {
+                    if (!array) { array = vm.Categories(); }
+                    $.each($.grep(array, function (n, i) { return ids.indexOf(n.Id().toString()) >= 0; }), function (i, n) {
+                        cates.push(n);
+                    });
+                    $.each(array, function (i, n) {
+                        if (n.Children() && n.Children().length > 0) {
+                            vm.GetCategoriesByIds(ids, cates, n.Children());
+                        }
+                    })
+                }
+
+                self.BindCustomFieldValue = function (item, parents) {
+                    var isPriceVariant = parents[1].VariantValues;
+                    var fields = isPriceVariant ? (self.EditingPrice() ? self.EditingPrice().VariantValues : null) : self.data().CustomFieldValues;
+                    if (fields) {
+                        var cf = $.grep(fields(), function (n, i) { return n.CustomFieldId() == item.Id(); })[0];
+                        if (!cf) {
+                            cf = {
+                                Id: ko.observable(parseInt(new Date().getTime())),
+                                ProductId: ko.observable(self.data().Id()),
+                                CustomFieldId: ko.observable(item.Id()),
+                                FieldValue: ko.observable(null),
+                                FieldText: ko.observable(null)
+                            };
+                            fields.push(cf);
+                        }
+
+                        return cf.FieldValue;
+                    }
+                };
+
+                self.GetFieldSelectOptions = function (item) {
+                    if (item && item.SelectionItems()) {
+                        var json = item.SelectionItems().replace(new RegExp("'", 'g'), '"');
+                        var items = JSON.parse(json);
+                        return items;
+                    }
+                    return [];
+                }
+
+                self.EditingPrice = ko.observable(null);
+
+                self.NewPrice = function () {
+                    var price = {
+                        Id: ko.observable(parseInt(new Date().getTime())),
+                        ProductId: ko.observable(self.data().Id()),
+                        Name: ko.observable(''),
+                        Sku: ko.observable(''),
+                        PurchasePrice: ko.observable(0.0),
+                        RetailPrice: ko.observable(0.0),
+                        Stock: ko.observable(0),
+                        DeliveryDays: ko.observable(0),
+                        CreatedAtUtc: ko.observable(new Date()),
+                        IsPublished: ko.observable(true),
+                        PublishedAtUtc: ko.observable(new Date()),
+                        VariantValues: ko.observableArray([])
+                    };
+                    return price;
+                };
+                self.AddPrice = function () {
+                    var price = self.NewPrice();
+                    self.EditingPrice(price);
+                    self.data().PriceList.push(price);
+                };
+
+                self.DeletePrice = function (item) {
+                    self.data().PriceList.remove(item);
+                };
+
+                self.IsEditingPrice = function (item) {
+                    return self.EditingPrice() && self.EditingPrice().Id() == item.Id();
+                };
+
+                self.GetPriceVaiantText = function (field, price) {
+                    var f = $.grep(price.VariantValues(), function (n, i) { return n.CustomFieldId() == field.Id(); })[0];
+                    if (f)
+                        return f.FieldValue();
+                    return '';
+                };
+
+                self.GetImageUrl = function (imgType) {
+                    var imgs = $.grep(self.data().Images(), function (n, i) { return n.ImageSizeName() == imgType.Name(); });
+                    return imgs;
+                };
+
+                self.AddImage = function (imgType, url) {
+                    var img = {
+                        Id: ko.observable(0),
+                        ProductId: ko.observable(self.data().Id()),
+                        ImageSizeName: ko.observable(imgType),
+                        ImageUrl: ko.observable(url),
+                        IsVisible: ko.observable(true)
+                    };
+                    self.data().Images.push(img);
+                };
+
+                self.RemoveImage = function (item) {
+                    self.data().Images.remove(item);
+                };
+
+                self.GetImageTypes = function (func) {
+                    utils.getJson('/Commerce/Product/GetImageTypes?commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                        ko.mapping.viewModel(data, self.ImageTypes);
+                        if (func) { func(); }
+                    })
+                };
+
+                self.GetProductTypes = function (func) {
+                    utils.getJson('/Commerce/Product/GetProductType?commerceName=@(Request.QueryString["commerceName"])&id=@(Request.QueryString["productTypeId"])', null, function (data) {
+                        ko.mapping.viewModel(data, self.ProductType);
+                        if (func) { func(); }
+                    })
+                };
+
+                self.GetBrands = function (func) {
+                    utils.getJson('/Commerce/Product/GetBrands?commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                        ko.mapping.viewModel(data, self.Brands);
+                        if (func) { func(); }
+                    })
+                };
+
+                self.GetCategories = function (func) {
+                    utils.getJson('/Commerce/Product/GetCategories?commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                        ko.mapping.viewModel(data, self.Categories);
+                        if (func) { func(); }
+                    })
+                };
+
+                self.GetSubCategories = function (item) {
+                    if (!item.Children()) {
+                        utils.getJson('/Commerce/Product/GetCategories?commerceName=@(Request.QueryString["commerceName"])&parentId=' + item.Id(), null, function (data) {
+                            item.Children(data);
+                            $('#category_tree li.tree-node').treeNode();
+                        });
+                    }
+                }
+            }
+        });
+
+        vm.GetImageTypes(function () {
+            vm.GetProductTypes(function () {
+                vm.GetBrands(function () {
+                    vm.GetCategories(function () {
+                        vm.getData();
+                        ko.applyBindings(vm);
+                    });
+                });
+            });
+        });
+        $('#J_ProductTabs').tabs();
+    });
+
+    function OpenImage(imgType, e) {
+        e.preventDefault();
+        var $mediaLink = $(this);
+
+        $mediaLink.pop({
+            popupOnTop: true,
+            url: '/Contents/MediaContent/Selection?siteName=SampleSite&return=/Commerce/Product',
+            width: 700,
+            height: 500,
+            onclose: function () {
+                setTimeout(function () {
+                    if ($.popContext.getCurrent() != null) {
+                        $.popContext.getCurrent().find('iframe').height('100%');
+                    }
+                }, 16);
+            },
+            onload: function (currentHandle, pop, config) {
+                var iframe = pop.children('iframe'),
+                iframeSrc = iframe[0].contentWindow.document.location.href;
+                if (iframeSrc == 'about:blank') {
+                    return false;
+                }
+                top.onFileSelected = function (src, text, option) {
+                    vm.AddImage(imgType.Name(), src);
+                };
+            }
+        }).click();
+    };
+</script>

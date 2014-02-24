@@ -1,0 +1,23 @@
+﻿@model CustomerEditorModel
+@{
+    ViewBag.Title = "New Customer".Localize();
+}
+
+@section Panel{
+    <ul class="header-panel">
+    <li>
+        <a data-ajaxform="">
+            @Html.IconImage("save") @("Save".Localize())
+        </a>
+    </li>
+    <li>
+        <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+            @Html.IconImage("cancel") @("Back".Localize())
+        </a>
+    </li>
+</ul>
+}
+
+<div class="block common-form">
+    @Html.EditorForModel()
+</div>

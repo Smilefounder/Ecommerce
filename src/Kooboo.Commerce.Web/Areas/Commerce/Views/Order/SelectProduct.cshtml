@@ -1,0 +1,211 @@
+﻿@using Kooboo.Commerce.Products;
+@using Kooboo.Commerce.Orders;
+@model Kooboo.Commerce.Orders.Order
+@{
+    ViewBag.Title = "Create an Order".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+@functions {
+    public int GetProductPriceQuantity(ProductPrice price, Order order)
+    {
+        if(order.OrderItems != null)
+        {
+            var item = order.OrderItems.FirstOrDefault(o => o.ProductPriceId == price.Id);
+            if (item != null)
+            { 
+                return item.Quantity;
+            }
+        }
+        return 0;
+    }
+}
+
+@section Panel{
+    <ul class="header-panel">
+    <li>
+        <a href="@ViewBag.Return">
+            @Html.IconImage("cancel") @("Previous".Localize())
+        </a>
+    </li>
+    <li>
+        <a href="/Commerce/Order/FillOrderInfo?commerceName=@Request.QueryString["commerceName"]">
+            @Html.IconImage("next") @("Next".Localize())
+        </a>
+    </li>
+</ul>
+}
+
+
+<div class="block">
+    <div class="wizard">
+        <div class="container">
+            <span>@("Select a Customer".Localize())</span>
+            <span class="active">@("Select Products".Localize())<b></b></span>
+            <span>@("Fill Order Info".Localize())</span>
+        </div>
+    </div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="message">
+            @TempData["Message"]
+        </div>
+    }
+    <div class="toolbar">
+        <a class="button" href="javascript:;" onclick="OpenProductList();">Add</a>
+    </div>
+    @using (Html.BeginForm("RemoveProduct", "Order", RouteValues.From(Request.QueryString)))
+    {
+        <div class="common-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            @("Product Name".Localize())
+                        </th>
+                        <th>
+                            @("Variants".Localize())
+                        </th>
+                        <th>
+                            @("Sku".Localize())
+                        </th>
+                        <th>
+                            @("Unit Price".Localize())
+                        </th>
+                        <th>
+                            @("Quantity".Localize())
+                        </th>
+                        <th>
+                            @("Total Price".Localize())
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(Model.OrderItems != null)
+                    { 
+                        foreach (var p in Model.OrderItems)
+                        {
+                            <tr>
+                                <td>
+                                    @p.ProductPrice.Product.Name
+                                </td>
+                                <td>
+                                    @foreach (var variant in p.ProductPrice.VariantValues)
+                                    {
+                                        <div class="block">
+                                            <span>@variant.CustomField.Name</span>
+                                            <span>:</span>
+                                            <span>@variant.FieldValue</span>
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    @p.ProductPrice.Sku
+                                </td>
+                                <td>
+                                    @p.UnitPrice
+                                </td>
+                                <td>
+                                    @p.Quantity
+                                </td>
+                                <td>
+                                    @p.SubTotal
+                                </td>
+                                <td>
+                                    <a href="/Commerce/Order/RemoveProduct?commerceName=@Request.QueryString["commerceName"]&id=@p.ProductPriceId">@Html.IconImage("minus small")</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+<div id="productPriceList" class="hide">
+@using (Html.BeginForm("AddProduct", "Order", RouteValues.From(Request.QueryString)))
+{
+    <div class="common-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        @("Quantity".Localize())
+                    </th>
+                    <th>
+                        @("Product Name".Localize())
+                    </th>
+                    <th>
+                        @("Variants".Localize())
+                    </th>
+                    <th>
+                        @("Sku".Localize())
+                    </th>
+                    <th>
+                        @("Price".Localize())
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in ViewBag.Products)
+                {
+                <tr class="@(GetProductPriceQuantity(p, Model) > 0 ? "active" : "")">
+                    <td>
+                        <input type="number" id="Quantity" name="Quantity" value="@GetProductPriceQuantity(p, Model)" onchange="ChangeQuantity(this);" />
+                        <input type="hidden" id="ProductPriceId" name="ProductPriceId" value="@p.Id" />
+                        <input type="hidden" id="ProductId" name="ProductId" value="@p.ProductId" />
+                        <input type="hidden" id="ProductName" name="ProductName" value="@p.Product.Name" />
+                        <input type="hidden" id="SKU" name="SKU" value="@p.Sku" />
+                        <input type="hidden" id="UnitPrice" name="UnitPrice" value="@p.RetailPrice" />
+                    </td>
+                    <td>
+                        @p.Product.Name
+                    </td>
+                    <td>
+                        @foreach (var variant in p.VariantValues)
+                                        {
+                            <div class="block">
+                                <span>@variant.CustomField.Name</span>
+                                <span>:</span>
+                                <span>@variant.FieldValue</span>
+                            </div>
+                                        }
+                    </td>
+                    <td>
+                        @p.Sku
+                    </td>
+                    <td>
+                        @p.RetailPrice
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+</div>
+<script type="text/javascript">
+    $(function () {
+        var table = $('.common-table table');
+        table.checkableTable();
+        table.grid();
+    });
+
+    function OpenProductList() {
+        utils.showDialog('#productPriceList', 'Select Products', function () {
+            window.leaveConfirm.pass();
+            $('#productPriceList form').submit();
+        })
+    }
+
+    function ChangeQuantity(ele) {
+        var val = $(ele).val();
+        var row = $(ele).closest('tr');
+        row.removeClass('active');
+        if (val && val != '') {
+            if (parseInt(val) > 0) {
+                row.addClass('active');
+            }
+        }
+    }
+</script>

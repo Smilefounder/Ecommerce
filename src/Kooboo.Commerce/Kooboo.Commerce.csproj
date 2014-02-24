@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BA7AA675-9613-4507-9BAA-2BA608E990CA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.Commerce</RootNamespace>
+    <AssemblyName>Kooboo.Commerce</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Common">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accounts\Account.cs" />
+    <Compile Include="Accounts\Exceptions\CreateAccountException.cs" />
+    <Compile Include="Accounts\Repositories\IAccountRepository.cs" />
+    <Compile Include="Accounts\Services\AccountService.cs" />
+    <Compile Include="Accounts\Services\IAccountService.cs" />
+    <Compile Include="Brands\Services\BrandService.cs" />
+    <Compile Include="Brands\Services\IBrandService.cs" />
+    <Compile Include="Categories\Services\CategoryService.cs" />
+    <Compile Include="Categories\Services\ICategoryService.cs" />
+    <Compile Include="Customers\ExtendedQuery\RecentOrderedCustomers.cs" />
+    <Compile Include="DefaultExtendedQueryManager.cs" />
+    <Compile Include="Events\Orders\DeliveryBegan.cs" />
+    <Compile Include="Events\Orders\OrderCreated.cs" />
+    <Compile Include="Events\Products\FindOne.cs" />
+    <Compile Include="Events\Products\GetAlternatives.cs" />
+    <Compile Include="Events\Products\GetRecommendations.cs" />
+    <Compile Include="Events\Products\IQueryProductListEvent.cs" />
+    <Compile Include="Events\Products\ProductCreated.cs" />
+    <Compile Include="Events\Products\ProductDeleted.cs" />
+    <Compile Include="Events\Products\ProductUpdated.cs" />
+    <Compile Include="IExtendedQuery.cs" />
+    <Compile Include="EAV\FieldDataType.cs" />
+    <Compile Include="EAV\CustomFieldType.cs" />
+    <Compile Include="EAV\Services\CustomFieldService.cs" />
+    <Compile Include="EAV\Services\FieldValidationRuleService.cs" />
+    <Compile Include="EAV\Services\ICustomFieldService.cs" />
+    <Compile Include="EAV\Services\IFieldValidationRuleService.cs" />
+    <Compile Include="EAV\Validation\IValidator.cs" />
+    <Compile Include="EAV\Validation\IValidatorFactory.cs" />
+    <Compile Include="EAV\Validation\ValidationType.cs" />
+    <Compile Include="EAV\WebControls\IWebControl.cs" />
+    <Compile Include="Events\Customers\ICustomerEvent.cs" />
+    <Compile Include="Events\Products\IProductEvent.cs" />
+    <Compile Include="Events\ShoppingCarts\IShoppingCartEvent.cs" />
+    <Compile Include="Events\Orders\IOrderEvent.cs" />
+    <Compile Include="IExtendedQueryManager.cs" />
+    <Compile Include="ImageSizes\Services\IImageSizeService.cs" />
+    <Compile Include="ImageSizes\Services\ImageSizeService.cs" />
+    <Compile Include="Locations\Services\CountryService.cs" />
+    <Compile Include="Locations\Services\ICountryService.cs" />
+    <Compile Include="Orders\ExtendedQuery\RecentOrder.cs" />
+    <Compile Include="Orders\OrderAddress.cs" />
+    <Compile Include="Orders\Services\IOrderPaymentService.cs" />
+    <Compile Include="Orders\Services\OrderPaymentService.cs" />
+    <Compile Include="Payments\PaymentGatewayException.cs" />
+    <Compile Include="Payments\PaymentReturnUrlUtil.cs" />
+    <Compile Include="Payments\ProcessPaymentResult.cs" />
+    <Compile Include="Pricing\PriceCalculator.cs" />
+    <Compile Include="Pricing\PricingItem.cs" />
+    <Compile Include="Pricing\PricingContext.cs" />
+    <Compile Include="Orders\Services\IOrderService.cs" />
+    <Compile Include="Payments\IPaymentGatewayViewsFactory.cs" />
+    <Compile Include="Products\ProductCategory.cs" />
+    <Compile Include="Products\ProductCustomFieldValue.cs" />
+    <Compile Include="Products\ProductPrice.cs" />
+    <Compile Include="Products\ProductPriceVariantValue.cs" />
+    <Compile Include="Promotions\IPromotionConditionViewsFactory.cs" />
+    <Compile Include="Promotions\IPromotionPolicyViewsFactory.cs" />
+    <Compile Include="Promotions\IPromotionMatcher.cs" />
+    <Compile Include="Promotions\ConditionCheckingContext.cs" />
+    <Compile Include="Promotions\PromotionMatch.cs" />
+    <Compile Include="Promotions\PromotionPolicyExecutionContext.cs" />
+    <Compile Include="Settings\Services\IKeyValueService.cs" />
+    <Compile Include="Settings\Services\KeyValueService.cs" />
+    <Compile Include="Products\Services\IProductService.cs" />
+    <Compile Include="Promotions\ConditionCheckingResult.cs" />
+    <Compile Include="Promotions\PromotionOverlappingUsage.cs" />
+    <Compile Include="Settings\ImageSetting.cs" />
+    <Compile Include="Payments\BankInfo.cs" />
+    <Compile Include="Payments\Services\IPaymentMethodService.cs" />
+    <Compile Include="Payments\Services\PaymentMethodService.cs" />
+    <Compile Include="PriceChangeMode.cs" />
+    <Compile Include="Events\Customers\CustomerCreated.cs" />
+    <Compile Include="Customers\CustomerLoyalty.cs" />
+    <Compile Include="Customers\Services\CustomerService.cs" />
+    <Compile Include="Customers\Services\ICustomerService.cs" />
+    <Compile Include="Gender.cs" />
+    <Compile Include="Events\Orders\OrderCancelled.cs" />
+    <Compile Include="Events\Orders\OrderPaid.cs" />
+    <Compile Include="Orders\Services\OrderService.cs" />
+    <Compile Include="Payments\IPaymentGateway.cs" />
+    <Compile Include="Payments\IPaymentGatewayFactory.cs" />
+    <Compile Include="Payments\IPaymentGatewayViews.cs" />
+    <Compile Include="Payments\PaymentMethod.cs" />
+    <Compile Include="Payments\ProcessPaymentRequest.cs" />
+    <Compile Include="Payments\PaymentStatus.cs" />
+    <Compile Include="EAV\CustomField.cs" />
+    <Compile Include="Products\Services\IProductTypeService.cs" />
+    <Compile Include="Products\Services\ProductService.cs" />
+    <Compile Include="Products\Services\ProductTypeService.cs" />
+    <Compile Include="Locations\Address.cs" />
+    <Compile Include="Brands\Brand.cs" />
+    <Compile Include="Categories\Category.cs" />
+    <Compile Include="Locations\Country.cs" />
+    <Compile Include="Customers\Customer.cs" />
+    <Compile Include="Orders\OrderStatus.cs" />
+    <Compile Include="ImageSizes\ImageSize.cs" />
+    <Compile Include="Settings\KeyValueSetting.cs" />
+    <Compile Include="Orders\Order.cs" />
+    <Compile Include="Orders\OrderItem.cs" />
+    <Compile Include="Products\Product.cs" />
+    <Compile Include="Products\ProductImage.cs" />
+    <Compile Include="Products\ProductReview.cs" />
+    <Compile Include="Products\ProductType.cs" />
+    <Compile Include="Settings\ProductSetting.cs" />
+    <Compile Include="Settings\Services\ISettingService.cs" />
+    <Compile Include="Settings\Services\SettingService.cs" />
+    <Compile Include="Settings\StoreSetting.cs" />
+    <Compile Include="EAV\FieldValidationRule.cs" />
+    <Compile Include="Promotions\IPromotionConditionFactory.cs" />
+    <Compile Include="Promotions\IPromotionPolicyFactory.cs" />
+    <Compile Include="Promotions\IPromotionCondition.cs" />
+    <Compile Include="Promotions\IPromotionConditionViews.cs" />
+    <Compile Include="Promotions\IPromotionPolicy.cs" />
+    <Compile Include="Promotions\IPromotionPolicyViews.cs" />
+    <Compile Include="Promotions\Promotion.cs" />
+    <Compile Include="Promotions\PromotionCondition.cs" />
+    <Compile Include="Promotions\Services\IPromotionService.cs" />
+    <Compile Include="Promotions\Services\PromotionService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shipping\IShipmentTrackerFactory.cs" />
+    <Compile Include="Shipping\IShipmentTrackerViews.cs" />
+    <Compile Include="Shipping\IShipmentTrackerViewsFactory.cs" />
+    <Compile Include="Shipping\IShippingRateProvider.cs" />
+    <Compile Include="Shipping\IShipmentTracker.cs" />
+    <Compile Include="Shipping\IShippingRateProviderFactory.cs" />
+    <Compile Include="Shipping\IShippingRateProviderViews.cs" />
+    <Compile Include="Shipping\IShippingRateProviderViewsFactory.cs" />
+    <Compile Include="Shipping\Services\IShippingMethodService.cs" />
+    <Compile Include="Shipping\Services\ShippingMethodService.cs" />
+    <Compile Include="Shipping\Shipment.cs" />
+    <Compile Include="Shipping\ShipmentPackageItem.cs" />
+    <Compile Include="Shipping\ShipmentStatusEvent.cs" />
+    <Compile Include="Shipping\ShippingCarrier.cs" />
+    <Compile Include="Shipping\ShippingCostCalculationContext.cs" />
+    <Compile Include="Shipping\ShippingMethod.cs" />
+    <Compile Include="ShoppingCarts\Services\IShoppingCartService.cs" />
+    <Compile Include="ShoppingCarts\Services\ShoppingCartService.cs" />
+    <Compile Include="ShoppingCarts\ShoppingCart.cs" />
+    <Compile Include="ShoppingCarts\ShoppingCartItem.cs" />
+    <Compile Include="EAV\WebControls\IWebControlFactory.cs" />
+    <Compile Include="EAV\Validation\ValidationExtensions.cs" />
+    <Compile Include="EAV\WebControls\WebControlModel.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
+      <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
+      <Name>Kooboo.Commerce.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

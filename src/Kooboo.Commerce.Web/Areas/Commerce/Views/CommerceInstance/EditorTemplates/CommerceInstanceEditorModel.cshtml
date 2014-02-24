@@ -1,0 +1,131 @@
+﻿@model CommerceInstanceEditorModel
+
+@Html.ValidationSummary(true)
+
+@Html.HiddenFor(m => m.IsNew)
+<table>
+    <tbody>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Name)</th>
+            <td>
+                <div data-bind="if: isNew">
+                    @Html.TextBoxFor(m => m.Name, new { data_bind = "value: name" })
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+                <div data-bind="if: !isNew()">
+                    @Model.Name
+                    <input type="hidden" name="Name" value="@Model.Name" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.DisplayName)</th>
+            <td>
+                @Html.TextBoxFor(m => m.DisplayName, new { data_bind = "value: displayName" })
+                @Html.ValidationMessageFor(m => m.DisplayName)
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.DbSchema)</th>
+            <td>
+                <div data-bind="if: !isNew()">
+                    @Model.DbSchema
+                </div>
+                <div data-bind="if: isNew">
+                    @Html.TextBoxFor(m => m.DbSchema, new { data_bind = "value: dbSchema" })
+                    @Html.ValidationMessageFor(m => m.DbSchema)
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.DbProviderDisplayName)</th>
+            <td>
+                <div data-bind="if: !isNew()">
+                    @Model.DbProviderDisplayName
+                </div>
+                <div data-bind="if: isNew">
+                    @Html.DropDownListFor(m => m.DbProviderKey, Model.DbProviders, "Select db provider".Localize(), new { data_bind = "value: dbProviderKey" })
+                    @Html.ValidationMessageFor(m => m.DbProviderKey)
+                </div>
+            </td>
+        </tr>
+        <tr data-bind="visible: dbProviderKey">
+            <th></th>
+            <td>
+                @Html.CheckBoxFor(m => m.AdvancedMode, new { data_bind = "checked: advancedMode" })
+                @Html.LabelFor(m => m.AdvancedMode, new { @class = "inline" })
+            </td>
+        </tr>
+        <tr data-bind="visible: dbProviderKey() && advancedMode()">
+            <th>@Html.DisplayNameFor(m => m.ConnectionString)</th>
+            <td>
+                @Html.TextBoxFor(m => m.ConnectionString, new { data_bind = "value: connectionString" })
+                @Html.ValidationMessageFor(m => m.ConnectionString)
+            </td>
+        </tr>
+        <!-- ko foreach: { data: connectionStringParameters, afterRender: reparseValidation } -->
+        <tr data-bind="visible: $parent.dbProviderKey() && !$parent.advancedMode()">
+            <th data-bind="text: text"></th>
+            <td>
+                <input type="hidden" data-bind="value: text, attr: { name: 'ConnectionStringParameters[' + $index() + '].Text' }" />
+                <input type="text" data-bind="value: value, attr: { name: 'ConnectionStringParameters[' + $index() + '].Value' }"
+                       data-val="true" data-val-required="@("Required".Localize())" />
+                <span data-bind="attr: { 'data-valmsg-for': 'ConnectionStringParameters[' + $index() + '].Value' }" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <!-- /ko -->
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+
+        var jsModel = @Html.Raw(Model.ToJson(PropertyNaming.CamelCase));
+        var ViewModel = function () {
+            var _this = this;
+
+            this.init = function () {
+                _this.name.subscribe(function (name) {
+                    if (!_this.displayName()) {
+                        _this.displayName(name);
+                    }
+                    if (!_this.dbSchema()) {
+                        _this.dbSchema(name);
+                    }
+                });
+
+                _this.dbProviderKey.subscribe(function () {
+                    _this.updateConnectionStringParameters();
+                });
+            }
+
+            this.updateConnectionStringParameters = function () {
+                _this.connectionStringParameters.removeAll();
+                
+                var dbProviderKey = _this.dbProviderKey();
+                var paramNames = _.find(_this.connectionStringParameterNames(), function (param) {
+                    return param.dbProviderKey() == dbProviderKey;
+                });
+
+                if (paramNames) {
+                    $.each(paramNames.parameterNames(), function () {
+                        _this.connectionStringParameters.push({
+                            text: ko.observable(this.toString()),
+                            value: ko.observable()
+                        });
+                    });
+                }
+            }
+
+            this.reparseValidation = function () {
+                $.validator.unobtrusive.reparse($('#commerce-instance-form form'));
+            }
+        };
+
+        var viewModel = ko.mapping.fromJS(jsModel, {}, new ViewModel());
+        viewModel.init();
+
+        ko.applyBindings(viewModel, document.getElementById('commerce-instance-form'));
+
+    });
+</script>

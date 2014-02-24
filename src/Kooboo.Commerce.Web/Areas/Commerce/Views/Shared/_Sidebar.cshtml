@@ -1,0 +1,8 @@
+﻿
+@Html.Partial("_SidebarTopSearch")
+
+<div class="warp">
+    <nav class="block menu">
+        @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Commerce"))
+    </nav>
+</div>

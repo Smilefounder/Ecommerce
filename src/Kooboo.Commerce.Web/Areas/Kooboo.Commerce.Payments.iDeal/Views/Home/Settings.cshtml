@@ -1,0 +1,18 @@
+﻿@model Kooboo.Commerce.Payments.iDeal.IDealPaymentGatewayData
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_PaymentGatewaySettings.cshtml";
+    ViewBag.Title = "Mollie iDeal settings".Localize();
+}
+
+<div class="common-form">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.PartnerId)
+                @Html.EditorFor(m => m.TestMode)
+            </tbody>
+        </table>
+    }
+</div>

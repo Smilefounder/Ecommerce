@@ -1,0 +1,19 @@
+﻿@model CommerceInstanceEditorModel
+@{
+    Layout = "~/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "Edit commerce instance".Localize();
+}
+
+@section Panel{
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddCancelButton();
+    })
+}
+<div class="common-form" id="commerce-instance-form">
+    @using (Html.BeginForm())
+    {
+        @Html.EditorForModel()
+    }
+</div>

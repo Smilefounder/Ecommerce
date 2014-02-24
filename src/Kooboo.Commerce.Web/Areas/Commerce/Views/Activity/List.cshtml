@@ -1,0 +1,37 @@
+﻿@model PagedList<ActivityBindingRowModel>
+@{
+    ViewBag.Title = ViewBag.CurrentEventDisplayName;
+}
+
+@section Panel {
+    @(Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.Add("Attach Activity", "add")
+               .Dropdown(items =>
+               {
+                   var activities = (IEnumerable<SelectListItemEx>)ViewData["AllActivities"];
+
+                   if (!activities.Any())
+                   {
+                       items.Add("No available activity");
+                   }
+                   else
+                   {
+                       foreach (var activity in activities)
+                       {
+                           items.Add(activity.Text).WithUrl(Url.Action("Create", RouteValues.From(Request.QueryString).Merge("activityName", activity.Value).Merge("return", Request.RawUrl)));
+                       }
+                   }
+               });
+
+        buttons.AddAjaxPostButton("Settings", "setting", "Settings", new { @return = Request.RawUrl }).VisibleWhen(GridChecked.Single).VisibleWhenSelected(".configurable");
+        buttons.AddEnableButton();
+        buttons.AddDisableButton();
+        buttons.AddDeleteButton();
+    }))
+}
+
+@Html.GridFor2(typeof(ActivityBindingRowModel), Model)
+<div class="pagination right">
+    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+</div>

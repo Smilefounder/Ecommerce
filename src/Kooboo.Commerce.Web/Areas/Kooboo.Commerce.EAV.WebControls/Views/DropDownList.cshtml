@@ -1,0 +1,13 @@
+﻿@model WebControlModel
+
+@{
+    var model = DropDownListData.Deserialize(Model.CustomField.ControlData);
+}
+
+<select id="@Model.ClientId" name="@Model.UniqueName" @(Html.Raw(Model.CustomField.GetUnobtrusiveValidationAttributeString()))>
+    <option value="">@(model.Caption)</option>
+    @foreach (var item in model.Items)
+    {
+        <option value="@item.Value"@(item.Selected ? " selected" : "")>@item.Text</option>
+    }
+</select>

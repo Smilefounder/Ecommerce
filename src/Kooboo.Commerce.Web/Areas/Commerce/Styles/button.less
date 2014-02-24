@@ -1,0 +1,128 @@
+/* Link button
+------------------------------------------------------*/
+a.button {
+	background: @blue;
+	color: #FFF;
+	display: inline-block;
+	font-size: 14px;
+	height: 30px;
+	line-height: 30px;
+	min-width: 80px;
+	padding: 0 10px;
+	text-align: center;
+
+	&:hover {
+		background: darken(@blue, 5%);
+	}
+
+	&.gray {
+		background: @gray;
+		color: #000;
+
+		&:hover {
+			background: darken(@gray, 5%);
+		}
+
+		&.disabled {
+			background: lighten(@gray, 5%);
+		}
+	}
+
+	&.white {
+		background: #FFF;
+		color: #333;
+
+		&:hover {
+			background: darken(#FFF, 5%);
+		}
+
+		&.disabled {
+			background: #FFF;
+		}
+	}
+
+	&.upload {
+		position: relative;
+
+		span {
+			height: 100%;
+			left: 0;
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			z-index: 9999;
+			.opacity(0);
+		}
+
+		input {
+			cursor: pointer;
+			font-size: 32px;
+			height: 100px;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		&.disabled input {
+			cursor: not-allowed;
+		}
+	}
+
+	&.disabled {
+		background: @blue;
+		cursor: not-allowed;
+	}
+}
+/* Form button
+------------------------------------------------------*/
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+	background: #0078B1;
+	border: none;
+	color: #FFF;
+	cursor: pointer;
+	font-size: 14px;
+	height: 30px;
+	line-height: 30px;
+	min-width: 100px;
+	padding: 0 10px;
+	.transition(0.2s);
+
+	&:hover {
+		background: darken(@blue, 5%);
+	}
+
+	&.gray {
+		background: @gray;
+		color: #000;
+
+		&:hover {
+			background: darken(@gray, 5%);
+		}
+
+		&.disabled {
+			background: lighten(@gray, 5%);
+		}
+	}
+
+	&.white {
+		background: #FFF;
+		color: #333;
+
+		&:hover {
+			background: darken(#FFF, 5%);
+		}
+
+		&.disabled {
+			background: #FFF;
+		}
+	}
+
+	&.disabled {
+		background: @blue;
+		cursor: not-allowed;
+	}
+}

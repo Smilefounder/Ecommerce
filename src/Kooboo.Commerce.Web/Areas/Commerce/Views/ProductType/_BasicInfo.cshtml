@@ -1,0 +1,20 @@
+﻿@model ProductTypeEditorModel
+
+<div class="common-form">
+    <table>
+        <tbody>
+            @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.SkuAlias, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.IsEnabled)
+            <!--ko foreach:systemFields-->
+            <tr>
+                <th></th>
+                <td>
+                    <input id="Has_{ko}" type="checkbox" data-bind="attr:{id:'Has_'+Name(),value:Name}, checked:mChecked" />
+                    <label for="Has_{ko}" class="inline" data-bind="attr:{'for':'Has_'+Name()}, text:('@("Has".Localize())'+' '+Name())"></label>
+                </td>
+            </tr>
+            <!--/ko-->
+        </tbody>
+    </table>
+</div>

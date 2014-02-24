@@ -1,0 +1,75 @@
+﻿@model IEnumerable<CommerceInstanceModel>
+@{
+    ViewBag.Title = "Commerce instances".Localize();
+}
+
+@section Panel{
+    @(Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddCreateButton();
+        buttons.Add("Edit", "edit").WithUrl(Url.Action("Edit", new { @return = Request.RawUrl }))
+                                   .WithCommandType(CommandType.Redirect)
+                                   .VisibleWhen(GridChecked.Single);
+        buttons.AddDeleteButton();
+    }))
+}
+
+@if (!Model.Any())
+{
+    <div class="block fixed">
+        <div class="sitemap-panel clearfix">
+            <div class="blank">
+                <p>
+                    @("You do not have any commerce instance yet, click the button below to create a commerce instance.".Localize())
+                </p>
+                @Html.ActionLink("Create a instance", "Create", "CommerceInstance", new { @return = ViewContext.HttpContext.Request.RawUrl }, new { @class = "button" })
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="block fixed" id="instance-list">
+        @foreach (var instance in Model)
+        {
+            <div class="content-block commerce-instance database">
+                <div class="content-block-header">
+                    <a href="@Url.Action("Start", new { commerceName = instance.Name })">@instance.DisplayName</a>
+                    <input type="radio" name="select" class="select" value="@instance.Name" id="@instance.Name" data-id-property="Name"><label for="@instance.Name"></label><span class="corner"></span>
+                </div>
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        }
+    </div>
+}
+
+<script>
+    $(function () {
+        var $instanceList = $('#instance-list').find('.commerce-instance');
+        var $checkRelateds = $('[data-show-on-check]');
+        var selector = 'input:radio.select:checked';
+        function reset() {
+            $instanceList.reset_check_relateds({ check_relateds: $checkRelateds, selector: selector, itemTag: 'div.content-block-header' });
+        }
+        function clear() {
+            $instanceList.removeClass('checked');
+            $instanceList.find('input:radio.select').attr('checked', false);
+            reset();
+        }
+        reset();
+        $instanceList.on('click', function (e) {
+            var $self = $(this);
+            clear();
+            $self.addClass('checked');
+            $self.find('input:radio.select').attr('checked', true);
+            reset();
+            e.stopPropagation();
+        });
+        $instanceList.grid();
+        $(document).click(function () {
+            clear();
+        });
+    });
+</script>

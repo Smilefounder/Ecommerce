@@ -1,0 +1,26 @@
+﻿@model ActivityBindingEditorModel
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.EventClrType)
+@Html.HiddenFor(m => m.ActivityName)
+@Html.HiddenFor(m => m.IsConfigurable)
+<table id="activity-binding-form">
+    <tbody>
+        <tr>
+            <th>@("Target event".Localize())</th>
+            <td>
+                @Model.EventDisplayName
+            </td>
+        </tr>
+        <tr>
+            <th>@("Activity to attach".Localize())</th>
+            <td>
+                @Model.ActivityDisplayName
+            </td>
+        </tr>
+        @Html.EditorFor(m => m.Description)
+        @Html.EditorFor(m => m.Priority)
+        @Html.EditorFor(m => m.IsEnabled)
+    </tbody>
+</table>

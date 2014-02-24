@@ -1,0 +1,33 @@
+﻿/* Iframe dialog
+----------------------------------------------------------*/
+body.in-dialog {
+	min-width: 0;
+	overflow: auto;
+
+	h1.title {
+		font-size: 24px;
+		font-weight: 300;
+		line-height: 1;
+		margin-bottom: 20px;
+	}
+
+	#main-container > .wrap {
+		top: 51px;
+
+		.topbar {
+			top: 0;
+		}
+	}
+
+	&.blank {
+		.common-table.fixed {
+			.thead {
+				top: 71px;
+			}
+
+			.tbody {
+				margin-top: 0;
+			}
+		}
+	}
+}

@@ -1,0 +1,40 @@
+﻿@*@model IEnumerable<CustomFieldEditorModel>*@
+@{
+    var createButtonText = (string)ViewData["CreateButtonText"];
+    if (string.IsNullOrEmpty(createButtonText))
+    {
+        createButtonText = "Create field".Localize();
+    }
+}
+<div class="simple-table">
+    <div class="toolbar">
+        <a class="button" data-bind="click:addField">@createButtonText</a>
+    </div>
+    <div id="grid-field">
+        <div id="grid-field-template">
+            <table data-bind="jqData:$data">
+                <thead>
+                    <tr>
+                        <th class="nocheckbox"></th>
+                        <th>@("Name".Localize())</th>
+                        <th>@("Label".Localize())</th>
+                        <th>@("Control type".Localize())</th>
+                        <th>@("Content list page".Localize())</th>
+                        <th>@("Sequence".Localize())</th>
+                        <th class="action">@("Delete".Localize())</th>
+                    </tr>
+                </thead>
+                <tbody class="ui-sortable">
+                    <!--ko if:!$data.fields().length-->
+                    <tr class="empty">
+                        <td colspan="100">@("Empty".Localize())</td>
+                    </tr>
+                    <!--/ko-->
+                    <!--ko foreach:$data.fields-->
+                    <!--ko template: { name: 'custom_field_row_template' }--><!--/ko-->
+                    <!--/ko-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

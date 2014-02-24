@@ -1,0 +1,43 @@
+/* Head
+----------------------------------------------------------*/
+.head {
+	border-bottom: 1px solid #CCC;
+	padding: 7px 0;
+	.clearfix();
+
+	&.blue {
+		background: @blue;
+		border: none;
+		color: #FFF;
+		padding: 7px 10px;
+	}
+
+	&.light-blue {
+		background: @light-blue;
+		border: none;
+		color: #FFF;
+		padding: 7px 10px;
+	}
+
+	&.light-gray {
+		background: @light-gray;
+		border: none;
+		padding: 7px 10px;
+	}
+
+	.title {
+		display: inline-block;
+		font-size: 20px;
+		font-weight: normal;
+		line-height: 1;
+	}
+
+	.actions {
+		float: right;
+
+		li {
+			float: left;
+			margin-left: 10px;
+		}
+	}
+}

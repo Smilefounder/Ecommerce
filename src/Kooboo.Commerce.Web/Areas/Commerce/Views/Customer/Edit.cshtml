@@ -1,0 +1,390 @@
+﻿@model CustomerEditorModel
+@{
+    ViewBag.Title = "Edit Customer".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+@section Panel{
+    <ul class="header-panel">
+    <li>
+        <a href="javascript:vm.saveData();">
+            @Html.IconImage("save") @("Save".Localize())
+        </a>
+    </li>
+    <li>
+        <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+            @Html.IconImage("cancel") @("Back".Localize())
+        </a>
+    </li>
+</ul>
+}
+
+<div class="block">
+    <form>
+        <div id="J_CustomerTabs">
+            <ul>
+                <li>
+                    <a href="#profile">
+                        @("Profile".Localize())
+                    </a>
+                </li>
+                <li>
+                    <a href="#changePassword">
+                        @("Password".Localize())
+                    </a>
+                </li>
+                <li>
+                    <a href="#address">
+                        @("Addresses".Localize())
+                    </a>
+                </li>
+                <li>
+                    <a href="#orders">
+                        @("Orders".Localize())
+                    </a>
+                </li>
+            </ul>
+            <div id="profile" class="common-form">
+                <table>
+                    <tbody data-bind="with:data">
+                        <tr>
+                            <th>@("First Name".Localize())</th>
+                            <td>
+                                <input data-bind="value:FirstName" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Middle Name".Localize())</th>
+                            <td>
+                                <input data-bind="value:MiddleName" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Last Name".Localize())</th>
+                            <td>
+                                <input data-bind="value:LastName" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Gender".Localize())</th>
+                            <td>
+                                <!-- ko foreach: $root.Genders -->
+                                <input type="radio" name="gender" data-bind="value: Value, checked: $root.BindGender"><label class="radio-label" data-bind="text:Name"></label>
+                                <!-- /ko -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Phone".Localize())</th>
+                            <td>
+                                <input data-bind="value:Phone" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Country".Localize())</th>
+                            <td>
+                                <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("City".Localize())</th>
+                            <td>
+                                <input data-bind="value:City" type="text">
+                            </td>
+                        </tr>
+                        <!-- ko with: Loyalty -->
+                        <tr>
+                            <th>@("Saving Points".Localize())</th>
+                            <td>
+                                <input data-bind="value:SavingPoints" type="text">
+                            </td>
+                        </tr>
+                        <!-- /ko -->
+                        <!-- ko with: Account -->
+                        <tr>
+                            <th>@("Email".Localize())</th>
+                            <td>
+                                <input data-bind="value:Email" type="text">
+                            </td>
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="changePassword" class="common-form">
+                <table data-bind="with: data">
+                    <tbody data-bind="with: Account">
+                        <tr>
+                            <th>@("Password".Localize())</th>
+                            <td>
+                                <input id="oldPassword" name="oldPassword" type="password" onblur="vm.data().Account().Password($(this).val());">
+                            </td>
+                        </tr>
+                        <!-- ko if: Id() > 0 -->
+                        <tr>
+                            <th>@("New Password".Localize())</th>
+                            <td>
+                                <input id="newPassword" name="newPassword" type="password">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Confirm Password".Localize())</th>
+                            <td>
+                                <input id="confirmPassword" name="confirmPassword" type="password" onblur="CheckConfirmPassword();">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <a href="javascript:;" onclick="ChangePassword();">@Html.IconImage("save")Change Password</a>
+                            </td>
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="address">
+                <div class="simple-table">
+                    <div class="toolbar">
+                        <a class="button" href="javascript:;" data-bind="click: $root.AddAddress">Add</a>
+                    </div>
+                    <table data-bind="with: data">
+                        <thead>
+                            <tr>
+                                <th class="mini">@("FirstName".Localize())</th>
+                                <th class="mini">@("LastName".Localize())</th>
+                                <th class="mini">@("Phone".Localize())</th>
+                                <th class="mini">@("Address1".Localize())</th>
+                                <th class="mini">@("IsDefault".Localize())</th>
+                                <th class="action"></th>
+                                <th class="action"></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: Addresses">
+                            <tr>
+                                <td class="mini" data-bind="text:FirstName"></td>
+                                <td class="mini" data-bind="text:LastName"></td>
+                                <td class="mini" data-bind="text:Phone"></td>
+                                <td class="mini" data-bind="text:Address1"></td>
+                                <td class="mini" data-bind="text:IsDefault"></td>
+                                <td><a href="javascript:;" data-bind="click: $root.EditAddress" title="edit price">@Html.IconImage("edit small")</a></td>
+                                <td><a href="javascript:;" data-bind="click: $root.RemoveAddress" title="delete price">@Html.IconImage("minus small")</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="orders">
+                <div class="simple-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="mini">@("Order Date".Localize())</th>
+                                <th class="mini">@("Total Price".Localize())</th>
+                                <th class="mini">@("Total Weight".Localize())</th>
+                                <th class="mini">@("OrderStatus".Localize())</th>
+                                <th class="mini">@("PaymentStatus".Localize())</th>
+                                <th class="mini">@("Completed".Localize())</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: $root.Orders">
+                            <tr>
+                                <td class="mini" data-bind="text:CreatedAtUtc"></td>
+                                <td class="mini" data-bind="text:Total"></td>
+                                <td class="mini" data-bind="text:TotalWeight"></td>
+                                <td class="mini" data-bind="text:OrderStatus"></td>
+                                <td class="mini" data-bind="text:PaymentStatus"></td>
+                                <td class="mini" data-bind="text:IsCompleted"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="addressDiv" class="hide common-form">
+    <table>
+        <tbody data-bind="with: EditingAddress">
+            <tr>
+                <th>@("First Name".Localize())</th>
+                <td>
+                    <input data-bind="value:FirstName" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th>@("Last Name".Localize())</th>
+                <td>
+                    <input data-bind="value:LastName" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th>@("Phone".Localize())</th>
+                <td>
+                    <input data-bind="value:Phone" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th>@("Country".Localize())</th>
+                <td>
+                    <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId"></select>
+                </td>
+            </tr>
+            <tr>
+                <th>@("State".Localize())</th>
+                <td>
+                    <input data-bind="value:State" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th>@("City".Localize())</th>
+                <td>
+                    <input data-bind="value:City" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th>@("Postcode".Localize())</th>
+                <td>
+                    <input data-bind="value:Postcode" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th>@("Address1".Localize())</th>
+                <td>
+                    <input data-bind="value:Address1" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th>@("Address2".Localize())</th>
+                <td>
+                    <input data-bind="value:Address2" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th>@("IsDefault".Localize())</th>
+                <td>
+                    <input data-bind="checked:IsDefault" type="checkbox">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    utils.showMessage = function (title, message, level, funcClose) {
+        info.show(message, (level || 'info') == 'info');
+    };
+
+    var vm;
+    $(function () {
+        vm = new ObjectModel({
+            getQueryUrl: function (self) {
+                return '/Commerce/Customer/Get?commerceName=@Request.QueryString["commerceName"]&id=@(Request.QueryString["Id"])';
+            },
+            getSaveUrl: function (self) {
+                return '/Commerce/Customer/Save?commerceName=@Request.QueryString["commerceName"]';
+            },
+            onQuerySuccess: function (self) {
+                $('#J_CustomerTabs').tabs();
+                vm.GetOrders();
+            },
+            onSaveSuccess: function (self, info) {
+                utils.showMessage('Notice', info.message, 'info');
+                $('#J_CustomerTabs').tabs();
+            },
+            onInit: function (self) {
+                self.Orders = ko.observableArray([]);
+                self.Countries = ko.observableArray([]);
+                self.Genders = ko.observableArray([
+                    { 'Name': 'Unknown', 'Value': 0 },
+                    { 'Name': 'Male', 'Value': 1 },
+                    { 'Name': 'Female', 'Value': 2 }
+                ]);
+                self.BindGender = ko.computed({
+                    read: function () {
+                        if(this.data())
+                            return this.data().Gender().toString();
+                        return null;
+                    },
+                    write: function (newValue) {
+                        this.data().Gender(newValue);
+                    },
+                    owner: self
+                });
+                self.EditingAddress = ko.observable(null);
+                self.AddAddress = function () {
+                    var item = {
+                        Id: ko.observable(0),
+                        CustomerId: ko.observable(self.data().Id()),
+                        FirstName: ko.observable(''),
+                        LastName: ko.observable(''),
+                        Address1: ko.observable(null),
+                        Address2: ko.observable(null),
+                        Postcode: ko.observable(null),
+                        CountryId: ko.observable(null),
+                        City: ko.observable(null),
+                        State: ko.observable(null),
+                        Phone: ko.observable(null),
+                        IsDefault: ko.observable(false)
+                    }
+                    self.data().Addresses.push(item);
+                    self.EditAddress(item);
+                };
+                self.RemoveAddress = function (item) {
+                    self.data().Addresses.remove(item);
+                };
+                self.EditAddress = function (item) {
+                    self.EditingAddress(item);
+                    utils.showDialog('#addressDiv', 'Edit Address');
+                };
+                self.OrderPageIndex = ko.observable(0);
+                self.OrderPageIndex.subscribe(function (newVal) {
+                    self.GetOrders();
+                });
+                self.GetOrders = function () {
+                    var url = '/Commerce/Customer/GetOrders?commerceName=@Request.QueryString["commerceName"]&customerId=' + self.data().Id();
+                    url += '&page=' + self.OrderPageIndex() + '&pageSize=50';
+                    utils.getJson(url, null, function (orders) {
+                        ko.mapping.viewModel(orders, vm.Orders);
+                    });
+                };
+            }
+        });
+
+        ko.applyBindings(vm);
+        utils.getJson('/Commerce/Customer/GetCountries?commerceName=@Request.QueryString["commerceName"]', null, function (dc) {
+            ko.mapping.viewModel(dc, vm.Countries);
+            vm.getData();
+        });
+        $('#J_CustomerTabs').tabs();
+    });
+
+    function CheckConfirmPassword() {
+        var val1 = $('#newPassword').val();
+        var val2 = $('#confirmPassword').val();
+        if (val1 || val2) {
+            if (val1 != val2) {
+                utils.showMessage('warning', 'Confirm Password should be the same as new password.', 'warn');
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function ChangePassword() {
+        if (CheckConfirmPassword()) {
+            var data = {
+                AccountId: vm.data().Account().Id(),
+                OldPassword: $('#oldPassword').val(),
+                NewPassword: $('#newPassword').val(),
+                ConfirmPassword: $('#confirmPassword').val()
+            };
+            utils.postJson('/Commerce/Customer/ChangePassword?commerceName=@Request.QueryString["commerceName"]', data, function (info) {
+                utils.showMessage(info.title, info.message, info.status == 0 ? 'info' : 'error');
+            });
+        }
+    }
+</script>
+
+<style>
+input[name="gender"]{
+	float: none;
+}
+</style>

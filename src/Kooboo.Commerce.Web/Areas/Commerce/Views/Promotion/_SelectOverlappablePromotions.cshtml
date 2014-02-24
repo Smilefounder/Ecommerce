@@ -1,0 +1,40 @@
+﻿@model IList<PromotionRowModel>
+
+<div class="other-promotions" style="margin-top:10px;display:none">
+    <p>
+        @("Select promotions which are allowed to be used together with current promotion"):
+    </p>
+    @if (Model.Count > 0)
+    {
+        <table class="table">
+            <tbody>
+                @for (var i = 0; i < Model.Count; i++)
+                {
+                    var promotion = Model[i];
+                    var prefix = "OtherPromotions[" + i + "].";
+                    <tr>
+                        <td style="width: 20px !important;padding-left:0">
+                            @Html.Hidden(prefix + "Id", promotion.Id)
+                            @Html.CheckBox(prefix + "IsSelected", promotion.IsSelected, new { @class = "select" })
+                        </td>
+                        <td>
+                            @promotion.Name
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <script>
+            $(function () {
+                $('.other-promotions > table').checkableTable();
+            });
+        </script>
+    }
+    else
+    {
+        <p>
+            @("There's no promotion currently available for selection.".Localize())
+        </p>
+    }
+</div>

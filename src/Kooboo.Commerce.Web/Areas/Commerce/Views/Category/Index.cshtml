@@ -1,0 +1,127 @@
+﻿@model PagedList<Kooboo.Commerce.Categories.Category>
+@{
+    ViewBag.Title = "Categories".Localize();
+}
+
+@section Panel {
+    @(Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddCreateButton();
+        buttons.AddDeleteButton();
+    }))
+}
+<div class="common-table">
+@using (Html.BeginForm("Delete", "Category", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class = "no-stop" }))
+{
+    <table>
+        <thead>
+            <tr>
+                <th class="checkbox">
+                    <input type="checkbox" class="select-all">
+                </th>
+                <th>@("Id".Localize())</th>
+                <th>@("Name".Localize())</th>
+                <th>@("Published".Localize())</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr data-level="1">
+                    <td class="checkbox ">
+                        <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
+                    </td>
+                    <td>
+                        <span class="expander" onclick="ToggleChildren(this, '@p.Id');">@Html.IconImage("arrow")</span>
+                        <a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]">@p.Id</a>
+                    </td>
+                    <td>
+                        @p.Name
+                    </td>
+                    <td>
+                        @(p.Published ? "Published" : "-")
+                    </td>
+                    <td>
+                        <a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&ParentId=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]">@Html.IconImage("plus small")</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+</div>
+<div class="pagination right">
+    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+</div>
+<script type="text/javascript">
+    $(function () {
+        GridTable();
+    });
+
+    function GridTable() {
+        var table = $('.common-table table');
+        table.checkableTable();
+        table.grid();
+    }
+
+    function ToggleChildren(ele, pid) {
+        event.stopPropagation();
+        $(ele).toggleClass('active');
+        var tbody = $(ele).closest('tbody');
+        var tr = $(ele).closest('tr');
+        var eles = tbody.find('tr[data-parent-id="' + pid + '"]');
+        var level = parseInt($(tr).attr('data-level') || "1") + 1;
+        if ($(ele).hasClass('active')) {
+            if (eles.length <= 0) {
+                utils.getJson('/Commerce/Category/Children?commerceName=@Request.QueryString["commercename"]&parentId=' + pid, null, function (data) {
+                    $.each(data, function (i, n) {
+                        var ctr = $('<tr></tr>').attr('data-parent-id', pid).attr('data-level', level);
+                        var ctd1 = $('<td class="checkbox"></td>');
+                        var ccb = $('<input type="checkbox" class="select" name="select" data-id-property="Id" autocomplete="off" />').attr('value', n.Id);
+                        ctd1.append(ccb);
+                        ctr.append(ctd1);
+                        var ctd2 = $('<td></td>');
+                        var space = "";
+                        var times = level;
+                        while (times > 0) { space += "&nbsp;&nbsp;"; times--; }
+                        $('<span class="left"></span>').html(space).appendTo(ctd2);
+                        var span = $('<span class="expander" onclick="ToggleChildren(this, \'' + n.Id + '\');"><img class="icon arrow" src="/Images/invis.gif" /></span>');
+                        var a = $('<a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"></a>').text(n.Id);
+                        ctd2.append(span);
+                        ctd2.append(a);
+                        ctr.append(ctd2);
+                        ctr.append($('<td>' + n.Name + '</td>'));
+                        ctr.append($('<td>' + (n.Published ? "Published" : "-") + '</td>'));
+                        var ctdl = $('<td></td>');
+                        var ca = $('<a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&ParentId=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"><img class="icon plus small" src="/Images/invis.gif" /></a>');
+                        ctdl.append(ca);
+                        ctr.append(ctdl);
+                        ctr.insertAfter(tr);
+                        ctr.on('click', function (e) {
+                            e.stopPropagation();
+                            var $self = $(this);
+                            var $checkbox = $self.find('input:checkbox,input:radio');
+                            if (!$checkbox.prop('disabled')) {
+                                $self.toggleClass('active');
+                                if ($self.hasClass('active')) {
+                                    $checkbox.prop('checked', true);
+                                } else {
+                                    $checkbox.prop('checked', false);
+                                }
+                                tbody.reset_check_relateds({ check_relateds: $('[data-show-on-check]'), selector: 'input:checkbox.select:checked' });
+                            }
+                        });
+                    });
+
+                    //GridTable();
+                });
+            } else {
+                eles.show();
+            }
+        } else {
+            eles.hide();
+        }
+    }
+</script>

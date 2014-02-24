@@ -1,0 +1,32 @@
+﻿using Kooboo.Commerce.Events.Dispatching;
+using Kooboo.Commerce.Data;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using Kooboo.CMS.Common.Runtime;
+
+namespace Kooboo.Commerce.Events
+{
+    public static class Event
+    {
+        public static void Apply<TEvent>(TEvent @event)
+            where TEvent : IEvent
+        {
+            Require.NotNull(@event, "event");
+
+            var dispatcher = EngineContext.Current.Resolve<IEventDispatcher>();
+
+            if (dispatcher == null)
+                throw new InvalidOperationException("Cannot resolve event dispatcher. Ensure event dispatcher is registered.");
+
+            var uncommittedEvents = UncommittedEventStream.Current;
+
+            dispatcher.Dispatch(@event, new EventDispatchingContext(EventDispatchingPhase.OnEventRaised, uncommittedEvents != null));
+
+            if (uncommittedEvents != null)
+            {
+                uncommittedEvents.Append(@event);
+            }
+        }
+    }
+}
