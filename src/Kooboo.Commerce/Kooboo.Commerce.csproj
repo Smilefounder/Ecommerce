@@ -95,6 +95,7 @@
     <Compile Include="Categories\Services\ICategoryService.cs" />
     <Compile Include="Customers\CustomerQueryModel.cs" />
     <Compile Include="Customers\ExtendedQuery\RecentOrderedCustomers.cs" />
+    <Compile Include="Customers\ExtendedQuery\TopOrderedCustomers.cs" />
     <Compile Include="DefaultExtendedQueryManager.cs" />
     <Compile Include="Events\Orders\DeliveryBegan.cs" />
     <Compile Include="Events\Orders\OrderCreated.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="ImageSizes\Services\ImageSizeService.cs" />
     <Compile Include="Locations\Services\CountryService.cs" />
     <Compile Include="Locations\Services\ICountryService.cs" />
+    <Compile Include="Orders\ExtendedQuery\MostCostOrder.cs" />
     <Compile Include="Orders\ExtendedQuery\RecentOrder.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderQueryModel.cs" />
