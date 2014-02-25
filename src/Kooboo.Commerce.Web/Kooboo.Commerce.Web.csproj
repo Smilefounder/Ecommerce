@@ -2201,7 +2201,6 @@
     <Content Include="Areas\Media\Views\Upload\Index.cshtml" />
     <Content Include="Areas\Media\Views\Web.config" />
     <Content Include="Areas\Media\WebResources.config" />
-    <Content Include="Areas\Media\Views\Shared\_MediaScript.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -2283,6 +2282,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Media\Models\" />
+    <Folder Include="Areas\Media\Views\Shared\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Category\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Comment\~contents\" />
