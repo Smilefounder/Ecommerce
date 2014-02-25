@@ -167,24 +167,18 @@
             <div class="mediafile">
                 <ul class="clearfix" data-bind="foreach: $root.GetImageUrl($data)">
                     <li class="img">
-                        <span class="preview"></span>
-                        <a class="action" data-bind="click: $root.RemoveImage">@Html.IconImage("minus small")</a>
-                        <img data-bind="attr:{src:ImageUrl}" height="100" width="100">
+                        <img data-bind="attr:{src:ImageUrl}" height="100" width="100" />
+                        <a href="javascript:;" data-bind="click: $root.RemoveImage">
+                            @Html.IconImage("minus small")
+                        </a>
                     </li>
                 </ul>
                 <!-- ko if: IsMultiple() || $root.GetImageUrl($data).length < 1 -->
-                <a class="action add" href='javascript:;' data-bind="click: OpenImage">@Html.IconImage("plus small")</a>
+                <a href="javascript:;" class="upload" data-owner="commerce" data-bind="attr: { 'data-property': Name }">
+                    @Html.IconImage("plus small")
+                </a>
                 <!-- /ko -->
             </div>
-            @*<div data-bind="foreach: $root.GetImageUrl($data)">
-                    <div class="block">
-                        <img data-bind="attr: { src: ImageUrl }" />
-                        <a href="javascript:;" data-bind="click: $root.RemoveImage">@Html.IconImage("minus")</a>
-                    </div>
-                </div>
-                <!-- ko if: IsMultiple() || $root.GetImageUrl($data).length < 1 -->
-                <a href="javascript:;" data-bind="click: OpenImage">@Html.IconImage("plus")</a>
-                <!-- /ko -->*@
         </td>
     </tr>
 </script>
@@ -249,6 +243,7 @@
                 self.LoadingCategory = false;
                 $('#J_ProductTabs').tabs();
                 $('#category_tree li.tree-node').treeNode();
+                InitUpload();
             },
             onSaveSuccess: function (self, info) {
                 utils.showMessage('Notice', info.message, 'info');
@@ -434,32 +429,11 @@
         $('#J_ProductTabs').tabs();
     });
 
-    function OpenImage(imgType, e) {
-        e.preventDefault();
-        var $mediaLink = $(this);
-
-        $mediaLink.pop({
-            popupOnTop: true,
-            url: '/Contents/MediaContent/Selection?siteName=SampleSite&return=/Commerce/Product',
-            width: 700,
-            height: 500,
-            onclose: function () {
-                setTimeout(function () {
-                    if ($.popContext.getCurrent() != null) {
-                        $.popContext.getCurrent().find('iframe').height('100%');
-                    }
-                }, 16);
-            },
-            onload: function (currentHandle, pop, config) {
-                var iframe = pop.children('iframe'),
-                iframeSrc = iframe[0].contentWindow.document.location.href;
-                if (iframeSrc == 'about:blank') {
-                    return false;
-                }
-                top.onFileSelected = function (src, text, option) {
-                    vm.AddImage(imgType.Name(), src);
-                };
+    function InitUpload() {
+        $('.upload').upload({
+            on_file_select: function (data) {
+                vm.AddImage(data.property, data.file.Url);
             }
-        }).click();
-    };
+        });
+    }
 </script>

@@ -7,7 +7,19 @@
     <div class="common-form">
         <table>
             @Html.EditorFor(m => m.Name)
-            @Html.EditorFor(m => m.Photo)
+            <tr>
+                <th><label>@("Photo".Localize())</label></th>
+                <td>
+                    <img id="photoImg" src="@Model.Photo" style="display: @(string.IsNullOrEmpty(Model.Photo) ? "none" : "block")" />
+                    <a href="javascript:;" class="upload" data-owner="commerce" data-property="category" data-src="@Model.Photo">
+                        @Html.IconImage("plus small")
+                    </a>
+                    <a id="btnRemove" href="javascript:;" onclick="RemoveImage();" style="display: @(string.IsNullOrEmpty(Model.Photo) ? "none" : "block")">
+                        @Html.IconImage("minus small")
+                    </a>
+                    <input type="hidden" id="Photo" name="Photo" value="@Model.Photo" />
+                </td>
+            </tr>
             <tr>
                 <th>
                     <label for="Description">
@@ -22,3 +34,21 @@
         </table>
     </div> 
 }
+
+<script type="text/javascript">
+    $(function () {
+        $('.upload').upload({
+            on_file_select: function (data) {
+                $('#Photo').val(data.file.Url);
+                $('#photoImg').attr('src', data.file.Url).show();
+                $('#btnRemove').show();
+            }
+        });
+    })
+
+    function RemoveImage() {
+        $('#Photo').val('');
+        $('#photoImg').attr('src', '').hide();
+        $('#btnRemove').hide();
+    }
+</script>

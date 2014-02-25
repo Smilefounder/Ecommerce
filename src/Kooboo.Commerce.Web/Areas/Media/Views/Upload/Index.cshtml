@@ -12,7 +12,7 @@
                 <!-- /ko -->
             </div>
             <div class="searchbox">
-                <input type="text" data-bind="value: SearchWord " />
+                <input type="text" data-bind="value: SearchWord" />
                 <button type="button" onclick="vm.getData();">
                     <img class="icon search" src="/Images/invis.gif">
                 </button>
@@ -28,14 +28,26 @@
             </div>
             <div data-bind="visible: vm.ListStyle() == 'grid', template: { name: 'thumb_list', data: data }">
             </div>        
-            <div class="pagination">
-                
+            <div class="pagination" data-bind="with: data">
+                <div data-bind="with: Pager, visible: Pager().TotalPages() > 1">
+                    <span><strong data-bind="text: StartIndex"></strong>-<strong data-bind="text: EndIndex"></strong> of <strong data-bind="text: TotalRecords"></strong></span>
+                    <a data-bind="attr2: { name: 'disabled', value: 'disabled', on: $data.PageIndex() <= 0 }, css: { disabled: $data.PageIndex() <= 0 }, click: $root.GotoPrevPage">&lt;</a>&nbsp;&nbsp;
+                    <!-- ko foreach: $root.Pages -->
+                    <!-- ko if: $data == $root.PageIndex() -->
+                    <span class="active" data-bind="text: $data+1"></span>&nbsp;&nbsp;
+                    <!-- /ko -->
+                    <!-- ko if: $data != $root.PageIndex() -->
+                    <a href="javascript:;" data-bind="click: $root.GotoPage, text: $data+1"></a>&nbsp;&nbsp;
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    <a data-bind="attr2: { name: 'disabled', value: 'disabled', on: $data.PageIndex() >= $data.TotalPages() - 1 }, css: { disabled: $data.PageIndex() >= $data.TotalPages() - 1 }, click: $root.GotoNextPage">&gt;</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <div class="buttons">
-    <a id="CreateFolder" href="javascript:;" class="button action left" onclick="vm.CreateFolder();">@("Create Folder".Localize())</a>
+    <a id="CreateFolder" href="javascript:;" class="button action left" onclick="vm.CreateFolder();" data-bind="visible: vm.ListStyle() == 'list'">@("Create Folder".Localize())</a>
     <form id="upload_form" class="no-stop left" action="/Areas/Media/Handlers/UploadHandler.ashx?owner=@Request.QueryString["owner"]&path=@Request.QueryString["path"]" method="post" enctype="multipart/form-data">
         <input id="upload_input" type="file" name="files[]" style="display: none;" />
         <a href="javascript:;" class="button action left" onclick="$('#upload_input').trigger('click');">
@@ -73,65 +85,94 @@
                 </th>
             </tr>
         </thead>
-        <tbody data-bind="visible: $root.IsEmpty()">
+        <tbody data-bind="with: $data">
+            <!-- ko if: $root.IsEmpty() -->
             <tr class="empty">
                 <td colspan="6">
                     @("Empty".Localize())
                 </td>
             </tr>
-        </tbody>
-        <tbody data-bind="visible: !$root.IsEmpty(), with: $data">
-            <!-- ko foreach: Folders -->
-            <tr class="foldertr">
-                <td class="checkbox">
-                    <input type="radio" disabled="disabled" />
-                </td>
-                <td>
-                    <!-- ko if: $root.IsNewFolder($data) -->
-                    <input class="editor" type="text" name="Name" data-bind="value: Name" />
-                    <a href="javascript:;" class="action" data-bind="click: $root.SaveFolder">@Html.IconImage("save small")</a>
-                    <a href="javascript:;" class="action" data-bind="click: $root.RemoveFolder">@Html.IconImage("minus small")</a>
-                    <!-- /ko -->
-                    <!-- ko if: !$root.IsNewFolder($data) -->
-                    <a href="javascript:;" data-bind="click: $root.GetFolder, text: Name">
-                        <img class="icon folder" src="/Images/invis.gif">
-                    </a>
-                    <!-- /ko -->
-                </td>
-                <td class="type">
-                    @Html.Raw("Folder".Localize())
-                </td>
-                <td class="date"></td>
-                <td class="size"></td>
-            </tr>
             <!-- /ko -->
-            <!-- ko foreach: Files -->
-            <tr class="doctr">
-                <td class="checkbox">
-                    <input type="radio" name="select" data-bind="event: { change: $root.SelectedFile }" />
-                </td>
-                <td>
-                    <a data-bind="text: FileName">
-                        <img class="icon file image jpg" src="/Images/invis.gif">
-                    </a>
-                </td>
-                <td class="type">
-                    <span data-bind="text: FileType"></span>
-                </td>
-                <td class="date">
-                    <span data-bind="text: CreationDate"></span>
-                </td>
-                <td class="size">
-                    <span data-bind="text: FileSize"></span>
-                </td>
-            </tr>
+            <!-- ko if: !$root.IsEmpty() -->
+                <!-- ko foreach: Folders -->
+                <tr class="foldertr">
+                    <td class="checkbox">
+                        <input type="radio" disabled="disabled" />
+                    </td>
+                    <td>
+                        <!-- ko if: $root.IsNewFolder($data) -->
+                        <input class="editor" type="text" name="Name" data-bind="value: Name" />
+                        <a href="javascript:;" class="action" data-bind="click: $root.SaveFolder">@Html.IconImage("save small")</a>
+                        <a href="javascript:;" class="action" data-bind="click: $root.RemoveFolder">@Html.IconImage("minus small")</a>
+                        <!-- /ko -->
+                        <!-- ko if: !$root.IsNewFolder($data) -->
+                        <a href="javascript:;" data-bind="click: $root.GetFolder, text: Name">
+                            <img class="icon folder" src="/Images/invis.gif">
+                        </a>
+                        <!-- /ko -->
+                    </td>
+                    <td class="type">
+                        @Html.Raw("Folder".Localize())
+                    </td>
+                    <td class="date"></td>
+                    <td class="size"></td>
+                </tr>
+                <!-- /ko -->
+                <!-- ko foreach: Files -->
+                <tr class="doctr">
+                    <td class="checkbox">
+                        <input type="radio" name="select" data-bind="event: { change: $root.SelectedFile }" />
+                    </td>
+                    <td>
+                        <a data-bind="text: FileName">
+                            <img class="icon file image jpg" src="/Images/invis.gif">
+                        </a>
+                    </td>
+                    <td class="type">
+                        <span data-bind="text: FileType"></span>
+                    </td>
+                    <td class="date">
+                        <span data-bind="text: CreationDate"></span>
+                    </td>
+                    <td class="size">
+                        <span data-bind="text: FileSize"></span>
+                    </td>
+                </tr>
+                <!-- /ko -->
             <!-- /ko -->
         </tbody>
     </table>
 </script>
 
 <script id="thumb_list" type="text/html">
-
+    <div class="common-grid fixed" data-bind="with: $data">
+        <!-- ko if: $root.IsEmpty() -->
+            <p>@("This folder is empty.".Localize())</p>
+        <!-- /ko -->
+        <!-- ko if: !$root.IsEmpty() -->
+            <ul class="folder clearfix" data-bind="foreach: Folders">
+                <li>
+                    <a href="javascript:;" data-bind="click: $root.GetFolder">
+                        <span class="info" data-bind="text: Name"></span>
+                    </a>
+                </li>
+            </ul>
+        <ul class="file image clearfix" data-bind="foreach: Files">
+            <li>
+                <a class="select">
+                    <input type="radio" name="select" class="select doc" data-bind="event: { change: $root.SelectedFile }" />
+                    <span class="checked"></span>
+                    <!-- ko if: $data.IsImage() -->
+                    <img data-bind="attr: { src: Url, alt: FileName }" />
+                    <!-- /ko -->
+                    <!-- ko if: !$data.IsImage() -->
+                    <span class="info">@Html.IconImage("file")<span data-bind="text: FileName"></span></span>
+                    <!-- /ko -->
+                </a>
+            </li>
+        </ul>
+        <!-- /ko -->
+    </div>
 </script>
 
 
@@ -179,8 +220,20 @@
         self.SearchWord = ko.observable(null);
         self.ListStyle = ko.observable('list');
         self.CurrentPathIndex = ko.observable(0);
-        self.PageIndex = ko.observable(0);
-        self.PageSize = ko.observable(50);
+        self.PageIndex = ko.observable(@(Request.QueryString["pi"] ?? "0"));
+        self.PageSize = ko.observable(@(Request.QueryString["ps"] ?? "50"));
+        self.Pages = ko.computed(function () {
+            var pgs = []
+            if(this.data() && this.data().Pager && this.data().Pager()) {
+                var idx = 0;
+                var tps = this.data().Pager().TotalPages();
+                while(idx < tps) {
+                    pgs.push(idx);
+                    idx++;
+                }
+            }
+            return pgs;
+        }, self);
         self.IsEmpty = ko.computed(function () {
             if (self.data() && self.data().Folders() && self.data().Files()) {
                 if (self.data().Folders().length > 0 || self.data().Files().length > 0) { return false; }
@@ -191,14 +244,36 @@
             if(!path) {
                 path = self.GetCurrentPath();
             }
-            var url = '/Media/Upload/Files?owner=@Request.QueryString["owner"]&path=' + path + '&search=' + self.SearchWord();
+            var url = '/Media/Upload/Files?owner=@Request.QueryString["owner"]&path=' + path + '&search=' + (self.SearchWord() ? self.SearchWord() : '') + '&pi=' + self.PageIndex().toString() + '&ps=' + self.PageSize().toString();
             utils.getJson(url, null, function (data) {
                 ko.mapping.viewModel(data, vm.data);
                 vm.CurrentPathIndex(data.Paths.length - 1);
+                if(data.Pager) {
+                    vm.PageIndex(data.Pager.PageIndex);
+                    vm.PageSize(data.Pager.PageSize);
+                }
                 var postUrl = '/Areas/Media/Handlers/UploadHandler.ashx?owner=@Request.QueryString["owner"]&path=' + path;
                 $('#upload_form').attr('action', postUrl);
                 $('div.loading').hide();
             })
+        };
+        self.GotoPage = function (num) {
+            if(num <= 0) { num = 0 };
+            if(self.data() && self.data().Pager()) {
+                if(num + 1 >= self.data().Pager().TotalPages()) {
+                    num = self.data().Pager().TotalPages() - 1
+                }
+            }
+            self.PageIndex(num);
+            self.getData();
+        };
+        self.GotoPrevPage = function (data) {
+            var num = data.PageIndex() - 1;
+            self.GotoPage(num);
+        };
+        self.GotoNextPage = function (data) {
+            var num = data.PageIndex() + 1;
+            self.GotoPage(num);
         };
         self.GetCurrentPath = function () {
             var idx = self.CurrentPathIndex();
@@ -255,11 +330,13 @@
             self.data().Folders.remove(item);
         };
         self.GetFolder = function (item) {
+            self.SearchWord('');
             var path = self.GetCurrentPath() + "/" + item.Name()
             self.getData(path);
         };
         self.GetFolderByIndex = function (idx) {
             if(idx == vm.CurrentPathIndex()) { return; }
+            self.SearchWord('');
             vm.CurrentPathIndex(idx);
             path = vm.GetCurrentPath();
             vm.getData(path);

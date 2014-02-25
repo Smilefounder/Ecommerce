@@ -22,6 +22,12 @@
     var files = Model.Contents == null ? new MediaContent[0] : Model.Contents.Where(it => !it.IsImage).ToArray();
 
     var singleChoice = !string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("SingleChoice"));
+    
+    var td = new string[50];
+    for(int i=0; i< 50; i++) {
+        td[i] = i.ToString();
+    }
+    var pd = PageLinqExtensions.ToPagedList(td, 1, 10);
 }
 <div id="main-container">
     <div class="wrap">
@@ -113,6 +119,7 @@
             }
             <div class="pagination">
                 @(Html.Pager(Model.Contents, "", ViewContext.RequestContext.AllRouteValues(), null))
+                @(Html.Pager(pd))
             </div>
         </div>
     </div>

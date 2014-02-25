@@ -1,9 +1,5 @@
 ﻿@model BrandEditorModel
 
-<script src="/Areas/Media/Scripts/jquery.fileupload.js"></script>
-<script src="/Areas/Media/Scripts/jquery.fileupload-fp.js"></script>
-<script src="/Areas/Media/Scripts/jquery.Jcrop.min.js"></script>
-<script src="/Areas/Media/Scripts/upload.js"></script>
 @using (Html.BeginForm("Save", "Brand", RouteValues.From(Request.QueryString)))
 {
     @Html.ValidationSummary(true)
@@ -42,9 +38,9 @@
 <script type="text/javascript">
     $(function () {
         $('.upload').upload({
-            on_file_select: function (file) {
-                $('#Logo').val(file.Url);
-                $('#logoImg').attr('src', file.Url).show();
+            on_file_select: function (data) {
+                $('#Logo').val(data.file.Url);
+                $('#logoImg').attr('src', data.file.Url).show();
                 $('#btnRemove').show();
             }
         });

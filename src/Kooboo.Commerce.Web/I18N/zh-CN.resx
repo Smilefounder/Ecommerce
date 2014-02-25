@@ -2639,4 +2639,16 @@ Are you sure you want to use this size?</value>
   <data name="Desktop Compuer" xml:space="preserve">
     <value>Desktop Compuer</value>
   </data>
+  <data name="This folder is empty." xml:space="preserve">
+    <value>This folder is empty.</value>
+  </data>
+  <data name="gif" xml:space="preserve">
+    <value>gif</value>
+  </data>
+  <data name="ico" xml:space="preserve">
+    <value>ico</value>
+  </data>
+  <data name="png" xml:space="preserve">
+    <value>png</value>
+  </data>
 </root>

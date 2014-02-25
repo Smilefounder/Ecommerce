@@ -37,7 +37,7 @@
             utils.onReceiveMessage("fileselected", function (msg) {
                 if (msg.owner == ops.owner && msg.property == ops.property) {
                     if (typeof ops.on_file_select == "function") {
-                        ops.on_file_select(msg.file);
+                        ops.on_file_select(msg);
                     }
                 }
             });

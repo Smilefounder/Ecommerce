@@ -2198,13 +2198,10 @@
     <Content Include="Areas\Commerce\Views\CommerceInstance\Edit.cshtml" />
     <Content Include="Areas\Media\Handlers\ImageHandler.ashx" />
     <Content Include="Areas\Media\Handlers\UploadHandler.ashx" />
-    <Content Include="Areas\Media\Views\Shared\Files.cshtml" />
-    <Content Include="Areas\Media\Views\Shared\ImageCrop.cshtml" />
-    <Content Include="Areas\Media\Views\Shared\InlineUpload.cshtml" />
-    <Content Include="Areas\Media\Views\Shared\OpenUpload.cshtml" />
     <Content Include="Areas\Media\Views\Upload\Index.cshtml" />
     <Content Include="Areas\Media\Views\Web.config" />
     <Content Include="Areas\Media\WebResources.config" />
+    <Content Include="Areas\Media\Views\Shared\_MediaScript.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

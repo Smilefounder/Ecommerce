@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Dynamic;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
@@ -63,12 +64,20 @@ namespace Kooboo.Commerce.Web.Areas.Media.Controllers
             string[] paths = new string[0];
             var dir = GetFolder(owner, path, out paths);
 
-            var folders = dir.GetDirectories().Select(o => new
-            {
-                Name = o.Name
-            });
+            IEnumerable<DirectoryInfo> folders = Enumerable.Empty<DirectoryInfo>();
+            IEnumerable<FileInfo> files = Enumerable.Empty<FileInfo>();
 
-            var files = dir.GetFiles().AsEnumerable();
+            if (string.IsNullOrEmpty(search))
+            {
+                folders = dir.GetDirectories();
+                files = dir.GetFiles();
+            }
+            else
+            {
+                search = string.Format("*{0}*", search);
+                folders = dir.GetDirectories(search);
+                files = dir.GetFiles(search);
+            }
 
             switch (orderBy)
             {
@@ -81,11 +90,39 @@ namespace Kooboo.Commerce.Web.Areas.Media.Controllers
                     break;
             }
 
+            int totalRecords = 0;
+            int totalPages = 0;
+            int startIndex = 0;
+            int endIndex = 0;
+
+
             if (pi >= 0 && ps > 0)
             {
-                files = files.Skip(pi * ps).Take(ps);
+                totalRecords = folders.Count() + files.Count();
+                totalPages = Convert.ToInt32(Math.Ceiling((double)totalRecords / ps));
+                if (pi > totalPages - 1)
+                    pi = totalPages - 1;
+                startIndex = pi * ps + 1;
+                endIndex = startIndex + ps - 1 < totalRecords ? startIndex + ps - 1 : totalRecords;
+
+                int left = (pi + 1) * ps - folders.Count();
+                if (left > 0)
+                {
+                    int skip = left <= ps ? 0 : pi * ps - folders.Count();
+                    left = left <= ps ? left : ps;
+                    files = files.Skip(skip).Take(left);
+                }
+                else
+                {
+                    files = new FileInfo[0];
+                }
+                folders = folders.Skip(pi * ps).Take(ps);
             }
             string basePath = (uploadFolder + string.Join("/", paths.ToArray())).TrimStart('~') + "/";
+            var vs = folders.Select(o => new
+            {
+                Name = o.Name
+            });
             var vfs = files.Where(f => !f.Name.StartsWith("_")).Select(f => new
             {
                 FileName = f.Name,
@@ -95,8 +132,8 @@ namespace Kooboo.Commerce.Web.Areas.Media.Controllers
                 FileSize = FileType.GetFriendlyFileSize((int)f.Length),
                 IsImage = FileType.IsImage(f.Extension)
             }).ToArray();
-
-            return Json(new { Paths = paths, Folders = folders, Files = vfs }, JsonRequestBehavior.AllowGet);
+            var pagers = ps <= 0 ? null : new { TotalRecords = totalRecords, TotalPages = totalPages, StartIndex = startIndex, EndIndex = endIndex, PageIndex = pi, PageSize = ps };
+            return Json(new { Paths = paths, Folders = vs, Files = vfs, Pager = pagers }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

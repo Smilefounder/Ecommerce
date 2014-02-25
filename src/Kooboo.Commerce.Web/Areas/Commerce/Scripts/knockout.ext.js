@@ -205,6 +205,20 @@ ko.bindingHandlers.forindex = {
     }
 };
 
+ko.bindingHandlers.attr2 = {
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var options = valueAccessor();
+        var attrName = options.name;
+        var attrVal = ko.utils.unwrapObservable(options.value);
+        var condition = ko.utils.unwrapObservable(options.on);
+        if (condition) {
+            $(element).attr(attrName, attrVal);
+        } else {
+            $(element).removeAttr(attrName);
+        }
+    }
+};
+
 ko.bindingHandlers.bool = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var observable = valueAccessor(),
