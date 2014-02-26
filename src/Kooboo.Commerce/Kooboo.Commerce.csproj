@@ -110,6 +110,10 @@
     <Compile Include="Events\Products\ProductCreated.cs" />
     <Compile Include="Events\Products\ProductDeleted.cs" />
     <Compile Include="Events\Products\ProductUpdated.cs" />
+    <Compile Include="Events\Promotions\PromotionDisabled.cs" />
+    <Compile Include="Events\Promotions\IPromotionEvent.cs" />
+    <Compile Include="Events\Promotions\PromotionEnabled.cs" />
+    <Compile Include="Events\Promotions\PromotionUpdated.cs" />
     <Compile Include="IExtendedQuery.cs" />
     <Compile Include="EAV\FieldDataType.cs" />
     <Compile Include="EAV\CustomFieldType.cs" />

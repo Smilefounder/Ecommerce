@@ -50,8 +50,7 @@ namespace Kooboo.Commerce.Data
         public IRepository<T> GetRepository<T>() where T : class
         {
             ThrowIfDisposed();
-            // TODO: Fake handler list for now
-            return new CommerceRepository<T>(this, new List<IRepositoryEventHandler<T>>());
+            return new CommerceRepository<T>(this);
         }
 
         public ICommerceDbTransaction BeginTransaction()

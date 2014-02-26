@@ -2669,4 +2669,19 @@ Are you sure you want to use this size?</value>
   <data name="OrderStatusChanged" xml:space="preserve">
     <value>OrderStatusChanged</value>
   </data>
+  <data name="Promotion Events" xml:space="preserve">
+    <value>Promotion Events</value>
+  </data>
+  <data name="PromotionDisabled" xml:space="preserve">
+    <value>PromotionDisabled</value>
+  </data>
+  <data name="PromotionEnabled" xml:space="preserve">
+    <value>PromotionEnabled</value>
+  </data>
+  <data name="PromotionUpdated" xml:space="preserve">
+    <value>PromotionUpdated</value>
+  </data>
+  <data name="Desktop PC" xml:space="preserve">
+    <value>Desktop PC</value>
+  </data>
 </root>

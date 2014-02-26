@@ -12,13 +12,13 @@ namespace Kooboo.Commerce.Data
 
         IQueryable<T> Query(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<T>> orderby, int pageIndex, int pageSize, out int totalRecords);
         T Get(Expression<Func<T, bool>> predicate);
-        bool Insert(T obj, EntityEventHandler<T> insertingHandler = null, EntityEventHandler<T> insertedHandler = null);
-        bool Update(T obj, Func<T, object[]> getKeys, EntityEventHandler<T> updatingHandler = null, EntityEventHandler<T> updatedHandler = null);
-        bool Delete(T obj, EntityEventHandler<T> deletingHandler = null, EntityEventHandler<T> deletedHandler = null);
+        bool Insert(T obj);
+        bool Update(T obj, Func<T, object[]> getKeys);
+        bool Delete(T obj);
 
-        bool InsertBatch(IEnumerable<T> objs, BatchEntityEventHandler<T> batchInsertingHandler = null, BatchEntityEventHandler<T> batchInsertedHandler = null);
-        bool UpdateBatch(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> setter, BatchEntityEventHandler<T> batchUpdatingHandler = null, BatchEntityEventHandler<T> batchUpdatedHandler = null);
-        bool DeleteBatch(Expression<Func<T, bool>> predicate, BatchEntityEventHandler<T> batchDeletingHandler = null, BatchEntityEventHandler<T> batchDeletedHandler = null);
+        bool InsertBatch(IEnumerable<T> objs);
+        bool UpdateBatch(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> setter);
+        bool DeleteBatch(Expression<Func<T, bool>> predicate);
     }
 
     public static class IRepositoryExtensions
@@ -49,23 +49,20 @@ namespace Kooboo.Commerce.Data
             return repository.Query(exp, orderby, pageIndex, pageSize, out totalRecords);
         }
 
-        public static bool Save<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate, T obj, Func<T, object[]> getKeys, EntityEventHandler<T> insertingHandler = null, EntityEventHandler<T> insertedHandler = null, EntityEventHandler<T> updatingHandler = null, EntityEventHandler<T> updatedHandler = null) where T : class
+        public static bool Save<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate, T obj, Func<T, object[]> getKeys) where T : class
         {
             if (repository.Query(predicate).Any())
             {
-                return repository.Update(obj, getKeys, updatingHandler, updatedHandler);
+                return repository.Update(obj, getKeys);
             }
             else
             {
-                return repository.Insert(obj, insertingHandler, insertedHandler);
+                return repository.Insert(obj);
             }
         }
 
         public static bool SaveAll<T>(this IRepository<T> repository, ICommerceDatabase db, IEnumerable<T> original, IEnumerable<T> current, Func<T, object[]> getKeys, Func<T, T, bool> exists
-            , bool deleteIfNoFound = true, bool notUpdateIfFound = false
-            , EntityEventHandler<T> insertingHandler = null, EntityEventHandler<T> insertedHandler = null
-            , EntityEventHandler<T> updatingHandler = null, EntityEventHandler<T> updatedHandler = null
-            , EntityEventHandler<T> deletingHandler = null, EntityEventHandler<T> deletedHandler = null)
+            , bool deleteIfNoFound = true, bool notUpdateIfFound = false)
             where T : class
         {
             if (deleteIfNoFound)
@@ -73,16 +70,16 @@ namespace Kooboo.Commerce.Data
                 if (notUpdateIfFound)
                 {
                     return SaveAll(repository, db, original, current, exists,
-                        (repo, o) => { repo.Insert(o, insertingHandler, insertedHandler); },
+                        (repo, o) => { repo.Insert(o); },
                         null,
-                        (repo, o) => { repo.Delete(o, deletingHandler, deletedHandler); });
+                        (repo, o) => { repo.Delete(o); });
                 }
                 else
                 {
                     return SaveAll(repository, db, original, current, exists,
-                        (repo, o) => { repo.Insert(o, insertingHandler, insertedHandler); },
-                        (repo, o, c) => { repo.Update(c, getKeys, updatingHandler, updatedHandler); },
-                        (repo, o) => { repo.Delete(o, deletingHandler, deletedHandler); });
+                        (repo, o) => { repo.Insert(o); },
+                        (repo, o, c) => { repo.Update(c, getKeys); },
+                        (repo, o) => { repo.Delete(o); });
                 }
             }
             else
@@ -90,15 +87,15 @@ namespace Kooboo.Commerce.Data
                 if (notUpdateIfFound)
                 {
                     return SaveAll(repository, db, original, current, exists,
-                        (repo, o) => { repo.Insert(o, insertingHandler, insertedHandler); },
+                        (repo, o) => { repo.Insert(o); },
                         null,
                         null);
                 }
                 else
                 {
                     return SaveAll(repository, db, original, current, exists,
-                        (repo, o) => { repo.Insert(o, insertingHandler, insertedHandler); },
-                        (repo, o, c) => { repo.Update(c, getKeys, updatingHandler, updatedHandler); },
+                        (repo, o) => { repo.Insert(o); },
+                        (repo, o, c) => { repo.Update(c, getKeys); },
                         null);
                 }
             }
@@ -179,18 +176,15 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public static bool SaveAll<T>(this IRepository<T> repository, ICommerceDatabase db, IEnumerable<T> newItems, IEnumerable<T> modifiedItems, IEnumerable<T> deletedItems, Func<T, object[]> getKeys
-            , EntityEventHandler<T> insertingHandler = null, EntityEventHandler<T> insertedHandler = null
-            , EntityEventHandler<T> updatingHandler = null, EntityEventHandler<T> updatedHandler = null
-            , EntityEventHandler<T> deletingHandler = null, EntityEventHandler<T> deletedHandler = null)
+        public static bool SaveAll<T>(this IRepository<T> repository, ICommerceDatabase db, IEnumerable<T> newItems, IEnumerable<T> modifiedItems, IEnumerable<T> deletedItems, Func<T, object[]> getKeys)
             where T : class
         {
             try
             {
                 //db.BeginTransaction();
-                newItems.ForEach((o, i) => repository.Insert(o, insertingHandler, insertedHandler));
-                modifiedItems.ForEach((o, i) => repository.Update(o, getKeys, updatingHandler, updatedHandler));
-                deletedItems.ForEach((o, i) => repository.Delete(o, deletingHandler, deletedHandler));
+                newItems.ForEach((o, i) => repository.Insert(o));
+                modifiedItems.ForEach((o, i) => repository.Update(o, getKeys));
+                deletedItems.ForEach((o, i) => repository.Delete(o));
                 //db.Commit();
                 return true;
             }
@@ -200,65 +194,5 @@ namespace Kooboo.Commerce.Data
                 throw ex;
             }
         }
-
-        #region Handle Events
-
-        public static T HandleEvent<T>(this IRepository<T> repository, EntityEventHandler<T> handler, DataOperation action, T original, T obj)
-            where T : class
-        {
-            if (handler == null)
-                return obj == null ? original : obj;
-            var args = new EntityEventArgs<T>() { Action = action, OriginalEntity = original, Entity = obj, Repository = repository };
-            handler(args);
-            return args.Entity;
-        }
-
-        public static IEnumerable<T> HandleBatchEvent<T>(this IRepository<T> repository, BatchEntityEventHandler<T> handler, DataOperation action, IEnumerable<T> objs)
-            where T : class
-        {
-            if (handler == null)
-                return objs;
-            var args = new EntitiesEventArgs<T>() { Entities = objs, Action = action, Count = objs.Count(), Repository = repository };
-            handler(args);
-            return args.Entities;
-        }
-
-        public static bool CanHandle<T>(this IRepository<T> repository, IEnumerable<IRepositoryEventHandler<T>> events)
-            where T : class
-        {
-            if (events == null || events.Count() <= 0)
-                return false;
-            return events.Any(o => o.CanHandle());
-        }
-
-        public static T HandleEvents<T>(this IRepository<T> repository, IEnumerable<IRepositoryEventHandler<T>> events, Func<IRepositoryEventHandler<T>, EntityEventHandler<T>> func, DataOperation action, T original, T obj)
-            where T : class
-        {
-            if (events == null || events.Count() <= 0)
-                return obj == null ? original : obj;
-            T nobjs = obj;
-            foreach (var eve in events)
-            {
-                var handler = func(eve);
-                nobjs = HandleEvent(repository, handler, action, original, nobjs);
-            }
-            return nobjs;
-        }
-
-        public static IEnumerable<T> HandleBatchEvents<T>(this IRepository<T> repository, IEnumerable<IRepositoryEventHandler<T>> events, Func<IRepositoryEventHandler<T>, BatchEntityEventHandler<T>> func, DataOperation action, IEnumerable<T> objs)
-            where T : class
-        {
-            if (events == null || events.Count() <= 0)
-                return objs;
-            IEnumerable<T> nobjs = objs;
-            foreach (var eve in events)
-            {
-                var handler = func(eve);
-                nobjs = HandleBatchEvent(repository, handler, action, nobjs);
-            }
-            return nobjs;
-        }
-
-        #endregion
     }
 }

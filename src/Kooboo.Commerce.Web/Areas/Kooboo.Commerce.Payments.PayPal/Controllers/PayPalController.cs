@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using PayPal;
 using System;
@@ -36,6 +37,7 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
             return Return(commerceReturnUrl);
         }
 
+        [Transactional]
         public void IPN()
         {
             var orderId = Convert.ToInt32(Request["trackingId"]);
@@ -72,7 +74,6 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
                 if (result != null)
                 {
                     _orderPaymentService.HandlePaymentResult(order, result);
-                    CommerceContext.CurrentInstance.Database.SaveChanges();
                 }
             }
         }

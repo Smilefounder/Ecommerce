@@ -119,6 +119,10 @@
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
     <Compile Include="Data\CommerceDbTransaction.cs" />
+    <Compile Include="Data\Events\EntityCreated.cs" />
+    <Compile Include="Data\Events\EntityDeleted.cs" />
+    <Compile Include="Data\Events\EntityUpdated.cs" />
+    <Compile Include="Data\Events\IPersistentEvent.cs" />
     <Compile Include="Data\ICommerceDbTransaction.cs" />
     <Compile Include="Data\CommerceInstanceMetadataFileStore.cs" />
     <Compile Include="Data\CommerceTransactionScope.cs" />
@@ -133,15 +137,12 @@
     <Compile Include="Data\CommerceDbContext.cs" />
     <Compile Include="Data\CommerceInstanceMetadata.cs" />
     <Compile Include="Data\CommerceRepository.cs" />
-    <Compile Include="Data\DataOperation.cs" />
-    <Compile Include="Data\EntityEventHandler.cs" />
     <Compile Include="Data\ICommerceInstanceContext.cs" />
     <Compile Include="Data\ICommerceDatabase.cs" />
     <Compile Include="Data\ICommerceInstanceManager.cs" />
     <Compile Include="Data\ICommerceDbProvider.cs" />
     <Compile Include="Data\CommerceInstance.cs" />
     <Compile Include="Data\ICommerceInstanceMetadataStore.cs" />
-    <Compile Include="Data\IRepositoryEventHandler.cs" />
     <Compile Include="Data\LinqDynamicExtension.cs" />
     <Compile Include="Data\TransactionAbortException.cs" />
     <Compile Include="Data\TransactionScopeOptionExtensions.cs" />

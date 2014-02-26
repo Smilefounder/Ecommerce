@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Promotions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -39,13 +41,22 @@ namespace Kooboo.Commerce.Promotions
 
         public virtual ICollection<Promotion> OverlappablePromotions { get; set; }
 
-        public DateTime CreatedAtUtc { get; set; }
+        public DateTime CreatedAtUtc { get; protected set; }
+
+        public DateTime LastUpdatedAtUtc { get; protected set; }
 
         public Promotion()
         {
             CreatedAtUtc = DateTime.UtcNow;
+            LastUpdatedAtUtc = DateTime.UtcNow;
             Conditions = new List<PromotionCondition>();
             OverlappablePromotions = new List<Promotion>();
+        }
+
+        public virtual void MarkUpdated()
+        {
+            LastUpdatedAtUtc = DateTime.Now;
+            Event.Apply(new PromotionUpdated(this));
         }
 
         public virtual void Enable()
@@ -53,6 +64,7 @@ namespace Kooboo.Commerce.Promotions
             if (!IsEnabled)
             {
                 IsEnabled = true;
+                Event.Apply(new PromotionEnabled(this));
             }
         }
 
@@ -61,6 +73,7 @@ namespace Kooboo.Commerce.Promotions
             if (IsEnabled)
             {
                 IsEnabled = false;
+                Event.Apply(new PromotionDisabled(this));
             }
         }
 

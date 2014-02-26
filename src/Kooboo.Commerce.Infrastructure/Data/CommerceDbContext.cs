@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
 using System.Reflection;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Data.Events;
 
 namespace Kooboo.Commerce.Data
 {
@@ -18,6 +20,27 @@ namespace Kooboo.Commerce.Data
             : base(connectionString, model)
         {
             Schema = schema;
+        }
+
+        public override int SaveChanges()
+        {
+            var stateManager = ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager;
+
+            foreach (var entry in stateManager.GetObjectStateEntries(EntityState.Added))
+            {
+                Event.Apply(new EntityCreated(entry.Entity));
+            }
+            // TODO: EF will always return empty result for Modified entries, why?
+            foreach (var entry in stateManager.GetObjectStateEntries(EntityState.Modified))
+            {
+                Event.Apply(new EntityUpdated(entry.Entity));
+            }
+            foreach (var entry in stateManager.GetObjectStateEntries(EntityState.Deleted))
+            {
+                Event.Apply(new EntityDeleted(entry.Entity));
+            }
+
+            return base.SaveChanges();
         }
 
         static CommerceDbContext()
