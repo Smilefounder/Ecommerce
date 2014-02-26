@@ -119,25 +119,25 @@
                 </tr>
                 <!-- /ko -->
                 <!-- ko foreach: Files -->
-                <tr class="doctr">
-                    <td class="checkbox">
-                        <input type="radio" name="select" data-bind="event: { change: $root.SelectedFile }" />
-                    </td>
-                    <td>
-                        <a data-bind="text: FileName">
-                            <img class="icon file image jpg" src="/Images/invis.gif">
-                        </a>
-                    </td>
-                    <td class="type">
-                        <span data-bind="text: FileType"></span>
-                    </td>
-                    <td class="date">
-                        <span data-bind="text: CreationDate"></span>
-                    </td>
-                    <td class="size">
-                        <span data-bind="text: FileSize"></span>
-                    </td>
-                </tr>
+            <tr class="doctr">
+                <td class="checkbox">
+                    <input type="radio" name="select" data-bind="event: { change: $root.SelectedFile }" />
+                </td>
+                <td data-bind="event: { click: $root.SelectFile }">
+                    <a data-bind="text: FileName">
+                        <img class="icon file image jpg" src="/Images/invis.gif">
+                    </a>
+                </td>
+                <td class="type" data-bind="event: { click: $root.SelectFile }">
+                    <span data-bind="text: FileType"></span>
+                </td>
+                <td class="date" data-bind="event: { click: $root.SelectFile }">
+                    <span data-bind="text: CreationDate"></span>
+                </td>
+                <td class="size" data-bind="event: { click: $root.SelectFile }">
+                    <span data-bind="text: FileSize"></span>
+                </td>
+            </tr>
                 <!-- /ko -->
             <!-- /ko -->
         </tbody>
@@ -163,7 +163,7 @@
                     <input type="radio" name="select" class="select doc" data-bind="event: { change: $root.SelectedFile }" />
                     <span class="checked"></span>
                     <!-- ko if: $data.IsImage() -->
-                    <img data-bind="attr: { src: Url, alt: FileName }" />
+                    <img data-bind="attr: { src: Url, alt: FileName }, event: { click: $root.SelectFile }" />
                     <!-- /ko -->
                     <!-- ko if: !$data.IsImage() -->
                     <span class="info">@Html.IconImage("file")<span data-bind="text: FileName"></span></span>
@@ -344,6 +344,12 @@
         self.InsertFile = function () {
             utils.postMessage("fileselected", { owner: '@Request.QueryString["owner"]', property: '@Request.QueryString["path"]', file: ko.toJS(vm.SelectedFile()) }, window.top);
             utils.closeDialog();
+        };
+        self.SelectFile = function (item) {
+            stopEvent(event);
+            self.SelectedFile(item);
+            $(event.target).closest('tr').find('input:radio').prop('checked', true);
+            $(event.target).closest('li').find('input:radio').prop('checked', true);
         };
     }
 </script>
