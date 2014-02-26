@@ -242,6 +242,7 @@
     <Compile Include="Areas\Commerce\Controllers\HomeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\PaymentController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PaymentMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductTypeController.cs" />
@@ -288,6 +289,7 @@
     <Compile Include="Areas\Commerce\Models\PaymentMethods\Grid2\PaymentMethodRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentMethodEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentMethodRowModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Payment\PaymentRequestModel.cs" />
     <Compile Include="Areas\Commerce\Models\Products\ProductEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Products\ProductRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Grid2\ProductTypeRowModelGridItem.cs" />

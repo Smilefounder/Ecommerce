@@ -28,10 +28,12 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
 
         public ActionResult Return(string commerceReturnUrl)
         {
-            var orderId = Convert.ToInt32(Request["trackingId"]);
-            var order = _orderService.GetById(orderId);
+            return Redirect(commerceReturnUrl);
+        }
 
-            return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, order));
+        public ActionResult Cancel(string commerceReturnUrl)
+        {
+            return Return(commerceReturnUrl);
         }
 
         public void IPN()
@@ -69,7 +71,7 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
 
                 if (result != null)
                 {
-                    _orderPaymentService.AcceptPaymentResult(order, result);
+                    _orderPaymentService.HandlePaymentResult(order, result);
                     CommerceContext.CurrentInstance.Database.SaveChanges();
                 }
             }

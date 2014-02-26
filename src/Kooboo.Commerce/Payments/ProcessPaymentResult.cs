@@ -11,39 +11,35 @@ namespace Kooboo.Commerce.Payments
 
         public string ErrorMessage { get; set; }
 
-        public string AuthorizationTransactionId { get; set; }
-
-        public string AuthorizationTransactionCode { get; set; }
-
-        public string NormalPaymentTransactionId { get; set; }
+        public string PaymentTransactionId { get; set; }
 
         public string RedirectUrl { get; set; }
 
-        public static ProcessPaymentResult Pending(string normalPaymentTransactionId, string redirectUrl)
+        public static ProcessPaymentResult Pending(string paymentTransactionId, string redirectUrl)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Pending,
-                NormalPaymentTransactionId = normalPaymentTransactionId,
+                PaymentTransactionId = paymentTransactionId,
                 RedirectUrl = redirectUrl
             };
         }
 
-        public static ProcessPaymentResult Paid(string externalTransactionId)
+        public static ProcessPaymentResult Paid(string paymentTransactionId)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Success,
-                NormalPaymentTransactionId = externalTransactionId
+                PaymentTransactionId = paymentTransactionId
             };
         }
 
-        public static ProcessPaymentResult Failed(string externalTransactionId, string errorMessage)
+        public static ProcessPaymentResult Failed(string paymentTransactionId, string errorMessage)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Failed,
-                NormalPaymentTransactionId = externalTransactionId,
+                PaymentTransactionId = paymentTransactionId,
                 ErrorMessage = errorMessage
             };
         }

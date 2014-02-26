@@ -47,7 +47,6 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
 
             if (response.Approved)
             {
-                result.AuthorizationTransactionCode = response.AuthorizationCode;
                 result.PaymentStatus = PaymentStatus.Success;
             }
             else
@@ -56,7 +55,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
                 result.ErrorMessage = response.ResponseCode + ": " + response.Message;
             }
 
-            result.AuthorizationTransactionId = response.TransactionID;
+            result.PaymentTransactionId = response.TransactionID;
 
             return result;
         }

@@ -7,13 +7,11 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Orders
 {
-    public class OrderCancelled : IOrderEvent
+    public class OrderCancelled : OrderStatusChanged
     {
-        public Order Order { get; private set; }
-
-        public OrderCancelled(Order order)
+        public OrderCancelled(Order order, OrderStatus oldStatus)
+            : base(order, oldStatus, OrderStatus.Cancelled)
         {
-            Order = order;
         }
     }
 }

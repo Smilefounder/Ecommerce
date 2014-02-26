@@ -69,7 +69,7 @@ namespace Kooboo.Commerce.Payments.PayPal
                 email = data.MerchantAccount
             });
 
-            var payRequest = new PayRequest(envelop, "PAY", null, request.CurrencyCode, new ReceiverList(receivers), GetReturnUrl(request));
+            var payRequest = new PayRequest(envelop, "PAY", GetCancelUrl(request), request.CurrencyCode, new ReceiverList(receivers), GetReturnUrl(request));
             payRequest.trackingId = request.Order.Id.ToString();
             payRequest.ipnNotificationUrl = GetIPNHandlerUrl(request);
 
@@ -80,6 +80,13 @@ namespace Kooboo.Commerce.Payments.PayPal
         {
             return UrlUtility.Combine(request.CommerceBaseUrl,
                 Strings.AreaName + "/PayPal/Return?commerceName=" + request.CommerceName
+                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl));
+        }
+
+        private string GetCancelUrl(ProcessPaymentRequest request)
+        {
+            return UrlUtility.Combine(request.CommerceBaseUrl,
+                Strings.AreaName + "/PayPal/Cancel?commerceName=" + request.CommerceName
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl));
         }
 

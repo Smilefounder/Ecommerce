@@ -13,6 +13,6 @@ namespace Kooboo.Commerce.Orders
         Processing = 3,
         Delivered = 4,
         Returned = 5,
-        Canceled = 6
+        Cancelled = 6
     }
 }

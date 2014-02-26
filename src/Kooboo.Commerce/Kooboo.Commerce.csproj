@@ -99,6 +99,10 @@
     <Compile Include="DefaultExtendedQueryManager.cs" />
     <Compile Include="Events\Orders\DeliveryBegan.cs" />
     <Compile Include="Events\Orders\OrderCreated.cs" />
+    <Compile Include="Events\Orders\OrderStatusChanged.cs" />
+    <Compile Include="Events\Orders\PaymentCancelled.cs" />
+    <Compile Include="Events\Orders\PaymentFailed.cs" />
+    <Compile Include="Events\Orders\PaymentStatusChanged.cs" />
     <Compile Include="Events\Products\FindOne.cs" />
     <Compile Include="Events\Products\GetAlternatives.cs" />
     <Compile Include="Events\Products\GetRecommendations.cs" />
@@ -166,7 +170,7 @@
     <Compile Include="Customers\Services\ICustomerService.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Events\Orders\OrderCancelled.cs" />
-    <Compile Include="Events\Orders\OrderPaid.cs" />
+    <Compile Include="Events\Orders\PaymentSucceeded.cs" />
     <Compile Include="Orders\Services\OrderService.cs" />
     <Compile Include="Payments\IPaymentGateway.cs" />
     <Compile Include="Payments\IPaymentGatewayFactory.cs" />

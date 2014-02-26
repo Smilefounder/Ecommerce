@@ -10,6 +10,6 @@ namespace Kooboo.Commerce.Orders.Services
     {
         Order GetOrderByExternalPaymentTransactionId(string externalPaymentTransactionId, string paymentGatewayName);
 
-        void AcceptPaymentResult(Order order, ProcessPaymentResult result);
+        void HandlePaymentResult(Order order, ProcessPaymentResult result);
     }
 }

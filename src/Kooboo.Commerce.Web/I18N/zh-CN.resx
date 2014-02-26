@@ -2651,4 +2651,22 @@ Are you sure you want to use this size?</value>
   <data name="png" xml:space="preserve">
     <value>png</value>
   </data>
+  <data name="PaymentStatusChanged" xml:space="preserve">
+    <value>PaymentStatusChanged</value>
+  </data>
+  <data name="PaymentCancelled" xml:space="preserve">
+    <value>PaymentCancelled</value>
+  </data>
+  <data name="PaymentFailed" xml:space="preserve">
+    <value>PaymentFailed</value>
+  </data>
+  <data name="PaymentSucceeded" xml:space="preserve">
+    <value>PaymentSucceeded</value>
+  </data>
+  <data name="Kooboo Commerce Fake Payment Gateway" xml:space="preserve">
+    <value>Kooboo Commerce Fake Payment Gateway</value>
+  </data>
+  <data name="OrderStatusChanged" xml:space="preserve">
+    <value>OrderStatusChanged</value>
+  </data>
 </root>

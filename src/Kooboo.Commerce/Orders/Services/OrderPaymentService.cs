@@ -25,21 +25,28 @@ namespace Kooboo.Commerce.Orders.Services
             return _orderRepository.Get(x => x.ExternalPaymentTransactionId == externalPaymentTransactionId && x.PaymentGatewayName == paymentGatewayName);
         }
 
-        public void AcceptPaymentResult(Order order, ProcessPaymentResult result)
+        public void HandlePaymentResult(Order order, ProcessPaymentResult result)
         {
+            Require.NotNull(order, "order");
+            Require.NotNull(result, "result");
+
+            // Ignore if already succeeded
             if (order.PaymentStatus != PaymentStatus.Success)
             {
                 if (result.PaymentStatus == PaymentStatus.Success)
                 {
-                    order.PaymentStatus = PaymentStatus.Success;
-                    order.PaymentCompletedAtUtc = DateTime.UtcNow;
-
-                    Event.Apply(new OrderPaid(order));
+                    order.MarkPaymentSucceeded(result.PaymentTransactionId);
                 }
-                else
+                else if (result.PaymentStatus == PaymentStatus.Cancelled)
                 {
-                    order.PaymentStatus = result.PaymentStatus;
+                    order.MarkPaymentCancelled();
                 }
+                else if (result.PaymentStatus == PaymentStatus.Failed)
+                {
+                    order.MarkPaymentFailed();
+                }
+
+                // Ignore pending status because it's the initial status
             }
         }
     }

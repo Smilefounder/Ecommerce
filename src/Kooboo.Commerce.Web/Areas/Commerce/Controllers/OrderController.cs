@@ -248,8 +248,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var order = Session["TempOrder"] as Order;
 
             order.Coupon = form["Coupon"];
-            order.OrderStatus = (OrderStatus)Enum.Parse(typeof(OrderStatus), form["OrderStatus"]);
-            order.PaymentStatus = (PaymentStatus)Enum.Parse(typeof(PaymentStatus), form["PaymentStatus"]);
+            order.ChangeOrderStatus((OrderStatus)Enum.Parse(typeof(OrderStatus), form["OrderStatus"]));
+            order.ForceChangePaymentStatus((PaymentStatus)Enum.Parse(typeof(PaymentStatus), form["PaymentStatus"]));
             order.SubTotal = string.IsNullOrEmpty(form["SubTotal"]) ? 0 : Convert.ToDecimal(form["SubTotal"]);
             order.Discount = string.IsNullOrEmpty(form["Discount"]) ? 0 : Convert.ToDecimal(form["Discount"]);
             order.TotalTax = string.IsNullOrEmpty(form["TotalTax"]) ? 0 : Convert.ToDecimal(form["TotalTax"]);
