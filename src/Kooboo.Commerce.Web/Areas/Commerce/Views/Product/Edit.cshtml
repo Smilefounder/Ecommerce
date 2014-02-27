@@ -162,12 +162,12 @@
 </script>
 <script id="image_type_template" type="text/html">
     <tr>
-        <th data-bind="text:Name"></th>
+        <th><span data-bind="text:Name"></span><br/>(<span data-bind="text:Width"></span>X<span data-bind="text:Height"></span>)</th>
         <td>
-            <div class="mediafile">
+            <div class="mediafile1">
                 <ul class="clearfix" data-bind="foreach: $root.GetImageUrl($data)">
                     <li class="img">
-                        <img data-bind="attr:{src:ImageUrl}" height="100" width="100" />
+                        <img class="crop_image" data-bind="attr:{src:ImageUrl, width: $root.GetImageWidth($data), height: $root.GetImageHeight($data), 'data-width': $root.GetImageWidth($data), 'data-height': $root.GetImageHeight($data) }" />
                         <a href="javascript:;" data-bind="click: $root.RemoveImage">
                             @Html.IconImage("minus small")
                         </a>
@@ -377,6 +377,22 @@
                     self.data().Images.remove(item);
                 };
 
+                self.GetImageWidth = function (item) {
+                    var it = $.grep(self.ImageTypes(), function (n, i) { return n.Name() == item.ImageSizeName(); })[0];
+                    if (it) {
+                        return it.Width();
+                    }
+                    return 120;
+                };
+
+                self.GetImageHeight = function (item) {
+                    var it = $.grep(self.ImageTypes(), function (n, i) { return n.Name() == item.ImageSizeName(); })[0];
+                    if (it) {
+                        return it.Height();
+                    }
+                    return 120;
+                };
+
                 self.GetImageTypes = function (func) {
                     utils.getJson('/Commerce/Product/GetImageTypes?commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
                         ko.mapping.viewModel(data, self.ImageTypes);
@@ -433,6 +449,12 @@
         $('.upload').upload({
             on_file_select: function (data) {
                 vm.AddImage(data.property, data.file.Url);
+            }
+        });
+
+        $('.crop_image').cropimage({
+            on_image_croped: function (data) {
+                $(data.element).attr('src', data.url + '?v=' + new Date().getTime())
             }
         });
     }

@@ -2203,6 +2203,7 @@
     <Content Include="Areas\Media\Views\Upload\Index.cshtml" />
     <Content Include="Areas\Media\Views\Web.config" />
     <Content Include="Areas\Media\WebResources.config" />
+    <Content Include="Areas\Media\Views\Upload\ImageCrop.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

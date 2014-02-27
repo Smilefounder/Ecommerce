@@ -11,7 +11,7 @@
             <tr>
                 <th><label>@("Logo".Localize())</label></th>
                 <td>
-                    <img id="logoImg" src="@Model.Logo" style="display: @(string.IsNullOrEmpty(Model.Logo) ? "none" : "block")" />
+                    <img id="logoImg" src="@Model.Logo" style="display: @(string.IsNullOrEmpty(Model.Logo) ? "none" : "block")" data-owner="commerce" data-property="brand" />
                     <a href="javascript:;" class="upload" data-owner="commerce" data-property="brand" data-src="@Model.Logo">
                         @Html.IconImage("plus small")
                     </a>
@@ -42,6 +42,13 @@
                 $('#Logo').val(data.file.Url);
                 $('#logoImg').attr('src', data.file.Url).show();
                 $('#btnRemove').show();
+            }
+        });
+
+        $('#logoImg').cropimage({
+            keep_ratio: false,
+            on_image_croped: function (data) {
+                $(data.element).attr('src', data.url + '?v=' + new Date().getTime())
             }
         });
     })

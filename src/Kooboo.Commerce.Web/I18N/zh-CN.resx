@@ -2684,4 +2684,13 @@ Are you sure you want to use this size?</value>
   <data name="Desktop PC" xml:space="preserve">
     <value>Desktop PC</value>
   </data>
+  <data name="Crop Image" xml:space="preserve">
+    <value>Crop Image</value>
+  </data>
+  <data name="Save Cropped Image" xml:space="preserve">
+    <value>Save Cropped Image</value>
+  </data>
+  <data name="Save Original Image" xml:space="preserve">
+    <value>Save Original Image</value>
+  </data>
 </root>

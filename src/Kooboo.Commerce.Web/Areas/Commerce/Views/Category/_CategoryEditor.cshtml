@@ -44,6 +44,13 @@
                 $('#btnRemove').show();
             }
         });
+
+        $('#photoImg').cropimage({
+            keep_ratio: false,
+            on_image_croped: function (data) {
+                $(data.element).attr('src', data.url + '?v=' + new Date().getTime())
+            }
+        });
     })
 
     function RemoveImage() {

@@ -1,0 +1,149 @@
+﻿@model IDictionary<string, object>
+@{
+    Layout = "~/Views/Shared/Popup.cshtml";
+    ViewBag.Title = "Crop Image".Localize();
+    var model = Model ?? new Dictionary<string, object>();
+    string dialogId = model.ContainsKey("file") ? model["dialogId"].ToString() : "";
+    string file = model.ContainsKey("file") ? model["file"].ToString() : "/Images/nopicture.gif";
+    int width = model.ContainsKey("width") ? Convert.ToInt32(model["width"]) : 120;
+    int height = model.ContainsKey("height") ? Convert.ToInt32(model["height"]) : 120;
+    string owner = model.ContainsKey("owner") ? model["owner"].ToString() : "";
+    string property = model.ContainsKey("property") ? model["property"].ToString() : "";
+    string args = model.ContainsKey("args") ? model["args"].ToString() : "";
+    bool keepRatio = model.ContainsKey("keepRatio") ? Convert.ToBoolean(model["keepRatio"]) : true;
+}
+
+<div id="main-container">
+    <div class="wrap">
+        <div class="topbar clearfix">
+            <h1 class="title">@ViewBag.Title</h1>
+        </div>
+        <div class="common-table fixed" style="z-index: 1; position: relative;">
+            <div class="left">
+                <img id="originalImg" class="img-none" src="" style="display: inline-block; max-width: 300px; max-height: 300px; min-width: 120px; min-height: 120px;" />
+            </div>
+            <div style="float: left; margin-left: 20px;">
+                <div>
+                    <span>@("Image Size".Localize()):</span><span>@(width)X@(height)</span>
+                </div>
+                <div style="width:@(width)px; height:@(height)px; overflow:hidden;">
+                    <img id="cropImg" class="img-none" src="" style="display: inline-block;" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="buttons">
+    <div class="row form-actions">
+        <a class="button action left" href="javascript:;" onclick="CropImage();">
+            @("Save Cropped Image".Localize())
+        </a>
+        <a class="button action left" href="javascript:;" onclick="NotCropImage();">
+            @("Save Original Image".Localize())
+        </a>
+        <a class="button gray cancel action right" href="javascript:;" onclick="Cancel();">
+            @("Cancel".Localize())
+        </a>
+    </div>
+</div>
+@section ScriptCSS {
+    <script type="text/javascript">
+        var jcrop_api;
+        var dim, cropCoords;
+
+        $(function () {
+            $('#originalImg').bind('load', function(){
+                var src = $('#originalImg').prop('src');
+                $('#cropImg').prop('src', src);
+                $('#originalImg').Jcrop({
+                    onChange: ShowPreview,
+                    onSelect: ShowPreview
+                }, function(){
+                    jcrop_api = this;
+                    dim = jcrop_api.getBounds();
+                    jcrop_api.setSelect([ 0, 0, @width, @height ]);
+                    jcrop_api.setOptions({ aspectRatio: @(keepRatio ? (double)width/height : 0) });
+                    jcrop_api.focus();
+                    $('#cropImg').css({ width: dim[0].toString() + 'px', height: dim[1].toString() + 'px' });
+                });
+            });
+
+            @if(!string.IsNullOrEmpty(file)){
+            @:InitImage('@file');
+            }
+        });
+
+        function InitImage(file)
+        {
+            if(jcrop_api){
+                jcrop_api.destroy();
+            };
+            var src = utils.appendUrl(file, 'v', new Date().getTime());
+            $('#originalImg').prop('src', src).css({ width: 'auto', height: 'auto' });
+        }
+
+        function ShowPreview(coords) {
+            if (parseInt(coords.w) > 0)
+            {
+                cropCoords = coords;
+                var rx = @(width) / coords.w;
+                var ry = @(height) / coords.h;
+
+                var iw = $('#originalImg').width();
+                var ih = $('#originalImg').height();
+
+                $('#cropImg').css({
+                    width: Math.round(rx * iw) + 'px',
+                    height: Math.round(ry * ih) + 'px',
+                    marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                    marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                });
+            }
+        }
+
+        function CalculateTrueCoords()
+        {
+            var tw = $('#originalImg').prop('width');
+            var th = $('#originalImg').prop('height');
+            var bw = $('#originalImg').width();
+            var bh = $('#originalImg').height();
+
+            var cx = cropCoords.x / bw * tw;
+            var cy = cropCoords.y / bh * th;
+            var cw = cropCoords.w / bw * tw;
+            var ch = cropCoords.h / bh * th;
+            return { x: cx, y: cy, w: cw, h: ch };
+        }
+
+        function CropImage() {
+            var src = $('#originalImg').attr('src');
+            var tcoords = CalculateTrueCoords();
+            var url = "/Media/Upload/SaveImage?file=" + escape(src) +"&x=" + tcoords.x + '&y=' + tcoords.y + '&width=' + tcoords.w + '&height=' + tcoords.h;
+            utils.getJson(url, function(data) {
+                InitImage(src);
+                if(typeof window.OnCroppedImage == "function"){
+                    window.OnCroppedImage(data, '@args', '@dialogId');
+                }
+                utils.postMessage("cropimage", { url: data, owner: '@owner', property: '@property', args:'@args', dialogId:'@dialogId' });
+                utils.closeDialog('@dialogId');
+            });
+        }
+
+        function NotCropImage() {
+            var src = $('#originalImg').attr('src');
+            if(typeof window.OnCroppedImage == "function"){
+                window.OnCroppedImage(src, '@args', '@dialogId');
+            }
+            utils.postMessage("cropimage", { url: src, owner: '@owner', property: '@property', args:'@args', dialogId:'@dialogId' });
+            utils.closeDialog('@dialogId');
+        }
+
+        function Cancel(){
+            if(typeof window.OnCancel == "function"){
+                window.OnCancel('@dialogId');
+            }
+            utils.postMessage('canceldialog', { dialogId:'@dialogId' });
+            utils.closeDialog('@dialogId');
+        }
+    </script>
+}
