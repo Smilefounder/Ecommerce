@@ -6,12 +6,18 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Events
 {
-    public class EntityUpdated : IPersistentEvent
+    public class EntityUpdated : IEvent
     {
+        public string CommerceName { get; private set; }
+
         public object Entity { get; private set; }
 
-        public EntityUpdated(object entity)
+        public EntityUpdated(string commerceName, object entity)
         {
+            Require.NotNullOrEmpty(commerceName, "commerceName");
+            Require.NotNull(entity, "entity");
+
+            CommerceName = commerceName;
             Entity = entity;
         }
     }

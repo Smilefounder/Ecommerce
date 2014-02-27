@@ -11,21 +11,21 @@ using System.Web;
 namespace Kooboo.Commerce.AddIns.Samples.EventTracking
 {
     [AwaitTransactionComplete]
-    public class PersistentEventTracker// : IHandle<EntityCreated>, IHandle<EntityDeleted>, IHandle<EntityUpdated>
+    public class PersistentEventTracker : IHandles<EntityAdded>, IHandles<EntityUpdated>, IHandles<EntityDeleted>
     {
-        public void Handle(EntityCreated @event, EventDispatchingContext context)
+        public void Handle(EntityAdded @event, EventDispatchingContext context)
         {
-            Log("Entity created: " + @event.Entity.GetType());
-        }
-
-        public void Handle(EntityDeleted @event, EventDispatchingContext context)
-        {
-            Log("Entity deleted: " + @event.Entity.GetType());
+            Log(@event.CommerceName + ": Add " + @event.Entity.GetType().Name);
         }
 
         public void Handle(EntityUpdated @event, EventDispatchingContext context)
         {
-            Log("Entity updated: " + @event.Entity.GetType());
+            Log(@event.CommerceName + ": Update " + @event.Entity.GetType().Name);
+        }
+
+        public void Handle(EntityDeleted @event, EventDispatchingContext context)
+        {
+            Log(@event.CommerceName + ": Delete " + @event.Entity.GetType().Name);
         }
 
         private void Log(string message)

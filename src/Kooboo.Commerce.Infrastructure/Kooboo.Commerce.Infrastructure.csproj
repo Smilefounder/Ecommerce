@@ -121,10 +121,9 @@
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
     <Compile Include="Data\CommerceDbTransaction.cs" />
-    <Compile Include="Data\Events\EntityCreated.cs" />
+    <Compile Include="Data\Events\EntityAdded.cs" />
     <Compile Include="Data\Events\EntityDeleted.cs" />
     <Compile Include="Data\Events\EntityUpdated.cs" />
-    <Compile Include="Data\Events\IPersistentEvent.cs" />
     <Compile Include="Data\ICommerceDbTransaction.cs" />
     <Compile Include="Data\CommerceInstanceMetadataFileStore.cs" />
     <Compile Include="Data\CommerceTransactionScope.cs" />

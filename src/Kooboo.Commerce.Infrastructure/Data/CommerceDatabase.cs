@@ -33,19 +33,13 @@ namespace Kooboo.Commerce.Data
             _commerceInstanceMetadata = commerceInstanceMetadata;
             EventDispatcher = eventDispatcher;
 
-            var connectionString = dbProvider.GetConnectionString(commerceInstanceMetadata);
-
-            DbContext = CommerceDbContext.Create(
-                commerceInstanceMetadata.DbSchema ?? commerceInstanceMetadata.Name,
-                connectionString,
-                new DbProviderInfo(dbProvider.InvariantName, dbProvider.ManifestToken));
+            DbContext = CommerceDbContext.Create(commerceInstanceMetadata, dbProvider);
         }
 
         ~CommerceDatabase()
         {
             Dispose(false);
         }
-
 
         public IRepository<T> GetRepository<T>() where T : class
         {
