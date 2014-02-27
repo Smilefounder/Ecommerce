@@ -50,29 +50,29 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
     public class EventMenuItems : IMenuItemContainer
     {
-        private IEventRegistry _eventRegistry;
+        private IActivityEventRegistry _eventRegistry;
 
         public EventMenuItems()
-            : this(EngineContext.Current.Resolve<IEventRegistry>())
+            : this(EngineContext.Current.Resolve<IActivityEventRegistry>())
         {
         }
 
-        public EventMenuItems(IEventRegistry eventService)
+        public EventMenuItems(IActivityEventRegistry eventRegistry)
         {
-            Require.NotNull(eventService, "eventService");
-            _eventRegistry = eventService;
+            Require.NotNull(eventRegistry, "eventRegistry");
+            _eventRegistry = eventRegistry;
         }
 
         public IEnumerable<MenuItem> GetItems(string areaName, System.Web.Mvc.ControllerContext controllerContext)
         {
             var menuItems = new List<MenuItem>();
 
-            foreach (var category in _eventRegistry.AllEventCategories())
+            foreach (var category in _eventRegistry.GetCategories())
             {
                 var categoryMenuItem = new EventCategoryMenuItem(category);
                 menuItems.Add(categoryMenuItem);
 
-                var eventTypes = _eventRegistry.FindEventsByCategory(category);
+                var eventTypes = _eventRegistry.GetEventTypesByCategory(category);
 
                 foreach (var eventType in eventTypes)
                 {

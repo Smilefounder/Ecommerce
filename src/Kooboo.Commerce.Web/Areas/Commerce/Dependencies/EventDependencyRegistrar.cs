@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Events.Dispatching;
 using Kooboo.Commerce.Events.Registry;
 using System.Linq;
@@ -22,9 +23,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Dependencies
             var assemblies = typeFinder.GetAssemblies();// BuildManager.GetReferencedAssemblies().OfType<Assembly>().ToList();
 
             // Event Registry
-            var eventRegistry = new DefaultEventRegistry();
+            var eventRegistry = new DefaultEventHandlerRegistry();
             eventRegistry.RegisterAssemblies(assemblies);
-            containerManager.AddComponentInstance<IEventRegistry>(eventRegistry);
+            containerManager.AddComponentInstance<IEventHandlerRegistry>(eventRegistry);
+
+            var activityEventRegistry = new DefaultActivityEventRegistry();
+            activityEventRegistry.RegisterAssemblies(assemblies);
+            containerManager.AddComponentInstance<IActivityEventRegistry>(activityEventRegistry);
 
             // Event Dispatcher
             var eventDispatcher = new DefaultEventDispatcher(eventRegistry);

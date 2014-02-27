@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Activities
     // Activities can only bind to domain events,
     // because listing infrastructure events in the UI is weird.
     // This can also benifit the performance.
-    abstract class ActivityEventHookBase : IHandle<IDomainEvent>
+    abstract class ActivityEventHookBase : IHandle<IEvent>
     {
         public ICommerceInstanceContext CommerceInstanceContext { get; protected set; }
 
@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Activities
             CommerceInstanceContext = commerceInstanceContext;
         }
 
-        public void Handle(IDomainEvent @event, EventDispatchingContext context)
+        public void Handle(IEvent @event, EventDispatchingContext context)
         {
             var commerceInstance = CommerceInstanceContext.CurrentInstance;
 
