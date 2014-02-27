@@ -19,18 +19,18 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ActivityController : CommerceControllerBase
     {
-        private IEventRegistry _eventRegistry;
+        private IActivityEventRegistry _activityEventRegistry;
         private IActivityBindingService _bindingService;
         private IActivityFactory _activityFactory;
         private IActivityViewsFactory _activityViewsFactory;
 
         public ActivityController(
-            IEventRegistry eventRegistry,
+            IActivityEventRegistry activityEventRegistry,
             IActivityBindingService bindingService,
             IActivityFactory activityFactory,
             IActivityViewsFactory activityViewsFactory)
         {
-            _eventRegistry = eventRegistry;
+            _activityEventRegistry = activityEventRegistry;
             _bindingService = bindingService;
             _activityFactory = activityFactory;
             _activityViewsFactory = activityViewsFactory;
@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             ViewBag.Category = category;
 
-            var eventTypes = _eventRegistry.FindEventsByCategory(category);
+            var eventTypes = _activityEventRegistry.GetEventTypesByCategory(category);
             var models = new List<ActivityEventRowModel>();
 
             foreach (var eventType in eventTypes)

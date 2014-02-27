@@ -8,11 +8,11 @@ namespace Kooboo.Commerce.Events.Dispatching
 {
     public class DefaultEventDispatcher : IEventDispatcher
     {
-        private IEventRegistry _eventRegistry;
+        private IEventHandlerRegistry _eventRegistry;
         private IHandlerActivator _handlerActivator = new DefaultHandlerActivator();
         private IHandlerInvoker _handlerInvoker = new DefaultHandlerInvoker();
 
-        public IEventRegistry EventRegistry
+        public IEventHandlerRegistry EventRegistry
         {
             get
             {
@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Events.Dispatching
             }
         }
 
-        public DefaultEventDispatcher(IEventRegistry handlerRegistry)
+        public DefaultEventDispatcher(IEventHandlerRegistry handlerRegistry)
         {
             Require.NotNull(handlerRegistry, "handlerRegistry");
 
@@ -56,7 +56,7 @@ namespace Kooboo.Commerce.Events.Dispatching
             Require.NotNull(evnt, "evnt");
             Require.NotNull(context, "context");
 
-            foreach (var method in _eventRegistry.FindHandlerMethods(evnt.GetType()))
+            foreach (var method in _eventRegistry.FindHandlers(evnt.GetType()))
             {
                 var awaitAttribute = EventHandlerUtil.GetHandlerAttribute<AwaitTransactionCompleteAttribute>(method);
 

@@ -6,13 +6,13 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Events
 {
-    public class EntityDeleted : IEvent
+    public class EntityAdded : IEvent
     {
         public string CommerceName { get; private set; }
 
         public object Entity { get; private set; }
 
-        public EntityDeleted(string commerceName, object entity)
+        public EntityAdded(string commerceName, object entity)
         {
             Require.NotNullOrEmpty(commerceName, "commerceName");
             Require.NotNull(entity, "entity");

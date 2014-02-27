@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Products
 {
-    public interface IQueryProductListEvent : IDomainEvent
+    public interface IQueryProductListEvent : IEvent
     {
         IEnumerable<Product> Result { get; set; }
     }

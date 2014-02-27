@@ -14,30 +14,30 @@ namespace Kooboo.Commerce.Data
 {
     public class CommerceDbContext : DbContext
     {
-        public string Schema { get; private set; }
+        public CommerceInstanceMetadata CommerceInstanceMetadata { get; private set; }
 
-        private CommerceDbContext(string schema, string connectionString, DbCompiledModel model)
+        private CommerceDbContext(CommerceInstanceMetadata commerceInstanceMetadata, string connectionString, DbCompiledModel model)
             : base(connectionString, model)
         {
-            Schema = schema;
+            CommerceInstanceMetadata = commerceInstanceMetadata;
         }
 
         public override int SaveChanges()
         {
-            var stateManager = ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager;
-
-            foreach (var entry in stateManager.GetObjectStateEntries(EntityState.Added))
+            foreach (var entry in ChangeTracker.Entries())
             {
-                Event.Apply(new EntityCreated(entry.Entity));
-            }
-            // TODO: EF will always return empty result for Modified entries, why?
-            foreach (var entry in stateManager.GetObjectStateEntries(EntityState.Modified))
-            {
-                Event.Apply(new EntityUpdated(entry.Entity));
-            }
-            foreach (var entry in stateManager.GetObjectStateEntries(EntityState.Deleted))
-            {
-                Event.Apply(new EntityDeleted(entry.Entity));
+                if (entry.State.HasFlag(EntityState.Added))
+                {
+                    Event.Apply(new EntityAdded(CommerceInstanceMetadata.Name, entry.Entity));
+                }
+                else if (entry.State.HasFlag(EntityState.Deleted))
+                {
+                    Event.Apply(new EntityDeleted(CommerceInstanceMetadata.Name, entry.Entity));
+                }
+                else if (entry.State.HasFlag(EntityState.Modified))
+                {
+                    Event.Apply(new EntityUpdated(CommerceInstanceMetadata.Name, entry.Entity));
+                }
             }
 
             return base.SaveChanges();
@@ -63,16 +63,16 @@ namespace Kooboo.Commerce.Data
 
         static readonly ConcurrentDictionary<ModelCacheKey, DbCompiledModel> _modelCache = new ConcurrentDictionary<ModelCacheKey, DbCompiledModel>();
 
-        public static CommerceDbContext Create(string schema, string connectionString, DbProviderInfo dbProviderInfo)
+        internal static CommerceDbContext Create(CommerceInstanceMetadata metadata, ICommerceDbProvider dbProvider)
         {
-            schema = schema ?? String.Empty;
+            var dbProviderInfo = new DbProviderInfo(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
 
-            var model = _modelCache.GetOrAdd(new ModelCacheKey(schema, dbProviderInfo), key =>
+            var model = _modelCache.GetOrAdd(new ModelCacheKey(metadata.DbSchema, dbProviderInfo), key =>
             {
                 return CreateModel(key.Schema, key.DbProviderInfo);
             });
 
-            return new CommerceDbContext(schema, connectionString, model);
+            return new CommerceDbContext(metadata, dbProvider.GetConnectionString(metadata), model);
         }
 
         static DbCompiledModel CreateModel(string schema, DbProviderInfo dbProviderInfo)
