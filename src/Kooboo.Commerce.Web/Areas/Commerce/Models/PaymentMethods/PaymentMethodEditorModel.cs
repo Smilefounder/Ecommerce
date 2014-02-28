@@ -9,6 +9,18 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
 {
+    public class PaymentProcessorModel
+    {
+        public string Name { get; set; }
+
+        public IList<SupportedPaymentMethod> SupportedPaymentMethods { get; set; }
+
+        public PaymentProcessorModel()
+        {
+            SupportedPaymentMethods = new List<SupportedPaymentMethod>();
+        }
+    }
+
     public class PaymentMethodEditorModel
     {
         public int Id { get; set; }
@@ -18,11 +30,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         public string DisplayName { get; set; }
 
         [Required]
-        [Display(Name = "Payment gateway")]
-        public string PaymentGateway { get; set; }
+        [Display(Name = "Payment type")]
+        public PaymentType PaymentType { get; set; }
+
+        public IList<SelectListItem> AllPaymentTypes { get; set; }
+
+        [Required]
+        [Display(Name = "Payment processor")]
+        public string PaymentProcessorName { get; set; }
+
+        public string PaymentProcessorMethodId { get; set; }
 
         [Display(Name = "Additional fee charge mode")]
         public PriceChangeMode AdditionalFeeChargeMode { get; set; }
+
+        public IList<SelectListItem> AllFeeChargeModes { get; set; }
 
         [Display(Name = "Additional fee amount")]
         public decimal AdditionalFeeAmount { get; set; }
@@ -31,9 +53,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         [Display(Name = "Additional fee percent")]
         public float AdditionalFeePercent { get; set; }
 
-        public IList<SelectListItem> AvailableGateways { get; set; }
+        public IList<PaymentProcessorModel> AvailablePaymentProcessors { get; set; }
 
-        public IList<SelectListItem> AvailableAdditionalFeeChargeModes { get; set; }
+        public IList<SupportedPaymentMethod> AvailablePaymentMethods { get; set; }
 
         [Display(Name = "Enabled")]
         public bool IsEnabled { get; set; }
@@ -42,14 +64,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
 
         public PaymentMethodEditorModel()
         {
-            AvailableAdditionalFeeChargeModes = new List<SelectListItem>();
-            AvailableAdditionalFeeChargeModes = EnumUtil.ToSelectList(typeof(PriceChangeMode));
+            AvailablePaymentProcessors = new List<PaymentProcessorModel>();
+            AllPaymentTypes = EnumUtil.ToSelectList(typeof(PaymentType));
+            AvailablePaymentMethods = new List<SupportedPaymentMethod>();
+            AllFeeChargeModes = EnumUtil.ToSelectList(typeof(PriceChangeMode));
         }
 
         public void UpdateTo(PaymentMethod method)
         {
             method.DisplayName = DisplayName;
-            method.PaymentProcessor = PaymentGateway;
+            method.PaymentProcessorName = PaymentProcessorName;
+            method.PaymentProcessorMethodId = PaymentProcessorMethodId;
             method.AdditionalFeeChargeMode = AdditionalFeeChargeMode;
             method.AdditionalFeeAmount = AdditionalFeeAmount;
             method.AdditionalFeePercent = AdditionalFeePercent;

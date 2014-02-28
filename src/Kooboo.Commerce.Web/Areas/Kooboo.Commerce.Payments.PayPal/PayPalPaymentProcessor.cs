@@ -31,9 +31,12 @@ namespace Kooboo.Commerce.Payments.PayPal
             _keyValueService = keyValueService;
         }
 
-        public IEnumerable<PaymentType> GetSupportedPaymentTypes()
+        public IEnumerable<PaymentType> SupportedPaymentTypes
         {
-            yield return PaymentType.ExternalPayment;
+            get
+            {
+                yield return PaymentType.ExternalPayment;
+            }
         }
 
         public bool SupportMultiplePaymentMethods

@@ -52,9 +52,12 @@ namespace Kooboo.Commerce.Payments.iDeal
             return ProcessPaymentResult.Pending(idealFetch.TransactionId, idealFetch.Url);
         }
 
-        public IEnumerable<PaymentType> GetSupportedPaymentTypes()
+        public IEnumerable<PaymentType> SupportedPaymentTypes
         {
-            yield return PaymentType.ExternalPayment;
+            get
+            {
+                yield return PaymentType.ExternalPayment;
+            }
         }
 
         public bool SupportMultiplePaymentMethods

@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Payments
 
         public PaymentType PaymentType { get; set; }
 
-        public string PaymentProcessor { get; set; }
+        public string PaymentProcessorName { get; set; }
 
         /// <summary>
         /// Represents the corresponding payment method id in the payment processor system.

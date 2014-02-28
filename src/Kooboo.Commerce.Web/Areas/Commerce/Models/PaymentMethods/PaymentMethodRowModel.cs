@@ -17,7 +17,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         [EditorLinkedGridColumn]
         public string DisplayName { get; set; }
 
-        public string PaymentGatewayName { get; set; }
+        [GridColumn(HeaderText = "Payment Processor")]
+        public string PaymentProcessorName { get; set; }
 
         [GridColumn]
         public string AdditionalFee { get; set; }
@@ -35,7 +36,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         {
             Id = method.Id;
             DisplayName = method.DisplayName;
-            PaymentGatewayName = method.PaymentProcessor;
+            PaymentProcessorName = method.PaymentProcessorName;
             IsEnabled = method.IsEnabled;
             CreatedAt = method.CreatedAtUtc.ToLocalTime();
 

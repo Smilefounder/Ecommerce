@@ -20,17 +20,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class PaymentMethodController : CommerceControllerBase
     {
-        private IPaymentProcessorFactory _gatewayFactory;
-        private IPaymentProcessorViewsFactory _gatewayViewsFactory;
+        private IPaymentProcessorFactory _processorFactory;
+        private IPaymentProcessorViewsFactory _processorViewsFactory;
         private IPaymentMethodService _paymentMethodService;
 
         public PaymentMethodController(
-            IPaymentProcessorFactory gatewayFactory,
-            IPaymentProcessorViewsFactory gatewayViewFactory,
+            IPaymentProcessorFactory processorFactory,
+            IPaymentProcessorViewsFactory processorViewFactory,
             IPaymentMethodService paymentMethodService)
         {
-            _gatewayFactory = gatewayFactory;
-            _gatewayViewsFactory = gatewayViewFactory;
+            _processorFactory = processorFactory;
+            _processorViewsFactory = processorViewFactory;
             _paymentMethodService = paymentMethodService;
         }
 
@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                                  .Transform(x =>
                                  {
                                      var model = new PaymentMethodRowModel(x);
-                                     var views = _gatewayViewsFactory.FindByPaymentProcessor(model.PaymentGatewayName);
+                                     var views = _processorViewsFactory.FindByPaymentProcessor(model.PaymentProcessorName);
                                      model.IsConfigurable = views != null;
 
                                      return model;
@@ -53,14 +53,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Create()
         {
             var model = new PaymentMethodEditorModel();
-            model.AvailableGateways = GetAvailableGateways();
-
-            if (model.AvailableGateways.Count > 0)
-            {
-                model.DisplayName = model.AvailableGateways[0].Text;
-                model.PaymentGateway = model.AvailableGateways[0].Text;
-            }
-
+            SetupPaymentProcessors(model);
             return View(model);
         }
 
@@ -71,7 +64,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 Id = method.Id,
                 DisplayName = method.DisplayName,
-                PaymentGateway = method.PaymentProcessor,
+                PaymentType = method.PaymentType,
+                PaymentProcessorName = method.PaymentProcessorName,
+                PaymentProcessorMethodId = method.PaymentProcessorMethodId,
                 AdditionalFeeChargeMode = method.AdditionalFeeChargeMode,
                 AdditionalFeeAmount = method.AdditionalFeeAmount,
                 AdditionalFeePercent = method.AdditionalFeePercent,
@@ -79,16 +74,32 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 IsEdit = true
             };
 
-            model.AvailableGateways = GetAvailableGateways();
+            SetupPaymentProcessors(model);
 
             return View(model);
+        }
+
+        private void SetupPaymentProcessors(PaymentMethodEditorModel model)
+        {
+            model.AvailablePaymentProcessors = GetAvailablePaymentProcessors(model.PaymentType);
+
+            var processor = model.AvailablePaymentProcessors.FirstOrDefault(x => x.Name == model.PaymentProcessorName);
+            if (processor != null)
+            {
+                model.AvailablePaymentMethods = processor.SupportedPaymentMethods;
+            }
+        }
+
+        public ActionResult PaymentProcessors(PaymentType paymentType)
+        {
+            return this.Json(GetAvailablePaymentProcessors(paymentType), PropertyNaming.CamelCase);
         }
 
         [HttpPost, HandleAjaxFormError]
         public ActionResult Settings(PaymentMethodRowModel[] model)
         {
             var method = _paymentMethodService.GetById(model[0].Id);
-            var views = _gatewayViewsFactory.FindByPaymentProcessor(method.PaymentProcessor);
+            var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);
             var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
 
             return AjaxForm().RedirectTo(url);
@@ -158,7 +169,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             CommerceContext.CurrentInstance.Database.SaveChanges();
 
-            var views = _gatewayViewsFactory.FindByPaymentProcessor(method.PaymentProcessor);
+            var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);
 
             if (views != null)
             {
@@ -169,16 +180,29 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().RedirectTo(@return);
         }
 
-        private List<SelectListItem> GetAvailableGateways()
+        private List<PaymentProcessorModel> GetAvailablePaymentProcessors(PaymentType paymentType)
         {
-            return _gatewayFactory.All()
-                                 .OrderBy(x => x.Name)
-                                 .Select(x => new SelectListItem
-                                 {
-                                     Text = x.Name,
-                                     Value = x.Name
-                                 })
-                                 .ToList();
+            var result = new List<PaymentProcessorModel>();
+            var processors = _processorFactory.All()
+                                              .Where(x => x.SupportedPaymentTypes.Contains(paymentType))
+                                              .ToList();
+
+            foreach (var processor in processors)
+            {
+                var model = new PaymentProcessorModel
+                {
+                    Name = processor.Name
+                };
+
+                if (processor.SupportMultiplePaymentMethods)
+                {
+                    model.SupportedPaymentMethods = processor.GetSupportedPaymentMethods(paymentType).ToList();
+                }
+
+                result.Add(model);
+            }
+
+            return result;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Payments
 
         ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request);
 
-        IEnumerable<PaymentType> GetSupportedPaymentTypes();
+        IEnumerable<PaymentType> SupportedPaymentTypes { get; }
 
         bool SupportMultiplePaymentMethods { get; }
 

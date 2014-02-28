@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Web.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace Kooboo.Commerce
             {
                 settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             }
+
+            settings.Converters.Add(new StringEnumConverter());
 
             return JsonConvert.SerializeObject(data, settings);
         }

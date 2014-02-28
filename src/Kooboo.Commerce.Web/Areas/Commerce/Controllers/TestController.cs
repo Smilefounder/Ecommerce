@@ -35,36 +35,35 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Payment()
         {
-            //var orderService = EngineContext.Current.Resolve<IOrderService>();
-            //var order = new Order
-            //{
-            //    Total = 56m
-            //};
-            //var customer = EngineContext.Current.Resolve<ICustomerService>().GetAllCustomers(
-            //    null, null, null).First();
+            var orderService = EngineContext.Current.Resolve<IOrderService>();
+            var order = new Order
+            {
+                Total = 56m
+            };
+            var customer = EngineContext.Current.Resolve<ICustomerService>().GetAllCustomers(
+                null, null, null).First();
 
-            //order.Customer = customer;
+            order.Customer = customer;
 
-            //orderService.Create(order);
+            orderService.Create(order);
 
-            //CommerceInstanceContext.CurrentInstance.Database.SaveChanges();
+            CommerceInstanceContext.CurrentInstance.Database.SaveChanges();
 
-            //var paymentMethod = EngineContext.Current.Resolve<IPaymentMethodService>().Query()
-            //                                 .Where(x => x.PaymentGatewayName == "Fake")
-            //                                 .First();
+            var paymentMethod = EngineContext.Current.Resolve<IPaymentMethodService>().Query()
+                                             .Where(x => x.PaymentProcessorName == "Fake")
+                                             .First();
 
-            //var paymentModel = new PaymentRequestModel
-            //{
-            //    OrderId = order.Id,
-            //    PaymentMethodId = paymentMethod.Id,
-            //    ReturnUrl = Url.Action("PaymentReturn", RouteValues.From(Request.QueryString))
-            //};
+            var paymentModel = new PaymentRequestModel
+            {
+                OrderId = order.Id,
+                PaymentMethodId = paymentMethod.Id,
+                ReturnUrl = Url.Action("PaymentReturn", RouteValues.From(Request.QueryString))
+            };
 
-            //var routeValues = new RouteValueDictionary(paymentModel);
-            //routeValues.Merge("commerceName", CommerceInstanceContext.CurrentInstance.Name);
+            var routeValues = new RouteValueDictionary(paymentModel);
+            routeValues.Merge("commerceName", CommerceInstanceContext.CurrentInstance.Name);
 
-            //return RedirectToAction("Gateway", "Payment", routeValues);
-            return Content("");
+            return RedirectToAction("Gateway", "Payment", routeValues);
         }
 
         public ActionResult PaymentReturn()

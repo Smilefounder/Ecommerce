@@ -19,20 +19,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         private IOrderService _orderService;
         private IOrderPaymentService _orderPaymentService;
         private IPaymentMethodService _paymentMethodService;
-        private IPaymentProcessorFactory _paymentGatewayFactory;
+        private IPaymentProcessorFactory _paymentProcessorFactory;
 
         public PaymentController(
             ISettingService settingService,
             IOrderService orderService,
             IOrderPaymentService orderPaymentService,
             IPaymentMethodService paymentMethodService,
-            IPaymentProcessorFactory paymentGatewayFactory)
+            IPaymentProcessorFactory paymentProcessorFactory)
         {
             _settingService = settingService;
             _orderService = orderService;
             _orderPaymentService = orderPaymentService;
             _paymentMethodService = paymentMethodService;
-            _paymentGatewayFactory = paymentGatewayFactory;
+            _paymentProcessorFactory = paymentProcessorFactory;
         }
 
         [Transactional]
@@ -52,8 +52,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 ReturnUrl = model.ReturnUrl
             };
 
-            var gateway = _paymentGatewayFactory.FindByName(paymentMethod.PaymentProcessor);
-            var result = gateway.ProcessPayment(paymentRequest);
+            var processor = _paymentProcessorFactory.FindByName(paymentMethod.PaymentProcessorName);
+            var result = processor.ProcessPayment(paymentRequest);
 
             if (result.PaymentStatus == PaymentStatus.Success)
             {

@@ -2693,4 +2693,16 @@ Are you sure you want to use this size?</value>
   <data name="Save Original Image" xml:space="preserve">
     <value>Save Original Image</value>
   </data>
+  <data name="PaymentType 字段是必需的。" xml:space="preserve">
+    <value>PaymentType 字段是必需的。</value>
+  </data>
+  <data name="Payment type 字段是必需的。" xml:space="preserve">
+    <value>Payment type 字段是必需的。</value>
+  </data>
+  <data name="Payment Processor" xml:space="preserve">
+    <value>Payment Processor</value>
+  </data>
+  <data name="Payment processor 字段是必需的。" xml:space="preserve">
+    <value>Payment processor 字段是必需的。</value>
+  </data>
 </root>

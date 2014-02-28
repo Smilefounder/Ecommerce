@@ -68,9 +68,12 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
         }
 
 
-        public IEnumerable<PaymentType> GetSupportedPaymentTypes()
+        public IEnumerable<PaymentType> SupportedPaymentTypes
         {
-            yield return PaymentType.CreditCard;
+            get
+            {
+                yield return PaymentType.CreditCard;
+            }
         }
 
         public bool SupportMultiplePaymentMethods

@@ -7,17 +7,23 @@
     <table>
         <tbody>
             <tr>
-                <th>@Html.DisplayNameFor(m => m.PaymentGateway)</th>
+                <th>@Html.DisplayNameFor(m => m.PaymentType)</th>
                 <td>
-                    @if (Model.IsEdit)
-                    {
-                        @Html.HiddenFor(m => m.PaymentGateway)
-                        @Model.PaymentGateway
-                    }
-                    else
-                    {
-                        @Html.DropDownListFor(m => m.PaymentGateway, Model.AvailableGateways, new { @class = "xxlarge" })
-                    }
+                    @Html.DropDownListFor(m => m.PaymentType, Model.AllPaymentTypes, new { data_bind = "value: paymentType", @class = "xxlarge" })
+                    @Html.ValidationMessageFor(m => m.PaymentType)
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.PaymentProcessorName)</th>
+                <td>
+                    <select name="PaymentProcessorName" class="xxlarge" data-bind="options: availablePaymentProcessors, optionsText: 'name', optionsValue: 'name', value: paymentProcessorName"></select>
+                    @Html.ValidationMessageFor(m => m.PaymentProcessorName)
+                </td>
+            </tr>
+            <tr data-bind="visible: hasMultiplePaymentMethods">
+                <th></th>
+                <td>
+                    <select name="PaymentProcessorMethodId" class="xxlarge" data-bind="options: availablePaymentMethods, optionsText: 'name', optionsValue: 'name', value: paymentProcessorMethodId"></select>
                 </td>
             </tr>
             <tr>
@@ -29,17 +35,20 @@
             <tr>
                 <th>@Html.DisplayNameFor(m => m.AdditionalFeeChargeMode)</th>
                 <td>
-                    @Html.DropDownListFor(m => m.AdditionalFeeChargeMode, Model.AvailableAdditionalFeeChargeModes, new { @class = "xxlarge" })
+                    @Html.DropDownListFor(m => m.AdditionalFeeChargeMode, Model.AllFeeChargeModes, new { 
+                        @class = "xxlarge", 
+                        data_bind = "value: additionalFeeChargeMode" 
+                    })
                 </td>
             </tr>
-            <tr class="charge-amount" style="display:none">
+            <tr data-bind="visible: additionalFeeChargeMode() == 'ByAmount'">
                 <th>@Html.DisplayNameFor(m => m.AdditionalFeeAmount)</th>
                 <td>
                     @Html.TextBoxFor(m => m.AdditionalFeeAmount, new { @class = "xxlarge" })
                     @Html.ValidationMessageFor(m => m.AdditionalFeeAmount)
                 </td>
             </tr>
-            <tr class="charge-percent" style="display:none">
+            <tr data-bind="visible: additionalFeeChargeMode() == 'ByPercent'">
                 <th>@Html.DisplayNameFor(m => m.AdditionalFeePercent)</th>
                 <td>
                     @Html.TextBoxFor(m => m.AdditionalFeePercent, new { @class = "xxlarge" }) %
@@ -58,25 +67,62 @@
 
 <script>
     $(function () {
-        onChargeModeChanged($('select[name="AdditionalFeeChargeMode"]').val());
+        var jsModel = @Html.Raw(Model.ToJson(PropertyNaming.CamelCase));
+        var commerceName = '@Request["commerceName"]';
 
-        $('select[name="AdditionalFeeChargeMode"]').change(function () {
-            onChargeModeChanged($(this).val());
-        });
+        var ViewModel = function () {
+            var _this  = this;
 
-        $('select[name="PaymentGateway"]').change(function () {
-            var $name = $('input[name="DisplayName"]');
-            $name.val($(this).find(':selected').text());
-        });
+            this.paymentType = ko.observable();
 
-        function onChargeModeChanged(mode) {
-            if (mode == 'ByAmount') {
-                $('.charge-amount').show();
-                $('.charge-percent').hide();
-            } else {
-                $('.charge-amount').hide();
-                $('.charge-percent').show();
+            this.paymentProcessorName = ko.observable();
+
+            this.availablePaymentProcessors = ko.observableArray([]);
+
+            this.availablePaymentMethods = ko.observableArray([]);
+
+            this.hasMultiplePaymentMethods = ko.computed(function () {
+                return _this.availablePaymentMethods().length > 0;
+            });
+
+            this.init = function () {
+                _this.paymentType.subscribe(function (paymentType) {
+                    onPaymentTypeChanged(paymentType);
+                });
+
+                _this.paymentProcessorName.subscribe(function (name) {
+                    onPaymentProcessorChanged(name);
+                });
             }
-        }
+
+            function onPaymentTypeChanged(paymentType) {
+                $.get('@Url.Action("PaymentProcessors")', { paymentType: paymentType, commerceName: commerceName })
+                 .then(function (data) {
+                     _this.availablePaymentProcessors.removeAll();
+                     $.each(data, function () {
+                         _this.availablePaymentProcessors.push(ko.mapping.fromJS(this));
+                     });
+                 });
+            }
+
+            function onPaymentProcessorChanged(processorName) {
+                var processor = _.find(_this.availablePaymentProcessors(), function (x) {
+                    return x.name() == processorName;
+                });
+
+                if (processor) {
+                    _this.availablePaymentMethods.removeAll();
+
+                    $.each(processor.supportedPaymentMethods(), function () {
+                        _this.availablePaymentMethods.push(this);
+                    });
+                }
+            }
+        };
+
+        var viewModel = ko.mapping.fromJS(jsModel, {}, new ViewModel());
+        viewModel.init();
+
+        ko.applyBindings(viewModel);
     });
 </script>

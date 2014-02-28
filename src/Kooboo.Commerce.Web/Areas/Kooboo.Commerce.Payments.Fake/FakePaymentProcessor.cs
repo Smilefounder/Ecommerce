@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Payments.Fake
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "FakePaymentProcessor")]
+    [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.Fake.FakePaymentProcessor")]
     public class FakePaymentProcessor : IPaymentProcessor
     {
         public string Name
@@ -32,11 +32,14 @@ namespace Kooboo.Commerce.Payments.Fake
         }
 
 
-        public IEnumerable<PaymentType> GetSupportedPaymentTypes()
+        public IEnumerable<PaymentType> SupportedPaymentTypes
         {
-            yield return PaymentType.CreditCard;
-            yield return PaymentType.DirectDebit;
-            yield return PaymentType.ExternalPayment;
+            get
+            {
+                yield return PaymentType.CreditCard;
+                yield return PaymentType.DirectDebit;
+                yield return PaymentType.ExternalPayment;
+            }
         }
 
         public bool SupportMultiplePaymentMethods
