@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kooboo.Commerce.Settings.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -34,11 +35,15 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
 
             return JsonConvert.DeserializeObject<AuthorizeNetSettings>(data);
         }
-    }
 
-    public enum TransactMode
-    {
-        Authorize = 0,
-        AuthorizeAndCapture = 1
+        public void SaveTo(IKeyValueService service)
+        {
+            service.Set("Kooboo.Commerce.Payments.AuthorizeNet", Serialize());
+        }
+
+        public static AuthorizeNetSettings FetchFrom(IKeyValueService service)
+        {
+            return Deserialize(service.Get("Kooboo.Commerce.Payments.AuthorizeNet"));
+        }
     }
 }

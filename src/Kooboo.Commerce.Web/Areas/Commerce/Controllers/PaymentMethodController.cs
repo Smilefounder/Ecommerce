@@ -20,13 +20,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class PaymentMethodController : CommerceControllerBase
     {
-        private IPaymentGatewayFactory _gatewayFactory;
-        private IPaymentGatewayViewsFactory _gatewayViewsFactory;
+        private IPaymentProcessorFactory _gatewayFactory;
+        private IPaymentProcessorViewsFactory _gatewayViewsFactory;
         private IPaymentMethodService _paymentMethodService;
 
         public PaymentMethodController(
-            IPaymentGatewayFactory gatewayFactory,
-            IPaymentGatewayViewsFactory gatewayViewFactory,
+            IPaymentProcessorFactory gatewayFactory,
+            IPaymentProcessorViewsFactory gatewayViewFactory,
             IPaymentMethodService paymentMethodService)
         {
             _gatewayFactory = gatewayFactory;
@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                                  .Transform(x =>
                                  {
                                      var model = new PaymentMethodRowModel(x);
-                                     var views = _gatewayViewsFactory.FindByPaymentGateway(model.PaymentGatewayName);
+                                     var views = _gatewayViewsFactory.FindByPaymentProcessor(model.PaymentGatewayName);
                                      model.IsConfigurable = views != null;
 
                                      return model;
@@ -71,7 +71,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 Id = method.Id,
                 DisplayName = method.DisplayName,
-                PaymentGateway = method.PaymentGatewayName,
+                PaymentGateway = method.PaymentProcessor,
                 AdditionalFeeChargeMode = method.AdditionalFeeChargeMode,
                 AdditionalFeeAmount = method.AdditionalFeeAmount,
                 AdditionalFeePercent = method.AdditionalFeePercent,
@@ -88,7 +88,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Settings(PaymentMethodRowModel[] model)
         {
             var method = _paymentMethodService.GetById(model[0].Id);
-            var views = _gatewayViewsFactory.FindByPaymentGateway(method.PaymentGatewayName);
+            var views = _gatewayViewsFactory.FindByPaymentProcessor(method.PaymentProcessor);
             var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
 
             return AjaxForm().RedirectTo(url);
@@ -158,7 +158,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             CommerceContext.CurrentInstance.Database.SaveChanges();
 
-            var views = _gatewayViewsFactory.FindByPaymentGateway(method.PaymentGatewayName);
+            var views = _gatewayViewsFactory.FindByPaymentProcessor(method.PaymentProcessor);
 
             if (views != null)
             {

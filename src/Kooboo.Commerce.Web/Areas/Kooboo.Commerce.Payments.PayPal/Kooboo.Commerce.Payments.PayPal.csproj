@@ -128,9 +128,9 @@
     <Compile Include="AddInAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
-    <Compile Include="PayPalPaymentGateway.cs" />
-    <Compile Include="PayPalPaymentGatewayViews.cs" />
-    <Compile Include="PayPalPaymentGatewayData.cs" />
+    <Compile Include="PayPalPaymentProcessor.cs" />
+    <Compile Include="PayPalPaymentProcessorViews.cs" />
+    <Compile Include="PayPalSettings.cs" />
     <Compile Include="PayPalUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.cs" />

@@ -127,8 +127,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddInAreaRegistration.cs" />
-    <Compile Include="AuthorizeNetPaymentGatewayViews.cs" />
-    <Compile Include="AuthorizeNetPaymentGateway.cs" />
+    <Compile Include="AuthorizeNetPaymentProcessorViews.cs" />
+    <Compile Include="AuthorizeNetPaymentProcessor.cs" />
     <Compile Include="AuthorizeNetSettings.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

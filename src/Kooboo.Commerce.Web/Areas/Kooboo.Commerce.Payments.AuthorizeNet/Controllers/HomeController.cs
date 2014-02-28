@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
@@ -10,25 +11,28 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
+        private IKeyValueService _keyValueService;
         private IPaymentMethodService _paymentMethodService;
 
-        public HomeController(IPaymentMethodService paymentMethodService)
+        public HomeController(
+            IKeyValueService keyValueService,
+            IPaymentMethodService paymentMethodService)
         {
+            _keyValueService = keyValueService;
             _paymentMethodService = paymentMethodService;
         }
 
         public ActionResult Settings(int methodId)
         {
             var method = _paymentMethodService.GetById(methodId);
-            var settings = AuthorizeNetSettings.Deserialize(method.PaymentGatewayData) ?? new AuthorizeNetSettings();
+            var settings = AuthorizeNetSettings.FetchFrom(_keyValueService) ?? new AuthorizeNetSettings();
             return View(settings);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Settings(int methodId, AuthorizeNetSettings settings, string @return)
         {
-            var method = _paymentMethodService.GetById(methodId);
-            method.PaymentGatewayData = settings.Serialize();
+            settings.SaveTo(_keyValueService);
 
             return AjaxForm().RedirectTo(@return);
         }

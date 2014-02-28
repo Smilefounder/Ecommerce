@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using PayPal;
@@ -13,15 +14,18 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
 {
     public class PayPalController : CommerceControllerBase
     {
+        private IKeyValueService _keyValueService;
         private IOrderService _orderService;
         private IOrderPaymentService _orderPaymentService;
         private IPaymentMethodService _paymentMethodService;
 
         public PayPalController(
+            IKeyValueService keyValueService,
             IOrderService orderService,
             IOrderPaymentService orderPaymentService,
             IPaymentMethodService paymentMethodService)
         {
+            _keyValueService = keyValueService;
             _orderService = orderService;
             _orderPaymentService = orderPaymentService;
             _paymentMethodService = paymentMethodService;
@@ -43,7 +47,7 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
             var orderId = Convert.ToInt32(Request["trackingId"]);
             var order = _orderService.GetById(orderId);
             var paymentMethod = _paymentMethodService.GetById(order.PaymentMethodId.Value);
-            var gatewayData = PayPalPaymentGatewayData.Deserialize(paymentMethod.PaymentGatewayData);
+            var gatewayData = PayPalSettings.FetchFrom(_keyValueService);
 
             if (gatewayData == null)
                 throw new InvalidOperationException("Missing PayPal configuration.");

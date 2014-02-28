@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         public void UpdateTo(PaymentMethod method)
         {
             method.DisplayName = DisplayName;
-            method.PaymentGatewayName = PaymentGateway;
+            method.PaymentProcessor = PaymentGateway;
             method.AdditionalFeeChargeMode = AdditionalFeeChargeMode;
             method.AdditionalFeeAmount = AdditionalFeeAmount;
             method.AdditionalFeePercent = AdditionalFeePercent;

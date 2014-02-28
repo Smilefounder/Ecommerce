@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Mollie.iDEAL;
 using System;
@@ -12,13 +13,16 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 {
     public class iDealController : Controller
     {
+        private IKeyValueService _keyValueService;
         private IOrderPaymentService _paymentService;
         private IPaymentMethodService _paymentMethodService;
 
         public iDealController(
+            IKeyValueService keyValueService,
             IOrderPaymentService paymentService,
             IPaymentMethodService paymentMethodService)
         {
+            _keyValueService = keyValueService;
             _paymentService = paymentService;
             _paymentMethodService = paymentMethodService;
         }
@@ -26,7 +30,7 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
         public ActionResult Return(string commerceReturnUrl)
         {
             var iDealTransactionId = Request["transaction_id"];
-            var order = _paymentService.GetOrderByExternalPaymentTransactionId(iDealTransactionId, Strings.PaymentGatewayName);
+            var order = _paymentService.GetOrderByExternalPaymentTransactionId(iDealTransactionId, Strings.PaymentProcessorName);
 
             return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, order));
         }
@@ -35,10 +39,10 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
         public void Report()
         {
             var iDealTransactionId = Request["transaction_id"];
-            var order = _paymentService.GetOrderByExternalPaymentTransactionId(iDealTransactionId, Strings.PaymentGatewayName);
+            var order = _paymentService.GetOrderByExternalPaymentTransactionId(iDealTransactionId, Strings.PaymentProcessorName);
 
             var paymentMethod = _paymentMethodService.GetById(order.PaymentMethodId.Value);
-            var settings = IDealPaymentGatewayData.Deserialize(paymentMethod.PaymentGatewayData);
+            var settings = IDealSettings.FetchFrom(_keyValueService);
             var idealCheck = new IdealCheck(settings.PartnerId, settings.TestMode, iDealTransactionId);
 
             ProcessPaymentResult result = null;

@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using Kooboo.Web.Url;
@@ -14,17 +15,21 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
+        private IKeyValueService _keyValueService;
         private IPaymentMethodService _paymentMethodService;
 
-        public HomeController(IPaymentMethodService paymentMethodService)
+        public HomeController(
+            IKeyValueService keyValueService,
+            IPaymentMethodService paymentMethodService)
         {
+            _keyValueService = keyValueService;
             _paymentMethodService = paymentMethodService;
         }
 
         public ActionResult Settings(int methodId, string commerceName)
         {
             var method = _paymentMethodService.GetById(methodId);
-            var settings = IDealPaymentGatewayData.Deserialize(method.PaymentGatewayData);
+            var settings = IDealSettings.FetchFrom(_keyValueService);
             return View(settings);
         }
 
@@ -34,10 +39,9 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Settings(int methodId, IDealPaymentGatewayData model, string @return)
+        public ActionResult Settings(int methodId, IDealSettings model, string @return)
         {
-            var method = _paymentMethodService.GetById(methodId);
-            method.PaymentGatewayData = model.Serialize();
+            model.SaveTo(_keyValueService);
 
             return AjaxForm().RedirectTo(@return);
         }

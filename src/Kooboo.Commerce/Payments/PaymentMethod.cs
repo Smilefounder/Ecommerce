@@ -14,11 +14,16 @@ namespace Kooboo.Commerce.Payments
         [StringLength(100)]
         public string DisplayName { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string PaymentGatewayName { get; set; }
+        public PaymentType PaymentType { get; set; }
 
-        public string PaymentGatewayData { get; set; }
+        public string PaymentProcessor { get; set; }
+
+        /// <summary>
+        /// Represents the corresponding payment method id in the payment processor system.
+        /// One payment processor can support multiple payment methods.
+        /// Each payment method has an id which might be specific to the payment processor.
+        /// </summary>
+        public string PaymentProcessorMethodId { get; set; }
 
         public PriceChangeMode AdditionalFeeChargeMode { get; set; }
 

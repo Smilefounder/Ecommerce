@@ -126,9 +126,9 @@
     <Compile Include="AddInAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\iDealController.cs" />
-    <Compile Include="IDealPaymentGatewayData.cs" />
-    <Compile Include="IDealPaymentGateway.cs" />
-    <Compile Include="IDealPaymentGatewayViews.cs" />
+    <Compile Include="IDealSettings.cs" />
+    <Compile Include="IDealPaymentProcessor.cs" />
+    <Compile Include="IDealPaymentProcessorViews.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.cs" />
   </ItemGroup>

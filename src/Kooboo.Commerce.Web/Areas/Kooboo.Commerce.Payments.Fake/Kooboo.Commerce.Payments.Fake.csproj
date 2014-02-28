@@ -121,7 +121,7 @@
     <Compile Include="AddInAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\GatewayViewModel.cs" />
-    <Compile Include="PaymentGateway.cs" />
+    <Compile Include="FakePaymentProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.cs" />
   </ItemGroup>

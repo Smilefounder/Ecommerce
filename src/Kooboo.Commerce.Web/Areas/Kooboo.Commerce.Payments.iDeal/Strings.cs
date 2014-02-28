@@ -9,6 +9,6 @@ namespace Kooboo.Commerce.Payments.iDeal
     {
         public static readonly string AreaName = typeof(Strings).Namespace;
 
-        public static readonly string PaymentGatewayName = "iDeal";
+        public static readonly string PaymentProcessorName = "iDeal";
     }
 }

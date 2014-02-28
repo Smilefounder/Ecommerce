@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             return String.Format(GoLiveRedirectUrlFormat, payKey);
         }
 
-        public static Dictionary<string, string> GetPayPalConfig(PayPalPaymentGatewayData data)
+        public static Dictionary<string, string> GetPayPalConfig(PayPalSettings data)
         {
             var config = new Dictionary<string, string>();
             config.Add("mode", data.SandboxMode ? "sandbox" : "live");
