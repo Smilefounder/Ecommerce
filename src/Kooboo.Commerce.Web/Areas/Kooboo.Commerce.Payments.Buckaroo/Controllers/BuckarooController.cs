@@ -36,21 +36,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, order));
         }
 
-        public ActionResult ReturnCancel(string commerceReturnUrl)
-        {
-            return Redirect(commerceReturnUrl);
-        }
-
-        public ActionResult ReturnError(string commerceReturnUrl)
-        {
-            return Redirect(commerceReturnUrl);
-        }
-
-        public ActionResult ReturnReject(string commerceReturnUrl)
-        {
-            return Redirect(commerceReturnUrl);
-        }
-
         [Transactional]
         public void Push()
         {
@@ -60,16 +45,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             _orderPaymentService.HandlePaymentResult(order, result);
         }
 
-        static readonly HashSet<string> _refundTransactionTypes = new HashSet<string>
-        {
-            "V090", "V110", "V066", "V067", "V068", "V070", "V072", "V078", "V079", "V080", "V082", "V085", "C102", "C121", "C543", "C101"
-        };
-
-        static readonly HashSet<string> _reservedTransactionTypes = new HashSet<string>
-        {
-            "C562", "C544", "V111"
-        };
-
         private ProcessPaymentResult ProcessResponse(Order order, BuckarooSettings settings)
         {
             var signature = BuckarooUtil.GetSignature(Request.Form, settings.SecretKey);
@@ -77,44 +52,53 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
                 throw new InvalidOperationException("Invalid response.");
 
             var statusCode = Request["brq_statuscode"];
+            var transactionType = Request["brq_transaction_type"];
             var statusMessage = Request["brq_statusmessage"];
             var transactionId = Request["brq_transactions"];
+            var methodId = Request["Brq_payment_method"];
 
-            if (statusCode != "190")
+            // Failed / Validation Failure / Technical Failure
+            if (statusCode == "490" || statusCode == "491" || statusCode == "492")
             {
                 return ProcessPaymentResult.Failed(statusCode + ": " + statusMessage);
             }
+            // Rejected by the (third party) payment provider
+            if (statusCode == "690")
+            {
+                return ProcessPaymentResult.Failed(statusCode + ": " + statusMessage);
+            }
+            // Cancelled by Customer / Merchant
+            if (statusCode == "890" || statusCode == "891")
+            {
+                return ProcessPaymentResult.Cancelled();
+            }
 
-            var transactionType = Request["brq_transaction_type"];
-
-            if (_refundTransactionTypes.Contains(transactionType))
+            // 190: Success (but might later become reserved)
+            if (statusCode != "190")
             {
                 return ProcessPaymentResult.Pending(null);
             }
 
-            if (transactionType == "C002") // Direct debit collect
+            if (methodId == "simplesepadirectdebit")
             {
+                // Reserved
+                if (transactionType == "C501")
+                {
+                    return ProcessPaymentResult.Reserved(transactionId);
+                }
+
                 return ProcessPaymentResult.Pending(null);
             }
-
-            if (transactionType == "C462")
+            else if (methodId == "ideal")
             {
-                return ProcessPaymentResult.Success();
-                // "IJ PG NL Pay-out";
+                return ProcessPaymentResult.Success(transactionId);
+            }
+            else if (methodId == "paypal")
+            {
+                return ProcessPaymentResult.Success(transactionId);
             }
 
-            var amount = Decimal.Parse(Request["brq_amount"], CultureInfo.InvariantCulture);
-            if (amount != order.Total)
-                throw new InvalidOperationException("Incorrect amount.");
-
-            var methodId = Request["Brq_payment_method"];
-
-            if (methodId == "paymentguarantee" || transactionType == "I242" || transactionType == "I243")//Online giro
-            {
-                return ProcessPaymentResult.Success();
-            }
-
-            return ProcessPaymentResult.Success();
+            throw new NotSupportedException("Not support payment method: " + methodId + ".");
         }
     }
 }

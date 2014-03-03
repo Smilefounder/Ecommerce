@@ -44,9 +44,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             parameters.Add("brq_culture", "en-US");
 
             parameters.Add("Brq_return", GetCallbackUrl("Return", request));
-            parameters.Add("Brq_returncancel", GetCallbackUrl("ReturnCancel", request));
-            parameters.Add("Brq_returnerror", GetCallbackUrl("ReturnError", request));
-            parameters.Add("Brq_returnreject", GetCallbackUrl("ReturnReject", request));
             parameters.Add("Brq_push", GetCallbackUrl("Push", request));
 
             parameters.Add("Brq_payment_method", methodId);
@@ -54,10 +51,13 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
             parameters.Add("add_orderid", request.Order.Id.ToString());
 
-            if (methodId == "directdebit")
+            if (methodId == "simplesepadirectdebit")
             {
-                parameters.Add("brq_service_" + methodId + "_customeraccountname", request.DebitCardInfo.HolderName);
-                parameters.Add("brq_service_" + methodId + "_customeraccountnumber", request.DebitCardInfo.CardNumber);
+                parameters.Add("brq_service_" + methodId + "_customeraccountname", request.BankAccountInfo.HolderName);
+                parameters.Add("brq_service_" + methodId + "_CustomerBIC", request.BankAccountInfo.BIC);
+                parameters.Add("brq_service_" + methodId + "_CustomerIBAN", request.BankAccountInfo.IBAN);
+                parameters.Add("brq_service_" + methodId + "_MandateReference", settings.CreditDebitMandateReference);
+                parameters.Add("brq_service_" + methodId + "_MandateDate", settings.CreditDebitMandateDate);
             }
 
             parameters.Add("Brq_signature", BuckarooUtil.GetSignature(parameters, settings.SecretKey));
@@ -104,10 +104,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             if (paymentType == PaymentType.DirectDebit)
             {
                 return new SupportedPaymentMethod[] {
-                    new SupportedPaymentMethod("eMaestro", "eMaestro"),
-                    new SupportedPaymentMethod("Visa Electron", "Visa Electron"),
-                    new SupportedPaymentMethod("vpay", "V Pay"),
-                    new SupportedPaymentMethod("eps", "EPS")
+                    new SupportedPaymentMethod("simplesepadirectdebit", "SEPA Direct Debit")
                 };
             }
 

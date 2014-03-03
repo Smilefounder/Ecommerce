@@ -20,6 +20,12 @@ namespace Kooboo.Commerce.Payments.Buckaroo
         [Display(Name = "Test mode")]
         public bool TestMode { get; set; }
 
+        [Display(Name = "Credit debit mandate reference")]
+        public string CreditDebitMandateReference { get; set; }
+
+        [Display(Name = "Credit debit mandate date")]
+        public string CreditDebitMandateDate { get; set; }
+
         public static BuckarooSettings Deserialize(string data)
         {
             if (String.IsNullOrWhiteSpace(data))

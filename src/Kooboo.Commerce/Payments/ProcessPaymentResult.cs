@@ -35,6 +35,23 @@ namespace Kooboo.Commerce.Payments
             };
         }
 
+        public static ProcessPaymentResult Cancelled()
+        {
+            return new ProcessPaymentResult
+            {
+                PaymentStatus = PaymentStatus.Cancelled
+            };
+        }
+
+        public static ProcessPaymentResult Reserved(string transactionId)
+        {
+            return new ProcessPaymentResult
+            {
+                PaymentStatus = PaymentStatus.Reserved,
+                PaymentTransactionId = transactionId
+            };
+        }
+
         public static ProcessPaymentResult Pending(ActionResult nextAction, string paymentTransactionId = null)
         {
             return new ProcessPaymentResult

@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Payments
 
         public CreditCardInfo CreditCardInfo { get; set; }
 
-        public DebitCardInfo DebitCardInfo { get; set; }
+        public BankAccountInfo BankAccountInfo { get; set; }
 
         public string BankId { get; set; }
 
