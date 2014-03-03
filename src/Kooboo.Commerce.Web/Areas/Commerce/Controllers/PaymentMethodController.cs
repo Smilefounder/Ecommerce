@@ -100,7 +100,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var method = _paymentMethodService.GetById(model[0].Id);
             var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);
-            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
+            var url = Url.RouteUrl(views.Settings(ControllerContext), RouteValues.From(Request.QueryString));
 
             return AjaxForm().RedirectTo(url);
         }
@@ -173,7 +173,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (views != null)
             {
-                var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
+                var url = Url.RouteUrl(views.Settings(ControllerContext), RouteValues.From(Request.QueryString));
                 return AjaxForm().RedirectTo(url);
             }
 

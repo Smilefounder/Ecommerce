@@ -64,7 +64,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
             else
             {
-                return Redirect(result.RedirectUrl);
+                return result.NextAction;
             }
         }
     }

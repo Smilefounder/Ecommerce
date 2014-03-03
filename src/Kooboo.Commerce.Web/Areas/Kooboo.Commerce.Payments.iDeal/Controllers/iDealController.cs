@@ -49,11 +49,11 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 
             if (idealCheck.Error)
             {
-                result = ProcessPaymentResult.Failed(iDealTransactionId, idealCheck.ErrorMessage);
+                result = ProcessPaymentResult.Failed(idealCheck.ErrorMessage, iDealTransactionId);
             }
             else if (idealCheck.Payed)
             {
-                result = ProcessPaymentResult.Paid(iDealTransactionId);
+                result = ProcessPaymentResult.Success(iDealTransactionId);
             }
 
             if (result != null)

@@ -1,0 +1,19 @@
+﻿@model Kooboo.Commerce.Payments.Buckaroo.BuckarooSettings
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_PaymentGatewaySettings.cshtml";
+    ViewBag.Title = "Buckaroo Settins".Localize();
+}
+
+<div class="block common-form">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.WebsiteKey)
+                @Html.EditorFor(m => m.SecretKey)
+                @Html.EditorFor(m => m.TestMode)
+            </tbody>
+        </table>
+    }
+</div>

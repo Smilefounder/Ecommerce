@@ -68,11 +68,11 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
 
                 if (paymentStatus == PaymentStatus.Success)
                 {
-                    result = ProcessPaymentResult.Paid(payPalTransactionId);
+                    result = ProcessPaymentResult.Success(payPalTransactionId);
                 }
                 else if (paymentStatus == PaymentStatus.Failed)
                 {
-                    result = ProcessPaymentResult.Failed(payPalTransactionId, null);
+                    result = ProcessPaymentResult.Failed(null, payPalTransactionId);
                 }
 
                 if (result != null)

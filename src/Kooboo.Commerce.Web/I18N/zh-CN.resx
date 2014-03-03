@@ -2705,4 +2705,19 @@ Are you sure you want to use this size?</value>
   <data name="Payment processor 字段是必需的。" xml:space="preserve">
     <value>Payment processor 字段是必需的。</value>
   </data>
+  <data name="Buckaroo Settins" xml:space="preserve">
+    <value>Buckaroo Settins</value>
+  </data>
+  <data name="Website key 字段是必需的。" xml:space="preserve">
+    <value>Website key 字段是必需的。</value>
+  </data>
+  <data name="Website key" xml:space="preserve">
+    <value>Website key</value>
+  </data>
+  <data name="Secret key 字段是必需的。" xml:space="preserve">
+    <value>Secret key 字段是必需的。</value>
+  </data>
+  <data name="Secret key" xml:space="preserve">
+    <value>Secret key</value>
+  </data>
 </root>

@@ -141,6 +141,7 @@
     <Compile Include="Orders\Services\IOrderPaymentService.cs" />
     <Compile Include="Orders\Services\OrderPaymentService.cs" />
     <Compile Include="Payments\CreditCardInfo.cs" />
+    <Compile Include="Payments\DebitCardInfo.cs" />
     <Compile Include="Payments\IPaymentProcessorFactory.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />

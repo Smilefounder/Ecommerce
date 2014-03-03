@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Payments.iDeal
             if (idealFetch.Error)
                 throw new PaymentProcessorException(idealFetch.ErrorMessage);
 
-            return ProcessPaymentResult.Pending(idealFetch.TransactionId, idealFetch.Url);
+            return ProcessPaymentResult.Pending(new RedirectResult(idealFetch.Url), idealFetch.TransactionId);
         }
 
         public IEnumerable<PaymentType> SupportedPaymentTypes

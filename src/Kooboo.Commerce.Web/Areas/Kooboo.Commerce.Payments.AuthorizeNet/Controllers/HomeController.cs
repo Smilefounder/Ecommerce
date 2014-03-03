@@ -12,28 +12,22 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet.Controllers
     public class HomeController : CommerceControllerBase
     {
         private IKeyValueService _keyValueService;
-        private IPaymentMethodService _paymentMethodService;
 
-        public HomeController(
-            IKeyValueService keyValueService,
-            IPaymentMethodService paymentMethodService)
+        public HomeController(IKeyValueService keyValueService)
         {
             _keyValueService = keyValueService;
-            _paymentMethodService = paymentMethodService;
         }
 
-        public ActionResult Settings(int methodId)
+        public ActionResult Settings()
         {
-            var method = _paymentMethodService.GetById(methodId);
             var settings = AuthorizeNetSettings.FetchFrom(_keyValueService) ?? new AuthorizeNetSettings();
             return View(settings);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Settings(int methodId, AuthorizeNetSettings settings, string @return)
+        public ActionResult Settings(AuthorizeNetSettings settings, string @return)
         {
             settings.SaveTo(_keyValueService);
-
             return AjaxForm().RedirectTo(@return);
         }
     }

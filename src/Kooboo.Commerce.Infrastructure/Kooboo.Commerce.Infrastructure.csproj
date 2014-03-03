@@ -184,6 +184,7 @@
     <Compile Include="Web\Mvc\CommerceControllerBase.cs" />
     <Compile Include="Web\IDataItemAction.cs" />
     <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
+    <Compile Include="Web\Mvc\ExternalPostResult.cs" />
     <Compile Include="Web\Mvc\TransactionalAttribute.cs" />
     <Compile Include="Web\Mvc\ControllerExtensions.cs">
       <SubType>Code</SubType>

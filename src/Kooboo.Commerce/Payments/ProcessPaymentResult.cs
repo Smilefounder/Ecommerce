@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Payments
 {
@@ -13,19 +14,9 @@ namespace Kooboo.Commerce.Payments
 
         public string PaymentTransactionId { get; set; }
 
-        public string RedirectUrl { get; set; }
+        public ActionResult NextAction { get; set; }
 
-        public static ProcessPaymentResult Pending(string paymentTransactionId, string redirectUrl)
-        {
-            return new ProcessPaymentResult
-            {
-                PaymentStatus = PaymentStatus.Pending,
-                PaymentTransactionId = paymentTransactionId,
-                RedirectUrl = redirectUrl
-            };
-        }
-
-        public static ProcessPaymentResult Paid(string paymentTransactionId)
+        public static ProcessPaymentResult Success(string paymentTransactionId = null)
         {
             return new ProcessPaymentResult
             {
@@ -34,13 +25,23 @@ namespace Kooboo.Commerce.Payments
             };
         }
 
-        public static ProcessPaymentResult Failed(string paymentTransactionId, string errorMessage)
+        public static ProcessPaymentResult Failed(string errorMessage, string paymentTransactionId = null)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Failed,
                 PaymentTransactionId = paymentTransactionId,
                 ErrorMessage = errorMessage
+            };
+        }
+
+        public static ProcessPaymentResult Pending(ActionResult nextAction, string paymentTransactionId = null)
+        {
+            return new ProcessPaymentResult
+            {
+                PaymentStatus = PaymentStatus.Pending,
+                NextAction = nextAction,
+                PaymentTransactionId = paymentTransactionId
             };
         }
     }

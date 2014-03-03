@@ -5,17 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Payments.PayPal
+namespace Kooboo.Commerce.Payments.Buckaroo
 {
-    [Dependency(typeof(IPaymentProcessorViews), Key = "Kooboo.Commerce.Payments.PayPal.PayPalPaymentProcessorViews")]
-    public class PayPalPaymentProcessorViews : IPaymentProcessorViews
+    [Dependency(typeof(IPaymentProcessorViews), Key = "Kooboo.Commerce.Payments.Buckaroo.BuckarooPaymentProcessorViews")]
+    public class BuckarooPaymentProcessorViews : IPaymentProcessorViews
     {
         public string PaymentProcessorName
         {
-            get
-            {
-                return Strings.PaymentProcessorName;
-            }
+            get { return Strings.PaymentProcessorName; }
         }
 
         public System.Web.Mvc.RedirectToRouteResult Settings(System.Web.Mvc.ControllerContext context)

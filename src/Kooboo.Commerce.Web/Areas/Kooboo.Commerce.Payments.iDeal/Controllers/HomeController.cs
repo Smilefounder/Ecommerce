@@ -16,19 +16,14 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
     public class HomeController : CommerceControllerBase
     {
         private IKeyValueService _keyValueService;
-        private IPaymentMethodService _paymentMethodService;
 
-        public HomeController(
-            IKeyValueService keyValueService,
-            IPaymentMethodService paymentMethodService)
+        public HomeController(IKeyValueService keyValueService)
         {
             _keyValueService = keyValueService;
-            _paymentMethodService = paymentMethodService;
         }
 
-        public ActionResult Settings(int methodId, string commerceName)
+        public ActionResult Settings(string commerceName)
         {
-            var method = _paymentMethodService.GetById(methodId);
             var settings = IDealSettings.FetchFrom(_keyValueService);
             return View(settings);
         }
@@ -39,10 +34,9 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Settings(int methodId, IDealSettings model, string @return)
+        public ActionResult Settings(IDealSettings model, string @return)
         {
             model.SaveTo(_keyValueService);
-
             return AjaxForm().RedirectTo(@return);
         }
     }

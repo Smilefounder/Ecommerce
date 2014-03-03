@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
         public ActionResult FakeSuccess(int orderId, string commerceReturnUrl)
         {
             var order = _orderService.GetById(orderId);
-            _orderPaymentService.HandlePaymentResult(order, ProcessPaymentResult.Paid(Guid.NewGuid().ToString("N")));
+            _orderPaymentService.HandlePaymentResult(order, ProcessPaymentResult.Success(Guid.NewGuid().ToString("N")));
 
             return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, _orderService.GetById(orderId)));
         }
@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
         public ActionResult FakeFailure(int orderId, string commerceReturnUrl)
         {
             var order = _orderService.GetById(orderId);
-            _orderPaymentService.HandlePaymentResult(order, ProcessPaymentResult.Failed(Guid.NewGuid().ToString("N"), "Payment failed."));
+            _orderPaymentService.HandlePaymentResult(order, ProcessPaymentResult.Failed("Payment failed.", Guid.NewGuid().ToString("N")));
 
             return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, _orderService.GetById(orderId)));
         }

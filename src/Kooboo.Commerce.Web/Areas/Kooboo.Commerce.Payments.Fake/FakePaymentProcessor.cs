@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Payments.Fake
                 + "&amount=" + request.Amount
                 + "&currency=" + request.CurrencyCode
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl));
-            return ProcessPaymentResult.Pending(Guid.NewGuid().ToString("N"), gatewayUrl);
+            return ProcessPaymentResult.Pending(new RedirectResult(gatewayUrl), Guid.NewGuid().ToString("N"));
         }
 
 
