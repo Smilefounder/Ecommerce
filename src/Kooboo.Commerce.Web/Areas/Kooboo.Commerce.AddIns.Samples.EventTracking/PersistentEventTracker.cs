@@ -11,7 +11,7 @@ using System.Web;
 namespace Kooboo.Commerce.AddIns.Samples.EventTracking
 {
     [AwaitTransactionComplete]
-    public class PersistentEventTracker : IHandles<EntityAdded>, IHandles<EntityUpdated>, IHandles<EntityDeleted>
+    public class PersistentEventTracker// : IHandles<EntityAdded>, IHandles<EntityUpdated>, IHandles<EntityDeleted>
     {
         public void Handle(EntityAdded @event, EventDispatchingContext context)
         {

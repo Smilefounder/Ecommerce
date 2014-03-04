@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events
 {
-    public enum WhenNoInTransaction
+    public enum WhenNotInTransaction
     {
         ExecuteImmediately = 0,
         DoNotExecute = 1

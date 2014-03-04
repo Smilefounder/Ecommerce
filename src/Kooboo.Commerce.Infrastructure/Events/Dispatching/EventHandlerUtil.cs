@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Events.Dispatching
                     // If the handler is expected to execute on transaction committed but it's not in transaction,
                     // then check if the handler is specified WhenNotInTranaction.ExecuteImmediately,
                     // if yes, then we execute the handler, otherwise ignore this handler
-                    if (foundAwaitAttribute.WhenNotInTransaction == WhenNoInTransaction.ExecuteImmediately)
+                    if (foundAwaitAttribute.WhenNotInTransaction == WhenNotInTransaction.ExecuteImmediately)
                     {
                         return true;
                     }

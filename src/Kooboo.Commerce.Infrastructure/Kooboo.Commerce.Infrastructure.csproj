@@ -118,6 +118,7 @@
     <Compile Include="Activities\IActivityFactory.cs" />
     <Compile Include="Activities\IActivityViews.cs" />
     <Compile Include="Activities\IActivityViewsFactory.cs" />
+    <Compile Include="AggregateRoot.cs" />
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
     <Compile Include="Data\CommerceDbTransaction.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Data\TransactionAbortException.cs" />
     <Compile Include="Data\TransactionScopeOptionExtensions.cs" />
     <Compile Include="Activities\ActivityVisibleAttribute.cs" />
+    <Compile Include="AggregateMetadata.cs" />
     <Compile Include="Events\AwaitTransactionCompleteAttribute.cs" />
     <Compile Include="Events\Dispatching\DefaultEventDispatcher.cs" />
     <Compile Include="Events\Dispatching\EventHandlerUtil.cs" />
@@ -165,7 +167,7 @@
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\IHandle.cs" />
-    <Compile Include="Events\WhenNoInTransaction.cs" />
+    <Compile Include="Events\WhenNotInTransaction.cs" />
     <Compile Include="Exceptions\CommerceException.cs" />
     <Compile Include="Exceptions\CommerceItemNotFoundException.cs" />
     <Compile Include="Extensions\AssembliesExtensions.cs" />
