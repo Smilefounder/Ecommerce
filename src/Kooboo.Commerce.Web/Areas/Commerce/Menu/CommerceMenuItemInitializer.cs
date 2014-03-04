@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Kooboo.Web.Mvc;
+using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 {
@@ -11,7 +12,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
     {
         protected override bool GetIsVisible(Kooboo.Web.Mvc.Menu.MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
         {
-            if (String.IsNullOrEmpty(controllerContext.RequestContext.GetRequestValue(HttpCommerceInstanceContext.CommerceNameKey)))
+            if (String.IsNullOrEmpty(controllerContext.RequestContext.GetRequestValue(HttpCommerceInstanceNameResolverBase.DefaultParamName)))
             {
                 return false;
             }
@@ -21,7 +22,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
         public override Kooboo.Web.Mvc.Menu.MenuItem Initialize(Kooboo.Web.Mvc.Menu.MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
         {
-            var commerceName = controllerContext.RequestContext.GetRequestValue(HttpCommerceInstanceContext.CommerceNameKey);
+            var commerceName = controllerContext.RequestContext.GetRequestValue(HttpCommerceInstanceNameResolverBase.DefaultParamName);
             if (!String.IsNullOrEmpty(commerceName))
             {
                 if (menuItem.RouteValues == null)
@@ -29,7 +30,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                     menuItem.RouteValues = new System.Web.Routing.RouteValueDictionary();
                 }
 
-                menuItem.RouteValues.Add(HttpCommerceInstanceContext.CommerceNameKey, commerceName);
+                menuItem.RouteValues.Add(HttpCommerceInstanceNameResolverBase.DefaultParamName, commerceName);
             }
 
             return base.Initialize(menuItem, controllerContext);

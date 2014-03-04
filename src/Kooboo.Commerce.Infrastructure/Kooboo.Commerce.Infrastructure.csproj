@@ -122,6 +122,7 @@
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
     <Compile Include="Data\CommerceDbTransaction.cs" />
+    <Compile Include="Data\CommerceInstanceContext.cs" />
     <Compile Include="Data\Events\EntityAdded.cs" />
     <Compile Include="Data\Events\EntityDeleted.cs" />
     <Compile Include="Data\Events\EntityUpdated.cs" />
@@ -139,7 +140,7 @@
     <Compile Include="Data\CommerceDbContext.cs" />
     <Compile Include="Data\CommerceInstanceMetadata.cs" />
     <Compile Include="Data\CommerceRepository.cs" />
-    <Compile Include="Data\ICommerceInstanceContext.cs" />
+    <Compile Include="Data\ICommerceInstanceNameResolver.cs" />
     <Compile Include="Data\ICommerceDatabase.cs" />
     <Compile Include="Data\ICommerceInstanceManager.cs" />
     <Compile Include="Data\ICommerceDbProvider.cs" />

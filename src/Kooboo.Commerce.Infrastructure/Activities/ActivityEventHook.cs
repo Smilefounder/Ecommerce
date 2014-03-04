@@ -16,9 +16,9 @@ namespace Kooboo.Commerce.Activities
     // This can also benifit the performance.
     abstract class ActivityEventHookBase : IHandles<IEvent>
     {
-        public ICommerceInstanceContext CommerceInstanceContext { get; protected set; }
+        public CommerceInstanceContext CommerceInstanceContext { get; protected set; }
 
-        protected ActivityEventHookBase(ICommerceInstanceContext commerceInstanceContext)
+        protected ActivityEventHookBase(CommerceInstanceContext commerceInstanceContext)
         {
             Require.NotNull(commerceInstanceContext, "commerceInstanceContext");
             CommerceInstanceContext = commerceInstanceContext;
@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Activities
     {
         private IActivityFactory _activityFactory;
 
-        public ActivityEventHook_OnEventRaised(IActivityFactory activityFactory, ICommerceInstanceContext context)
+        public ActivityEventHook_OnEventRaised(IActivityFactory activityFactory, CommerceInstanceContext context)
             : base(context)
         {
             Require.NotNull(activityFactory, "activityFactory");
@@ -63,7 +63,7 @@ namespace Kooboo.Commerce.Activities
     {
         private IActivityFactory _activityFactory;
 
-        public ActivityEventHook_OnTransactionCommitted(IActivityFactory activityFactory, ICommerceInstanceContext context)
+        public ActivityEventHook_OnTransactionCommitted(IActivityFactory activityFactory, CommerceInstanceContext context)
             : base(context)
         {
             _activityFactory = activityFactory;

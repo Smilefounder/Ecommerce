@@ -2720,4 +2720,10 @@ Are you sure you want to use this size?</value>
   <data name="Secret key" xml:space="preserve">
     <value>Secret key</value>
   </data>
+  <data name="Credit debit mandate reference" xml:space="preserve">
+    <value>Credit debit mandate reference</value>
+  </data>
+  <data name="Credit debit mandate date" xml:space="preserve">
+    <value>Credit debit mandate date</value>
+  </data>
 </root>

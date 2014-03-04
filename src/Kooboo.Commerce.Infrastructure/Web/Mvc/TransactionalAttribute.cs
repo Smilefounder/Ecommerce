@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Web.Mvc
         private CommerceTransactionScope _transactionScope;
 
         [Inject]
-        public ICommerceInstanceContext CommerceContext { get; set; }
+        public CommerceInstanceContext CommerceContext { get; set; }
 
         [Inject]
         public IEventDispatcher EventDispatcher { get; set; }
