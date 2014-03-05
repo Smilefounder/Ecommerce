@@ -2203,6 +2203,18 @@
     <Content Include="Areas\Media\Views\Web.config" />
     <Content Include="Areas\Media\WebResources.config" />
     <Content Include="Areas\Media\Views\Upload\ImageCrop.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Accessories\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Accessories\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Categories\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Categories\template.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Detail\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Detail\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Favorites\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Favorites\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\template.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -2351,6 +2363,10 @@
     <Content Include="Areas\Commerce\Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
+      <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
+      <Name>Kooboo.Commerce.API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Data.Mapping\Kooboo.Commerce.Data.Mapping.csproj">
       <Project>{26517dc5-30b5-4eb3-a3e7-a1ade568d8bc}</Project>
       <Name>Kooboo.Commerce.Data.Mapping</Name>
