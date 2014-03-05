@@ -39,6 +39,12 @@
     <Reference Include="Kooboo.CMS.Common.Runtime.Dependency.Ninject">
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.CMS.Sites">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Sites.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Web">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICommerceService.cs" />
+    <Compile Include="KoobooSiteExtensions.cs" />
     <Compile Include="LocalCommerceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
