@@ -11,47 +11,48 @@
     }))
 }
 <div class="common-table">
-@using (Html.BeginForm("Delete", "Category", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class = "no-stop" }))
-{
-    <table>
-        <thead>
-            <tr>
-                <th class="checkbox">
-                    <input type="checkbox" class="select-all">
-                </th>
-                <th>@("Id".Localize())</th>
-                <th>@("Name".Localize())</th>
-                <th>@("Published".Localize())</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in Model)
-            {
-                <tr data-level="1">
-                    <td class="checkbox ">
-                        <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
-                    </td>
-                    <td>
-                        @if (p.Children.Count > 0) { 
-                        <span class="expander" onclick="ToggleChildren(event, this, '@p.Id');">@Html.IconImage("arrow")</span>
-                        }
-                        <a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]">@p.Id</a>
-                    </td>
-                    <td>
-                        @p.Name
-                    </td>
-                    <td>
-                        @(p.Published ? "Published" : "-")
-                    </td>
-                    <td>
-                        <a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&ParentId=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]">@Html.IconImage("plus small")</a>
-                    </td>
+    @using (Html.BeginForm("Delete", "Category", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class = "no-stop" }))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th class="checkbox">
+                        <input type="checkbox" class="select-all">
+                    </th>
+                    <th>@("Name".Localize())</th>
+                    <th>@("Published".Localize())</th>
+                    <th class="action"></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr data-level="1">
+                        <td class="checkbox">
+                            <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
+                        </td>
+                        <td>
+                            @if (p.Children.Count > 0)
+                            {
+                                <span class="expander" onclick="ToggleChildren(event, this, '@p.Id');">@Html.IconImage("arrow")</span>
+                            }
+                            else
+                            {
+                                <span class="expander disabled"></span>
+                            }
+                            <a class="with-icon" href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]">@Html.IconImage("file document") @p.Name</a>
+                        </td>
+                        <td>
+                            @(p.Published ? "YES" : "-")
+                        </td>
+                        <td>
+                            <a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&ParentId=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]">@Html.IconImage("plus small")</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
 </div>
 <div class="pagination right">
@@ -85,17 +86,14 @@
                         ctd1.append(ccb);
                         ctr.append(ctd1);
                         var ctd2 = $('<td></td>');
-                        var space = "";
-                        var times = level;
-                        while (times > 0) { space += "&nbsp;&nbsp;"; times--; }
-                        $('<span class="left"></span>').html(space).appendTo(ctd2);
+                        var times = level - 1;
+                        ctd2.css('padding-left', 5 + 14 * times);
                         var span = $('<span class="expander" onclick="ToggleChildren(event, this, \'' + n.Id + '\');"><img class="icon arrow" src="/Images/invis.gif" /></span>');
-                        var a = $('<a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"></a>').text(n.Id);
+                        var a = $('<a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"><img class="icon file document" src="/Images/invis.gif" /></a>').append(n.Name);
                         ctd2.append(span);
                         ctd2.append(a);
                         ctr.append(ctd2);
-                        ctr.append($('<td>' + n.Name + '</td>'));
-                        ctr.append($('<td>' + (n.Published ? "Published" : "-") + '</td>'));
+                        ctr.append($('<td>' + (n.Published ? "YES" : "-") + '</td>'));
                         var ctdl = $('<td></td>');
                         var ca = $('<a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&ParentId=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"><img class="icon plus small" src="/Images/invis.gif" /></a>');
                         ctdl.append(ca);

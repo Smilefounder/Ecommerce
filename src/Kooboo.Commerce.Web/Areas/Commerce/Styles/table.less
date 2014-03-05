@@ -201,6 +201,10 @@
 		width: 0;
 	}
 	/* Icon */
+	.with-icon {
+		line-height: 16px;
+	}
+
 	.icon.folder {
 		float: left;
 		margin: 2px 5px 0 0;
@@ -212,7 +216,7 @@
 
 	.icon.file {
 		float: left;
-		margin: 1px 5px 0 0;
+		margin: 0 5px 0 0;
 	}
 	/* Draggable */
 	.draggable {
@@ -293,6 +297,10 @@
 		height: 16px;
 		margin-right: 3px;
 		width: 10px;
+
+		&.disabled {
+			cursor: default;
+		}
 	}
 
 		.common-table .expander .arrow {
