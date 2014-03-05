@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Dependencies
                      .ToMethod(ctx =>
                      {
                          var context = ctx.Kernel.GetService(typeof(CommerceInstanceContext)) as CommerceInstanceContext;
-                         if (context == null)
+                         if (context.CurrentInstance == null)
                              throw new InvalidOperationException("Cannot resolve current commerce instance. Ensure 'commerceName' parameter is included in the http request.");
 
                          return context.CurrentInstance.Database;
