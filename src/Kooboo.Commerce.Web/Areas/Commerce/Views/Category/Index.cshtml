@@ -33,7 +33,9 @@
                         <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
                     </td>
                     <td>
-                        <span class="expander" onclick="ToggleChildren(this, '@p.Id');">@Html.IconImage("arrow")</span>
+                        @if (p.Children.Count > 0) { 
+                        <span class="expander" onclick="ToggleChildren(event, this, '@p.Id');">@Html.IconImage("arrow")</span>
+                        }
                         <a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]">@p.Id</a>
                     </td>
                     <td>
@@ -66,7 +68,7 @@
         table.grid();
     }
 
-    function ToggleChildren(ele, pid) {
+    function ToggleChildren(event, ele, pid) {
         event.stopPropagation();
         $(ele).toggleClass('active');
         var tbody = $(ele).closest('tbody');
@@ -87,7 +89,7 @@
                         var times = level;
                         while (times > 0) { space += "&nbsp;&nbsp;"; times--; }
                         $('<span class="left"></span>').html(space).appendTo(ctd2);
-                        var span = $('<span class="expander" onclick="ToggleChildren(this, \'' + n.Id + '\');"><img class="icon arrow" src="/Images/invis.gif" /></span>');
+                        var span = $('<span class="expander" onclick="ToggleChildren(event, this, \'' + n.Id + '\');"><img class="icon arrow" src="/Images/invis.gif" /></span>');
                         var a = $('<a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"></a>').text(n.Id);
                         ctd2.append(span);
                         ctd2.append(a);

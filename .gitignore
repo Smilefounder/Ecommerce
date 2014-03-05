@@ -2,6 +2,10 @@
 [Rr]elease/
 [Bb]in/
 [Oo]bj/
+Cms_Data/ImageCaching/
+Cms_Data/Versions/
+I18N/
+Media/
 TestResults
 *.suo
 *.user

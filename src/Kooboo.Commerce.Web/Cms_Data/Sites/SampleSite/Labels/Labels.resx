@@ -115,4 +115,10 @@
   <data name="HelloWorldModule" xml:space="preserve">
     <value>HelloWorldModule</value>
   </data>
+  <data name="DesignPage" xml:space="preserve">
+    <value>DesignPage</value>
+  </data>
+  <data name="ProductList" xml:space="preserve">
+    <value>ProductList</value>
+  </data>
 </root>

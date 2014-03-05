@@ -2368,6 +2368,14 @@
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>
     </ProjectReference>
+    <ProjectReference Include="Areas\Kooboo.Commerce.EAV.Validators\Kooboo.Commerce.EAV.Validators.csproj">
+      <Project>{e24c0148-0a5e-40c4-9111-cf6b872fab15}</Project>
+      <Name>Kooboo.Commerce.EAV.Validators</Name>
+    </ProjectReference>
+    <ProjectReference Include="Areas\Kooboo.Commerce.EAV.WebControls\Kooboo.Commerce.EAV.WebControls.csproj">
+      <Project>{38106ec3-339f-4af9-b1f1-9c9eac8bbc78}</Project>
+      <Name>Kooboo.Commerce.EAV.WebControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_IconImage.cshtml" />
