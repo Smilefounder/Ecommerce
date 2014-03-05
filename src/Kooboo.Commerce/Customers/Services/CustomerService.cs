@@ -37,15 +37,35 @@ namespace Kooboo.Commerce.Customers.Services
             _accountService = accountService;
         }
 
+        private Customer LoadAllInfo(Customer customer)
+        {
+            if (customer != null)
+            {
+                if (customer.AccountId.HasValue)
+                    customer.Account = _accountService.GetById(customer.AccountId.Value);
+                customer.Addresses = _addressRepository.Query(o => o.CustomerId == customer.Id).ToList();
+                customer.Country = _countryRepository.Query(o => o.Id == customer.CountryId).FirstOrDefault();
+            }
+            return customer;
+        }
+
         public Customer GetById(int id, bool loadAllInfo = true)
         {
             var customer = _customerRepository.Get(o => o.Id == id);
             if (loadAllInfo && customer != null)
             {
-                if(customer.AccountId.HasValue)
-                    customer.Account = _accountService.GetById(customer.AccountId.Value);
-                customer.Addresses = _addressRepository.Query(o => o.CustomerId == customer.Id).ToList();
-                customer.Country = _countryRepository.Query(o => o.Id == customer.CountryId).FirstOrDefault();
+                LoadAllInfo(customer);
+            }
+
+            return customer;
+        }
+
+        public Customer GetByAccountId(int accountId, bool loadAllInfo = true)
+        {
+            var customer = _customerRepository.Get(o => o.AccountId == accountId);
+            if (loadAllInfo && customer != null)
+            {
+                LoadAllInfo(customer);
             }
 
             return customer;

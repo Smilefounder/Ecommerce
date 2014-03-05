@@ -10,6 +10,8 @@ namespace Kooboo.Commerce.Orders.Services
     {
         Order GetById(int id, bool loadAllInfo = true);
 
+        Order CreateOrderFromShoppingCart(int shoppingCartId);
+
         IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize);
 
         IPagedList<T> GetAllOrdersWithCustomer<T>(string search, int? pageIndex, int? pageSize, Func<Order, Customer, T> func);

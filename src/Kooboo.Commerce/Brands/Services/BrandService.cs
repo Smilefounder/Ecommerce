@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Brands.Services
 {
@@ -24,9 +25,16 @@ namespace Kooboo.Commerce.Brands.Services
             return _brandRepository.Get(o => o.Id == id);
         }
 
-        public IQueryable<Brand> Query()
+        public IEnumerable<Brand> GetAllBrands()
         {
             return _brandRepository.Query();
+        }
+
+        public IPagedList<Brand> GetAllBrands(int? pageIndex, int? pageSize)
+        {
+            var query = _brandRepository.Query();
+            query = query.OrderByDescending(o => o.Id);
+            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
         }
 
         public void Create(Brand brand)

@@ -25,6 +25,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Dependencies
             {
                 var resolver = new CompositeCommerceInstanceNameResolver
                 (
+                    new HttpContextItemCommerceInstanceNameResolver(),
                     new QueryStringCommerceInstanceNameResolver(),
                     new PostParamsCommerceInstanceNameResolver()
                 );

@@ -10,6 +10,8 @@ namespace Kooboo.Commerce.Customers.Services
     {
         Customer GetById(int id, bool loadAllInfo = true);
 
+        Customer GetByAccountId(int accountId, bool loadAllInfo = true);
+
         IPagedList<Customer> GetAllCustomers(string search, int? pageIndex, int? pageSize);
 
         IPagedList<T> GetAllCustomersWithOrderCount<T>(string search, int? pageIndex, int? pageSize, Func<Customer, int, T> func);

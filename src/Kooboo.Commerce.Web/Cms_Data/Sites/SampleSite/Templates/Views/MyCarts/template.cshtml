@@ -1,0 +1,67 @@
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.CMS.Sites.Membership;
+@{
+    Guid? guestId = null;
+    if (Session["CartGuest"] != null)
+    { 
+        guestId = new Guid(Session["CartGuest"].ToString());
+    }
+    int? customerId = null;
+    var memberAuth = this.Context.Membership();
+    var member = memberAuth.GetMember();
+    if (member.Identity.IsAuthenticated)
+    {
+        var customer = Site.Current.Commerce().GetCustomerByAccountId(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), Convert.ToInt32(member.Identity.Name));
+        if (customer != null)
+        { 
+            customerId = customer.Id;
+        }
+    }
+    var shoppingCart = Site.Current.Commerce().GetMyCart(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), guestId, customerId);
+}
+@if(shoppingCart == null)
+{
+    <p>@("Nothing in shopping cart.".Localize())</p><a href="/ProductList">@("Go Shopping".Localize())</a>
+}
+else
+{
+    decimal totalPrice = 0.0m;
+    int totalCount = 0;
+    if(shoppingCart.Customer != null)
+    {
+        <h4>@shoppingCart.Customer.FullName</h4>
+    }
+    <table>
+        <thead>
+            <tr>
+                <th>@("Product".Localize())</th>
+                <th>@("Quantity".Localize())</th>
+                <th>@("Price".Localize())</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in shoppingCart.Items)
+            {
+                var price = item.Quantity * item.ProductPrice.RetailPrice;
+                totalPrice += price;
+                totalCount += item.Quantity;
+                <tr>
+                    <td>@item.ProductPrice.Product.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@(price)</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>@("Total".Localize())</td>
+                <td>@totalCount</td>
+                <td>@totalPrice</td>
+            </tr>
+        </tfoot>
+    </table>
+    <div>
+        <a href="/">@("Go to PAY".Localize())</a>
+        <a href="/ProductList">@("Continue Shopping".Localize())</a>
+    </div>
+}

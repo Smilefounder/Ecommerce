@@ -12,6 +12,7 @@ using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Accounts;
+using Kooboo.Commerce.ShoppingCarts;
 
 namespace Kooboo.Commerce.Orders.Services
 {
@@ -27,9 +28,10 @@ namespace Kooboo.Commerce.Orders.Services
         private readonly IRepository<PaymentMethod> _paymentMethodRepository;
         private readonly IRepository<Country> _countryRepository;
         private readonly IRepository<Account> _accountRepository;
+        private readonly IRepository<ShoppingCart> _shoppingCartRepository;
         private readonly ProductService _productService;
 
-        public OrderService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IRepository<Account> accountRepository, ProductService productService)
+        public OrderService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IRepository<Account> accountRepository, IRepository<ShoppingCart> shoppingCartRepository, ProductService productService)
         {
             _db = db;
             _customerRepository = customerRepository;
@@ -40,6 +42,7 @@ namespace Kooboo.Commerce.Orders.Services
             _paymentMethodRepository = paymentMethodRepository;
             _countryRepository = countryRepository;
             _accountRepository = accountRepository;
+            _shoppingCartRepository = shoppingCartRepository;
             _productService = productService;
         }
 
@@ -75,6 +78,57 @@ namespace Kooboo.Commerce.Orders.Services
                 order.PaymentMethod = _paymentMethodRepository.Query(o => o.Id == order.PaymentMethodId).FirstOrDefault();
             }
             return order;
+        }
+
+        public Order CreateOrderFromShoppingCart(int shoppingCartId)
+        {
+            var shoppingCart = _shoppingCartRepository.Query(o => o.Id == shoppingCartId).FirstOrDefault();
+            if(shoppingCart != null)
+            {
+                Order order = new Order();
+                order.ShoppingCartId = shoppingCart.Id;
+                order.CustomerId = shoppingCart.Customer.Id;
+                order.IsCompleted = false;
+                order.ChangeOrderStatus(OrderStatus.Created);
+
+                if(shoppingCart.Items.Count > 0)
+                {
+                    foreach(var item in shoppingCart.Items)
+                    {
+                        var orderItem = new OrderItem();
+                        orderItem.Order = order;
+                        orderItem.ProductPriceId = item.ProductPrice.Id;
+                        orderItem.ProductName = item.ProductPrice.Name;
+                        orderItem.SKU = item.ProductPrice.Sku;
+                        orderItem.UnitPrice = item.ProductPrice.RetailPrice;
+                        orderItem.Quantity = item.Quantity;
+                        orderItem.SubTotal = orderItem.UnitPrice * orderItem.Quantity;
+                        orderItem.Discount = 0m;
+                        orderItem.TaxCost = 0m;
+                        orderItem.Total = orderItem.SubTotal - orderItem.Discount + orderItem.TaxCost;
+
+                        order.OrderItems.Add(orderItem);
+                    }
+                }
+
+                if(shoppingCart.ShippingAddress != null)
+                {
+                    OrderAddress address = new OrderAddress();
+                    address.FromAddress(shoppingCart.ShippingAddress);
+                    order.ShippingAddress = address;
+                }
+
+                if (shoppingCart.BillingAddress != null)
+                {
+                    OrderAddress address = new OrderAddress();
+                    address.FromAddress(shoppingCart.ShippingAddress);
+                    order.BillingAddress = address;
+                }
+
+                _orderRepository.Insert(order);
+                return order;
+            }
+            return null;
         }
 
         public IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize)

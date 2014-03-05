@@ -1,0 +1,370 @@
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.CMS.Sites.Membership;
+@using Kooboo.Commerce.Web.Mvc;
+@using Kooboo.Commerce.Orders;
+@using Kooboo.Commerce.Payments;
+@{
+    var memberAuth = this.Context.Membership();
+    var member = memberAuth.GetMember();
+    if (!member.Identity.IsAuthenticated)
+    {
+        Response.Redirect("/Account/LogOn");
+    }
+    Guid? guestId = null;
+    if (Session["CartGuest"] != null)
+    {
+        guestId = new Guid(Session["CartGuest"].ToString());
+    }
+    var instance = Site.Current.GetCommerceName();
+    var language = Site.Current.GetLanguage();
+    int? customerId = null;
+    var shoppingCart = Site.Current.Commerce().GetMyCart(instance, language, guestId, customerId);
+    Kooboo.Commerce.Orders.Order order = null;
+    if (shoppingCart.Customer == null)
+    {
+        if (Site.Current.Commerce().FillCustomerByAccount(instance, language, guestId.Value, Convert.ToInt32(member.Identity.Name)))
+        {
+            order = Site.Current.Commerce().CreateOrderFromShoppingCart(instance, language, shoppingCart.Id);
+        }
+    }
+}
+ 
+@if(order == null)
+{
+    <p>@("No Order Created.".Localize())</p>
+}
+else
+{
+<div class="block framework clearfix">
+    <div id="customerName">Customer @order.Customer.FullName</div>
+    <div id="customerDetail" class="common-form">
+        <table>
+            <tbody>
+                <tr>
+                    <th>@("First Name".Localize())</th>
+                    <td>
+                        @order.Customer.FirstName
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Middle Name".Localize())</th>
+                    <td>
+                        @order.Customer.MiddleName
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Last Name".Localize())</th>
+                    <td>
+                        @order.Customer.LastName
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Gender".Localize())</th>
+                    <td>
+                        @order.Customer.Gender
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Phone".Localize())</th>
+                    <td>
+                        @order.Customer.Phone
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Country".Localize())</th>
+                    <td>
+                        @order.Customer.Country.Name
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("City".Localize())</th>
+                    <td>
+                        @order.Customer.City
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Email".Localize())</th>
+                    <td>
+                        @order.Customer.Account.Email
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div class="block framework clearfix">
+    <div class="simple-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        @("Product Name".Localize())
+                    </th>
+                    <th>
+                        @("Variants".Localize())
+                    </th>
+                    <th>
+                        @("Sku".Localize())
+                    </th>
+                    <th>
+                        @("Unit Price".Localize())
+                    </th>
+                    <th>
+                        @("Quantity".Localize())
+                    </th>
+                    <th>
+                        @("Total Price".Localize())
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (order.OrderItems != null)
+                {
+                    foreach (var p in order.OrderItems)
+                    {
+                        <tr>
+                            <td>
+                                @p.ProductPrice.Product.Name
+                            </td>
+                            <td>
+                                @foreach (var variant in p.ProductPrice.VariantValues)
+                                {
+                                    <div class="block">
+                                        <span>@variant.CustomField.Name</span>
+                                        <span>:</span>
+                                        <span>@variant.FieldValue</span>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                @p.ProductPrice.Sku
+                            </td>
+                            <td>
+                                @p.UnitPrice
+                            </td>
+                            <td>
+                                @p.Quantity
+                            </td>
+                            <td>
+                                @p.SubTotal
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="block">
+        <div class="order-form clearfix">
+			<div class="columns">
+				<div class="span6">
+					<div class="common-form">
+					<fieldset>
+						<legend>
+							@("Order info".Localize())
+						</legend>
+						<table>
+							<tbody>
+								<tr>
+									<th>@("Order Id".Localize())</th>
+									<td>
+										<span>@order.Id</span>
+									</td>
+								</tr>
+								<tr>
+									<th>@("Customer".Localize())</th>
+									<td>
+										<span>@order.Customer.FullName</span>
+									</td>
+								</tr>
+								<tr>
+									<th>@("Shopping Cart".Localize())</th>
+									<td>
+										@if(order.ShoppingCart == null)
+										{
+											<span>No Shopping Cart</span>
+										}
+										else
+										{
+											<a href="/Commerce/ShoppingCart/@(order.ShoppingCart.Id)?commerceName=@Request.QueryString["commerceName"]">@(order.ShoppingCart.Id)</a>
+										}
+									</td>
+								</tr>
+								<tr>
+									<th>@("Coupon".Localize())</th>
+									<td>
+										@Html.TextBoxFor(i => i.Coupon, new { @class = "medium" })
+									</td>
+								</tr>
+								<tr>
+									<th>@("Order Status".Localize())</th>
+									<td>
+										@Html.DropDownListFor(i => i.OrderStatus, EnumUtil.ToSelectList<OrderStatus>(), new { @class = "medium" })
+									</td>
+								</tr>
+								<tr>
+									<th>@("Payment Status".Localize())</th>
+									<td>
+										@Html.DropDownListFor(i => i.PaymentStatus, EnumUtil.ToSelectList<PaymentStatus>(), new { @class = "medium" })
+									</td>
+								</tr>
+								<tr>
+									<th>@("Created At".Localize())</th>
+									<td>
+										<span>@order.CreatedAtUtc.ToShortDateString()</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</fieldset>
+				</div>
+				</div>
+				<div class="span6">
+					<div class="common-form">
+                <fieldset>
+                    <legend>
+                        <span>
+                            @("Order totals".Localize())
+                        </span>
+                    </legend>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    @("Subtotal".Localize())
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(i => i.SubTotal, new { @class = "medium", onchange = "Calculate();" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @("Discount".Localize())
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(i => i.Discount, new { @class = "medium", onchange = "Calculate();" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @("Total Tax".Localize())
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(i => i.TotalTax, new { @class = "medium", onchange = "Calculate();" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @("Total Weight".Localize())
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(i => i.TotalWeight, new { @class = "medium" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @("Shipping Cost".Localize())
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(i => i.ShippingCost, new { @class = "medium", onchange="Calculate();" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Payment Method".Localize())</th>
+                                <td>
+                                    <select id="PaymentMethodId" name="PaymentMethodId" onchange="Calculate();" class="medium">
+                                        <option value=""></option>
+                                        @foreach (var pm in ViewBag.PaymentMethods)
+                                        {
+                                            <option value="@pm.Id" data-method="@pm.AdditionalFeeChargeMode" data-amount="@pm.AdditionalFeeAmount" data-percent="@pm.AdditionalFeePercent" @(pm.Id == (order.PaymentMethodId.HasValue ? order.PaymentMethodId.Value : 0) ? "selected='selected'" : "")>@pm.DisplayName</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @("Payment Method Cost".Localize())
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(i => i.PaymentMethodCost, new { @class = "medium", onchange = "Calculate();" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    @("Total".Localize())
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(i => i.Total, new { @class = "medium" })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+				</div>
+			</div>
+            
+        </div>
+        <div class="order-form clearfix">
+			<div class="columns">
+				<div class="span6">
+					<div class="common-form">
+                <fieldset>
+                    <legend>
+                        @("Shipping address".Localize())
+                    </legend>
+                    @Html.Partial("_Address", order.ShippingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "ShippingAddress"))
+                </fieldset>
+            </div>
+				</div>
+				<div class="span6">
+					<div class="common-form">
+                <fieldset>
+                    <legend>
+                        @("Billing address".Localize())
+                    </legend>
+                    @Html.Partial("_Address", order.BillingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "BillingAddress"))
+                </fieldset>
+            </div>
+				</div>
+			</div>
+        </div>
+        <div class="common-form order-form">
+            <fieldset>
+                <legend>
+                    @("Order remark".Localize())
+                </legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.TextAreaFor(i => i.Remark, new { style = "height: 96px; width: 100%;" })
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+</div>
+<script type="text/javascript">
+    function Calculate() {
+        var op = $('#PaymentMethodId').find('option:selected');
+        var chargeMethod = op.attr('data-method') || 'ByAmount';
+        var amount = parseFloat(op.attr('data-amount')) || 0;
+        var percent = parseFloat(op.attr('data-percent')) || 0;
+        var subtotal = parseFloat($("#SubTotal").val()) || 0;
+        var discount = parseFloat($("#Discount").val()) || 0;
+        var tax = parseFloat($("#TotalTax").val()) || 0;
+        var shippingCost = parseFloat($("#ShippingCost").val()) || 0;
+        var cost = chargeMethod == 'ByAmount' ? amount : (percent > 0 ? subtotal * percent : 0); // 0: charge by amount 1: charge by percent
+        if (cost <= 0)
+            cost = parseFloat($('#PaymentMethodCost').val()) || 0;
+        var total = subtotal - discount + tax + shippingCost + cost;
+        $('#PaymentMethodCost').val(cost);
+        $('#Total').val(total);
+    }
+</script>
+    
+}

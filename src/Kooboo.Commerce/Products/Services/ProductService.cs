@@ -39,11 +39,13 @@ namespace Kooboo.Commerce.Products.Services
             return product.IsDeleted ? null : product;
         }
 
-        public IPagedList<Product> GetAllProducts(string search, int? pageIndex, int? pageSize)
+        public IPagedList<Product> GetAllProducts(string userInput, int? categoryId, int? pageIndex, int? pageSize)
         {
             var query = _repoProduct.Query(o => o.IsDeleted == false);
-            if (!string.IsNullOrEmpty(search))
-                query = query.Where(o => o.Name.StartsWith(search));
+            if (!string.IsNullOrEmpty(userInput))
+                query = query.Where(o => o.Name.StartsWith(userInput));
+            if (categoryId.HasValue)
+                query = query.Where(o => o.Categories.Any(c => c.CategoryId == categoryId.Value));
             query = query.OrderBy(o => o.Id);
             return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
         }

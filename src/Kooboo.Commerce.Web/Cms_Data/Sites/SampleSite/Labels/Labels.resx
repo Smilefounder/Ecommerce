@@ -121,4 +121,13 @@
   <data name="ProductList" xml:space="preserve">
     <value>ProductList</value>
   </data>
+  <data name="ProductDetail" xml:space="preserve">
+    <value>ProductDetail</value>
+  </data>
+  <data name="My Carts" xml:space="preserve">
+    <value>My Carts</value>
+  </data>
+  <data name="MyCart" xml:space="preserve">
+    <value>MyCart</value>
+  </data>
 </root>

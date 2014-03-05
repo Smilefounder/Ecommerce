@@ -25,9 +25,14 @@ namespace Kooboo.Commerce.Categories.Services
             return _categoryRepository.Get(o => o.Id == id);
         }
 
-        public IQueryable<Category> Query()
+        public IEnumerable<Category> GetAllCategories()
         {
             return _categoryRepository.Query();
+        }
+
+        public IEnumerable<Category> GetRootCategories()
+        {
+            return _categoryRepository.Query(o => o.Parent == null);
         }
 
         public IPagedList<Category> GetRootCategories(int? pageIndex, int? pageSize)
@@ -56,10 +61,6 @@ namespace Kooboo.Commerce.Categories.Services
         public void Delete(Category category)
         {
             _categoryRepository.Delete(category);
-        }
-
-        public IQueryable<Category> GetRootCategories() {
-            return _categoryRepository.Query().Where(o => o.Parent == null);
         }
 
         #endregion

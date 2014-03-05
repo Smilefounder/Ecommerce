@@ -1,4 +1,62 @@
 ﻿@using Kooboo.Commerce.API;
 @{
-    //var products = Site.Current.Commerce().SearchProducts(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), 2);
+    var key = Request.QueryString["key"];
+    int? cateId = null;
+    if (!string.IsNullOrEmpty(Request.QueryString["cateId"]))
+    {
+        cateId = Convert.ToInt32(Request.QueryString["cateId"]);
+    }
+    var products = Site.Current.Commerce().SearchProducts(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), key, cateId);
 }
+
+@if (cateId.HasValue)
+{
+    var cate = Site.Current.Commerce().GetCategory(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), cateId.Value, true);
+    var cates = new List<Kooboo.Commerce.Categories.Category>();
+    while (cate != null)
+    {
+        cates.Insert(0, cate);
+        cate = cate.Parent;
+    }
+
+    <div>
+        @foreach (var c in cates)
+        {
+            <a href="/ProductList?cateId=@c.Id">@c.Name</a><span>></span>
+        }
+    </div>
+}
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>@("Name".Localize())</th>
+            <th>@("Brand".Localize())</th>
+            <th>@("Type".Localize())</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var p in products)
+        {
+            var img = p.Images.FirstOrDefault(m => m.ImageSizeName.ToLower() == "list");
+            <tr>
+                <td><img src="@(img == null ? "" : img.ImageUrl)" width="32" height="32" /></td>
+                <td><a href="/ProductList/ProductDetail/@p.Id">@p.Name</a></td>
+                <td>@p.Brand.Name</td>
+                <td>@p.Type.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var pageOption = new PagerOptions
+    {
+        NextPageText = "Next »",
+        PrevPageText = "« Previous",
+        CssClass = "pagination",
+        CurrentPagerItemWrapperFormatString = "<span class=\"current\">{0}</span>",
+        NavigationPagerItemWrapperFormatString = "<span class=\"pagenavigation\">{0}</span>"
+    };
+}
+@Html.FrontHtml().Pager(products, pageOption)

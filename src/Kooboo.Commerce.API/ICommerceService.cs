@@ -26,10 +26,26 @@ namespace Kooboo.Commerce.API
 
         IEnumerable<Category> GetSubCategories(string instance, string language, int parentCategoryId);
 
+        Category GetCategory(string instance, string language, int categoryId, bool loadParents = false);
+
         IEnumerable<Brand> GetAllBrands(string instance, string language);
 
-        IPagedList<Product> SearchProducts(string instance, string language, string userInputs, int pageIndex = 0, int pageSize = 50);
+        IPagedList<Product> SearchProducts(string instance, string language, string userInput, int? categoryId, int pageIndex = 0, int pageSize = 50);
 
-        Product GetProductById(string instace, string language, int id);
+        Product GetProductById(string instance, string language, int id);
+
+        Customer GetCustomerByAccountId(string instance, string language, int accountId);
+
+        Customer GetCustomerById(string instance, string language, int customerId);
+
+        bool AddToCart(string instance, string language, Guid? guestId, int? customerId, int productPriceId, int quantity);
+
+        bool UpdateCart(string instance, string language, Guid? guestId, int? customerId, int productPriceId, int quantity);
+
+        bool FillCustomerByAccount(string instance, string language, Guid guestId, int accountId);
+
+        ShoppingCart GetMyCart(string instance, string language, Guid? guestId, int? customerId);
+
+        Order CreateOrderFromShoppingCart(string instance, string language, int shoppingCartId);
     }
 }

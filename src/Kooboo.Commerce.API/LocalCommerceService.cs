@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo;
 using Kooboo.Commerce.Accounts;
@@ -29,48 +31,138 @@ using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.ShoppingCarts.Services;
+using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.API
 {
     [Dependency(typeof(ICommerceService))]
     public class LocalCommerceService : ICommerceService
     {
-        private ICategoryService _categorySvr;
-
-        public LocalCommerceService(ICategoryService categorySvr)
+        public LocalCommerceService()
         {
-            _categorySvr = categorySvr;
         }
 
         private void InitCommerceInstance(string instance, string language)
         {
+            if(HttpContext.Current != null)
+            {
+                HttpContext.Current.Items[HttpCommerceInstanceNameResolverBase.DefaultParamName] = instance;
+                HttpContext.Current.Items["language"] = language;
+            }
+        }
 
+        private T GetService<T>(params Parameter[] paras) where T : class
+        {
+            return EngineContext.Current.Resolve<T>(paras);
         }
 
         public IEnumerable<Category> GetAllCategories(string instance, string language, int level = 1)
         {
             InitCommerceInstance(instance, language);
-            throw new NotImplementedException();
+            var svr = GetService<ICategoryService>();
+            var categories = svr.GetRootCategories();
+            return categories;
         }
 
         public IEnumerable<Category> GetSubCategories(string instance, string language, int parentCategoryId)
         {
-            throw new NotImplementedException();
+            InitCommerceInstance(instance, language);
+            var svr = GetService<ICategoryService>();
+            var categories = svr.GetChildCategories(parentCategoryId);
+            return categories;
+        }
+
+        public Category GetCategory(string instance, string language, int categoryId, bool loadParents = false)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<ICategoryService>();
+            var category = svr.GetById(categoryId);
+            if (category != null && loadParents)
+            {
+                var p = category;
+                while(p.Parent != null)
+                {
+                    p = p.Parent;
+                }
+
+            }
+            return category;
         }
 
         public IEnumerable<Brand> GetAllBrands(string instance, string language)
         {
-            throw new NotImplementedException();
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IBrandService>();
+            return svr.GetAllBrands();
         }
 
-        public IPagedList<Product> SearchProducts(string instance, string language, string userInputs, int pageIndex = 0, int pageSize = 50)
+        public IPagedList<Product> SearchProducts(string instance, string language, string userInput, int? categoryId, int pageIndex = 0, int pageSize = 50)
         {
-            throw new NotImplementedException();
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IProductService>();
+            return svr.GetAllProducts(userInput, categoryId, pageIndex, pageSize);
         }
 
-        public Product GetProductById(string instace, string language, int id)
+        public Product GetProductById(string instance, string language, int id)
         {
-            throw new NotImplementedException();
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IProductService>();
+            return svr.GetById(id);
+        }
+
+
+        public Customer GetCustomerByAccountId(string instance, string language, int accountId)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<ICustomerService>();
+            return svr.GetByAccountId(accountId);
+        }
+
+        public Customer GetCustomerById(string instance, string language, int customerId)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<ICustomerService>();
+            return svr.GetById(customerId);
+        }
+
+
+        public bool AddToCart(string instance, string language, Guid? guestId, int? customerId, int productPriceId, int quantity)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IShoppingCartService>();
+            return svr.AddToCart(guestId, customerId, productPriceId, quantity);
+        }
+
+        public bool UpdateCart(string instance, string language, Guid? guestId, int? customerId, int productPriceId, int quantity)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IShoppingCartService>();
+            return svr.UpdateCart(guestId, customerId, productPriceId, quantity);
+        }
+
+        public bool FillCustomerByAccount(string instance, string language, Guid guestId, int accountId)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IShoppingCartService>();
+            return svr.FillCustomerByAccount(guestId, accountId);
+        }
+
+        public ShoppingCart GetMyCart(string instance, string language, Guid? guestId, int? customerId)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IShoppingCartService>();
+            if (customerId.HasValue)
+                return svr.GetByCustomer(customerId.Value);
+            else if (guestId.HasValue)
+                return svr.GetByGuestId(guestId.Value);
+            return null;
+        }
+
+        public Order CreateOrderFromShoppingCart(string instance, string language, int shoppingCartId)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IOrderService>();
+            return svr.CreateOrderFromShoppingCart(shoppingCartId);
         }
     }
 }

@@ -2215,6 +2215,10 @@
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Favorites\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyCarts\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyCarts\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrder\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrder\template.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

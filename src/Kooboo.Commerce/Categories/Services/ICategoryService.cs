@@ -9,6 +9,10 @@ namespace Kooboo.Commerce.Categories.Services
     {
         Category GetById(int id);
 
+        IEnumerable<Category> GetAllCategories();
+
+        IEnumerable<Category> GetRootCategories();
+
         IPagedList<Category> GetRootCategories(int? pageIndex, int? pageSize);
 
         IEnumerable<Category> GetChildCategories(int parentId);
@@ -18,7 +22,5 @@ namespace Kooboo.Commerce.Categories.Services
         void Update(Category category);
 
         void Delete(Category category);
-
-        IQueryable<Category> GetRootCategories();
     }
 }
