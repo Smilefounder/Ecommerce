@@ -118,9 +118,11 @@
     <Compile Include="Activities\IActivityFactory.cs" />
     <Compile Include="Activities\IActivityViews.cs" />
     <Compile Include="Activities\IActivityViewsFactory.cs" />
+    <Compile Include="AggregateRoot.cs" />
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
     <Compile Include="Data\CommerceDbTransaction.cs" />
+    <Compile Include="Data\CommerceInstanceContext.cs" />
     <Compile Include="Data\Events\EntityAdded.cs" />
     <Compile Include="Data\Events\EntityDeleted.cs" />
     <Compile Include="Data\Events\EntityUpdated.cs" />
@@ -138,7 +140,7 @@
     <Compile Include="Data\CommerceDbContext.cs" />
     <Compile Include="Data\CommerceInstanceMetadata.cs" />
     <Compile Include="Data\CommerceRepository.cs" />
-    <Compile Include="Data\ICommerceInstanceContext.cs" />
+    <Compile Include="Data\ICommerceInstanceNameResolver.cs" />
     <Compile Include="Data\ICommerceDatabase.cs" />
     <Compile Include="Data\ICommerceInstanceManager.cs" />
     <Compile Include="Data\ICommerceDbProvider.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="Data\TransactionAbortException.cs" />
     <Compile Include="Data\TransactionScopeOptionExtensions.cs" />
     <Compile Include="Activities\ActivityVisibleAttribute.cs" />
+    <Compile Include="AggregateMetadata.cs" />
     <Compile Include="Events\AwaitTransactionCompleteAttribute.cs" />
     <Compile Include="Events\Dispatching\DefaultEventDispatcher.cs" />
     <Compile Include="Events\Dispatching\EventHandlerUtil.cs" />
@@ -165,7 +168,7 @@
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\IHandle.cs" />
-    <Compile Include="Events\WhenNoInTransaction.cs" />
+    <Compile Include="Events\WhenNotInTransaction.cs" />
     <Compile Include="Exceptions\CommerceException.cs" />
     <Compile Include="Exceptions\CommerceItemNotFoundException.cs" />
     <Compile Include="Extensions\AssembliesExtensions.cs" />

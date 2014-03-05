@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Data
         {
             get
             {
-                return Database.Metadata;
+                return Database.CommerceInstanceMetadata;
             }
         }
 

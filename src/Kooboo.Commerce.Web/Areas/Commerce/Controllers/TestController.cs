@@ -21,9 +21,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class TestController : Controller
     {
-        public ICommerceInstanceContext CommerceInstanceContext { get; private set; }
+        public CommerceInstanceContext CommerceInstanceContext { get; private set; }
 
-        public TestController(ICommerceInstanceContext context)
+        public TestController(CommerceInstanceContext context)
         {
             CommerceInstanceContext = context;
         }

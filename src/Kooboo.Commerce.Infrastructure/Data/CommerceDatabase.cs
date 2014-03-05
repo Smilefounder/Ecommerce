@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Data
         private CommerceDbTransaction _currentTransaction;
         private CommerceInstanceMetadata _commerceInstanceMetadata;
 
-        public CommerceInstanceMetadata Metadata
+        public CommerceInstanceMetadata CommerceInstanceMetadata
         {
             get { return _commerceInstanceMetadata; }
         }

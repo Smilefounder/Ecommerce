@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Data
     //       为了防止误解，是否要换一个名字，不以Database结尾？
     public interface ICommerceDatabase : IDisposable
     {
-        CommerceInstanceMetadata Metadata { get; }
+        CommerceInstanceMetadata CommerceInstanceMetadata { get; }
 
         IRepository<T> GetRepository<T>() where T : class;
 

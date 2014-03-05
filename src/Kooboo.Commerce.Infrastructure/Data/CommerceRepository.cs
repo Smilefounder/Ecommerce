@@ -66,6 +66,8 @@ namespace Kooboo.Commerce.Data
 
         public virtual bool Insert(T obj)
         {
+            TryAttachAggregateMetadata(obj);
+
             var tbl = DbContext.Set<T>();
             obj = tbl.Add(obj);
 
@@ -123,6 +125,7 @@ namespace Kooboo.Commerce.Data
             var tbl = DbContext.Set<T>();
             foreach (var obj in objs)
             {
+                TryAttachAggregateMetadata(obj);
                 tbl.Add(obj);
             }
 
@@ -163,6 +166,15 @@ namespace Kooboo.Commerce.Data
             int ret = DbContext.SaveChanges();
 
             return ret > 0;
+        }
+
+        private void TryAttachAggregateMetadata(object entity)
+        {
+            var aggregateRoot = entity as AggregateRoot;
+            if (aggregateRoot != null)
+            {
+                aggregateRoot.Metadata = new AggregateMetadata(Database.CommerceInstanceMetadata.Name);
+            }
         }
     }
 

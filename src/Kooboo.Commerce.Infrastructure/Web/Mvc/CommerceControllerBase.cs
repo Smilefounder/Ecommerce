@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Web.Mvc.Controllers
     public class CommerceControllerBase : Controller
     {
         [Inject]
-        public ICommerceInstanceContext CommerceContext { get; set; }
+        public CommerceInstanceContext CommerceContext { get; set; }
 
         protected AjaxFormResult AjaxForm()
         {
