@@ -23,12 +23,13 @@ namespace Kooboo.Commerce.Rules.Parsing
 
         public SourceLocation(int charIndex)
         {
+            Require.That(charIndex >= 0, "charIndex", "Char index cannot be less than zero.");
             _charIndex = charIndex;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is SourceLocation)
+            if (obj != null && obj is SourceLocation)
             {
                 return Equals((SourceLocation)obj);
             }
@@ -44,6 +45,11 @@ namespace Kooboo.Commerce.Rules.Parsing
         public bool Equals(SourceLocation other)
         {
             return CharIndex == other.CharIndex;
+        }
+
+        public override string ToString()
+        {
+            return "Char " + (CharIndex + 1);
         }
     }
 }

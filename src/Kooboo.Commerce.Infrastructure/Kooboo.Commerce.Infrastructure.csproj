@@ -187,6 +187,14 @@
     <Compile Include="Rules\IParameter.cs" />
     <Compile Include="Rules\IListDataSource.cs" />
     <Compile Include="Rules\IModelInspector.cs" />
+    <Compile Include="Rules\Operators\ContainsOperator.cs" />
+    <Compile Include="Rules\Operators\EqualsOperator.cs" />
+    <Compile Include="Rules\Operators\GreaterThanOperator.cs" />
+    <Compile Include="Rules\Operators\GreaterThanOrEqualOperator.cs" />
+    <Compile Include="Rules\Operators\LessThanOperator.cs" />
+    <Compile Include="Rules\Operators\LessThanOrEqualOperator.cs" />
+    <Compile Include="Rules\Operators\NotContainsOperator.cs" />
+    <Compile Include="Rules\Operators\NotEqualsOperator.cs" />
     <Compile Include="Rules\Parsing\Lookahead.cs" />
     <Compile Include="Rules\Parsing\Parser.cs" />
     <Compile Include="Rules\Expressions\ConditionExpression.cs" />
@@ -196,6 +204,7 @@
     <Compile Include="Rules\Expressions\Expression.cs" />
     <Compile Include="Rules\Expressions\IExpressionVisitor.cs" />
     <Compile Include="Rules\Expressions\LogicalOperator.cs" />
+    <Compile Include="Rules\Parsing\ParsingContext.cs" />
     <Compile Include="Rules\Parsing\SourceLocation.cs" />
     <Compile Include="Rules\Parsing\SourceReader.cs" />
     <Compile Include="Rules\Parsing\Error.cs" />

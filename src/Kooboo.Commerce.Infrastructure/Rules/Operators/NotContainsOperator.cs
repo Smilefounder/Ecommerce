@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Kooboo.Commerce.Rules.Operators
+{
+    public class NotContainsOperator : IComparisonOperator
+    {
+        public string Name
+        {
+            get
+            {
+                return "not_contains";
+            }
+        }
+
+        public string DisplayName
+        {
+            get
+            {
+                return "Not Contains";
+            }
+        }
+
+        public bool Apply(IParameter param, object paramValue, object inputValue)
+        {
+            return !ComparisonOperators.Contains.Apply(param, paramValue, inputValue);
+        }
+    }
+}

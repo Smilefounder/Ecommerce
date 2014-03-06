@@ -61,6 +61,11 @@ namespace Kooboo.Commerce.Rules.Parsing
             }
         }
 
+        /// <summary>
+        /// Try reading the expected string.
+        /// If the expected string is sucessfully read, return true and move the cursor.
+        /// Otherwise return false and move back the cursor.
+        /// </summary>
         public bool Read(string expected)
         {
             Require.NotNullOrEmpty(expected, "expected");
@@ -101,6 +106,10 @@ namespace Kooboo.Commerce.Rules.Parsing
             }
         }
 
+        /// <summary>
+        /// After the call to BeginLookahead, 
+        /// future reads will be cancelled if the lookahead is not accepted before it's disposed.
+        /// </summary>
         public Lookahead BeginLookahead()
         {
             var currentPosition = _position;

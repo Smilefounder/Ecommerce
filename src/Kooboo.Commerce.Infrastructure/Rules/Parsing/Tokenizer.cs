@@ -5,22 +5,23 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Parsing
 {
-    // Identifier  : [a-z]\w* -> Custom operator should be in the form of identifier
-    // Number      : [0-9]+(.[0-9]+)?
-    // String      : "[^"]*" -> escape double quote char by using two double quotes
-    // Parenthsis  : ( | )
-    // Double colon: ::
+    // Identifier                 : [a-z]\w* -> Custom operator should be in the form of identifier
+    // Number                     : [0-9]+(.[0-9]+)?
+    // String                     : "[^"]*" -> escape double quote char by using two double quotes
+    // Parenthsis                 : ( | )
+    // Double colon               : ::
+    // Builtin comparison operator: > | >= | < | <= | != | ==
     public class Tokenizer
     {
         private SourceReader _source;
         private StringBuilder _buffer = new StringBuilder();
-        private List<Error> _errors = new List<Error>();
+        private ParsingContext _context;
 
-        public IEnumerable<Error> Errors
+        public ParsingContext Context
         {
             get
             {
-                return _errors;
+                return _context;
             }
         }
 
@@ -40,15 +41,18 @@ namespace Kooboo.Commerce.Rules.Parsing
             }
         }
 
-        public Tokenizer(string source)
-            : this(new SourceReader(source))
+        public Tokenizer(string source, ParsingContext context)
+            : this(new SourceReader(source), context)
         {
         }
 
-        public Tokenizer(SourceReader source)
+        public Tokenizer(SourceReader source, ParsingContext context)
         {
             Require.NotNull(source, "source");
+            Require.NotNull(context, "context");
+
             _source = source;
+            _context = context;
         }
 
         public Lookahead BeginLookahead()
@@ -58,7 +62,7 @@ namespace Kooboo.Commerce.Rules.Parsing
 
         public Token NextToken()
         {
-            return Parse(Identifier, StringLiteral, Parenthsis, DoubleColon, Number);
+            return Parse(Identifier, StringLiteral, Parenthsis, BuiltinComparisonOperator, DoubleColon, Number);
         }
 
         private Token Parse(params Func<Token>[] parsers)
@@ -189,7 +193,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                     {
                         if (state == NumberParseState.BeginFractionalPart)
                         {
-                            _errors.Add(new Error("Missing fractional part.", new SourceLocation(_source.Position)));
+                            _context.AddError("Missing fractional part.", new SourceLocation(_source.Position));
                             break;
                         }
                         else
@@ -250,7 +254,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                         }
                     }
 
-                    _errors.Add(new Error("Missing closing double quote for string.", new SourceLocation(_source.Position)));
+                    _context.AddError("Missing closing double quote for string.", new SourceLocation(_source.Position));
                 }
             }
 
@@ -286,6 +290,40 @@ namespace Kooboo.Commerce.Rules.Parsing
                 {
                     return new Token("::", TokenKind.DoubleColon, location);
                 }
+            }
+
+            return null;
+        }
+
+        private Token BuiltinComparisonOperator()
+        {
+            var sourceLocation = CurrentLocation;
+
+            if (_source.Read(">="))
+            {
+                return new Token(">=", TokenKind.GreaterThanOrEqual, sourceLocation);
+            }
+            if (_source.Read(">"))
+            {
+                return new Token(">", TokenKind.GreaterThan, sourceLocation);
+            }
+
+            if (_source.Read("<="))
+            {
+                return new Token("<=", TokenKind.LessThanOrEqual, sourceLocation);
+            }
+            if (_source.Read("<"))
+            {
+                return new Token("<", TokenKind.LessThan, sourceLocation);
+            }
+
+            if (_source.Read("!="))
+            {
+                return new Token("!=", TokenKind.NotEqual, sourceLocation);
+            }
+            if (_source.Read("=="))
+            {
+                return new Token("==", TokenKind.Equal, sourceLocation);
             }
 
             return null;

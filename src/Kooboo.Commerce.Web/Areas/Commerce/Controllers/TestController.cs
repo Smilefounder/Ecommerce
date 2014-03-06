@@ -126,7 +126,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public string Tokenizer()
         {
-            var tokenizer = new Tokenizer("CustomerName equals customers::\"Mouhong\" and orTotalAmount equals 3.14 or param3 less_than 25");
+            var context = new ParsingContext();
+            var tokenizer = new Tokenizer("CustomerName == customers::\"Mouhong\" and orTotalAmount >= 3.14 or param3 < 25", context);
             var output = new StringBuilder();
             Token token = null;
 
@@ -146,11 +147,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public string Parser()
         {
             var parser = new Parser();
-            var exp = parser.Parse("(CustomerName equals customers::\"Mouhong\" or (Age greater_than 18 or Gender equals \"Male\")) and TotalAmount less_than 59.98");
-            if (parser.Errors.Any())
+            var context = new ParsingContext();
+            var exp = parser.Parse("(CustomerName == customers::\"Mouhong\" or (Age >= 18 or Gender == \"Male\")) and TotalAmount < 59.98", context);
+            if (context.Errors.Count > 0)
             {
                 var output = new StringBuilder();
-                output.Append(String.Join("<br/>", parser.Errors));
+                output.Append(String.Join("<br/>", context.Errors));
                 return output.ToString();
             }
 

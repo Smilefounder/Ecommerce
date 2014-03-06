@@ -37,8 +37,8 @@ namespace Kooboo.Commerce.Rules.Parameters
             get
             {
                 return new IComparisonOperator[] {
-                    ComparisonOperators.Equal,
-                    ComparisonOperators.NotEqual
+                    ComparisonOperators.Equals,
+                    ComparisonOperators.NotEquals
                 };
             }
         }

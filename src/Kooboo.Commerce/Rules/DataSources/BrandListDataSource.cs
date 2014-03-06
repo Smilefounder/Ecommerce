@@ -24,8 +24,8 @@ namespace Kooboo.Commerce.Rules.DataSources
             get
             {
                 return new IComparisonOperator[] {
-                    ComparisonOperators.Equal,
-                    ComparisonOperators.NotEqual
+                    ComparisonOperators.Equals,
+                    ComparisonOperators.NotEquals
                 };
             }
         }

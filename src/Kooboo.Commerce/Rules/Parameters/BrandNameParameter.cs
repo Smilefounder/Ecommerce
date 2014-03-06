@@ -37,10 +37,10 @@ namespace Kooboo.Commerce.Rules.Parameters
             get
             {
                 return new IComparisonOperator[] {
-                    ComparisonOperators.Equal,
-                    ComparisonOperators.NotEqual,
-                    ComparisonOperators.Contain,
-                    ComparisonOperators.NotContain
+                    ComparisonOperators.Equals,
+                    ComparisonOperators.NotEquals,
+                    ComparisonOperators.Contains,
+                    ComparisonOperators.NotContains
                 };
             }
         }
