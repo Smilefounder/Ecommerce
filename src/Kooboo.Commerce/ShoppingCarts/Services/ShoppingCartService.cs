@@ -6,6 +6,8 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Customers.Services;
+using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
@@ -13,28 +15,28 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly IRepository<ShoppingCart> _shoppingCartRepository;
-        private readonly IRepository<Customer> _customerRepository;
+        private readonly ICustomerService _customerService;
         private readonly IRepository<ProductPrice> _productPriceRepository;
 
-        public ShoppingCartService(IRepository<ShoppingCart> shoppingCartRepository, IRepository<Customer> customerRepository, IRepository<ProductPrice> productPriceRepository)
+        public ShoppingCartService(IRepository<ShoppingCart> shoppingCartRepository, ICustomerService customerService, IRepository<ProductPrice> productPriceRepository)
         {
             _shoppingCartRepository = shoppingCartRepository;
-            _customerRepository = customerRepository;
+            _customerService = customerService;
             _productPriceRepository = productPriceRepository;
         }
 
         #region IShoppingCartService Members
 
-        public ShoppingCart GetByGuestId(Guid guestId)
+        public ShoppingCart GetBySessionId(string sessionId)
         {
             ShoppingCart shoppingCart = _shoppingCartRepository.Query()
-                .Where(x => x.GuestId == guestId)
+                .Where(x => x.SessionId == sessionId)
                 .FirstOrDefault();
 
             if (shoppingCart == null)
             {
                 shoppingCart = new ShoppingCart();
-                shoppingCart.GuestId = guestId;
+                shoppingCart.SessionId = sessionId;
                 Create(shoppingCart);
             }
 
@@ -50,7 +52,7 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             if (shoppingCart == null)
             {
                 shoppingCart = new ShoppingCart();
-                shoppingCart.Customer = _customerRepository.Query(o => o.Id == customerId).FirstOrDefault();
+                shoppingCart.Customer = _customerService.GetById(customerId, false);
                 Create(shoppingCart);
             }
 
@@ -71,28 +73,28 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         /// add to cart
         /// quantity should greater than 0.
         /// </summary>
-        /// <param name="guestId">guest id</param>
+        /// <param name="sessionId">session id</param>
         /// <param name="customerId">customer id</param>
         /// <param name="productPriceId">product price id</param>
         /// <param name="quantity">quantity</param>
-        public bool AddToCart(Guid? guestId, int? customerId, int productPriceId, int quantity)
+        public bool AddToCart(string sessionId, int? customerId, int productPriceId, int quantity)
         {
-            Require.That((guestId != null || customerId != null), "guestId, customerId");
+            Require.That((sessionId != null || customerId != null), "sessionId, customerId");
             Require.That(quantity > 0, "quantity");
 
             var query = _shoppingCartRepository.Query();
             if (customerId.HasValue)
                 query = query.Where(o => o.Customer.Id == customerId);
-            else if (guestId.HasValue)
-                query = query.Where(o => o.GuestId == guestId.Value);
+            else if (!string.IsNullOrEmpty(sessionId))
+                query = query.Where(o => o.SessionId == sessionId);
 
             var cart = query.FirstOrDefault();
             if (cart == null)
             {
-                Require.NotNull(guestId, "guestId");
+                Require.NotNull(sessionId, "sessionId");
                 cart = new ShoppingCart();
-                cart.GuestId = guestId.Value;
-                cart.Customer = customerId.HasValue ? _customerRepository.Query(o => o.Id == customerId.Value).FirstOrDefault() : null;
+                cart.SessionId = sessionId;
+                cart.Customer = customerId.HasValue ? _customerService.GetById(customerId.Value, false) : null;
                 cart.Items = new List<ShoppingCartItem>();
                 var productPrice = _productPriceRepository.Query(o => o.Id == productPriceId).First();
                 var cartItem = new ShoppingCartItem(productPrice, quantity, cart);
@@ -120,19 +122,19 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         /// update cart
         /// if quantity <= 0 then remove the corresponding product else update the quantity in cart
         /// </summary>
-        /// <param name="guestId">guest id</param>
+        /// <param name="sessionId">session id</param>
         /// <param name="customerId">customer id</param>
         /// <param name="productPriceId">product price id</param>
         /// <param name="quantity">quantity</param>
-        public bool UpdateCart(Guid? guestId, int? customerId, int productPriceId, int quantity)
+        public bool UpdateCart(string sessionId, int? customerId, int productPriceId, int quantity)
         {
-            Require.That((guestId != null || customerId != null), "guestId, customerId");
+            Require.That((sessionId != null || customerId != null), "sessionId, customerId");
 
             var query = _shoppingCartRepository.Query();
             if (customerId.HasValue)
                 query = query.Where(o => o.Customer.Id == customerId);
-            else if (guestId.HasValue)
-                query = query.Where(o => o.GuestId == guestId.Value);
+            else if (!string.IsNullOrEmpty(sessionId))
+                query = query.Where(o => o.SessionId == sessionId);
 
             var cart = query.FirstOrDefault();
             if (cart != null)
@@ -151,16 +153,20 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
                 }
                 return _shoppingCartRepository.Update(cart, k => new object[] { k.Id });
             }
-            return AddToCart(guestId, customerId, productPriceId, quantity);
+            return AddToCart(sessionId, customerId, productPriceId, quantity);
         }
 
-        public bool FillCustomerByAccount(Guid guestId, string accountId)
+        public bool FillCustomerByAccount(string sessionId, MembershipUser user)
         {
-            Require.NotNull(guestId, "guestId");
-            var cart = _shoppingCartRepository.Query(o => o.GuestId == guestId).FirstOrDefault();
+            Require.NotNull(sessionId, "sessionId");
+            var cart = _shoppingCartRepository.Query(o => o.SessionId == sessionId).FirstOrDefault();
             if(cart != null)
             {
-                var customer = _customerRepository.Query(o => o.AccountId == accountId).FirstOrDefault();
+                var customer = _customerService.GetByAccountId(user.UUID, false);
+                if(customer == null)
+                {
+                    customer = _customerService.CreateByAccount(user);
+                }
                 if(customer != null)
                 {
                     cart.Customer = customer;

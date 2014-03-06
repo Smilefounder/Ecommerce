@@ -30,6 +30,7 @@ using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.ShoppingCarts.Services;
 using Kooboo.Commerce.Data;
+using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.Commerce.API
 {
@@ -42,7 +43,7 @@ namespace Kooboo.Commerce.API
 
         private void InitCommerceInstance(string instance, string language)
         {
-            if(HttpContext.Current != null)
+            if (HttpContext.Current != null)
             {
                 HttpContext.Current.Items[HttpCommerceInstanceNameResolverBase.DefaultParamName] = instance;
                 HttpContext.Current.Items["language"] = language;
@@ -52,6 +53,13 @@ namespace Kooboo.Commerce.API
         private T GetService<T>(params Parameter[] paras) where T : class
         {
             return EngineContext.Current.Resolve<T>(paras);
+        }
+
+        public IEnumerable<Country> GetAllCountries(string instance, string language)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<ICountryService>();
+            return svr.GetAllCountries();
         }
 
         public IEnumerable<Category> GetAllCategories(string instance, string language, int level = 1)
@@ -78,7 +86,7 @@ namespace Kooboo.Commerce.API
             if (category != null && loadParents)
             {
                 var p = category;
-                while(p.Parent != null)
+                while (p.Parent != null)
                 {
                     p = p.Parent;
                 }
@@ -108,59 +116,107 @@ namespace Kooboo.Commerce.API
             return svr.GetById(id);
         }
 
-
-        public Customer GetCustomerByAccountId(string instance, string language, string accountId)
-        {
-            InitCommerceInstance(instance, language);
-            var svr = GetService<ICustomerService>();
-            return svr.GetByAccountId(accountId);
-        }
-
         public Customer GetCustomerById(string instance, string language, int customerId)
         {
             InitCommerceInstance(instance, language);
             var svr = GetService<ICustomerService>();
-            return svr.GetById(customerId);
+            return svr.GetById(customerId, true);
         }
 
+        public Customer GetCustomerByAccount(string instance, string language, MembershipUser user)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<ICustomerService>();
+            return svr.GetByAccountId(user.UUID, true);
+        }
 
-        public bool AddToCart(string instance, string language, Guid? guestId, int? customerId, int productPriceId, int quantity)
+        public bool AddToCart(string instance, string language, string sessionId, MembershipUser user, int productPriceId, int quantity)
         {
             InitCommerceInstance(instance, language);
             var svr = GetService<IShoppingCartService>();
-            return svr.AddToCart(guestId, customerId, productPriceId, quantity);
+            int? customerId = null;
+            if (user != null)
+            {
+                var customerSvr = GetService<ICustomerService>();
+                var customer = customerSvr.GetByAccountId(user.UUID, false);
+                if (customer != null)
+                {
+                    customerId = customer.Id;
+                }
+            }
+            return svr.AddToCart(sessionId, customerId, productPriceId, quantity);
         }
 
-        public bool UpdateCart(string instance, string language, Guid? guestId, int? customerId, int productPriceId, int quantity)
+        public bool UpdateCart(string instance, string language, string sessionId, MembershipUser user, int productPriceId, int quantity)
         {
             InitCommerceInstance(instance, language);
             var svr = GetService<IShoppingCartService>();
-            return svr.UpdateCart(guestId, customerId, productPriceId, quantity);
+            int? customerId = null;
+            if (user != null)
+            {
+                var customerSvr = GetService<ICustomerService>();
+                var customer = customerSvr.GetByAccountId(user.UUID, false);
+                if (customer != null)
+                {
+                    customerId = customer.Id;
+                }
+            }
+            return svr.UpdateCart(sessionId, customerId, productPriceId, quantity);
         }
 
-        public bool FillCustomerByAccount(string instance, string language, Guid guestId, string accountId)
+        public ShoppingCart GetMyCart(string instance, string language, string sessionId, MembershipUser user)
         {
             InitCommerceInstance(instance, language);
             var svr = GetService<IShoppingCartService>();
-            return svr.FillCustomerByAccount(guestId, accountId);
-        }
-
-        public ShoppingCart GetMyCart(string instance, string language, Guid? guestId, int? customerId)
-        {
-            InitCommerceInstance(instance, language);
-            var svr = GetService<IShoppingCartService>();
-            if (customerId.HasValue)
-                return svr.GetByCustomer(customerId.Value);
-            else if (guestId.HasValue)
-                return svr.GetByGuestId(guestId.Value);
+            if (user != null)
+            {
+                var customerSvr = GetService<ICustomerService>();
+                var customer = customerSvr.GetByAccountId(user.UUID, false);
+                if (customer != null)
+                {
+                    return svr.GetByCustomer(customer.Id);
+                }
+            }
+            if (!string.IsNullOrEmpty(sessionId))
+                return svr.GetBySessionId(sessionId);
             return null;
         }
 
-        public Order CreateOrderFromShoppingCart(string instance, string language, int shoppingCartId)
+        public Order GetMyOrder(string instance, string language, string sessionId, MembershipUser user)
         {
             InitCommerceInstance(instance, language);
             var svr = GetService<IOrderService>();
-            return svr.CreateOrderFromShoppingCart(shoppingCartId);
+            var shoppingCart = GetMyCart(instance, language, sessionId, user);
+            if (shoppingCart != null)
+            {
+                var order = svr.GetByShoppingCartId(shoppingCart.Id);
+                if (order == null)
+                    order = svr.CreateOrderFromShoppingCart(shoppingCart, user);
+                return order;
+            }
+            return null;
+        }
+
+        public bool SaveOrder(string instance, string language, Order order)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IOrderService>();
+            try
+            {
+                svr.Save(order);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public IEnumerable<PaymentMethod> GetAllPaymentMethods(string instance, string language)
+        {
+            InitCommerceInstance(instance, language);
+            var svr = GetService<IPaymentMethodService>();
+            return svr.GetAllPaymentMethods();
         }
     }
 }

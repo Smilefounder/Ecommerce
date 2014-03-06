@@ -10,6 +10,7 @@ using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Locations;
 using Kooboo.Web.Mvc.Paging;
+using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.Commerce.Customers.Services
 {
@@ -57,6 +58,7 @@ namespace Kooboo.Commerce.Customers.Services
         public Customer GetByAccountId(string accountId, bool loadAllInfo = true)
         {
             var customer = _customerRepository.Get(o => o.AccountId == accountId);
+
             if (loadAllInfo && customer != null)
             {
                 LoadAllInfo(customer);
@@ -105,6 +107,15 @@ namespace Kooboo.Commerce.Customers.Services
             var total = orderQuery.Count();
             var data = orderQuery.Skip(ps * (pi - 1)).Take(ps).ToArray();
             return new PagedList<Order>(data, pi, ps, total);
+        }
+
+        public Customer CreateByAccount(MembershipUser user)
+        {
+            var customer = new Customer();
+            customer.AccountId = user.UUID;
+            customer.Email = user.Email;
+            Create(customer);
+            return customer;
         }
 
         public void Create(Customer customer)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Kooboo.Commerce.Web.Mvc
 {
     public class FormHelper
     {
-        public static IList<T> BindToModels<T>(FormCollection form, string prefix = "")
+        public static IList<T> BindToModels<T>(NameValueCollection form, string prefix = "")
             where T : class, new()
         {
             List<T> models = new List<T>();
@@ -34,7 +35,7 @@ namespace Kooboo.Commerce.Web.Mvc
             return models;
         }
 
-        public static T BindToModel<T>(FormCollection form, string prefix = "")
+        public static T BindToModel<T>(NameValueCollection form, string prefix = "")
             where T : class, new()
         {
             T model = new T();

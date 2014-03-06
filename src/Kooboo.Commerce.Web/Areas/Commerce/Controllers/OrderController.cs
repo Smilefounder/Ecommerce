@@ -134,19 +134,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 decimal subtotal = 0.0m;
                 decimal discount = 0.0m;
+                decimal tax = 0.0m;
                 foreach (var item in order.OrderItems)
                 {
                     subtotal += item.SubTotal;
                     discount += item.Discount;
+                    tax += item.TaxCost;
                 }
 
                 order.SubTotal = subtotal;
                 order.Discount = discount;
-                order.TotalTax = 0.0m;
+                order.TotalTax = tax;
                 order.ShippingCost = 0.0m;
                 order.PaymentMethodCost = 0.0m;
                 order.TotalWeight = 0.0m;
-                order.Total = subtotal - discount + order.TotalTax + order.ShippingCost + order.PaymentMethodCost;
+                order.Total = order.SubTotal - order.Discount + order.TotalTax + order.ShippingCost + order.PaymentMethodCost;
             }
 
             var customer = _customerService.GetById(order.CustomerId);

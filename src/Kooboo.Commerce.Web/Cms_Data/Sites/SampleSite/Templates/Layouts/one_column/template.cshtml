@@ -16,6 +16,7 @@
                     <img src="@Url.FrontUrl().FileUrl("logo.png")" alt="Logo">@("Sample site".Label())</a></h1>
             @Html.FrontHtml().RenderView("Menu", ViewData)
             <ul class="quicklinks right">
+                <li><a href="/MyCart">@("My Cart".Localize())</a></li>
                 @Html.FrontHtml().RenderView("LoginStatus")
             </ul>
         </header>

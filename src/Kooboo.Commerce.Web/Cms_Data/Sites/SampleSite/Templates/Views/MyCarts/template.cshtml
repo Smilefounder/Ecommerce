@@ -1,23 +1,9 @@
 ﻿@using Kooboo.Commerce.API;
 @using Kooboo.CMS.Sites.Membership;
 @{
-    Guid? guestId = null;
-    if (Session["CartGuest"] != null)
-    { 
-        guestId = new Guid(Session["CartGuest"].ToString());
-    }
-    int? customerId = null;
     var memberAuth = this.Context.Membership();
-    var member = memberAuth.GetMember();
-    if (member.Identity.IsAuthenticated)
-    {
-        var customer = Site.Current.Commerce().GetCustomerByAccountId(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), member.Identity.Name);
-        if (customer != null)
-        { 
-            customerId = customer.Id;
-        }
-    }
-    var shoppingCart = Site.Current.Commerce().GetMyCart(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), guestId, customerId);
+    var member = memberAuth.GetMembershipUser();
+    var shoppingCart = Site.Current.Commerce().GetMyCart(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), Context.Session.SessionID, member);
 }
 @if(shoppingCart == null)
 {

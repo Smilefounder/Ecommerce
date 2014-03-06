@@ -16,11 +16,14 @@ using Kooboo.Commerce.Pricing;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.ShoppingCarts;
+using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.Commerce.API
 {
     public interface ICommerceService
     {
+        IEnumerable<Country> GetAllCountries(string instance, string language);
+
         IEnumerable<Category> GetAllCategories(string instance, string language, int level = 1);
 
         IEnumerable<Category> GetSubCategories(string instance, string language, int parentCategoryId);
@@ -33,18 +36,20 @@ namespace Kooboo.Commerce.API
 
         Product GetProductById(string instance, string language, int id);
 
-        Customer GetCustomerByAccountId(string instance, string language, string accountId);
-
         Customer GetCustomerById(string instance, string language, int customerId);
 
-        bool AddToCart(string instance, string language, Guid? guestId, int? customerId, int productPriceId, int quantity);
+        Customer GetCustomerByAccount(string instance, string language, MembershipUser user);
 
-        bool UpdateCart(string instance, string language, Guid? guestId, int? customerId, int productPriceId, int quantity);
+        bool AddToCart(string instance, string language, string sessionId, MembershipUser user, int productPriceId, int quantity);
 
-        bool FillCustomerByAccount(string instance, string language, Guid guestId, string accountId);
+        bool UpdateCart(string instance, string language, string sessionId, MembershipUser user, int productPriceId, int quantity);
 
-        ShoppingCart GetMyCart(string instance, string language, Guid? guestId, int? customerId);
+        ShoppingCart GetMyCart(string instance, string language, string sessionId, MembershipUser user);
 
-        Order CreateOrderFromShoppingCart(string instance, string language, int shoppingCartId);
+        Order GetMyOrder(string instance, string language, string sessionId, MembershipUser user);
+
+        bool SaveOrder(string instance, string language, Order order);
+
+        IEnumerable<PaymentMethod> GetAllPaymentMethods(string instance, string language);
     }
 }

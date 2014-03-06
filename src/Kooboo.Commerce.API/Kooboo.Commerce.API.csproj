@@ -64,11 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddToCartPlugIn.cs" />
+    <Compile Include="PlugIn\AddToCartPlugIn.cs" />
     <Compile Include="ICommerceService.cs" />
     <Compile Include="KoobooSiteExtensions.cs" />
     <Compile Include="LocalCommerceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PlugIn\SaveOrderPlugIn.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">

@@ -8,13 +8,13 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.CMS.Common;
 
-namespace Kooboo.Commerce.API
+namespace Kooboo.Commerce.API.PlugIn
 {
     public class AddToCartPlugIn : ISubmissionPlugin
     {
         public Dictionary<string, object> Parameters
         {
-            get { return new Dictionary<string, object>() { { "ProductPriceId", "{ProductPriceId}" }, { "Quantity", "{Quantity}" } }; }
+            get { return null; }
         }
 
         public ActionResult Submit(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
@@ -30,22 +30,10 @@ namespace Kooboo.Commerce.API
 
                 int productPriceId = Convert.ToInt32(form["productPriceId"]);
                 int quantity = Convert.ToInt32(form["quantity"]);
-
-                if (controllerContext.HttpContext.Session["CartGuest"] == null)
-                    controllerContext.HttpContext.Session["CartGuest"] = Guid.NewGuid().ToString();
-
-                Guid guestId = new Guid(controllerContext.HttpContext.Session["CartGuest"].ToString());
-                int? customerId = null;
+                string sessionId = controllerContext.HttpContext.Session.SessionID;
                 var memberAuth = controllerContext.HttpContext.Membership();
-                var member = memberAuth.GetMember();
-                if (member.Identity.IsAuthenticated)
-                {
-                    var customer = site.Commerce().GetCustomerByAccountId(commerceInstance, language, member.Identity.Name);
-                    if (customer != null)
-                        customerId = customer.Id;
-                }
-
-                if (site.Commerce().AddToCart(commerceInstance, language, guestId, customerId, productPriceId, quantity))
+                var member = memberAuth.GetMembershipUser();
+                if (site.Commerce().AddToCart(commerceInstance, language, sessionId, member, productPriceId, quantity))
                 {
                     resultData.Success = true;
                     resultData.AddMessage("Successfully add to cart.");
