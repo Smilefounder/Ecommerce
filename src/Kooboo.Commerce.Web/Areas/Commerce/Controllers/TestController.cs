@@ -16,6 +16,9 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Web.Mvc;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Payment;
+using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Parsing;
+using System.Text;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -98,6 +101,51 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
                 tx.Commit();
             }
+        }
+
+        public void Rules()
+        {
+            var inspector = new ModelInspector(null);
+            var parameters = inspector.GetParameters(typeof(TestEvent));
+            IListDataSourceFactory dataSourceFactory = null;
+
+            foreach (var param in parameters)
+            {
+                var operators = param.Parameter.SupportedOperators;
+                // Get data sources supported this parameter
+                var dataSources = dataSourceFactory.GetDataSources(param.Parameter);
+
+                foreach (var dataSource in dataSources)
+                {
+                    operators = operators.Union(dataSource.SupportedOperators);
+                }
+
+                operators.Distinct();
+            }
+        }
+
+        public string Tokenizer()
+        {
+            var tokenizer = new Tokenizer("CustomerName equals customers::\"Mouhong\" and orTotalAmount equals 3.14 or param3 less_than 25");
+            var output = new StringBuilder();
+            Token token = null;
+
+            do
+            {
+                token = tokenizer.NextToken();
+                if (token != null)
+                {
+                    output.Append(token.Kind == TokenKind.StringLiteral ? "\"" + token.Value + "\"" : token.Value).Append("<br/>");
+                }
+
+            } while (token != null);
+
+            return output.ToString();
+        }
+
+        public class TestEvent
+        {
+            public Brand Brand { get; set; }
         }
     }
 }
