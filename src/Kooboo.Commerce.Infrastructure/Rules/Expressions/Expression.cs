@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.Rules.Parsing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,10 @@ namespace Kooboo.Commerce.Rules.Expressions
     public abstract class Expression
     {
         public abstract void Accept(IExpressionVisitor visitor);
+
+        public static Expression Parse(string source)
+        {
+            return new Parser().Parse(source);
+        }
     }
 }

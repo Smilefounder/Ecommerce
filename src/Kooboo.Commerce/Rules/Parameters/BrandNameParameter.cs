@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Brands;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Brands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Parameters
 {
-    public class BrandNameParameter : IParameter
+    [Dependency(typeof(IConditionParameter), Key = "BrandName")]
+    public class BrandNameParameter : IConditionParameter
     {
         public string Name
         {

@@ -41,8 +41,18 @@ namespace Kooboo.Commerce.Rules.Parsing
             }
         }
 
+        public Tokenizer(string source)
+            : this(source, new ParsingContext())
+        {
+        }
+
         public Tokenizer(string source, ParsingContext context)
             : this(new SourceReader(source), context)
+        {
+        }
+
+        public Tokenizer(SourceReader source)
+            : this(source, new ParsingContext())
         {
         }
 

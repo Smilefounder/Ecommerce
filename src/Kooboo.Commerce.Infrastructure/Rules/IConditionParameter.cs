@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public interface IParameter
+    public interface IConditionParameter
     {
         string Name { get; }
 

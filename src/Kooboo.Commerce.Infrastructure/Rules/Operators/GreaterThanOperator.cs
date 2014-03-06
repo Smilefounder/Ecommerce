@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.Commerce.Rules.Operators
 {
+    [Dependency(typeof(IComparisonOperator), ComponentLifeStyle.Singleton, Key = "greater_than")]
     public class GreaterThanOperator : IComparisonOperator
     {
         public string Name
@@ -20,9 +22,15 @@ namespace Kooboo.Commerce.Rules.Operators
             }
         }
 
-        public bool Apply(IParameter param, object paramValue, object inputValue)
+        public bool Apply(IConditionParameter param, object paramValue, object inputValue)
         {
-            throw new NotImplementedException();
+            Require.NotNull(param, "param");
+            Require.NotNull(paramValue, "paramValue");
+            Require.That(paramValue is IComparable, "paramValue", "Require comparable parameter value.");
+            Require.NotNull(inputValue, "inputValue");
+            Require.That(inputValue is IComparable, "inputValue", "Require comparable input value.");
+
+            return ((IComparable)paramValue).CompareTo((IComparable)inputValue) > 0;
         }
     }
 }

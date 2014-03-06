@@ -13,9 +13,9 @@ namespace Kooboo.Commerce.Rules
 
     public class ModelInspector : IModelInspector
     {
-        private IParameterFactory _registry;
+        private IConditionParameterFactory _registry;
 
-        public ModelInspector(IParameterFactory register)
+        public ModelInspector(IConditionParameterFactory register)
         {
             _registry = register;
         }
@@ -23,9 +23,9 @@ namespace Kooboo.Commerce.Rules
         public IEnumerable<ModelParameter> GetParameters(Type modelType)
         {
             var parameters = new List<ModelParameter>();
-            foreach (var paramType in _registry.GetParameterTypes(modelType))
+            foreach (var param in _registry.FindByModelType(modelType))
             {
-                parameters.Add(new ModelParameter(ActivateParameter(paramType), modelType));
+                parameters.Add(new ModelParameter(param, modelType));
             }
 
             foreach (var prop in modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -35,38 +35,24 @@ namespace Kooboo.Commerce.Rules
                     && !propType.IsValueType
                     && propType != typeof(string))
                 {
-                    foreach (var paramType in _registry.GetParameterTypes(prop.PropertyType))
+                    foreach (var param in _registry.FindByModelType(prop.PropertyType))
                     {
-                        parameters.Add(new ModelParameter(ActivateParameter(paramType), propType));
+                        parameters.Add(new ModelParameter(param, propType));
                     }
                 }
             }
 
             return parameters;
         }
-
-        private IParameter ActivateParameter(Type parameterType)
-        {
-            return (IParameter)Activator.CreateInstance(parameterType);
-        }
-    }
-
-    public interface IParameterFactory
-    {
-        IEnumerable<Type> GetParameterTypes(Type modelType);
-
-        void RegisterParameters(IEnumerable<Type> parameterTypes);
-
-        void RegisterAssemblies(IEnumerable<Assembly> assemblies);
     }
 
     public class ModelParameter
     {
-        public IParameter Parameter { get; set; }
+        public IConditionParameter Parameter { get; set; }
 
         public MemberInfo Path { get; set; }
 
-        public ModelParameter(IParameter parameter, MemberInfo path)
+        public ModelParameter(IConditionParameter parameter, MemberInfo path)
         {
             Parameter = parameter;
             Path = path;

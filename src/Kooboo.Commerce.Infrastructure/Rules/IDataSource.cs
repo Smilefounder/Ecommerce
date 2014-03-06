@@ -5,13 +5,15 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public interface IListDataSource
+    public interface IDataSource
     {
+        string Id { get; }
+
         IEnumerable<string> SupportedParameters { get; }
 
         IEnumerable<IComparisonOperator> SupportedOperators { get; }
 
-        IEnumerable<ListItem> GetItems(IParameter param);
+        IEnumerable<ListItem> GetItems(IConditionParameter param);
     }
 
     public class ListItem

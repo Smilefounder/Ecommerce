@@ -9,6 +9,8 @@ namespace Kooboo.Commerce.Rules.Expressions
     {
         void Visit(Expression exp);
 
+        void Visit(ConditionExpression exp);
+
         void Visit(ConditionParamExpression exp);
 
         void Visit(ConditionValueExpression exp);

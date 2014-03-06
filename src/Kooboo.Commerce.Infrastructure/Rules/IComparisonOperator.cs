@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Rules
 
         string DisplayName { get; }
 
-        bool Apply(IParameter param, object paramValue, object inputValue);
+        bool Apply(IConditionParameter param, object paramValue, object inputValue);
     }
 
     public static class ComparisonOperators

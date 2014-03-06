@@ -28,15 +28,17 @@ namespace Kooboo.Commerce.Rules.Parsing
         private Tokenizer _tokenzier;
         private ParsingContext _context;
 
-        public Expression Parse(string source, ParsingContext context)
+        public Expression Parse(string source)
         {
             Require.NotNull(source, "source");
-            Require.NotNull(context, "context");
 
-            _context = context;
+            _context = new ParsingContext();
             _tokenzier = new Tokenizer(source, _context);
 
             var exp =  Expression();
+
+            if (_context.Errors.Count > 0)
+                throw new ParserException("Failed parsing condition expression.", _context.Errors);
 
             _context = null;
             _tokenzier = null;
@@ -150,6 +152,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                     if (nextToken.Value == "(")
                     {
                         _context.AddError("Expected closing parenthesis char ).", sourceLocation);
+                        return null;
                     }
 
                     lookahead.Accept();
@@ -180,18 +183,14 @@ namespace Kooboo.Commerce.Rules.Parsing
                     return null;
                 }
 
-                // TODO: Check if it's valid param name
-
                 sourceLocation = _tokenzier.CurrentLocation;
 
                 var op = _tokenzier.NextToken();
-                if (op == null || !IsPossibleComparisonOperator(op))
+                if (op == null || !MaybeComparisonOperator(op))
                 {
                     _context.AddError("Missing comparison operator after the parameter name.", sourceLocation);
                     return null;
                 }
-
-                // TODO: Check if it's valid comparison operator
 
                 sourceLocation = _tokenzier.CurrentLocation;
 
@@ -260,15 +259,15 @@ namespace Kooboo.Commerce.Rules.Parsing
             }
         }
 
-        private bool IsPossibleComparisonOperator(Token token)
+        private bool MaybeComparisonOperator(Token token)
         {
             return token.Kind == TokenKind.Identifier
+                || token.Kind == TokenKind.Equal
+                || token.Kind == TokenKind.NotEqual
                 || token.Kind == TokenKind.GreaterThan
                 || token.Kind == TokenKind.GreaterThanOrEqual
                 || token.Kind == TokenKind.LessThan
-                || token.Kind == TokenKind.LessThanOrEqual
-                || token.Kind == TokenKind.Equal
-                || token.Kind == TokenKind.NotEqual;
+                || token.Kind == TokenKind.LessThanOrEqual;
         }
     }
 }

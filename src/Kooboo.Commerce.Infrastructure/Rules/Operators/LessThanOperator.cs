@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.Commerce.Rules.Operators
 {
+    [Dependency(typeof(IComparisonOperator), ComponentLifeStyle.Singleton, Key = "less_than")]
     public class LessThanOperator : IComparisonOperator
     {
         public string Name
@@ -23,7 +25,7 @@ namespace Kooboo.Commerce.Rules.Operators
             }
         }
 
-        public bool Apply(IParameter param, object paramValue, object inputValue)
+        public bool Apply(IConditionParameter param, object paramValue, object inputValue)
         {
             return !ComparisonOperators.GreaterThanOrEqual.Apply(param, paramValue, inputValue);
         }

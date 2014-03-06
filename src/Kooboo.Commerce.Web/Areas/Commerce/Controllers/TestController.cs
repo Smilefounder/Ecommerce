@@ -103,31 +103,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
         }
 
-        public void Rules()
-        {
-            var inspector = new ModelInspector(null);
-            var parameters = inspector.GetParameters(typeof(TestEvent));
-            IListDataSourceFactory dataSourceFactory = null;
-
-            foreach (var param in parameters)
-            {
-                var operators = param.Parameter.SupportedOperators;
-                // Get data sources supported this parameter
-                var dataSources = dataSourceFactory.GetDataSources(param.Parameter);
-
-                foreach (var dataSource in dataSources)
-                {
-                    operators = operators.Union(dataSource.SupportedOperators);
-                }
-
-                operators.Distinct();
-            }
-        }
-
         public string Tokenizer()
         {
-            var context = new ParsingContext();
-            var tokenizer = new Tokenizer("CustomerName == customers::\"Mouhong\" and orTotalAmount >= 3.14 or param3 < 25", context);
+            var tokenizer = new Tokenizer("CustomerName == customers::\"Mouhong\" and orTotalAmount >= 3.14 or param3 < 25");
             var output = new StringBuilder();
             Token token = null;
 
@@ -147,21 +125,40 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public string Parser()
         {
             var parser = new Parser();
-            var context = new ParsingContext();
-            var exp = parser.Parse("(CustomerName == customers::\"Mouhong\" or (Age >= 18 or Gender == \"Male\")) and TotalAmount < 59.98", context);
-            if (context.Errors.Count > 0)
-            {
-                var output = new StringBuilder();
-                output.Append(String.Join("<br/>", context.Errors));
-                return output.ToString();
-            }
 
-            return exp.ToString();
+            try
+            {
+                var exp = parser.Parse("(CustomerName == customers::\"Mouhong\" or (Age >= 18 or Gender == \"Male\")) and TotalAmount < 59.98");
+                return exp.ToString();
+            }
+            catch (ParserException ex)
+            {
+                return ex.Message.Replace(Environment.NewLine, "<br/>");
+            }
         }
 
-        public class TestEvent
+        public void RuleEngine()
         {
-            public Brand Brand { get; set; }
+            var engine = new RuleEngine();
+            var model = new Brand
+            {
+                Name = "Dell"
+            };
+
+            // Expected: true
+            var condition = "BrandName == \"Micro\" OR BrandName == \"Dell\"";
+            var result = engine.CheckRuleCondition(condition, model);
+            Response.Write(result + "<br/>");
+
+            // Expected: true
+            condition = "BrandName contains \"ell\"";
+            result = engine.CheckRuleCondition(condition, model);
+            Response.Write(result + "<br/>");
+
+            // Expected: false
+            condition = "BrandName contains \"mouhong\"";
+            result = engine.CheckRuleCondition(condition, model);
+            Response.Write(result + "<br/>");
         }
     }
 }
