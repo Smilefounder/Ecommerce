@@ -11,7 +11,7 @@
     var member = memberAuth.GetMember();
     if (member.Identity.IsAuthenticated)
     {
-        var customer = Site.Current.Commerce().GetCustomerByAccountId(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), Convert.ToInt32(member.Identity.Name));
+        var customer = Site.Current.Commerce().GetCustomerByAccountId(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), member.Identity.Name);
         if (customer != null)
         { 
             customerId = customer.Id;
@@ -61,7 +61,7 @@ else
         </tfoot>
     </table>
     <div>
-        <a href="/">@("Go to PAY".Localize())</a>
+        <a href="/MyOrder">@("Go to PAY".Localize())</a>
         <a href="/ProductList">@("Continue Shopping".Localize())</a>
     </div>
 }

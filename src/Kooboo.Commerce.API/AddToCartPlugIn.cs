@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.API
                 var member = memberAuth.GetMember();
                 if (member.Identity.IsAuthenticated)
                 {
-                    var customer = site.Commerce().GetCustomerByAccountId(commerceInstance, language, Convert.ToInt32(member.Identity.Name));
+                    var customer = site.Commerce().GetCustomerByAccountId(commerceInstance, language, member.Identity.Name);
                     if (customer != null)
                         customerId = customer.Id;
                 }

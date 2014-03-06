@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kooboo;
-using Kooboo.Commerce.Accounts;
 using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Categories;
 using Kooboo.Commerce.Customers;
@@ -34,7 +33,7 @@ namespace Kooboo.Commerce.API
 
         Product GetProductById(string instance, string language, int id);
 
-        Customer GetCustomerByAccountId(string instance, string language, int accountId);
+        Customer GetCustomerByAccountId(string instance, string language, string accountId);
 
         Customer GetCustomerById(string instance, string language, int customerId);
 
@@ -42,7 +41,7 @@ namespace Kooboo.Commerce.API
 
         bool UpdateCart(string instance, string language, Guid? guestId, int? customerId, int productPriceId, int quantity);
 
-        bool FillCustomerByAccount(string instance, string language, Guid guestId, int accountId);
+        bool FillCustomerByAccount(string instance, string language, Guid guestId, string accountId);
 
         ShoppingCart GetMyCart(string instance, string language, Guid? guestId, int? customerId);
 

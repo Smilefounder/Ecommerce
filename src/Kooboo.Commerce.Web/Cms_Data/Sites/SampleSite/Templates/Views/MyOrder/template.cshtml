@@ -4,27 +4,31 @@
 @using Kooboo.Commerce.Orders;
 @using Kooboo.Commerce.Payments;
 @{
+    Kooboo.Commerce.Orders.Order order = null; 
     var memberAuth = this.Context.Membership();
     var member = memberAuth.GetMember();
     if (!member.Identity.IsAuthenticated)
     {
-        Response.Redirect("/Account/LogOn");
+        Response.Redirect("/Account/LogOn?return=" + Request.RawUrl);
     }
-    Guid? guestId = null;
-    if (Session["CartGuest"] != null)
-    {
-        guestId = new Guid(Session["CartGuest"].ToString());
-    }
-    var instance = Site.Current.GetCommerceName();
-    var language = Site.Current.GetLanguage();
-    int? customerId = null;
-    var shoppingCart = Site.Current.Commerce().GetMyCart(instance, language, guestId, customerId);
-    Kooboo.Commerce.Orders.Order order = null;
-    if (shoppingCart.Customer == null)
-    {
-        if (Site.Current.Commerce().FillCustomerByAccount(instance, language, guestId.Value, Convert.ToInt32(member.Identity.Name)))
+    else
+    { 
+        Guid? guestId = null;
+        if (Session["CartGuest"] != null)
         {
-            order = Site.Current.Commerce().CreateOrderFromShoppingCart(instance, language, shoppingCart.Id);
+            guestId = new Guid(Session["CartGuest"].ToString());
+        }
+        var instance = Site.Current.GetCommerceName();
+        var language = Site.Current.GetLanguage();
+        int? customerId = null;
+        var shoppingCart = Site.Current.Commerce().GetMyCart(instance, language, guestId, customerId);
+
+        if (shoppingCart.Customer == null)
+        {
+            if (Site.Current.Commerce().FillCustomerByAccount(instance, language, guestId.Value, member.Identity.Name))
+            {
+                order = Site.Current.Commerce().CreateOrderFromShoppingCart(instance, language, shoppingCart.Id);
+            }
         }
     }
 }
@@ -85,7 +89,7 @@ else
                 <tr>
                     <th>@("Email".Localize())</th>
                     <td>
-                        @order.Customer.Account.Email
+                        @order.Customer.Email
                     </td>
                 </tr>
             </tbody>
@@ -195,19 +199,19 @@ else
 								<tr>
 									<th>@("Coupon".Localize())</th>
 									<td>
-										@Html.TextBoxFor(i => i.Coupon, new { @class = "medium" })
+										@Html.TextBox("Coupon", order.Coupon, new { @class = "medium" })
 									</td>
 								</tr>
 								<tr>
 									<th>@("Order Status".Localize())</th>
 									<td>
-										@Html.DropDownListFor(i => i.OrderStatus, EnumUtil.ToSelectList<OrderStatus>(), new { @class = "medium" })
+										@Html.DropDownList("OrderStatus", EnumUtil.ToSelectList<OrderStatus>(order.OrderStatus), new { @class = "medium" })
 									</td>
 								</tr>
 								<tr>
 									<th>@("Payment Status".Localize())</th>
 									<td>
-										@Html.DropDownListFor(i => i.PaymentStatus, EnumUtil.ToSelectList<PaymentStatus>(), new { @class = "medium" })
+										@Html.DropDownList("PaymentStatus", EnumUtil.ToSelectList<PaymentStatus>(order.PaymentStatus), new { @class = "medium" })
 									</td>
 								</tr>
 								<tr>
@@ -236,7 +240,7 @@ else
                                     @("Subtotal".Localize())
                                 </th>
                                 <td>
-                                    @Html.TextBoxFor(i => i.SubTotal, new { @class = "medium", onchange = "Calculate();" })
+                                    @Html.TextBox("SubTotal", order.SubTotal, new { @class = "medium", onchange = "Calculate();" })
                                 </td>
                             </tr>
                             <tr>
@@ -244,7 +248,7 @@ else
                                     @("Discount".Localize())
                                 </th>
                                 <td>
-                                    @Html.TextBoxFor(i => i.Discount, new { @class = "medium", onchange = "Calculate();" })
+                                    @Html.TextBox("Discount", order.Discount, new { @class = "medium", onchange = "Calculate();" })
                                 </td>
                             </tr>
                             <tr>
@@ -252,7 +256,7 @@ else
                                     @("Total Tax".Localize())
                                 </th>
                                 <td>
-                                    @Html.TextBoxFor(i => i.TotalTax, new { @class = "medium", onchange = "Calculate();" })
+                                    @Html.TextBox("TotalTax", order.TotalTax, new { @class = "medium", onchange = "Calculate();" })
                                 </td>
                             </tr>
                             <tr>
@@ -260,7 +264,7 @@ else
                                     @("Total Weight".Localize())
                                 </th>
                                 <td>
-                                    @Html.TextBoxFor(i => i.TotalWeight, new { @class = "medium" })
+                                    @Html.TextBox("TotalWeight", order.TotalWeight, new { @class = "medium" })
                                 </td>
                             </tr>
                             <tr>
@@ -268,7 +272,7 @@ else
                                     @("Shipping Cost".Localize())
                                 </th>
                                 <td>
-                                    @Html.TextBoxFor(i => i.ShippingCost, new { @class = "medium", onchange="Calculate();" })
+                                    @Html.TextBox("ShippingCost", order.ShippingCost, new { @class = "medium", onchange="Calculate();" })
                                 </td>
                             </tr>
                             <tr>
@@ -288,7 +292,7 @@ else
                                     @("Payment Method Cost".Localize())
                                 </th>
                                 <td>
-                                    @Html.TextBoxFor(i => i.PaymentMethodCost, new { @class = "medium", onchange = "Calculate();" })
+                                    @Html.TextBox("PaymentMethodCost", order.PaymentMethodCost, new { @class = "medium", onchange = "Calculate();" })
                                 </td>
                             </tr>
                             <tr>
@@ -296,7 +300,7 @@ else
                                     @("Total".Localize())
                                 </th>
                                 <td>
-                                    @Html.TextBoxFor(i => i.Total, new { @class = "medium" })
+                                    @Html.TextBox("Total", order.Total, new { @class = "medium" })
                                 </td>
                             </tr>
                         </tbody>
@@ -340,7 +344,7 @@ else
                     <tbody>
                         <tr>
                             <td>
-                                @Html.TextAreaFor(i => i.Remark, new { style = "height: 96px; width: 100%;" })
+                                @Html.TextArea("Remark", order.Remark, new { style = "height: 96px; width: 100%;" })
                             </td>
                         </tr>
                     </tbody>

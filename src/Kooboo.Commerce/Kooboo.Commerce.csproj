@@ -84,11 +84,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\Account.cs" />
-    <Compile Include="Accounts\Exceptions\CreateAccountException.cs" />
-    <Compile Include="Accounts\Repositories\IAccountRepository.cs" />
-    <Compile Include="Accounts\Services\AccountService.cs" />
-    <Compile Include="Accounts\Services\IAccountService.cs" />
     <Compile Include="Brands\Services\BrandService.cs" />
     <Compile Include="Brands\Services\IBrandService.cs" />
     <Compile Include="Categories\Services\CategoryService.cs" />

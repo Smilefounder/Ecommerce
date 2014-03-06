@@ -130,4 +130,7 @@
   <data name="MyCart" xml:space="preserve">
     <value>MyCart</value>
   </data>
+  <data name="MyOrder" xml:space="preserve">
+    <value>MyOrder</value>
+  </data>
 </root>

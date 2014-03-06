@@ -7,7 +7,6 @@ using System.Web;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo;
-using Kooboo.Commerce.Accounts;
 using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Categories;
 using Kooboo.Commerce.Customers;
@@ -20,7 +19,6 @@ using Kooboo.Commerce.Pricing;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.ShoppingCarts;
-using Kooboo.Commerce.Accounts.Services;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.Customers.Services;
@@ -111,7 +109,7 @@ namespace Kooboo.Commerce.API
         }
 
 
-        public Customer GetCustomerByAccountId(string instance, string language, int accountId)
+        public Customer GetCustomerByAccountId(string instance, string language, string accountId)
         {
             InitCommerceInstance(instance, language);
             var svr = GetService<ICustomerService>();
@@ -140,7 +138,7 @@ namespace Kooboo.Commerce.API
             return svr.UpdateCart(guestId, customerId, productPriceId, quantity);
         }
 
-        public bool FillCustomerByAccount(string instance, string language, Guid guestId, int accountId)
+        public bool FillCustomerByAccount(string instance, string language, Guid guestId, string accountId)
         {
             InitCommerceInstance(instance, language);
             var svr = GetService<IShoppingCartService>();

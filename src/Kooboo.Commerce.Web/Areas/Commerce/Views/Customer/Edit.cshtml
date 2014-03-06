@@ -28,11 +28,11 @@
                         @("Profile".Localize())
                     </a>
                 </li>
-                <li>
+                @*<li>
                     <a href="#changePassword">
                         @("Password".Localize())
                     </a>
-                </li>
+                </li>*@
                 <li>
                     <a href="#address">
                         @("Addresses".Localize())
@@ -99,18 +99,16 @@
                             </td>
                         </tr>
                         <!-- /ko -->
-                        <!-- ko with: Account -->
                         <tr>
                             <th>@("Email".Localize())</th>
                             <td>
                                 <input data-bind="value:Email" type="text">
                             </td>
                         </tr>
-                        <!-- /ko -->
                     </tbody>
                 </table>
             </div>
-            <div id="changePassword" class="common-form">
+            @*<div id="changePassword" class="common-form">
                 <table data-bind="with: data">
                     <tbody data-bind="with: Account">
                         <tr>
@@ -140,7 +138,7 @@
                         <!-- /ko -->
                     </tbody>
                 </table>
-            </div>
+            </div>*@
             <div id="address">
                 <div class="simple-table">
                     <div class="toolbar">
@@ -357,7 +355,7 @@
         $('#J_CustomerTabs').tabs();
     });
 
-    function CheckConfirmPassword() {
+    @*function CheckConfirmPassword() {
         var val1 = $('#newPassword').val();
         var val2 = $('#confirmPassword').val();
         if (val1 || val2) {
@@ -381,7 +379,7 @@
                 utils.showMessage(info.title, info.message, info.status == 0 ? 'info' : 'error');
             });
         }
-    }
+    }*@
 </script>
 
 <style>

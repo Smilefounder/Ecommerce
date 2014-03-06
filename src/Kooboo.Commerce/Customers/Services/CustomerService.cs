@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Accounts;
-using Kooboo.Commerce.Accounts.Services;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
@@ -24,9 +22,8 @@ namespace Kooboo.Commerce.Customers.Services
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<Address> _addressRepository;
         private readonly IRepository<Country> _countryRepository;
-        private readonly IAccountService _accountService;
 
-        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<Address> addressRepository, IRepository<CustomerLoyalty> customerLoyaltyRepository, IRepository<Country> countryRepository, IAccountService accountService)
+        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<Address> addressRepository, IRepository<CustomerLoyalty> customerLoyaltyRepository, IRepository<Country> countryRepository)
         {
             _db = db;
             _customerRepository = customerRepository;
@@ -34,15 +31,12 @@ namespace Kooboo.Commerce.Customers.Services
             _addressRepository = addressRepository;
             _customerLoyaltyRepository = customerLoyaltyRepository;
             _countryRepository = countryRepository;
-            _accountService = accountService;
         }
 
         private Customer LoadAllInfo(Customer customer)
         {
             if (customer != null)
             {
-                if (customer.AccountId.HasValue)
-                    customer.Account = _accountService.GetById(customer.AccountId.Value);
                 customer.Addresses = _addressRepository.Query(o => o.CustomerId == customer.Id).ToList();
                 customer.Country = _countryRepository.Query(o => o.Id == customer.CountryId).FirstOrDefault();
             }
@@ -60,7 +54,7 @@ namespace Kooboo.Commerce.Customers.Services
             return customer;
         }
 
-        public Customer GetByAccountId(int accountId, bool loadAllInfo = true)
+        public Customer GetByAccountId(string accountId, bool loadAllInfo = true)
         {
             var customer = _customerRepository.Get(o => o.AccountId == accountId);
             if (loadAllInfo && customer != null)
@@ -113,21 +107,8 @@ namespace Kooboo.Commerce.Customers.Services
             return new PagedList<Order>(data, pi, ps, total);
         }
 
-        public Customer Create(string email)
-        {
-            Account account = new Account();
-            account.Email = email;
-
-            Customer customer = new Customer();
-            customer.Account = account;
-
-            return customer;
-        }
-
         public void Create(Customer customer)
         {
-            if (customer.Account != null)
-                customer.Account = _accountService.EncryptPassword(customer.Account);
             _customerRepository.Insert(customer);
             Event.Apply(new CustomerCreated(customer));
         }
@@ -136,10 +117,6 @@ namespace Kooboo.Commerce.Customers.Services
         {
             using (var tx = _db.BeginTransaction())
             {
-                if (customer.Account != null)
-                {
-                    _accountService.Save(customer.Account);
-                }
                 if (customer.Loyalty != null)
                 {
                     _customerLoyaltyRepository.Save(o => o.CustomerId == customer.Loyalty.CustomerId, customer.Loyalty, o => new object[] { o.CustomerId });

@@ -154,7 +154,7 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             return AddToCart(guestId, customerId, productPriceId, quantity);
         }
 
-        public bool FillCustomerByAccount(Guid guestId, int accountId)
+        public bool FillCustomerByAccount(Guid guestId, string accountId)
         {
             Require.NotNull(guestId, "guestId");
             var cart = _shoppingCartRepository.Query(o => o.GuestId == guestId).FirstOrDefault();

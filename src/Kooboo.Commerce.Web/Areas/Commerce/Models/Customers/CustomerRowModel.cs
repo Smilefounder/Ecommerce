@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
         {
             Id = customer.Id;
             Name = String.Format("{0} {1} {2}", customer.FirstName, customer.MiddleName, customer.LastName);
-            Email = customer.Account.Email;
+            Email = customer.Email;
             Orders = orders;
         }
     }
