@@ -105,7 +105,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public string Tokenizer()
         {
-            var tokenizer = new Tokenizer("CustomerName == customers::\"Mouhong\" and orTotalAmount >= 3.14 or param3 < 25");
+            var tokenizer = new Tokenizer("CustomerName == ds:customers:\"Mouhong\" and orTotalAmount >= 3.14 or param3 < 25");
             var output = new StringBuilder();
             Token token = null;
 
@@ -128,7 +128,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             try
             {
-                var exp = parser.Parse("(CustomerName == customers::\"Mouhong\" or (Age >= 18 or Gender == \"Male\")) and TotalAmount < 59.98");
+                var exp = parser.Parse("(CustomerName == ds:customers:\"Mouhong\" or (Age >= 18 or Gender == \"Male\")) and TotalAmount < 59.98");
                 return exp.ToString();
             }
             catch (ParserException ex)

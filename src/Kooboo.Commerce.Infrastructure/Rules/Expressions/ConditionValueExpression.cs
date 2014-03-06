@@ -30,7 +30,12 @@ namespace Kooboo.Commerce.Rules.Expressions
                 return Value;
             }
 
-            return DataSourceId + "::" + Value;
+            if (!String.IsNullOrEmpty(Value))
+            {
+                return "ds:" + DataSourceId + ":" + Value;
+            }
+
+            return "ds:" + DataSourceId;
         }
     }
 }

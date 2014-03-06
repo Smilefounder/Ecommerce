@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Rules.Parsing
     ///          factor : falt_condition | ( expression )
     ///  flat_condition : identifier comparison_op param_value
     ///   comparison_op : identifier in the available comparison operator list
-    ///     param_value : [ datasource_id:: ] string_literal | number
+    ///     param_value : [ ds:datasource_id: ] string_literal | number
     ///     
     /// Notes:
     /// - falt_condition means the condition expression without nesting expressions;
@@ -226,36 +226,54 @@ namespace Kooboo.Commerce.Rules.Parsing
 
                 var valueToken = token;
 
-                if (token.Kind == TokenKind.Identifier)
+                if (token.Kind == TokenKind.DataSourcePrefix)
                 {
-                    dataSourceId = token.Value;
+                    sourceLocation = _tokenzier.CurrentLocation;
 
-                    var doubleColon = _tokenzier.NextToken();
-                    if (doubleColon == null || doubleColon.Kind != TokenKind.DoubleColon)
+                    var dataSourceIdToken = _tokenzier.NextToken();
+                    if (dataSourceIdToken == null)
                     {
-                        _context.AddError("Missing '::' after data source id.", sourceLocation);
+                        _context.AddError("Missing data source id after 'ds:' prefix.", sourceLocation);
                         return null;
                     }
 
-                    valueToken = _tokenzier.NextToken();
+                    dataSourceId = dataSourceIdToken.Value;
+
+                    // If found colon after data source id, then try get the specififed datasource item value
+                    var colon = _tokenzier.NextToken();
+                    if (colon != null)
+                    {
+                        sourceLocation = _tokenzier.CurrentLocation;
+
+                        valueToken = _tokenzier.NextToken();
+                        if (valueToken == null)
+                        {
+                            _context.AddError("Missing data source item value after 'ds:datasource_id:'.", sourceLocation);
+                            return null;
+                        }
+                    }
                 }
 
                 sourceLocation = _tokenzier.CurrentLocation;
 
-                if (valueToken == null)
+                if (String.IsNullOrEmpty(dataSourceId) && valueToken == null)
                 {
                     _context.AddError("Missing parameter value.", sourceLocation);
                     return null;
                 }
-                if (valueToken.Kind != TokenKind.StringLiteral && valueToken.Kind != TokenKind.Number)
+
+                if (valueToken != null)
                 {
-                    _context.AddError("Incorrect parameter value. Expected string or number.", sourceLocation);
-                    return null;
+                    if (valueToken.Kind != TokenKind.StringLiteral && valueToken.Kind != TokenKind.Number)
+                    {
+                        _context.AddError("Incorrect parameter value. Expected string or number.", sourceLocation);
+                        return null;
+                    }
                 }
 
                 lookahead.Accept();
 
-                return new ConditionValueExpression(valueToken.Value, dataSourceId);
+                return new ConditionValueExpression(valueToken == null ? null : valueToken.Value, dataSourceId);
             }
         }
 
