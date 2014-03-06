@@ -72,22 +72,6 @@
     ]
   },
   {
-    "AssemblyName": "EntityFramework.dll",
-    "Version": "6.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "EntityFramework.SqlServer.dll",
-    "Version": "6.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
     "AssemblyName": "HtmlAgilityPack.dll",
     "Version": "1.4.6.0",
     "IsSystemAssembly": true,
@@ -105,7 +89,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Account.dll",
-    "Version": "4.3.1.120",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -113,7 +97,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Caching.dll",
-    "Version": "4.3.1.120",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -121,7 +105,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Common.dll",
-    "Version": "4.3.1.120",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -129,7 +113,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll",
-    "Version": "4.3.1.120",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -137,7 +121,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Content.dll",
-    "Version": "4.3.1.120",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -145,7 +129,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Form.dll",
-    "Version": "4.3.1.120",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -161,7 +145,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Search.dll",
-    "Version": "4.3.1.120",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -169,7 +153,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Sites.dll",
-    "Version": "4.3.1.120",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -177,7 +161,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Sites.TemplateEngines.Razor.dll",
-    "Version": "4.3.1.120",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -185,167 +169,7 @@
   },
   {
     "AssemblyName": "Kooboo.CMS.Web.dll",
-    "Version": "4.3.1.120",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Activities.OrderInvoiceMailing.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Activities.Recommendation.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.AddIns.Samples.EventTracking.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.API.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Data.Mapping.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Data.SqlServer.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.EAV.Validators.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.EAV.WebControls.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Infrastructure.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Payments.AuthorizeNet.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Payments.Buckaroo.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Payments.Fake.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Payments.iDeal.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Payments.PayPal.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Promotions.Conditions.HasOneProduct.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Promotions.Policies.Default.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Shipping.ByWeight.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Shipping.UPS.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Kooboo.Commerce.Web.dll",
-    "Version": "4.2.1.1218",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -353,15 +177,7 @@
   },
   {
     "AssemblyName": "Kooboo.dll",
-    "Version": "4.3.1.120",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "log4net.dll",
-    "Version": "1.2.11.0",
+    "Version": "4.3.7.212",
     "IsSystemAssembly": true,
     "UserList": [
       "System"
@@ -385,22 +201,6 @@
   },
   {
     "AssemblyName": "Microsoft.Web.Infrastructure.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Microsoft.Web.Mvc.FixedDisplayModes.dll",
-    "Version": "1.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "Mollie.iDEAL.dll",
     "Version": "1.0.0.0",
     "IsSystemAssembly": true,
     "UserList": [
@@ -432,6 +232,14 @@
     ]
   },
   {
+    "AssemblyName": "NuGet.Core.dll",
+    "Version": "1.6.30117.9648",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
     "AssemblyName": "Org.Mentalis.Security.Cryptography.dll",
     "Version": "4.3.0.0",
     "IsSystemAssembly": true,
@@ -440,39 +248,7 @@
     ]
   },
   {
-    "AssemblyName": "PayPalAdaptivePaymentsSDK.dll",
-    "Version": "2.9.109.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "PayPalCoreSDK.dll",
-    "Version": "1.4.2.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
     "AssemblyName": "System.Net.Http.dll",
-    "Version": "2.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "System.Net.Http.Formatting.dll",
-    "Version": "4.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "System.Net.Http.WebRequest.dll",
     "Version": "2.0.0.0",
     "IsSystemAssembly": true,
     "UserList": [
@@ -488,22 +264,6 @@
     ]
   },
   {
-    "AssemblyName": "System.Web.Http.dll",
-    "Version": "4.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
-    "AssemblyName": "System.Web.Http.WebHost.dll",
-    "Version": "4.0.0.0",
-    "IsSystemAssembly": true,
-    "UserList": [
-      "System"
-    ]
-  },
-  {
     "AssemblyName": "System.Web.Mvc.dll",
     "Version": "4.0.0.0",
     "IsSystemAssembly": true,
@@ -513,6 +273,14 @@
   },
   {
     "AssemblyName": "System.Web.Razor.dll",
+    "Version": "2.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "System.Web.WebPages.Administration.dll",
     "Version": "2.0.0.0",
     "IsSystemAssembly": true,
     "UserList": [
