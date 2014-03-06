@@ -32,17 +32,7 @@
 
         <div id="main-container" class="clearfix">
             <div id="main">
-                <div class="topbar">
-                    @if (IsSectionDefined("Topbar"))
-                    {
-                        @RenderSection("Topbar")
-                    } else { 
-                        <h1 class="title">@ViewBag.Title</h1>
-                    }
-                </div>
-                <div class="wrap">
-                    @RenderBody()
-                </div>
+                @RenderBody()
             </div>
             <aside id="sidebar">
                 @if (IsSectionDefined("Sidebar"))
