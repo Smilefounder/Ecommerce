@@ -185,7 +185,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                         _buffer.Append(ch);
                         _source.MoveNext();
                     }
-                    else if (char.IsWhiteSpace(ch))
+                    else
                     {
                         if (state == NumberParseState.BeginFractionalPart)
                         {
@@ -198,11 +198,6 @@ namespace Kooboo.Commerce.Rules.Parsing
                             token = new Token(_buffer.ToString(), TokenKind.Number, new SourceLocation(startPosition));
                             break;
                         }
-                    }
-                    else
-                    {
-                        _errors.Add(new Error("Expect space.", new SourceLocation(_source.Position)));
-                        break;
                     }
                 }
             }

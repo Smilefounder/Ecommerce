@@ -31,7 +31,19 @@ namespace Kooboo.Commerce.Rules.Expressions
 
         public override string ToString()
         {
-            return Left + " " + Operator + " " + Right;
+            var leftTree = Left.ToString();
+            var rightTree = Right.ToString();
+
+            if ((Left is LogicalBindaryExpression) && ((LogicalBindaryExpression)Left).Operator == LogicalOperator.Or)
+            {
+                leftTree = "(" + leftTree + ")";
+            }
+            if ((Right is LogicalBindaryExpression) && ((LogicalBindaryExpression)Right).Operator == LogicalOperator.Or)
+            {
+                rightTree = "(" + rightTree + ")";
+            }
+
+            return leftTree + " " + Operator + " " + rightTree;
         }
     }
 }

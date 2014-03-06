@@ -143,6 +143,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return output.ToString();
         }
 
+        public string Parser()
+        {
+            var parser = new Parser();
+            var exp = parser.Parse("(CustomerName equals customers::\"Mouhong\" or (Age greater_than 18 or Gender equals \"Male\")) and TotalAmount less_than 59.98");
+            if (parser.Errors.Any())
+            {
+                var output = new StringBuilder();
+                output.Append(String.Join("<br/>", parser.Errors));
+                return output.ToString();
+            }
+
+            return exp.ToString();
+        }
+
         public class TestEvent
         {
             public Brand Brand { get; set; }

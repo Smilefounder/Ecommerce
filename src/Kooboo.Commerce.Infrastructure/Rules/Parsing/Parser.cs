@@ -28,6 +28,14 @@ namespace Kooboo.Commerce.Rules.Parsing
         private Tokenizer _tokenzier;
         private List<Error> _errors;
 
+        public IEnumerable<Error> Errors
+        {
+            get
+            {
+                return _errors;
+            }
+        }
+
         public Expression Parse(string source)
         {
             Require.NotNull(source, "source");
@@ -219,6 +227,8 @@ namespace Kooboo.Commerce.Rules.Parsing
                 var sourceLocation = _tokenzier.CurrentLocation;
                 string dataSourceId = null;
 
+                var valueToken = token;
+
                 if (token.Kind == TokenKind.Identifier)
                 {
                     dataSourceId = token.Value;
@@ -229,23 +239,26 @@ namespace Kooboo.Commerce.Rules.Parsing
                         _errors.Add(new Error("Missing '::' after data source id.", sourceLocation));
                         return null;
                     }
+
+                    valueToken = _tokenzier.NextToken();
                 }
 
                 sourceLocation = _tokenzier.CurrentLocation;
 
-                var value = _tokenzier.NextToken();
-                if (value == null)
+                if (valueToken == null)
                 {
                     _errors.Add(new Error("Missing parameter value.", sourceLocation));
                     return null;
                 }
-                if (value.Kind != TokenKind.StringLiteral && value.Kind != TokenKind.Number)
+                if (valueToken.Kind != TokenKind.StringLiteral && valueToken.Kind != TokenKind.Number)
                 {
                     _errors.Add(new Error("Incorrect parameter value. Expected string or number.", sourceLocation));
                     return null;
                 }
 
-                return new ConditionValueExpression(value.Value, dataSourceId);
+                lookahead.Accept();
+
+                return new ConditionValueExpression(valueToken.Value, dataSourceId);
             }
         }
     }
