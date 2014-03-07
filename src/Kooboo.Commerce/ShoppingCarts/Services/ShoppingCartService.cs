@@ -83,9 +83,8 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             Require.That(quantity > 0, "quantity");
 
             var query = _shoppingCartRepository.Query();
-            if (customerId.HasValue)
-                query = query.Where(o => o.Customer.Id == customerId);
-            else if (!string.IsNullOrEmpty(sessionId))
+            // always get cart from session id
+            if (!string.IsNullOrEmpty(sessionId))
                 query = query.Where(o => o.SessionId == sessionId);
 
             var cart = query.FirstOrDefault();
@@ -103,6 +102,8 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             }
             else
             {
+                if (cart.Customer == null && customerId.HasValue)
+                    cart.Customer = _customerService.GetById(customerId.Value, false);
                 var cartItem = cart.Items.FirstOrDefault(o => o.ProductPrice.Id == productPriceId);
                 if (cartItem == null)
                 {
@@ -154,6 +155,16 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
                 return _shoppingCartRepository.Update(cart, k => new object[] { k.Id });
             }
             return AddToCart(sessionId, customerId, productPriceId, quantity);
+        }
+
+        public bool ExpireShppingCart(ShoppingCart shoppingCart)
+        {
+            if(shoppingCart != null)
+            {
+                shoppingCart.SessionId += "_" + DateTime.UtcNow.Ticks.ToString();
+                return _shoppingCartRepository.Update(shoppingCart, k => new object[] { k.Id });
+            }
+            return false;
         }
 
         public bool FillCustomerByAccount(string sessionId, MembershipUser user)

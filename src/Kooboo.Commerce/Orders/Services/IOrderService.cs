@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Orders.Services
 
         Order GetByShoppingCartId(int shoppingCartId);
 
-        Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user);
+        Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool expireShoppingCart);
 
         IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize);
 

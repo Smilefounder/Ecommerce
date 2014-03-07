@@ -39,8 +39,8 @@ namespace Kooboo.Commerce.API.PlugIn
                     var form = controllerContext.HttpContext.Request.Form;
 
                     order.Coupon = form["Coupon"];
-                    order.ChangeOrderStatus((OrderStatus)Enum.Parse(typeof(OrderStatus), form["OrderStatus"]));
-                    order.ForceChangePaymentStatus((PaymentStatus)Enum.Parse(typeof(PaymentStatus), form["PaymentStatus"]));
+                    //order.ChangeOrderStatus((OrderStatus)Enum.Parse(typeof(OrderStatus), form["OrderStatus"]));
+                    //order.ForceChangePaymentStatus((PaymentStatus)Enum.Parse(typeof(PaymentStatus), form["PaymentStatus"]));
                     order.SubTotal = string.IsNullOrEmpty(form["SubTotal"]) ? 0 : Convert.ToDecimal(form["SubTotal"]);
                     order.Discount = string.IsNullOrEmpty(form["Discount"]) ? 0 : Convert.ToDecimal(form["Discount"]);
                     order.TotalTax = string.IsNullOrEmpty(form["TotalTax"]) ? 0 : Convert.ToDecimal(form["TotalTax"]);
@@ -85,23 +85,24 @@ namespace Kooboo.Commerce.API.PlugIn
                         }
                     }
 
-                    if (order.OrderItems != null)
-                    {
-                        decimal subtotal = 0.0m;
-                        decimal discount = 0.0m;
-                        decimal tax = 0m;
-                        foreach (var item in order.OrderItems)
-                        {
-                            subtotal += item.SubTotal;
-                            discount += item.Discount;
-                            tax += item.TaxCost;
-                        }
+                    // don't recalculate, accept the user input values.
+                    //if (order.OrderItems != null)
+                    //{
+                    //    decimal subtotal = 0.0m;
+                    //    decimal discount = 0.0m;
+                    //    decimal tax = 0m;
+                    //    foreach (var item in order.OrderItems)
+                    //    {
+                    //        subtotal += item.SubTotal;
+                    //        discount += item.Discount;
+                    //        tax += item.TaxCost;
+                    //    }
 
-                        order.SubTotal = subtotal;
-                        order.Discount = discount;
-                        order.TotalTax = tax;
-                        order.Total = order.SubTotal - order.Discount + order.TotalTax + order.ShippingCost + order.PaymentMethodCost;
-                    }
+                    //    order.SubTotal = subtotal;
+                    //    order.Discount = discount;
+                    //    order.TotalTax = tax;
+                    //    order.Total = order.SubTotal - order.Discount + order.TotalTax + order.ShippingCost + order.PaymentMethodCost;
+                    //}
 
 
                     if (site.Commerce().SaveOrder(commerceInstance, language, order))

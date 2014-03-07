@@ -5,7 +5,7 @@
     var member = memberAuth.GetMembershipUser();
     var shoppingCart = Site.Current.Commerce().GetMyCart(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), Context.Session.SessionID, member);
 }
-@if(shoppingCart == null)
+@if(shoppingCart == null || shoppingCart.Items == null || shoppingCart.Items.Count <= 0)
 {
     <p>@("Nothing in shopping cart.".Localize())</p><a href="/ProductList">@("Go Shopping".Localize())</a>
 }

@@ -14,6 +14,7 @@ using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.ShoppingCarts;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Customers.Services;
+using Kooboo.Commerce.ShoppingCarts.Services;
 
 namespace Kooboo.Commerce.Orders.Services
 {
@@ -29,10 +30,10 @@ namespace Kooboo.Commerce.Orders.Services
         private readonly IRepository<OrderAddress> _orderAddressRepository;
         private readonly IRepository<PaymentMethod> _paymentMethodRepository;
         private readonly IRepository<Country> _countryRepository;
-        private readonly IRepository<ShoppingCart> _shoppingCartRepository;
-        private readonly ProductService _productService;
+        private readonly IShoppingCartService _shoppingCartService;
+        private readonly IProductService _productService;
 
-        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IRepository<ShoppingCart> shoppingCartRepository, ProductService productService)
+        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService)
         {
             _db = db;
             _customerService = customerService;
@@ -43,7 +44,7 @@ namespace Kooboo.Commerce.Orders.Services
             _orderAddressRepository = orderAddressRepository;
             _paymentMethodRepository = paymentMethodRepository;
             _countryRepository = countryRepository;
-            _shoppingCartRepository = shoppingCartRepository;
+            _shoppingCartService = shoppingCartService;
             _productService = productService;
         }
 
@@ -86,7 +87,7 @@ namespace Kooboo.Commerce.Orders.Services
             return order;
         }
 
-        public Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user)
+        public Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool expireShoppingCart)
         {
             if(shoppingCart != null)
             {
@@ -98,8 +99,10 @@ namespace Kooboo.Commerce.Orders.Services
                         customer = _customerService.CreateByAccount(user);
                     }
                     shoppingCart.Customer = customer;
-                    _shoppingCartRepository.Update(shoppingCart, k => new object[] { k.Id });
+
                 }
+                // since the shopping cart was transfered to order, set the shopping cart as not the current one.
+                _shoppingCartService.ExpireShppingCart(shoppingCart);
 
                 Order order = new Order();
                 order.ShoppingCartId = shoppingCart.Id;

@@ -37,6 +37,8 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         /// <param name="quantity">quantity</param>
         bool UpdateCart(string sessionId, int? customerId, int productPriceId, int quantity);
 
+        bool ExpireShppingCart(ShoppingCart shoppingCart);
+
         bool FillCustomerByAccount(string sessionId, MembershipUser user);
     }
 }

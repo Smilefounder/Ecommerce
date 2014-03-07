@@ -193,13 +193,13 @@ else
                                         <tr>
                                             <th>@("Order Status".Localize())</th>
                                             <td>
-                                                @Html.DropDownList("OrderStatus", EnumUtil.ToSelectList<OrderStatus>(order.OrderStatus), new { @class = "medium" })
+                                                @Enum.GetName(typeof(OrderStatus), order.OrderStatus)
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>@("Payment Status".Localize())</th>
                                             <td>
-                                                @Html.DropDownList("PaymentStatus", EnumUtil.ToSelectList<PaymentStatus>(order.PaymentStatus), new { @class = "medium" })
+                                                @Enum.GetName(typeof(PaymentStatus), order.PaymentStatus)
                                             </td>
                                         </tr>
                                         <tr>
@@ -342,10 +342,18 @@ else
         </div>
         <div>
             <button type="submit">@("Save Order".Localize())</button>
-            <button type="button">@("PAY".Localize())</button>
+            <button type="button" onclick="GoPay();">@("PAY".Localize())</button>
         </div>
     </form>
     <script type="text/javascript">
+        $(function () {
+            $('#saveOrderForm').ajaxForm({
+                success: function (response, status, xhr, ele) {
+                    alert(response.Messages[0]);
+                }
+            });
+        });
+
         function Calculate() {
             var op = $('#PaymentMethodId').find('option:selected');
             var chargeMethod = op.attr('data-method') || 'ByAmount';
@@ -367,7 +375,17 @@ else
             var quantity = parseInt($(ele).val());
             var subTotalEle = $(ele).closest('td').next().find('span[data-price]');
             var price = parseFloat(subTotalEle.attr('data-price'));
-            subTotalEle.text(price * quantity);
+            var oldSubTotal = parseFloat(subTotalEle.text());
+            var newSubTotal = price * quantity;
+            subTotalEle.text(newSubTotal);
+            var subTotal = parseFloat($("#SubTotal").val());
+            $("#SubTotal").val(subTotal - oldSubTotal + newSubTotal);
+            Calculate();
+        }
+
+        function GoPay() {
+            var url = "/Commerce/Payment/Gateway?commerceName=@(instance)&language=@(language)&OrderId=@(order.Id)&PaymentMethodId=" + $('#PaymentMethodId').val() + "&ReturnUrl=/";
+            window.location.href = url;
         }
     </script>
 

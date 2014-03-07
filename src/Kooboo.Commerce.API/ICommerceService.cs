@@ -46,7 +46,9 @@ namespace Kooboo.Commerce.API
 
         ShoppingCart GetMyCart(string instance, string language, string sessionId, MembershipUser user);
 
-        Order GetMyOrder(string instance, string language, string sessionId, MembershipUser user);
+        bool ExpireShppingCart(string instance, string language, string sessionId, MembershipUser user);
+
+        Order GetMyOrder(string instance, string language, string sessionId, MembershipUser user, bool expireShoppingCart = true);
 
         bool SaveOrder(string instance, string language, Order order);
 

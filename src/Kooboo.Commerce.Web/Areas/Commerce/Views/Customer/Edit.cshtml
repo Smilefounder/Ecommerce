@@ -323,6 +323,7 @@
                         Phone: ko.observable(null),
                         IsDefault: ko.observable(false)
                     }
+                    item.isNew = true;
                     self.data().Addresses.push(item);
                     self.EditAddress(item);
                 };
@@ -331,7 +332,14 @@
                 };
                 self.EditAddress = function (item) {
                     self.EditingAddress(item);
-                    utils.showDialog('#addressDiv', 'Edit Address');
+                    utils.showDialog('#addressDiv', 'Edit Address', function () {
+                        if (vm.EditingAddress().isNew)
+                            vm.EditingAddress().isNew = false;
+                    }, function () {
+                        if (vm.EditingAddress().isNew) {
+                            vm.data().Addresses.remove(vm.EditingAddress());
+                        }
+                    });
                 };
                 self.OrderPageIndex = ko.observable(0);
                 self.OrderPageIndex.subscribe(function (newVal) {

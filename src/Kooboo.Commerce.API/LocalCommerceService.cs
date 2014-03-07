@@ -168,21 +168,35 @@ namespace Kooboo.Commerce.API
         {
             InitCommerceInstance(instance, language);
             var svr = GetService<IShoppingCartService>();
-            if (user != null)
-            {
-                var customerSvr = GetService<ICustomerService>();
-                var customer = customerSvr.GetByAccountId(user.UUID, false);
-                if (customer != null)
-                {
-                    return svr.GetByCustomer(customer.Id);
-                }
-            }
+            //if (user != null)
+            //{
+            //    var customerSvr = GetService<ICustomerService>();
+            //    var customer = customerSvr.GetByAccountId(user.UUID, false);
+            //    if (customer != null)
+            //    {
+            //        return svr.GetByCustomer(customer.Id);
+            //    }
+            //}
+            // always get shopping cart from session id
             if (!string.IsNullOrEmpty(sessionId))
                 return svr.GetBySessionId(sessionId);
+
             return null;
         }
 
-        public Order GetMyOrder(string instance, string language, string sessionId, MembershipUser user)
+        public bool ExpireShppingCart(string instance, string language, string sessionId, MembershipUser user)
+        {
+            InitCommerceInstance(instance, language);
+            var shoppingCart = GetMyCart(instance, language, sessionId, user);
+            if (shoppingCart != null)
+            {
+                var svr = GetService<IShoppingCartService>();
+                return svr.ExpireShppingCart(shoppingCart);
+            }
+            return false;
+        }
+
+        public Order GetMyOrder(string instance, string language, string sessionId, MembershipUser user, bool expireShoppingCart = true)
         {
             InitCommerceInstance(instance, language);
             var svr = GetService<IOrderService>();
@@ -191,7 +205,7 @@ namespace Kooboo.Commerce.API
             {
                 var order = svr.GetByShoppingCartId(shoppingCart.Id);
                 if (order == null)
-                    order = svr.CreateOrderFromShoppingCart(shoppingCart, user);
+                    order = svr.CreateOrderFromShoppingCart(shoppingCart, user, expireShoppingCart);
                 return order;
             }
             return null;
