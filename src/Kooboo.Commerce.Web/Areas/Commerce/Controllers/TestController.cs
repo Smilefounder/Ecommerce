@@ -19,6 +19,7 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Payment;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Parsing;
 using System.Text;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -162,6 +163,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             condition = "BrandName contains \"mouhong\"";
             result = engine.CheckCondition(condition, contextModel);
             Response.Write(result + "<br/>");
+        }
+
+        public string BuildModel()
+        {
+            var builder = new ConditionModelBuilder(EngineContext.Current.Resolve<IConditionParameterFactory>());
+            var model = builder.BuildFrom("CustomerName == \"Mouhong\" OR CustomerGender == \"Male\"");
+            model = builder.BuildFrom("CustomerName == \"Mouhong\" AND CustomerGender == \"Male\"");
+            model = builder.BuildFrom("CustomerName == \"Mouhong\" AND CustomerGender == \"Male\" OR CustomerName == \"NO\"");
+
+            return "OK";
         }
     }
 }

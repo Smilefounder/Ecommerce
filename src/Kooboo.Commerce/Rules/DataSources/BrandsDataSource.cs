@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.DataSources
 {
-    public class BrandListDataSource : IDataSource
+    public class BrandsDataSource : IDataSource
     {
         private IRepository<Brand> _brandRepository;
 
@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Rules.DataSources
             }
         }
 
-        public BrandListDataSource(IRepository<Brand> brandRepository)
+        public BrandsDataSource(IRepository<Brand> brandRepository)
         {
             Require.NotNull(brandRepository, "brandRepository");
             _brandRepository = brandRepository;

@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.CMS.Common.Runtime.Dependency;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Kooboo.Commerce.Rules
         IEnumerable<IConditionParameter> FindByModelType(Type modelType);
     }
 
+    [Dependency(typeof(IConditionParameterFactory))]
     public class DefaultConditionParameterFactory : IConditionParameterFactory
     {
         private IEngine _engine;

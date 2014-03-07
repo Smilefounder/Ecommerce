@@ -1,0 +1,54 @@
+﻿using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Expressions;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+using Kooboo.Commerce.Web.Mvc.Controllers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
+{
+    public class RuleController : CommerceControllerBase
+    {
+        private IConditionParameterFactory _parameterFactory;
+
+        public RuleController(IConditionParameterFactory parameterFactory)
+        {
+            _parameterFactory = parameterFactory;
+        }
+
+        public ActionResult Config(string contextModelTypeName)
+        {
+            ViewBag.ContextModelTypeName = contextModelTypeName;
+            return View();
+        }
+
+        public ActionResult AvailableParameters(string contextModelTypeName)
+        {
+            var contextModelType = Type.GetType(contextModelTypeName, true);
+            var inspector = new ContextModelInspector(_parameterFactory);
+            var models = new List<ConditionParameterModel>();
+
+            foreach (var param in inspector.GetAvailableParameters(contextModelType))
+            {
+                models.Add(new ConditionParameterModel(param.Parameter));
+            }
+
+            return JsonNet(models).Camelcased();
+        }
+
+        [HttpPost]
+        public string GetExpression(ConditionsModel model)
+        {
+            return model.Conditions.GetExpression();
+        }
+
+        public ActionResult GetConditionModels(string expression)
+        {
+            var builder = new ConditionModelBuilder(_parameterFactory);
+            return JsonNet(builder.BuildFrom(Server.UrlDecode(expression))).Camelcased();
+        }
+    }
+}

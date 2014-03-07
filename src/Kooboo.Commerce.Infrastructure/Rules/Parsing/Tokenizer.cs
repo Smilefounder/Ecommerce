@@ -129,11 +129,11 @@ namespace Kooboo.Commerce.Rules.Parsing
 
                             if (tokenValue.Equals("AND", StringComparison.OrdinalIgnoreCase))
                             {
-                                tokenKind = TokenKind.And;
+                                tokenKind = TokenKind.AND;
                             }
                             else if (tokenValue.Equals("OR", StringComparison.OrdinalIgnoreCase))
                             {
-                                tokenKind = TokenKind.Or;
+                                tokenKind = TokenKind.OR;
                             }
 
                             token = new Token(tokenValue, tokenKind, new SourceLocation(startPosition));

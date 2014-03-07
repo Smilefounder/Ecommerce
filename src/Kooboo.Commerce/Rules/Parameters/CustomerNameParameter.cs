@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Brands;
+using Kooboo.Commerce.Customers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,25 +7,22 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Parameters
 {
-    [Dependency(typeof(IConditionParameter), Key = "BrandName")]
-    public class BrandNameParameter : IConditionParameter
+    [Dependency(typeof(IConditionParameter), Key = "CustomerName")]
+    public class CustomerNameParameter : IConditionParameter
     {
         public string Name
         {
-            get { return "BrandName"; }
+            get { return "CustomerName"; }
         }
 
         public string DisplayName
         {
-            get { return "Brand Name"; }
+            get { return "Customer Name"; }
         }
 
         public Type ModelType
         {
-            get
-            {
-                return typeof(Brand);
-            }
+            get { return typeof(Customer); }
         }
 
         public ParameterValueType ValueType
@@ -40,19 +37,19 @@ namespace Kooboo.Commerce.Rules.Parameters
         {
             get
             {
-                return new IComparisonOperator[] {
+                return new[] {
                     ComparisonOperators.Equals,
                     ComparisonOperators.NotEquals,
                     ComparisonOperators.Contains,
-                    ComparisonOperators.NotContains
+                    ComparisonOperators.NotEquals
                 };
             }
         }
 
-        public object GetValue(object context)
+        public object GetValue(object model)
         {
-            var brand = (Brand)context;
-            return brand.Name;
+            var customer = (Customer)model;
+            return customer.FullName;
         }
     }
 }

@@ -247,6 +247,7 @@
     <Compile Include="Areas\Commerce\Controllers\ProductController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PromotionController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\RuleController.cs" />
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShipmentTrackerController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
@@ -305,6 +306,11 @@
     <Compile Include="Areas\Commerce\Models\DataSources\ControlTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CultureDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CurrencyDataSource.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionModelBuilder.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionModelCollectionExtensions.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionParameterModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionsModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSizeEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ProductSettingEditorModel.cs" />
@@ -2215,6 +2221,7 @@
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Favorites\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\template.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\Config.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

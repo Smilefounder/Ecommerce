@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Kooboo.Commerce.Web.Mvc
 {
@@ -50,5 +51,11 @@ namespace Kooboo.Commerce.Web.Mvc
         }
 
         public JsonSerializerSettings Settings { get; private set; }
+
+        public JsonNetResult Camelcased()
+        {
+            Settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            return this;
+        }
     }
 }

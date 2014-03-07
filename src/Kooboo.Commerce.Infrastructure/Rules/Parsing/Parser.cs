@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                     using (var lookahead = _tokenzier.BeginLookahead())
                     {
                         var op = _tokenzier.NextToken();
-                        if (op != null && op.Kind == TokenKind.Or)
+                        if (op != null && op.Kind == TokenKind.OR)
                         {
                             var sourceLocation = _tokenzier.CurrentLocation;
 
@@ -97,7 +97,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                     using (var lookahead = _tokenzier.BeginLookahead())
                     {
                         var op = _tokenzier.NextToken();
-                        if (op != null && op.Kind == TokenKind.And)
+                        if (op != null && op.Kind == TokenKind.AND)
                         {
                             var sourceLocation = _tokenzier.CurrentLocation;
 

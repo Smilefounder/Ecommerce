@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.CMS.Common.Runtime.Dependency;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Kooboo.Commerce.Rules
         IComparisonOperator FindByName(string name);
     }
 
+    [Dependency(typeof(IComparisonOperatorFactory), ComponentLifeStyle.Singleton)]
     public class DefaultComparisonOperatorFactory : IComparisonOperatorFactory
     {
         private IEngine _engine;

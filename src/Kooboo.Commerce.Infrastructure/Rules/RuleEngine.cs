@@ -98,7 +98,7 @@ namespace Kooboo.Commerce.Rules
                 var @operator = _engine._comparisonOperatorFactory.FindByName(exp.Operator);
                 if (@operator == null)
                 {
-                    @operator = ParserUtil.ParseBuiltinComparisonOperator(exp.Operator);
+                    @operator = ComparisonOperators.GetOperatorFromShortcut(exp.Operator);
                 }
 
                 if (@operator == null)
@@ -164,7 +164,7 @@ namespace Kooboo.Commerce.Rules
                     value = exp.Value;
                 }
 
-                return Convert.ChangeType(value, param.ValueType);
+                return Convert.ChangeType(value, param.ValueType.GetClrType());
             }
         }
     }

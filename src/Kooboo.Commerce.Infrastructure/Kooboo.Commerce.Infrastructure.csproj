@@ -199,7 +199,6 @@
     <Compile Include="Rules\Operators\NotContainsOperator.cs" />
     <Compile Include="Rules\Operators\NotEqualsOperator.cs" />
     <Compile Include="Rules\Parsing\ParserException.cs" />
-    <Compile Include="Rules\Parsing\ParserUtil.cs" />
     <Compile Include="Rules\Parsing\Lookahead.cs" />
     <Compile Include="Rules\Parsing\Parser.cs" />
     <Compile Include="Rules\Expressions\ConditionExpression.cs" />
@@ -224,9 +223,6 @@
     <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
     <Compile Include="Web\Mvc\ExternalPostResult.cs" />
     <Compile Include="Web\Mvc\TransactionalAttribute.cs" />
-    <Compile Include="Web\Mvc\ControllerExtensions.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Web\Mvc\EFContractResolver.cs" />
     <Compile Include="Web\Mvc\EnumerableExtensions.cs" />
     <Compile Include="Web\Mvc\EnumUtil.cs" />
