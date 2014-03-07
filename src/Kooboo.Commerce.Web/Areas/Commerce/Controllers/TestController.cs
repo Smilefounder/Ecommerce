@@ -140,24 +140,27 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public void RuleEngine()
         {
             var engine = new RuleEngine();
-            var model = new Brand
+            var contextModel = new
             {
-                Name = "Dell"
+                Brand = new Brand
+                {
+                    Name = "Dell"
+                }
             };
 
             // Expected: true
             var condition = "BrandName == \"Micro\" OR BrandName == \"Dell\"";
-            var result = engine.CheckRuleCondition(condition, model);
+            var result = engine.CheckCondition(condition, contextModel);
             Response.Write(result + "<br/>");
 
             // Expected: true
             condition = "BrandName contains \"ell\"";
-            result = engine.CheckRuleCondition(condition, model);
+            result = engine.CheckCondition(condition, contextModel);
             Response.Write(result + "<br/>");
 
             // Expected: false
             condition = "BrandName contains \"mouhong\"";
-            result = engine.CheckRuleCondition(condition, model);
+            result = engine.CheckCondition(condition, contextModel);
             Response.Write(result + "<br/>");
         }
     }

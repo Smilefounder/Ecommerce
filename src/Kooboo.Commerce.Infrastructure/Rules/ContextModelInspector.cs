@@ -6,24 +6,19 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public interface IModelInspector
+    public class ContextModelInspector
     {
-        IEnumerable<ModelParameter> GetParameters(Type modelType);
-    }
+        private IConditionParameterFactory _parameters;
 
-    public class ModelInspector : IModelInspector
-    {
-        private IConditionParameterFactory _registry;
-
-        public ModelInspector(IConditionParameterFactory register)
+        public ContextModelInspector(IConditionParameterFactory parameterFactory)
         {
-            _registry = register;
+            _parameters = parameterFactory;
         }
 
-        public IEnumerable<ModelParameter> GetParameters(Type modelType)
+        public IEnumerable<ModelParameter> GetAvailableParameters(Type modelType)
         {
             var parameters = new List<ModelParameter>();
-            foreach (var param in _registry.FindByModelType(modelType))
+            foreach (var param in _parameters.FindByModelType(modelType))
             {
                 parameters.Add(new ModelParameter(param, modelType));
             }
@@ -35,9 +30,9 @@ namespace Kooboo.Commerce.Rules
                     && !propType.IsValueType
                     && propType != typeof(string))
                 {
-                    foreach (var param in _registry.FindByModelType(prop.PropertyType))
+                    foreach (var param in _parameters.FindByModelType(prop.PropertyType))
                     {
-                        parameters.Add(new ModelParameter(param, propType));
+                        parameters.Add(new ModelParameter(param, prop));
                     }
                 }
             }

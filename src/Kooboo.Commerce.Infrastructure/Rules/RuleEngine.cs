@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Kooboo.Commerce.Rules
@@ -36,33 +37,38 @@ namespace Kooboo.Commerce.Rules
         }
 
         /// <summary>
-        /// Check if the rule condition can pass.
+        /// Check if the specified condition can be fullfilled by the context.
         /// </summary>
         /// <param name="conditionExpression">The condition expression. e.g., Param1 > 18 AND Param2 == "Value"</param>
-        /// <param name="model">The contextual model.</param>
+        /// <param name="contextModel">The contextual model.</param>
         /// <returns>True if the condtion can pass, otherwise false.</returns>
-        public bool CheckRuleCondition(string conditionExpression, object model)
+        public bool CheckCondition(string conditionExpression, object contextModel)
         {
             Require.NotNullOrEmpty(conditionExpression, "conditionExpression");
-            Require.NotNull(model, "model");
+            Require.NotNull(contextModel, "contextModel");
 
-            return new RuleChecker(this).Check(Expression.Parse(conditionExpression), model);
+            return new RuleChecker(this).Check(Expression.Parse(conditionExpression), contextModel);
         }
 
         class RuleChecker : ExpressionVisitor
         {
             private RuleEngine _engine;
-            private object _model;
+            private object _contextModel;
             private Stack<bool> _results = new Stack<bool>();
+            private List<ModelParameter> _availableParameters;
 
             public RuleChecker(RuleEngine engine)
             {
                 _engine = engine;
             }
 
-            public bool Check(Expression expression, object model)
+            public bool Check(Expression expression, object contextModel)
             {
-                _model = model;
+                _contextModel = contextModel;
+                _availableParameters = new ContextModelInspector(_engine._parameterFactory)
+                                                .GetAvailableParameters(contextModel.GetType())
+                                                .ToList();
+
                 Visit(expression);
 
                 Debug.Assert(_results.Count == 1);
@@ -73,9 +79,21 @@ namespace Kooboo.Commerce.Rules
             protected override void Visit(ConditionExpression exp)
             {
                 var paramName = exp.Param.ParamName;
-                var param = _engine._parameterFactory.FindByName(paramName);
-                if (param == null)
-                    throw new InvalidOperationException("Unrecognized parameter \"" + paramName + "\".");
+                var modelParam = _availableParameters.FirstOrDefault(x => x.Parameter.Name == paramName);
+                if (modelParam == null)
+                    throw new InvalidOperationException("Unrecognized parameter \"" + paramName + "\" or it's not accessable in currect context.");
+
+                var param = modelParam.Parameter;
+                object paramContainerModel = _contextModel;
+
+                if (modelParam.Path is PropertyInfo)
+                {
+                    paramContainerModel = ((PropertyInfo)modelParam.Path).GetValue(_contextModel, null);
+                }
+                if (modelParam.Path is FieldInfo)
+                {
+                    paramContainerModel = ((FieldInfo)modelParam.Path).GetValue(_contextModel);
+                }
 
                 var @operator = _engine._comparisonOperatorFactory.FindByName(exp.Operator);
                 if (@operator == null)
@@ -87,7 +105,7 @@ namespace Kooboo.Commerce.Rules
                     throw new InvalidOperationException("Unrecognized comparison operator \"" + exp.Operator + "\".");
 
                 var conditionValue = GetConditionValue(exp.Value, param);
-                var result = @operator.Apply(param, param.GetValue(_model), conditionValue);
+                var result = @operator.Apply(param, param.GetValue(paramContainerModel), conditionValue);
 
                 _results.Push(result);
             }
