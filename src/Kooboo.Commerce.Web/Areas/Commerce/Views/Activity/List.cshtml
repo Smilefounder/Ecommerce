@@ -19,7 +19,8 @@
                    {
                        foreach (var activity in activities)
                        {
-                           items.Add(activity.Text).WithUrl(Url.Action("Create", RouteValues.From(Request.QueryString).Merge("activityName", activity.Value).Merge("return", Request.RawUrl)));
+                           items.Add(activity.Text)
+                                .WithUrl("#");
                        }
                    }
                });
@@ -31,7 +32,38 @@
     }))
 }
 
-@Html.GridFor2(typeof(ActivityBindingRowModel), Model)
-<div class="pagination right">
-    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+<div class="simple-table" id="rules-container">
+    <div class="toolbar">
+        <a href="#" class="button" data-bind="click: addRule">@("Add Rule".Localize())</a>
+    </div>
+    <table>
+
+    </table>
 </div>
+
+@Html.Partial("_ConditionsEditor")
+
+<script>
+    $(function () {
+
+        ConditionsEditor.init({
+            contextModelTypeName: '@(typeof(Kooboo.Commerce.Events.Customers.CustomerCreated).AssemblyQualifiedName)',
+            save: function (exp) {
+                alert(exp);
+            }
+        });
+
+        var vm = new ViewModel();
+
+        function ViewModel() {
+            var _this = this;
+
+            this.addRule = function (name) {
+                ConditionsEditor.open();
+            }
+        }
+
+        ko.applyBindings(vm, document.getElementById('rules-container'));
+    });
+
+</script>

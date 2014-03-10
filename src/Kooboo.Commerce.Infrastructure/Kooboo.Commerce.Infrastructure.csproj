@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="Activities\ActivityBinding.cs" />
     <Compile Include="Activities\ActivityBindingsExtensions.cs" />
+    <Compile Include="Activities\ActivityRule.cs" />
     <Compile Include="Activities\DefaultActivityEventRegistry.cs" />
     <Compile Include="Activities\ActivityExecutor.cs" />
     <Compile Include="Activities\ActivityResponse.cs" />

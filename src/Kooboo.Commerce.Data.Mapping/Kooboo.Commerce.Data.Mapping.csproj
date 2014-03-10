@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AccountMap.cs" />
     <Compile Include="ActivityBindingMap.cs" />
+    <Compile Include="ActivityRuleMap.cs" />
     <Compile Include="BrandMap.cs" />
     <Compile Include="CategoryMap.cs" />
     <Compile Include="CountryMap.cs" />

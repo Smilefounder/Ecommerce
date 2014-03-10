@@ -47,12 +47,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
             // A group is rendered as a block wrapped with a pair of parenthese.
             // Before building a conditon group, we need to check if we can trim the redundant parenthese for left and right trees.
-            // For example, the parsed expression tree might be: (A AND B) OR C
-            // In the UI, user will see (A AND B) as a group, so users will see two level conditions, which is not necessarily,
-            // because Precedence(AND) > Precedence(OR).
+            // For example, the parsed expression tree might be: (A AND B) AND C
+            // In the UI, user will see (A AND B) as a group, so he will see two level conditions, which is not friendly
+            // In this case, we shoud transform the expression to A AND B AND C and show only one level in the UI.
             // 
-            // We can flattern/simplify this expression to: A AND B OR C
-            // So in the UI, user will see only one level conditions while the logic is still correct.
+            // But if the expression is A OR (B AND C),
+            // we will leave B AND C as a group to make the ui easier to understand although the parenthses are also redundant.
 
             // Try trim redundant parenthese for left tree
             foreach (var condition in TryTrimRedundantParentheseForLeftTree(leftTree, exp.Operator))
@@ -60,18 +60,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
                 group.Conditions.Add(condition);
             }
 
-            // Try trim redundant prenthese for right tree
-            var first = true;
-
-            foreach (var condition in TryTrimRedundantParentheseForRightTree(rightTree, exp.Operator))
-            {
-                if (first)
-                {
-                    condition.LogicalOperator = group.LogicalOperator;
-                }
-                group.Conditions.Add(condition);
-                first = false;
-            }
+            // No need to trim parentheses for right tree.
+            // It should all be kept in this stage.
+            group.Conditions.Add(rightTree);
 
             _conditions.Push(group);
         }
@@ -88,14 +79,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
             var prevOperator = leftTree.Conditions.Last().LogicalOperator;
 
-            // If left tree is a group, we need to check if this group can be flattern (all child conditions then be the children of the parent group).
-            // We do this by checking the heading logical of the last child condition of the left tree.
-            // For example (Expression in the parentheses represents the left tree):
-            // (A AND B) AND RightTree -> Parenthese is redundant
-            // (A AND B) OR RightTree  -> Parenthese is redundant
-            // (A OR B) AND RightTree  -> Parenthese not redundant
-            // (A OR B) OR RightTree   -> Parenthese is redundant
-            if (!(prevOperator == LogicalOperator.OR && parentOperator == LogicalOperator.AND))
+            // (A AND B) AND RightTree -> Remove unnecessary parenthese
+            // (A AND B) OR RightTree  -> Keep parenthese
+            // (A OR B) AND RightTree  -> Keep parenthese
+            // (A OR B) OR RightTree   -> Remove unnecessary parenthese
+            if ((prevOperator == LogicalOperator.AND && parentOperator == LogicalOperator.AND)
+                || (prevOperator == LogicalOperator.OR) && parentOperator == LogicalOperator.OR)
             {
                 foreach (var child in leftTree.Conditions)
                 {
@@ -107,41 +96,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             else
             {
                 conditions.Add(leftTree);
-                return conditions;
-            }
-        }
-
-        private List<ConditionModel> TryTrimRedundantParentheseForRightTree(ConditionModel rightTree, LogicalOperator parentOperator)
-        {
-            var conditions = new List<ConditionModel>();
-
-            if (!rightTree.IsGroup)
-            {
-                conditions.Add(rightTree);
-                return conditions;
-            }
-
-            var nextOperator = rightTree.Conditions.ElementAt(1).LogicalOperator;
-
-            // If right tree is a group, we need to check if this group can be flattern (all child conditions then be the children of the parent group).
-            // We do this by checking the heading logical of the first child condition of the right tree.
-            // For example (Expression in the parentheses represents the right tree):
-            // LeftTree AND (A AND B) -> Parenthese not redundant
-            // LeftTree AND (A OR B)  -> Parenthese not redundant
-            // LeftTree OR (A AND B)  -> Parenthese is redundant
-            // LeftTree OR (A OR B)   -> Parenthese not redundant
-            if (parentOperator == LogicalOperator.OR && nextOperator == LogicalOperator.AND)
-            {
-                foreach (var child in rightTree.Conditions)
-                {
-                    conditions.Add(child);
-                }
-
-                return conditions;
-            }
-            else
-            {
-                conditions.Add(rightTree);
                 return conditions;
             }
         }

@@ -19,12 +19,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _parameterFactory = parameterFactory;
         }
 
-        public ActionResult Config(string contextModelTypeName)
-        {
-            ViewBag.ContextModelTypeName = contextModelTypeName;
-            return View();
-        }
-
         public ActionResult AvailableParameters(string contextModelTypeName)
         {
             var contextModelType = Type.GetType(contextModelTypeName, true);

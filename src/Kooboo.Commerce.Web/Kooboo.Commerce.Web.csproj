@@ -2221,7 +2221,8 @@
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Favorites\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\template.cshtml" />
-    <Content Include="Areas\Commerce\Views\Rule\Config.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_ConditionsEditor.cshtml" />
+    <Content Include="Areas\Commerce\Styles\project-related.less" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
