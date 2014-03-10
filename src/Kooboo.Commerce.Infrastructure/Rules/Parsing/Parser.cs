@@ -66,7 +66,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                             if (right != null)
                             {
                                 lookahead.Accept();
-                                exp = new LogicalBindaryExpression(exp, right, LogicalOperator.Or);
+                                exp = new LogicalBindaryExpression(exp, right, LogicalOperator.OR);
                             }
                             else
                             {
@@ -105,7 +105,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                             if (right != null)
                             {
                                 lookahead.Accept();
-                                exp = new LogicalBindaryExpression(exp, right, LogicalOperator.And);
+                                exp = new LogicalBindaryExpression(exp, right, LogicalOperator.AND);
                             }
                             else
                             {

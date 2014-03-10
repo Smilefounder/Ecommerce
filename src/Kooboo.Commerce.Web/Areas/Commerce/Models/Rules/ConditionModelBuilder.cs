@@ -37,6 +37,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             var rightTree = _conditions.Pop();
             var leftTree = _conditions.Pop();
 
+            rightTree.LogicalOperator = exp.Operator;
+
             var group = new ConditionModel
             {
                 IsGroup = true,
@@ -93,7 +95,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             // (A AND B) OR RightTree  -> Parenthese is redundant
             // (A OR B) AND RightTree  -> Parenthese not redundant
             // (A OR B) OR RightTree   -> Parenthese is redundant
-            if (!(prevOperator == LogicalOperator.Or && parentOperator == LogicalOperator.And))
+            if (!(prevOperator == LogicalOperator.OR && parentOperator == LogicalOperator.AND))
             {
                 foreach (var child in leftTree.Conditions)
                 {
@@ -119,7 +121,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
                 return conditions;
             }
 
-            var nextOperator = rightTree.Conditions.First().LogicalOperator;
+            var nextOperator = rightTree.Conditions.ElementAt(1).LogicalOperator;
 
             // If right tree is a group, we need to check if this group can be flattern (all child conditions then be the children of the parent group).
             // We do this by checking the heading logical of the first child condition of the right tree.
@@ -128,7 +130,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             // LeftTree AND (A OR B)  -> Parenthese not redundant
             // LeftTree OR (A AND B)  -> Parenthese is redundant
             // LeftTree OR (A OR B)   -> Parenthese not redundant
-            if (parentOperator == LogicalOperator.Or && nextOperator == LogicalOperator.And)
+            if (parentOperator == LogicalOperator.OR && nextOperator == LogicalOperator.AND)
             {
                 foreach (var child in rightTree.Conditions)
                 {

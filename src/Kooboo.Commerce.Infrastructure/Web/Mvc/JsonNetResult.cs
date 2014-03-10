@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
 
 namespace Kooboo.Commerce.Web.Mvc
 {
@@ -55,6 +56,12 @@ namespace Kooboo.Commerce.Web.Mvc
         public JsonNetResult Camelcased()
         {
             Settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            return this;
+        }
+
+        public JsonNetResult StringEnum()
+        {
+            Settings.Converters.Add(new StringEnumConverter());
             return this;
         }
     }

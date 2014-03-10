@@ -15,25 +15,21 @@
         .condition-main {
             float: left;
             margin-left: 5px;
-            width: 800px;
         }
         .condition-group {
             margin-top: 10px;
         }
         .condition-group-op {
-            width: 100px;float:left;
+            width: 100px;
+            float:left;
             padding-top:5px;
         }
         .condition-group-main {
             background: #eee;
-            width: 800px;
             float: left;
             margin-left: 5px;
             padding: 4px;
             border: #ddd 1px solid;
-        }
-        .condition-group-main .condition-main {
-            width: 690px;
         }
         .condition-group-toolbar {
             background: #fff;
@@ -50,7 +46,7 @@
     <div style="margin-bottom:10px">
         <!-- ko if: mode() == 'standard' -->
         <a href="#" data-bind="click: addCondition" class="button">@("Add Condition".Localize())</a>
-        <a href="#" data-bind="click: addConditionGroup" class="button">@("Add Group".Localize())</a>
+        <a href="#" data-bind="click: addGroup" class="button">@("Add Group".Localize())</a>
         <a href="#" data-bind="click: switchToExpertMode" class="button">@("Switch to Expert Mode".Localize())</a>
         <!-- /ko-->
         <!-- ko if: mode() == 'expert' -->
@@ -59,36 +55,43 @@
     </div>
     <div data-bind="if: mode() == 'standard'">
         <!-- ko foreach: conditions -->
-            <!-- ko if: isGroup -->
-            <div class="clearfix condition-group" style="margin-top:10px">
-                <div class="condition-group-op">
-                    <select>
-                        <option value="AND">AND</option>
-                        <option value="OR">OR</option>
-                    </select>
-                </div>
-                <div class="condition-group-main">
-                    <div class="condition-group-toolbar">
-                        <a href="#" data-bind="click: $root.addCondition" title="@("Add Conditoin".Localize())">@Html.IconImage("plus")</a>
-                        <a href="#" data-bind="click: $root.removeCondition" title="@("Remove Group".Localize())">@Html.IconImage("minus")</a>
-                    </div>
-                    <div>
-                        <!-- ko foreach: conditions -->
-                        <div data-bind="template: { name: 'NonGroupConditionTemplate' }"></div>
-                        <!-- /ko -->
-                    </div>
-                </div>
-            </div>
-            <!-- /ko -->
-            <div data-bind="if: !isGroup()">
-                <div data-bind="template: { name: 'NonGroupConditionTemplate' }"></div>
-            </div>
+            <div data-bind="template: { name: 'ConditionTemplate' }"></div>
         <!-- /ko -->
     </div>
     <div data-bind="if: mode() == 'expert'">
         <textarea data-bind="value: expression"></textarea>
     </div>
 </div>
+
+<script type="text/html" id="ConditionTemplate">
+    <!-- ko if: isGroup -->
+    <div class="clearfix condition-group" style="margin-top:10px">
+        <div class="condition-group-op">
+            <select data-bind="value: logicalOperator">
+                <option value="AND">AND</option>
+                <option value="OR">OR</option>
+            </select>
+        </div>
+        <div class="condition-group-main">
+            <div class="condition-group-toolbar">
+                <a href="#" data-bind="click: addCondition" title="@("Add Conditoin".Localize())">@("Add Condition".Localize())</a>
+                |
+                <a href="#" data-bind="click: $parent.removeCondition" title="@("Remove Group".Localize())">@("Remove Group".Localize())</a>
+                |
+                <a href="#" data-bind="click: addGroup" title="@("Add Group".Localize())">@("Add Group".Localize())</a>
+            </div>
+            <div>
+                <!-- ko foreach: conditions -->
+                <div data-bind="template: { name: 'ConditionTemplate' }"></div>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
+    <!-- ko if: !isGroup() -->
+        <div data-bind="template: { name: 'NonGroupConditionTemplate' }"></div>
+    <!-- /ko -->
+</script>
 
 <script type="text/html" id="NonGroupConditionTemplate">
     <div class="clearfix condition">
@@ -101,10 +104,10 @@
             </span>
         </div>
         <div class="condition-main">
-            <select class="small" data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select>
-            <select style="width:120px" data-bind="options: availableOperators, optionsText: 'displayName', optionsValue: 'name', value: comparisonOperator"></select>
-            <input class="small" type="text" data-bind="value: value" />
-            <a href="#" data-bind="click: $root.removeCondition" style="display:inline-block;vertical-align:middle">@Html.IconImage("minus")</a>
+            <select class="medium" data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select>
+            <select class="small" data-bind="options: availableOperators, optionsText: 'displayName', optionsValue: 'name', value: comparisonOperator"></select>
+            <input class="medium" type="text" data-bind="value: value" />
+            <a href="#" data-bind="click: $parent.removeCondition" style="display:inline-block;vertical-align:middle">@Html.IconImage("minus")</a>
         </div>
     </div>
 </script>
@@ -145,6 +148,21 @@
             this.availableOperators = ko.computed(function () {
                 return _root.getAvailableOperators(_this.paramName());
             });
+
+            this.addCondition = function () {
+                _this.conditions.push(_root.createCondition());
+            }
+
+            this.addGroup = function () {
+                var group = _root.createCondition();
+                group.isGroup(true);
+                group.addCondition();
+                _this.conditions.push(group);
+            }
+
+            this.removeCondition = function (condition) {
+                _this.conditions.remove(condition);
+            }
 
             _this.paramName.subscribe(function (name) {
                 var param = _root.getAvailableParameterByName(name);
@@ -188,15 +206,11 @@
                 return condition;
             }
 
-            this.addCondition = function (parent) {
-                if (parent && parent.isGroup && parent.isGroup()) {
-                    parent.conditions.push(_this.createCondition());
-                } else {
-                    _this.conditions.push(_this.createCondition());
-                }
+            this.addCondition = function () {
+                _this.conditions.push(_this.createCondition());
             }
 
-            this.addConditionGroup = function () {
+            this.addGroup = function () {
                 var group = _this.createCondition();
                 group.isGroup(true);
                 group.conditions.push(_this.createCondition());

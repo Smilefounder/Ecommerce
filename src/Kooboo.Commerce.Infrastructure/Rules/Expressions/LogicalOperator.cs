@@ -7,7 +7,7 @@ namespace Kooboo.Commerce.Rules.Expressions
 {
     public enum LogicalOperator
     {
-        And = 0,
-        Or = 1
+        AND = 0,
+        OR = 1
     }
 }

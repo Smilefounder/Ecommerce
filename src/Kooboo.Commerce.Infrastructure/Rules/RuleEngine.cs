@@ -119,12 +119,12 @@ namespace Kooboo.Commerce.Rules
                 var leftResult = _results.Peek();
 
                 // A and B, if A is false, the result will always be false, no need to check B
-                if (exp.Operator == LogicalOperator.And && leftResult == false)
+                if (exp.Operator == LogicalOperator.AND && leftResult == false)
                 {
                     return;
                 }
                 // A or B, if A is true, the result will always be true, no need to check B
-                if (exp.Operator == LogicalOperator.Or && leftResult == true)
+                if (exp.Operator == LogicalOperator.OR && leftResult == true)
                 {
                     return;
                 }

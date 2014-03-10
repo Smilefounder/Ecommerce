@@ -34,11 +34,11 @@ namespace Kooboo.Commerce.Rules.Expressions
             var leftTree = Left.ToString();
             var rightTree = Right.ToString();
 
-            if ((Left is LogicalBindaryExpression) && ((LogicalBindaryExpression)Left).Operator == LogicalOperator.Or)
+            if ((Left is LogicalBindaryExpression) && ((LogicalBindaryExpression)Left).Operator == LogicalOperator.OR)
             {
                 leftTree = "(" + leftTree + ")";
             }
-            if ((Right is LogicalBindaryExpression) && ((LogicalBindaryExpression)Right).Operator == LogicalOperator.Or)
+            if ((Right is LogicalBindaryExpression) && ((LogicalBindaryExpression)Right).Operator == LogicalOperator.OR)
             {
                 rightTree = "(" + rightTree + ")";
             }
