@@ -1,10 +1,8 @@
-﻿@model ActivityBindingEditorModel
+﻿@model AttachedActivityModel
 
 @Html.ValidationSummary(true)
 @Html.HiddenFor(m => m.Id)
-@Html.HiddenFor(m => m.EventClrType)
 @Html.HiddenFor(m => m.ActivityName)
-@Html.HiddenFor(m => m.IsConfigurable)
 <table id="activity-binding-form">
     <tbody>
         <tr>

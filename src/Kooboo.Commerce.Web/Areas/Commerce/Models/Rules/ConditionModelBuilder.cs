@@ -26,7 +26,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             }
 
             Visit(Expression.Parse(expression));
-            return _conditions.Pop().Conditions;
+
+            var result = _conditions.Pop();
+            if (result.IsGroup)
+            {
+                return result.Conditions;
+            }
+
+            return new List<ConditionModel> { result };
         }
 
         protected override void Visit(LogicalBindaryExpression exp)

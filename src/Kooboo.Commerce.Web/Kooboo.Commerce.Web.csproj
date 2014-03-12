@@ -271,9 +271,6 @@
     <Compile Include="Areas\Commerce\Menu\EventMenuItemInitializer.cs" />
     <Compile Include="Areas\Commerce\Menu\EventMenuItems.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityEventRowModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Activities\ActivityBindingRowModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Activities\ActivityBindingEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Activities\Grid2\ActivityBindingRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEditorModel.cs" />
@@ -2136,7 +2133,7 @@
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\Decimal.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\Events.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\List.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\EditorTemplates\ActivityBindingEditorModel.cshtml" />
+    <Content Include="Areas\Commerce\Views\Activity\EditorTemplates\AttachedActivityModel.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\Create.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\Edit.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\_SettingEditor.cshtml" />

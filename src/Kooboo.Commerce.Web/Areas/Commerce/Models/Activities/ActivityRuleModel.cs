@@ -53,17 +53,22 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public string ActivityName { get; set; }
 
+        public string ActivityDisplayName { get; set; }
+
         public bool IsEnabled { get; set; }
 
         public int Priority { get; set; }
 
         public string ConfigUrl { get; set; }
 
+        public int RuleId { get; set; }
+
         public AttachedActivityModel() { }
 
         public AttachedActivityModel(AttachedActivity activity)
         {
             Id = activity.Id;
+            RuleId = activity.Rule.Id;
             Description = activity.Description;
             ActivityName = activity.ActivityName;
             IsEnabled = activity.IsEnabled;
