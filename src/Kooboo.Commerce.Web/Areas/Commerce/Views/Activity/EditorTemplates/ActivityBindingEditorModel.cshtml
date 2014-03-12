@@ -8,13 +8,7 @@
 <table id="activity-binding-form">
     <tbody>
         <tr>
-            <th>@("Target event".Localize())</th>
-            <td>
-                @Model.EventDisplayName
-            </td>
-        </tr>
-        <tr>
-            <th>@("Activity to attach".Localize())</th>
+            <th>@("Activity".Localize())</th>
             <td>
                 @Model.ActivityDisplayName
             </td>
@@ -24,3 +18,25 @@
         @Html.EditorFor(m => m.IsEnabled)
     </tbody>
 </table>
+
+<p class="buttons">
+    <button type="submit" data-ajaxform="">@("Next".Localize()) »</button>
+    <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
+</p>
+
+<script>
+    window.ajaxFormParam = {
+        success: function (result) {
+            if (result.Model) {
+                window.parent.ViewModel.currentActivityRule.onActivitySaved(result.Model.AttachedActivityId, result.Model.ConfigUrl);
+                if (result.Model.ConfigUrl) {
+                    location.href = result.Model.ConfigUrl;
+                }
+            }
+        }
+    };
+
+    $('.btn-cancel').on('click', function () {
+        window.parent.ViewModel.currentActivityRule.cancelAttachActivity();
+    });
+</script>

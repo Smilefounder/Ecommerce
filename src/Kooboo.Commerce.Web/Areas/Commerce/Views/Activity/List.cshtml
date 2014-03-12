@@ -3,42 +3,111 @@
     ViewBag.Title = ViewBag.CurrentEventDisplayName;
 }
 
-@section Panel {
-    @(Html.HeaderPanel().Buttons(buttons =>
-    {
-        buttons.Add("Attach Activity", "add")
-               .Dropdown(items =>
-               {
-                   var activities = (IEnumerable<SelectListItemEx>)ViewData["AllActivities"];
+@section ScriptCSS {
+    <style>
+        .conditions-expression {
+            font-family: Consolas, 'Courier New', sans-serif;
+            display: inline-block;
+            padding: 3px 0;
+            font-size: 14px;
+            border-radius: 4px;
+        } 
+        .conditions-expression .string {
+            color: #A31515;
+        }
+        .conditions-expression .keyword {
+            color: #0000FF;
+        }
+        .conditions-expression .param {
+            color: #008080;
+        }
+        .conditions-expression .operator {
+            color: #666;
+        }
+        .conditions-expression .flat-condition {
+            background: #eee;
+            border-radius: 4px;
+            padding: 2px;
+            border: #dedede 1px solid;
+        }
 
-                   if (!activities.Any())
-                   {
-                       items.Add("No available activity");
-                   }
-                   else
-                   {
-                       foreach (var activity in activities)
-                       {
-                           items.Add(activity.Text)
-                                .WithUrl("#");
-                       }
-                   }
-               });
-
-        buttons.AddAjaxPostButton("Settings", "setting", "Settings", new { @return = Request.RawUrl }).VisibleWhen(GridChecked.Single).VisibleWhenSelected(".configurable");
-        buttons.AddEnableButton();
-        buttons.AddDisableButton();
-        buttons.AddDeleteButton();
-    }))
+        .activity-rule {
+            padding: 10px 0;
+            border-bottom: #ddd 1px solid;
+        }
+            .activity-rule .rule-label {
+                font-size: 16px;
+                color: #3CA8DB;
+                display: block;
+                text-align: right;
+            }
+            .attached-activities-holder {
+                padding-top: 5px;
+            }
+            .attached-activities li {
+                margin-bottom: 5px;
+            }
+    </style>
 }
 
-<div class="simple-table" id="rules-container">
+<div id="rules-container">
     <div class="toolbar">
         <a href="#" class="button" data-bind="click: addRule">@("Add Rule".Localize())</a>
     </div>
-    <table>
+    <!-- ko foreach: rules -->
+        <div class="activity-rule">
+            <div class="columns">
+                <div class="span1">
+                    <span class="rule-label">@("IF".Localize())</span>
+                </div>
+                <div class="span11">
+                    <span class="conditions-expression" data-bind="html: highlightedConditionsExpression"></span>
+                    <a href="#" data-bind="click: $root.editRule">@("Edit".Localize())</a>
+                    <a href="#" data-bind="click: $root.deleteRule">@("Delete".Localize())</a>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="span1">
+                    <span class="rule-label">@("THEN".Localize())</span>
+                </div>
+                <div class="span11">
+                    <div class="attached-activities-holder">
+                        <div data-bind="visible: attachedActivities().length > 0" style="display:none">
+                            <ul data-bind="foreach: attachedActivities" class="attached-activities">
+                                <li>
+                                    <span style="display:inline-block">
+                                        @Html.IconImage("arrow gray-right")
+                                    </span>
+                                    <span data-bind="html: description"></span>
+                                    <a href="#" data-bind="click: $parent.editAttachedActivity">@("Edit".Localize())</a>
+                                    <a href="#" data-bind="click: $parent.configureAttachedActivity">@("Settings".Localize())</a>
+                                    <a href="#" data-bind="click: $parent.detachActivity">@("Detach".Localize())</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <a href="#" style="display:inline-block" data-bind="click: beginAttachActivity" title="Attach activity">@Html.IconImage("plus")</a>
+                        </div>
+                        <div data-bind="visible: isAttachingActivity" style="display:none">
+                            <select class="large" data-bind="options: $root.availableActivities, optionsText: 'displayName', optionsValue: 'name', value: selectedActivityName"></select>
+                            <a href="#" class="button" data-bind="click: openAttachDialog">@("Attach".Localize())</a>
+                            <a href="#" class="button gray" data-bind="click: cancelAttachActivity">@("Cancel".Localize())</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- /ko -->
+    <div class="activity-rule">
+        <div class="columns">
+            <div class="span1">
+                <span class="rule-label">@("ELSE".Localize())</span>
+            </div>
+            <div class="span11">
 
-    </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 @Html.Partial("_ConditionsEditor")
@@ -46,24 +115,180 @@
 <script>
     $(function () {
 
+        var commerceName = '@(Request["commerceName"])';
+        var eventType = '@Html.Raw(ViewBag.CurrentEventType)';
+
         ConditionsEditor.init({
             contextModelTypeName: '@(typeof(Kooboo.Commerce.Events.Customers.CustomerCreated).AssemblyQualifiedName)',
             save: function (exp) {
-                alert(exp);
+                if (vm.currentActivityRule) {
+                    vm.updateConditions(vm.currentActivityRule, exp);
+                } else {
+                    vm.createRule(exp);
+                }
+
+                vm.currentActivityRule = null;
             }
         });
 
         var vm = new ViewModel();
 
+        function ActivityRuleViewModel() {
+            var _this = this;
+
+            this.isAttachingActivity = ko.observable(false);
+
+            this.currentAttachedActivity = null;
+
+            this.selectedActivityName = ko.observable();
+
+            this.beginAttachActivity = function () {
+                vm.currentActivityRule = _this;
+                _this.isAttachingActivity(true);
+            }
+
+            this.cancelAttachActivity = function () {
+                _this.isAttachingActivity(false);
+                _this.selectedActivityName(null);
+                vm.currentActivityRule = null;
+                $.popContext.getCurrent().close();
+            }
+
+            this.onActivitySaved = function (attachedActivityId) {
+                $.get('@Url.Action("GetAttachedActivity")', { ruleId: _this.id(), attachedActivityId: attachedActivityId, commerceName: commerceName })
+                 .then(function (data) {
+                     if (!_this.currentAttachedActivity) {
+                         _this.attachedActivities.push(ko.mapping.fromJS(data));
+                     } else {
+                         ko.mapping.fromJS(data, {}, _this.currentAttachedActivity);
+                         _this.currentAttachedActivity = null;
+                     }
+                     _this.isAttachingActivity(false);
+                 });
+
+                 vm.currentActivityRule = null;
+            }
+
+            this.openAttachDialog = function () {
+                $.pop({
+                    height: 500,
+                    url: '@Url.Action("Create")' + '?commerceName=' + commerceName + '&ruleId=' + _this.id() + '&activityName=' + _this.selectedActivityName()
+                });
+            }
+
+            this.editAttachedActivity = function (attachedActivity) {
+                vm.currentActivityRule = _this;
+                _this.currentAttachedActivity = attachedActivity;
+
+                $.pop({
+                    height: 500,
+                    url: '@Url.Action("Edit")' + '?commerceName=' + commerceName + '&ruleId=' + _this.id() + '&attachedActivityId=' + attachedActivity.id()
+                });
+            }
+
+            this.configureAttachedActivity = function (attachedActivity) {
+                vm.currentActivityRule = _this;
+                _this.currentAttachedActivity = attachedActivity;
+
+                $.pop({
+                    height: 500,
+                    url: attachedActivity.configUrl()
+                });
+            }
+
+            this.detachActivity = function (attachedActivity) {
+                if (!confirm('@("Are you sure to detach this activity?".Localize())')) {
+                    return false;
+                }
+
+                $.post('@Url.Action("DetachActivity")', { ruleId: _this.id(), attachedActivityId: attachedActivity.id(), commerceName: commerceName })
+                 .then(function (result) {
+                     if (result.Success) {
+                         _this.attachedActivities.remove(attachedActivity);
+                     } else {
+                         window.info.show(result.Messages.join('<br/>'), false);
+                     }
+                 });
+            }
+        }
+
         function ViewModel() {
             var _this = this;
+
+            this.rules = ko.observableArray();
+
+            this.availableActivities = ko.observableArray();
+
+            this.currentActivityRule = null;
 
             this.addRule = function (name) {
                 ConditionsEditor.open();
             }
+
+            this.editRule = function (rule) {
+                _this.currentActivityRule = rule;
+                ConditionsEditor.open({
+                    conditionsExpression: rule.conditionsExpression()
+                });
+            }
+
+            this.updateConditions = function (rule, expression) {
+                $.post('@Url.Action("UpdateConditions")', { ruleId: rule.id(), expression: expression, commerceName: commerceName })
+                 .then(function (data) {
+                     rule.conditionsExpression(data.conditionsExpression);
+                     rule.highlightedConditionsExpression(data.highlightedConditionsExpression);
+                 });
+            }
+
+            this.createRule = function (expression) {
+                $.post('@Url.Action("CreateRule")', { expression: expression, eventType: eventType, commerceName: commerceName })
+                 .success(function (data) {
+                     _this.rules.push(_this.createRuleViewModel(data));
+                 });
+            }
+
+            this.deleteRule = function (rule) {
+                if (!confirm('@("Are you sure to delete this rule?".Localize())')) {
+                    return false;
+                }
+
+                $.post('@Url.Action("DeleteRule")', { ruleId: rule.id(), commerceName: commerceName })
+                 .then(function () {
+                     _this.rules.remove(rule);
+                 });
+            }
+
+            this.findRuleById = function (id) {
+                return _.find(_this.rules(), function (rule) {
+                    return rule.id() == id;
+                });
+            }
+
+            this.createRuleViewModel = function (data) {
+                return ko.mapping.fromJS(data, {}, new ActivityRuleViewModel());
+            }
         }
 
-        ko.applyBindings(vm, document.getElementById('rules-container'));
+        var loadAvailableActivitiesAsync = $.get('@Url.Action("GetAvailableActivities")', { eventType: eventType, commerceName: commerceName })
+                                            .then(function (data) {
+                                                 $.each(data, function () {
+                                                     vm.availableActivities.push(ko.mapping.fromJS(this));
+                                                 });
+                                            });
+
+        var loadRulesAsync = $.get('@Url.Action("GetRules")', { eventType: eventType, commerceName: commerceName })
+                              .then(function (rules) {
+                                     $.each(rules, function () {
+                                         vm.rules.push(vm.createRuleViewModel(this));
+                                     });
+                              });
+
+        $.when(loadAvailableActivitiesAsync, loadRulesAsync)
+         .then(function () {
+             ko.applyBindings(vm, document.getElementById('rules-container'));
+         });
+
+        window.ViewModel = vm;
     });
 
 </script>

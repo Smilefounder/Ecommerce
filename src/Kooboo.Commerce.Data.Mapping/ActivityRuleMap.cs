@@ -9,9 +9,18 @@ namespace Kooboo.Commerce.Data.Mapping
 {
     public class ActivityRuleMap : EntityTypeConfiguration<ActivityRule>
     {
+        public ActivityRuleMap()
+        {
+            HasMany(x => x.AttachedActivities)
+                .WithRequired(x => x.Rule)
+                .Map(x => x.MapKey("ActivityRule_Id"));
+        }
     }
 
     public class AttachedActivityMap : EntityTypeConfiguration<AttachedActivity>
     {
+        public AttachedActivityMap()
+        {
+        }
     }
 }

@@ -273,7 +273,18 @@ namespace Kooboo.Commerce.Rules.Parsing
 
                 lookahead.Accept();
 
-                return new ConditionValueExpression(valueToken == null ? null : valueToken.Value, dataSourceId);
+                Type valueType = null;
+
+                if (valueToken.Kind == TokenKind.StringLiteral)
+                {
+                    valueType = typeof(String);
+                }
+                else if (valueToken.Kind == TokenKind.Number)
+                {
+                    valueType = typeof(double);
+                }
+
+                return new ConditionValueExpression(valueToken == null ? null : valueToken.Value, valueType, dataSourceId);
             }
         }
 

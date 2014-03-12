@@ -28,6 +28,12 @@ namespace Kooboo.Commerce.Web.Mvc
             return this;
         }
 
+        public AjaxFormResult WithModel(object model)
+        {
+            Data.Model = model;
+            return this;
+        }
+
         public override void ExecuteResult(ControllerContext context)
         {
             var result = new JsonResult

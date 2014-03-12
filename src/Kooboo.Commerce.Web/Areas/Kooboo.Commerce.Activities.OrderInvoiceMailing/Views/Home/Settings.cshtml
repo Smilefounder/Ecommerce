@@ -28,5 +28,23 @@
                 </tr>
             </tbody>
         </table>
+        <p class="buttons">
+            <button type="submit" data-ajaxform="">@("Save".Localize())</button>
+            <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
+        </p>
     }
 </div>
+
+<script>
+    window.ajaxFormParam = {
+        success: function (result) {
+            if (result.Success) {
+                $.popContext.getCurrent().close();
+            }
+        }
+    }
+
+    $('.btn-cancel').on('click', function () {
+        $.popContext.getCurrent().close();
+    });
+</script>

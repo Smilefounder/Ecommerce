@@ -1,22 +1,10 @@
 ﻿@{
-    Layout = "~/Views/Shared/Blank.cshtml";
-}
-
-@section Panel {
-    @if (IsSectionDefined("Panel"))
-    {
-        @RenderSection("Panel")
-    }
-    else
-    {
-        @Html.HeaderPanel().Buttons(buttons =>
-       {
-           buttons.AddSaveButton();
-           buttons.AddCancelButton();
-       })
-    }
+    Layout = "~/Views/Shared/Popup.cshtml";
 }
 
 <div class="block">
-    @RenderBody()
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="step-content clearfix">
+        @RenderBody()
+    </div>
 </div>

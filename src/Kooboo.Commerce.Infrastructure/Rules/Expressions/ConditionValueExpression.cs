@@ -11,9 +11,12 @@ namespace Kooboo.Commerce.Rules.Expressions
 
         public string Value { get; private set; }
 
-        public ConditionValueExpression(string value, string dataSourceId)
+        public Type ValueType { get; private set; }
+
+        public ConditionValueExpression(string value, Type valueType, string dataSourceId)
         {
             Value = value;
+            ValueType = valueType;
             DataSourceId = dataSourceId;
         }
 

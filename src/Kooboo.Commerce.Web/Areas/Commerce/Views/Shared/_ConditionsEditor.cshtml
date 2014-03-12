@@ -33,7 +33,7 @@
     <!-- ko if: isGroup -->
     <div class="clearfix condition-group" style="margin-top:10px">
         <div class="condition-group-op">
-            <select data-bind="value: logicalOperator">
+            <select data-bind="visible: $index() > 0, value: logicalOperator">
                 <option value="AND">AND</option>
                 <option value="OR">OR</option>
             </select>
@@ -145,7 +145,7 @@
                 var contextModelTypeName = _this.contextModelTypeName();
 
                 if (contextModelTypeName) {
-                    $.get('@Url.Action("AvailableParameters", "Rule")', { commerceName: commerceName, contextModelTypeName: contextModelTypeName })
+                    $.get('@Url.Action("AvailableParameters", "Condition")', { commerceName: commerceName, contextModelTypeName: contextModelTypeName })
                      .then(function (data) {
                          $.each(data, function () {
                              viewModel.availableParameters.push(ko.mapping.fromJS(this));
@@ -218,7 +218,7 @@
                 };
 
                 return $.ajax({
-                    url: '@Url.Action("GetExpression", "Rule")' + '?commerceName=' + commerceName,
+                    url: '@Url.Action("GetExpression", "Condition")' + '?commerceName=' + commerceName,
                     type: 'POST',
                     data: JSON.stringify(model),
                     contentType: 'application/json; charset=utf-8'
@@ -234,7 +234,7 @@
             }
 
             this.switchToStandardMode = function () {
-                $.get('@Url.Action("GetConditionModels", "Rule")', {
+                $.get('@Url.Action("GetConditionModels", "Condition")', {
                     commerceName: commerceName,
                     expression: encodeURIComponent(_this.expression())
                 })
@@ -305,10 +305,15 @@
 
                 return deferred.promise();
             },
-            open: function () {
+            open: function (options) {
+                if (options && options.conditionsExpression) {
+                    this.model.expression(options.conditionsExpression);
+                }
+
                 var self = this;
                 self.init().then(function () {
                     self.$dialog.dialog('open');
+                    self.model.switchToStandardMode();
                 });
             },
             close: function () {

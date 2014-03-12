@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.ComponentModel;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Orders;
+using Kooboo.Commerce.Events.Customers;
 
 namespace Kooboo.Commerce.Activities.OrderInvoiceMailing
 {
@@ -33,7 +34,7 @@ namespace Kooboo.Commerce.Activities.OrderInvoiceMailing
 
         public bool CanBindTo(Type eventType)
         {
-            return typeof(IOrderEvent).IsAssignableFrom(eventType);
+            return typeof(ICustomerEvent).IsAssignableFrom(eventType);
         }
 
         public ActivityResponse Execute(IEvent evnt, ActivityBinding binding)

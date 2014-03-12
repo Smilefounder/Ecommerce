@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Kooboo.Commerce.Activities.Events;
+using Kooboo.Commerce.Events;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,17 +10,17 @@ namespace Kooboo.Commerce.Activities
 {
     public class ActivityRule : AggregateRoot
     {
-        public virtual int Id { get; set; }
+        public int Id { get; set; }
 
-        public virtual string EventType { get; set; }
+        public string EventType { get; set; }
 
-        public virtual string ConditionsExpression { get; set; }
+        public string ConditionsExpression { get; set; }
 
-        public virtual int Sequence { get; set; }
+        public int Sequence { get; set; }
 
         public virtual ICollection<AttachedActivity> AttachedActivities { get; protected set; }
 
-        public virtual DateTime CreatedAtUtc { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
 
         protected ActivityRule()
         {
@@ -36,7 +39,7 @@ namespace Kooboo.Commerce.Activities
 
         public AttachedActivity AttacheActivity(string description, string activityName, string activityData)
         {
-            var attachedActivity = new AttachedActivity
+            var attachedActivity = new AttachedActivity(this)
             {
                 Description = description,
                 ActivityName = activityName,
@@ -46,7 +49,14 @@ namespace Kooboo.Commerce.Activities
 
             AttachedActivities.Add(attachedActivity);
 
+            Event.Apply(new ActivityAttached(this, attachedActivity));
+
             return attachedActivity;
+        }
+
+        public AttachedActivity FindAttachedActivity(int attachedActivityId)
+        {
+            return AttachedActivities.FirstOrDefault(x => x.Id == attachedActivityId);
         }
 
         public bool DetacheActivity(int attachedActivityId)
@@ -54,7 +64,9 @@ namespace Kooboo.Commerce.Activities
             var attachedActivity = AttachedActivities.FirstOrDefault(x => x.Id == attachedActivityId);
             if (attachedActivity != null)
             {
-                return AttachedActivities.Remove(attachedActivity);
+                AttachedActivities.Remove(attachedActivity);
+                Event.Apply(new ActivityDetached(this, attachedActivity));
+                return true;
             }
 
             return false;
@@ -77,8 +89,15 @@ namespace Kooboo.Commerce.Activities
 
         public virtual DateTime CreatedAtUtc { get; set; }
 
-        public AttachedActivity()
+        public virtual ActivityRule Rule { get; set; }
+
+        protected AttachedActivity()
         {
+        }
+
+        public AttachedActivity(ActivityRule rule)
+        {
+            Rule = rule;
             CreatedAtUtc = DateTime.UtcNow;
         }
     }

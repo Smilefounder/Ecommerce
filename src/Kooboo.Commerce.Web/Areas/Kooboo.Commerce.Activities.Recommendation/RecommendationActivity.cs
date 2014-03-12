@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Products;
 using System;
@@ -29,7 +30,7 @@ namespace Kooboo.Commerce.Activities.Recommendation
 
         public bool CanBindTo(Type eventType)
         {
-            return typeof(GetRecommendations).IsAssignableFrom(eventType);
+            return typeof(ICustomerEvent).IsAssignableFrom(eventType);
         }
 
         public ActivityResponse Execute(Events.IEvent evnt, ActivityBinding binding)

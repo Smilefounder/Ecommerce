@@ -14,31 +14,35 @@ namespace Kooboo.Commerce.Activities.OrderInvoiceMailing.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
-        [Inject]
-        public IActivityBindingService BindingService { get; set; }
+        private IActivityRuleService _ruleService;
 
-        public ActionResult Settings(int bindingId)
+        public HomeController(IActivityRuleService ruleService)
         {
-            var binding = BindingService.GetById(bindingId);
+            _ruleService = ruleService;
+        }
+
+        public ActionResult Settings(int ruleId, int attachedActivityId)
+        {
+            var rule = _ruleService.GetById(ruleId);
+            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
             var settings = new ActivityData();
 
-            if (!String.IsNullOrEmpty(binding.ActivityData))
+            if (!String.IsNullOrEmpty(attachedActivity.ActivityData))
             {
-                settings = JsonConvert.DeserializeObject<ActivityData>(binding.ActivityData);
+                settings = JsonConvert.DeserializeObject<ActivityData>(attachedActivity.ActivityData);
             }
-
-            ViewBag.ActivityBinding = binding;
 
             return View(settings);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Settings(int bindingId, ActivityData settings, string @return)
+        public ActionResult Settings(int ruleId, int attachedActivityId, ActivityData settings)
         {
-            var binding = BindingService.GetById(bindingId);
-            binding.ActivityData = JsonConvert.SerializeObject(settings);
+            var rule = _ruleService.GetById(ruleId);
+            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            attachedActivity.ActivityData = JsonConvert.SerializeObject(settings);
 
-            return AjaxForm().RedirectTo(@return);
+            return AjaxForm();
         }
     }
 }

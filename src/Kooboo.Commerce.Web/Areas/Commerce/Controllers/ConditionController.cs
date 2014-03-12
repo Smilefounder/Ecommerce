@@ -10,11 +10,11 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class RuleController : CommerceControllerBase
+    public class ConditionController : CommerceControllerBase
     {
         private IConditionParameterFactory _parameterFactory;
 
-        public RuleController(IConditionParameterFactory parameterFactory)
+        public ConditionController(IConditionParameterFactory parameterFactory)
         {
             _parameterFactory = parameterFactory;
         }

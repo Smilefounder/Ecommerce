@@ -16,6 +16,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
     {
         public int Id { get; set; }
 
+        public int RuleId { get; set; }
+
         [Required(ErrorMessage = "Required")]
         public string Description { get; set; }
 
