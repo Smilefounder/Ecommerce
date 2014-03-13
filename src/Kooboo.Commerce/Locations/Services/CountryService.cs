@@ -6,7 +6,6 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
-using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Locations.Services
 {

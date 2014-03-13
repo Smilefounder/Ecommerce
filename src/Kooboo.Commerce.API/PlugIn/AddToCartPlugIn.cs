@@ -21,19 +21,17 @@ namespace Kooboo.Commerce.API.PlugIn
         {
             JsonResultData resultData = new JsonResultData();
 
-            string commerceInstance = site.GetCommerceName();
-            string language = site.GetLanguage();
-
             try
             {
                 var form = controllerContext.HttpContext.Request.Form;
 
                 int productPriceId = Convert.ToInt32(form["productPriceId"]);
                 int quantity = Convert.ToInt32(form["quantity"]);
+                var commerService = site.Commerce();
                 string sessionId = controllerContext.HttpContext.Session.SessionID;
                 var memberAuth = controllerContext.HttpContext.Membership();
                 var member = memberAuth.GetMembershipUser();
-                if (site.Commerce().AddToCart(commerceInstance, language, sessionId, member, productPriceId, quantity))
+                if (commerService.Cart.AddToCart(sessionId, member.UUID, productPriceId, quantity))
                 {
                     resultData.Success = true;
                     resultData.AddMessage("Successfully add to cart.");

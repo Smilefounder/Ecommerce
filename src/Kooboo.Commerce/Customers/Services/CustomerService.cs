@@ -9,7 +9,6 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Locations;
-using Kooboo.Web.Mvc.Paging;
 using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.Commerce.Customers.Services
@@ -78,10 +77,6 @@ namespace Kooboo.Commerce.Customers.Services
 
         public IPagedList<T> GetAllCustomersWithOrderCount<T>(string search, int? pageIndex, int? pageSize, Func<Customer, int, T> func)
         {
-            int pi = pageIndex ?? 1;
-            int ps = pageSize ?? 50;
-            pi = pi < 1 ? 1 : pi;
-            ps = ps < 1 ? 50 : ps;
             var orderQuery = _orderRepository.Query();
             var customerQuery = _customerRepository.Query();
             if (!string.IsNullOrEmpty(search))
@@ -92,21 +87,14 @@ namespace Kooboo.Commerce.Customers.Services
                            order => order.CustomerId,
                            (customer, orders) => new { Customer = customer, Orders = orders.Count() })
                 .OrderByDescending(groupedItem => groupedItem.Customer.Id);
-            var total = query.Count();
-            var data = query.Skip(ps * (pi - 1)).Take(ps).ToArray();
-            return new PagedList<T>(data.Select<dynamic, T>(o => func(o.Customer, o.Orders)), pi, ps, total);
+
+            return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Customer, o.Orders), pageIndex ?? 1, pageSize ?? 50);
         }
 
         public IPagedList<Order> GetCustomerOrders(int customerId, int? pageIndex, int? pageSize)
         {
-            int pi = pageIndex ?? 1;
-            int ps = pageSize ?? 50;
-            pi = pi < 1 ? 1 : pi;
-            ps = ps < 1 ? 50 : ps;
             var orderQuery = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
-            var total = orderQuery.Count();
-            var data = orderQuery.Skip(ps * (pi - 1)).Take(ps).ToArray();
-            return new PagedList<Order>(data, pi, ps, total);
+            return PageLinqExtensions.ToPagedList(orderQuery, pageIndex ?? 1, pageSize ?? 50);
         }
 
         public Customer CreateByAccount(MembershipUser user)

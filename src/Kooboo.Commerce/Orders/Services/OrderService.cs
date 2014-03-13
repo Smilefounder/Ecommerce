@@ -7,7 +7,6 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Customers;
-using Kooboo.Web.Mvc.Paging;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Payments;
@@ -182,10 +181,6 @@ namespace Kooboo.Commerce.Orders.Services
 
         public IPagedList<T> GetAllOrdersWithCustomer<T>(string search, int? pageIndex, int? pageSize, Func<Order, Customer, T> func)
         {
-            int pi = pageIndex ?? 1;
-            int ps = pageSize ?? 50;
-            pi = pi < 1 ? 1 : pi;
-            ps = ps < 1 ? 50 : ps;
             var customerQuery = _customerRepository.Query();
             var orderQuery = _orderRepository.Query();
             if (!string.IsNullOrEmpty(search))
@@ -203,21 +198,13 @@ namespace Kooboo.Commerce.Orders.Services
                            customer => customer.Id,
                            (order, customer) => new { Order = order, Customer = customer })
                 .OrderByDescending(groupedItem => groupedItem.Order.Id);
-            var total = query.Count();
-            var data = query.Skip(ps * (pi - 1)).Take(ps).ToArray();
-            return new PagedList<T>(data.Select<dynamic, T>(o => func(o.Order, o.Customer)), pi, ps, total);
+            return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Order, o.Customer), pageIndex ?? 1, pageSize ?? 50);
         }
 
         public IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize)
         {
-            int pi = pageIndex ?? 1;
-            int ps = pageSize ?? 50;
-            pi = pi < 1 ? 1 : pi;
-            ps = ps < 1 ? 50 : ps;
             var query = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
-            var total = query.Count();
-            var data = query.Skip(ps * (pi - 1)).Take(ps).ToArray();
-            return new PagedList<Order>(data, pi, ps, total);
+            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
         }
 
         public void Create(Order order)

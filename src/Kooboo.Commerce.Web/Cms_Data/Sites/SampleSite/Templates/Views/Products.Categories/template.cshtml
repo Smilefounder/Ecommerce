@@ -1,6 +1,6 @@
 ﻿@using Kooboo.Commerce.API;
 @{
-    var categories = Site.Current.Commerce().GetAllCategories(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), 2);
+    var categories = Site.Current.Commerce().Category.GetAllCategories();
 }
 <div class="block menu">
     <ul>

@@ -6,12 +6,12 @@
     {
         cateId = Convert.ToInt32(Request.QueryString["cateId"]);
     }
-    var products = Site.Current.Commerce().SearchProducts(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), key, cateId);
+    var products = Site.Current.Commerce().Product.SearchProducts(key, cateId);
 }
 
 @if (cateId.HasValue)
 {
-    var cate = Site.Current.Commerce().GetCategory(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), cateId.Value, true);
+    var cate = Site.Current.Commerce().Category.GetCategory(cateId.Value, true);
     var cates = new List<Kooboo.Commerce.Categories.Category>();
     while (cate != null)
     {

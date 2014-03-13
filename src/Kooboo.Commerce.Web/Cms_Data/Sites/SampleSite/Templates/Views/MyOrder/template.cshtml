@@ -5,15 +5,14 @@
 @using Kooboo.Commerce.Locations;
 @using Kooboo.Commerce.Payments;
 @{
-    var instance = Site.Current.GetCommerceName();
-    var language = Site.Current.GetLanguage();
+    var commerce = Site.Current.Commerce();
     var memberAuth = this.Context.Membership();
     var member = memberAuth.GetMembershipUser();
-    var paymentMethods = Site.Current.Commerce().GetAllPaymentMethods(instance, language);
-    var customer = Site.Current.Commerce().GetCustomerByAccount(instance, language, member);
+    var paymentMethods = commerce.PaymentMethod.GetAllPaymentMethods();
+    var customer = commerce.Customer.GetCustomerByAccount(member.UUID);
     var addresses = customer == null ? Enumerable.Empty<Address>() : customer.Addresses;
-    var countries = Site.Current.Commerce().GetAllCountries(instance, language);
-    Order order = Site.Current.Commerce().GetMyOrder(instance, language, Context.Session.SessionID, member);
+    var countries = commerce.Country.GetAllCountries();
+    Order order = commerce.Order.GetMyOrder(Context.Session.SessionID, member);
 }
 
 @functions {
@@ -384,7 +383,7 @@ else
         }
 
         function GoPay() {
-            var url = "/Commerce/Payment/Gateway?commerceName=@(instance)&language=@(language)&OrderId=@(order.Id)&PaymentMethodId=" + $('#PaymentMethodId').val() + "&ReturnUrl=/";
+            var url = "/Commerce/Payment/Gateway?commerceName=@(Site.Current.GetCommerceName())&language=@(Site.Current.GetLanguage())&OrderId=@(order.Id)&PaymentMethodId=" + $('#PaymentMethodId').val() + "&ReturnUrl=/";
             window.location.href = url;
         }
     </script>

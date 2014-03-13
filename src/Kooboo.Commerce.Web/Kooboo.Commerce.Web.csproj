@@ -259,8 +259,6 @@
     <Compile Include="Areas\Commerce\Html\HeaderPanelHtmlExtensions.cs" />
     <Compile Include="Areas\Commerce\Html\HeadPanelButtonCollectionExtensions.cs" />
     <Compile Include="Areas\Commerce\Html\IVisibleRule.cs" />
-    <Compile Include="Areas\Commerce\Dependencies\PersistenceDependencyRegistrar.cs" />
-    <Compile Include="Areas\Commerce\Dependencies\EventDependencyRegistrar.cs" />
     <Compile Include="Areas\Commerce\Menu\CommerceMenuItemInitializer.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceModel.cs" />

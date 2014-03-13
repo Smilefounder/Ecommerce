@@ -24,15 +24,13 @@ namespace Kooboo.Commerce.API.PlugIn
         {
             JsonResultData resultData = new JsonResultData();
 
-            string commerceInstance = site.GetCommerceName();
-            string language = site.GetLanguage();
-
             try
             {
+                var commerService = site.Commerce();
                 string sessionId = controllerContext.HttpContext.Session.SessionID;
                 var memberAuth = controllerContext.HttpContext.Membership();
                 var member = memberAuth.GetMembershipUser();
-                var order = site.Commerce().GetMyOrder(commerceInstance, language, sessionId, member);
+                var order = commerService.Order.GetMyOrder(sessionId, member);
 
                 if (order != null)
                 {
@@ -105,7 +103,7 @@ namespace Kooboo.Commerce.API.PlugIn
                     //}
 
 
-                    if (site.Commerce().SaveOrder(commerceInstance, language, order))
+                    if (commerService.Order.SaveOrder(order))
                     {
                         resultData.Success = true;
                         resultData.AddMessage("Successfully save order.");

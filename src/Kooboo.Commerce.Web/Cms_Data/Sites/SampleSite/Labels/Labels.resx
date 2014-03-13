@@ -133,4 +133,7 @@
   <data name="Sign Out" xml:space="preserve">
     <value>Sign Out</value>
   </data>
+  <data name="Username and/or password are incorrect." xml:space="preserve">
+    <value>Username and/or password are incorrect.</value>
+  </data>
 </root>

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
-using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Categories.Services
 {
@@ -27,12 +26,12 @@ namespace Kooboo.Commerce.Categories.Services
 
         public IEnumerable<Category> GetAllCategories()
         {
-            return _categoryRepository.Query();
+            return _categoryRepository.Query().ToArray();
         }
 
         public IEnumerable<Category> GetRootCategories()
         {
-            return _categoryRepository.Query(o => o.Parent == null);
+            return _categoryRepository.Query(o => o.Parent == null).ToArray();
         }
 
         public IPagedList<Category> GetRootCategories(int? pageIndex, int? pageSize)

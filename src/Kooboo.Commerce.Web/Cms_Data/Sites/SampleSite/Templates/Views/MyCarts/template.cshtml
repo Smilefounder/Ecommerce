@@ -3,7 +3,7 @@
 @{
     var memberAuth = this.Context.Membership();
     var member = memberAuth.GetMembershipUser();
-    var shoppingCart = Site.Current.Commerce().GetMyCart(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), Context.Session.SessionID, member);
+    var shoppingCart = Site.Current.Commerce().Cart.GetMyCart(Context.Session.SessionID, member.UUID);
 }
 @if(shoppingCart == null || shoppingCart.Items == null || shoppingCart.Items.Count <= 0)
 {

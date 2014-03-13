@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
-using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Brands.Services
 {
@@ -27,7 +26,7 @@ namespace Kooboo.Commerce.Brands.Services
 
         public IEnumerable<Brand> GetAllBrands()
         {
-            return _brandRepository.Query();
+            return _brandRepository.Query().ToArray();
         }
 
         public IPagedList<Brand> GetAllBrands(int? pageIndex, int? pageSize)

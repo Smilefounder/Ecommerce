@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
-using Kooboo.Web.Mvc.Paging;
 using Kooboo.Commerce.EAV;
 
 namespace Kooboo.Commerce.Products.Services

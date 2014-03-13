@@ -4,7 +4,7 @@
     Kooboo.Commerce.Products.Product product = null;
     if(id != null)
     { 
-        product = Site.Current.Commerce().GetProductById(Site.Current.GetCommerceName(), Site.Current.GetLanguage(), Convert.ToInt32(id));
+        product = Site.Current.Commerce().Product.GetProductById(Convert.ToInt32(id));
     }
 }
 @if(product == null)
