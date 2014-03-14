@@ -109,7 +109,7 @@
         var eventType = '@Html.Raw(ViewBag.CurrentEventType)';
 
         ConditionsEditor.init({
-            contextModelTypeName: '@(typeof(Kooboo.Commerce.Events.Customers.CustomerCreated).AssemblyQualifiedName)',
+            contextModelTypeName: eventType,
             save: function (exp) {
                 if (vm.currentActivityRule) {
                     vm.updateConditions(vm.currentActivityRule, exp);

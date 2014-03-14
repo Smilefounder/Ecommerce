@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,27 +18,37 @@ namespace Kooboo.Commerce.Rules
 
         public IEnumerable<ModelParameter> GetAvailableParameters(Type modelType)
         {
+            return GetAvailableParametersRecursive(modelType, new HashSet<Type>());
+        }
+
+        private IEnumerable<ModelParameter> GetAvailableParametersRecursive(Type modelType, HashSet<Type> inspectedModelTypes)
+        {
+            if (inspectedModelTypes.Contains(modelType))
+            {
+                return Enumerable.Empty<ModelParameter>();
+            }
+
             var parameters = new List<ModelParameter>();
+
             foreach (var param in _parameters.FindByModelType(modelType))
             {
                 parameters.Add(new ModelParameter(param, modelType));
             }
 
-            foreach (var prop in modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            inspectedModelTypes.Add(modelType);
+
+            foreach (var prop in modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(MaybeParameterModel))
             {
-                var propType = prop.PropertyType;
-                if (!propType.IsPrimitive 
-                    && !propType.IsValueType
-                    && propType != typeof(string))
-                {
-                    foreach (var param in _parameters.FindByModelType(prop.PropertyType))
-                    {
-                        parameters.Add(new ModelParameter(param, prop));
-                    }
-                }
+                parameters.AddRange(GetAvailableParametersRecursive(prop.PropertyType, inspectedModelTypes));
             }
 
             return parameters;
+        }
+
+        private bool MaybeParameterModel(PropertyInfo prop)
+        {
+            var propType = prop.PropertyType;
+            return propType.IsClass && !typeof(IEnumerable).IsAssignableFrom(propType);
         }
     }
 

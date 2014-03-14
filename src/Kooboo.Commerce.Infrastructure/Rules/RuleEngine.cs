@@ -164,7 +164,7 @@ namespace Kooboo.Commerce.Rules
                     value = exp.Value;
                 }
 
-                return Convert.ChangeType(value, param.ValueType.GetClrType());
+                return Convert.ChangeType(value, param.ValueType.ToClrType());
             }
         }
     }

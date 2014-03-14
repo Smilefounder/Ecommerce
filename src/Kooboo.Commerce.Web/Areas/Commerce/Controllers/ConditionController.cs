@@ -41,8 +41,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult GetConditionModels(string expression)
         {
-            var builder = new ConditionModelBuilder(_parameterFactory);
-            return JsonNet(builder.BuildFrom(Server.UrlDecode(expression))).StringEnum().Camelcased();
+            IList<ConditionModel> models = new List<ConditionModel>();
+
+            if (!String.IsNullOrEmpty(expression))
+            {
+                var builder = new ConditionModelBuilder(_parameterFactory);
+                models = builder.BuildFrom(Server.UrlDecode(expression));
+            }
+
+            return JsonNet(models).UseClientConvention();
         }
     }
 }

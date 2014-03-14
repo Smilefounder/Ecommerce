@@ -3,6 +3,7 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Kooboo.Commerce.Rules
@@ -40,7 +41,18 @@ namespace Kooboo.Commerce.Rules
 
         public IEnumerable<IConditionParameter> FindByModelType(Type modelType)
         {
-            return _parameters.Value.Where(x => x.ModelType == modelType).ToList();
+            var parameters = _parameters.Value.Where(x => x.ModelType == modelType).ToList();
+
+            foreach (var prop in modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                var param = DynamicConditionParameter.TryCreateFrom(prop);
+                if (param != null)
+                {
+                    parameters.Add(param);
+                }
+            }
+
+            return parameters;
         }
 
         public IConditionParameter FindByName(string paramName)

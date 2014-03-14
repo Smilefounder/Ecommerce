@@ -192,6 +192,8 @@
     <Compile Include="PropertyNaming.cs" />
     <Compile Include="Require.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Rules\ConditionParameterAttribute.cs" />
+    <Compile Include="Rules\DynamicConditionParameter.cs" />
     <Compile Include="Rules\Expressions\ExpressionVisitor.cs" />
     <Compile Include="Rules\IComparisonOperator.cs" />
     <Compile Include="Rules\IComparisonOperatorFactory.cs" />

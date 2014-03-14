@@ -236,7 +236,7 @@
             this.switchToStandardMode = function () {
                 $.get('@Url.Action("GetConditionModels", "Condition")', {
                     commerceName: commerceName,
-                    expression: encodeURIComponent(_this.expression())
+                    expression: encodeURIComponent(_this.expression() || '')
                 })
                 .then(function (conditions) {
                     _this.conditions.removeAll();

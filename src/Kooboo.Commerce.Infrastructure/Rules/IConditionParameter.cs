@@ -27,9 +27,9 @@ namespace Kooboo.Commerce.Rules
         Number = 2
     }
 
-    public static class ParameterValueTypeExtensions
+    static class ParameterValueTypeUtil
     {
-        public static Type GetClrType(this ParameterValueType type)
+        public static Type ToClrType(this ParameterValueType type)
         {
             if (type == ParameterValueType.String)
             {
@@ -42,6 +42,24 @@ namespace Kooboo.Commerce.Rules
             if (type == ParameterValueType.Number)
             {
                 return typeof(double);
+            }
+
+            throw new NotSupportedException();
+        }
+
+        public static ParameterValueType ToParameterValueType(this Type type)
+        {
+            if (type == typeof(String))
+            {
+                return ParameterValueType.String;
+            }
+            if (type == typeof(Int32) || type == typeof(Int64))
+            {
+                return ParameterValueType.Integer;
+            }
+            if (type == typeof(float) || type == typeof(double) || type == typeof(decimal))
+            {
+                return ParameterValueType.Number;
             }
 
             throw new NotSupportedException();
