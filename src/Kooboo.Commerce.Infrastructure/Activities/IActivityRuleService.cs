@@ -16,6 +16,13 @@ namespace Kooboo.Commerce.Activities
         void Delete(ActivityRule rule);
 
         IEnumerable<ActivityRule> GetRulesByEventType(Type eventType);
+
+        /// <summary>
+        /// Ensure the "Always" rule exists for the specified event type.
+        /// "Always" rules are the rules always passing and executed.
+        /// </summary>
+        /// <param name="eventType"></param>
+        void EnsureAlwaysRule(Type eventType);
     }
 
     [Dependency(typeof(IActivityRuleService))]
@@ -35,7 +42,7 @@ namespace Kooboo.Commerce.Activities
 
         public ActivityRule Create(Type eventType, string conditionsExpression)
         {
-            var rule = ActivityRule.Create(eventType, conditionsExpression);
+            var rule = ActivityRule.Create(eventType, conditionsExpression, RuleType.Normal);
             _repository.Insert(rule);
             return rule;
         }
@@ -54,9 +61,18 @@ namespace Kooboo.Commerce.Activities
         {
             var eventTypeName = eventType.GetVersionUnawareAssemblyQualifiedName();
             return _repository.Query(x => x.EventType == eventTypeName)
-                              .OrderBy(x => x.Sequence)
+                              .OrderBy(x => x.Type)
                               .ThenBy(x => x.Id)
                               .ToList();
+        }
+
+        public void EnsureAlwaysRule(Type eventType)
+        {
+            var eventTypeName = eventType.GetVersionUnawareAssemblyQualifiedName();
+            if (!_repository.Query(x => x.EventType == eventTypeName && x.Type == RuleType.Always).Any())
+            {
+                _repository.Insert(ActivityRule.Create(eventType, String.Empty, RuleType.Always));
+            }
         }
     }
 }

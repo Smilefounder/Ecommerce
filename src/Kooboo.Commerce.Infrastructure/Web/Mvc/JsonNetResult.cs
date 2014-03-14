@@ -64,5 +64,12 @@ namespace Kooboo.Commerce.Web.Mvc
             Settings.Converters.Add(new StringEnumConverter());
             return this;
         }
+
+        public JsonNetResult UseClientConvention()
+        {
+            Camelcased();
+            StringEnum();
+            return this;
+        }
     }
 }

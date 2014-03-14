@@ -55,7 +55,7 @@
     </div>
     <!-- ko foreach: rules -->
         <div class="activity-rule">
-            <div class="columns">
+            <div class="columns" data-bind="if: type() == 'Normal'">
                 <div class="span1">
                     <span class="rule-label">@("IF".Localize())</span>
                 </div>
@@ -67,7 +67,8 @@
             </div>
             <div class="columns">
                 <div class="span1">
-                    <span class="rule-label">@("THEN".Localize())</span>
+                    <span class="rule-label" data-bind="if: type() == 'Normal'">@("THEN".Localize())</span>
+                    <span class="rule-label" data-bind="if: type() == 'Always'">@("ALWAYS".Localize())</span>
                 </div>
                 <div class="span11">
                     <div class="attached-activities-holder">
@@ -97,16 +98,6 @@
             </div>
         </div>
     <!-- /ko -->
-    <div class="activity-rule">
-        <div class="columns">
-            <div class="span1">
-                <span class="rule-label">@("ALWAYS".Localize())</span>
-            </div>
-            <div class="span11">
-
-            </div>
-        </div>
-    </div>
 </div>
 
 @Html.Partial("_ConditionsEditor")
@@ -242,7 +233,7 @@
             this.createRule = function (expression) {
                 $.post('@Url.Action("CreateRule")', { expression: expression, eventType: eventType, commerceName: commerceName })
                  .success(function (data) {
-                     _this.rules.push(_this.createRuleViewModel(data));
+                     _this.rules.splice(_this.rules().length - 1, 0, _this.createRuleViewModel(data));
                  });
             }
 
@@ -282,10 +273,15 @@
                                      });
                               });
 
-        $.when(loadAvailableActivitiesAsync, loadRulesAsync)
-         .then(function () {
-             ko.applyBindings(vm, document.getElementById('rules-container'));
-         });
+        setTimeout(function () {
+            window.loading.show();
+
+            $.when(loadAvailableActivitiesAsync, loadRulesAsync)
+             .then(function () {
+                 ko.applyBindings(vm, document.getElementById('rules-container'));
+                 window.loading.hide();
+             });
+        }, 100);
 
         window.ViewModel = vm;
     });

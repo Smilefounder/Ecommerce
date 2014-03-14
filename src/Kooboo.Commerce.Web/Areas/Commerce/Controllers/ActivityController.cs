@@ -58,12 +58,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(models.ToPagedList(page ?? 1, pageSize ?? 50));
         }
 
+        [Transactional]
         public ActionResult List(string eventType)
         {
             var eventClrType = Type.GetType(eventType, true);
 
             ViewBag.CurrentEventType = eventClrType.GetVersionUnawareAssemblyQualifiedName();
             ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name;
+
+            _activityRuleService.EnsureAlwaysRule(eventClrType);
 
             return View();
         }
@@ -165,7 +168,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 models.Add(model);
             }
 
-            return JsonNet(models).Camelcased();
+            return JsonNet(models).UseClientConvention();
         }
 
         [Transactional]
@@ -174,7 +177,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var rule = _activityRuleService.Create(Type.GetType(eventType, true), expression);
             CommerceContext.CurrentInstance.Database.SaveChanges();
 
-            return JsonNet(new ActivityRuleModel(rule)).Camelcased();
+            return JsonNet(new ActivityRuleModel(rule)).UseClientConvention();
         }
 
         [Transactional]
@@ -186,7 +189,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 ConditionsExpression = expression,
                 HighlightedConditionsExpression = new ConditionsExpressionHumanizer().Humanize(expression)
-            }).Camelcased();
+            }).UseClientConvention();
         }
 
         [Transactional]
@@ -205,14 +208,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                                        DisplayName = x.DisplayName
                                    });
 
-            return JsonNet(result).Camelcased();
+            return JsonNet(result).UseClientConvention();
         }
 
         public ActionResult GetAttachedActivity(int ruleId, int attachedActivityId)
         {
             var rule = _activityRuleService.GetById(ruleId);
             var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
-            return JsonNet(attachedActivity).Camelcased();
+            return JsonNet(attachedActivity).UseClientConvention();
         }
 
         [HandleAjaxFormError, Transactional]

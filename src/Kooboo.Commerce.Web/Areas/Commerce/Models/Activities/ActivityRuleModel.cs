@@ -11,13 +11,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
     {
         public int Id { get; set; }
 
+        public RuleType Type { get; set; }
+
         public string EventType { get; set; }
 
         public string ConditionsExpression { get; set; }
 
         public string HighlightedConditionsExpression { get; set; }
-
-        public int Sequence { get; set; }
 
         public List<AttachedActivityModel> AttachedActivities { get; set; }
 
@@ -32,10 +32,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             : this()
         {
             Id = rule.Id;
+            Type = rule.Type;
             EventType = rule.EventType;
             ConditionsExpression = rule.ConditionsExpression;
             HighlightedConditionsExpression = new ConditionsExpressionHumanizer().Humanize(rule.ConditionsExpression);
-            Sequence = rule.Sequence;
             CreatedAtUtc = rule.CreatedAtUtc;
 
             foreach (var attachedActivity in rule.AttachedActivities)

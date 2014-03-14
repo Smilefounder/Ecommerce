@@ -14,9 +14,9 @@ namespace Kooboo.Commerce.Activities
 
         public string EventType { get; set; }
 
-        public string ConditionsExpression { get; set; }
+        public RuleType Type { get; set; }
 
-        public int Sequence { get; set; }
+        public string ConditionsExpression { get; set; }
 
         public virtual ICollection<AttachedActivity> AttachedActivities { get; protected set; }
 
@@ -28,12 +28,13 @@ namespace Kooboo.Commerce.Activities
             AttachedActivities = new List<AttachedActivity>();
         }
 
-        public static ActivityRule Create(Type eventType, string conditionsExpression)
+        public static ActivityRule Create(Type eventType, string conditionsExpression, RuleType type)
         {
             return new ActivityRule
             {
                 EventType = eventType.GetVersionUnawareAssemblyQualifiedName(),
-                ConditionsExpression = conditionsExpression
+                ConditionsExpression = conditionsExpression,
+                Type = type
             };
         }
 
@@ -99,6 +100,20 @@ namespace Kooboo.Commerce.Activities
         {
             Rule = rule;
             CreatedAtUtc = DateTime.UtcNow;
+        }
+    }
+
+    public enum RuleType
+    {
+        Normal = 0,
+        Always = 1
+    }
+
+    public static class ActivityRulesExtensions
+    {
+        public static bool HasAlwaysRule(this IEnumerable<ActivityRule> rules)
+        {
+            return rules.Any(x => x.Type == RuleType.Always);
         }
     }
 }

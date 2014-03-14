@@ -30,6 +30,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public string Humanize(string expression)
         {
+            if (String.IsNullOrWhiteSpace(expression))
+            {
+                return String.Empty;
+            }
+
             return Humanize(Expression.Parse(expression));
         }
 
