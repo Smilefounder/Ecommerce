@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Rules
 
         public Type ModelType { get; private set; }
 
-        public ParameterValueType ValueType { get; private set; }
+        public Type ValueType { get; private set; }
 
         public IEnumerable<IComparisonOperator> SupportedOperators { get; private set; }
 
@@ -25,6 +25,11 @@ namespace Kooboo.Commerce.Rules
         public object GetValue(object model)
         {
             return PropertyPath.GetValue(model, null);
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
 
         public static DynamicConditionParameter TryCreateFrom(PropertyInfo property)
@@ -49,10 +54,10 @@ namespace Kooboo.Commerce.Rules
                 DisplayName = String.IsNullOrEmpty(attribute.DisplayName) ? property.Name : attribute.DisplayName,
                 ModelType = property.ReflectedType,
                 PropertyPath = property,
-                ValueType = property.PropertyType.ToParameterValueType()
+                ValueType = property.PropertyType
             };
 
-            if (param.ValueType == ParameterValueType.String)
+            if (param.ValueType == typeof(String))
             {
                 param.SupportedOperators = new List<IComparisonOperator>
                 {

@@ -14,6 +14,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
         private StringBuilder _html;
         private IComparisonOperatorFactory _operatorFactory;
         private IConditionParameterFactory _paramFactory;
+        private List<IConditionParameter> _parameters;
 
         public ConditionsExpressionHumanizer()
             : this(EngineContext.Current.Resolve<IComparisonOperatorFactory>(), EngineContext.Current.Resolve<IConditionParameterFactory>())
@@ -28,20 +29,25 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             _paramFactory = paramFactory;
         }
 
-        public string Humanize(string expression)
+        public string Humanize(string expression, Type contextModelType)
         {
             if (String.IsNullOrWhiteSpace(expression))
             {
                 return String.Empty;
             }
 
-            return Humanize(Expression.Parse(expression));
+            return Humanize(Expression.Parse(expression), contextModelType);
         }
 
-        public string Humanize(Expression expression)
+        public string Humanize(Expression expression, Type contextModelType)
         {
             _html = new StringBuilder();
+            _parameters = _paramFactory.GetConditionParameterInfos(contextModelType)
+                                       .Select(x => x.Parameter)
+                                       .ToList();
+
             Visit(expression);
+            
             return _html.ToString();
         }
 
@@ -92,7 +98,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
         protected override void Visit(ConditionParamExpression exp)
         {
             var paramDisplayName = exp.ParamName;
-            var param = _paramFactory.FindByName(exp.ParamName);
+            var param = _parameters.FirstOrDefault(x => x.Name.Equals(exp.ParamName, StringComparison.OrdinalIgnoreCase));
             if (param != null)
             {
                 paramDisplayName = param.DisplayName;

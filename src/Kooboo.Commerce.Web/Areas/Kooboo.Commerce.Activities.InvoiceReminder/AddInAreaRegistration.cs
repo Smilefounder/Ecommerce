@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Activities.OrderInvoiceMailing
+namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
     public class AddInAreaRegistration : AreaRegistration
     {
@@ -21,9 +21,9 @@ namespace Kooboo.Commerce.Activities.OrderInvoiceMailing
         {
             context.MapRoute(
                 name: AreaName + "_default",
-                url: "Kooboo.Commerce.Activities.OrderInvoiceMailing/{controller}/{action}/{id}",
+                url: AreaName + "/{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "Kooboo.Commerce.Activities.OrderInvoiceMailing.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
+                namespaces: new[] { "Kooboo.Commerce.Activities.InvoiceReminder.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
             );
 
             Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "WebResources.config"));

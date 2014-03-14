@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Activities.Recommendation
 
         public bool CanBindTo(Type eventType)
         {
-            return typeof(ICustomerEvent).IsAssignableFrom(eventType);
+            return typeof(GetRecommendations).IsAssignableFrom(eventType);
         }
 
         public ActivityResult Execute(IEvent evnt, ActivityExecutionContext context)

@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public string Value { get; set; }
 
-        public ParameterValueType ValueType { get; set; }
+        public string ValueType { get; set; }
 
         public bool IsGroup { get; set; }
 
@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             else
             {
                 exp.Append(ParamName).Append(" ").Append(ComparisonOperators.TryGetOperatorShortcut(ComparisonOperator)).Append(" ");
-                if (ValueType == ParameterValueType.String)
+                if (ValueType == typeof(String).FullName)
                 {
                     exp.Append("\"").Append(Value).Append("\"");
                 }

@@ -10,6 +10,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
     public class ConditionModelBuilder : ExpressionVisitor
     {
         private IConditionParameterFactory _parameterFactory;
+        private List<IConditionParameter> _parameters;
         private Stack<ConditionModel> _conditions = new Stack<ConditionModel>();
 
         public ConditionModelBuilder(IConditionParameterFactory parameterFactory)
@@ -18,12 +19,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             _parameterFactory = parameterFactory;
         }
 
-        public IList<ConditionModel> BuildFrom(string expression)
+        public IList<ConditionModel> BuildFrom(string expression, Type contextModelType)
         {
             if (String.IsNullOrWhiteSpace(expression))
             {
                 return new List<ConditionModel>();
             }
+
+            if (contextModelType == null)
+                throw new ArgumentNullException("contextModelType");
+
+            _parameters = _parameterFactory.GetConditionParameterInfos(contextModelType)
+                                           .Select(x => x.Parameter)
+                                           .ToList();
 
             Visit(Expression.Parse(expression));
 
@@ -122,8 +130,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
                 model.ComparisonOperator = @operator.Name;
             }
 
-            var param = _parameterFactory.FindByName(model.ParamName);
-            model.ValueType = param.ValueType;
+            var param = _parameters.Find(x => x.Name.Equals(model.ParamName, StringComparison.OrdinalIgnoreCase));
+            if (param == null)
+                throw new InvalidOperationException("Parameter \"" + model.ParamName + "\" is invalid or not available in current context.");
+
+            model.ValueType = param.ValueType.FullName;
 
             _conditions.Push(model);
         }

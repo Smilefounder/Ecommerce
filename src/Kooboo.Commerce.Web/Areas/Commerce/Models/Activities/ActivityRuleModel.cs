@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             Type = rule.Type;
             EventType = rule.EventType;
             ConditionsExpression = rule.ConditionsExpression;
-            HighlightedConditionsExpression = new ConditionsExpressionHumanizer().Humanize(rule.ConditionsExpression);
+            HighlightedConditionsExpression = new ConditionsExpressionHumanizer().Humanize(rule.ConditionsExpression, System.Type.GetType(rule.EventType, true));
             CreatedAtUtc = rule.CreatedAtUtc;
 
             foreach (var attachedActivity in rule.AttachedActivities)

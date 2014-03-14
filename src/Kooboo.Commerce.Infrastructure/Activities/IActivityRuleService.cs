@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Activities
 
         public void Delete(ActivityRule rule)
         {
-            foreach (var activity in rule.AttachedActivities)
+            foreach (var activity in rule.AttachedActivities.ToList())
             {
                 rule.DetacheActivity(activity.Id);
             }

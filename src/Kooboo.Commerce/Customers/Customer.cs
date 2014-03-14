@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Rules;
 
 namespace Kooboo.Commerce.Customers
 {
@@ -13,11 +14,10 @@ namespace Kooboo.Commerce.Customers
             Addresses = new List<Address>();
         }
 
-
+        [ConditionParameter(Name = "CustomerId", DisplayName = "Customer ID")]
         public int Id { get; set; }
 
         public string AccountId { get; set; }
-
 
         public string FirstName { get; set; }
 
@@ -25,11 +25,10 @@ namespace Kooboo.Commerce.Customers
 
         public string LastName { get; set; }
 
+        [ConditionParameter(Name = "CustomerEmail", DisplayName = "Customer Email")]
         public string Email { get; set; }
 
-        /// <summary>
-        /// Gender, 0 = mail, 1 = female, -1 = unknown.
-        /// </summary>
+        [ConditionParameter(Name = "CustomerGender", DisplayName = "Customer Gender")]
         public Gender Gender { get; set; }
 
         public string Phone { get; set; }
@@ -39,7 +38,6 @@ namespace Kooboo.Commerce.Customers
         /// <summary>
         /// Redundant field for easy query only.  The detail address information should be in the Addresses field.
         /// </summary>
-
         public string City { get; set; }
 
         public virtual Country Country { get; set; }
@@ -51,6 +49,7 @@ namespace Kooboo.Commerce.Customers
 
         public virtual CustomerLoyalty Loyalty { get; set; }
 
+        [ConditionParameter(Name = "CustomerFullName", DisplayName = "Customer Fullname")]
         public string FullName
         {
             get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); }

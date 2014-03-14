@@ -1,6 +1,6 @@
 ﻿
 <div id="conditions-editor" style="display:none">
-    <h2 class="title">@("Add Rule".Localize())</h2>
+    <h1 class="title">@("Add Rule".Localize())</h1>
     <div class="common-form block">
         <div class="conditions-container" style="min-height:400px">
             <div style="margin-bottom:10px">
@@ -20,6 +20,11 @@
             </div>
             <div data-bind="if: mode() == 'expert'">
                 <textarea data-bind="value: expression"></textarea>
+                <div data-bind="visible: expressionErrors().length > 0" style="color:red">
+                    <ul data-bind="foreach: expressionErrors">
+                        <li data-bind="text: $data"></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <p class="buttons">
@@ -168,6 +173,8 @@
 
             this.expression = ko.observable();
 
+            this.expressionErrors = ko.observableArray([]);
+
             this.getAvailableOperators = function (paramName) {
                 if (!paramName) {
                     return [];
@@ -236,17 +243,26 @@
             this.switchToStandardMode = function () {
                 $.get('@Url.Action("GetConditionModels", "Condition")', {
                     commerceName: commerceName,
-                    expression: encodeURIComponent(_this.expression() || '')
+                    expression: encodeURIComponent(_this.expression() || ''),
+                    contextModelType: _this.contextModelTypeName()
                 })
-                .then(function (conditions) {
-                    _this.conditions.removeAll();
-                    $.each(conditions, function () {
-                        var condition = new ConditionViewModel(_this);
-                        ko.mapping.fromJS(this, koMappingConfig, condition);
-                        _this.conditions.push(condition);
-                    });
+                .then(function (result) {
+                    if (result.success) {
+                        var conditions = result.models;
+                        _this.conditions.removeAll();
+                        $.each(conditions, function () {
+                            var condition = new ConditionViewModel(_this);
+                            ko.mapping.fromJS(this, koMappingConfig, condition);
+                            _this.conditions.push(condition);
+                        });
 
-                    _this.mode('standard');
+                        _this.mode('standard');
+                    } else {
+                        _this.expressionErrors.removeAll();
+                        $.each(result.errors, function() {
+                            _this.expressionErrors.push(this);
+                        });
+                    }
                 });
             }
         }

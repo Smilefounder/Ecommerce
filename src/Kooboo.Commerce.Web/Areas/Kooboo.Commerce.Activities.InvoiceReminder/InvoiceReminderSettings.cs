@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Activities.OrderInvoiceMailing
+namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
-    public class ActivityData
+    public class InvoiceReminderSettings
     {
         [Display(Name = "Subject template")]
         public string SubjectTemplate { get; set; }

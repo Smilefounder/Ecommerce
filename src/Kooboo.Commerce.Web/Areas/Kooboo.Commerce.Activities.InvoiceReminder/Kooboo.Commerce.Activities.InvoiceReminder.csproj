@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.Commerce.Activities.OrderInvoiceMailing</RootNamespace>
-    <AssemblyName>Kooboo.Commerce.Activities.OrderInvoiceMailing</AssemblyName>
+    <RootNamespace>Kooboo.Commerce.Activities.InvoiceReminder</RootNamespace>
+    <AssemblyName>Kooboo.Commerce.Activities.InvoiceReminder</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -121,11 +121,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityViews.cs" />
+    <Compile Include="InvoiceReminderActivityViews.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Activity.cs" />
+    <Compile Include="InvoiceReminderActivity.cs" />
     <Compile Include="AddInAreaRegistration.cs" />
-    <Compile Include="ActivityData.cs" />
+    <Compile Include="InvoiceReminderSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.cs" />
   </ItemGroup>

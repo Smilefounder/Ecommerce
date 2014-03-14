@@ -165,9 +165,6 @@
     <Compile Include="Promotions\PromotionPolicyExecutionContext.cs" />
     <Compile Include="Rules\DataSources\BrandsDataSource.cs" />
     <Compile Include="Rules\DataSources\GendersDataSource.cs" />
-    <Compile Include="Rules\Parameters\BrandNameParameter.cs" />
-    <Compile Include="Rules\Parameters\CustomerNameParameter.cs" />
-    <Compile Include="Rules\Parameters\CustomGenderParameter.cs" />
     <Compile Include="Settings\Services\IKeyValueService.cs" />
     <Compile Include="Settings\Services\KeyValueService.cs" />
     <Compile Include="Products\Services\IProductService.cs" />

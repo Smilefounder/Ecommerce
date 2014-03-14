@@ -9,7 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Activities.OrderInvoiceMailing.Controllers
+namespace Kooboo.Commerce.Activities.InvoiceReminder.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
@@ -24,18 +24,18 @@ namespace Kooboo.Commerce.Activities.OrderInvoiceMailing.Controllers
         {
             var rule = _ruleService.GetById(ruleId);
             var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
-            var settings = new ActivityData();
+            var settings = new InvoiceReminderSettings();
 
             if (!String.IsNullOrEmpty(attachedActivity.ActivityData))
             {
-                settings = JsonConvert.DeserializeObject<ActivityData>(attachedActivity.ActivityData);
+                settings = JsonConvert.DeserializeObject<InvoiceReminderSettings>(attachedActivity.ActivityData);
             }
 
             return View(settings);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Settings(int ruleId, int attachedActivityId, ActivityData settings)
+        public ActionResult Settings(int ruleId, int attachedActivityId, InvoiceReminderSettings settings)
         {
             var rule = _ruleService.GetById(ruleId);
             var attachedActivity = rule.FindAttachedActivity(attachedActivityId);

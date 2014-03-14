@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Expressions;
+using Kooboo.Commerce.Rules.Parsing;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
@@ -22,10 +23,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult AvailableParameters(string contextModelTypeName)
         {
             var contextModelType = Type.GetType(contextModelTypeName, true);
-            var inspector = new ContextModelInspector(_parameterFactory);
             var models = new List<ConditionParameterModel>();
 
-            foreach (var param in inspector.GetAvailableParameters(contextModelType))
+            foreach (var param in _parameterFactory.GetConditionParameterInfos(contextModelType))
             {
                 models.Add(new ConditionParameterModel(param.Parameter));
             }
@@ -39,17 +39,34 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return model.Conditions.GetExpression();
         }
 
-        public ActionResult GetConditionModels(string expression)
+        public ActionResult GetConditionModels(string expression, string contextModelType)
         {
-            IList<ConditionModel> models = new List<ConditionModel>();
-
-            if (!String.IsNullOrEmpty(expression))
+            try
             {
-                var builder = new ConditionModelBuilder(_parameterFactory);
-                models = builder.BuildFrom(Server.UrlDecode(expression));
-            }
+                IList<ConditionModel> models = new List<ConditionModel>();
 
-            return JsonNet(models).UseClientConvention();
+                if (!String.IsNullOrEmpty(expression))
+                {
+                    var builder = new ConditionModelBuilder(_parameterFactory);
+                    models = builder.BuildFrom(Server.UrlDecode(expression), Type.GetType(contextModelType, true));
+                }
+
+                return JsonNet(new
+                {
+                    Success = true,
+                    Models = models
+                })
+                .UseClientConvention();
+            }
+            catch (ParserException ex)
+            {
+                return JsonNet(new
+                {
+                    Success = false,
+                    Errors = ex.Errors.Select(x => "Char " + (x.Location.CharIndex + 1) + ": " + x.Message)
+                })
+                .UseClientConvention();
+            }
         }
     }
 }

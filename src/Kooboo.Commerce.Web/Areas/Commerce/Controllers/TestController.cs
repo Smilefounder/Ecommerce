@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var orderService = EngineContext.Current.Resolve<IOrderService>();
             var order = new Order
             {
-                Total = 56m
+                Total = 1056m
             };
             var customer = EngineContext.Current.Resolve<ICustomerService>().GetAllCustomers(
                 null, null, null).First();
@@ -136,43 +136,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 return ex.Message.Replace(Environment.NewLine, "<br/>");
             }
-        }
-
-        public void RuleEngine()
-        {
-            var engine = new RuleEngine();
-            var contextModel = new
-            {
-                Brand = new Brand
-                {
-                    Name = "Dell"
-                }
-            };
-
-            // Expected: true
-            var condition = "BrandName == \"Micro\" OR BrandName == \"Dell\"";
-            var result = engine.CheckCondition(condition, contextModel);
-            Response.Write(result + "<br/>");
-
-            // Expected: true
-            condition = "BrandName contains \"ell\"";
-            result = engine.CheckCondition(condition, contextModel);
-            Response.Write(result + "<br/>");
-
-            // Expected: false
-            condition = "BrandName contains \"mouhong\"";
-            result = engine.CheckCondition(condition, contextModel);
-            Response.Write(result + "<br/>");
-        }
-
-        public string BuildModel()
-        {
-            var builder = new ConditionModelBuilder(EngineContext.Current.Resolve<IConditionParameterFactory>());
-            var model = builder.BuildFrom("CustomerName == \"Mouhong\" OR CustomerGender == \"Male\"");
-            model = builder.BuildFrom("CustomerName == \"Mouhong\" AND CustomerGender == \"Male\"");
-            model = builder.BuildFrom("CustomerName == \"Mouhong\" AND CustomerGender == \"Male\" OR CustomerName == \"NO\"");
-
-            return "OK";
         }
     }
 }

@@ -192,7 +192,9 @@
     <Compile Include="PropertyNaming.cs" />
     <Compile Include="Require.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Rules\ConditionExpressionEvaluator.cs" />
     <Compile Include="Rules\ConditionParameterAttribute.cs" />
+    <Compile Include="Rules\ConditionParameterInfo.cs" />
     <Compile Include="Rules\DynamicConditionParameter.cs" />
     <Compile Include="Rules\Expressions\ExpressionVisitor.cs" />
     <Compile Include="Rules\IComparisonOperator.cs" />
@@ -201,7 +203,6 @@
     <Compile Include="Rules\IDataSourceFactory.cs" />
     <Compile Include="Rules\IConditionParameter.cs" />
     <Compile Include="Rules\IDataSource.cs" />
-    <Compile Include="Rules\ContextModelInspector.cs" />
     <Compile Include="Rules\Operators\ContainsOperator.cs" />
     <Compile Include="Rules\Operators\EqualsOperator.cs" />
     <Compile Include="Rules\Operators\GreaterThanOperator.cs" />

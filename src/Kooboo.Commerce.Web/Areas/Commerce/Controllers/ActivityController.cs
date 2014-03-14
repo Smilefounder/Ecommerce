@@ -184,10 +184,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var rule = _activityRuleService.GetById(ruleId);
             rule.ConditionsExpression = expression;
+
             return JsonNet(new
             {
                 ConditionsExpression = expression,
-                HighlightedConditionsExpression = new ConditionsExpressionHumanizer().Humanize(expression)
+                HighlightedConditionsExpression = new ConditionsExpressionHumanizer().Humanize(expression, Type.GetType(rule.EventType, true))
             }).UseClientConvention();
         }
 
@@ -200,7 +201,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult GetAvailableActivities(string eventType)
         {
-            var result = _activityFactory.FindBindableActivities(Type.GetType(eventType, true))
+            var result = _activityFactory.FindActivitiesBindableTo(Type.GetType(eventType, true))
                                    .Select(x => new
                                    {
                                        Name = x.Name,

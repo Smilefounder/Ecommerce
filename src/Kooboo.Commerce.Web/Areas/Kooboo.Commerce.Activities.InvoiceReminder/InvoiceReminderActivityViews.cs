@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Activities.OrderInvoiceMailing
+namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
-    [Dependency(typeof(IActivityViews), Key = "Kooboo.Commerce.Activities.OrderInvoiceMailing.ActivityViews")]
-    public class ActivityViews : IActivityViews
+    [Dependency(typeof(IActivityViews), Key = "Kooboo.Commerce.Activities.InvoiceReminder.InvoiceReminderActivityViews")]
+    public class InvoiceReminderActivityViews : IActivityViews
     {
         public string ActivityName
         {

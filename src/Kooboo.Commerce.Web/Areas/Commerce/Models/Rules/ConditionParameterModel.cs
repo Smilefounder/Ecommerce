@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public string DisplayName { get; set; }
 
-        public ParameterValueType ValueType { get; set; }
+        public string ValueType { get; set; }
 
         public IList<ComparisonOperatorModel> SupportedOperators { get; set; }
 
@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
         {
             Name = param.Name;
             DisplayName = param.DisplayName;
-            ValueType = param.ValueType;
+            ValueType = param.ValueType.FullName;
 
             foreach (var @operator in param.SupportedOperators)
             {
