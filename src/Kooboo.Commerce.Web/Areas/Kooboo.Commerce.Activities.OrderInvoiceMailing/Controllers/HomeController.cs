@@ -1,6 +1,5 @@
 ﻿using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Activities.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using Newtonsoft.Json;

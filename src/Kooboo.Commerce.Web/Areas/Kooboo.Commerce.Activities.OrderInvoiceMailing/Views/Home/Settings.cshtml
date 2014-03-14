@@ -2,8 +2,6 @@
 @{
     Layout = "~/Areas/Commerce/Views/Shared/AddIns/_ActivitySettings.cshtml";
     ViewBag.Title = "Activity Settings".Localize();
-
-    var binding = ViewBag.ActivityBinding as ActivityBinding;
 }
 
 <div class="common-form">
@@ -36,14 +34,6 @@
 </div>
 
 <script>
-    window.ajaxFormParam = {
-        success: function (result) {
-            if (result.Success) {
-                $.popContext.getCurrent().close();
-            }
-        }
-    }
-
     $('.btn-cancel').on('click', function () {
         $.popContext.getCurrent().close();
     });

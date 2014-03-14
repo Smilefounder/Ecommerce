@@ -109,11 +109,33 @@ namespace Kooboo.Commerce.Activities
         Always = 1
     }
 
+    public static class AttachedActivitiesExtensions
+    {
+        public static IEnumerable<AttachedActivity> WhereEnabled(this IEnumerable<AttachedActivity> activities)
+        {
+            return activities.Where(x => x.IsEnabled);
+        }
+
+        public static IEnumerable<AttachedActivity> SortByExecutionOrder(this IEnumerable<AttachedActivity> activities)
+        {
+            return activities.OrderByDescending(x => x.Priority)
+                             .ThenBy(x => x.Id);
+        }
+    }
+
     public static class ActivityRulesExtensions
     {
         public static bool HasAlwaysRule(this IEnumerable<ActivityRule> rules)
         {
             return rules.Any(x => x.Type == RuleType.Always);
+        }
+
+        public static IQueryable<ActivityRule> ByEvent(this IQueryable<ActivityRule> query, Type eventType)
+        {
+            var eventTypeName = eventType.GetVersionUnawareAssemblyQualifiedName();
+            return query.Where(x => x.EventType == eventTypeName)
+                        .OrderBy(x => x.Type)
+                        .ThenBy(x => x.Id);
         }
     }
 }

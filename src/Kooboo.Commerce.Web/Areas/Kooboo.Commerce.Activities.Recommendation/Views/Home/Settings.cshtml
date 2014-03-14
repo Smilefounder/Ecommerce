@@ -2,8 +2,6 @@
 @{
     Layout = "~/Areas/Commerce/Views/Shared/AddIns/_ActivitySettings.cshtml";
     ViewBag.Title = "Recommendation Activity Settings".Localize();
-
-    var binding = ViewBag.ActivityBinding as ActivityBinding;
 }
 
 <div class="common-form">
@@ -16,5 +14,16 @@
                 @Html.EditorFor(m => m.ApiSecret)
             </tbody>
         </table>
+        <p class="buttons">
+            <button type="submit" data-ajaxform="">@("Save".Localize())</button>
+            <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
+        </p>
     }
 </div>
+
+
+<script>
+    $('.btn-cancel').on('click', function () {
+        $.popContext.getCurrent().close();
+    });
+</script>

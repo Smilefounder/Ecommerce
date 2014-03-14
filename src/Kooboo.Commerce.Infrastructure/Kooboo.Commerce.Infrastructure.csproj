@@ -106,18 +106,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\ActivityBinding.cs" />
-    <Compile Include="Activities\ActivityBindingsExtensions.cs" />
     <Compile Include="Activities\ActivityRule.cs" />
     <Compile Include="Activities\DefaultActivityEventRegistry.cs" />
     <Compile Include="Activities\ActivityExecutor.cs" />
-    <Compile Include="Activities\ActivityResponse.cs" />
+    <Compile Include="Activities\ActivityResult.cs" />
     <Compile Include="Activities\ActivityEventHook.cs" />
     <Compile Include="Activities\Events\ActivityAttached.cs" />
     <Compile Include="Activities\Events\ActivityDetached.cs" />
     <Compile Include="Activities\Handlers\OnActivityDetached.cs" />
     <Compile Include="Activities\IActivity.cs" />
-    <Compile Include="Activities\IActivityBindingService.cs" />
     <Compile Include="Activities\IActivityEventRegistry.cs" />
     <Compile Include="Activities\IActivityFactory.cs" />
     <Compile Include="Activities\IActivityRuleService.cs" />

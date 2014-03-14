@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Activities.Recommendation
 
         public System.Web.Mvc.RedirectToRouteResult Settings(AttachedActivity attachedActivity, System.Web.Mvc.ControllerContext controllerContext)
         {
-            return Routes.RedirectToAction("Settings", "Home", new { bindingId = attachedActivity.Id, area = Strings.AreaName });
+            return Routes.RedirectToAction("Settings", "Home", new { ruleId = attachedActivity.Rule.Id, attachedActivityId = attachedActivity.Id, area = Strings.AreaName });
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Products;
@@ -33,7 +34,7 @@ namespace Kooboo.Commerce.Activities.Recommendation
             return typeof(ICustomerEvent).IsAssignableFrom(eventType);
         }
 
-        public ActivityResponse Execute(Events.IEvent evnt, ActivityBinding binding)
+        public ActivityResult Execute(IEvent evnt, ActivityExecutionContext context)
         {
             var queryEvent = evnt as GetRecommendations;
             queryEvent.Result = new List<Product>
@@ -42,7 +43,7 @@ namespace Kooboo.Commerce.Activities.Recommendation
                 new Product { Id = 2, Name = "Recommended product 2" }
             };
 
-            return ActivityResponse.Continue;
+            return ActivityResult.Continue;
         }
     }
 }

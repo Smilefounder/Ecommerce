@@ -9,7 +9,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
-using Kooboo.Commerce.Activities.Services;
 using Kooboo.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Commerce.Events;

@@ -37,11 +37,11 @@ namespace Kooboo.Commerce.Activities.OrderInvoiceMailing
             return typeof(ICustomerEvent).IsAssignableFrom(eventType);
         }
 
-        public ActivityResponse Execute(IEvent evnt, ActivityBinding binding)
+        public ActivityResult Execute(IEvent evnt, ActivityExecutionContext context)
         {
             var order = ((IOrderEvent)evnt).Order;
 
-            var settings = JsonConvert.DeserializeObject<ActivityData>(binding.ActivityData);
+            var settings = JsonConvert.DeserializeObject<ActivityData>(context.AttachedActivity.ActivityData);
 
             var subject = settings.SubjectTemplate;
             var body = settings.BodyTemplate;
@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Activities.OrderInvoiceMailing
             // Send mail
             File.WriteAllText("D:\\" + evnt.GetType().Name + ".txt", "[" + DateTime.Now + "] Invoice mail for order #" + order.Id + ", subject: " + subject);
 
-            return ActivityResponse.Continue;
+            return ActivityResult.Continue;
         }
     }
 }

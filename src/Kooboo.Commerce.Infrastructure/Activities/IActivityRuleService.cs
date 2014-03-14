@@ -59,11 +59,7 @@ namespace Kooboo.Commerce.Activities
 
         public IEnumerable<ActivityRule> GetRulesByEventType(Type eventType)
         {
-            var eventTypeName = eventType.GetVersionUnawareAssemblyQualifiedName();
-            return _repository.Query(x => x.EventType == eventTypeName)
-                              .OrderBy(x => x.Type)
-                              .ThenBy(x => x.Id)
-                              .ToList();
+            return _repository.Query().ByEvent(eventType).ToList();
         }
 
         public void EnsureAlwaysRule(Type eventType)

@@ -8,3 +8,13 @@
         @RenderBody()
     </div>
 </div>
+
+<script>
+    window.ajaxFormParam = {
+        success: function (result) {
+            if (result.Success) {
+                $.popContext.getCurrent().close();
+            }
+        }
+    }
+</script>
