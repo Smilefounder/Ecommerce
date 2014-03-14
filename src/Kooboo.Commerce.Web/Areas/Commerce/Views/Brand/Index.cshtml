@@ -12,6 +12,6 @@
 }
 
 @Html.GridFor2(typeof(BrandRowModel), Model)
-<div class="pagination right">
+<div class="pagination">
     @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
 </div>

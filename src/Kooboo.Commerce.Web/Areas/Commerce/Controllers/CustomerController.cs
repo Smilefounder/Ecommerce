@@ -15,8 +15,6 @@ using Kooboo.Commerce.Web.Mvc.Controllers;
 using Kooboo.Commerce.Web.Mvc.Paging;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Locations.Services;
-using Kooboo.Commerce.Accounts;
-using Kooboo.Commerce.Accounts.Services;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -25,16 +23,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         private readonly ICommerceDatabase _db;
         private readonly ICustomerService _customerService;
         private readonly ICountryService _countryService;
-        private readonly IAccountService _accountService;
         private readonly IExtendedQueryManager _extendedQueryManager;
 
-        public CustomerController(ICommerceDatabase db, ICustomerService customerService, ICountryService countryService, IAccountService accountService,
+        public CustomerController(ICommerceDatabase db, ICustomerService customerService, ICountryService countryService,
             IExtendedQueryManager extendedQueryManager)
         {
             _db = db;
             _customerService = customerService;
             _countryService = countryService;
-            _accountService = accountService;
 
             _extendedQueryManager = extendedQueryManager;
         }
@@ -78,7 +74,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             if (obj == null)
             {
                 obj = new Customer();
-                obj.Account = new Account();
                 obj.Loyalty = new CustomerLoyalty();
             }
             return JsonNet(obj);
@@ -110,29 +105,29 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         //    });
         //}
 
-        [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordModel obj)
-        {
-            try
-            {
-                int status = 1;
-                string message = null;
-                if (obj.NewPassword != obj.ConfirmPassword)
-                {
-                    message = "Confirm password should be the same to new password.";
-                }
-                else
-                {
-                    status = _accountService.ChangePassword(obj.AccountId, obj.OldPassword, obj.NewPassword, out message) ? 0 : 1;
-                }
+        //[HttpPost]
+        //public ActionResult ChangePassword(ChangePasswordModel obj)
+        //{
+        //    try
+        //    {
+        //        int status = 1;
+        //        string message = null;
+        //        if (obj.NewPassword != obj.ConfirmPassword)
+        //        {
+        //            message = "Confirm password should be the same to new password.";
+        //        }
+        //        else
+        //        {
+        //            status = _accountService.ChangePassword(obj.AccountId, obj.OldPassword, obj.NewPassword, out message) ? 0 : 1;
+        //        }
 
-                return this.JsonNet(new { status = status, message = message });
-            }
-            catch (Exception ex)
-            {
-                return this.JsonNet(new { status = 1, message = ex.Message });
-            }
-        }
+        //        return this.JsonNet(new { status = status, message = message });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return this.JsonNet(new { status = 1, message = ex.Message });
+        //    }
+        //}
 
         [HttpPost]
         public ActionResult Delete(CustomerRowModel[] model)

@@ -7,18 +7,24 @@
     @Html.HiddenFor(m => m.Id)
     <div class="common-form">
         <table>
-            @Html.EditorFor(m => m.Name)
+            @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
             <tr>
                 <th><label>@("Logo".Localize())</label></th>
                 <td>
-                    <img id="logoImg" src="@Model.Logo" style="display: @(string.IsNullOrEmpty(Model.Logo) ? "none" : "block")" data-owner="commerce" data-property="brand" />
-                    <a href="javascript:;" class="upload" data-owner="commerce" data-property="brand" data-src="@Model.Logo">
+                    <input type="hidden" id="Logo" name="Logo" value="@Model.Logo" />
+                    <ul class="form-list images">
+                        <li>
+                            <div class="file-thumbnail @(string.IsNullOrEmpty(Model.Logo) ? "hide" : "")">
+                                <img id="logoImg" src="@Model.Logo" data-owner="commerce" data-property="brand" />
+                                <a class="action" id="btnRemove" href="javascript:;" onclick="RemoveImage();">
+                                    @Html.IconImage("minus small")
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="javascript:;" class="action J_Upload" data-owner="commerce" data-property="brand" data-src="@Model.Logo">
                         @Html.IconImage("plus small")
                     </a>
-                    <a id="btnRemove" href="javascript:;" onclick="RemoveImage();" style="display: @(string.IsNullOrEmpty(Model.Logo) ? "none" : "block")">
-                        @Html.IconImage("minus small")
-                    </a>
-                    <input type="hidden" id="Logo" name="Logo" value="@Model.Logo" />
                 </td>
             </tr>
             <tr>
@@ -28,7 +34,7 @@
                     </label>
                 </th>
                 <td>
-                    <textarea id="Description" name="Description" style="min-height: 100px;">@Model.Description</textarea>
+                    <textarea id="Description" name="Description" class="medium">@Model.Description</textarea>
                 </td>
             </tr>
         </table>
@@ -37,11 +43,11 @@
 
 <script type="text/javascript">
     $(function () {
-        $('.upload').upload({
+        $('.J_Upload').upload({
             on_file_select: function (data) {
                 $('#Logo').val(data.file.Url);
-                $('#logoImg').attr('src', data.file.Url).show();
-                $('#btnRemove').show();
+                $('#logoImg').attr('src', data.file.Url);
+                $('#logoImg').parent().show();
             }
         });
 
@@ -55,7 +61,7 @@
 
     function RemoveImage() {
         $('#Logo').val('');
-        $('#logoImg').attr('src', '').hide();
-        $('#btnRemove').hide();
+        $('#logoImg').attr('src', '');
+        $('#logoImg').parent().hide();
     }
 </script>

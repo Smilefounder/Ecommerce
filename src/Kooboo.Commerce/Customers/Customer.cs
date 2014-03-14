@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Commerce.Accounts;
 using Kooboo.Commerce.Locations;
 
 namespace Kooboo.Commerce.Customers
@@ -17,7 +16,7 @@ namespace Kooboo.Commerce.Customers
 
         public int Id { get; set; }
 
-        public int? AccountId { get; set; }
+        public string AccountId { get; set; }
 
 
         public string FirstName { get; set; }
@@ -25,6 +24,8 @@ namespace Kooboo.Commerce.Customers
         public string MiddleName { get; set; }
 
         public string LastName { get; set; }
+
+        public string Email { get; set; }
 
         /// <summary>
         /// Gender, 0 = mail, 1 = female, -1 = unknown.
@@ -40,7 +41,7 @@ namespace Kooboo.Commerce.Customers
         /// </summary>
 
         public string City { get; set; }
-        public virtual Account Account { get; set; }
+
         public virtual Country Country { get; set; }
 
         /// <summary>

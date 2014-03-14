@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.Accounts;
-using Kooboo.Commerce.Data;
+﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Locations;
 using System;
 using System.Collections.Generic;

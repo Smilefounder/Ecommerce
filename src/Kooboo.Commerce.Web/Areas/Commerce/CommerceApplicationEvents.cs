@@ -5,7 +5,6 @@ using Kooboo.CMS.Common.Runtime.Mvc;
 using Kooboo.Commerce.ComponentModel.DataAnnotations;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Dispatching;
-using Kooboo.Commerce.Web.Areas.Commerce.Dependencies;
 using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;

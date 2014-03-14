@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.Products.Services
     {
         Product GetById(int id);
 
-        IPagedList<Product> GetAllProducts(string search, int? pageIndex, int? pageSize);
+        IPagedList<Product> GetAllProducts(string userInput, int? categoryId, int? pageIndex, int? pageSize);
 
         IPagedList<ProductPrice> GetAllProductPrices(int? pageIndex, int? pageSize);
 

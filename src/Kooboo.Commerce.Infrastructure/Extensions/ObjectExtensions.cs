@@ -11,7 +11,7 @@ namespace Kooboo.Commerce
 {
     public static class ObjectExtensions
     {
-        public static string ToJson(this object data, PropertyNaming propertyNaming)
+        public static string ToJson(this object data, PropertyNaming propertyNaming = PropertyNaming.Default)
         {
             if (data == null)
             {

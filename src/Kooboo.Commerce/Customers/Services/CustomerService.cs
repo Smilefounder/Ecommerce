@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Accounts;
-using Kooboo.Commerce.Accounts.Services;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Locations;
-using Kooboo.Web.Mvc.Paging;
+using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.Commerce.Customers.Services
 {
@@ -24,9 +22,8 @@ namespace Kooboo.Commerce.Customers.Services
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<Address> _addressRepository;
         private readonly IRepository<Country> _countryRepository;
-        private readonly IAccountService _accountService;
 
-        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<Address> addressRepository, IRepository<CustomerLoyalty> customerLoyaltyRepository, IRepository<Country> countryRepository, IAccountService accountService)
+        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<Address> addressRepository, IRepository<CustomerLoyalty> customerLoyaltyRepository, IRepository<Country> countryRepository)
         {
             _db = db;
             _customerRepository = customerRepository;
@@ -34,7 +31,16 @@ namespace Kooboo.Commerce.Customers.Services
             _addressRepository = addressRepository;
             _customerLoyaltyRepository = customerLoyaltyRepository;
             _countryRepository = countryRepository;
-            _accountService = accountService;
+        }
+
+        private Customer LoadAllInfo(Customer customer)
+        {
+            if (customer != null)
+            {
+                customer.Addresses = _addressRepository.Query(o => o.CustomerId == customer.Id).ToList();
+                customer.Country = _countryRepository.Query(o => o.Id == customer.CountryId).FirstOrDefault();
+            }
+            return customer;
         }
 
         public Customer GetById(int id, bool loadAllInfo = true)
@@ -42,10 +48,19 @@ namespace Kooboo.Commerce.Customers.Services
             var customer = _customerRepository.Get(o => o.Id == id);
             if (loadAllInfo && customer != null)
             {
-                if(customer.AccountId.HasValue)
-                    customer.Account = _accountService.GetById(customer.AccountId.Value);
-                customer.Addresses = _addressRepository.Query(o => o.CustomerId == customer.Id).ToList();
-                customer.Country = _countryRepository.Query(o => o.Id == customer.CountryId).FirstOrDefault();
+                LoadAllInfo(customer);
+            }
+
+            return customer;
+        }
+
+        public Customer GetByAccountId(string accountId, bool loadAllInfo = true)
+        {
+            var customer = _customerRepository.Get(o => o.AccountId == accountId);
+
+            if (loadAllInfo && customer != null)
+            {
+                LoadAllInfo(customer);
             }
 
             return customer;
@@ -62,10 +77,6 @@ namespace Kooboo.Commerce.Customers.Services
 
         public IPagedList<T> GetAllCustomersWithOrderCount<T>(string search, int? pageIndex, int? pageSize, Func<Customer, int, T> func)
         {
-            int pi = pageIndex ?? 1;
-            int ps = pageSize ?? 50;
-            pi = pi < 1 ? 1 : pi;
-            ps = ps < 1 ? 50 : ps;
             var orderQuery = _orderRepository.Query();
             var customerQuery = _customerRepository.Query();
             if (!string.IsNullOrEmpty(search))
@@ -76,38 +87,27 @@ namespace Kooboo.Commerce.Customers.Services
                            order => order.CustomerId,
                            (customer, orders) => new { Customer = customer, Orders = orders.Count() })
                 .OrderByDescending(groupedItem => groupedItem.Customer.Id);
-            var total = query.Count();
-            var data = query.Skip(ps * (pi - 1)).Take(ps).ToArray();
-            return new PagedList<T>(data.Select<dynamic, T>(o => func(o.Customer, o.Orders)), pi, ps, total);
+
+            return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Customer, o.Orders), pageIndex ?? 1, pageSize ?? 50);
         }
 
         public IPagedList<Order> GetCustomerOrders(int customerId, int? pageIndex, int? pageSize)
         {
-            int pi = pageIndex ?? 1;
-            int ps = pageSize ?? 50;
-            pi = pi < 1 ? 1 : pi;
-            ps = ps < 1 ? 50 : ps;
             var orderQuery = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
-            var total = orderQuery.Count();
-            var data = orderQuery.Skip(ps * (pi - 1)).Take(ps).ToArray();
-            return new PagedList<Order>(data, pi, ps, total);
+            return PageLinqExtensions.ToPagedList(orderQuery, pageIndex ?? 1, pageSize ?? 50);
         }
 
-        public Customer Create(string email)
+        public Customer CreateByAccount(MembershipUser user)
         {
-            Account account = new Account();
-            account.Email = email;
-
-            Customer customer = new Customer();
-            customer.Account = account;
-
+            var customer = new Customer();
+            customer.AccountId = user.UUID;
+            customer.Email = user.Email;
+            Create(customer);
             return customer;
         }
 
         public void Create(Customer customer)
         {
-            if (customer.Account != null)
-                customer.Account = _accountService.EncryptPassword(customer.Account);
             _customerRepository.Insert(customer);
             Event.Apply(new CustomerCreated(customer));
         }
@@ -116,10 +116,6 @@ namespace Kooboo.Commerce.Customers.Services
         {
             using (var tx = _db.BeginTransaction())
             {
-                if (customer.Account != null)
-                {
-                    _accountService.Save(customer.Account);
-                }
                 if (customer.Loyalty != null)
                 {
                     _customerLoyaltyRepository.Save(o => o.CustomerId == customer.Loyalty.CustomerId, customer.Loyalty, o => new object[] { o.CustomerId });

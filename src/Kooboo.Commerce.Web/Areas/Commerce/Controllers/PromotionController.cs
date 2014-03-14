@@ -1,6 +1,5 @@
 ﻿using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Runtime;
-using Kooboo.Web.Mvc.Paging;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;

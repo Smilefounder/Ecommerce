@@ -1,47 +1,55 @@
 ﻿@model CategoryEditorModel
 
-@using (Html.BeginForm("Save", "Category", RouteValues.From(Request.QueryString))) {
+@using (Html.BeginForm("Save", "Category", RouteValues.From(Request.QueryString)))
+{
     @Html.ValidationSummary(true)
 
     @Html.HiddenFor(m => m.Id)
     <div class="common-form">
         <table>
-            @Html.EditorFor(m => m.Name)
+            @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
             <tr>
                 <th><label>@("Photo".Localize())</label></th>
                 <td>
-                    <img id="photoImg" src="@Model.Photo" style="display: @(string.IsNullOrEmpty(Model.Photo) ? "none" : "block")" />
-                    <a href="javascript:;" class="upload" data-owner="commerce" data-property="category" data-src="@Model.Photo">
+                    <input type="hidden" id="Photo" name="Photo" value="@Model.Photo">
+                    <ul class="form-list images">
+                        <li>
+                            <div class="file-thumbnail @(string.IsNullOrEmpty(Model.Photo) ? "hide" : "")">
+                                <img id="photoImg" src="@Model.Photo">
+                                <a class="action" id="btnRemove" href="javascript:;" onclick="RemoveImage();" title="@("Remove".Localize())">
+                                    @Html.IconImage("minus small")
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="javascript:;" class="action J_Upload" data-owner="commerce" data-property="category" data-src="@Model.Photo" title="@("Add".Localize())">
                         @Html.IconImage("plus small")
                     </a>
-                    <a id="btnRemove" href="javascript:;" onclick="RemoveImage();" style="display: @(string.IsNullOrEmpty(Model.Photo) ? "none" : "block")">
-                        @Html.IconImage("minus small")
-                    </a>
-                    <input type="hidden" id="Photo" name="Photo" value="@Model.Photo" />
                 </td>
             </tr>
             <tr>
                 <th>
                     <label for="Description">
-                        @("Description".Localize())</label>
+                        @("Description".Localize())
+                    </label>
                 </th>
                 <td>
-                    <textarea id="Description" name="Description" style="min-height: 100px;">@Model.Description</textarea>
+                    <textarea id="Description" name="Description" class="medium">@Model.Description</textarea>
                 </td>
             </tr>
             @Html.EditorFor(o => o.Published)
-            @Html.EditorFor(o => o.ParentId)
+            @Html.EditorFor(o => o.ParentId, new { HtmlAttributes = new { @class = "medium" } })
         </table>
-    </div> 
+    </div>
 }
 
 <script type="text/javascript">
     $(function () {
-        $('.upload').upload({
+        $('.J_Upload').upload({
             on_file_select: function (data) {
                 $('#Photo').val(data.file.Url);
-                $('#photoImg').attr('src', data.file.Url).show();
-                $('#btnRemove').show();
+                $('#photoImg').attr('src', data.file.Url);
+                $('#photoImg').parent().show();
             }
         });
 
@@ -55,7 +63,7 @@
 
     function RemoveImage() {
         $('#Photo').val('');
-        $('#photoImg').attr('src', '').hide();
-        $('#btnRemove').hide();
+        $('#photoImg').attr('src', '');
+        $('#photoImg').parent().hide();
     }
 </script>

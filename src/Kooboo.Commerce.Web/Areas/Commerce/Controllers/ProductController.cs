@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Index(string search, int? page, int? pageSize)
         {
             var productTypes = _productTypeService.GetAllProductTypes();
-            var model = _productService.GetAllProducts(search, page, pageSize);
+            var model = _productService.GetAllProducts(search, null, page, pageSize);
             ViewBag.ProductTypes = productTypes.ToList();
             return View(model);
         }
@@ -175,7 +175,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetBrands()
         {
 
-            var objs = _brandService.Query().ToList();
+            var objs = _brandService.GetAllBrands();
             return JsonNet(objs);
         }
 

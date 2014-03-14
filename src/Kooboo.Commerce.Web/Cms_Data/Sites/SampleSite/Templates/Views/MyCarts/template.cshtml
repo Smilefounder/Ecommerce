@@ -1,0 +1,53 @@
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.CMS.Sites.Membership;
+@{
+    var memberAuth = this.Context.Membership();
+    var member = memberAuth.GetMembershipUser();
+    var shoppingCart = Site.Current.Commerce().Cart.GetMyCart(Context.Session.SessionID, member.UUID);
+}
+@if(shoppingCart == null || shoppingCart.Items == null || shoppingCart.Items.Count <= 0)
+{
+    <p>@("Nothing in shopping cart.".Localize())</p><a href="/ProductList">@("Go Shopping".Localize())</a>
+}
+else
+{
+    decimal totalPrice = 0.0m;
+    int totalCount = 0;
+    if(shoppingCart.Customer != null)
+    {
+        <h4>@shoppingCart.Customer.FullName</h4>
+    }
+    <table>
+        <thead>
+            <tr>
+                <th>@("Product".Localize())</th>
+                <th>@("Quantity".Localize())</th>
+                <th>@("Price".Localize())</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in shoppingCart.Items)
+            {
+                var price = item.Quantity * item.ProductPrice.RetailPrice;
+                totalPrice += price;
+                totalCount += item.Quantity;
+                <tr>
+                    <td>@item.ProductPrice.Product.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@(price)</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>@("Total".Localize())</td>
+                <td>@totalCount</td>
+                <td>@totalPrice</td>
+            </tr>
+        </tfoot>
+    </table>
+    <div>
+        <a href="/MyOrder">@("Go to PAY".Localize())</a>
+        <a href="/ProductList">@("Continue Shopping".Localize())</a>
+    </div>
+}

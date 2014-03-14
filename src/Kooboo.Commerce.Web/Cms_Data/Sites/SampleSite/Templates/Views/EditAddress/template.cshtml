@@ -1,0 +1,146 @@
+﻿ @using Newtonsoft.Json;
+@using Kooboo.Commerce.Locations;
+@using Kooboo.Commerce.Orders;
+@model OrderAddress
+@{
+    string controlId = ViewData["ControlId"].ToString();
+    var selectAddresses = (ViewData["Addresses"] as IEnumerable<Address>).Select(o => new System.Web.Mvc.SelectListItem()
+    {
+        Text = o.FirstName + " " + o.LastName,
+        Value = o.Id.ToString()
+    });
+    var countries = (ViewData["Countries"] as IEnumerable<Country>).Select(o => new System.Web.Mvc.SelectListItem()
+    {
+        Text = o.Name,
+        Value = o.Id.ToString(),
+        Selected = o.Id == Model.CountryId
+    });
+}
+<table>
+    <tbody>
+        <tr>
+            <td colspan="2">
+                @Html.DropDownList(controlId, selectAddresses, " ", new { @class = "medium", onchange = "SelectAddress('" + controlId + "', this);" })
+                @Html.Hidden(controlId + "Id", Model.Id)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                &nbsp;
+            </th>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label>
+                    @("First name".Localize())
+                </label>
+            </th>
+            <td>
+                @Html.TextBox(controlId + "FirstName", Model.FirstName, new { @class = "max" })
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label>
+                    @("Last name".Localize())
+                </label>
+            </th>
+            <td>
+                @Html.TextBox(controlId + "LastName", Model.LastName, new { @class = "max" })
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label>
+                    @("Phone number".Localize())
+                </label>
+            </th>
+            <td>
+                @Html.TextBox(controlId + "Phone", Model.Phone, new { @class = "max" })
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label>
+                    @("Country".Localize())
+                </label>
+            </th>
+            <td>
+                @Html.DropDownList(controlId + "CountryId", countries, new { @class = "max" })
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label>
+                    @("State".Localize())
+                </label>
+            </th>
+            <td>
+                @Html.TextBox(controlId + "State", Model.State, new { @class = "max" })
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label>
+                    @("City".Localize())
+                </label>
+            </th>
+            <td>
+                @Html.TextBox(controlId + "City", Model.City, new { @class = "max" })
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label>
+                    @("Postcode".Localize())
+                </label>
+            </th>
+            <td>
+                @Html.TextBox(controlId + "Postcode", Model.Postcode, new { @class = "max" })
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label>
+                    @("Address1".Localize())
+                </label>
+            </th>
+            <td>
+                @Html.TextBox(controlId + "Address1", Model.Address1, new { @class = "max" })
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label>
+                    @("Address2".Localize())
+                </label>
+            </th>
+            <td>
+                @Html.TextBox(controlId + "Address2", Model.Address2, new { @class = "max" })
+            </td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript">
+    var addresses = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Addresses));
+    function SelectAddress(controlId, ele) {
+        var id = $(ele).val();
+        var address = $.grep(addresses, function(n, i) { return n.Id.toString() == id; })[0];
+        if(address)
+        {
+            var tbl = $(ele).closest('table');
+            tbl.find('#' + controlId + 'FirstName').val(address.FirstName);
+            tbl.find('#' + controlId + 'LastName').val(address.LastName);
+            tbl.find('#' + controlId + 'Phone').val(address.Phone);
+            tbl.find('#' + controlId + 'CountryId').val(address.CountryId);
+            tbl.find('#' + controlId + 'State').val(address.State);
+            tbl.find('#' + controlId + 'City').val(address.City);
+            tbl.find('#' + controlId + 'Postcode').val(address.Postcode);
+            tbl.find('#' + controlId + 'Address1').val(address.Address1);
+            tbl.find('#' + controlId + 'Address2').val(address.Address2);
+        }
+    }
+</script>

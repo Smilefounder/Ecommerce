@@ -14,3 +14,4 @@ TestResults
 /src/Kooboo.Commerce.Web/Uploads/commerce
 /src/Kooboo.Commerce.Web/App_Data/Commerce/Instances.xml
 /src/Kooboo.Commerce.Web/Cms_Data/Account/Users/admin.config
+/src/Kooboo.Commerce.Web/Cms_Data/Contents/*/Search/Index/

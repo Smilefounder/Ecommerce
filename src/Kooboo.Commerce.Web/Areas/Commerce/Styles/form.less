@@ -101,11 +101,21 @@ label {
 .form-list {
 	margin-top: 7px;
 	overflow: hidden;
-	padding: 1px;
 
 	li {
 		float: left;
 		margin-right: 10px;
+	}
+
+	&.images {
+		margin-bottom: 10px;
+	}
+
+	&.files {
+		li {
+			float: none;
+			margin: 0 0 10px 0;
+		}
 	}
 }
 
@@ -139,6 +149,43 @@ label {
 			right: 0;
 			top: 0;
 		}
+	}
+}
+
+/* Uploaded files
+----------------------------------------------------------*/
+.file-regular {
+	background: #EEE;
+	padding: 7px;
+	width: 300px;
+
+	span {
+		display: block;
+		line-height: 16px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.action {
+		float: right;
+		margin-left: 10px;
+	}
+}
+
+.file-thumbnail {
+	height: 100px;
+	position: relative;
+
+	img {
+		display: block;
+		height: 100%;
+	}
+
+	.action {
+		position: absolute;
+		right: 0;
+		top: 0;
 	}
 }
 
@@ -374,27 +421,64 @@ label {
 	}
 }
 
-	/* Buttons */
-	.common-form .buttons {
-		margin-top: 30px;
-		text-align: right;
-	}
+/* Key value
+----------------------------------------------------------*/
+.key-value {
+	th {
+		padding: 0 5px 5px 0;
 
-		.common-form .buttons .button,
-		.common-form .buttons button {
-			margin-left: 16px;
+		&.key {
+			width: 30%;
 		}
 
-	.common-form textarea.autoresize.medium,
-	.autoresizeMedium {
-		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
-		height: 20px;
-		line-height: 20px;
-		padding: 2px 9px;
-		width: 280px;
+		&.value {
+			width: 70%;
+		}
 	}
+
+	td {
+		padding: 5px 5px 5px 0 !important;
+		vertical-align: top;
+
+		&:first-child {
+			min-width: 190px;
+		}
+	}
+
+	input,
+	select {
+		display: block;
+	}
+
+	.action {
+		display: block;
+	}
+}
+
+
+/* TODO: Below are all old styles, need to be rewrite
+================================================================================================================================================================================*/
+/* Buttons */
+.common-form .buttons {
+	margin-top: 30px;
+	text-align: right;
+}
+
+	.common-form .buttons .button,
+	.common-form .buttons button {
+		margin-left: 16px;
+	}
+
+.common-form textarea.autoresize.medium,
+.autoresizeMedium {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	height: 20px;
+	line-height: 20px;
+	padding: 2px 9px;
+	width: 280px;
+}
 /* Error */
 .validation-summary-errors {
 	color: #F00;
@@ -648,36 +732,6 @@ body.in-dialog .in-warning-dialog .buttons {
 			right: 0;
 			top: 0;
 		}
-
-
-/* Key value
-----------------------------------------------------------*/
-.key-value {
-	width: auto !important;
-
-	th {
-		width: auto !important;
-		padding: 0 5px 5px 0 !important;
-	}
-
-	td {
-		padding: 5px 5px 5px 0 !important;
-		vertical-align: top;
-
-		&:first-child {
-			min-width: 190px;
-		}
-	}
-
-	input,
-	select {
-		margin: 0 !important;
-	}
-
-	.action {
-		display: inline;
-	}
-}
 
 .common-form .key-value textarea,
 .autoresize {

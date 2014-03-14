@@ -30,14 +30,6 @@
         </header>
         <div id="main-container" class="clearfix">
             <div class="wrap">
-                @if (IsSectionDefined("Topbar"))
-                {
-                    @RenderSection("Topbar")
-                }
-                else
-                {
-                    <h1 class="title">@ViewBag.Title</h1>
-                }
                 @RenderBody()
             </div>
         </div>

@@ -47,8 +47,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
         {
             Id = customer.Id;
 
-            if(customer.Account != null)
-                Email = customer.Account.Email;
+            Email = customer.Email;
             FirstName = customer.FirstName;
             MiddleName = customer.MiddleName;
             LastName = customer.LastName;
@@ -61,9 +60,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
         public void UpdateTo(Customer customer)
         {
             customer.Id = Id;
-            if (customer.Account == null)
-                customer.Account = new Accounts.Account();
-            customer.Account.Email = Email.Trim();
+            customer.Email = Email.Trim();
             customer.FirstName = FirstName;
             customer.MiddleName = MiddleName;
             customer.LastName = LastName;

@@ -31,7 +31,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
         {
             Id = customer.Id;
             Name = String.Format("{0} {1} {2}", customer.FirstName, customer.MiddleName, customer.LastName);
-            Email = customer.Account.Email;
+            if (string.IsNullOrEmpty(Name.Trim()))
+                Name = customer.AccountId;
+            Email = customer.Email;
             Orders = orders;
         }
     }

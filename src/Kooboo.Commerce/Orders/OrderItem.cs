@@ -39,6 +39,8 @@ namespace Kooboo.Commerce.Orders
 
         public decimal Total { get; set; }
 
+        public virtual Order Order { get; set; }
+
         public virtual ProductPrice ProductPrice { get; set; }
     }
 }

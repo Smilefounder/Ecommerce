@@ -7,11 +7,13 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Customers;
-using Kooboo.Web.Mvc.Paging;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Payments;
-using Kooboo.Commerce.Accounts;
+using Kooboo.Commerce.ShoppingCarts;
+using Kooboo.CMS.Membership.Models;
+using Kooboo.Commerce.Customers.Services;
+using Kooboo.Commerce.ShoppingCarts.Services;
 
 namespace Kooboo.Commerce.Orders.Services
 {
@@ -19,6 +21,7 @@ namespace Kooboo.Commerce.Orders.Services
     public class OrderService : IOrderService
     {
         private readonly ICommerceDatabase _db;
+        private readonly ICustomerService _customerService;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<OrderItem> _orderItemRepository;
@@ -26,12 +29,13 @@ namespace Kooboo.Commerce.Orders.Services
         private readonly IRepository<OrderAddress> _orderAddressRepository;
         private readonly IRepository<PaymentMethod> _paymentMethodRepository;
         private readonly IRepository<Country> _countryRepository;
-        private readonly IRepository<Account> _accountRepository;
-        private readonly ProductService _productService;
+        private readonly IShoppingCartService _shoppingCartService;
+        private readonly IProductService _productService;
 
-        public OrderService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IRepository<Account> accountRepository, ProductService productService)
+        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService)
         {
             _db = db;
+            _customerService = customerService;
             _customerRepository = customerRepository;
             _orderRepository = orderRepository;
             _orderItemRepository = orderItemRepository;
@@ -39,7 +43,7 @@ namespace Kooboo.Commerce.Orders.Services
             _orderAddressRepository = orderAddressRepository;
             _paymentMethodRepository = paymentMethodRepository;
             _countryRepository = countryRepository;
-            _accountRepository = accountRepository;
+            _shoppingCartService = shoppingCartService;
             _productService = productService;
         }
 
@@ -66,15 +70,98 @@ namespace Kooboo.Commerce.Orders.Services
                         item.ProductPrice = _productService.GetProductPriceById(item.ProductPriceId, true, true);
                     }
                 }
-                order.Customer = _customerRepository.Query(o => o.Id == order.CustomerId).FirstOrDefault();
+                order.Customer = _customerService.GetById(order.CustomerId);
                 if(order.Customer != null)
                 {
                     order.Customer.Country = _countryRepository.Query(o => o.Id == order.Customer.CountryId).FirstOrDefault();
-                    order.Customer.Account = _accountRepository.Query(o => o.Id == order.Customer.AccountId.Value).FirstOrDefault();
                 }
                 order.PaymentMethod = _paymentMethodRepository.Query(o => o.Id == order.PaymentMethodId).FirstOrDefault();
             }
             return order;
+        }
+
+        public Order GetByShoppingCartId(int shoppingCartId)
+        {
+            var order = _orderRepository.Query(o => o.ShoppingCartId == shoppingCartId).FirstOrDefault();
+            return order;
+        }
+
+        public Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool expireShoppingCart)
+        {
+            if(shoppingCart != null)
+            {
+                if(shoppingCart.Customer == null)
+                {
+                    var customer = _customerService.GetByAccountId(user.UUID, false);
+                    if(customer == null)
+                    {
+                        customer = _customerService.CreateByAccount(user);
+                    }
+                    shoppingCart.Customer = customer;
+
+                }
+                // since the shopping cart was transfered to order, set the shopping cart as not the current one.
+                _shoppingCartService.ExpireShppingCart(shoppingCart);
+
+                Order order = new Order();
+                order.ShoppingCartId = shoppingCart.Id;
+                order.CustomerId = shoppingCart.Customer.Id;
+                order.IsCompleted = false;
+                order.ChangeOrderStatus(OrderStatus.Created);
+
+                if(shoppingCart.Items.Count > 0)
+                {
+                    decimal subtotal = 0m;
+                    decimal discount = 0m;
+                    decimal tax = 0m;
+
+                    foreach(var item in shoppingCart.Items)
+                    {
+                        var orderItem = new OrderItem();
+                        orderItem.Order = order;
+                        orderItem.ProductPriceId = item.ProductPrice.Id;
+                        orderItem.ProductName = item.ProductPrice.Name;
+                        orderItem.SKU = item.ProductPrice.Sku;
+                        orderItem.UnitPrice = item.ProductPrice.RetailPrice;
+                        orderItem.Quantity = item.Quantity;
+                        orderItem.SubTotal = orderItem.UnitPrice * orderItem.Quantity;
+                        orderItem.Discount = 0m;
+                        orderItem.TaxCost = 0m;
+                        orderItem.Total = orderItem.SubTotal - orderItem.Discount + orderItem.TaxCost;
+                        subtotal += orderItem.SubTotal;
+                        discount += orderItem.Discount;
+                        tax += orderItem.TaxCost;
+
+                        order.OrderItems.Add(orderItem);
+                    }
+
+                    order.SubTotal = subtotal;
+                    order.Discount = discount;
+                    order.TotalTax = tax;
+                    order.ShippingCost = 0.0m;
+                    order.PaymentMethodCost = 0.0m;
+                    order.TotalWeight = 0.0m;
+                    order.Total = order.SubTotal - order.Discount + order.TotalTax + order.ShippingCost + order.PaymentMethodCost;
+                }
+
+                if(shoppingCart.ShippingAddress != null)
+                {
+                    OrderAddress address = new OrderAddress();
+                    address.FromAddress(shoppingCart.ShippingAddress);
+                    order.ShippingAddress = address;
+                }
+
+                if (shoppingCart.BillingAddress != null)
+                {
+                    OrderAddress address = new OrderAddress();
+                    address.FromAddress(shoppingCart.ShippingAddress);
+                    order.BillingAddress = address;
+                }
+
+                _orderRepository.Insert(order);
+                return order;
+            }
+            return null;
         }
 
         public IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize)
@@ -94,10 +181,6 @@ namespace Kooboo.Commerce.Orders.Services
 
         public IPagedList<T> GetAllOrdersWithCustomer<T>(string search, int? pageIndex, int? pageSize, Func<Order, Customer, T> func)
         {
-            int pi = pageIndex ?? 1;
-            int ps = pageSize ?? 50;
-            pi = pi < 1 ? 1 : pi;
-            ps = ps < 1 ? 50 : ps;
             var customerQuery = _customerRepository.Query();
             var orderQuery = _orderRepository.Query();
             if (!string.IsNullOrEmpty(search))
@@ -115,9 +198,13 @@ namespace Kooboo.Commerce.Orders.Services
                            customer => customer.Id,
                            (order, customer) => new { Order = order, Customer = customer })
                 .OrderByDescending(groupedItem => groupedItem.Order.Id);
-            var total = query.Count();
-            var data = query.Skip(ps * (pi - 1)).Take(ps).ToArray();
-            return new PagedList<T>(data.Select<dynamic, T>(o => func(o.Order, o.Customer)), pi, ps, total);
+            return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Order, o.Customer), pageIndex ?? 1, pageSize ?? 50);
+        }
+
+        public IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize)
+        {
+            var query = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
+            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
         }
 
         public void Create(Order order)

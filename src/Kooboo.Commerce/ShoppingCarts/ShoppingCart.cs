@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.ShoppingCarts
     {
         public int Id { get; set; }
 
-        public Guid? GuestId { get; set; }
+        public string SessionId { get; set; }
 
         public virtual Customer Customer { get; set; }
 

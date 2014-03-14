@@ -9,7 +9,9 @@ namespace Kooboo.Commerce.Brands.Services
     {
         Brand GetById(int id);
 
-        IQueryable<Brand> Query();
+        IEnumerable<Brand> GetAllBrands();
+
+        IPagedList<Brand> GetAllBrands(int? pageIndex, int? pageSize);
 
         void Create(Brand brand);
 

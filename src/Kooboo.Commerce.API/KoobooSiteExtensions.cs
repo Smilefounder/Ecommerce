@@ -12,11 +12,11 @@ namespace Kooboo.Commerce.API
     {
         public static string GetCommerceName(this Site site)
         {
-            if (site.CustomFields != null && site.CustomFields.ContainsKey("CommerceInstance"))
+            if (site.CustomFields == null || !site.CustomFields.ContainsKey("CommerceInstance") || string.IsNullOrEmpty(site.CustomFields["CommerceInstance"]))
             {
-                return site.CustomFields["CommerceInstance"];
+                throw new Exception("To use commerce, please set 'CommerceInstance' in the site's custom fields.");
             }
-            throw new ApplicationException("CommerceInstance is not found in site custom fields.");
+            return site.CustomFields["CommerceInstance"];
         }
 
         public static string GetLanguage(this Site site)
@@ -24,9 +24,25 @@ namespace Kooboo.Commerce.API
             return site.Culture;
         }
 
-        public static ICommerceService Commerce(this Site site)
+        public static ICommerceAPI Commerce(this Site site)
         {
-            return EngineContext.Current.Resolve<ICommerceService>();
+            if(site.CustomFields == null || !site.CustomFields.ContainsKey("CommerceAPI") || string.IsNullOrEmpty(site.CustomFields["CommerceAPI"]))
+            {
+                throw new Exception("To use commerce, please set 'CommerceAPI' in the site's custom fields.");
+            }
+            string api = site.CustomFields["CommerceAPI"];
+            var commerceService = EngineContext.Current.Resolve<ICommerceAPI>(api);
+            if(commerceService is RestAPI.RestCommerceAPI)
+            {
+                if (site.CustomFields == null || !site.CustomFields.ContainsKey("WebAPIHost") || string.IsNullOrEmpty(site.CustomFields["WebAPIHost"]))
+                {
+                    throw new Exception("To use commerce by web api, please set 'WebAPIHost' in the site's custom fields.");
+                }
+                string webapiHost = site.CustomFields["WebAPIHost"];
+                ((RestAPI.RestCommerceAPI)commerceService).SetWebAPIHost(webapiHost);
+            }
+            commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage());
+            return commerceService;
         }
     }
 }

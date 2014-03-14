@@ -27,9 +27,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index(int? page, int? pageSize)
         {
-            var brands = _brandService.Query()
-                                     .OrderByDescending(x => x.Id)
-                                     .ToPagedList(page, pageSize)
+            var brands = _brandService.GetAllBrands(page, pageSize)
                                      .Transform(x => new BrandRowModel(x));
 
             return View(brands);
@@ -71,14 +69,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Delete(BrandRowModel[] model)
         {
-            var ids = model.Select(x => x.Id).ToArray();
-            var brands = _brandService.Query()
-                .Where(x => ids.Contains(x.Id))
-                .ToList();
-
-            foreach (var catalog in brands)
+            foreach (var m in model)
             {
-                _brandService.Delete(catalog);
+                var brand = _brandService.GetById(m.Id);
+                _brandService.Delete(brand);
             }
 
             return AjaxForm().ReloadPage();

@@ -131,4 +131,23 @@ namespace Kooboo.Commerce.Data
             return httpContext.Request.Headers[paramName];
         }
     }
+
+    public class HttpContextItemCommerceInstanceNameResolver : HttpCommerceInstanceNameResolverBase
+    {
+        public HttpContextItemCommerceInstanceNameResolver()
+        {
+        }
+
+        public HttpContextItemCommerceInstanceNameResolver(string paramName)
+            : base(paramName)
+        {
+        }
+
+        protected override string GetParamValue(string paramName, HttpContextBase httpContext)
+        {
+            if (httpContext.Items.Contains(paramName))
+                return httpContext.Items[paramName].ToString();
+            return null;
+        }
+    }
 }
