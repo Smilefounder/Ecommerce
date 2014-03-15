@@ -217,30 +217,68 @@
                 _this.conditions.remove(condition);
             }
 
-            this.getExpression = function () {
-                var model = ko.mapping.toJS(_this);
-                // Only conditions are needed
-                model = {
-                    conditions: model.conditions
-                };
+            // sync expression from the model if it's in the 'standard' mode
+            this.syncExpression = function () {
+                var deferred = $.Deferred();
 
-                return $.ajax({
-                    url: '@Url.Action("GetExpression", "Condition")' + '?commerceName=' + commerceName,
-                    type: 'POST',
-                    data: JSON.stringify(model),
-                    contentType: 'application/json; charset=utf-8'
-                });
+                if (_this.mode() == 'expert') {
+                    deferred.resolve();
+                } else {
+                    var model = ko.mapping.toJS(_this);
+                    // Only conditions are needed
+                    model = {
+                        conditions: model.conditions
+                    };
+
+                    $.ajax({
+                        url: '@Url.Action("GetExpression", "Condition")' + '?commerceName=' + commerceName,
+                        type: 'POST',
+                        data: JSON.stringify(model),
+                        contentType: 'application/json; charset=utf-8'
+                    })
+                    .success(function (exp) {
+                        _this.expression(exp);
+                        deferred.resolve();
+                    });
+                }
+
+                return deferred.promise();
             }
 
             this.switchToExpertMode = function () {
-                _this.getExpression()
-                     .then(function (exp) {
-                         _this.expression(exp);
+                _this.syncExpression()
+                     .then(function () {
                          _this.mode('expert');
                      });
             }
 
             this.switchToStandardMode = function () {
+                var exp = $.trim(_this.expression() || '');
+                if (exp.length == 0) {
+                    _this.conditions.removeAll();
+                    _this.expressionErrors.removeAll();
+                    return;
+                }
+
+                _this.compileExpression()
+                     .then(function (result) {
+                         if (result.success) {
+                             _this.conditions.removeAll();
+
+                             var conditions = result.conditions;
+                             $.each(conditions, function () {
+                                 var condition = new ConditionViewModel(_this);
+                                 ko.mapping.fromJS(this, koMappingConfig, condition);
+                                 _this.conditions.push(condition);
+                             });
+                             _this.mode('standard');
+                         }
+                     });
+            }
+
+            this.compileExpression = function () {
+                var deferred = $.Deferred();
+
                 $.get('@Url.Action("GetConditionModels", "Condition")', {
                     commerceName: commerceName,
                     expression: encodeURIComponent(_this.expression() || ''),
@@ -248,21 +286,26 @@
                 })
                 .then(function (result) {
                     if (result.success) {
-                        var conditions = result.models;
-                        _this.conditions.removeAll();
-                        $.each(conditions, function () {
-                            var condition = new ConditionViewModel(_this);
-                            ko.mapping.fromJS(this, koMappingConfig, condition);
-                            _this.conditions.push(condition);
+                        deferred.resolve({
+                            success: true,
+                            conditions: result.models
                         });
-
-                        _this.mode('standard');
                     } else {
-                        _this.expressionErrors.removeAll();
-                        $.each(result.errors, function() {
-                            _this.expressionErrors.push(this);
+                        _this.displayErrors(result.errors);
+                        deferred.resolve({
+                            success: false,
+                            errors: result.errors
                         });
                     }
+                });
+
+                return deferred.promise();
+            }
+
+            this.displayErrors = function (errors) {
+                _this.expressionErrors.removeAll();
+                $.each(errors, function () {
+                    _this.expressionErrors.push(this);
                 });
             }
         }
@@ -300,10 +343,19 @@
                     self.$dialog.find('.btn-save')
                                 .on('click', function (e) {
                                     if (options.save) {
-                                        self.model.getExpression().then(function (exp) {
-                                            options.save.apply(self, [exp]);
-                                            self.close();
-                                        });
+                                        if (self.model.mode() == 'standard') {
+                                            self.model.syncExpression().then(function () {
+                                                options.save.apply(self, [self.model.expression()]);
+                                                self.close();
+                                            });
+                                        } else {
+                                            self.model.compileExpression()
+                                                      .then(function (result) {
+                                                          if (result.success) {
+                                                              options.save.apply(self, [self.model.expression()]);
+                                                          }
+                                                      });
+                                        }
                                     }
                                     e.preventDefault();
                                 });
@@ -334,6 +386,10 @@
             },
             close: function () {
                 this.$dialog.dialog('close');
+            },
+            reset: function () {
+                this.model.expression('');
+                this.model.switchToStandardMode();
             }
         };
 

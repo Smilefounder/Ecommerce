@@ -23,18 +23,24 @@
 </p>
 
 <script>
-    window.ajaxFormParam = {
-        success: function (result) {
-            if (result.Model) {
-                window.parent.ViewModel.currentActivityRule.onActivitySaved(result.Model.AttachedActivityId, result.Model.ConfigUrl);
-                if (result.Model.ConfigUrl) {
-                    location.href = result.Model.ConfigUrl;
+    (function () {
+        window.ajaxFormParam = {
+            success: function (result) {
+                if (result.Model) {
+                    var context = window.parent.ViewModel.activityContext();
+
+                    if (result.Model.ConfigUrl) {
+                        context.refresh(result.Model.AttachedActivityId);
+                        location.href = result.Model.ConfigUrl;
+                    } else {
+                        context.accept();
+                    }
                 }
             }
-        }
-    };
+        };
 
-    $('.btn-cancel').on('click', function () {
-        window.parent.ViewModel.currentActivityRule.cancelAttachActivity();
-    });
+        $('.btn-cancel').on('click', function () {
+            window.parent.ViewModel.activityContext().cancel();
+        });
+    })();
 </script>

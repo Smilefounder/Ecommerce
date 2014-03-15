@@ -13,7 +13,10 @@
     window.ajaxFormParam = {
         success: function (result) {
             if (result.Success) {
-                $.popContext.getCurrent().close();
+                var context = window.parent.ViewModel.activityContext();
+                context.accept();
+            } else {
+                window.info.show(result.Errors.join('<br/>'), false);
             }
         }
     }

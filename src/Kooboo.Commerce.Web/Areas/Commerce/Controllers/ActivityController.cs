@@ -157,11 +157,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 var model = new ActivityRuleModel(rule);
                 foreach (var each in model.AttachedActivities)
                 {
-                    var views = _activityViewsFactory.FindByActivityName(each.ActivityName);
-                    if (views != null)
-                    {
-                        each.ConfigUrl = Url.RouteUrl(views.Settings(rule.FindAttachedActivity(each.Id), ControllerContext), RouteValues.From(Request.QueryString));
-                    }
+                    each.ConfigUrl = GetActivityConfigUrl(rule, rule.FindAttachedActivity(each.Id));
                 }
 
                 models.Add(model);
@@ -215,7 +211,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var rule = _activityRuleService.GetById(ruleId);
             var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
-            return JsonNet(attachedActivity).UseClientConvention();
+            return JsonNet(new AttachedActivityModel(attachedActivity)
+            {
+                ConfigUrl = GetActivityConfigUrl(rule, attachedActivity)
+            }).UseClientConvention();
+        }
+
+        private string GetActivityConfigUrl(ActivityRule rule, AttachedActivity attachedActivity)
+        {
+            var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
+            if (views != null)
+            {
+                return Url.RouteUrl(views.Settings(rule.FindAttachedActivity(attachedActivity.Id), ControllerContext), RouteValues.From(Request.QueryString));
+            }
+
+            return null;
         }
 
         [HandleAjaxFormError, Transactional]

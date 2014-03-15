@@ -63,7 +63,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public int RuleId { get; set; }
 
-        public AttachedActivityModel() { }
+        public AttachedActivityModel()
+        {
+            IsEnabled = true;
+        }
 
         public AttachedActivityModel(AttachedActivity activity)
         {

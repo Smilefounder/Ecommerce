@@ -24,6 +24,6 @@
 
 <script>
     $('.btn-cancel').on('click', function () {
-        $.popContext.getCurrent().close();
+        window.parent.ViewModel.activityContext().cancel();
     });
 </script>
