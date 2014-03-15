@@ -7,16 +7,16 @@ using System.Text;
 namespace Kooboo.Commerce.Events
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public class AwaitTransactionCompleteAttribute : Attribute
+    public class AwaitDbCommitAttribute : Attribute
     {
         public WhenNotInTransaction WhenNotInTransaction { get; private set; }
 
-        public AwaitTransactionCompleteAttribute()
+        public AwaitDbCommitAttribute()
             : this(WhenNotInTransaction.ExecuteImmediately)
         {
         }
 
-        public AwaitTransactionCompleteAttribute(WhenNotInTransaction whenNotInTransaction)
+        public AwaitDbCommitAttribute(WhenNotInTransaction whenNotInTransaction)
         {
             WhenNotInTransaction = whenNotInTransaction;
         }

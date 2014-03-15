@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 models.Add(new ConditionParameterModel(param.Parameter));
             }
 
-            return JsonNet(models).Camelcased();
+            return JsonNet(models).UsingClientConvention();
         }
 
         [HttpPost]
@@ -56,7 +56,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     Success = true,
                     Models = models
                 })
-                .UseClientConvention();
+                .UsingClientConvention();
             }
             catch (ParserException ex)
             {
@@ -65,7 +65,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     Success = false,
                     Errors = ex.Errors.Select(x => "Char " + (x.Location.CharIndex + 1) + ": " + x.Message)
                 })
-                .UseClientConvention();
+                .UsingClientConvention();
             }
         }
     }

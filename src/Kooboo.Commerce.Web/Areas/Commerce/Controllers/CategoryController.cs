@@ -69,7 +69,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Save(CategoryEditorModel model, string @return)
         {
             Category category = null;
@@ -104,7 +104,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().RedirectTo(@return);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Delete(CategoryRowModel[] model)
         {
             var data = new JsonResultData(ModelState);

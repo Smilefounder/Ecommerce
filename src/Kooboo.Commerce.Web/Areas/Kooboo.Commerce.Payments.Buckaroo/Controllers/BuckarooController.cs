@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             _keyValueService = keyValueService;
         }
 
-        [Transactional]
+        [AutoDbCommit]
         public ActionResult Return(string commerceReturnUrl)
         {
             var orderId = Convert.ToInt32(Request["add_orderId"]);
@@ -36,7 +36,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, order));
         }
 
-        [Transactional]
+        [AutoDbCommit]
         public void Push()
         {
             var orderId = Convert.ToInt32(Request["add_orderId"]);

@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
             return View(model);
         }
 
-        [Transactional]
+        [AutoDbCommit]
         public ActionResult FakeSuccess(int orderId, string commerceReturnUrl)
         {
             var order = _orderService.GetById(orderId);
@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
             return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, _orderService.GetById(orderId)));
         }
 
-        [Transactional]
+        [AutoDbCommit]
         public ActionResult FakeFailure(int orderId, string commerceReturnUrl)
         {
             var order = _orderService.GetById(orderId);

@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Events.Dispatching;
+﻿using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,7 +21,9 @@ namespace Kooboo.Commerce.Data
             get { return _commerceInstanceMetadata; }
         }
 
-        protected IEventDispatcher EventDispatcher { get; private set; }
+        public IEventDispatcher EventDispatcher { get; private set; }
+
+        public EventTrackingContext EventTrackingContext { get; private set; }
 
         public CommerceDbContext DbContext { get; private set; }
 
@@ -32,7 +35,7 @@ namespace Kooboo.Commerce.Data
 
             _commerceInstanceMetadata = commerceInstanceMetadata;
             EventDispatcher = eventDispatcher;
-
+            EventTrackingContext = EventTrackingContext.Begin();
             DbContext = CommerceDbContext.Create(commerceInstanceMetadata, dbProvider);
         }
 
@@ -77,8 +80,10 @@ namespace Kooboo.Commerce.Data
         {
             ThrowIfDisposed();
 
+            // We don't need to dispatch pending events after the commit,
+            // because we will always transaction (explicit or implicit),
+            // and the transaction commit will dispatch pending events.
             var currentTransaction = _currentTransaction;
-
             if (currentTransaction == null)
             {
                 // Using implicit transaction
@@ -91,6 +96,17 @@ namespace Kooboo.Commerce.Data
             else
             {
                 DbContext.SaveChanges();
+            }
+        }
+
+        internal void DispatchPendingEvents()
+        {
+            var events = EventTrackingContext.PendingEvents.ToList();
+            EventTrackingContext.Clear();
+
+            foreach (var @event in events)
+            {
+                EventDispatcher.Dispatch(@event, new EventDispatchingContext(EventDispatchingPhase.OnTransactionCommitted, EventTrackingContext));
             }
         }
 
@@ -119,6 +135,8 @@ namespace Kooboo.Commerce.Data
                 {
                     _currentTransaction.Dispose();
                 }
+
+                EventTrackingContext.Dispose();
             }
         }
 

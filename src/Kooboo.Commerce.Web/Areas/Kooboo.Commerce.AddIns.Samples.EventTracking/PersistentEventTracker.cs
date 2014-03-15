@@ -10,7 +10,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.AddIns.Samples.EventTracking
 {
-    [AwaitTransactionComplete]
+    [AwaitDbCommit]
     public class PersistentEventTracker : IHandles<EntityAdded>, IHandles<EntityUpdated>, IHandles<EntityDeleted>
     {
         public void Handle(EntityAdded @event, EventDispatchingContext context)

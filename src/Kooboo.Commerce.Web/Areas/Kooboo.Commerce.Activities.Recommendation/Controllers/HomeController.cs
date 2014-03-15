@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Activities.Recommendation.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Settings(int ruleId, int attachedActivityId, RecommendationActivitySettings settings)
         {
             var rule = _ruleService.GetById(ruleId);

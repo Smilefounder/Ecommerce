@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
             return UrlUtility.Combine(Request.Url.Scheme + "://" + Request.Url.Authority, url);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Settings(IDealSettings model, string @return)
         {
             model.SaveTo(_keyValueService);

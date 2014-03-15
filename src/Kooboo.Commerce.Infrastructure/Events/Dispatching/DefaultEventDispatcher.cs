@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Events.Dispatching
 
             foreach (var method in _eventRegistry.FindHandlers(evnt.GetType()))
             {
-                var awaitAttribute = EventHandlerUtil.GetHandlerAttribute<AwaitTransactionCompleteAttribute>(method);
+                var awaitAttribute = EventHandlerUtil.GetHandlerAttribute<AwaitDbCommitAttribute>(method);
 
                 if (EventHandlerUtil.IsTimeToExecute(awaitAttribute, context))
                 {

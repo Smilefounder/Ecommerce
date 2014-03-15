@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Settings(PayPalSettings model, string @return)
         {
             model.SaveTo(_keyValueService);

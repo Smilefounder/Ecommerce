@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Events.Dispatching
             return attribute;
         }
 
-        public static bool IsTimeToExecute(AwaitTransactionCompleteAttribute foundAwaitAttribute, EventDispatchingContext dispatchingContext)
+        public static bool IsTimeToExecute(AwaitDbCommitAttribute foundAwaitAttribute, EventDispatchingContext dispatchingContext)
         {
             if (dispatchingContext.Phase == EventDispatchingPhase.OnEventRaised)
             {
@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.Events.Dispatching
                     return true;
                 }
 
-                if (!dispatchingContext.IsInEventTrackingScope)
+                if (dispatchingContext.EventTrackingContext == null)
                 {
                     // If the handler is expected to execute on transaction committed but it's not in transaction,
                     // then check if the handler is specified WhenNotInTranaction.ExecuteImmediately,

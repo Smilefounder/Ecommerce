@@ -15,17 +15,15 @@ namespace Kooboo.Commerce.Events
             Require.NotNull(@event, "event");
 
             var dispatcher = EngineContext.Current.Resolve<IEventDispatcher>();
-
             if (dispatcher == null)
                 throw new InvalidOperationException("Cannot resolve event dispatcher. Ensure event dispatcher is registered.");
 
-            var uncommittedEvents = UncommittedEventStream.Current;
+            var eventTrackingContext = EventTrackingContext.Current;
+            dispatcher.Dispatch(@event, new EventDispatchingContext(EventDispatchingPhase.OnEventRaised, eventTrackingContext));
 
-            dispatcher.Dispatch(@event, new EventDispatchingContext(EventDispatchingPhase.OnEventRaised, uncommittedEvents != null));
-
-            if (uncommittedEvents != null)
+            if (eventTrackingContext != null)
             {
-                uncommittedEvents.Append(@event);
+                eventTrackingContext.AppendEvent(@event);
             }
         }
     }

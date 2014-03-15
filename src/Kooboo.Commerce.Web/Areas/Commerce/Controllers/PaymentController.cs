@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _paymentProcessorFactory = paymentProcessorFactory;
         }
 
-        [Transactional]
+        [AutoDbCommit]
         public ActionResult Gateway(PaymentRequestModel model)
         {
             var settings = _settingService.GetStoreSetting();

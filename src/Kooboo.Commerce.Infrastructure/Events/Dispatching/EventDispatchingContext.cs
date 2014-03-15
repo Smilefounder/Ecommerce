@@ -7,12 +7,12 @@ namespace Kooboo.Commerce.Events.Dispatching
     {
         public EventDispatchingPhase Phase { get; private set; }
 
-        public bool IsInEventTrackingScope { get; private set; }
+        public EventTrackingContext EventTrackingContext { get; private set; }
 
-        public EventDispatchingContext(EventDispatchingPhase phase, bool isInEventTrackingScope)
+        public EventDispatchingContext(EventDispatchingPhase phase, EventTrackingContext eventTrackingContext)
         {
             Phase = phase;
-            IsInEventTrackingScope = isInEventTrackingScope;
+            EventTrackingContext = eventTrackingContext;
         }
     }
 }

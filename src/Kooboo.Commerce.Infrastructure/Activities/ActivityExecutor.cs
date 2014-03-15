@@ -65,11 +65,11 @@ namespace Kooboo.Commerce.Activities
             }
         }
 
-        private AwaitTransactionCompleteAttribute TryGetAwaitAttribute(IActivity activity)
+        private AwaitDbCommitAttribute TryGetAwaitAttribute(IActivity activity)
         {
             return activity.GetType()
-                           .GetCustomAttributes(typeof(AwaitTransactionCompleteAttribute), false)
-                           .OfType<AwaitTransactionCompleteAttribute>()
+                           .GetCustomAttributes(typeof(AwaitDbCommitAttribute), false)
+                           .OfType<AwaitDbCommitAttribute>()
                            .FirstOrDefault();
         }
     }

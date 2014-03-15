@@ -61,7 +61,7 @@ namespace Kooboo.Commerce.Activities
     // If there's no transaction context, awaiting activities might execute in the ActivityEventHook_OnEventRaised.
     // So we shoudn't let ActivityEventHook_OnTransactionCommitted execute when there's no transaction context.
     // Otherwise the awaiting activity might be executed twice.
-    [AwaitTransactionComplete(WhenNotInTransaction.DoNotExecute)]
+    [AwaitDbCommit(WhenNotInTransaction.DoNotExecute)]
     class ActivityEventHook_OnTransactionCommitted : ActivityEventHookBase
     {
         private IActivityFactory _activityFactory;

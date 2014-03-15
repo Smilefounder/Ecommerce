@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(promotions);
         }
 
-        [HttpPost, Transactional]
+        [HttpPost, AutoDbCommit]
         public ActionResult EnablePromotion(int id)
         {
             var promotion = _promotionService.GetById(id);
@@ -62,7 +62,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Enable(PromotionRowModel[] model)
         {
             foreach (var each in model)
@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, Transactional]
+        [HttpPost, AutoDbCommit]
         public ActionResult Disable(PromotionRowModel[] model)
         {
             foreach (var each in model)
@@ -88,7 +88,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, Transactional]
+        [HttpPost, AutoDbCommit]
         public ActionResult Delete(PromotionRowModel[] model)
         {
             foreach (var each in model)
@@ -150,7 +150,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, Transactional]
+        [HttpPost, AutoDbCommit]
         public ActionResult Save(PromotionEditorModel model)
         {
             var promotion = model.Id > 0 ? _promotionService.GetById(model.Id) : new Promotion();
@@ -204,7 +204,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetConditions(int promotionId)
         {
             var promotion = _promotionService.GetById(promotionId);
-            return JsonNet(ToConditionModels(promotion.Conditions, promotion)).Camelcased();
+            return JsonNet(ToConditionModels(promotion.Conditions, promotion)).UsingClientConvention();
         }
 
         private List<AddedPromotionConditionModel> ToConditionModels(IEnumerable<PromotionCondition> conditions, Promotion promotion)
@@ -262,7 +262,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             .ToList();
         }
 
-        [HttpPost, Transactional]
+        [HttpPost, AutoDbCommit]
         public void RemoveCondition(int promotionId, int conditionId)
         {
             var promotion = _promotionService.GetById(promotionId);

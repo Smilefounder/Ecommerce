@@ -5,25 +5,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Transactions;
 using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Mvc
 {
-    public class TransactionalAttribute : ActionFilterAttribute
+    public class AutoDbCommitAttribute : ActionFilterAttribute
     {
-        private CommerceTransactionScope _transactionScope;
+        private ICommerceDatabase _database;
 
         [Inject]
         public CommerceInstanceContext CommerceContext { get; set; }
-
-        [Inject]
-        public IEventDispatcher EventDispatcher { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
 
-            _transactionScope = new CommerceTransactionScope(EventDispatcher);
+            var currentInstance = CommerceContext.CurrentInstance;
+            if (currentInstance == null)
+                throw new InvalidOperationException(typeof(AutoDbCommitAttribute).Name + " can only be applied to an action within commerce instance context.");
+            
+            _database = currentInstance.Database;
         }
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
@@ -32,19 +34,14 @@ namespace Kooboo.Commerce.Web.Mvc
             {
                 if (filterContext.Exception == null)
                 {
-                    var currentCommerceInstance = CommerceContext.CurrentInstance;
-                    if (currentCommerceInstance != null)
-                    {
-                        currentCommerceInstance.Database.SaveChanges();
-                    }
-
-                    _transactionScope.Complete();
+                    _database.SaveChanges();
                 }
             }
             finally
             {
-                _transactionScope.Dispose();
-                _transactionScope = null;
+                // reset fields to null in case the filter instance is cached by asp.net mvc
+                _database = null;
+                CommerceContext = null;
             }
 
             base.OnActionExecuted(filterContext);
