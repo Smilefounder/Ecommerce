@@ -9,19 +9,19 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 {
-    public class ConditionsExpressionHumanizer : ExpressionVisitor
+    public class ConditionsExpressionPrettifier : ExpressionVisitor
     {
         private StringBuilder _html;
         private IComparisonOperatorFactory _operatorFactory;
         private IConditionParameterFactory _paramFactory;
         private List<IConditionParameter> _parameters;
 
-        public ConditionsExpressionHumanizer()
+        public ConditionsExpressionPrettifier()
             : this(EngineContext.Current.Resolve<IComparisonOperatorFactory>(), EngineContext.Current.Resolve<IConditionParameterFactory>())
         {
         }
 
-        public ConditionsExpressionHumanizer(
+        public ConditionsExpressionPrettifier(
             IComparisonOperatorFactory comparisonOperatorFactory,
             IConditionParameterFactory paramFactory)
         {
@@ -29,17 +29,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             _paramFactory = paramFactory;
         }
 
-        public string Humanize(string expression, Type contextModelType)
+        public string Prettify(string expression, Type contextModelType)
         {
             if (String.IsNullOrWhiteSpace(expression))
             {
                 return String.Empty;
             }
 
-            return Humanize(Expression.Parse(expression), contextModelType);
+            return Prettify(Expression.Parse(expression), contextModelType);
         }
 
-        public string Humanize(Expression expression, Type contextModelType)
+        private string Prettify(Expression expression, Type contextModelType)
         {
             _html = new StringBuilder();
             _parameters = _paramFactory.GetConditionParameterInfos(contextModelType)
@@ -87,7 +87,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             Visit(exp.Param);
 
             _html.Append(" ")
-                 .AppendFormat("<span class=\"operator\">{0}</span>", HumanizeComparisonOperator(exp.Operator))
+                 .AppendFormat("<span class=\"operator\">{0}</span>", GetFriendlyOperator(exp.Operator))
                  .Append(" ");
 
             Visit(exp.Value);
@@ -136,7 +136,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             _html.Append("</span>");
         }
 
-        private string HumanizeComparisonOperator(string @operator)
+        private string GetFriendlyOperator(string @operator)
         {
             var op = _operatorFactory.FindByName(@operator);
             if (op == null)

@@ -179,6 +179,7 @@
     <Compile Include="Events\IHandles.cs" />
     <Compile Include="Events\WhenNotInTransaction.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IObjectPersistence.cs" />
     <Compile Include="JsonObjectPersistence.cs" />

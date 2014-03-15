@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
         public EventMenuItem(Type eventType)
         {
             Name = eventType.Name;
-            Text = eventType.GetDescription() ?? Name;
+            Text = eventType.GetDescription() ?? Name.Humanize();
 
             Controller = "Activity";
             Action = "List";

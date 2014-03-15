@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 var model = new ActivityEventRowModel
                 {
                     EventType = eventType.AssemblyQualifiedNameWithoutVersion(),
-                    Name = eventType.GetDescription() ?? eventType.Name
+                    Name = eventType.GetDescription() ?? eventType.Name.Humanize()
                 };
 
                 models.Add(model);
@@ -64,7 +64,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var eventClrType = Type.GetType(eventType, true);
 
             ViewBag.CurrentEventType = eventClrType.AssemblyQualifiedNameWithoutVersion();
-            ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name;
+            ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name.Humanize();
 
             _activityRuleService.EnsureAlwaysRule(eventClrType);
 
@@ -185,7 +185,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return JsonNet(new
             {
                 ConditionsExpression = expression,
-                HighlightedConditionsExpression = new ConditionsExpressionHumanizer().Humanize(expression, Type.GetType(rule.EventType, true))
+                HighlightedConditionsExpression = new ConditionsExpressionPrettifier().Prettify(expression, Type.GetType(rule.EventType, true))
             }).UsingClientConvention();
         }
 
