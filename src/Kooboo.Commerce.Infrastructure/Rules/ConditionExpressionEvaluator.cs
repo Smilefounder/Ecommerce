@@ -15,12 +15,12 @@ namespace Kooboo.Commerce.Rules
         private List<ConditionParameterInfo> _availableParameters;
         private IConditionParameterFactory _parameterFactory;
         private IComparisonOperatorFactory _comparisonOperatorFactory;
-        private IDataSourceFactory _dataSourceFactory;
+        private IParameterValueSourceFactory _dataSourceFactory;
 
         public ConditionExpressionEvaluator(
             IConditionParameterFactory parameterFactory,
             IComparisonOperatorFactory comparisonOperatorFactory,
-            IDataSourceFactory dataSourceFactory)
+            IParameterValueSourceFactory dataSourceFactory)
         {
             _parameterFactory = parameterFactory;
             _comparisonOperatorFactory = comparisonOperatorFactory;
@@ -105,7 +105,7 @@ namespace Kooboo.Commerce.Rules
                 if (dataSource == null)
                     throw new InvalidOperationException("Cannot find data source with id: " + exp.DataSourceId + ".");
 
-                var item = dataSource.GetItems(param)
+                var item = dataSource.GetValues(param)
                                      .FirstOrDefault(x => x.Value.Equals(exp.Value));
 
                 if (item == null)
@@ -118,7 +118,7 @@ namespace Kooboo.Commerce.Rules
                 value = exp.Value;
             }
 
-            return Convert.ChangeType(value, param.ValueType);
+            return param.ParseValue(value);
         }
     }
 }

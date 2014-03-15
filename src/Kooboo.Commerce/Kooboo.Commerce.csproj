@@ -163,8 +163,7 @@
     <Compile Include="Promotions\ConditionCheckingContext.cs" />
     <Compile Include="Promotions\PromotionMatch.cs" />
     <Compile Include="Promotions\PromotionPolicyExecutionContext.cs" />
-    <Compile Include="Rules\DataSources\BrandsDataSource.cs" />
-    <Compile Include="Rules\DataSources\GendersDataSource.cs" />
+    <Compile Include="Rules\CustomerGenderValueDataSource.cs" />
     <Compile Include="Settings\Services\IKeyValueService.cs" />
     <Compile Include="Settings\Services\KeyValueService.cs" />
     <Compile Include="Products\Services\IProductService.cs" />

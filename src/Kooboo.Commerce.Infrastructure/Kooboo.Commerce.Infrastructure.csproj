@@ -200,9 +200,9 @@
     <Compile Include="Rules\IComparisonOperator.cs" />
     <Compile Include="Rules\IComparisonOperatorFactory.cs" />
     <Compile Include="Rules\IConditionParameterFactory.cs" />
-    <Compile Include="Rules\IDataSourceFactory.cs" />
+    <Compile Include="Rules\IParameterValueSourceFactory.cs" />
     <Compile Include="Rules\IConditionParameter.cs" />
-    <Compile Include="Rules\IDataSource.cs" />
+    <Compile Include="Rules\IParameterValueSource.cs" />
     <Compile Include="Rules\Operators\ContainsOperator.cs" />
     <Compile Include="Rules\Operators\EqualsOperator.cs" />
     <Compile Include="Rules\Operators\GreaterThanOperator.cs" />
@@ -229,6 +229,7 @@
     <Compile Include="Rules\Parsing\Tokenizer.cs" />
     <Compile Include="Rules\Parsing\TokenKind.cs" />
     <Compile Include="Rules\RuleEngine.cs" />
+    <Compile Include="Rules\TypeExtensions.cs" />
     <Compile Include="Web\Mvc\HandleAjaxFormErrorAttribute.cs" />
     <Compile Include="Web\Mvc\AjaxFormResult.cs" />
     <Compile Include="Web\Mvc\CommerceControllerBase.cs" />

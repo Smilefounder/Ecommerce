@@ -23,6 +23,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public string ValueType { get; set; }
 
+        public bool IsNumberValue { get; set; }
+
         public bool IsGroup { get; set; }
 
         public IList<ConditionModel> Conditions { get; set; }
@@ -53,13 +55,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             else
             {
                 exp.Append(ParamName).Append(" ").Append(ComparisonOperators.TryGetOperatorShortcut(ComparisonOperator)).Append(" ");
-                if (ValueType == typeof(String).FullName)
+
+                if (IsNumberValue)
                 {
-                    exp.Append("\"").Append(Value).Append("\"");
+                    exp.Append(Value);
                 }
                 else
                 {
-                    exp.Append(Value);
+                    exp.Append("\"").Append(Value).Append("\"");
                 }
             }
 

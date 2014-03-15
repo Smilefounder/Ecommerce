@@ -27,6 +27,16 @@ namespace Kooboo.Commerce.Rules
             return PropertyPath.GetValue(model, null);
         }
 
+        public object ParseValue(string value)
+        {
+            if (ValueType.IsEnum)
+            {
+                return Enum.Parse(ValueType, value, true);
+            }
+
+            return Convert.ChangeType(value, ValueType);
+        }
+
         public override string ToString()
         {
             return Name;

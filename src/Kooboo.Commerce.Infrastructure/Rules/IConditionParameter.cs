@@ -18,5 +18,7 @@ namespace Kooboo.Commerce.Rules
         IEnumerable<IComparisonOperator> SupportedOperators { get; }
 
         object GetValue(object model);
+
+        object ParseValue(string value);
     }
 }

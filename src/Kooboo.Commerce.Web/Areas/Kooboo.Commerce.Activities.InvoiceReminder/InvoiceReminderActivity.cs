@@ -10,6 +10,7 @@ using System.ComponentModel;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Events.Customers;
+using System.Text;
 
 namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
@@ -47,7 +48,14 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
             var body = settings.BodyTemplate;
             
             // Send mail
-            File.WriteAllText("D:\\" + evnt.GetType().Name + ".txt", "[" + DateTime.Now + "] Invoice mail for order #" + order.Id + ", subject: " + subject);
+            var message =  "[" + DateTime.Now + "] #" + order.Id + ", " + subject + Environment.NewLine;
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\InvoiceReminder.txt");
+            if (!File.Exists(filePath))
+            {
+                File.WriteAllText(filePath, message, Encoding.UTF8);
+            } else {
+                File.AppendAllText(filePath, message, Encoding.UTF8);
+            }
 
             return ActivityResult.Continue;
         }

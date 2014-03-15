@@ -77,7 +77,12 @@
         <div class="condition-main">
             <select class="medium" data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select>
             <select class="small" data-bind="options: availableOperators, optionsText: 'displayName', optionsValue: 'name', value: comparisonOperator"></select>
+            <!-- ko if: hasMultipleValues -->
+            <select class="medium" data-bind="options: values, optionsText: 'text', optionsValue: 'value', value: value"></select>
+            <!-- /ko -->
+            <!-- ko if: !hasMultipleValues() -->
             <input class="medium" type="text" data-bind="value: value" />
+            <!-- /ko -->
             <a href="#" data-bind="click: $parent.removeCondition" style="display:inline-block;vertical-align:middle">@Html.IconImage("minus")</a>
         </div>
     </div>
@@ -109,6 +114,8 @@
 
             this.value = ko.observable();
 
+            this.isNumberValue = ko.observable();
+
             this.valueType = ko.observable();
 
             this.isGroup = ko.observable(false);
@@ -116,7 +123,7 @@
             this.conditions = ko.observableArray([]);
 
             this.availableOperators = ko.computed(function () {
-                return _root.getAvailableOperators(_this.paramName());
+                return _root.availableOperatorsFor(_this.paramName());
             });
 
             this.addCondition = function () {
@@ -134,10 +141,18 @@
                 _this.conditions.remove(condition);
             }
 
+            this.hasMultipleValues = ko.observable();
+
+            this.values = ko.observableArray();
+
             _this.paramName.subscribe(function (name) {
-                var param = _root.getAvailableParameterByName(name);
+                var param = _root.findAvailableParameterByName(name);
                 if (param) {
                     _this.valueType(param.valueType());
+                    _this.isNumberValue(param.isNumberValue());
+                    _this.hasMultipleValues(param.values().length > 0);
+                    _this.value(null);
+                    _this.values(param.values());
                 }
             });
         }
@@ -175,16 +190,16 @@
 
             this.expressionErrors = ko.observableArray([]);
 
-            this.getAvailableOperators = function (paramName) {
+            this.availableOperatorsFor = function (paramName) {
                 if (!paramName) {
                     return [];
                 }
 
-                var param = _this.getAvailableParameterByName(paramName);
+                var param = _this.findAvailableParameterByName(paramName);
                 return param.supportedOperators();
             }
 
-            this.getAvailableParameterByName = function (paramName) {
+            this.findAvailableParameterByName = function (paramName) {
                 return _.find(_this.availableParameters(),
                             function (param) {
                                 return param.name() == paramName;

@@ -28,17 +28,12 @@ namespace Kooboo.Commerce.Rules.Expressions
 
         public override string ToString()
         {
-            if (String.IsNullOrEmpty(DataSourceId))
+            if (ValueType.IsNumber())
             {
                 return Value;
             }
 
-            if (!String.IsNullOrEmpty(Value))
-            {
-                return "ds:" + DataSourceId + ":" + Value;
-            }
-
-            return "ds:" + DataSourceId;
+            return "\"" + Value + "\"";
         }
     }
 }

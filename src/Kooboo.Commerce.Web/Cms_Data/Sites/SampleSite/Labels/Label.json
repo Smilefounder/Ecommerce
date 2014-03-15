@@ -1,0 +1,101 @@
+﻿[
+  {
+    "UUID": "QQ5N7T9BJL",
+    "Name": "Sample site",
+    "Value": "Sample site",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:28.1497895Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "JVQ33KZZ2G",
+    "Name": "Member Login",
+    "Value": "Member Login",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:30.8601352Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "YM735DJ33G",
+    "Name": "Register",
+    "Value": "Register",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:30.8751364Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "6TFZE7FPLM",
+    "Name": "Articles",
+    "Value": "Articles",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:30.8891388Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "W95CYQHSMW",
+    "Name": "Copyright &copy; 2009 - 2013 Kooboo team",
+    "Value": "Copyright &copy; 2009 - 2013 Kooboo team",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:34.6406148Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "HU6H27S5BP",
+    "Name": "Admin Login",
+    "Value": "Admin Login",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:34.6906225Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "JWE5VKP8KL",
+    "Name": "Login",
+    "Value": "Login",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:35.6667456Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "VJKQZVU9BG",
+    "Name": "Username",
+    "Value": "Username",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:35.6827471Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "5YGR2ZJEF3",
+    "Name": "Required",
+    "Value": "Required",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:35.6997502Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "LKWB9A8WXR",
+    "Name": "Password",
+    "Value": "Password",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:35.7107519Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "ZF783YBY5B",
+    "Name": "Remember me",
+    "Value": "Remember me",
+    "Category": "",
+    "UtcCreationDate": "2014-03-15T13:55:35.7327543Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  }
+]

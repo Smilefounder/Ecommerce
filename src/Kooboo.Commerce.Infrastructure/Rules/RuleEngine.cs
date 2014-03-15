@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Rules.Expressions;
+﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Rules.Expressions;
 using Kooboo.Commerce.Rules.Parsing;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,19 @@ namespace Kooboo.Commerce.Rules
     {
         private IConditionParameterFactory _parameterFactory;
         private IComparisonOperatorFactory _comparisonOperatorFactory;
-        private IDataSourceFactory _dataSourceFactory;
+        private IParameterValueSourceFactory _dataSourceFactory;
 
         public RuleEngine()
-            : this(new DefaultConditionParameterFactory()
-                , new DefaultComparisonOperatorFactory()
-                , new DefaultDataSourceFactory())
+            : this(EngineContext.Current.Resolve<IConditionParameterFactory>()
+                , EngineContext.Current.Resolve<IComparisonOperatorFactory>()
+                , EngineContext.Current.Resolve<IParameterValueSourceFactory>())
         {
         }
 
         public RuleEngine(
             IConditionParameterFactory parameterFactory,
             IComparisonOperatorFactory operatorFactory,
-            IDataSourceFactory dataSourceFactory)
+            IParameterValueSourceFactory dataSourceFactory)
         {
             Require.NotNull(parameterFactory, "parameterFactory");
             Require.NotNull(operatorFactory, "operatorFactory");

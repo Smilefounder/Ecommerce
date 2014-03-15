@@ -135,6 +135,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
                 throw new InvalidOperationException("Parameter \"" + model.ParamName + "\" is invalid or not available in current context.");
 
             model.ValueType = param.ValueType.FullName;
+            model.IsNumberValue = param.ValueType.IsNumber();
 
             _conditions.Push(model);
         }
