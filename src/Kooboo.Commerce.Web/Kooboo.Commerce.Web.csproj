@@ -2244,6 +2244,8 @@
     <Content Include="Areas\Commerce\Views\AddInManagement\UninstallComplete.cshtml" />
     <Content Include="Areas\Commerce\Views\AddInManagement\Versions.cshtml" />
     <Content Include="Areas\Commerce\Views\AddInManagement\_ModuleNode.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_InstancesDropdown.cshtml" />
+    <Content Include="Areas\Commerce\GlobalMenu.config" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -2466,7 +2468,7 @@
     <Content Include="Views\Shared\_MenuItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Menu.config" />
+    <Content Include="Areas\Commerce\InstanceMenu.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Grid2.cshtml" />

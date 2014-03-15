@@ -1,8 +1,26 @@
-﻿
-@Html.Partial("_SidebarTopSearch")
-
-<div class="warp">
-    <nav class="block menu">
-        @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Commerce"))
-    </nav>
-</div>
+﻿@if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("commerceName")))
+{
+    <div class="topbar block sitemanager clearfix">
+        <a class="right" href="@Url.Action("Index", new { controller = "Home", area = "Commerce" })" title="@("Go to instance cluster".Localize())">@Html.IconImage("cluster")</a>
+        <h6 class="title">@("Instance manager".Localize())</h6>
+        @Html.Partial("_InstancesDropdown")
+        @if (ServiceFactory.UserManager.IsAdministrator(User.Identity.Name))
+        {
+            <a class="right add" href="@Url.Action("Create", "CommerceInstance", new { area = "Commerce", @return = ViewContext.HttpContext.Request.RawUrl })" title='@("New commerce instance".Localize())'>@Html.IconImage("add")</a>
+        }
+    </div>
+    
+    <div class="warp">
+        <nav class="block menu">
+            @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Commerce"))
+        </nav>
+    </div>
+} else {
+    @Html.Partial("_SidebarTopSearch")
+    
+    <div class="warp">
+        <nav class="block menu">
+            @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "CommerceGlobalMenu"))
+        </nav>
+    </div>
+}

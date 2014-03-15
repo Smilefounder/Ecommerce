@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common;
 using Kooboo.Web.Mvc;
+using Kooboo.Web.Mvc.Menu;
 using System.IO;
 using System.Web.Mvc;
 
@@ -25,7 +26,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
                 , null
                 , new[] { "Kooboo.Commerce.Web.Areas.Commerce.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
             );
-            Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(AreaName, Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", AreaName, "Menu.config"));
+
+            MenuFactory.RegisterAreaMenu("CommerceGlobalMenu", Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", AreaName, "GlobalMenu.config"));
+            MenuFactory.RegisterAreaMenu(AreaName, Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", AreaName, "InstanceMenu.config"));
+
+
             Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", AreaName, "WebResources.config"));
 
             base.RegisterArea(context);
