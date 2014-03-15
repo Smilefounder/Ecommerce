@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Commerce.Web.Areas.Commerce;
 using Kooboo.Globalization;
 using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Grid2;
@@ -38,7 +39,7 @@ namespace Kooboo.Commerce.Web.Grid2
             var columnAttr = GridColumn.ColumnAttribute as EditorLinkedGridColumnAttribute;
             var editActionName = columnAttr == null ? "Edit" : columnAttr.EditActionName;
 
-            var extraRouteValues = viewContext.RequestContext.AllRouteValues().Merge(GridColumn.GridModel.IdPorperty ?? "Id", DataItem.GetKey());
+            var extraRouteValues = viewContext.RequestContext.AllRouteValues().Merge(GridColumn.GridModel.IdPorperty ?? "Id", EntityUtil.GetKey(DataItem));
             extraRouteValues = extraRouteValues.Merge("return", viewContext.HttpContext.Request.RawUrl);
 
             var url = viewContext.UrlHelper().Action(editActionName, extraRouteValues);

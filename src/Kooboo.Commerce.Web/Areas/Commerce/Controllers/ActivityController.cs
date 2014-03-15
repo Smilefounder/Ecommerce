@@ -3,6 +3,7 @@ using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
+using Kooboo.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 var model = new ActivityEventRowModel
                 {
-                    EventType = eventType.GetVersionUnawareAssemblyQualifiedName(),
+                    EventType = eventType.AssemblyQualifiedNameWithoutVersion(),
                     Name = eventType.GetDescription() ?? eventType.Name
                 };
 
@@ -62,7 +63,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var eventClrType = Type.GetType(eventType, true);
 
-            ViewBag.CurrentEventType = eventClrType.GetVersionUnawareAssemblyQualifiedName();
+            ViewBag.CurrentEventType = eventClrType.AssemblyQualifiedNameWithoutVersion();
             ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name;
 
             _activityRuleService.EnsureAlwaysRule(eventClrType);

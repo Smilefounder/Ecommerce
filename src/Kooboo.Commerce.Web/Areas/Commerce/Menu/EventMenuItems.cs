@@ -3,6 +3,7 @@ using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Registry;
 using Kooboo.Web.Mvc.Menu;
+using Kooboo.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
             Action = "List";
 
             RouteValues = new System.Web.Routing.RouteValueDictionary();
-            RouteValues.Add("eventType", eventType.GetVersionUnawareAssemblyQualifiedName());
+            RouteValues.Add("eventType", eventType.AssemblyQualifiedNameWithoutVersion());
 
             Initializer = new EventMenuItemInitializer();
         }

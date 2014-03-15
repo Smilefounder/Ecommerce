@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Activities.Events;
 using Kooboo.Commerce.Events;
+using Kooboo.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Kooboo.Commerce.Activities
         {
             return new ActivityRule
             {
-                EventType = eventType.GetVersionUnawareAssemblyQualifiedName(),
+                EventType = eventType.AssemblyQualifiedNameWithoutVersion(),
                 ConditionsExpression = conditionsExpression,
                 Type = type
             };
@@ -74,68 +75,9 @@ namespace Kooboo.Commerce.Activities
         }
     }
 
-    public class AttachedActivity
-    {
-        public virtual int Id { get; set; }
-
-        public virtual string Description { get; set; }
-
-        public virtual string ActivityName { get; set; }
-
-        public virtual string ActivityData { get; set; }
-
-        public virtual bool IsEnabled { get; set; }
-
-        public virtual int Priority { get; set; }
-
-        public virtual DateTime CreatedAtUtc { get; set; }
-
-        public virtual ActivityRule Rule { get; set; }
-
-        protected AttachedActivity()
-        {
-        }
-
-        public AttachedActivity(ActivityRule rule)
-        {
-            Rule = rule;
-            CreatedAtUtc = DateTime.UtcNow;
-        }
-    }
-
     public enum RuleType
     {
         Normal = 0,
         Always = 1
-    }
-
-    public static class AttachedActivitiesExtensions
-    {
-        public static IEnumerable<AttachedActivity> WhereEnabled(this IEnumerable<AttachedActivity> activities)
-        {
-            return activities.Where(x => x.IsEnabled);
-        }
-
-        public static IEnumerable<AttachedActivity> SortByExecutionOrder(this IEnumerable<AttachedActivity> activities)
-        {
-            return activities.OrderByDescending(x => x.Priority)
-                             .ThenBy(x => x.Id);
-        }
-    }
-
-    public static class ActivityRulesExtensions
-    {
-        public static bool HasAlwaysRule(this IEnumerable<ActivityRule> rules)
-        {
-            return rules.Any(x => x.Type == RuleType.Always);
-        }
-
-        public static IQueryable<ActivityRule> ByEvent(this IQueryable<ActivityRule> query, Type eventType)
-        {
-            var eventTypeName = eventType.GetVersionUnawareAssemblyQualifiedName();
-            return query.Where(x => x.EventType == eventTypeName)
-                        .OrderBy(x => x.Type)
-                        .ThenBy(x => x.Id);
-        }
     }
 }

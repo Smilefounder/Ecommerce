@@ -253,6 +253,7 @@
     <Compile Include="Areas\Commerce\Controllers\ShipmentTrackerController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
+    <Compile Include="Areas\Commerce\EntityUtil.cs" />
     <Compile Include="Areas\Commerce\Html\CommandType.cs" />
     <Compile Include="Areas\Commerce\Html\GridChecked.cs" />
     <Compile Include="Areas\Commerce\Html\HeaderPanel.cs" />
@@ -342,11 +343,9 @@
     <Compile Include="Extensions\PagePlugin\PageExecuteSample.cs" />
     <Compile Include="Extensions\PagePlugin\PostGetSample.cs" />
     <Compile Include="Extensions\Submission\SubmissionPluginSample.cs" />
-    <Compile Include="Grid2\ActionGridColumn.cs" />
-    <Compile Include="Grid2\ActionGridColumnAttribute.cs" />
-    <Compile Include="Grid2\BooleanGridColumnAttribute.cs" />
-    <Compile Include="Grid2\EditGridActionItemColumn.cs" />
-    <Compile Include="Grid2\EditorLinkedGridColumnAttribute.cs" />
+    <Compile Include="Areas\Commerce\Grid2\BooleanGridColumnAttribute.cs" />
+    <Compile Include="Areas\Commerce\Grid2\EditGridActionItemColumn.cs" />
+    <Compile Include="Areas\Commerce\Grid2\EditorLinkedGridColumnAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Areas\Commerce\Scripts\jquery.validate.unobtrusive.ext.js" />
     <Content Include="Areas\Commerce\Scripts\Kooboo_CMS.js" />

@@ -113,12 +113,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\ActivityRule.cs" />
+    <Compile Include="Activities\AttachedActivity.cs" />
     <Compile Include="Activities\DefaultActivityEventRegistry.cs" />
     <Compile Include="Activities\ActivityExecutor.cs" />
     <Compile Include="Activities\ActivityResult.cs" />
     <Compile Include="Activities\ActivityEventHook.cs" />
     <Compile Include="Activities\Events\ActivityAttached.cs" />
     <Compile Include="Activities\Events\ActivityDetached.cs" />
+    <Compile Include="Activities\Extensions\ActivityRulesExtensions.cs" />
+    <Compile Include="Activities\Extensions\AttachedActivitiesExtensions.cs" />
     <Compile Include="Activities\Handlers\OnActivityDetached.cs" />
     <Compile Include="Activities\IActivity.cs" />
     <Compile Include="Activities\IActivityEventRegistry.cs" />
@@ -175,7 +178,6 @@
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\IHandles.cs" />
     <Compile Include="Events\WhenNotInTransaction.cs" />
-    <Compile Include="Extensions\AssembliesExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IObjectPersistence.cs" />

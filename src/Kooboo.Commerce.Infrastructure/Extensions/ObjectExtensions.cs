@@ -30,32 +30,6 @@ namespace Kooboo.Commerce
             return JsonConvert.SerializeObject(data, settings);
         }
 
-        public static object GetKey(this object entity)
-        {
-            object key;
-
-            if (!TryGetKey(entity, out key))
-                throw new InvalidOperationException("Cannot resolve key property.");
-
-            return key;
-        }
-
-        public static bool TryGetKey(this object entity, out object key)
-        {
-            Require.NotNull(entity, "entity");
-
-            key = null;
-
-            var prop = entity.GetType().GetKeyProperty();
-            if (prop != null)
-            {
-                key = prop.GetValue(entity, null);
-                return true;
-            }
-
-            return false;
-        }
-
         public static T ConvertTo<T>(this object obj, T defaultValule)
         {
             return (T)ConvertTo(obj, typeof(T), defaultValule);

@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +65,7 @@ namespace Kooboo.Commerce.Activities
 
         public void EnsureAlwaysRule(Type eventType)
         {
-            var eventTypeName = eventType.GetVersionUnawareAssemblyQualifiedName();
+            var eventTypeName = eventType.AssemblyQualifiedNameWithoutVersion();
             if (!_repository.Query(x => x.EventType == eventTypeName && x.Type == RuleType.Always).Any())
             {
                 _repository.Insert(ActivityRule.Create(eventType, String.Empty, RuleType.Always));
