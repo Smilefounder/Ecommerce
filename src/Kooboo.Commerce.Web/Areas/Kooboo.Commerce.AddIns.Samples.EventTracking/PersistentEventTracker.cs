@@ -11,7 +11,7 @@ using System.Web;
 namespace Kooboo.Commerce.AddIns.Samples.EventTracking
 {
     [AwaitTransactionComplete]
-    public class PersistentEventTracker// : IHandles<EntityAdded>, IHandles<EntityUpdated>, IHandles<EntityDeleted>
+    public class PersistentEventTracker : IHandles<EntityAdded>, IHandles<EntityUpdated>, IHandles<EntityDeleted>
     {
         public void Handle(EntityAdded @event, EventDispatchingContext context)
         {
@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.AddIns.Samples.EventTracking
 
         private void Log(string message)
         {
-            var filePath = @"D:\kooboo-eventlog.txt";
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Persistent-EventLog.txt");
             var logMessage = "[" + DateTime.Now + "] " + message + Environment.NewLine;
 
             if (!File.Exists(filePath))

@@ -235,6 +235,7 @@
   <ItemGroup>
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
     <Compile Include="Areas\Commerce\Controllers\ActivityController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\AddInManagementController.cs" />
     <Compile Include="Areas\Commerce\Controllers\BrandController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CountryController.cs" />
@@ -2230,6 +2231,19 @@
     <Content Include="Areas\Commerce\Views\Shared\_SidebarTopSearch.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\EditAddress\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\EditAddress\template.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\GoingToUninstall.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\Index.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\Install.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\InstallComplete.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\Reinstall.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\ReinstallComplete.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\RunInstallation.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\RunReinstallation.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\RunUninstallation.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\Uninstall.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\UninstallComplete.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\Versions.cshtml" />
+    <Content Include="Areas\Commerce\Views\AddInManagement\_ModuleNode.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -2307,6 +2321,9 @@
     <Content Include="Views\NotFound\Index.cshtml" />
     <Content Include="WebResources.config" />
     <Content Include="Areas\Commerce\Views\Shared\AddIns\_ActivitySettings.cshtml" />
+    <Content Include="Views\Shared\_Toolbar.cshtml" />
+    <Content Include="Views\Shared\_ToolbarButton.cshtml" />
+    <Content Include="Views\Shared\_ToolbarGroupButtons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

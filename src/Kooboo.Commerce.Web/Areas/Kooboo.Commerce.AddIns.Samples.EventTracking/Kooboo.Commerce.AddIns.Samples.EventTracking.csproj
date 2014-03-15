@@ -106,12 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +124,12 @@
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="module.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PackModule.bat" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -160,8 +160,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
-xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
