@@ -95,6 +95,7 @@
     <Compile Include="Customers\ExtendedQuery\RecentOrderedCustomers.cs" />
     <Compile Include="Customers\ExtendedQuery\TopOrderedCustomers.cs" />
     <Compile Include="DefaultExtendedQueryManager.cs" />
+    <Compile Include="Events\Brands\BrandCreated.cs" />
     <Compile Include="Events\Orders\DeliveryBegan.cs" />
     <Compile Include="Events\Orders\OrderCreated.cs" />
     <Compile Include="Events\Orders\OrderStatusChanged.cs" />
@@ -162,6 +163,8 @@
     <Compile Include="Promotions\ConditionCheckingContext.cs" />
     <Compile Include="Promotions\PromotionMatch.cs" />
     <Compile Include="Promotions\PromotionPolicyExecutionContext.cs" />
+    <Compile Include="Rules\DataSources\BrandsDataSource.cs" />
+    <Compile Include="Rules\DataSources\GendersDataSource.cs" />
     <Compile Include="Settings\Services\IKeyValueService.cs" />
     <Compile Include="Settings\Services\KeyValueService.cs" />
     <Compile Include="Products\Services\IProductService.cs" />

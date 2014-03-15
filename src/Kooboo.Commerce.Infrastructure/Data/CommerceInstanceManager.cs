@@ -85,7 +85,10 @@ namespace Kooboo.Commerce.Data
                 var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
                 using (var database = new CommerceDatabase(metadata, dbProvider, _eventDispatcher))
                 {
-                    dbProvider.DatabaseOperations.DeleteDatabase(database);
+                    if (database.DbContext.Database.Exists())
+                    {
+                        dbProvider.DatabaseOperations.DeleteDatabase(database);
+                    }
                 }
             }
             catch (Exception ex)

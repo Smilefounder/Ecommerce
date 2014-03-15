@@ -11,15 +11,24 @@ namespace Kooboo.Commerce.Web.Mvc
 {
     public static class UrlHelperExtensions
     {
+        public static string RouteUrl(this UrlHelper helper, RedirectToRouteResult routeResult)
+        {
+            return RouteUrl(helper, routeResult, (RouteValueDictionary)null);
+        }
+
         public static string RouteUrl(this UrlHelper helper, RedirectToRouteResult routeResult, object additionalRouteValues)
         {
-            return RouteUrl(helper, routeResult, new RouteValueDictionary(additionalRouteValues));
+            return RouteUrl(helper, routeResult, additionalRouteValues == null ? null : new RouteValueDictionary(additionalRouteValues));
         }
 
         public static string RouteUrl(this UrlHelper helper, RedirectToRouteResult routeResult, RouteValueDictionary additionalRouteValues)
         {
             var routeValues = new RouteValueDictionary(routeResult.RouteValues);
-            routeValues.Merge(additionalRouteValues);
+            if (additionalRouteValues != null)
+            {
+                routeValues.Merge(additionalRouteValues);
+            }
+
             return helper.RouteUrl(routeResult.RouteName, routeValues);
         }
     }

@@ -10,6 +10,6 @@ namespace Kooboo.Commerce.Activities
     {
         string ActivityName { get; }
 
-        RedirectToRouteResult Settings(ActivityBinding binding, ControllerContext controllerContext);
+        RedirectToRouteResult Settings(AttachedActivity attachedActivity, ControllerContext controllerContext);
     }
 }

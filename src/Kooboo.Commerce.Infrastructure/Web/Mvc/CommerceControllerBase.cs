@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Web.Mvc.Controllers
             return new AjaxFormResult(ModelState);
         }
 
-        protected JsonResult JsonNet(object data)
+        protected JsonNetResult JsonNet(object data)
         {
             return new JsonNetResult() { Data = data };
         }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce", "Kooboo.Commerce\Kooboo.Commerce.csproj", "{BA7AA675-9613-4507-9BAA-2BA608E990CA}"
 EndProject
@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C1F086
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Activities.OrderInvoiceMailing", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Activities.OrderInvoiceMailing\Kooboo.Commerce.Activities.OrderInvoiceMailing.csproj", "{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Activities", "Activities", "{B9E2689E-7802-4F2D-82FC-29B6650A3950}"
 EndProject
@@ -80,6 +78,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API", "Koob
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.WebAPI", "Kooboo.Commerce.WebAPI\Kooboo.Commerce.WebAPI.csproj", "{F871CFD7-67CE-4192-9005-D9DC46FC5461}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Activities.InvoiceReminder", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Activities.InvoiceReminder\Kooboo.Commerce.Activities.InvoiceReminder.csproj", "{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,10 +98,6 @@ Global
 		{DC4664E1-6E95-4062-9AC0-C0574DDAB015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC4664E1-6E95-4062-9AC0-C0574DDAB015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC4664E1-6E95-4062-9AC0-C0574DDAB015}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{438108CE-8F31-4773-983D-6C1C216F49DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{438108CE-8F31-4773-983D-6C1C216F49DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{438108CE-8F31-4773-983D-6C1C216F49DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -170,6 +166,10 @@ Global
 		{F871CFD7-67CE-4192-9005-D9DC46FC5461}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F871CFD7-67CE-4192-9005-D9DC46FC5461}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F871CFD7-67CE-4192-9005-D9DC46FC5461}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,8 +185,8 @@ Global
 		{D91DD0F1-BAE9-4DCA-BBC5-67D9B1E1E61D} = {BF64373D-7134-4408-8749-1B6A954BEFF8}
 		{3224596E-BCE8-4FDE-A7D8-634B9D331244} = {BF64373D-7134-4408-8749-1B6A954BEFF8}
 		{00A7E839-B1FE-49BE-B767-541CE1977CEC} = {BF64373D-7134-4408-8749-1B6A954BEFF8}
-		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE} = {B9E2689E-7802-4F2D-82FC-29B6650A3950}
 		{51754289-4183-4D46-B147-01B4F0B56A5C} = {B9E2689E-7802-4F2D-82FC-29B6650A3950}
+		{6FF34F9C-B9D4-4943-B47C-645BA0995DAE} = {B9E2689E-7802-4F2D-82FC-29B6650A3950}
 		{1AE76B20-1FE6-4CE6-9486-22804BAEDE76} = {B70DACF5-6EF4-45D7-97CB-AE97A14FCF3A}
 		{86A0352B-7C37-4322-9B91-C0D0556083CB} = {B70DACF5-6EF4-45D7-97CB-AE97A14FCF3A}
 		{27F37F70-B109-49C2-9383-C8B855C4AEFB} = {B70DACF5-6EF4-45D7-97CB-AE97A14FCF3A}

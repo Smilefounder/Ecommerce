@@ -112,16 +112,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\ActivityBinding.cs" />
-    <Compile Include="Activities\ActivityBindingsExtensions.cs" />
+    <Compile Include="Activities\ActivityRule.cs" />
     <Compile Include="Activities\DefaultActivityEventRegistry.cs" />
     <Compile Include="Activities\ActivityExecutor.cs" />
-    <Compile Include="Activities\ActivityResponse.cs" />
+    <Compile Include="Activities\ActivityResult.cs" />
     <Compile Include="Activities\ActivityEventHook.cs" />
+    <Compile Include="Activities\Events\ActivityAttached.cs" />
+    <Compile Include="Activities\Events\ActivityDetached.cs" />
+    <Compile Include="Activities\Handlers\OnActivityDetached.cs" />
     <Compile Include="Activities\IActivity.cs" />
-    <Compile Include="Activities\IActivityBindingService.cs" />
     <Compile Include="Activities\IActivityEventRegistry.cs" />
     <Compile Include="Activities\IActivityFactory.cs" />
+    <Compile Include="Activities\IActivityRuleService.cs" />
     <Compile Include="Activities\IActivityViews.cs" />
     <Compile Include="Activities\IActivityViewsFactory.cs" />
     <Compile Include="AggregateRoot.cs" />
@@ -190,6 +192,43 @@
     <Compile Include="PropertyNaming.cs" />
     <Compile Include="Require.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Rules\ConditionExpressionEvaluator.cs" />
+    <Compile Include="Rules\ConditionParameterAttribute.cs" />
+    <Compile Include="Rules\ConditionParameterInfo.cs" />
+    <Compile Include="Rules\DynamicConditionParameter.cs" />
+    <Compile Include="Rules\Expressions\ExpressionVisitor.cs" />
+    <Compile Include="Rules\IComparisonOperator.cs" />
+    <Compile Include="Rules\IComparisonOperatorFactory.cs" />
+    <Compile Include="Rules\IConditionParameterFactory.cs" />
+    <Compile Include="Rules\IDataSourceFactory.cs" />
+    <Compile Include="Rules\IConditionParameter.cs" />
+    <Compile Include="Rules\IDataSource.cs" />
+    <Compile Include="Rules\Operators\ContainsOperator.cs" />
+    <Compile Include="Rules\Operators\EqualsOperator.cs" />
+    <Compile Include="Rules\Operators\GreaterThanOperator.cs" />
+    <Compile Include="Rules\Operators\GreaterThanOrEqualOperator.cs" />
+    <Compile Include="Rules\Operators\LessThanOperator.cs" />
+    <Compile Include="Rules\Operators\LessThanOrEqualOperator.cs" />
+    <Compile Include="Rules\Operators\NotContainsOperator.cs" />
+    <Compile Include="Rules\Operators\NotEqualsOperator.cs" />
+    <Compile Include="Rules\Parsing\ParserException.cs" />
+    <Compile Include="Rules\Parsing\Lookahead.cs" />
+    <Compile Include="Rules\Parsing\Parser.cs" />
+    <Compile Include="Rules\Expressions\ConditionExpression.cs" />
+    <Compile Include="Rules\Expressions\ConditionParamExpression.cs" />
+    <Compile Include="Rules\Expressions\ConditionValueExpression.cs" />
+    <Compile Include="Rules\Expressions\LogicalBindaryExpression.cs" />
+    <Compile Include="Rules\Expressions\Expression.cs" />
+    <Compile Include="Rules\Expressions\IExpressionVisitor.cs" />
+    <Compile Include="Rules\Expressions\LogicalOperator.cs" />
+    <Compile Include="Rules\Parsing\ParsingContext.cs" />
+    <Compile Include="Rules\Parsing\SourceLocation.cs" />
+    <Compile Include="Rules\Parsing\SourceReader.cs" />
+    <Compile Include="Rules\Parsing\Error.cs" />
+    <Compile Include="Rules\Parsing\Token.cs" />
+    <Compile Include="Rules\Parsing\Tokenizer.cs" />
+    <Compile Include="Rules\Parsing\TokenKind.cs" />
+    <Compile Include="Rules\RuleEngine.cs" />
     <Compile Include="Web\Mvc\HandleAjaxFormErrorAttribute.cs" />
     <Compile Include="Web\Mvc\AjaxFormResult.cs" />
     <Compile Include="Web\Mvc\CommerceControllerBase.cs" />
@@ -197,9 +236,6 @@
     <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
     <Compile Include="Web\Mvc\ExternalPostResult.cs" />
     <Compile Include="Web\Mvc\TransactionalAttribute.cs" />
-    <Compile Include="Web\Mvc\ControllerExtensions.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Web\Mvc\EFContractResolver.cs" />
     <Compile Include="Web\Mvc\EnumerableExtensions.cs" />
     <Compile Include="Web\Mvc\EnumUtil.cs" />

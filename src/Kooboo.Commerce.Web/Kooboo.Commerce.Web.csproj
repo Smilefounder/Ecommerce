@@ -247,6 +247,7 @@
     <Compile Include="Areas\Commerce\Controllers\ProductController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PromotionController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\ConditionController.cs" />
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShipmentTrackerController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Areas\Commerce\Html\HeadPanelButtonCollectionExtensions.cs" />
     <Compile Include="Areas\Commerce\Html\IVisibleRule.cs" />
     <Compile Include="Areas\Commerce\Menu\CommerceMenuItemInitializer.cs" />
+    <Compile Include="Areas\Commerce\Models\Activities\ActivityRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceModel.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\ChangePasswordModel.cs" />
@@ -267,9 +269,6 @@
     <Compile Include="Areas\Commerce\Menu\EventMenuItemInitializer.cs" />
     <Compile Include="Areas\Commerce\Menu\EventMenuItems.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityEventRowModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Activities\ActivityBindingRowModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Activities\ActivityBindingEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Activities\Grid2\ActivityBindingRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEditorModel.cs" />
@@ -303,6 +302,12 @@
     <Compile Include="Areas\Commerce\Models\DataSources\ControlTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CultureDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CurrencyDataSource.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionModelBuilder.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionModelCollectionExtensions.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionParameterModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionsExpressionHumanizer.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConditionsModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSizeEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ProductSettingEditorModel.cs" />
@@ -2126,7 +2131,7 @@
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\Decimal.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\Events.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\List.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\EditorTemplates\ActivityBindingEditorModel.cshtml" />
+    <Content Include="Areas\Commerce\Views\Activity\EditorTemplates\AttachedActivityModel.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\Create.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\Edit.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\_SettingEditor.cshtml" />
@@ -2213,7 +2218,9 @@
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Favorites\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.SearchList\template.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_ConditionsEditor.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyCarts\setting.config" />
+    <Content Include="Areas\Commerce\Styles\project-related.less" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyCarts\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrder\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrder\template.cshtml" />
@@ -2371,10 +2378,6 @@
     <Content Include="Areas\Commerce\Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
-      <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
-      <Name>Kooboo.Commerce.API</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Data.Mapping\Kooboo.Commerce.Data.Mapping.csproj">
       <Project>{26517dc5-30b5-4eb3-a3e7-a1ade568d8bc}</Project>
       <Name>Kooboo.Commerce.Data.Mapping</Name>

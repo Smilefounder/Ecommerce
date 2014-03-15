@@ -204,7 +204,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetConditions(int promotionId)
         {
             var promotion = _promotionService.GetById(promotionId);
-            return this.Json(ToConditionModels(promotion.Conditions, promotion), PropertyNaming.CamelCase);
+            return JsonNet(ToConditionModels(promotion.Conditions, promotion)).Camelcased();
         }
 
         private List<AddedPromotionConditionModel> ToConditionModels(IEnumerable<PromotionCondition> conditions, Promotion promotion)

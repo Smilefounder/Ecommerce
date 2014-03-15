@@ -91,7 +91,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult PaymentProcessors(PaymentType paymentType)
         {
-            return this.Json(GetAvailablePaymentProcessors(paymentType), PropertyNaming.CamelCase);
+            return JsonNet(GetAvailablePaymentProcessors(paymentType)).Camelcased();
         }
 
         [HttpPost, HandleAjaxFormError]
