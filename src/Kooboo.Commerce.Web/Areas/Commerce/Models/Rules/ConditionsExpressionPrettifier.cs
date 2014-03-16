@@ -12,18 +12,18 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
     public class ConditionsExpressionPrettifier : ExpressionVisitor
     {
         private StringBuilder _html;
-        private IComparisonOperatorFactory _operatorFactory;
-        private IConditionParameterFactory _paramFactory;
-        private List<IConditionParameter> _parameters;
+        private IComparisonOperatorProvider _operatorFactory;
+        private IModelParameterProvider _paramFactory;
+        private List<IParameter> _parameters;
 
         public ConditionsExpressionPrettifier()
-            : this(EngineContext.Current.Resolve<IComparisonOperatorFactory>(), EngineContext.Current.Resolve<IConditionParameterFactory>())
+            : this(EngineContext.Current.Resolve<IComparisonOperatorProvider>(), EngineContext.Current.Resolve<IModelParameterProvider>())
         {
         }
 
         public ConditionsExpressionPrettifier(
-            IComparisonOperatorFactory comparisonOperatorFactory,
-            IConditionParameterFactory paramFactory)
+            IComparisonOperatorProvider comparisonOperatorFactory,
+            IModelParameterProvider paramFactory)
         {
             _operatorFactory = comparisonOperatorFactory;
             _paramFactory = paramFactory;
@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
         private string Prettify(Expression expression, Type contextModelType)
         {
             _html = new StringBuilder();
-            _parameters = _paramFactory.GetConditionParameterInfos(contextModelType)
+            _parameters = _paramFactory.GetParameters(contextModelType)
                                        .Select(x => x.Parameter)
                                        .ToList();
 
@@ -138,7 +138,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         private string GetFriendlyOperator(string @operator)
         {
-            var op = _operatorFactory.FindByName(@operator);
+            var op = _operatorFactory.GetOperatorByName(@operator);
             if (op == null)
             {
                 op = ComparisonOperators.GetOperatorFromShortcut(@operator);

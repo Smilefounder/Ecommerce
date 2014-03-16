@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Rules.Operators
             }
         }
 
-        public bool Apply(IConditionParameter param, object paramValue, object inputValue)
+        public bool Apply(IParameter param, object paramValue, object inputValue)
         {
             return paramValue.Equals(inputValue);
         }

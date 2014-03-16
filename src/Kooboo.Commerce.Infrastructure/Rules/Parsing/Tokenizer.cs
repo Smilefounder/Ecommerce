@@ -9,7 +9,6 @@ namespace Kooboo.Commerce.Rules.Parsing
     // Number                     : [0-9]+(.[0-9]+)?
     // String                     : "[^"]*" -> escape double quote char by using two double quotes
     // Parenthsis                 : ( | )
-    // Data source prefix         : ds:
     // Builtin comparison operator: > | >= | < | <= | != | ==
     public class Tokenizer
     {
@@ -72,7 +71,7 @@ namespace Kooboo.Commerce.Rules.Parsing
 
         public Token NextToken()
         {
-            return Parse(DataSourcePrefix, Colon, Identifier, StringLiteral, Parenthsis, BuiltinComparisonOperator, Number);
+            return Parse(Identifier, StringLiteral, Parenthsis, BuiltinComparisonOperator, Number);
         }
 
         private Token Parse(params Func<Token>[] parsers)
@@ -284,38 +283,6 @@ namespace Kooboo.Commerce.Rules.Parsing
             if (_source.Read(")"))
             {
                 return new Token(")", TokenKind.Parenthesis, location);
-            }
-
-            return null;
-        }
-
-        private Token DataSourcePrefix()
-        {
-            SkipWhitespaces();
-
-            if (!_source.IsEndOfFile)
-            {
-                var location = CurrentLocation;
-                if (_source.Read("ds:"))
-                {
-                    return new Token("ds:", TokenKind.DataSourcePrefix, location);
-                }
-            }
-
-            return null;
-        }
-
-        private Token Colon()
-        {
-            SkipWhitespaces();
-
-            if (!_source.IsEndOfFile)
-            {
-                var location = CurrentLocation;
-                if (_source.Read(":"))
-                {
-                    return new Token(":", TokenKind.Colon, location);
-                }
             }
 
             return null;

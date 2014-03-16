@@ -6,7 +6,10 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public class DynamicConditionParameter : IConditionParameter
+    /// <summary>
+    /// Represents a condition expression parameter can be constructed dynamcially.
+    /// </summary>
+    public class DynamicParameter : IParameter
     {
         public string Name { get; private set; }
 
@@ -20,10 +23,11 @@ namespace Kooboo.Commerce.Rules
 
         public PropertyInfo PropertyPath { get; private set; }
 
-        private DynamicConditionParameter() { }
+        private DynamicParameter() { }
 
         public object GetValue(object model)
         {
+            Require.NotNull(model, "model");
             return PropertyPath.GetValue(model, null);
         }
 
@@ -42,10 +46,15 @@ namespace Kooboo.Commerce.Rules
             return Name;
         }
 
-        public static DynamicConditionParameter TryCreateFrom(PropertyInfo property)
+        /// <summary>
+        /// Try construct the condition expression parameter from a model property.
+        /// </summary>
+        public static DynamicParameter TryCreateFrom(PropertyInfo property)
         {
-            var attribute = property.GetCustomAttributes(typeof(ConditionParameterAttribute), true)
-                                    .OfType<ConditionParameterAttribute>()
+            Require.NotNull(property, "property");
+
+            var attribute = property.GetCustomAttributes(typeof(ParameterAttribute), true)
+                                    .OfType<ParameterAttribute>()
                                     .FirstOrDefault();
 
             if (attribute != null)
@@ -56,9 +65,9 @@ namespace Kooboo.Commerce.Rules
             return null;
         }
 
-        static DynamicConditionParameter CreateFrom(PropertyInfo property, ConditionParameterAttribute attribute)
+        static DynamicParameter CreateFrom(PropertyInfo property, ParameterAttribute attribute)
         {
-            var param = new DynamicConditionParameter
+            var param = new DynamicParameter
             {
                 Name = String.IsNullOrEmpty(attribute.Name) ? property.Name : attribute.Name,
                 DisplayName = String.IsNullOrEmpty(attribute.DisplayName) ? property.Name : attribute.DisplayName,

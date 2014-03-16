@@ -9,9 +9,9 @@ namespace Kooboo.Commerce.Rules
     /// <summary>
     /// Represents the condition parameter and its containing model info.
     /// </summary>
-    public class ConditionParameterInfo
+    public class ParameterInfo
     {
-        public IConditionParameter Parameter { get; private set; }
+        public IParameter Parameter { get; private set; }
 
         /// <summary>
         /// The path of the parameter's model from root context model.
@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Rules
         /// </remark>
         public IEnumerable<MemberInfo> ModelPath { get; private set; }
 
-        public ConditionParameterInfo(IConditionParameter parameter, IEnumerable<MemberInfo> modelPath)
+        public ParameterInfo(IParameter parameter, IEnumerable<MemberInfo> modelPath)
         {
             Require.NotNull(parameter, "parameter");
             Require.NotNull(modelPath, "modelPath");

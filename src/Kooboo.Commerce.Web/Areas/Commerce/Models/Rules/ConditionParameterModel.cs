@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             SupportedOperators = new List<ComparisonOperatorModel>();
         }
 
-        public ConditionParameterModel(IConditionParameter param) : this()
+        public ConditionParameterModel(IParameter param) : this()
         {
             Name = param.Name;
             DisplayName = param.DisplayName;
@@ -39,8 +39,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
                 SupportedOperators.Add(new ComparisonOperatorModel(@operator));
             }
 
-            var valueSourceFactory = EngineContext.Current.Resolve<IParameterValueSourceFactory>();
-            var valueSources = valueSourceFactory.FindByParameter(param.Name).ToList();
+            var valueSourceFactory = EngineContext.Current.Resolve<IParameterValueDataSourceProvider>();
+            var valueSources = valueSourceFactory.GetDataSources(param.Name).ToList();
 
             if (valueSources.Count > 0)
             {

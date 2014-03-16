@@ -7,17 +7,14 @@ namespace Kooboo.Commerce.Rules.Expressions
 {
     public class ConditionValueExpression : Expression
     {
-        public string DataSourceId { get; private set; }
-
         public string Value { get; private set; }
 
         public Type ValueType { get; private set; }
 
-        public ConditionValueExpression(string value, Type valueType, string dataSourceId)
+        public ConditionValueExpression(string value, Type valueType)
         {
             Value = value;
             ValueType = valueType;
-            DataSourceId = dataSourceId;
         }
 
         public override void Accept(IExpressionVisitor visitor)

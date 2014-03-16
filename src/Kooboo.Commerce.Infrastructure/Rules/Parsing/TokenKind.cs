@@ -13,8 +13,6 @@ namespace Kooboo.Commerce.Rules.Parsing
         AND,
         OR,
         Parenthesis,
-        Colon,
-        DataSourcePrefix,
         Equal,
         NotEqual,
         GreaterThan,

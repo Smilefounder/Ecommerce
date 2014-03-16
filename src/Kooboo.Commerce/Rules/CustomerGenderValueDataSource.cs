@@ -6,15 +6,15 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    [Dependency(typeof(IParameterValueSource), Key = "genders")]
-    public class CustomerGenderValueDataSource : IParameterValueSource
+    [Dependency(typeof(IParameterValueDataSource), Key = "genders")]
+    public class CustomerGenderValueDataSource : IParameterValueDataSource
     {
-        public string Id
+        public string Name
         {
             get { return "genders"; }
         }
 
-        public string ParameterName
+        public string TargetParameterName
         {
             get
             {
@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Rules
             }
         }
 
-        public IEnumerable<ParameterValue> GetValues(IConditionParameter param)
+        public IEnumerable<ParameterValue> GetValues(IParameter param)
         {
             return new List<ParameterValue>
             {

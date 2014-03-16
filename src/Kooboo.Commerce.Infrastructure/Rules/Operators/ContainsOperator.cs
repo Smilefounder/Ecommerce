@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Rules.Operators
             get { return "Contains"; }
         }
 
-        public bool Apply(IConditionParameter param, object paramValue, object inputValue)
+        public bool Apply(IParameter param, object paramValue, object inputValue)
         {
             Require.NotNull(param, "param");
             Require.NotNull(paramValue, "paramValue");

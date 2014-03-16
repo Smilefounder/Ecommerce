@@ -8,29 +8,41 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
+    /// <summary>
+    /// Class to evaluate the result of a condition expression.
+    /// </summary>
     public class ConditionExpressionEvaluator : ExpressionVisitor
     {
         private object _contextModel;
         private Stack<bool> _results = new Stack<bool>();
-        private List<ConditionParameterInfo> _availableParameters;
-        private IConditionParameterFactory _parameterFactory;
-        private IComparisonOperatorFactory _comparisonOperatorFactory;
-        private IParameterValueSourceFactory _dataSourceFactory;
+        private List<ParameterInfo> _availableParameters;
+        private IModelParameterProvider _parameterProvider;
+        private IComparisonOperatorProvider _comparisonOperatorProvider;
 
         public ConditionExpressionEvaluator(
-            IConditionParameterFactory parameterFactory,
-            IComparisonOperatorFactory comparisonOperatorFactory,
-            IParameterValueSourceFactory dataSourceFactory)
+            IModelParameterProvider parameterProvider,
+            IComparisonOperatorProvider comparisonOperatorProvider)
         {
-            _parameterFactory = parameterFactory;
-            _comparisonOperatorFactory = comparisonOperatorFactory;
-            _dataSourceFactory = dataSourceFactory;
+            Require.NotNull(parameterProvider, "parameterProvider");
+            Require.NotNull(comparisonOperatorProvider, "comparisonOperatorProvider");
+
+            _parameterProvider = parameterProvider;
+            _comparisonOperatorProvider = comparisonOperatorProvider;
         }
 
+        /// <summary>
+        /// Evaludates the result of the condition expression.
+        /// </summary>
+        /// <param name="expression">The expression to evaluate.</param>
+        /// <param name="contextModel">The context model.</param>
+        /// <returns>True if the condition expression passes, false otherwise.</returns>
         public bool Evaluate(Expression expression, object contextModel)
         {
+            Require.NotNull(expression, "expression");
+            Require.NotNull(contextModel, "contextModel");
+
             _contextModel = contextModel;
-            _availableParameters = _parameterFactory.GetConditionParameterInfos(contextModel.GetType()).ToList();
+            _availableParameters = _parameterProvider.GetParameters(contextModel.GetType()).ToList();
 
             Visit(expression);
 
@@ -47,7 +59,7 @@ namespace Kooboo.Commerce.Rules
                 throw new InvalidOperationException("Unrecognized parameter \"" + paramName + "\" or it's not accessable in currect context.");
 
 
-            var @operator = _comparisonOperatorFactory.FindByName(exp.Operator);
+            var @operator = _comparisonOperatorProvider.GetOperatorByName(exp.Operator);
             if (@operator == null)
             {
                 @operator = ComparisonOperators.GetOperatorFromShortcut(exp.Operator);
@@ -95,30 +107,9 @@ namespace Kooboo.Commerce.Rules
             Visit(exp.Right);
         }
 
-        private object GetConditionValue(ConditionValueExpression exp, IConditionParameter param)
+        private object GetConditionValue(ConditionValueExpression exp, IParameter param)
         {
-            string value = null;
-
-            if (!String.IsNullOrEmpty(exp.DataSourceId))
-            {
-                var dataSource = _dataSourceFactory.FindById(exp.DataSourceId);
-                if (dataSource == null)
-                    throw new InvalidOperationException("Cannot find data source with id: " + exp.DataSourceId + ".");
-
-                var item = dataSource.GetValues(param)
-                                     .FirstOrDefault(x => x.Value.Equals(exp.Value));
-
-                if (item == null)
-                    throw new InvalidOperationException("Cannot find value \"" + exp.Value + "\" in data source \"" + exp.DataSourceId + "\".");
-
-                value = item.Value;
-            }
-            else
-            {
-                value = exp.Value;
-            }
-
-            return param.ParseValue(value);
+            return param.ParseValue(exp.Value);
         }
     }
 }

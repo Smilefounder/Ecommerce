@@ -9,41 +9,47 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public interface IConditionParameterFactory
+    /// <summary>
+    /// Provides available condition expression parameters for a model type.
+    /// </summary>
+    public interface IModelParameterProvider
     {
-        IEnumerable<ConditionParameterInfo> GetConditionParameterInfos(Type modelType);
+        /// <summary>
+        /// Get the available condition expression parameters for the specified model type.
+        /// </summary>
+        IEnumerable<ParameterInfo> GetParameters(Type modelType);
     }
 
-    [Dependency(typeof(IConditionParameterFactory))]
-    public class DefaultConditionParameterFactory : IConditionParameterFactory
+    [Dependency(typeof(IModelParameterProvider))]
+    public class DefaultModelParameterProvider: IModelParameterProvider
     {
         private IEngine _engine;
-        private Lazy<List<IConditionParameter>> _staticParameters;
+        private Lazy<List<IParameter>> _staticParameters;
 
-        public DefaultConditionParameterFactory()
+        public DefaultModelParameterProvider()
             : this(EngineContext.Current)
         {
         }
 
-        public DefaultConditionParameterFactory(IEngine engine)
+        public DefaultModelParameterProvider(IEngine engine)
         {
             _engine = engine;
-            _staticParameters = new Lazy<List<IConditionParameter>>(ReloadStaticParameters, true);
+            _staticParameters = new Lazy<List<IParameter>>(ReloadStaticParameters, true);
         }
 
-        public IEnumerable<ConditionParameterInfo> GetConditionParameterInfos(Type modelType)
+        public IEnumerable<ParameterInfo> GetParameters(Type modelType)
         {
             return GetAvailableParametersRecursive(modelType, Enumerable.Empty<MemberInfo>(), new HashSet<Type>());
         }
 
-        private IEnumerable<ConditionParameterInfo> GetAvailableParametersRecursive(Type modelType, IEnumerable<MemberInfo> modelPath, HashSet<Type> inspectedModelTypes)
+        private IEnumerable<ParameterInfo> GetAvailableParametersRecursive(Type modelType, IEnumerable<MemberInfo> modelPath, HashSet<Type> inspectedModelTypes)
         {
             if (inspectedModelTypes.Contains(modelType))
             {
-                return Enumerable.Empty<ConditionParameterInfo>();
+                return Enumerable.Empty<ParameterInfo>();
             }
 
-            var parameters = new List<ConditionParameterInfo>();
+            var parameters = new List<ParameterInfo>();
 
             foreach (var param in GetAvailableParametersNoRecursive(modelType, modelPath))
             {
@@ -67,30 +73,30 @@ namespace Kooboo.Commerce.Rules
             return propType.IsClass && !typeof(IEnumerable).IsAssignableFrom(propType);
         }
 
-        private IEnumerable<ConditionParameterInfo> GetAvailableParametersNoRecursive(Type modelType, IEnumerable<MemberInfo> modelPath)
+        private IEnumerable<ParameterInfo> GetAvailableParametersNoRecursive(Type modelType, IEnumerable<MemberInfo> modelPath)
         {
-            var parameters = new List<ConditionParameterInfo>();
+            var parameters = new List<ParameterInfo>();
 
             foreach (var param in _staticParameters.Value.Where(x => x.ModelType == modelType))
             {
-                parameters.Add(new ConditionParameterInfo(param, modelPath));
+                parameters.Add(new ParameterInfo(param, modelPath));
             }
 
             foreach (var prop in modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                var param = DynamicConditionParameter.TryCreateFrom(prop);
+                var param = DynamicParameter.TryCreateFrom(prop);
                 if (param != null)
                 {
-                    parameters.Add(new ConditionParameterInfo(param, modelPath));
+                    parameters.Add(new ParameterInfo(param, modelPath));
                 }
             }
 
             return parameters;
         }
 
-        private List<IConditionParameter> ReloadStaticParameters()
+        private List<IParameter> ReloadStaticParameters()
         {
-            return _engine.ResolveAll<IConditionParameter>().ToList();
+            return _engine.ResolveAll<IParameter>().ToList();
         }
     }
 }

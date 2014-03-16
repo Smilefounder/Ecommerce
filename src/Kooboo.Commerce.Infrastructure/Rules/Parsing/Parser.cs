@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Rules.Parsing
     ///          factor : falt_condition | ( expression )
     ///  flat_condition : identifier comparison_op param_value
     ///   comparison_op : identifier in the available comparison operator list
-    ///     param_value : [ ds:datasource_id: ] string_literal | number
+    ///     param_value : string_literal | number
     ///     
     /// Notes:
     /// - falt_condition means the condition expression without nesting expressions;
@@ -30,12 +30,12 @@ namespace Kooboo.Commerce.Rules.Parsing
 
         public Expression Parse(string source)
         {
-            Require.NotNull(source, "source");
+            Require.NotNullOrEmpty(source, "source");
 
             _context = new ParsingContext();
             _tokenzier = new Tokenizer(source, _context);
 
-            var exp =  Expression();
+            var exp = Expression();
 
             if (_context.Errors.Count > 0)
                 throw new ParserException("Failed parsing condition expression.", _context.Errors);
@@ -210,65 +210,26 @@ namespace Kooboo.Commerce.Rules.Parsing
             }
         }
 
-        // param_value : [ datasource_id:: ] string_literal | number
+        // param_value : string_literal | number
         private ConditionValueExpression ParamValue()
         {
             using (var lookahead = _tokenzier.BeginLookahead())
             {
-                var token = _tokenzier.NextToken();
-                if (token == null)
-                {
-                    return null;
-                }
-
                 var sourceLocation = _tokenzier.CurrentLocation;
-                string dataSourceId = null;
 
-                var valueToken = token;
-
-                if (token.Kind == TokenKind.DataSourcePrefix)
+                var valueToken = _tokenzier.NextToken();
+                if (valueToken == null)
                 {
-                    sourceLocation = _tokenzier.CurrentLocation;
-
-                    var dataSourceIdToken = _tokenzier.NextToken();
-                    if (dataSourceIdToken == null)
-                    {
-                        _context.AddError("Missing data source id after 'ds:' prefix.", sourceLocation);
-                        return null;
-                    }
-
-                    dataSourceId = dataSourceIdToken.Value;
-
-                    // If found colon after data source id, then try get the specififed datasource item value
-                    var colon = _tokenzier.NextToken();
-                    if (colon != null)
-                    {
-                        sourceLocation = _tokenzier.CurrentLocation;
-
-                        valueToken = _tokenzier.NextToken();
-                        if (valueToken == null)
-                        {
-                            _context.AddError("Missing data source item value after 'ds:datasource_id:'.", sourceLocation);
-                            return null;
-                        }
-                    }
+                    _context.AddError("Missing value after condtion comparison operator.", sourceLocation);
+                    return null;
                 }
 
                 sourceLocation = _tokenzier.CurrentLocation;
 
-                if (String.IsNullOrEmpty(dataSourceId) && valueToken == null)
+                if (valueToken.Kind != TokenKind.StringLiteral && valueToken.Kind != TokenKind.Number)
                 {
-                    _context.AddError("Missing parameter value.", sourceLocation);
+                    _context.AddError("Incorrect parameter value. Expected string or number.", sourceLocation);
                     return null;
-                }
-
-                if (valueToken != null)
-                {
-                    if (valueToken.Kind != TokenKind.StringLiteral && valueToken.Kind != TokenKind.Number)
-                    {
-                        _context.AddError("Incorrect parameter value. Expected string or number.", sourceLocation);
-                        return null;
-                    }
                 }
 
                 lookahead.Accept();
@@ -284,7 +245,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                     valueType = typeof(double);
                 }
 
-                return new ConditionValueExpression(valueToken == null ? null : valueToken.Value, valueType, dataSourceId);
+                return new ConditionValueExpression(valueToken.Value, valueType);
             }
         }
 

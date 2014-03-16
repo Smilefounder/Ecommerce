@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Customers
             Addresses = new List<Address>();
         }
 
-        [ConditionParameter(Name = "CustomerId", DisplayName = "Customer ID")]
+        [Parameter(Name = "CustomerId", DisplayName = "Customer ID")]
         public int Id { get; set; }
 
         public string AccountId { get; set; }
@@ -25,10 +25,10 @@ namespace Kooboo.Commerce.Customers
 
         public string LastName { get; set; }
 
-        [ConditionParameter(Name = "CustomerEmail", DisplayName = "Customer Email")]
+        [Parameter(Name = "CustomerEmail", DisplayName = "Customer Email")]
         public string Email { get; set; }
 
-        [ConditionParameter(Name = "CustomerGender", DisplayName = "Customer Gender")]
+        [Parameter(Name = "CustomerGender", DisplayName = "Customer Gender")]
         public Gender Gender { get; set; }
 
         public string Phone { get; set; }
@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Customers
 
         public virtual CustomerLoyalty Loyalty { get; set; }
 
-        [ConditionParameter(Name = "CustomerFullName", DisplayName = "Customer Fullname")]
+        [Parameter(Name = "CustomerFullName", DisplayName = "Customer Fullname")]
         public string FullName
         {
             get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); }

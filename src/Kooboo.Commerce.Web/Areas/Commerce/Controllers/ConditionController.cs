@@ -13,9 +13,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ConditionController : CommerceControllerBase
     {
-        private IConditionParameterFactory _parameterFactory;
+        private IModelParameterProvider _parameterFactory;
 
-        public ConditionController(IConditionParameterFactory parameterFactory)
+        public ConditionController(IModelParameterProvider parameterFactory)
         {
             _parameterFactory = parameterFactory;
         }
@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var contextModelType = Type.GetType(contextModelTypeName, true);
             var models = new List<ConditionParameterModel>();
 
-            foreach (var param in _parameterFactory.GetConditionParameterInfos(contextModelType))
+            foreach (var param in _parameterFactory.GetParameters(contextModelType))
             {
                 models.Add(new ConditionParameterModel(param.Parameter));
             }

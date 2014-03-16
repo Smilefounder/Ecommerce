@@ -9,11 +9,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 {
     public class ConditionModelBuilder : ExpressionVisitor
     {
-        private IConditionParameterFactory _parameterFactory;
-        private List<IConditionParameter> _parameters;
+        private IModelParameterProvider _parameterFactory;
+        private List<IParameter> _parameters;
         private Stack<ConditionModel> _conditions = new Stack<ConditionModel>();
 
-        public ConditionModelBuilder(IConditionParameterFactory parameterFactory)
+        public ConditionModelBuilder(IModelParameterProvider parameterFactory)
         {
             Require.NotNull(parameterFactory, "parameterFactory");
             _parameterFactory = parameterFactory;
@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             if (contextModelType == null)
                 throw new ArgumentNullException("contextModelType");
 
-            _parameters = _parameterFactory.GetConditionParameterInfos(contextModelType)
+            _parameters = _parameterFactory.GetParameters(contextModelType)
                                            .Select(x => x.Parameter)
                                            .ToList();
 

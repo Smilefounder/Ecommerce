@@ -7,36 +7,36 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public interface IComparisonOperatorFactory
+    public interface IComparisonOperatorProvider
     {
-        IEnumerable<IComparisonOperator> All();
+        IEnumerable<IComparisonOperator> GetAllOperators();
 
-        IComparisonOperator FindByName(string name);
+        IComparisonOperator GetOperatorByName(string name);
     }
 
-    [Dependency(typeof(IComparisonOperatorFactory), ComponentLifeStyle.Singleton)]
-    public class DefaultComparisonOperatorFactory : IComparisonOperatorFactory
+    [Dependency(typeof(IComparisonOperatorProvider), ComponentLifeStyle.Singleton)]
+    public class DefaultComparisonOperatorProvider : IComparisonOperatorProvider
     {
         private IEngine _engine;
         private Lazy<List<IComparisonOperator>> _operators;
 
-        public DefaultComparisonOperatorFactory()
+        public DefaultComparisonOperatorProvider()
             : this(EngineContext.Current)
         {
         }
 
-        public DefaultComparisonOperatorFactory(IEngine engine)
+        public DefaultComparisonOperatorProvider(IEngine engine)
         {
             _engine = engine;
             _operators = new Lazy<List<IComparisonOperator>>(Reload, true);
         }
 
-        public IEnumerable<IComparisonOperator> All()
+        public IEnumerable<IComparisonOperator> GetAllOperators()
         {
             return _operators.Value;
         }
 
-        public IComparisonOperator FindByName(string name)
+        public IComparisonOperator GetOperatorByName(string name)
         {
             return _operators.Value.FirstOrDefault(x => x.Name == name);
         }

@@ -6,13 +6,19 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
+    /// <summary>
+    /// Represents a comparison operator used in a condition expression.
+    /// </summary>
     public interface IComparisonOperator
     {
         string Name { get; }
 
         string DisplayName { get; }
 
-        bool Apply(IConditionParameter param, object paramValue, object inputValue);
+        /// <summary>
+        /// Apply the operator to the specified parameter and the input value.
+        /// </summary>
+        bool Apply(IParameter param, object paramValue, object inputValue);
     }
 
     public static class ComparisonOperators

@@ -12,29 +12,24 @@ namespace Kooboo.Commerce.Rules
 {
     public class RuleEngine
     {
-        private IConditionParameterFactory _parameterFactory;
-        private IComparisonOperatorFactory _comparisonOperatorFactory;
-        private IParameterValueSourceFactory _dataSourceFactory;
+        private IModelParameterProvider _parameterProvider;
+        private IComparisonOperatorProvider _comparisonOperatorProvider;
 
         public RuleEngine()
-            : this(EngineContext.Current.Resolve<IConditionParameterFactory>()
-                , EngineContext.Current.Resolve<IComparisonOperatorFactory>()
-                , EngineContext.Current.Resolve<IParameterValueSourceFactory>())
+            : this(EngineContext.Current.Resolve<IModelParameterProvider>()
+                , EngineContext.Current.Resolve<IComparisonOperatorProvider>())
         {
         }
 
         public RuleEngine(
-            IConditionParameterFactory parameterFactory,
-            IComparisonOperatorFactory operatorFactory,
-            IParameterValueSourceFactory dataSourceFactory)
+            IModelParameterProvider parameterProvider,
+            IComparisonOperatorProvider operatorProvider)
         {
-            Require.NotNull(parameterFactory, "parameterFactory");
-            Require.NotNull(operatorFactory, "operatorFactory");
-            Require.NotNull(dataSourceFactory, "dataSourceFactory");
+            Require.NotNull(parameterProvider, "parameterProvider");
+            Require.NotNull(operatorProvider, "operatorProvider");
 
-            _parameterFactory = parameterFactory;
-            _comparisonOperatorFactory = operatorFactory;
-            _dataSourceFactory = dataSourceFactory;
+            _parameterProvider = parameterProvider;
+            _comparisonOperatorProvider = operatorProvider;
         }
 
         /// <summary>
@@ -48,10 +43,7 @@ namespace Kooboo.Commerce.Rules
             Require.NotNullOrEmpty(conditionExpression, "conditionExpression");
             Require.NotNull(contextModel, "contextModel");
 
-            return new ConditionExpressionEvaluator(
-                _parameterFactory
-                , _comparisonOperatorFactory
-                , _dataSourceFactory)
+            return new ConditionExpressionEvaluator(_parameterProvider, _comparisonOperatorProvider)
                 .Evaluate(Expression.Parse(conditionExpression), contextModel);
         }
     }

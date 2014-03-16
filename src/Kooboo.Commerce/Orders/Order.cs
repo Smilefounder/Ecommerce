@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Orders
             OrderItems = new List<OrderItem>();
         }
 
-        [ConditionParameter(Name = "OrderID", DisplayName = "Order ID")]
+        [Parameter(Name = "OrderID", DisplayName = "Order ID")]
         public int Id { get; set; }
 
         public int CustomerId { get; set; }
@@ -59,7 +59,7 @@ namespace Kooboo.Commerce.Orders
         /// </summary>
         public decimal PaymentMethodCost { get; set; }
 
-        [ConditionParameter(Name = "OrderTotal", DisplayName = "Order Total")]
+        [Parameter(Name = "OrderTotal", DisplayName = "Order Total")]
         public decimal Total { get; set; }
 
         /// <summary>
