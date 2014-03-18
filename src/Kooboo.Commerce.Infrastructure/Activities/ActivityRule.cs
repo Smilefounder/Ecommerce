@@ -1,25 +1,52 @@
 ﻿using Kooboo.Commerce.Activities.Events;
 using Kooboo.Commerce.Events;
 using Kooboo.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.Commerce.Activities
 {
+    public enum RuleBranch
+    {
+        Then,
+        Else,
+    }
+
     public class ActivityRule : AggregateRoot
     {
         public int Id { get; set; }
 
+        [Required, StringLength(500)]
         public string EventType { get; set; }
 
         public RuleType Type { get; set; }
 
+        [StringLength(3000)]
         public string ConditionsExpression { get; set; }
 
         public virtual ICollection<AttachedActivity> AttachedActivities { get; protected set; }
+
+        [NotMapped]
+        public virtual ICollection<AttachedActivity> ThenActivities
+        {
+            get
+            {
+                return AttachedActivities.Where(x => x.RuleBranch == RuleBranch.Then).ToList();
+            }
+        }
+
+        [NotMapped]
+        public virtual ICollection<AttachedActivity> ElseActivities
+        {
+            get
+            {
+                return AttachedActivities.Where(x => x.RuleBranch == RuleBranch.Else).ToList();
+            }
+        }
 
         public DateTime CreatedAtUtc { get; set; }
 
@@ -39,9 +66,9 @@ namespace Kooboo.Commerce.Activities
             };
         }
 
-        public AttachedActivity AttacheActivity(string description, string activityName, string activityData)
+        public AttachedActivity AttacheActivity(RuleBranch branch, string description, string activityName, string activityData)
         {
-            var attachedActivity = new AttachedActivity(this)
+            var attachedActivity = new AttachedActivity(this, branch)
             {
                 Description = description,
                 ActivityName = activityName,
@@ -56,22 +83,36 @@ namespace Kooboo.Commerce.Activities
             return attachedActivity;
         }
 
-        public AttachedActivity FindAttachedActivity(int attachedActivityId)
+        public bool DetachActivity(int attachedActivityId)
         {
-            return AttachedActivities.FirstOrDefault(x => x.Id == attachedActivityId);
-        }
-
-        public bool DetacheActivity(int attachedActivityId)
-        {
-            var attachedActivity = AttachedActivities.FirstOrDefault(x => x.Id == attachedActivityId);
+            var attachedActivity = AttachedActivities.ById(attachedActivityId);
             if (attachedActivity != null)
             {
-                AttachedActivities.Remove(attachedActivity);
-                Event.Apply(new ActivityDetached(this, attachedActivity));
-                return true;
+                return DetachActivity(attachedActivity);
             }
 
             return false;
+        }
+
+        public bool DetachActivity(AttachedActivity activity)
+        {
+            Require.NotNull(activity, "activity");
+
+            var detached = AttachedActivities.Remove(activity);
+            if (detached)
+            {
+                Event.Apply(new ActivityDetached(this, activity));
+            }
+
+            return detached;
+        }
+
+        public void DetachAllActivities()
+        {
+            foreach (var activity in AttachedActivities.ToList())
+            {
+                DetachActivity(activity);
+            }
         }
     }
 

@@ -7,6 +7,11 @@ namespace Kooboo.Commerce.Activities
 {
     public static class AttachedActivitiesExtensions
     {
+        public static AttachedActivity ById(this IEnumerable<AttachedActivity> activities, int attachedActivityId)
+        {
+            return activities.FirstOrDefault(x => x.Id == attachedActivityId);
+        }
+
         public static IEnumerable<AttachedActivity> WhereEnabled(this IEnumerable<AttachedActivity> activities)
         {
             return activities.Where(x => x.IsEnabled);

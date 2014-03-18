@@ -71,13 +71,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View();
         }
 
-        public ActionResult Create(int ruleId, string activityName)
+        public ActionResult Create(int ruleId, RuleBranch branch, string activityName)
         {
             var rule = _activityRuleService.GetById(ruleId);
             var activity = _activityFactory.FindByName(activityName);
             var model = new AttachedActivityModel
             {
                 RuleId = rule.Id,
+                RuleBranch = branch,
                 ActivityName = activityName,
                 ActivityDisplayName = activity.DisplayName
             };
@@ -88,7 +89,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Create(AttachedActivityModel model)
         {
             var rule = _activityRuleService.GetById(model.RuleId);
-            var attachedActivity = rule.AttacheActivity(model.Description, model.ActivityName, null);
+            var attachedActivity = rule.AttacheActivity(model.RuleBranch, model.Description, model.ActivityName, null);
             attachedActivity.IsEnabled = model.IsEnabled;
 
             CommerceContext.CurrentInstance.Database.SaveChanges();
@@ -112,7 +113,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Edit(int ruleId, int attachedActivityId)
         {
             var rule = _activityRuleService.GetById(ruleId);
-            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            var attachedActivity = rule.AttachedActivities.ById(attachedActivityId);
             var activity = _activityFactory.FindByName(attachedActivity.ActivityName);
             var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
             var eventType = Type.GetType(rule.EventType, true);
@@ -127,7 +128,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Edit(AttachedActivityModel model)
         {
             var rule = _activityRuleService.GetById(model.RuleId);
-            var attachedActivity = rule.FindAttachedActivity(model.Id);
+            var attachedActivity = rule.AttachedActivities.ById(model.Id);
 
             attachedActivity.Description = model.Description;
             attachedActivity.IsEnabled = model.IsEnabled;
@@ -156,10 +157,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var rule in rules)
             {
                 var model = new ActivityRuleModel(rule);
-                foreach (var each in model.AttachedActivities)
+                model.ForEachAttachedActivity(x =>
                 {
-                    each.ConfigUrl = GetActivityConfigUrl(rule, rule.FindAttachedActivity(each.Id));
-                }
+                    x.ConfigUrl = GetActivityConfigUrl(rule, rule.AttachedActivities.ById(x.Id));
+                });
 
                 models.Add(model);
             }
@@ -211,7 +212,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetAttachedActivity(int ruleId, int attachedActivityId)
         {
             var rule = _activityRuleService.GetById(ruleId);
-            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            var attachedActivity = rule.AttachedActivities.ById(attachedActivityId);
             return JsonNet(new AttachedActivityModel(attachedActivity)
             {
                 ConfigUrl = GetActivityConfigUrl(rule, attachedActivity)
@@ -223,7 +224,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
             if (views != null)
             {
-                return Url.RouteUrl(views.Settings(rule.FindAttachedActivity(attachedActivity.Id), ControllerContext), RouteValues.From(Request.QueryString));
+                return Url.RouteUrl(views.Settings(rule.AttachedActivities.ById(attachedActivity.Id), ControllerContext), RouteValues.From(Request.QueryString));
             }
 
             return null;
@@ -233,7 +234,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult DetachActivity(int ruleId, int attachedActivityId)
         {
             var rule = _activityRuleService.GetById(ruleId);
-            rule.DetacheActivity(attachedActivityId);
+            rule.DetachActivity(attachedActivityId);
             return AjaxForm();
         }
     }

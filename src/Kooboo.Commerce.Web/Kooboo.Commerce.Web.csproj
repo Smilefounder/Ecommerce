@@ -2245,6 +2245,7 @@
     <Content Include="Areas\Commerce\Views\AddInManagement\_ModuleNode.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_InstancesDropdown.cshtml" />
     <Content Include="Areas\Commerce\GlobalMenu.config" />
+    <Content Include="Areas\Commerce\Views\Activity\List.Scripts.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
