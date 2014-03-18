@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Activities.Recommendation.Controllers
         public ActionResult Settings(int ruleId, int attachedActivityId)
         {
             var rule = _ruleService.GetById(ruleId);
-            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            var attachedActivity = rule.AttachedActivities.ById(attachedActivityId);
             var settings = RecommendationActivitySettings.Deserialize(attachedActivity.ActivityData) ?? new RecommendationActivitySettings();
 
             return View(settings);
@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Activities.Recommendation.Controllers
         public ActionResult Settings(int ruleId, int attachedActivityId, RecommendationActivitySettings settings)
         {
             var rule = _ruleService.GetById(ruleId);
-            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            var attachedActivity = rule.AttachedActivities.ById(attachedActivityId);
             attachedActivity.ActivityData = settings.Serialize();
 
             return AjaxForm();

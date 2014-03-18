@@ -19,13 +19,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public string HighlightedConditionsExpression { get; set; }
 
-        public List<AttachedActivityModel> AttachedActivities { get; set; }
+        public List<ActivityRuleBranchModel> Branches { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
 
         public ActivityRuleModel()
         {
-            AttachedActivities = new List<AttachedActivityModel>();
+            Branches = new List<ActivityRuleBranchModel>();
         }
 
         public ActivityRuleModel(ActivityRule rule)
@@ -38,10 +38,47 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             HighlightedConditionsExpression = new ConditionsExpressionPrettifier().Prettify(rule.ConditionsExpression, System.Type.GetType(rule.EventType, true));
             CreatedAtUtc = rule.CreatedAtUtc;
 
-            foreach (var attachedActivity in rule.AttachedActivities)
+            Branches.Add(new ActivityRuleBranchModel
             {
-                AttachedActivities.Add(new AttachedActivityModel(attachedActivity));
+                RuleId = Id,
+                Branch = RuleBranch.Then,
+                AttachedActivities = rule.ThenActivities.Select(x => new AttachedActivityModel(x)).ToList()
+            });
+
+            if (rule.Type == RuleType.Normal)
+            {
+                Branches.Add(new ActivityRuleBranchModel
+                {
+                    RuleId = Id,
+                    Branch = RuleBranch.Else,
+                    AttachedActivities = rule.ElseActivities.Select(x => new AttachedActivityModel(x)).ToList()
+                });
             }
+        }
+
+        public void ForEachAttachedActivity(Action<AttachedActivityModel> action)
+        {
+            foreach (var branch in Branches)
+            {
+                foreach (var activity in branch.AttachedActivities)
+                {
+                    action(activity);
+                }
+            }
+        }
+    }
+
+    public class ActivityRuleBranchModel
+    {
+        public int RuleId { get; set; }
+
+        public RuleBranch Branch { get; set; }
+
+        public List<AttachedActivityModel> AttachedActivities { get; set; }
+
+        public ActivityRuleBranchModel()
+        {
+            AttachedActivities = new List<AttachedActivityModel>();
         }
     }
 
@@ -63,6 +100,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public int RuleId { get; set; }
 
+        public RuleBranch RuleBranch { get; set; }
+
         public AttachedActivityModel()
         {
             IsEnabled = true;
@@ -76,6 +115,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             ActivityName = activity.ActivityName;
             IsEnabled = activity.IsEnabled;
             Priority = activity.Priority;
+            RuleBranch = activity.RuleBranch;
         }
     }
 }

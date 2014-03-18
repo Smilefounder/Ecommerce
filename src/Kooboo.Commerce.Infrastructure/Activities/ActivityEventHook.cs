@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Activities
         protected override void DoHandle(IEvent @event, CommerceInstance commerceInstance, EventDispatchingContext context)
         {
             var executor = new ActivityExecutor(_activityFactory, commerceInstance.Database.GetRepository<ActivityRule>());
-            executor.ExecuteActivities(@event, context);
+            executor.Execute(@event, context);
         }
     }
 
@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.Activities
         protected override void DoHandle(IEvent @event, CommerceInstance commerceInstance, EventDispatchingContext context)
         {
             var executor = new ActivityExecutor(_activityFactory, commerceInstance.Database.GetRepository<ActivityRule>());
-            executor.ExecuteActivities(@event, context);
+            executor.Execute(@event, context);
         }
     }
 }

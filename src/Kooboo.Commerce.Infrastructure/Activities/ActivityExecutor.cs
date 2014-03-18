@@ -24,43 +24,55 @@ namespace Kooboo.Commerce.Activities
             _repository = repository;
         }
 
-        public void ExecuteActivities(IEvent @event, EventDispatchingContext context)
+        public void Execute(IEvent @event, EventDispatchingContext context)
         {
             var ruleEngine = new RuleEngine();
 
             foreach (var rule in _repository.Query().ByEvent(@event.GetType()))
             {
-                if (rule.Type == RuleType.Always || ruleEngine.CheckCondition(rule.ConditionsExpression, @event))
+                if (rule.Type == RuleType.Always)
                 {
-                    var attachedActivities = rule.AttachedActivities
-                                                 .WhereEnabled()
-                                                 .SortByExecutionOrder();
-
-                    foreach (var attachedActivity in rule.AttachedActivities)
+                    ExecuteActivities(rule.ThenActivities, rule, @event, context);
+                }
+                else
+                {
+                    if (ruleEngine.CheckCondition(rule.ConditionsExpression, @event))
                     {
-                        var activity = _activityFactory.FindByName(attachedActivity.ActivityName);
-                        if (activity == null)
-                            throw new InvalidOperationException("Cannot find activity with name \"" + attachedActivity.ActivityName + "\".");
-
-
-                        var awaitAttribute = TryGetAwaitAttribute(activity);
-
-                        if (!EventHandlerUtil.IsTimeToExecute(awaitAttribute, context))
-                        {
-                            continue;
-                        }
-
-                        var response = activity.Execute(@event, new ActivityExecutionContext(rule, attachedActivity));
-
-                        if (response == ActivityResult.SkipSubsequentActivities)
-                        {
-                            break;
-                        }
-                        else if (response == ActivityResult.AbortTransaction)
-                        {
-                            throw new TransactionAbortException("Activity requested to abort transaction.");
-                        }
+                        ExecuteActivities(rule.ThenActivities, rule, @event, context);
                     }
+                    else
+                    {
+                        ExecuteActivities(rule.ElseActivities, rule, @event, context);
+                    }
+                }
+            }
+        }
+
+        private void ExecuteActivities(IEnumerable<AttachedActivity> attachedActivities, ActivityRule rule, IEvent @event, EventDispatchingContext context)
+        {
+            foreach (var attachedActivity in attachedActivities)
+            {
+                var activity = _activityFactory.FindByName(attachedActivity.ActivityName);
+                if (activity == null)
+                    throw new InvalidOperationException("Cannot find activity with name \"" + attachedActivity.ActivityName + "\".");
+
+
+                var awaitAttribute = TryGetAwaitAttribute(activity);
+
+                if (!EventHandlerUtil.IsTimeToExecute(awaitAttribute, context))
+                {
+                    continue;
+                }
+
+                var response = activity.Execute(@event, new ActivityExecutionContext(rule, attachedActivity));
+
+                if (response == ActivityResult.SkipSubsequentActivities)
+                {
+                    break;
+                }
+                else if (response == ActivityResult.AbortTransaction)
+                {
+                    throw new TransactionAbortException("Activity requested to abort transaction.");
                 }
             }
         }

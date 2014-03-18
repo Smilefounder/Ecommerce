@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder.Controllers
         public ActionResult Settings(int ruleId, int attachedActivityId)
         {
             var rule = _ruleService.GetById(ruleId);
-            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            var attachedActivity = rule.AttachedActivities.ById(attachedActivityId);
             var settings = new InvoiceReminderSettings();
 
             if (!String.IsNullOrEmpty(attachedActivity.ActivityData))
@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder.Controllers
         public ActionResult Settings(int ruleId, int attachedActivityId, InvoiceReminderSettings settings)
         {
             var rule = _ruleService.GetById(ruleId);
-            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            var attachedActivity = rule.AttachedActivities.ById(attachedActivityId);
             attachedActivity.ActivityData = JsonConvert.SerializeObject(settings);
 
             return AjaxForm();

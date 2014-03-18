@@ -1,0 +1,295 @@
+﻿<script>
+    $(function () {
+
+        var commerceName = '@(Request["commerceName"])';
+        var eventType = '@Html.Raw(ViewBag.CurrentEventType)';
+
+        var vm = new ViewModel();
+        var mappingOptions = {
+            branches: {
+                create: function (args) {
+                    return ko.mapping.fromJS(args.data, {}, new ActivityRuleBranchViewModel(args.parent));
+                }
+            }
+        };
+
+        ConditionsEditor.init({
+            contextModelTypeName: eventType,
+            save: function (exp) {
+                vm.ruleContext().accept(exp);
+            }
+        });
+
+        // Context for an active activity rule. e.g., when attaching an activity, the activity's containing rule will be active,
+        // and a RuleContext will be created for it.
+        function RuleContext(vm, currentRule) {
+            var _this = this;
+            var _currentRule = currentRule;
+            var _vm = vm;
+
+            this.currentRule = function () {
+                return _currentRule;
+            }
+
+            this.accept = function (exp) {
+                var task = null;
+
+                if (_currentRule) {
+                    task = _vm.updateConditions(_currentRule, exp);
+                } else {
+                    task = _vm.createRule(exp);
+                }
+
+                task.then(function () {
+                    ConditionsEditor.close();
+                    _vm.completeRuleContext();
+                });
+            }
+
+            this.cancel = function () {
+                ConditionsEditor.close();
+                _vm.completeRuleContext();
+            }
+        }
+
+        // Context for an active activity. e.g., when editing an activity, the activity will be active,
+        // and a ActivityContext will be created for it. (A rule context will also be created for it)
+        function ActivityContext(vm, currentBranch, currentActivity) {
+            var _this = this;
+            var _currentActivity = currentActivity;
+            var _currentBranch = currentBranch;
+            var _currentActivityId = currentActivity ? currentActivity.id() : null;
+            var _vm = vm;
+
+            this.currentBranch = function () {
+                return _currentBranch;
+            }
+
+            this.currentActivity = function () {
+                return _currentActivity;
+            }
+
+            this.accept = function () {
+                var branch = _this.currentBranch();
+
+                _this.refresh()
+                     .then(function () {
+                         branch.isAttachingActivity(false);
+                         _this.closeDialog();
+                         _vm.completeActivityContext();
+                     });
+            }
+
+            this.refresh = function (newAttachedActivityId) {
+                if (newAttachedActivityId) {
+                    _currentActivityId = newAttachedActivityId;
+                }
+
+                var rule = _vm.ruleContext().currentRule();
+                var ruleId = rule.id();
+                var activityId = _currentActivityId;
+
+                return $.get('@Url.Action("GetAttachedActivity")', { ruleId: ruleId, attachedActivityId: activityId, commerceName: commerceName })
+                        .then(function (data) {
+                            if (!_currentActivity) {
+                                _currentActivity = ko.mapping.fromJS(data);
+                                _currentBranch.attachedActivities.push(_currentActivity);
+                            } else {
+                                ko.mapping.fromJS(data, mappingOptions, _currentActivity);
+                            }
+                        });
+            }
+
+            this.closeDialog = function () {
+                var pop = $.popContext.getCurrent();
+                if (pop) {
+                    pop.close();
+                }
+            }
+
+            this.cancel = function () {
+                _this.currentBranch().isAttachingActivity(false);
+                _this.closeDialog();
+                _vm.completeActivityContext();
+            }
+        }
+
+        function ActivityRuleBranchViewModel(rule) {
+            var _this = this;
+            var _rule = rule;
+
+            this.attachedActivities = ko.observableArray();
+
+            this.isAttachingActivity = ko.observable(false);
+
+            this.selectedActivityName = ko.observable();
+
+            this.beginAttachActivity = function () {
+                vm.beginActivityContext(_rule, _this, null);
+                _this.isAttachingActivity(true);
+            }
+
+            this.cancelAttachActivity = function () {
+                _this.isAttachingActivity(false);
+                _this.selectedActivityName(null);
+                vm.completeRuleContext();
+            }
+
+            this.openAttachActivityDialog = function () {
+                $.pop({
+                    height: 500,
+                    url: '@Url.Action("Create")'
+                        + '?commerceName=' + commerceName
+                        + '&ruleId=' + _this.ruleId()
+                        + '&branch=' + _this.branch()
+                        + '&activityName=' + _this.selectedActivityName()
+                });
+            }
+
+            this.editAttachedActivity = function (attachedActivity) {
+                vm.beginActivityContext(_rule, _this, attachedActivity);
+                $.pop({
+                    height: 500,
+                    url: '@Url.Action("Edit")' + '?commerceName=' + commerceName + '&ruleId=' + _this.ruleId() + '&attachedActivityId=' + attachedActivity.id()
+                });
+            }
+
+            this.configureAttachedActivity = function (attachedActivity) {
+                vm.beginActivityContext(_rule, _this, attachedActivity);
+                $.pop({
+                    height: 500,
+                    url: attachedActivity.configUrl()
+                });
+            }
+
+            this.detachActivity = function (attachedActivity) {
+                if (!confirm('@("Are you sure to detach this activity?".Localize())')) {
+                    return false;
+                }
+
+                $.post('@Url.Action("DetachActivity")', { ruleId: _this.ruleId(), attachedActivityId: attachedActivity.id(), commerceName: commerceName })
+                 .then(function (result) {
+                     if (result.Success) {
+                         _this.attachedActivities.remove(attachedActivity);
+                     } else {
+                         window.info.show(result.Messages.join('<br/>'), false);
+                     }
+                 });
+            }
+        }
+
+        function ViewModel() {
+            var _this = this;
+            var _ruleContext = null;
+            var _activityContext = null;
+
+            this.rules = ko.observableArray();
+
+            this.availableActivities = ko.observableArray();
+
+            this.ruleContext = function () {
+                return _ruleContext;
+            }
+
+            this.activityContext = function () {
+                return _activityContext;
+            }
+
+            this.beginRuleContext = function (editedRule) {
+                if (_ruleContext) {
+                    _ruleContext.cancel();
+                }
+                _ruleContext = new RuleContext(_this, editedRule);
+            }
+
+            this.completeRuleContext = function () {
+                _ruleContext = null;
+            }
+
+            this.beginActivityContext = function (rule, branch, activity) {
+                if (_activityContext) {
+                    _activityContext.cancel();
+                }
+                _this.beginRuleContext(rule);
+                _activityContext = new ActivityContext(_this, branch, activity);
+            }
+
+            this.completeActivityContext = function () {
+                _activityContext = null;
+                _this.completeRuleContext();
+            }
+
+            this.addRule = function (name) {
+                _this.beginRuleContext(null);
+                ConditionsEditor.reset();
+                ConditionsEditor.open();
+            }
+
+            this.editRule = function (rule) {
+                _this.beginRuleContext(rule);
+                ConditionsEditor.open({
+                    conditionsExpression: rule.conditionsExpression()
+                });
+            }
+
+            this.updateConditions = function (rule, expression) {
+                return $.post('@Url.Action("UpdateConditions")', { ruleId: rule.id(), expression: expression, commerceName: commerceName })
+                        .then(function (data) {
+                            rule.conditionsExpression(data.conditionsExpression);
+                            rule.highlightedConditionsExpression(data.highlightedConditionsExpression);
+                        });
+            }
+
+            this.createRule = function (expression) {
+                return $.post('@Url.Action("CreateRule")', { expression: expression, eventType: eventType, commerceName: commerceName })
+                        .success(function (data) {
+                            _this.rules.splice(_this.rules().length - 1, 0, _this.createRuleViewModel(data));
+                        });
+            }
+
+            this.deleteRule = function (rule) {
+                if (!confirm('@("Are you sure to delete this rule?".Localize())')) {
+                    return false;
+                }
+
+                $.post('@Url.Action("DeleteRule")', { ruleId: rule.id(), commerceName: commerceName })
+                 .then(function () {
+                     _this.rules.remove(rule);
+                 });
+            }
+
+            this.findRuleById = function (id) {
+                return _.find(_this.rules(), function (rule) {
+                    return rule.id() == id;
+                });
+            }
+        }
+
+        var loadAvailableActivitiesAsync = $.get('@Url.Action("GetAvailableActivities")', { eventType: eventType, commerceName: commerceName })
+                                            .then(function (data) {
+                                                $.each(data, function () {
+                                                    vm.availableActivities.push(ko.mapping.fromJS(this));
+                                                });
+                                            });
+
+        var loadRulesAsync = $.get('@Url.Action("GetRules")', { eventType: eventType, commerceName: commerceName })
+                              .then(function (rules) {
+                                  $.each(rules, function () {
+                                      vm.rules.push(ko.mapping.fromJS(this, mappingOptions));
+                                  });
+                              });
+
+        setTimeout(function () {
+            window.loading.show();
+
+            $.when(loadAvailableActivitiesAsync, loadRulesAsync)
+             .then(function () {
+                 ko.applyBindings(vm, document.getElementById('rules-container'));
+                 window.loading.hide();
+             });
+        }, 100);
+
+        window.ViewModel = vm;
+    });
+
+</script>
