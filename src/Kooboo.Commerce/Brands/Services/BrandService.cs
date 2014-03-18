@@ -24,17 +24,17 @@ namespace Kooboo.Commerce.Brands.Services
             return _brandRepository.Get(o => o.Id == id);
         }
 
-        public IEnumerable<Brand> GetAllBrands()
+        public IQueryable<Brand> Query()
         {
-            return _brandRepository.Query().ToArray();
+            return _brandRepository.Query();
         }
 
-        public IPagedList<Brand> GetAllBrands(int? pageIndex, int? pageSize)
-        {
-            var query = _brandRepository.Query();
-            query = query.OrderByDescending(o => o.Id);
-            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
-        }
+        //public IPagedList<Brand> GetAllBrands(int? pageIndex, int? pageSize)
+        //{
+        //    var query = _brandRepository.Query();
+        //    query = query.OrderByDescending(o => o.Id);
+        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+        //}
 
         public void Create(Brand brand)
         {
