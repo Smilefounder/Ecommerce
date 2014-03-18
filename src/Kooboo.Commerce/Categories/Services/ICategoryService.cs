@@ -9,13 +9,13 @@ namespace Kooboo.Commerce.Categories.Services
     {
         Category GetById(int id);
 
-        IEnumerable<Category> GetAllCategories();
+        IQueryable<Category> Query();
 
-        IEnumerable<Category> GetRootCategories();
+        //IEnumerable<Category> GetRootCategories();
 
-        IPagedList<Category> GetRootCategories(int? pageIndex, int? pageSize);
+        //IPagedList<Category> GetRootCategories(int? pageIndex, int? pageSize);
 
-        IEnumerable<Category> GetChildCategories(int parentId);
+        //IEnumerable<Category> GetChildCategories(int parentId);
 
         void Create(Category category);
 

@@ -19,83 +19,93 @@ namespace Kooboo.Commerce.Customers.Services
         private readonly ICommerceDatabase _db;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<CustomerLoyalty> _customerLoyaltyRepository;
-        private readonly IRepository<Order> _orderRepository;
+        //private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<Address> _addressRepository;
-        private readonly IRepository<Country> _countryRepository;
+        //private readonly IRepository<Country> _countryRepository;
 
-        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<Address> addressRepository, IRepository<CustomerLoyalty> customerLoyaltyRepository, IRepository<Country> countryRepository)
+        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Address> addressRepository, IRepository<CustomerLoyalty> customerLoyaltyRepository)
         {
             _db = db;
             _customerRepository = customerRepository;
-            _orderRepository = orderRepository;
+            //_orderRepository = orderRepository;
             _addressRepository = addressRepository;
             _customerLoyaltyRepository = customerLoyaltyRepository;
-            _countryRepository = countryRepository;
+            //_countryRepository = countryRepository;
         }
 
-        private Customer LoadAllInfo(Customer customer)
-        {
-            if (customer != null)
-            {
-                customer.Addresses = _addressRepository.Query(o => o.CustomerId == customer.Id).ToList();
-                customer.Country = _countryRepository.Query(o => o.Id == customer.CountryId).FirstOrDefault();
-            }
-            return customer;
-        }
+        //private Customer LoadAllInfo(Customer customer)
+        //{
+        //    if (customer != null)
+        //    {
+        //        customer.Addresses = _addressRepository.Query(o => o.CustomerId == customer.Id).ToList();
+        //        customer.Country = _countryRepository.Query(o => o.Id == customer.CountryId).FirstOrDefault();
+        //    }
+        //    return customer;
+        //}
 
-        public Customer GetById(int id, bool loadAllInfo = true)
+        public Customer GetById(int id)
         {
             var customer = _customerRepository.Get(o => o.Id == id);
-            if (loadAllInfo && customer != null)
-            {
-                LoadAllInfo(customer);
-            }
-
             return customer;
         }
 
-        public Customer GetByAccountId(string accountId, bool loadAllInfo = true)
+        public IQueryable<Customer> Query()
         {
-            var customer = _customerRepository.Get(o => o.AccountId == accountId);
-
-            if (loadAllInfo && customer != null)
-            {
-                LoadAllInfo(customer);
-            }
-
-            return customer;
+            return _customerRepository.Query();
         }
 
-        public IPagedList<Customer> GetAllCustomers(string search, int? pageIndex, int? pageSize)
+        public IQueryable<Address> QueryAddress()
         {
-            var query = _customerRepository.Query();
-            if (!string.IsNullOrEmpty(search))
-                query = query.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
-            query = query.OrderByDescending(o => o.Id);
-            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+            return _addressRepository.Query();
         }
 
-        public IPagedList<T> GetAllCustomersWithOrderCount<T>(string search, int? pageIndex, int? pageSize, Func<Customer, int, T> func)
+        public IQueryable<CustomerLoyalty> QueryCustomerLoyalty()
         {
-            var orderQuery = _orderRepository.Query();
-            var customerQuery = _customerRepository.Query();
-            if (!string.IsNullOrEmpty(search))
-                customerQuery = customerQuery.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
-            IQueryable<dynamic> query = customerQuery
-                .GroupJoin(orderQuery,
-                           customer => customer.Id,
-                           order => order.CustomerId,
-                           (customer, orders) => new { Customer = customer, Orders = orders.Count() })
-                .OrderByDescending(groupedItem => groupedItem.Customer.Id);
-
-            return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Customer, o.Orders), pageIndex ?? 1, pageSize ?? 50);
+            return _customerLoyaltyRepository.Query();
         }
 
-        public IPagedList<Order> GetCustomerOrders(int customerId, int? pageIndex, int? pageSize)
-        {
-            var orderQuery = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
-            return PageLinqExtensions.ToPagedList(orderQuery, pageIndex ?? 1, pageSize ?? 50);
-        }
+        //public Customer GetByAccountId(string accountId, bool loadAllInfo = true)
+        //{
+        //    var customer = _customerRepository.Get(o => o.AccountId == accountId);
+
+        //    if (loadAllInfo && customer != null)
+        //    {
+        //        LoadAllInfo(customer);
+        //    }
+
+        //    return customer;
+        //}
+
+        //public IPagedList<Customer> GetAllCustomers(string search, int? pageIndex, int? pageSize)
+        //{
+        //    var query = _customerRepository.Query();
+        //    if (!string.IsNullOrEmpty(search))
+        //        query = query.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
+        //    query = query.OrderByDescending(o => o.Id);
+        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+        //}
+
+        //public IPagedList<T> GetAllCustomersWithOrderCount<T>(string search, int? pageIndex, int? pageSize, Func<Customer, int, T> func)
+        //{
+        //    var orderQuery = _orderRepository.Query();
+        //    var customerQuery = _customerRepository.Query();
+        //    if (!string.IsNullOrEmpty(search))
+        //        customerQuery = customerQuery.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
+        //    IQueryable<dynamic> query = customerQuery
+        //        .GroupJoin(orderQuery,
+        //                   customer => customer.Id,
+        //                   order => order.CustomerId,
+        //                   (customer, orders) => new { Customer = customer, Orders = orders.Count() })
+        //        .OrderByDescending(groupedItem => groupedItem.Customer.Id);
+
+        //    return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Customer, o.Orders), pageIndex ?? 1, pageSize ?? 50);
+        //}
+
+        //public IPagedList<Order> GetCustomerOrders(int customerId, int? pageIndex, int? pageSize)
+        //{
+        //    var orderQuery = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
+        //    return PageLinqExtensions.ToPagedList(orderQuery, pageIndex ?? 1, pageSize ?? 50);
+        //}
 
         public Customer CreateByAccount(MembershipUser user)
         {

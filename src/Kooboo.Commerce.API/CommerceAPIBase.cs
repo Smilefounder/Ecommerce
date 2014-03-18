@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.API
         //    get { return GetAPI<ICountryAPI>(); }
         //}
 
-        public IBrandQuery Brand
+        public IBrandQuery Brands
         {
             get { return GetAPI<IBrandQuery, Brand>(); }
         }

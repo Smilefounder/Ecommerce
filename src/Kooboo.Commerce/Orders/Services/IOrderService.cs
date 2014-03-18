@@ -12,15 +12,17 @@ namespace Kooboo.Commerce.Orders.Services
     {
         Order GetById(int id, bool loadAllInfo = true);
 
-        Order GetByShoppingCartId(int shoppingCartId);
+        IQueryable<Order> Query();
+
+        //Order GetByShoppingCartId(int shoppingCartId);
 
         Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool expireShoppingCart);
 
-        IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize);
+        //IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize);
 
-        IPagedList<T> GetAllOrdersWithCustomer<T>(string search, int? pageIndex, int? pageSize, Func<Order, Customer, T> func);
+        //IPagedList<T> GetAllOrdersWithCustomer<T>(string search, int? pageIndex, int? pageSize, Func<Order, Customer, T> func);
 
-        IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize);
+        //IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize);
 
         void Create(Order order);
 

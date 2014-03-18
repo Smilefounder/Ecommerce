@@ -14,32 +14,38 @@ namespace Kooboo.Commerce.API.LocalProvider
         protected abstract IQueryable<Model> CreateQuery();
         protected abstract IQueryable<Model> OrderByDefault(IQueryable<Model> query);
 
-        protected Expression<Func<Model, T>> Select()
+        public virtual T[] Pagination(int pageIndex, int pageSize)
         {
-            return o => _mapper.MapTo(o);
-        }
-
-        public T[] Pagination(int pageIndex, int pageSize)
-        {
+            CreateQuery();
             var query = OrderByDefault(_query).Select(o => _mapper.MapTo(o)).Skip(pageIndex * pageSize).Take(pageSize);
             return query.ToArray();
         }
 
-        public T FirstOrDefault()
+        public virtual T FirstOrDefault()
         {
+            CreateQuery();
             var query = _query.Select(o => _mapper.MapTo(o)).FirstOrDefault();
             return query;
         }
 
-        public T[] ToArray()
+        public virtual T[] ToArray()
         {
+            CreateQuery();
             var query = _query.Select(o => _mapper.MapTo(o));
             return query.ToArray();
         }
 
-        public int Count()
+        public virtual int Count()
         {
+            CreateQuery();
             return _query.Count();
         }
+
+
+        public abstract void Create(T obj);
+
+        public abstract void Update(T obj);
+
+        public abstract void Delete(T obj);
     }
 }

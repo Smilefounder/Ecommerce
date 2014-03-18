@@ -42,5 +42,26 @@ namespace Kooboo.Commerce.API.RestProvider.Brands
         {
             return Get<int>("Count");
         }
+
+
+        public void Create(Brand obj)
+        {
+            Post<bool>(null, obj);
+        }
+
+        public void Update(Brand obj)
+        {
+            Put<bool>(null, obj);
+        }
+
+        public void Delete(Brand obj)
+        {
+            Delete<bool>(null, obj);
+        }
+
+        protected override string ApiControllerPath
+        {
+            get { return "Brand"; }
+        }
     }
 }

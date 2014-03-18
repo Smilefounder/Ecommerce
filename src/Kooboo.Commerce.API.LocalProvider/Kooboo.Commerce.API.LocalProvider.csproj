@@ -39,9 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brands\LocalBrandQuery.cs" />
+    <Compile Include="Brands\BrandQuery.cs" />
+    <Compile Include="Categories\CategoryQuery.cs" />
+    <Compile Include="Customers\CustomerQuery.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="LocalCommerceQuery.cs" />
+    <Compile Include="Locations\CountryQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +57,7 @@
       <Name>Kooboo.Commerce</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

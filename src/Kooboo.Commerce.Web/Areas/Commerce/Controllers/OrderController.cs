@@ -154,7 +154,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var customer = _customerService.GetById(order.CustomerId);
             order.Customer = customer;
             ViewBag.Addresses = customer.Addresses;
-            ViewBag.Countries = _countryService.GetAllCountries();
+            ViewBag.Countries = _countryService.Query();
             ViewBag.PaymentMethods = _paymentMethodService.GetAllPaymentMethods();
 
             Session["TempOrder"] = order;

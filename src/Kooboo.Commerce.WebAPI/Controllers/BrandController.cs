@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Kooboo.Commerce.Brands;
+using Kooboo.Commerce.API.Brands;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.WebAPI.Controllers
         // GET api/brand
         public IEnumerable<Brand> Get()
         {
-            var objs = Commerce().Brand.GetAllBrands();
+            var objs = Commerce().Brands.ToArray();
             return objs;
         }
     }

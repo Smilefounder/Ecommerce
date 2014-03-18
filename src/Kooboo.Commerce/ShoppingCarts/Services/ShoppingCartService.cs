@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             if (shoppingCart == null)
             {
                 shoppingCart = new ShoppingCart();
-                shoppingCart.Customer = _customerService.GetById(customerId, false);
+                shoppingCart.Customer = _customerService.GetById(customerId);
                 Create(shoppingCart);
             }
 
@@ -93,7 +93,7 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
                 Require.NotNull(sessionId, "sessionId");
                 cart = new ShoppingCart();
                 cart.SessionId = sessionId;
-                cart.Customer = customerId.HasValue ? _customerService.GetById(customerId.Value, false) : null;
+                cart.Customer = customerId.HasValue ? _customerService.GetById(customerId.Value) : null;
                 cart.Items = new List<ShoppingCartItem>();
                 var productPrice = _productPriceRepository.Query(o => o.Id == productPriceId).First();
                 var cartItem = new ShoppingCartItem(productPrice, quantity, cart);
@@ -103,7 +103,7 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             else
             {
                 if (cart.Customer == null && customerId.HasValue)
-                    cart.Customer = _customerService.GetById(customerId.Value, false);
+                    cart.Customer = _customerService.GetById(customerId.Value);
                 var cartItem = cart.Items.FirstOrDefault(o => o.ProductPrice.Id == productPriceId);
                 if (cartItem == null)
                 {
@@ -173,7 +173,7 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             var cart = _shoppingCartRepository.Query(o => o.SessionId == sessionId).FirstOrDefault();
             if(cart != null)
             {
-                var customer = _customerService.GetByAccountId(user.UUID, false);
+                var customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
                 if(customer == null)
                 {
                     customer = _customerService.CreateByAccount(user);

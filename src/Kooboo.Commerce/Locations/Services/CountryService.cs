@@ -23,16 +23,16 @@ namespace Kooboo.Commerce.Locations.Services
             return _countryRepository.Query(o => o.Id == id).FirstOrDefault();
         }
 
-        public IEnumerable<Country> GetAllCountries()
+        public IQueryable<Country> Query()
         {
-            return _countryRepository.Query().ToArray();
+            return _countryRepository.Query();
         }
 
-        public IPagedList<Country> GetAllCountries(int? page, int? pageSize)
-        {
-            var query = _countryRepository.Query().OrderBy(o => o.Id);
-            return PageLinqExtensions.ToPagedList(query, page ?? 1, pageSize ?? 50);
-        }
+        //public IPagedList<Country> GetAllCountries(int? page, int? pageSize)
+        //{
+        //    var query = _countryRepository.Query().OrderBy(o => o.Id);
+        //    return PageLinqExtensions.ToPagedList(query, page ?? 1, pageSize ?? 50);
+        //}
 
         public void Create(Country country)
         {

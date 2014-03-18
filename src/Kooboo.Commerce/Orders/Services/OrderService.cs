@@ -81,11 +81,16 @@ namespace Kooboo.Commerce.Orders.Services
             return order;
         }
 
-        public Order GetByShoppingCartId(int shoppingCartId)
+        public IQueryable<Order> Query()
         {
-            var order = _orderRepository.Query(o => o.ShoppingCartId == shoppingCartId).FirstOrDefault();
-            return order;
+            return _orderRepository.Query();
         }
+
+        //public Order GetByShoppingCartId(int shoppingCartId)
+        //{
+        //    var order = _orderRepository.Query(o => o.ShoppingCartId == shoppingCartId).FirstOrDefault();
+        //    return order;
+        //}
 
         public Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool expireShoppingCart)
         {
@@ -93,7 +98,7 @@ namespace Kooboo.Commerce.Orders.Services
             {
                 if(shoppingCart.Customer == null)
                 {
-                    var customer = _customerService.GetByAccountId(user.UUID, false);
+                    var customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
                     if(customer == null)
                     {
                         customer = _customerService.CreateByAccount(user);
@@ -165,48 +170,48 @@ namespace Kooboo.Commerce.Orders.Services
             return null;
         }
 
-        public IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize)
-        {
-            var query = _orderRepository.Query();
-            if(!string.IsNullOrEmpty(search))
-            {
-                int sid = 0;
-                if (int.TryParse(search, out sid))
-                    query = query.Where(o => o.Id == sid);
-                else
-                    query = query.Where(o => o.Customer.FirstName.StartsWith(search) || o.Customer.MiddleName.StartsWith(search) || o.Customer.LastName.StartsWith(search));
-            }
-            query = query.OrderByDescending(o => o.Id);
-            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
-        }
+        //public IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize)
+        //{
+        //    var query = _orderRepository.Query();
+        //    if(!string.IsNullOrEmpty(search))
+        //    {
+        //        int sid = 0;
+        //        if (int.TryParse(search, out sid))
+        //            query = query.Where(o => o.Id == sid);
+        //        else
+        //            query = query.Where(o => o.Customer.FirstName.StartsWith(search) || o.Customer.MiddleName.StartsWith(search) || o.Customer.LastName.StartsWith(search));
+        //    }
+        //    query = query.OrderByDescending(o => o.Id);
+        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+        //}
 
-        public IPagedList<T> GetAllOrdersWithCustomer<T>(string search, int? pageIndex, int? pageSize, Func<Order, Customer, T> func)
-        {
-            var customerQuery = _customerRepository.Query();
-            var orderQuery = _orderRepository.Query();
-            if (!string.IsNullOrEmpty(search))
-            {
-                int sid = 0;
-                if (int.TryParse(search, out sid))
-                    orderQuery = orderQuery.Where(o => o.Id == sid);
-                else
-                    customerQuery = customerQuery.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
-            }
+        //public IPagedList<T> GetAllOrdersWithCustomer<T>(string search, int? pageIndex, int? pageSize, Func<Order, Customer, T> func)
+        //{
+        //    var customerQuery = _customerRepository.Query();
+        //    var orderQuery = _orderRepository.Query();
+        //    if (!string.IsNullOrEmpty(search))
+        //    {
+        //        int sid = 0;
+        //        if (int.TryParse(search, out sid))
+        //            orderQuery = orderQuery.Where(o => o.Id == sid);
+        //        else
+        //            customerQuery = customerQuery.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
+        //    }
 
-            IQueryable<dynamic> query = orderQuery
-                .Join(customerQuery,
-                           order => order.CustomerId,
-                           customer => customer.Id,
-                           (order, customer) => new { Order = order, Customer = customer })
-                .OrderByDescending(groupedItem => groupedItem.Order.Id);
-            return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Order, o.Customer), pageIndex ?? 1, pageSize ?? 50);
-        }
+        //    IQueryable<dynamic> query = orderQuery
+        //        .Join(customerQuery,
+        //                   order => order.CustomerId,
+        //                   customer => customer.Id,
+        //                   (order, customer) => new { Order = order, Customer = customer })
+        //        .OrderByDescending(groupedItem => groupedItem.Order.Id);
+        //    return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Order, o.Customer), pageIndex ?? 1, pageSize ?? 50);
+        //}
 
-        public IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize)
-        {
-            var query = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
-            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
-        }
+        //public IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize)
+        //{
+        //    var query = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
+        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+        //}
 
         public void Create(Order order)
         {

@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.API
         void InitCommerceInstance(string instance, string language);
 
         //ICountryAPI Country { get; }
-        IBrandQuery Brand { get; }
+        IBrandQuery Brands { get; }
         //ICategoryAPI Category { get; }
         //IPaymentMethodAPI PaymentMethod { get; }
         //ICustomerAPI Customer { get; }

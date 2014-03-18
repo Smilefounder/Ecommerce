@@ -11,5 +11,12 @@ namespace Kooboo.Commerce.API
         T FirstOrDefault();
         T[] ToArray();
         int Count();
+
+        void Create(T obj);
+
+        void Update(T obj);
+
+        void Delete(T obj);
+
     }
 }

@@ -9,9 +9,7 @@ namespace Kooboo.Commerce.Locations.Services
     {
         Country GetById(int id);
 
-        IEnumerable<Country> GetAllCountries();
-
-        IPagedList<Country> GetAllCountries(int? page, int? pageSize);
+        IQueryable<Country> Query();
 
         void Create(Country country);
 

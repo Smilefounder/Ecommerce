@@ -151,7 +151,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetCountries()
         {
 
-            var objs = _countryService.GetAllCountries();
+            var objs = _countryService.Query();
             return JsonNet(objs);
         }
 

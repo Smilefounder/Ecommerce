@@ -24,28 +24,28 @@ namespace Kooboo.Commerce.Categories.Services
             return _categoryRepository.Get(o => o.Id == id);
         }
 
-        public IEnumerable<Category> GetAllCategories()
+        public IQueryable<Category> Query()
         {
-            return _categoryRepository.Query().ToArray();
+            return _categoryRepository.Query();
         }
 
-        public IEnumerable<Category> GetRootCategories()
-        {
-            return _categoryRepository.Query(o => o.Parent == null).ToArray();
-        }
+        //public IEnumerable<Category> GetRootCategories()
+        //{
+        //    return _categoryRepository.Query(o => o.Parent == null).ToArray();
+        //}
 
-        public IPagedList<Category> GetRootCategories(int? pageIndex, int? pageSize)
-        {
-            var query = _categoryRepository.Query(o => o.Parent == null);
-            query = query.OrderByDescending(o => o.Id);
-            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
-        }
+        //public IPagedList<Category> GetRootCategories(int? pageIndex, int? pageSize)
+        //{
+        //    var query = _categoryRepository.Query(o => o.Parent == null);
+        //    query = query.OrderByDescending(o => o.Id);
+        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+        //}
 
-        public IEnumerable<Category> GetChildCategories(int parentId)
-        {
-            var query = _categoryRepository.Query(o => o.Parent.Id == parentId);
-            return query.ToArray();
-        }
+        //public IEnumerable<Category> GetChildCategories(int parentId)
+        //{
+        //    var query = _categoryRepository.Query(o => o.Parent.Id == parentId);
+        //    return query.ToArray();
+        //}
 
         public void Create(Category category)
         {

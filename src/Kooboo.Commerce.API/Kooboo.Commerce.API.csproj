@@ -69,11 +69,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brands\Brand.cs" />
+    <Compile Include="Categories\Category.cs" />
+    <Compile Include="Categories\ICategoryQuery.cs" />
     <Compile Include="CommerceAPIBase.cs" />
+    <Compile Include="Customers\Customer.cs" />
+    <Compile Include="Customers\CustomerLoyalty.cs" />
+    <Compile Include="Customers\ICustomerQuery.cs" />
+    <Compile Include="Gender.cs" />
     <Compile Include="ICommerceQuery.cs" />
     <Compile Include="Brands\IBrandQuery.cs" />
     <Compile Include="ICommerceAPI.cs" />
     <Compile Include="KoobooSiteExtensions.cs" />
+    <Compile Include="Locations\Address.cs" />
+    <Compile Include="Locations\Country.cs" />
+    <Compile Include="Locations\ICountryQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

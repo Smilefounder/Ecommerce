@@ -8,11 +8,11 @@ using Kooboo.Commerce.Brands.Services;
 
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
-    public class LocalBrandQuery : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandQuery
+    public class BrandQuery : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandQuery
     {
         private IBrandService _brandService;
 
-        public LocalBrandQuery(IBrandService brandService, IMapper<Brand, Kooboo.Commerce.Brands.Brand> mapper)
+        public BrandQuery(IBrandService brandService, IMapper<Brand, Kooboo.Commerce.Brands.Brand> mapper)
         {
             _brandService = brandService;
             _mapper = mapper;
@@ -42,6 +42,24 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
             CreateQuery();
             _query = _query.Where(o => o.Name == name);
             return this;
+        }
+
+        public override void Create(Brand obj)
+        {
+            if (obj != null)
+                _brandService.Create(_mapper.MapFrom(obj));
+        }
+
+        public override void Update(Brand obj)
+        {
+            if (obj != null)
+                _brandService.Update(_mapper.MapFrom(obj));
+        }
+
+        public override void Delete(Brand obj)
+        {
+            if (obj != null)
+                _brandService.Delete(_mapper.MapFrom(obj));
         }
     }
 }
