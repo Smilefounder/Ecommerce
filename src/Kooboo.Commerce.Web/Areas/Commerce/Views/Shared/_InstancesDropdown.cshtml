@@ -1,0 +1,23 @@
+﻿@using Kooboo.Commerce.Data;
+@{
+    var engine = Kooboo.CMS.Common.Runtime.EngineContext.Current;
+    var manager = engine.Resolve<ICommerceInstanceManager>();
+    var allInstanceMetas = manager.GetAllInstanceMetadatas().ToList();
+    var currentInstanceName = ViewContext.RequestContext.GetRequestValue("commerceName");
+    var currentInstanceMeta = manager.GetInstanceMetadata(currentInstanceName);
+}
+
+<div class="switcher @(allInstanceMetas.Count > 0 ? "active" : "")">
+    <span class="current">
+        <span>@(currentInstanceMeta.DisplayName)</span> @Html.IconImage("arrow switch")
+    </span>
+    <ul class="list">
+        @foreach (var instance in allInstanceMetas)
+        {
+            if (instance.Name != currentInstanceMeta.Name)
+            { 
+            <li><a href="@Url.Action("Start", "CommerceInstance", new { commerceName = instance.Name })">@instance.DisplayName</a></li>
+            }
+        }
+    </ul>
+</div>

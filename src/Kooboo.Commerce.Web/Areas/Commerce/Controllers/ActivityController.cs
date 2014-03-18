@@ -3,35 +3,36 @@ using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
+using Kooboo.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
-using Kooboo.Commerce.Activities.Services;
 using Kooboo.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Registry;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ActivityController : CommerceControllerBase
     {
         private IActivityEventRegistry _activityEventRegistry;
-        private IActivityBindingService _bindingService;
+        private IActivityRuleService _activityRuleService;
         private IActivityFactory _activityFactory;
         private IActivityViewsFactory _activityViewsFactory;
 
         public ActivityController(
             IActivityEventRegistry activityEventRegistry,
-            IActivityBindingService bindingService,
+            IActivityRuleService activityRuleService,
             IActivityFactory activityFactory,
             IActivityViewsFactory activityViewsFactory)
         {
             _activityEventRegistry = activityEventRegistry;
-            _bindingService = bindingService;
+            _activityRuleService = activityRuleService;
             _activityFactory = activityFactory;
             _activityViewsFactory = activityViewsFactory;
         }
@@ -47,8 +48,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 var model = new ActivityEventRowModel
                 {
-                    EventType = eventType.GetVersionUnawareAssemblyQualifiedName(),
-                    Name = eventType.GetDescription() ?? eventType.Name
+                    EventType = eventType.AssemblyQualifiedNameWithoutVersion(),
+                    Name = eventType.GetDescription() ?? eventType.Name.Humanize()
                 };
 
                 models.Add(model);
@@ -57,186 +58,183 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(models.ToPagedList(page ?? 1, pageSize ?? 50));
         }
 
-        public ActionResult List(string eventType, int? page, int? pageSize)
+        [AutoDbCommit]
+        public ActionResult List(string eventType)
         {
             var eventClrType = Type.GetType(eventType, true);
-            var bindableActivities = _activityFactory.FindBindableActivities(eventClrType);
 
-            ViewBag.AllActivities = bindableActivities.Select(x => new SelectListItemEx
-            {
-                Text = x.DisplayName,
-                Value = x.Name
-            })
-            .ToList();
+            ViewBag.CurrentEventType = eventClrType.AssemblyQualifiedNameWithoutVersion();
+            ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name.Humanize();
 
-            ViewBag.CurrentEventType = eventClrType.GetVersionUnawareAssemblyQualifiedName();
-            ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name;
+            _activityRuleService.EnsureAlwaysRule(eventClrType);
 
-
-            var bindings = _bindingService.Query()
-                                         .WhereBoundToEvent(eventClrType)
-                                         .OrderByDescending(x => x.Priority)
-                                         .ThenBy(x => x.Id)
-                                         .ToPagedList(page ?? 1, pageSize ?? 50)
-                                         .Transform(binding =>
-                                         {
-                                             var views = _activityViewsFactory.FindByActivityName(binding.ActivityName);
-                                             var model = new ActivityBindingRowModel
-                                             {
-                                                 Id = binding.Id,
-                                                 Description = binding.Description,
-                                                 Configurable = views != null,
-                                                 IsEnabled = binding.IsEnabled,
-                                                 Priority = binding.Priority
-                                             };
-
-                                             return model;
-                                         });
-
-            return View(bindings);
+            return View();
         }
 
-        public ActionResult Create(string eventType, string activityName)
+        public ActionResult Create(int ruleId, string activityName)
         {
-            var eventClrType = Type.GetType(eventType, true);
-            var views = _activityViewsFactory.FindByActivityName(activityName);
+            var rule = _activityRuleService.GetById(ruleId);
             var activity = _activityFactory.FindByName(activityName);
-            var model = new ActivityBindingEditorModel
+            var model = new AttachedActivityModel
             {
-                EventClrType = eventType,
-                EventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name,
+                RuleId = rule.Id,
                 ActivityName = activityName,
-                ActivityDisplayName = activity.DisplayName,
-                IsConfigurable = views != null
+                ActivityDisplayName = activity.DisplayName
             };
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Create(ActivityBindingEditorModel model, string @return)
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        public ActionResult Create(AttachedActivityModel model)
         {
-            var eventType = Type.GetType(model.EventClrType, true);
-
-            var binding = ActivityBinding.Create(eventType, model.ActivityName, model.Description);
-            _bindingService.Create(binding);
-
-            if (model.IsEnabled)
-            {
-                _bindingService.Enable(binding);
-            }
-            else
-            {
-                _bindingService.Disable(binding);
-            }
+            var rule = _activityRuleService.GetById(model.RuleId);
+            var attachedActivity = rule.AttacheActivity(model.Description, model.ActivityName, null);
+            attachedActivity.IsEnabled = model.IsEnabled;
 
             CommerceContext.CurrentInstance.Database.SaveChanges();
 
-            if (model.IsConfigurable)
-            {
-                var views = _activityViewsFactory.FindByActivityName(binding.ActivityName);
-                var url = Url.RouteUrl(views.Settings(binding, ControllerContext), RouteValues.From(Request.QueryString));
+            var configUrl = String.Empty;
 
-                return AjaxForm().RedirectTo(url);
+            var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
+            if (views != null)
+            {
+                configUrl = Url.RouteUrl(views.Settings(attachedActivity, ControllerContext), RouteValues.From(Request.QueryString));
             }
 
-            return AjaxForm().RedirectTo(@return);
+            return AjaxForm().WithModel(new
+            {
+                RuleId = rule.Id,
+                AttachedActivityId = attachedActivity.Id,
+                ConfigUrl = configUrl
+            });
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int ruleId, int attachedActivityId)
         {
-            var binding = _bindingService.GetById(id);
-            var activity = _activityFactory.FindByName(binding.ActivityName);
-            var views = _activityViewsFactory.FindByActivityName(binding.ActivityName);
-            var eventType = Type.GetType(binding.EventClrType, true);
+            var rule = _activityRuleService.GetById(ruleId);
+            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            var activity = _activityFactory.FindByName(attachedActivity.ActivityName);
+            var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
+            var eventType = Type.GetType(rule.EventType, true);
 
-            var model = new ActivityBindingEditorModel
-            {
-                Id = id,
-                Description = binding.Description,
-                ActivityName = binding.ActivityName,
-                EventClrType = binding.EventClrType,
-                EventDisplayName = eventType.GetDescription() ?? eventType.Name,
-                ActivityDisplayName = activity.DisplayName,
-                IsConfigurable = views != null,
-                IsEnabled = binding.IsEnabled,
-                Priority = binding.Priority
-            };
+            var model = new AttachedActivityModel(attachedActivity);
+            model.ActivityDisplayName = activity.DisplayName;
 
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Edit(ActivityBindingEditorModel model, string @return)
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        public ActionResult Edit(AttachedActivityModel model)
         {
-            var binding = _bindingService.GetById(model.Id);
-            binding.Description = model.Description;
+            var rule = _activityRuleService.GetById(model.RuleId);
+            var attachedActivity = rule.FindAttachedActivity(model.Id);
 
-            if (model.IsEnabled)
+            attachedActivity.Description = model.Description;
+            attachedActivity.IsEnabled = model.IsEnabled;
+
+            var configUrl = String.Empty;
+
+            var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
+            if (views != null)
             {
-                _bindingService.Enable(binding);
-            }
-            else
-            {
-                _bindingService.Disable(binding);
-            }
-
-            _bindingService.Update(binding);
-
-            if (model.IsConfigurable)
-            {
-                var views = _activityViewsFactory.FindByActivityName(binding.ActivityName);
-                var url = Url.RouteUrl(views.Settings(binding, ControllerContext), RouteValues.From(Request.QueryString));
-
-                return AjaxForm().RedirectTo(url);
+                configUrl = Url.RouteUrl(views.Settings(attachedActivity, ControllerContext), RouteValues.From(Request.QueryString));
             }
 
-            return AjaxForm().RedirectTo(@return);
+            return AjaxForm().WithModel(new
+            {
+                RuleId = rule.Id,
+                AttachedActivityId = attachedActivity.Id,
+                ConfigUrl = configUrl
+            });
         }
 
-        [HttpPost, HandleAjaxFormError]
-        public ActionResult Settings(ActivityBindingRowModel[] model)
+        public ActionResult GetRules(string eventType)
         {
-            var binding = _bindingService.GetById(model[0].Id);
-            var views = _activityViewsFactory.FindByActivityName(binding.ActivityName);
-            var url = Url.RouteUrl(views.Settings(binding, ControllerContext), RouteValues.From(Request.QueryString));
+            var rules = _activityRuleService.GetRulesByEventType(Type.GetType(eventType, true)).ToList();
+            var models = new List<ActivityRuleModel>();
 
-            return AjaxForm().RedirectTo(url);
-        }
-
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Enable(ActivityBindingRowModel[] model)
-        {
-            foreach (var item in model)
+            foreach (var rule in rules)
             {
-                var binding = _bindingService.GetById(item.Id);
-                _bindingService.Enable(binding);
+                var model = new ActivityRuleModel(rule);
+                foreach (var each in model.AttachedActivities)
+                {
+                    each.ConfigUrl = GetActivityConfigUrl(rule, rule.FindAttachedActivity(each.Id));
+                }
+
+                models.Add(model);
             }
 
-            return AjaxForm().ReloadPage();
+            return JsonNet(models).UsingClientConvention();
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Disable(ActivityBindingRowModel[] model)
+        [AutoDbCommit]
+        public ActionResult CreateRule(string expression, string eventType)
         {
-            foreach (var item in model)
-            {
-                var binding = _bindingService.GetById(item.Id);
-                _bindingService.Disable(binding);
-            }
+            var rule = _activityRuleService.Create(Type.GetType(eventType, true), expression);
+            CommerceContext.CurrentInstance.Database.SaveChanges();
 
-            return AjaxForm().ReloadPage();
+            return JsonNet(new ActivityRuleModel(rule)).UsingClientConvention();
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Delete(ActivityBindingRowModel[] model, string @return)
+        [AutoDbCommit]
+        public ActionResult UpdateConditions(int ruleId, string expression)
         {
-            foreach (var item in model)
+            var rule = _activityRuleService.GetById(ruleId);
+            rule.ConditionsExpression = expression;
+
+            return JsonNet(new
             {
-                var binding = _bindingService.GetById(item.Id);
-                _bindingService.Delete(binding);
+                ConditionsExpression = expression,
+                HighlightedConditionsExpression = new ConditionsExpressionPrettifier().Prettify(expression, Type.GetType(rule.EventType, true))
+            }).UsingClientConvention();
+        }
+
+        [AutoDbCommit]
+        public void DeleteRule(int ruleId)
+        {
+            var rule = _activityRuleService.GetById(ruleId);
+            _activityRuleService.Delete(rule);
+        }
+
+        public ActionResult GetAvailableActivities(string eventType)
+        {
+            var result = _activityFactory.FindActivitiesBindableTo(Type.GetType(eventType, true))
+                                   .Select(x => new
+                                   {
+                                       Name = x.Name,
+                                       DisplayName = x.DisplayName
+                                   });
+
+            return JsonNet(result).UsingClientConvention();
+        }
+
+        public ActionResult GetAttachedActivity(int ruleId, int attachedActivityId)
+        {
+            var rule = _activityRuleService.GetById(ruleId);
+            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            return JsonNet(new AttachedActivityModel(attachedActivity)
+            {
+                ConfigUrl = GetActivityConfigUrl(rule, attachedActivity)
+            }).UsingClientConvention();
+        }
+
+        private string GetActivityConfigUrl(ActivityRule rule, AttachedActivity attachedActivity)
+        {
+            var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
+            if (views != null)
+            {
+                return Url.RouteUrl(views.Settings(rule.FindAttachedActivity(attachedActivity.Id), ControllerContext), RouteValues.From(Request.QueryString));
             }
 
-            return AjaxForm().ReloadPage();
+            return null;
+        }
+
+        [HandleAjaxFormError, AutoDbCommit]
+        public ActionResult DetachActivity(int ruleId, int attachedActivityId)
+        {
+            var rule = _activityRuleService.GetById(ruleId);
+            rule.DetacheActivity(attachedActivityId);
+            return AjaxForm();
         }
     }
 }

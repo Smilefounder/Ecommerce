@@ -41,7 +41,7 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Index(ByWeightShippingRulesModel model, string @return)
         {
             var method = _service.GetById(model.ShippingMethodId);

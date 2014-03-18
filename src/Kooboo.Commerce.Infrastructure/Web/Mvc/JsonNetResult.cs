@@ -5,12 +5,13 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
 
 namespace Kooboo.Commerce.Web.Mvc
 {
     public class JsonNetResult : JsonResult
     {
-
         public JsonNetResult()
             : base()
         {
@@ -20,7 +21,6 @@ namespace Kooboo.Commerce.Web.Mvc
             Settings.ContractResolver = new EFContractResolver();
             JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet;
         }
-
 
         public override void ExecuteResult(ControllerContext context)
         {
@@ -50,5 +50,12 @@ namespace Kooboo.Commerce.Web.Mvc
         }
 
         public JsonSerializerSettings Settings { get; private set; }
+
+        public JsonNetResult UsingClientConvention()
+        {
+            Settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            Settings.Converters.Add(new StringEnumConverter());
+            return this;
+        }
     }
 }

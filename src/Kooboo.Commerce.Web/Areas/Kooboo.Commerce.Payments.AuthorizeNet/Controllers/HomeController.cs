@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Settings(AuthorizeNetSettings settings, string @return)
         {
             settings.SaveTo(_keyValueService);

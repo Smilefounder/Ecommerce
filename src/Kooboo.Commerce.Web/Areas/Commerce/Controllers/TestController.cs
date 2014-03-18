@@ -16,6 +16,10 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Web.Mvc;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Payment;
+using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Parsing;
+using System.Text;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -38,7 +42,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var orderService = EngineContext.Current.Resolve<IOrderService>();
             var order = new Order
             {
-                Total = 56m
+                Total = 1056m
             };
             var customer = EngineContext.Current.Resolve<ICustomerService>().GetAllCustomers(
                 null, null, null).First();
@@ -97,6 +101,40 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 db.GetRepository<Brand>().Insert(brand);
 
                 tx.Commit();
+            }
+        }
+
+        public string Tokenizer()
+        {
+            var tokenizer = new Tokenizer("CustomerName == ds:customers:\"Mouhong\" and orTotalAmount >= 3.14 or param3 < 25");
+            var output = new StringBuilder();
+            Token token = null;
+
+            do
+            {
+                token = tokenizer.NextToken();
+                if (token != null)
+                {
+                    output.Append(token.Kind == TokenKind.StringLiteral ? "\"" + token.Value + "\"" : token.Value).Append("<br/>");
+                }
+
+            } while (token != null);
+
+            return output.ToString();
+        }
+
+        public string Parser()
+        {
+            var parser = new Parser();
+
+            try
+            {
+                var exp = parser.Parse("(CustomerName == ds:customers:\"Mouhong\" or (Age >= 18 or Gender == \"Male\")) and TotalAmount < 59.98");
+                return exp.ToString();
+            }
+            catch (ParserException ex)
+            {
+                return ex.Message.Replace(Environment.NewLine, "<br/>");
             }
         }
     }

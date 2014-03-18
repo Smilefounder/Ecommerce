@@ -2,6 +2,7 @@
 using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Events.Dispatching;
 using Kooboo.Commerce.Events.Registry;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Compilation;
@@ -18,9 +19,16 @@ namespace Kooboo.Commerce.Infrastructure.Dependencies
             }
         }
 
+        static readonly string[] _ignoredAssemblyPrefixes = new[] 
+        {
+            "EntityFramework", "Kooboo.CMS.", "System.", "Microsoft.", "DotNetOpenAuth."
+        };
+
         public void Register(IContainerManager containerManager, CMS.Common.Runtime.ITypeFinder typeFinder)
         {
-            var assemblies = typeFinder.GetAssemblies();// BuildManager.GetReferencedAssemblies().OfType<Assembly>().ToList();
+            var assemblies = typeFinder.GetAssemblies()
+                                       .Where(x => !IsIgnoredAssembly(x))
+                                       .ToList();
 
             // Event Registry
             var eventRegistry = new DefaultEventHandlerRegistry();
@@ -34,6 +42,19 @@ namespace Kooboo.Commerce.Infrastructure.Dependencies
             // Event Dispatcher
             var eventDispatcher = new DefaultEventDispatcher(eventRegistry);
             containerManager.AddComponentInstance<IEventDispatcher>(eventDispatcher);
+        }
+
+        private bool IsIgnoredAssembly(Assembly assembly)
+        {
+            foreach (var prefix in _ignoredAssemblyPrefixes)
+            {
+                if (assembly.FullName.StartsWith(prefix))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

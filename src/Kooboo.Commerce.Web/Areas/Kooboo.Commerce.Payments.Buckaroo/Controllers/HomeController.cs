@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Settings(BuckarooSettings settings, string @return)
         {
             settings.SaveTo(_keyValueService);

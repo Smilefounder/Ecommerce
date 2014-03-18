@@ -14,6 +14,7 @@ using Kooboo.Commerce.ShoppingCarts;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.ShoppingCarts.Services;
+using Kooboo.Commerce.Events.Orders;
 
 namespace Kooboo.Commerce.Orders.Services
 {
@@ -210,7 +211,7 @@ namespace Kooboo.Commerce.Orders.Services
         public void Create(Order order)
         {
             _orderRepository.Insert(order);
-            //Event.Apply(new OrderCreated(order));
+            Event.Apply(new OrderCreated(order));
         }
 
         public void Update(Order order)

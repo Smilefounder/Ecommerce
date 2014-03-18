@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Save(BrandEditorModel model, string @return)
         {
             Brand brand = null;
@@ -66,7 +66,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().RedirectTo(@return);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Delete(BrandRowModel[] model)
         {
             foreach (var m in model)

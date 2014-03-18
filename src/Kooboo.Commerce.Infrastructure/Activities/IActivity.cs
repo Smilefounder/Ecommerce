@@ -15,6 +15,19 @@ namespace Kooboo.Commerce.Activities
 
         bool CanBindTo(Type eventType);
 
-        ActivityResponse Execute(IEvent evnt, ActivityBinding binding);
+        ActivityResult Execute(IEvent evnt, ActivityExecutionContext context);
+    }
+
+    public class ActivityExecutionContext
+    {
+        public ActivityRule Rule { get; private set; }
+
+        public AttachedActivity AttachedActivity { get; private set; }
+
+        public ActivityExecutionContext(ActivityRule rule, AttachedActivity attachedActivity)
+        {
+            Rule = rule;
+            AttachedActivity = attachedActivity;
+        }
     }
 }

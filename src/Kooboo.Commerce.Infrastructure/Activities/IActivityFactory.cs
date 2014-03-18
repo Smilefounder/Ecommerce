@@ -9,9 +9,15 @@ namespace Kooboo.Commerce.Activities
 {
     public interface IActivityFactory
     {
+        /// <summary>
+        /// Find activity by name.
+        /// </summary>
         IActivity FindByName(string activityName);
 
-        IEnumerable<IActivity> FindBindableActivities(Type eventType);
+        /// <summary>
+        /// Find activities which are bindable to the specified event.
+        /// </summary>
+        IEnumerable<IActivity> FindActivitiesBindableTo(Type eventType);
     }
 
     [Dependency(typeof(IActivityFactory))]
@@ -47,7 +53,7 @@ namespace Kooboo.Commerce.Activities
             return Activities.FirstOrDefault(x => x.Name.Equals(activityName, StringComparison.OrdinalIgnoreCase));
         }
 
-        public IEnumerable<IActivity> FindBindableActivities(Type eventType)
+        public IEnumerable<IActivity> FindActivitiesBindableTo(Type eventType)
         {
             return Activities.Where(it => it.CanBindTo(eventType)).ToList();
         }

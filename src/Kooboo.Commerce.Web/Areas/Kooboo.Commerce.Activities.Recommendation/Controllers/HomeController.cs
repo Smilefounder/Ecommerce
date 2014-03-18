@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.Activities.Services;
-using Kooboo.Commerce.Web.Mvc;
+﻿using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
@@ -11,28 +10,30 @@ namespace Kooboo.Commerce.Activities.Recommendation.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
-        private IActivityBindingService _bindingService;
+        private IActivityRuleService _ruleService;
 
-        public HomeController(IActivityBindingService bindingService)
+        public HomeController(IActivityRuleService ruleService)
         {
-            _bindingService = bindingService;
+            _ruleService = ruleService;
         }
 
-        public ActionResult Settings(int bindingId)
+        public ActionResult Settings(int ruleId, int attachedActivityId)
         {
-            var binding = _bindingService.GetById(bindingId);
-            var settings = RecommendationActivitySettings.Deserialize(binding.ActivityData) ?? new RecommendationActivitySettings();
+            var rule = _ruleService.GetById(ruleId);
+            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            var settings = RecommendationActivitySettings.Deserialize(attachedActivity.ActivityData) ?? new RecommendationActivitySettings();
 
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Settings(int bindingId, RecommendationActivitySettings settings, string @return)
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        public ActionResult Settings(int ruleId, int attachedActivityId, RecommendationActivitySettings settings)
         {
-            var binding = _bindingService.GetById(bindingId);
-            binding.ActivityData = settings.Serialize();
+            var rule = _ruleService.GetById(ruleId);
+            var attachedActivity = rule.FindAttachedActivity(attachedActivityId);
+            attachedActivity.ActivityData = settings.Serialize();
 
-            return AjaxForm().RedirectTo(@return);
+            return AjaxForm();
         }
     }
 }

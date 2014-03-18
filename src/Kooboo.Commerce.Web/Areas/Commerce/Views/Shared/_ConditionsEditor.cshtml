@@ -1,0 +1,414 @@
+﻿
+<div id="conditions-editor" style="display:none">
+    <h1 class="title">@("Add Rule".Localize())</h1>
+    <div class="common-form block">
+        <div class="conditions-container" style="min-height:400px">
+            <div style="margin-bottom:10px">
+                <!-- ko if: mode() == 'standard' -->
+                <a href="#" data-bind="click: addCondition" class="button">@("Add Condition".Localize())</a>
+                <a href="#" data-bind="click: addGroup" class="button">@("Add Group".Localize())</a>
+                <a href="#" data-bind="click: switchToExpertMode" class="button">@("Switch to Expert Mode".Localize())</a>
+                <!-- /ko-->
+                <!-- ko if: mode() == 'expert' -->
+                <a href="#" data-bind="click: switchToStandardMode" class="button">@("Switch to Standard Mode".Localize())</a>
+                <!-- /ko -->
+            </div>
+            <div data-bind="if: mode() == 'standard'">
+                <!-- ko foreach: conditions -->
+                <div data-bind="template: { name: 'ConditionTemplate' }"></div>
+                <!-- /ko -->
+            </div>
+            <div data-bind="if: mode() == 'expert'">
+                <textarea data-bind="value: expression"></textarea>
+                <div data-bind="visible: expressionErrors().length > 0" style="color:red">
+                    <ul data-bind="foreach: expressionErrors">
+                        <li data-bind="text: $data"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <p class="buttons">
+            <a href="#" class="button grey btn-cancel">@("Cancel".Localize())</a>
+            <a href="#" class="button btn-save">@("Save".Localize())</a>
+        </p>
+    </div>
+</div>
+
+<script type="text/html" id="ConditionTemplate">
+    <!-- ko if: isGroup -->
+    <div class="clearfix condition-group" style="margin-top:10px">
+        <div class="condition-group-op">
+            <select data-bind="visible: $index() > 0, value: logicalOperator">
+                <option value="AND">AND</option>
+                <option value="OR">OR</option>
+            </select>
+        </div>
+        <div class="condition-group-main">
+            <div class="condition-group-toolbar">
+                <a href="#" data-bind="click: addCondition" title="@("Add Conditoin".Localize())">@("Add Condition".Localize())</a>
+                |
+                <a href="#" data-bind="click: $parent.removeCondition" title="@("Remove Group".Localize())">@("Remove Group".Localize())</a>
+                |
+                <a href="#" data-bind="click: addGroup" title="@("Add Group".Localize())">@("Add Group".Localize())</a>
+            </div>
+            <div>
+                <!-- ko foreach: conditions -->
+                <div data-bind="template: { name: 'ConditionTemplate' }"></div>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
+    <!-- ko if: !isGroup() -->
+    <div data-bind="template: { name: 'NonGroupConditionTemplate' }"></div>
+    <!-- /ko -->
+</script>
+
+<script type="text/html" id="NonGroupConditionTemplate">
+    <div class="clearfix condition">
+        <div class="condition-op">
+            <span data-bind="attr: { style: $index() == 0 ? 'visibility:hidden' : '' }">
+                <select data-bind="value: logicalOperator">
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                </select>
+            </span>
+        </div>
+        <div class="condition-main">
+            <select class="medium" data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select>
+            <select class="small" data-bind="options: availableOperators, optionsText: 'displayName', optionsValue: 'name', value: comparisonOperator"></select>
+            <!-- ko if: hasMultipleValues -->
+            <select class="medium" data-bind="options: values, optionsText: 'text', optionsValue: 'value', value: value"></select>
+            <!-- /ko -->
+            <!-- ko if: !hasMultipleValues() -->
+            <input class="medium" type="text" data-bind="value: value" />
+            <!-- /ko -->
+            <a href="#" data-bind="click: $parent.removeCondition" style="display:inline-block;vertical-align:middle">@Html.IconImage("minus")</a>
+        </div>
+    </div>
+</script>
+
+<script>
+    (function () {
+        var commerceName = '@Request["commerceName"]';
+
+        var koMappingConfig = {
+            conditions: {
+                create: function (args) {
+                    var condition = new ConditionViewModel(viewModel);
+                    ko.mapping.fromJS(args.data, koMappingConfig, condition);
+                    return condition;
+                }
+            }
+        };
+
+        function ConditionViewModel(root) {
+            var _this = this;
+            var _root = root;
+
+            this.logicalOperator = ko.observable('AND');
+
+            this.paramName = ko.observable();
+
+            this.comparisonOperator = ko.observable();
+
+            this.value = ko.observable();
+
+            this.isNumberValue = ko.observable();
+
+            this.valueType = ko.observable();
+
+            this.isGroup = ko.observable(false);
+
+            this.conditions = ko.observableArray([]);
+
+            this.availableOperators = ko.computed(function () {
+                return _root.availableOperatorsFor(_this.paramName());
+            });
+
+            this.addCondition = function () {
+                _this.conditions.push(_root.createCondition());
+            }
+
+            this.addGroup = function () {
+                var group = _root.createCondition();
+                group.isGroup(true);
+                group.addCondition();
+                _this.conditions.push(group);
+            }
+
+            this.removeCondition = function (condition) {
+                _this.conditions.remove(condition);
+            }
+
+            this.hasMultipleValues = ko.observable();
+
+            this.values = ko.observableArray();
+
+            _this.paramName.subscribe(function (name) {
+                var param = _root.findAvailableParameterByName(name);
+                if (param) {
+                    _this.valueType(param.valueType());
+                    _this.isNumberValue(param.isNumberValue());
+                    _this.hasMultipleValues(param.values().length > 0);
+                    _this.value(null);
+                    _this.values(param.values());
+                }
+            });
+        }
+
+        function ConditionsEditorViewModel() {
+            var _this = this;
+
+            this.init = function () {
+                var deferred = $.Deferred();
+                var contextModelTypeName = _this.contextModelTypeName();
+
+                if (contextModelTypeName) {
+                    $.get('@Url.Action("AvailableParameters", "Condition")', { commerceName: commerceName, contextModelTypeName: contextModelTypeName })
+                     .then(function (data) {
+                         $.each(data, function () {
+                             viewModel.availableParameters.push(ko.mapping.fromJS(this));
+                         });
+
+                         deferred.resolve();
+                     });
+                } else {
+                    deferred.resolve();
+                }
+
+                return deferred.promise();
+            }
+
+            this.contextModelTypeName = ko.observable();
+
+            this.availableParameters = ko.observableArray([]);
+
+            this.mode = ko.observable('standard');
+
+            this.expression = ko.observable();
+
+            this.expressionErrors = ko.observableArray([]);
+
+            this.availableOperatorsFor = function (paramName) {
+                if (!paramName) {
+                    return [];
+                }
+
+                var param = _this.findAvailableParameterByName(paramName);
+                return param.supportedOperators();
+            }
+
+            this.findAvailableParameterByName = function (paramName) {
+                return _.find(_this.availableParameters(),
+                            function (param) {
+                                return param.name() == paramName;
+                            }
+                        );
+            }
+
+            this.conditions = ko.observableArray([]);
+
+            this.createCondition = function () {
+                var condition = new ConditionViewModel(_this);
+                if (_this.availableParameters().length > 0) {
+                    condition.paramName(_this.availableParameters()[0].name());
+                }
+                return condition;
+            }
+
+            this.addCondition = function () {
+                _this.conditions.push(_this.createCondition());
+            }
+
+            this.addGroup = function () {
+                var group = _this.createCondition();
+                group.isGroup(true);
+                group.conditions.push(_this.createCondition());
+                _this.conditions.push(group);
+            }
+
+            this.removeCondition = function (condition) {
+                _this.conditions.remove(condition);
+            }
+
+            // sync expression from the model if it's in the 'standard' mode
+            this.syncExpression = function () {
+                var deferred = $.Deferred();
+
+                if (_this.mode() == 'expert') {
+                    deferred.resolve();
+                } else {
+                    var model = ko.mapping.toJS(_this);
+                    // Only conditions are needed
+                    model = {
+                        conditions: model.conditions
+                    };
+
+                    $.ajax({
+                        url: '@Url.Action("GetExpression", "Condition")' + '?commerceName=' + commerceName,
+                        type: 'POST',
+                        data: JSON.stringify(model),
+                        contentType: 'application/json; charset=utf-8'
+                    })
+                    .success(function (exp) {
+                        _this.expression(exp);
+                        deferred.resolve();
+                    });
+                }
+
+                return deferred.promise();
+            }
+
+            this.switchToExpertMode = function () {
+                _this.syncExpression()
+                     .then(function () {
+                         _this.mode('expert');
+                     });
+            }
+
+            this.switchToStandardMode = function () {
+                var exp = $.trim(_this.expression() || '');
+                if (exp.length == 0) {
+                    _this.conditions.removeAll();
+                    _this.expressionErrors.removeAll();
+                    return;
+                }
+
+                _this.compileExpression()
+                     .then(function (result) {
+                         if (result.success) {
+                             _this.conditions.removeAll();
+
+                             var conditions = result.conditions;
+                             $.each(conditions, function () {
+                                 var condition = new ConditionViewModel(_this);
+                                 ko.mapping.fromJS(this, koMappingConfig, condition);
+                                 _this.conditions.push(condition);
+                             });
+                             _this.mode('standard');
+                         }
+                     });
+            }
+
+            this.compileExpression = function () {
+                var deferred = $.Deferred();
+
+                $.get('@Url.Action("GetConditionModels", "Condition")', {
+                    commerceName: commerceName,
+                    expression: encodeURIComponent(_this.expression() || ''),
+                    contextModelType: _this.contextModelTypeName()
+                })
+                .then(function (result) {
+                    if (result.success) {
+                        deferred.resolve({
+                            success: true,
+                            conditions: result.models
+                        });
+                    } else {
+                        _this.displayErrors(result.errors);
+                        deferred.resolve({
+                            success: false,
+                            errors: result.errors
+                        });
+                    }
+                });
+
+                return deferred.promise();
+            }
+
+            this.displayErrors = function (errors) {
+                _this.expressionErrors.removeAll();
+                $.each(errors, function () {
+                    _this.expressionErrors.push(this);
+                });
+            }
+        }
+
+        var viewModel = new ConditionsEditorViewModel();
+
+        var ConditionsEditor = {
+            model: viewModel,
+            inited: false,
+            $dialog: null,
+            init: function (options) {
+                var self = this;
+                var deferred = $.Deferred();
+
+                if (!self.inited) {
+                    options = options || {};
+
+                    if (options.contextModelTypeName) {
+                        self.model.contextModelTypeName(options.contextModelTypeName);
+                    }
+                    if (options.conditionsExpression) {
+                        self.model.expression(options.conditionsExpression);
+                    }
+
+                    self.$dialog = $('#conditions-editor').dialog({
+                        autoOpen: false,
+                        modal: true
+                    });
+
+                    self.$dialog.find('.btn-cancel')
+                                .on('click', function (e) {
+                                    self.close();
+                                    e.preventDefault();
+                                });
+                    self.$dialog.find('.btn-save')
+                                .on('click', function (e) {
+                                    if (options.save) {
+                                        if (self.model.mode() == 'standard') {
+                                            self.model.syncExpression().then(function () {
+                                                options.save.apply(self, [self.model.expression()]);
+                                                self.close();
+                                            });
+                                        } else {
+                                            self.model.compileExpression()
+                                                      .then(function (result) {
+                                                          if (result.success) {
+                                                              options.save.apply(self, [self.model.expression()]);
+                                                          }
+                                                      });
+                                        }
+                                    }
+                                    e.preventDefault();
+                                });
+
+                    self.model.init()
+                              .then(function () {
+                                  ko.applyBindings(self.model, self.$dialog.find('.conditions-container')[0]);
+                                  deferred.resolve();
+                              });
+
+                    self.inited = true;
+                } else {
+                    deferred.resolve();
+                }
+
+                return deferred.promise();
+            },
+            open: function (options) {
+                if (options && options.conditionsExpression) {
+                    this.model.expression(options.conditionsExpression);
+                }
+
+                var self = this;
+                self.init().then(function () {
+                    self.$dialog.dialog('open');
+                    self.model.switchToStandardMode();
+                });
+            },
+            close: function () {
+                this.$dialog.dialog('close');
+            },
+            reset: function () {
+                this.model.expression('');
+                this.model.switchToStandardMode();
+            }
+        };
+
+        window.ConditionsEditor = ConditionsEditor;
+
+    })(jQuery);
+</script>

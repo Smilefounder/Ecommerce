@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(methods);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Enable(ShippingMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Disable(ShippingMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -71,7 +71,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Delete(ShippingMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -125,7 +125,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Save(ShippingMethodEditorModel model)
         {
             var method = model.Id > 0 ? _shippingMethodService.GetById(model.Id) : new ShippingMethod();

@@ -91,7 +91,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult PaymentProcessors(PaymentType paymentType)
         {
-            return this.Json(GetAvailablePaymentProcessors(paymentType), PropertyNaming.CamelCase);
+            return JsonNet(GetAvailablePaymentProcessors(paymentType)).UsingClientConvention();
         }
 
         [HttpPost, HandleAjaxFormError]
@@ -104,7 +104,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().RedirectTo(url);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Enable(PaymentMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -116,7 +116,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Disable(PaymentMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -128,7 +128,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Delete(PaymentMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -140,7 +140,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Save(PaymentMethodEditorModel model, string @return)
         {
             PaymentMethod method = null;

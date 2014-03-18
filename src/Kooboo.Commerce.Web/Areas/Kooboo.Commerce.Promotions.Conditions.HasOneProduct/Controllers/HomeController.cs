@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Promotions.Conditions.HasOneProduct.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public void Editor(int promotionId, int? requirementId, HasOneProductConditionData settings)
         {
             var promotion = PromotionService.GetById(promotionId);

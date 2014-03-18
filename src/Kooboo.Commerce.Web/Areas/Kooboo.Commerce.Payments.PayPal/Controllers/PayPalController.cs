@@ -41,7 +41,7 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
             return Return(commerceReturnUrl);
         }
 
-        [Transactional]
+        [AutoDbCommit]
         public void IPN()
         {
             var orderId = Convert.ToInt32(Request["trackingId"]);

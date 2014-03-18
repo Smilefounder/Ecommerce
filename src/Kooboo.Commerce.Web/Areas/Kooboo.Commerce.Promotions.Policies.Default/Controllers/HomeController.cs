@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Settings(int promotionId, DefaultPolicySettingsModel model, string commerceName, string @return)
         {
             var promotion = PromotionService.GetById(promotionId);

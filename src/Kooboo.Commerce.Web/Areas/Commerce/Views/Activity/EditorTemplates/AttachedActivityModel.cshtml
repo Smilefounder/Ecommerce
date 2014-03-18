@@ -1,0 +1,46 @@
+﻿@model AttachedActivityModel
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.ActivityName)
+<table id="activity-binding-form">
+    <tbody>
+        <tr>
+            <th>@("Activity".Localize())</th>
+            <td>
+                @Model.ActivityDisplayName
+            </td>
+        </tr>
+        @Html.EditorFor(m => m.Description)
+        @Html.EditorFor(m => m.Priority)
+        @Html.EditorFor(m => m.IsEnabled)
+    </tbody>
+</table>
+
+<p class="buttons">
+    <button type="submit" data-ajaxform="">@("Next".Localize()) »</button>
+    <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
+</p>
+
+<script>
+    (function () {
+        window.ajaxFormParam = {
+            success: function (result) {
+                if (result.Model) {
+                    var context = window.parent.ViewModel.activityContext();
+
+                    if (result.Model.ConfigUrl) {
+                        context.refresh(result.Model.AttachedActivityId);
+                        location.href = result.Model.ConfigUrl;
+                    } else {
+                        context.accept();
+                    }
+                }
+            }
+        };
+
+        $('.btn-cancel').on('click', function () {
+            window.parent.ViewModel.activityContext().cancel();
+        });
+    })();
+</script>
