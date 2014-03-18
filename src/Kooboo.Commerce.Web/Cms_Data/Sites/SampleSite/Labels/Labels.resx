@@ -136,4 +136,31 @@
   <data name="Username and/or password are incorrect." xml:space="preserve">
     <value>Username and/or password are incorrect.</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Member profile" xml:space="preserve">
+    <value>Member profile</value>
+  </data>
+  <data name="First name" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="Last name" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Culture</value>
+  </data>
+  <data name="Time zone" xml:space="preserve">
+    <value>Time zone</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>Change password</value>
+  </data>
 </root>
