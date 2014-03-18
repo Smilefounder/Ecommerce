@@ -175,7 +175,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetBrands()
         {
 
-            var objs = _brandService.GetAllBrands();
+            var objs = _brandService.Query();
             return JsonNet(objs);
         }
 

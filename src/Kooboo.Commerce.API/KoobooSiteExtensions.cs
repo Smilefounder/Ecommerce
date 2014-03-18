@@ -32,15 +32,15 @@ namespace Kooboo.Commerce.API
             }
             string api = site.CustomFields["CommerceAPI"];
             var commerceService = EngineContext.Current.Resolve<ICommerceAPI>(api);
-            if(commerceService is RestAPI.RestCommerceAPI)
-            {
-                if (site.CustomFields == null || !site.CustomFields.ContainsKey("WebAPIHost") || string.IsNullOrEmpty(site.CustomFields["WebAPIHost"]))
-                {
-                    throw new Exception("To use commerce by web api, please set 'WebAPIHost' in the site's custom fields.");
-                }
-                string webapiHost = site.CustomFields["WebAPIHost"];
-                ((RestAPI.RestCommerceAPI)commerceService).SetWebAPIHost(webapiHost);
-            }
+            //if(commerceService is RestAPI.RestCommerceAPI)
+            //{
+            //    if (site.CustomFields == null || !site.CustomFields.ContainsKey("WebAPIHost") || string.IsNullOrEmpty(site.CustomFields["WebAPIHost"]))
+            //    {
+            //        throw new Exception("To use commerce by web api, please set 'WebAPIHost' in the site's custom fields.");
+            //    }
+            //    string webapiHost = site.CustomFields["WebAPIHost"];
+            //    ((RestAPI.RestCommerceAPI)commerceService).SetWebAPIHost(webapiHost);
+            //}
             commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage());
             return commerceService;
         }

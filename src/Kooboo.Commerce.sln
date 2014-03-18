@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce", "Kooboo.Commerce\Kooboo.Commerce.csproj", "{BA7AA675-9613-4507-9BAA-2BA608E990CA}"
 EndProject
@@ -79,6 +79,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C046CB57-2A87-4C88-9344-6D2460B2EC4F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.AddIns.Samples.EventTracking", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.AddIns.Samples.EventTracking\Kooboo.Commerce.AddIns.Samples.EventTracking.csproj", "{8DBFA10A-651C-472A-AE33-289493117496}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.LocalProvider", "Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj", "{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.RestProvider", "Kooboo.Commerce.API.RestProvider\Kooboo.Commerce.API.RestProvider.csproj", "{17485074-A10C-42A6-BE94-2BE21F2C60E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -170,6 +174,14 @@ Global
 		{8DBFA10A-651C-472A-AE33-289493117496}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DBFA10A-651C-472A-AE33-289493117496}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DBFA10A-651C-472A-AE33-289493117496}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17485074-A10C-42A6-BE94-2BE21F2C60E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17485074-A10C-42A6-BE94-2BE21F2C60E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17485074-A10C-42A6-BE94-2BE21F2C60E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17485074-A10C-42A6-BE94-2BE21F2C60E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,6 +217,8 @@ Global
 		{5B8B6F8C-F82F-425F-B521-40B2949383E4} = {F2857AEC-6C85-45BF-BC2A-A2EC0A20D30C}
 		{CD168C81-AA6F-480A-94EC-87E3BA0A5871} = {74EF2E50-2925-404D-9028-C457DDEC6520}
 		{F871CFD7-67CE-4192-9005-D9DC46FC5461} = {74EF2E50-2925-404D-9028-C457DDEC6520}
+		{6DF0BCB3-A1C8-4150-ACE5-A458A477D221} = {74EF2E50-2925-404D-9028-C457DDEC6520}
+		{17485074-A10C-42A6-BE94-2BE21F2C60E3} = {74EF2E50-2925-404D-9028-C457DDEC6520}
 		{8DBFA10A-651C-472A-AE33-289493117496} = {C046CB57-2A87-4C88-9344-6D2460B2EC4F}
 	EndGlobalSection
 EndGlobal
