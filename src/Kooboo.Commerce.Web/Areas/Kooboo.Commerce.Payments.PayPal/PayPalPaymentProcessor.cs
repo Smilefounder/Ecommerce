@@ -31,11 +31,11 @@ namespace Kooboo.Commerce.Payments.PayPal
             _keyValueService = keyValueService;
         }
 
-        public IEnumerable<PaymentType> SupportedPaymentTypes
+        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
         {
             get
             {
-                yield return PaymentType.ExternalPayment;
+                yield return PaymentMethodType.ExternalPayment;
             }
         }
 
@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             get { return false; }
         }
 
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentType paymentType)
+        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
         {
             throw new NotSupportedException();
         }

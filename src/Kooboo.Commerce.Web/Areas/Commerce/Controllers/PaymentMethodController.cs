@@ -64,7 +64,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 Id = method.Id,
                 DisplayName = method.DisplayName,
-                PaymentType = method.PaymentType,
+                PaymentType = method.Type,
                 PaymentProcessorName = method.PaymentProcessorName,
                 PaymentProcessorMethodId = method.PaymentProcessorMethodId,
                 AdditionalFeeChargeMode = method.AdditionalFeeChargeMode,
@@ -90,7 +90,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
         }
 
-        public ActionResult PaymentProcessors(PaymentType paymentType)
+        public ActionResult PaymentProcessors(PaymentMethodType paymentType)
         {
             return JsonNet(GetAvailablePaymentProcessors(paymentType)).UsingClientConvention();
         }
@@ -180,7 +180,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().RedirectTo(@return);
         }
 
-        private List<PaymentProcessorModel> GetAvailablePaymentProcessors(PaymentType paymentType)
+        private List<PaymentProcessorModel> GetAvailablePaymentProcessors(PaymentMethodType paymentType)
         {
             var result = new List<PaymentProcessorModel>();
             var processors = _processorFactory.All()

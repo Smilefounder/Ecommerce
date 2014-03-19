@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.API.Payments
 
         public string DisplayName { get; set; }
 
-        public PaymentType PaymentType { get; set; }
+        public PaymentMethodType Type { get; set; }
 
         public string PaymentProcessorName { get; set; }
 

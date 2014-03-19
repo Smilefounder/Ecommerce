@@ -77,11 +77,11 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             return url;
         }
 
-        public IEnumerable<PaymentType> SupportedPaymentTypes
+        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
         {
             get
             {
-                return new PaymentType[] { PaymentType.CreditCard, PaymentType.DirectDebit, PaymentType.ExternalPayment };
+                return new PaymentMethodType[] { PaymentMethodType.CreditCard, PaymentMethodType.DirectDebit, PaymentMethodType.ExternalPayment };
             }
         }
 
@@ -90,9 +90,9 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             get { return true; }
         }
 
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentType paymentType)
+        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
         {
-            if (paymentType == PaymentType.CreditCard)
+            if (paymentType == PaymentMethodType.CreditCard)
             {
                 return new SupportedPaymentMethod[] {
                     new SupportedPaymentMethod("amex", "American Express"),
@@ -101,14 +101,14 @@ namespace Kooboo.Commerce.Payments.Buckaroo
                 };
             };
 
-            if (paymentType == PaymentType.DirectDebit)
+            if (paymentType == PaymentMethodType.DirectDebit)
             {
                 return new SupportedPaymentMethod[] {
                     new SupportedPaymentMethod("simplesepadirectdebit", "SEPA Direct Debit")
                 };
             }
 
-            if (paymentType == PaymentType.ExternalPayment)
+            if (paymentType == PaymentMethodType.ExternalPayment)
             {
                 return new SupportedPaymentMethod[] {
                     new SupportedPaymentMethod("ideal", "iDeal"),

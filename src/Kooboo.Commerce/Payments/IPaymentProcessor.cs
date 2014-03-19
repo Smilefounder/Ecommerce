@@ -11,10 +11,10 @@ namespace Kooboo.Commerce.Payments
 
         ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request);
 
-        IEnumerable<PaymentType> SupportedPaymentTypes { get; }
+        IEnumerable<PaymentMethodType> SupportedPaymentTypes { get; }
 
         bool SupportMultiplePaymentMethods { get; }
 
-        IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentType paymentType);
+        IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType);
     }
 }

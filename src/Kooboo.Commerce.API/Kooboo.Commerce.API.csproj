@@ -93,10 +93,14 @@
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderItem.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
-    <Compile Include="PagedListWrapper.cs" />
+    <Compile Include="Payments\IPaymentAPI.cs" />
+    <Compile Include="Payments\IPaymentQuery.cs" />
+    <Compile Include="Payments\Payment.cs" />    <Compile Include="PagedListWrapper.cs" />
+
     <Compile Include="Payments\PaymentMethod.cs" />
+    <Compile Include="Payments\PaymentMethodReference.cs" />
+    <Compile Include="Payments\PaymentMethodType.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
-    <Compile Include="Payments\PaymentType.cs" />
     <Compile Include="PriceChangeMode.cs" />
     <Compile Include="Products\IProductQuery.cs" />
     <Compile Include="Products\Product.cs" />

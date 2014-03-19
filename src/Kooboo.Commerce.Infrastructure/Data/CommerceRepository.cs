@@ -39,6 +39,11 @@ namespace Kooboo.Commerce.Data
             _database = (CommerceDatabase)database;
         }
 
+        public void Include<TProperty>(Expression<Func<T, TProperty>> property)
+        {
+            DbContext.Set<T>().Include(property);
+        }
+
         public IQueryable<T> Query(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<T>> orderby, int pageIndex, int pageSize, out int totalRecords)
         {
             totalRecords = 0;
@@ -54,6 +59,11 @@ namespace Kooboo.Commerce.Data
             }
 
             return query;
+        }
+
+        public virtual T Get(object id)
+        {
+            return DbContext.Set<T>().Find(id);
         }
 
         public virtual T Get(Expression<Func<T, bool>> predicate)

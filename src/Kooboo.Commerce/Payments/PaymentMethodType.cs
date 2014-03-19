@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Payments
+namespace Kooboo.Commerce.Payments
 {
-    public enum PaymentType
+    public enum PaymentMethodType
     {
         /// <summary>
         /// Customers are redirected to third-party website to complete the payment.

@@ -69,7 +69,8 @@
     <Compile Include="LocalCommerceAPI.cs" />
     <Compile Include="LocalCommerceQuery.cs" />
     <Compile Include="Locations\CountryQuery.cs" />
-    <Compile Include="Orders\OrderQuery.cs" />
+    <Compile Include="Payments\LocalPaymentAPI.cs" />
+    <Compile Include="Payments\LocalPaymentQuery.cs" />    <Compile Include="Orders\OrderQuery.cs" />
     <Compile Include="PlugIn\AddToCartPlugIn.cs" />
     <Compile Include="PlugIn\SaveOrderPlugIn.cs" />
     <Compile Include="Products\ProductQuery.cs" />

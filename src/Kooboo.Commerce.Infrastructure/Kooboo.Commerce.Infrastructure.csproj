@@ -130,6 +130,7 @@
     <Compile Include="Activities\IActivityViews.cs" />
     <Compile Include="Activities\IActivityViewsFactory.cs" />
     <Compile Include="AggregateRoot.cs" />
+    <Compile Include="Data\CommerceDatabaseExtensions.cs" />
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
     <Compile Include="Data\CommerceDbTransaction.cs" />

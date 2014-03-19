@@ -102,6 +102,7 @@
     <Compile Include="Events\Orders\PaymentCancelled.cs" />
     <Compile Include="Events\Orders\PaymentFailed.cs" />
     <Compile Include="Events\Orders\PaymentStatusChanged.cs" />
+    <Compile Include="Events\Payments\PaymentCreated.cs" />
     <Compile Include="Events\Products\FindOne.cs" />
     <Compile Include="Events\Products\GetAlternatives.cs" />
     <Compile Include="Events\Products\GetRecommendations.cs" />
@@ -144,9 +145,11 @@
     <Compile Include="Payments\IPaymentProcessorFactory.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />
-    <Compile Include="Payments\PaymentType.cs" />
+    <Compile Include="Payments\Payment.cs" />
+    <Compile Include="Payments\PaymentMethodType.cs" />
     <Compile Include="Payments\PaymentReturnUrlUtil.cs" />
     <Compile Include="Payments\ProcessPaymentResult.cs" />
+    <Compile Include="Payments\Services\IPaymentService.cs" />
     <Compile Include="Payments\SupportedPaymentMethod.cs" />
     <Compile Include="Pricing\PriceCalculator.cs" />
     <Compile Include="Pricing\PricingItem.cs" />

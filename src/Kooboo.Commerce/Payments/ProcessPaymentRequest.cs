@@ -11,21 +11,9 @@ namespace Kooboo.Commerce.Payments
 {
     public class ProcessPaymentRequest
     {
-        public string CommerceName { get; set; }
-
-        public Order Order { get; set; }
-
-        public decimal Amount
-        {
-            get
-            {
-                return Order.Total;
-            }
-        }
+        public Payment Payment { get; set; }
 
         public string CurrencyCode { get; set; }
-
-        public PaymentMethod PaymentMethod { get; set; }
 
         public CreditCardInfo CreditCardInfo { get; set; }
 
@@ -37,11 +25,9 @@ namespace Kooboo.Commerce.Payments
 
         public string ReturnUrl { get; set; }
 
-        public ProcessPaymentRequest(string commerceName, Order order, PaymentMethod paymentMethod)
+        public ProcessPaymentRequest(Payment payment)
         {
-            CommerceName = commerceName;
-            Order = order;
-            PaymentMethod = paymentMethod;
+            Payment = payment;
         }
     }
 }
