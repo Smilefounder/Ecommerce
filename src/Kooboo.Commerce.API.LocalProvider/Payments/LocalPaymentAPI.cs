@@ -63,9 +63,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
                 + "&returnUrl=" + HttpUtility.UrlEncode(returnUrl));
         }
 
-        public IPaymentQuery Query()
+        public IObjectQuery<PaymentDto> Query()
         {
-            return new LocalPaymentQuery(_paymentService, _mapper);
+            // TODO: Fix
+            return new ObjectQuery<PaymentDto>(new LocalObjectQueryExecutor(null));
         }
     }
 }

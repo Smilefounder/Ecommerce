@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.API.Payments
     {
         CreatePaymentResult Create(CreatePaymentRequest request);
 
-        IPaymentQuery Query();
+        IObjectQuery<Payment> Query();
     }
 
     public class CreatePaymentRequest

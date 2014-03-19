@@ -79,11 +79,14 @@
     <Compile Include="EAV\CustomFieldType.cs" />
     <Compile Include="EAV\FieldDataType.cs" />
     <Compile Include="EAV\FieldValidationRule.cs" />
+    <Compile Include="Expressions\LambdaStringifier.cs" />
+    <Compile Include="Expressions\PropertyPathBuilder.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="ICommerceAccess.cs" />
     <Compile Include="ICommerceQuery.cs" />
     <Compile Include="Brands\IBrandQuery.cs" />
     <Compile Include="ICommerceAPI.cs" />
+    <Compile Include="IObjectQuery.cs" />
     <Compile Include="KoobooSiteExtensions.cs" />
     <Compile Include="Locations\Address.cs" />
     <Compile Include="Locations\Country.cs" />
@@ -95,8 +98,8 @@
     <Compile Include="Orders\OrderStatus.cs" />
     <Compile Include="Payments\IPaymentAPI.cs" />
     <Compile Include="Payments\IPaymentQuery.cs" />
-    <Compile Include="Payments\Payment.cs" />    <Compile Include="PagedListWrapper.cs" />
-
+    <Compile Include="Payments\Payment.cs" />
+    <Compile Include="PagedListWrapper.cs" />
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\PaymentMethodReference.cs" />
     <Compile Include="Payments\PaymentMethodType.cs" />
