@@ -75,6 +75,10 @@
     <Compile Include="Customers\Customer.cs" />
     <Compile Include="Customers\CustomerLoyalty.cs" />
     <Compile Include="Customers\ICustomerQuery.cs" />
+    <Compile Include="EAV\CustomField.cs" />
+    <Compile Include="EAV\CustomFieldType.cs" />
+    <Compile Include="EAV\FieldDataType.cs" />
+    <Compile Include="EAV\FieldValidationRule.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="ICommerceQuery.cs" />
     <Compile Include="Brands\IBrandQuery.cs" />
@@ -83,7 +87,25 @@
     <Compile Include="Locations\Address.cs" />
     <Compile Include="Locations\Country.cs" />
     <Compile Include="Locations\ICountryQuery.cs" />
+    <Compile Include="Orders\Order.cs" />
+    <Compile Include="Orders\OrderAddress.cs" />
+    <Compile Include="Orders\OrderItem.cs" />
+    <Compile Include="Orders\OrderStatus.cs" />
+    <Compile Include="Payments\PaymentMethod.cs" />
+    <Compile Include="Payments\PaymentStatus.cs" />
+    <Compile Include="Payments\PaymentType.cs" />
+    <Compile Include="PriceChangeMode.cs" />
+    <Compile Include="Products\Product.cs" />
+    <Compile Include="Products\ProductCategory.cs" />
+    <Compile Include="Products\ProductCustomFieldValue.cs" />
+    <Compile Include="Products\ProductImage.cs" />
+    <Compile Include="Products\ProductPrice.cs" />
+    <Compile Include="Products\ProductPriceVariantValue.cs" />
+    <Compile Include="Products\ProductReview.cs" />
+    <Compile Include="Products\ProductType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingCarts\ShoppingCart.cs" />
+    <Compile Include="ShoppingCarts\ShoppingCartItem.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
