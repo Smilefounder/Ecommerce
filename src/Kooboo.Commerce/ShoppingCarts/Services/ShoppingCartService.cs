@@ -15,58 +15,92 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly IRepository<ShoppingCart> _shoppingCartRepository;
+        private readonly IRepository<ShoppingCartItem> _shoppingCartItemRepository;
         private readonly ICustomerService _customerService;
         private readonly IRepository<ProductPrice> _productPriceRepository;
 
-        public ShoppingCartService(IRepository<ShoppingCart> shoppingCartRepository, ICustomerService customerService, IRepository<ProductPrice> productPriceRepository)
+        public ShoppingCartService(IRepository<ShoppingCart> shoppingCartRepository, IRepository<ShoppingCartItem> shoppingCartItemRepository, ICustomerService customerService, IRepository<ProductPrice> productPriceRepository)
         {
             _shoppingCartRepository = shoppingCartRepository;
+            _shoppingCartItemRepository = shoppingCartItemRepository;
             _customerService = customerService;
             _productPriceRepository = productPriceRepository;
         }
 
         #region IShoppingCartService Members
 
-        public ShoppingCart GetBySessionId(string sessionId)
+        public IQueryable<ShoppingCart> Query()
         {
-            ShoppingCart shoppingCart = _shoppingCartRepository.Query()
-                .Where(x => x.SessionId == sessionId)
-                .FirstOrDefault();
+            return _shoppingCartRepository.Query();
+        }
 
-            if (shoppingCart == null)
+        public IQueryable<ShoppingCartItem> ShoppingCartItemQuery()
+        {
+            return _shoppingCartItemRepository.Query();
+        }
+
+
+        //public ShoppingCart GetBySessionId(string sessionId)
+        //{
+        //    ShoppingCart shoppingCart = _shoppingCartRepository.Query()
+        //        .Where(x => x.SessionId == sessionId)
+        //        .FirstOrDefault();
+
+        //    if (shoppingCart == null)
+        //    {
+        //        shoppingCart = new ShoppingCart();
+        //        shoppingCart.SessionId = sessionId;
+        //        Create(shoppingCart);
+        //    }
+
+        //    return shoppingCart;
+        //}
+
+        //public ShoppingCart GetByCustomer(int customerId)
+        //{
+        //    ShoppingCart shoppingCart = _shoppingCartRepository.Query()
+        //        .Where(x => x.Customer.Id == customerId)
+        //        .FirstOrDefault();
+
+        //    if (shoppingCart == null)
+        //    {
+        //        shoppingCart = new ShoppingCart();
+        //        shoppingCart.Customer = _customerService.GetById(customerId);
+        //        Create(shoppingCart);
+        //    }
+
+        //    return shoppingCart;
+        //}
+
+        public bool Create(ShoppingCart shoppingCart)
+        {
+            return _shoppingCartRepository.Insert(shoppingCart);
+        }
+
+        public bool Update(ShoppingCart shoppingCart)
+        {
+            return _shoppingCartRepository.Update(shoppingCart, k => new object[] { k.Id });
+        }
+
+        public bool Save(ShoppingCart shoppingCart)
+        {
+            if (shoppingCart.Id > 0)
             {
-                shoppingCart = new ShoppingCart();
-                shoppingCart.SessionId = sessionId;
-                Create(shoppingCart);
+                bool exists = _shoppingCartRepository.Query(o => o.Id == shoppingCart.Id).Any();
+                if (exists)
+                    return Update(shoppingCart);
+                else
+                    return Create(shoppingCart);
             }
-
-            return shoppingCart;
-        }
-
-        public ShoppingCart GetByCustomer(int customerId)
-        {
-            ShoppingCart shoppingCart = _shoppingCartRepository.Query()
-                .Where(x => x.Customer.Id == customerId)
-                .FirstOrDefault();
-
-            if (shoppingCart == null)
+            else
             {
-                shoppingCart = new ShoppingCart();
-                shoppingCart.Customer = _customerService.GetById(customerId);
-                Create(shoppingCart);
+                return Create(shoppingCart);
             }
-
-            return shoppingCart;
         }
 
-        public void Create(ShoppingCart shoppingCart)
+        public bool Delete(ShoppingCart shoppingCart)
         {
-            _shoppingCartRepository.Insert(shoppingCart);
-        }
-
-        public void Update(ShoppingCart shoppingCart)
-        {
-            _shoppingCartRepository.Update(shoppingCart, k => new object[] { k.Id });
+            return _shoppingCartRepository.Delete(shoppingCart);
         }
 
         /// <summary>
@@ -157,16 +191,6 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             return AddToCart(sessionId, customerId, productPriceId, quantity);
         }
 
-        public bool ExpireShppingCart(ShoppingCart shoppingCart)
-        {
-            if(shoppingCart != null)
-            {
-                shoppingCart.SessionId += "_" + DateTime.UtcNow.Ticks.ToString();
-                return _shoppingCartRepository.Update(shoppingCart, k => new object[] { k.Id });
-            }
-            return false;
-        }
-
         public bool FillCustomerByAccount(string sessionId, MembershipUser user)
         {
             Require.NotNull(sessionId, "sessionId");
@@ -188,5 +212,30 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         }
 
         #endregion
+
+
+        public void AddCartItem(int cartId, ShoppingCartItem item)
+        {
+            var cart = _shoppingCartRepository.Query(o => o.Id == cartId).FirstOrDefault();
+            if(cart != null)
+            {
+                item.ShoppingCart = cart;
+                _shoppingCartItemRepository.Insert(item);
+            }
+        }
+
+        public void UpdateCartItem(int cartId, ShoppingCartItem item)
+        {
+            _shoppingCartItemRepository.Update(item, k => new object[] { k.Id });
+        }
+
+        public void RemoveCartItem(int cartId, int cartItemId)
+        {
+            var cartItem = _shoppingCartItemRepository.Query(o => o.Id == cartItemId && o.ShoppingCart.Id == cartId).FirstOrDefault();
+            if (cartItem != null)
+            {
+                _shoppingCartItemRepository.Delete(cartItem);
+            }
+        }
     }
 }

@@ -5,9 +5,11 @@ using System.Text;
 using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.API.Brands.Services;
 using Kooboo.Commerce.Brands.Services;
+using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
+    [Dependency(typeof(IBrandQuery), ComponentLifeStyle.Transient)]
     public class BrandQuery : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandQuery
     {
         private IBrandService _brandService;
@@ -20,9 +22,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
 
         protected override IQueryable<Commerce.Brands.Brand> CreateQuery()
         {
-            if (_query == null)
-                _query = _brandService.Query();
-            return _query;
+            return _brandService.Query();
         }
 
         protected override IQueryable<Commerce.Brands.Brand> OrderByDefault(IQueryable<Commerce.Brands.Brand> query)
@@ -32,34 +32,44 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
 
         public IBrandQuery ById(int id)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Id == id);
             return this;
         }
 
         public IBrandQuery ByName(string name)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Name == name);
             return this;
         }
 
-        public override void Create(Brand obj)
+        public override bool Create(Brand obj)
         {
             if (obj != null)
-                _brandService.Create(_mapper.MapFrom(obj));
+                return _brandService.Create(_mapper.MapFrom(obj));
+            return false;
         }
 
-        public override void Update(Brand obj)
+        public override bool Update(Brand obj)
         {
             if (obj != null)
-                _brandService.Update(_mapper.MapFrom(obj));
+                return _brandService.Update(_mapper.MapFrom(obj));
+            return false;
         }
 
-        public override void Delete(Brand obj)
+        public override bool Save(Brand obj)
+        {
+            if (obj != null)
+                return _brandService.Save(_mapper.MapFrom(obj));
+            return false;
+        }
+
+        public override bool Delete(Brand obj)
         {
             if (obj != null)
                 _brandService.Delete(_mapper.MapFrom(obj));
+            return false;
         }
     }
 }

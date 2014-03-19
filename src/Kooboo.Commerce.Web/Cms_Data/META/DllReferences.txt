@@ -325,6 +325,35 @@
       "site:samplesite",
       "site:samplesite",
       "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.Commerce.API.LocalProvider.dll",
+    "Version": "1.0.0.0",
+    "IsSystemAssembly": false,
+    "UserList": [
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
+      "site:samplesite",
       "site:samplesite"
     ]
   }

@@ -22,22 +22,36 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     {
         private readonly ICommerceDatabase _db;
         private readonly ICustomerService _customerService;
+        private readonly IOrderService _orderService;
         private readonly ICountryService _countryService;
         private readonly IExtendedQueryManager _extendedQueryManager;
 
-        public CustomerController(ICommerceDatabase db, ICustomerService customerService, ICountryService countryService,
+        public CustomerController(ICommerceDatabase db, ICustomerService customerService, ICountryService countryService, IOrderService orderService,
             IExtendedQueryManager extendedQueryManager)
         {
             _db = db;
             _customerService = customerService;
             _countryService = countryService;
-
+            _orderService = orderService;
             _extendedQueryManager = extendedQueryManager;
         }
 
         public ActionResult Index(string search, int? page, int? pageSize)
         {
-            var customers = _customerService.GetAllCustomersWithOrderCount(search, page, pageSize, (c, i) => new CustomerRowModel(c, i));
+            var customerQuery = _customerService.Query();
+            if (!string.IsNullOrEmpty(search))
+            {
+                customerQuery = customerQuery.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
+            }
+            var orderQuery = _orderService.Query();
+            var customers = customerQuery
+                .GroupJoin(orderQuery,
+                           customer => customer.Id,
+                           order => order.CustomerId,
+                           (customer, orders) => new { Customer = customer, Orders = orders.Count() })
+                .OrderByDescending(groupedItem => groupedItem.Customer.Id)
+                .ToPagedList(page, pageSize)
+                .Transform(o => new CustomerRowModel(o.Customer, o.Orders));
 
             ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<Customer, CustomerQueryModel>();
 
@@ -159,7 +173,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetOrders(int customerId, int? page, int? pageSize)
         {
 
-            var objs = _customerService.GetCustomerOrders(customerId, page, pageSize);
+            var objs = _orderService.Query().Where(o => o.CustomerId == customerId)
+                .OrderByDescending(o => o.Id)
+                .ToPagedList(page, pageSize);
             return JsonNet(objs);
         }
 
@@ -178,7 +194,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
             else
             {
-                model = _customerService.GetAllCustomersWithOrderCount(null, page, pageSize, (c, i) => new CustomerRowModel(c, i));
+                var customerQuery = _customerService.Query();
+                var orderQuery = _orderService.Query();
+                model = customerQuery
+                    .GroupJoin(orderQuery,
+                               customer => customer.Id,
+                               order => order.CustomerId,
+                               (customer, orders) => new { Customer = customer, Orders = orders.Count() })
+                    .OrderByDescending(groupedItem => groupedItem.Customer.Id)
+                    .ToPagedList(page, pageSize)
+                    .Transform(o => new CustomerRowModel(o.Customer, o.Orders));
             }
             return View("Index", model);
         }

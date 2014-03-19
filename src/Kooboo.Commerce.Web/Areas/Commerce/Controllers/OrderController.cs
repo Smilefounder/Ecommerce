@@ -48,11 +48,18 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult Index(string search, int? page, int? pageSize)
         {
-            var orders = _orderService.GetAllOrdersWithCustomer(search, page, pageSize, (o, c) =>
-                {
-                    o.Customer = c;
-                    return o;
-                });
+            var query = _orderService.Query();
+            if(!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(o => o.Customer.FirstName.StartsWith(search) || o.Customer.MiddleName.StartsWith(search) || o.Customer.LastName.StartsWith(search));
+            }
+            var orders = query.OrderByDescending(x => x.Id)
+                .ToPagedList(page, pageSize);
+            foreach(var order in orders)
+            {
+                order.Customer = _customerService.GetById(order.CustomerId);
+            }
+
             ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<Order, OrderQueryModel>();
 
             return View(orders);
@@ -82,7 +89,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 order = Session["TempOrder"] as Order;
             }
 
-            var customers = _customerService.GetAllCustomers(null, page, pageSize);
+            var customers = _customerService.Query().OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
             ViewBag.Customers = customers;
 
             if (order.CustomerId > 0)
@@ -114,7 +121,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
             }
 
-            var products = _productService.GetAllProductPrices(pageIndex, pageSize);
+            var products = _productService.Query().OrderByDescending(x => x.Id).ToPagedList(pageIndex, pageSize);
             ViewBag.Products = products;
 
             Session["TempOrder"] = order;
@@ -300,11 +307,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
             else
             {
-                model = _orderService.GetAllOrdersWithCustomer(null, page, pageSize, (o, c) =>
+                model = _orderService.Query().OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
+                foreach (var order in model)
                 {
-                    o.Customer = c;
-                    return o;
-                });
+                    order.Customer = _customerService.GetById(order.CustomerId);
+                }
             }
             return View("Index", model);
         }

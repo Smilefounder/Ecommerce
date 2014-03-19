@@ -14,6 +14,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {

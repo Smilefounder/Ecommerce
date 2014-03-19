@@ -47,19 +47,35 @@ namespace Kooboo.Commerce.Categories.Services
         //    return query.ToArray();
         //}
 
-        public void Create(Category category)
+        public bool Create(Category category)
         {
-            _categoryRepository.Insert(category);
+            return _categoryRepository.Insert(category);
         }
 
-        public void Update(Category category)
+        public bool Update(Category category)
         {
-            _categoryRepository.Update(category, k => new object[] { k.Id });
+            return _categoryRepository.Update(category, k => new object[] { k.Id });
         }
 
-        public void Delete(Category category)
+        public bool Save(Category category)
         {
-            _categoryRepository.Delete(category);
+            if (category.Id > 0)
+            {
+                bool exists = _categoryRepository.Query(o => o.Id == category.Id).Any();
+                if (exists)
+                    return Update(category);
+                else
+                    return Create(category);
+            }
+            else
+            {
+                return Create(category);
+            }
+        }
+
+        public bool Delete(Category category)
+        {
+            return _categoryRepository.Delete(category);
         }
 
         #endregion

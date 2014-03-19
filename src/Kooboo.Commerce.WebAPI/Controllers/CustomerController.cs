@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Kooboo.Commerce.Customers;
+using Kooboo.Commerce.API.Customers;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
@@ -13,13 +13,13 @@ namespace Kooboo.Commerce.WebAPI.Controllers
         // GET api/customer/5
         public Customer Get(int id)
         {
-            return Commerce().Customer.GetCustomerById(id);
+            return Commerce().Customer.ById(id).FirstOrDefault();
         }
 
         [HttpGet]
         public Customer GetByAccount(string id)
         {
-            return Commerce().Customer.GetCustomerByAccount(id);
+            return Commerce().Customer.ByAccountId(id).FirstOrDefault();
         }
     }
 }

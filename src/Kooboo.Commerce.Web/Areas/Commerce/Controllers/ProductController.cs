@@ -9,6 +9,7 @@ using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 using Kooboo.Commerce.Web.Mvc.Controllers;
+using Kooboo.Commerce.Web.Mvc.Paging;
 using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.ImageSizes;
 using Kooboo.Commerce.Brands;
@@ -48,7 +49,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Index(string search, int? page, int? pageSize)
         {
             var productTypes = _productTypeService.GetAllProductTypes();
-            var model = _productService.GetAllProducts(search, null, page, pageSize);
+            var query = _productService.Query();
+            if(!string.IsNullOrEmpty(search))
+                query = query.Where(o => o.Name.Contains(search));
+            var model = query
+                .OrderByDescending(x => x.Id)
+                .ToPagedList(page, pageSize);
             ViewBag.ProductTypes = productTypes.ToList();
             return View(model);
         }
@@ -183,7 +189,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetCategories(int? parentId = null)
         {
 
-            var objs = parentId.HasValue ? _categoryService.GetChildCategories(parentId.Value) : _categoryService.GetRootCategories();
+            var query = _categoryService.Query();
+            if(parentId.HasValue)
+                query = query.Where(o => o.Parent.Id == parentId.Value);
+            else
+                query = query.Where(o => o.Parent == null);
+            var objs = query.ToArray();
             return JsonNet(objs);
         }
     }

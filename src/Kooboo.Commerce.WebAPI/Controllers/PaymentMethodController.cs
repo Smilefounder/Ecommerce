@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.Payments;
+﻿using Kooboo.Commerce.API.Payments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,8 @@ namespace Kooboo.Commerce.WebAPI.Controllers
         // GET api/paymentmethod
         public IEnumerable<PaymentMethod> Get()
         {
-            return Commerce().PaymentMethod.GetAllPaymentMethods();
+            return null;
+            //return Commerce().PaymentMethod.GetAllPaymentMethods();
         }
     }
 }

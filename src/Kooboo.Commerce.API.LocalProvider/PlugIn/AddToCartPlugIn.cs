@@ -8,7 +8,7 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.CMS.Common;
 
-namespace Kooboo.Commerce.API.PlugIn
+namespace Kooboo.Commerce.API.LocalProvider.PlugIn
 {
     public class AddToCartPlugIn : ISubmissionPlugin
     {
@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.API.PlugIn
                 string sessionId = controllerContext.HttpContext.Session.SessionID;
                 var memberAuth = controllerContext.HttpContext.Membership();
                 var member = memberAuth.GetMembershipUser();
-                if (commerService.Cart.AddToCart(sessionId, member.UUID, productPriceId, quantity))
+                if (commerService.ShoppingCart.AddToCart(sessionId, member == null ? null : member.UUID, productPriceId, quantity))
                 {
                     resultData.Success = true;
                     resultData.AddMessage("Successfully add to cart.");

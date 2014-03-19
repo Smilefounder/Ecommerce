@@ -12,11 +12,11 @@ namespace Kooboo.Commerce.EAV.Services {
 
         IQueryable<CustomField> Query();
 
-        void Create(CustomField field);
+        bool Create(CustomField field);
 
-        void Update(CustomField field);
+        bool Update(CustomField field);
 
-        void Delete(CustomField field);
+        bool Delete(CustomField field);
 
         IEnumerable<CustomField> GetSystemFields();
         void SetSystemFields(IEnumerable<CustomField> fields);

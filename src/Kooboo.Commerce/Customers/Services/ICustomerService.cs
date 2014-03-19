@@ -28,12 +28,12 @@ namespace Kooboo.Commerce.Customers.Services
 
         Customer CreateByAccount(MembershipUser user);
 
-        void Create(Customer customer);
+        bool Create(Customer customer);
 
-        void Update(Customer customer);
+        bool Update(Customer customer);
 
-        void Save(Customer customer);
+        bool Save(Customer customer);
 
-        void Delete(Customer customer);
+        bool Delete(Customer customer);
     }
 }

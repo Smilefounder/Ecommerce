@@ -11,11 +11,11 @@ namespace Kooboo.Commerce.ImageSizes.Services {
 
         IQueryable<ImageSize> Query();
 
-        void Create(ImageSize size);
+        bool Create(ImageSize size);
 
-        void Update(ImageSize size);
+        bool Update(ImageSize size);
 
-        void Delete(ImageSize size);
+        bool Delete(ImageSize size);
 
         void Enable(ImageSize size);
 

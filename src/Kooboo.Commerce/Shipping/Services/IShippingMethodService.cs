@@ -11,11 +11,11 @@ namespace Kooboo.Commerce.Shipping.Services
 
         IQueryable<ShippingMethod> Query();
 
-        void Create(ShippingMethod method);
+        bool Create(ShippingMethod method);
 
-        void Update(ShippingMethod method);
+        bool Update(ShippingMethod method);
 
-        void Delete(ShippingMethod method);
+        bool Delete(ShippingMethod method);
 
         void Enable(ShippingMethod method);
 

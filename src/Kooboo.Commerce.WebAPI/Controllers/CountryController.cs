@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.API.Locations;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.WebAPI.Controllers
         // GET api/default1
         public IEnumerable<Country> Get()
         {
-            return Commerce().Country.GetAllCountries();
+            return Commerce().Country.ToArray();
         }
     }
 }

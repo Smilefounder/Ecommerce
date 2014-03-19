@@ -6,7 +6,9 @@ using System.Linq.Expressions;
 
 namespace Kooboo.Commerce.API.LocalProvider
 {
-    public abstract class LocalCommerceQuery<T, Model> : ICommerceQuery<T>
+    public abstract class LocalCommerceQuery<T, Model> : ICommerceQuery<T>, ICommerceAccess<T>
+        where T : class, new()
+        where Model : class, new()
     {
         protected IQueryable<Model> _query;
         protected IMapper<T, Model> _mapper;
@@ -14,38 +16,46 @@ namespace Kooboo.Commerce.API.LocalProvider
         protected abstract IQueryable<Model> CreateQuery();
         protected abstract IQueryable<Model> OrderByDefault(IQueryable<Model> query);
 
+        protected virtual void EnsureQuery()
+        {
+            if (_query == null)
+                _query = CreateQuery();
+        }
+
         public virtual T[] Pagination(int pageIndex, int pageSize)
         {
-            CreateQuery();
-            var query = OrderByDefault(_query).Select(o => _mapper.MapTo(o)).Skip(pageIndex * pageSize).Take(pageSize);
-            return query.ToArray();
+            EnsureQuery();
+            var objs = OrderByDefault(_query).Skip(pageIndex * pageSize).Take(pageSize).ToArray();
+            return objs.Select(o => _mapper.MapTo(o)).ToArray();
         }
 
         public virtual T FirstOrDefault()
         {
-            CreateQuery();
-            var query = _query.Select(o => _mapper.MapTo(o)).FirstOrDefault();
-            return query;
+            EnsureQuery();
+            var obj = _query.FirstOrDefault();
+            if (obj != null)
+                return _mapper.MapTo(obj);
+            return null;
         }
 
         public virtual T[] ToArray()
         {
-            CreateQuery();
-            var query = _query.Select(o => _mapper.MapTo(o));
-            return query.ToArray();
+            EnsureQuery();
+            var objs = _query.ToArray();
+            return objs.Select(o => _mapper.MapTo(o)).ToArray();
         }
 
         public virtual int Count()
         {
-            CreateQuery();
+            EnsureQuery();
             return _query.Count();
         }
+        public abstract bool Create(T obj);
 
+        public abstract bool Update(T obj);
 
-        public abstract void Create(T obj);
+        public abstract bool Save(T obj);
 
-        public abstract void Update(T obj);
-
-        public abstract void Delete(T obj);
+        public abstract bool Delete(T obj);
     }
 }

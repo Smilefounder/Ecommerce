@@ -92,7 +92,7 @@ namespace Kooboo.Commerce.Orders.Services
         //    return order;
         //}
 
-        public Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool expireShoppingCart)
+        public Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool deleteShoppingCart)
         {
             if(shoppingCart != null)
             {
@@ -106,8 +106,8 @@ namespace Kooboo.Commerce.Orders.Services
                     shoppingCart.Customer = customer;
 
                 }
-                // since the shopping cart was transfered to order, set the shopping cart as not the current one.
-                _shoppingCartService.ExpireShppingCart(shoppingCart);
+                // since the shopping cart was transfered to order, delete the shopping cart.
+                _shoppingCartService.Delete(shoppingCart);
 
                 Order order = new Order();
                 order.ShoppingCartId = shoppingCart.Id;
@@ -213,47 +213,57 @@ namespace Kooboo.Commerce.Orders.Services
         //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
         //}
 
-        public void Create(Order order)
+        public bool Create(Order order)
         {
-            _orderRepository.Insert(order);
+            bool result = _orderRepository.Insert(order);
             Event.Apply(new OrderCreated(order));
+
+            return result;
         }
 
-        public void Update(Order order)
+        public bool Update(Order order)
         {
-            using (var tx = _db.BeginTransaction())
+            try
             {
-                _orderRepository.Update(order, k => new object[] { k.Id });
+                using (var tx = _db.BeginTransaction())
+                {
+                    _orderRepository.Update(order, k => new object[] { k.Id });
 
-                var dbOrderItems = _orderItemRepository.Query(o => o.OrderId == order.Id).ToArray();
-                _orderItemRepository.SaveAll(_db, dbOrderItems, order.OrderItems, k => new object[] { k.Id }, (o, n) => o.Id == n.Id);
+                    var dbOrderItems = _orderItemRepository.Query(o => o.OrderId == order.Id).ToArray();
+                    _orderItemRepository.SaveAll(_db, dbOrderItems, order.OrderItems, k => new object[] { k.Id }, (o, n) => o.Id == n.Id);
 
-                _orderAddressRepository.Save(o => o.Id == order.ShippingAddressId, order.ShippingAddress, k => new object[] { k.Id });
-                _orderAddressRepository.Save(o => o.Id == order.BillingAddressId, order.BillingAddress, k => new object[] { k.Id });
+                    _orderAddressRepository.Save(o => o.Id == order.ShippingAddressId, order.ShippingAddress, k => new object[] { k.Id });
+                    _orderAddressRepository.Save(o => o.Id == order.BillingAddressId, order.BillingAddress, k => new object[] { k.Id });
 
-                tx.Commit();
+                    tx.Commit();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
-        public void Save(Order order)
+        public bool Save(Order order)
         {
             if (order.Id > 0)
             {
                 bool exists = _orderRepository.Query(o => o.Id == order.Id).Any();
                 if (exists)
-                    Update(order);
+                    return Update(order);
                 else
-                    Create(order);
+                    return Create(order);
             }
             else
             {
-                Create(order);
+                return Create(order);
             }
         }
 
-        public void Delete(Order order)
+        public bool Delete(Order order)
         {
-            _orderRepository.Delete(order);
+            return _orderRepository.Delete(order);
         }
     }
 }

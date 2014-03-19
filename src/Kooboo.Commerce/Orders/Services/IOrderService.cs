@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Orders.Services
 
         //Order GetByShoppingCartId(int shoppingCartId);
 
-        Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool expireShoppingCart);
+        Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool deleteShoppingCart);
 
         //IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize);
 
@@ -24,12 +24,12 @@ namespace Kooboo.Commerce.Orders.Services
 
         //IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize);
 
-        void Create(Order order);
+        bool Create(Order order);
 
-        void Update(Order order);
+        bool Update(Order order);
 
-        void Save(Order order);
+        bool Save(Order order);
 
-        void Delete(Order order);
+        bool Delete(Order order);
     }
 }

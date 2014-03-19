@@ -27,24 +27,24 @@ namespace Kooboo.Commerce.Promotions.Services
             return _repository.Query();
         }
 
-        public void Create(Promotion promotion)
+        public bool Create(Promotion promotion)
         {
             if (promotion.RequireCouponCode && !IsCouponAvailable(promotion.CouponCode, promotion.Id))
             {
                 throw new InvalidOperationException("Coupon code has been taken.");
             }
 
-            _repository.Insert(promotion);
+            return _repository.Insert(promotion);
         }
 
-        public void Update(Promotion promotion)
+        public bool Update(Promotion promotion)
         {
             if (promotion.RequireCouponCode && !IsCouponAvailable(promotion.CouponCode, promotion.Id))
             {
                 throw new InvalidOperationException("Coupon code has been taken.");
             }
 
-            _repository.Update(promotion, k => new object[] { k.Id });
+            return _repository.Update(promotion, k => new object[] { k.Id });
         }
 
         public void Enable(Promotion promotion)
@@ -57,9 +57,9 @@ namespace Kooboo.Commerce.Promotions.Services
             promotion.Disable();
         }
 
-        public void Delete(Promotion promotion)
+        public bool Delete(Promotion promotion)
         {
-            _repository.Delete(promotion);
+            return _repository.Delete(promotion);
         }
 
         public bool IsCouponAvailable(string coupon, int candidatePromotionId)

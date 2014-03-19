@@ -27,16 +27,16 @@ namespace Kooboo.Commerce.EAV.Services {
             return repoCustomField.Query();
         }
 
-        public void Create(CustomField field) {
-            repoCustomField.Insert(field);
+        public bool Create(CustomField field) {
+            return repoCustomField.Insert(field);
         }
 
-        public void Update(CustomField field) {
-            repoCustomField.Update(field, k => new object[] { k.Id });
+        public bool Update(CustomField field) {
+            return repoCustomField.Update(field, k => new object[] { k.Id });
         }
 
-        public void Delete(CustomField field) {
-            repoCustomField.Delete(field);
+        public bool Delete(CustomField field) {
+            return repoCustomField.Delete(field);
         }
 
         public IEnumerable<CustomField> GetSystemFields() {

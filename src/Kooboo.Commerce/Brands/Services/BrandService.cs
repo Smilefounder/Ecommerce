@@ -36,19 +36,35 @@ namespace Kooboo.Commerce.Brands.Services
         //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
         //}
 
-        public void Create(Brand brand)
+        public bool Create(Brand brand)
         {
-            _brandRepository.Insert(brand);
+            return _brandRepository.Insert(brand);
         }
 
-        public void Update(Brand brand)
+        public bool Update(Brand brand)
         {
-            _brandRepository.Update(brand, k => new object[] { k.Id });
+            return _brandRepository.Update(brand, k => new object[] { k.Id });
         }
 
-        public void Delete(Brand brand)
+        public bool Save(Brand brand)
         {
-            _brandRepository.Delete(brand);
+            if (brand.Id > 0)
+            {
+                bool exists = _brandRepository.Query(o => o.Id == brand.Id).Any();
+                if (exists)
+                    return Update(brand);
+                else
+                    return Create(brand);
+            }
+            else
+            {
+                return Create(brand);
+            }
+        }
+
+        public bool Delete(Brand brand)
+        {
+            return _brandRepository.Delete(brand);
         }
 
         #endregion

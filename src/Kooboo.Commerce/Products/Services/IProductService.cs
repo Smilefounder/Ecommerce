@@ -9,17 +9,24 @@ namespace Kooboo.Commerce.Products.Services
     {
         Product GetById(int id);
 
-        IPagedList<Product> GetAllProducts(string userInput, int? categoryId, int? pageIndex, int? pageSize);
+        IQueryable<Product> Query();
 
-        IPagedList<ProductPrice> GetAllProductPrices(int? pageIndex, int? pageSize);
+        IQueryable<ProductPrice> ProductPriceQuery();
+
+        IQueryable<ProductCategory> ProductCategoryQuery();
+        IQueryable<ProductImage> ProductImageQuery();
+        IQueryable<ProductCustomFieldValue> ProductCustomFieldQuery();
+        IQueryable<ProductPriceVariantValue> ProductPriceVariantQuery();
 
         ProductPrice GetProductPriceById(int id, bool loadProduct = true, bool loadVariants = true, bool loadCustomFields = true);
 
-        void Create(Product product);
+        bool Create(Product product);
 
-        void Update(Product product);
+        bool Update(Product product);
 
-        void Delete(Product product);
+        bool Delete(Product product);
+
+        bool Save(Product product);
 
         void Publish(Product product);
 

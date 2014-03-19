@@ -15,11 +15,11 @@ namespace Kooboo.Commerce.Promotions.Services
 
         void Disable(Promotion promotion);
 
-        void Create(Promotion promotion);
+        bool Create(Promotion promotion);
 
-        void Update(Promotion promotion);
+        bool Update(Promotion promotion);
 
-        void Delete(Promotion promotion);
+        bool Delete(Promotion promotion);
 
         bool IsCouponAvailable(string coupon, int candidatePromotionId);
     }

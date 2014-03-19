@@ -11,10 +11,10 @@ namespace Kooboo.Commerce.EAV.Services {
 
         IQueryable<FieldValidationRule> Query();
 
-        void Create(FieldValidationRule rule);
+        bool Create(FieldValidationRule rule);
 
-        void Update(FieldValidationRule rule);
+        bool Update(FieldValidationRule rule);
 
-        void Delete(FieldValidationRule rule);
+        bool Delete(FieldValidationRule rule);
     }
 }

@@ -47,15 +47,15 @@ namespace Kooboo.Commerce.Products.Services {
             return new PagedList<T>(data.Select<ProductType, T>(o => func(o)), pi, ps, total);
         }
 
-        public void Create(ProductType type) {
-            _productTypeRepository.Insert(type);
+        public bool Create(ProductType type) {
+            return _productTypeRepository.Insert(type);
         }
 
-        public void Update(ProductType type) {
-            _productTypeRepository.Update(type, k => new object[] { k.Id });
+        public bool Update(ProductType type) {
+            return _productTypeRepository.Update(type, k => new object[] { k.Id });
         }
 
-        public void Update(ProductType oldType, ProductType newType) {
+        public bool Update(ProductType oldType, ProductType newType) {
             oldType.Name = newType.Name;
             oldType.SkuAlias = newType.SkuAlias;
             oldType.IsEnabled = newType.IsEnabled;
@@ -69,6 +69,7 @@ namespace Kooboo.Commerce.Products.Services {
                 if (oldType.VariationFields == null) { oldType.VariationFields = new List<CustomField>(); }
                 UpdateCustomFields(oldType.VariationFields, newType.VariationFields);
             }
+            return true;
         }
 
         private void UpdateCustomFields(ICollection<CustomField> oldFields, ICollection<CustomField> newFields) {
@@ -119,12 +120,12 @@ namespace Kooboo.Commerce.Products.Services {
             }
         }
 
-        public void Delete(ProductType type) {
+        public bool Delete(ProductType type) {
             type.IsDeleted = true;
             if (!type.DeletedAtUtc.HasValue) {
                 type.DeletedAtUtc = DateTime.UtcNow;
             }
-            _productTypeRepository.Update(type, k => new object[] { k.Id });
+            return _productTypeRepository.Update(type, k => new object[] { k.Id });
         }
 
         public void Enable(ProductType type) {

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Locations
 {
-    public interface ICountryQuery : ICommerceQuery<Country>
+    public interface ICountryQuery : ICommerceQuery<Country>, ICommerceAccess<Country>
     {
         ICountryQuery ById(int id);
         ICountryQuery ByName(string name);

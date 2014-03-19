@@ -44,8 +44,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 Total = 1056m
             };
-            var customer = EngineContext.Current.Resolve<ICustomerService>().GetAllCustomers(
-                null, null, null).First();
+            var customer = EngineContext.Current.Resolve<ICustomerService>().Query().First();
 
             order.Customer = customer;
 

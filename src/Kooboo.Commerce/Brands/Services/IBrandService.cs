@@ -11,10 +11,11 @@ namespace Kooboo.Commerce.Brands.Services
 
         IQueryable<Brand> Query();
 
-        void Create(Brand brand);
+        bool Create(Brand brand);
 
-        void Update(Brand brand);
+        bool Update(Brand brand);
+        bool Save(Brand brand);
 
-        void Delete(Brand brand);
+        bool Delete(Brand brand);
     }
 }

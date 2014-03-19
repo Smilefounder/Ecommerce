@@ -23,16 +23,16 @@ namespace Kooboo.Commerce.ImageSizes.Services {
             return Repository.Query();
         }
 
-        public void Create(ImageSize size) {
-            Repository.Insert(size);
+        public bool Create(ImageSize size) {
+            return Repository.Insert(size);
         }
 
-        public void Update(ImageSize size) {
-            Repository.Update(size, k => new object[] { k.Name });
+        public bool Update(ImageSize size) {
+            return Repository.Update(size, k => new object[] { k.Name });
         }
 
-        public void Delete(ImageSize size) {
-            Repository.Delete(size);
+        public bool Delete(ImageSize size) {
+            return Repository.Delete(size);
         }
 
         public void Enable(ImageSize size) {

@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.Commerce.API.LocalProvider.Categories
 {
+    [Dependency(typeof(ICategoryQuery), ComponentLifeStyle.Transient)]
     public class CategoryQuery : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryQuery
     {
         private ICategoryService _categoryService;
@@ -32,28 +34,28 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
 
         public ICategoryQuery ById(int id)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Id == id);
             return this;
         }
 
         public ICategoryQuery ByName(string name)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Name == name);
             return this;
         }
 
         public ICategoryQuery Published(bool published)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Published == published);
             return this;
         }
 
         public ICategoryQuery ByParentId(int? parentId)
         {
-            CreateQuery();
+            EnsureQuery();
             if (parentId.HasValue)
                 _query = _query.Where(o => o.Parent.Id == parentId.Value);
             else
@@ -81,30 +83,34 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
 
         private void LoadParent(Category category)
         {
-            category.Parent = _categoryService.Query().Where(o => o.Children.Any(c => c.Id == category.Id)).Select(o => _mapper.MapTo(o)).FirstOrDefault();
+            var parent = _categoryService.Query().Where(o => o.Children.Any(c => c.Id == category.Id)).FirstOrDefault();
+            if (parent != null)
+                category.Parent = _mapper.MapTo(parent);
         }
 
         private void LoadChildren(Category category)
         {
-            category.Children = _categoryService.Query().Where(o => o.Parent.Id == category.Id).Select(o => _mapper.MapTo(o)).ToArray();
+            var children = _categoryService.Query().Where(o => o.Parent.Id == category.Id).ToArray();
+            if (children != null)
+                category.Children = children.Select(o => _mapper.MapTo(o)).ToArray();
         }
 
         private void LoadWithOptions(Category category)
         {
-            if(_loadWithParents)
+            if (_loadWithParents)
             {
                 Category that = category;
-                while(that != null)
+                while (that != null)
                 {
                     LoadParent(that);
                     that = that.Parent;
                 }
             }
-            else if(_loadWithParent)
+            else if (_loadWithParent)
             {
                 LoadParent(category);
             }
-            if(_loadWithChildren)
+            if (_loadWithChildren)
             {
                 LoadChildren(category);
             }
@@ -120,7 +126,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         public override Category[] Pagination(int pageIndex, int pageSize)
         {
             var categories = base.Pagination(pageIndex, pageSize);
-            foreach(var cate in categories)
+            foreach (var cate in categories)
             {
                 LoadWithOptions(cate);
             }
@@ -147,22 +153,32 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             return category;
         }
 
-        public override void Create(Category obj)
+        public override bool Create(Category obj)
         {
             if (obj != null)
-                _categoryService.Create(_mapper.MapFrom(obj));
+                return _categoryService.Create(_mapper.MapFrom(obj));
+            return false;
         }
 
-        public override void Update(Category obj)
+        public override bool Update(Category obj)
         {
             if (obj != null)
-                _categoryService.Update(_mapper.MapFrom(obj));
+                return _categoryService.Update(_mapper.MapFrom(obj));
+            return false;
         }
 
-        public override void Delete(Category obj)
+        public override bool Save(Category obj)
         {
             if (obj != null)
-                _categoryService.Delete(_mapper.MapFrom(obj));
+                return _categoryService.Save(_mapper.MapFrom(obj));
+            return false;
+        }
+
+        public override bool Delete(Category obj)
+        {
+            if (obj != null)
+                return _categoryService.Delete(_mapper.MapFrom(obj));
+            return false;
         }
     }
 }

@@ -1,4 +1,10 @@
 ﻿using Kooboo.Commerce.API.Brands.Services;
+using Kooboo.Commerce.API.Categories;
+using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.API.Orders;
+using Kooboo.Commerce.API.Products;
+using Kooboo.Commerce.API.ShoppingCarts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +16,14 @@ namespace Kooboo.Commerce.API
     {
         void InitCommerceInstance(string instance, string language);
 
-        //ICountryAPI Country { get; }
+        ICountryQuery Country { get; }
         IBrandQuery Brands { get; }
-        //ICategoryAPI Category { get; }
-        //IPaymentMethodAPI PaymentMethod { get; }
-        //ICustomerAPI Customer { get; }
-        //IProductAPI Product { get; }
-        //ICartAPI Cart { get; }
-        //IOrderAPI Order { get; }
+        ICategoryQuery Category { get; }
+        //IPaymentMethodQuery PaymentMethod { get; }
+        ICustomerQuery Customer { get; }
+        IProductQuery Product { get; }
+        IShoppingCartQuery ShoppingCart { get; }
+        IOrderQuery Order { get; }
         //IPaymentAPI Payment { get; }
     }
 }

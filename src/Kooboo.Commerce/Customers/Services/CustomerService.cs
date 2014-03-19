@@ -116,53 +116,62 @@ namespace Kooboo.Commerce.Customers.Services
             return customer;
         }
 
-        public void Create(Customer customer)
+        public bool Create(Customer customer)
         {
-            _customerRepository.Insert(customer);
+            bool result = _customerRepository.Insert(customer);
             Event.Apply(new CustomerCreated(customer));
+            return result;
         }
 
-        public void Update(Customer customer)
+        public bool Update(Customer customer)
         {
-            using (var tx = _db.BeginTransaction())
+            try
             {
-                if (customer.Loyalty != null)
+                using (var tx = _db.BeginTransaction())
                 {
-                    _customerLoyaltyRepository.Save(o => o.CustomerId == customer.Loyalty.CustomerId, customer.Loyalty, o => new object[] { o.CustomerId });
-                }
-                if (customer.Addresses != null)
-                {
-                    foreach (var address in customer.Addresses)
+                    if (customer.Loyalty != null)
                     {
-                        _addressRepository.Save(o => o.Id == address.Id, address, o => new object[] { o.Id });
+                        _customerLoyaltyRepository.Save(o => o.CustomerId == customer.Loyalty.CustomerId, customer.Loyalty, o => new object[] { o.CustomerId });
                     }
-                }
-                _customerRepository.Update(customer, k => new object[] { k.Id });
+                    if (customer.Addresses != null)
+                    {
+                        foreach (var address in customer.Addresses)
+                        {
+                            _addressRepository.Save(o => o.Id == address.Id, address, o => new object[] { o.Id });
+                        }
+                    }
+                    _customerRepository.Update(customer, k => new object[] { k.Id });
 
-                tx.Commit();
+                    tx.Commit();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
-        public void Save(Customer customer)
+        public bool Save(Customer customer)
         {
 
             if(customer.Id > 0)
             {
                 bool exists = _customerRepository.Query(o => o.Id == customer.Id).Any();
                 if (exists)
-                    Update(customer);
+                    return Update(customer);
                 else
-                    Create(customer);
+                    return Create(customer);
             }
             else
             {
-                Create(customer);
+                return Create(customer);
             }
         }
 
-        public void Delete(Customer customer)
+        public bool Delete(Customer customer)
         {
-            _customerRepository.Delete(customer);
+            return _customerRepository.Delete(customer);
         }
 
     }

@@ -42,19 +42,19 @@ namespace Kooboo.Commerce.Payments.Services
             method.Disable();
         }
 
-        public void Create(PaymentMethod method)
+        public bool Create(PaymentMethod method)
         {
-            _repository.Insert(method);
+            return _repository.Insert(method);
         }
 
-        public void Update(PaymentMethod method)
+        public bool Update(PaymentMethod method)
         {
-            _repository.Update(method, k => new object[] { k.Id });
+            return _repository.Update(method, k => new object[] { k.Id });
         }
 
-        public void Delete(PaymentMethod method)
+        public bool Delete(PaymentMethod method)
         {
-            _repository.Delete(method);
+            return _repository.Delete(method);
         }
     }
 }

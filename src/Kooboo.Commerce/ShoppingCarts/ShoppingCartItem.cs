@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.ShoppingCarts
 
         public int Quantity { get; set; }
 
-        protected ShoppingCartItem() { }
+        public ShoppingCartItem() { }
 
         public ShoppingCartItem(ProductPrice variation, int quantity, ShoppingCart cart)
         {

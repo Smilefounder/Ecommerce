@@ -17,10 +17,11 @@ namespace Kooboo.Commerce.Categories.Services
 
         //IEnumerable<Category> GetChildCategories(int parentId);
 
-        void Create(Category category);
+        bool Create(Category category);
 
-        void Update(Category category);
+        bool Update(Category category);
+        bool Save(Category category);
 
-        void Delete(Category category);
+        bool Delete(Category category);
     }
 }

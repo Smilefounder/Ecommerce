@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Membership.Models;
-using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.API.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.WebAPI.Controllers
 
         public bool Put([FromBody]Order order)
         {
-            return Commerce().Order.SaveOrder(order);
+            return Commerce().Order.Save(order);
         }
     }
 }

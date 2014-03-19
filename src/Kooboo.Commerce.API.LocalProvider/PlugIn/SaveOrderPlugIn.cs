@@ -7,11 +7,10 @@ using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.CMS.Common;
-using Kooboo.Commerce.Orders;
-using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Web.Mvc;
+using Kooboo.Commerce.API.Orders;
 
-namespace Kooboo.Commerce.API.PlugIn
+namespace Kooboo.Commerce.API.LocalProvider.PlugIn
 {
     public class SaveOrderPlugIn : ISubmissionPlugin
     {
@@ -65,23 +64,24 @@ namespace Kooboo.Commerce.API.PlugIn
                     order.Remark = form["Remark"];
 
                     var orderItems = FormHelper.BindToModels<OrderItem>(form, "OrderItem_");
-                    foreach(var item in orderItems)
-                    {
-                        var oldOrderItem = order.OrderItems.FirstOrDefault(o => o.Id == item.Id);
-                        if(oldOrderItem != null)
-                        {
-                            if(item.Quantity <= 0)
-                            {
-                                order.OrderItems.Remove(oldOrderItem);
-                            }
-                            else
-                            {
-                                oldOrderItem.Quantity = item.Quantity;
-                                oldOrderItem.SubTotal = oldOrderItem.UnitPrice * oldOrderItem.Quantity;
-                                oldOrderItem.Total = oldOrderItem.SubTotal - oldOrderItem.Discount + oldOrderItem.TaxCost;
-                            }
-                        }
-                    }
+                    order.OrderItems = orderItems.ToArray();
+                    //foreach(var item in orderItems)
+                    //{
+                    //    var oldOrderItem = order.OrderItems.FirstOrDefault(o => o.Id == item.Id);
+                    //    if(oldOrderItem != null)
+                    //    {
+                    //        if(item.Quantity <= 0)
+                    //        {
+                    //            order.OrderItems(oldOrderItem);
+                    //        }
+                    //        else
+                    //        {
+                    //            oldOrderItem.Quantity = item.Quantity;
+                    //            oldOrderItem.SubTotal = oldOrderItem.UnitPrice * oldOrderItem.Quantity;
+                    //            oldOrderItem.Total = oldOrderItem.SubTotal - oldOrderItem.Discount + oldOrderItem.TaxCost;
+                    //        }
+                    //    }
+                    //}
 
                     // don't recalculate, accept the user input values.
                     //if (order.OrderItems != null)
@@ -103,7 +103,7 @@ namespace Kooboo.Commerce.API.PlugIn
                     //}
 
 
-                    if (commerService.Order.SaveOrder(order))
+                    if (commerService.Order.Save(order))
                     {
                         resultData.Success = true;
                         resultData.AddMessage("Successfully save order.");

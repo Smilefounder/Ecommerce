@@ -24,7 +24,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index(int? page, int? pageSize)
         {
-            var bindings = _countryService.GetAllCountries(page, pageSize)
+            var bindings = _countryService.Query()
+                .OrderBy(o => o.Name)
+                .ToPagedList(page, pageSize)
                 .Transform(o => new CountryRowModel(o));
 
             return View(bindings);

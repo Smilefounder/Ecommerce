@@ -1,11 +1,8 @@
 ﻿@using Kooboo.Commerce.API;
-@using Kooboo.CMS.Sites.Membership;
 @{
-    var memberAuth = this.Context.Membership();
-    var member = memberAuth.GetMembershipUser();
-    var shoppingCart = Site.Current.Commerce().Cart.GetMyCart(Context.Session.SessionID, member.UUID);
+    var shoppingCart = Site.Current.Commerce().ShoppingCart.BySessionId(Context.Session.SessionID).FirstOrDefault();
 }
-@if(shoppingCart == null || shoppingCart.Items == null || shoppingCart.Items.Count <= 0)
+@if(shoppingCart == null || shoppingCart.Items == null || shoppingCart.Items.Length <= 0)
 {
     <p>@("Nothing in shopping cart.".Localize())</p><a href="/ProductList">@("Go Shopping".Localize())</a>
 }
@@ -15,7 +12,7 @@ else
     int totalCount = 0;
     if(shoppingCart.Customer != null)
     {
-        <h4>@shoppingCart.Customer.FullName</h4>
+        <h4>@shoppingCart.Customer.FirstName</h4>
     }
     <table>
         <thead>

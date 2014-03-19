@@ -23,16 +23,16 @@ namespace Kooboo.Commerce.EAV.Services {
             return Repository.Query();
         }
 
-        public void Create(FieldValidationRule rule) {
-            Repository.Insert(rule);
+        public bool Create(FieldValidationRule rule) {
+            return Repository.Insert(rule);
         }
 
-        public void Update(FieldValidationRule rule) {
-            Repository.Update(rule, k => new object[] { k.Id });
+        public bool Update(FieldValidationRule rule) {
+            return Repository.Update(rule, k => new object[] { k.Id });
         }
 
-        public void Delete(FieldValidationRule rule) {
-            Repository.Delete(rule);
+        public bool Delete(FieldValidationRule rule) {
+            return Repository.Delete(rule);
         }
     }
 }

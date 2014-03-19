@@ -4,6 +4,14 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.API.Brands.Services;
+using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.API.Categories;
+using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.API.Products;
+using Kooboo.Commerce.API.Orders;
+using Kooboo.Commerce.API.ShoppingCarts;
+using Kooboo.CMS.Common.Runtime;
+using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.Commerce.API
 {
@@ -11,47 +19,50 @@ namespace Kooboo.Commerce.API
     {
         public abstract void InitCommerceInstance(string instance, string language);
 
-        protected abstract TQuery GetAPI<TQuery, TModel>() where TQuery : ICommerceQuery<TModel>;
+        protected virtual Q GetAPI<Q>() where Q : class
+        {
+            return EngineContext.Current.Resolve<Q>();
+        }
 
-        //public ICountryAPI Country
-        //{
-        //    get { return GetAPI<ICountryAPI>(); }
-        //}
+        public ICountryQuery Country
+        {
+            get { return GetAPI<ICountryQuery>(); }
+        }
 
         public IBrandQuery Brands
         {
-            get { return GetAPI<IBrandQuery, Brand>(); }
+            get { return GetAPI<IBrandQuery>(); }
         }
 
-        //public ICategoryAPI Category
-        //{
-        //    get { return GetAPI<ICategoryAPI>(); }
-        //}
+        public ICategoryQuery Category
+        {
+            get { return GetAPI<ICategoryQuery>(); }
+        }
 
         //public IPaymentMethodAPI PaymentMethod
         //{
         //    get { return GetAPI<IPaymentMethodAPI>(); }
         //}
 
-        //public ICustomerAPI Customer
-        //{
-        //    get { return GetAPI<ICustomerAPI>(); }
-        //}
+        public ICustomerQuery Customer
+        {
+            get { return GetAPI<ICustomerQuery>(); }
+        }
 
-        //public IProductAPI Product
-        //{
-        //    get { return GetAPI<IProductAPI>(); }
-        //}
+        public IProductQuery Product
+        {
+            get { return GetAPI<IProductQuery>(); }
+        }
 
-        //public ICartAPI Cart
-        //{
-        //    get { return GetAPI<ICartAPI>(); }
-        //}
+        public IShoppingCartQuery ShoppingCart
+        {
+            get { return GetAPI<IShoppingCartQuery>(); }
+        }
 
-        //public IOrderAPI Order
-        //{
-        //    get { return GetAPI<IOrderAPI>(); }
-        //}
+        public IOrderQuery Order
+        {
+            get { return GetAPI<IOrderQuery>(); }
+        }
 
         //public IPaymentAPI Payment
         //{

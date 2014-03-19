@@ -1,6 +1,6 @@
 ﻿@using Kooboo.Commerce.API;
 @{
-    var categories = Site.Current.Commerce().Category.GetAllCategories();
+    var categories = Site.Current.Commerce().Category.LoadWithChildren().ToArray();
 }
 <div class="block menu">
     <ul>
@@ -8,7 +8,7 @@
         {
             <li>
                 <a href="/ProductList?cateId=@p.Id">@p.Name</a>
-                @if (p.Children.Count > 0)
+                @if (p.Children.Length > 0)
                 {
                     <ul>
                         @foreach (var c in p.Children)

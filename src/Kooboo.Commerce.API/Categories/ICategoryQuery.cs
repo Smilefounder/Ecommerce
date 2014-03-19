@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Categories
 {
-    public interface ICategoryQuery : ICommerceQuery<Category>
+    public interface ICategoryQuery : ICommerceQuery<Category>, ICommerceAccess<Category>
     {
         ICategoryQuery ById(int id);
         ICategoryQuery ByName(string name);

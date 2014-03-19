@@ -1,5 +1,6 @@
-﻿using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Products;
+﻿using Kooboo.Commerce.API;
+using Kooboo.Commerce.API.Products;
+using Kooboo.Web.Mvc.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,18 @@ namespace Kooboo.Commerce.WebAPI.Controllers
     {
         public Product Get(int id)
         {
-            return Commerce().Product.GetProductById(id);
+            return Commerce().Product.ById(id).FirstOrDefault();
         }
 
         [HttpGet]
-        public PageListWrapper<Product> Search(string userInput, int? categoryId, int pageIndex = 0, int pageSize = 50)
+        public PagedListWrapper<Product> Search(string userInput, int? categoryId, int pageIndex = 0, int pageSize = 50)
         {
-            var pagedData = Commerce().Product.SearchProducts(userInput, categoryId, pageIndex, pageSize);
-            return new PageListWrapper<Product>(pagedData);
+            var query = Commerce().Product.ContainsName(userInput);
+            if (categoryId.HasValue)
+                query = query.ByCategoryId(categoryId.Value);
+            int totalItemCount = query.Count();
+            var pagedData = query.Pagination(pageIndex, pageSize);
+            return new PagedListWrapper<Product>(new PagedList<Product>(pagedData, pageIndex, pageSize, totalItemCount));
         }
     }
 }

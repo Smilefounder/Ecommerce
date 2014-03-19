@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.API.Categories;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.API.Categories;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.Locations.Services;
 using System;
@@ -8,6 +9,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Locations
 {
+    [Dependency(typeof(ICountryQuery), ComponentLifeStyle.Transient)]
     public class CountryQuery : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryQuery
     {
         private ICountryService _countryService;
@@ -30,54 +32,64 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
 
         public ICountryQuery ById(int id)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Id == id);
             return this;
         }
 
         public ICountryQuery ByName(string name)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Name == name);
             return this;
         }
         public ICountryQuery ByThreeLetterISOCode(string threeLetterISOCode)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.ThreeLetterISOCode == threeLetterISOCode);
             return this;
         }
 
         public ICountryQuery ByTwoLetterISOCode(string twoLetterISOCode)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.TwoLetterISOCode == twoLetterISOCode);
             return this;
         }
 
         public ICountryQuery ByNumericISOCode(string numericISOCode)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.NumericISOCode == numericISOCode);
             return this;
         }
 
-        public override void Create(Country obj)
+        public override bool Create(Country obj)
         {
             if (obj != null)
-                _countryService.Create(_mapper.MapFrom(obj));
+                return _countryService.Create(_mapper.MapFrom(obj));
+            return false;
         }
 
-        public override void Update(Country obj)
+        public override bool Update(Country obj)
         {
             if (obj != null)
-                _countryService.Update(_mapper.MapFrom(obj));
+                return _countryService.Update(_mapper.MapFrom(obj));
+            return false;
         }
 
-        public override void Delete(Country obj)
+        public override bool Save(Country obj)
         {
             if (obj != null)
-                _countryService.Delete(_mapper.MapFrom(obj));
+                return _countryService.Save(_mapper.MapFrom(obj));
+            return false;
+        }
+
+        public override bool Delete(Country obj)
+        {
+            if (obj != null)
+                return _countryService.Delete(_mapper.MapFrom(obj));
+            return false;
         }
     }
 }

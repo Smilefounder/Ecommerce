@@ -38,22 +38,53 @@ namespace Kooboo.Commerce.Products.Services
             return product.IsDeleted ? null : product;
         }
 
-        public IPagedList<Product> GetAllProducts(string userInput, int? categoryId, int? pageIndex, int? pageSize)
+        public IQueryable<Product> Query()
         {
-            var query = _repoProduct.Query(o => o.IsDeleted == false);
-            if (!string.IsNullOrEmpty(userInput))
-                query = query.Where(o => o.Name.StartsWith(userInput));
-            if (categoryId.HasValue)
-                query = query.Where(o => o.Categories.Any(c => c.CategoryId == categoryId.Value));
-            query = query.OrderBy(o => o.Id);
-            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+            return _repoProduct.Query();
         }
 
-        public IPagedList<ProductPrice> GetAllProductPrices(int? pageIndex, int? pageSize)
+        public IQueryable<ProductPrice> ProductPriceQuery()
         {
-            var query = _repoProductPrice.Query().OrderBy(o => o.Id);
-            return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+            return _repoProductPrice.Query();
         }
+
+        public IQueryable<ProductCategory> ProductCategoryQuery()
+        {
+            return _repoProductCategory.Query();
+        }
+
+        public IQueryable<ProductImage> ProductImageQuery()
+        {
+            return _repoProductImage.Query();
+        }
+
+        public IQueryable<ProductCustomFieldValue> ProductCustomFieldQuery()
+        {
+            return _repoProductCustomFields.Query();
+        }
+
+        public IQueryable<ProductPriceVariantValue> ProductPriceVariantQuery()
+        {
+            return _repoProductPriceVariants.Query();
+        }
+
+
+        //public IPagedList<Product> GetAllProducts(string userInput, int? categoryId, int? pageIndex, int? pageSize)
+        //{
+        //    var query = _repoProduct.Query(o => o.IsDeleted == false);
+        //    if (!string.IsNullOrEmpty(userInput))
+        //        query = query.Where(o => o.Name.StartsWith(userInput));
+        //    if (categoryId.HasValue)
+        //        query = query.Where(o => o.Categories.Any(c => c.CategoryId == categoryId.Value));
+        //    query = query.OrderBy(o => o.Id);
+        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+        //}
+
+        //public IPagedList<ProductPrice> GetAllProductPrices(int? pageIndex, int? pageSize)
+        //{
+        //    var query = _repoProductPrice.Query().OrderBy(o => o.Id);
+        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
+        //}
 
         public ProductPrice GetProductPriceById(int id, bool loadProduct = true, bool loadVariants = true, bool loadCustomFields = true)
         {
@@ -70,49 +101,73 @@ namespace Kooboo.Commerce.Products.Services
             return price;
         }
 
-        public void Create(Product product)
+        public bool Create(Product product)
         {
-            _repoProduct.Insert(product);
+            return _repoProduct.Insert(product);
         }
 
-        public void Update(Product product)
+        public bool Update(Product product)
         {
-            using (var tx = _db.BeginTransaction())
+            try
             {
-                _repoProduct.Save(o => o.Id == product.Id, product, o => new object[] { o.Id });
+                using (var tx = _db.BeginTransaction())
+                {
+                    _repoProduct.Save(o => o.Id == product.Id, product, o => new object[] { o.Id });
 
-                var dbProductCategories = _repoProductCategory.Query(o => o.ProductId == product.Id).ToArray();
-                _repoProductCategory.SaveAll(_db, dbProductCategories, product.Categories, o => new object[] { o.ProductId, o.CategoryId }, (o, n) => o.ProductId == n.ProductId && o.CategoryId == n.CategoryId);
+                    var dbProductCategories = _repoProductCategory.Query(o => o.ProductId == product.Id).ToArray();
+                    _repoProductCategory.SaveAll(_db, dbProductCategories, product.Categories, o => new object[] { o.ProductId, o.CategoryId }, (o, n) => o.ProductId == n.ProductId && o.CategoryId == n.CategoryId);
 
-                var dbProductImages = _repoProductImage.Query(o => o.ProductId == product.Id).ToArray();
-                _repoProductImage.SaveAll(_db, dbProductImages, product.Images, o => new object[] { o.Id }, (o, n) => o.ProductId == n.ProductId && o.ImageSizeName == n.ImageSizeName);
+                    var dbProductImages = _repoProductImage.Query(o => o.ProductId == product.Id).ToArray();
+                    _repoProductImage.SaveAll(_db, dbProductImages, product.Images, o => new object[] { o.Id }, (o, n) => o.ProductId == n.ProductId && o.ImageSizeName == n.ImageSizeName);
 
-                var dbCustomFieldValues = _repoProductCustomFields.Query(o => o.ProductId == product.Id).ToArray();
-                _repoProductCustomFields.SaveAll(_db, dbCustomFieldValues, product.CustomFieldValues, o => new object[] { o.ProductId, o.CustomFieldId }, (o, n) => o.ProductId == n.ProductId && o.CustomFieldId == n.CustomFieldId);
+                    var dbCustomFieldValues = _repoProductCustomFields.Query(o => o.ProductId == product.Id).ToArray();
+                    _repoProductCustomFields.SaveAll(_db, dbCustomFieldValues, product.CustomFieldValues, o => new object[] { o.ProductId, o.CustomFieldId }, (o, n) => o.ProductId == n.ProductId && o.CustomFieldId == n.CustomFieldId);
 
-                var dbProductPrice = _repoProductPrice.Query(o => o.ProductId == product.Id).ToArray();
-                _repoProductPrice.SaveAll(_db, dbProductPrice, product.PriceList, (o, n) => o.Id == n.Id,
-                    (repo, o) => repo.Insert(o),
-                    (repo, o, n) =>
-                    {
-                        var dbPriceVariants = _repoProductPriceVariants.Query(v => v.ProductPriceId == o.Id).ToArray();
-                        _repoProductPriceVariants.SaveAll(_db, dbPriceVariants, n.VariantValues, k => new object[] { k.ProductPriceId, k.CustomFieldId }, (vo, vn) => vo.ProductPriceId == vn.ProductPriceId && vo.CustomFieldId == vn.CustomFieldId);
-                        repo.Update(n, k => new object[] { k.Id });
-                    },
-                    (repo, o) => repo.Delete(o));
+                    var dbProductPrice = _repoProductPrice.Query(o => o.ProductId == product.Id).ToArray();
+                    _repoProductPrice.SaveAll(_db, dbProductPrice, product.PriceList, (o, n) => o.Id == n.Id,
+                        (repo, o) => repo.Insert(o),
+                        (repo, o, n) =>
+                        {
+                            var dbPriceVariants = _repoProductPriceVariants.Query(v => v.ProductPriceId == o.Id).ToArray();
+                            _repoProductPriceVariants.SaveAll(_db, dbPriceVariants, n.VariantValues, k => new object[] { k.ProductPriceId, k.CustomFieldId }, (vo, vn) => vo.ProductPriceId == vn.ProductPriceId && vo.CustomFieldId == vn.CustomFieldId);
+                            repo.Update(n, k => new object[] { k.Id });
+                        },
+                        (repo, o) => repo.Delete(o));
 
-                tx.Commit();
+                    tx.Commit();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
-        public void Delete(Product product)
+        public bool Save(Product product)
+        {
+            if (product.Id > 0)
+            {
+                bool exists = _repoProduct.Query(o => o.Id == product.Id).Any();
+                if (exists)
+                    return Update(product);
+                else
+                    return Create(product);
+            }
+            else
+            {
+                return Create(product);
+            }
+        }
+
+        public bool Delete(Product product)
         {
             product.IsDeleted = true;
             if (!product.DeletedAtUtc.HasValue)
             {
                 product.DeletedAtUtc = DateTime.UtcNow;
             }
-            _repoProduct.Update(product, k => new object[] { k.Id });
+            return _repoProduct.Update(product, k => new object[] { k.Id });
         }
 
         public void Publish(Product product)

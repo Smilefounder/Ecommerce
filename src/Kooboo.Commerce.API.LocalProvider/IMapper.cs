@@ -6,6 +6,8 @@ using System.Text;
 namespace Kooboo.Commerce.API.LocalProvider
 {
     public interface IMapper<T, U>
+        where T: class, new()
+        where U: class, new()
     {
         T MapTo(U obj);
         U MapFrom(T obj);

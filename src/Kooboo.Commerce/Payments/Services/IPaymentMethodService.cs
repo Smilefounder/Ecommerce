@@ -17,10 +17,10 @@ namespace Kooboo.Commerce.Payments.Services
 
         void Disable(PaymentMethod method);
 
-        void Create(PaymentMethod method);
+        bool Create(PaymentMethod method);
 
-        void Update(PaymentMethod method);
+        bool Update(PaymentMethod method);
 
-        void Delete(PaymentMethod method);
+        bool Delete(PaymentMethod method);
     }
 }

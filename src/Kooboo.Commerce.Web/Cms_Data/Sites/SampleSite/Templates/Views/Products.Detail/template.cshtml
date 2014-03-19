@@ -1,10 +1,11 @@
 ﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.Products;
 @{
     var id = Page_Context.Current.PageRequestContext.AllQueryString["id"]; ;
-    Kooboo.Commerce.Products.Product product = null;
+    Product product = null;
     if(id != null)
     { 
-        product = Site.Current.Commerce().Product.GetProductById(Convert.ToInt32(id));
+        product = Site.Current.Commerce().Product.ById(Convert.ToInt32(id)).LoadWithBrand().LoadWithProductType().LoadWithPriceList().LoadWithImages().FirstOrDefault();
     }
 }
 @if(product == null)

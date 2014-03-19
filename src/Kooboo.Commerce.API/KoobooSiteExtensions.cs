@@ -26,12 +26,12 @@ namespace Kooboo.Commerce.API
 
         public static ICommerceAPI Commerce(this Site site)
         {
-            if(site.CustomFields == null || !site.CustomFields.ContainsKey("CommerceAPI") || string.IsNullOrEmpty(site.CustomFields["CommerceAPI"]))
-            {
-                throw new Exception("To use commerce, please set 'CommerceAPI' in the site's custom fields.");
-            }
-            string api = site.CustomFields["CommerceAPI"];
-            var commerceService = EngineContext.Current.Resolve<ICommerceAPI>(api);
+            //if(site.CustomFields == null || !site.CustomFields.ContainsKey("CommerceAPI") || string.IsNullOrEmpty(site.CustomFields["CommerceAPI"]))
+            //{
+            //    throw new Exception("To use commerce, please set 'CommerceAPI' in the site's custom fields.");
+            //}
+            //string api = site.CustomFields["CommerceAPI"];
+            //var commerceService = EngineContext.Current.Resolve<ICommerceAPI>(api);
             //if(commerceService is RestAPI.RestCommerceAPI)
             //{
             //    if (site.CustomFields == null || !site.CustomFields.ContainsKey("WebAPIHost") || string.IsNullOrEmpty(site.CustomFields["WebAPIHost"]))
@@ -41,6 +41,7 @@ namespace Kooboo.Commerce.API
             //    string webapiHost = site.CustomFields["WebAPIHost"];
             //    ((RestAPI.RestCommerceAPI)commerceService).SetWebAPIHost(webapiHost);
             //}
+            var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();
             commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage());
             return commerceService;
         }

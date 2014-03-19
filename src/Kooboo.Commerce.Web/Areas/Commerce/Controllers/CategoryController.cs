@@ -29,9 +29,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index(int? page, int? pageSize)
         {
-            var categories = _categoryService.GetRootCategories(page, pageSize);
-                //.OrderByDescending(x => x.Id)
-                //.ToPagedList(page, pageSize);
+            var categories = _categoryService.Query().Where(o => o.Parent == null)
+                .OrderByDescending(x => x.Id)
+                .ToPagedList(page, pageSize);
                 //.Transform(x => new CategoryRowModel(x, true));
 
             //foreach (var item in categories)
@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Children(int parentId)
         {
-            var children = _categoryService.GetChildCategories(parentId);
+            var children = _categoryService.Query().Where(o => o.Parent.Id == parentId).ToArray();
             return JsonNet(children);
         }
 

@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.API.Customers;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Locations.Services;
@@ -9,6 +10,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Customers
 {
+    [Dependency(typeof(ICustomerQuery), ComponentLifeStyle.Transient)]
     public class CustomerQuery : LocalCommerceQuery<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerQuery
     {
         private ICustomerService _customerService;
@@ -46,70 +48,70 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
 
         public ICustomerQuery ById(int id)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Id == id);
             return this;
         }
 
         public ICustomerQuery ByAccountId(string accountId)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.AccountId == accountId);
             return this;
         }
 
         public ICustomerQuery ByFirstName(string firstName)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.FirstName == firstName);
             return this;
         }
 
         public ICustomerQuery ByMiddleName(string middleName)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.MiddleName == middleName);
             return this;
         }
 
         public ICustomerQuery ByLastName(string lastName)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.LastName == lastName);
             return this;
         }
 
         public ICustomerQuery ByEmail(string email)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Email == email);
             return this;
         }
 
         public ICustomerQuery ByGender(Gender gender)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => (int)o.Gender == (int)gender);
             return this;
         }
 
         public ICustomerQuery ByPhone(string phone)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.Phone == phone);
             return this;
         }
 
         public ICustomerQuery ByCity(string city)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.City == city);
             return this;
         }
 
         public ICustomerQuery ByCountry(int countryId)
         {
-            CreateQuery();
+            EnsureQuery();
             _query = _query.Where(o => o.CountryId == countryId);
             return this;
         }
@@ -190,22 +192,32 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return customer;
         }
 
-        public override void Create(Customer obj)
+        public override bool Create(Customer obj)
         {
             if (obj != null)
-                _customerService.Create(_mapper.MapFrom(obj));
+                return _customerService.Create(_mapper.MapFrom(obj));
+            return false;
         }
 
-        public override void Update(Customer obj)
+        public override bool Update(Customer obj)
         {
             if (obj != null)
-                _customerService.Update(_mapper.MapFrom(obj));
+                return _customerService.Update(_mapper.MapFrom(obj));
+            return false;
         }
 
-        public override void Delete(Customer obj)
+        public override bool Save(Customer obj)
         {
             if (obj != null)
-                _customerService.Delete(_mapper.MapFrom(obj));
+                return _customerService.Save(_mapper.MapFrom(obj));
+            return false;
+        }
+
+        public override bool Delete(Customer obj)
+        {
+            if (obj != null)
+                return _customerService.Delete(_mapper.MapFrom(obj));
+            return false;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.Products;
 @{
     var key = Request.QueryString["key"];
     int? cateId = null;
@@ -6,13 +7,24 @@
     {
         cateId = Convert.ToInt32(Request.QueryString["cateId"]);
     }
-    var products = Site.Current.Commerce().Product.SearchProducts(key, cateId);
+    var query = Site.Current.Commerce().Product;
+    if(!string.IsNullOrEmpty(key))
+    {
+        query = query.ContainsName(key);
+    }
+    if(cateId.HasValue)
+    {
+        query = query.ByCategoryId(cateId.Value);
+    }
+    var total = query.Count();
+    var products = query.LoadWithBrand().LoadWithProductType().LoadWithImages().Pagination(0, 50);
+    var pager = new PagedList<Product>(products, 0, 50, total);
 }
 
 @if (cateId.HasValue)
 {
-    var cate = Site.Current.Commerce().Category.GetCategory(cateId.Value, true);
-    var cates = new List<Kooboo.Commerce.Categories.Category>();
+    var cate = Site.Current.Commerce().Category.ById(cateId.Value).LoadWithAllParents().FirstOrDefault();
+    var cates = new List<Kooboo.Commerce.API.Categories.Category>();
     while (cate != null)
     {
         cates.Insert(0, cate);
@@ -59,4 +71,4 @@
         NavigationPagerItemWrapperFormatString = "<span class=\"pagenavigation\">{0}</span>"
     };
 }
-@Html.FrontHtml().Pager(products, pageOption)
+@Html.FrontHtml().Pager(pager, pageOption)

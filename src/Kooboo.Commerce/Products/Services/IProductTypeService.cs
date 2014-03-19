@@ -13,13 +13,13 @@ namespace Kooboo.Commerce.Products.Services {
 
         IPagedList<T> GetAllProductTypes<T>(int? pageIndex, int? pageSize, Func<ProductType, T> func);
 
-        void Create(ProductType type);
+        bool Create(ProductType type);
 
-        void Update(ProductType type);
+        bool Update(ProductType type);
 
-        void Update(ProductType oldType, ProductType newType);
+        bool Update(ProductType oldType, ProductType newType);
 
-        void Delete(ProductType type);
+        bool Delete(ProductType type);
 
         void Enable(ProductType type);
 
