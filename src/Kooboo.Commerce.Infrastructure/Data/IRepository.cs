@@ -16,6 +16,9 @@ namespace Kooboo.Commerce.Data
         T Get(object id);
         
         T Get(Expression<Func<T, bool>> predicate);
+
+        void Include<TProperty>(Expression<Func<T, TProperty>> property);
+
         bool Insert(T obj);
         bool Update(T obj, Func<T, object[]> getKeys);
         bool Delete(T obj);
