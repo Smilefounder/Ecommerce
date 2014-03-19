@@ -54,5 +54,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             var baseUrl = Site.Current.GetCommerceUrl();
             return UrlUtility.Combine(baseUrl, "/Commerce/Payment/Gateway?paymentId=" + paymentId);
         }
+
+
+        public IPaymentQuery Query()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

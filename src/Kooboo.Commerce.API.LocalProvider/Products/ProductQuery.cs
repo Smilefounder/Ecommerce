@@ -12,7 +12,7 @@ using System.Text;
 namespace Kooboo.Commerce.API.LocalProvider.Products
 {
     [Dependency(typeof(IProductQuery), ComponentLifeStyle.Transient)]
-    public class ProductQuery : LocalCommerceQuery<Product, Kooboo.Commerce.Products.Product>, IProductQuery
+    public class ProductQuery : LocalCommerceQueryAccess<Product, Kooboo.Commerce.Products.Product>, IProductQuery
     {
         private IProductService _productService;
         private IBrandService _brandService;

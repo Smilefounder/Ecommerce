@@ -11,7 +11,7 @@ using System.Text;
 namespace Kooboo.Commerce.API.LocalProvider.Orders
 {
     [Dependency(typeof(IOrderQuery), ComponentLifeStyle.Transient)]
-    public class OrderQuery : LocalCommerceQuery<Order, Kooboo.Commerce.Orders.Order>, IOrderQuery
+    public class OrderQuery : LocalCommerceQueryAccess<Order, Kooboo.Commerce.Orders.Order>, IOrderQuery
     {
         private IOrderService _orderService;
         private IShoppingCartService _shoppingCartService;

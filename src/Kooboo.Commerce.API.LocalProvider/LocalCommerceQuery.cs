@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Kooboo.Commerce.API.LocalProvider
 {
-    public abstract class LocalCommerceQuery<T, Model> : ICommerceQuery<T>, ICommerceAccess<T>
+    public abstract class LocalCommerceQuery<T, Model> : ICommerceQuery<T>
         where T : class, new()
         where Model : class, new()
     {
@@ -50,12 +50,5 @@ namespace Kooboo.Commerce.API.LocalProvider
             EnsureQuery();
             return _query.Count();
         }
-        public abstract bool Create(T obj);
-
-        public abstract bool Update(T obj);
-
-        public abstract bool Save(T obj);
-
-        public abstract bool Delete(T obj);
     }
 }

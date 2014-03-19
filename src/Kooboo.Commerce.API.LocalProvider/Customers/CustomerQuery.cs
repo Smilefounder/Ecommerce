@@ -11,7 +11,7 @@ using System.Text;
 namespace Kooboo.Commerce.API.LocalProvider.Customers
 {
     [Dependency(typeof(ICustomerQuery), ComponentLifeStyle.Transient)]
-    public class CustomerQuery : LocalCommerceQuery<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerQuery
+    public class CustomerQuery : LocalCommerceQueryAccess<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerQuery
     {
         private ICustomerService _customerService;
         private ICountryService _countryService;

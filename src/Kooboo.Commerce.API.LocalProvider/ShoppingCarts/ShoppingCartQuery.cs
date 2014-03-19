@@ -11,7 +11,7 @@ using System.Text;
 namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 {
     [Dependency(typeof(IShoppingCartQuery), ComponentLifeStyle.Transient)]
-    public class ShoppingCartQuery : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartQuery
+    public class ShoppingCartQuery : LocalCommerceQueryAccess<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartQuery
     {
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;

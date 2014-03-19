@@ -9,7 +9,7 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 namespace Kooboo.Commerce.API.LocalProvider.Categories
 {
     [Dependency(typeof(ICategoryQuery), ComponentLifeStyle.Transient)]
-    public class CategoryQuery : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryQuery
+    public class CategoryQuery : LocalCommerceQueryAccess<Category, Kooboo.Commerce.Categories.Category>, ICategoryQuery
     {
         private ICategoryService _categoryService;
         private bool _loadWithParent = false;

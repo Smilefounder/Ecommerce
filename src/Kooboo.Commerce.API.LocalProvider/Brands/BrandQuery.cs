@@ -10,7 +10,7 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
     [Dependency(typeof(IBrandQuery), ComponentLifeStyle.Transient)]
-    public class BrandQuery : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandQuery
+    public class BrandQuery : LocalCommerceQueryAccess<Brand, Kooboo.Commerce.Brands.Brand>, IBrandQuery
     {
         private IBrandService _brandService;
 

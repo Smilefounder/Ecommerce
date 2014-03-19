@@ -32,20 +32,5 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         {
             return _query.OrderByDescending(x => x.Id);
         }
-
-        public override void Create(Payment obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update(Payment obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Delete(Payment obj)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -10,7 +10,7 @@ using System.Text;
 namespace Kooboo.Commerce.API.LocalProvider.Locations
 {
     [Dependency(typeof(ICountryQuery), ComponentLifeStyle.Transient)]
-    public class CountryQuery : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryQuery
+    public class CountryQuery : LocalCommerceQueryAccess<Country, Kooboo.Commerce.Locations.Country>, ICountryQuery
     {
         private ICountryService _countryService;
 
