@@ -46,14 +46,6 @@ namespace Kooboo.Commerce.Orders
 
         public PaymentStatus PaymentStatus { get; protected set; }
 
-        public int? PaymentMethodId { get; set; }
-
-        public string PaymentGatewayName { get; set; }
-
-        public string ExternalPaymentTransactionId { get; set; }
-
-        public DateTime? PaymentCompletedAtUtc { get; set; }
-
         /// <summary>
         /// Shop can charge fee for different payment methods. 
         /// </summary>
@@ -67,11 +59,6 @@ namespace Kooboo.Commerce.Orders
         /// redundant column
         /// </summary>
         public string ShippingName { get; set; }
-
-        /// <summary>
-        /// redundant column
-        /// </summary>
-        public string PaymentName { get; set; }
 
         //string ShippingTrackingCode  { get;  set; }
 
@@ -89,64 +76,7 @@ namespace Kooboo.Commerce.Orders
         public virtual OrderAddress ShippingAddress { get; set; }
         public virtual OrderAddress BillingAddress { get; set; }
 
-        public virtual PaymentMethod PaymentMethod { get; set; }
-
-        public virtual void MarkPaymentSucceeded(string paymentTransactionId)
-        {
-            if (PaymentStatus != PaymentStatus.Success)
-            {
-                var oldStatus = PaymentStatus;
-                PaymentStatus = Payments.PaymentStatus.Success;
-                PaymentCompletedAtUtc = DateTime.UtcNow;
-                ExternalPaymentTransactionId = paymentTransactionId;
-
-                Event.Apply(new PaymentSucceeded(this, oldStatus));
-
-                ChangeOrderStatus(OrderStatus.Paid);
-            }
-        }
-
-        public virtual void MarkPaymentCancelled()
-        {
-            if (PaymentStatus != Payments.PaymentStatus.Cancelled)
-            {
-                var oldStatus = PaymentStatus;
-                PaymentStatus = Payments.PaymentStatus.Cancelled;
-                Event.Apply(new PaymentCancelled(this, oldStatus));
-            }
-        }
-
-        public virtual void MarkPaymentFailed()
-        {
-            if (PaymentStatus != Payments.PaymentStatus.Failed)
-            {
-                var oldStatus = PaymentStatus;
-                PaymentStatus = Payments.PaymentStatus.Failed;
-                Event.Apply(new PaymentFailed(this, oldStatus));
-            }
-        }
-
-        /// <summary>
-        /// 用于管理员在后台直接强制更改支付状态，这个方法没有真实的支付动作发生。
-        /// </summary>
-        public virtual void ForceChangePaymentStatus(PaymentStatus newPaymentStatus)
-        {
-            if (PaymentStatus != newPaymentStatus)
-            {
-                var oldStatus = PaymentStatus;
-
-                PaymentStatus = newPaymentStatus;
-
-                if (newPaymentStatus == Payments.PaymentStatus.Success)
-                {
-                    PaymentCompletedAtUtc = DateTime.UtcNow;
-                }
-
-                Event.Apply(new PaymentStatusChanged(this, oldStatus, newPaymentStatus));
-            }
-        }
-
-        public virtual void ChangeOrderStatus(OrderStatus newStatus)
+        public virtual void ChangeStatus(OrderStatus newStatus)
         {
             if (OrderStatus != newStatus)
             {

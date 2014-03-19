@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Kooboo.Commerce.Payments
+{
+    public static class PaymentsExtensions
+    {
+        public static IQueryable<Payment> ByTarget(this IQueryable<Payment> query, string targetType, string targetId)
+        {
+            return query.Where(x => x.PaymentTargetType == targetType && x.PaymentTargetId == targetId);
+        }
+
+        public static IQueryable<Payment> WhereSucceeded(this IQueryable<Payment> query)
+        {
+            return query.Where(x => x.Status == PaymentStatus.Success);
+        }
+    }
+}

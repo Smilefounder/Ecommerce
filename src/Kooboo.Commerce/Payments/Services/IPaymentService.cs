@@ -9,6 +9,8 @@ namespace Kooboo.Commerce.Payments.Services
 {
     public interface IPaymentService
     {
+        Payment GetById(int id);
+
         IQueryable<Payment> Query();
 
         void Create(Payment payment);
@@ -19,14 +21,25 @@ namespace Kooboo.Commerce.Payments.Services
     {
         private IRepository<Payment> _payments;
 
+        public PaymentService(IRepository<Payment> payments)
+        {
+            _payments = payments;
+        }
+
+        public Payment GetById(int id)
+        {
+            return _payments.Get(id);
+        }
+
         public IQueryable<Payment> Query()
         {
-            throw new NotImplementedException();
+            return _payments.Query();
         }
 
         public void Create(Payment payment)
         {
-            throw new NotImplementedException();
+            payment.Create();
+            _payments.Insert(payment);
         }
     }
 }

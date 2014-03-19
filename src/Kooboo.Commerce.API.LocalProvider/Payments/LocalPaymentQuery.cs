@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.API.Payments;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Payments.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +10,31 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
     public class LocalPaymentQuery : LocalCommerceQuery<Payment, Kooboo.Commerce.Payments.Payment>, IPaymentQuery
     {
-        private ICommerceDatabase _database;
+        private IPaymentService _paymentService;
+
+        public LocalPaymentQuery(IPaymentService paymentService, IMapper<Payment, Kooboo.Commerce.Payments.Payment> mapper)
+        {
+            _paymentService = paymentService;
+            _mapper = mapper;
+        }
 
         public IPaymentQuery ById(int id)
         {
-            _query.Where(x => x.Id == id);
+            EnsureQuery();
+            _query = _query.Where(x => x.Id == id);
             return this;
         }
 
         public IPaymentQuery ByTarget(string targetType, string targetId)
         {
-            _query.Where(x => x.PaymentTargetType == targetType && x.PaymentTargetId == targetId);
+            EnsureQuery();
+            _query = _query.Where(x => x.PaymentTargetType == targetType && x.PaymentTargetId == targetId);
             return this;
         }
 
         protected override IQueryable<Commerce.Payments.Payment> CreateQuery()
         {
-            return _database.GetRepository<Kooboo.Commerce.Payments.Payment>().Query();
+            return _paymentService.Query();
         }
 
         protected override IQueryable<Commerce.Payments.Payment> OrderByDefault(IQueryable<Commerce.Payments.Payment> query)

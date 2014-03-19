@@ -8,26 +8,34 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.Web.Url;
+using System.Web;
 
 using PaymentMethod = Kooboo.Commerce.Payments.PaymentMethod;
 using PaymentMethodReference = Kooboo.Commerce.Payments.PaymentMethodReference;
 using Payment = Kooboo.Commerce.Payments.Payment;
+using PaymentDto = Kooboo.Commerce.API.Payments.Payment;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
     public class LocalPaymentAPI : IPaymentAPI
     {
-        private ICommerceDatabase _database;
+        private IPaymentMethodService _paymentMethodService;
+        private IPaymentService _paymentService;
+        private IMapper<PaymentDto, Payment> _mapper;
 
-        public LocalPaymentAPI(ICommerceDatabase database)
+        public LocalPaymentAPI(
+            IPaymentMethodService paymentMethodService,
+            IPaymentService paymentService,
+            IMapper<PaymentDto, Payment> mapper)
         {
-            _database = database;
+            _paymentMethodService = paymentMethodService;
+            _paymentService = paymentService;
+            _mapper = mapper;
         }
 
         public CreatePaymentResult Create(CreatePaymentRequest request)
         {
-            var paymentMethod = _database.GetRepository<PaymentMethod>()
-                                         .Get(request.PaymentMethodId);
+            var paymentMethod = _paymentMethodService.GetById(request.PaymentMethodId);
 
             var payment = new Payment
             {
@@ -37,28 +45,27 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
                 PaymentMethod = new PaymentMethodReference(paymentMethod)
             };
 
-            payment.Create();
-
-            _database.GetRepository<Payment>().Insert(payment);
-            _database.SaveChanges();
+            // TODO: How can I call SaveChanges?
+            _paymentService.Create(payment);
 
             return new CreatePaymentResult
             {
                 PaymentId = payment.Id,
-                RedirectUrl = GetGatewayUrl(payment.Id)
+                RedirectUrl = GetGatewayUrl(payment.Id, request.ReturnUrl)
             };
         }
 
-        private string GetGatewayUrl(int paymentId)
+        private string GetGatewayUrl(int paymentId, string returnUrl)
         {
             var baseUrl = Site.Current.GetCommerceUrl();
-            return UrlUtility.Combine(baseUrl, "/Commerce/Payment/Gateway?paymentId=" + paymentId);
+            return UrlUtility.Combine(baseUrl, 
+                "/Commerce/Payment/Gateway?paymentId=" + paymentId
+                + "&returnUrl=" + HttpUtility.UrlEncode(returnUrl));
         }
-
 
         public IPaymentQuery Query()
         {
-            throw new NotImplementedException();
+            return new LocalPaymentQuery(_paymentService, _mapper);
         }
     }
 }

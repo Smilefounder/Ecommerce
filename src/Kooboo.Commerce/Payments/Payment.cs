@@ -67,6 +67,22 @@ namespace Kooboo.Commerce.Payments
         {
             Event.Apply(new PaymentCreated(this));
         }
+
+        public void HandlePaymentResult(ProcessPaymentResult result)
+        {
+            if (Status == PaymentStatus.Success)
+            {
+                return;
+            }
+
+            var oldStatus = Status;
+
+            if (oldStatus != result.PaymentStatus)
+            {
+                Status = result.PaymentStatus;
+                Event.Apply(new PaymentStatusChanged(this, oldStatus, Status));
+            }
+        }
     }
 
     public static class PaymentTargetTypes

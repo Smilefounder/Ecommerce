@@ -16,40 +16,37 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     public class PaymentController : CommerceControllerBase
     {
         private ISettingService _settingService;
-        private IOrderService _orderService;
-        private IOrderPaymentService _orderPaymentService;
+        private IPaymentService _paymentService;
         private IPaymentMethodService _paymentMethodService;
         private IPaymentProcessorFactory _paymentProcessorFactory;
 
         public PaymentController(
             ISettingService settingService,
-            IOrderService orderService,
-            IOrderPaymentService orderPaymentService,
+            IPaymentService paymentService,
             IPaymentMethodService paymentMethodService,
             IPaymentProcessorFactory paymentProcessorFactory)
         {
             _settingService = settingService;
-            _orderService = orderService;
-            _orderPaymentService = orderPaymentService;
+            _paymentService = paymentService;
             _paymentMethodService = paymentMethodService;
             _paymentProcessorFactory = paymentProcessorFactory;
         }
 
         [AutoDbCommit]
-        public ActionResult Gateway(PaymentRequestModel model)
+        public ActionResult Gateway(int paymentId, string returnUrl)
         {
             var settings = _settingService.GetStoreSetting();
-            var order = _orderService.GetById(model.OrderId);
-            var paymentMethod = _paymentMethodService.GetById(model.PaymentMethodId);
+            var payment = _paymentService.GetById(paymentId);
+            var paymentMethod = _paymentMethodService.GetById(payment.PaymentMethod.Id);
             var commerceName = CommerceContext.CurrentInstance.Name;
 
-            var paymentRequest = new ProcessPaymentRequest(commerceName, order, paymentMethod)
+            var paymentRequest = new ProcessPaymentRequest(payment)
             {
                 CurrencyCode = settings.CurrencyISOCode,
-                BankId = model.BankId,
-                CreditCardInfo = model.CreditCardInfo,
+                //BankId = model.BankId,
+                //CreditCardInfo = model.CreditCardInfo,
                 CommerceBaseUrl = Request.Url.Scheme + "://" + Request.Url.Authority,
-                ReturnUrl = model.ReturnUrl
+                ReturnUrl = returnUrl
             };
 
             var processor = _paymentProcessorFactory.FindByName(paymentMethod.PaymentProcessorName);
@@ -58,7 +55,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             if (result.PaymentStatus == PaymentStatus.Success)
             {
                 // Already done
-                _orderPaymentService.HandlePaymentResult(order, result);
+                payment.HandlePaymentResult(result);
 
                 return Redirect(paymentRequest.ReturnUrl);
             }

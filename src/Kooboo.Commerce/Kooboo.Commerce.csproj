@@ -99,10 +99,8 @@
     <Compile Include="Events\Orders\DeliveryBegan.cs" />
     <Compile Include="Events\Orders\OrderCreated.cs" />
     <Compile Include="Events\Orders\OrderStatusChanged.cs" />
-    <Compile Include="Events\Orders\PaymentCancelled.cs" />
-    <Compile Include="Events\Orders\PaymentFailed.cs" />
-    <Compile Include="Events\Orders\PaymentStatusChanged.cs" />
     <Compile Include="Events\Payments\PaymentCreated.cs" />
+    <Compile Include="Events\Payments\PaymentStatusChanged.cs" />
     <Compile Include="Events\Products\FindOne.cs" />
     <Compile Include="Events\Products\GetAlternatives.cs" />
     <Compile Include="Events\Products\GetRecommendations.cs" />
@@ -137,11 +135,11 @@
     <Compile Include="Orders\ExtendedQuery\MostCostOrder.cs" />
     <Compile Include="Orders\ExtendedQuery\RecentOrder.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
+    <Compile Include="Orders\OrderingProcessManager.cs" />
     <Compile Include="Orders\OrderQueryModel.cs" />
-    <Compile Include="Orders\Services\IOrderPaymentService.cs" />
-    <Compile Include="Orders\Services\OrderPaymentService.cs" />
     <Compile Include="Payments\CreditCardInfo.cs" />
     <Compile Include="Payments\BankAccountInfo.cs" />
+    <Compile Include="Payments\Extensions\PaymentsExtensions.cs" />
     <Compile Include="Payments\IPaymentProcessorFactory.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />
@@ -181,8 +179,6 @@
     <Compile Include="Customers\Services\CustomerService.cs" />
     <Compile Include="Customers\Services\ICustomerService.cs" />
     <Compile Include="Gender.cs" />
-    <Compile Include="Events\Orders\OrderCancelled.cs" />
-    <Compile Include="Events\Orders\PaymentSucceeded.cs" />
     <Compile Include="Orders\Services\OrderService.cs" />
     <Compile Include="Payments\IPaymentProcessorViews.cs" />
     <Compile Include="Payments\PaymentMethod.cs" />

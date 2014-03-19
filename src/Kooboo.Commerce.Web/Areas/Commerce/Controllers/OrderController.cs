@@ -257,15 +257,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var order = Session["TempOrder"] as Order;
 
             order.Coupon = form["Coupon"];
-            order.ChangeOrderStatus((OrderStatus)Enum.Parse(typeof(OrderStatus), form["OrderStatus"]));
-            order.ForceChangePaymentStatus((PaymentStatus)Enum.Parse(typeof(PaymentStatus), form["PaymentStatus"]));
+            order.ChangeStatus((OrderStatus)Enum.Parse(typeof(OrderStatus), form["OrderStatus"]));
+            //order.ForceChangePaymentStatus((PaymentStatus)Enum.Parse(typeof(PaymentStatus), form["PaymentStatus"]));
             order.SubTotal = string.IsNullOrEmpty(form["SubTotal"]) ? 0 : Convert.ToDecimal(form["SubTotal"]);
             order.Discount = string.IsNullOrEmpty(form["Discount"]) ? 0 : Convert.ToDecimal(form["Discount"]);
             order.TotalTax = string.IsNullOrEmpty(form["TotalTax"]) ? 0 : Convert.ToDecimal(form["TotalTax"]);
             order.TotalWeight = string.IsNullOrEmpty(form["TotalWeight"]) ? 0 : Convert.ToDecimal(form["TotalWeight"]);
             order.ShippingCost = string.IsNullOrEmpty(form["ShippingCost"]) ? 0 : Convert.ToDecimal(form["ShippingCost"]);
-            if (!string.IsNullOrEmpty(form["PaymentMethodId"]))
-                order.PaymentMethodId = Convert.ToInt32(form["PaymentMethodId"]);
+            //if (!string.IsNullOrEmpty(form["PaymentMethodId"]))
+            //    order.PaymentMethodId = Convert.ToInt32(form["PaymentMethodId"]);
             order.PaymentMethodCost = string.IsNullOrEmpty(form["PaymentMethodCost"]) ? 0 : Convert.ToDecimal(form["PaymentMethodCost"]);
             order.Total = string.IsNullOrEmpty(form["Total"]) ? 0 : Convert.ToDecimal(form["Total"]);
 

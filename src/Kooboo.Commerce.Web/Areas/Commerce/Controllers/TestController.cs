@@ -74,18 +74,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return Content("Payment OK");
         }
 
-        public ActionResult FireOrderPaid()
-        {
-            var order = new Order
-            {
-                Id = 1
-            };
-
-            order.MarkPaymentSucceeded(null);
-
-            return Content("OK");
-        }
-
         public void Transaction()
         {
             var db = CommerceInstanceContext.CurrentInstance.Database;

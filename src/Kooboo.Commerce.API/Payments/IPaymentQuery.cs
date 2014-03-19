@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Payments
 {
+    // TODO: OrderBy
     public interface IPaymentQuery : ICommerceQuery<Payment>
     {
         IPaymentQuery ById(int id);

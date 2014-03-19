@@ -8,11 +8,11 @@ namespace Kooboo.Commerce.Events.Orders
 {
     public class OrderStatusChanged : IOrderEvent
     {
-        public Order Order { get; protected set; }
+        public Order Order { get; private set; }
 
-        public OrderStatus OldStatus { get; protected set; }
+        public OrderStatus OldStatus { get; private set; }
 
-        public OrderStatus NewStatus { get; protected set; }
+        public OrderStatus NewStatus { get; private set; }
 
         public OrderStatusChanged(Order order, OrderStatus oldStatus, OrderStatus newStatus)
         {

@@ -21,6 +21,10 @@ namespace Kooboo.Commerce.API.Payments
         public decimal Amount { get; set; }
 
         public int PaymentMethodId { get; set; }
+
+        public string ReturnUrl { get; set; }
+
+        // TODO: Credit card info
     }
 
     public class CreatePaymentResult

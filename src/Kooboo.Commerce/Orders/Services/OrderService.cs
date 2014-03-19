@@ -76,7 +76,7 @@ namespace Kooboo.Commerce.Orders.Services
                 {
                     order.Customer.Country = _countryRepository.Query(o => o.Id == order.Customer.CountryId).FirstOrDefault();
                 }
-                order.PaymentMethod = _paymentMethodRepository.Query(o => o.Id == order.PaymentMethodId).FirstOrDefault();
+                //order.PaymentMethod = _paymentMethodRepository.Query(o => o.Id == order.PaymentMethodId).FirstOrDefault();
             }
             return order;
         }
@@ -113,7 +113,7 @@ namespace Kooboo.Commerce.Orders.Services
                 order.ShoppingCartId = shoppingCart.Id;
                 order.CustomerId = shoppingCart.Customer.Id;
                 order.IsCompleted = false;
-                order.ChangeOrderStatus(OrderStatus.Created);
+                order.ChangeStatus(OrderStatus.Created);
 
                 if(shoppingCart.Items.Count > 0)
                 {
