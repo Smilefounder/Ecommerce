@@ -27,8 +27,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index(int? page, int? pageSize)
         {
-            var brands = _brandService.Query(page, pageSize)
-                                     .Transform(x => new BrandRowModel(x));
+            var brands = _brandService.Query()
+                                      .ToPagedList(page, pageSize)
+                                      .Transform(x => new BrandRowModel(x));
 
             return View(brands);
         }

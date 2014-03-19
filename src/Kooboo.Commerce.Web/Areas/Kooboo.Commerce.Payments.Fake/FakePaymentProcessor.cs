@@ -32,13 +32,13 @@ namespace Kooboo.Commerce.Payments.Fake
         }
 
 
-        public IEnumerable<PaymentType> SupportedPaymentTypes
+        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
         {
             get
             {
-                yield return PaymentType.CreditCard;
-                yield return PaymentType.DirectDebit;
-                yield return PaymentType.ExternalPayment;
+                yield return PaymentMethodType.CreditCard;
+                yield return PaymentMethodType.DirectDebit;
+                yield return PaymentMethodType.ExternalPayment;
             }
         }
 
@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Payments.Fake
             get { return false; }
         }
 
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentType paymentType)
+        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
         {
             throw new NotSupportedException();
         }

@@ -52,11 +52,11 @@ namespace Kooboo.Commerce.Payments.iDeal
             return ProcessPaymentResult.Pending(new RedirectResult(idealFetch.Url), idealFetch.TransactionId);
         }
 
-        public IEnumerable<PaymentType> SupportedPaymentTypes
+        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
         {
             get
             {
-                yield return PaymentType.ExternalPayment;
+                yield return PaymentMethodType.ExternalPayment;
             }
         }
 
@@ -65,7 +65,7 @@ namespace Kooboo.Commerce.Payments.iDeal
             get { return false; }
         }
 
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentType paymentType)
+        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
         {
             throw new NotSupportedException();
         }

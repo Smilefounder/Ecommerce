@@ -12,11 +12,22 @@ namespace Kooboo.Commerce.API
     {
         public static string GetCommerceName(this Site site)
         {
-            if (site.CustomFields == null || !site.CustomFields.ContainsKey("CommerceInstance") || string.IsNullOrEmpty(site.CustomFields["CommerceInstance"]))
+            return GetRequiredCustomField(site, "CommerceInstance");
+        }
+
+        public static string GetCommerceUrl(this Site site)
+        {
+            return GetRequiredCustomField(site, "CommerceUrl");
+        }
+
+        static string GetRequiredCustomField(this Site site, string key)
+        {
+            if (site.CustomFields == null || !site.CustomFields.ContainsKey(key) || string.IsNullOrEmpty(site.CustomFields[key]))
             {
-                throw new Exception("To use commerce, please set 'CommerceInstance' in the site's custom fields.");
+                throw new KeyNotFoundException("To use commerce, please set '" + key + "' in the site's custom fields.");
             }
-            return site.CustomFields["CommerceInstance"];
+
+            return site.CustomFields[key];
         }
 
         public static string GetLanguage(this Site site)

@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
 
         [Required]
         [Display(Name = "Payment type")]
-        public PaymentType PaymentType { get; set; }
+        public PaymentMethodType PaymentType { get; set; }
 
         public IList<SelectListItem> AllPaymentTypes { get; set; }
 
@@ -65,7 +65,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         public PaymentMethodEditorModel()
         {
             AvailablePaymentProcessors = new List<PaymentProcessorModel>();
-            AllPaymentTypes = EnumUtil.ToSelectList(typeof(PaymentType));
+            AllPaymentTypes = EnumUtil.ToSelectList(typeof(PaymentMethodType));
             AvailablePaymentMethods = new List<SupportedPaymentMethod>();
             AllFeeChargeModes = EnumUtil.ToSelectList(typeof(PriceChangeMode));
         }

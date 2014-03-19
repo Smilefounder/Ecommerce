@@ -12,6 +12,9 @@ namespace Kooboo.Commerce.Data
         ICommerceDatabase Database { get; }
 
         IQueryable<T> Query(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<T>> orderby, int pageIndex, int pageSize, out int totalRecords);
+
+        T Get(object id);
+        
         T Get(Expression<Func<T, bool>> predicate);
         bool Insert(T obj);
         bool Update(T obj, Func<T, object[]> getKeys);

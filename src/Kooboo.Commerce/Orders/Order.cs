@@ -88,6 +88,7 @@ namespace Kooboo.Commerce.Orders
 
         public virtual OrderAddress ShippingAddress { get; set; }
         public virtual OrderAddress BillingAddress { get; set; }
+
         public virtual PaymentMethod PaymentMethod { get; set; }
 
         public virtual void MarkPaymentSucceeded(string paymentTransactionId)

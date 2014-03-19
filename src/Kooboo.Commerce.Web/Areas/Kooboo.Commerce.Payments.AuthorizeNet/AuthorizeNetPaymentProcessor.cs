@@ -68,11 +68,11 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
         }
 
 
-        public IEnumerable<PaymentType> SupportedPaymentTypes
+        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
         {
             get
             {
-                yield return PaymentType.CreditCard;
+                yield return PaymentMethodType.CreditCard;
             }
         }
 
@@ -81,7 +81,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             get { return false; }
         }
 
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentType paymentType)
+        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
         {
             throw new NotSupportedException();
         }

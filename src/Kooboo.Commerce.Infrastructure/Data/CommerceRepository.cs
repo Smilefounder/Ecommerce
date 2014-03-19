@@ -56,6 +56,11 @@ namespace Kooboo.Commerce.Data
             return query;
         }
 
+        public virtual T Get(object id)
+        {
+            return DbContext.Set<T>().Find(id);
+        }
+
         public virtual T Get(Expression<Func<T, bool>> predicate)
         {
             IQueryable<T> query = DbContext.Set<T>();
