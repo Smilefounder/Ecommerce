@@ -11,6 +11,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     public class LocalPaymentQuery : LocalCommerceQuery<Payment, Kooboo.Commerce.Payments.Payment>, IPaymentQuery
     {
         protected IPaymentService PaymentService { get; private set; }
+        private IMapper<Payment, Kooboo.Commerce.Payments.Payment> _mapper;
 
         public LocalPaymentQuery(IPaymentService paymentService, IMapper<Payment, Kooboo.Commerce.Payments.Payment> mapper)
         {
@@ -64,6 +65,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         protected override IQueryable<Commerce.Payments.Payment> OrderByDefault(IQueryable<Commerce.Payments.Payment> query)
         {
             return _query.OrderByDescending(x => x.Id);
+        }
+
+        protected override Payment Map(Commerce.Payments.Payment obj)
+        {
+            return _mapper.MapTo(obj);
         }
     }
 }

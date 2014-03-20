@@ -6,10 +6,12 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.ShoppingCarts
 {
-    public interface IShoppingCartQuery : ICommerceQuery<ShoppingCart>, ICommerceAccess<ShoppingCart>
+    public interface IShoppingCartQuery : ICommerceQuery<ShoppingCart>
     {
         IShoppingCartQuery BySessionId(string sessionId);
         IShoppingCartQuery ByAccountId(string accountId);
+
+        IShoppingCartQuery LoadWithCustomer();
 
         void AddCartItem(int cartId, ShoppingCartItem item);
         void UpdateCartItem(int cartId, ShoppingCartItem item);

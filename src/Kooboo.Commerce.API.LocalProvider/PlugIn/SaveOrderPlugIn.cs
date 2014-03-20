@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.API.LocalProvider.PlugIn
                 string sessionId = controllerContext.HttpContext.Session.SessionID;
                 var memberAuth = controllerContext.HttpContext.Membership();
                 var member = memberAuth.GetMembershipUser();
-                var order = commerService.Order.GetMyOrder(sessionId, member);
+                var order = commerService.Orders.GetMyOrder(sessionId, member);
 
                 if (order != null)
                 {
@@ -103,7 +103,7 @@ namespace Kooboo.Commerce.API.LocalProvider.PlugIn
                     //}
 
 
-                    if (commerService.Order.Save(order))
+                    if (commerService.Orders.Save(order))
                     {
                         resultData.Success = true;
                         resultData.AddMessage("Successfully save order.");

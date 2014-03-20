@@ -1,18 +1,18 @@
 ﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.Orders;
+@using Kooboo.Commerce.API.Locations;
+@using Kooboo.Commerce.API.Payments;
 @using Kooboo.CMS.Sites.Membership;
 @using Kooboo.Commerce.Web.Mvc;
-@using Kooboo.Commerce.Orders;
-@using Kooboo.Commerce.Locations;
-@using Kooboo.Commerce.Payments;
 @{
     var commerce = Site.Current.Commerce();
     var memberAuth = this.Context.Membership();
     var member = memberAuth.GetMembershipUser();
-    var paymentMethods = commerce.PaymentMethod.GetAllPaymentMethods();
-    var customer = commerce.Customer.GetCustomerByAccount(member.UUID);
+    var paymentMethods = commerce.PaymentMethods.ToArray();
+    var customer = commerce.Customers.ByAccountId(member.UUID).LoadWithAddresses().FirstOrDefault();
     var addresses = customer == null ? Enumerable.Empty<Address>() : customer.Addresses;
-    var countries = commerce.Country.GetAllCountries();
-    Order order = commerce.Order.GetMyOrder(Context.Session.SessionID, member);
+    var countries = commerce.Countries.ToArray();
+    var order = commerce.Orders.GetMyOrder(Context.Session.SessionID, member, true);
 }
 
 @functions {

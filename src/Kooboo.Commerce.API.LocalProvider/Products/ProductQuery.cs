@@ -18,13 +18,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private IBrandService _brandService;
         private IProductTypeService _productTypeService;
         private ICategoryService _categoryService;
-        private bool _loadWithProductType = false;
-        private bool _loadWithBrand = false;
-        private bool _loadWithCategories = false;
-        private bool _loadWithImages = false;
-        private bool _loadWithCustomFields = false;
-        private bool _loadWithPriceList = false;
-
+        private IMapper<Product, Kooboo.Commerce.Products.Product> _mapper;
         private IMapper<Brand, Kooboo.Commerce.Brands.Brand> _brandMapper;
         private IMapper<ProductType, Kooboo.Commerce.Products.ProductType> _productTypeMapper;
         private IMapper<ProductPrice, Kooboo.Commerce.Products.ProductPrice> _productPriceMapper;
@@ -32,6 +26,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private IMapper<ProductCategory, Kooboo.Commerce.Products.ProductCategory> _productCategoryMapper;
         private IMapper<ProductCustomFieldValue, Kooboo.Commerce.Products.ProductCustomFieldValue> _productCustomFieldValueMapper;
         private IMapper<ProductPriceVariantValue, Kooboo.Commerce.Products.ProductPriceVariantValue> _productPriceVariantValueMapper;
+        private bool _loadWithProductType = false;
+        private bool _loadWithBrand = false;
+        private bool _loadWithCategories = false;
+        private bool _loadWithImages = false;
+        private bool _loadWithCustomFields = false;
+        private bool _loadWithPriceList = false;
 
         public ProductQuery(IProductService productService, IBrandService brandService, IProductTypeService productTypeService,
             ICategoryService categoryService,
@@ -135,6 +135,36 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             return this;
         }
 
+        protected override Product Map(Commerce.Products.Product obj)
+        {
+            List<string> includeComplexPropertyNames = new List<string>();
+            if(_loadWithProductType)
+                includeComplexPropertyNames.Add("Type");
+            if (_loadWithPriceList)
+            {
+                includeComplexPropertyNames.Add("PriceList");
+                includeComplexPropertyNames.Add("PriceList.VariantValues");
+                includeComplexPropertyNames.Add("PriceList.VariantValues.ProductPrice");
+                includeComplexPropertyNames.Add("PriceList.VariantValues.CustomField");
+            }
+            if(_loadWithBrand)
+                includeComplexPropertyNames.Add("Brand");
+            if (_loadWithCategories)
+            {
+                includeComplexPropertyNames.Add("Categories");
+                includeComplexPropertyNames.Add("Categories.Category");
+            }
+            if (_loadWithImages)
+            {
+                includeComplexPropertyNames.Add("Images");
+            }
+            if (_loadWithCustomFields)
+            {
+                includeComplexPropertyNames.Add("CustomFieldValues");
+            }
+
+            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
+        }
 
         public IProductQuery LoadWithProductType()
         {
@@ -171,53 +201,59 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             _loadWithPriceList = true;
             return this;
         }
-        private void LoadWithOptions(Product obj)
-        {
-            if (_loadWithBrand && obj.BrandId.HasValue)
-            {
-                var p = _brandService.GetById(obj.BrandId.Value);
-                if (p != null)
-                    obj.Brand = _brandMapper.MapTo(p);
-            }
-            if (_loadWithCategories)
-            {
-                var cates = _productService.ProductCategoryQuery().Where(o => o.ProductId == obj.Id).ToArray();
-                obj.Categories = cates.Select(o => _productCategoryMapper.MapTo(o)).ToArray();
-            }
-            if (_loadWithImages)
-            {
-                var imgs = _productService.ProductImageQuery().Where(o => o.ProductId == obj.Id).ToArray();
-                if (imgs != null)
-                {
-                    obj.Images = imgs.Select(o => _productImageMapper.MapTo(o)).ToArray();
-                }
-            }
-            if(_loadWithCustomFields)
-            {
-                var cfields = _productService.ProductCustomFieldQuery().Where(o => o.ProductId == obj.Id).ToArray();
-                if (cfields != null)
-                    obj.CustomFieldValues = cfields.Select(o => _productCustomFieldValueMapper.MapTo(o)).ToArray();
-            }
-            if(_loadWithPriceList)
-            {
-                var prices = _productService.ProductPriceQuery().Where(o => o.ProductId == obj.Id).ToArray();
-                if(prices != null)
-                {
-                    foreach(var price in prices)
-                    {
-                        price.VariantValues = _productService.ProductPriceVariantQuery().Where(o => o.ProductPriceId == price.Id).ToList();
-                    }
-                    obj.PriceList = prices.Select(p =>
-                        {
-                            var np = _productPriceMapper.MapTo(p);
-                            np.VariantValues = p.VariantValues.Select(v => _productPriceVariantValueMapper.MapTo(v)).ToArray();
-                            return np;
-                        }).ToArray();
-                }
-            }
-        }
+        //private void LoadWithOptions(Product obj)
+        //{
+        //    if (_loadWithProductType)
+        //    {
+        //        var p = _productTypeService.GetById(obj.ProductTypeId);
+        //        if (p != null)
+        //            obj.Type = _productTypeMapper.MapTo(p);
+        //    }
+        //    if (_loadWithBrand && obj.BrandId.HasValue)
+        //    {
+        //        var p = _brandService.GetById(obj.BrandId.Value);
+        //        if (p != null)
+        //            obj.Brand = _brandMapper.MapTo(p);
+        //    }
+        //    if (_loadWithCategories)
+        //    {
+        //        var cates = _productService.ProductCategoryQuery().Where(o => o.ProductId == obj.Id).ToArray();
+        //        obj.Categories = cates.Select(o => _productCategoryMapper.MapTo(o)).ToArray();
+        //    }
+        //    if (_loadWithImages)
+        //    {
+        //        var imgs = _productService.ProductImageQuery().Where(o => o.ProductId == obj.Id).ToArray();
+        //        if (imgs != null)
+        //        {
+        //            obj.Images = imgs.Select(o => _productImageMapper.MapTo(o)).ToArray();
+        //        }
+        //    }
+        //    if(_loadWithCustomFields)
+        //    {
+        //        var cfields = _productService.ProductCustomFieldQuery().Where(o => o.ProductId == obj.Id).ToArray();
+        //        if (cfields != null)
+        //            obj.CustomFieldValues = cfields.Select(o => _productCustomFieldValueMapper.MapTo(o)).ToArray();
+        //    }
+        //    if(_loadWithPriceList)
+        //    {
+        //        var prices = _productService.ProductPriceQuery().Where(o => o.ProductId == obj.Id).ToArray();
+        //        if(prices != null)
+        //        {
+        //            foreach(var price in prices)
+        //            {
+        //                price.VariantValues = _productService.ProductPriceVariantQuery().Where(o => o.ProductPriceId == price.Id).ToList();
+        //            }
+        //            obj.PriceList = prices.Select(p =>
+        //                {
+        //                    var np = _productPriceMapper.MapTo(p);
+        //                    np.VariantValues = p.VariantValues.Select(v => _productPriceVariantValueMapper.MapTo(v)).ToArray();
+        //                    return np;
+        //                }).ToArray();
+        //        }
+        //    }
+        //}
 
-        private void ResetLoadOptions()
+        protected override void OnQueryExecuted()
         {
             _loadWithProductType = false;
             _loadWithBrand = false;
@@ -225,36 +261,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             _loadWithImages = false;
             _loadWithCustomFields = false;
             _loadWithPriceList = false;
-        }
-
-        public override Product[] Pagination(int pageIndex, int pageSize)
-        {
-            var objs = base.Pagination(pageIndex, pageSize);
-            foreach (var obj in objs)
-            {
-                LoadWithOptions(obj);
-            }
-            ResetLoadOptions();
-            return objs;
-        }
-
-        public override Product[] ToArray()
-        {
-            var objs = base.ToArray();
-            foreach (var obj in objs)
-            {
-                LoadWithOptions(obj);
-            }
-            ResetLoadOptions();
-            return objs;
-        }
-
-        public override Product FirstOrDefault()
-        {
-            var obj = base.FirstOrDefault();
-            LoadWithOptions(obj);
-            ResetLoadOptions();
-            return obj;
         }
     }
 }

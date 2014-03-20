@@ -13,13 +13,13 @@ namespace Kooboo.Commerce.WebAPI.Controllers
         // GET api/customer/5
         public Customer Get(int id)
         {
-            return Commerce().Customer.ById(id).FirstOrDefault();
+            return Commerce().Customers.ById(id).FirstOrDefault();
         }
 
         [HttpGet]
         public Customer GetByAccount(string id)
         {
-            return Commerce().Customer.ByAccountId(id).FirstOrDefault();
+            return Commerce().Customers.ByAccountId(id).FirstOrDefault();
         }
     }
 }

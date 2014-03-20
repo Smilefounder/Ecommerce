@@ -11,12 +11,14 @@ using System.Text;
 namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 {
     [Dependency(typeof(IShoppingCartQuery), ComponentLifeStyle.Transient)]
-    public class ShoppingCartQuery : LocalCommerceQueryAccess<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartQuery
+    public class ShoppingCartQuery : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartQuery
     {
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
+        private IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> _mapper;
         private IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> _cartItemMapper;
         private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _customerMapper;
+        private bool _loadWithCutomer = false;
 
         public ShoppingCartQuery(IShoppingCartService shoppingCartService, ICustomerService customerService,
             IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
@@ -38,6 +40,33 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         protected override IQueryable<Commerce.ShoppingCarts.ShoppingCart> OrderByDefault(IQueryable<Commerce.ShoppingCarts.ShoppingCart> query)
         {
             return query.OrderByDescending(o => o.Id);
+        }
+
+        protected override ShoppingCart Map(Commerce.ShoppingCarts.ShoppingCart obj)
+        {
+            List<string> includeComplexPropertyNames = new List<string>();
+            includeComplexPropertyNames.Add("Items");
+            includeComplexPropertyNames.Add("Items.ProductPrice");
+            includeComplexPropertyNames.Add("Items.ProductPrice.Product");
+            includeComplexPropertyNames.Add("ShippingAddress");
+            includeComplexPropertyNames.Add("BillingAddress");
+            if (_loadWithCutomer)
+            {
+                includeComplexPropertyNames.Add("Customer");
+            }
+
+            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
+        }
+
+        protected override void OnQueryExecuted()
+        {
+            _loadWithCutomer = false;
+        }
+
+        public IShoppingCartQuery LoadWithCustomer()
+        {
+            _loadWithCutomer = true;
+            return this;
         }
 
         public IShoppingCartQuery BySessionId(string sessionId)
@@ -75,41 +104,41 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             _shoppingCartService.RemoveCartItem(cartId, cartItemId);
         }
 
-        public override bool Create(ShoppingCart obj)
-        {
-            if (obj != null)
-            {
-                return _shoppingCartService.Create(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
+        //public override bool Create(ShoppingCart obj)
+        //{
+        //    if (obj != null)
+        //    {
+        //        return _shoppingCartService.Create(_mapper.MapFrom(obj));
+        //    }
+        //    return false;
+        //}
 
-        public override bool Update(ShoppingCart obj)
-        {
-            if (obj != null)
-            {
-                return _shoppingCartService.Update(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
+        //public override bool Update(ShoppingCart obj)
+        //{
+        //    if (obj != null)
+        //    {
+        //        return _shoppingCartService.Update(_mapper.MapFrom(obj));
+        //    }
+        //    return false;
+        //}
 
-        public override bool Save(ShoppingCart obj)
-        {
-            if (obj != null)
-            {
-                return _shoppingCartService.Save(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
+        //public override bool Save(ShoppingCart obj)
+        //{
+        //    if (obj != null)
+        //    {
+        //        return _shoppingCartService.Save(_mapper.MapFrom(obj));
+        //    }
+        //    return false;
+        //}
 
-        public override bool Delete(ShoppingCart obj)
-        {
-            if (obj != null)
-            {
-                return _shoppingCartService.Delete(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
+        //public override bool Delete(ShoppingCart obj)
+        //{
+        //    if (obj != null)
+        //    {
+        //        return _shoppingCartService.Delete(_mapper.MapFrom(obj));
+        //    }
+        //    return false;
+        //}
 
 
         public bool AddToCart(string sessionId, string accountId, int productPriceId, int quantity)

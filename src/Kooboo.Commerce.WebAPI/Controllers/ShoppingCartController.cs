@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.WebAPI.Controllers
         // GET api/cart/5
         public ShoppingCart Get(string sessionId)
         {
-            return Commerce().ShoppingCart.BySessionId(sessionId).FirstOrDefault();
+            return Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
         }
 
         // POST api/cart
@@ -25,14 +25,14 @@ namespace Kooboo.Commerce.WebAPI.Controllers
             int productPriceId = Convert.ToInt32(form["productPriceId"]);
             int quantity = Convert.ToInt32(form["quantity"]);
 
-            var cart = Commerce().ShoppingCart.BySessionId(sessionId).FirstOrDefault();
+            var cart = Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
             if(cart == null)
             {
-                cart = Commerce().ShoppingCart.ByAccountId(accountId).FirstOrDefault();
+                cart = Commerce().ShoppingCarts.ByAccountId(accountId).FirstOrDefault();
             }
             var cartItem = new ShoppingCartItem();
 
-            return Commerce().ShoppingCart.AddToCart(sessionId, accountId, productPriceId, quantity);
+            return Commerce().ShoppingCarts.AddToCart(sessionId, accountId, productPriceId, quantity);
         }
 
         // PUT api/cart/5
@@ -43,22 +43,22 @@ namespace Kooboo.Commerce.WebAPI.Controllers
             int productPriceId = Convert.ToInt32(form["productPriceId"]);
             int quantity = Convert.ToInt32(form["quantity"]);
 
-            return Commerce().ShoppingCart.UpdateCart(sessionId, accountId, productPriceId, quantity);
+            return Commerce().ShoppingCarts.UpdateCart(sessionId, accountId, productPriceId, quantity);
         }
 
         // DELETE api/cart/5
         public bool Delete(string sessionId, string accountId)
         {
-            var cart = Commerce().ShoppingCart.BySessionId(sessionId).FirstOrDefault();
+            var cart = Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
             if (cart == null)
             {
-                cart = Commerce().ShoppingCart.ByAccountId(accountId).FirstOrDefault();
+                cart = Commerce().ShoppingCarts.ByAccountId(accountId).FirstOrDefault();
             }
             if (cart != null)
             {
                 try
                 {
-                    Commerce().ShoppingCart.Delete(cart);
+                    Commerce().ShoppingCarts.Delete(cart);
                     return true;
                 }
                 catch

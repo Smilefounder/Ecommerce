@@ -8,13 +8,14 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
-    [Dependency(typeof(IPaymentMethodQuery))]
-    public class LocalPaymentMethodQuery : LocalCommerceQuery<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod>, IPaymentMethodQuery
+    [Dependency(typeof(IPaymentMethodQuery), ComponentLifeStyle.Transient)]
+    public class PaymentMethodQuery : LocalCommerceQuery<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod>, IPaymentMethodQuery
     {
         private IPaymentMethodService _paymentMethodService;
         private IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> _mapper;
 
-        public LocalPaymentMethodQuery(IPaymentMethodService paymentMethodService, IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
+        public PaymentMethodQuery(IPaymentMethodService paymentMethodService,
+            IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
         {
             _paymentMethodService = paymentMethodService;
             _mapper = mapper;
@@ -27,7 +28,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
 
         protected override IQueryable<Commerce.Payments.PaymentMethod> OrderByDefault(IQueryable<Commerce.Payments.PaymentMethod> query)
         {
-            return query.OrderBy(x => x.DisplayName);
+            return query.OrderBy(o => o.Id);
         }
 
         protected override PaymentMethod Map(Commerce.Payments.PaymentMethod obj)

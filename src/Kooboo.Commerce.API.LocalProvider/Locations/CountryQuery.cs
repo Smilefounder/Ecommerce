@@ -10,9 +10,10 @@ using System.Text;
 namespace Kooboo.Commerce.API.LocalProvider.Locations
 {
     [Dependency(typeof(ICountryQuery), ComponentLifeStyle.Transient)]
-    public class CountryQuery : LocalCommerceQueryAccess<Country, Kooboo.Commerce.Locations.Country>, ICountryQuery
+    public class CountryQuery : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryQuery
     {
         private ICountryService _countryService;
+        private IMapper<Country, Kooboo.Commerce.Locations.Country> _mapper;
 
         public CountryQuery(ICountryService countryService, IMapper<Country, Kooboo.Commerce.Locations.Country> mapper)
         {
@@ -28,6 +29,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         protected override IQueryable<Kooboo.Commerce.Locations.Country> OrderByDefault(IQueryable<Kooboo.Commerce.Locations.Country> query)
         {
             return query.OrderBy(o => o.Id);
+        }
+
+        protected override Country Map(Commerce.Locations.Country obj)
+        {
+            return _mapper.MapTo(obj);
         }
 
         public ICountryQuery ById(int id)
@@ -62,34 +68,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
             EnsureQuery();
             _query = _query.Where(o => o.NumericISOCode == numericISOCode);
             return this;
-        }
-
-        public override bool Create(Country obj)
-        {
-            if (obj != null)
-                return _countryService.Create(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        public override bool Update(Country obj)
-        {
-            if (obj != null)
-                return _countryService.Update(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        public override bool Save(Country obj)
-        {
-            if (obj != null)
-                return _countryService.Save(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        public override bool Delete(Country obj)
-        {
-            if (obj != null)
-                return _countryService.Delete(_mapper.MapFrom(obj));
-            return false;
         }
     }
 }

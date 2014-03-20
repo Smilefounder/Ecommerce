@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.API.Orders
 
         public DateTime CreatedAtUtc { get; set; }
 
-        public OrderStatus OrderStatus { get; protected set; }
+        public OrderStatus OrderStatus { get; set; }
 
         public bool IsCompleted { get; set; }
 
@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.API.Orders
 
         public decimal ShippingCost { get; set; }
 
-        public PaymentStatus PaymentStatus { get; protected set; }
+        public PaymentStatus PaymentStatus { get; set; }
 
         public int? PaymentMethodId { get; set; }
 

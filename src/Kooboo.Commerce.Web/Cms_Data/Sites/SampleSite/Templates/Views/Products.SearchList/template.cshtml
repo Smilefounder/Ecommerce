@@ -7,12 +7,12 @@
     {
         cateId = Convert.ToInt32(Request.QueryString["cateId"]);
     }
-    var query = Site.Current.Commerce().Product;
-    if(!string.IsNullOrEmpty(key))
+    var query = Site.Current.Commerce().Products;
+    if (!string.IsNullOrEmpty(key))
     {
         query = query.ContainsName(key);
     }
-    if(cateId.HasValue)
+    if (cateId.HasValue)
     {
         query = query.ByCategoryId(cateId.Value);
     }
@@ -23,7 +23,7 @@
 
 @if (cateId.HasValue)
 {
-    var cate = Site.Current.Commerce().Category.ById(cateId.Value).LoadWithAllParents().FirstOrDefault();
+    var cate = Site.Current.Commerce().Categories.ById(cateId.Value).LoadWithAllParents().FirstOrDefault();
     var cates = new List<Kooboo.Commerce.API.Categories.Category>();
     while (cate != null)
     {
@@ -48,15 +48,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var p in products)
+        @foreach (var p in products)
         {
-            var img = p.Images.FirstOrDefault(m => m.ImageSizeName.ToLower() == "list");
-            <tr>
-                <td><img src="@(img == null ? "" : img.ImageUrl)" width="32" height="32" /></td>
-                <td><a href="/ProductList/ProductDetail/@p.Id">@p.Name</a></td>
-                <td>@p.Brand.Name</td>
-                <td>@p.Type.Name</td>
-            </tr>
+            if (p.Images != null)
+            {
+                var img = p.Images.FirstOrDefault(m => m.ImageSizeName.ToLower() == "list");
+                <tr>
+                    <td><img src="@(img == null ? "" : img.ImageUrl)" width="32" height="32" /></td>
+                    <td><a href="/ProductList/ProductDetail/@p.Id">@p.Name</a></td>
+                    <td>@p.Brand.Name</td>
+                    <td>@p.Type.Name</td>
+                </tr>
+            }
         }
     </tbody>
 </table>

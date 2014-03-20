@@ -17,13 +17,13 @@ namespace Kooboo.Commerce.API
     {
         void InitCommerceInstance(string instance, string language);
 
-        ICountryQuery Country { get; }
+        ICountryQuery Countries { get; }
         IBrandQuery Brands { get; }
-        ICategoryQuery Category { get; }
-        ICustomerQuery Customer { get; }
-        IProductQuery Product { get; }
-        IShoppingCartQuery ShoppingCart { get; }
-        IOrderQuery Order { get; }
+        ICategoryQuery Categories { get; }
+        ICustomerQuery Customers { get; }
+        IProductQuery Products { get; }
+        IShoppingCartQuery ShoppingCarts { get; }
+        IOrderQuery Orders { get; }
         IPaymentAccess Payments { get; }
         IPaymentMethodAccess PaymentMethods { get; }
     }

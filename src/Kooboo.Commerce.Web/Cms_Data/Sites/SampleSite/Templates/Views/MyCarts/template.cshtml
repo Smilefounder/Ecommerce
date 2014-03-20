@@ -1,6 +1,6 @@
 ﻿@using Kooboo.Commerce.API;
 @{
-    var shoppingCart = Site.Current.Commerce().ShoppingCart.BySessionId(Context.Session.SessionID).FirstOrDefault();
+    var shoppingCart = Site.Current.Commerce().ShoppingCarts.BySessionId(Context.Session.SessionID).FirstOrDefault();
 }
 @if(shoppingCart == null || shoppingCart.Items == null || shoppingCart.Items.Length <= 0)
 {

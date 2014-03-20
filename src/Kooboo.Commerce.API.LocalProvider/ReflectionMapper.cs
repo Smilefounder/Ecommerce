@@ -14,49 +14,56 @@ namespace DAF.Core.Map
         where T : class, new()
         where U : class, new()
     {
-        private object Map(object fobj, object tobj)
+        private object Map(object fobj, object tobj, string prefix, params string[] includeComplexPropertyNames)
         {
             if (fobj == null)
                 return null;
             var fobjProps = fobj.GetType().GetProperties();
             var tobjProps = tobj.GetType().GetProperties();
 
-            foreach (var op in fobjProps)
+            foreach (var top in tobjProps)
             {
-                var top = tobjProps.FirstOrDefault(o => o.Name == op.Name);
-                if (top != null)
+                var op = fobjProps.FirstOrDefault(o => o.Name == top.Name);
+                if (op != null)
                 {
                     if (op.PropertyType != top.PropertyType)
                     {
-                        // 1. if is array(or enumerable), then map the item in the collection
-                        if(typeof(IEnumerable).IsAssignableFrom(op.PropertyType))
+                        if (includeComplexPropertyNames != null && includeComplexPropertyNames.Any(o => o == (string.IsNullOrEmpty(prefix) ? top.Name : prefix + "." + top.Name)))
                         {
-                            // TODO: add mutual collection-array mapping.
-                            IEnumerable evals = op.GetValue(fobj, null) as IEnumerable;
-                            var topType = top.PropertyType.GetElementType();
-                            List<object> nvals = new List<object>();
-                            foreach(var val in evals)
+                            // 1. if is array(or enumerable), then map the item in the collection
+                            if (typeof(IEnumerable).IsAssignableFrom(op.PropertyType))
                             {
-                                var nval = Activator.CreateInstance(topType);
-                                nval = Map(val, nval);
-                                nvals.Add(nval);
+                                // TODO: need recursive map? this will cause repository attrive all properties from database and may cause recursive overflow.
+                                // add mutual collection-array mapping.
+                                IEnumerable evals = op.GetValue(fobj, null) as IEnumerable;
+                                var topType = top.PropertyType.GetElementType();
+                                Type listType = typeof(List<>).MakeGenericType(new[] { topType });
+                                object nvals = Activator.CreateInstance(listType);
+                                foreach (var val in evals)
+                                {
+                                    var nval = Activator.CreateInstance(topType);
+                                    nval = Map(val, nval, string.IsNullOrEmpty(prefix) ? top.Name : prefix + "." + top.Name, includeComplexPropertyNames);
+                                    listType.GetMethod("Add").Invoke(nvals, new object[] { nval });
+                                }
+                                if (top.PropertyType.IsArray)
+                                {
+                                    var gType = listType.GetMethod("ToArray");
+                                    var array = gType.Invoke(nvals, null);
+                                    top.SetValue(tobj, array, null);
+                                }
+                                else
+                                {
+                                    top.SetValue(tobj, nvals, null);
+                                }
                             }
-                            if(top.PropertyType.IsArray)
-                            {
-                                top.SetValue(tobj, nvals.Count > 0 ? nvals.ToArray() : null, null);
-                            }
+                            // 2. if is a complex type, then map it
                             else
                             {
-                                top.SetValue(tobj, nvals, null);
+                                object val = op.GetValue(fobj, null);
+                                object nval = Activator.CreateInstance(top.PropertyType);
+                                nval = Map(val, nval, string.IsNullOrEmpty(prefix) ? top.Name : prefix + "." + top.Name, includeComplexPropertyNames);
+                                top.SetValue(tobj, nval, null);
                             }
-                        }
-                        // 2. if is a complex type, then map it
-                        else
-                        {
-                            object val = op.GetValue(fobj, null);
-                            object nval = Activator.CreateInstance(top.PropertyType);
-                            nval = Map(val, nval);
-                            top.SetValue(tobj, nval, null);
                         }
                     }
                     else
@@ -69,16 +76,16 @@ namespace DAF.Core.Map
             return tobj;
         }
 
-        public T MapTo(U obj)
+        public T MapTo(U obj, params string[] includeComplexPropertyNames)
         {
             T nobj = new T();
-            return Map(obj, nobj) as T;
+            return Map(obj, nobj, null, includeComplexPropertyNames) as T;
         }
 
-        public U MapFrom(T obj)
+        public U MapFrom(T obj, params string[] includeComplexPropertyNames)
         {
             U nobj = new U();
-            return Map(obj, nobj) as U;
+            return Map(obj, nobj, null, includeComplexPropertyNames) as U;
         }
     }
 }
