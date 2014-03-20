@@ -1,6 +1,6 @@
 ﻿@using Kooboo.Commerce.API;
 @{
-    var categories = Site.Current.Commerce().Category.LoadWithChildren().ToArray();
+    var categories = Site.Current.Commerce().Categories.LoadWithChildren().ToArray();
 }
 <div class="block menu">
     <ul>

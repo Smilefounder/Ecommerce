@@ -11,10 +11,13 @@ namespace Kooboo.Commerce.API.LocalProvider
         where Model : class, new()
     {
         protected IQueryable<Model> _query;
-        protected IMapper<T, Model> _mapper;
 
         protected abstract IQueryable<Model> CreateQuery();
         protected abstract IQueryable<Model> OrderByDefault(IQueryable<Model> query);
+        protected abstract T Map(Model obj);
+
+        protected virtual void OnQueryExecuted()
+        { }
 
         protected virtual void EnsureQuery()
         {
@@ -26,29 +29,36 @@ namespace Kooboo.Commerce.API.LocalProvider
         {
             EnsureQuery();
             var objs = OrderByDefault(_query).Skip(pageIndex * pageSize).Take(pageSize).ToArray();
-            return objs.Select(o => _mapper.MapTo(o)).ToArray();
+            var mobjs = objs.Select(o => Map(o)).ToArray();
+            OnQueryExecuted();
+            return mobjs;
         }
 
         public virtual T FirstOrDefault()
         {
             EnsureQuery();
             var obj = _query.FirstOrDefault();
+            T mobj = null;
             if (obj != null)
-                return _mapper.MapTo(obj);
-            return null;
+                mobj = Map(obj);
+            OnQueryExecuted();
+            return mobj;
         }
 
         public virtual T[] ToArray()
         {
             EnsureQuery();
             var objs = _query.ToArray();
-            return objs.Select(o => _mapper.MapTo(o)).ToArray();
+            var mobjs = objs.Select(o => Map(o)).ToArray();
+            OnQueryExecuted();
+            return mobjs;
         }
 
         public virtual int Count()
         {
             EnsureQuery();
-            return _query.Count();
+            int count = _query.Count();
+            return count;
         }
     }
 }

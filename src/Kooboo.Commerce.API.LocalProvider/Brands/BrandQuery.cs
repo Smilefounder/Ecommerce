@@ -10,9 +10,10 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
     [Dependency(typeof(IBrandQuery), ComponentLifeStyle.Transient)]
-    public class BrandQuery : LocalCommerceQueryAccess<Brand, Kooboo.Commerce.Brands.Brand>, IBrandQuery
+    public class BrandQuery : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandQuery
     {
         private IBrandService _brandService;
+        private IMapper<Brand, Kooboo.Commerce.Brands.Brand> _mapper;
 
         public BrandQuery(IBrandService brandService, IMapper<Brand, Kooboo.Commerce.Brands.Brand> mapper)
         {
@@ -30,6 +31,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
             return _query.OrderByDescending(o => o.Id);
         }
 
+        protected override Brand Map(Commerce.Brands.Brand obj)
+        {
+            return _mapper.MapTo(obj);
+        }
+
         public IBrandQuery ById(int id)
         {
             EnsureQuery();
@@ -42,34 +48,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
             EnsureQuery();
             _query = _query.Where(o => o.Name == name);
             return this;
-        }
-
-        public override bool Create(Brand obj)
-        {
-            if (obj != null)
-                return _brandService.Create(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        public override bool Update(Brand obj)
-        {
-            if (obj != null)
-                return _brandService.Update(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        public override bool Save(Brand obj)
-        {
-            if (obj != null)
-                return _brandService.Save(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        public override bool Delete(Brand obj)
-        {
-            if (obj != null)
-                _brandService.Delete(_mapper.MapFrom(obj));
-            return false;
         }
     }
 }

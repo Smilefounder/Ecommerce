@@ -124,5 +124,59 @@
     "UtcCreationDate": "2014-03-19T08:56:47.2172514Z",
     "UtcLastestModificationDate": null,
     "LastestEditor": "admin"
+  },
+  {
+    "UUID": "8HXTC2A5V7",
+    "Name": "Forgot password?",
+    "Value": "Forgot password?",
+    "Category": "",
+    "UtcCreationDate": "2014-03-20T07:12:18.391563Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": "admin"
+  },
+  {
+    "UUID": "438GJCN9KN",
+    "Name": "Register a new account",
+    "Value": "Register a new account",
+    "Category": "",
+    "UtcCreationDate": "2014-03-20T07:12:18.4986306Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": "admin"
+  },
+  {
+    "UUID": "544GQBQ4MH",
+    "Name": "Login with social accounts",
+    "Value": "Login with social accounts",
+    "Category": "",
+    "UtcCreationDate": "2014-03-20T07:12:18.5894269Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": "admin"
+  },
+  {
+    "UUID": "LMUA3P7E6T",
+    "Name": "<b>Note</b>: You need to configure Fackbook or <br > Twitter settings before using them.",
+    "Value": "<b>Note</b>: You need to configure Fackbook or <br > Twitter settings before using them.",
+    "Category": "",
+    "UtcCreationDate": "2014-03-20T07:12:18.6614744Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": "admin"
+  },
+  {
+    "UUID": "HVG7A82JJX",
+    "Name": "Sign Out",
+    "Value": "Sign Out",
+    "Category": "",
+    "UtcCreationDate": "2014-03-20T07:12:30.2713088Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": "admin"
+  },
+  {
+    "UUID": "8GZGGC2GRH",
+    "Name": "MyOrder",
+    "Value": "MyOrder",
+    "Category": "",
+    "UtcCreationDate": "2014-03-20T07:12:30.3423563Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": "admin"
   }
 ]

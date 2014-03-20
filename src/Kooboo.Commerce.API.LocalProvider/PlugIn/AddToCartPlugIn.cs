@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.API.LocalProvider.PlugIn
                 string sessionId = controllerContext.HttpContext.Session.SessionID;
                 var memberAuth = controllerContext.HttpContext.Membership();
                 var member = memberAuth.GetMembershipUser();
-                if (commerService.ShoppingCart.AddToCart(sessionId, member == null ? null : member.UUID, productPriceId, quantity))
+                if (commerService.ShoppingCarts.AddToCart(sessionId, member == null ? null : member.UUID, productPriceId, quantity))
                 {
                     resultData.Success = true;
                     resultData.AddMessage("Successfully add to cart.");

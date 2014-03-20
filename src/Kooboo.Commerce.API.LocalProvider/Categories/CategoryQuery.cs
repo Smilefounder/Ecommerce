@@ -9,9 +9,10 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 namespace Kooboo.Commerce.API.LocalProvider.Categories
 {
     [Dependency(typeof(ICategoryQuery), ComponentLifeStyle.Transient)]
-    public class CategoryQuery : LocalCommerceQueryAccess<Category, Kooboo.Commerce.Categories.Category>, ICategoryQuery
+    public class CategoryQuery : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryQuery
     {
         private ICategoryService _categoryService;
+        private IMapper<Category, Kooboo.Commerce.Categories.Category> _mapper;
         private bool _loadWithParent = false;
         private bool _loadWithParents = false;
         private bool _loadWithChildren = false;
@@ -32,10 +33,22 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             return query.OrderBy(o => o.Id);
         }
 
+        protected override Category Map(Commerce.Categories.Category obj)
+        {
+            List<string> includeComplexPropertyNames = new List<string>();
+            if (_loadWithParent || _loadWithParents)
+                includeComplexPropertyNames.Add("Parent");
+            if (_loadWithParents)
+                includeComplexPropertyNames.Add("Parent.Parent");
+            if (_loadWithChildren)
+                includeComplexPropertyNames.Add("Children");
+            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
+        }
+
         public ICategoryQuery ById(int id)
         {
             EnsureQuery();
-            _query = _query.Where(o => o.Id == id);
+            _query = _query.Where(o => o.Id == id).OrderBy(o => o.Name);
             return this;
         }
 
@@ -81,104 +94,45 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             return this;
         }
 
-        private void LoadParent(Category category)
-        {
-            var parent = _categoryService.Query().Where(o => o.Children.Any(c => c.Id == category.Id)).FirstOrDefault();
-            if (parent != null)
-                category.Parent = _mapper.MapTo(parent);
-        }
+        //private void LoadParent(Category category)
+        //{
+        //    var parent = _categoryService.Query().Where(o => o.Children.Any(c => c.Id == category.Id)).FirstOrDefault();
+        //    if (parent != null)
+        //        category.Parent = Map(parent);
+        //}
 
-        private void LoadChildren(Category category)
-        {
-            var children = _categoryService.Query().Where(o => o.Parent.Id == category.Id).ToArray();
-            if (children != null)
-                category.Children = children.Select(o => _mapper.MapTo(o)).ToArray();
-        }
+        //private void LoadChildren(Category category)
+        //{
+        //    var children = _categoryService.Query().Where(o => o.Parent.Id == category.Id).ToArray();
+        //    if (children != null)
+        //        category.Children = children.Select(o => Map(o)).ToArray();
+        //}
 
-        private void LoadWithOptions(Category category)
-        {
-            if (_loadWithParents)
-            {
-                Category that = category;
-                while (that != null)
-                {
-                    LoadParent(that);
-                    that = that.Parent;
-                }
-            }
-            else if (_loadWithParent)
-            {
-                LoadParent(category);
-            }
-            if (_loadWithChildren)
-            {
-                LoadChildren(category);
-            }
-        }
-
-        private void ResetLoadOptions()
+        //private void LoadWithOptions(Category category)
+        //{
+        //    if (_loadWithParents)
+        //    {
+        //        Category that = category;
+        //        while (that != null)
+        //        {
+        //            LoadParent(that);
+        //            that = that.Parent;
+        //        }
+        //    }
+        //    else if (_loadWithParent)
+        //    {
+        //        LoadParent(category);
+        //    }
+        //    if (_loadWithChildren)
+        //    {
+        //        LoadChildren(category);
+        //    }
+        //}
+        protected override void OnQueryExecuted()
         {
             _loadWithParent = false;
             _loadWithParents = false;
             _loadWithChildren = false;
-        }
-
-        public override Category[] Pagination(int pageIndex, int pageSize)
-        {
-            var categories = base.Pagination(pageIndex, pageSize);
-            foreach (var cate in categories)
-            {
-                LoadWithOptions(cate);
-            }
-            ResetLoadOptions();
-            return categories;
-        }
-
-        public override Category[] ToArray()
-        {
-            var categories = base.ToArray();
-            foreach (var cate in categories)
-            {
-                LoadWithOptions(cate);
-            }
-            ResetLoadOptions();
-            return categories;
-        }
-
-        public override Category FirstOrDefault()
-        {
-            var category = base.FirstOrDefault();
-            LoadWithOptions(category);
-            ResetLoadOptions();
-            return category;
-        }
-
-        public override bool Create(Category obj)
-        {
-            if (obj != null)
-                return _categoryService.Create(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        public override bool Update(Category obj)
-        {
-            if (obj != null)
-                return _categoryService.Update(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        public override bool Save(Category obj)
-        {
-            if (obj != null)
-                return _categoryService.Save(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        public override bool Delete(Category obj)
-        {
-            if (obj != null)
-                return _categoryService.Delete(_mapper.MapFrom(obj));
-            return false;
         }
     }
 }

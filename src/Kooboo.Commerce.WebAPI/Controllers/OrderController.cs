@@ -13,12 +13,12 @@ namespace Kooboo.Commerce.WebAPI.Controllers
     {
         public Order Post(string sessionId, bool expireShoppingCart, [FromBody]MembershipUser user)
         {
-            return Commerce().Order.GetMyOrder(sessionId, user, expireShoppingCart);
+            return Commerce().Orders.GetMyOrder(sessionId, user, expireShoppingCart);
         }
 
         public bool Put([FromBody]Order order)
         {
-            return Commerce().Order.Save(order);
+            return Commerce().Orders.Save(order);
         }
     }
 }

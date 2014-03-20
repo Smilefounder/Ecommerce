@@ -14,13 +14,13 @@ namespace Kooboo.Commerce.WebAPI.Controllers
     {
         public Product Get(int id)
         {
-            return Commerce().Product.ById(id).FirstOrDefault();
+            return Commerce().Products.ById(id).FirstOrDefault();
         }
 
         [HttpGet]
         public PagedListWrapper<Product> Search(string userInput, int? categoryId, int pageIndex = 0, int pageSize = 50)
         {
-            var query = Commerce().Product.ContainsName(userInput);
+            var query = Commerce().Products.ContainsName(userInput);
             if (categoryId.HasValue)
                 query = query.ByCategoryId(categoryId.Value);
             int totalItemCount = query.Count();

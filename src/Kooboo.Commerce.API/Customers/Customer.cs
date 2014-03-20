@@ -29,11 +29,13 @@ namespace Kooboo.Commerce.API.Customers
         /// </summary>
         public string City { get; set; }
 
-        public int? CountryId { get; set; }
-
         public Country Country { get; set; }
         public Address[] Addresses { get; set; }
 
         public CustomerLoyalty Loyalty { get; set; }
+        public string FullName
+        {
+            get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); }
+        }
     }
 }

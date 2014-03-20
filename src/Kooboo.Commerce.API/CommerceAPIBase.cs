@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.API
             return EngineContext.Current.Resolve<Q>();
         }
 
-        public ICountryQuery Country
+        public ICountryQuery Countries
         {
             get { return GetAPI<ICountryQuery>(); }
         }
@@ -35,37 +35,37 @@ namespace Kooboo.Commerce.API
             get { return GetAPI<IBrandQuery>(); }
         }
 
-        public ICategoryQuery Category
+        public ICategoryQuery Categories
         {
             get { return GetAPI<ICategoryQuery>(); }
         }
 
-        //public IPaymentMethodAPI PaymentMethod
-        //{
-        //    get { return GetAPI<IPaymentMethodAPI>(); }
-        //}
+        public IPaymentMethodQuery PaymentMethods
+        {
+            get { return GetAPI<IPaymentMethodQuery>(); }
+        }
 
-        public ICustomerQuery Customer
+        public ICustomerQuery Customers
         {
             get { return GetAPI<ICustomerQuery>(); }
         }
 
-        public IProductQuery Product
+        public IProductQuery Products
         {
             get { return GetAPI<IProductQuery>(); }
         }
 
-        public IShoppingCartQuery ShoppingCart
+        public IShoppingCartQuery ShoppingCarts
         {
             get { return GetAPI<IShoppingCartQuery>(); }
         }
 
-        public IOrderQuery Order
+        public IOrderQuery Orders
         {
             get { return GetAPI<IOrderQuery>(); }
         }
 
-        public IPaymentAPI Payment
+        public IPaymentAPI Payments
         {
             get { return GetAPI<IPaymentAPI>(); }
         }

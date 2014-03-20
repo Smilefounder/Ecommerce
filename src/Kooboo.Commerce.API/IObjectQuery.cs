@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.API
         {
             ICommerceAPI api = null;
 
-            var payments = api.Payment
+            var payments = api.Payments
                               .Query()
                               .Where(x => x.Amount > 50)
                               .OrderByDescending(x => x.Id)

@@ -15,6 +15,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
     {
         private IOrderService _orderService;
         private IShoppingCartService _shoppingCartService;
+        private IMapper<Order, Kooboo.Commerce.Orders.Order> _mapper;
+        private bool _loadWithCustomer = false;
+        private bool _loadWithShoppingCart = false;
 
         public OrderQuery(IOrderService orderService, IShoppingCartService shoppingCartService,
             IMapper<Order, Kooboo.Commerce.Orders.Order> mapper)
@@ -32,6 +35,24 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         protected override IQueryable<Commerce.Orders.Order> OrderByDefault(IQueryable<Commerce.Orders.Order> query)
         {
             return query.OrderByDescending(o => o.Id);
+        }
+
+        protected override Order Map(Commerce.Orders.Order obj)
+        {
+            List<string> includeComplexPropertyNames = new List<string>();
+            includeComplexPropertyNames.Add("OrderItem");
+            includeComplexPropertyNames.Add("OrderItem.ProductPrice");
+            includeComplexPropertyNames.Add("OrderItem.ProductPrice.Product");
+            includeComplexPropertyNames.Add("OrderItem.ProductPrice.ProductPriceVariantValue");
+            includeComplexPropertyNames.Add("OrderItem.ProductPrice.ProductPriceVariantValue.ProductPrice");
+            includeComplexPropertyNames.Add("OrderItem.ProductPrice.ProductPriceVariantValue.CustomField");
+            includeComplexPropertyNames.Add("ShippingAddress");
+            includeComplexPropertyNames.Add("ShippingAddress.Country");
+            includeComplexPropertyNames.Add("BillingAddress");
+            includeComplexPropertyNames.Add("BillingAddress.Country");
+            includeComplexPropertyNames.Add("PaymentMethod");
+
+            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
         }
 
         public override bool Create(Order obj)

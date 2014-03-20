@@ -15,6 +15,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
     {
         private ICustomerService _customerService;
         private ICountryService _countryService;
+        private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _mapper;
         private IMapper<Country, Kooboo.Commerce.Locations.Country> _countryMapper;
         private IMapper<Address, Kooboo.Commerce.Locations.Address> _addressMapper;
         private IMapper<CustomerLoyalty, Kooboo.Commerce.Customers.CustomerLoyalty> _customerLoyaltyMapper;
@@ -44,6 +45,18 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         protected override IQueryable<Kooboo.Commerce.Customers.Customer> OrderByDefault(IQueryable<Kooboo.Commerce.Customers.Customer> query)
         {
             return query.OrderBy(o => o.Id);
+        }
+
+        protected override Customer Map(Commerce.Customers.Customer obj)
+        {
+            List<string> includeComplexPropertyNames = new List<string>();
+            if(_loadWithCountry)
+                includeComplexPropertyNames.Add("Country");
+            if(_loadWithAddresses)
+                includeComplexPropertyNames.Add("Addresses");
+            if(_loadWithCustomerLoyalty)
+                includeComplexPropertyNames.Add("Loyalty");
+            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
         }
 
         public ICustomerQuery ById(int id)
@@ -135,61 +148,31 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         }
 
 
-        private void LoadWithOptions(Customer customer)
-        {
-            if (_loadWithCountry)
-            {
-                var country = _countryService.GetById(customer.CountryId.Value);
-                if (country != null)
-                {
-                    customer.Country = _countryMapper.MapTo(country);
-                }
-            }
-            if(_loadWithAddresses)
-            {
-                customer.Addresses = _customerService.QueryAddress().Where(o => o.CustomerId == customer.Id).Select(o => _addressMapper.MapTo(o)).ToArray();
-            }
-            if(_loadWithCustomerLoyalty)
-            {
-                customer.Loyalty = _customerService.QueryCustomerLoyalty().Where(o => o.CustomerId == customer.Id).Select(o => _customerLoyaltyMapper.MapTo(o)).FirstOrDefault();
-            }
-        }
+        //private void LoadWithOptions(Customer customer)
+        //{
+        //    if (_loadWithCountry)
+        //    {
+        //        var country = _countryService.GetById(customer.CountryId.Value);
+        //        if (country != null)
+        //        {
+        //            customer.Country = _countryMapper.MapTo(country);
+        //        }
+        //    }
+        //    if(_loadWithAddresses)
+        //    {
+        //        customer.Addresses = _customerService.QueryAddress().Where(o => o.CustomerId == customer.Id).Select(o => _addressMapper.MapTo(o)).ToArray();
+        //    }
+        //    if(_loadWithCustomerLoyalty)
+        //    {
+        //        customer.Loyalty = _customerService.QueryCustomerLoyalty().Where(o => o.CustomerId == customer.Id).Select(o => _customerLoyaltyMapper.MapTo(o)).FirstOrDefault();
+        //    }
+        //}
 
-        private void ResetLoadOptions()
+        protected override void OnQueryExecuted()
         {
             _loadWithCountry = false;
             _loadWithAddresses = false;
             _loadWithCustomerLoyalty = false;
-        }
-
-        public override Customer[] Pagination(int pageIndex, int pageSize)
-        {
-            var customers = base.Pagination(pageIndex, pageSize);
-            foreach (var obj in customers)
-            {
-                LoadWithOptions(obj);
-            }
-            ResetLoadOptions();
-            return customers;
-        }
-
-        public override Customer[] ToArray()
-        {
-            var customers = base.ToArray();
-            foreach (var obj in customers)
-            {
-                LoadWithOptions(obj);
-            }
-            ResetLoadOptions();
-            return customers;
-        }
-
-        public override Customer FirstOrDefault()
-        {
-            var customer = base.FirstOrDefault();
-            LoadWithOptions(customer);
-            ResetLoadOptions();
-            return customer;
         }
 
         public override bool Create(Customer obj)

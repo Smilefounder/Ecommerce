@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.WebAPI.Controllers
         // GET api/default1
         public IEnumerable<Country> Get()
         {
-            return Commerce().Country.ToArray();
+            return Commerce().Countries.ToArray();
         }
     }
 }
