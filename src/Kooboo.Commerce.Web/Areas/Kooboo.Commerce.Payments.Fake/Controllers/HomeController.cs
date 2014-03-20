@@ -13,26 +13,26 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
-        private IOrderService _orderService;
-        private IOrderPaymentService _orderPaymentService;
+        private IPaymentService _paymentService;
         private IPaymentMethodService _paymentMethodService;
 
         public HomeController(
-            IOrderService orderService,
-            IOrderPaymentService orderPaymentService,
+            IPaymentService paymentService,
             IPaymentMethodService paymentMethodService)
         {
-            _orderService = orderService;
-            _orderPaymentService = orderPaymentService;
+            _paymentService = paymentService;
             _paymentMethodService = paymentMethodService;
         }
 
-        public ActionResult Gateway(int orderId, decimal amount, string currency, string commerceReturnUrl)
+        public ActionResult Gateway(int paymentId, string currency, string commerceReturnUrl)
         {
+            var payment = _paymentService.GetById(paymentId);
+
             var model = new GatewayViewModel
             {
-                OrderId = orderId,
-                Amount = amount,
+                Description = payment.Description,
+                PaymentId = paymentId,
+                Amount = payment.Amount,
                 Currency = currency,
                 CommerceReturnUrl = commerceReturnUrl
             };
@@ -41,21 +41,19 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
         }
 
         [AutoDbCommit]
-        public ActionResult FakeSuccess(int orderId, string commerceReturnUrl)
+        public ActionResult FakeSuccess(int paymentId, string commerceReturnUrl)
         {
-            var order = _orderService.GetById(orderId);
-            _orderPaymentService.HandlePaymentResult(order, ProcessPaymentResult.Success(Guid.NewGuid().ToString("N")));
-
-            return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, _orderService.GetById(orderId)));
+            var payment = _paymentService.GetById(paymentId);
+            payment.HandlePaymentResult(ProcessPaymentResult.Success(Guid.NewGuid().ToString("N")));
+            return Redirect(commerceReturnUrl);
         }
 
         [AutoDbCommit]
-        public ActionResult FakeFailure(int orderId, string commerceReturnUrl)
+        public ActionResult FakeFailure(int paymentId, string commerceReturnUrl)
         {
-            var order = _orderService.GetById(orderId);
-            _orderPaymentService.HandlePaymentResult(order, ProcessPaymentResult.Failed("Payment failed.", Guid.NewGuid().ToString("N")));
-
-            return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, _orderService.GetById(orderId)));
+            var payment = _paymentService.GetById(paymentId);
+            payment.HandlePaymentResult(ProcessPaymentResult.Failed("Payment failed.", Guid.NewGuid().ToString("N")));
+            return Redirect(commerceReturnUrl);
         }
     }
 }

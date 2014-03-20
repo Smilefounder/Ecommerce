@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
 
             var authRequest = CreateGatewayRequest(settings, request);
             var gateway = new Gateway(settings.LoginId, settings.TransactionKey, settings.SandboxMode);
-            var response = gateway.Send(authRequest, "Order #" + request.Order.Id);
+            var response = gateway.Send(authRequest, request.Payment.Description);
 
             var result = new ProcessPaymentResult();
 

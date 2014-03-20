@@ -15,19 +15,16 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
     public class PayPalController : CommerceControllerBase
     {
         private IKeyValueService _keyValueService;
-        private IOrderService _orderService;
-        private IOrderPaymentService _orderPaymentService;
+        private IPaymentService _paymentService;
         private IPaymentMethodService _paymentMethodService;
 
         public PayPalController(
             IKeyValueService keyValueService,
-            IOrderService orderService,
-            IOrderPaymentService orderPaymentService,
+            IPaymentService paymentService,
             IPaymentMethodService paymentMethodService)
         {
             _keyValueService = keyValueService;
-            _orderService = orderService;
-            _orderPaymentService = orderPaymentService;
+            _paymentService = paymentService;
             _paymentMethodService = paymentMethodService;
         }
 
@@ -44,9 +41,9 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
         [AutoDbCommit]
         public void IPN()
         {
-            var orderId = Convert.ToInt32(Request["trackingId"]);
-            var order = _orderService.GetById(orderId);
-            var paymentMethod = _paymentMethodService.GetById(order.PaymentMethodId.Value);
+            var paymentId = Convert.ToInt32(Request["trackingId"]);
+            var payment = _paymentService.GetById(paymentId);
+            var paymentMethod = _paymentMethodService.GetById(payment.PaymentMethod.Id);
             var gatewayData = PayPalSettings.FetchFrom(_keyValueService);
 
             if (gatewayData == null)
@@ -77,7 +74,7 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
 
                 if (result != null)
                 {
-                    _orderPaymentService.HandlePaymentResult(order, result);
+                    payment.HandlePaymentResult(result);
                 }
             }
         }

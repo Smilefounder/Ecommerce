@@ -23,14 +23,12 @@ namespace Kooboo.Commerce.Payments.Fake
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
         {
             var gatewayUrl = UrlUtility.Combine(request.CommerceBaseUrl,
-                Strings.AreaName + "/Home/Gateway?commerceName=" + request.CommerceName
-                + "&orderId=" + request.Order.Id
-                + "&amount=" + request.Amount
+                Strings.AreaName + "/Home/Gateway?commerceName=" + request.Payment.Metadata.CommerceName
+                + "&paymentId=" + request.Payment.Id
                 + "&currency=" + request.CurrencyCode
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl));
             return ProcessPaymentResult.Pending(new RedirectResult(gatewayUrl), Guid.NewGuid().ToString("N"));
         }
-
 
         public IEnumerable<PaymentMethodType> SupportedPaymentTypes
         {
