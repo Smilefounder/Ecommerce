@@ -21,5 +21,10 @@ namespace Kooboo.Commerce.Brands
         /// The logo file path.
         /// </summary>
         public string Logo { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

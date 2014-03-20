@@ -1,26 +1,22 @@
-﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
-using System.Linq.Expressions;
 
 namespace Kooboo.Commerce.Data
 {
-    public class CommerceRepository<T> : IRepository<T> where T : class
+    public class CommerceRepository : IRepository
     {
         private CommerceDatabase _database;
 
         public ICommerceDatabase Database
         {
-            get
-            {
-                return _database;
-            }
+            get { return _database; }
         }
 
-        protected DbContext DbContext
+        public Type EntityType { get; private set; }
+
+        protected CommerceDbContext DbContext
         {
             get
             {
@@ -28,164 +24,39 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        // Passing in ICommerceDatabase instead of CommerceDatabase is because,
-        // in IoC container the service type is ICommerceDatabase.
-        // If we ask for CommerceDatabase here, the IoC container will not be able to provide the CommerceDatabase instance.
-        public CommerceRepository(ICommerceDatabase database)
+        public CommerceRepository(CommerceDatabase database, Type entityType)
         {
             Require.NotNull(database, "database");
-            Require.That(database is CommerceDatabase, "Requires type " + typeof(CommerceDatabase) + ".");
+            Require.NotNull(entityType, "entityType");
 
-            _database = (CommerceDatabase)database;
+            _database = database;
+            EntityType = entityType;
         }
 
-        public void Include<TProperty>(Expression<Func<T, TProperty>> property)
+        public object Get(object id)
         {
-            DbContext.Set<T>().Include(property);
+            return DbContext.Set(EntityType).Find(id);
         }
 
-        public IQueryable<T> Query(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<T>> orderby, int pageIndex, int pageSize, out int totalRecords)
+        public IQueryable Query()
         {
-            totalRecords = 0;
-            IQueryable<T> query = DbContext.Set<T>();
-            if (predicate != null)
-                query = query.Where(predicate);
-            if (orderby != null)
-                query = orderby(query);
-            if (pageIndex >= 0 && pageSize > 0)
-            {
-                totalRecords = query.Count();
-                query = query.Skip(pageIndex * pageSize).Take(pageSize);
-            }
-
-            return query;
+            return DbContext.Set(EntityType);
         }
 
-        public virtual T Get(object id)
-        {
-            return DbContext.Set<T>().Find(id);
-        }
-
-        public virtual T Get(Expression<Func<T, bool>> predicate)
-        {
-            IQueryable<T> query = DbContext.Set<T>();
-            if (predicate != null)
-                query = query.Where(predicate);
-            return query.FirstOrDefault();
-        }
-
-        public virtual bool Insert(T obj)
-        {
-            TryAttachAggregateMetadata(obj);
-
-            var tbl = DbContext.Set<T>();
-            obj = tbl.Add(obj);
-
-            int ret = DbContext.SaveChanges();
-
-            return ret > 0;
-        }
-
-        public virtual bool Update(T obj, Func<T, object[]> getKeys)
-        {
-            var entry = DbContext.Entry(obj);
-
-            if (entry.State == EntityState.Detached)
-            {
-                var tbl = DbContext.Set<T>();
-                var keys = getKeys(obj);
-                var currentEntry = tbl.Find(keys);
-                if (currentEntry != null)
-                {
-                    var attachedEntry = DbContext.Entry(currentEntry);
-                    attachedEntry.CurrentValues.SetValues(obj);
-                    attachedEntry.State = EntityState.Modified;
-                }
-                else
-                {
-                    tbl.Attach(obj);
-                    entry.State = EntityState.Modified;
-                }
-            }
-
-            int ret = DbContext.SaveChanges();
-
-            return ret > 0;
-        }
-
-        public virtual bool Delete(T obj)
-        {
-            var tbl = DbContext.Set<T>();
-            if (!tbl.Local.Contains(obj))
-            {
-                DbContext.Entry(obj).State = EntityState.Deleted;
-            }
-            else
-            {
-                DbContext.Set<T>().Remove(obj);
-            }
-
-            int ret = DbContext.SaveChanges();
-
-            return ret > 0;
-        }
-
-        public virtual bool InsertBatch(IEnumerable<T> objs)
-        {
-            var tbl = DbContext.Set<T>();
-            foreach (var obj in objs)
-            {
-                TryAttachAggregateMetadata(obj);
-                tbl.Add(obj);
-            }
-
-            int totals = DbContext.SaveChanges();
-
-            return totals > 0;
-        }
-
-        public virtual bool UpdateBatch(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> setter)
-        {
-            IQueryable<T> query = DbContext.Set<T>();
-            if (predicate != null)
-                query = query.Where(predicate);
-            IEnumerable<T> objs = query.ToArray();
-
-            var func = setter.Compile();
-            foreach (var obj in objs)
-            {
-                func(obj);
-            }
-
-            int totals = DbContext.SaveChanges();
-
-            return totals > 0;
-        }
-
-        public virtual bool DeleteBatch(Expression<Func<T, bool>> predicate)
-        {
-            var tbl = DbContext.Set<T>();
-            IQueryable<T> query = tbl;
-            if (predicate != null)
-                query = query.Where(predicate);
-            IEnumerable<T> objs = query.ToArray();
-
-            foreach (var entity in objs)
-                tbl.Remove(entity);
-
-            int ret = DbContext.SaveChanges();
-
-            return ret > 0;
-        }
-
-        private void TryAttachAggregateMetadata(object entity)
+        public void Insert(object entity)
         {
             var aggregateRoot = entity as AggregateRoot;
             if (aggregateRoot != null)
             {
                 aggregateRoot.Metadata = new AggregateMetadata(Database.CommerceInstanceMetadata.Name);
             }
+
+            DbContext.Set(EntityType).Add(entity);
+        }
+
+        public void Delete(object entity)
+        {
+            DbContext.Set(EntityType).Remove(entity);
         }
     }
-
 }

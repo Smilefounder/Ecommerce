@@ -69,7 +69,6 @@
     <Compile Include="LocalCommerceAPI.cs" />
     <Compile Include="LocalCommerceQuery.cs" />
     <Compile Include="LocalCommerceQueryAccess.cs" />
-    <Compile Include="LocalObjectQueryExecutor.cs" />
     <Compile Include="Locations\CountryQuery.cs" />
     <Compile Include="Payments\LocalPaymentAPI.cs" />
     <Compile Include="Payments\LocalPaymentQuery.cs" />

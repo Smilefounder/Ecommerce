@@ -44,6 +44,13 @@ namespace Kooboo.Commerce.Data
             Dispose(false);
         }
 
+        public IRepository GetRepository(Type entityType)
+        {
+            Require.NotNull(entityType, "entityType");
+            ThrowIfDisposed();
+            return new CommerceRepository(this, entityType);
+        }
+
         public IRepository<T> GetRepository<T>() where T : class
         {
             ThrowIfDisposed();
