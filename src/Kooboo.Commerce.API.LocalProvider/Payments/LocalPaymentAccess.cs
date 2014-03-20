@@ -17,20 +17,17 @@ using PaymentDto = Kooboo.Commerce.API.Payments.Payment;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
-    public class LocalPaymentAPI : IPaymentAPI
+    public class LocalPaymentAccess : LocalPaymentQuery, IPaymentAccess
     {
         private IPaymentMethodService _paymentMethodService;
-        private IPaymentService _paymentService;
-        private IMapper<PaymentDto, Payment> _mapper;
 
-        public LocalPaymentAPI(
+        public LocalPaymentAccess(
             IPaymentMethodService paymentMethodService,
             IPaymentService paymentService,
             IMapper<PaymentDto, Payment> mapper)
+            : base(paymentService, mapper)
         {
             _paymentMethodService = paymentMethodService;
-            _paymentService = paymentService;
-            _mapper = mapper;
         }
 
         public CreatePaymentResult Create(CreatePaymentRequest request)
@@ -46,7 +43,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             };
 
             // TODO: How can I call SaveChanges?
-            _paymentService.Create(payment);
+            PaymentService.Create(payment);
 
             return new CreatePaymentResult
             {
@@ -61,11 +58,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             return UrlUtility.Combine(baseUrl, 
                 "/Commerce/Payment/Gateway?paymentId=" + paymentId
                 + "&returnUrl=" + HttpUtility.UrlEncode(returnUrl));
-        }
-
-        public IPaymentQuery Query()
-        {
-            return new LocalPaymentQuery(_paymentService, _mapper);
         }
     }
 }

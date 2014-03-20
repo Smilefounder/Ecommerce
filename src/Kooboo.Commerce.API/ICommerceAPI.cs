@@ -20,11 +20,11 @@ namespace Kooboo.Commerce.API
         ICountryQuery Country { get; }
         IBrandQuery Brands { get; }
         ICategoryQuery Category { get; }
-        //IPaymentMethodQuery PaymentMethod { get; }
         ICustomerQuery Customer { get; }
         IProductQuery Product { get; }
         IShoppingCartQuery ShoppingCart { get; }
         IOrderQuery Order { get; }
-        IPaymentAPI Payment { get; }
+        IPaymentAccess Payments { get; }
+        IPaymentMethodAccess PaymentMethods { get; }
     }
 }
