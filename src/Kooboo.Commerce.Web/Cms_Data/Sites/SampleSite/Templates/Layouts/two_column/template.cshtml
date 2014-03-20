@@ -17,6 +17,10 @@
             @Html.FrontHtml().RenderView("Menu", ViewData)
             <ul class="quicklinks right">
                 <li><a href="/MyCart">@("My Cart".Localize())</a></li>
+                @if (this.Context.Membership().IsAuthenticated())
+                {
+                <li><a href="/MyOrders">@("My Orders".Localize())</a></li>    
+                }
                 @Html.FrontHtml().RenderView("LoginStatus")
             </ul>
         </header>
