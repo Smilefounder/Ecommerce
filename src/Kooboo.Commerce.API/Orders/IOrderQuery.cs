@@ -14,5 +14,8 @@ namespace Kooboo.Commerce.API.Orders
         IOrderQuery ByAccountId(string accountId);
 
         Order GetMyOrder(string sessionId, MembershipUser user, bool deleteShoppingCart = true);
+
+        IOrderQuery LoadWithCustomer();
+        IOrderQuery LoadWithShoppingCart();
     }
 }

@@ -211,6 +211,16 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             return false;
         }
 
+        public bool ExpireShppingCart(ShoppingCart shoppingCart)
+        {
+            if (shoppingCart != null)
+            {
+                shoppingCart.SessionId += "_" + DateTime.UtcNow.Ticks.ToString();
+                return _shoppingCartRepository.Update(shoppingCart, k => new object[] { k.Id });
+            }
+            return false;
+        }
+
         #endregion
 
 

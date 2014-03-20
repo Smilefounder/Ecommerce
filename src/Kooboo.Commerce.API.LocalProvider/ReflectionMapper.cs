@@ -23,6 +23,8 @@ namespace DAF.Core.Map
 
             foreach (var top in tobjProps)
             {
+                if (!top.CanWrite)
+                    continue;
                 var op = fobjProps.FirstOrDefault(o => o.Name == top.Name);
                 if (op != null)
                 {

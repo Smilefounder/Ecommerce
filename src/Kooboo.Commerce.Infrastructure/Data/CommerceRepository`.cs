@@ -51,6 +51,8 @@ namespace Kooboo.Commerce.Data
 
         public virtual bool Insert(T obj)
         {
+            if (obj == null)
+                return false;
             TryAttachAggregateMetadata(obj);
 
             var tbl = DbContext.Set<T>();
@@ -63,6 +65,8 @@ namespace Kooboo.Commerce.Data
 
         public virtual bool Update(T obj, Func<T, object[]> getKeys)
         {
+            if (obj == null)
+                return false;
             var entry = DbContext.Entry(obj);
 
             if (entry.State == EntityState.Detached)
@@ -90,6 +94,8 @@ namespace Kooboo.Commerce.Data
 
         public virtual bool Delete(T obj)
         {
+            if (obj == null)
+                return false;
             var tbl = DbContext.Set<T>();
             if (!tbl.Local.Contains(obj))
             {
@@ -107,6 +113,8 @@ namespace Kooboo.Commerce.Data
 
         public virtual bool InsertBatch(IEnumerable<T> objs)
         {
+            if (objs == null || objs.Count() <= 0)
+                return false;
             var tbl = DbContext.Set<T>();
             foreach (var obj in objs)
             {
@@ -126,6 +134,8 @@ namespace Kooboo.Commerce.Data
                 query = query.Where(predicate);
             IEnumerable<T> objs = query.ToArray();
 
+            if (objs == null || objs.Count() <= 0)
+                return false;
             var func = setter.Compile();
             foreach (var obj in objs)
             {
@@ -144,6 +154,8 @@ namespace Kooboo.Commerce.Data
             if (predicate != null)
                 query = query.Where(predicate);
             IEnumerable<T> objs = query.ToArray();
+            if (objs == null || objs.Count() <= 0)
+                return false;
 
             foreach (var entity in objs)
                 tbl.Remove(entity);

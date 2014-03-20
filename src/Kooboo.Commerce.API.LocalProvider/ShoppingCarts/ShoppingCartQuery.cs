@@ -175,5 +175,16 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         {
             return _shoppingCartService.FillCustomerByAccount(sessionId, user);
         }
+
+
+        public bool ExpireShppingCart(int shoppingCartId)
+        {
+            var shoppingCart = _shoppingCartService.Query().Where(o => o.Id == shoppingCartId).FirstOrDefault();
+            if(shoppingCart != null)
+            {
+                return _shoppingCartService.ExpireShppingCart(shoppingCart);
+            }
+            return false;
+        }
     }
 }

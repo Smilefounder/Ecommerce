@@ -105,6 +105,11 @@ namespace Kooboo.Commerce.API.LocalProvider.PlugIn
 
                     if (commerService.Orders.Save(order))
                     {
+                        if (order.ShoppingCartId.HasValue)
+                        {
+                            // since the shopping cart was transfered to order, delete the shopping cart.
+                            commerService.ShoppingCarts.ExpireShppingCart(order.ShoppingCartId.Value);
+                        }
                         resultData.Success = true;
                         resultData.AddMessage("Successfully save order.");
                     }

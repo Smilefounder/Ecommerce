@@ -96,22 +96,21 @@ namespace Kooboo.Commerce.Orders.Services
         {
             if(shoppingCart != null)
             {
-                if(shoppingCart.Customer == null)
+                var customer = shoppingCart.Customer;
+                if (customer == null)
                 {
-                    var customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
+                    customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
                     if(customer == null)
                     {
                         customer = _customerService.CreateByAccount(user);
                     }
                     shoppingCart.Customer = customer;
-
+                    _shoppingCartService.Update(shoppingCart);
                 }
-                // since the shopping cart was transfered to order, delete the shopping cart.
-                _shoppingCartService.Delete(shoppingCart);
 
                 Order order = new Order();
                 order.ShoppingCartId = shoppingCart.Id;
-                order.CustomerId = shoppingCart.Customer.Id;
+                order.CustomerId = customer.Id;
                 order.IsCompleted = false;
                 order.ChangeStatus(OrderStatus.Created);
 
