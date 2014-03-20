@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Linq.Expressions;
-using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Data
 {
@@ -11,14 +9,10 @@ namespace Kooboo.Commerce.Data
     {
         ICommerceDatabase Database { get; }
 
-        IQueryable<T> Query(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<T>> orderby, int pageIndex, int pageSize, out int totalRecords);
-
         T Get(object id);
+
+        IQueryable<T> Query();
         
-        T Get(Expression<Func<T, bool>> predicate);
-
-        void Include<TProperty>(Expression<Func<T, TProperty>> property);
-
         bool Insert(T obj);
         bool Update(T obj, Func<T, object[]> getKeys);
         bool Delete(T obj);
@@ -30,30 +24,14 @@ namespace Kooboo.Commerce.Data
 
     public static class IRepositoryExtensions
     {
-        public static IQueryable<T> Query<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IQueryable<T>> orderby = null) where T : class
+        public static T Get<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate) where T : class
         {
-            int totalRecords = 0;
-            return repository.Query(predicate, orderby, 0, 0, out totalRecords);
+            return repository.Query().Where(predicate).FirstOrDefault();
         }
 
-        public static IQueryable<T> Query<T>(this IRepository<T> repository, int pageIndex, int pageSize, out int totalRecords) where T : class
+        public static IQueryable<T> Query<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate) where T : class
         {
-            return repository.Query(null, null, 0, 0, out totalRecords);
-        }
-
-        public static IQueryable<T> Query<T>(this IRepository<T> repository, string predicate, object[] values, Func<IQueryable<T>, IQueryable<T>> orderby = null) where T : class
-        {
-            int totalRecords = 0;
-            return Query(repository, predicate, values, orderby, 0, 0, out totalRecords);
-        }
-
-        public static IQueryable<T> Query<T>(this IRepository<T> repository, string predicate, object[] values, Func<IQueryable<T>, IQueryable<T>> orderby, int pageIndex, int pageSize, out int totalRecords) where T : class
-        {
-            Expression<Func<T, bool>> exp = null;
-            if (!string.IsNullOrWhiteSpace(predicate))
-                exp = DynamicExpression.ParseLambda<T, bool>(predicate, values);
-            totalRecords = 0;
-            return repository.Query(exp, orderby, pageIndex, pageSize, out totalRecords);
+            return repository.Query().Where(predicate);
         }
 
         public static bool Save<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate, T obj, Func<T, object[]> getKeys) where T : class
@@ -175,25 +153,6 @@ namespace Kooboo.Commerce.Data
                         return true;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                //db.Rollback();
-                throw ex;
-            }
-        }
-
-        public static bool SaveAll<T>(this IRepository<T> repository, ICommerceDatabase db, IEnumerable<T> newItems, IEnumerable<T> modifiedItems, IEnumerable<T> deletedItems, Func<T, object[]> getKeys)
-            where T : class
-        {
-            try
-            {
-                //db.BeginTransaction();
-                newItems.ForEach((o, i) => repository.Insert(o));
-                modifiedItems.ForEach((o, i) => repository.Update(o, getKeys));
-                deletedItems.ForEach((o, i) => repository.Delete(o));
-                //db.Commit();
-                return true;
             }
             catch (Exception ex)
             {

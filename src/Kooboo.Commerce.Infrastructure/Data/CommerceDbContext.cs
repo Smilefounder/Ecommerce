@@ -48,19 +48,6 @@ namespace Kooboo.Commerce.Data
             Database.SetInitializer<CommerceDbContext>(null);
         }
 
-        public void InitializeDatabase()
-        {
-            if (!Database.Exists())
-            {
-                Database.Create();
-            }
-            else
-            {
-                var dbScript = ((IObjectContextAdapter)this).ObjectContext.CreateDatabaseScript();
-                Database.ExecuteSqlCommand(dbScript);
-            }
-        }
-
         static readonly ConcurrentDictionary<ModelCacheKey, DbCompiledModel> _modelCache = new ConcurrentDictionary<ModelCacheKey, DbCompiledModel>();
 
         internal static CommerceDbContext Create(CommerceInstanceMetadata metadata, ICommerceDbProvider dbProvider)
