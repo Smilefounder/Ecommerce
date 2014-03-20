@@ -40,9 +40,9 @@ namespace Kooboo.Commerce.API
             get { return GetAPI<ICategoryQuery>(); }
         }
 
-        public IPaymentMethodQuery PaymentMethods
+        public IPaymentMethodAccess PaymentMethods
         {
-            get { return GetAPI<IPaymentMethodQuery>(); }
+            get { return GetAPI<IPaymentMethodAccess>(); }
         }
 
         public ICustomerQuery Customers
@@ -65,9 +65,9 @@ namespace Kooboo.Commerce.API
             get { return GetAPI<IOrderQuery>(); }
         }
 
-        public IPaymentAPI Payments
+        public IPaymentAccess Payments
         {
-            get { return GetAPI<IPaymentAPI>(); }
+            get { return GetAPI<IPaymentAccess>(); }
         }
     }
 }

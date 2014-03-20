@@ -14,12 +14,12 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
     public class iDealController : Controller
     {
         private IKeyValueService _keyValueService;
-        private IOrderPaymentService _paymentService;
+        private IPaymentService _paymentService;
         private IPaymentMethodService _paymentMethodService;
 
         public iDealController(
             IKeyValueService keyValueService,
-            IOrderPaymentService paymentService,
+            IPaymentService paymentService,
             IPaymentMethodService paymentMethodService)
         {
             _keyValueService = keyValueService;
@@ -29,19 +29,18 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 
         public ActionResult Return(string commerceReturnUrl)
         {
-            var iDealTransactionId = Request["transaction_id"];
-            var order = _paymentService.GetOrderByExternalPaymentTransactionId(iDealTransactionId, Strings.PaymentProcessorName);
-
-            return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, order));
+            return Redirect(commerceReturnUrl);
         }
 
         [AutoDbCommit]
         public void Report()
         {
             var iDealTransactionId = Request["transaction_id"];
-            var order = _paymentService.GetOrderByExternalPaymentTransactionId(iDealTransactionId, Strings.PaymentProcessorName);
+            var payment = _paymentService.Query()
+                                         .ForOrders()
+                                         .ByThirdPartyTransactionId(iDealTransactionId, Strings.PaymentProcessorName);
 
-            var paymentMethod = _paymentMethodService.GetById(order.PaymentMethodId.Value);
+            var paymentMethod = _paymentMethodService.GetById(payment.PaymentMethod.Id);
             var settings = IDealSettings.FetchFrom(_keyValueService);
             var idealCheck = new IdealCheck(settings.PartnerId, settings.TestMode, iDealTransactionId);
 
@@ -58,7 +57,7 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 
             if (result != null)
             {
-                _paymentService.HandlePaymentResult(order, result);
+                payment.HandlePaymentResult(result);
             }
         }
     }

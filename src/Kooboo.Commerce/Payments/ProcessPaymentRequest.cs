@@ -13,13 +13,19 @@ namespace Kooboo.Commerce.Payments
     {
         public Payment Payment { get; set; }
 
+        public decimal Amount
+        {
+            get
+            {
+                return Payment.Amount;
+            }
+        }
+
         public string CurrencyCode { get; set; }
 
         public CreditCardInfo CreditCardInfo { get; set; }
 
         public BankAccountInfo BankAccountInfo { get; set; }
-
-        public string BankId { get; set; }
 
         public string CommerceBaseUrl { get; set; }
 

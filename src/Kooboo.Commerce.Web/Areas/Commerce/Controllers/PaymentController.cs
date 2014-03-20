@@ -43,7 +43,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var paymentRequest = new ProcessPaymentRequest(payment)
             {
                 CurrencyCode = settings.CurrencyISOCode,
-                //BankId = model.BankId,
                 //CreditCardInfo = model.CreditCardInfo,
                 CommerceBaseUrl = Request.Url.Scheme + "://" + Request.Url.Authority,
                 ReturnUrl = returnUrl
@@ -56,7 +55,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 // Already done
                 payment.HandlePaymentResult(result);
-
                 return Redirect(paymentRequest.ReturnUrl);
             }
             else

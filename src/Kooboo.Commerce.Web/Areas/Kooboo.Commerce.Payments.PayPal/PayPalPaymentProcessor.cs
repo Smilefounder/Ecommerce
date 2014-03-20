@@ -83,7 +83,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             });
 
             var payRequest = new PayRequest(envelop, "PAY", GetCancelUrl(request), request.CurrencyCode, new ReceiverList(receivers), GetReturnUrl(request));
-            payRequest.trackingId = request.Order.Id.ToString();
+            payRequest.trackingId = request.Payment.Id.ToString();
             payRequest.ipnNotificationUrl = GetIPNHandlerUrl(request);
 
             return payRequest;
@@ -92,21 +92,21 @@ namespace Kooboo.Commerce.Payments.PayPal
         private string GetReturnUrl(ProcessPaymentRequest request)
         {
             return UrlUtility.Combine(request.CommerceBaseUrl,
-                Strings.AreaName + "/PayPal/Return?commerceName=" + request.CommerceName
+                Strings.AreaName + "/PayPal/Return?commerceName=" + request.Payment.Metadata.CommerceName
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl));
         }
 
         private string GetCancelUrl(ProcessPaymentRequest request)
         {
             return UrlUtility.Combine(request.CommerceBaseUrl,
-                Strings.AreaName + "/PayPal/Cancel?commerceName=" + request.CommerceName
+                Strings.AreaName + "/PayPal/Cancel?commerceName=" + request.Payment.Metadata.CommerceName
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl));
         }
 
         private string GetIPNHandlerUrl(ProcessPaymentRequest request)
         {
             return UrlUtility.Combine(request.CommerceBaseUrl,
-                Strings.AreaName + "/PayPal/IPN?commerceName=" + request.CommerceName);
+                Strings.AreaName + "/PayPal/IPN?commerceName=" + request.Payment.Metadata.CommerceName);
         }
     }
 }

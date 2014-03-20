@@ -70,7 +70,9 @@
     <Compile Include="LocalCommerceQuery.cs" />
     <Compile Include="LocalCommerceQueryAccess.cs" />
     <Compile Include="Locations\CountryQuery.cs" />
-    <Compile Include="Payments\LocalPaymentAPI.cs" />
+    <Compile Include="Payments\LocalPaymentAccess.cs" />
+    <Compile Include="Payments\LocalPaymentMethodAccess.cs" />
+    <Compile Include="Payments\LocalPaymentMethodQuery.cs" />
     <Compile Include="Payments\LocalPaymentQuery.cs" />
     <Compile Include="Orders\OrderQuery.cs" />
     <Compile Include="Payments\PaymentMethodQuery.cs" />

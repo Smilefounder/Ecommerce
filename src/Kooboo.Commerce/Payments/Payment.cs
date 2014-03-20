@@ -15,6 +15,8 @@ namespace Kooboo.Commerce.Payments
 
         public PaymentMethodType Type { get; set; }
 
+        public string PaymentProcessorName { get; set; }
+
         public PaymentMethodReference() { }
 
         public PaymentMethodReference(PaymentMethod method)
@@ -22,6 +24,7 @@ namespace Kooboo.Commerce.Payments
             Id = method.Id;
             DisplayName = method.DisplayName;
             Type = method.Type;
+            PaymentProcessorName = method.PaymentProcessorName;
         }
 
         public override string ToString()

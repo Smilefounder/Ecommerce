@@ -16,6 +16,7 @@ namespace Kooboo.Commerce.Payments.iDeal
     public class IDealPaymentProcessor : IPaymentProcessor
     {
         private IKeyValueService _keyValueService;
+        private IPaymentMethodService _paymentMethodService;
 
         public string Name
         {
@@ -25,9 +26,10 @@ namespace Kooboo.Commerce.Payments.iDeal
             }
         }
 
-        public IDealPaymentProcessor(IKeyValueService keyValueService)
+        public IDealPaymentProcessor(IKeyValueService keyValueService, IPaymentMethodService paymentMethodService)
         {
             _keyValueService = keyValueService;
+            _paymentMethodService = paymentMethodService;
         }
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
@@ -36,13 +38,14 @@ namespace Kooboo.Commerce.Payments.iDeal
                 throw new FormatException("Amount cannot be less than € 1,19");
 
             var settings = IDealSettings.FetchFrom(_keyValueService);
+            var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
 
             var idealFetch = new IdealFetch(
                 settings.PartnerId
-                , "#" + request.Order.Id
-                , UrlUtility.Combine(request.CommerceBaseUrl, Strings.AreaName + "/iDeal/Callback?commerceName=" + request.CommerceName)
-                , UrlUtility.Combine(request.CommerceBaseUrl, Strings.AreaName + "/iDeal/Return?commerceName=" + request.CommerceName + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl))
-                , request.BankId
+                , request.Payment.Description
+                , UrlUtility.Combine(request.CommerceBaseUrl, Strings.AreaName + "/iDeal/Callback?commerceName=" + request.Payment.Metadata.CommerceName)
+                , UrlUtility.Combine(request.CommerceBaseUrl, Strings.AreaName + "/iDeal/Return?commerceName=" + request.Payment.Metadata.CommerceName + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl))
+                , ""
                 , request.Amount
             );
 

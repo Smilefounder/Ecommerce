@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Web.Url;
@@ -15,15 +16,17 @@ namespace Kooboo.Commerce.Payments.Buckaroo
     public class BuckarooPaymentProcessor : IPaymentProcessor
     {
         private IKeyValueService _keyValueService;
+        private IPaymentMethodService _paymentMethodService;
 
         public string Name
         {
             get { return Strings.PaymentProcessorName; }
         }
 
-        public BuckarooPaymentProcessor(IKeyValueService keyValueService)
+        public BuckarooPaymentProcessor(IKeyValueService keyValueService, IPaymentMethodService paymentMethodService)
         {
             _keyValueService = keyValueService;
+            _paymentMethodService = paymentMethodService;
         }
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
@@ -32,15 +35,16 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             if (settings == null)
                 throw new InvalidOperationException("Buckaroo processor should be configured first.");
 
-            var methodId = request.PaymentMethod.PaymentProcessorMethodId;
+            var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
+            var methodId = method.PaymentProcessorMethodId;
 
             var parameters = new NameValueCollection();
 
             parameters.Add("Brq_websitekey", settings.WebsiteKey);
             parameters.Add("Brq_amount", request.Amount.ToString("f2", CultureInfo.InvariantCulture));
-            parameters.Add("Brq_invoicenumber", request.Order.Id.ToString());
+            parameters.Add("Brq_invoicenumber", request.Payment.Id.ToString());
             parameters.Add("Brq_currency", request.CurrencyCode);
-            parameters.Add("Brq_description", "#" + request.Order.Id.ToString());
+            parameters.Add("Brq_description", "#" + request.Payment.Description);
             parameters.Add("brq_culture", "en-US");
 
             parameters.Add("Brq_return", GetCallbackUrl("Return", request));
@@ -49,7 +53,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             parameters.Add("Brq_payment_method", methodId);
             parameters.Add("Brq_service_" + methodId + "_action", "Pay");
 
-            parameters.Add("add_orderid", request.Order.Id.ToString());
+            parameters.Add("add_paymentId", request.Payment.Id.ToString());
 
             if (methodId == "simplesepadirectdebit")
             {
@@ -68,7 +72,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
         private string GetCallbackUrl(string action, ProcessPaymentRequest request)
         {
-            var url = UrlUtility.Combine(request.CommerceBaseUrl, Strings.AreaName + "/Buckaroo/" + action) + "?commerceName=" + request.CommerceName;
+            var url = UrlUtility.Combine(request.CommerceBaseUrl, Strings.AreaName + "/Buckaroo/" + action) + "?commerceName=" + request.Payment.Metadata.CommerceName;
             if (action.StartsWith("return", StringComparison.OrdinalIgnoreCase))
             {
                 url += "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);

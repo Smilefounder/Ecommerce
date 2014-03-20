@@ -7,7 +7,9 @@ namespace Kooboo.Commerce.Payments.Fake.Models
 {
     public class GatewayViewModel
     {
-        public int OrderId { get; set; }
+        public string Description { get; set; }
+
+        public int PaymentId { get; set; }
 
         public int TransactionId { get; set; }
 

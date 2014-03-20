@@ -10,12 +10,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
     public class LocalPaymentQuery : LocalCommerceQuery<Payment, Kooboo.Commerce.Payments.Payment>, IPaymentQuery
     {
-        private IPaymentService _paymentService;
+        protected IPaymentService PaymentService { get; private set; }
         private IMapper<Payment, Kooboo.Commerce.Payments.Payment> _mapper;
 
         public LocalPaymentQuery(IPaymentService paymentService, IMapper<Payment, Kooboo.Commerce.Payments.Payment> mapper)
         {
-            _paymentService = paymentService;
+            PaymentService = paymentService;
             _mapper = mapper;
         }
 
@@ -33,9 +33,33 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             return this;
         }
 
+        public IPaymentQuery ByStatus(PaymentStatus status)
+        {
+            EnsureQuery();
+            var mappedStatus = (Kooboo.Commerce.Payments.PaymentStatus)Enum.Parse(typeof(PaymentStatus), status.ToString());
+            _query = _query.Where(x => x.Status == mappedStatus);
+            return this;
+        }
+
+        public IPaymentQuery OrderById(SortDirection direction)
+        {
+            EnsureQuery();
+
+            if (direction == SortDirection.Asc)
+            {
+                _query = _query.OrderBy(x => x.Id);
+            }
+            else
+            {
+                _query = _query.OrderByDescending(x => x.Id);
+            }
+
+            return this;
+        }
+
         protected override IQueryable<Commerce.Payments.Payment> CreateQuery()
         {
-            return _paymentService.Query();
+            return PaymentService.Query();
         }
 
         protected override IQueryable<Commerce.Payments.Payment> OrderByDefault(IQueryable<Commerce.Payments.Payment> query)

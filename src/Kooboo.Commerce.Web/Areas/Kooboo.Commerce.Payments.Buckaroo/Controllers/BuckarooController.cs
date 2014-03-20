@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Services;
+using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
@@ -14,38 +15,36 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
 {
     public class BuckarooController : CommerceControllerBase
     {
-        private IOrderService _orderService;
-        private IOrderPaymentService _orderPaymentService;
+        private IPaymentService _paymentService;
         private IKeyValueService _keyValueService;
 
-        public BuckarooController(IOrderService orderService, IOrderPaymentService orderPaymentService, IKeyValueService keyValueService)
+        public BuckarooController(IPaymentService paymentService, IKeyValueService keyValueService)
         {
-            _orderService = orderService;
-            _orderPaymentService = orderPaymentService;
+            _paymentService = paymentService;
             _keyValueService = keyValueService;
         }
 
         [AutoDbCommit]
         public ActionResult Return(string commerceReturnUrl)
         {
-            var orderId = Convert.ToInt32(Request["add_orderId"]);
-            var order = _orderService.GetById(orderId);
-            var result = ProcessResponse(order, BuckarooSettings.FetchFrom(_keyValueService));
-            _orderPaymentService.HandlePaymentResult(order, result);
+            var paymentId = Convert.ToInt32(Request["add_paymentId"]);
+            var payment = _paymentService.GetById(paymentId);
+            var result = ProcessResponse(payment, BuckarooSettings.FetchFrom(_keyValueService));
+            payment.HandlePaymentResult(result);
 
-            return Redirect(PaymentReturnUrlUtil.AppendOrderInfoToQueryString(commerceReturnUrl, order));
+            return Redirect(commerceReturnUrl);
         }
 
         [AutoDbCommit]
         public void Push()
         {
-            var orderId = Convert.ToInt32(Request["add_orderId"]);
-            var order = _orderService.GetById(orderId);
-            var result = ProcessResponse(order, BuckarooSettings.FetchFrom(_keyValueService));
-            _orderPaymentService.HandlePaymentResult(order, result);
+            var paymentId = Convert.ToInt32(Request["add_paymentId"]);
+            var payment = _paymentService.GetById(paymentId);
+            var result = ProcessResponse(payment, BuckarooSettings.FetchFrom(_keyValueService));
+            payment.HandlePaymentResult(result);
         }
 
-        private ProcessPaymentResult ProcessResponse(Order order, BuckarooSettings settings)
+        private ProcessPaymentResult ProcessResponse(Payment payment, BuckarooSettings settings)
         {
             var signature = BuckarooUtil.GetSignature(Request.Form, settings.SecretKey);
             if (signature != Request["brq_signature"])
