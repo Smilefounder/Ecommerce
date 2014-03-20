@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.API.Payments;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.API.Payments;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Payments.Services;
 using System;
@@ -8,6 +9,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
+    [Dependency(typeof(IPaymentQuery))]
     public class LocalPaymentQuery : LocalCommerceQuery<Payment, Kooboo.Commerce.Payments.Payment>, IPaymentQuery
     {
         protected IPaymentService PaymentService { get; private set; }

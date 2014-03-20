@@ -142,6 +142,7 @@
     <Compile Include="Payments\Extensions\PaymentsExtensions.cs" />
     <Compile Include="Payments\IPaymentProcessorFactory.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
+    <Compile Include="Payments\PaymentMethodReference.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />
     <Compile Include="Payments\Payment.cs" />
     <Compile Include="Payments\PaymentMethodType.cs" />

@@ -2,41 +2,18 @@
 using Kooboo.Commerce.Events.Payments;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.Commerce.Payments
 {
-    public class PaymentMethodReference
-    {
-        public int Id { get; set; }
-
-        public string DisplayName { get; set; }
-
-        public PaymentMethodType Type { get; set; }
-
-        public string PaymentProcessorName { get; set; }
-
-        public PaymentMethodReference() { }
-
-        public PaymentMethodReference(PaymentMethod method)
-        {
-            Id = method.Id;
-            DisplayName = method.DisplayName;
-            Type = method.Type;
-            PaymentProcessorName = method.PaymentProcessorName;
-        }
-
-        public override string ToString()
-        {
-            return DisplayName;
-        }
-    }
-
     public class Payment : AggregateRoot
     {
         public int Id { get; set; }
 
+        [Required, StringLength(100)]
         public string Description { get; set; }
 
         public decimal Amount { get; set; }
@@ -52,11 +29,13 @@ namespace Kooboo.Commerce.Payments
         /// <summary>
         /// The type of the object this payment is applied to.
         /// </summary>
+        [Required, StringLength(100)]
         public string PaymentTargetType { get; set; }
 
         /// <summary>
         /// The key of the object this payment is applied to.
         /// </summary>
+        [Required, StringLength(100)]
         public string PaymentTargetId { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }

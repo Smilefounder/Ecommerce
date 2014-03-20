@@ -15,11 +15,6 @@ namespace Kooboo.Commerce.API
             return GetRequiredCustomField(site, "CommerceInstance");
         }
 
-        public static string GetCommerceUrl(this Site site)
-        {
-            return GetRequiredCustomField(site, "CommerceUrl");
-        }
-
         static string GetRequiredCustomField(this Site site, string key)
         {
             if (site.CustomFields == null || !site.CustomFields.ContainsKey(key) || string.IsNullOrEmpty(site.CustomFields[key]))

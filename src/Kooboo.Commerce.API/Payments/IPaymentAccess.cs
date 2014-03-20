@@ -9,26 +9,4 @@ namespace Kooboo.Commerce.API.Payments
     {
         CreatePaymentResult Create(CreatePaymentRequest request);
     }
-
-    public class CreatePaymentRequest
-    {
-        public string TargetType { get; set; }
-
-        public string TargetId { get; set; }
-
-        public decimal Amount { get; set; }
-
-        public int PaymentMethodId { get; set; }
-
-        public string ReturnUrl { get; set; }
-
-        // TODO: Credit card info
-    }
-
-    public class CreatePaymentResult
-    {
-        public int PaymentId { get; set; }
-
-        public string RedirectUrl { get; set; }
-    }
 }

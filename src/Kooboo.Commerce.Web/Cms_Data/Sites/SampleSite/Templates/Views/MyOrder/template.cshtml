@@ -383,8 +383,25 @@ else
         }
 
         function GoPay() {
-            var url = "/Commerce/Payment/Gateway?commerceName=@(Site.Current.GetCommerceName())&language=@(Site.Current.GetLanguage())&OrderId=@(order.Id)&PaymentMethodId=" + $('#PaymentMethodId').val() + "&ReturnUrl=/";
-            window.location.href = url;
+            var paymentMethodId = $('#PaymentMethodId').val();
+            if (!paymentMethodId) {
+                alert('Please choose a payment method.');
+                return;
+            }
+
+            $.post('@(Url.FrontUrl().SubmissionUrl("CreatePayment"))', {
+                orderId: @(order.Id),
+                paymentMethodId: paymentMethodId,
+                returnUrl: '/',
+                __RequestVerificationToken: $(':hidden[name="__RequestVerificationToken"]').val()
+            })
+            .then(function (result) {
+                if (!result.Success) {
+                    alert(result.Messages.join('\n'));
+                } else {
+                    window.location.href = result.Model.RedirectUrl;
+                }
+            });
         }
     </script>
 

@@ -93,6 +93,8 @@
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderItem.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
+    <Compile Include="Payments\CreatePaymentRequest.cs" />
+    <Compile Include="Payments\CreatePaymentResult.cs" />
     <Compile Include="Payments\IPaymentAccess.cs" />
     <Compile Include="Payments\IPaymentMethodAccess.cs" />
     <Compile Include="Payments\IPaymentMethodQuery.cs" />

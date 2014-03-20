@@ -14,9 +14,11 @@ using PaymentMethod = Kooboo.Commerce.Payments.PaymentMethod;
 using PaymentMethodReference = Kooboo.Commerce.Payments.PaymentMethodReference;
 using Payment = Kooboo.Commerce.Payments.Payment;
 using PaymentDto = Kooboo.Commerce.API.Payments.Payment;
+using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
+    [Dependency(typeof(IPaymentAccess))]
     public class LocalPaymentAccess : LocalPaymentQuery, IPaymentAccess
     {
         private IPaymentMethodService _paymentMethodService;
@@ -36,6 +38,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
 
             var payment = new Payment
             {
+                Description = request.Description,
                 PaymentTargetId = request.TargetId,
                 PaymentTargetType = request.TargetType,
                 Amount = request.Amount,
@@ -48,16 +51,24 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             return new CreatePaymentResult
             {
                 PaymentId = payment.Id,
-                RedirectUrl = GetGatewayUrl(payment.Id, request.ReturnUrl)
+                RedirectUrl = GetGatewayUrl(payment, request.ReturnUrl)
             };
         }
 
-        private string GetGatewayUrl(int paymentId, string returnUrl)
+        private string GetGatewayUrl(Payment payment, string returnUrl)
         {
-            var baseUrl = Site.Current.GetCommerceUrl();
-            return UrlUtility.Combine(baseUrl, 
-                "/Commerce/Payment/Gateway?paymentId=" + paymentId
-                + "&returnUrl=" + HttpUtility.UrlEncode(returnUrl));
+            var httpContext = HttpContext.Current;
+            if (httpContext == null)
+                throw new InvalidOperationException("Requires http context.");
+
+            var url = "/Commerce/Payment/Gateway?paymentId=" + payment.Id
+                        + "&commerceName=" + payment.Metadata.CommerceName
+                        + "&returnUrl=" + HttpUtility.UrlEncode(returnUrl);
+            
+            // this is a local implementation, 
+            // so the gateway host is always same as the current http context.
+            return UrlUtility.Combine(
+                httpContext.Request.Url.Scheme + "://" + httpContext.Request.Url.Authority, url);
         }
     }
 }
