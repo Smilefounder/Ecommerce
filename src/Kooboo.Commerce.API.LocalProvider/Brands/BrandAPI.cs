@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.Commerce.API.Brands;
-using Kooboo.Commerce.API.Brands.Services;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
-    [Dependency(typeof(IBrandQuery), ComponentLifeStyle.Transient)]
-    public class BrandQuery : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandQuery
+    [Dependency(typeof(IBrandAPI), ComponentLifeStyle.Transient)]
+    public class BrandAPI : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandAPI
     {
         private IBrandService _brandService;
         private IMapper<Brand, Kooboo.Commerce.Brands.Brand> _mapper;
 
-        public BrandQuery(IBrandService brandService, IMapper<Brand, Kooboo.Commerce.Brands.Brand> mapper)
+        public BrandAPI(IBrandService brandService, IMapper<Brand, Kooboo.Commerce.Brands.Brand> mapper)
         {
             _brandService = brandService;
             _mapper = mapper;
@@ -47,6 +46,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
         {
             EnsureQuery();
             _query = _query.Where(o => o.Name == name);
+            return this;
+        }
+
+        public IBrandQuery Query()
+        {
             return this;
         }
     }

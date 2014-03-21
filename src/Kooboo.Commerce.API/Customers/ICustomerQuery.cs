@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Customers
 {
-    public interface ICustomerQuery : ICommerceQuery<Customer>, ICommerceAccess<Customer>
+    public interface ICustomerQuery : ICommerceQuery<Customer>
     {
         ICustomerQuery ById(int id);
 

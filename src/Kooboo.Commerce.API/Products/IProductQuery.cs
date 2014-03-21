@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Products
 {
-    public interface IProductQuery : ICommerceQuery<Product>, ICommerceAccess<Product>
+    public interface IProductQuery : ICommerceQuery<Product>
     {
         IProductQuery ById(int id);
         IProductQuery ByCategoryId(int categoryId);

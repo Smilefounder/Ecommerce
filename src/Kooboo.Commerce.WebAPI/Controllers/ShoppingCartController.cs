@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.WebAPI.Controllers
             {
                 try
                 {
-                    Commerce().ShoppingCarts.Delete(cart);
+                    Commerce().ShoppingCarts.ExpireShppingCart(cart.Id);
                     return true;
                 }
                 catch

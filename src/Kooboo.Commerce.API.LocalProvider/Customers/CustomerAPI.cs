@@ -10,8 +10,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Customers
 {
-    [Dependency(typeof(ICustomerQuery), ComponentLifeStyle.Transient)]
-    public class CustomerQuery : LocalCommerceQueryAccess<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerQuery
+    [Dependency(typeof(ICustomerAPI), ComponentLifeStyle.Transient)]
+    public class CustomerAPI : LocalCommerceQueryAccess<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerAPI
     {
         private ICustomerService _customerService;
         private ICountryService _countryService;
@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         private bool _loadWithAddresses = false;
         private bool _loadWithCustomerLoyalty = false;
 
-        public CustomerQuery(ICustomerService customerService, ICountryService countryService, 
+        public CustomerAPI(ICustomerService customerService, ICountryService countryService, 
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> mapper, 
             IMapper<Country, Kooboo.Commerce.Locations.Country> countryMapper,
             IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper,
@@ -201,6 +201,16 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             if (obj != null)
                 return _customerService.Delete(_mapper.MapFrom(obj));
             return false;
+        }
+
+        public ICustomerQuery Query()
+        {
+            return this;
+        }
+
+        public ICustomerAccess Access()
+        {
+            return this;
         }
     }
 }

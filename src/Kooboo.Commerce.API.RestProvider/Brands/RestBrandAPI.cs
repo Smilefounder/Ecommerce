@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.Commerce.API.Brands;
-using Kooboo.Commerce.API.Brands.Services;
 
 namespace Kooboo.Commerce.API.RestProvider.Brands
 {
-    public class RestBrandQuery : RestApiBase, IBrandQuery
+    public class RestBrandAPI : RestApiBase, IBrandAPI
     {
         public IBrandQuery ById(int id)
         {

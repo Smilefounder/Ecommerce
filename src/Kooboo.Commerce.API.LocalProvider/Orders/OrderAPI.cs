@@ -11,8 +11,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Orders
 {
-    [Dependency(typeof(IOrderQuery), ComponentLifeStyle.Transient)]
-    public class OrderQuery : LocalCommerceQueryAccess<Order, Kooboo.Commerce.Orders.Order>, IOrderQuery
+    [Dependency(typeof(IOrderAPI), ComponentLifeStyle.Transient)]
+    public class OrderAPI : LocalCommerceQueryAccess<Order, Kooboo.Commerce.Orders.Order>, IOrderAPI
     {
         private IOrderService _orderService;
         private IShoppingCartService _shoppingCartService;
@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         private bool _loadWithCustomer = false;
         private bool _loadWithShoppingCart = false;
 
-        public OrderQuery(IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
+        public OrderAPI(IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
             IMapper<Order, Kooboo.Commerce.Orders.Order> mapper)
         {
             _orderService = orderService;
@@ -170,6 +170,16 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
                 return morder;
             }
             return null;
+        }
+
+        public IOrderQuery Query()
+        {
+            return this;
+        }
+
+        public IOrderAccess Access()
+        {
+            return this;
         }
     }
 }

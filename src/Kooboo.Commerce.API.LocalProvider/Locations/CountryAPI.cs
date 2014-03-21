@@ -9,13 +9,13 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Locations
 {
-    [Dependency(typeof(ICountryQuery), ComponentLifeStyle.Transient)]
-    public class CountryQuery : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryQuery
+    [Dependency(typeof(ICountryAPI), ComponentLifeStyle.Transient)]
+    public class CountryAPI : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryAPI
     {
         private ICountryService _countryService;
         private IMapper<Country, Kooboo.Commerce.Locations.Country> _mapper;
 
-        public CountryQuery(ICountryService countryService, IMapper<Country, Kooboo.Commerce.Locations.Country> mapper)
+        public CountryAPI(ICountryService countryService, IMapper<Country, Kooboo.Commerce.Locations.Country> mapper)
         {
             _countryService = countryService;
             _mapper = mapper;
@@ -67,6 +67,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         {
             EnsureQuery();
             _query = _query.Where(o => o.NumericISOCode == numericISOCode);
+            return this;
+        }
+
+        public ICountryQuery Query()
+        {
             return this;
         }
     }

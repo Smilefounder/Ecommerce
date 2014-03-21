@@ -13,13 +13,5 @@ namespace Kooboo.Commerce.API.ShoppingCarts
 
         IShoppingCartQuery LoadWithCustomer();
 
-        void AddCartItem(int cartId, ShoppingCartItem item);
-        void UpdateCartItem(int cartId, ShoppingCartItem item);
-        void RemoveCartItem(int cartId, int cartItemId);
-
-        bool AddToCart(string sessionId, string accountId, int productPriceId, int quantity);
-        bool UpdateCart(string sessionId, string accountId, int productPriceId, int quantity);
-        bool FillCustomerByAccount(string sessionId, MembershipUser user);
-        bool ExpireShppingCart(int shoppingCartId);
     }
 }

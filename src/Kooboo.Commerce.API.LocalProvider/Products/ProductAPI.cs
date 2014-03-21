@@ -11,8 +11,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Products
 {
-    [Dependency(typeof(IProductQuery), ComponentLifeStyle.Transient)]
-    public class ProductQuery : LocalCommerceQueryAccess<Product, Kooboo.Commerce.Products.Product>, IProductQuery
+    [Dependency(typeof(IProductAPI), ComponentLifeStyle.Transient)]
+    public class ProductAPI : LocalCommerceQueryAccess<Product, Kooboo.Commerce.Products.Product>, IProductAPI
     {
         private IProductService _productService;
         private IBrandService _brandService;
@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private bool _loadWithCustomFields = false;
         private bool _loadWithPriceList = false;
 
-        public ProductQuery(IProductService productService, IBrandService brandService, IProductTypeService productTypeService,
+        public ProductAPI(IProductService productService, IBrandService brandService, IProductTypeService productTypeService,
             ICategoryService categoryService,
             IMapper<Product, Kooboo.Commerce.Products.Product> mapper,
             IMapper<Brand, Kooboo.Commerce.Brands.Brand> brandMapper,
@@ -261,6 +261,16 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             _loadWithImages = false;
             _loadWithCustomFields = false;
             _loadWithPriceList = false;
+        }
+
+        public IProductQuery Query()
+        {
+            return this;
+        }
+
+        public IProductAccess Access()
+        {
+            return this;
         }
     }
 }

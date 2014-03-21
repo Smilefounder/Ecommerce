@@ -10,8 +10,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 {
-    [Dependency(typeof(IShoppingCartQuery), ComponentLifeStyle.Transient)]
-    public class ShoppingCartQuery : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartQuery
+    [Dependency(typeof(IShoppingCartAPI), ComponentLifeStyle.Transient)]
+    public class ShoppingCartAPI : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartAPI
     {
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _customerMapper;
         private bool _loadWithCutomer = false;
 
-        public ShoppingCartQuery(IShoppingCartService shoppingCartService, ICustomerService customerService,
+        public ShoppingCartAPI(IShoppingCartService shoppingCartService, ICustomerService customerService,
             IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
             IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper,
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> customerMapper)
@@ -185,6 +185,16 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
                 return _shoppingCartService.ExpireShppingCart(shoppingCart);
             }
             return false;
+        }
+
+        public IShoppingCartQuery Query()
+        {
+            return this;
+        }
+
+        public IShoppingCartAccess Access()
+        {
+            return this;
         }
     }
 }

@@ -69,11 +69,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brands\Brand.cs" />
+    <Compile Include="Brands\IBrandAPI.cs" />
     <Compile Include="Categories\Category.cs" />
+    <Compile Include="Categories\ICategoryAPI.cs" />
     <Compile Include="Categories\ICategoryQuery.cs" />
     <Compile Include="CommerceAPIBase.cs" />
     <Compile Include="Customers\Customer.cs" />
     <Compile Include="Customers\CustomerLoyalty.cs" />
+    <Compile Include="Customers\ICustomerAccess.cs" />
+    <Compile Include="Customers\ICustomerAPI.cs" />
     <Compile Include="Customers\ICustomerQuery.cs" />
     <Compile Include="EAV\CustomField.cs" />
     <Compile Include="EAV\CustomFieldType.cs" />
@@ -87,7 +91,10 @@
     <Compile Include="KoobooSiteExtensions.cs" />
     <Compile Include="Locations\Address.cs" />
     <Compile Include="Locations\Country.cs" />
+    <Compile Include="Locations\ICountryAPI.cs" />
     <Compile Include="Locations\ICountryQuery.cs" />
+    <Compile Include="Orders\IOrderAccess.cs" />
+    <Compile Include="Orders\IOrderAPI.cs" />
     <Compile Include="Orders\IOrderQuery.cs" />
     <Compile Include="Orders\Order.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
@@ -96,7 +103,9 @@
     <Compile Include="Payments\CreatePaymentRequest.cs" />
     <Compile Include="Payments\CreatePaymentResult.cs" />
     <Compile Include="Payments\IPaymentAccess.cs" />
+    <Compile Include="Payments\IPaymentAPI.cs" />
     <Compile Include="Payments\IPaymentMethodAccess.cs" />
+    <Compile Include="Payments\IPaymentMethodAPI.cs" />
     <Compile Include="Payments\IPaymentMethodQuery.cs" />
     <Compile Include="Payments\IPaymentQuery.cs" />
     <Compile Include="Payments\Payment.cs" />
@@ -106,6 +115,8 @@
     <Compile Include="Payments\PaymentMethodType.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="PriceChangeMode.cs" />
+    <Compile Include="Products\IProductAccess.cs" />
+    <Compile Include="Products\IProductAPI.cs" />
     <Compile Include="Products\IProductQuery.cs" />
     <Compile Include="Products\Product.cs" />
     <Compile Include="Products\ProductCategory.cs" />
@@ -116,6 +127,8 @@
     <Compile Include="Products\ProductReview.cs" />
     <Compile Include="Products\ProductType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingCarts\IShoppingCartAccess.cs" />
+    <Compile Include="ShoppingCarts\IShoppingCartAPI.cs" />
     <Compile Include="ShoppingCarts\IShoppingCartQuery.cs" />
     <Compile Include="ShoppingCarts\ShoppingCart.cs" />
     <Compile Include="ShoppingCarts\ShoppingCartItem.cs" />

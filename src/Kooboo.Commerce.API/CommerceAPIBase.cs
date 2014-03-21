@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.Commerce.API.Brands;
-using Kooboo.Commerce.API.Brands.Services;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.API.Categories;
 using Kooboo.Commerce.API.Customers;
@@ -25,49 +24,49 @@ namespace Kooboo.Commerce.API
             return EngineContext.Current.Resolve<Q>();
         }
 
-        public ICountryQuery Countries
+        public ICountryAPI Countries
         {
-            get { return GetAPI<ICountryQuery>(); }
+            get { return GetAPI<ICountryAPI>(); }
         }
 
-        public IBrandQuery Brands
+        public IBrandAPI Brands
         {
-            get { return GetAPI<IBrandQuery>(); }
+            get { return GetAPI<IBrandAPI>(); }
         }
 
-        public ICategoryQuery Categories
+        public ICategoryAPI Categories
         {
-            get { return GetAPI<ICategoryQuery>(); }
+            get { return GetAPI<ICategoryAPI>(); }
         }
 
-        public IPaymentMethodAccess PaymentMethods
+        public IPaymentMethodAPI PaymentMethods
         {
-            get { return GetAPI<IPaymentMethodAccess>(); }
+            get { return GetAPI<IPaymentMethodAPI>(); }
         }
 
-        public ICustomerQuery Customers
+        public ICustomerAPI Customers
         {
-            get { return GetAPI<ICustomerQuery>(); }
+            get { return GetAPI<ICustomerAPI>(); }
         }
 
-        public IProductQuery Products
+        public IProductAPI Products
         {
-            get { return GetAPI<IProductQuery>(); }
+            get { return GetAPI<IProductAPI>(); }
         }
 
-        public IShoppingCartQuery ShoppingCarts
+        public IShoppingCartAPI ShoppingCarts
         {
-            get { return GetAPI<IShoppingCartQuery>(); }
+            get { return GetAPI<IShoppingCartAPI>(); }
         }
 
-        public IOrderQuery Orders
+        public IOrderAPI Orders
         {
-            get { return GetAPI<IOrderQuery>(); }
+            get { return GetAPI<IOrderAPI>(); }
         }
 
-        public IPaymentAccess Payments
+        public IPaymentAPI Payments
         {
-            get { return GetAPI<IPaymentAccess>(); }
+            get { return GetAPI<IPaymentAPI>(); }
         }
     }
 }
