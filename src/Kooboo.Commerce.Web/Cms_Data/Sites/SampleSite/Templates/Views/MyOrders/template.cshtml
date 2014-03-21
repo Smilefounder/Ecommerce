@@ -9,6 +9,7 @@
     var commerce = Site.Current.Commerce();
     var memberAuth = this.Context.Membership();
     var member = memberAuth.GetMembershipUser();
+    var paymentMethods = commerce.PaymentMethods.ToArray();
     var customer = commerce.Customers.ByAccountId(member.UUID).LoadWithAddresses().FirstOrDefault();
     var orders = customer == null ? null : commerce.Orders.ByCustomerId(customer.Id).LoadWithCustomer().ToArray();
 }
@@ -38,17 +39,15 @@ else
                             @("Order Status".Localize())
                         </th>
                         <th>
-                            @("Payment Status".Localize())
-                        </th>
-                        <th>
                             @("Create Date".Localize())
                         </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var p in orders)
                     {
-                        <tr>
+                        <tr data-order-id="@p.Id">
                             <td>
                                 <a href="/Commerce/Order/Detail?commerceName=@Request.QueryString["commerceName"]&id=@(p.Id)&return=/Commerce/Order">@p.Id</a>
                             </td>
@@ -62,10 +61,19 @@ else
                                 @(p.OrderStatus)
                             </td>
                             <td>
-                                @(p.PaymentStatus)
+                                @(p.CreatedAtUtc.ToShortDateString())
                             </td>
                             <td>
-                                @(p.CreatedAtUtc.ToShortDateString())
+                                <select class="payment-methods">
+                                    @foreach (var method in paymentMethods)
+                                    {
+                                        <option value="@method.Id">@method.DisplayName</option>
+                                    }
+                                </select>
+                                @if (p.OrderStatus == OrderStatus.PaymentPending || p.OrderStatus == OrderStatus.Created)
+                                {
+                                    <a href="#" class="btn-pay">Pay</a>
+                                }
                             </td>
                         </tr>
                     }
@@ -73,4 +81,17 @@ else
             </table>
         </div>
     </div>
+    
+    <script>
+        $('.btn-pay').on('click', function () {
+            var $row = $(this).closest('tr');
+            var orderId = $row.data('order-id');
+            var methodId = $row.find('.payment-methods').val();
+
+            window.commands.orders.pay({
+                orderId: orderId,
+                paymentMethodId: methodId
+            });
+        });
+    </script>
 }

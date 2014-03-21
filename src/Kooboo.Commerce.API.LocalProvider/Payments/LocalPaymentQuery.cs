@@ -20,6 +20,24 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             _mapper = mapper;
         }
 
+        public IPaymentQuery By(PaymentQueryParams parameters)
+        {
+            if (parameters.Id != null)
+            {
+                ById(parameters.Id.Value);
+            }
+            if (parameters.Status != null)
+            {
+                ByStatus(parameters.Status.Value);
+            }
+            if (!String.IsNullOrEmpty(parameters.TargetType) && !String.IsNullOrEmpty(parameters.TargetId))
+            {
+                ByTarget(parameters.TargetType, parameters.TargetId);
+            }
+
+            return this;
+        }
+
         public IPaymentQuery ById(int id)
         {
             EnsureQuery();
@@ -39,22 +57,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             EnsureQuery();
             var mappedStatus = (Kooboo.Commerce.Payments.PaymentStatus)Enum.Parse(typeof(PaymentStatus), status.ToString());
             _query = _query.Where(x => x.Status == mappedStatus);
-            return this;
-        }
-
-        public IPaymentQuery OrderById(SortDirection direction)
-        {
-            EnsureQuery();
-
-            if (direction == SortDirection.Asc)
-            {
-                _query = _query.OrderBy(x => x.Id);
-            }
-            else
-            {
-                _query = _query.OrderByDescending(x => x.Id);
-            }
-
             return this;
         }
 

@@ -10,11 +10,16 @@ namespace Kooboo.Commerce.WebAPI.Controllers
 {
     public class PaymentMethodController : CommerceAPIControllerBase
     {
-        // GET api/paymentmethod
-        public IEnumerable<PaymentMethod> Get()
+        public PaymentMethod[] Get(PaymentMethodType? type)
         {
-            return null;
-            //return Commerce().PaymentMethod.GetAllPaymentMethods();
+            var query = Commerce().PaymentMethods;
+
+            if (type != null)
+            {
+                query.ByType(type.Value);
+            }
+
+            return query.ToArray();
         }
     }
 }
