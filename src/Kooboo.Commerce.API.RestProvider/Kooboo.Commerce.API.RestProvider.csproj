@@ -60,7 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brands\RestBrandQuery.cs" />
+    <Compile Include="Brands\RestBrandAPI.cs" />
     <Compile Include="HttpHelper.cs">
       <SubType>Code</SubType>
     </Compile>

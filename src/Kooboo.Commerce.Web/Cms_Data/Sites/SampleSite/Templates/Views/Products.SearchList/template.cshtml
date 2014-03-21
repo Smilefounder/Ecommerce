@@ -7,7 +7,7 @@
     {
         cateId = Convert.ToInt32(Request.QueryString["cateId"]);
     }
-    var query = Site.Current.Commerce().Products;
+    var query = Site.Current.Commerce().Products.Query();
     if (!string.IsNullOrEmpty(key))
     {
         query = query.ContainsName(key);

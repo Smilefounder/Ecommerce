@@ -8,8 +8,8 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.Commerce.API.LocalProvider.Categories
 {
-    [Dependency(typeof(ICategoryQuery), ComponentLifeStyle.Transient)]
-    public class CategoryQuery : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryQuery
+    [Dependency(typeof(ICategoryAPI), ComponentLifeStyle.Transient)]
+    public class CategoryAPI : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryAPI
     {
         private ICategoryService _categoryService;
         private IMapper<Category, Kooboo.Commerce.Categories.Category> _mapper;
@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         private bool _loadWithParents = false;
         private bool _loadWithChildren = false;
 
-        public CategoryQuery(ICategoryService categoryService, IMapper<Category, Kooboo.Commerce.Categories.Category> mapper)
+        public CategoryAPI(ICategoryService categoryService, IMapper<Category, Kooboo.Commerce.Categories.Category> mapper)
         {
             _categoryService = categoryService;
             _mapper = mapper;
@@ -133,6 +133,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             _loadWithParent = false;
             _loadWithParents = false;
             _loadWithChildren = false;
+        }
+
+        public ICategoryQuery Query()
+        {
+            return this;
         }
     }
 }

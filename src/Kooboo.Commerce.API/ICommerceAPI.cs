@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.API.Brands.Services;
+﻿using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.API.Categories;
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
@@ -17,14 +17,14 @@ namespace Kooboo.Commerce.API
     {
         void InitCommerceInstance(string instance, string language);
 
-        ICountryQuery Countries { get; }
-        IBrandQuery Brands { get; }
-        ICategoryQuery Categories { get; }
-        ICustomerQuery Customers { get; }
-        IProductQuery Products { get; }
-        IShoppingCartQuery ShoppingCarts { get; }
-        IOrderQuery Orders { get; }
-        IPaymentAccess Payments { get; }
-        IPaymentMethodAccess PaymentMethods { get; }
+        ICountryAPI Countries { get; }
+        IBrandAPI Brands { get; }
+        ICategoryAPI Categories { get; }
+        ICustomerAPI Customers { get; }
+        IProductAPI Products { get; }
+        IShoppingCartAPI ShoppingCarts { get; }
+        IOrderAPI Orders { get; }
+        IPaymentAPI Payments { get; }
+        IPaymentMethodAPI PaymentMethods { get; }
     }
 }

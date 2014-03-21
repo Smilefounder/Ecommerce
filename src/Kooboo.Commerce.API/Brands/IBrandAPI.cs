@@ -5,9 +5,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Brands
 {
-    public interface IBrandQuery : ICommerceQuery<Brand>
+    public interface IBrandAPI : IBrandQuery
     {
-        IBrandQuery ById(int id);
-        IBrandQuery ByName(string name);
+        IBrandQuery Query();
     }
 }

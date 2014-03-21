@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Orders
 {
-    public interface IOrderQuery : ICommerceQuery<Order>, ICommerceAccess<Order>
+    public interface IOrderQuery : ICommerceQuery<Order>
     {
         IOrderQuery ById(int id);
         IOrderQuery ByCustomerId(int customerId);
