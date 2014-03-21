@@ -2,7 +2,6 @@
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Payment;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;

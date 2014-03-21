@@ -14,7 +14,6 @@ namespace Kooboo.Commerce.Orders
 {
     public class OrderingProcessManager
         : IHandles<PaymentStatusChanged>
-        , IHandles<OrderStatusChanged>
     {
         private IOrderService _orderService;
         private IPaymentService _paymentService;
@@ -49,14 +48,6 @@ namespace Kooboo.Commerce.Orders
             if (paidTotal >= order.Total)
             {
                 order.ChangeStatus(OrderStatus.Paid);
-            }
-        }
-
-        public void Handle(OrderStatusChanged @event, EventDispatchingContext context)
-        {
-            if (@event.NewStatus == OrderStatus.Paid)
-            {
-                @event.Order.ChangeStatus(OrderStatus.Processing);
             }
         }
     }

@@ -287,7 +287,6 @@
     <Compile Include="Areas\Commerce\Models\PaymentMethods\Grid2\PaymentMethodRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentMethodEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentMethodRowModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Payment\PaymentRequestModel.cs" />
     <Compile Include="Areas\Commerce\Models\Products\ProductEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Products\ProductRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Grid2\ProductTypeRowModelGridItem.cs" />
@@ -321,6 +320,8 @@
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingMethodEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingMethodRowModel.cs" />
     <Compile Include="Areas\Commerce\CommerceApplicationEvents.cs" />
+    <Compile Include="Areas\Commerce\PaymentUrlHelper.cs" />
+    <Compile Include="Areas\Commerce\UrlHelperExtensions.cs" />
     <Compile Include="Areas\Media\Controllers\UploadController.cs" />
     <Compile Include="Areas\Media\Handlers\FilesStatus.cs" />
     <Compile Include="Areas\Media\Handlers\FileType.cs" />
@@ -2249,6 +2250,8 @@
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\template.cshtml" />
     <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\PaymentReturn\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\PaymentReturn\template.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

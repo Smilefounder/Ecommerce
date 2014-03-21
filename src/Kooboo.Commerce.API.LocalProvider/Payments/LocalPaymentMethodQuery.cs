@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
 
         protected override IQueryable<Commerce.Payments.PaymentMethod> CreateQuery()
         {
-            return _paymentMethodService.Query();
+            return _paymentMethodService.Query().Where(x => x.IsEnabled);
         }
 
         protected override IQueryable<Commerce.Payments.PaymentMethod> OrderByDefault(IQueryable<Commerce.Payments.PaymentMethod> query)

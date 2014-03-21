@@ -392,7 +392,7 @@ else
             $.post('@(Url.FrontUrl().SubmissionUrl("CreatePayment"))', {
                 orderId: @(order.Id),
                 paymentMethodId: paymentMethodId,
-                returnUrl: '/',
+                returnUrl: '/PaymentReturn',
                 __RequestVerificationToken: $(':hidden[name="__RequestVerificationToken"]').val()
             })
             .then(function (result) {
