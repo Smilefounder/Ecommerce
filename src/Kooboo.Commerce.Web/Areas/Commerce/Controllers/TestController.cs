@@ -15,7 +15,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Web.Mvc;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Payment;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Parsing;
 using System.Text;
@@ -44,43 +43,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 Response.Write(each.ToString());
             }
-        }
-
-        public ActionResult Payment()
-        {
-            var orderService = EngineContext.Current.Resolve<IOrderService>();
-            var order = new Order
-            {
-                Total = 1056m
-            };
-            var customer = EngineContext.Current.Resolve<ICustomerService>().Query().First();
-
-            order.Customer = customer;
-
-            orderService.Create(order);
-
-            CommerceInstanceContext.CurrentInstance.Database.SaveChanges();
-
-            var paymentMethod = EngineContext.Current.Resolve<IPaymentMethodService>().Query()
-                                             .Where(x => x.PaymentProcessorName == "Fake")
-                                             .First();
-
-            var paymentModel = new PaymentRequestModel
-            {
-                OrderId = order.Id,
-                PaymentMethodId = paymentMethod.Id,
-                ReturnUrl = Url.Action("PaymentReturn", RouteValues.From(Request.QueryString))
-            };
-
-            var routeValues = new RouteValueDictionary(paymentModel);
-            routeValues.Merge("commerceName", CommerceInstanceContext.CurrentInstance.Name);
-
-            return RedirectToAction("Gateway", "Payment", routeValues);
-        }
-
-        public ActionResult PaymentReturn()
-        {
-            return Content("Payment OK");
         }
 
         public void Transaction()

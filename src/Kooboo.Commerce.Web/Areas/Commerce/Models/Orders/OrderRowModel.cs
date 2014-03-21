@@ -27,9 +27,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Orders
         [GridColumn(HeaderText = "Order status")]
         public OrderStatus OrderStatus { get; set; }
 
-        [GridColumn(HeaderText = "Payment status")]
-        public PaymentStatus PaymentStatus { get; set; }
-
         public OrderRowModel()
         {
         }
@@ -41,7 +38,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Orders
             Total = order.Total;
             CreatedAt = order.CreatedAtUtc.ToLocalTime();
             OrderStatus = order.OrderStatus;
-            PaymentStatus = order.PaymentStatus;
         }
     }
 }

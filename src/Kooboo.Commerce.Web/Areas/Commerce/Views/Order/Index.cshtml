@@ -58,9 +58,6 @@
                     @("Order Status".Localize())
                 </th>
                 <th>
-                    @("Payment Status".Localize())
-                </th>
-                <th>
                     @("Create Date".Localize())
                 </th>
             </tr>
@@ -83,9 +80,6 @@
                     </td>
                     <td>
                         @(p.OrderStatus)
-                    </td>
-                    <td>
-                        @(p.PaymentStatus)
                     </td>
                     <td>
                         @(p.CreatedAtUtc.ToShortDateString())

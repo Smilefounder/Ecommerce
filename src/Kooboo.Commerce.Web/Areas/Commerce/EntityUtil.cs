@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
 {
     public static class EntityUtil
     {
-        public static object GetKey(this object entity)
+        public static object GetKey(object entity)
         {
             object key;
 
@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
             return key;
         }
 
-        public static bool TryGetKey(this object entity, out object key)
+        public static bool TryGetKey(object entity, out object key)
         {
             Require.NotNull(entity, "entity");
 

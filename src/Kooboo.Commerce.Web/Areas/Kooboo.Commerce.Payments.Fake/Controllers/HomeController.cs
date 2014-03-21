@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Fake.Models;
 using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Web;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
@@ -45,7 +46,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
         {
             var payment = _paymentService.GetById(paymentId);
             payment.HandlePaymentResult(ProcessPaymentResult.Success(Guid.NewGuid().ToString("N")));
-            return Redirect(commerceReturnUrl);
+            return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
 
         [AutoDbCommit]
@@ -53,7 +54,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
         {
             var payment = _paymentService.GetById(paymentId);
             payment.HandlePaymentResult(ProcessPaymentResult.Failed("Payment failed.", Guid.NewGuid().ToString("N")));
-            return Redirect(commerceReturnUrl);
+            return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
     }
 }

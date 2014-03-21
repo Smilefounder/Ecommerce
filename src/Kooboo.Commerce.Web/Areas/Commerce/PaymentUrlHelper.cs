@@ -1,20 +1,28 @@
-﻿using Kooboo.Commerce.Orders;
-using Kooboo.Web.Url;
+﻿using Kooboo.Commerce.Payments;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Web;
+using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Payments
+namespace Kooboo.Commerce.Web
 {
-    public static class PaymentReturnUrlUtil
+    public class PaymentUrlHelper
     {
-        public static string AppendOrderInfoToQueryString(string returnUrl, Order order)
+        private UrlHelper _urlHelper;
+
+        public PaymentUrlHelper(UrlHelper urlHelper)
+        {
+            _urlHelper = urlHelper;
+        }
+
+        public string DecorateReturn(string returnUrl, Payment payment)
         {
             var parameters = new NameValueCollection();
-            parameters["orderId"] = order.Id.ToString();
-            parameters["status"] = order.PaymentStatus.ToString();
+            parameters.Add("paymentId", payment.Id.ToString());
+            parameters.Add("status", payment.Status.ToString());
 
             var query = new StringBuilder();
             var first = true;
