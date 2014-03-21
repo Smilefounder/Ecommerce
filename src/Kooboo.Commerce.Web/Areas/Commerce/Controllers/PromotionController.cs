@@ -126,6 +126,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 EndTime = promotion.EndTimeUtc == null ? null : (DateTime?)promotion.EndTimeUtc.Value.ToLocalTime(),
                 Priority = promotion.Priority,
                 CouponCode = promotion.CouponCode,
+                ConditionsExpression = promotion.ConditionsExpression,
                 RequireCouponCode = promotion.RequireCouponCode,
                 PromotionPolicy = promotion.PromotionPolicyName,
                 OverlappingUsage = promotion.OverlappingUsage

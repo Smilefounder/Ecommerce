@@ -20,7 +20,7 @@
 }
 
 <div class="block">
-    @Html.Action("Steps", "Promotion", new {  area = "Commerce", step = 3 })
+    @Html.Action("Steps", "Promotion", new {  area = "Commerce", step = 2 })
     @RenderBody()
     <div class="process-button">
         <a class="button gray" href="@Url.Action("Conditions", "Promotion", RouteValues.From(Request.QueryString).Merge("area", "Commerce"))">@("Back".Localize())</a>

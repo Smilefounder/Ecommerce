@@ -2464,9 +2464,6 @@
     <Content Include="Areas\Commerce\Views\Promotion\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Promotion\Conditions.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Commerce\Views\Promotion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -2534,9 +2531,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Promotion\_SelectOverlappablePromotions.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Shared\AddIns\_PromotionConditionSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Promotion\Complete.cshtml" />
