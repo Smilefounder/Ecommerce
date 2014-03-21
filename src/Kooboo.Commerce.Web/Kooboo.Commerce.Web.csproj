@@ -2403,6 +2403,10 @@
     <Content Include="Areas\Commerce\Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kooboo.Commerce.API.CmsSite\Kooboo.Commerce.API.CmsSite.csproj">
+      <Project>{5ba65d94-5968-4861-907a-460c252433cd}</Project>
+      <Name>Kooboo.Commerce.API.CmsSite</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
       <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
       <Name>Kooboo.Commerce.API.LocalProvider</Name>

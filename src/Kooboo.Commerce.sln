@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce", "Kooboo.Commerce\Kooboo.Commerce.csproj", "{BA7AA675-9613-4507-9BAA-2BA608E990CA}"
 EndProject
@@ -83,6 +83,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.LocalProvider", "Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj", "{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.RestProvider", "Kooboo.Commerce.API.RestProvider\Kooboo.Commerce.API.RestProvider.csproj", "{17485074-A10C-42A6-BE94-2BE21F2C60E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.CmsSite", "Kooboo.Commerce.API.CmsSite\Kooboo.Commerce.API.CmsSite.csproj", "{5BA65D94-5968-4861-907A-460C252433CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -182,6 +184,10 @@ Global
 		{17485074-A10C-42A6-BE94-2BE21F2C60E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17485074-A10C-42A6-BE94-2BE21F2C60E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17485074-A10C-42A6-BE94-2BE21F2C60E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BA65D94-5968-4861-907A-460C252433CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BA65D94-5968-4861-907A-460C252433CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BA65D94-5968-4861-907A-460C252433CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BA65D94-5968-4861-907A-460C252433CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -219,6 +225,7 @@ Global
 		{F871CFD7-67CE-4192-9005-D9DC46FC5461} = {74EF2E50-2925-404D-9028-C457DDEC6520}
 		{6DF0BCB3-A1C8-4150-ACE5-A458A477D221} = {74EF2E50-2925-404D-9028-C457DDEC6520}
 		{17485074-A10C-42A6-BE94-2BE21F2C60E3} = {74EF2E50-2925-404D-9028-C457DDEC6520}
+		{5BA65D94-5968-4861-907A-460C252433CD} = {74EF2E50-2925-404D-9028-C457DDEC6520}
 		{8DBFA10A-651C-472A-AE33-289493117496} = {C046CB57-2A87-4C88-9344-6D2460B2EC4F}
 	EndGlobalSection
 EndGlobal

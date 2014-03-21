@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Common.Runtime;
 
-namespace Kooboo.Commerce.API
+namespace Kooboo.Commerce.API.CmsSite
 {
     public static class KoobooSiteExtensions
     {

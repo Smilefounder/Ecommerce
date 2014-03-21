@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.API.LocalProvider.PlugIn
+namespace Kooboo.Commerce.API.CmsSite.PlugIn
 {
     public class CreatePaymentPlugin : ISubmissionPlugin
     {

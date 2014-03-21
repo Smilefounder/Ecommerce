@@ -43,9 +43,6 @@
     <Reference Include="Kooboo.CMS.Membership">
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Membership.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.CMS.Sites">
-      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Sites.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
@@ -88,7 +85,6 @@
     <Compile Include="ICommerceQuery.cs" />
     <Compile Include="Brands\IBrandQuery.cs" />
     <Compile Include="ICommerceAPI.cs" />
-    <Compile Include="KoobooSiteExtensions.cs" />
     <Compile Include="Locations\Address.cs" />
     <Compile Include="Locations\Country.cs" />
     <Compile Include="Locations\ICountryAPI.cs" />
