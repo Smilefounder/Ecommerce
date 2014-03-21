@@ -264,7 +264,7 @@ else
                                                     <option value=""></option>
                                                     @foreach (var pm in paymentMethods)
                                         {
-                                        <option value="@pm.Id" data-method="@pm.AdditionalFeeChargeMode" data-amount="@pm.AdditionalFeeAmount" data-percent="@pm.AdditionalFeePercent" @(pm.Id == (order.PaymentMethodId.HasValue ? order.PaymentMethodId.Value : 0) ? "selected='selected'" : "")>@pm.DisplayName</option>
+                                        <option value="@pm.Id" data-method="@pm.AdditionalFeeChargeMode" data-amount="@pm.AdditionalFeeAmount" data-percent="@pm.AdditionalFeePercent">@pm.DisplayName</option>
                                         }
                                                 </select>
                                             </td>

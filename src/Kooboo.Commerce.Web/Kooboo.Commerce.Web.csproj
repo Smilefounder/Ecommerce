@@ -292,12 +292,8 @@
     <Compile Include="Areas\Commerce\Models\ProductTypes\Grid2\ProductTypeRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeRowModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Promotions\Extensions\ConditionRulesExtensions.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\Extensions\PromotionPoliciesExtensions.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\Grid2\PromotionRowModelGridItem.cs" />
-    <Compile Include="Areas\Commerce\Models\Promotions\AddedPromotionConditionModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Promotions\PromotionConditionModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Promotions\PromotionConditionsModel.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\PromotionEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\PromotionRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\ControlTypeDataSource.cs" />

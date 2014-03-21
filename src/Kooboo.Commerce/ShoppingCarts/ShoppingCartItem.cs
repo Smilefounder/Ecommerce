@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Products;
+using Kooboo.Commerce.Rules;
 
 namespace Kooboo.Commerce.ShoppingCarts
 {
@@ -14,6 +15,7 @@ namespace Kooboo.Commerce.ShoppingCarts
 
         public virtual ProductPrice ProductPrice { get; set; }
 
+        [Parameter]
         public int Quantity { get; set; }
 
         public ShoppingCartItem() { }

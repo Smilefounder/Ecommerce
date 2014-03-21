@@ -17,6 +17,16 @@
             </tr>
             @Html.EditorFor(m => m.StartTime)
             @Html.EditorFor(m => m.EndTime)
+            <tr>
+                <th>@("Conditions".Localize())</th>
+                <td>
+                    <span class="conditions-expression">
+                        @Html.Raw(Model.ConditionsExpression)
+                    </span>
+                    @Html.HiddenFor(m => m.ConditionsExpression)
+                    <a href="#" class="btn-edit-conditions">@Html.IconImage("edit small")</a>
+                </td>
+            </tr>
             @Html.EditorFor(m => m.Priority)
             <tr>
                 <th>@Html.DisplayNameFor(m => m.OverlappingUsage)</th>
@@ -30,6 +40,8 @@
         </table>
     </div>
 }
+
+@Html.Partial("_ConditionsEditor")
 
 <script>
     $(function () {
@@ -68,5 +80,23 @@
                 $('.other-promotions').hide();
             }
         }
+
+        // Conditions Editing
+        ConditionsEditor.init({
+            contextModelTypeName: '@Html.Raw(typeof(Kooboo.Commerce.Promotions.PromotionConditionContextModel).AssemblyQualifiedNameWithoutVersion())',
+            save: function (exp) {
+                $(':hidden[name="ConditionsExpression"]').val(exp);
+                $('.conditions-expression').html(exp);
+                ConditionsEditor.close();
+            }
+        });
+
+        $('.btn-edit-conditions').on('click', function () {
+            var conditionsExpression = $(':hidden[name="ConditionsExpression"]').val();
+            ConditionsEditor.open({
+                conditionsExpression: conditionsExpression
+            });
+            return false;
+        });
     });
 </script>

@@ -35,9 +35,9 @@ namespace Kooboo.Commerce.Promotions
 
         public string PromotionPolicyData { get; set; }
 
-        public PromotionOverlappingUsage OverlappingUsage { get; set; }
+        public string ConditionsExpression { get; set; }
 
-        public virtual ICollection<PromotionCondition> Conditions { get; set; }
+        public PromotionOverlappingUsage OverlappingUsage { get; set; }
 
         public virtual ICollection<Promotion> OverlappablePromotions { get; set; }
 
@@ -49,7 +49,6 @@ namespace Kooboo.Commerce.Promotions
         {
             CreatedAtUtc = DateTime.UtcNow;
             LastUpdatedAtUtc = DateTime.UtcNow;
-            Conditions = new List<PromotionCondition>();
             OverlappablePromotions = new List<Promotion>();
         }
 
@@ -100,23 +99,6 @@ namespace Kooboo.Commerce.Promotions
             {
                 throw new NotSupportedException(OverlappingUsage + " is not supported.");
             }
-        }
-
-        public virtual PromotionCondition FindCondition(int conditionId)
-        {
-            return Conditions.FirstOrDefault(x => x.Id == conditionId);
-        }
-
-        public virtual bool RemoveCondition(int conditionId)
-        {
-            var condition = FindCondition(conditionId);
-            if (condition != null)
-            {
-                Conditions.Remove(condition);
-                return true;
-            }
-
-            return false;
         }
     }
 }

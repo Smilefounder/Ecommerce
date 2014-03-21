@@ -36,6 +36,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
 
         public int Priority { get; set; }
 
+        public string ConditionsExpression { get; set; }
+
         [Required(ErrorMessage = "Required")]
         public string PromotionPolicy { get; set; }
 
@@ -62,6 +64,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
             promotion.Priority = Priority;
             promotion.PromotionPolicyName = PromotionPolicy;
             promotion.OverlappingUsage = OverlappingUsage;
+            promotion.ConditionsExpression = ConditionsExpression;
         }
     }
 }

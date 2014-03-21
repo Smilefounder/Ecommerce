@@ -11,8 +11,6 @@ namespace Kooboo.Commerce.Data.Mapping
     {
         public PromotionMap()
         {
-            HasMany(x => x.Conditions);
-
             HasMany(x => x.OverlappablePromotions).WithMany()
                 .Map(m =>
                 {

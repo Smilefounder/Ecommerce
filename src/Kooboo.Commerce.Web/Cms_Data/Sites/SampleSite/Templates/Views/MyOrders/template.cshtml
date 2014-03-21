@@ -52,7 +52,7 @@ else
                                 <a href="/Commerce/Order/Detail?commerceName=@Request.QueryString["commerceName"]&id=@(p.Id)&return=/Commerce/Order">@p.Id</a>
                             </td>
                             <td>
-                                @p.Customer.FullName
+                                @customer.FullName
                             </td>
                             <td>
                                 @(p.Total)

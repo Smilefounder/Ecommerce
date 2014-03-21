@@ -25,21 +25,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         private IPromotionService _promotionService;
         private IPromotionPolicyFactory _policyFactory;
         private IPromotionPolicyViewsFactory _policyViewsFactory;
-        private IPromotionConditionFactory _conditionFactory;
-        private IPromotionConditionViewsFactory _conditionViewsFactory;
 
         public PromotionController(
             IPromotionService promotionService,
             IPromotionPolicyFactory policyFactory,
-            IPromotionPolicyViewsFactory policyViewsFactory,
-            IPromotionConditionFactory conditionFactory,
-            IPromotionConditionViewsFactory conditionViewsFactory)
+            IPromotionPolicyViewsFactory policyViewsFactory)
         {
             _promotionService = promotionService;
             _policyFactory = policyFactory;
             _policyViewsFactory = policyViewsFactory;
-            _conditionFactory = conditionFactory;
-            _conditionViewsFactory = conditionViewsFactory;
         }
 
         public ActionResult Index(int? page, int? pageSize)
@@ -176,7 +170,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             CommerceContext.CurrentInstance.Database.SaveChanges();
 
-            return AjaxForm().RedirectTo(Url.Action("Conditions", RouteValues.From(Request.QueryString).Merge("promotionId", promotion.Id)));
+            return AjaxForm().RedirectTo(Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("promotionId", promotion.Id)));
         }
 
         public ActionResult Policy(int promotionId)
@@ -185,89 +179,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var views = _policyViewsFactory.FindByPolicyName(promotion.PromotionPolicyName);
             var url = Url.RouteUrl(views.Settings(promotion, ControllerContext), RouteValues.From(Request.QueryString));
             return Redirect(url);
-        }
-
-        public ActionResult Conditions(int promotionId)
-        {
-            var promotion = _promotionService.GetById(promotionId);
-
-            var model = new PromotionConditionsModel
-            {
-                PromotionId = promotion.Id,
-                PromotionPolicy = promotion.PromotionPolicyName,
-                AvailableConditions = ToConditionodels(_conditionFactory.All(), promotion),
-                AddedConditions = ToConditionModels(promotion.Conditions, promotion)
-            };
-
-            return View(model);
-        }
-
-        public ActionResult GetConditions(int promotionId)
-        {
-            var promotion = _promotionService.GetById(promotionId);
-            return JsonNet(ToConditionModels(promotion.Conditions, promotion)).UsingClientConvention();
-        }
-
-        private List<AddedPromotionConditionModel> ToConditionModels(IEnumerable<PromotionCondition> conditions, Promotion promotion)
-        {
-            var models = new List<AddedPromotionConditionModel>();
-
-            foreach (var condition in conditions)
-            {
-                var rule = _conditionFactory.FindByName(condition.ConditionName);
-                var model = new AddedPromotionConditionModel
-                {
-                    Id = condition.Id,
-                    Description = rule.GetDescription(condition)
-                };
-
-                var views = _conditionViewsFactory.FindByConditionName(condition.ConditionName);
-
-                if (views != null)
-                {
-                    model.Configurable = true;
-                    model.EditorUrl = Url.RouteUrl(views.Settings(promotion, condition, ControllerContext), RouteValues.From(Request.QueryString));
-                }
-
-                models.Add(model);
-            }
-
-            return models;
-        }
-
-        private List<PromotionConditionModel> ToConditionodels(IEnumerable<IPromotionCondition> conditions, Promotion promotion)
-        {
-            return conditions.Select(condition =>
-            {
-                var model = new PromotionConditionModel
-                {
-                    Name = condition.Name,
-                    DisplayName = condition.GetType().GetDescription() ?? condition.Name
-                };
-
-                var views = _conditionViewsFactory.FindByConditionName(condition.Name);
-
-                if (views != null)
-                {
-                    model.Configurable = true;
-                    var configUrl = Url.RouteUrl(views.Settings(promotion, null, ControllerContext), new
-                    {
-                        commerceName = Request.QueryString["commerceName"],
-                        @return = Request["return"]
-                    });
-                    model.CreationUrl = configUrl;
-                }
-
-                return model;
-            })
-            .ToList();
-        }
-
-        [HttpPost, AutoDbCommit]
-        public void RemoveCondition(int promotionId, int conditionId)
-        {
-            var promotion = _promotionService.GetById(promotionId);
-            promotion.RemoveCondition(conditionId);
         }
 
         public ActionResult Complete(int id)

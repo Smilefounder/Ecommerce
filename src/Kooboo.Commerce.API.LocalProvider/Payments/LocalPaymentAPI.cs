@@ -14,6 +14,7 @@ using PaymentMethodReference = Kooboo.Commerce.Payments.PaymentMethodReference;
 using Payment = Kooboo.Commerce.Payments.Payment;
 using PaymentDto = Kooboo.Commerce.API.Payments.Payment;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using System.Configuration;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
@@ -56,18 +57,24 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
 
         private string GetGatewayUrl(Payment payment, string returnUrl)
         {
-            var httpContext = HttpContext.Current;
-            if (httpContext == null)
-                throw new InvalidOperationException("Requires http context.");
-
             var url = "/Commerce/Payment/Gateway?paymentId=" + payment.Id
                         + "&commerceName=" + payment.Metadata.CommerceName
                         + "&returnUrl=" + HttpUtility.UrlEncode(returnUrl);
-            
-            // this is a local implementation, 
-            // so the gateway host is always same as the current http context.
-            return UrlUtility.Combine(
-                httpContext.Request.Url.Scheme + "://" + httpContext.Request.Url.Authority, url);
+
+            return UrlUtility.Combine(GetCommerceUrl(), url);
+        }
+
+        private string GetCommerceUrl()
+        {
+            var commerceUrl = ConfigurationManager.AppSettings["CommerceUrl"];
+            if (String.IsNullOrEmpty(commerceUrl))
+            {
+                var httpContext = HttpContext.Current;
+                var request = httpContext.Request;
+                commerceUrl = request.Url.Scheme + "://" + request.Url.Authority;
+            }
+
+            return commerceUrl;
         }
 
         public IPaymentQuery Query()

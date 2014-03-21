@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Pricing;
 
 namespace Kooboo.Commerce.ShoppingCarts
 {
@@ -44,27 +43,6 @@ namespace Kooboo.Commerce.ShoppingCarts
             {
                 item.Quantity += quantity;
             }
-        }
-
-        public PricingContext CreatePricingContext()
-        {
-            var context = new PricingContext
-            {
-                Customer = Customer,
-                CouponCode = CouponCode,
-                BillingAddress = BillingAddress,
-                ShippingAddress = ShippingAddress
-            };
-
-            foreach (var item in Items)
-            {
-                context.Items.Add(new PricingItem(item.ProductPrice.Product, item.ProductPrice)
-                {
-                    Quantity = item.Quantity
-                });
-            }
-
-            return context;
         }
     }
 }

@@ -40,16 +40,17 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             {
                 foreach (var matchedItem in context.ConditionMatchedItems)
                 {
-                    matchedItem.ApplyDiscount(ComputeDiscount(matchedItem.Subtotal, data));
+                    // TODO: Fix needed
+                    //matchedItem.ApplyDiscount(ComputeDiscount(matchedItem.Subtotal, data));
                 }
             }
             else if (data.DiscountAppliedTo == DiscountAppliedTo.OrderShipping)
             {
-                context.PricingContext.ApplyShippingDiscount(ComputeDiscount(context.PricingContext.ShippingCost, data));
+                //context.PricingContext.ApplyShippingDiscount(ComputeDiscount(context.PricingContext.ShippingCost, data));
             }
             else if (data.DiscountAppliedTo == DiscountAppliedTo.OrderSubtotal)
             {
-                context.PricingContext.ApplyShippingDiscount(ComputeDiscount(context.PricingContext.Subtotal, data));
+                //context.PricingContext.ApplyShippingDiscount(ComputeDiscount(context.PricingContext.Subtotal, data));
             }
         }
 

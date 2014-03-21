@@ -77,6 +77,7 @@
     <Compile Include="Locations\CountryAPI.cs" />
     <Compile Include="Orders\OrderAPI.cs" />
     <Compile Include="Payments\RestPaymentAPI.cs" />
+    <Compile Include="Payments\RestPaymentMethodAPI.cs" />
     <Compile Include="Payments\RestPaymentMethodQuery.cs" />
     <Compile Include="Payments\RestPaymentQuery.cs" />
     <Compile Include="Products\ProductAPI.cs" />

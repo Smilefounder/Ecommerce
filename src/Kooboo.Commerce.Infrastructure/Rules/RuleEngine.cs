@@ -43,8 +43,16 @@ namespace Kooboo.Commerce.Rules
             Require.NotNullOrEmpty(conditionExpression, "conditionExpression");
             Require.NotNull(contextModel, "contextModel");
 
-            return new ConditionExpressionEvaluator(_parameterProvider, _comparisonOperatorProvider)
-                .Evaluate(Expression.Parse(conditionExpression), contextModel);
+            return CheckCondition(Expression.Parse(conditionExpression), contextModel);
+        }
+
+        public bool CheckCondition(Expression expression, object contextModel)
+        {
+            Require.NotNull(expression, "expression");
+            Require.NotNull(contextModel, "contextModel");
+
+            var evaluator = new ConditionExpressionEvaluator(_parameterProvider, _comparisonOperatorProvider);
+            return evaluator.Evaluate(expression, contextModel);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Orders;
-using Kooboo.Commerce.Pricing;
 using Kooboo.Commerce.Products;
 using System;
 using System.Collections.Generic;
