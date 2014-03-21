@@ -19,7 +19,7 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
     [Dependency(typeof(IPaymentAPI))]
-    public class LocalPaymentAPI : LocalPaymentQuery, IPaymentAPI
+    public class LocalPaymentAPI : LocalPaymentQuery, IPaymentAccess, IPaymentAPI
     {
         private IPaymentMethodService _paymentMethodService;
 
@@ -69,6 +69,16 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             // so the gateway host is always same as the current http context.
             return UrlUtility.Combine(
                 httpContext.Request.Url.Scheme + "://" + httpContext.Request.Url.Authority, url);
+        }
+
+        public IPaymentQuery Query()
+        {
+            return this;
+        }
+
+        public IPaymentAccess Access()
+        {
+            return this;
         }
     }
 }

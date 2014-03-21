@@ -15,5 +15,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             : base(paymentMethodService, mapper)
         {
         }
+
+        public IPaymentMethodQuery Query()
+        {
+            return this;
+        }
     }
 }
