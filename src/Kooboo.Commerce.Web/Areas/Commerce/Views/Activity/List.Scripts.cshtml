@@ -243,7 +243,7 @@
             this.createRule = function (expression) {
                 return $.post('@Url.Action("CreateRule")', { expression: expression, eventType: eventType, commerceName: commerceName })
                         .success(function (data) {
-                            _this.rules.splice(_this.rules().length - 1, 0, _this.createRuleViewModel(data));
+                            _this.rules.splice(_this.rules().length - 1, 0, ko.mapping.fromJS(data, mappingOptions));
                         });
             }
 
