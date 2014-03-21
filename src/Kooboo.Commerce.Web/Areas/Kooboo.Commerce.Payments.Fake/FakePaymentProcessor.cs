@@ -20,14 +20,19 @@ namespace Kooboo.Commerce.Payments.Fake
             }
         }
 
+        public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
+
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
         {
-            var gatewayUrl = UrlUtility.Combine(request.CommerceBaseUrl,
-                Strings.AreaName + "/Home/Gateway?commerceName=" + request.Payment.Metadata.CommerceName
+            var redirectUrl = Strings.AreaName 
+                + "/Home/Gateway?commerceName=" + request.Payment.Metadata.CommerceName
                 + "&paymentId=" + request.Payment.Id
                 + "&currency=" + request.CurrencyCode
-                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl));
-            return ProcessPaymentResult.Pending(new RedirectResult(gatewayUrl), Guid.NewGuid().ToString("N"));
+                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
+
+            redirectUrl = redirectUrl.ToFullUrl(HttpContextAccessor());
+
+            return ProcessPaymentResult.Pending(new RedirectResult(redirectUrl), Guid.NewGuid().ToString("N"));
         }
 
         public IEnumerable<PaymentMethodType> SupportedPaymentTypes

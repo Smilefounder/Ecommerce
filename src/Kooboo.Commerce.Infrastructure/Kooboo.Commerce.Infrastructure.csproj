@@ -247,6 +247,7 @@
     <Compile Include="Web\PagedListExtensions.cs" />
     <Compile Include="Web\Routes.cs" />
     <Compile Include="Web\RouteValues.cs" />
+    <Compile Include="Web\UrlStringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

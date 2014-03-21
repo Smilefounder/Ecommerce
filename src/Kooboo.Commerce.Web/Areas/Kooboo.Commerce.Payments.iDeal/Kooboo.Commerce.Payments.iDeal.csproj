@@ -144,6 +144,10 @@
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.Commerce.Web.csproj">
+      <Project>{dc4664e1-6e95-4062-9ac0-c0574ddab015}</Project>
+      <Name>Kooboo.Commerce.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="WebResources.config">

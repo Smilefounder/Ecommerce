@@ -27,12 +27,11 @@ namespace Kooboo.Commerce.Payments
 
         public BankAccountInfo BankAccountInfo { get; set; }
 
-        public string CommerceBaseUrl { get; set; }
-
         public string ReturnUrl { get; set; }
 
         public ProcessPaymentRequest(Payment payment)
         {
+            Require.NotNull(payment, "payment");
             Payment = payment;
         }
     }

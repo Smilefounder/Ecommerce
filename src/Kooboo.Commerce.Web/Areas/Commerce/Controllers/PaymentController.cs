@@ -43,7 +43,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 CurrencyCode = settings.CurrencyISOCode,
                 //CreditCardInfo = model.CreditCardInfo,
-                CommerceBaseUrl = Request.Url.Scheme + "://" + Request.Url.Authority,
                 ReturnUrl = returnUrl
             };
 

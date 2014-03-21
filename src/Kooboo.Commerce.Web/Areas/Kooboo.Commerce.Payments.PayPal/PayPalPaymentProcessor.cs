@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
+using Kooboo.Commerce.Web;
 using Kooboo.Web.Url;
 using PayPal;
 using PayPal.AdaptivePayments;
@@ -17,6 +18,8 @@ namespace Kooboo.Commerce.Payments.PayPal
     public class PayPalPaymentProcessor : IPaymentProcessor
     {
         private IKeyValueService _keyValueService;
+
+        public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
         public string Name
         {
@@ -55,7 +58,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             var payKey = GetPayKey(request, data);
             var gatewayUrl = PayPalUtil.GetRedirectUrl(payKey, data.SandboxMode);
 
-            return ProcessPaymentResult.Pending(null, gatewayUrl);
+            return ProcessPaymentResult.Pending(new RedirectResult(gatewayUrl));
         }
 
         private string GetPayKey(ProcessPaymentRequest request, PayPalSettings data)
@@ -91,22 +94,28 @@ namespace Kooboo.Commerce.Payments.PayPal
 
         private string GetReturnUrl(ProcessPaymentRequest request)
         {
-            return UrlUtility.Combine(request.CommerceBaseUrl,
-                Strings.AreaName + "/PayPal/Return?commerceName=" + request.Payment.Metadata.CommerceName
-                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl));
+            var url = Strings.AreaName + "/PayPal/Return?commerceName=" 
+                + request.Payment.Metadata.CommerceName
+                + "&paymentId=" + request.Payment.Id
+                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
+
+            return url.ToFullUrl(HttpContextAccessor());
         }
 
         private string GetCancelUrl(ProcessPaymentRequest request)
         {
-            return UrlUtility.Combine(request.CommerceBaseUrl,
-                Strings.AreaName + "/PayPal/Cancel?commerceName=" + request.Payment.Metadata.CommerceName
-                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl));
+            var url = Strings.AreaName + "/PayPal/Cancel?commerceName=" 
+                + request.Payment.Metadata.CommerceName
+                + "&paymentId=" + request.Payment.Id
+                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
+
+            return url.ToFullUrl(HttpContextAccessor());
         }
 
         private string GetIPNHandlerUrl(ProcessPaymentRequest request)
         {
-            return UrlUtility.Combine(request.CommerceBaseUrl,
-                Strings.AreaName + "/PayPal/IPN?commerceName=" + request.Payment.Metadata.CommerceName);
+            var url = Strings.AreaName + "/PayPal/IPN?commerceName=" + request.Payment.Metadata.CommerceName;
+            return url.ToFullUrl(HttpContextAccessor());
         }
     }
 }

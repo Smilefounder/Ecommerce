@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
+using Kooboo.Commerce.Web;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Web.Url;
 using System;
@@ -22,6 +23,8 @@ namespace Kooboo.Commerce.Payments.Buckaroo
         {
             get { return Strings.PaymentProcessorName; }
         }
+
+        public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
         public BuckarooPaymentProcessor(IKeyValueService keyValueService, IPaymentMethodService paymentMethodService)
         {
@@ -72,13 +75,13 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
         private string GetCallbackUrl(string action, ProcessPaymentRequest request)
         {
-            var url = UrlUtility.Combine(request.CommerceBaseUrl, Strings.AreaName + "/Buckaroo/" + action) + "?commerceName=" + request.Payment.Metadata.CommerceName;
+            var url = Strings.AreaName + "/Buckaroo/" + action + "?commerceName=" + request.Payment.Metadata.CommerceName;
             if (action.StartsWith("return", StringComparison.OrdinalIgnoreCase))
             {
                 url += "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
             }
 
-            return url;
+            return url.ToFullUrl(HttpContextAccessor());
         }
 
         public IEnumerable<PaymentMethodType> SupportedPaymentTypes

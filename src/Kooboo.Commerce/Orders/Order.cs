@@ -44,8 +44,6 @@ namespace Kooboo.Commerce.Orders
 
         public decimal ShippingCost { get; set; }
 
-        public PaymentStatus PaymentStatus { get; protected set; }
-
         /// <summary>
         /// Shop can charge fee for different payment methods. 
         /// </summary>

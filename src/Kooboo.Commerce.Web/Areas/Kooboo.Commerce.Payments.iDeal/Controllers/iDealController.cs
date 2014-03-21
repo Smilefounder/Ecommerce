@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
+using Kooboo.Commerce.Web;
 using Kooboo.Commerce.Web.Mvc;
 using Mollie.iDEAL;
 using System;
@@ -27,9 +28,10 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
             _paymentMethodService = paymentMethodService;
         }
 
-        public ActionResult Return(string commerceReturnUrl)
+        public ActionResult Return(int paymentId, string commerceReturnUrl)
         {
-            return Redirect(commerceReturnUrl);
+            var payment = _paymentService.GetById(paymentId);
+            return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
 
         [AutoDbCommit]

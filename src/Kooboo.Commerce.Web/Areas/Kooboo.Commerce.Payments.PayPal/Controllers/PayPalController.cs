@@ -29,14 +29,15 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
             _paymentMethodService = paymentMethodService;
         }
 
-        public ActionResult Return(string commerceReturnUrl)
+        public ActionResult Return(int paymentId, string commerceReturnUrl)
         {
-            return Redirect(commerceReturnUrl);
+            var payment = _paymentService.GetById(paymentId);
+            return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
 
-        public ActionResult Cancel(string commerceReturnUrl)
+        public ActionResult Cancel(int paymentId, string commerceReturnUrl)
         {
-            return Return(commerceReturnUrl);
+            return Return(paymentId, commerceReturnUrl);
         }
 
         [AutoDbCommit]

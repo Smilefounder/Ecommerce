@@ -2,6 +2,7 @@
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
+using Kooboo.Commerce.Web;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
@@ -32,7 +33,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             var result = ProcessResponse(payment, BuckarooSettings.FetchFrom(_keyValueService));
             payment.HandlePaymentResult(result);
 
-            return Redirect(commerceReturnUrl);
+            return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
 
         [AutoDbCommit]

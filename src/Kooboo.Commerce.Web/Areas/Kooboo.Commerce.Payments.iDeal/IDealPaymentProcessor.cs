@@ -18,6 +18,8 @@ namespace Kooboo.Commerce.Payments.iDeal
         private IKeyValueService _keyValueService;
         private IPaymentMethodService _paymentMethodService;
 
+        public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
+
         public string Name
         {
             get
@@ -40,11 +42,18 @@ namespace Kooboo.Commerce.Payments.iDeal
             var settings = IDealSettings.FetchFrom(_keyValueService);
             var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
 
+            var httpContext = HttpContextAccessor();
+            var reportUrl = Strings.AreaName + "/iDeal/Callback?commerceName=" + request.Payment.Metadata.CommerceName;
+            var returnUrl = Strings.AreaName
+                + "/iDeal/Return?commerceName=" + request.Payment.Metadata.CommerceName 
+                + "&paymentId=" + request.Payment.Id
+                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
+
             var idealFetch = new IdealFetch(
                 settings.PartnerId
                 , request.Payment.Description
-                , UrlUtility.Combine(request.CommerceBaseUrl, Strings.AreaName + "/iDeal/Callback?commerceName=" + request.Payment.Metadata.CommerceName)
-                , UrlUtility.Combine(request.CommerceBaseUrl, Strings.AreaName + "/iDeal/Return?commerceName=" + request.Payment.Metadata.CommerceName + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl))
+                , reportUrl.ToFullUrl(httpContext)
+                , returnUrl.ToFullUrl(httpContext)
                 , ""
                 , request.Amount
             );
