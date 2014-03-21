@@ -36,6 +36,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var settings = _settingService.GetStoreSetting();
             var payment = _paymentService.GetById(paymentId);
+
+            // The payment was already completed.
+            // This is a duplicate call, so simply return back.
+            if (payment.Status == PaymentStatus.Success)
+            {
+                return Redirect(Url.Payment().DecorateReturn(returnUrl, payment));
+            }
+
             var paymentMethod = _paymentMethodService.GetById(payment.PaymentMethod.Id);
             var commerceName = CommerceContext.CurrentInstance.Name;
 

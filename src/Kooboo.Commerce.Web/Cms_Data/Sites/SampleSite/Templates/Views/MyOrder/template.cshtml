@@ -384,24 +384,9 @@ else
         }
 
         function GoPay() {
-            var paymentMethodId = $('#PaymentMethodId').val();
-            if (!paymentMethodId) {
-                alert('Please choose a payment method.');
-                return;
-            }
-
-            $.post('@(Url.FrontUrl().SubmissionUrl("CreatePayment"))', {
+            window.commands.orders.pay({
                 orderId: @(order.Id),
-                paymentMethodId: paymentMethodId,
-                returnUrl: '/PaymentReturn',
-                __RequestVerificationToken: $(':hidden[name="__RequestVerificationToken"]').val()
-            })
-            .then(function (result) {
-                if (!result.Success) {
-                    alert(result.Messages.join('\n'));
-                } else {
-                    window.location.href = result.Model.RedirectUrl;
-                }
+                paymentMethodId: $('#PaymentMethodId').val()
             });
         }
     </script>

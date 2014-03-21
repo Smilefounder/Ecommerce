@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.API.CmsSite.PlugIn
 {
-    public class CreatePaymentPlugin : ISubmissionPlugin
+    public class CreatePaymentPlugIn : ISubmissionPlugin
     {
         public Dictionary<string, object> Parameters
         {
