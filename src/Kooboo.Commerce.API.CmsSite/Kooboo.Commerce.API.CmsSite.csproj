@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}</ProjectGuid>
+    <ProjectGuid>{5BA65D94-5968-4861-907A-460C252433CD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.Commerce.API.LocalProvider</RootNamespace>
-    <AssemblyName>Kooboo.Commerce.API.LocalProvider</AssemblyName>
+    <RootNamespace>Kooboo.Commerce.API.CmsSite</RootNamespace>
+    <AssemblyName>Kooboo.Commerce.API.CmsSite</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,23 +33,21 @@
     <Reference Include="Kooboo">
       <HintPath>..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.CMS.Common, Version=4.4.0.307, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Kooboo.CMS.Common">
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.CMS.Membership, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Kooboo.CMS.Membership">
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Membership.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.CMS.Web">
-      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Web.dll</HintPath>
+    <Reference Include="Kooboo.CMS.Sites">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Sites.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Mvc\4.0\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\lib\Kooboo_CMS\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -58,23 +56,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brands\BrandAPI.cs" />
-    <Compile Include="Categories\CategoryAPI.cs" />
-    <Compile Include="Customers\CustomerAPI.cs" />
-    <Compile Include="IMapper.cs" />
-    <Compile Include="LocalCommerceAPI.cs" />
-    <Compile Include="LocalCommerceQuery.cs" />
-    <Compile Include="LocalCommerceQueryAccess.cs" />
-    <Compile Include="Locations\CountryAPI.cs" />
-    <Compile Include="Payments\LocalPaymentAPI.cs" />
-    <Compile Include="Payments\LocalPaymentMethodAPI.cs" />
-    <Compile Include="Payments\LocalPaymentMethodQuery.cs" />
-    <Compile Include="Payments\LocalPaymentQuery.cs" />
-    <Compile Include="Orders\OrderAPI.cs" />
-    <Compile Include="Products\ProductAPI.cs" />
+    <Compile Include="KoobooSiteExtensions.cs" />
+    <Compile Include="PlugIn\AddToCartPlugIn.cs" />
+    <Compile Include="PlugIn\CreatePaymentPlugin.cs" />
+    <Compile Include="PlugIn\SaveOrderPlugIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionMapper.cs" />
-    <Compile Include="ShoppingCarts\ShoppingCartAPI.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
@@ -85,12 +71,7 @@
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
       <Name>Kooboo.Commerce.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce\Kooboo.Commerce.csproj">
-      <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
-      <Name>Kooboo.Commerce</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

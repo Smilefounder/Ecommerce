@@ -8,7 +8,7 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.CMS.Common;
 
-namespace Kooboo.Commerce.API.LocalProvider.PlugIn
+namespace Kooboo.Commerce.API.CmsSite.PlugIn
 {
     public class AddToCartPlugIn : ISubmissionPlugin
     {

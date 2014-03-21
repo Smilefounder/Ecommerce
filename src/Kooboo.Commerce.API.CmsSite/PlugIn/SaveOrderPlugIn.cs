@@ -10,7 +10,7 @@ using Kooboo.CMS.Common;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.API.Orders;
 
-namespace Kooboo.Commerce.API.LocalProvider.PlugIn
+namespace Kooboo.Commerce.API.CmsSite.PlugIn
 {
     public class SaveOrderPlugIn : ISubmissionPlugin
     {

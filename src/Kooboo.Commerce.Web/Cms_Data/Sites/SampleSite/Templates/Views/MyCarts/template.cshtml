@@ -1,4 +1,5 @@
 ﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.CmsSite;
 @{
     var shoppingCart = Site.Current.Commerce().ShoppingCarts.BySessionId(Context.Session.SessionID).FirstOrDefault();
 }
