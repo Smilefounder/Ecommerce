@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.API
 {
     public abstract class CommerceAPIBase : ICommerceAPI
     {
-        public abstract void InitCommerceInstance(string instance, string language);
+        public abstract void InitCommerceInstance(string instance, string language, Dictionary<string, string> settings);
 
         protected virtual Q GetAPI<Q>() where Q : class
         {

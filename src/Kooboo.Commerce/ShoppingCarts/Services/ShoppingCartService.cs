@@ -224,28 +224,30 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         #endregion
 
 
-        public void AddCartItem(int cartId, ShoppingCartItem item)
+        public bool AddCartItem(int cartId, ShoppingCartItem item)
         {
             var cart = _shoppingCartRepository.Query(o => o.Id == cartId).FirstOrDefault();
             if(cart != null)
             {
                 item.ShoppingCart = cart;
-                _shoppingCartItemRepository.Insert(item);
+                return _shoppingCartItemRepository.Insert(item);
             }
+            return false;
         }
 
-        public void UpdateCartItem(int cartId, ShoppingCartItem item)
+        public bool UpdateCartItem(int cartId, ShoppingCartItem item)
         {
-            _shoppingCartItemRepository.Update(item, k => new object[] { k.Id });
+            return _shoppingCartItemRepository.Update(item, k => new object[] { k.Id });
         }
 
-        public void RemoveCartItem(int cartId, int cartItemId)
+        public bool RemoveCartItem(int cartId, int cartItemId)
         {
             var cartItem = _shoppingCartItemRepository.Query(o => o.Id == cartItemId && o.ShoppingCart.Id == cartId).FirstOrDefault();
             if (cartItem != null)
             {
-                _shoppingCartItemRepository.Delete(cartItem);
+                return _shoppingCartItemRepository.Delete(cartItem);
             }
+            return false;
         }
     }
 }

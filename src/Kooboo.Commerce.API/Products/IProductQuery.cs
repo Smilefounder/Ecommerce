@@ -11,6 +11,10 @@ namespace Kooboo.Commerce.API.Products
         IProductQuery ByCategoryId(int categoryId);
         IProductQuery ByName(string name);
         IProductQuery ContainsName(string name);
+        IProductQuery ByProductTypeId(int productTypeId);
+        IProductQuery ByBrandId(int brandId);
+        IProductQuery IsPublished(bool published);
+        IProductQuery IsDeleted(bool deleted);
 
         IProductQuery LoadWithProductType();
         IProductQuery LoadWithBrand();

@@ -10,22 +10,49 @@ using System.Web.Http;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
-    public class ProductController : CommerceAPIControllerBase
+    public class ProductController : CommerceAPIControllerAccessBase<Product>
     {
-        public Product Get(int id)
+        protected override ICommerceQuery<Product> BuildQueryFromQueryStrings()
         {
-            return Commerce().Products.ById(id).FirstOrDefault();
+            var qs = Request.RequestUri.ParseQueryString();
+            var query = Commerce().Products.Query();
+            if (!string.IsNullOrEmpty(qs["id"]))
+                query = query.ById(Convert.ToInt32(qs["id"]));
+            if (!string.IsNullOrEmpty(qs["categoryId"]))
+                query = query.ByCategoryId(Convert.ToInt32(qs["categoryId"]));
+            if (!string.IsNullOrEmpty(qs["name"]))
+                query = query.ByName(qs["name"]);
+            if (!string.IsNullOrEmpty(qs["containsName"]))
+                query = query.ContainsName(qs["containsName"]);
+            if (!string.IsNullOrEmpty(qs["productTypeId"]))
+                query = query.ByProductTypeId(Convert.ToInt32(qs["productTypeId"]));
+            if (!string.IsNullOrEmpty(qs["brandId"]))
+                query = query.ByBrandId(Convert.ToInt32(qs["brandId"]));
+            if (!string.IsNullOrEmpty(qs["published"]))
+                query = query.IsPublished(Convert.ToBoolean(qs["published"]));
+            if (!string.IsNullOrEmpty(qs["deleted"]))
+                query = query.IsDeleted(Convert.ToBoolean(qs["deleted"]));
+
+            if (qs["LoadWithProductType"] == "true")
+                query = query.LoadWithProductType();
+            if (qs["LoadWithBrand"] == "true")
+                query = query.LoadWithBrand();
+            if (qs["LoadWithCategories"] == "true")
+                query = query.LoadWithCategories();
+            if (qs["LoadWithImages"] == "true")
+                query = query.LoadWithImages();
+            if (qs["LoadWithCustomFields"] == "true")
+                query = query.LoadWithCustomFields();
+            if (qs["LoadWithPriceList"] == "true")
+                query = query.LoadWithPriceList();
+
+            return query;
         }
 
-        [HttpGet]
-        public PagedListWrapper<Product> Search(string userInput, int? categoryId, int pageIndex = 0, int pageSize = 50)
+        protected override ICommerceAccess<Product> GetAccesser()
         {
-            var query = Commerce().Products.ContainsName(userInput);
-            if (categoryId.HasValue)
-                query = query.ByCategoryId(categoryId.Value);
-            int totalItemCount = query.Count();
-            var pagedData = query.Pagination(pageIndex, pageSize);
-            return new PagedListWrapper<Product>(new PagedList<Product>(pagedData, pageIndex, pageSize, totalItemCount));
+            return Commerce().Products;
         }
+
     }
 }

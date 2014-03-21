@@ -43,8 +43,8 @@ namespace Kooboo.Commerce.API.CmsSite.PlugIn
                     order.TotalTax = string.IsNullOrEmpty(form["TotalTax"]) ? 0 : Convert.ToDecimal(form["TotalTax"]);
                     order.TotalWeight = string.IsNullOrEmpty(form["TotalWeight"]) ? 0 : Convert.ToDecimal(form["TotalWeight"]);
                     order.ShippingCost = string.IsNullOrEmpty(form["ShippingCost"]) ? 0 : Convert.ToDecimal(form["ShippingCost"]);
-                    if (!string.IsNullOrEmpty(form["PaymentMethodId"]))
-                        order.PaymentMethodId = Convert.ToInt32(form["PaymentMethodId"]);
+                    //if (!string.IsNullOrEmpty(form["PaymentMethodId"]))
+                    //    order.PaymentMethodId = Convert.ToInt32(form["PaymentMethodId"]);
                     order.PaymentMethodCost = string.IsNullOrEmpty(form["PaymentMethodCost"]) ? 0 : Convert.ToDecimal(form["PaymentMethodCost"]);
                     order.Total = string.IsNullOrEmpty(form["Total"]) ? 0 : Convert.ToDecimal(form["Total"]);
 

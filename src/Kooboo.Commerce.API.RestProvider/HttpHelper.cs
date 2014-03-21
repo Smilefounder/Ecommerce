@@ -52,6 +52,7 @@ namespace Kooboo.Commerce.API.RestProvider
                 }
                 request.Proxy = proxy;
                 request.Credentials = credentials;
+                request.ContentLength = 0;
 
                 // Add request payload if any.
                 if (!string.IsNullOrEmpty(jsonData))

@@ -143,6 +143,8 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BrandController.cs" />
+    <Compile Include="Controllers\CommerceAPIControllerAccessBase.cs" />
+    <Compile Include="Controllers\CommerceAPIControllerQueryBase.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CommerceAPIControllerBase.cs" />
@@ -183,9 +185,29 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
+      <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
+      <Name>Kooboo.Commerce.API.LocalProvider</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.Data.Mapping\Kooboo.Commerce.Data.Mapping.csproj">
+      <Project>{26517dc5-30b5-4eb3-a3e7-a1ade568d8bc}</Project>
+      <Name>Kooboo.Commerce.Data.Mapping</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.Data.SqlServer\Kooboo.Commerce.Data.SqlServer.csproj">
+      <Project>{5b8b6f8c-f82f-425f-b521-40b2949383e4}</Project>
+      <Name>Kooboo.Commerce.Data.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
+      <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
+      <Name>Kooboo.Commerce.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce\Kooboo.Commerce.csproj">
+      <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
+      <Name>Kooboo.Commerce</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

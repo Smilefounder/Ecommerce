@@ -7,8 +7,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.RestProvider.Payments
 {
-    [Dependency(typeof(IPaymentAPI))]
-    public class RestPaymentAPI : RestPaymentQuery, IPaymentAccess, IPaymentAPI
+    [Dependency(typeof(IPaymentAPI), ComponentLifeStyle.Transient)]
+    public class RestPaymentAPI : RestPaymentQuery, IPaymentAPI
     {
         public CreatePaymentResult Create(CreatePaymentRequest request)
         {

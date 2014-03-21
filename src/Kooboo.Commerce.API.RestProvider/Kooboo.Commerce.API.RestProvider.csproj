@@ -30,12 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Kooboo">
-      <HintPath>..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
-    </Reference>
     <Reference Include="Kooboo.CMS.Common, Version=4.4.0.307, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Membership, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Membership.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
@@ -67,20 +68,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brands\RestBrandAPI.cs" />
+    <Compile Include="Brands\BrandAPI.cs" />
+    <Compile Include="Categories\CategoryAPI.cs" />
+    <Compile Include="Customers\CustomerAPI.cs" />
     <Compile Include="HttpHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Locations\CountryAPI.cs" />
+    <Compile Include="Orders\OrderAPI.cs" />
     <Compile Include="Payments\RestPaymentAPI.cs" />
-    <Compile Include="Payments\RestPaymentMethodAPI.cs" />
     <Compile Include="Payments\RestPaymentMethodQuery.cs" />
     <Compile Include="Payments\RestPaymentQuery.cs" />
+    <Compile Include="Products\ProductAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestApiAccessBase.cs" />
     <Compile Include="RestApiBase.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RestApiQueryBase.cs" />
+    <Compile Include="RestCommerceAPI.cs" />
+    <Compile Include="ShoppingCarts\ShoppingCartAPI.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
+      <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
+      <Name>Kooboo.Commerce.API.LocalProvider</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>

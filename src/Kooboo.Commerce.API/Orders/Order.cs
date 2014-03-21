@@ -34,16 +34,6 @@ namespace Kooboo.Commerce.API.Orders
 
         public decimal ShippingCost { get; set; }
 
-        public PaymentStatus PaymentStatus { get; set; }
-
-        public int? PaymentMethodId { get; set; }
-
-        public string PaymentGatewayName { get; set; }
-
-        public string ExternalPaymentTransactionId { get; set; }
-
-        public DateTime? PaymentCompletedAtUtc { get; set; }
-
         /// <summary>
         /// Shop can charge fee for different payment methods. 
         /// </summary>

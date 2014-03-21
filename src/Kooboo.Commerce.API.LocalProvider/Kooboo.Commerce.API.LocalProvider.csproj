@@ -41,9 +41,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Membership.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.CMS.Web">
-      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Web.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />

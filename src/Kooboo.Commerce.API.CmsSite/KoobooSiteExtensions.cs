@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.API.CmsSite
             //    ((RestAPI.RestCommerceAPI)commerceService).SetWebAPIHost(webapiHost);
             //}
             var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();
-            commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage());
+            commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage(), site.CustomFields);
             return commerceService;
         }
     }
