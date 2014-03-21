@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.RestProvider.Payments
 {
-    public class RestPaymentAccess : RestPaymentQuery, IPaymentAccess
+    public class RestPaymentAPI : RestPaymentQuery, IPaymentAPI
     {
         public CreatePaymentResult Create(CreatePaymentRequest request)
         {

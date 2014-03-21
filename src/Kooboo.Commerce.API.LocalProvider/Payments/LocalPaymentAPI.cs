@@ -18,12 +18,12 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
-    [Dependency(typeof(IPaymentAccess))]
-    public class LocalPaymentAccess : LocalPaymentQuery, IPaymentAccess
+    [Dependency(typeof(IPaymentAPI))]
+    public class LocalPaymentAPI : LocalPaymentQuery, IPaymentAPI
     {
         private IPaymentMethodService _paymentMethodService;
 
-        public LocalPaymentAccess(
+        public LocalPaymentAPI(
             IPaymentMethodService paymentMethodService,
             IPaymentService paymentService,
             IMapper<PaymentDto, Payment> mapper)

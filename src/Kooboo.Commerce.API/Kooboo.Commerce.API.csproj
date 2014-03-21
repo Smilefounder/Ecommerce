@@ -102,9 +102,7 @@
     <Compile Include="Orders\OrderStatus.cs" />
     <Compile Include="Payments\CreatePaymentRequest.cs" />
     <Compile Include="Payments\CreatePaymentResult.cs" />
-    <Compile Include="Payments\IPaymentAccess.cs" />
     <Compile Include="Payments\IPaymentAPI.cs" />
-    <Compile Include="Payments\IPaymentMethodAccess.cs" />
     <Compile Include="Payments\IPaymentMethodAPI.cs" />
     <Compile Include="Payments\IPaymentMethodQuery.cs" />
     <Compile Include="Payments\IPaymentQuery.cs" />

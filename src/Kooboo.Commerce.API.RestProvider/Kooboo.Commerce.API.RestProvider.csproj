@@ -64,7 +64,7 @@
     <Compile Include="HttpHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Payments\RestPaymentAccess.cs" />
+    <Compile Include="Payments\RestPaymentAPI.cs" />
     <Compile Include="Payments\RestPaymentMethodQuery.cs" />
     <Compile Include="Payments\RestPaymentQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
