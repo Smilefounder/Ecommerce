@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.API
 {
     public interface ICommerceAPI
     {
-        void InitCommerceInstance(string instance, string language);
+        void InitCommerceInstance(string instance, string language, Dictionary<string, string> settings);
 
         ICountryAPI Countries { get; }
         IBrandAPI Brands { get; }

@@ -13,6 +13,16 @@ namespace Kooboo.Commerce.API.Orders
 
         IOrderQuery ByAccountId(string accountId);
 
+        IOrderQuery ByCreateDate(DateTime? from, DateTime? to);
+
+        IOrderQuery ByOrderStatus(OrderStatus status);
+
+        IOrderQuery IsCompleted(bool isCompleted);
+
+        IOrderQuery ByCoupon(string coupon);
+
+        IOrderQuery ByTotal(decimal? from, decimal? to);
+
         Order GetMyOrder(string sessionId, MembershipUser user, bool deleteShoppingCart = true);
 
         IOrderQuery LoadWithCustomer();

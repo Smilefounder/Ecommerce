@@ -135,6 +135,34 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             return this;
         }
 
+        public IProductQuery ByProductTypeId(int productTypeId)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.ProductTypeId == productTypeId);
+            return this;
+        }
+
+        public IProductQuery ByBrandId(int brandId)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.BrandId == brandId);
+            return this;
+        }
+
+        public IProductQuery IsPublished(bool published)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.IsPublished == published);
+            return this;
+        }
+
+        public IProductQuery IsDeleted(bool deleted)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.IsDeleted == deleted);
+            return this;
+        }
+
         protected override Product Map(Commerce.Products.Product obj)
         {
             List<string> includeComplexPropertyNames = new List<string>();

@@ -197,12 +197,6 @@ else
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>@("Payment Status".Localize())</th>
-                                            <td>
-                                                @Enum.GetName(typeof(PaymentStatus), order.PaymentStatus)
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <th>@("Created At".Localize())</th>
                                             <td>
                                                 <span>@order.CreatedAtUtc.ToShortDateString()</span>

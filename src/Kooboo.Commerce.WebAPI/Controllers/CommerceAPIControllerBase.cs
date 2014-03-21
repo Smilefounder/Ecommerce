@@ -8,15 +8,14 @@ using Kooboo.Commerce.API;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
-    public class CommerceAPIControllerBase : ApiController
+    public abstract class CommerceAPIControllerBase : ApiController
     {
         protected ICommerceAPI Commerce()
         {
-            var api = "LocalCommerceAPI";
-            var commerceService = EngineContext.Current.Resolve<ICommerceAPI>(api);
+            var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();
             string commerceInstance = this.ControllerContext.RouteData.Values["instance"].ToString();
             string language = "";
-            commerceService.InitCommerceInstance(commerceInstance, language);
+            commerceService.InitCommerceInstance(commerceInstance, language, null);
             return commerceService;
         }
 	}

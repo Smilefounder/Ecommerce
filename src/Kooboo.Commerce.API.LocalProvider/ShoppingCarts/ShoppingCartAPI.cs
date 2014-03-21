@@ -83,25 +83,27 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             return this;
         }
 
-        public void AddCartItem(int cartId, ShoppingCartItem item)
+        public bool AddCartItem(int cartId, ShoppingCartItem item)
         {
             if (item != null)
             {
-                _shoppingCartService.AddCartItem(cartId, _cartItemMapper.MapFrom(item));
+                return _shoppingCartService.AddCartItem(cartId, _cartItemMapper.MapFrom(item));
             }
+            return false;
         }
 
-        public void UpdateCartItem(int cartId, ShoppingCartItem item)
+        public bool UpdateCartItem(int cartId, ShoppingCartItem item)
         {
             if (item != null)
             {
-                _shoppingCartService.UpdateCartItem(cartId, _cartItemMapper.MapFrom(item));
+                return _shoppingCartService.UpdateCartItem(cartId, _cartItemMapper.MapFrom(item));
             }
+            return false;
         }
 
-        public void RemoveCartItem(int cartId, int cartItemId)
+        public bool RemoveCartItem(int cartId, int cartItemId)
         {
-            _shoppingCartService.RemoveCartItem(cartId, cartItemId);
+            return _shoppingCartService.RemoveCartItem(cartId, cartItemId);
         }
 
         //public override bool Create(ShoppingCart obj)

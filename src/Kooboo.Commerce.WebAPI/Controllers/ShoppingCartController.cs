@@ -6,67 +6,68 @@ using System.Net.Http;
 using System.Web.Http;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.API.ShoppingCarts;
+using Kooboo.Commerce.API;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
-    public class ShoppingCartController : CommerceAPIControllerBase
+    public class ShoppingCartController : CommerceAPIControllerQueryBase<ShoppingCart>
     {
-        // GET api/cart/5
-        public ShoppingCart Get(string sessionId)
+        protected override ICommerceQuery<ShoppingCart> BuildQueryFromQueryStrings()
         {
-            return Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
+            var qs = Request.RequestUri.ParseQueryString();
+            var query = Commerce().ShoppingCarts.Query();
+            if (!string.IsNullOrEmpty(qs["sessionId"]))
+                query = query.BySessionId(qs["sessionId"]);
+            if (!string.IsNullOrEmpty(qs["accountId"]))
+                query = query.ByAccountId(qs["accountId"]);
+
+
+            if (qs["LoadWithCustomer"] == "true")
+                query = query.LoadWithCustomer();
+
+            return query;
+        }
+        [HttpPost]
+        public bool AddCartItem(int cartId, [FromBody]ShoppingCartItem item)
+        {
+            return Commerce().ShoppingCarts.AddCartItem(cartId, item);
         }
 
-        // POST api/cart
-        public bool Post([FromBody]Dictionary<string, object> form)
+        [HttpPost]
+        public bool UpdateCartItem(int cartId, [FromBody]ShoppingCartItem item)
         {
-            string sessionId = form["sessionId"].ToString();
-            string accountId = form["accountId"].ToString();
-            int productPriceId = Convert.ToInt32(form["productPriceId"]);
-            int quantity = Convert.ToInt32(form["quantity"]);
+            return Commerce().ShoppingCarts.UpdateCartItem(cartId, item);
+        }
+        [HttpDelete]
+        public bool RemoveCartItem(int cartId, int cartItemId)
+        {
+            return Commerce().ShoppingCarts.RemoveCartItem(cartId, cartItemId);
+        }
 
-            var cart = Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
-            if(cart == null)
-            {
-                cart = Commerce().ShoppingCarts.ByAccountId(accountId).FirstOrDefault();
-            }
-            var cartItem = new ShoppingCartItem();
-
+        [HttpPost]
+        public bool AddToCart(string sessionId, string accountId, int productPriceId, int quantity)
+        {
             return Commerce().ShoppingCarts.AddToCart(sessionId, accountId, productPriceId, quantity);
         }
 
-        // PUT api/cart/5
-        public bool Put([FromBody]Dictionary<string, object> form)
+        [HttpPost]
+        public bool UpdateCart(string sessionId, string accountId, int productPriceId, int quantity)
         {
-            string sessionId = form["sessionId"].ToString();
-            string accountId = form["accountId"].ToString();
-            int productPriceId = Convert.ToInt32(form["productPriceId"]);
-            int quantity = Convert.ToInt32(form["quantity"]);
-
             return Commerce().ShoppingCarts.UpdateCart(sessionId, accountId, productPriceId, quantity);
         }
 
-        // DELETE api/cart/5
-        public bool Delete(string sessionId, string accountId)
+        [HttpPost]
+        public bool FillCustomerByAccount(string sessionId, [FromBody]Kooboo.CMS.Membership.Models.MembershipUser user)
         {
-            var cart = Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
-            if (cart == null)
-            {
-                cart = Commerce().ShoppingCarts.ByAccountId(accountId).FirstOrDefault();
-            }
-            if (cart != null)
-            {
-                try
-                {
-                    Commerce().ShoppingCarts.ExpireShppingCart(cart.Id);
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-            return false;
+            return Commerce().ShoppingCarts.FillCustomerByAccount(sessionId, user);
         }
+
+
+        [HttpGet]
+        public bool ExpireShppingCart(int shoppingCartId)
+        {
+            return Commerce().ShoppingCarts.ExpireShppingCart(shoppingCartId);
+        }
+
     }
 }

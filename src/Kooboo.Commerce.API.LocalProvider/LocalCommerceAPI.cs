@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.API.LocalProvider
     [Dependency(typeof(ICommerceAPI), ComponentLifeStyle.InRequestScope)]
     public class LocalCommerceAPI : CommerceAPIBase
     {
-        public override void InitCommerceInstance(string instance, string language)
+        public override void InitCommerceInstance(string instance, string language, Dictionary<string, string> settings)
         {
             if (HttpContext.Current != null)
             {

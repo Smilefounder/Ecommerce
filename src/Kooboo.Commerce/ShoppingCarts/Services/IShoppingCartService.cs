@@ -20,10 +20,10 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
 
         bool Delete(ShoppingCart shoppingCart);
 
-        void AddCartItem(int cartId, ShoppingCartItem item);
-        void UpdateCartItem(int cartId, ShoppingCartItem item);
+        bool AddCartItem(int cartId, ShoppingCartItem item);
+        bool UpdateCartItem(int cartId, ShoppingCartItem item);
 
-        void RemoveCartItem(int cartId, int cartItemId);
+        bool RemoveCartItem(int cartId, int cartItemId);
 
         bool AddToCart(string sessionId, int? customerId, int productPriceId, int quantity);
 

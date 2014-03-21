@@ -2407,9 +2407,9 @@
       <Project>{5ba65d94-5968-4861-907a-460c252433cd}</Project>
       <Name>Kooboo.Commerce.API.CmsSite</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
-      <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
-      <Name>Kooboo.Commerce.API.LocalProvider</Name>
+    <ProjectReference Include="..\Kooboo.Commerce.API.RestProvider\Kooboo.Commerce.API.RestProvider.csproj">
+      <Project>{17485074-a10c-42a6-be94-2be21f2c60e3}</Project>
+      <Name>Kooboo.Commerce.API.RestProvider</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>

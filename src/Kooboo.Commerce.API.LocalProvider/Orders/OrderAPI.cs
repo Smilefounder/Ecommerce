@@ -144,6 +144,48 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return this;
         }
 
+        public IOrderQuery ByCreateDate(DateTime? from, DateTime? to)
+        {
+            EnsureQuery();
+            if (from.HasValue)
+                _query = _query.Where(o => o.CreatedAtUtc >= from.Value);
+            if (to.HasValue)
+                _query = _query.Where(o => o.CreatedAtUtc <= to.Value);
+            return this;
+        }
+
+        public IOrderQuery ByOrderStatus(OrderStatus status)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => (int)o.OrderStatus == (int)status);
+            return this;
+        }
+
+        public IOrderQuery IsCompleted(bool isCompleted)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.IsCompleted == isCompleted);
+            return this;
+        }
+
+        public IOrderQuery ByCoupon(string coupon)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.Coupon == coupon);
+            return this;
+        }
+
+        public IOrderQuery ByTotal(decimal? from, decimal? to)
+        {
+            EnsureQuery();
+            if (from.HasValue)
+                _query = _query.Where(o => o.Total >= from.Value);
+            if (to.HasValue)
+                _query = _query.Where(o => o.Total <= to.Value);
+            return this;
+        }
+
+
         public Order GetMyOrder(string sessionId, MembershipUser user, bool deleteShoppingCart = true)
         {
             var shoppingCart = string.IsNullOrEmpty(sessionId) ? null : _shoppingCartService.Query().Where(o => o.SessionId == sessionId).FirstOrDefault();
@@ -181,5 +223,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         {
             return this;
         }
+
     }
 }
