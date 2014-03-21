@@ -8,7 +8,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
-    [Dependency(typeof(IPaymentMethodQuery))]
     public class LocalPaymentMethodQuery : LocalCommerceQuery<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod>, IPaymentMethodQuery
     {
         private IPaymentMethodService _paymentMethodService;

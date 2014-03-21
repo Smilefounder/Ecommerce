@@ -75,7 +75,6 @@
     <Compile Include="Payments\LocalPaymentMethodQuery.cs" />
     <Compile Include="Payments\LocalPaymentQuery.cs" />
     <Compile Include="Orders\OrderAPI.cs" />
-    <Compile Include="Payments\PaymentMethodQuery.cs" />
     <Compile Include="PlugIn\AddToCartPlugIn.cs" />
     <Compile Include="PlugIn\CreatePaymentPlugin.cs" />
     <Compile Include="PlugIn\SaveOrderPlugIn.cs" />
