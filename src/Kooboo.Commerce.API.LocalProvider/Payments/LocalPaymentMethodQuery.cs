@@ -19,6 +19,14 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             _mapper = mapper;
         }
 
+        public IPaymentMethodQuery ByType(PaymentMethodType type)
+        {
+            EnsureQuery();
+            var mappedType = (Kooboo.Commerce.Payments.PaymentMethodType)Enum.Parse(typeof(Kooboo.Commerce.Payments.PaymentMethodType), type.ToString());
+            _query = _query.Where(x => x.Type == mappedType);
+            return this;
+        }
+
         protected override IQueryable<Commerce.Payments.PaymentMethod> CreateQuery()
         {
             return _paymentMethodService.Query().Where(x => x.IsEnabled);

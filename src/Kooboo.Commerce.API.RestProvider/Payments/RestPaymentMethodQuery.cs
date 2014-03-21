@@ -8,9 +8,18 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
 {
     public class RestPaymentMethodQuery : RestApiBase, IPaymentMethodQuery
     {
+        public IPaymentMethodQuery ByType(PaymentMethodType type)
+        {
+            QueryParameters.Add("type", type.ToString());
+            return this;
+        }
+
         public PaymentMethod[] Pagination(int pageIndex, int pageSize)
         {
-            throw new NotImplementedException();
+            QueryParameters.Add("pageSize", pageSize.ToString());
+            QueryParameters.Add("pageIndex", pageIndex.ToString());
+
+            return Get<PaymentMethod[]>(null);
         }
 
         public PaymentMethod FirstOrDefault()

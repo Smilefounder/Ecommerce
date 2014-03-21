@@ -8,6 +8,24 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
 {
     public class RestPaymentQuery : RestApiBase, IPaymentQuery
     {
+        public IPaymentQuery By(PaymentQueryParams parameters)
+        {
+            if (parameters.Id != null)
+            {
+                ById(parameters.Id.Value);
+            }
+            if (parameters.Status != null)
+            {
+                ByStatus(parameters.Status.Value);
+            }
+            if (!String.IsNullOrEmpty(parameters.TargetType) && !String.IsNullOrEmpty(parameters.TargetId))
+            {
+                ByTarget(parameters.TargetType, parameters.TargetId);
+            }
+
+            return this;
+        }
+
         public IPaymentQuery ById(int id)
         {
             QueryParameters.Add("id", "id");
@@ -27,17 +45,11 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
             return this;
         }
 
-        public IPaymentQuery OrderById(SortDirection direction)
-        {
-            QueryParameters.Add("orderby", "Id " + direction);
-            return this;
-        }
-
         public Payment[] Pagination(int pageIndex, int pageSize)
         {
             QueryParameters.Add("pageIndex", pageIndex.ToString());
             QueryParameters.Add("pageSize", pageSize.ToString());
-            return Get<Payment[]>("Pagination");
+            return Get<Payment[]>(null);
         }
 
         public Payment FirstOrDefault()

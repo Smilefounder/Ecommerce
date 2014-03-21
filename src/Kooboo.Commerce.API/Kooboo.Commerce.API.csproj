@@ -112,6 +112,7 @@
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\PaymentMethodReference.cs" />
     <Compile Include="Payments\PaymentMethodType.cs" />
+    <Compile Include="Payments\PaymentQueryParams.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="PriceChangeMode.cs" />
     <Compile Include="Products\IProductAccess.cs" />
@@ -131,7 +132,6 @@
     <Compile Include="ShoppingCarts\IShoppingCartQuery.cs" />
     <Compile Include="ShoppingCarts\ShoppingCart.cs" />
     <Compile Include="ShoppingCarts\ShoppingCartItem.cs" />
-    <Compile Include="SortDirection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

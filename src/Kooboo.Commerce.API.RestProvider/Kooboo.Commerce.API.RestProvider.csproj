@@ -30,6 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Kooboo">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Common, Version=4.4.0.307, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -65,6 +72,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Payments\RestPaymentAPI.cs" />
+    <Compile Include="Payments\RestPaymentMethodAPI.cs" />
     <Compile Include="Payments\RestPaymentMethodQuery.cs" />
     <Compile Include="Payments\RestPaymentQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
