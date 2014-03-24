@@ -84,7 +84,7 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
         public bool ExpireShppingCart(int shoppingCartId)
         {
             QueryParameters.Add("shoppingCartId", shoppingCartId.ToString());
-            return Post<bool>("FillCustomerByAccount");
+            return Post<bool>("ExpireShppingCart");
         }
 
         public IShoppingCartQuery Query()

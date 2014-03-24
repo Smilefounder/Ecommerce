@@ -63,7 +63,7 @@ namespace Kooboo.Commerce.WebAPI.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         public bool ExpireShppingCart(int shoppingCartId)
         {
             return Commerce().ShoppingCarts.ExpireShppingCart(shoppingCartId);
