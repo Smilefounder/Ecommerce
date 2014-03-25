@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Kooboo.Commerce.API
 {
+    /// <summary>
+    /// gender enum
+    /// </summary>
     public enum Gender
     {
         Unknown = 0,

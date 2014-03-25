@@ -5,9 +5,18 @@ using System.Text;
 
 namespace Kooboo.Commerce.API
 {
+    /// <summary>
+    /// price change mode
+    /// </summary>
     public enum PriceChangeMode
     {
+        /// <summary>
+        /// change the price by amount
+        /// </summary>
         ByAmount = 0,
+        /// <summary>
+        /// change the price by the percent of itself
+        /// </summary>
         ByPercent = 1
     }
 }

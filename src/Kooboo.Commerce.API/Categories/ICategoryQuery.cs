@@ -5,17 +5,53 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Categories
 {
+    /// <summary>
+    /// category query
+    /// all query filter should return self(this) to support fluent api.
+    /// </summary>
     public interface ICategoryQuery : ICommerceQuery<Category>
     {
+        /// <summary>
+        /// add id filter to query
+        /// </summary>
+        /// <param name="id">category id</param>
+        /// <returns>category query</returns>
         ICategoryQuery ById(int id);
+        /// <summary>
+        /// add name filter to query
+        /// </summary>
+        /// <param name="name">category name</param>
+        /// <returns>category query</returns>
         ICategoryQuery ByName(string name);
+        /// <summary>
+        /// add published filter to query
+        /// normally the api doesn't set the published as implicted. you need to explicit add this filter at the front-site.
+        /// </summary>
+        /// <param name="published">category id</param>
+        /// <returns>category query</returns>
         ICategoryQuery Published(bool published);
 
+        /// <summary>
+        /// add parent id filter to query
+        /// </summary>
+        /// <param name="parentId">category parent id</param>
+        /// <returns>category query</returns>
         ICategoryQuery ByParentId(int? parentId);
-
+        /// <summary>
+        /// load the category/categories with parent
+        /// </summary>
+        /// <returns>category query</returns>
         ICategoryQuery LoadWithParent();
-
+        /// <summary>
+        /// load the category/categories with all parents
+        /// the parents will be null on the top/root level of category
+        /// </summary>
+        /// <returns>category query</returns>
         ICategoryQuery LoadWithAllParents();
+        /// <summary>
+        /// load the category/categories with children
+        /// </summary>
+        /// <returns>category query</returns>
         ICategoryQuery LoadWithChildren();
     }
 }

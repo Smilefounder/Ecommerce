@@ -11,7 +11,7 @@ using System;
 namespace Kooboo.Commerce.API.EAV 
 {
     /// <summary>
-    /// Use in cms.
+    /// field data type. used in cms.
     /// </summary>
     public enum FieldDataType
     {

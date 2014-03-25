@@ -30,7 +30,13 @@ namespace DAF.Core.Map
                 {
                     if (op.PropertyType != top.PropertyType)
                     {
-                        if (includeComplexPropertyNames != null && includeComplexPropertyNames.Any(o => o == (string.IsNullOrEmpty(prefix) ? top.Name : prefix + "." + top.Name)))
+                        if (top.PropertyType.IsEnum && op.PropertyType.IsEnum)
+                        {
+                            object val = op.GetValue(fobj, null);
+                            object nval = Enum.Parse(top.PropertyType, Enum.GetName(op.PropertyType, val));
+                            top.SetValue(tobj, nval, null);
+                        }
+                        else if (includeComplexPropertyNames != null && includeComplexPropertyNames.Any(o => o == (string.IsNullOrEmpty(prefix) ? top.Name : prefix + "." + top.Name)))
                         {
                             // 1. if is array(or enumerable), then map the item in the collection
                             if (typeof(IEnumerable).IsAssignableFrom(op.PropertyType))
