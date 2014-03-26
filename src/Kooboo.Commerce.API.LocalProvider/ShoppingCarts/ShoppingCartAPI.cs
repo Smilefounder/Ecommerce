@@ -2,6 +2,9 @@
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.Customers.Services;
+using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.Promotions;
+using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.ShoppingCarts.Services;
 using System;
 using System.Collections.Generic;
@@ -15,18 +18,26 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
     {
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
+        private IPromotionService _promotionService;
+        private IPromotionPolicyFactory _promotionPolicyFactory;
         private IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> _mapper;
         private IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> _cartItemMapper;
         private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _customerMapper;
         private bool _loadWithCutomer = false;
 
-        public ShoppingCartAPI(IShoppingCartService shoppingCartService, ICustomerService customerService,
+        public ShoppingCartAPI(
+            IShoppingCartService shoppingCartService, 
+            ICustomerService customerService,
+            IPromotionService promotionService,
+            IPromotionPolicyFactory promotionPolicyFactory,
             IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
             IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper,
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> customerMapper)
         {
             _shoppingCartService = shoppingCartService;
             _customerService = customerService;
+            _promotionService = promotionService;
+            _promotionPolicyFactory = promotionPolicyFactory;
             _mapper = mapper;
             _cartItemMapper = cartItemMapper;
             _customerMapper = customerMapper;
@@ -55,7 +66,31 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
                 includeComplexPropertyNames.Add("Customer");
             }
 
-            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
+            var cart = _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
+
+            // Calculate promotion discounts
+            var calculator = new PriceCalculator(_promotionService, _promotionPolicyFactory);
+            var context = PriceCalculationContext.CreateFrom(obj);
+            calculator.Calculate(context);
+
+            foreach (var item in cart.Items)
+            {
+                var pricingItem = context.Items.FirstOrDefault(x => x.Id == item.Id);
+                item.Discount = pricingItem.Discount;
+            }
+
+            cart.DiscountExItemDiscounts = context.DiscountExItemDiscounts;
+
+            foreach (var promotion in context.AppliedPromotions)
+            {
+                cart.AppliedPromotions.Add(new Promotions.Promotion
+                {
+                    Id = promotion.Id,
+                    Name = promotion.Name
+                });
+            }
+
+            return cart;
         }
 
         protected override void OnQueryExecuted()

@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Promotions;
+using Kooboo.Commerce.Promotions.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace Kooboo.Commerce.Orders
 {
     public class PriceCalculator
     {
-        private IRepository<Promotion> _promotionRepository;
+        private IPromotionService _promotionService;
         private IPromotionPolicyFactory _promotionPolicyFactory;
 
         public PriceCalculator(
-            IRepository<Promotion> promotionRepository,
+            IPromotionService promotionService,
             IPromotionPolicyFactory promotionPolicyFactory)
         {
-            _promotionRepository = promotionRepository;
+            _promotionService = promotionService;
             _promotionPolicyFactory = promotionPolicyFactory;
         }
 
@@ -43,13 +44,13 @@ namespace Kooboo.Commerce.Orders
         private void ApplyPromotions(PriceCalculationContext context)
         {
             var matcher = new PromotionMatcher();
-            var promotions = _promotionRepository.Query().WhereAvailableNow().ToList();
+            var promotions = _promotionService.Query().WhereAvailableNow().ToList();
             var matches = matcher.MatchApplicablePromotions(context, promotions);
 
             foreach (var match in matches)
             {
                 var policy = _promotionPolicyFactory.FindByName(match.Promotion.PromotionPolicyName);
-                policy.Execute(new PromotionPolicyExecutionContext(match.Promotion, match.ConditionMatchedItems));
+                policy.Execute(new PromotionPolicyExecutionContext(match.Promotion, match.ConditionMatchedItems, context));
 
                 context.AppliedPromotions.Add(match.Promotion);
             }

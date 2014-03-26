@@ -259,5 +259,59 @@
     "UtcCreationDate": "2014-03-21T02:32:10.5815886Z",
     "UtcLastestModificationDate": null,
     "LastestEditor": "admin"
+  },
+  {
+    "UUID": "HNXA8336SE",
+    "Name": "ChangePassword",
+    "Value": "ChangePassword",
+    "Category": "",
+    "UtcCreationDate": "2014-03-26T09:59:11.6493747Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "Q4XL4XEM58",
+    "Name": "Old password",
+    "Value": "Old password",
+    "Category": "",
+    "UtcCreationDate": "2014-03-26T09:59:12.984545Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "52KZVU7ZME",
+    "Name": "New password",
+    "Value": "New password",
+    "Category": "",
+    "UtcCreationDate": "2014-03-26T09:59:13.0155468Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "GLPC6FREUZ",
+    "Name": "Confirm password",
+    "Value": "Confirm password",
+    "Category": "",
+    "UtcCreationDate": "2014-03-26T09:59:13.0305485Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "9DKK9MKYJ9",
+    "Name": "'Confirm password' and 'New password' do not match.",
+    "Value": "'Confirm password' and 'New password' do not match.",
+    "Category": "",
+    "UtcCreationDate": "2014-03-26T09:59:13.0415502Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "LHAHD9X63P",
+    "Name": "Submit",
+    "Value": "Submit",
+    "Category": "",
+    "UtcCreationDate": "2014-03-26T09:59:13.0535518Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
   }
 ]

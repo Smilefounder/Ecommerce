@@ -9,6 +9,8 @@ namespace Kooboo.Commerce.Orders
 {
     public class PricingItem
     {
+        public int Id { get; set; }
+
         public ProductPrice ProductPrice { get; set; }
 
         [Parameter]
@@ -24,8 +26,9 @@ namespace Kooboo.Commerce.Orders
             }
         }
 
-        public PricingItem(ProductPrice price, int quantity)
+        public PricingItem(int id, ProductPrice price, int quantity)
         {
+            Id = id;
             ProductPrice = price;
             Quantity = quantity;
         }

@@ -164,7 +164,6 @@
     <Compile Include="Promotions\PromotionMatcher.cs" />
     <Compile Include="Promotions\PromotionConditionContextModel.cs" />
     <Compile Include="Promotions\PromotionConditionChecker.cs" />
-    <Compile Include="Promotions\PromotionContext.cs" />
     <Compile Include="Promotions\PromotionMatch.cs" />
     <Compile Include="Promotions\PromotionPolicyExecutionContext.cs" />
     <Compile Include="Rules\CustomerGenderValueDataSource.cs" />

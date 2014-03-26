@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Orders
             }
         }
 
-        public decimal OrderDiscountExItemDiscounts { get; set; }
+        public decimal DiscountExItemDiscounts { get; set; }
 
         public decimal ShippingCost { get; set; }
 
@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Orders
 
             foreach (var item in cart.Items)
             {
-                context.Items.Add(new PricingItem(item.ProductPrice, item.Quantity));
+                context.Items.Add(new PricingItem(item.Id, item.ProductPrice, item.Quantity));
             }
 
             return context;
@@ -71,7 +71,7 @@ namespace Kooboo.Commerce.Orders
 
             foreach (var item in order.OrderItems)
             {
-                context.Items.Add(new PricingItem(item.ProductPrice, item.Quantity));
+                context.Items.Add(new PricingItem(item.Id, item.ProductPrice, item.Quantity));
             }
 
             return context;
