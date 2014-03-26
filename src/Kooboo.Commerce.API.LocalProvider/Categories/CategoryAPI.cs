@@ -8,6 +8,9 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.Commerce.API.LocalProvider.Categories
 {
+    /// <summary>
+    /// category api
+    /// </summary>
     [Dependency(typeof(ICategoryAPI), ComponentLifeStyle.Transient)]
     public class CategoryAPI : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryAPI
     {
@@ -23,16 +26,30 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// create entity query
+        /// </summary>
+        /// <returns>queryable object</returns>
         protected override IQueryable<Commerce.Categories.Category> CreateQuery()
         {
             return _categoryService.Query();
         }
 
+        /// <summary>
+        /// use the default order when pagination the query
+        /// </summary>
+        /// <param name="query">pagination query</param>
+        /// <returns>ordered query</returns>
         protected override IQueryable<Commerce.Categories.Category> OrderByDefault(IQueryable<Commerce.Categories.Category> query)
         {
             return query.OrderBy(o => o.Id);
         }
 
+        /// <summary>
+        /// map the entity to object
+        /// </summary>
+        /// <param name="obj">entity</param>
+        /// <returns>object</returns>
         protected override Category Map(Commerce.Categories.Category obj)
         {
             List<string> includeComplexPropertyNames = new List<string>();
@@ -45,6 +62,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
         }
 
+        /// <summary>
+        /// add id filter to query
+        /// </summary>
+        /// <param name="id">category id</param>
+        /// <returns>category query</returns>
         public ICategoryQuery ById(int id)
         {
             EnsureQuery();
@@ -52,6 +74,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             return this;
         }
 
+        /// <summary>
+        /// add name filter to query
+        /// </summary>
+        /// <param name="name">category name</param>
+        /// <returns>category query</returns>
         public ICategoryQuery ByName(string name)
         {
             EnsureQuery();
@@ -59,6 +86,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             return this;
         }
 
+        /// <summary>
+        /// add published filter to query
+        /// normally the api doesn't set the published as implicted. you need to explicit add this filter at the front-site.
+        /// </summary>
+        /// <param name="published">category id</param>
+        /// <returns>category query</returns>
         public ICategoryQuery Published(bool published)
         {
             EnsureQuery();
@@ -66,6 +99,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             return this;
         }
 
+        /// <summary>
+        /// add parent id filter to query
+        /// </summary>
+        /// <param name="parentId">category parent id</param>
+        /// <returns>category query</returns>
         public ICategoryQuery ByParentId(int? parentId)
         {
             EnsureQuery();
@@ -76,58 +114,39 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             return this;
         }
 
+        /// <summary>
+        /// load the category/categories with parent
+        /// </summary>
+        /// <returns>category query</returns>
         public ICategoryQuery LoadWithParent()
         {
             _loadWithParent = true;
             return this;
         }
 
+        /// <summary>
+        /// load the category/categories with all parents
+        /// the parents will be null on the top/root level of category
+        /// </summary>
+        /// <returns>category query</returns>
         public ICategoryQuery LoadWithAllParents()
         {
             _loadWithParents = true;
             return this;
         }
 
+        /// <summary>
+        /// load the category/categories with children
+        /// </summary>
+        /// <returns>category query</returns>
         public ICategoryQuery LoadWithChildren()
         {
             _loadWithChildren = true;
             return this;
         }
-
-        //private void LoadParent(Category category)
-        //{
-        //    var parent = _categoryService.Query().Where(o => o.Children.Any(c => c.Id == category.Id)).FirstOrDefault();
-        //    if (parent != null)
-        //        category.Parent = Map(parent);
-        //}
-
-        //private void LoadChildren(Category category)
-        //{
-        //    var children = _categoryService.Query().Where(o => o.Parent.Id == category.Id).ToArray();
-        //    if (children != null)
-        //        category.Children = children.Select(o => Map(o)).ToArray();
-        //}
-
-        //private void LoadWithOptions(Category category)
-        //{
-        //    if (_loadWithParents)
-        //    {
-        //        Category that = category;
-        //        while (that != null)
-        //        {
-        //            LoadParent(that);
-        //            that = that.Parent;
-        //        }
-        //    }
-        //    else if (_loadWithParent)
-        //    {
-        //        LoadParent(category);
-        //    }
-        //    if (_loadWithChildren)
-        //    {
-        //        LoadChildren(category);
-        //    }
-        //}
+        /// <summary>
+        /// this method will be called after query executed
+        /// </summary>
         protected override void OnQueryExecuted()
         {
             _loadWithParent = false;
@@ -135,6 +154,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             _loadWithChildren = false;
         }
 
+        /// <summary>
+        /// create category query 
+        /// </summary>
+        /// <returns>category query</returns>
         public ICategoryQuery Query()
         {
             return this;

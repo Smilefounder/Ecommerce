@@ -9,9 +9,20 @@ using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.Commerce.API.LocalProvider
 {
+    /// <summary>
+    /// local commerce api
+    /// this api uses the Kooboo.Commerce dll directly.
+    /// </summary>
     [Dependency(typeof(ICommerceAPI), ComponentLifeStyle.InRequestScope)]
     public class LocalCommerceAPI : CommerceAPIBase
     {
+        /// <summary>
+        /// set the commerce instance and language to HttpContext.Current.Items.
+        /// so that the ICommerceInstanceManager can OpenInstance by using HttpContextItemCommerceInstanceNameResolver
+        /// </summary>
+        /// <param name="instance">commerce instance name</param>
+        /// <param name="language">language</param>
+        /// <param name="settings">kooboo cms site's custom field settings</param>
         public override void InitCommerceInstance(string instance, string language, Dictionary<string, string> settings)
         {
             if (HttpContext.Current != null)

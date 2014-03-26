@@ -9,13 +9,27 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.API.CmsSite.PlugIn
 {
+    /// <summary>
+    /// payment request form plugin 
+    /// it is used in the kooboo cms view to let the user post back the payment form at front-site.
+    /// </summary>
     public class CreatePaymentPlugIn : ISubmissionPlugin
     {
+        /// <summary>
+        /// predefined parameters, these parameters will not be rendered at the page/view.
+        /// </summary>
         public Dictionary<string, object> Parameters
         {
             get { return null; }
         }
 
+        /// <summary>
+        /// handle the post back form
+        /// </summary>
+        /// <param name="site">kooboo cms current site</param>
+        /// <param name="controllerContext">controller runtime context</param>
+        /// <param name="submissionSetting">submission settings of the parameters</param>
+        /// <returns>response result</returns>
         public System.Web.Mvc.ActionResult Submit(CMS.Sites.Models.Site site, System.Web.Mvc.ControllerContext controllerContext, CMS.Sites.Models.SubmissionSetting submissionSetting)
         {
             var resultData = new JsonResultData();

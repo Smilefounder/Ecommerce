@@ -8,8 +8,15 @@ using Kooboo.Commerce.API;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
+    /// <summary>
+    /// commerce api base controller
+    /// </summary>
     public abstract class CommerceAPIControllerBase : ApiController
     {
+        /// <summary>
+        /// create the commerce api from current request context, by the commerce instance name and language
+        /// </summary>
+        /// <returns>commerce api</returns>
         protected ICommerceAPI Commerce()
         {
             var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();

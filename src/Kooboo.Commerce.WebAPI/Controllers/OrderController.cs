@@ -12,6 +12,10 @@ namespace Kooboo.Commerce.WebAPI.Controllers
 {
     public class OrderController : CommerceAPIControllerAccessBase<Order>
     {
+        /// <summary>
+        /// build the commerce query filters from query string.
+        /// </summary>
+        /// <returns>commerce query</returns>
         protected override ICommerceQuery<Order> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();
@@ -49,6 +53,13 @@ namespace Kooboo.Commerce.WebAPI.Controllers
             return query;
         }
 
+        /// <summary>
+        /// get current logon user's last active order
+        /// </summary>
+        /// <param name="sessionId">current user's session id</param>
+        /// <param name="deleteShoppingCart">whether to delete the shopping cart when order created</param>
+        /// <param name="user">current logon user info</param>
+        /// <returns>order</returns>
         [HttpPost]
         public Order GetMyOrder(string sessionId, bool deleteShoppingCart, [FromBody]MembershipUser user)
         {

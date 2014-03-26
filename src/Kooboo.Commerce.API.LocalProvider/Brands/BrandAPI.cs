@@ -8,6 +8,9 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
+    /// <summary>
+    /// brand api
+    /// </summary>
     [Dependency(typeof(IBrandAPI), ComponentLifeStyle.Transient)]
     public class BrandAPI : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandAPI
     {
@@ -20,21 +23,40 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// create entity query
+        /// </summary>
+        /// <returns>queryable object</returns>
         protected override IQueryable<Commerce.Brands.Brand> CreateQuery()
         {
             return _brandService.Query();
         }
 
+        /// <summary>
+        /// use the default order when pagination the query
+        /// </summary>
+        /// <param name="query">pagination query</param>
+        /// <returns>ordered query</returns>
         protected override IQueryable<Commerce.Brands.Brand> OrderByDefault(IQueryable<Commerce.Brands.Brand> query)
         {
             return _query.OrderByDescending(o => o.Id);
         }
 
+        /// <summary>
+        /// map the entity to object
+        /// </summary>
+        /// <param name="obj">entity</param>
+        /// <returns>object</returns>
         protected override Brand Map(Commerce.Brands.Brand obj)
         {
             return _mapper.MapTo(obj);
         }
 
+        /// <summary>
+        /// add id filter to query
+        /// </summary>
+        /// <param name="id">brand id</param>
+        /// <returns>brand query</returns>
         public IBrandQuery ById(int id)
         {
             EnsureQuery();
@@ -42,6 +64,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
             return this;
         }
 
+        /// <summary>
+        /// add name filter to query
+        /// </summary>
+        /// <param name="name">brand name</param>
+        /// <returns>brand query</returns>
         public IBrandQuery ByName(string name)
         {
             EnsureQuery();
@@ -49,6 +76,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
             return this;
         }
 
+        /// <summary>
+        /// create a query
+        /// </summary>
+        /// <returns>brand query</returns>
         public IBrandQuery Query()
         {
             return this;

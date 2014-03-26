@@ -11,16 +11,29 @@ namespace Kooboo.Commerce.API.Products
     /// </summary>
     public class ProductImage
     {
+        /// <summary>
+        /// image id
+        /// </summary>
         public int Id { get; set; }
-
+        /// <summary>
+        /// product id
+        /// </summary>
         public int ProductId { get; set; }
-
+        /// <summary>
+        /// image size name, which is defined in image sizes
+        /// </summary>
         public string ImageSizeName { get; set; }
-
+        /// <summary>
+        /// image url
+        /// </summary>
         public string ImageUrl { get; set; }
-
+        /// <summary>
+        /// is visible at ui
+        /// </summary>
         public bool IsVisible { get; set; }
-
+        /// <summary>
+        /// product
+        /// </summary>
         public Product Product { get; set; }
     }
 }

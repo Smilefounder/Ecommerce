@@ -10,6 +10,9 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Customers
 {
+    /// <summary>
+    /// customer api
+    /// </summary>
     [Dependency(typeof(ICustomerAPI), ComponentLifeStyle.Transient)]
     public class CustomerAPI : LocalCommerceQueryAccess<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerAPI
     {
@@ -37,16 +40,30 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             _customerLoyaltyMapper = customerLoyaltyMapper;
         }
 
+        /// <summary>
+        /// create entity query
+        /// </summary>
+        /// <returns>queryable object</returns>
         protected override IQueryable<Kooboo.Commerce.Customers.Customer> CreateQuery()
         {
             return _customerService.Query();
         }
 
+        /// <summary>
+        /// use the default order when pagination the query
+        /// </summary>
+        /// <param name="query">pagination query</param>
+        /// <returns>ordered query</returns>
         protected override IQueryable<Kooboo.Commerce.Customers.Customer> OrderByDefault(IQueryable<Kooboo.Commerce.Customers.Customer> query)
         {
             return query.OrderBy(o => o.Id);
         }
 
+        /// <summary>
+        /// map the entity to object
+        /// </summary>
+        /// <param name="obj">entity</param>
+        /// <returns>object</returns>
         protected override Customer Map(Commerce.Customers.Customer obj)
         {
             List<string> includeComplexPropertyNames = new List<string>();
@@ -59,6 +76,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
         }
 
+        /// <summary>
+        /// add id filter to query
+        /// </summary>
+        /// <param name="id">customer id</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ById(int id)
         {
             EnsureQuery();
@@ -66,6 +88,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// add account id filter to query
+        /// </summary>
+        /// <param name="accountId">customer account id</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ByAccountId(string accountId)
         {
             EnsureQuery();
@@ -73,6 +100,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// add first name filter to query
+        /// </summary>
+        /// <param name="firstName">customer first name</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ByFirstName(string firstName)
         {
             EnsureQuery();
@@ -80,6 +112,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// add middle name filter to query
+        /// </summary>
+        /// <param name="middleName">customer middle name</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ByMiddleName(string middleName)
         {
             EnsureQuery();
@@ -87,6 +124,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// add last name filter to query
+        /// </summary>
+        /// <param name="lastName">customer last name</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ByLastName(string lastName)
         {
             EnsureQuery();
@@ -94,6 +136,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// add email filter to query
+        /// </summary>
+        /// <param name="email">customer email</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ByEmail(string email)
         {
             EnsureQuery();
@@ -101,6 +148,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// add gender filter to query
+        /// </summary>
+        /// <param name="gender">customer gender</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ByGender(Gender gender)
         {
             EnsureQuery();
@@ -108,6 +160,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// add phone filter to query
+        /// </summary>
+        /// <param name="phone">customer phone</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ByPhone(string phone)
         {
             EnsureQuery();
@@ -115,6 +172,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// add city filter to query
+        /// </summary>
+        /// <param name="city">customer city</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ByCity(string city)
         {
             EnsureQuery();
@@ -122,6 +184,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// add country id filter to query
+        /// </summary>
+        /// <param name="countryId">customer country id</param>
+        /// <returns>customer query</returns>
         public ICustomerQuery ByCountry(int countryId)
         {
             EnsureQuery();
@@ -129,45 +196,39 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
+        /// <summary>
+        /// load the customer/customers with country
+        /// </summary>
+        /// <returns>customer query</returns>
         public ICustomerQuery LoadWithCountry()
         {
             _loadWithCountry = true;
             return this;
         }
 
+        /// <summary>
+        /// load the customer/customers with addresses
+        /// </summary>
+        /// <returns>customer query</returns>
         public ICustomerQuery LoadWithAddresses()
         {
             _loadWithAddresses = true;
             return this;
         }
 
+        /// <summary>
+        /// load the customer/customers with loyalty
+        /// </summary>
+        /// <returns>customer query</returns>
         public ICustomerQuery LoadWithCustomerLoyalty()
         {
             _loadWithCustomerLoyalty = true;
             return this;
         }
 
-
-        //private void LoadWithOptions(Customer customer)
-        //{
-        //    if (_loadWithCountry)
-        //    {
-        //        var country = _countryService.GetById(customer.CountryId.Value);
-        //        if (country != null)
-        //        {
-        //            customer.Country = _countryMapper.MapTo(country);
-        //        }
-        //    }
-        //    if(_loadWithAddresses)
-        //    {
-        //        customer.Addresses = _customerService.QueryAddress().Where(o => o.CustomerId == customer.Id).Select(o => _addressMapper.MapTo(o)).ToArray();
-        //    }
-        //    if(_loadWithCustomerLoyalty)
-        //    {
-        //        customer.Loyalty = _customerService.QueryCustomerLoyalty().Where(o => o.CustomerId == customer.Id).Select(o => _customerLoyaltyMapper.MapTo(o)).FirstOrDefault();
-        //    }
-        //}
-
+        /// <summary>
+        /// this method will be called after query executed
+        /// </summary>
         protected override void OnQueryExecuted()
         {
             _loadWithCountry = false;
@@ -175,6 +236,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             _loadWithCustomerLoyalty = false;
         }
 
+        /// <summary>
+        /// create the commerce object
+        /// </summary>
+        /// <param name="obj">commerce object</param>
+        /// <returns>true if successfully created, else false</returns>
         public override bool Create(Customer obj)
         {
             if (obj != null)
@@ -182,6 +248,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return false;
         }
 
+        /// <summary>
+        /// update the commerce object
+        /// </summary>
+        /// <param name="obj">commerce object</param>
+        /// <returns>true if successfully created, else false</returns>
         public override bool Update(Customer obj)
         {
             if (obj != null)
@@ -189,6 +260,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return false;
         }
 
+        /// <summary>
+        /// create/update the commerce object
+        /// </summary>
+        /// <param name="obj">commerce object</param>
+        /// <returns>true if successfully created, else false</returns>
         public override bool Save(Customer obj)
         {
             if (obj != null)
@@ -196,6 +272,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return false;
         }
 
+        /// <summary>
+        /// delete the commerce object
+        /// </summary>
+        /// <param name="obj">commerce object</param>
+        /// <returns>true if successfully created, else false</returns>
         public override bool Delete(Customer obj)
         {
             if (obj != null)
@@ -203,11 +284,19 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return false;
         }
 
+        /// <summary>
+        /// create customer query
+        /// </summary>
+        /// <returns>customer query</returns>
         public ICustomerQuery Query()
         {
             return this;
         }
 
+        /// <summary>
+        /// create customer data access
+        /// </summary>
+        /// <returns>customer data access</returns>
         public ICustomerAccess Access()
         {
             return this;
