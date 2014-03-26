@@ -8,10 +8,14 @@ using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.Commerce.API.CmsSite
 {
+    /// <summary>
+    /// kooboo site commerce extensions
+    /// </summary>
     public static class KoobooSiteExtensions
     {
         public static string GetCommerceName(this Site site)
         {
+            // the site's related commerce instance name should be saved in the custom fields by name of "CommerceInstance"
             return GetRequiredCustomField(site, "CommerceInstance");
         }
 
@@ -32,22 +36,10 @@ namespace Kooboo.Commerce.API.CmsSite
 
         public static ICommerceAPI Commerce(this Site site)
         {
-            //if(site.CustomFields == null || !site.CustomFields.ContainsKey("CommerceAPI") || string.IsNullOrEmpty(site.CustomFields["CommerceAPI"]))
-            //{
-            //    throw new Exception("To use commerce, please set 'CommerceAPI' in the site's custom fields.");
-            //}
-            //string api = site.CustomFields["CommerceAPI"];
-            //var commerceService = EngineContext.Current.Resolve<ICommerceAPI>(api);
-            //if(commerceService is RestAPI.RestCommerceAPI)
-            //{
-            //    if (site.CustomFields == null || !site.CustomFields.ContainsKey("WebAPIHost") || string.IsNullOrEmpty(site.CustomFields["WebAPIHost"]))
-            //    {
-            //        throw new Exception("To use commerce by web api, please set 'WebAPIHost' in the site's custom fields.");
-            //    }
-            //    string webapiHost = site.CustomFields["WebAPIHost"];
-            //    ((RestAPI.RestCommerceAPI)commerceService).SetWebAPIHost(webapiHost);
-            //}
+            // get ioc injected commerce api
             var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();
+            // init commerce instance by commerce name and languages, 
+            // extra parameters needed for initializing the commerce instance are in the site's custom fields
             commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage(), site.CustomFields);
             return commerceService;
         }

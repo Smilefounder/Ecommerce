@@ -12,13 +12,27 @@ using Kooboo.Commerce.API.Orders;
 
 namespace Kooboo.Commerce.API.CmsSite.PlugIn
 {
+    /// <summary>
+    /// save order form plugin
+    /// it is used in the kooboo cms view to let the user post back the order at front-site.
+    /// </summary>
     public class SaveOrderPlugIn : ISubmissionPlugin
     {
+        /// <summary>
+        /// predefined parameters, these parameters will not be rendered at the page/view.
+        /// </summary>
         public Dictionary<string, object> Parameters
         {
             get { return null; }
         }
 
+        /// <summary>
+        /// handle the post back form
+        /// </summary>
+        /// <param name="site">kooboo cms current site</param>
+        /// <param name="controllerContext">controller runtime context</param>
+        /// <param name="submissionSetting">submission settings of the parameters</param>
+        /// <returns>response result</returns>
         public ActionResult Submit(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
         {
             JsonResultData resultData = new JsonResultData();

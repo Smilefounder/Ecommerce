@@ -11,6 +11,10 @@ namespace Kooboo.Commerce.WebAPI.Controllers
 {
     public class CountryController : CommerceAPIControllerQueryBase<Country>
     {
+        /// <summary>
+        /// build the commerce query filters from query string.
+        /// </summary>
+        /// <returns>commerce query</returns>
         protected override ICommerceQuery<Country> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();

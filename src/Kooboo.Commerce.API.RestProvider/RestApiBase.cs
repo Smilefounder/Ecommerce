@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 
 namespace Kooboo.Commerce.API.RestProvider
 {
+    /// <summary>
+    /// rest api base class
+    /// </summary>
     public abstract class RestApiBase
     {
         public RestApiBase()
@@ -16,26 +19,61 @@ namespace Kooboo.Commerce.API.RestProvider
             QueryParameters = new Dictionary<string, string>();
         }
 
+        /// <summary>
+        /// http get request to the api url
+        /// </summary>
+        /// <typeparam name="T">return result type</typeparam>
+        /// <param name="apiUrl">api url (action name)</param>
+        /// <param name="data">data for sending to remote server</param>
+        /// <returns>return the result</returns>
         public T Get<T>(string apiUrl, object data = null)
         {
             return Request<T>(apiUrl, "GET", data);
         }
 
+        /// <summary>
+        /// http post request to the api url
+        /// </summary>
+        /// <typeparam name="T">return result type</typeparam>
+        /// <param name="apiUrl">api url (action name)</param>
+        /// <param name="data">data for sending to remote server</param>
+        /// <returns>return the result</returns>
         public T Post<T>(string apiUrl, object data = null)
         {
             return Request<T>(apiUrl, "POST", data);
         }
 
+        /// <summary>
+        /// http put request to the api url
+        /// </summary>
+        /// <typeparam name="T">return result type</typeparam>
+        /// <param name="apiUrl">api url (action name)</param>
+        /// <param name="data">data for sending to remote server</param>
+        /// <returns>return the result</returns>
         public T Put<T>(string apiUrl, object data = null)
         {
             return Request<T>(apiUrl, "PUT", data);
         }
 
+        /// <summary>
+        /// http delete request to the api url
+        /// </summary>
+        /// <typeparam name="T">return result type</typeparam>
+        /// <param name="apiUrl">api url (action name)</param>
+        /// <param name="data">data for sending to remote server</param>
+        /// <returns>return the result</returns>
         public T Delete<T>(string apiUrl, object data = null)
         {
             return Request<T>(apiUrl, "DELETE", data);
         }
-
+        /// <summary>
+        /// http request to the api url
+        /// </summary>
+        /// <typeparam name="T">return result type</typeparam>
+        /// <param name="apiUrl">api url (action name)</param>
+        /// <param name="method">request method</param>
+        /// <param name="data">data for sending to remote server</param>
+        /// <returns>return the result</returns>
         public T Request<T>(string apiUrl, string method = "GET", object data = null)
         {
             string jsonData = null;
@@ -73,6 +111,17 @@ namespace Kooboo.Commerce.API.RestProvider
             return obj;
         }
 
+        /// <summary>
+        /// formate the name value collection to string
+        /// </summary>
+        /// <param name="dic">name value collection</param>
+        /// <param name="comma">split comma between a pair of name value</param>
+        /// <param name="equal">equal used to split the name and value</param>
+        /// <param name="leftComma">left comma enclose the value on the left side</param>
+        /// <param name="rightComma">right comma enclose the value on the right side</param>
+        /// <param name="keyToString">get key from name</param>
+        /// <param name="valToString">get value from value</param>
+        /// <returns>formated string</returns>
         private static string ToFormatString(NameValueCollection dic, string comma = "&", string equal = "=", string leftComma = "", string rightComma = "", Func<object, string> keyToString = null, Func<object, string> valToString = null)
         {
             if (dic == null || dic.Count <= 0)
@@ -93,10 +142,17 @@ namespace Kooboo.Commerce.API.RestProvider
             return sb.ToString();
         }
 
+        /// <summary>
+        /// set the api controller path
+        /// </summary>
         protected abstract string ApiControllerPath { get; }
-
+        /// <summary>
+        /// the web api host address
+        /// </summary>
         public string WebAPIHost { get; set; }
-
+        /// <summary>
+        /// query string parameters, which will appned to the request url.
+        /// </summary>
         public Dictionary<string, string> QueryParameters { get; set; }
     }
 }

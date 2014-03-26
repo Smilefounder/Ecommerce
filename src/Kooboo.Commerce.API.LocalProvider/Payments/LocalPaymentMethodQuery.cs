@@ -27,16 +27,30 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             return this;
         }
 
+        /// <summary>
+        /// create entity query
+        /// </summary>
+        /// <returns>queryable object</returns>
         protected override IQueryable<Commerce.Payments.PaymentMethod> CreateQuery()
         {
             return _paymentMethodService.Query().Where(x => x.IsEnabled);
         }
 
+        /// <summary>
+        /// use the default order when pagination the query
+        /// </summary>
+        /// <param name="query">pagination query</param>
+        /// <returns>ordered query</returns>
         protected override IQueryable<Commerce.Payments.PaymentMethod> OrderByDefault(IQueryable<Commerce.Payments.PaymentMethod> query)
         {
             return query.OrderBy(x => x.DisplayName);
         }
 
+        /// <summary>
+        /// map the entity to object
+        /// </summary>
+        /// <param name="obj">entity</param>
+        /// <returns>object</returns>
         protected override PaymentMethod Map(Commerce.Payments.PaymentMethod obj)
         {
             return _mapper.MapTo(obj);

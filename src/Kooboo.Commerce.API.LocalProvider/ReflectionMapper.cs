@@ -9,11 +9,24 @@ using System.Collections;
 
 namespace DAF.Core.Map
 {
+    /// <summary>
+    /// default entity-object mapper using reflection
+    /// </summary>
+    /// <typeparam name="T">api object type</typeparam>
+    /// <typeparam name="U">entity type</typeparam>
     [Dependency(typeof(IMapper<,>), ComponentLifeStyle.Transient)]
     public class ReflectionMapProvider<T, U> : IMapper<T, U>
         where T : class, new()
         where U : class, new()
     {
+        /// <summary>
+        /// map the objects
+        /// </summary>
+        /// <param name="fobj">from source object</param>
+        /// <param name="tobj">to target object</param>
+        /// <param name="prefix">prefix for complex property name</param>
+        /// <param name="includeComplexPropertyNames">include complex property names</param>
+        /// <returns>mapped object</returns>
         private object Map(object fobj, object tobj, string prefix, params string[] includeComplexPropertyNames)
         {
             if (fobj == null)
@@ -84,12 +97,24 @@ namespace DAF.Core.Map
             return tobj;
         }
 
+        /// <summary>
+        /// map the entity to object
+        /// </summary>
+        /// <param name="obj">entity</param>
+        /// <param name="includeComplexPropertyNames">include extra complex type property</param>
+        /// <returns>object</returns>
         public T MapTo(U obj, params string[] includeComplexPropertyNames)
         {
             T nobj = new T();
             return Map(obj, nobj, null, includeComplexPropertyNames) as T;
         }
 
+        /// <summary>
+        /// map the object to entity
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <param name="includeComplexPropertyNames">include extra complex type property</param>
+        /// <returns>entity</returns>
         public U MapFrom(T obj, params string[] includeComplexPropertyNames)
         {
             U nobj = new U();
