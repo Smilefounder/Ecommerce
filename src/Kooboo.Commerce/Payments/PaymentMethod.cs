@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Payments
             CreatedAtUtc = DateTime.UtcNow;
         }
 
-        public virtual decimal GetPaymentMethodFee(decimal sutotal)
+        public virtual decimal GetPaymentMethodCost(decimal sutotal)
         {
             if (AdditionalFeeChargeMode == PriceChangeMode.ByAmount)
             {

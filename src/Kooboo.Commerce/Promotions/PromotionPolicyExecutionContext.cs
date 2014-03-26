@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.ShoppingCarts;
+﻿using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,16 @@ namespace Kooboo.Commerce.Promotions
     {
         public Promotion Promotion { get; private set; }
 
-        public ICollection<ShoppingCartItem> ConditionMatchedItems { get; private set; }
+        public ICollection<PricingItem> ConditionMatchedItems { get; private set; }
 
         public PromotionPolicyExecutionContext(
             Promotion promotion,
-            IEnumerable<ShoppingCartItem> conditionMatchedItems)
+            IEnumerable<PricingItem> conditionMatchedItems)
         {
             Require.NotNull(promotion, "promotion");
 
             Promotion = promotion;
-            ConditionMatchedItems = (conditionMatchedItems ?? Enumerable.Empty<ShoppingCartItem>()).ToList();
+            ConditionMatchedItems = (conditionMatchedItems ?? Enumerable.Empty<PricingItem>()).ToList();
         }
     }
 }

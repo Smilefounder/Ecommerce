@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.ShoppingCarts;
+﻿using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace Kooboo.Commerce.Promotions
     {
         public bool Success { get; set; }
 
-        public IList<ShoppingCartItem> MatchedItems { get; set; }
+        public IList<PricingItem> MatchedItems { get; set; }
     }
 }

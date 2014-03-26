@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Shipping;
@@ -16,7 +17,7 @@ namespace Kooboo.Commerce.Promotions
     /// </summary>
     public class PromotionConditionContextModel
     {
-        public ShoppingCartItem Item { get; set; }
+        public PricingItem Item { get; set; }
 
         public Customer Customer { get; set; }
 
@@ -30,7 +31,6 @@ namespace Kooboo.Commerce.Promotions
 
         public Address BillingAddress { get; set; }
 
-        [Parameter]
         public string CouponCode { get; set; }
 
         public decimal Subtotal { get; set; }
