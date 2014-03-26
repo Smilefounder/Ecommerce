@@ -32,8 +32,9 @@ namespace Kooboo.Commerce.Orders.Services
         private readonly IRepository<Country> _countryRepository;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IProductService _productService;
+        private readonly IPriceCalculator _priceCalculator;
 
-        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService)
+        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService, IPriceCalculator priceCalculator)
         {
             _db = db;
             _customerService = customerService;
@@ -46,6 +47,7 @@ namespace Kooboo.Commerce.Orders.Services
             _countryRepository = countryRepository;
             _shoppingCartService = shoppingCartService;
             _productService = productService;
+            _priceCalculator = priceCalculator;
         }
 
         public Order GetById(int id, bool loadAllInfo = true)
@@ -116,37 +118,18 @@ namespace Kooboo.Commerce.Orders.Services
 
                 if(shoppingCart.Items.Count > 0)
                 {
-                    decimal subtotal = 0m;
-                    decimal discount = 0m;
-                    decimal tax = 0m;
-
                     foreach(var item in shoppingCart.Items)
                     {
                         var orderItem = new OrderItem();
                         orderItem.Order = order;
                         orderItem.ProductPriceId = item.ProductPrice.Id;
+                        orderItem.ProductPrice = item.ProductPrice;
                         orderItem.ProductName = item.ProductPrice.Name;
                         orderItem.SKU = item.ProductPrice.Sku;
                         orderItem.UnitPrice = item.ProductPrice.RetailPrice;
                         orderItem.Quantity = item.Quantity;
-                        orderItem.SubTotal = orderItem.UnitPrice * orderItem.Quantity;
-                        orderItem.Discount = 0m;
-                        orderItem.TaxCost = 0m;
-                        orderItem.Total = orderItem.SubTotal - orderItem.Discount + orderItem.TaxCost;
-                        subtotal += orderItem.SubTotal;
-                        discount += orderItem.Discount;
-                        tax += orderItem.TaxCost;
-
                         order.OrderItems.Add(orderItem);
                     }
-
-                    order.SubTotal = subtotal;
-                    order.Discount = discount;
-                    order.TotalTax = tax;
-                    order.ShippingCost = 0.0m;
-                    order.PaymentMethodCost = 0.0m;
-                    order.TotalWeight = 0.0m;
-                    order.Total = order.SubTotal - order.Discount + order.TotalTax + order.ShippingCost + order.PaymentMethodCost;
                 }
 
                 if(shoppingCart.ShippingAddress != null)
@@ -163,10 +146,34 @@ namespace Kooboo.Commerce.Orders.Services
                     order.BillingAddress = address;
                 }
 
+                CalculateOrderPrice(order);
+
                 _orderRepository.Insert(order);
                 return order;
             }
             return null;
+        }
+
+        private void CalculateOrderPrice(Order order)
+        {
+            var context = PriceCalculationContext.CreateFrom(order);
+            _priceCalculator.Calculate(context);
+
+            foreach (var item in order.OrderItems)
+            {
+                var pricingItem = context.Items.FirstOrDefault(x => x.Id == item.Id);
+                item.Discount = pricingItem.Discount;
+                item.SubTotal = pricingItem.Subtotal;
+                item.Total = item.SubTotal - item.Discount;
+            }
+
+            order.SubTotal = context.Subtotal;
+            order.ShippingCost = context.ShippingCost;
+            order.PaymentMethodCost = context.PaymentMethodCost;
+            order.TotalTax = context.Tax;
+            order.Discount = context.DiscountExItemDiscounts + context.Items.Sum(x => x.Discount);
+
+            order.Total = order.SubTotal + order.TotalTax + order.ShippingCost + order.PaymentMethodCost - order.Discount;
         }
 
         //public IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize)

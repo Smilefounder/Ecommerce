@@ -37,6 +37,8 @@ namespace Kooboo.Commerce.Orders
 
         public decimal PaymentMethodDiscount { get; set; }
 
+        public decimal Tax { get; set; }
+
         public IList<Promotion> AppliedPromotions { get; private set; }
 
         public PriceCalculationContext()

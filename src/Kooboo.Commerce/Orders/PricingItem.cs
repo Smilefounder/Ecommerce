@@ -28,6 +28,8 @@ namespace Kooboo.Commerce.Orders
 
         public PricingItem(int id, ProductPrice price, int quantity)
         {
+            Require.NotNull(price, "price");
+
             Id = id;
             ProductPrice = price;
             Quantity = quantity;

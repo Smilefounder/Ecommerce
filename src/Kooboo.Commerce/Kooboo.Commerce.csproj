@@ -134,6 +134,7 @@
     <Compile Include="Locations\Services\ICountryService.cs" />
     <Compile Include="Orders\ExtendedQuery\MostCostOrder.cs" />
     <Compile Include="Orders\ExtendedQuery\RecentOrder.cs" />
+    <Compile Include="Orders\IPriceCalculator.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderingProcessManager.cs" />
     <Compile Include="Orders\OrderQueryModel.cs" />

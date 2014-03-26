@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Data;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using System;
@@ -8,7 +9,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Orders
 {
-    public class PriceCalculator
+    [Dependency(typeof(IPriceCalculator))]
+    public class PriceCalculator : IPriceCalculator
     {
         private IPromotionService _promotionService;
         private IPromotionPolicyFactory _promotionPolicyFactory;
@@ -25,6 +27,7 @@ namespace Kooboo.Commerce.Orders
         {
             CalculateShippingCost(context);
             CalculatePaymentMethodCost(context);
+            CalculateTax(context);
             ApplyPromotions(context);
         }
 
@@ -39,6 +42,11 @@ namespace Kooboo.Commerce.Orders
             {
                 context.PaymentMethodCost = context.PaymentMethod.GetPaymentMethodCost(context.Subtotal);
             }
+        }
+
+        private void CalculateTax(PriceCalculationContext context)
+        {
+            // TODO: Calculate tax
         }
 
         private void ApplyPromotions(PriceCalculationContext context)
