@@ -9,7 +9,6 @@ using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 using Kooboo.Commerce.Web.Mvc.Controllers;
-using Kooboo.Commerce.Web.Mvc.Paging;
 using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.ImageSizes;
 using Kooboo.Commerce.Brands;

@@ -62,6 +62,37 @@ namespace Kooboo.Commerce.API.Products
         IProductQuery IsDeleted(bool deleted);
 
         /// <summary>
+        /// filter the product by custom field value
+        /// </summary>
+        /// <param name="customFieldId">custom field id</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>product query</returns>
+        IProductQuery ByCustomField(int customFieldId, string fieldValue);
+
+        /// <summary>
+        /// filter the product by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>product query</returns>
+        IProductQuery ByCustomField(string customFieldName, string fieldValue);
+
+        /// <summary>
+        /// filter the product by product price variant
+        /// </summary>
+        /// <param name="variantId">price variant id</param>
+        /// <param name="variantVallue">price variant value</param>
+        /// <returns>product query</returns>
+        IProductQuery ByPriceVariant(int variantId, string variantVallue);
+        /// <summary>
+        /// filter the product by product price variant
+        /// </summary>
+        /// <param name="variantName">price variant name</param>
+        /// <param name="variantVallue">price variant value</param>
+        /// <returns>product query</returns>
+        IProductQuery ByPriceVariant(string variantName, string variantValue);
+
+        /// <summary>
         /// load product with product type
         /// </summary>
         /// <returns>product query</returns>

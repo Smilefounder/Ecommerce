@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
         public CustomerRowModel(Customer customer, int orders)
         {
             Id = customer.Id;
-            Name = String.Format("{0} {1} {2}", customer.FirstName, customer.MiddleName, customer.LastName);
+            Name = customer.FullName;
             if (string.IsNullOrEmpty(Name.Trim()))
                 Name = customer.AccountId;
             Email = customer.Email;

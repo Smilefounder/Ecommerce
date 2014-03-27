@@ -8,7 +8,6 @@ using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Mvc.Controllers;
-using Kooboo.Commerce.Web.Mvc.Paging;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Brands;
 using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Brands.Services;
