@@ -2248,6 +2248,9 @@
     <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\PaymentReturn\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\PaymentReturn\template.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_Loading_Info.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\MenuItem.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_QuickLinks.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

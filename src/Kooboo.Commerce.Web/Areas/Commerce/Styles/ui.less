@@ -88,6 +88,8 @@
 .tabs {
 	.tab-index {
 		border-bottom: 1px solid #CCC;
+		margin-bottom: 10px;
+		padding: 0 10px;
 		.clearfix();
 
 		li {
@@ -118,7 +120,7 @@
 		.active {
 
 			a {
-				background: #F6F6F6;
+				background: #FFF;
 				border-color: #CCC;
 				color: #555;
 				cursor: default;
@@ -389,6 +391,10 @@
 		right: 0;
 		top: 0;
 		width: 28px;
+
+		.icon {
+			display: block;
+		}
 	}
 
 	#sidebar & {
@@ -406,7 +412,7 @@
 	position: relative;
 
 	.searchbox input {
-		padding-right: 12px;
+		padding-right: 44px;
 	}
 
 	.more {
@@ -428,7 +434,6 @@
 		position: absolute;
 		right: 0;
 		top: 0;
-		z-index: 1;
 
 		h6 {
 			font-size: 20px;

@@ -9,7 +9,7 @@
             <th>@Html.DisplayNameFor(m => m.Name)</th>
             <td>
                 <div data-bind="if: isNew">
-                    @Html.TextBoxFor(m => m.Name, new { data_bind = "value: name" })
+                    @Html.TextBoxFor(m => m.Name, new { data_bind = "value: name", @class = "medium" })
                     @Html.ValidationMessageFor(m => m.Name)
                 </div>
                 <div data-bind="if: !isNew()">
@@ -21,7 +21,7 @@
         <tr>
             <th>@Html.DisplayNameFor(m => m.DisplayName)</th>
             <td>
-                @Html.TextBoxFor(m => m.DisplayName, new { data_bind = "value: displayName" })
+                @Html.TextBoxFor(m => m.DisplayName, new { data_bind = "value: displayName", @class = "medium" })
                 @Html.ValidationMessageFor(m => m.DisplayName)
             </td>
         </tr>
@@ -32,7 +32,7 @@
                     @Model.DbSchema
                 </div>
                 <div data-bind="if: isNew">
-                    @Html.TextBoxFor(m => m.DbSchema, new { data_bind = "value: dbSchema" })
+                    @Html.TextBoxFor(m => m.DbSchema, new { data_bind = "value: dbSchema", @class = "medium" })
                     @Html.ValidationMessageFor(m => m.DbSchema)
                 </div>
             </td>
@@ -44,7 +44,7 @@
                     @Model.DbProviderDisplayName
                 </div>
                 <div data-bind="if: isNew">
-                    @Html.DropDownListFor(m => m.DbProviderKey, Model.DbProviders, "Select db provider".Localize(), new { data_bind = "value: dbProviderKey" })
+                    @Html.DropDownListFor(m => m.DbProviderKey, Model.DbProviders, "Select db provider".Localize(), new { data_bind = "value: dbProviderKey", @class = "medium" })
                     @Html.ValidationMessageFor(m => m.DbProviderKey)
                 </div>
             </td>
@@ -59,7 +59,7 @@
         <tr data-bind="visible: dbProviderKey() && advancedMode()">
             <th>@Html.DisplayNameFor(m => m.ConnectionString)</th>
             <td>
-                @Html.TextBoxFor(m => m.ConnectionString, new { data_bind = "value: connectionString" })
+                @Html.TextBoxFor(m => m.ConnectionString, new { data_bind = "value: connectionString", @class = "medium" })
                 @Html.ValidationMessageFor(m => m.ConnectionString)
             </td>
         </tr>
@@ -69,7 +69,7 @@
             <td>
                 <input type="hidden" data-bind="value: text, attr: { name: 'ConnectionStringParameters[' + $index() + '].Text' }" />
                 <input type="text" data-bind="value: value, attr: { name: 'ConnectionStringParameters[' + $index() + '].Value' }"
-                       data-val="true" data-val-required="@("Required".Localize())" />
+                       data-val="true" data-val-required="@("Required".Localize())" class="medium" />
                 <span data-bind="attr: { 'data-valmsg-for': 'ConnectionStringParameters[' + $index() + '].Value' }" data-valmsg-replace="true"></span>
             </td>
         </tr>
@@ -101,7 +101,7 @@
 
             this.updateConnectionStringParameters = function () {
                 _this.connectionStringParameters.removeAll();
-                
+
                 var dbProviderKey = _this.dbProviderKey();
                 var paramNames = _.find(_this.connectionStringParameterNames(), function (param) {
                     return param.dbProviderKey() == dbProviderKey;

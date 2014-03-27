@@ -31,14 +31,14 @@
 				white-space: nowrap;
 			}
 
-			.arrow {
+			.caret-toggle {
 				position: absolute;
 				right: 10px;
 				top: 10px;
 			}
 		}
 
-		.arrow {
+		.caret-toggle {
 			display: none;
 		}
 
@@ -49,7 +49,7 @@
 				padding: 0 20px 0 10px;
 			}
 
-			.arrow {
+			.caret-toggle {
 				display: block;
 			}
 		}
@@ -62,29 +62,33 @@
 			min-width: 100%;
 			position: absolute;
 			z-index: 9999;
-		}
 
-		ul a {
-			color: #000;
-			display: block;
-			font-size: 14px;
-			line-height: 2;
-			padding: 0 10px;
-			white-space: nowrap;
+			a {
+				color: #000;
+				display: block;
+				font-size: 14px;
+				line-height: 2;
+				padding: 0 10px;
+				white-space: nowrap;
 
-			&:hover {
-				background: #E7E7E7;
+				&:hover {
+					background: #E7E7E7;
+				}
+
+				&.active {
+					font-weight: 600;
+				}
 			}
-		}
 
-		li li a {
-			padding-left: 20px;
+			ul a {
+				padding-left: 20px;
 
-			li a {
-				padding-left: 30px;
+				ul a {
+					padding-left: 30px;
 
-				li a {
-					padding-left: 40px;
+					ul a {
+						padding-left: 40px;
+					}
 				}
 			}
 		}

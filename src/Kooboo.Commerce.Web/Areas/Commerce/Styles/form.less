@@ -100,7 +100,7 @@ label {
 ----------------------------------------------------------*/
 .form-list {
 	margin-top: 7px;
-	overflow: hidden;
+	.clearfix();
 
 	li {
 		float: left;
@@ -226,29 +226,28 @@ label {
 		.select2-choices {
 			background: #FFF;
 			border-color: #CCC;
-			line-height: 28px;
+			line-height: 26px;
 
 			.select2-search-choice {
 				background: @light-blue;
 				border: none;
 				color: #FFF;
 				line-height: 12px;
-				padding: 5px 5px 5px 18px;
+				margin: 3px 0 3px 3px;
+				padding: 4px 5px 4px 18px;
 				.box-shadow(none);
 				.rounded(0);
 
 				.select2-search-choice-close {
-					background: url(images/icons.png) no-repeat -48px -105px;
-					height: 8px;
 					left: 5px;
 					top: 7px;
-					width: 8px;
+					.sprite(@corss-mini-white);
 				}
 			}
 
 			.select2-search-field input {
 				font-family: inherit;
-				height: 28px;
+				height: 26px;
 				margin: 0;
 				padding: 4px 8px;
 			}
@@ -281,6 +280,45 @@ label {
 
 	.select2-search {
 		padding-top: 4px;
+	}
+}
+
+/* Tagbox
+----------------------------------------------------------*/
+.tagbox {
+	background: #FFF;
+	border: 1px solid #CCC;
+	.box-shadow(none);
+	.box-sizing(border-box);
+	.rounded(0);
+
+	ul {
+		padding: 0;
+		.box-shadow(none);
+	}
+
+	li {
+		margin: 3px 0 3px 3px;
+
+		.tag {
+			background: @light-blue;
+			padding: 0 5px 0 18px;
+			.rounded(0);
+		}
+
+		.delete {
+			left: 5px;
+			right: auto;
+			text-indent: -9999em;
+			top: 7px;
+			.sprite(@corss-mini-white);
+		}
+
+		&.selected {
+			.tag {
+				background: @blue;
+			}
+		}
 	}
 }
 
@@ -369,6 +407,13 @@ label {
 		border-bottom: 1px solid #CCC;
 	}
 
+	input[type="text"],
+	input[type="password"],
+	select {
+		float: left;
+		margin-right: 10px;
+	}
+
 	.tip {
 		.form-tip();
 	}
@@ -378,7 +423,7 @@ label {
 	}
 
 	legend {
-		border-bottom: 3px solid #0078B1;
+		border-bottom: 1px solid #CCC;
 		color: #0078B1;
 		font-size: 18px;
 		width: 100%;
@@ -668,23 +713,6 @@ label {
 		margin-top: 20px;
 		padding-bottom: 20px;
 	}
-
-body.in-dialog .buttons {
-	background: #FFF;
-	border-top: 1px solid #CCC;
-	bottom: 0;
-	left: 0;
-	padding: 15px 20px;
-	position: fixed;
-	right: 0;
-	text-align: right;
-	z-index: 999;
-}
-
-.in-dialog .buttons .button,
-.in-dialog .buttons button {
-	margin-left: 16px;
-}
 
 /* Warning dialog */
 .common-form.in-warning-dialog {
