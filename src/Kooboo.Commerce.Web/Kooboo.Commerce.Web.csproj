@@ -369,6 +369,7 @@
     <Content Include="Areas\Media\Scripts\Kooboo_CMS.js" />
     <Content Include="Areas\Media\Scripts\upload.js" />
     <Content Include="Areas\Media\Scripts\utils.js" />
+    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\app.css" />
     <Content Include="Styles\base.css" />
     <Content Include="Styles\common.css" />
     <Content Include="Styles\ie.css" />

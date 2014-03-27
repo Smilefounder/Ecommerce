@@ -9,43 +9,64 @@
 }
 else
 {
-    decimal totalPrice = 0.0m;
+    var totalPrice = 0.0m;
+    var totalItemDiscounts = 0m;
     int totalCount = 0;
     if(shoppingCart.Customer != null)
     {
         <h4>@shoppingCart.Customer.FirstName</h4>
     }
-    <table>
+    <table class="simple-table">
         <thead>
             <tr>
                 <th>@("Product".Localize())</th>
                 <th>@("Quantity".Localize())</th>
+                <th>@("Discount".Localize())</th>
                 <th>@("Price".Localize())</th>
             </tr>
         </thead>
         <tbody>
-            @foreach(var item in shoppingCart.Items)
+            @foreach (var item in shoppingCart.Items)
             {
-                var price = item.Quantity * item.ProductPrice.RetailPrice;
+                var price = item.Quantity * item.ProductPrice.RetailPrice - item.Discount;
                 totalPrice += price;
+                totalItemDiscounts += item.Discount;
                 totalCount += item.Quantity;
                 <tr>
                     <td>@item.ProductPrice.Product.Name</td>
                     <td>@item.Quantity</td>
-                    <td>@(price)</td>
+                    <td>@item.Discount.ToString("C")</td>
+                    <td>@(price.ToString("C"))</td>
                 </tr>
             }
         </tbody>
-        <tfoot>
+        @{
+    totalPrice -= shoppingCart.DiscountExItemDiscounts;
+        }
+        <tfoot class="total">
             <tr>
-                <td>@("Total".Localize())</td>
-                <td>@totalCount</td>
-                <td>@totalPrice</td>
+                <td colspan="4">
+                    @("Discount".Localize()): @((shoppingCart.DiscountExItemDiscounts + totalItemDiscounts).ToString("C")),
+                    @("Total".Localize()): <em>@(totalPrice.ToString("C"))</em>
+                </td>
             </tr>
         </tfoot>
     </table>
+    if (shoppingCart.AppliedPromotions.Count > 0) { 
+    <h3>Applied Promotions</h3>
     <div>
-        <a href="/MyOrder">@("Checkout".Localize())</a>
-        <a href="/ProductList">@("Continue Shopping".Localize())</a>
+        <ul>
+            @foreach (var promotion in shoppingCart.AppliedPromotions)
+            {
+                <li>
+                    @promotion.Name
+                </li>
+            }
+        </ul>
+    </div>
+    }
+    <div class="buttons" style="text-align:right">
+        <a class="button" href="/ProductList">@("Continue Shopping".Localize())</a>
+        <a class="button primary" href="/MyOrder">@("Checkout".Localize())</a>
     </div>
 }

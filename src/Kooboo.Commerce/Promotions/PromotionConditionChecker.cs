@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Customers;
+using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Expressions;
 using System;
@@ -13,20 +14,23 @@ namespace Kooboo.Commerce.Promotions
     /// </summary>
     public class PromotionConditionChecker
     {
-        public CheckPromotionConditionResult CheckConditions(Promotion promotion, PromotionContext context)
+        public CheckPromotionConditionResult CheckConditions(Promotion promotion, PriceCalculationContext context)
         {
+            var result = new CheckPromotionConditionResult();
+
             if (String.IsNullOrWhiteSpace(promotion.ConditionsExpression))
             {
-                return new CheckPromotionConditionResult
+                result.Success = true;
+                foreach (var item in context.Items)
                 {
-                    Success = true,
-                    MatchedItems = context.Items.ToList()
-                };
+                    result.MatchedItems.Add(item);
+                }
+
+                return result;
             }
 
             var expression = Expression.Parse(promotion.ConditionsExpression);
             var ruleEngine = new RuleEngine();
-            var result = new CheckPromotionConditionResult();
 
             foreach (var item in context.Items)
             {

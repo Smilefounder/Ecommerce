@@ -11,6 +11,9 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Products
 {
+    /// <summary>
+    /// product api
+    /// </summary>
     [Dependency(typeof(IProductAPI), ComponentLifeStyle.Transient)]
     public class ProductAPI : LocalCommerceQueryAccess<Product, Kooboo.Commerce.Products.Product>, IProductAPI
     {
@@ -58,115 +61,34 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             _productPriceVariantValueMapper = productPriceVariantValueMapper;
         }
 
+        /// <summary>
+        /// create entity query
+        /// </summary>
+        /// <returns>queryable object</returns>
         protected override IQueryable<Commerce.Products.Product> CreateQuery()
         {
             return _productService.Query();
         }
 
+        /// <summary>
+        /// use the default order when pagination the query
+        /// </summary>
+        /// <param name="query">pagination query</param>
+        /// <returns>ordered query</returns>
         protected override IQueryable<Commerce.Products.Product> OrderByDefault(IQueryable<Commerce.Products.Product> query)
         {
             return query.OrderByDescending(o => o.Id);
         }
 
-        public override bool Create(Product obj)
-        {
-            if (obj != null)
-            {
-                return _productService.Create(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
-
-        public override bool Update(Product obj)
-        {
-            if (obj != null)
-            {
-                return _productService.Update(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
-
-        public override bool Save(Product obj)
-        {
-            if (obj != null)
-            {
-                return _productService.Save(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
-
-        public override bool Delete(Product obj)
-        {
-            if (obj != null)
-            {
-                return _productService.Delete(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
-
-        public IProductQuery ById(int id)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.Id == id);
-            return this;
-        }
-
-        public IProductQuery ByCategoryId(int categoryId)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.Categories.Any(c => c.CategoryId == categoryId));
-            return this;
-        }
-
-
-        public IProductQuery ByName(string name)
-        {
-            EnsureQuery();
-            name = name.ToLower();
-            _query = _query.Where(o => o.Name.ToLower() == name);
-            return this;
-        }
-
-        public IProductQuery ContainsName(string name)
-        {
-            EnsureQuery();
-            name = name.ToLower();
-            _query = _query.Where(o => o.Name.ToLower().Contains(name));
-            return this;
-        }
-
-        public IProductQuery ByProductTypeId(int productTypeId)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.ProductTypeId == productTypeId);
-            return this;
-        }
-
-        public IProductQuery ByBrandId(int brandId)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.BrandId == brandId);
-            return this;
-        }
-
-        public IProductQuery IsPublished(bool published)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.IsPublished == published);
-            return this;
-        }
-
-        public IProductQuery IsDeleted(bool deleted)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.IsDeleted == deleted);
-            return this;
-        }
-
+        /// <summary>
+        /// map the entity to object
+        /// </summary>
+        /// <param name="obj">entity</param>
+        /// <returns>object</returns>
         protected override Product Map(Commerce.Products.Product obj)
         {
             List<string> includeComplexPropertyNames = new List<string>();
-            if(_loadWithProductType)
+            if (_loadWithProductType)
                 includeComplexPropertyNames.Add("Type");
             if (_loadWithPriceList)
             {
@@ -175,7 +97,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
                 includeComplexPropertyNames.Add("PriceList.VariantValues.ProductPrice");
                 includeComplexPropertyNames.Add("PriceList.VariantValues.CustomField");
             }
-            if(_loadWithBrand)
+            if (_loadWithBrand)
                 includeComplexPropertyNames.Add("Brand");
             if (_loadWithCategories)
             {
@@ -194,93 +116,223 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
         }
 
+        /// <summary>
+        /// create object
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>true if successfully, else false</returns>
+        public override bool Create(Product obj)
+        {
+            if (obj != null)
+            {
+                return _productService.Create(_mapper.MapFrom(obj));
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// update object
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>true if successfully, else false</returns>
+        public override bool Update(Product obj)
+        {
+            if (obj != null)
+            {
+                return _productService.Update(_mapper.MapFrom(obj));
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// create/update object
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>true if successfully, else false</returns>
+        public override bool Save(Product obj)
+        {
+            if (obj != null)
+            {
+                return _productService.Save(_mapper.MapFrom(obj));
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// delete object
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>true if successfully, else false</returns>
+        public override bool Delete(Product obj)
+        {
+            if (obj != null)
+            {
+                return _productService.Delete(_mapper.MapFrom(obj));
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// add id filter to query
+        /// </summary>
+        /// <param name="id">customer id</param>
+        /// <returns>customer query</returns>
+        public IProductQuery ById(int id)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.Id == id);
+            return this;
+        }
+
+        /// <summary>
+        /// add category id filter to query
+        /// </summary>
+        /// <param name="categoryId">category id</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByCategoryId(int categoryId)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.Categories.Any(c => c.CategoryId == categoryId));
+            return this;
+        }
+        /// <summary>
+        /// add name filter to query
+        /// </summary>
+        /// <param name="name">product name</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByName(string name)
+        {
+            EnsureQuery();
+            name = name.ToLower();
+            _query = _query.Where(o => o.Name.ToLower() == name);
+            return this;
+        }
+
+        /// <summary>
+        /// add contains name filter to query
+        /// product name contains the input
+        /// </summary>
+        /// <param name="name">product name</param>
+        /// <returns>product query</returns>
+        public IProductQuery ContainsName(string name)
+        {
+            EnsureQuery();
+            name = name.ToLower();
+            _query = _query.Where(o => o.Name.ToLower().Contains(name));
+            return this;
+        }
+
+        /// <summary>
+        /// add product type id filter to query
+        /// </summary>
+        /// <param name="productTypeId">product type id</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByProductTypeId(int productTypeId)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.ProductTypeId == productTypeId);
+            return this;
+        }
+
+        /// <summary>
+        /// add brand id filter to query
+        /// </summary>
+        /// <param name="brandId">product brand id</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByBrandId(int brandId)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.BrandId == brandId);
+            return this;
+        }
+
+        /// <summary>
+        /// add published filter to query
+        /// </summary>
+        /// <param name="published">product published</param>
+        /// <returns>product query</returns>
+        public IProductQuery IsPublished(bool published)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.IsPublished == published);
+            return this;
+        }
+
+        /// <summary>
+        /// add deleted filter to query
+        /// </summary>
+        /// <param name="deleted">product deleted</param>
+        /// <returns>product query</returns>
+        public IProductQuery IsDeleted(bool deleted)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.IsDeleted == deleted);
+            return this;
+        }
+
+        /// <summary>
+        /// load product with product type
+        /// </summary>
+        /// <returns>product query</returns>
         public IProductQuery LoadWithProductType()
         {
             _loadWithProductType = true;
             return this;
         }
 
+        /// <summary>
+        /// load product with brand
+        /// </summary>
+        /// <returns>product query</returns>
         public IProductQuery LoadWithBrand()
         {
             _loadWithBrand = true;
             return this;
         }
 
+        /// <summary>
+        /// load product with product categories
+        /// </summary>
+        /// <returns>product query</returns>
         public IProductQuery LoadWithCategories()
         {
             _loadWithCategories = true;
             return this;
         }
 
+        /// <summary>
+        /// load product with product images
+        /// </summary>
+        /// <returns>product query</returns>
         public IProductQuery LoadWithImages()
         {
             _loadWithImages = true;
             return this;
         }
 
+        /// <summary>
+        /// load product with product custom fields
+        /// </summary>
+        /// <returns>product query</returns>
         public IProductQuery LoadWithCustomFields()
         {
             _loadWithCustomFields = true;
             return this;
         }
 
+        /// <summary>
+        /// load product with product price list
+        /// </summary>
+        /// <returns>product query</returns>
         public IProductQuery LoadWithPriceList()
         {
             _loadWithPriceList = true;
             return this;
         }
-        //private void LoadWithOptions(Product obj)
-        //{
-        //    if (_loadWithProductType)
-        //    {
-        //        var p = _productTypeService.GetById(obj.ProductTypeId);
-        //        if (p != null)
-        //            obj.Type = _productTypeMapper.MapTo(p);
-        //    }
-        //    if (_loadWithBrand && obj.BrandId.HasValue)
-        //    {
-        //        var p = _brandService.GetById(obj.BrandId.Value);
-        //        if (p != null)
-        //            obj.Brand = _brandMapper.MapTo(p);
-        //    }
-        //    if (_loadWithCategories)
-        //    {
-        //        var cates = _productService.ProductCategoryQuery().Where(o => o.ProductId == obj.Id).ToArray();
-        //        obj.Categories = cates.Select(o => _productCategoryMapper.MapTo(o)).ToArray();
-        //    }
-        //    if (_loadWithImages)
-        //    {
-        //        var imgs = _productService.ProductImageQuery().Where(o => o.ProductId == obj.Id).ToArray();
-        //        if (imgs != null)
-        //        {
-        //            obj.Images = imgs.Select(o => _productImageMapper.MapTo(o)).ToArray();
-        //        }
-        //    }
-        //    if(_loadWithCustomFields)
-        //    {
-        //        var cfields = _productService.ProductCustomFieldQuery().Where(o => o.ProductId == obj.Id).ToArray();
-        //        if (cfields != null)
-        //            obj.CustomFieldValues = cfields.Select(o => _productCustomFieldValueMapper.MapTo(o)).ToArray();
-        //    }
-        //    if(_loadWithPriceList)
-        //    {
-        //        var prices = _productService.ProductPriceQuery().Where(o => o.ProductId == obj.Id).ToArray();
-        //        if(prices != null)
-        //        {
-        //            foreach(var price in prices)
-        //            {
-        //                price.VariantValues = _productService.ProductPriceVariantQuery().Where(o => o.ProductPriceId == price.Id).ToList();
-        //            }
-        //            obj.PriceList = prices.Select(p =>
-        //                {
-        //                    var np = _productPriceMapper.MapTo(p);
-        //                    np.VariantValues = p.VariantValues.Select(v => _productPriceVariantValueMapper.MapTo(v)).ToArray();
-        //                    return np;
-        //                }).ToArray();
-        //        }
-        //    }
-        //}
 
+        /// <summary>
+        /// this method will be called after query executed
+        /// </summary>
         protected override void OnQueryExecuted()
         {
             _loadWithProductType = false;
@@ -291,11 +343,19 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             _loadWithPriceList = false;
         }
 
+        /// <summary>
+        /// create product query
+        /// </summary>
+        /// <returns>product query</returns>
         public IProductQuery Query()
         {
             return this;
         }
 
+        /// <summary>
+        /// create product data access
+        /// </summary>
+        /// <returns>product data access</returns>
         public IProductAccess Access()
         {
             return this;

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Products
 {
+    /// <summary>
+    /// product data access
+    /// </summary>
     public interface IProductAccess : ICommerceAccess<Product>
     {
     }

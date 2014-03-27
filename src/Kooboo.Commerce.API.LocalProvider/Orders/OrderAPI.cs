@@ -11,6 +11,9 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Orders
 {
+    /// <summary>
+    /// order api
+    /// </summary>
     [Dependency(typeof(IOrderAPI), ComponentLifeStyle.Transient)]
     public class OrderAPI : LocalCommerceQueryAccess<Order, Kooboo.Commerce.Orders.Order>, IOrderAPI
     {
@@ -30,16 +33,30 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// create entity query
+        /// </summary>
+        /// <returns>queryable object</returns>
         protected override IQueryable<Commerce.Orders.Order> CreateQuery()
         {
             return _orderService.Query();
         }
 
+        /// <summary>
+        /// use the default order when pagination the query
+        /// </summary>
+        /// <param name="query">pagination query</param>
+        /// <returns>ordered query</returns>
         protected override IQueryable<Commerce.Orders.Order> OrderByDefault(IQueryable<Commerce.Orders.Order> query)
         {
             return query.OrderByDescending(o => o.Id);
         }
 
+        /// <summary>
+        /// map the entity to object
+        /// </summary>
+        /// <param name="obj">entity</param>
+        /// <returns>object</returns>
         protected override Order Map(Commerce.Orders.Order obj)
         {
             List<string> includeComplexPropertyNames = new List<string>();
@@ -70,23 +87,20 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
 
             return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
         }
-
-        public IOrderQuery LoadWithCustomer()
-        {
-            _loadWithCustomer = true;
-            return this;
-        }
-        public IOrderQuery LoadWithShoppingCart()
-        {
-            _loadWithShoppingCart = true;
-            return this;
-        }
+        /// <summary>
+        /// this method will be called after query executed
+        /// </summary>
         protected override void OnQueryExecuted()
         {
             _loadWithCustomer = false;
             _loadWithShoppingCart = false;
         }
 
+        /// <summary>
+        /// create object
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>true if successfully, else false</returns>
         public override bool Create(Order obj)
         {
             if(obj != null)
@@ -96,6 +110,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return false;
         }
 
+        /// <summary>
+        /// update object
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>true if successfully, else false</returns>
         public override bool Update(Order obj)
         {
             if (obj != null)
@@ -105,6 +124,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return false;
         }
 
+        /// <summary>
+        /// create/update object
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>true if successfully, else false</returns>
         public override bool Save(Order obj)
         {
             if (obj != null)
@@ -114,6 +138,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return false;
         }
 
+        /// <summary>
+        /// delete object
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>true if successfully, else false</returns>
         public override bool Delete(Order obj)
         {
             if (obj != null)
@@ -123,6 +152,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return false;
         }
 
+        /// <summary>
+        /// add id filter to query
+        /// </summary>
+        /// <param name="id">order id</param>
+        /// <returns>order query</returns>
         public IOrderQuery ById(int id)
         {
             EnsureQuery();
@@ -130,6 +164,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return this;
         }
 
+        /// <summary>
+        /// add customer id filter to query
+        /// </summary>
+        /// <param name="customerId">customer id</param>
+        /// <returns>order query</returns>
         public IOrderQuery ByCustomerId(int customerId)
         {
             EnsureQuery();
@@ -137,6 +176,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return this;
         }
 
+        /// <summary>
+        /// add account id filter to query
+        /// </summary>
+        /// <param name="accountId">account id</param>
+        /// <returns>order query</returns>
         public IOrderQuery ByAccountId(string accountId)
         {
             EnsureQuery();
@@ -144,6 +188,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return this;
         }
 
+        /// <summary>
+        /// add create date filter to query
+        /// </summary>
+        /// <param name="from">from date filter</param>
+        /// <param name="to">to date filter</param>
+        /// <returns>order query</returns>
         public IOrderQuery ByCreateDate(DateTime? from, DateTime? to)
         {
             EnsureQuery();
@@ -154,6 +204,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return this;
         }
 
+        /// <summary>
+        /// add order status filter to query
+        /// </summary>
+        /// <param name="status">order status</param>
+        /// <returns>order query</returns>
         public IOrderQuery ByOrderStatus(OrderStatus status)
         {
             EnsureQuery();
@@ -161,6 +216,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return this;
         }
 
+        /// <summary>
+        /// add is completed filter to query
+        /// </summary>
+        /// <param name="isCompleted">order is completed</param>
+        /// <returns>order query</returns>
         public IOrderQuery IsCompleted(bool isCompleted)
         {
             EnsureQuery();
@@ -168,6 +228,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return this;
         }
 
+        /// <summary>
+        /// add coupon filter to query
+        /// </summary>
+        /// <param name="coupon">order coupon</param>
+        /// <returns>order query</returns>
         public IOrderQuery ByCoupon(string coupon)
         {
             EnsureQuery();
@@ -175,6 +240,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return this;
         }
 
+        /// <summary>
+        /// add total filter to query
+        /// </summary>
+        /// <param name="from">from lower bound of total filter</param>
+        /// <param name="to">to upper bound of total filter</param>
+        /// <returns>order query</returns>
         public IOrderQuery ByTotal(decimal? from, decimal? to)
         {
             EnsureQuery();
@@ -185,7 +256,13 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return this;
         }
 
-
+        /// <summary>
+        /// get current logon user's last active order
+        /// </summary>
+        /// <param name="sessionId">current user's session id</param>
+        /// <param name="user">current logon user info</param>
+        /// <param name="deleteShoppingCart">whether to delete the shopping cart when order created</param>
+        /// <returns>order</returns>
         public Order GetMyOrder(string sessionId, MembershipUser user, bool deleteShoppingCart = true)
         {
             var shoppingCart = string.IsNullOrEmpty(sessionId) ? null : _shoppingCartService.Query().Where(o => o.SessionId == sessionId).FirstOrDefault();
@@ -214,11 +291,38 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return null;
         }
 
+        /// <summary>
+        /// load order with customer info
+        /// </summary>
+        /// <returns>order query</returns>
+        public IOrderQuery LoadWithCustomer()
+        {
+            _loadWithCustomer = true;
+            return this;
+        }
+        /// <summary>
+        /// load order with shopping cart info
+        /// </summary>
+        /// <returns>order query</returns>
+        public IOrderQuery LoadWithShoppingCart()
+        {
+            _loadWithShoppingCart = true;
+            return this;
+        }
+
+        /// <summary>
+        /// create order query
+        /// </summary>
+        /// <returns>order query</returns>
         public IOrderQuery Query()
         {
             return this;
         }
 
+        /// <summary>
+        /// create order data access
+        /// </summary>
+        /// <returns>order data access</returns>
         public IOrderAccess Access()
         {
             return this;

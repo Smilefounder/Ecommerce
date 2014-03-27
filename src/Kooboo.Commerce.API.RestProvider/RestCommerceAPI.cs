@@ -7,6 +7,9 @@ using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.Commerce.API.RestProvider
 {
+    /// <summary>
+    /// commerce api by using restful web api
+    /// </summary>
     [Dependency(typeof(ICommerceAPI), ComponentLifeStyle.InRequestScope)]
     public class RestCommerceAPI : CommerceAPIBase
     {
@@ -14,6 +17,13 @@ namespace Kooboo.Commerce.API.RestProvider
         private string _language;
         private string _webApiHost;
 
+        /// <summary>
+        /// set the commerce instance and language to fields.
+        /// the commerce instance and language info will be passed to remote web api by query string
+        /// </summary>
+        /// <param name="instance">commerce instance name</param>
+        /// <param name="language">language</param>
+        /// <param name="settings">kooboo cms site's custom field settings</param>
         public override void InitCommerceInstance(string instance, string language, Dictionary<string, string> settings)
         {
             this._instance = instance;
@@ -24,6 +34,11 @@ namespace Kooboo.Commerce.API.RestProvider
                 throw new Exception("No web api host.");
         }
 
+        /// <summary>
+        /// get the corresponding api from runtime context
+        /// </summary>
+        /// <typeparam name="T">api interface</typeparam>
+        /// <returns>api</returns>
         protected override T GetAPI<T>()
         {
             if (string.IsNullOrEmpty(_webApiHost))

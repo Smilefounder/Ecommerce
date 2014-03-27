@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.API.Promotions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,5 +43,20 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// use coupon code
         /// </summary>
         public string CouponCode { get; set; }
+
+        /// <summary>
+        /// Applicable promotions for this shopping cart.
+        /// </summary>
+        public IList<Promotion> AppliedPromotions { get; set; }
+
+        /// <summary>
+        /// The order level discount, excluding item discounts.
+        /// </summary>
+        public decimal DiscountExItemDiscounts { get; set; }
+
+        public ShoppingCart()
+        {
+            AppliedPromotions = new List<Promotion>();
+        }
     }
 }

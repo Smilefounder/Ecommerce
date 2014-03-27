@@ -9,6 +9,9 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Locations
 {
+    /// <summary>
+    /// country api
+    /// </summary>
     [Dependency(typeof(ICountryAPI), ComponentLifeStyle.Transient)]
     public class CountryAPI : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryAPI
     {
@@ -21,21 +24,40 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// create entity query
+        /// </summary>
+        /// <returns>queryable object</returns>
         protected override IQueryable<Kooboo.Commerce.Locations.Country> CreateQuery()
         {
             return _countryService.Query();
         }
 
+        /// <summary>
+        /// use the default order when pagination the query
+        /// </summary>
+        /// <param name="query">pagination query</param>
+        /// <returns>ordered query</returns>
         protected override IQueryable<Kooboo.Commerce.Locations.Country> OrderByDefault(IQueryable<Kooboo.Commerce.Locations.Country> query)
         {
             return query.OrderBy(o => o.Id);
         }
 
+        /// <summary>
+        /// map the entity to object
+        /// </summary>
+        /// <param name="obj">entity</param>
+        /// <returns>object</returns>
         protected override Country Map(Commerce.Locations.Country obj)
         {
             return _mapper.MapTo(obj);
         }
 
+        /// <summary>
+        /// add id filter to query
+        /// </summary>
+        /// <param name="id">country id</param>
+        /// <returns>country query</returns>
         public ICountryQuery ById(int id)
         {
             EnsureQuery();
@@ -43,12 +65,22 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
             return this;
         }
 
+        /// <summary>
+        /// add name filter to query
+        /// </summary>
+        /// <param name="name">country name</param>
+        /// <returns>country query</returns>
         public ICountryQuery ByName(string name)
         {
             EnsureQuery();
             _query = _query.Where(o => o.Name == name);
             return this;
         }
+        /// <summary>
+        /// add three letter ISO code filter to query
+        /// </summary>
+        /// <param name="threeLetterISOCode">country three letter ISO code</param>
+        /// <returns>country query</returns>
         public ICountryQuery ByThreeLetterISOCode(string threeLetterISOCode)
         {
             EnsureQuery();
@@ -56,6 +88,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
             return this;
         }
 
+        /// <summary>
+        /// add two letter ISO code filter to query
+        /// </summary>
+        /// <param name="twoLetterISOCode">country two letter ISO code</param>
+        /// <returns>country query</returns>
         public ICountryQuery ByTwoLetterISOCode(string twoLetterISOCode)
         {
             EnsureQuery();
@@ -63,6 +100,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
             return this;
         }
 
+        /// <summary>
+        /// add numeric ISO code filter to query
+        /// </summary>
+        /// <param name="numericISOCode">country numeric ISO code</param>
+        /// <returns>country query</returns>
         public ICountryQuery ByNumericISOCode(string numericISOCode)
         {
             EnsureQuery();
@@ -70,6 +112,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
             return this;
         }
 
+        /// <summary>
+        /// create country query
+        /// </summary>
+        /// <returns>country query</returns>
         public ICountryQuery Query()
         {
             return this;

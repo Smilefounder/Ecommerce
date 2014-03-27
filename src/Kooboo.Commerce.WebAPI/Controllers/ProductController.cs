@@ -12,6 +12,10 @@ namespace Kooboo.Commerce.WebAPI.Controllers
 {
     public class ProductController : CommerceAPIControllerAccessBase<Product>
     {
+        /// <summary>
+        /// build the commerce query filters from query string.
+        /// </summary>
+        /// <returns>commerce query</returns>
         protected override ICommerceQuery<Product> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();

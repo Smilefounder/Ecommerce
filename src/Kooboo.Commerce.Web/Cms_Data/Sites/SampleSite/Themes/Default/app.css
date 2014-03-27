@@ -1,0 +1,58 @@
+﻿h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+table.simple-table,
+.simple-table table {
+    border: #ddd 1px solid;
+    border-collapse: collapse;
+    width: 100%;
+}
+.simple-table th,
+.simple-table td {
+    padding: 5px;
+}
+.simple-table thead th {
+    background: #eee;
+}
+.simple-table tfoot {
+    background: #eee;
+}
+.simple-table tfoot.total {
+    text-align: right;
+    font-size: 14px;
+}
+.simple-table .total em {
+    font-size: 20px;
+    font-style: normal;
+}
+
+.buttons {
+    padding-top: 10px;
+}
+
+.button.primary {
+    background: #0078B1;
+    color: #fff;
+}
+
+.common-form table th,
+.common-form table td {
+    padding: 5px;
+    font-size: 14px;
+}
+.common-form table th {
+    text-align: right;
+    font-weight: normal;
+}
+
+fieldset legend {
+    display: block;
+    border-bottom: #ddd 1px solid;
+    font-size: 18px;
+    padding: 10px 0 5px;
+    margin-bottom: 10px;
+}

@@ -40,39 +40,42 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             {
                 foreach (var matchedItem in context.ConditionMatchedItems)
                 {
-                    // TODO: Fix needed
-                    //matchedItem.ApplyDiscount(ComputeDiscount(matchedItem.Subtotal, data));
+                    matchedItem.Discount += ComputeDiscount(matchedItem.Subtotal, data);
                 }
             }
             else if (data.DiscountAppliedTo == DiscountAppliedTo.OrderShipping)
             {
-                //context.PricingContext.ApplyShippingDiscount(ComputeDiscount(context.PricingContext.ShippingCost, data));
+                context.PriceCalculationContext.ShippingDiscount += ComputeDiscount(context.PriceCalculationContext.ShippingCost, data);
             }
             else if (data.DiscountAppliedTo == DiscountAppliedTo.OrderSubtotal)
             {
-                //context.PricingContext.ApplyShippingDiscount(ComputeDiscount(context.PricingContext.Subtotal, data));
+                context.PriceCalculationContext.DiscountExItemDiscounts += ComputeDiscount(context.PriceCalculationContext.Subtotal, data);
             }
         }
 
         private decimal ComputeDiscount(decimal oldPrice, DefaultPromotionPolicyData policyData)
         {
-            decimal newPrice = 0;
+            decimal discount = 0;
 
             if (policyData.DiscountMode == PriceChangeMode.ByAmount)
             {
-                newPrice = oldPrice - policyData.DiscountAmount;
+                discount = policyData.DiscountAmount;
             }
             else
             {
-                newPrice = oldPrice * (decimal)policyData.DiscountPercent;
+                discount = oldPrice * (decimal)policyData.DiscountPercent;
             }
 
-            if (newPrice < 0)
+            if (discount < 0)
             {
-                newPrice = 0;
+                discount = 0;
+            }
+            if (discount > oldPrice)
+            {
+                discount = oldPrice;
             }
 
-            return newPrice;
+            return discount;
         }
     }
 }

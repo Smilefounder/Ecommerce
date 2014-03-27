@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Promotions
 {
-    // TODO: Rename to IPromotionRule?
     public interface IPromotionPolicy
     {
         string Name { get; }
