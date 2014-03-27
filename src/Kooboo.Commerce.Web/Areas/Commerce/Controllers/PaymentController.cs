@@ -31,42 +31,42 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _paymentProcessorFactory = paymentProcessorFactory;
         }
 
-        [AutoDbCommit]
-        public ActionResult Gateway(int paymentId, string returnUrl)
-        {
-            var settings = _settingService.GetStoreSetting();
-            var payment = _paymentService.GetById(paymentId);
+        //[AutoDbCommit]
+        //public ActionResult Gateway(int paymentId, string returnUrl)
+        //{
+        //    var settings = _settingService.GetStoreSetting();
+        //    var payment = _paymentService.GetById(paymentId);
 
-            // The payment was already completed.
-            // This is a duplicate call, so simply return back.
-            if (payment.Status == PaymentStatus.Success)
-            {
-                return Redirect(Url.Payment().DecorateReturn(returnUrl, payment));
-            }
+        //    // The payment was already completed.
+        //    // This is a duplicate call, so simply return back.
+        //    if (payment.Status == PaymentStatus.Success)
+        //    {
+        //        return Redirect(Url.Payment().DecorateReturn(returnUrl, payment));
+        //    }
 
-            var paymentMethod = _paymentMethodService.GetById(payment.PaymentMethod.Id);
-            var commerceName = CommerceContext.CurrentInstance.Name;
+        //    var paymentMethod = _paymentMethodService.GetById(payment.PaymentMethod.Id);
+        //    var commerceName = CommerceContext.CurrentInstance.Name;
 
-            var paymentRequest = new ProcessPaymentRequest(payment)
-            {
-                CurrencyCode = settings.CurrencyISOCode,
-                //CreditCardInfo = model.CreditCardInfo,
-                ReturnUrl = returnUrl
-            };
+        //    var paymentRequest = new ProcessPaymentRequest(payment)
+        //    {
+        //        CurrencyCode = settings.CurrencyISOCode,
+        //        //CreditCardInfo = model.CreditCardInfo,
+        //        ReturnUrl = returnUrl
+        //    };
 
-            var processor = _paymentProcessorFactory.FindByName(paymentMethod.PaymentProcessorName);
-            var result = processor.ProcessPayment(paymentRequest);
+        //    var processor = _paymentProcessorFactory.FindByName(paymentMethod.PaymentProcessorName);
+        //    var result = processor.ProcessPayment(paymentRequest);
 
-            if (result.PaymentStatus == PaymentStatus.Success)
-            {
-                // Already done
-                payment.HandlePaymentResult(result);
-                return Redirect(paymentRequest.ReturnUrl);
-            }
-            else
-            {
-                return result.NextAction;
-            }
-        }
+        //    if (result.PaymentStatus == PaymentStatus.Success)
+        //    {
+        //        // Already done
+        //        payment.HandlePaymentResult(result);
+        //        return Redirect(paymentRequest.ReturnUrl);
+        //    }
+        //    else
+        //    {
+        //        return result.NextAction;
+        //    }
+        //}
     }
 }

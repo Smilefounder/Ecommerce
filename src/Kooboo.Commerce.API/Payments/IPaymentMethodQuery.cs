@@ -7,6 +7,5 @@ namespace Kooboo.Commerce.API.Payments
 {
     public interface IPaymentMethodQuery : ICommerceQuery<PaymentMethod>
     {
-        IPaymentMethodQuery ByType(PaymentMethodType type);
     }
 }

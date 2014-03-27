@@ -30,20 +30,10 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
         {
             if (String.IsNullOrEmpty(data))
             {
-                return null;
+                return new AuthorizeNetSettings();
             }
 
             return JsonConvert.DeserializeObject<AuthorizeNetSettings>(data);
-        }
-
-        public void SaveTo(IKeyValueService service)
-        {
-            service.Set("Kooboo.Commerce.Payments.AuthorizeNet", Serialize());
-        }
-
-        public static AuthorizeNetSettings FetchFrom(IKeyValueService service)
-        {
-            return Deserialize(service.Get("Kooboo.Commerce.Payments.AuthorizeNet"));
         }
     }
 }

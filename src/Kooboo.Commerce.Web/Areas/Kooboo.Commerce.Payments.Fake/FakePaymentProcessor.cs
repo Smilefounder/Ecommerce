@@ -32,27 +32,7 @@ namespace Kooboo.Commerce.Payments.Fake
 
             redirectUrl = redirectUrl.ToFullUrl(HttpContextAccessor());
 
-            return ProcessPaymentResult.Pending(new RedirectResult(redirectUrl), Guid.NewGuid().ToString("N"));
-        }
-
-        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
-        {
-            get
-            {
-                yield return PaymentMethodType.CreditCard;
-                yield return PaymentMethodType.DirectDebit;
-                yield return PaymentMethodType.ExternalPayment;
-            }
-        }
-
-        public bool SupportMultiplePaymentMethods
-        {
-            get { return false; }
-        }
-
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
-        {
-            throw new NotSupportedException();
+            return ProcessPaymentResult.Pending(redirectUrl, Guid.NewGuid().ToString("N"));
         }
     }
 }

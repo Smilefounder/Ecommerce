@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
         {
             if (String.IsNullOrWhiteSpace(data))
             {
-                return null;
+                return new BuckarooSettings();
             }
 
             return Newtonsoft.Json.JsonConvert.DeserializeObject<BuckarooSettings>(data);
@@ -39,17 +39,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo
         public string Serialize()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-
-        public void SaveTo(IKeyValueService service)
-        {
-            service.Set("Kooboo.Commerce.Payments.Buckaroo", Serialize());
-        }
-
-        public static BuckarooSettings FetchFrom(IKeyValueService service)
-        {
-            var json = service.Get("Kooboo.Commerce.Payments.Buckaroo");
-            return Deserialize(json);
         }
     }
 }

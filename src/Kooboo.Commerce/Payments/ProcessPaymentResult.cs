@@ -12,16 +12,16 @@ namespace Kooboo.Commerce.Payments
 
         public string ErrorMessage { get; set; }
 
-        public string PaymentTransactionId { get; set; }
+        public string ThirdPartyTransactionId { get; set; }
 
-        public ActionResult NextAction { get; set; }
+        public string RedirectUrl { get; set; }
 
         public static ProcessPaymentResult Success(string paymentTransactionId = null)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Success,
-                PaymentTransactionId = paymentTransactionId
+                ThirdPartyTransactionId = paymentTransactionId
             };
         }
 
@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Payments
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Failed,
-                PaymentTransactionId = paymentTransactionId,
+                ThirdPartyTransactionId = paymentTransactionId,
                 ErrorMessage = errorMessage
             };
         }
@@ -48,17 +48,17 @@ namespace Kooboo.Commerce.Payments
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Reserved,
-                PaymentTransactionId = transactionId
+                ThirdPartyTransactionId = transactionId
             };
         }
 
-        public static ProcessPaymentResult Pending(ActionResult nextAction, string paymentTransactionId = null)
+        public static ProcessPaymentResult Pending(string redirectUrl, string paymentTransactionId = null)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Pending,
-                NextAction = nextAction,
-                PaymentTransactionId = paymentTransactionId
+                RedirectUrl = redirectUrl,
+                ThirdPartyTransactionId = paymentTransactionId
             };
         }
     }

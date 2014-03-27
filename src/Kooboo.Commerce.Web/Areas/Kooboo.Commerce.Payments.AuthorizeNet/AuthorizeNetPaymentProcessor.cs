@@ -1,5 +1,6 @@
 ﻿using AuthorizeNet;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
 using System;
 using System.Collections.Generic;
@@ -11,26 +12,22 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
     [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.AuthorizeNetPaymentProcessor")]
     public class AuthorizeNetPaymentProcessor : IPaymentProcessor
     {
-        private IKeyValueService _keyValueService;
+        private IPaymentMethodService _paymentMethodService;
 
         public string Name
         {
             get { return Strings.PaymentGatewayName; }
         }
 
-        public AuthorizeNetPaymentProcessor(IKeyValueService keyValueService)
+        public AuthorizeNetPaymentProcessor(IPaymentMethodService paymentMethodService)
         {
-            _keyValueService = keyValueService;
+            _paymentMethodService = paymentMethodService;
         }
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
         {
-            if (request.CreditCardInfo == null)
-                throw new InvalidOperationException("Require credit card info.");
-
-            var settings = AuthorizeNetSettings.FetchFrom(_keyValueService);
-            if (settings == null)
-                throw new InvalidOperationException("Missing payment gateway configuration.");
+            var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
+            var settings = AuthorizeNetSettings.Deserialize(method.PaymentProcessorData);
 
             var authRequest = CreateGatewayRequest(settings, request);
             var gateway = new Gateway(settings.LoginId, settings.TransactionKey, settings.SandboxMode);
@@ -48,7 +45,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
                 result.ErrorMessage = response.ResponseCode + ": " + response.Message;
             }
 
-            result.PaymentTransactionId = response.TransactionID;
+            result.ThirdPartyTransactionId = response.TransactionID;
 
             return result;
         }
@@ -57,33 +54,14 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
         {
             var request = new CardPresentAuthorizeAndCaptureRequest(
                     paymentRequest.Amount,
-                    paymentRequest.CreditCardInfo.CardNumber,
-                    paymentRequest.CreditCardInfo.ExpiredMonth.ToString("D2"),
-                    paymentRequest.CreditCardInfo.ExpiredYear.ToString()
+                    paymentRequest.Parameters[CreditCardParams.CreditCardNumber],
+                    paymentRequest.Parameters[CreditCardParams.CreditCardExpireMonth],
+                    paymentRequest.Parameters[CreditCardParams.CreditCardExpireYear]
             );
 
-            request.AddCardCode(paymentRequest.CreditCardInfo.Cvv2);
+            request.AddCardCode(paymentRequest.Parameters[CreditCardParams.CreditCardCvv2]);
 
             return request;
-        }
-
-
-        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
-        {
-            get
-            {
-                yield return PaymentMethodType.CreditCard;
-            }
-        }
-
-        public bool SupportMultiplePaymentMethods
-        {
-            get { return false; }
-        }
-
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
-        {
-            throw new NotSupportedException();
         }
     }
 }

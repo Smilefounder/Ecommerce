@@ -20,8 +20,6 @@ namespace Kooboo.Commerce.Payments
 
         public PaymentMethodReference PaymentMethod { get; set; }
 
-        public TransactionType TransactionType { get; set; }
-
         public PaymentStatus Status { get; set; }
 
         public string ThirdPartyTransactionId { get; set; }
@@ -70,11 +68,5 @@ namespace Kooboo.Commerce.Payments
     public static class PaymentTargetTypes
     {
         public static readonly string Order = "Order";
-    }
-
-    public enum TransactionType
-    {
-        Payment = 0,
-        Refund = 1
     }
 }

@@ -15,28 +15,25 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
-        private IKeyValueService _keyValueService;
+        private IPaymentMethodService _paymentMethodService;
 
-        public HomeController(IKeyValueService keyValueService)
+        public HomeController(IPaymentMethodService paymentMethodService)
         {
-            _keyValueService = keyValueService;
+            _paymentMethodService = paymentMethodService;
         }
 
-        public ActionResult Settings(string commerceName)
+        public ActionResult Settings(int methodId)
         {
-            var settings = IDealSettings.FetchFrom(_keyValueService);
+            var method = _paymentMethodService.GetById(methodId);
+            var settings = IDealSettings.Deserialize(method.PaymentProcessorData);
             return View(settings);
         }
 
-        private string GetFullUrl(string url)
-        {
-            return UrlUtility.Combine(Request.Url.Scheme + "://" + Request.Url.Authority, url);
-        }
-
         [HttpPost, HandleAjaxFormError, AutoDbCommit]
-        public ActionResult Settings(IDealSettings model, string @return)
+        public ActionResult Settings(int methodId, IDealSettings model, string @return)
         {
-            model.SaveTo(_keyValueService);
+            var method = _paymentMethodService.GetById(methodId);
+            method.PaymentProcessorData = model.Serialize();
             return AjaxForm().RedirectTo(@return);
         }
     }

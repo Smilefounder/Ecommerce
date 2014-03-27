@@ -16,7 +16,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo
     [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.Buckaroo.BuckarooPaymentProcessor")]
     public class BuckarooPaymentProcessor : IPaymentProcessor
     {
-        private IKeyValueService _keyValueService;
         private IPaymentMethodService _paymentMethodService;
 
         public string Name
@@ -26,20 +25,17 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
-        public BuckarooPaymentProcessor(IKeyValueService keyValueService, IPaymentMethodService paymentMethodService)
+        public BuckarooPaymentProcessor(IPaymentMethodService paymentMethodService)
         {
-            _keyValueService = keyValueService;
             _paymentMethodService = paymentMethodService;
         }
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
         {
-            var settings = BuckarooSettings.FetchFrom(_keyValueService);
-            if (settings == null)
-                throw new InvalidOperationException("Buckaroo processor should be configured first.");
-
             var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
-            var methodId = method.PaymentProcessorMethodId;
+            var settings = BuckarooSettings.Deserialize(method.PaymentProcessorData);
+
+            var serviceId = request.Parameters[BuckarooConstants.Parameters.ServiceId];
 
             var parameters = new NameValueCollection();
 
@@ -53,24 +49,24 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             parameters.Add("Brq_return", GetCallbackUrl("Return", request));
             parameters.Add("Brq_push", GetCallbackUrl("Push", request));
 
-            parameters.Add("Brq_payment_method", methodId);
-            parameters.Add("Brq_service_" + methodId + "_action", "Pay");
+            parameters.Add("Brq_payment_method", serviceId);
+            parameters.Add("Brq_service_" + serviceId + "_action", "Pay");
 
             parameters.Add("add_paymentId", request.Payment.Id.ToString());
 
-            if (methodId == "simplesepadirectdebit")
+            if (serviceId == BuckarooConstants.Services.SimpleSEPADirectDebit)
             {
-                parameters.Add("brq_service_" + methodId + "_customeraccountname", request.BankAccountInfo.HolderName);
-                parameters.Add("brq_service_" + methodId + "_CustomerBIC", request.BankAccountInfo.BIC);
-                parameters.Add("brq_service_" + methodId + "_CustomerIBAN", request.BankAccountInfo.IBAN);
-                parameters.Add("brq_service_" + methodId + "_MandateReference", settings.CreditDebitMandateReference);
-                parameters.Add("brq_service_" + methodId + "_MandateDate", settings.CreditDebitMandateDate);
+                parameters.Add("brq_service_" + serviceId + "_customeraccountname", request.Parameters[BuckarooConstants.Parameters.SEPA_CustomerAccountName]);
+                parameters.Add("brq_service_" + serviceId + "_CustomerBIC", request.Parameters[BuckarooConstants.Parameters.SEPA_CustomerBIC]);
+                parameters.Add("brq_service_" + serviceId + "_CustomerIBAN", request.Parameters[BuckarooConstants.Parameters.SEPA_CustomerIBAN]);
+                parameters.Add("brq_service_" + serviceId + "_MandateReference", settings.CreditDebitMandateReference);
+                parameters.Add("brq_service_" + serviceId + "_MandateDate", settings.CreditDebitMandateDate);
             }
 
             parameters.Add("Brq_signature", BuckarooUtil.GetSignature(parameters, settings.SecretKey));
 
-            return ProcessPaymentResult.Pending(
-                new ExternalPostResult(BuckarooUtil.GetGatewayUrl(settings.TestMode), "Buckaroo", parameters));
+            // TODO: Check documentation and see how to do this without redirect
+            throw new NotImplementedException();
         }
 
         private string GetCallbackUrl(string action, ProcessPaymentRequest request)
@@ -82,48 +78,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             }
 
             return url.ToFullUrl(HttpContextAccessor());
-        }
-
-        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
-        {
-            get
-            {
-                return new PaymentMethodType[] { PaymentMethodType.CreditCard, PaymentMethodType.DirectDebit, PaymentMethodType.ExternalPayment };
-            }
-        }
-
-        public bool SupportMultiplePaymentMethods
-        {
-            get { return true; }
-        }
-
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
-        {
-            if (paymentType == PaymentMethodType.CreditCard)
-            {
-                return new SupportedPaymentMethod[] {
-                    new SupportedPaymentMethod("amex", "American Express"),
-                    new SupportedPaymentMethod("visa", "Visa"),
-                    new SupportedPaymentMethod("mastercard", "MasterCard")
-                };
-            };
-
-            if (paymentType == PaymentMethodType.DirectDebit)
-            {
-                return new SupportedPaymentMethod[] {
-                    new SupportedPaymentMethod("simplesepadirectdebit", "SEPA Direct Debit")
-                };
-            }
-
-            if (paymentType == PaymentMethodType.ExternalPayment)
-            {
-                return new SupportedPaymentMethod[] {
-                    new SupportedPaymentMethod("ideal", "iDeal"),
-                    new SupportedPaymentMethod("paypal", "PayPal")
-                };
-            }
-
-            throw new NotSupportedException("Not support payment type: " + paymentType + ".");
         }
     }
 }
