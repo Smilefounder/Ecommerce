@@ -104,6 +104,58 @@ namespace Kooboo.Commerce.API.RestProvider.Products
             return this;
         }
         /// <summary>
+        /// filter the product by custom field value
+        /// </summary>
+        /// <param name="customFieldId">custom field id</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByCustomField(int customFieldId, string fieldValue)
+        {
+            QueryParameters.Add("customField.id", customFieldId.ToString());
+            QueryParameters.Add("customField.value", fieldValue);
+            return this;
+        }
+
+        /// <summary>
+        /// filter the product by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            QueryParameters.Add("customField.name", customFieldName);
+            QueryParameters.Add("customField.value", fieldValue);
+            return this;
+        }
+
+        /// <summary>
+        /// filter the product by product price variant
+        /// </summary>
+        /// <param name="variantId">price variant id</param>
+        /// <param name="variantVallue">price variant value</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByPriceVariant(int variantId, string variantVallue)
+        {
+            QueryParameters.Add("priceVariant.id", variantId.ToString());
+            QueryParameters.Add("priceVariant.vallue", variantVallue);
+            return this;
+        }
+
+        /// <summary>
+        /// filter the product by product price variant
+        /// </summary>
+        /// <param name="variantName">price variant name</param>
+        /// <param name="variantVallue">price variant value</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByPriceVariant(string variantName, string variantValue)
+        {
+            QueryParameters.Add("priceVariant.name", variantName);
+            QueryParameters.Add("priceVariant.vallue", variantValue);
+            return this;
+        }
+
+        /// <summary>
         /// load product with product type
         /// </summary>
         /// <returns>product query</returns>

@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Kooboo.Commerce.WebAPI.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -133,7 +134,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ApiInfoController.cs" />
     <Compile Include="Controllers\BrandController.cs" />
     <Compile Include="Controllers\CommerceAPIControllerAccessBase.cs" />
     <Compile Include="Controllers\CommerceAPIControllerQueryBase.cs" />
@@ -150,6 +153,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ApiInfo.cs" />
     <Compile Include="WebApiDependencyResolver.cs" />
     <Compile Include="WebApiHttpApplicationEvents.cs" />
   </ItemGroup>
@@ -201,6 +205,15 @@
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ApiInfo\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ApiInfo\AllAPI.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ApiInfo\APIDetail.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

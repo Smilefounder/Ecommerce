@@ -6,7 +6,6 @@ using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
-using Kooboo.Commerce.Web.Mvc.Paging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

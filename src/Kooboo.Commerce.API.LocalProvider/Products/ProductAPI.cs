@@ -3,6 +3,7 @@ using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
+using Kooboo.Commerce.EAV.Services;
 using Kooboo.Commerce.Products.Services;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private IBrandService _brandService;
         private IProductTypeService _productTypeService;
         private ICategoryService _categoryService;
+        private ICustomFieldService _customFieldService;
         private IMapper<Product, Kooboo.Commerce.Products.Product> _mapper;
         private IMapper<Brand, Kooboo.Commerce.Brands.Brand> _brandMapper;
         private IMapper<ProductType, Kooboo.Commerce.Products.ProductType> _productTypeMapper;
@@ -36,7 +38,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private bool _loadWithCustomFields = false;
         private bool _loadWithPriceList = false;
 
-        public ProductAPI(IProductService productService, IBrandService brandService, IProductTypeService productTypeService,
+        public ProductAPI(IProductService productService, IBrandService brandService, IProductTypeService productTypeService, ICustomFieldService customFieldService,
             ICategoryService categoryService,
             IMapper<Product, Kooboo.Commerce.Products.Product> mapper,
             IMapper<Brand, Kooboo.Commerce.Brands.Brand> brandMapper,
@@ -50,6 +52,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             _productService = productService;
             _brandService = brandService;
             _productTypeService = productTypeService;
+            _customFieldService = customFieldService;
             _categoryService = categoryService;
             _mapper = mapper;
             _brandMapper = brandMapper;
@@ -269,6 +272,64 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             _query = _query.Where(o => o.IsDeleted == deleted);
             return this;
         }
+
+        /// <summary>
+        /// filter the product by custom field value
+        /// </summary>
+        /// <param name="customFieldId">custom field id</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByCustomField(int customFieldId, string fieldValue)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.CustomFieldValues.Any(c => c.CustomFieldId == c.CustomFieldId && c.FieldText == fieldValue));
+            return this;
+        }
+
+        /// <summary>
+        /// filter the product by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            EnsureQuery();
+            var customFieldQuery = _customFieldService.Query().Where(o => o.Name == customFieldName);
+            var customFieldValueQuery = _productService.ProductCustomFieldQuery().Where(o => customFieldQuery.Any(c => c.Id == o.CustomFieldId));
+            _query = _query.Where(o => customFieldValueQuery.Any(c => c.ProductId == o.Id));
+            return this;
+        }
+
+        /// <summary>
+        /// filter the product by product price variant
+        /// </summary>
+        /// <param name="variantId">price variant id</param>
+        /// <param name="variantVallue">price variant value</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByPriceVariant(int variantId, string variantVallue)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.PriceList.Any(p => p.VariantValues.Any(c => c.CustomFieldId == c.CustomFieldId && c.FieldText == variantVallue)));
+            return this;
+        }
+
+        /// <summary>
+        /// filter the product by product price variant
+        /// </summary>
+        /// <param name="variantName">price variant name</param>
+        /// <param name="variantVallue">price variant value</param>
+        /// <returns>product query</returns>
+        public IProductQuery ByPriceVariant(string variantName, string variantValue)
+        {
+            EnsureQuery();
+            var customFieldQuery = _customFieldService.Query().Where(o => o.Name == variantName);
+            var customFieldValueQuery = _productService.ProductPriceVariantQuery().Where(o => customFieldQuery.Any(c => c.Id == o.CustomFieldId));
+            var priceQuery = _productService.ProductPriceQuery().Where(o => o.VariantValues.Any(c => c.ProductPriceId == o.Id));
+            _query = _query.Where(o => priceQuery.Any(c => c.ProductId == o.Id));
+            return this;
+        }
+
 
         /// <summary>
         /// load product with product type

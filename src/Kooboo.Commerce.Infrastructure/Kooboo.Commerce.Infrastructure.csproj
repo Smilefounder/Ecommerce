@@ -253,7 +253,6 @@
     <Compile Include="Web\Mvc\EnumUtil.cs" />
     <Compile Include="Web\Mvc\FormHelper.cs" />
     <Compile Include="Web\Mvc\JsonNetResult.cs" />
-    <Compile Include="Web\Mvc\Paging\QueryableExtensions.cs" />
     <Compile Include="Web\Mvc\SelectListExtensions.cs" />
     <Compile Include="Web\Mvc\UrlHelperExtensions.cs" />
     <Compile Include="Web\PagedListExtensions.cs" />

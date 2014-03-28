@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Kooboo.Commerce.Data.CommerceInstanceMetadata>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Commerce Instances</h2>
+@if (this.Model == null || this.Model.Count() <= 0)
+{
+    <p>@("There is no commerce instance.".Localize())</p>
+}
+else
+{ 
+<dl>
+    @foreach(var inst in Model)
+    { 
+    <dt>@inst.DisplayName</dt>
+    <dd>
+        <span>@("DbSchema".Localize())</span>:<span>@inst.DbSchema</span><br />
+        <span>@("DbProvider".Localize())</span>:<span>@inst.DbProviderInvariantName</span><br />
+        <span>@("ConnectionString".Localize())</span>:<span>@inst.ConnectionString</span>
+        @if (inst.ConnectionStringParameters != null)
+        {
+            foreach(var kvp in inst.ConnectionStringParameters)
+            {
+                <br /><span>@kvp.Key</span><span>:</span><span>@kvp.Value</span>
+            }
+        }
+        
+    </dd>
+    }
+</dl>
+}
+
