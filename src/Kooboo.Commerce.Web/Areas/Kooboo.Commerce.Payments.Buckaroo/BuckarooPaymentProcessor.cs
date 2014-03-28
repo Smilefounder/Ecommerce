@@ -25,6 +25,14 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
+        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
+        {
+            get
+            {
+                return BuckarooConstants.Parameters.Descriptors;
+            }
+        }
+
         public BuckarooPaymentProcessor(IPaymentMethodService paymentMethodService)
         {
             _paymentMethodService = paymentMethodService;

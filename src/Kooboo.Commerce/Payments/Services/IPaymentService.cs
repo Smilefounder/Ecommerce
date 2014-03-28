@@ -14,6 +14,8 @@ namespace Kooboo.Commerce.Payments.Services
         IQueryable<Payment> Query();
 
         void Create(Payment payment);
+
+        void HandlePaymentResult(Payment payment, ProcessPaymentResult result);
     }
 
     [Dependency(typeof(IPaymentService))]
@@ -40,6 +42,14 @@ namespace Kooboo.Commerce.Payments.Services
         {
             payment.Create();
             _payments.Insert(payment);
+        }
+
+        public void HandlePaymentResult(Payment payment, ProcessPaymentResult result)
+        {
+            if (payment.Status != PaymentStatus.Success)
+            {
+                payment.ChangeStatus(result.PaymentStatus);
+            }
         }
     }
 }

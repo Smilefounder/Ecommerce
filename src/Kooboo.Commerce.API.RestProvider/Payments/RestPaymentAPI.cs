@@ -10,9 +10,9 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
     [Dependency(typeof(IPaymentAPI), ComponentLifeStyle.Transient)]
     public class RestPaymentAPI : RestPaymentQuery, IPaymentAPI
     {
-        public CreatePaymentResult Create(CreatePaymentRequest request)
+        public PaymentResult Pay(PaymentRequest request)
         {
-            return Post<CreatePaymentResult>(null, request);
+            return Post<PaymentResult>(null, request);
         }
 
         public IPaymentQuery Query()

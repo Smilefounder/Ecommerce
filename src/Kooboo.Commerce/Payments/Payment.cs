@@ -48,18 +48,12 @@ namespace Kooboo.Commerce.Payments
             Event.Apply(new PaymentCreated(this));
         }
 
-        public void HandlePaymentResult(ProcessPaymentResult result)
+        public void ChangeStatus(PaymentStatus newStatus)
         {
-            if (Status == PaymentStatus.Success)
-            {
-                return;
-            }
-
             var oldStatus = Status;
-
-            if (oldStatus != result.PaymentStatus)
+            if (oldStatus != newStatus)
             {
-                Status = result.PaymentStatus;
+                Status = newStatus;
                 Event.Apply(new PaymentStatusChanged(this, oldStatus, Status));
             }
         }

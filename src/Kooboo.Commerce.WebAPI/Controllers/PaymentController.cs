@@ -1,4 +1,6 @@
-﻿using Kooboo.Commerce.API.Payments;
+﻿using Kooboo.Commerce.API;
+using Kooboo.Commerce.API.Payments;
+using Kooboo.Commerce.Web.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +10,34 @@ using System.Web.Http;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
-    public class PaymentController : CommerceAPIControllerBase
+    public class PaymentController : CommerceAPIControllerQueryBase<Payment>
     {
-        public Payment[] Get([FromUri]PaymentQueryParams parameters)
+        [AutoDbCommit]
+        public PaymentResult Post(PaymentRequest request)
         {
-            return Commerce().Payments.By(parameters).ToArray();
+            return Commerce().Payments.Pay(request);
         }
 
-        public Payment[] Get([FromUri]PaymentQueryParams parameters, int pageIndex, int pageSize)
+        protected override ICommerceQuery<Payment> BuildQueryFromQueryStrings()
         {
-            return Commerce().Payments.By(parameters).Pagination(pageIndex, pageSize);
-        }
+            var qs = Request.RequestUri.ParseQueryString();
+            var query = Commerce().Payments.Query();
 
-        public Payment GetFirst([FromUri]PaymentQueryParams parameters)
-        {
-            return Commerce().Payments.By(parameters).FirstOrDefault();
-        }
+            if (!string.IsNullOrEmpty(qs["id"]))
+            {
+                query = query.ById(Convert.ToInt32(qs["id"]));
+            }
+            if (!string.IsNullOrEmpty(qs["targetType"]) && !string.IsNullOrEmpty(qs["targetId"]))
+            {
+                query = query.ByTarget(qs["targetType"], qs["targetId"]);
+            }
+            if (!string.IsNullOrEmpty(qs["status"]))
+            {
+                var status = (PaymentStatus)Enum.Parse(typeof(PaymentStatus), qs["status"]);
+                query = query.ByStatus(status);
+            }
 
-        public int GetCount([FromUri]PaymentQueryParams parameters)
-        {
-            return Commerce().Payments.By(parameters).Count();
-        }
-
-        public CreatePaymentResult Post(CreatePaymentRequest request)
-        {
-            return Commerce().Payments.Create(request);
+            return query;
         }
     }
 }

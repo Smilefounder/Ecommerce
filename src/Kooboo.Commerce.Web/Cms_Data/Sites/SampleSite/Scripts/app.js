@@ -57,40 +57,4 @@
         return $(':hidden[name="__RequestVerificationToken"]').val();
     }
 
-    var commands = {
-        orders: {
-            createPayment: function (data) {
-                var errors = [];
-
-                if (!data.paymentMethodId) {
-                    errors.push('Payment method is required.');
-                }
-
-                if (errors.length > 0) {
-                    return $.Deferred().resolve({
-                        Success: false,
-                        Messages: errors
-                    }).promise();
-                }
-
-                data.__RequestVerificationToken = requestVerificationToken();
-                data.returnUrl = '/PaymentReturn';
-
-                return $.post('/Kooboo-Submit/CreatePayment', data);
-            },
-            pay: function (data) {
-                commands.orders
-                        .createPayment(data)
-                        .then(function (result) {
-                            if (!result.Success) {
-                                alert(result.Messages.join('\n'));
-                            } else {
-                                window.location.href = result.Model.RedirectUrl;
-                            }
-                        });
-            }
-        }
-    };
-
-    window.commands = commands;
 })

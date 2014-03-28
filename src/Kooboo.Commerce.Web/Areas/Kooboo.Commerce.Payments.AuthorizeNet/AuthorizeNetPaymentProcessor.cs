@@ -19,6 +19,14 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             get { return Strings.PaymentGatewayName; }
         }
 
+        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
+        {
+            get
+            {
+                return AuthorizeNetConstants.ParameterDescriptors;
+            }
+        }
+
         public AuthorizeNetPaymentProcessor(IPaymentMethodService paymentMethodService)
         {
             _paymentMethodService = paymentMethodService;
@@ -42,7 +50,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             else
             {
                 result.PaymentStatus = PaymentStatus.Failed;
-                result.ErrorMessage = response.ResponseCode + ": " + response.Message;
+                result.Message = response.ResponseCode + ": " + response.Message;
             }
 
             result.ThirdPartyTransactionId = response.TransactionID;
@@ -54,12 +62,12 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
         {
             var request = new CardPresentAuthorizeAndCaptureRequest(
                     paymentRequest.Amount,
-                    paymentRequest.Parameters[CreditCardParams.CreditCardNumber],
-                    paymentRequest.Parameters[CreditCardParams.CreditCardExpireMonth],
-                    paymentRequest.Parameters[CreditCardParams.CreditCardExpireYear]
+                    paymentRequest.Parameters[AuthorizeNetConstants.CreditCardNumber],
+                    paymentRequest.Parameters[AuthorizeNetConstants.CreditCardExpireMonth],
+                    paymentRequest.Parameters[AuthorizeNetConstants.CreditCardExpireYear]
             );
 
-            request.AddCardCode(paymentRequest.Parameters[CreditCardParams.CreditCardCvv2]);
+            request.AddCardCode(paymentRequest.Parameters[AuthorizeNetConstants.CreditCardCvv2]);
 
             return request;
         }

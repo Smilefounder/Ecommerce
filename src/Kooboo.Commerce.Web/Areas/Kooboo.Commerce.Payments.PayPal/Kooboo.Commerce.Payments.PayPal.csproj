@@ -53,14 +53,13 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PayPalAdaptivePaymentsSDK">
-      <HintPath>..\..\..\packages\PayPalAdaptivePaymentsSDK.2.9.109\lib\PayPalAdaptivePaymentsSDK.dll</HintPath>
+    <Reference Include="PayPalCoreSDK, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\PayPal\PayPalCoreSDK.dll</HintPath>
     </Reference>
-    <Reference Include="PayPalCoreSDK">
-      <HintPath>..\..\..\packages\PayPalCoreSDK.1.4.2\lib\net40\PayPalCoreSDK.dll</HintPath>
-    </Reference>
-    <Reference Include="RestApiSDK">
-      <HintPath>..\..\..\packages\RestApiSDK.0.7.6\lib\net40\RestApiSDK.dll</HintPath>
+    <Reference Include="RestApiSDK, Version=0.7.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\PayPal\RestApiSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -130,7 +129,7 @@
   <ItemGroup>
     <Compile Include="AddInAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="PayPalParameters.cs" />
+    <Compile Include="PayPalConstants.cs" />
     <Compile Include="PayPalPaymentProcessor.cs" />
     <Compile Include="PayPalPaymentProcessorViews.cs" />
     <Compile Include="PayPalSettings.cs" />
@@ -207,7 +206,12 @@
     <PostBuildEvent>xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
 xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
 xcopy /y "$(TargetDir)PayPalCoreSDK.dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
-xcopy /y "$(TargetDir)PayPalAdaptivePaymentsSDK.dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"</PostBuildEvent>
+xcopy /y "$(TargetDir)RestApiSDK.dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
+
+xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"
+xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"
+xcopy /y "$(TargetDir)PayPalCoreSDK.dll" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"
+xcopy /y "$(TargetDir)RestApiSDK.dll" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

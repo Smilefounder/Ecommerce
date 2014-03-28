@@ -23,7 +23,7 @@ else
     <div class="block framework clearfix">
         <div id="customerName">Customer @customer.FullName</div>
         <div id="customerDetail" class="common-form">
-            <table>
+            <table class="simple-table">
                 <thead>
                     <tr>
                         <th>
@@ -55,7 +55,7 @@ else
                                 @customer.FullName
                             </td>
                             <td>
-                                @(p.Total)
+                                @(p.Total.ToString("c"))
                             </td>
                             <td>
                                 @(p.OrderStatus)
@@ -64,15 +64,9 @@ else
                                 @(p.CreatedAtUtc.ToShortDateString())
                             </td>
                             <td>
-                                <select class="payment-methods">
-                                    @foreach (var method in paymentMethods)
-                                    {
-                                        <option value="@method.Id">@method.DisplayName</option>
-                                    }
-                                </select>
                                 @if (p.OrderStatus == OrderStatus.PaymentPending || p.OrderStatus == OrderStatus.Created)
                                 {
-                                    <a href="#" class="btn-pay">Pay</a>
+                                    <a href="/Pay?orderId=@p.Id">Pay</a>
                                 }
                             </td>
                         </tr>
@@ -81,17 +75,4 @@ else
             </table>
         </div>
     </div>
-    
-    <script>
-        $('.btn-pay').on('click', function () {
-            var $row = $(this).closest('tr');
-            var orderId = $row.data('order-id');
-            var methodId = $row.find('.payment-methods').val();
-
-            window.commands.orders.pay({
-                orderId: orderId,
-                paymentMethodId: methodId
-            });
-        });
-    </script>
 }

@@ -20,24 +20,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             _mapper = mapper;
         }
 
-        public IPaymentQuery By(PaymentQueryParams parameters)
-        {
-            if (parameters.Id != null)
-            {
-                ById(parameters.Id.Value);
-            }
-            if (parameters.Status != null)
-            {
-                ByStatus(parameters.Status.Value);
-            }
-            if (!String.IsNullOrEmpty(parameters.TargetType) && !String.IsNullOrEmpty(parameters.TargetId))
-            {
-                ByTarget(parameters.TargetType, parameters.TargetId);
-            }
-
-            return this;
-        }
-
         public IPaymentQuery ById(int id)
         {
             EnsureQuery();

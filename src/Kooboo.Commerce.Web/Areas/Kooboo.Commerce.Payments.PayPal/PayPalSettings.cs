@@ -16,6 +16,9 @@ namespace Kooboo.Commerce.Payments.PayPal
         [Display(Name = "Client Secret")]
         public string ClientSecret { get; set; }
 
+        [Display(Name = "Sandbox Mode")]
+        public bool SandboxMode { get; set; }
+
         public string Serialize()
         {
             return JsonConvert.SerializeObject(this);

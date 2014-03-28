@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Payments
     {
         public PaymentStatus PaymentStatus { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string Message { get; set; }
 
         public string ThirdPartyTransactionId { get; set; }
 
@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Payments
             {
                 PaymentStatus = PaymentStatus.Failed,
                 ThirdPartyTransactionId = paymentTransactionId,
-                ErrorMessage = errorMessage
+                Message = errorMessage
             };
         }
 

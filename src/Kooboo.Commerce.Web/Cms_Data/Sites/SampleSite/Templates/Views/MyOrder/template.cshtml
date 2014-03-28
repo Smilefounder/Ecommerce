@@ -256,18 +256,6 @@ else
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>@("Payment Method".Localize())</th>
-                                            <td>
-                                                <select id="PaymentMethodId" name="PaymentMethodId" onchange="Calculate();" class="medium">
-                                                    <option value=""></option>
-                                                    @foreach (var pm in paymentMethods)
-                                        {
-                                        <option value="@pm.Id" data-method="@pm.AdditionalFeeChargeMode" data-amount="@pm.AdditionalFeeAmount" data-percent="@pm.AdditionalFeePercent">@pm.DisplayName</option>
-                                        }
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <th>
                                                 @("Payment Method Cost".Localize())
                                             </th>
@@ -333,10 +321,11 @@ else
             </div>
         </div>
         <div>
-            <button type="submit">@("Save Order".Localize())</button>
-            <button type="button" onclick="GoPay();">@("PAY".Localize())</button>
+            <button class="button" type="submit">@("Save Order".Localize())</button>
         </div>
     </form>
+    
+    
     <script type="text/javascript">
         $(function () {
             $('#saveOrderForm').ajaxForm({
@@ -373,13 +362,6 @@ else
             var subTotal = parseFloat($("#SubTotal").val());
             $("#SubTotal").val(subTotal - oldSubTotal + newSubTotal);
             Calculate();
-        }
-
-        function GoPay() {
-            window.commands.orders.pay({
-                orderId: @(order.Id),
-                paymentMethodId: $('#PaymentMethodId').val()
-            });
         }
     </script>
 

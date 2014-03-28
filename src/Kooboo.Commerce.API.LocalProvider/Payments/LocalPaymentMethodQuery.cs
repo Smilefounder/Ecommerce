@@ -11,12 +11,24 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     public class LocalPaymentMethodQuery : LocalCommerceQuery<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod>, IPaymentMethodQuery
     {
         private IPaymentMethodService _paymentMethodService;
+        private Kooboo.Commerce.Payments.IPaymentProcessorFactory _processorFactory;
         private IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> _mapper;
 
-        public LocalPaymentMethodQuery(IPaymentMethodService paymentMethodService, IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
+        public LocalPaymentMethodQuery(
+            IPaymentMethodService paymentMethodService, 
+            Kooboo.Commerce.Payments.IPaymentProcessorFactory processorFactory,
+            IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
         {
             _paymentMethodService = paymentMethodService;
+            _processorFactory = processorFactory;
             _mapper = mapper;
+        }
+
+        public IPaymentMethodQuery ById(int id)
+        {
+            EnsureQuery();
+            _query = _query.Where(x => x.Id == id);
+            return this;
         }
 
         /// <summary>
@@ -45,7 +57,20 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         /// <returns>object</returns>
         protected override PaymentMethod Map(Commerce.Payments.PaymentMethod obj)
         {
-            return _mapper.MapTo(obj);
+            var method = _mapper.MapTo(obj);
+
+            var processor = _processorFactory.FindByName(obj.PaymentProcessorName);
+            method.PaymentProcessorParameterDescriptors = processor.ParameterDescriptors.Select(x => 
+                new PaymentProcessorParameterDescriptor
+                {
+                    ParameterName = x.ParameterName,
+                    IsRequired = x.IsRequired,
+                    Description = x.Description
+                }
+            )
+            .ToList();
+
+            return method;
         }
     }
 }

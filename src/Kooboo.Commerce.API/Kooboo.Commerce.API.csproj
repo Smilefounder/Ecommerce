@@ -96,8 +96,8 @@
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderItem.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
-    <Compile Include="Payments\CreatePaymentRequest.cs" />
-    <Compile Include="Payments\CreatePaymentResult.cs" />
+    <Compile Include="Payments\PaymentRequest.cs" />
+    <Compile Include="Payments\PaymentResult.cs" />
     <Compile Include="Payments\IPaymentAccess.cs" />
     <Compile Include="Payments\IPaymentAPI.cs" />
     <Compile Include="Payments\IPaymentMethodAPI.cs" />
@@ -107,9 +107,8 @@
     <Compile Include="PagedListWrapper.cs" />
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\PaymentMethodReference.cs" />
-    <Compile Include="Payments\PaymentMethodType.cs" />
-    <Compile Include="Payments\PaymentQueryParams.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
+    <Compile Include="Payments\PaymentProcessorParameterDescriptor.cs" />
     <Compile Include="PriceChangeMode.cs" />
     <Compile Include="Products\IProductAccess.cs" />
     <Compile Include="Products\IProductAPI.cs" />

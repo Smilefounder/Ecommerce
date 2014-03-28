@@ -20,6 +20,12 @@
                 </td>
             </tr>
             <tr>
+                <th>@Html.DisplayNameFor(m => m.UniqueId)</th>
+                <td>
+                    @Html.TextBoxFor(m => m.UniqueId, new { @class = "xxlarge" })
+                </td>
+            </tr>
+            <tr>
                 <th>@Html.DisplayNameFor(m => m.AdditionalFeeChargeMode)</th>
                 <td>
                     @Html.DropDownListFor(m => m.AdditionalFeeChargeMode, Model.AllFeeChargeModes, new { 

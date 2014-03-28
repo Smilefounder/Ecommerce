@@ -120,7 +120,7 @@
     <Compile Include="AuthorizeNetPaymentProcessor.cs" />
     <Compile Include="AuthorizeNetSettings.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="CreditCardParams.cs" />
+    <Compile Include="AuthorizeNetConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.cs" />
   </ItemGroup>

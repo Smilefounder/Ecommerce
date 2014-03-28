@@ -27,6 +27,14 @@ namespace Kooboo.Commerce.Payments.iDeal
             }
         }
 
+        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
+        {
+            get
+            {
+                return Enumerable.Empty<PaymentProcessorParameterDescriptor>();
+            }
+        }
+
         public IDealPaymentProcessor(IPaymentMethodService paymentMethodService)
         {
             _paymentMethodService = paymentMethodService;
@@ -43,7 +51,7 @@ namespace Kooboo.Commerce.Payments.iDeal
             var httpContext = HttpContextAccessor();
             var reportUrl = Strings.AreaName + "/iDeal/Callback?commerceName=" + request.Payment.Metadata.CommerceName;
             var returnUrl = Strings.AreaName
-                + "/iDeal/Return?commerceName=" + request.Payment.Metadata.CommerceName 
+                + "/iDeal/Return?commerceName=" + request.Payment.Metadata.CommerceName
                 + "&paymentId=" + request.Payment.Id
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
 

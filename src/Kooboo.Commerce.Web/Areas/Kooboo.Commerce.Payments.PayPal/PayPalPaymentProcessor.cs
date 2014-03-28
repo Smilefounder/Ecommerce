@@ -5,8 +5,6 @@ using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web;
 using Kooboo.Web.Url;
 using PayPal;
-using PayPal.AdaptivePayments;
-using PayPal.AdaptivePayments.Model;
 using PayPal.Api.Payments;
 using System;
 using System.Collections.Generic;
@@ -22,6 +20,7 @@ namespace Kooboo.Commerce.Payments.PayPal
     public class PayPalPaymentProcessor : IPaymentProcessor
     {
         private IOrderService _orderService;
+        private ISettingService _settingService;
         private IPaymentMethodService _paymentMethodService;
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
@@ -34,21 +33,66 @@ namespace Kooboo.Commerce.Payments.PayPal
             }
         }
 
+        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
+        {
+            get
+            {
+                return PayPalConstants.ParameterDescriptors;
+            }
+        }
+
         public PayPalPaymentProcessor(
             IOrderService orderService,
+            ISettingService settingService,
             IPaymentMethodService paymentMethodService)
         {
             _orderService = orderService;
+            _settingService = settingService;
             _paymentMethodService = paymentMethodService;
         }
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
         {
+            if (String.IsNullOrEmpty(request.CurrencyCode))
+            {
+                var storeSettings = _settingService.GetStoreSetting();
+                request.CurrencyCode = storeSettings.CurrencyISOCode;
+            }
+
             var paymentMethod = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
             var settings = PayPalSettings.Deserialize(paymentMethod.PaymentProcessorData);
 
-            var accessToken = new OAuthTokenCredential(settings.ClientId, settings.ClientSecret).GetAccessToken();
-            var paypalPayment = new PayPalRest.Payment
+            var result = CreatePayPalPayment(request, settings);
+            var paymentStatus = PaymentStatus.Failed;
+
+            if (result.state == "approved")
+            {
+                paymentStatus = PaymentStatus.Success;
+            }
+            else if (result.state == "canceled")
+            {
+                paymentStatus = PaymentStatus.Cancelled;
+            }
+            else // expired, failed
+            {
+                paymentStatus = PaymentStatus.Failed;
+            }
+
+            return new ProcessPaymentResult
+            {
+                PaymentStatus = paymentStatus,
+                ThirdPartyTransactionId = result.id
+            };
+        }
+
+        private PayPalRest.Payment CreatePayPalPayment(ProcessPaymentRequest request, PayPalSettings settings)
+        {
+            var config = new Dictionary<string, string>();
+            config.Add("mode", settings.SandboxMode ? "sandbox" : "live");
+
+            var credentials = new OAuthTokenCredential(settings.ClientId, settings.ClientSecret, config);
+            var accessToken = credentials.GetAccessToken();
+            var payment = new PayPalRest.Payment
             {
                 intent = "sale",
                 payer = new Payer
@@ -65,30 +109,10 @@ namespace Kooboo.Commerce.Payments.PayPal
                 transactions = new List<Transaction> { CreateTransaction(request) }
             };
 
-            paypalPayment.Create(accessToken);
-
-            var paymentStatus = PaymentStatus.Failed;
-
-            if (paypalPayment.state == "approved")
+            return payment.Create(new APIContext(accessToken)
             {
-                paymentStatus = PaymentStatus.Success;
-            }
-            else if (paypalPayment.state == "canceled")
-            {
-                paymentStatus = PaymentStatus.Cancelled;
-            }
-            else // expired, failed
-            {
-                paymentStatus = PaymentStatus.Failed;
-            }
-
-            var paypalPaymentId = paypalPayment.id;
-
-            return new ProcessPaymentResult
-            {
-                PaymentStatus = paymentStatus,
-                ThirdPartyTransactionId = paypalPaymentId
-            };
+                Config = config
+            });
         }
 
         private Transaction CreateTransaction(ProcessPaymentRequest request)
@@ -108,11 +132,11 @@ namespace Kooboo.Commerce.Payments.PayPal
         {
             var card = new CreditCard
             {
-                number = request.Parameters[PayPalParameters.CreditCardNumber],
-                type = request.Parameters[PayPalParameters.CreditCardType],
-                expire_month = Convert.ToInt32(request.Parameters[PayPalParameters.CreditCardExpireMonth]),
-                expire_year = Convert.ToInt32(request.Parameters[PayPalParameters.CreditCardExpireYear]),
-                cvv2 = request.Parameters[PayPalParameters.CreditCardCvv2]
+                number = request.Parameters[PayPalConstants.CreditCardNumber],
+                type = request.Parameters[PayPalConstants.CreditCardType],
+                expire_month = Convert.ToInt32(request.Parameters[PayPalConstants.CreditCardExpireMonth]),
+                expire_year = Convert.ToInt32(request.Parameters[PayPalConstants.CreditCardExpireYear]),
+                cvv2 = request.Parameters[PayPalConstants.CreditCardCvv2]
             };
 
             // If the website don't pass in customer info,

@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.API.Payments;
+﻿using Kooboo.Commerce.API;
+using Kooboo.Commerce.API.Payments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,19 @@ using System.Web.Http;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
-    public class PaymentMethodController : CommerceAPIControllerBase
+    public class PaymentMethodController : CommerceAPIControllerQueryBase<PaymentMethod>
     {
-        public PaymentMethod[] Get()
+        protected override ICommerceQuery<PaymentMethod> BuildQueryFromQueryStrings()
         {
-            return Commerce().PaymentMethods.ToArray();
+            var qs = Request.RequestUri.ParseQueryString();
+            var query = Commerce().PaymentMethods.Query();
+
+            if (!string.IsNullOrEmpty(qs["id"]))
+            {
+                query = query.ById(Convert.ToInt32(qs["id"]));
+            }
+
+            return query;
         }
     }
 }

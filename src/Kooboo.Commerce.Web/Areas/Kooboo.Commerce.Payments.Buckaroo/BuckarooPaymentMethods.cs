@@ -31,6 +31,30 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             public static readonly string SEPA_CustomerBIC = "SEPA_CustomerBIC";
 
             public static readonly string SEPA_CustomerIBAN = "SEPA_CustomerIBAN";
+
+            public static readonly IEnumerable<PaymentProcessorParameterDescriptor> Descriptors = new List<PaymentProcessorParameterDescriptor>
+            {
+                new PaymentProcessorParameterDescriptor(ServiceId) 
+                {
+                    IsRequired = true,
+                    Description = "The buckaroo payment service to use."
+                },
+                new PaymentProcessorParameterDescriptor(SEPA_CustomerAccountName)
+                {
+                    IsRequired = false,
+                    Description = "SEPA customer account name. Required for SEPA service."
+                },
+                new PaymentProcessorParameterDescriptor(SEPA_CustomerBIC)
+                {
+                    IsRequired = false,
+                    Description = "SEPA customer BIC. Required for SEPA service."
+                },
+                new PaymentProcessorParameterDescriptor(SEPA_CustomerIBAN)
+                {
+                    IsRequired = false,
+                    Description = "SEPA customer IBAN. Required for SEPA service."
+                }
+            };
         }
     }
 }

@@ -20,6 +20,14 @@ namespace Kooboo.Commerce.Payments.Fake
             }
         }
 
+        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
+        {
+            get
+            {
+                return Enumerable.Empty<PaymentProcessorParameterDescriptor>();
+            }
+        }
+
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)

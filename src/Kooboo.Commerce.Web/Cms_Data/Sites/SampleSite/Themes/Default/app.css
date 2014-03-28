@@ -17,6 +17,7 @@ table.simple-table,
 }
 .simple-table thead th {
     background: #eee;
+    text-align: left !important;
 }
 .simple-table tfoot {
     background: #eee;
@@ -55,4 +56,22 @@ fieldset legend {
     font-size: 18px;
     padding: 10px 0 5px;
     margin-bottom: 10px;
+    width: 100%;
+}
+
+.payment-methods {
+    float: left;
+    width: 30%;
+    min-height: 100px;
+}
+.payment-methods li {
+    display: block;
+    font-size: 16px;
+    line-height: 1.8em;
+}
+.payment-method-form {
+    float: left;
+    width: 65%;
+    padding: 10px 0 10px 10px;
+    border-left: #ddd 1px solid;
 }

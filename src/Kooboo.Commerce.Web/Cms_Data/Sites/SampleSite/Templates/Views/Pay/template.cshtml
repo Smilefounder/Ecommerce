@@ -1,0 +1,134 @@
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.CmsSite;
+@using Kooboo.Commerce.API.Orders;
+@using Kooboo.Commerce.API.Locations;
+@using Kooboo.Commerce.API.Payments;
+@using Kooboo.CMS.Sites.Membership;
+@using Kooboo.Commerce.Web.Mvc;
+@{
+    var commerce = Site.Current.Commerce();
+    var memberAuth = this.Context.Membership();
+    var member = memberAuth.GetMembershipUser();
+    var paymentMethods = commerce.PaymentMethods.ToArray();
+
+    Order order = null;
+    var orderId = ViewContext.RequestContext.GetRequestValue("orderId");
+    
+    if (!String.IsNullOrEmpty(orderId))
+    {
+        order = commerce.Orders.ById(Convert.ToInt32(orderId)).FirstOrDefault();
+    }
+    else
+    {
+        order = commerce.Orders.GetMyOrder(Context.Session.SessionID, member, true);
+    }
+}
+ 
+<fieldset>
+    <legend>Choose Payment Method</legend>
+    <form id="payOrderForm" action="@Url.FrontUrl().SubmissionUrl("PayOrder")" method="post">
+        @AntiForgery.GetHtml()
+        <input type="hidden" name="OrderId" value="@order.Id" />
+        <input type="hidden" name="ReturnUrl" value="/PaymentReturn" />
+        <div class="clearfix">
+            <ul class="payment-methods">
+                @foreach (var method in paymentMethods)
+                {
+                    <li>
+                        <label>
+                            <input type="radio" name="PaymentMethodId" value="@method.Id" data-form=".method-form-@method.UniqueId" />
+                            @method.DisplayName
+                        </label>
+                    </li>
+                }
+            </ul>
+            <div class="payment-method-form">
+                <div class="method-form method-form-PayPalCredit" style="display:none">
+                    <div class="common-form">
+                        <table>
+                            <tr>
+                                <th></th>
+                                <td>
+                                    <label style="float:none;width:auto">
+                                        <input type="radio" name="CreditCardType" value="visa" checked="checked" />
+                                        Visa
+                                    </label>
+                                    <label style="float:none;width:auto">
+                                        <input type="radio" name="CreditCardType" value="mastercard" />
+                                        Master Card
+                                    </label>
+                                    <label style="float:none;width:auto">
+                                        <input type="radio" name="CreditCardType" value="amex" />
+                                        American Express
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Card Number:</th>
+                                <td>
+                                    <input type="text" name="CreditCardNumber" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Expire Month/Year:</th>
+                                <td>
+                                    <select name="CreditCardExpireMonth">
+                                        @foreach (var month in Enumerable.Range(1, 12))
+                                        {
+                                            <option value="@month">@month</option>
+                                        }
+                                    </select>
+                                    /
+                                    <select name="CreditCardExpireYear">
+                                        @foreach (var year in Enumerable.Range(DateTime.Today.Year + 1, 10))
+                                        {
+                                            <option value="@year">@year</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>CVV2:</th>
+                                <td>
+                                    <input type="text" name="CreditCardCvv2" maxlength="3" style="width:100px" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons" style="text-align:right">
+            <a href="#" class="button primary btn-payorder">@("Pay".Localize())</a>
+        </div>
+    </form>
+</fieldset>
+
+<script>
+     $('#payOrderForm').ajaxForm({
+         success: function (response, status, xhr, ele) {
+             if (!response.Success) {
+                 alert(response.Messages.join('\n'));
+             } else {
+                 var result = response.Model;
+                 if (result.RedirectUrl) {
+                     location.href = result.RedirectUrl;
+                 } else {
+                     alert(result.PaymentStatus);
+                     location.href = '/MyOrders';
+                 }
+             }
+         }
+     });
+
+     $('.payment-methods :radio').click(function () {
+         $('.method-form').hide();
+         $($(this).data('form')).show();
+     });
+
+     $('.btn-payorder').click(function () {
+         var $form = $(this).closest('form');
+         $form.submit();
+         return false;
+     });
+</script>

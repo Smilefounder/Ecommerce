@@ -7,5 +7,9 @@ namespace Kooboo.Commerce.API.Payments
 {
     public interface IPaymentMethodQuery : ICommerceQuery<PaymentMethod>
     {
+        /// <summary>
+        /// Filter the payment methods by id.
+        /// </summary>
+        IPaymentMethodQuery ById(int id);
     }
 }

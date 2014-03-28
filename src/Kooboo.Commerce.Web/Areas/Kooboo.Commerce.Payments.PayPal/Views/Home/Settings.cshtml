@@ -9,9 +9,9 @@
     <strong>@("Credit Card Parameters".Localize()):</strong>
     <p>
         <ul>
-            @foreach (var kvp in PayPalParameters.ParameterDescriptions)
+            @foreach (var each in PayPalConstants.ParameterDescriptors)
             {
-                <li>@kvp.Key: @kvp.Value</li>
+                <li>@each.ParameterName: @each.Description</li>
             }
         </ul>
     </p>
@@ -25,6 +25,7 @@
             <tbody>
                 @Html.EditorFor(m => m.ClientId)
                 @Html.EditorFor(m => m.ClientSecret)
+                @Html.EditorFor(m => m.SandboxMode)
             </tbody>
         </table>
     }

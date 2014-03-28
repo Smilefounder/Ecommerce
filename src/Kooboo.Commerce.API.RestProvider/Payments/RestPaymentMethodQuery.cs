@@ -8,9 +8,9 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
 {
     public class RestPaymentMethodQuery : RestApiBase, IPaymentMethodQuery
     {
-        public IPaymentMethodQuery ByType(PaymentMethodType type)
+        public IPaymentMethodQuery ById(int id)
         {
-            QueryParameters.Add("type", type.ToString());
+            QueryParameters.Add("id", id.ToString());
             return this;
         }
 
