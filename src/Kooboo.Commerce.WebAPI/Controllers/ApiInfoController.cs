@@ -1,30 +1,132 @@
-﻿using System;
+﻿using Kooboo.Commerce.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Reflection;
+using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.WebAPI.ViewModels;
+using System.IO;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
     public class ApiInfoController : Controller
     {
-        //
-        // GET: /ApiInfo/
+        private ITypeFinder _typeFinder;
+        private ICommerceInstanceManager _instanceMgr;
+
+        public ApiInfoController(ICommerceInstanceManager instanceMgr)
+        {
+            _instanceMgr = instanceMgr;
+            _typeFinder = new AppDomainTypeFinder();
+        }
 
         public ActionResult Index()
         {
-            return View();
+            var instances = _instanceMgr.GetAllInstanceMetadatas();
+
+            return View(instances);
         }
 
         public ActionResult AllAPI()
         {
-            return View();
+            var types = GetAllApiInfo();
+            return View(types);
         }
 
-        public ActionResult APIDetail(string id)
+        public ActionResult APIDetail(string controllerName, string actionName)
         {
-            return View();
+            var types = GetAllApiInfo();
+            ApiActionInfo ai = null;
+            var ci = types.FirstOrDefault(o => o.ControllerName == controllerName);
+            if (ci != null)
+            {
+                ai = ci.Actions.FirstOrDefault(o => o.ActionName == actionName);
+            }
+            ViewBag.Controller = ci;
+            return View(ai);
         }
 
+        private IEnumerable<ApiControllerInfo> GetAllApiInfo()
+        {
+            var types = _typeFinder.FindClassesOfType<CommerceAPIControllerBase>()
+                .Select(o => GetAPIInfo(o));
+            return types;
+        }
+
+        private XElement LoadComments(Assembly asm)
+        {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", asm.GetName().Name + ".xml");
+            if (System.IO.File.Exists(path))
+            {
+                var xdoc = XDocument.Load(path);
+                if (xdoc != null)
+                {
+                    return xdoc.Root.Element("members");
+                }
+            }
+            return null;
+        }
+
+        private ApiControllerInfo GetAPIInfo(Type type)
+        {
+            var comments = LoadComments(type.Assembly);
+            var ci = new ApiControllerInfo();
+            ci.ControllerName = type.Name.Replace("Controller", "");
+            if (comments != null)
+            {
+                var ename = "T:" + type.FullName;
+                var cele = comments.Elements("member").FirstOrDefault(o => o.Attribute("name").Value == ename);
+                if (cele != null)
+                    ci.Comments = cele.Element("summary").Value;
+            }
+            var actions = type.GetMethods()
+                    .Where(o => o.IsPublic && !o.IsSpecialName && !o.IsSecurityTransparent && o.GetMethodImplementationFlags() == MethodImplAttributes.IL)
+                    .ToArray();
+            var ais = new List<ApiActionInfo>();
+            foreach (var a in actions)
+            {
+                var ai = new ApiActionInfo();
+                ai.ActionName = a.Name;
+                ai.ApiRoute = string.Format("/{{instance}}/{0}/{1}", ci.ControllerName, ai.ActionName);
+
+                var paras = a.GetParameters();
+                var ename = "M:" + type.FullName + "." + a.Name;
+                if(paras != null && paras.Count() > 0)
+                {
+                    ename += string.Format("({0})", string.Join(",", paras.Select(o => o.ParameterType.FullName)));
+                }
+                var aele = comments.Elements("member").FirstOrDefault(o => o.Attribute("name").Value == ename);
+                if(aele != null)
+                    ai.Comments = aele.Element("summary").Value;
+
+                var pis = new List<ApiParameterInfo>();
+                foreach (var p in paras)
+                {
+                    var pi = new ApiParameterInfo();
+                    pi.ParameterName = p.Name;
+                    pi.TypeName = p.ParameterType.Name;
+
+                    if(aele != null)
+                    {
+                        var pele = aele.Elements("param").FirstOrDefault(o => o.Attribute("name").Value == p.Name);
+                        if(pele != null)
+                        {
+                            pi.Comments = pele.Value;
+                        }
+                    }
+
+                    pis.Add(pi);
+                }
+                ai.Parameters = pis;
+                ais.Add(ai);
+            }
+            ci.Actions = ais;
+
+            return ci;
+        }
     }
 }

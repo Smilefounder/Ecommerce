@@ -1,6 +1,33 @@
-﻿@{
+﻿@model IEnumerable<Kooboo.Commerce.WebAPI.ViewModels.ApiControllerInfo>
+@{
     ViewBag.Title = "AllAPI";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>AllAPI</h2>
+<div>
+    <ul>
+        @foreach (var c in Model)
+        {
+            <li>
+                <h4>@c.ControllerName</h4>
+                <ul>
+                    @foreach(var a in c.Actions)
+                    {
+                        <li>
+                            <h5>@a.ActionName</h5>
+                            <a href="/api/APIDetail?controllerName=@c.ControllerName&actionName=@a.ActionName">@a.ApiRoute</a>
+                            <dl>
+                                @foreach(var p in a.Parameters)
+                                {
+                                    <dt>@p.ParameterName</dt>
+                                    <dd>@p.TypeName</dd>
+                                }
+                            </dl>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>

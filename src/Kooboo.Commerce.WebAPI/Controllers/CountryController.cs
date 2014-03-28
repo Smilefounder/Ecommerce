@@ -9,6 +9,9 @@ using Kooboo.Commerce.API;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
+    /// <summary>
+    /// country controller
+    /// </summary>
     public class CountryController : CommerceAPIControllerQueryBase<Country>
     {
         /// <summary>

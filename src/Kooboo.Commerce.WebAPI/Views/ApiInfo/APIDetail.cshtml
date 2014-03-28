@@ -1,6 +1,32 @@
-﻿@{
+﻿@model Kooboo.Commerce.WebAPI.ViewModels.ApiActionInfo
+@{
     ViewBag.Title = "APIDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = ViewBag.Controller as Kooboo.Commerce.WebAPI.ViewModels.ApiControllerInfo;
 }
 
 <h2>APIDetail</h2>
+<a href="/api/AllAPI">@("Back to all API list".Localize())</a>
+@if (Model == null)
+{
+    <p>@("No action found.".Localize())</p>
+}
+else
+{
+    <h3>@controller.ControllerName</h3>
+    <div>
+        @controller.Comments
+    </div>
+    <h3>@Model.ActionName</h3>
+    <div>
+        @Model.Comments
+    </div>
+    if(Model.Parameters != null)
+    { 
+        foreach (var p in Model.Parameters)
+        {
+            <h5>@(p.ParameterName) : @(p.TypeName)</h5>
+            <p>@p.Comments</p>
+        }
+    }
+}

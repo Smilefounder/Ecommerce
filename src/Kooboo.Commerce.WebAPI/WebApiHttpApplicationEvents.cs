@@ -19,8 +19,8 @@ namespace Kooboo.Commerce.WebAPI
         public override void Application_Start(object sender, EventArgs e)
         {
             base.Application_Start(sender, e);
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
 
             GlobalConfiguration.Configuration.DependencyResolver = new WebApiDependencyResolver(EngineContext.Current, GlobalConfiguration.Configuration.DependencyResolver);
             System.Web.Mvc.DependencyResolver.SetResolver(new Kooboo.CMS.Common.Runtime.Mvc.MvcDependencyResolver(EngineContext.Current, System.Web.Mvc.DependencyResolver.Current));
