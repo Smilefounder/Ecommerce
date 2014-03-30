@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var methods = _paymentMethodService.Query()
                                  .OrderByDescending(x => x.Id)
-                                 .ToPagedList(page ?? 1, pageSize ?? 50)
+                                 .ToPagedList((page ?? 1) - 1, pageSize ?? 50)
                                  .Transform(x =>
                                  {
                                      var model = new PaymentMethodRowModel(x);

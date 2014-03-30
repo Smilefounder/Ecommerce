@@ -69,6 +69,7 @@ namespace Kooboo.Commerce.API.CmsSite.PlugIn
                 resultData.Model = new
                 {
                     Message = result.Message,
+                    RedirectUrl = result.RedirectUrl,
                     PaymentStatus = result.PaymentStatus.ToString()
                 };
             }

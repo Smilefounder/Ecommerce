@@ -3,6 +3,7 @@ using Kooboo.Commerce.Web;
 using Kooboo.Web.Url;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -38,7 +39,16 @@ namespace Kooboo.Commerce.Payments.Fake
                 + "&currency=" + request.CurrencyCode
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
 
-            redirectUrl = redirectUrl.ToFullUrl(HttpContextAccessor());
+            var commerceUrl = ConfigurationManager.AppSettings["CommerceUrl"];
+
+            if (!String.IsNullOrEmpty(commerceUrl))
+            {
+                redirectUrl = UrlUtility.Combine(commerceUrl, redirectUrl);
+            }
+            else
+            {
+                redirectUrl = redirectUrl.ToFullUrl(HttpContextAccessor());
+            }
 
             return ProcessPaymentResult.Pending(redirectUrl, Guid.NewGuid().ToString("N"));
         }

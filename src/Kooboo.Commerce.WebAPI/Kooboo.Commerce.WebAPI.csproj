@@ -140,6 +140,7 @@
     <Compile Include="Controllers\BrandController.cs" />
     <Compile Include="Controllers\CommerceAPIControllerAccessBase.cs" />
     <Compile Include="Controllers\CommerceAPIControllerQueryBase.cs" />
+    <Compile Include="Controllers\PriceController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CommerceAPIControllerBase.cs" />

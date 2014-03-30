@@ -39,6 +39,19 @@ namespace Kooboo.Commerce.Orders
 
         public decimal Tax { get; set; }
 
+        public decimal Total
+        {
+            get
+            {
+                var total = Items.Sum(x => x.Subtotal - x.Discount) - DiscountExItemDiscounts;
+                total += (ShippingCost - ShippingDiscount);
+                total += (PaymentMethodCost - PaymentMethodDiscount);
+                total += Tax;
+
+                return total;
+            }
+        }
+
         public IList<Promotion> AppliedPromotions { get; private set; }
 
         public PriceCalculationContext()

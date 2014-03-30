@@ -75,3 +75,21 @@ fieldset legend {
     padding: 10px 0 10px 10px;
     border-left: #ddd 1px solid;
 }
+.payment-methods .method-fee {
+    font-size: 13px;
+    display: inline-block;
+    margin-left: 5px;
+    color: darkorange;
+}
+.payment-methods .method-fee em {
+    font-style: normal;
+}
+
+#payOrderForm .order-total {
+    font-size: 20px;
+    display: inline-block;
+    margin-top: 10px;
+}
+#payOrderForm .order-total .value {
+    color: darkorange;
+}

@@ -31,17 +31,47 @@
         <input type="hidden" name="OrderId" value="@order.Id" />
         <input type="hidden" name="ReturnUrl" value="/PaymentReturn" />
         <div class="clearfix">
-            <ul class="payment-methods">
+            <div class="payment-methods">
+                <ul>
                 @foreach (var method in paymentMethods)
                 {
                     <li>
-                        <label>
-                            <input type="radio" name="PaymentMethodId" value="@method.Id" data-form=".method-form-@method.UniqueId" />
-                            @method.DisplayName
-                        </label>
+                    <label>
+                    <input type="radio" name="PaymentMethodId" value="@method.Id" data-form=".method-form-@method.UniqueId" />
+                    @method.DisplayName
+                    <span class="method-fee">
+                    @if (method.AdditionalFeeChargeMode == PriceChangeMode.ByAmount)
+                    {
+                        if (method.AdditionalFeeAmount == 0)
+                        {
+                                            <em>Free</em>
+                        }
+                        else
+                        {
+                            @method.AdditionalFeeAmount.ToString("c")
+                        }
+                    }
+                    else
+                    {
+                        if (method.AdditionalFeePercent == 0)
+                        {
+                                            <em>Free</em>
+                        }
+                        else
+                        {
+                            @method.AdditionalFeePercent.ToString("#.##%")
+                        }
+                    }
+                    </span>
+                    </label>
                     </li>
                 }
-            </ul>
+                </ul>
+                <span class="order-total">
+                    <label>Total:</label> <span class="value"></span>
+                </span>
+            </div>
+
             <div class="payment-method-form">
                 <div class="method-form method-form-PayPalCredit" style="display:none">
                     <div class="common-form">
@@ -96,6 +126,9 @@
                         </table>
                     </div>
                 </div>
+                <div class="method-form method-form-KoobooPayment" style="display:none">
+                    You will be redirected to a third-party website to complete the payment.
+                </div>
             </div>
         </div>
         <div class="buttons" style="text-align:right">
@@ -105,30 +138,52 @@
 </fieldset>
 
 <script>
-     $('#payOrderForm').ajaxForm({
-         success: function (response, status, xhr, ele) {
-             if (!response.Success) {
-                 alert(response.Messages.join('\n'));
-             } else {
-                 var result = response.Model;
-                 if (result.RedirectUrl) {
-                     location.href = result.RedirectUrl;
+    (function ($) {
+        var orderId = @order.Id;
+
+        updatePrice(null);
+
+        $('#payOrderForm').ajaxForm({
+            success: function (response, status, xhr, ele) {
+                if (!response.Success) {
+                    alert(response.Messages.join('\n'));
+                } else {
+                    var result = response.Model;
+                    if (result.RedirectUrl) {
+                        location.href = result.RedirectUrl;
+                    } else {
+                        alert(result.PaymentStatus);
+                        location.href = '/MyOrders';
+                    }
+                }
+            }
+        });
+
+        $('.payment-methods :radio').click(function () {
+            $('.method-form').hide();
+            $($(this).data('form')).show();
+            updatePrice($(this).val());
+        });
+
+        $('.btn-payorder').click(function () {
+            var $form = $(this).closest('form');
+            $form.submit();
+            return false;
+        });
+
+        function updatePrice(paymentMethodId) {
+            $.post('/Kooboo-Submit/CalculatePrice', { 
+                orderId: orderId, 
+                paymentMethodId: paymentMethodId,
+                __RequestVerificationToken: $(':hidden[name="__RequestVerificationToken"]').val()
+            })
+            .then(function (result) {
+                 if (!result.Success) {
+                     alert(result.Messages.join('\n'));
                  } else {
-                     alert(result.PaymentStatus);
-                     location.href = '/MyOrders';
+                     $('#payOrderForm .order-total .value').html('$' + result.Model.Total.toFixed(2));
                  }
-             }
-         }
-     });
-
-     $('.payment-methods :radio').click(function () {
-         $('.method-form').hide();
-         $($(this).data('form')).show();
-     });
-
-     $('.btn-payorder').click(function () {
-         var $form = $(this).closest('form');
-         $form.submit();
-         return false;
-     });
+            });
+        }
+    })(jQuery);
 </script>

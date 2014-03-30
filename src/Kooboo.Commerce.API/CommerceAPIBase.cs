@@ -12,6 +12,7 @@ using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Payments;
+using Kooboo.Commerce.API.Prices;
 
 namespace Kooboo.Commerce.API
 {
@@ -99,6 +100,10 @@ namespace Kooboo.Commerce.API
         public IPaymentAPI Payments
         {
             get { return GetAPI<IPaymentAPI>(); }
+        }
+        public IPriceAPI Prices
+        {
+            get { return GetAPI<IPriceAPI>(); }
         }
     }
 }
