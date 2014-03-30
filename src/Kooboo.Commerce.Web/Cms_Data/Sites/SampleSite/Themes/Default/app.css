@@ -50,6 +50,16 @@ table.simple-table,
     font-weight: normal;
 }
 
+.applied-promotions li {
+    margin-bottom: 5px;
+    border: darkorange 1px solid;
+    color: darkorange;
+    font-weight: bold;
+    padding: 3px 5px;
+    border-radius: 4px;
+    max-width: 300px;
+}
+
 fieldset legend {
     display: block;
     border-bottom: #ddd 1px solid;
