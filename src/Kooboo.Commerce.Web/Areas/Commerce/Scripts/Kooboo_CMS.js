@@ -607,6 +607,15 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             menu.toggle('fast');
         });
     };
+    $.fn.dialogScroll = function () {
+        var dom = $(this);
+        var dialog = dom.find('.ui-dialog-content');
+        $(dialog).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            $(this).find('.topbar').css('top', scrollTop);
+            $(this).find('.buttons').css('bottom', -scrollTop);
+        });
+    };
     $.fn.siteSwitch = function () {
         var dom = $(this);
         var switcher = dom.find('.block.sitemanager .switcher.active');

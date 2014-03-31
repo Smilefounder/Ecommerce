@@ -62,13 +62,10 @@
 /* Message
 ----------------------------------------------------------*/
 .block.message {
-	background: #F3F3F3;
+	background: #F5F5F5;
 	border-left: 5px solid #CCC;
-	display: inline-block;
 	font-size: 16px;
-	min-height: 60px;
-	min-width: 400px;
-	padding: 10px;
+	padding: 8px;
 	margin-bottom: 10px;
 
 	&.success {
@@ -465,38 +462,48 @@
 	li {
 		float: left;
 		margin-left: 10px;
-	}
 
-	a {
-		display: block;
-		height: 26px;
-		width: 26px;
-		.box-sizing(border-box);
-
-		&:hover {
-			background: #E7E7E7;
-		}
-	}
-
-	.list a {
-		padding: 6px 5px;
-	}
-
-	.grid a {
-		padding: 6px 3px;
-	}
-
-	.active {
 		a {
+			display: block;
+			height: 26px;
+			width: 26px;
+			.box-sizing(border-box);
+
+			&:hover {
+				background: #E7E7E7;
+			}
+		}
+
+		&.active a {
 			background: #0078B1;
 		}
 
-		.icon.list {
-			background-position: -133px -80px;
+		&.list {
+			a {
+				padding: 6px 5px;
+			}
+
+			.sprite {
+				.sprite(@list-gray);
+			}
+
+			&.active .sprite {
+				.sprite(@list-white);
+			}
 		}
 
-		.icon.grid {
-			background-position: -170px -80px;
+		&.grid {
+			a {
+				padding: 6px 3px;
+			}
+
+			.sprite {
+				.sprite(@grid-gray);
+			}
+
+			&.active .sprite {
+				.sprite(@grid-white);
+			}
 		}
 	}
 }

@@ -1,56 +1,54 @@
 ﻿
 <div id="conditions-editor" style="display:none">
-    <h1 class="title">@("Add Rule".Localize())</h1>
-    <div class="common-form block">
-        <div class="conditions-container" style="min-height:400px">
-            <div style="margin-bottom:10px">
-                <!-- ko if: mode() == 'standard' -->
+    <div class="topbar">
+        <h1 class="title">@("Add Rule".Localize())</h1>
+        <ul class="button-switcher right">
+            <li data-bind="css: { active: mode() == 'standard' }"><a href="#" data-bind="click: switchToStandardMode">@("Standard mode".Localize())</a></li>
+            <li data-bind="css: { active: mode() == 'expert' }"><a href="#" data-bind="click: switchToExpertMode">@("Expert mode".Localize())</a></li>
+        </ul>
+    </div>
+    <div class="wrap">
+        <div class="block conditions">
+            <!-- ko if: mode() == 'standard' -->
+            <div class="toolbar">
                 <a href="#" data-bind="click: addCondition" class="button">@("Add Condition".Localize())</a>
                 <a href="#" data-bind="click: addGroup" class="button">@("Add Group".Localize())</a>
-                <a href="#" data-bind="click: switchToExpertMode" class="button">@("Switch to Expert Mode".Localize())</a>
-                <!-- /ko-->
-                <!-- ko if: mode() == 'expert' -->
-                <a href="#" data-bind="click: switchToStandardMode" class="button">@("Switch to Standard Mode".Localize())</a>
-                <!-- /ko -->
             </div>
-            <div data-bind="if: mode() == 'standard'">
+            <div class="box">
                 <!-- ko foreach: conditions -->
                 <div data-bind="template: { name: 'ConditionTemplate' }"></div>
                 <!-- /ko -->
             </div>
-            <div data-bind="if: mode() == 'expert'">
-                <textarea data-bind="value: expression"></textarea>
-                <div data-bind="visible: expressionErrors().length > 0" style="color:red">
-                    <ul data-bind="foreach: expressionErrors">
-                        <li data-bind="text: $data"></li>
-                    </ul>
-                </div>
+            <!-- /ko-->
+            <!-- ko if: mode() == 'expert' -->
+            <textarea data-bind="value: expression"></textarea>
+            <div data-bind="visible: expressionErrors().length > 0" class="text-red">
+                <ul data-bind="foreach: expressionErrors">
+                    <li data-bind="text: $data"></li>
+                </ul>
             </div>
+            <!-- /ko-->
         </div>
-        <p class="buttons">
-            <a href="#" class="button grey btn-cancel">@("Cancel".Localize())</a>
-            <a href="#" class="button btn-save">@("Save".Localize())</a>
-        </p>
+    </div>
+    <div class="buttons">
+        <a href="#" class="button gray right J_Cancel">@("Cancel".Localize())</a>
+        <a href="#" class="button right J_Save">@("Save".Localize())</a>
     </div>
 </div>
 
 <script type="text/html" id="ConditionTemplate">
     <!-- ko if: isGroup -->
-    <div class="clearfix condition-group" style="margin-top:10px">
-        <div class="condition-group-op">
-            <select data-bind="visible: $index() > 0, value: logicalOperator">
+    <div class="condition-group">
+        <div class="toolbar">
+            <a class="button" href="#" data-bind="click: addCondition" title="@("Add Conditoin".Localize())">@("Add Condition".Localize())</a>
+            <a class="button" href="#" data-bind="click: addGroup" title="@("Add Group".Localize())">@("Add Group".Localize())</a>
+            <a class="action right" href="#" data-bind="click: $parent.removeCondition" title="@("Remove Group".Localize())">@Html.IconImage("minus")</a>
+            <select class="small right" data-bind="visible: $index() > 0, value: logicalOperator">
                 <option value="AND">AND</option>
                 <option value="OR">OR</option>
             </select>
         </div>
-        <div class="condition-group-main">
-            <div class="condition-group-toolbar">
-                <a href="#" data-bind="click: addCondition" title="@("Add Conditoin".Localize())">@("Add Condition".Localize())</a>
-                |
-                <a href="#" data-bind="click: $parent.removeCondition" title="@("Remove Group".Localize())">@("Remove Group".Localize())</a>
-                |
-                <a href="#" data-bind="click: addGroup" title="@("Add Group".Localize())">@("Add Group".Localize())</a>
-            </div>
+        <div class="container">
             <div>
                 <!-- ko foreach: conditions -->
                 <div data-bind="template: { name: 'ConditionTemplate' }"></div>
@@ -65,25 +63,29 @@
 </script>
 
 <script type="text/html" id="NonGroupConditionTemplate">
-    <div class="clearfix condition">
-        <div class="condition-op">
-            <span data-bind="attr: { style: $index() == 0 ? 'visibility:hidden' : '' }">
-                <select data-bind="value: logicalOperator">
-                    <option value="AND">AND</option>
-                    <option value="OR">OR</option>
-                </select>
-            </span>
-        </div>
-        <div class="condition-main">
-            <select class="medium" data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select>
-            <select class="small" data-bind="options: availableOperators, optionsText: 'displayName', optionsValue: 'name', value: comparisonOperator"></select>
-            <!-- ko if: hasMultipleValues -->
-            <select class="medium" data-bind="options: values, optionsText: 'text', optionsValue: 'value', value: value"></select>
-            <!-- /ko -->
-            <!-- ko if: !hasMultipleValues() -->
-            <input class="medium" type="text" data-bind="value: value" />
-            <!-- /ko -->
-            <a href="#" data-bind="click: $parent.removeCondition" style="display:inline-block;vertical-align:middle">@Html.IconImage("minus")</a>
+    <div class="condition">
+        <a class="action right" href="#" data-bind="click: $parent.removeCondition" style="display:inline-block;vertical-align:middle">@Html.IconImage("minus")</a>
+        <div class="container">
+
+            <div class="columns">
+                <div class="span2">
+                    <select data-bind="value: logicalOperator, css: { hide: $index() == 0 }">
+                        <option value="AND">AND</option>
+                        <option value="OR">OR</option>
+                    </select>
+                    <!-- ko if: $index() == 0 -->
+                    <span>&nbsp;</span>
+                    <!-- /ko -->
+                </div>
+                <div class="span3"><select data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select></div>
+                <div class="span2"><select data-bind="options: availableOperators, optionsText: 'displayName', optionsValue: 'name', value: comparisonOperator"></select></div>
+                <!-- ko if: hasMultipleValues -->
+                <div class="span5"><select data-bind="options: values, optionsText: 'text', optionsValue: 'value', value: value"></select></div>
+                <!-- /ko -->
+                <!-- ko if: !hasMultipleValues() -->
+                <div class="span5"><input type="text" data-bind="value: value" /></div>
+                <!-- /ko -->
+            </div>
         </div>
     </div>
 </script>
@@ -350,12 +352,12 @@
                         modal: true
                     });
 
-                    self.$dialog.find('.btn-cancel')
+                    self.$dialog.find('.J_Cancel')
                                 .on('click', function (e) {
                                     self.close();
                                     e.preventDefault();
                                 });
-                    self.$dialog.find('.btn-save')
+                    self.$dialog.find('.J_Save')
                                 .on('click', function (e) {
                                     if (options.save) {
                                         if (self.model.mode() == 'standard') {
@@ -377,8 +379,9 @@
 
                     self.model.init()
                               .then(function () {
-                                  ko.applyBindings(self.model, self.$dialog.find('.conditions-container')[0]);
+                                  ko.applyBindings(self.model, self.$dialog[0]);
                                   deferred.resolve();
+                                  $(document).dialogScroll();
                               });
 
                     self.inited = true;
