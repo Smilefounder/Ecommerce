@@ -244,7 +244,6 @@
     <Compile Include="Web\Mvc\HandleAjaxFormErrorAttribute.cs" />
     <Compile Include="Web\Mvc\AjaxFormResult.cs" />
     <Compile Include="Web\Mvc\CommerceControllerBase.cs" />
-    <Compile Include="Web\IDataItemAction.cs" />
     <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
     <Compile Include="Web\Mvc\ExternalPostResult.cs" />
     <Compile Include="Web\Mvc\AutoDbCommitAttribute.cs" />
@@ -255,7 +254,6 @@
     <Compile Include="Web\Mvc\JsonNetResult.cs" />
     <Compile Include="Web\Mvc\SelectListExtensions.cs" />
     <Compile Include="Web\Mvc\UrlHelperExtensions.cs" />
-    <Compile Include="Web\PagedListExtensions.cs" />
     <Compile Include="Web\Routes.cs" />
     <Compile Include="Web\RouteValues.cs" />
     <Compile Include="Web\UrlStringExtensions.cs" />

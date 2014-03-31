@@ -254,6 +254,7 @@
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
     <Compile Include="Areas\Commerce\EntityUtil.cs" />
+    <Compile Include="Areas\Commerce\Extensions\PagedListExtensions.cs" />
     <Compile Include="Areas\Commerce\Html\CommandType.cs" />
     <Compile Include="Areas\Commerce\Html\GridChecked.cs" />
     <Compile Include="Areas\Commerce\Html\HeaderPanel.cs" />
