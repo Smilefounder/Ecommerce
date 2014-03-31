@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Kooboo.Commerce.Orders.Pricing
 {
+    /// <summary>
+    /// Represents a price value and the corresponding discount.
+    /// </summary>
     public class PriceWithDiscount
     {
         public decimal OriginalValue { get; private set; }

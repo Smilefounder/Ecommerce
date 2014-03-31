@@ -7,6 +7,10 @@ using System.Text;
 
 namespace Kooboo.Commerce.Orders.Pricing
 {
+    /// <summary>
+    /// Represents an item in a cart or order.
+    /// So the price calculation pipeline is decoupled from the cart or order.
+    /// </summary>
     public class PricingItem
     {
         public int Id { get; private set; }
