@@ -18,9 +18,9 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             }
         }
 
-        public System.Web.Mvc.RedirectToRouteResult Settings(System.Web.Mvc.ControllerContext context)
+        public System.Web.Mvc.RedirectToRouteResult Settings(PaymentMethod method, System.Web.Mvc.ControllerContext context)
         {
-            return Routes.RedirectToAction("Settings", "Home", new { area = Strings.AreaName });
+            return Routes.RedirectToAction("Settings", "Home", new { methodId = method.Id, area = Strings.AreaName });
         }
     }
 }

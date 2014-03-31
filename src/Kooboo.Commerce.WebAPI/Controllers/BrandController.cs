@@ -9,6 +9,9 @@ using Kooboo.Commerce.API.Brands;
 
 namespace Kooboo.Commerce.WebAPI.Controllers
 {
+    /// <summary>
+    /// brand controller
+    /// </summary>
     public class BrandController : CommerceAPIControllerQueryBase<Brand>
     {
         /// <summary>

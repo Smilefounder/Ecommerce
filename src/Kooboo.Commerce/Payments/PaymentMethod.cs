@@ -10,20 +10,19 @@ namespace Kooboo.Commerce.Payments
     {
         public int Id { get; set; }
 
+        /// <summary>
+        /// User specified unique id for this payment method.
+        /// This is useful when refering a payment method in frontend cms websites.
+        /// </summary>
+        public string UniqueId { get; set; }
+
         [Required]
         [StringLength(100)]
         public string DisplayName { get; set; }
 
-        public PaymentMethodType Type { get; set; }
-
         public string PaymentProcessorName { get; set; }
 
-        /// <summary>
-        /// Represents the corresponding payment method id in the payment processor system.
-        /// One payment processor can support multiple payment methods.
-        /// Each payment method has an id which might be specific to the payment processor.
-        /// </summary>
-        public string PaymentProcessorMethodId { get; set; }
+        public string PaymentProcessorData { get; set; }
 
         public PriceChangeMode AdditionalFeeChargeMode { get; set; }
 

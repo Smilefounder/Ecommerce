@@ -10,31 +10,14 @@ namespace Kooboo.Commerce.Payments.PayPal
 {
     public class PayPalSettings
     {
-        [Display(Name = "API username")]
-        public string ApiUserName { get; set; }
+        [Display(Name = "Client ID")]
+        public string ClientId { get; set; }
 
-        [Display(Name = "API password")]
-        public string ApiPassword { get; set; }
+        [Display(Name = "Client Secret")]
+        public string ClientSecret { get; set; }
 
-        [Display(Name = "API signature")]
-        public string ApiSignature { get; set; }
-
-        [Display(Name = "Application ID")]
-        public string ApplicationId { get; set; }
-
-        [Display(Name = "Merchant account")]
-        public string MerchantAccount { get; set; }
-
-        [Display(Name = "Sandbox mode")]
+        [Display(Name = "Sandbox Mode")]
         public bool SandboxMode { get; set; }
-
-        public PayPalSettings()
-        {
-            ApiUserName = "jb-us-seller_api1.paypal.com";
-            ApiPassword = "WX4WTU3S8MY44S7F";
-            ApiSignature = "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy";
-            ApplicationId = "APP-80W284485P519543T";
-        }
 
         public string Serialize()
         {
@@ -45,20 +28,10 @@ namespace Kooboo.Commerce.Payments.PayPal
         {
             if (String.IsNullOrEmpty(data))
             {
-                return null;
+                return new PayPalSettings();
             }
 
             return JsonConvert.DeserializeObject<PayPalSettings>(data);
-        }
-
-        public void SaveTo(IKeyValueService service)
-        {
-            service.Set("Kooboo.Commerce.Payments.PayPal", Serialize());
-        }
-
-        public static PayPalSettings FetchFrom(IKeyValueService service)
-        {
-            return Deserialize(service.Get("Kooboo.Commerce.Payments.PayPal"));
         }
     }
 }

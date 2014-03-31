@@ -150,4 +150,19 @@ namespace Kooboo.Commerce.Data
             return null;
         }
     }
+
+    public class RouteDataCommerceInstanceResolver : HttpCommerceInstanceNameResolverBase
+    {
+        public RouteDataCommerceInstanceResolver() { }
+
+        public RouteDataCommerceInstanceResolver(string paramName)
+            : base(paramName)
+        {
+        }
+
+        protected override string GetParamValue(string paramName, HttpContextBase httpContext)
+        {
+            return httpContext.Request.RequestContext.RouteData.Values[paramName] as string;
+        }
+    }
 }

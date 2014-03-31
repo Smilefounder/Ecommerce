@@ -31,15 +31,5 @@ namespace Kooboo.Commerce.Payments.iDeal
 
             return JsonConvert.DeserializeObject<IDealSettings>(data);
         }
-
-        public void SaveTo(IKeyValueService service)
-        {
-            service.Set("Kooboo.Commerce.Payments.iDeal", Serialize());
-        }
-
-        public static IDealSettings FetchFrom(IKeyValueService service)
-        {
-            return Deserialize(service.Get("Kooboo.Commerce.Payments.iDeal"));
-        }
     }
 }

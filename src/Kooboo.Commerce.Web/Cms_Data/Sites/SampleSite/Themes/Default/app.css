@@ -17,6 +17,7 @@ table.simple-table,
 }
 .simple-table thead th {
     background: #eee;
+    text-align: left !important;
 }
 .simple-table tfoot {
     background: #eee;
@@ -49,10 +50,56 @@ table.simple-table,
     font-weight: normal;
 }
 
+.applied-promotions li {
+    margin-bottom: 5px;
+    border: darkorange 1px solid;
+    color: darkorange;
+    font-weight: bold;
+    padding: 3px 5px;
+    border-radius: 4px;
+    max-width: 300px;
+}
+
 fieldset legend {
     display: block;
     border-bottom: #ddd 1px solid;
     font-size: 18px;
     padding: 10px 0 5px;
     margin-bottom: 10px;
+    width: 100%;
+}
+
+.payment-methods {
+    float: left;
+    width: 30%;
+    min-height: 100px;
+}
+.payment-methods li {
+    display: block;
+    font-size: 16px;
+    line-height: 1.8em;
+}
+.payment-method-form {
+    float: left;
+    width: 65%;
+    padding: 10px 0 10px 10px;
+    border-left: #ddd 1px solid;
+}
+.payment-methods .method-fee {
+    font-size: 13px;
+    display: inline-block;
+    margin-left: 5px;
+    color: darkorange;
+}
+.payment-methods .method-fee em {
+    font-style: normal;
+}
+
+#payOrderForm .order-total {
+    font-size: 20px;
+    display: inline-block;
+    margin-top: 10px;
+}
+#payOrderForm .order-total .value {
+    color: darkorange;
 }

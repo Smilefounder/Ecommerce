@@ -10,6 +10,6 @@ namespace Kooboo.Commerce.Payments
     {
         string PaymentProcessorName { get; }
 
-        RedirectToRouteResult Settings(ControllerContext context);
+        RedirectToRouteResult Settings(PaymentMethod method, ControllerContext context);
     }
 }

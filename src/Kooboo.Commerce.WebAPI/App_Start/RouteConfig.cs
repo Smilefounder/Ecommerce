@@ -15,8 +15,8 @@ namespace Kooboo.Commerce.WebAPI
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "api/{action}/{id}",
+                defaults: new { controller = "ApiInfo", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

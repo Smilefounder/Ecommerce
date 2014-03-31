@@ -7,8 +7,6 @@ namespace Kooboo.Commerce.API.Payments
 {
     public interface IPaymentQuery : ICommerceQuery<Payment>
     {
-        IPaymentQuery By(PaymentQueryParams parameters);
-
         IPaymentQuery ById(int id);
 
         IPaymentQuery ByTarget(string targetType, string targetId);

@@ -15,7 +15,6 @@ namespace Kooboo.Commerce.Payments.iDeal
     [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.iDeal.IDealPaymentProcessor")]
     public class IDealPaymentProcessor : IPaymentProcessor
     {
-        private IKeyValueService _keyValueService;
         private IPaymentMethodService _paymentMethodService;
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
@@ -28,9 +27,16 @@ namespace Kooboo.Commerce.Payments.iDeal
             }
         }
 
-        public IDealPaymentProcessor(IKeyValueService keyValueService, IPaymentMethodService paymentMethodService)
+        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
         {
-            _keyValueService = keyValueService;
+            get
+            {
+                return Enumerable.Empty<PaymentProcessorParameterDescriptor>();
+            }
+        }
+
+        public IDealPaymentProcessor(IPaymentMethodService paymentMethodService)
+        {
             _paymentMethodService = paymentMethodService;
         }
 
@@ -39,13 +45,13 @@ namespace Kooboo.Commerce.Payments.iDeal
             if (request.Amount < (decimal)1.19)
                 throw new FormatException("Amount cannot be less than € 1,19");
 
-            var settings = IDealSettings.FetchFrom(_keyValueService);
             var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
+            var settings = IDealSettings.Deserialize(method.PaymentProcessorData);
 
             var httpContext = HttpContextAccessor();
             var reportUrl = Strings.AreaName + "/iDeal/Callback?commerceName=" + request.Payment.Metadata.CommerceName;
             var returnUrl = Strings.AreaName
-                + "/iDeal/Return?commerceName=" + request.Payment.Metadata.CommerceName 
+                + "/iDeal/Return?commerceName=" + request.Payment.Metadata.CommerceName
                 + "&paymentId=" + request.Payment.Id
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
 
@@ -61,25 +67,7 @@ namespace Kooboo.Commerce.Payments.iDeal
             if (idealFetch.Error)
                 throw new PaymentProcessorException(idealFetch.ErrorMessage);
 
-            return ProcessPaymentResult.Pending(new RedirectResult(idealFetch.Url), idealFetch.TransactionId);
-        }
-
-        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
-        {
-            get
-            {
-                yield return PaymentMethodType.ExternalPayment;
-            }
-        }
-
-        public bool SupportMultiplePaymentMethods
-        {
-            get { return false; }
-        }
-
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
-        {
-            throw new NotSupportedException();
+            return ProcessPaymentResult.Pending(idealFetch.Url, idealFetch.TransactionId);
         }
     }
 }

@@ -1,8 +1,21 @@
-﻿@model Kooboo.Commerce.Payments.PayPal.PayPalSettings
+﻿@using Kooboo.Commerce.Payments.PayPal;
+@model PayPalSettings
 @{
     Layout = "~/Areas/Commerce/Views/Shared/AddIns/_PaymentGatewaySettings.cshtml";
     ViewBag.Title = "PayPal settings".Localize();
 }
+
+<blockquote>
+    <strong>@("Credit Card Parameters".Localize()):</strong>
+    <p>
+        <ul>
+            @foreach (var each in PayPalConstants.ParameterDescriptors)
+            {
+                <li>@each.ParameterName: @each.Description</li>
+            }
+        </ul>
+    </p>
+</blockquote>
 
 <div class="block common-form">
     @using (Html.BeginForm())
@@ -10,11 +23,8 @@
         @Html.ValidationSummary(true)
         <table>
             <tbody>
-                @Html.EditorFor(m => m.ApplicationId)
-                @Html.EditorFor(m => m.ApiUserName)
-                @Html.EditorFor(m => m.ApiPassword)
-                @Html.EditorFor(m => m.ApiSignature)
-                @Html.EditorFor(m => m.MerchantAccount)
+                @Html.EditorFor(m => m.ClientId)
+                @Html.EditorFor(m => m.ClientSecret)
                 @Html.EditorFor(m => m.SandboxMode)
             </tbody>
         </table>

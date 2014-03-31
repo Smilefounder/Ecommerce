@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Settings.Services;
+﻿using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
@@ -11,23 +12,25 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
-        private IKeyValueService _keyValueService;
+        private IPaymentMethodService _paymentMethodService;
 
-        public HomeController(IKeyValueService keyValueService)
+        public HomeController(IPaymentMethodService paymentMethodService)
         {
-            _keyValueService = keyValueService;
+            _paymentMethodService = paymentMethodService;
         }
 
-        public ActionResult Settings()
+        public ActionResult Settings(int methodId)
         {
-            var settings = BuckarooSettings.FetchFrom(_keyValueService);
+            var method = _paymentMethodService.GetById(methodId);
+            var settings = BuckarooSettings.Deserialize(method.PaymentProcessorData);
             return View(settings);
         }
 
         [HttpPost, HandleAjaxFormError, AutoDbCommit]
-        public ActionResult Settings(BuckarooSettings settings, string @return)
+        public ActionResult Settings(int methodId, BuckarooSettings settings, string @return)
         {
-            settings.SaveTo(_keyValueService);
+            var method = _paymentMethodService.GetById(methodId);
+            method.PaymentProcessorData = settings.Serialize();
             return AjaxForm().RedirectTo(@return);
         }
     }

@@ -23,16 +23,15 @@ namespace Kooboo.Commerce.Payments
 
         public string CurrencyCode { get; set; }
 
-        public CreditCardInfo CreditCardInfo { get; set; }
-
-        public BankAccountInfo BankAccountInfo { get; set; }
-
         public string ReturnUrl { get; set; }
+
+        public IDictionary<string, string> Parameters { get; set; }
 
         public ProcessPaymentRequest(Payment payment)
         {
             Require.NotNull(payment, "payment");
             Payment = payment;
+            Parameters = new Dictionary<string, string>();
         }
     }
 }

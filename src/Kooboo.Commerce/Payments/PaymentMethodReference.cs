@@ -15,8 +15,6 @@ namespace Kooboo.Commerce.Payments
         [StringLength(100)]
         public string DisplayName { get; set; }
 
-        public PaymentMethodType Type { get; set; }
-
         public string PaymentProcessorName { get; set; }
 
         public PaymentMethodReference() { }
@@ -25,7 +23,6 @@ namespace Kooboo.Commerce.Payments
         {
             Id = method.Id;
             DisplayName = method.DisplayName;
-            Type = method.Type;
             PaymentProcessorName = method.PaymentProcessorName;
         }
 

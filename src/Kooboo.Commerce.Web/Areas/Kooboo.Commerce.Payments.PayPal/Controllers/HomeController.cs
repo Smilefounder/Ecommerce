@@ -15,23 +15,25 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
-        private IKeyValueService _keyValueService;
+        private IPaymentMethodService _paymentMethodService;
 
-        public HomeController(IKeyValueService keyValueService)
+        public HomeController(IPaymentMethodService paymentMethodService)
         {
-            _keyValueService = keyValueService;
+            _paymentMethodService = paymentMethodService;   
         }
 
-        public ActionResult Settings()
+        public ActionResult Settings(int methodId)
         {
-            var settings = PayPalSettings.FetchFrom(_keyValueService) ?? new PayPalSettings();
+            var method = _paymentMethodService.GetById(methodId);
+            var settings = PayPalSettings.Deserialize(method.PaymentProcessorData);
             return View(settings);
         }
 
         [HttpPost, HandleAjaxFormError, AutoDbCommit]
-        public ActionResult Settings(PayPalSettings model, string @return)
+        public ActionResult Settings(int methodId, PayPalSettings model, string @return)
         {
-            model.SaveTo(_keyValueService);
+            var method = _paymentMethodService.GetById(methodId);
+            method.PaymentProcessorData = model.Serialize();
             return AjaxForm().RedirectTo(@return);
         }
     }

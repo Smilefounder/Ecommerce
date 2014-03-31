@@ -3,6 +3,7 @@ using Kooboo.Commerce.Web;
 using Kooboo.Web.Url;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,6 +21,14 @@ namespace Kooboo.Commerce.Payments.Fake
             }
         }
 
+        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
+        {
+            get
+            {
+                return Enumerable.Empty<PaymentProcessorParameterDescriptor>();
+            }
+        }
+
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
@@ -30,29 +39,18 @@ namespace Kooboo.Commerce.Payments.Fake
                 + "&currency=" + request.CurrencyCode
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
 
-            redirectUrl = redirectUrl.ToFullUrl(HttpContextAccessor());
+            var commerceUrl = ConfigurationManager.AppSettings["CommerceUrl"];
 
-            return ProcessPaymentResult.Pending(new RedirectResult(redirectUrl), Guid.NewGuid().ToString("N"));
-        }
-
-        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
-        {
-            get
+            if (!String.IsNullOrEmpty(commerceUrl))
             {
-                yield return PaymentMethodType.CreditCard;
-                yield return PaymentMethodType.DirectDebit;
-                yield return PaymentMethodType.ExternalPayment;
+                redirectUrl = UrlUtility.Combine(commerceUrl, redirectUrl);
             }
-        }
+            else
+            {
+                redirectUrl = redirectUrl.ToFullUrl(HttpContextAccessor());
+            }
 
-        public bool SupportMultiplePaymentMethods
-        {
-            get { return false; }
-        }
-
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
-        {
-            throw new NotSupportedException();
+            return ProcessPaymentResult.Pending(redirectUrl, Guid.NewGuid().ToString("N"));
         }
     }
 }

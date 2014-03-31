@@ -69,6 +69,7 @@
     <Compile Include="Payments\LocalPaymentMethodQuery.cs" />
     <Compile Include="Payments\LocalPaymentQuery.cs" />
     <Compile Include="Orders\OrderAPI.cs" />
+    <Compile Include="Prices\LocalPriceAPI.cs" />
     <Compile Include="Products\ProductAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionMapper.cs" />

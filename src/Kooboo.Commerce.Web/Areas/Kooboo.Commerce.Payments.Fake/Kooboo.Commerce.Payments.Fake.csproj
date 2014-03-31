@@ -189,7 +189,10 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
-xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"</PostBuildEvent>
+xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
+
+xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"
+xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -17,12 +17,12 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
     public class BuckarooController : CommerceControllerBase
     {
         private IPaymentService _paymentService;
-        private IKeyValueService _keyValueService;
+        private IPaymentMethodService _paymentMethodService;
 
-        public BuckarooController(IPaymentService paymentService, IKeyValueService keyValueService)
+        public BuckarooController(IPaymentService paymentService, IPaymentMethodService paymentMethodService)
         {
             _paymentService = paymentService;
-            _keyValueService = keyValueService;
+            _paymentMethodService = paymentMethodService;
         }
 
         [AutoDbCommit]
@@ -30,8 +30,9 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
             var payment = _paymentService.GetById(paymentId);
-            var result = ProcessResponse(payment, BuckarooSettings.FetchFrom(_keyValueService));
-            payment.HandlePaymentResult(result);
+            var method = _paymentMethodService.GetById(payment.PaymentMethod.Id);
+            var result = ProcessResponse(payment, BuckarooSettings.Deserialize(method.PaymentProcessorData));
+            _paymentService.HandlePaymentResult(payment, result);
 
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
@@ -41,8 +42,9 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
             var payment = _paymentService.GetById(paymentId);
-            var result = ProcessResponse(payment, BuckarooSettings.FetchFrom(_keyValueService));
-            payment.HandlePaymentResult(result);
+            var method = _paymentMethodService.GetById(payment.PaymentMethod.Id);
+            var result = ProcessResponse(payment, BuckarooSettings.Deserialize(method.PaymentProcessorData));
+            _paymentService.HandlePaymentResult(payment, result);
         }
 
         private ProcessPaymentResult ProcessResponse(Payment payment, BuckarooSettings settings)

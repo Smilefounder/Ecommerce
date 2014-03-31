@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.API.CmsSite.PlugIn
     /// payment request form plugin 
     /// it is used in the kooboo cms view to let the user post back the payment form at front-site.
     /// </summary>
-    public class CreatePaymentPlugIn : ISubmissionPlugin
+    public class PayOrderPlugIn : ISubmissionPlugin
     {
         /// <summary>
         /// predefined parameters, these parameters will not be rendered at the page/view.
@@ -40,10 +40,11 @@ namespace Kooboo.Commerce.API.CmsSite.PlugIn
                 var form = controllerContext.HttpContext.Request.Form;
                 var orderId = Convert.ToInt32(form["orderId"]);
                 var paymentMethodId = Convert.ToInt32(form["paymentMethodId"]);
+                var paymentMethod = commerceService.PaymentMethods.ById(paymentMethodId).FirstOrDefault();
                 var returnUrl = form["returnUrl"];
                 var order = commerceService.Orders.ById(orderId).FirstOrDefault();
 
-                var result = commerceService.Payments.Create(new CreatePaymentRequest
+                var request = new PaymentRequest
                 {
                     TargetType = PaymentTargetTypes.Order,
                     TargetId = orderId.ToString(),
@@ -51,10 +52,26 @@ namespace Kooboo.Commerce.API.CmsSite.PlugIn
                     Amount = order.Total,
                     PaymentMethodId = paymentMethodId,
                     ReturnUrl = returnUrl
-                });
+                };
+
+                foreach (var each in paymentMethod.PaymentProcessorParameterDescriptors)
+                {
+                    var paramValue = controllerContext.HttpContext.Request.Form[each.ParameterName];
+                    if (paramValue != null)
+                    {
+                        request.Parameters.Add(each.ParameterName, paramValue);
+                    }
+                }
+
+                var result = commerceService.Payments.Pay(request);
 
                 resultData.Success = true;
-                resultData.Model = result;
+                resultData.Model = new
+                {
+                    Message = result.Message,
+                    RedirectUrl = result.RedirectUrl,
+                    PaymentStatus = result.PaymentStatus.ToString()
+                };
             }
             catch (Exception ex)
             {

@@ -20,8 +20,6 @@ namespace Kooboo.Commerce.Payments
 
         public PaymentMethodReference PaymentMethod { get; set; }
 
-        public TransactionType TransactionType { get; set; }
-
         public PaymentStatus Status { get; set; }
 
         public string ThirdPartyTransactionId { get; set; }
@@ -50,18 +48,12 @@ namespace Kooboo.Commerce.Payments
             Event.Apply(new PaymentCreated(this));
         }
 
-        public void HandlePaymentResult(ProcessPaymentResult result)
+        public void ChangeStatus(PaymentStatus newStatus)
         {
-            if (Status == PaymentStatus.Success)
-            {
-                return;
-            }
-
             var oldStatus = Status;
-
-            if (oldStatus != result.PaymentStatus)
+            if (oldStatus != newStatus)
             {
-                Status = result.PaymentStatus;
+                Status = newStatus;
                 Event.Apply(new PaymentStatusChanged(this, oldStatus, Status));
             }
         }
@@ -70,11 +62,5 @@ namespace Kooboo.Commerce.Payments
     public static class PaymentTargetTypes
     {
         public static readonly string Order = "Order";
-    }
-
-    public enum TransactionType
-    {
-        Payment = 0,
-        Refund = 1
     }
 }

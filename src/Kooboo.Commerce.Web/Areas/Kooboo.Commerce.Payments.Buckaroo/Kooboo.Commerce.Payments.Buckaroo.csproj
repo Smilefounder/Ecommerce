@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddInAreaRegistration.cs" />
+    <Compile Include="BuckarooPaymentMethods.cs" />
     <Compile Include="BuckarooPaymentProcessor.cs" />
     <Compile Include="BuckarooPaymentProcessorViews.cs" />
     <Compile Include="BuckarooSettings.cs" />

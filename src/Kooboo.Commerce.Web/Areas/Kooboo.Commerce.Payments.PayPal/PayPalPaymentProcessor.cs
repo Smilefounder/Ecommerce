@@ -1,23 +1,27 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web;
 using Kooboo.Web.Url;
 using PayPal;
-using PayPal.AdaptivePayments;
-using PayPal.AdaptivePayments.Model;
+using PayPal.Api.Payments;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PayPalRest = PayPal.Api.Payments;
 
 namespace Kooboo.Commerce.Payments.PayPal
 {
     [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.PayPal.PayPalPaymentProcessor")]
     public class PayPalPaymentProcessor : IPaymentProcessor
     {
-        private IKeyValueService _keyValueService;
+        private IOrderService _orderService;
+        private ISettingService _settingService;
+        private IPaymentMethodService _paymentMethodService;
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
@@ -29,93 +33,126 @@ namespace Kooboo.Commerce.Payments.PayPal
             }
         }
 
-        public PayPalPaymentProcessor(IKeyValueService keyValueService)
-        {
-            _keyValueService = keyValueService;
-        }
-
-        public IEnumerable<PaymentMethodType> SupportedPaymentTypes
+        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
         {
             get
             {
-                yield return PaymentMethodType.ExternalPayment;
+                return PayPalConstants.ParameterDescriptors;
             }
         }
 
-        public bool SupportMultiplePaymentMethods
+        public PayPalPaymentProcessor(
+            IOrderService orderService,
+            ISettingService settingService,
+            IPaymentMethodService paymentMethodService)
         {
-            get { return false; }
-        }
-
-        public IEnumerable<SupportedPaymentMethod> GetSupportedPaymentMethods(PaymentMethodType paymentType)
-        {
-            throw new NotSupportedException();
+            _orderService = orderService;
+            _settingService = settingService;
+            _paymentMethodService = paymentMethodService;
         }
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
         {
-            var data = PayPalSettings.FetchFrom(_keyValueService);
-            var payKey = GetPayKey(request, data);
-            var gatewayUrl = PayPalUtil.GetRedirectUrl(payKey, data.SandboxMode);
-
-            return ProcessPaymentResult.Pending(new RedirectResult(gatewayUrl));
-        }
-
-        private string GetPayKey(ProcessPaymentRequest request, PayPalSettings data)
-        {
-            var payRequest = CreatePayRequest(data, request);
-            var service = new AdaptivePaymentsService(PayPalUtil.GetPayPalConfig(data));
-            var response = service.Pay(payRequest);
-
-            if ((response.responseEnvelope.ack != AckCode.FAILURE) 
-                && (response.responseEnvelope.ack != AckCode.FAILUREWITHWARNING))
+            if (String.IsNullOrEmpty(request.CurrencyCode))
             {
-                return response.payKey;
+                var storeSettings = _settingService.GetStoreSetting();
+                request.CurrencyCode = storeSettings.CurrencyISOCode;
             }
 
-            throw new PaymentProcessorException(String.Join(Environment.NewLine, response.error.Select(x => x.message)));
-        }
+            var paymentMethod = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
+            var settings = PayPalSettings.Deserialize(paymentMethod.PaymentProcessorData);
 
-        private PayRequest CreatePayRequest(PayPalSettings data, ProcessPaymentRequest request)
-        {
-            var envelop = new RequestEnvelope("en_US");
-            var receivers = new List<Receiver>();
-            receivers.Add(new Receiver(request.Amount)
+            var result = CreatePayPalPayment(request, settings);
+            var paymentStatus = PaymentStatus.Failed;
+
+            if (result.state == "approved")
             {
-                email = data.MerchantAccount
+                paymentStatus = PaymentStatus.Success;
+            }
+            else if (result.state == "canceled")
+            {
+                paymentStatus = PaymentStatus.Cancelled;
+            }
+            else // expired, failed
+            {
+                paymentStatus = PaymentStatus.Failed;
+            }
+
+            return new ProcessPaymentResult
+            {
+                PaymentStatus = paymentStatus,
+                ThirdPartyTransactionId = result.id
+            };
+        }
+
+        private PayPalRest.Payment CreatePayPalPayment(ProcessPaymentRequest request, PayPalSettings settings)
+        {
+            var config = new Dictionary<string, string>();
+            config.Add("mode", settings.SandboxMode ? "sandbox" : "live");
+
+            var credentials = new OAuthTokenCredential(settings.ClientId, settings.ClientSecret, config);
+            var accessToken = credentials.GetAccessToken();
+            var payment = new PayPalRest.Payment
+            {
+                intent = "sale",
+                payer = new Payer
+                {
+                    payment_method = "credit_card",
+                    funding_instruments = new List<PayPalRest.FundingInstrument>
+                    {
+                        new PayPalRest.FundingInstrument
+                        {
+                            credit_card = CreateCreditCard(request)
+                        }
+                    }
+                },
+                transactions = new List<Transaction> { CreateTransaction(request) }
+            };
+
+            return payment.Create(new APIContext(accessToken)
+            {
+                Config = config
             });
-
-            var payRequest = new PayRequest(envelop, "PAY", GetCancelUrl(request), request.CurrencyCode, new ReceiverList(receivers), GetReturnUrl(request));
-            payRequest.trackingId = request.Payment.Id.ToString();
-            payRequest.ipnNotificationUrl = GetIPNHandlerUrl(request);
-
-            return payRequest;
         }
 
-        private string GetReturnUrl(ProcessPaymentRequest request)
+        private Transaction CreateTransaction(ProcessPaymentRequest request)
         {
-            var url = Strings.AreaName + "/PayPal/Return?commerceName=" 
-                + request.Payment.Metadata.CommerceName
-                + "&paymentId=" + request.Payment.Id
-                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
-
-            return url.ToFullUrl(HttpContextAccessor());
+            return new Transaction
+            {
+                amount = new Amount
+                {
+                    total = request.Payment.Amount.ToString("f2", CultureInfo.InvariantCulture),
+                    currency = request.CurrencyCode
+                },
+                description = request.Payment.Description
+            };
         }
 
-        private string GetCancelUrl(ProcessPaymentRequest request)
+        private CreditCard CreateCreditCard(ProcessPaymentRequest request)
         {
-            var url = Strings.AreaName + "/PayPal/Cancel?commerceName=" 
-                + request.Payment.Metadata.CommerceName
-                + "&paymentId=" + request.Payment.Id
-                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
+            var card = new CreditCard
+            {
+                number = request.Parameters[PayPalConstants.CreditCardNumber],
+                type = request.Parameters[PayPalConstants.CreditCardType],
+                expire_month = Convert.ToInt32(request.Parameters[PayPalConstants.CreditCardExpireMonth]),
+                expire_year = Convert.ToInt32(request.Parameters[PayPalConstants.CreditCardExpireYear]),
+                cvv2 = request.Parameters[PayPalConstants.CreditCardCvv2]
+            };
 
-            return url.ToFullUrl(HttpContextAccessor());
-        }
+            // If the website don't pass in customer info,
+            // then we try to fill these info automatically
+            if (request.Payment.PaymentTargetType == PaymentTargetTypes.Order)
+            {
+                var orderId = Convert.ToInt32(request.Payment.PaymentTargetId);
+                var order = _orderService.GetById(orderId);
 
-        private string GetIPNHandlerUrl(ProcessPaymentRequest request)
-        {
-            var url = Strings.AreaName + "/PayPal/IPN?commerceName=" + request.Payment.Metadata.CommerceName;
-            return url.ToFullUrl(HttpContextAccessor());
+                card.first_name = order.Customer.FirstName;
+                card.last_name = order.Customer.LastName;
+
+                // TODO: Add billing address
+            }
+
+            return card;
         }
     }
 }

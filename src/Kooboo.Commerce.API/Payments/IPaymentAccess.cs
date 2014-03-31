@@ -7,6 +7,6 @@ namespace Kooboo.Commerce.API.Payments
 {
     public interface IPaymentAccess
     {
-        CreatePaymentResult Create(CreatePaymentRequest request);
+        PaymentResult Pay(PaymentRequest request);
     }
 }

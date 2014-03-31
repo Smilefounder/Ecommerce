@@ -7,29 +7,22 @@
     <table>
         <tbody>
             <tr>
-                <th>@Html.DisplayNameFor(m => m.PaymentType)</th>
-                <td>
-                    @Html.DropDownListFor(m => m.PaymentType, Model.AllPaymentTypes, new { data_bind = "value: paymentType", @class = "xxlarge" })
-                    @Html.ValidationMessageFor(m => m.PaymentType)
-                </td>
-            </tr>
-            <tr>
                 <th>@Html.DisplayNameFor(m => m.PaymentProcessorName)</th>
                 <td>
                     <select name="PaymentProcessorName" class="xxlarge" data-bind="options: availablePaymentProcessors, optionsText: 'name', optionsValue: 'name', value: paymentProcessorName"></select>
                     @Html.ValidationMessageFor(m => m.PaymentProcessorName)
                 </td>
             </tr>
-            <tr data-bind="visible: hasMultiplePaymentMethods">
-                <th></th>
-                <td>
-                    <select name="PaymentProcessorMethodId" class="xxlarge" data-bind="options: availablePaymentMethods, optionsText: 'name', optionsValue: 'name', value: paymentProcessorMethodId"></select>
-                </td>
-            </tr>
             <tr>
                 <th>@Html.DisplayNameFor(m => m.DisplayName)</th>
                 <td>
                     @Html.TextBoxFor(m => m.DisplayName, new { @class = "xxlarge" })
+                </td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.UniqueId)</th>
+                <td>
+                    @Html.TextBoxFor(m => m.UniqueId, new { @class = "xxlarge" })
                 </td>
             </tr>
             <tr>
@@ -68,61 +61,7 @@
 <script>
     $(function () {
         var jsModel = @Html.Raw(Model.ToJson(PropertyNaming.CamelCase));
-        var commerceName = '@Request["commerceName"]';
-
-        var ViewModel = function () {
-            var _this  = this;
-
-            this.paymentType = ko.observable();
-
-            this.paymentProcessorName = ko.observable();
-
-            this.availablePaymentProcessors = ko.observableArray([]);
-
-            this.availablePaymentMethods = ko.observableArray([]);
-
-            this.hasMultiplePaymentMethods = ko.computed(function () {
-                return _this.availablePaymentMethods().length > 0;
-            });
-
-            this.init = function () {
-                _this.paymentType.subscribe(function (paymentType) {
-                    onPaymentTypeChanged(paymentType);
-                });
-
-                _this.paymentProcessorName.subscribe(function (name) {
-                    onPaymentProcessorChanged(name);
-                });
-            }
-
-            function onPaymentTypeChanged(paymentType) {
-                $.get('@Url.Action("PaymentProcessors")', { paymentType: paymentType, commerceName: commerceName })
-                 .then(function (data) {
-                     _this.availablePaymentProcessors.removeAll();
-                     $.each(data, function () {
-                         _this.availablePaymentProcessors.push(ko.mapping.fromJS(this));
-                     });
-                 });
-            }
-
-            function onPaymentProcessorChanged(processorName) {
-                var processor = _.find(_this.availablePaymentProcessors(), function (x) {
-                    return x.name() == processorName;
-                });
-
-                if (processor) {
-                    _this.availablePaymentMethods.removeAll();
-
-                    $.each(processor.supportedPaymentMethods(), function () {
-                        _this.availablePaymentMethods.push(this);
-                    });
-                }
-            }
-        };
-
-        var viewModel = ko.mapping.fromJS(jsModel, {}, new ViewModel());
-        viewModel.init();
-
+        var viewModel = ko.mapping.fromJS(jsModel);
         ko.applyBindings(viewModel);
     });
 </script>

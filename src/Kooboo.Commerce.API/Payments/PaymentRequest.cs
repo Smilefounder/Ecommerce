@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.API.Payments
     /// <summary>
     /// the request that asking for creating a payment
     /// </summary>
-    public class CreatePaymentRequest
+    public class PaymentRequest
     {
         /// <summary>
         /// description
@@ -35,7 +35,19 @@ namespace Kooboo.Commerce.API.Payments
         /// return url when payment complete.
         /// </summary>
         public string ReturnUrl { get; set; }
+        /// <summary>
+        /// The currency code.
+        /// </summary>
+        public string CurrencyCode { get; set; }
+        /// <summary>
+        /// The parameters required by the payment processor to complete the payment.
+        /// It's often used in direct payment senario.
+        /// </summary>
+        public IDictionary<string, string> Parameters { get; set; }
 
-        // TODO: Credit card info
+        public PaymentRequest()
+        {
+            Parameters = new Dictionary<string, string>();
+        }
     }
 }
