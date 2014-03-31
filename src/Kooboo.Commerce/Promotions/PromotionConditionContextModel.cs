@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Shipping;

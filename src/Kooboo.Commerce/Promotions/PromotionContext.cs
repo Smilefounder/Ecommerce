@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
@@ -7,25 +8,25 @@ using System.Text;
 
 namespace Kooboo.Commerce.Promotions
 {
-    public class PromotionPolicyExecutionContext
+    public class PromotionContext
     {
         public Promotion Promotion { get; private set; }
 
-        public PriceCalculationContext PriceCalculationContext { get; private set; }
+        public PricingContext PricingContext { get; private set; }
 
         public IList<PricingItem> ConditionMatchedItems { get; private set; }
 
-        public PromotionPolicyExecutionContext(
+        public PromotionContext(
             Promotion promotion,
             IEnumerable<PricingItem> conditionMatchedItems,
-            PriceCalculationContext priceCalculationContext)
+            PricingContext pricingContext)
         {
             Require.NotNull(promotion, "promotion");
-            Require.NotNull(priceCalculationContext, "priceCalculationContext");
+            Require.NotNull(pricingContext, "pricingContext");
 
             Promotion = promotion;
             ConditionMatchedItems = (conditionMatchedItems ?? Enumerable.Empty<PricingItem>()).ToList();
-            PriceCalculationContext = priceCalculationContext;
+            PricingContext = pricingContext;
         }
     }
 }

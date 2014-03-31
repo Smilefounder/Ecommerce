@@ -240,6 +240,7 @@
     <Compile Include="Rules\Parsing\TokenKind.cs" />
     <Compile Include="Rules\RuleEngine.cs" />
     <Compile Include="Rules\TypeExtensions.cs" />
+    <Compile Include="Runtime\ITypeActivator.cs" />
     <Compile Include="Web\Http\AutoDbCommitAttribute.cs" />
     <Compile Include="Web\Mvc\HandleAjaxFormErrorAttribute.cs" />
     <Compile Include="Web\Mvc\AjaxFormResult.cs" />

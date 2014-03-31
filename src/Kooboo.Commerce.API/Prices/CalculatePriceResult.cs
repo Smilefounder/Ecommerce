@@ -7,27 +7,21 @@ namespace Kooboo.Commerce.API.Prices
 {
     public class CalculatePriceResult
     {
-        public IList<PricingItem> Items { get; set; }
+        public IList<CalculateItemPriceResult> Items { get; set; }
 
-        public decimal DiscountExItemDiscounts { get; set; }
+        public PriceWithDiscount ShippingCost { get; set; }
 
-        public decimal ShippingCost { get; set; }
+        public PriceWithDiscount PaymentMethodCost { get; set; }
 
-        public decimal ShippingDiscount { get; set; }
+        public PriceWithDiscount Tax { get; set; }
 
-        public decimal PaymentMethodCost { get; set; }
-
-        public decimal PaymentMethodDiscount { get; set; }
-
-        public decimal Tax { get; set; }
-
-        public decimal Subtotal { get; set; }
+        public PriceWithDiscount Subtotal { get; set; }
 
         public decimal Total { get; set; }
 
         public CalculatePriceResult()
         {
-            Items = new List<PricingItem>();
+            Items = new List<CalculateItemPriceResult>();
         }
     }
 }

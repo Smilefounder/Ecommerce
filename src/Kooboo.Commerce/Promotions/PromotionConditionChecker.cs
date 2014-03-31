@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Expressions;
 using System;
@@ -14,7 +15,7 @@ namespace Kooboo.Commerce.Promotions
     /// </summary>
     public class PromotionConditionChecker
     {
-        public CheckPromotionConditionResult CheckConditions(Promotion promotion, PriceCalculationContext context)
+        public CheckPromotionConditionResult CheckConditions(Promotion promotion, PricingContext context)
         {
             var result = new CheckPromotionConditionResult();
 

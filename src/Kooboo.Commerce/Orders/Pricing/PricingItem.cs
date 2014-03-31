@@ -5,26 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Orders
+namespace Kooboo.Commerce.Orders.Pricing
 {
     public class PricingItem
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
-        public ProductPrice ProductPrice { get; set; }
+        public ProductPrice ProductPrice { get; private set; }
 
         [Parameter]
-        public int Quantity { get; set; }
+        public int Quantity { get; private set; }
 
-        public decimal Discount { get; set; }
-
-        public decimal Subtotal
-        {
-            get
-            {
-                return Quantity * ProductPrice.PurchasePrice;
-            }
-        }
+        public PriceWithDiscount Subtotal { get; set; }
 
         public PricingItem(int id, ProductPrice price, int quantity)
         {
@@ -33,6 +25,7 @@ namespace Kooboo.Commerce.Orders
             Id = id;
             ProductPrice = price;
             Quantity = quantity;
+            Subtotal = new PriceWithDiscount(price.RetailPrice * quantity);
         }
     }
 }

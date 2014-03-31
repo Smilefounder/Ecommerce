@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// <summary>
         /// The order level discount, excluding item discounts.
         /// </summary>
-        public decimal DiscountExItemDiscounts { get; set; }
+        public decimal SubtotalDiscount { get; set; }
 
         public ShoppingCart()
         {

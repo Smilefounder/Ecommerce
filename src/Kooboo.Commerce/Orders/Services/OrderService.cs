@@ -15,6 +15,7 @@ using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.ShoppingCarts.Services;
 using Kooboo.Commerce.Events.Orders;
+using Kooboo.Commerce.Orders.Pricing;
 
 namespace Kooboo.Commerce.Orders.Services
 {
@@ -32,9 +33,8 @@ namespace Kooboo.Commerce.Orders.Services
         private readonly IRepository<Country> _countryRepository;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IProductService _productService;
-        private readonly IPriceCalculator _priceCalculator;
 
-        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService, IPriceCalculator priceCalculator)
+        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService)
         {
             _db = db;
             _customerService = customerService;
@@ -47,7 +47,6 @@ namespace Kooboo.Commerce.Orders.Services
             _countryRepository = countryRepository;
             _shoppingCartService = shoppingCartService;
             _productService = productService;
-            _priceCalculator = priceCalculator;
         }
 
         public Order GetById(int id, bool loadAllInfo = true)
@@ -156,22 +155,22 @@ namespace Kooboo.Commerce.Orders.Services
 
         private void CalculateOrderPrice(Order order)
         {
-            var context = PriceCalculationContext.CreateFrom(order);
-            _priceCalculator.Calculate(context);
+            var context = PricingContext.CreateFrom(order);
+            new PricingPipeline().Execute(context);
 
             foreach (var item in order.OrderItems)
             {
                 var pricingItem = context.Items.FirstOrDefault(x => x.Id == item.Id);
-                item.Discount = pricingItem.Discount;
-                item.SubTotal = pricingItem.Subtotal;
+                item.Discount = pricingItem.Subtotal.Discount;
+                item.SubTotal = pricingItem.Subtotal.OriginalValue;
                 item.Total = item.SubTotal - item.Discount;
             }
 
-            order.SubTotal = context.Subtotal;
-            order.ShippingCost = context.ShippingCost;
-            order.PaymentMethodCost = context.PaymentMethodCost;
-            order.TotalTax = context.Tax;
-            order.Discount = context.DiscountExItemDiscounts + context.Items.Sum(x => x.Discount);
+            order.SubTotal = context.Subtotal.FinalValue;
+            order.ShippingCost = context.ShippingCost.FinalValue;
+            order.PaymentMethodCost = context.PaymentMethodCost.FinalValue;
+            order.TotalTax = context.Tax.FinalValue;
+            order.Discount = context.Subtotal.Discount + context.Items.Sum(x => x.Subtotal.Discount);
 
             order.Total = order.SubTotal + order.TotalTax + order.ShippingCost + order.PaymentMethodCost - order.Discount;
         }

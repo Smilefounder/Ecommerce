@@ -16,6 +16,8 @@ namespace Kooboo.Commerce.API.Prices
 
         public int? PaymentMethodId { get; set; }
 
+        public int? ShippingMethodId { get; set; }
+
         public CalculatePriceRequest()
         {
             Items = new List<PricingItem>();
