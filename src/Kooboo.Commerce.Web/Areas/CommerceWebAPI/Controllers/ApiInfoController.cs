@@ -8,10 +8,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Reflection;
 using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.WebAPI.ViewModels;
+using Kooboo.Commerce.Web.Areas.CommerceWebAPI.ViewModels;
 using System.IO;
 
-namespace Kooboo.Commerce.WebAPI.Controllers
+namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
     public class ApiInfoController : Controller
     {

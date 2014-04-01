@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http;
 using Kooboo.Commerce.API;
 
-namespace Kooboo.Commerce.WebAPI.Controllers
+namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
     /// <summary>
     /// commerce query api controller base
