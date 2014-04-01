@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Prices;
+using Kooboo.Commerce.Orders.Pricing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +12,17 @@ namespace Kooboo.Commerce.API.LocalProvider.Prices
     [Dependency(typeof(IPriceAPI))]
     public class LocalPriceAPI : IPriceAPI
     {
-        private Kooboo.Commerce.Orders.IPriceCalculator _calculator;
         private Kooboo.Commerce.Orders.Services.IOrderService _orderService;
         private Kooboo.Commerce.Payments.Services.IPaymentMethodService _paymentMethodService;
         private Kooboo.Commerce.Customers.Services.ICustomerService _customerService;
         private Kooboo.Commerce.Products.Services.IProductService _productService;
 
         public LocalPriceAPI(
-            Kooboo.Commerce.Orders.IPriceCalculator calculator,
             Kooboo.Commerce.Orders.Services.IOrderService orderService,
             Kooboo.Commerce.Payments.Services.IPaymentMethodService paymentMethodService,
             Kooboo.Commerce.Customers.Services.ICustomerService customerService,
             Kooboo.Commerce.Products.Services.IProductService productService)
         {
-            _calculator = calculator;
             _orderService = orderService;
             _paymentMethodService = paymentMethodService;
             _customerService = customerService;
@@ -33,7 +31,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Prices
 
         public CalculatePriceResult Calculate(CalculatePriceRequest request)
         {
-            var ctx = new Kooboo.Commerce.Orders.PriceCalculationContext
+            var ctx = new PricingContext
             {
                 CouponCode = request.CouponCode
             };
@@ -50,10 +48,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Prices
             foreach (var item in request.Items)
             {
                 var price = _productService.GetProductPriceById(item.ProductPriceId);
-                ctx.Items.Add(new Commerce.Orders.PricingItem(item.Id, price, item.Quantity));
+                ctx.Items.Add(new Commerce.Orders.Pricing.PricingItem(item.Id, price, item.Quantity));
             }
 
-            _calculator.Calculate(ctx);
+            new PricingPipeline().Execute(ctx);
 
             return GetResult(ctx);
         }
@@ -61,40 +59,34 @@ namespace Kooboo.Commerce.API.LocalProvider.Prices
         public CalculatePriceResult CalculateOrderPrice(CalculateOrderPriceRequest request)
         {
             var order = _orderService.GetById(request.OrderId);
-            var ctx = Kooboo.Commerce.Orders.PriceCalculationContext.CreateFrom(order);
+            var ctx = PricingContext.CreateFrom(order);
             if (request.PaymentMethodId != null)
             {
                 ctx.PaymentMethod = _paymentMethodService.GetById(request.PaymentMethodId.Value);
             }
 
-            _calculator.Calculate(ctx);
+            new PricingPipeline().Execute(ctx);
 
             return GetResult(ctx);
         }
 
-        private CalculatePriceResult GetResult(Kooboo.Commerce.Orders.PriceCalculationContext ctx)
+        private CalculatePriceResult GetResult(PricingContext ctx)
         {
             var result = new CalculatePriceResult();
 
             foreach (var item in ctx.Items)
             {
-                result.Items.Add(new PricingItem
+                result.Items.Add(new CalculateItemPriceResult
                 {
                     Id = item.Id,
-                    ProductPriceId = item.ProductPrice.Id,
-                    Quantity = item.Quantity,
-                    Subtotal = item.Subtotal,
-                    Discount = item.Discount
+                    Subtotal = item.Subtotal.ToDto()
                 });
             }
 
-            result.DiscountExItemDiscounts = ctx.DiscountExItemDiscounts;
-            result.ShippingCost = ctx.ShippingCost;
-            result.ShippingDiscount = ctx.ShippingDiscount;
-            result.PaymentMethodCost = ctx.PaymentMethodCost;
-            result.PaymentMethodDiscount = ctx.PaymentMethodDiscount;
-            result.Tax = ctx.Tax;
-            result.Subtotal = ctx.Subtotal;
+            result.ShippingCost = ctx.ShippingCost.ToDto();
+            result.PaymentMethodCost = ctx.PaymentMethodCost.ToDto();
+            result.Tax = ctx.Tax.ToDto();
+            result.Subtotal = ctx.Subtotal.ToDto();
             result.Total = ctx.Total;
 
             return result;

@@ -99,6 +99,8 @@
     <Compile Include="Prices\CalculateOrderPriceRequest.cs" />
     <Compile Include="Prices\CalculatePriceRequest.cs" />
     <Compile Include="Prices\CalculatePriceResult.cs" />
+    <Compile Include="Prices\CalculateItemPriceResult.cs" />
+    <Compile Include="Prices\PriceWithDiscount.cs" />
     <Compile Include="Prices\PricingItem.cs" />
     <Compile Include="Payments\PaymentRequest.cs" />
     <Compile Include="Payments\PaymentResult.cs" />

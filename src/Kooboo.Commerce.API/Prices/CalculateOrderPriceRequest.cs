@@ -10,5 +10,7 @@ namespace Kooboo.Commerce.API.Prices
         public int OrderId { get; set; }
 
         public int? PaymentMethodId { get; set; }
+
+        public int? ShippingMethodId { get; set; }
     }
 }

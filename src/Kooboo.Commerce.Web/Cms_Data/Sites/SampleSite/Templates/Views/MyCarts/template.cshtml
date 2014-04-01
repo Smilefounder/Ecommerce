@@ -41,12 +41,12 @@ else
             }
         </tbody>
         @{
-    totalPrice -= shoppingCart.DiscountExItemDiscounts;
+    totalPrice -= shoppingCart.SubtotalDiscount;
         }
         <tfoot class="total">
             <tr>
                 <td colspan="4">
-                    @("Discount".Localize()): @((shoppingCart.DiscountExItemDiscounts + totalItemDiscounts).ToString("C")),
+                    @("Discount".Localize()): @((shoppingCart.SubtotalDiscount + totalItemDiscounts).ToString("C")),
                     @("Total".Localize()): <em>@(totalPrice.ToString("C"))</em>
                 </td>
             </tr>
