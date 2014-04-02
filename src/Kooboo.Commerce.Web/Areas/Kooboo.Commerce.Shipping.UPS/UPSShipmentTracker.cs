@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Shipping.UPS
             }
         };
 
-        private ISettingsService _settingsService;
+        private ISettingService _settingsService;
 
         public string Name
         {
@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Shipping.UPS
             }
         }
 
-        public UPSShipmentTracker(ISettingsService settingsService)
+        public UPSShipmentTracker(ISettingService settingsService)
         {
             _settingsService = settingsService;
         }

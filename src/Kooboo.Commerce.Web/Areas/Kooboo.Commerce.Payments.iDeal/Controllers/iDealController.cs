@@ -14,12 +14,12 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 {
     public class iDealController : Controller
     {
-        private ISettingsService _keyValueService;
+        private ISettingService _keyValueService;
         private IPaymentService _paymentService;
         private IPaymentMethodService _paymentMethodService;
 
         public iDealController(
-            ISettingsService keyValueService,
+            ISettingService keyValueService,
             IPaymentService paymentService,
             IPaymentMethodService paymentMethodService)
         {

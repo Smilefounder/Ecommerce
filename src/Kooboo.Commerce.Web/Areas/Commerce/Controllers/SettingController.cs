@@ -18,12 +18,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class SettingController : CommerceControllerBase
     {
-        private readonly ISettingsService _settings;
+        private readonly ISettingService _settings;
         private readonly ICustomFieldService _customFieldService;
         private readonly IImageSizeService _imageSizeService;
 
         public SettingController(
-            ISettingsService settings,
+            ISettingService settings,
             ICustomFieldService customFieldService,
             IImageSizeService imageSizeService)
         {

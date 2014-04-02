@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Payments.PayPal
     public class PayPalPaymentProcessor : IPaymentProcessor
     {
         private IOrderService _orderService;
-        private ISettingsService _settingsService;
+        private ISettingService _settingsService;
         private IPaymentMethodService _paymentMethodService;
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Payments.PayPal
 
         public PayPalPaymentProcessor(
             IOrderService orderService,
-            ISettingsService settingService,
+            ISettingService settingService,
             IPaymentMethodService paymentMethodService)
         {
             _orderService = orderService;

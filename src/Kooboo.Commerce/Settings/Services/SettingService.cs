@@ -9,12 +9,12 @@ using Newtonsoft.Json;
 namespace Kooboo.Commerce.Settings.Services
 {
 
-    [Dependency(typeof(ISettingsService))]
-    public class SettingsService : ISettingsService
+    [Dependency(typeof(ISettingService))]
+    public class SettingService : ISettingService
     {
         private readonly IRepository<KeyValueSetting> _repository;
 
-        public SettingsService(IRepository<KeyValueSetting> repository)
+        public SettingService(IRepository<KeyValueSetting> repository)
         {
             _repository = repository;
         }

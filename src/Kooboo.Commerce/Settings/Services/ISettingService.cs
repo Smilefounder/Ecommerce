@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Settings.Services
 {
-    public interface ISettingsService
+    public interface ISettingService
     {
         string Get(string key, string category = null);
 

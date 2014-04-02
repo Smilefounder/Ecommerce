@@ -176,8 +176,8 @@
     <Compile Include="Promotions\PromotionMatch.cs" />
     <Compile Include="Promotions\PromotionContext.cs" />
     <Compile Include="Rules\CustomerGenderValueDataSource.cs" />
-    <Compile Include="Settings\Services\ISettingsService.cs" />
-    <Compile Include="Settings\Services\SettingsService.cs" />
+    <Compile Include="Settings\Services\ISettingService.cs" />
+    <Compile Include="Settings\Services\SettingService.cs" />
     <Compile Include="Products\Services\IProductService.cs" />
     <Compile Include="Promotions\PromotionOverlappingUsage.cs" />
     <Compile Include="Payments\Services\IPaymentMethodService.cs" />
