@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Data
             return DbContext.Set<T>();
         }
 
-        public virtual T Get(object id)
+        public virtual T Get(params object[] id)
         {
             return DbContext.Set<T>().Find(id);
         }

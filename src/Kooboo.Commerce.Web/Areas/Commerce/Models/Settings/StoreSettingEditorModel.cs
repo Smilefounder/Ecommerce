@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Settings {
         public StoreSettingEditorModel() {
         }
 
-        public StoreSettingEditorModel(StoreSetting shopSetting) {
+        public StoreSettingEditorModel(StoreSettings shopSetting) {
             this.PriceIndex = shopSetting.PriceIndex;
             this.Culture = shopSetting.Culture;
             this.CurrencyISOCode = shopSetting.CurrencyISOCode;
@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Settings {
             this.SizeUnitName = shopSetting.SizeUnitName;
         }
 
-        public void UpdateTo(StoreSetting shopSetting) {
+        public void UpdateTo(StoreSettings shopSetting) {
             shopSetting.PriceIndex = this.PriceIndex;
             shopSetting.Culture = this.Culture;
             shopSetting.CurrencyISOCode = this.CurrencyISOCode;

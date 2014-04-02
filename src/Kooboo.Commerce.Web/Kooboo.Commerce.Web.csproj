@@ -262,7 +262,6 @@
     <Compile Include="Areas\Commerce\Controllers\HomeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\OrderController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\PaymentController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PaymentMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductTypeController.cs" />
@@ -325,7 +324,9 @@
     <Compile Include="Areas\Commerce\Models\Rules\ConditionParameterModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConditionsExpressionPrettifier.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConditionsModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Settings\ImageSetting.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSettingEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Settings\ImageSettingsHelper.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSizeEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ProductSettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\SettingEditorModel.cs" />

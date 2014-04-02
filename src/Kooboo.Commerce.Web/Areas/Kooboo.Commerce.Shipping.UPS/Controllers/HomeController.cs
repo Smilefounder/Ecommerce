@@ -12,9 +12,9 @@ namespace Kooboo.Commerce.Shipping.UPS.Controllers
 {
     public class HomeController : CommerceControllerBase
     {
-        private IKeyValueService _settingsService;
+        private ISettingsService _settingsService;
 
-        public HomeController(IKeyValueService settingsService)
+        public HomeController(ISettingsService settingsService)
         {
             _settingsService = settingsService;
         }

@@ -33,13 +33,13 @@ namespace Kooboo.Commerce.Shipping.UPS
             return Newtonsoft.Json.JsonConvert.DeserializeObject<UPSSettings>(json);
         }
 
-        public void Save(IKeyValueService service)
+        public void Save(ISettingsService service)
         {
             var json = Serialize();
             service.Set(Strings.TrackerName, json, "ShipmentTracking");
         }
 
-        public static UPSSettings LoadFrom(IKeyValueService service)
+        public static UPSSettings LoadFrom(ISettingsService service)
         {
             var json = service.Get(Strings.TrackerName, "ShipmentTracking");
             return Deserialize(json);

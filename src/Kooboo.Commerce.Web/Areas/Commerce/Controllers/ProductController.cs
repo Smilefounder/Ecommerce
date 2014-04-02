@@ -18,6 +18,7 @@ using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.CMS.Common;
+using Kooboo.Commerce.ImageSizes.Services;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -26,20 +27,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     {
 
         private readonly IProductService _productService;
-        private readonly ISettingService _settingService;
+        private readonly IImageSizeService _imageSizeService;
         private readonly IProductTypeService _productTypeService;
         private readonly IBrandService _brandService;
         private readonly ICategoryService _categoryService;
 
         public ProductController(
                 IProductService productService,
-                ISettingService settingService,
+                IImageSizeService imageSizeService,
                 IProductTypeService productTypeService,
                 IBrandService brandService,
                 ICategoryService categoryService)
         {
             _productService = productService;
-            _settingService = settingService;
+            _imageSizeService = imageSizeService;
             _productTypeService = productTypeService;
             _brandService = brandService;
             _categoryService = categoryService;
@@ -143,30 +144,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult GetImageTypes()
         {
-            var objs = new List<ImageSize>();
-            var imageSett = _settingService.GetImageSetting();
-            if (imageSett.Thumbnail != null)
-            {
-                objs.Add(imageSett.Thumbnail);
-            }
-            if (imageSett.Detail != null)
-            {
-                objs.Add(imageSett.Detail);
-            }
-            if (imageSett.List != null)
-            {
-                objs.Add(imageSett.List);
-            }
-            if (imageSett.Cart != null)
-            {
-                objs.Add(imageSett.Cart);
-            }
-            if (imageSett.CustomSizes != null)
-            {
-                objs.AddRange(imageSett.CustomSizes);
-            }
-            objs = objs.Where(o => o.IsEnabled).ToList();
-            return JsonNet(objs);
+            var sizes = _imageSizeService.Query()
+                                         .Where(x => x.IsEnabled)
+                                         .ToList();
+            return JsonNet(sizes);
         }
 
         [HttpGet]
