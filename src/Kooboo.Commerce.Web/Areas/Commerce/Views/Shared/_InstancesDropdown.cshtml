@@ -9,14 +9,14 @@
 
 <div class="switcher @(allInstanceMetas.Count > 0 ? "active" : "")">
     <span class="current">
-        <span>@(currentInstanceMeta.DisplayName)</span> @Html.IconImage("arrow switch")
+        <span>@(currentInstanceMeta.DisplayName)</span> @Html.IconImage("caret-toggle")
     </span>
     <ul class="list">
         @foreach (var instance in allInstanceMetas)
         {
             if (instance.Name != currentInstanceMeta.Name)
-            { 
-            <li><a href="@Url.Action("Start", "CommerceInstance", new { commerceName = instance.Name })">@instance.DisplayName</a></li>
+            {
+                <li><a href="@Url.Action("Start", "CommerceInstance", new { commerceName = instance.Name })">@instance.DisplayName</a></li>
             }
         }
     </ul>

@@ -19,17 +19,19 @@ namespace Kooboo.Commerce.Customers.Services
         private readonly ICommerceDatabase _db;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<CustomerLoyalty> _customerLoyaltyRepository;
+        private readonly IRepository<CustomerCustomField> _customerCustomFieldRepository;
         //private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<Address> _addressRepository;
         //private readonly IRepository<Country> _countryRepository;
 
-        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Address> addressRepository, IRepository<CustomerLoyalty> customerLoyaltyRepository)
+        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Address> addressRepository, IRepository<CustomerLoyalty> customerLoyaltyRepository, IRepository<CustomerCustomField> customerCustomFieldRepository)
         {
             _db = db;
             _customerRepository = customerRepository;
             //_orderRepository = orderRepository;
             _addressRepository = addressRepository;
             _customerLoyaltyRepository = customerLoyaltyRepository;
+            _customerCustomFieldRepository = customerCustomFieldRepository;
             //_countryRepository = countryRepository;
         }
 
@@ -62,6 +64,10 @@ namespace Kooboo.Commerce.Customers.Services
         public IQueryable<CustomerLoyalty> QueryCustomerLoyalty()
         {
             return _customerLoyaltyRepository.Query();
+        }
+        public IQueryable<CustomerCustomField> CustomFieldsQuery()
+        {
+            return _customerCustomFieldRepository.Query();
         }
 
         //public Customer GetByAccountId(string accountId, bool loadAllInfo = true)
@@ -140,6 +146,14 @@ namespace Kooboo.Commerce.Customers.Services
                             _addressRepository.Save(o => o.Id == address.Id, address, o => new object[] { o.Id });
                         }
                     }
+                    _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
+                    if (customer.CustomFields != null && customer.CustomFields.Count > 0)
+                    {
+                        foreach (var cf in customer.CustomFields)
+                        {
+                            _customerCustomFieldRepository.Insert(cf);
+                        }
+                    }
                     _customerRepository.Update(customer, k => new object[] { k.Id });
 
                     tx.Commit();
@@ -171,7 +185,22 @@ namespace Kooboo.Commerce.Customers.Services
 
         public bool Delete(Customer customer)
         {
-            return _customerRepository.Delete(customer);
+            try
+            {
+                using (var tx = _db.BeginTransaction())
+                {
+                    _customerLoyaltyRepository.DeleteBatch(o => o.CustomerId == customer.Id);
+                    _addressRepository.DeleteBatch(o => o.CustomerId == customer.Id);
+                    _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
+                    _customerRepository.Delete(customer);
+                    tx.Commit();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }

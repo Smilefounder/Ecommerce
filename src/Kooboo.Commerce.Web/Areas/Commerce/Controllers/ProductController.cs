@@ -93,7 +93,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             try
             {
-                _productService.Update(obj);
+                _productService.Save(obj);
                 return this.JsonNet(new { status = 0, message = "product succssfully saved." });
             }
             catch (Exception ex)

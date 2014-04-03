@@ -16,12 +16,39 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands {
             this.Name = brand.Name;
             this.Description = brand.Description;
             this.Logo = brand.Logo;
+            this.CustomFields = new List<BrandCustomFieldModel>();
+            if(brand.CustomFields != null && brand.CustomFields.Count > 0)
+            {
+               foreach(var cf in brand.CustomFields)
+               {
+                   var cfm = new BrandCustomFieldModel();
+                   cfm.Name = cf.Name;
+                   cfm.Value = cf.Value;
+
+                   this.CustomFields.Add(cfm);
+               }
+            }
         }
 
         public void UpdateTo(Brand brand) {
+            brand.Id = this.Id;
             brand.Name = (this.Name ?? string.Empty).Trim();
             brand.Description = (this.Description ?? string.Empty).Trim();
             brand.Logo = (this.Logo ?? string.Empty).Trim();
+
+            if(this.CustomFields != null && this.CustomFields.Count > 0)
+            {
+                brand.CustomFields = new List<BrandCustomField>();
+                foreach (var cfm in this.CustomFields)
+                {
+                    var cf = new BrandCustomField();
+                    cf.BrandId = this.Id;
+                    cf.Name = cfm.Name;
+                    cf.Value = cfm.Value;
+
+                    brand.CustomFields.Add(cf);
+                }
+            }
         }
 
         public int Id {
@@ -43,5 +70,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands {
             get;
             set;
         }
+
+        public ICollection<BrandCustomFieldModel> CustomFields { get; set; }
     }
 }

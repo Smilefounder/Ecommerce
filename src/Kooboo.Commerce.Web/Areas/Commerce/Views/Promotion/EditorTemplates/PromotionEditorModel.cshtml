@@ -1,22 +1,22 @@
 ﻿@model PromotionEditorModel
 
-@using (Html.BeginForm("Save", "Promotion", RouteValues.From(Request.QueryString))) 
-{ 
+@using (Html.BeginForm("Save", "Promotion", RouteValues.From(Request.QueryString)))
+{
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.PromotionPolicy)
     <div class="common-form">
         <table>
             @Html.EditorFor(m => m.Name)
+            @Html.EditorFor(m => m.StartTime)
+            @Html.EditorFor(m => m.EndTime)
             @Html.EditorFor(m => m.RequireCouponCode)
-            <tr class="coupon-code-holder" style="display:none">
-                <th>@Html.DisplayNameFor(m => m.CouponCode)</th>
+            <tr class="J_CouponcodeHolder hide">
+                <th></th>
                 <td>
-                    @Html.TextBoxFor(m => m.CouponCode, new { @class = "medium" })
+                    @Html.TextBoxFor(m => m.CouponCode, new { @class = "medium", placeholder = @Html.DisplayNameFor(m => m.CouponCode) })
                     @Html.ValidationMessageFor(m => m.CouponCode)
                 </td>
             </tr>
-            @Html.EditorFor(m => m.StartTime)
-            @Html.EditorFor(m => m.EndTime)
             <tr>
                 <th>@("Conditions".Localize())</th>
                 <td>
@@ -24,15 +24,15 @@
                         @Html.Raw(Model.ConditionsExpression)
                     </span>
                     @Html.HiddenFor(m => m.ConditionsExpression)
-                    <a href="#" class="btn-edit-conditions">@Html.IconImage("edit small")</a>
+                    <a href="#" class="btn-edit-conditions">@Html.IconImage("edit-small")</a>
                 </td>
             </tr>
-            @Html.EditorFor(m => m.Priority)
+            @Html.EditorFor(m => m.Priority, new { HtmlAttributes = new { @class = "medium" } })
             <tr>
                 <th>@Html.DisplayNameFor(m => m.OverlappingUsage)</th>
                 <td>
                     <div class="clearfix">
-                        @Html.DropDownListFor(m => m.OverlappingUsage, Model.AvailableOverlappingUsages)
+                        @Html.DropDownListFor(m => m.OverlappingUsage, Model.AvailableOverlappingUsages, new { @class = "medium" })
                     </div>
                     @Html.Partial("_SelectOverlappablePromotions", Model.OtherPromotions)
                 </td>
@@ -54,12 +54,12 @@
         $requireCoupon.click(function () {
             onRequireCouponCodeChanged($(this).is(':checked'));
         });
-        
+
         function onRequireCouponCodeChanged(required) {
             if (required) {
-                $('.coupon-code-holder').show();
+                $('.J_CouponcodeHolder').show();
             } else {
-                $('.coupon-code-holder').hide();
+                $('.J_CouponcodeHolder').hide();
             }
         }
 
@@ -75,9 +75,9 @@
 
         function onOverlappingUsageChanged(value) {
             if (value == 'AllowedWithSpecifiedPromotions') {
-                $('.other-promotions').show();
+                $('#J_OtherPromotions').show();
             } else {
-                $('.other-promotions').hide();
+                $('#J_OtherPromotions').hide();
             }
         }
 

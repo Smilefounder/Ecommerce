@@ -22,6 +22,8 @@ namespace Kooboo.Commerce.Brands
         /// </summary>
         public string Logo { get; set; }
 
+        public virtual ICollection<BrandCustomField> CustomFields { get; set; }
+
         public override string ToString()
         {
             return Name;

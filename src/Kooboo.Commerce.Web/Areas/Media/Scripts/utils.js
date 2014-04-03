@@ -275,11 +275,14 @@ var utils = window.utils = {
         if (this.isCrossDomain(url))
             url = this.appendUrl(url, "cros", "1");
 
-        var dialog = $('<div id="' + id + '"><iframe frameborder="0" style="width:100%;height:98%;" src="' + url + '" scrolling="auto"></iframe></div>');
+        var dialog = $('<div id="' + id + '"><iframe scrolling="no" frameborder="0" src="' + url + '"></iframe></div>');
         var options = {
             modal: true,
             title: title,
             zIndex: 1100,
+            dialogClass: 'iframe-dialog',
+            draggable: false,
+            resizable: false,
             maxWidth: $(window).width() - 200,
             maxHeight: $(window).height() - 100,
             minWidth: utils.minDialogWidth,

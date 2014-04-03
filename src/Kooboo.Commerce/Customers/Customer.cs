@@ -12,6 +12,7 @@ namespace Kooboo.Commerce.Customers
         public Customer()
         {
             Addresses = new List<Address>();
+            CustomFields = new List<CustomerCustomField>();
         }
 
         [Parameter(Name = "CustomerId", DisplayName = "Customer ID")]
@@ -35,6 +36,10 @@ namespace Kooboo.Commerce.Customers
 
         public int? CountryId { get; set; }
 
+        public int? ShippingAddressId { get; set; }
+
+        public int? BillingAddressId { get; set; }
+
         /// <summary>
         /// Redundant field for easy query only.  The detail address information should be in the Addresses field.
         /// </summary>
@@ -47,7 +52,32 @@ namespace Kooboo.Commerce.Customers
         /// </summary>
         public virtual List<Address> Addresses { get; set; }
 
+        public virtual Address ShippingAddress 
+        { 
+            get
+            {
+                if(Addresses != null && ShippingAddressId.HasValue)
+                {
+                    return Addresses.FirstOrDefault(o => o.Id == ShippingAddressId.Value);
+                }
+                return null;
+            }
+        }
+
+        public virtual Address BillingAddress
+        {
+            get
+            {
+                if (Addresses != null && BillingAddressId.HasValue)
+                {
+                    return Addresses.FirstOrDefault(o => o.Id == BillingAddressId.Value);
+                }
+                return null;
+            }
+        }
+
         public virtual CustomerLoyalty Loyalty { get; set; }
+        public virtual ICollection<CustomerCustomField> CustomFields { get; set; }
 
         [Parameter(Name = "CustomerFullName", DisplayName = "Customer Fullname")]
         public string FullName

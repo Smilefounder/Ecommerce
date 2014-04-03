@@ -111,7 +111,7 @@ namespace Kooboo.Commerce.Web.Html
 
                 if (String.IsNullOrEmpty(_secondaryIcon))
                 {
-                    WithSecondaryIcon("arrow small white-down");
+                    WithSecondaryIcon("arrow chevron-down-white");
                 }
             }
 

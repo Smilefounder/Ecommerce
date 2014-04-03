@@ -50,19 +50,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(BrandEditorModel model, string @return)
         {
-            Brand brand = null;
-
-            if (model.Id > 0)
-            {
-                brand = _brandService.GetById(model.Id);
-                model.UpdateTo(brand);
-            }
-            else
-            {
-                brand = new Brand();
-                model.UpdateTo(brand);
-                _brandService.Create(brand);
-            }
+            model.CustomFields = FormHelper.BindToModels<BrandCustomFieldModel>(Request.Form, "CustomFields.");
+            Brand brand = new Brand();
+            model.UpdateTo(brand);
+            _brandService.Save(brand);
 
             return AjaxForm().RedirectTo(@return);
         }

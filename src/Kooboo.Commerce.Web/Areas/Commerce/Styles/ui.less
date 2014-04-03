@@ -62,13 +62,10 @@
 /* Message
 ----------------------------------------------------------*/
 .block.message {
-	background: #F3F3F3;
+	background: #F5F5F5;
 	border-left: 5px solid #CCC;
-	display: inline-block;
 	font-size: 16px;
-	min-height: 60px;
-	min-width: 400px;
-	padding: 10px;
+	padding: 8px;
 	margin-bottom: 10px;
 
 	&.success {
@@ -88,6 +85,8 @@
 .tabs {
 	.tab-index {
 		border-bottom: 1px solid #CCC;
+		margin-bottom: 10px;
+		padding: 0 10px;
 		.clearfix();
 
 		li {
@@ -118,7 +117,7 @@
 		.active {
 
 			a {
-				background: #F6F6F6;
+				background: #FFF;
 				border-color: #CCC;
 				color: #555;
 				cursor: default;
@@ -246,6 +245,15 @@
 	}
 }
 
+.wizard-buttons {
+	margin-top: 20px;
+
+	.button {
+		float: left;
+		margin-right: 10px;
+	}
+}
+
 .process-steps-tip {
 	font-size: 18px;
 }
@@ -276,10 +284,6 @@
 	height: 300px;
 	overflow: auto;
 
-	.ui-tabs-panel & {
-		border-top: none;
-	}
-
 	li {
 		background: url(images/line.png) no-repeat 9px -27px;
 		padding: 10px 0 0 19px;
@@ -290,20 +294,25 @@
 		}
 	}
 
-	.tree-icon {
+	.icon.folder-blue {
+		float: left;
+		margin: 0 5px 0 0;
+	}
+
+	.toggle {
 		background-position: 0 -94px;
 		cursor: pointer;
 		left: 4px;
 		position: absolute;
 		top: 12px;
+
+		.sprite {
+			display: block;
+			.sprite(@plus-mini);
+		}
 	}
 
-	.icon.folder {
-		float: left;
-		margin: 0 5px 0 0;
-	}
-
-	span {
+	.text {
 		background: #FFF;
 		display: block;
 		height: 14px;
@@ -316,8 +325,8 @@
 	}
 
 	.active {
-		> .tree-icon {
-			background-position: -11px -94px;
+		> .toggle .sprite {
+			.sprite(@minus-mini);
 		}
 
 		li ul {
@@ -389,6 +398,10 @@
 		right: 0;
 		top: 0;
 		width: 28px;
+
+		.icon {
+			display: block;
+		}
 	}
 
 	#sidebar & {
@@ -406,7 +419,7 @@
 	position: relative;
 
 	.searchbox input {
-		padding-right: 12px;
+		padding-right: 44px;
 	}
 
 	.more {
@@ -428,7 +441,6 @@
 		position: absolute;
 		right: 0;
 		top: 0;
-		z-index: 1;
 
 		h6 {
 			font-size: 20px;
@@ -460,38 +472,48 @@
 	li {
 		float: left;
 		margin-left: 10px;
-	}
 
-	a {
-		display: block;
-		height: 26px;
-		width: 26px;
-		.box-sizing(border-box);
-
-		&:hover {
-			background: #E7E7E7;
-		}
-	}
-
-	.list a {
-		padding: 6px 5px;
-	}
-
-	.grid a {
-		padding: 6px 3px;
-	}
-
-	.active {
 		a {
+			display: block;
+			height: 26px;
+			width: 26px;
+			.box-sizing(border-box);
+
+			&:hover {
+				background: #E7E7E7;
+			}
+		}
+
+		&.active a {
 			background: #0078B1;
 		}
 
-		.icon.list {
-			background-position: -133px -80px;
+		&.list {
+			a {
+				padding: 6px 5px;
+			}
+
+			.sprite {
+				.sprite(@list-gray);
+			}
+
+			&.active .sprite {
+				.sprite(@list-white);
+			}
 		}
 
-		.icon.grid {
-			background-position: -170px -80px;
+		&.grid {
+			a {
+				padding: 6px 3px;
+			}
+
+			.sprite {
+				.sprite(@grid-gray);
+			}
+
+			&.active .sprite {
+				.sprite(@grid-white);
+			}
 		}
 	}
 }
@@ -813,6 +835,63 @@
 	&:hover input[type="radio"] {
 		display: block;
 	}
+}
+
+/* Label & Badge
+----------------------------------------------------------*/
+.label {
+	background: #999;
+	color: #FFF;
+	display: inline;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 20px;
+	padding: 2px 7px 3px;
+	text-align: center;
+	vertical-align: baseline;
+	white-space: nowrap;
+	.rounded(3px);
+}
+
+.badge {
+	background: #999;
+	color: #FFF;
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	min-width: 10px;
+	padding: 3px 7px;
+	text-align: center;
+	vertical-align: baseline;
+	white-space: nowrap;
+	.box-sizing(border-box);
+	.rounded(10px);
+}
+
+.label-primary,
+.badge-primary {
+	background-color: @deep-blue;
+}
+
+.label-success,
+.badge-success {
+	background-color: @green;
+}
+
+.label-info,
+.badge-info {
+	background-color: @light-blue;
+}
+
+.label-warning,
+.badge-warning {
+	background-color: @yellow;
+}
+
+.label-danger,
+.badge-danger {
+	background-color: @red;
 }
 
 /* Login block

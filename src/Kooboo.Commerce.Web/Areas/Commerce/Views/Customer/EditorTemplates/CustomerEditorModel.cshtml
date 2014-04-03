@@ -1,17 +1,18 @@
 ﻿@model CustomerEditorModel
 
-@using (Html.BeginForm("Save", "Customer", RouteValues.From(Request.QueryString))) {
+@using (Html.BeginForm("Save", "Customer", RouteValues.From(Request.QueryString)))
+{
     @Html.ValidationSummary(true)
 
     @Html.HiddenFor(m => m.Id)
     <div class="common-form">
         <table>
-            @Html.EditorFor(m => m.Email)
+            @Html.EditorFor(m => m.Email, new { HtmlAttributes = new { @class = "medium" } })
 
-            @Html.EditorFor(m => m.FirstName)
-            @Html.EditorFor(m => m.MiddleName)
-            @Html.EditorFor(m => m.LastName)
-            
+            @Html.EditorFor(m => m.FirstName, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.MiddleName, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.LastName, new { HtmlAttributes = new { @class = "medium" } })
+
             <tr>
                 <th>@("Gender".Localize())</th>
                 <td>
@@ -19,17 +20,17 @@
                     @Html.ValidationMessageFor(m => m.Gender)
                 </td>
             </tr>
-            
-            @Html.EditorFor(m => m.Phone)
+
+            @Html.EditorFor(m => m.Phone, new { HtmlAttributes = new { @class = "medium" } })
 
             <tr>
                 <th>@("Country".Localize())</th>
                 <td>
-                    @Html.DropDownListFor(m => m.CountryId, Model.CountryList)
+                    @Html.DropDownListFor(m => m.CountryId, Model.CountryList, new { HtmlAttributes = new { @class = "medium" } })
                 </td>
             </tr>
-            
-            @Html.EditorFor(m => m.City)
+
+            @Html.EditorFor(m => m.City, new { HtmlAttributes = new { @class = "medium" } })
         </table>
-    </div> 
+    </div>
 }

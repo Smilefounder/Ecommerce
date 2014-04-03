@@ -590,7 +590,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
     };
     $.fn.treeNode = function () {
         var handler = $(this);
-        handler.find('.tree-icon').click(function () {
+        handler.find('.toggle').click(function () {
             $(this).siblings('.children,ul').toggle('fast').parent().toggleClass('active');
         });
     };
@@ -605,6 +605,15 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             var menu = $(this).siblings('ul');
             $('.map-item > ul:visible').not(menu).hide('fast');
             menu.toggle('fast');
+        });
+    };
+    $.fn.dialogScroll = function () {
+        var dom = $(this);
+        var dialog = dom.find('.ui-dialog-content');
+        $(dialog).scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            $(this).find('.topbar').css('top', scrollTop);
+            $(this).find('.buttons').css('bottom', -scrollTop);
         });
     };
     $.fn.siteSwitch = function () {

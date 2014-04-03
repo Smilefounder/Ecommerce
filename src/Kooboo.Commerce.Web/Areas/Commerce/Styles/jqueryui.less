@@ -20,7 +20,7 @@
 		border: none;
 		border-bottom: 1px solid #CCC;
 		margin-bottom: 10px;
-		padding: 0;
+		padding: 0 10px;
 
 		li {
 			background: none;
@@ -99,7 +99,8 @@
 		margin: 0 auto;
 		max-height: 500px;
 		overflow: auto;
-		padding: 20px;
+		padding: 0;
+		position: relative;
 		width: 840px !important;
 	}
 
@@ -118,8 +119,6 @@
 .iframe-dialog {
 	.ui-dialog-content {
 		overflow: hidden;
-		padding: 0;
-		position: relative;
 
 		iframe {
 			height: 100%;
@@ -222,6 +221,14 @@
 		}
 	}
 }
+
+/* Tooltip
+----------------------------------------------------------*/
+body .ui-tooltip {
+	border: 1px solid #CCC;
+	.box-shadow(0 5px 10px rgba(0, 0, 0, .2));
+}
+
 /* Autocomplete
 ----------------------------------------------------------*/
 .ui-autocomplete {

@@ -17,6 +17,7 @@ namespace Kooboo.Commerce.Customers.Services
         IQueryable<Address> QueryAddress();
 
         IQueryable<CustomerLoyalty> QueryCustomerLoyalty();
+        IQueryable<CustomerCustomField> CustomFieldsQuery();
 
         //Customer GetByAccountId(string accountId, bool loadAllInfo = true);
 

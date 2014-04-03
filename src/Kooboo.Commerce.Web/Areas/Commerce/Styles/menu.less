@@ -1,13 +1,53 @@
 /* Menu
 ----------------------------------------------------------*/
 .block.menu {
+	a {
+		color: #000;
+		display: block;
+		font-size: 20px;
+		padding: 0 6px 0 16px;
+
+		&:hover {
+			background-color: #E7E7E7;
+		}
+
+		.badge {
+			float: right;
+		}
+	}
+
+	.arrow:hover ~ a {
+		background-color: #E7E7E7;
+	}
+	/* Arrow */
+	.arrow {
+		display: none;
+		height: 30px;
+		position: absolute;
+		text-indent: -9999px;
+		width: 15px;
+
+		.sprite {
+			display: block;
+			margin: 11px 0 0 4px;
+			.sprite(@chevron-right-gray);
+		}
+
+		&:hover .sprite {
+			.sprite(@chevron-right-black);
+		}
+	}
+
+	&:hover .arrow {
+		display: block;
+	}
+
 	> ul {
 		padding-bottom: 30px;
 	}
 
 	li {
 		font-weight: 300;
-		line-height: 30px;
 		position: relative;
 
 		&.current > a {
@@ -15,7 +55,7 @@
 		}
 
 		&.with-icon {
-			> img.icon {
+			> .sprite {
 				position: absolute;
 				top: 5px;
 				left: 20px;
@@ -30,15 +70,12 @@
 			> .arrow {
 				display: block;
 
-				.icon {
-					background-position: -16px 0;
-					height: 6px;
-					margin: 12px 0 0 3px;
-					width: 8px;
+				.sprite {
+					.sprite(@chevron-down-gray);
 				}
 
-				&:hover .icon {
-					background-position: -32px 0;
+				&:hover .sprite {
+					.sprite(@chevron-down-black);
 				}
 			}
 
@@ -55,7 +92,7 @@
 		li {
 			a {
 				font-size: 12px;
-				padding-left: 28px;
+				padding: 6px 6px 6px 28px;
 			}
 
 			.arrow {
@@ -63,27 +100,23 @@
 				left: 16px;
 				width: 9px;
 
-				.icon {
-					background-position: -7px -6px;
-					height: 9px;
-					width: 6px;
+				.sprite {
+					.sprite(@caret-hollow-right-gray);
 				}
 
-				&:hover .icon {
-					background-position: -13px -6px;
+				&:hover .sprite {
+					.sprite(@caret-hollow-right-black);
 				}
 			}
 
 			&.active {
 				> .arrow {
-					.icon {
-						background-position: -19px -6px;
-						height: 6px;
-						width: 6px;
+					.sprite {
+						.sprite(@caret-rightbottom-gray);
 					}
 
-					&:hover .icon {
-						background-position: -25px -6px;
+					&:hover .sprite {
+						.sprite(@caret-rightbottom-black);
 					}
 				}
 			}
@@ -112,43 +145,5 @@
 				}
 			}
 		}
-	}
-
-	a {
-		color: #000;
-		display: block;
-		font-size: 20px;
-		padding-left: 16px;
-
-		&:hover {
-			background-color: #E7E7E7;
-		}
-	}
-
-	.arrow:hover ~ a {
-		background-color: #E7E7E7;
-	}
-	/* Arrow */
-	span.arrow {
-		display: none;
-		height: 30px;
-		position: absolute;
-		text-indent: -9999px;
-		width: 15px;
-
-		.icon {
-			background-position: -18px -16px;
-			height: 8px;
-			margin: 11px 0 0 4px;
-			width: 6px;
-		}
-
-		&:hover .icon {
-			background-position: -30px -16px;
-		}
-	}
-
-	&:hover .arrow {
-		display: block;
 	}
 }

@@ -4,20 +4,27 @@
     ViewBag.Title = "Complete".Localize();
 }
 
+@section Panel {
+    <ul class="header-panel">
+        <li><a href="@ViewContext.RequestContext.GetRequestValue("return")">@Html.IconImage("back") @("Back to promotion list".Localize())</a></li>
+    </ul>
+}
+
 <div class="block">
     @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 3 })
-    @using (Html.BeginForm()) { 
-    <div class="block content" style="text-align:center">
-        <p>
-            @(String.Format("Promotion \"{0}\" is successfully created/updated".Localize(), Model.Name))
-        </p>
-        <p>
-            @if (!Model.IsEnabled) { 
-                <a href="#" data-id="@Model.Id" class="button btn-enable-promotion">@("Enable this promotion".Localize())</a>
-            }
-            <a href="@ViewContext.RequestContext.GetRequestValue("return")" class="button gray">@("Back to promotion list".Localize())</a>
-        </p>
-    </div>
+    @using (Html.BeginForm())
+    {
+        <div class="block message success">
+            <p>
+                @(String.Format("Promotion \"{0}\" is successfully created/updated".Localize(), Model.Name))
+            </p>
+        </div>
+        if (!Model.IsEnabled)
+        {
+            <div class="wizard-buttons">
+                <a href="#" data-id="@Model.Id" class="button J_EnablePromotion">@("Enable this promotion".Localize())</a>
+            </div>
+        }
     }
 </div>
 
@@ -25,7 +32,7 @@
     $(function () {
         var commerceName = '@(ViewContext.RequestContext.GetRequestValue("commerceName"))';
 
-        $('.btn-enable-promotion').click(function () {
+        $('.J_EnablePromotion').click(function () {
             window.loading.show();
             $.post('@Url.Action("EnablePromotion")', { id: $(this).data('id'), commerceName: commerceName }, function () {
                 window.loading.hide();

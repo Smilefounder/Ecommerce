@@ -23,6 +23,7 @@
 		padding: 5px;
 		vertical-align: text-top;
 		white-space: nowrap;
+		.box-sizing(border-box);
 
 		&:first-child {
 			padding-left: 20px;
@@ -41,28 +42,27 @@
 				height: 20px;
 				padding: 5px;
 
-				&:hover .icon {
+				&:hover .sprite {
 					visibility: visible;
 				}
 			}
 
-			.icon {
-				display: inline;
-				height: 11px;
+			.sprite {
+				.sprite(@sort-desc);
+				display: inline-block;
 				margin-left: 5px;
 				visibility: hidden;
-				width: 8px;
 			}
 
-			&.desc .icon {
-				background-position: 0 -24px;
+			&.desc .sprite {
+				.sprite(@sort-desc);
 			}
 
-			&.asc .icon {
-				background-position: -8px -24px;
+			&.asc .sprite {
+				.sprite(@sort-asc);
 			}
 
-			&.active .icon {
+			&.active .sprite {
 				visibility: visible;
 			}
 
@@ -74,6 +74,13 @@
 				padding-right: 20px;
 			}
 		}
+	}
+
+	tbody th {
+		font-size: 12px;
+		padding-right: 20px;
+		width: 100px;
+		white-space: nowrap;
 	}
 
 	td {
@@ -146,13 +153,10 @@
 				position: relative;
 			}
 
-			.icon.arrow {
-				background-position: 0 -12px;
-				height: 4px;
+			.icon {
 				position: absolute;
 				right: 4px;
 				top: 14px;
-				width: 7px;
 			}
 
 			.dropdown {
@@ -208,10 +212,11 @@
 	.icon.folder {
 		float: left;
 		margin: 2px 5px 0 0;
+		.sprite(@folder-blue);
 	}
 
 	.active .icon.folder {
-		background-position: -16px -135px;
+		.sprite(@folder-white);
 	}
 
 	.icon.file {
@@ -241,6 +246,35 @@
 		&.nocheckbox .icon.drag {
 			left: -4px;
 		}
+	}
+
+	.note {
+		color: #666;
+		padding: 10px 20px;
+	}
+
+	&.two-dimension {
+
+		th,
+		td {
+			border-bottom: 1px solid #EEE;
+		}
+
+		th {
+			background: #F9F9F9;
+			font-weight: 600;
+		}
+
+		td {
+			/* Length */
+			&.common {
+				width: 10%;
+			}
+		}
+	}
+
+	#main-container & {
+		margin: -20px -20px 0;
 	}
 }
 
@@ -287,7 +321,9 @@
 	}
 
 	.common-table input.editor {
-		width: 140px;
+		height: 16px;
+		padding: 0 2px;
+		width: 120px;
 	}
 
 	/* Tree */
@@ -301,28 +337,26 @@
 		&.disabled {
 			cursor: default;
 		}
-	}
 
-		.common-table .expander .arrow {
-			background-position: -7px -6px;
-			height: 9px;
+		.sprite {
 			margin-top: 4px;
-			width: 6px;
+			.sprite(@caret-hollow-right-gray);
 		}
 
-		.common-table .expander:hover .arrow {
-			background-position: -13px -6px;
+		&:hover .sprite {
+			.sprite(@caret-hollow-right-black);
 		}
 
-		.common-table .expander.active .arrow {
-			background-position: -19px -6px;
-			height: 6px;
-		}
+		&.active {
+			.sprite {
+				.sprite(@caret-rightbottom-gray);
+			}
 
-		.common-table .expander.active:hover .arrow {
-			background-position: -25px -6px;
-			height: 6px;
+			&:hover .sprite {
+				.sprite(@caret-rightbottom-black);
+			}
 		}
+	}
 
 	.common-table tr.hidden-folder .icon.folder {
 		filter: alpha(opacity=50);
@@ -352,7 +386,7 @@
 	th,
 	td {
 		border-top: 1px solid #FFF;
-		padding: 5px 10px;
+		padding: 10px;
 		white-space: nowrap;
 
 		&.action {
@@ -378,8 +412,43 @@
 	}
 
 	th {
-		background: #E1E1E1;
-		color: #656565;
+		background: #E9E9E9;
+		border-bottom: 2px solid #DDD;
+		color: #666;
+		padding: 5px 10px;
+
+		&.sort {
+			padding: 0;
+
+			a {
+				color: #000;
+				display: block;
+				height: 20px;
+				padding: 5px;
+
+				&:hover .icon {
+					visibility: visible;
+				}
+			}
+
+			.sprite {
+				display: inline-block;
+				margin-left: 5px;
+				visibility: hidden;
+			}
+
+			&.desc .sprite {
+				.sprite(@sort-desc);
+			}
+
+			&.asc .sprite {
+				.sprite(@sort-asc);
+			}
+
+			&.active .sprite {
+				visibility: visible;
+			}
+		}
 	}
 
 	td {
@@ -400,11 +469,11 @@
 				cursor: move;
 				left: -8px;
 				position: absolute;
-				top: -9px;
+				top: 0;
 			}
 
 			&.checkbox .icon {
-				top: -3px;
+				top: -2px;
 			}
 		}
 	}
@@ -413,10 +482,6 @@
 
 		&:nth-child(2n) td {
 			background: #F2F2F2;
-		}
-
-		&:hover td {
-			background: #E7E7E7;
 		}
 
 		&.active td {
@@ -439,10 +504,10 @@
 /* Common grid
 ----------------------------------------------------------*/
 .common-grid {
-	padding: 20px;
 
 	ul {
 		margin-bottom: 20px;
+		.clearfix();
 	}
 
 	li {
@@ -464,11 +529,12 @@
 		}
 
 		input {
-			.opacity(0);
+			margin: 0;
 			position: absolute;
 			right: 5px;
 			top: 5px;
 			z-index: 3;
+			.opacity(0);
 
 			&:checked {
 				.opacity(100);
@@ -538,8 +604,6 @@
 	}
 	/* In dialog */
 	.in-dialog & {
-		padding: 20px 0;
-
 		ul a {
 			width: 200px;
 		}

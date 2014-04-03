@@ -10,6 +10,7 @@ namespace Kooboo.Commerce.Categories.Services
         Category GetById(int id);
 
         IQueryable<Category> Query();
+        IQueryable<CategoryCustomField> CustomFieldsQuery();
 
         //IEnumerable<Category> GetRootCategories();
 

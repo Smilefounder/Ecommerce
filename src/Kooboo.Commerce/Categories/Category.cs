@@ -26,5 +26,6 @@ namespace Kooboo.Commerce.Categories
         [ScriptIgnore]
         public virtual Category Parent { get; set; }
         public virtual ICollection<Category> Children { get; set; }
+        public virtual ICollection<CategoryCustomField> CustomFields { get; set; }
     }
 }

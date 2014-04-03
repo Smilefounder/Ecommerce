@@ -1,35 +1,25 @@
 ﻿@model IList<PromotionRowModel>
 
-<div class="other-promotions" style="margin-top:10px;display:none">
-    <p>
-        @("Select promotions which are allowed to be used together with current promotion"):
-    </p>
+<div class="form-container hide" id="J_OtherPromotions">
     @if (Model.Count > 0)
     {
-        <table class="table">
-            <tbody>
-                @for (var i = 0; i < Model.Count; i++)
-                {
-                    var promotion = Model[i];
-                    var prefix = "OtherPromotions[" + i + "].";
-                    <tr>
-                        <td style="width: 20px !important;padding-left:0">
-                            @Html.Hidden(prefix + "Id", promotion.Id)
-                            @Html.CheckBox(prefix + "IsSelected", promotion.IsSelected, new { @class = "select" })
-                        </td>
-                        <td>
-                            @promotion.Name
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <script>
-            $(function () {
-                $('.other-promotions > table').checkableTable();
-            });
-        </script>
+        <p>
+            @("Select promotions which are allowed to be used together with current promotion"):
+        </p>
+        <ul class="form-list">
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                var promotion = Model[i];
+                var prefix = "OtherPromotions[" + i + "].";
+                <li>
+                    @Html.Hidden(prefix + "Id", promotion.Id)
+                    @Html.CheckBox(prefix + "IsSelected", promotion.IsSelected)
+                    <label class="inline">
+                        @promotion.Name
+                    </label>
+                </li>
+            }
+        </ul>
     }
     else
     {

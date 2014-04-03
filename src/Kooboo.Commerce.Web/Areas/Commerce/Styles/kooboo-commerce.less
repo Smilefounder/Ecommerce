@@ -1,0 +1,90 @@
+/* Conditions
+----------------------------------------------------------*/
+.block.conditions {
+	min-height: 360px;
+
+	.condition,
+	.condition-group {
+		border-top: 1px solid #CCC;
+		padding: 10px 0;
+
+		> div {
+			.clearfix();
+			margin-bottom: 10px;
+		}
+	}
+
+	.condition {
+		.container {
+			margin-right: 40px;
+		}
+
+		.condition-op {
+			margin-bottom: 10px;
+		}
+	}
+
+	.condition-group {
+		border-bottom: 1px solid #CCC;
+		border-left: 2px solid #CCC;
+		margin-bottom: 20px;
+		padding: 0;
+
+		.toolbar {
+			padding-right: 0;
+		}
+
+		> .container {
+			padding: 10px 0 0 10px;
+		}
+	}
+}
+
+.conditions-expression {
+	display: inline-block;
+	font-size: 14px;
+	border-radius: 4px;
+}
+
+	.conditions-expression .string {
+		color: #A31515;
+	}
+
+	.conditions-expression .keyword {
+		color: #0000FF;
+	}
+
+	.conditions-expression .param {
+		color: #008080;
+	}
+
+	.conditions-expression .operator {
+		color: #666;
+	}
+
+	.conditions-expression .flat-condition {
+		background: #eee;
+		border-radius: 4px;
+		padding: 4px;
+	}
+
+.activity-rule {
+	padding: 10px 0;
+	border-bottom: #ddd 1px solid;
+}
+
+	.activity-rule .rule-label {
+		font-size: 16px;
+		color: #3CA8DB;
+		display: block;
+		text-align: right;
+		text-transform: uppercase;
+	}
+
+.attached-activities-holder {
+	padding-top: 5px;
+}
+
+.attached-activities li {
+	margin-bottom: 5px;
+}
