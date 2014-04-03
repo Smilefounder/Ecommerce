@@ -24,7 +24,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands {
                    var cfm = new BrandCustomFieldModel();
                    cfm.Name = cf.Name;
                    cfm.Value = cf.Value;
-                   cfm.Text = cf.Text;
 
                    this.CustomFields.Add(cfm);
                }
@@ -32,6 +31,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands {
         }
 
         public void UpdateTo(Brand brand) {
+            brand.Id = this.Id;
             brand.Name = (this.Name ?? string.Empty).Trim();
             brand.Description = (this.Description ?? string.Empty).Trim();
             brand.Logo = (this.Logo ?? string.Empty).Trim();
@@ -45,7 +45,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands {
                     cf.BrandId = this.Id;
                     cf.Name = cfm.Name;
                     cf.Value = cfm.Value;
-                    cf.Text = cfm.Text;
 
                     brand.CustomFields.Add(cf);
                 }

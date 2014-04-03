@@ -10,31 +10,36 @@ namespace Kooboo.Commerce.Brands.Services
     [Dependency(typeof (IBrandService))]
     public class BrandService : IBrandService
     {
+        private readonly ICommerceDatabase _db;
         private readonly IRepository<Brand> _brandRepository;
+        private readonly IRepository<BrandCustomField> _brandCustomFieldRepository;
 
-        public BrandService(IRepository<Brand> brandRepository)
+        public BrandService(ICommerceDatabase db, IRepository<Brand> brandRepository, IRepository<BrandCustomField> brandCustomFieldRepository)
         {
+            _db = db;
             _brandRepository = brandRepository;
+            _brandCustomFieldRepository = brandCustomFieldRepository;
         }
 
         #region IBrandService Members
 
         public Brand GetById(int id)
         {
-            return _brandRepository.Get(o => o.Id == id);
+            var query = Query();
+            return query.Where(o => o.Id == id).FirstOrDefault();
         }
 
         public IQueryable<Brand> Query()
         {
-            return _brandRepository.Query();
+            var query = _brandRepository.Query();
+            query = query.Include(o => o.CustomFields);
+            return query;
         }
 
-        //public IPagedList<Brand> GetAllBrands(int? pageIndex, int? pageSize)
-        //{
-        //    var query = _brandRepository.Query();
-        //    query = query.OrderByDescending(o => o.Id);
-        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
-        //}
+        public IQueryable<BrandCustomField> CustomFieldsQuery()
+        {
+            return _brandCustomFieldRepository.Query();
+        }
 
         public bool Create(Brand brand)
         {
@@ -43,7 +48,27 @@ namespace Kooboo.Commerce.Brands.Services
 
         public bool Update(Brand brand)
         {
-            return _brandRepository.Update(brand, k => new object[] { k.Id });
+            try
+            {
+                using (var tx = _db.BeginTransaction())
+                {
+                    _brandRepository.Update(brand, k => new object[] { k.Id });
+                    _brandCustomFieldRepository.DeleteBatch(o => o.BrandId == brand.Id);
+                    if (brand.CustomFields != null && brand.CustomFields.Count > 0)
+                    {
+                        foreach (var cf in brand.CustomFields)
+                        {
+                            _brandCustomFieldRepository.Insert(cf);
+                        }
+                    }
+                    tx.Commit();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool Save(Brand brand)
@@ -64,7 +89,20 @@ namespace Kooboo.Commerce.Brands.Services
 
         public bool Delete(Brand brand)
         {
-            return _brandRepository.Delete(brand);
+            try
+            {
+                using (var tx = _db.BeginTransaction())
+                {
+                    _brandCustomFieldRepository.DeleteBatch(o => o.BrandId == brand.Id);
+                    _brandRepository.Delete(brand);
+                    tx.Commit();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion

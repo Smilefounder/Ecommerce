@@ -284,9 +284,11 @@
     <Compile Include="Areas\Commerce\Menu\CommerceMenuItemInitializer.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Categories\CategoryCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceModel.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\ChangePasswordModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Customers\CustomerCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CategoryDataSource.cs" />
     <Compile Include="Areas\Commerce\Menu\EventMenuItemInitializer.cs" />
     <Compile Include="Areas\Commerce\Menu\EventMenuItems.cs" />
@@ -302,6 +304,7 @@
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\CustomFieldEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\FieldValidationRuleEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Orders\OrderCustomField.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\Grid2\PaymentMethodRowModelGridItem.cs" />

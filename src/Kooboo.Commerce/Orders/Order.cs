@@ -73,6 +73,7 @@ namespace Kooboo.Commerce.Orders
 
         public virtual OrderAddress ShippingAddress { get; set; }
         public virtual OrderAddress BillingAddress { get; set; }
+        public virtual ICollection<OrderCustomField> CustomFields { get; set; }
 
         public virtual void ChangeStatus(OrderStatus newStatus)
         {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
 {
-    public class BrandCustomFieldModel
+    public class CategoryCustomFieldModel
     {
         public string Name { get; set; }
         public string Value { get; set; }

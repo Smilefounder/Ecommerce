@@ -9,11 +9,11 @@
 @functions {
     public int GetProductPriceQuantity(ProductPrice price, Order order)
     {
-        if(order.OrderItems != null)
+        if (order.OrderItems != null)
         {
             var item = order.OrderItems.FirstOrDefault(o => o.ProductPriceId == price.Id);
             if (item != null)
-            { 
+            {
                 return item.Quantity;
             }
         }
@@ -23,17 +23,17 @@
 
 @section Panel{
     <ul class="header-panel">
-    <li>
-        <a href="@ViewBag.Return">
-            @Html.IconImage("cancel") @("Previous".Localize())
-        </a>
-    </li>
-    <li>
-        <a href="/Commerce/Order/FillOrderInfo?commerceName=@Request.QueryString["commerceName"]">
-            @Html.IconImage("next") @("Next".Localize())
-        </a>
-    </li>
-</ul>
+        <li>
+            <a href="@ViewBag.Return">
+                @Html.IconImage("cancel") @("Previous".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="/Commerce/Order/FillOrderInfo?commerceName=@Request.QueryString["commerceName"]">
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
+        </li>
+    </ul>
 }
 
 
@@ -81,8 +81,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if(Model.OrderItems != null)
-                    { 
+                    @if (Model.OrderItems != null)
+                    {
                         foreach (var p in Model.OrderItems)
                         {
                             <tr>
@@ -123,66 +123,69 @@
     }
 </div>
 <div id="productPriceList" class="hide">
-@using (Html.BeginForm("AddProduct", "Order", RouteValues.From(Request.QueryString)))
-{
-    <div class="common-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        @("Quantity".Localize())
-                    </th>
-                    <th>
-                        @("Product Name".Localize())
-                    </th>
-                    <th>
-                        @("Variants".Localize())
-                    </th>
-                    <th>
-                        @("Sku".Localize())
-                    </th>
-                    <th>
-                        @("Price".Localize())
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var p in ViewBag.Products)
-                {
-                <tr class="@(GetProductPriceQuantity(p, Model) > 0 ? "active" : "")">
-                    <td>
-                        <input type="number" id="Quantity" name="Quantity" value="@GetProductPriceQuantity(p, Model)" onchange="ChangeQuantity(this);" />
-                        <input type="hidden" id="ProductPriceId" name="ProductPriceId" value="@p.Id" />
-                        <input type="hidden" id="ProductId" name="ProductId" value="@p.ProductId" />
-                        <input type="hidden" id="ProductName" name="ProductName" value="@p.Product.Name" />
-                        <input type="hidden" id="SKU" name="SKU" value="@p.Sku" />
-                        <input type="hidden" id="UnitPrice" name="UnitPrice" value="@p.RetailPrice" />
-                    </td>
-                    <td>
-                        @p.Product.Name
-                    </td>
-                    <td>
-                        @foreach (var variant in p.VariantValues)
-                                        {
-                            <div class="block">
-                                <span>@variant.CustomField.Name</span>
-                                <span>:</span>
-                                <span>@variant.FieldValue</span>
-                            </div>
-                                        }
-                    </td>
-                    <td>
-                        @p.Sku
-                    </td>
-                    <td>
-                        @p.RetailPrice
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}
+    @using (Html.BeginForm("AddProduct", "Order", RouteValues.From(Request.QueryString)))
+    {
+        <div class="common-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            @("Quantity".Localize())
+                        </th>
+                        <th>
+                            @("Product Name".Localize())
+                        </th>
+                        <th>
+                            @("Variants".Localize())
+                        </th>
+                        <th>
+                            @("Sku".Localize())
+                        </th>
+                        <th>
+                            @("Price".Localize())
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in ViewBag.Products)
+                    {
+                        foreach (var p in product.PriceList)
+                        {
+                            <tr class="@(GetProductPriceQuantity(p, Model) > 0 ? "active" : "")">
+                                <td>
+                                    <input type="number" id="Quantity" name="Quantity" value="@GetProductPriceQuantity(p, Model)" onchange="ChangeQuantity(this);" />
+                                    <input type="hidden" id="ProductPriceId" name="ProductPriceId" value="@p.Id" />
+                                    <input type="hidden" id="ProductId" name="ProductId" value="@p.ProductId" />
+                                    <input type="hidden" id="ProductName" name="ProductName" value="@p.Product.Name" />
+                                    <input type="hidden" id="SKU" name="SKU" value="@p.Sku" />
+                                    <input type="hidden" id="UnitPrice" name="UnitPrice" value="@p.RetailPrice" />
+                                </td>
+                                <td>
+                                    @p.Product.Name
+                                </td>
+                                <td>
+                                    @foreach (var variant in p.VariantValues)
+                                    {
+                                        <div class="block">
+                                            <span>@variant.CustomField.Name</span>
+                                            <span>:</span>
+                                            <span>@variant.FieldValue</span>
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    @p.Sku
+                                </td>
+                                <td>
+                                    @p.RetailPrice
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
 <script type="text/javascript">
     $(function () {

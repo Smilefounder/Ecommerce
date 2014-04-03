@@ -39,6 +39,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="#customFields">
+                        @("Custom Fields".Localize())
+                    </a>
+                </li>
+                <li>
                     <a href="#orders">
                         @("Orders".Localize())
                     </a>
@@ -105,6 +110,18 @@
                                 <input data-bind="value:Email" type="text">
                             </td>
                         </tr>
+                        <tr>
+                            <th>@("Default Shipping Address".Localize())</th>
+                            <td>
+                                <select data-bind="options: $data.Addresses, optionsText: 'Address1', optionsValue: 'Id', optionsCaption: ' ', value: ShippingAddressId"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Default Billing Address".Localize())</th>
+                            <td>
+                                <select data-bind="options: $data.Addresses, optionsText: 'Address1', optionsValue: 'Id', optionsCaption: ' ', value: BillingAddressId"></select>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -165,6 +182,29 @@
                                 <td class="mini" data-bind="text:IsDefault"></td>
                                 <td><a href="javascript:;" data-bind="click: $root.EditAddress" title="edit price">@Html.IconImage("edit small")</a></td>
                                 <td><a href="javascript:;" data-bind="click: $root.RemoveAddress" title="delete price">@Html.IconImage("minus small")</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="customFields">
+                <div class="simple-table">
+                    <div class="toolbar">
+                        <a class="button" href="javascript:;" data-bind="click: $root.AddCustomField">Add</a>
+                    </div>
+                    <table data-bind="with: data">
+                        <thead>
+                            <tr>
+                                <th class="mini">@("Name".Localize())</th>
+                                <th class="mini">@("Value".Localize())</th>
+                                <th class="mini"></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: CustomFields">
+                            <tr>
+                                <td class="mini"><input data-bind="value:Name" type="text"></td>
+                                <td class="mini"><input data-bind="value:Value" type="text"></td>
+                                <td class="mini"><a href="javascript:;" data-bind="click: $root.RemoveCustomField">@Html.IconImage("minus small")</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -310,7 +350,7 @@
                 self.EditingAddress = ko.observable(null);
                 self.AddAddress = function () {
                     var item = {
-                        Id: ko.observable(0),
+                        Id: ko.observable(utils.newid()),
                         CustomerId: ko.observable(self.data().Id()),
                         FirstName: ko.observable(''),
                         LastName: ko.observable(''),
@@ -341,7 +381,18 @@
                         }
                     });
                 };
-                self.OrderPageIndex = ko.observable(0);
+                self.AddCustomField = function () {
+                    var item = {
+                        Name: ko.observable(null),
+                        Value: ko.observable(null)
+                    };
+                    item.isNew = true;
+                    self.data().CustomFields.push(item);
+                };
+                self.RemoveCustomField = function (item) {
+                    vm.data().remove(item);
+                };
+                self.OrderPageIndex = ko.observable(1);
                 self.OrderPageIndex.subscribe(function (newVal) {
                     self.GetOrders();
                 });

@@ -34,9 +34,22 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories {
                     this.Children.Add(new CategoryEditorModel(item, children));
                 }
             }
-        }
+            this.CustomFields = new List<CategoryCustomFieldModel>();
+            if (category.CustomFields != null && category.CustomFields.Count > 0)
+            {
+                foreach (var cf in category.CustomFields)
+                {
+                    var cfm = new CategoryCustomFieldModel();
+                    cfm.Name = cf.Name;
+                    cfm.Value = cf.Value;
+
+                    this.CustomFields.Add(cfm);
+                }
+            }
+            }
 
         public void UpdateTo(Category category) {
+            category.Id = this.Id;
             category.Name = (this.Name ?? string.Empty).Trim();
             category.Photo = (this.Photo ?? string.Empty).Trim();
             category.Description = (this.Description ?? string.Empty).Trim();
@@ -52,6 +65,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories {
                     var obj = new Category();
                     item.UpdateTo(obj);
                     category.Children.Add(obj);
+                }
+            }
+            if (this.CustomFields != null && this.CustomFields.Count > 0)
+            {
+                category.CustomFields = new List<CategoryCustomField>();
+                foreach (var cfm in this.CustomFields)
+                {
+                    var cf = new CategoryCustomField();
+                    cf.CategoryId = this.Id;
+                    cf.Name = cfm.Name;
+                    cf.Value = cfm.Value;
+
+                    category.CustomFields.Add(cf);
                 }
             }
         }
@@ -94,5 +120,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories {
             get;
             set;
         }
+        public ICollection<CategoryCustomFieldModel> CustomFields { get; set; }
     }
 }

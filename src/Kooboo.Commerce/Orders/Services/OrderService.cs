@@ -29,12 +29,13 @@ namespace Kooboo.Commerce.Orders.Services
         private readonly IRepository<OrderItem> _orderItemRepository;
         private readonly IRepository<Address> _addressRepository;
         private readonly IRepository<OrderAddress> _orderAddressRepository;
+        private readonly IRepository<OrderCustomField> _orderCustomFieldRepository;
         private readonly IRepository<PaymentMethod> _paymentMethodRepository;
         private readonly IRepository<Country> _countryRepository;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IProductService _productService;
 
-        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService)
+        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<OrderCustomField> orderCustomFieldRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService)
         {
             _db = db;
             _customerService = customerService;
@@ -43,6 +44,7 @@ namespace Kooboo.Commerce.Orders.Services
             _orderItemRepository = orderItemRepository;
             _addressRepository = addressRepository;
             _orderAddressRepository = orderAddressRepository;
+            _orderCustomFieldRepository = orderCustomFieldRepository;
             _paymentMethodRepository = paymentMethodRepository;
             _countryRepository = countryRepository;
             _shoppingCartService = shoppingCartService;
@@ -86,7 +88,10 @@ namespace Kooboo.Commerce.Orders.Services
         {
             return _orderRepository.Query();
         }
-
+        public IQueryable<OrderCustomField> CustomFieldsQuery()
+        {
+            return _orderCustomFieldRepository.Query();
+        }
         //public Order GetByShoppingCartId(int shoppingCartId)
         //{
         //    var order = _orderRepository.Query(o => o.ShoppingCartId == shoppingCartId).FirstOrDefault();
@@ -232,13 +237,21 @@ namespace Kooboo.Commerce.Orders.Services
             {
                 using (var tx = _db.BeginTransaction())
                 {
-                    _orderRepository.Update(order, k => new object[] { k.Id });
 
                     var dbOrderItems = _orderItemRepository.Query(o => o.OrderId == order.Id).ToArray();
                     _orderItemRepository.SaveAll(_db, dbOrderItems, order.OrderItems, k => new object[] { k.Id }, (o, n) => o.Id == n.Id);
 
                     _orderAddressRepository.Save(o => o.Id == order.ShippingAddressId, order.ShippingAddress, k => new object[] { k.Id });
                     _orderAddressRepository.Save(o => o.Id == order.BillingAddressId, order.BillingAddress, k => new object[] { k.Id });
+                    _orderCustomFieldRepository.DeleteBatch(o => o.OrderId == order.Id);
+                    if (order.CustomFields != null && order.CustomFields.Count > 0)
+                    {
+                        foreach (var cf in order.CustomFields)
+                        {
+                            _orderCustomFieldRepository.Insert(cf);
+                        }
+                    }
+                    _orderRepository.Update(order, k => new object[] { k.Id });
 
                     tx.Commit();
                 }
@@ -268,7 +281,23 @@ namespace Kooboo.Commerce.Orders.Services
 
         public bool Delete(Order order)
         {
-            return _orderRepository.Delete(order);
+            try
+            {
+                using (var tx = _db.BeginTransaction())
+                {
+                    _orderItemRepository.DeleteBatch(o => o.OrderId == order.Id);
+                    _orderAddressRepository.DeleteBatch(o => o.Id == order.ShippingAddressId);
+                    _orderAddressRepository.DeleteBatch(o => o.Id == order.BillingAddressId);
+                    _orderCustomFieldRepository.DeleteBatch(o => o.OrderId == order.Id);
+                    _orderRepository.Delete(order);
+                    tx.Commit();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

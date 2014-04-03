@@ -71,34 +71,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Save(CategoryEditorModel model, string @return)
         {
-            Category category = null;
-            Category parent = null;
-
+            model.CustomFields = FormHelper.BindToModels<CategoryCustomFieldModel>(Request.Form, "CustomFields.");
+            Category obj = new Category();
             var parentId = Request.RequestContext.GetRequestValue("ParentId");
             if (!string.IsNullOrEmpty(parentId))
             {
-                parent = _categoryService.GetById(int.Parse(parentId));
+                obj.Parent = _categoryService.GetById(int.Parse(parentId));
             }
-
-            var updated = false;
-            if (model.Id > 0)
-            {
-                category = _categoryService.GetById(model.Id);
-                if (category != null)
-                {
-                    category.Parent = parent;
-                    model.UpdateTo(category);
-                    _categoryService.Update(category);
-                    updated = true;
-                }
-            }
-            if (!updated)
-            {
-                category = new Category();
-                model.UpdateTo(category);
-                category.Parent = parent;
-                _categoryService.Create(category);
-            }
+            model.UpdateTo(obj);
+            _categoryService.Save(obj);
 
             return AjaxForm().RedirectTo(@return);
         }

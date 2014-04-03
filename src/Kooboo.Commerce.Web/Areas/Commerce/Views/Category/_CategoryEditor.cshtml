@@ -39,6 +39,40 @@
             </tr>
             @Html.EditorFor(o => o.Published)
             @Html.EditorFor(o => o.ParentId, new { HtmlAttributes = new { @class = "medium" } })
+            <tr>
+                <th>
+                    <label>
+                        @("Custom Fields".Localize())
+                    </label>
+                </th>
+                <td>
+                    <table id="customFields">
+                        <thead>
+                            <tr>
+                                <th>@("Name".Localize())</th>
+                                <th>@("Value".Localize())</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.CustomFields != null)
+                            {
+                                foreach (var cf in Model.CustomFields)
+                                {
+                                    <tr>
+                                        <td>@Html.TextBox("CustomFields.Name", cf.Name)</td>
+                                        <td>@Html.TextBox("CustomFields.Value", cf.Value)</td>
+                                        <td><a href="javascript:;" onclick="RemoveCustomField(this);">@Html.IconImage("minus small")</a></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <a href="javascript:;" class="action" onclick="AddCustomField();">
+                        @Html.IconImage("plus small")
+                    </a>
+                </td>
+            </tr>
         </table>
     </div>
 }
@@ -66,4 +100,21 @@
         $('#photoImg').attr('src', '');
         $('#photoImg').parent().hide();
     }
+
+    function AddCustomField() {
+        var tr = $('<tr></tr>');
+        var name = $('<input type="text" name="CustomFields.Name" value="" />');
+        var value = $('<input type="text" name="CustomFields.Value" value="" />');
+        var icon = $('<a href="javascript:;" onclick="RemoveCustomField(this);"><img class="icon minus small" src="/Images/invis.gif"></a>');
+        tr.append($('<td></td>').append(name));
+        tr.append($('<td></td>').append(value));
+        tr.append($('<td></td>').append(icon));
+        $('#customFields').append(tr);
+    }
+
+    function RemoveCustomField(ele) {
+        var tr = $(ele).closest('tr');
+        tr.remove();
+    }
+
 </script>

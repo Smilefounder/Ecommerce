@@ -10,11 +10,15 @@ namespace Kooboo.Commerce.Categories.Services
     [Dependency(typeof (ICategoryService))]
     public class CategoryService : ICategoryService
     {
+        private readonly ICommerceDatabase _db;
         private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<CategoryCustomField> _categoryCustomFieldRepository;
 
-        public CategoryService(IRepository<Category> categoryRepository)
+        public CategoryService(ICommerceDatabase db, IRepository<Category> categoryRepository, IRepository<CategoryCustomField> categoryCustomFieldRepository)
         {
+            _db = db;
             _categoryRepository = categoryRepository;
+            _categoryCustomFieldRepository = categoryCustomFieldRepository;
         }
 
         #region ICategoryService Members
@@ -27,6 +31,10 @@ namespace Kooboo.Commerce.Categories.Services
         public IQueryable<Category> Query()
         {
             return _categoryRepository.Query();
+        }
+        public IQueryable<CategoryCustomField> CustomFieldsQuery()
+        {
+            return _categoryCustomFieldRepository.Query();
         }
 
         //public IEnumerable<Category> GetRootCategories()
@@ -54,7 +62,27 @@ namespace Kooboo.Commerce.Categories.Services
 
         public bool Update(Category category)
         {
-            return _categoryRepository.Update(category, k => new object[] { k.Id });
+            try
+            {
+                using (var tx = _db.BeginTransaction())
+                {
+                    _categoryRepository.Update(category, k => new object[] { k.Id });
+                    _categoryCustomFieldRepository.DeleteBatch(o => o.CategoryId == category.Id);
+                    if (category.CustomFields != null && category.CustomFields.Count > 0)
+                    {
+                        foreach (var cf in category.CustomFields)
+                        {
+                            _categoryCustomFieldRepository.Insert(cf);
+                        }
+                    }
+                    tx.Commit();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool Save(Category category)
@@ -75,7 +103,20 @@ namespace Kooboo.Commerce.Categories.Services
 
         public bool Delete(Category category)
         {
-            return _categoryRepository.Delete(category);
+            try
+            {
+                using (var tx = _db.BeginTransaction())
+                {
+                    _categoryCustomFieldRepository.DeleteBatch(o => o.CategoryId == category.Id);
+                    _categoryRepository.Delete(category);
+                    tx.Commit();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion
