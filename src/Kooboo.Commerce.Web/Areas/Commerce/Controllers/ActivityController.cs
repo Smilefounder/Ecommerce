@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(models.ToPagedList(page ?? 1, pageSize ?? 50));
         }
 
-        [AutoDbCommit]
+        [Transactional]
         public ActionResult List(string eventType)
         {
             var eventClrType = Type.GetType(eventType, true);
@@ -85,14 +85,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Create(AttachedActivityModel model)
         {
             var rule = _activityRuleService.GetById(model.RuleId);
             var attachedActivity = rule.AttacheActivity(model.RuleBranch, model.Description, model.ActivityName, null);
             attachedActivity.IsEnabled = model.IsEnabled;
-
-            CommerceContext.CurrentInstance.Database.SaveChanges();
 
             var configUrl = String.Empty;
 
@@ -124,7 +122,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Edit(AttachedActivityModel model)
         {
             var rule = _activityRuleService.GetById(model.RuleId);
@@ -168,16 +166,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return JsonNet(models).UsingClientConvention();
         }
 
-        [AutoDbCommit]
+        [Transactional]
         public ActionResult CreateRule(string expression, string eventType)
         {
             var rule = _activityRuleService.Create(Type.GetType(eventType, true), expression);
-            CommerceContext.CurrentInstance.Database.SaveChanges();
-
             return JsonNet(new ActivityRuleModel(rule)).UsingClientConvention();
         }
 
-        [AutoDbCommit]
+        [Transactional]
         public ActionResult UpdateConditions(int ruleId, string expression)
         {
             var rule = _activityRuleService.GetById(ruleId);
@@ -190,7 +186,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }).UsingClientConvention();
         }
 
-        [AutoDbCommit]
+        [Transactional]
         public void DeleteRule(int ruleId)
         {
             var rule = _activityRuleService.GetById(ruleId);
@@ -230,7 +226,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return null;
         }
 
-        [HandleAjaxFormError, AutoDbCommit]
+        [HandleAjaxFormError, Transactional]
         public ActionResult DetachActivity(int ruleId, int attachedActivityId)
         {
             var rule = _activityRuleService.GetById(ruleId);

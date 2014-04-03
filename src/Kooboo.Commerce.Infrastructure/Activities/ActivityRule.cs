@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Activities
         Else,
     }
 
-    public class ActivityRule : AggregateRoot
+    public class ActivityRule
     {
         public int Id { get; set; }
 

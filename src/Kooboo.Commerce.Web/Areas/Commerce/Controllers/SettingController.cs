@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Index(SettingEditorModel model)
         {
             var storeSettings = new StoreSettings();

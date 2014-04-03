@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Settings(int methodId, IDealSettings model, string @return)
         {
             var method = _paymentMethodService.GetById(methodId);

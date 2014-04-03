@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web;
@@ -17,6 +18,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
     public class BuckarooPaymentProcessor : IPaymentProcessor
     {
         private IPaymentMethodService _paymentMethodService;
+        private CommerceInstanceContext _commerceInstanceContext;
 
         public string Name
         {
@@ -33,9 +35,12 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             }
         }
 
-        public BuckarooPaymentProcessor(IPaymentMethodService paymentMethodService)
+        public BuckarooPaymentProcessor(
+            IPaymentMethodService paymentMethodService,
+            CommerceInstanceContext commerceInstanceContext)
         {
             _paymentMethodService = paymentMethodService;
+            _commerceInstanceContext = commerceInstanceContext;
         }
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
@@ -79,7 +84,8 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
         private string GetCallbackUrl(string action, ProcessPaymentRequest request)
         {
-            var url = Strings.AreaName + "/Buckaroo/" + action + "?commerceName=" + request.Payment.Metadata.CommerceName;
+            var commerceName = _commerceInstanceContext.CurrentInstance.Name;
+            var url = Strings.AreaName + "/Buckaroo/" + action + "?commerceName=" + commerceName;
             if (action.StartsWith("return", StringComparison.OrdinalIgnoreCase))
             {
                 url += "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);

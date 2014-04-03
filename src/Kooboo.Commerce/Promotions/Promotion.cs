@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Promotions
 {
-    public class Promotion : AggregateRoot
+    public class Promotion
     {
         public int Id { get; set; }
 

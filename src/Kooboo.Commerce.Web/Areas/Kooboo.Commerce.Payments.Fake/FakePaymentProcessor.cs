@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web;
 using Kooboo.Web.Url;
 using System;
@@ -13,6 +14,8 @@ namespace Kooboo.Commerce.Payments.Fake
     [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.Fake.FakePaymentProcessor")]
     public class FakePaymentProcessor : IPaymentProcessor
     {
+        private CommerceInstanceContext _commerceInstanceContext;
+
         public string Name
         {
             get
@@ -31,10 +34,16 @@ namespace Kooboo.Commerce.Payments.Fake
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
+        public FakePaymentProcessor(CommerceInstanceContext commerceInstanceContext)
+        {
+            _commerceInstanceContext = commerceInstanceContext;
+        }
+
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
         {
+            var commerceName = _commerceInstanceContext.CurrentInstance.Name;
             var redirectUrl = Strings.AreaName 
-                + "/Home/Gateway?commerceName=" + request.Payment.Metadata.CommerceName
+                + "/Home/Gateway?commerceName=" + commerceName
                 + "&paymentId=" + request.Payment.Id
                 + "&currency=" + request.CurrencyCode
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);

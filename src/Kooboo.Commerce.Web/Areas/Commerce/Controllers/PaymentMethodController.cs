@@ -99,7 +99,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().RedirectTo(url);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Enable(PaymentMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -111,7 +111,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Disable(PaymentMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -123,7 +123,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Delete(PaymentMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -135,7 +135,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(PaymentMethodEditorModel model, string @return)
         {
             PaymentMethod method = null;
@@ -160,8 +160,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 _paymentMethodService.Disable(method);
             }
-
-            CommerceContext.CurrentInstance.Database.SaveChanges();
 
             var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);
 

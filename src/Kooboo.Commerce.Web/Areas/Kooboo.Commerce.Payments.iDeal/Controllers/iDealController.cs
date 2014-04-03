@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
 
-        [AutoDbCommit]
+        [Transactional]
         public void Report()
         {
             var iDealTransactionId = Request["transaction_id"];

@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web;
@@ -16,6 +17,7 @@ namespace Kooboo.Commerce.Payments.iDeal
     public class IDealPaymentProcessor : IPaymentProcessor
     {
         private IPaymentMethodService _paymentMethodService;
+        private CommerceInstanceContext _commerceInstanceContext;
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
@@ -35,9 +37,12 @@ namespace Kooboo.Commerce.Payments.iDeal
             }
         }
 
-        public IDealPaymentProcessor(IPaymentMethodService paymentMethodService)
+        public IDealPaymentProcessor(
+            IPaymentMethodService paymentMethodService,
+            CommerceInstanceContext commerceInstanceContext)
         {
             _paymentMethodService = paymentMethodService;
+            _commerceInstanceContext = commerceInstanceContext;
         }
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
@@ -48,10 +53,11 @@ namespace Kooboo.Commerce.Payments.iDeal
             var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
             var settings = IDealSettings.Deserialize(method.PaymentProcessorData);
 
+            var commerceName = _commerceInstanceContext.CurrentInstance.Name;
             var httpContext = HttpContextAccessor();
-            var reportUrl = Strings.AreaName + "/iDeal/Callback?commerceName=" + request.Payment.Metadata.CommerceName;
+            var reportUrl = Strings.AreaName + "/iDeal/Callback?commerceName=" + commerceName;
             var returnUrl = Strings.AreaName
-                + "/iDeal/Return?commerceName=" + request.Payment.Metadata.CommerceName
+                + "/iDeal/Return?commerceName=" + commerceName
                 + "&paymentId=" + request.Payment.Id
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
 

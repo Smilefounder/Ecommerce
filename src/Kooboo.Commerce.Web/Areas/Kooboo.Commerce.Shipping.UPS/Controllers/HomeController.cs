@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Shipping.UPS.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Settings(UPSSettings model, string @return)
         {
             model.Save(_settingsService);

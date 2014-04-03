@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
     public class PaymentController : CommerceAPIControllerQueryBase<Payment>
     {
-        [AutoDbCommit]
+        [Transactional]
         public PaymentResult Post(PaymentRequest request)
         {
             return Commerce().Payments.Pay(request);

@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Payments.PayPal.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Settings(int methodId, PayPalSettings model, string @return)
         {
             var method = _paymentMethodService.GetById(methodId);

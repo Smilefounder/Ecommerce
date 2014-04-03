@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             _paymentMethodService = paymentMethodService;
         }
 
-        [AutoDbCommit]
+        [Transactional]
         public ActionResult Return(string commerceReturnUrl)
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
 
-        [AutoDbCommit]
+        [Transactional]
         public void Push()
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);

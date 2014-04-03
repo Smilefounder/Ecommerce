@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Enable(ProductTypeRowModel[] model)
         {
             foreach (var item in model)
@@ -51,7 +51,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Disable(ProductTypeRowModel[] model)
         {
             foreach (var item in model)
@@ -63,7 +63,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Delete(ProductTypeRowModel[] model)
         {
             foreach (var item in model)
@@ -90,7 +90,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(ProductTypeEditorModel model, string @return)
         {
             var productType = new ProductType();
@@ -110,8 +110,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 _productTypeService.Create(productType);
             }
-
-            CommerceContext.CurrentInstance.Database.SaveChanges();
 
             return AjaxForm().RedirectTo(Url.Action("Edit", RouteValues.From(Request.QueryString).Merge("id", productType.Id)));
         }

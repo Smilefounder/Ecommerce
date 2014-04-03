@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Payments
 {
-    public class Payment : AggregateRoot
+    public class Payment
     {
         public int Id { get; set; }
 

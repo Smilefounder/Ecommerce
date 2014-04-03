@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Payments
 {
-    public class PaymentMethod : AggregateRoot
+    public class PaymentMethod
     {
         public int Id { get; set; }
 

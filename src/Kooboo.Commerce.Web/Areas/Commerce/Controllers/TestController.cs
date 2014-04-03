@@ -36,15 +36,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View();
         }
 
-        public void NonGenericRepo()
-        {
-            var repo = CommerceInstanceContext.CurrentInstance.Database.GetRepository(typeof(Brand));
-            foreach (var each in repo.Query())
-            {
-                Response.Write(each.ToString());
-            }
-        }
-
         public void Transaction()
         {
             var db = CommerceInstanceContext.CurrentInstance.Database;

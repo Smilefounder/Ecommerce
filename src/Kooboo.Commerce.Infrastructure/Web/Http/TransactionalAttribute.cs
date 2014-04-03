@@ -11,9 +11,9 @@ using System.Web.Http.Filters;
 
 namespace Kooboo.Commerce.Web.Http
 {
-    public class AutoDbCommitAttribute : ActionFilterAttribute
+    public class TransactionalAttribute : ActionFilterAttribute
     {
-        private ICommerceDatabase _database;
+        private ICommerceDbTransaction _transaction;
 
         public override void OnActionExecuting(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
@@ -22,9 +22,9 @@ namespace Kooboo.Commerce.Web.Http
             var commerceContext = EngineContext.Current.Resolve<CommerceInstanceContext>();
             var currentInstance = commerceContext.CurrentInstance;
             if (currentInstance == null)
-                throw new InvalidOperationException(typeof(AutoDbCommitAttribute).Name + " can only be applied to an action within commerce instance context.");
+                throw new InvalidOperationException(typeof(TransactionalAttribute).Name + " can only be applied to an action within commerce instance context.");
 
-            _database = currentInstance.Database;
+            _transaction = currentInstance.Database.BeginTransaction();
         }
 
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
@@ -33,13 +33,14 @@ namespace Kooboo.Commerce.Web.Http
             {
                 if (actionExecutedContext.Exception == null)
                 {
-                    _database.SaveChanges();
+                    _transaction.Commit();
                 }
             }
             finally
             {
                 // reset fields to null in case the filter instance is cached by asp.net mvc
-                _database = null;
+                _transaction.Dispose();
+                _transaction = null;
             }
 
             base.OnActionExecuted(actionExecutedContext);

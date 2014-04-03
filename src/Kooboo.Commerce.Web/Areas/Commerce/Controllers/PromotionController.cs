@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(promotions);
         }
 
-        [HttpPost, AutoDbCommit]
+        [HttpPost, Transactional]
         public ActionResult EnablePromotion(int id)
         {
             var promotion = _promotionService.GetById(id);
@@ -56,7 +56,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Enable(PromotionRowModel[] model)
         {
             foreach (var each in model)
@@ -69,7 +69,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, AutoDbCommit]
+        [HttpPost, Transactional]
         public ActionResult Disable(PromotionRowModel[] model)
         {
             foreach (var each in model)
@@ -82,7 +82,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, AutoDbCommit]
+        [HttpPost, Transactional]
         public ActionResult Delete(PromotionRowModel[] model)
         {
             foreach (var each in model)
@@ -145,7 +145,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, AutoDbCommit]
+        [HttpPost, Transactional]
         public ActionResult Save(PromotionEditorModel model)
         {
             var promotion = model.Id > 0 ? _promotionService.GetById(model.Id) : new Promotion();
@@ -167,8 +167,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 promotion.OverlappablePromotions.Add(_promotionService.GetById(other.Id));
             }
-
-            CommerceContext.CurrentInstance.Database.SaveChanges();
 
             return AjaxForm().RedirectTo(Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("promotionId", promotion.Id)));
         }

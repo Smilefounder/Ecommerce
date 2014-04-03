@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Settings(int ruleId, int attachedActivityId, InvoiceReminderSettings settings)
         {
             var rule = _ruleService.GetById(ruleId);

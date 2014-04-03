@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             return View(settings);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Settings(int methodId, BuckarooSettings settings, string @return)
         {
             var method = _paymentMethodService.GetById(methodId);

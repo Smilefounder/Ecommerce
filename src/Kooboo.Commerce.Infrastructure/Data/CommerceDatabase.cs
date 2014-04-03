@@ -21,6 +21,14 @@ namespace Kooboo.Commerce.Data
             get { return _commerceInstanceMetadata; }
         }
 
+        public ICommerceDbTransaction Transaction
+        {
+            get
+            {
+                return _currentTransaction;
+            }
+        }
+
         public IEventDispatcher EventDispatcher { get; private set; }
 
         public EventTrackingContext EventTrackingContext { get; private set; }
@@ -42,13 +50,6 @@ namespace Kooboo.Commerce.Data
         ~CommerceDatabase()
         {
             Dispose(false);
-        }
-
-        public IRepository GetRepository(Type entityType)
-        {
-            Require.NotNull(entityType, "entityType");
-            ThrowIfDisposed();
-            return new CommerceRepository(this, entityType);
         }
 
         public IRepository<T> GetRepository<T>() where T : class
@@ -77,33 +78,32 @@ namespace Kooboo.Commerce.Data
             return _currentTransaction;
         }
 
+        public void Commit()
+        {
+            var transaction = Transaction;
+
+            try
+            {
+                if (transaction == null)
+                {
+                    transaction = BeginTransaction();
+                }
+
+                transaction.Commit();
+            }
+            finally
+            {
+                if (transaction != null)
+                {
+                    transaction.Dispose();
+                }
+            }
+        }
+
         private void AssertNoCurrentTransaction()
         {
             if (_currentTransaction != null)
                 throw new InvalidOperationException("Nesting transaction is not allowed. Ensure current transaction is disposed before starting new transaction.");
-        }
-
-        public void SaveChanges()
-        {
-            ThrowIfDisposed();
-
-            // We don't need to dispatch pending events after the commit,
-            // because we will always transaction (explicit or implicit),
-            // and the transaction commit will dispatch pending events.
-            var currentTransaction = _currentTransaction;
-            if (currentTransaction == null)
-            {
-                // Using implicit transaction
-                using (var tx = BeginTransaction())
-                {
-                    DbContext.SaveChanges();
-                    tx.Commit();
-                }
-            }
-            else
-            {
-                DbContext.SaveChanges();
-            }
         }
 
         internal void DispatchPendingEvents()

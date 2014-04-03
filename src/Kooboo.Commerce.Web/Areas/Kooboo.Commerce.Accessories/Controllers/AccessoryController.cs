@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.Accessories.Controllers
             return JsonNet(models).UsingClientConvention();
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(int productId, IList<ProductAccessoryModel> accessories)
         {
             _accessoryService.UpdateAccessories(productId, accessories.Select(x => new ProductAccessory

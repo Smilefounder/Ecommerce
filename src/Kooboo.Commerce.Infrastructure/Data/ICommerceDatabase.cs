@@ -8,22 +8,28 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data
 {
-    // TODO: 考虑更换文件位置? Infrastructure初衷是用于基础设施，和Commerce无关，但这些接口则是带有Commerce信息的
-
-    // TODO: 这里的CommerceDatabase是虚拟的Database，一个database只是一组指定了schema的表，和SQL Server的Database不是同一概念。
-    //       为了防止误解，是否要换一个名字，不以Database结尾？
+    /// <summary>
+    /// Represents an abstraction of a database for commerce instance data.
+    /// It can be a physical database, or just a set of tables with a specific schema in a database.
+    /// </summary>
+    /// <remarks>
+    /// If transaction is not explicitly used, then each call to a repository method is performed within an implicit transaction.
+    /// This has benifits that each entity insert can return entity identity immediately.
+    /// This is different from O/R mapping frameworks unit of work implementation.
+    /// So we don't need methods like Commit or SaveChanges here.
+    /// </remarks>
     public interface ICommerceDatabase : IDisposable
     {
         CommerceInstanceMetadata CommerceInstanceMetadata { get; }
 
-        IRepository GetRepository(Type entityType);
-
         IRepository<T> GetRepository<T>() where T : class;
+
+        ICommerceDbTransaction Transaction { get; }
 
         ICommerceDbTransaction BeginTransaction();
 
         ICommerceDbTransaction BeginTransaction(IsolationLevel isolationLevel);
 
-        void SaveChanges();
+        void Commit();
     }
 }

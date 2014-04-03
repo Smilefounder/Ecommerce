@@ -34,7 +34,11 @@ namespace Kooboo.Commerce.Data
         {
             ThrowIfDisposed();
 
-            Database.SaveChanges();
+            // TODO: Performing actions against Database.DbContext should be CommerceDatabase's responsibility.
+            //       But if we add a method call SaveChanges in CommerceDatabase,
+            //       then it'll be confusing that, if the Insert, Delete operations touch the database before call to SaveChanges?
+            //       Think about it when reviewing.
+            Database.DbContext.SaveChanges();
             UnderlyingTransaction.Commit();
 
             IsCommitted = true;

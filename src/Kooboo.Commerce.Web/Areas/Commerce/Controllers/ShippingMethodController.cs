@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(methods);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Enable(ShippingMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Disable(ShippingMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -71,7 +71,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Delete(ShippingMethodRowModel[] model)
         {
             foreach (var each in model)
@@ -125,7 +125,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(ShippingMethodEditorModel model)
         {
             var method = model.Id > 0 ? _shippingMethodService.GetById(model.Id) : new ShippingMethod();
@@ -151,8 +151,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 _shippingMethodService.Disable(method);
             }
-
-            CommerceContext.CurrentInstance.Database.SaveChanges();
 
             var views = _shippingRateProviderViewsFactory.FindByProviderName(method.ShippingRateProviderName);
             var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
