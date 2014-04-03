@@ -283,6 +283,7 @@
     <Compile Include="Areas\Commerce\Html\IVisibleRule.cs" />
     <Compile Include="Areas\Commerce\Menu\CommerceMenuItemInitializer.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityRuleModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceModel.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\ChangePasswordModel.cs" />

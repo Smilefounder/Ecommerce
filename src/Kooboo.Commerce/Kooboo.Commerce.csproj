@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Brands\BrandCustomField.cs" />
     <Compile Include="Brands\Services\BrandService.cs" />
     <Compile Include="Brands\Services\IBrandService.cs" />
     <Compile Include="Categories\Services\CategoryService.cs" />
