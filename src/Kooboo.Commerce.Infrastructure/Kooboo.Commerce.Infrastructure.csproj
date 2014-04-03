@@ -171,6 +171,7 @@
     <Compile Include="Data\ICommerceInstanceMetadataStore.cs" />
     <Compile Include="Data\IRepository`.cs" />
     <Compile Include="Data\LinqDynamicExtension.cs" />
+    <Compile Include="Data\QueryableExtensions.cs" />
     <Compile Include="Data\TransactionAbortException.cs" />
     <Compile Include="Activities\ActivityVisibleAttribute.cs" />
     <Compile Include="AggregateMetadata.cs" />

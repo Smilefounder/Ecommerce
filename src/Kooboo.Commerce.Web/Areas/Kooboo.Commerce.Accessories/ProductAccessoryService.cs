@@ -1,12 +1,14 @@
-﻿using Kooboo.Commerce.Settings.Services;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Settings.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Products.Accessories
+namespace Kooboo.Commerce.Accessories
 {
-    public class ProductAccessoryService
+    [Dependency(typeof(IProductAccessoryService))]
+    public class ProductAccessoryService : IProductAccessoryService
     {
         private ISettingService _settings;
 
@@ -21,7 +23,7 @@ namespace Kooboo.Commerce.Products.Accessories
             return accessories.OrderByDescending(x => x.Rank).ToList();
         }
 
-        public void SaveAccessories(int productId, IEnumerable<ProductAccessory> accessories)
+        public void UpdateAccessories(int productId, IEnumerable<ProductAccessory> accessories)
         {
             _settings.Set(GetSettingEntryKey(productId), accessories);
         }

@@ -80,7 +80,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.CmsSite
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Products.Accessories", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Products.Accessories\Kooboo.Commerce.Products.Accessories.csproj", "{6D52179D-B30F-4567-8D6B-25CF223E2F8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Accessories", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Accessories\Kooboo.Commerce.Accessories.csproj", "{6D52179D-B30F-4567-8D6B-25CF223E2F8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.Accessories", "API\Kooboo.Commerce.API.Accessories\Kooboo.Commerce.API.Accessories.csproj", "{ED9AF996-0467-4636-9693-6A9854ED490A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.Accessories.LocalProvider", "API\Kooboo.Commerce.API.Accessories.LocalProvider\Kooboo.Commerce.API.Accessories.LocalProvider.csproj", "{AFC16A51-179C-42D1-94DE-69B6E6A53F4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.Accessories.RestProvider", "API\Kooboo.Commerce.API.Accessories.RestProvider\Kooboo.Commerce.API.Accessories.RestProvider.csproj", "{5A474B72-CA1D-4709-A903-E7F51DC6B8ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -180,6 +186,18 @@ Global
 		{6D52179D-B30F-4567-8D6B-25CF223E2F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D52179D-B30F-4567-8D6B-25CF223E2F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D52179D-B30F-4567-8D6B-25CF223E2F8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED9AF996-0467-4636-9693-6A9854ED490A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED9AF996-0467-4636-9693-6A9854ED490A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED9AF996-0467-4636-9693-6A9854ED490A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED9AF996-0467-4636-9693-6A9854ED490A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC16A51-179C-42D1-94DE-69B6E6A53F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC16A51-179C-42D1-94DE-69B6E6A53F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC16A51-179C-42D1-94DE-69B6E6A53F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC16A51-179C-42D1-94DE-69B6E6A53F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A474B72-CA1D-4709-A903-E7F51DC6B8ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A474B72-CA1D-4709-A903-E7F51DC6B8ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A474B72-CA1D-4709-A903-E7F51DC6B8ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A474B72-CA1D-4709-A903-E7F51DC6B8ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -217,5 +235,8 @@ Global
 		{5BA65D94-5968-4861-907A-460C252433CD} = {74EF2E50-2925-404D-9028-C457DDEC6520}
 		{8DBFA10A-651C-472A-AE33-289493117496} = {C046CB57-2A87-4C88-9344-6D2460B2EC4F}
 		{6D52179D-B30F-4567-8D6B-25CF223E2F8A} = {0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}
+		{ED9AF996-0467-4636-9693-6A9854ED490A} = {0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}
+		{AFC16A51-179C-42D1-94DE-69B6E6A53F4E} = {0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}
+		{5A474B72-CA1D-4709-A903-E7F51DC6B8ED} = {0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}
 	EndGlobalSection
 EndGlobal

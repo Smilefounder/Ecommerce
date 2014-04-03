@@ -58,7 +58,7 @@
                 accessories: ko.mapping.toJS(vm.accessories())
             };
             $.ajax({
-                url: '/Kooboo.Commerce.Products.Accessories/Accessory/Save?commerceName=' + commerceName,
+                url: '/Kooboo.Commerce.Accessories/Accessory/Save?commerceName=' + commerceName,
                 type: 'POST',
                 data: JSON.stringify(data),
                 contentType: 'application/json'
@@ -76,7 +76,7 @@
         });
 
         function loadAccessories(productId) {
-            return $.get('/Kooboo.Commerce.Products.Accessories/Accessory/List', {
+            return $.get('/Kooboo.Commerce.Accessories/Accessory/List', {
                 commerceName: commerceName,
                 productId: productId
             });
@@ -84,7 +84,7 @@
 
         function initSearchBox() {
             $('.product-search-keywords').autocomplete({
-                source: '/Kooboo.Commerce.Products.Accessories/Accessory/SearchProducts?commerceName=' + commerceName,
+                source: '/Kooboo.Commerce.Accessories/Accessory/SearchProducts?commerceName=' + commerceName,
                 minLength: 2,
                 select: function (event, ui) {
                     vm.accessories.push({
