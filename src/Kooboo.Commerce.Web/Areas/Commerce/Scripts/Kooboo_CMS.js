@@ -590,7 +590,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
     };
     $.fn.treeNode = function () {
         var handler = $(this);
-        handler.find('.tree-icon').click(function () {
+        handler.find('.toggle').click(function () {
             $(this).siblings('.children,ul').toggle('fast').parent().toggleClass('active');
         });
     };

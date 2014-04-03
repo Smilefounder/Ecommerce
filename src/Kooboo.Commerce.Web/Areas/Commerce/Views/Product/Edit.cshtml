@@ -6,10 +6,10 @@
 }
 @section Panel {
     @Html.HeaderPanel().Buttons(buttons =>
-    {
-        buttons.Add("Save", "save").WithUrl("javascript:vm.saveData();");
-        buttons.AddCancelButton();
-    })
+{
+    buttons.Add("Save", "save").WithUrl("javascript:vm.saveData();");
+    buttons.AddCancelButton();
+})
 }
 
 <div class="block" data-bind="with:data">
@@ -163,10 +163,12 @@
 
 <script id="category_template" type="text/html">
     <li class="tree-node clearfix">
-        @Html.IconImage("folder")
-        @Html.IconImage("tree-icon")
+        @Html.IconImage("folder-blue")
+        <!-- ko if: Children() && Children().length > 0 -->
+        <span class="toggle">@Html.IconImage("sprite")</span>
+        <!-- /ko -->
         <input type="checkbox" data-bind="checked: $root.SelectedCategories, value:Id" />
-        <span data-bind="text:Name"></span>
+        <span class="text" data-bind="text:Name"></span>
         <!-- ko if: Children() && Children().length > 0 -->
         <ul data-bind="template: { name: 'category_template', foreach: Children }"></ul>
         <!-- /ko -->
@@ -174,7 +176,7 @@
 </script>
 <script id="image_type_template" type="text/html">
     <tr>
-        <th><span data-bind="text:Name"></span><br/>(<span data-bind="text:Width"></span>X<span data-bind="text:Height"></span>)</th>
+        <th><span data-bind="text:Name"></span><br />(<span data-bind="text:Width"></span>X<span data-bind="text:Height"></span>)</th>
         <td>
             <div class="mediafile1">
                 <ul class="clearfix" data-bind="foreach: $root.GetImageUrl($data)">

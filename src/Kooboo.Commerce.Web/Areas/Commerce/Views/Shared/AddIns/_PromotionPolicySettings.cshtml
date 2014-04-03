@@ -20,9 +20,9 @@
 }
 
 <div class="block">
-    @Html.Action("Steps", "Promotion", new {  area = "Commerce", step = 2 })
+    @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 2 })
     @RenderBody()
-    <div class="process-button">
+    <div class="wizard-buttons">
         <a class="button gray" href="@Url.Action("Conditions", "Promotion", RouteValues.From(Request.QueryString).Merge("area", "Commerce"))">@("Back".Localize())</a>
         <a class="button" data-ajaxform="">@("Next".Localize())</a>
     </div>

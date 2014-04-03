@@ -383,41 +383,6 @@ label {
 	font-size: 14px;
 	line-height: 26px;
 
-	table {
-		width: 100%;
-	}
-
-	th {
-		font-weight: normal;
-		width: 190px;
-		padding: 10px 10px 10px 0;
-		vertical-align: top;
-		white-space: nowrap;
-	}
-
-	td {
-		padding: 10px;
-
-		.form-row {
-			padding-top: 0;
-		}
-	}
-
-	tr.border td {
-		border-bottom: 1px solid #CCC;
-	}
-
-	input[type="text"],
-	input[type="password"],
-	select {
-		float: left;
-		margin-right: 10px;
-	}
-
-	.tip {
-		.form-tip();
-	}
-
 	fieldset {
 		margin-bottom: 20px;
 	}
@@ -463,6 +428,46 @@ label {
 				}
 			}
 		}
+	}
+
+	table {
+		width: 100%;
+	}
+
+	th {
+		font-weight: normal;
+		width: 190px;
+		padding: 10px 10px 10px 0;
+		vertical-align: top;
+		white-space: nowrap;
+	}
+
+	td {
+		padding: 10px;
+
+		.form-row {
+			padding-top: 0;
+		}
+
+		.form-container {
+			margin-top: 10px;
+			.clearfix();
+		}
+	}
+
+	tr.border td {
+		border-bottom: 1px solid #CCC;
+	}
+
+	input[type="text"],
+	input[type="password"],
+	select {
+		float: left;
+		margin-right: 10px;
+	}
+
+	.tip {
+		.form-tip();
 	}
 }
 
