@@ -1,1 +1,20 @@
-﻿This product has accessories:
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.CmsSite;
+
+@{
+    var productId = Convert.ToInt32(Page_Context.Current.PageRequestContext.AllQueryString["id"]);
+    var accessories = Site.Current.Commerce().Accessories().ForProduct(productId);
+}
+
+@if (accessories.Length > 0) {
+ 
+    <h3>Accessories:</h3>   
+    <ul>
+        @foreach (var accessory in accessories)
+        {
+            <li>
+                <a href="/ProductList/ProductDetail/@accessory.Id">@accessory.Name</a>
+            </li>
+        }
+    </ul>
+}

@@ -78,8 +78,10 @@
                         modal: true,
                         draggable: false,
                         resizable: false,
-                        open: function () { }
-                    }).dialog('open').dialog('option', 'position', 'center');
+                        create: function () {
+                            $(document).dialogScroll();
+                        }
+                    }).dialog('open');
                 },
                 updateFieldEditorValidation: function () {
                     this.fieldEditorForm().find('.input-validation-error').removeClass('input-validation-error').addClass('valid');

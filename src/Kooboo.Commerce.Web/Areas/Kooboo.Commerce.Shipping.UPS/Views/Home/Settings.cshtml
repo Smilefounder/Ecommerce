@@ -5,13 +5,14 @@
 }
 
 <div class="block">
+    <h1 class="title">@ViewBag.Title</h1>
     @using (Html.BeginForm())
     {
         <div class="common-form">
             <table>
-                @Html.EditorFor(m => m.AccessKey)
-                @Html.EditorFor(m => m.Username)
-                @Html.EditorFor(m => m.Password)
+                @Html.EditorFor(m => m.AccessKey, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.Username, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.Password, new { HtmlAttributes = new { @class = "medium" } })
             </table>
         </div>
     }

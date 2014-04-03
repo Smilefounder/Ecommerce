@@ -16,10 +16,6 @@ body {
 	font: 12px/1.5 "SegoeUI", "Helvetica Neue", "OpenSans", Arial, Helvetica, sans-serif;
 	min-width: 1024px;
 
-	&.blank {
-		overflow: auto;
-	}
-
 	&.fullscreen {
 		#header,
 		.topbar {
@@ -65,7 +61,7 @@ body {
 			position: relative;
 		}
 
-		.icon.arrow {
+		.icon.chevron-down-white {
 			margin: 0;
 			position: absolute;
 			right: 10px;
@@ -115,7 +111,7 @@ body {
 	}
 
 	&:hover .icon {
-		background-position: -150px -170px;
+		.sprite(@home-white);
 	}
 }
 
@@ -231,7 +227,7 @@ body {
 		margin: 15px 4px 0 0;
 	}
 
-	.arrow {
+	.chevron-down-white {
 		float: right;
 		margin: 19px 0 0 5px;
 	}
@@ -455,19 +451,16 @@ body {
 		}
 	}
 	/* Wrap */
-	> .wrap {
+	> .wrap,
+	> form > .wrap {
 		left: 0;
 		position: absolute;
 		right: 0;
 		top: 71px;
 		bottom: 0;
 		overflow-x: visible;
-		overflow-y: auto;
+		overflow-y: scroll;
 		padding: 20px;
-	}
-	/* Common table */
-	.common-table {
-		margin: -20px;
 	}
 }
 
@@ -486,7 +479,7 @@ body {
 	.topbar {
 		background: #A8A8A8;
 		height: 71px;
-		overflow: hidden;
+		overflow: visible;
 	}
 	/* Wrap */
 	.wrap {

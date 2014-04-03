@@ -6,17 +6,17 @@
 
 @section Panel{
     <ul class="header-panel">
-    <li>
-        <a href="@ViewBag.Return">
-            @Html.IconImage("cancel") @("Cancel".Localize())
-        </a>
-    </li>
-    <li>
-        <a href="javascript:;" onclick="window.leaveConfirm.pass(); $('form').submit();">
-            @Html.IconImage("next") @("Next".Localize())
-        </a>
-    </li>
-</ul>
+        <li>
+            <a href="@ViewBag.Return">
+                @Html.IconImage("back") @("Cancel".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="javascript:;" onclick="window.leaveConfirm.pass(); $('form').submit();">
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
+        </li>
+    </ul>
 }
 
 
@@ -42,7 +42,7 @@
                 <thead>
                     <tr>
                         <th class="checkbox">
-                            
+
                         </th>
                         <th>
                             @("Full Name".Localize())

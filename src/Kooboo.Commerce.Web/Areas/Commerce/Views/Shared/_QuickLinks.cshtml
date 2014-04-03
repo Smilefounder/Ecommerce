@@ -1,0 +1,34 @@
+﻿@*TODO: Copy to CMS*@
+<ul class="quicklinks">
+    @if (ServiceFactory.UserManager.IsAdministrator(Html.ViewContext.HttpContext.User.Identity.Name))
+    {
+        <li>
+            <a href="@Url.Action("index", new { controller = "Users", area = "account" })">
+                @Html.IconImage("users")
+                @("Users".Localize())
+            </a>
+        </li>
+    }
+
+    <li class="last j_DropDown">
+        <a>
+            @Html.IconImage("profile")
+            @Html.IconImage("chevron-down-white")
+            @ViewContext.HttpContext.User.Identity.Name
+        </a>
+        <ul class="j_DropDownContent hide">
+            <li>
+                <a data-ajax="POST" href="@Url.Action("SetDefaultPage", new { area = "account", controller = "Users", defaultUrl = ViewContext.RequestContext.HttpContext.Request.RawUrl, @return = ViewContext.HttpContext.Request.RawUrl })">@("Set as default page".Localize())</a>
+            </li>
+            <li>
+                <a href="@Url.Action("ChangeLanguage", new { area = "account", controller = "Users", @return = ViewContext.HttpContext.Request.RawUrl })">@("Change language".Localize())</a>
+            </li>
+            <li>
+                <a href="@Url.Action("ChangePassword", new { area = "account", controller = "Users", @return = ViewContext.HttpContext.Request.RawUrl })">@("Change password".Localize())</a>
+            </li>
+            <li>
+                <a href="@Url.Action("SignOut", new { controller = "Logon", area = "account" })">@("Sign out".Localize())</a>
+            </li>
+        </ul>
+    </li>
+</ul>

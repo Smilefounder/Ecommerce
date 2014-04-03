@@ -17,27 +17,27 @@
                     <th>@("From weight".Localize())</th>
                     <th>@("To weight".Localize())</th>
                     <th>@("Charge".Localize())</th>
-                    <th class="mini"></th>
-                    <th class="mini"></th>
+                    <th class="action"></th>
+                    <th class="action"></th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: rules">
                 <tr data-bind="if: !isEditing()">
                     <td>
-                        <span style="float:none;margin-right:0;" data-bind="html: fromWeight"></span> @("KG".Localize())
+                        <span data-bind="text: fromWeight"></span> @("KG".Localize())
                     </td>
                     <td>
-                        <span style="float: none; margin-right: 0;" data-bind="html: toWeight"></span> @("KG".Localize())
+                        <span data-bind="text: toWeight"></span> @("KG".Localize())
                     </td>
                     <td>
-                        $<span style="float: none; margin-right: 0;" data-bind="html: shippingPrice"></span>
+                        <span data-bind="text: shippingPrice"></span>
                         <!--ko text: $root.priceUnitDisplayName($data.priceUnit()) --><!-- /ko -->
                     </td>
-                    <td>
-                        <a class="action" data-bind="click: $root.editRule" href="#">@Html.IconImage("edit small")</a>
+                    <td class="action">
+                        <a class="action" data-bind="click: $root.editRule" href="#">@Html.IconImage("edit-small")</a>
                     </td>
-                    <td>
-                        <a class="action" data-bind="click: $root.removeRule" href="#">@Html.IconImage("minus small")</a>
+                    <td class="action">
+                        <a class="action" data-bind="click: $root.removeRule" href="#">@Html.IconImage("minus-small")</a>
 
                         <!-- hidden fields for submit -->
                         <input type="hidden" data-bind="value: fromWeight, attr: { name: 'Rules[' + $index() + '].FromWeight' }" />
@@ -48,20 +48,20 @@
                 </tr>
                 <tr data-bind="if: isEditing">
                     <td>
-                        <input type="text" data-bind="value: fromWeight" class="mini" style="float:none" placeholder="@("KG".Localize())" />
+                        <input type="text" data-bind="value: fromWeight" class="mini" placeholder="@("KG".Localize())">
                     </td>
                     <td>
-                        <input type="text" data-bind="value: toWeight" class="mini" style="float:none" placeholder="@("KG".Localize())" />
+                        <input type="text" data-bind="value: toWeight" class="mini" placeholder="@("KG".Localize())">
                     </td>
                     <td>
-                        <input type="text" data-bind="value: shippingPrice" class="mini" style="float:none" />
-                        <select style="float:none;width:100px" data-bind="options: $root.availablePriceUnits, optionsText: 'text', optionsValue: 'value', value: priceUnit"></select>
+                        <input type="text" data-bind="value: shippingPrice" class="mini" placeholder="@("Price".Localize())">
+                        <select data-bind="options: $root.availablePriceUnits, optionsText: 'text', optionsValue: 'value', value: priceUnit" class="mini"></select>
                     </td>
                     <td>
-                        <a data-bind="click: $root.commitRuleEditing">@Html.IconImage("save small")</a>
+                        <a data-bind="click: $root.commitRuleEditing">@Html.IconImage("save-small")</a>
                     </td>
                     <td>
-                        <a data-bind="click: $root.cancelRuleEditing">@Html.IconImage("minus small")</a>
+                        <a data-bind="click: $root.cancelRuleEditing">@Html.IconImage("minus-small")</a>
                     </td>
                 </tr>
             </tbody>

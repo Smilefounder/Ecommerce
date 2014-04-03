@@ -2,60 +2,6 @@
     ViewBag.Title = ViewBag.CurrentEventDisplayName;
 }
 
-@section ScriptCSS {
-    <style>
-        .conditions-expression {
-            font-family: Consolas, 'Courier New', sans-serif;
-            display: inline-block;
-            font-size: 14px;
-            border-radius: 4px;
-        }
-
-            .conditions-expression .string {
-                color: #A31515;
-            }
-
-            .conditions-expression .keyword {
-                color: #0000FF;
-            }
-
-            .conditions-expression .param {
-                color: #008080;
-            }
-
-            .conditions-expression .operator {
-                color: #666;
-            }
-
-            .conditions-expression .flat-condition {
-                background: #eee;
-                border-radius: 4px;
-                padding: 4px;
-            }
-
-        .activity-rule {
-            padding: 10px 0;
-            border-bottom: #ddd 1px solid;
-        }
-
-            .activity-rule .rule-label {
-                font-size: 16px;
-                color: #3CA8DB;
-                display: block;
-                text-align: right;
-                text-transform: uppercase;
-            }
-
-        .attached-activities-holder {
-            padding-top: 5px;
-        }
-
-        .attached-activities li {
-            margin-bottom: 5px;
-        }
-    </style>
-}
-
 <div id="rules-container">
     <div class="toolbar">
         <a href="#" class="button" data-bind="click: addRule">@("Add Rule".Localize())</a>
@@ -68,8 +14,8 @@
             </div>
             <div class="span11">
                 <span class="conditions-expression" data-bind="html: highlightedConditionsExpression"></span>
-                <a href="#" data-bind="click: $root.editRule">@Html.IconImage("edit small")</a>
-                <a href="#" data-bind="click: $root.deleteRule">@Html.IconImage("minus small")</a>
+                <a href="#" data-bind="click: $root.editRule">@Html.IconImage("edit-small")</a>
+                <a href="#" data-bind="click: $root.deleteRule">@Html.IconImage("minus-small")</a>
             </div>
         </div>
         <!-- ko foreach: branches -->
@@ -83,17 +29,17 @@
                         <ul data-bind="foreach: attachedActivities" class="attached-activities">
                             <li>
                                 <span style="display:inline-block">
-                                    @Html.IconImage("arrow gray-right")
+                                    @Html.IconImage("chevron-right-gray")
                                 </span>
                                 <span data-bind="html: description"></span>
-                                <a href="#" data-bind="click: $parent.editAttachedActivity" title="@("Edit".Localize())">@Html.IconImage("edit small")</a>
-                                <a href="#" data-bind="visible: configUrl, click: $parent.configureAttachedActivity" title="@("Settings".Localize())">@Html.IconImage("edit small")</a>
-                                <a href="#" data-bind="click: $parent.detachActivity" title="@("Detach".Localize())">@Html.IconImage("minus small")</a>
+                                <a href="#" data-bind="click: $parent.editAttachedActivity" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a>
+                                <a href="#" data-bind="visible: configUrl, click: $parent.configureAttachedActivity" title="@("Settings".Localize())">@Html.IconImage("edit-small")</a>
+                                <a href="#" data-bind="click: $parent.detachActivity" title="@("Detach".Localize())">@Html.IconImage("minus-small")</a>
                             </li>
                         </ul>
                     </div>
                     <div>
-                        <a href="#" style="display:inline-block" data-bind="click: beginAttachActivity" title="Attach activity">@Html.IconImage("plus")</a>
+                        <a href="#" style="display:inline-block" data-bind="click: beginAttachActivity" title="Attach activity">@Html.IconImage("plus-small")</a>
                     </div>
                     <div data-bind="visible: isAttachingActivity" style="display:none">
                         <select class="large" data-bind="options: $root.availableActivities, optionsText: 'displayName', optionsValue: 'name', value: selectedActivityName"></select>

@@ -5,8 +5,8 @@ a.button {
 	color: #FFF;
 	display: inline-block;
 	font-size: 14px;
-	height: 30px;
-	line-height: 30px;
+	height: 28px;
+	line-height: 28px;
 	min-width: 80px;
 	padding: 0 10px;
 	text-align: center;
@@ -85,8 +85,8 @@ input[type="button"] {
 	color: #FFF;
 	cursor: pointer;
 	font-size: 14px;
-	height: 30px;
-	line-height: 30px;
+	height: 28px;
+	line-height: 28px;
 	min-width: 100px;
 	padding: 0 10px;
 	.transition(0.2s);
@@ -123,6 +123,43 @@ input[type="button"] {
 
 	&.disabled {
 		background: @blue;
+		color: #FFF;
 		cursor: not-allowed;
+	}
+}
+/* Switcher button
+------------------------------------------------------*/
+.button-switcher {
+	border: 1px solid @gray;
+	display: inline-block;
+	.rounded(3px);
+
+	li {
+		float: left;
+
+		&:first-child a {
+			.rounded(3px 0 0 3px);
+		}
+
+		&:last-child a {
+			.rounded(0 3px 3px 0);
+		}
+
+		&.active a {
+			background: @light-gray;
+			color: #000;
+		}
+	}
+
+	a {
+		background: #FFF;
+		color: #666;
+		display: block;
+		line-height: 26px;
+		padding: 0 10px;
+
+		&:hover {
+			color: #000;
+		}
 	}
 }

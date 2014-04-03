@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Products.Accessories
+namespace Kooboo.Commerce.Accessories
 {
     public static class Strings
     {

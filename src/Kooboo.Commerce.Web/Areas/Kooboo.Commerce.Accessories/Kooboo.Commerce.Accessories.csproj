@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.Commerce.Products.Accessories</RootNamespace>
-    <AssemblyName>Kooboo.Commerce.Products.Accessories</AssemblyName>
+    <RootNamespace>Kooboo.Commerce.Accessories</RootNamespace>
+    <AssemblyName>Kooboo.Commerce.Accessories</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -125,8 +125,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessoriesAreaRegistration.cs" />
-    <Compile Include="Api\AccessoriesController.cs" />
+    <Compile Include="Api\AccessoryController.cs" />
     <Compile Include="Controllers\AccessoryController.cs" />
+    <Compile Include="IProductAccessoryService.cs" />
     <Compile Include="Models\ProductAccessoryModel.cs" />
     <Compile Include="ProductAccessory.cs" />
     <Compile Include="ProductAccessoryService.cs" />
@@ -146,6 +147,10 @@
     <Content Include="module.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\API\Kooboo.Commerce.API.Accessories\Kooboo.Commerce.API.Accessories.csproj">
+      <Project>{ed9af996-0467-4636-9693-6a9854ed490a}</Project>
+      <Name>Kooboo.Commerce.API.Accessories</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>
@@ -157,6 +162,10 @@
     <ProjectReference Include="..\..\..\Kooboo.Commerce\Kooboo.Commerce.csproj">
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.Commerce.Web.csproj">
+      <Project>{dc4664e1-6e95-4062-9ac0-c0574ddab015}</Project>
+      <Name>Kooboo.Commerce.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

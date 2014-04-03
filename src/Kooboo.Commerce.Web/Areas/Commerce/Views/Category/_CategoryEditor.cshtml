@@ -17,13 +17,13 @@
                             <div class="file-thumbnail @(string.IsNullOrEmpty(Model.Photo) ? "hide" : "")">
                                 <img id="photoImg" src="@Model.Photo">
                                 <a class="action" id="btnRemove" href="javascript:;" onclick="RemoveImage();" title="@("Remove".Localize())">
-                                    @Html.IconImage("minus small")
+                                    @Html.IconImage("minus-small")
                                 </a>
                             </div>
                         </li>
                     </ul>
                     <a href="javascript:;" class="action J_Upload" data-owner="commerce" data-property="category" data-src="@Model.Photo" title="@("Add".Localize())">
-                        @Html.IconImage("plus small")
+                        @Html.IconImage("plus-small")
                     </a>
                 </td>
             </tr>

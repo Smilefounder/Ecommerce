@@ -4,63 +4,59 @@
     ViewBag.Title = "Media library".Localize();
 }
 <div id="main-container">
-    <div class="wrap">
-        <div class="topbar clearfix">
-            <h1 class="title">@ViewBag.Title</h1>
-            <div class="breadcrumb" data-bind="with: data">
-                <!-- ko template: { name: 'breadcrumb', foreach: Paths } -->
-                <!-- /ko -->
-            </div>
-            <div class="searchbox">
-                <input type="text" data-bind="value: SearchWord" />
-                <button type="button" onclick="vm.getData();">
-                    <img class="icon search" src="/Images/invis.gif">
-                </button>
-            </div>
-            <ul class="view-switch">
-                <li class="list" data-bind="css: { active: vm.ListStyle() == 'list' }"><a href="javascript:;" title="@("Table list view".Localize())" onclick="vm.ListStyle('list');">@Html.IconImage("list")</a></li>
-                <li class="grid" data-bind="css: { active: vm.ListStyle() == 'grid' }"><a href="javascript:;" title="@("Thumbnails view".Localize())" onclick="vm.ListStyle('grid');">@Html.IconImage("grid")</a></li>
-            </ul>
+    <div class="topbar">
+        <h1 class="title">@ViewBag.Title</h1>
+        <div class="breadcrumb" data-bind="with: data">
+            <!-- ko template: { name: 'breadcrumb', foreach: Paths } -->
+            <!-- /ko -->
         </div>
-
-        <div class="common-table fixed">
-            <div data-bind="visible: vm.ListStyle() == 'list', template: { name: 'table_list', data: data }">
+        <div class="searchbox">
+            <input type="text" data-bind="value: SearchWord" />
+            <button type="button" onclick="vm.getData();">
+                <img class="icon search" src="/Images/invis.gif">
+            </button>
+        </div>
+        <ul class="view-switch">
+            <li class="list" data-bind="css: { active: vm.ListStyle() == 'list' }"><a href="javascript:;" title="@("Table list view".Localize())" onclick="vm.ListStyle('list');">@Html.IconImage("sprite")</a></li>
+            <li class="grid" data-bind="css: { active: vm.ListStyle() == 'grid' }"><a href="javascript:;" title="@("Thumbnails view".Localize())" onclick="vm.ListStyle('grid');">@Html.IconImage("sprite")</a></li>
+        </ul>
+    </div>
+    <div class="wrap">
+        <div class="common-table" data-bind="visible: vm.ListStyle() == 'list'">
+            <div data-bind="template: { name: 'table_list', data: data }">
             </div>
-            <div data-bind="visible: vm.ListStyle() == 'grid', template: { name: 'thumb_list', data: data }">
-            </div>        
-            <div class="pagination" data-bind="with: data">
-                <div data-bind="with: Pager, visible: Pager().TotalPages() > 1">
-                    <span><strong data-bind="text: StartIndex"></strong>-<strong data-bind="text: EndIndex"></strong> of <strong data-bind="text: TotalRecords"></strong></span>
-                    <a data-bind="attr2: { name: 'disabled', value: 'disabled', on: $data.PageIndex() <= 0 }, css: { disabled: $data.PageIndex() <= 0 }, click: $root.GotoPrevPage">&lt;</a>&nbsp;&nbsp;
-                    <!-- ko foreach: $root.Pages -->
-                    <!-- ko if: $data == $root.PageIndex() -->
-                    <span class="active" data-bind="text: $data+1"></span>&nbsp;&nbsp;
-                    <!-- /ko -->
-                    <!-- ko if: $data != $root.PageIndex() -->
-                    <a href="javascript:;" data-bind="click: $root.GotoPage, text: $data+1"></a>&nbsp;&nbsp;
-                    <!-- /ko -->
-                    <!-- /ko -->
-                    <a data-bind="attr2: { name: 'disabled', value: 'disabled', on: $data.PageIndex() >= $data.TotalPages() - 1 }, css: { disabled: $data.PageIndex() >= $data.TotalPages() - 1 }, click: $root.GotoNextPage">&gt;</a>
-                </div>
+        </div>
+        <div data-bind="visible: vm.ListStyle() == 'grid', template: { name: 'thumb_list', data: data }">
+        </div>
+        <div class="pagination" data-bind="with: data">
+            <div data-bind="with: Pager, visible: Pager().TotalPages() > 1">
+                <span><strong data-bind="text: StartIndex"></strong>-<strong data-bind="text: EndIndex"></strong> of <strong data-bind="text: TotalRecords"></strong></span>
+                <a data-bind="attr2: { name: 'disabled', value: 'disabled', on: $data.PageIndex() <= 0 }, css: { disabled: $data.PageIndex() <= 0 }, click: $root.GotoPrevPage">&lt;</a>&nbsp;&nbsp;
+                <!-- ko foreach: $root.Pages -->
+                <!-- ko if: $data == $root.PageIndex() -->
+                <span class="active" data-bind="text: $data+1"></span>&nbsp;&nbsp;
+                <!-- /ko -->
+                <!-- ko if: $data != $root.PageIndex() -->
+                <a href="javascript:;" data-bind="click: $root.GotoPage, text: $data+1"></a>&nbsp;&nbsp;
+                <!-- /ko -->
+                <!-- /ko -->
+                <a data-bind="attr2: { name: 'disabled', value: 'disabled', on: $data.PageIndex() >= $data.TotalPages() - 1 }, css: { disabled: $data.PageIndex() >= $data.TotalPages() - 1 }, click: $root.GotoNextPage">&gt;</a>
             </div>
         </div>
     </div>
-</div>
-<div class="buttons">
-    <a id="CreateFolder" href="javascript:;" class="button action left" onclick="vm.CreateFolder();" data-bind="visible: vm.ListStyle() == 'list'">@("Create Folder".Localize())</a>
-    <form id="upload_form" class="no-stop left" action="/Areas/Media/Handlers/UploadHandler.ashx?owner=@Request.QueryString["owner"]&path=@Request.QueryString["path"]" method="post" enctype="multipart/form-data">
-        <input id="upload_input" type="file" name="files[]" style="display: none;" />
-        <a href="javascript:;" class="button action left" onclick="$('#upload_input').trigger('click');">
-            @("Upload".Localize())
-        </a>
-    </form>
-    <a href="javascript:;" class="button gray cancel action right" onclick="utils.closeDialog();">@("Cancel".Localize())</a>
-    <a href="javascript:;" class="button action right" onclick="vm.InsertFile();">@("Insert".Localize())</a>
+    <div class="buttons">
+        <a id="CreateFolder" href="javascript:;" class="button left" onclick="vm.CreateFolder();" data-bind="visible: vm.ListStyle() == 'list'">@("Create Folder".Localize())</a>
+        <form id="upload_form" class="no-stop left" action="/Areas/Media/Handlers/UploadHandler.ashx?owner=@Request.QueryString["owner"]&path=@Request.QueryString["path"]" method="post" enctype="multipart/form-data">
+            <a href="javascript:;" class="button upload">@("Upload".Localize())<span><input id="upload_input" type="file" name="files[]"></span></a>
+        </form>
+        <a href="javascript:;" class="button gray right" onclick="utils.closeDialog();">@("Cancel".Localize())</a>
+        <a href="javascript:;" class="button right" onclick="vm.InsertFile();">@("Insert".Localize())</a>
+    </div>
 </div>
 
 <script id="breadcrumb" type="text/html">
     <!-- ko if: $index() > 0 -->
-    @Html.IconImage("arrow gray-right")
+    @Html.IconImage("chevron-right-gray")
     <!-- /ko -->
     <a href="javascript:;" data-bind="text: $data, click: function (data, event) { vm.GetFolderByIndex($index()); }"></a>
 </script>
@@ -94,70 +90,72 @@
             </tr>
             <!-- /ko -->
             <!-- ko if: !$root.IsEmpty() -->
-                <!-- ko foreach: Folders -->
-                <tr class="foldertr">
-                    <td class="checkbox">
-                        <input type="radio" disabled="disabled" />
-                    </td>
-                    <td>
-                        <!-- ko if: $root.IsNewFolder($data) -->
-                        <input class="editor" type="text" name="Name" data-bind="value: Name" />
-                        <a href="javascript:;" class="action" data-bind="click: $root.SaveFolder">@Html.IconImage("save small")</a>
-                        <a href="javascript:;" class="action" data-bind="click: $root.RemoveFolder">@Html.IconImage("minus small")</a>
-                        <!-- /ko -->
-                        <!-- ko if: !$root.IsNewFolder($data) -->
-                        <a href="javascript:;" data-bind="click: $root.GetFolder, text: Name">
-                            <img class="icon folder" src="/Images/invis.gif">
-                        </a>
-                        <!-- /ko -->
-                    </td>
-                    <td class="type">
-                        @Html.Raw("Folder".Localize())
-                    </td>
-                    <td class="date"></td>
-                    <td class="size"></td>
-                </tr>
-                <!-- /ko -->
-                <!-- ko foreach: Files -->
+            <!-- ko foreach: Folders -->
+            <tr class="foldertr">
+                <td class="checkbox">
+                    <input type="radio" disabled="disabled" />
+                </td>
+                <td>
+                    <!-- ko if: $root.IsNewFolder($data) -->
+                    <input class="editor" type="text" name="Name" data-bind="value: Name" />
+                    <a href="javascript:;" class="action" data-bind="click: $root.SaveFolder">@Html.IconImage("save-small")</a>
+                    <a href="javascript:;" class="action" data-bind="click: $root.RemoveFolder">@Html.IconImage("minus-small")</a>
+                    <!-- /ko -->
+                    <!-- ko if: !$root.IsNewFolder($data) -->
+                    <a href="javascript:;">
+                        <img class="icon folder" src="/Images/invis.gif">
+                        <span data-bind="click: $root.GetFolder, text: Name"></span>
+                    </a>
+                    <!-- /ko -->
+                </td>
+                <td class="type">
+                    @Html.Raw("Folder".Localize())
+                </td>
+                <td class="date"></td>
+                <td class="size"></td>
+            </tr>
+            <!-- /ko -->
+            <!-- ko foreach: Files -->
             <tr class="doctr">
                 <td class="checkbox">
                     <input type="radio" name="select" data-bind="event: { change: $root.SelectedFile }" />
                 </td>
                 <td data-bind="event: { click: $root.SelectFile }">
-                    <a data-bind="text: FileName">
-                        <img class="icon file image jpg" src="/Images/invis.gif">
+                    <a href="javascript:;">
+                        <img class="icon file file-image" src="/Images/invis.gif">
+                        <span data-bind="text: FileName"></span>
                     </a>
                 </td>
-                <td class="type" data-bind="event: { click: $root.SelectFile }">
+                <td class="short" data-bind="event: { click: $root.SelectFile }">
                     <span data-bind="text: FileType"></span>
                 </td>
-                <td class="date" data-bind="event: { click: $root.SelectFile }">
+                <td class="short" data-bind="event: { click: $root.SelectFile }">
                     <span data-bind="text: CreationDate"></span>
                 </td>
-                <td class="size" data-bind="event: { click: $root.SelectFile }">
+                <td class="short" data-bind="event: { click: $root.SelectFile }">
                     <span data-bind="text: FileSize"></span>
                 </td>
             </tr>
-                <!-- /ko -->
+            <!-- /ko -->
             <!-- /ko -->
         </tbody>
     </table>
 </script>
 
 <script id="thumb_list" type="text/html">
-    <div class="common-grid fixed" data-bind="with: $data">
+    <div class="common-grid" data-bind="with: $data">
         <!-- ko if: $root.IsEmpty() -->
-            <p>@("This folder is empty.".Localize())</p>
+        <p>@("This folder is empty.".Localize())</p>
         <!-- /ko -->
         <!-- ko if: !$root.IsEmpty() -->
-            <ul class="folder clearfix" data-bind="foreach: Folders">
-                <li>
-                    <a href="javascript:;" data-bind="click: $root.GetFolder">
-                        <span class="info" data-bind="text: Name"></span>
-                    </a>
-                </li>
-            </ul>
-        <ul class="file image clearfix" data-bind="foreach: Files">
+        <ul class="folder" data-bind="visible:Folders > 0, foreach: Folders">
+            <li>
+                <a href="javascript:;" data-bind="click: $root.GetFolder">
+                    <span class="info" data-bind="text: Name"></span>
+                </a>
+            </li>
+        </ul>
+        <ul class="file image" data-bind="foreach: Files">
             <li>
                 <a class="select">
                     <input type="radio" name="select" class="select doc" data-bind="event: { change: $root.SelectedFile }" />
@@ -345,11 +343,13 @@
             utils.postMessage("fileselected", { owner: '@Request.QueryString["owner"]', property: '@Request.QueryString["path"]', file: ko.toJS(vm.SelectedFile()) }, window.top);
             utils.closeDialog();
         };
-        self.SelectFile = function (item) {
+        self.SelectFile = function (item, event) {
             stopEvent(event);
             self.SelectedFile(item);
-            $(event.target).closest('tr').find('input:radio').prop('checked', true);
-            $(event.target).closest('li').find('input:radio').prop('checked', true);
+            $(event.target).closest('tr').siblings().removeClass('active');
+            $(event.target).closest('tr').toggleClass('active').find('input:radio').prop('checked', true);
+            $(event.target).closest('li').siblings().removeClass('active');
+            $(event.target).closest('li').toggleClass('active').find('input:radio').prop('checked', true);
         };
     }
 </script>

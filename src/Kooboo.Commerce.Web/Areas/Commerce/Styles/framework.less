@@ -53,11 +53,21 @@
 	/* Icon list
 	---------------------------------------------------------------*/
 	.icon-list {
+		background: lighten(@light-blue,20%);
+		color: #FFF;
+		padding: 10px;
 		.clearfix();
+
 		li {
 			float: left;
 			margin-bottom: 10px;
-			width: 10%;
+			min-height: 40px;
+			width: 20%;
+
+			.icon-wrap {
+				float: left;
+				width: 40px;
+			}
 		}
 
 		.icon {

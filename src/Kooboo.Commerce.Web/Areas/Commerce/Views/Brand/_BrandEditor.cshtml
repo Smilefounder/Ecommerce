@@ -17,13 +17,13 @@
                             <div class="file-thumbnail @(string.IsNullOrEmpty(Model.Logo) ? "hide" : "")">
                                 <img id="logoImg" src="@Model.Logo" data-owner="commerce" data-property="brand" />
                                 <a class="action" id="btnRemove" href="javascript:;" onclick="RemoveImage();">
-                                    @Html.IconImage("minus small")
+                                    @Html.IconImage("minus-small")
                                 </a>
                             </div>
                         </li>
                     </ul>
                     <a href="javascript:;" class="action J_Upload" data-owner="commerce" data-property="brand" data-src="@Model.Logo">
-                        @Html.IconImage("plus small")
+                        @Html.IconImage("plus-small")
                     </a>
                 </td>
             </tr>

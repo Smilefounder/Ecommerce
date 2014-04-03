@@ -1,12 +1,12 @@
 ﻿@model AttachedActivityModel
 @{
-    Layout = "~/Views/Shared/Popup.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Popup.cshtml";
     ViewBag.Title = "Attach Activity".Localize();
 }
-
-<div class="block">
+<div class="topbar">
     <h1 class="title">@ViewBag.Title</h1>
-
+</div>
+<div class="wrap">
     @using (Html.BeginForm())
     {
         <div class="step-content clearfix">

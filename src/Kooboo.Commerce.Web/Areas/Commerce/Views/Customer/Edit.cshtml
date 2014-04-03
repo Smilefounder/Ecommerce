@@ -6,20 +6,21 @@
 
 @section Panel{
     <ul class="header-panel">
-    <li>
-        <a href="javascript:vm.saveData();">
-            @Html.IconImage("save") @("Save".Localize())
-        </a>
-    </li>
-    <li>
-        <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-            @Html.IconImage("cancel") @("Back".Localize())
-        </a>
-    </li>
-</ul>
+        <li>
+            <a href="javascript:vm.saveData();">
+                @Html.IconImage("save") @("Save".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("back") @("Back".Localize())
+            </a>
+        </li>
+    </ul>
 }
 
 <div class="block">
+    <h1 class="title">@ViewBag.Title</h1>
     <form>
         <div id="J_CustomerTabs">
             <ul>
@@ -29,10 +30,10 @@
                     </a>
                 </li>
                 @*<li>
-                    <a href="#changePassword">
-                        @("Password".Localize())
-                    </a>
-                </li>*@
+                        <a href="#changePassword">
+                            @("Password".Localize())
+                        </a>
+                    </li>*@
                 <li>
                     <a href="#address">
                         @("Addresses".Localize())
@@ -53,61 +54,66 @@
                 <table>
                     <tbody data-bind="with:data">
                         <tr>
-                            <th>@("First Name".Localize())</th>
+                            <th>@("First name".Localize())</th>
                             <td>
-                                <input data-bind="value:FirstName" type="text">
+                                <input data-bind="value:FirstName" type="text" class="medium">
                             </td>
                         </tr>
                         <tr>
-                            <th>@("Middle Name".Localize())</th>
+                            <th>@("Middle name".Localize())</th>
                             <td>
-                                <input data-bind="value:MiddleName" type="text">
+                                <input data-bind="value:MiddleName" type="text" class="medium">
                             </td>
                         </tr>
                         <tr>
-                            <th>@("Last Name".Localize())</th>
+                            <th>@("Last name".Localize())</th>
                             <td>
-                                <input data-bind="value:LastName" type="text">
+                                <input data-bind="value:LastName" type="text" class="medium">
                             </td>
                         </tr>
                         <tr>
                             <th>@("Gender".Localize())</th>
                             <td>
-                                <!-- ko foreach: $root.Genders -->
-                                <input type="radio" name="gender" data-bind="value: Value, checked: $root.BindGender"><label class="radio-label" data-bind="text:Name"></label>
-                                <!-- /ko -->
+                                <ul class="form-list">
+                                    <!-- ko foreach: $root.Genders -->
+                                    <li>
+                                        <input type="radio" name="gender" data-bind="value: Value, checked: $root.BindGender, attr: {id: Name}">
+                                        <label class="inline" data-bind="text:Name, attr: {for: Name}"></label>
+                                    </li>
+                                    <!-- /ko -->
+                                </ul>
                             </td>
                         </tr>
                         <tr>
                             <th>@("Phone".Localize())</th>
                             <td>
-                                <input data-bind="value:Phone" type="text">
+                                <input data-bind="value:Phone" type="text" class="medium">
                             </td>
                         </tr>
                         <tr>
                             <th>@("Country".Localize())</th>
                             <td>
-                                <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId"></select>
+                                <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId" class="medium"></select>
                             </td>
                         </tr>
                         <tr>
                             <th>@("City".Localize())</th>
                             <td>
-                                <input data-bind="value:City" type="text">
+                                <input data-bind="value:City" type="text" class="medium">
                             </td>
                         </tr>
                         <!-- ko with: Loyalty -->
                         <tr>
                             <th>@("Saving Points".Localize())</th>
                             <td>
-                                <input data-bind="value:SavingPoints" type="text">
+                                <input data-bind="value:SavingPoints" type="text" class="medium">
                             </td>
                         </tr>
                         <!-- /ko -->
                         <tr>
                             <th>@("Email".Localize())</th>
                             <td>
-                                <input data-bind="value:Email" type="text">
+                                <input data-bind="value:Email" type="text" class="medium">
                             </td>
                         </tr>
                         <tr>
@@ -126,62 +132,62 @@
                 </table>
             </div>
             @*<div id="changePassword" class="common-form">
-                <table data-bind="with: data">
-                    <tbody data-bind="with: Account">
-                        <tr>
-                            <th>@("Password".Localize())</th>
-                            <td>
-                                <input id="oldPassword" name="oldPassword" type="password" onblur="vm.data().Account().Password($(this).val());">
-                            </td>
-                        </tr>
-                        <!-- ko if: Id() > 0 -->
-                        <tr>
-                            <th>@("New Password".Localize())</th>
-                            <td>
-                                <input id="newPassword" name="newPassword" type="password">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Confirm Password".Localize())</th>
-                            <td>
-                                <input id="confirmPassword" name="confirmPassword" type="password" onblur="CheckConfirmPassword();">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <a href="javascript:;" onclick="ChangePassword();">@Html.IconImage("save")Change Password</a>
-                            </td>
-                        </tr>
-                        <!-- /ko -->
-                    </tbody>
-                </table>
-            </div>*@
+                    <table data-bind="with: data">
+                        <tbody data-bind="with: Account">
+                            <tr>
+                                <th>@("Password".Localize())</th>
+                                <td>
+                                    <input id="oldPassword" name="oldPassword" type="password" onblur="vm.data().Account().Password($(this).val());">
+                                </td>
+                            </tr>
+                            <!-- ko if: Id() > 0 -->
+                            <tr>
+                                <th>@("New Password".Localize())</th>
+                                <td>
+                                    <input id="newPassword" name="newPassword" type="password">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Confirm Password".Localize())</th>
+                                <td>
+                                    <input id="confirmPassword" name="confirmPassword" type="password" onblur="CheckConfirmPassword();">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="javascript:;" onclick="ChangePassword();">@Html.IconImage("save")Change Password</a>
+                                </td>
+                            </tr>
+                            <!-- /ko -->
+                        </tbody>
+                    </table>
+                </div>*@
             <div id="address">
                 <div class="simple-table">
                     <div class="toolbar">
-                        <a class="button" href="javascript:;" data-bind="click: $root.AddAddress">Add</a>
+                        <a class="button" href="javascript:;" data-bind="click: $root.AddAddress">@("Add".Localize())</a>
                     </div>
                     <table data-bind="with: data">
                         <thead>
                             <tr>
-                                <th class="mini">@("FirstName".Localize())</th>
-                                <th class="mini">@("LastName".Localize())</th>
-                                <th class="mini">@("Phone".Localize())</th>
-                                <th class="mini">@("Address1".Localize())</th>
-                                <th class="mini">@("IsDefault".Localize())</th>
+                                <th>@("First name".Localize())</th>
+                                <th>@("Last name".Localize())</th>
+                                <th>@("Phone".Localize())</th>
+                                <th>@("Address".Localize())</th>
+                                <th>@("Default".Localize())</th>
                                 <th class="action"></th>
                                 <th class="action"></th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: Addresses">
                             <tr>
-                                <td class="mini" data-bind="text:FirstName"></td>
-                                <td class="mini" data-bind="text:LastName"></td>
-                                <td class="mini" data-bind="text:Phone"></td>
-                                <td class="mini" data-bind="text:Address1"></td>
-                                <td class="mini" data-bind="text:IsDefault"></td>
-                                <td><a href="javascript:;" data-bind="click: $root.EditAddress" title="edit price">@Html.IconImage("edit small")</a></td>
-                                <td><a href="javascript:;" data-bind="click: $root.RemoveAddress" title="delete price">@Html.IconImage("minus small")</a></td>
+                                <td data-bind="text:FirstName"></td>
+                                <td data-bind="text:LastName"></td>
+                                <td data-bind="text:Phone"></td>
+                                <td data-bind="text:Address1"></td>
+                                <td data-bind="text:IsDefault() ? 'YES':'-'"></td>
+                                <td class="action"><a href="javascript:;" data-bind="click: $root.EditAddress" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a></td>
+                                <td class="action"><a href="javascript:;" data-bind="click: $root.RemoveAddress" title="@("Delete".Localize())">@Html.IconImage("minus-small")</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -215,22 +221,22 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="mini">@("Order Date".Localize())</th>
-                                <th class="mini">@("Total Price".Localize())</th>
-                                <th class="mini">@("Total Weight".Localize())</th>
-                                <th class="mini">@("OrderStatus".Localize())</th>
-                                <th class="mini">@("PaymentStatus".Localize())</th>
-                                <th class="mini">@("Completed".Localize())</th>
+                                <th>@("Order date".Localize())</th>
+                                <th>@("Total price".Localize())</th>
+                                <th>@("Total weight".Localize())</th>
+                                <th>@("Order status".Localize())</th>
+                                <th>@("Payment status".Localize())</th>
+                                <th>@("Completed".Localize())</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: $root.Orders">
                             <tr>
-                                <td class="mini" data-bind="text:CreatedAtUtc"></td>
-                                <td class="mini" data-bind="text:Total"></td>
-                                <td class="mini" data-bind="text:TotalWeight"></td>
-                                <td class="mini" data-bind="text:OrderStatus"></td>
-                                <td class="mini" data-bind="text:PaymentStatus"></td>
-                                <td class="mini" data-bind="text:IsCompleted"></td>
+                                <td data-bind="text:CreatedAtUtc"></td>
+                                <td data-bind="text:Total"></td>
+                                <td data-bind="text:TotalWeight"></td>
+                                <td data-bind="text:OrderStatus"></td>
+                                <td data-bind="text:PaymentStatus"></td>
+                                <td data-bind="text:IsCompleted"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -239,71 +245,85 @@
         </div>
     </form>
 </div>
-<div id="addressDiv" class="hide common-form">
-    <table>
-        <tbody data-bind="with: EditingAddress">
-            <tr>
-                <th>@("First Name".Localize())</th>
-                <td>
-                    <input data-bind="value:FirstName" type="text">
-                </td>
-            </tr>
-            <tr>
-                <th>@("Last Name".Localize())</th>
-                <td>
-                    <input data-bind="value:LastName" type="text">
-                </td>
-            </tr>
-            <tr>
-                <th>@("Phone".Localize())</th>
-                <td>
-                    <input data-bind="value:Phone" type="text">
-                </td>
-            </tr>
-            <tr>
-                <th>@("Country".Localize())</th>
-                <td>
-                    <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId"></select>
-                </td>
-            </tr>
-            <tr>
-                <th>@("State".Localize())</th>
-                <td>
-                    <input data-bind="value:State" type="text">
-                </td>
-            </tr>
-            <tr>
-                <th>@("City".Localize())</th>
-                <td>
-                    <input data-bind="value:City" type="text">
-                </td>
-            </tr>
-            <tr>
-                <th>@("Postcode".Localize())</th>
-                <td>
-                    <input data-bind="value:Postcode" type="text">
-                </td>
-            </tr>
-            <tr>
-                <th>@("Address1".Localize())</th>
-                <td>
-                    <input data-bind="value:Address1" type="text">
-                </td>
-            </tr>
-            <tr>
-                <th>@("Address2".Localize())</th>
-                <td>
-                    <input data-bind="value:Address2" type="text">
-                </td>
-            </tr>
-            <tr>
-                <th>@("IsDefault".Localize())</th>
-                <td>
-                    <input data-bind="checked:IsDefault" type="checkbox">
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="hide">
+    <div id="addressDiv">
+        <div class="topbar">
+            <h1 class="title">@("Address".Localize())</h1>
+        </div>
+        <div class="wrap">
+            <div class="common-form">
+                <table>
+                    <tbody data-bind="with: EditingAddress">
+                        <tr>
+                            <th>@("First Name".Localize())</th>
+                            <td>
+                                <input data-bind="value:FirstName" type="text" class="xlarge">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Last Name".Localize())</th>
+                            <td>
+                                <input data-bind="value:LastName" type="text" class="xlarge">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Phone".Localize())</th>
+                            <td>
+                                <input data-bind="value:Phone" type="text" class="xlarge">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Country".Localize())</th>
+                            <td>
+                                <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId" class="xlarge"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("State".Localize())</th>
+                            <td>
+                                <input data-bind="value:State" type="text" class="xlarge">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("City".Localize())</th>
+                            <td>
+                                <input data-bind="value:City" type="text" class="xlarge">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Postcode".Localize())</th>
+                            <td>
+                                <input data-bind="value:Postcode" type="text" class="xlarge">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Address1".Localize())</th>
+                            <td>
+                                <input data-bind="value:Address1" type="text" class="xlarge">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Address2".Localize())</th>
+                            <td>
+                                <input data-bind="value:Address2" type="text" class="xlarge">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input data-bind="checked:IsDefault" type="checkbox" id="IsDefault">
+                                <label class="inline" for="IsDefault">@("Set as default address".Localize())</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="buttons">
+                <a class="button" href="#">Save</a>
+                <a class="button gray" href="#">Cancel</a>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     utils.showMessage = function (title, message, level, funcClose) {
@@ -338,7 +358,7 @@
                 ]);
                 self.BindGender = ko.computed({
                     read: function () {
-                        if(this.data())
+                        if (this.data())
                             return this.data().Gender().toString();
                         return null;
                     },
@@ -440,9 +460,3 @@
         }
     }*@
 </script>
-
-<style>
-input[name="gender"]{
-	float: none;
-}
-</style>

@@ -14,10 +14,10 @@
 }
 
 <div id="main-container">
+    <div class="topbar">
+        <h1 class="title">@ViewBag.Title</h1>
+    </div>
     <div class="wrap">
-        <div class="topbar clearfix">
-            <h1 class="title">@ViewBag.Title</h1>
-        </div>
         <div class="common-table fixed" style="z-index: 1; position: relative;">
             <div class="left">
                 <img id="originalImg" class="img-none" src="" style="display: inline-block; max-width: 300px; max-height: 300px; min-width: 120px; min-height: 120px;" />
@@ -32,18 +32,18 @@
             </div>
         </div>
     </div>
-</div>
-<div class="buttons">
-    <div class="row form-actions">
-        <a class="button action left" href="javascript:;" onclick="CropImage();">
-            @("Save Cropped Image".Localize())
-        </a>
-        <a class="button action left" href="javascript:;" onclick="NotCropImage();">
-            @("Save Original Image".Localize())
-        </a>
-        <a class="button gray cancel action right" href="javascript:;" onclick="Cancel();">
-            @("Cancel".Localize())
-        </a>
+    <div class="buttons">
+        <div class="row form-actions">
+            <a class="button left" href="javascript:;" onclick="CropImage();">
+                @("Save Cropped Image".Localize())
+            </a>
+            <a class="button left" href="javascript:;" onclick="NotCropImage();">
+                @("Save Original Image".Localize())
+            </a>
+            <a class="button gray right" href="javascript:;" onclick="Cancel();">
+                @("Cancel".Localize())
+            </a>
+        </div>
     </div>
 </div>
 @section ScriptCSS {
@@ -70,7 +70,7 @@
 
             @if(!string.IsNullOrEmpty(file)){
             @:InitImage('@file');
-            }
+                                                            }
         });
 
         function InitImage(file)

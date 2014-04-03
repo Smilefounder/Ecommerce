@@ -63,13 +63,13 @@ namespace Kooboo.Commerce.Web.Html
 
         public static HeaderPanelButton AddCancelButton(this HeaderPanelButtonCollection buttons)
         {
-            return buttons.Add("Cancel", "cancel")
+            return buttons.Add("Cancel", "back")
                           .WithUrl(buttons.Html.ViewContext.HttpContext.Request["return"]);
         }
 
         public static HeaderPanelButton AddBackButton(this HeaderPanelButtonCollection buttons)
         {
-            return buttons.Add("Back", "cancel")
+            return buttons.Add("Back", "back")
                           .WithUrl(buttons.Html.ViewContext.HttpContext.Request["return"]);
         }
     }
