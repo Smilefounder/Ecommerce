@@ -9,25 +9,24 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Products.Accessories.Controllers
+namespace Kooboo.Commerce.Accessories.Controllers
 {
     public class AccessoryController : CommerceControllerBase
     {
-        private ISettingService _settingService;
         private IProductService _productService;
+        private IProductAccessoryService _accessoryService;
 
         public AccessoryController(
-            ISettingService settingService,
+            IProductAccessoryService accessoryService,
             IProductService productService)
         {
-            _settingService = settingService;
+            _accessoryService = accessoryService;
             _productService = productService;
         }
 
         public ActionResult List(int productId)
         {
-            var service = new ProductAccessoryService(_settingService);
-            var accessories = service.GetAccessories(productId);
+            var accessories = _accessoryService.GetAccessories(productId);
             var models = new List<ProductAccessoryModel>();
 
             foreach (var accessory in accessories)
@@ -54,9 +53,7 @@ namespace Kooboo.Commerce.Products.Accessories.Controllers
         [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Save(int productId, IList<ProductAccessoryModel> accessories)
         {
-            var service = new ProductAccessoryService(_settingService);
-
-            service.SaveAccessories(productId, accessories.Select(x => new ProductAccessory
+            _accessoryService.UpdateAccessories(productId, accessories.Select(x => new ProductAccessory
             {
                 ProductId = x.ProductId,
                 Rank = x.Rank

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Products.Accessories
+namespace Kooboo.Commerce.Accessories
 {
     public class AccessoriesAreaRegistration : AreaRegistration
     {
@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Products.Accessories
                 name: AreaName + "_default",
                 url: AreaName + "/{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "Kooboo.Commerce.Products.Accessories.Controllers" }
+                namespaces: new[] { "Kooboo.Commerce.Accessories.Controllers" }
             );
         }
     }

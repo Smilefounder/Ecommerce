@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Products.Accessories
+namespace Kooboo.Commerce.Accessories
 {
     [Dependency(typeof(ITabProvider), Key = "ProductAccessoriesTabProvider")]
     public class ProductAccessoriesTabProvider : Kooboo.CMS.Sites.Extension.UI.Tabs.ITabProvider
@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Products.Accessories
             {
                 Name = "Accessories",
                 DisplayText = "Accessories",
-                VirtualPath = "~/Areas/Kooboo.Commerce.Products.Accessories/Views/ProductAccessories.cshtml"
+                VirtualPath = "~/Areas/" + Strings.AreaName + "/Views/ProductAccessories.cshtml"
             };
         }
     }
