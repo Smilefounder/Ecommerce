@@ -7,12 +7,16 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.ImageSizes;
 
-namespace Kooboo.Commerce.Settings {
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Settings
+{
 
-    public class ImageSetting {
+    public class ImageSetting
+    {
 
-        public static ImageSetting NewDefault() {
-            return new ImageSetting() {
+        public static ImageSetting NewDefault()
+        {
+            return new ImageSetting()
+            {
                 Thumbnail = new ImageSize() { IsSystemDefault = true, IsEnabled = true, Width = 240, Height = 240, Name = "Thumbnail" },
                 Detail = new ImageSize() { IsSystemDefault = true, IsEnabled = true, Width = 300, Height = 300, Name = "Detail" },
                 List = new ImageSize() { IsSystemDefault = true, IsEnabled = true, Width = 35, Height = 35, Name = "List" },
@@ -21,27 +25,32 @@ namespace Kooboo.Commerce.Settings {
             };
         }
 
-        public ImageSize Thumbnail {
+        public ImageSize Thumbnail
+        {
             get;
             set;
         }
 
-        public ImageSize Detail {
+        public ImageSize Detail
+        {
             get;
             set;
         }
 
-        public ImageSize List {
+        public ImageSize List
+        {
             get;
             set;
         }
 
-        public ImageSize Cart {
+        public ImageSize Cart
+        {
             get;
             set;
         }
 
-        public List<ImageSize> CustomSizes {
+        public List<ImageSize> CustomSizes
+        {
             get;
             set;
         }

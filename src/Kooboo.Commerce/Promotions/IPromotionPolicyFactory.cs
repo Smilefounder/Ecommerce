@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Promotions
     {
         IEnumerable<IPromotionPolicy> All();
 
-        IPromotionPolicy FindByName(string strategyName);
+        IPromotionPolicy FindByName(string policyName);
     }
 
     [Dependency(typeof(IPromotionPolicyFactory), ComponentLifeStyle.Singleton)]

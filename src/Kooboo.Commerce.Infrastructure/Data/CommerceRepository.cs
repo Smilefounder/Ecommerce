@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Data
             EntityType = entityType;
         }
 
-        public object Get(object id)
+        public object Get(params object[] id)
         {
             return DbContext.Set(EntityType).Find(id);
         }

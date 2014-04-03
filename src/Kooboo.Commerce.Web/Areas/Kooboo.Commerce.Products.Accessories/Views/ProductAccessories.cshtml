@@ -1,0 +1,105 @@
+﻿<div class="simple-table">
+    <div>
+        <input type="text" class="large product-search-keywords" placeholder="@("Type keyword to search product")" />
+    </div>
+    <table style="margin-top:10px">
+        <thead>
+            <tr>
+                <th>@("Accessory Product Name".Localize())</th>
+                <th>@("Brand".Localize())</th>
+                <th>@("Rank".Localize())</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: $root.accessories">
+            <tr>
+                <td data-bind="text: productName"></td>
+                <td data-bind="text: brandName"></td>
+                <td>
+                    <input type="text" class="mini" data-bind="value: rank" />
+                </td>
+                <td>
+                    <a href="#" data-bind="click: $root.removeAccessory">
+                        @Html.IconImage("minus small")
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    (function ($) {
+        var commerceName = '@(ViewContext.RequestContext.GetRequestValue("commerceName"))';
+        var vm = null;
+
+        kb.events.on('Product/Edit/FormDataBinding', function (sender, args) {
+            vm = args.viewModel;
+            vm.accessories = ko.observableArray();
+            vm.removeAccessory = function (accessory) {
+                vm.accessories.remove(accessory);
+            }
+        });
+
+        kb.events.on('Product/Edit/ViewModelReady', function (sender, args) {
+            loadAccessories(args.productId).done(function (data) {
+                $.each(data, function () {
+                    vm.accessories.push(ko.mapping.fromJS(this));
+                });
+            });
+
+            initSearchBox();
+        });
+
+        kb.events.on('Product/Edit/FormSubmitted', function (sender, args) {
+            var defer = $.Deferred();
+            var data = {
+                productId: vm.data().Id(),
+                accessories: ko.mapping.toJS(vm.accessories())
+            };
+            $.ajax({
+                url: '/Kooboo.Commerce.Products.Accessories/Accessory/Save?commerceName=' + commerceName,
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json'
+            })
+            .done(function (result) {
+                if (result.Success) {
+                    defer.resolve();
+                } else {
+                    info.show(result.Messages.join('<br/>'), false);
+                    defer.reject();
+                }
+            });
+
+            return defer.promise();
+        });
+
+        function loadAccessories(productId) {
+            return $.get('/Kooboo.Commerce.Products.Accessories/Accessory/List', {
+                commerceName: commerceName,
+                productId: productId
+            });
+        }
+
+        function initSearchBox() {
+            $('.product-search-keywords').autocomplete({
+                source: '/Kooboo.Commerce.Products.Accessories/Accessory/SearchProducts?commerceName=' + commerceName,
+                minLength: 2,
+                select: function (event, ui) {
+                    vm.accessories.push({
+                        productId: ko.observable(ui.item.id),
+                        productName: ko.observable(ui.item.name),
+                        brandName: ko.observable(ui.item.brandName),
+                        rank: ko.observable(0)
+                    });
+                }
+            })
+            .data('ui-autocomplete')._renderItem = function (ul, item) {
+                return $('<li>').append('<a>' + item.name + ' - ' + item.brandName + '</a>')
+                                .appendTo(ul);
+            };
+        }
+
+    })(jQuery);
+</script>

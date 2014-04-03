@@ -41,7 +41,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             var promotions = _promotionService.Query()
                                              .OrderByDescending(x => x.Id)
-                                             .ToPagedList(page ?? 1, pageSize ?? 50)
+                                             .ToPagedList(page, pageSize)
                                              .Transform(x => new PromotionRowModel(x));
 
             return View(promotions);

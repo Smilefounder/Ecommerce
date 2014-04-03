@@ -78,7 +78,7 @@ namespace Kooboo.Commerce.WebAPI.Controllers
             ci.ControllerName = type.Name.Replace("Controller", "");
             if (comments != null)
             {
-                var ename = "T:" + type.FullName;
+                var ename = string.Format("T:{0}.{1}", type.Namespace, type.Name);
                 var cele = comments.Elements("member").FirstOrDefault(o => o.Attribute("name").Value == ename);
                 if (cele != null)
                     ci.Comments = cele.Element("summary").Value;
@@ -94,12 +94,25 @@ namespace Kooboo.Commerce.WebAPI.Controllers
                 ai.ApiRoute = string.Format("/{{instance}}/{0}/{1}", ci.ControllerName, ai.ActionName);
 
                 var paras = a.GetParameters();
-                var ename = "M:" + type.FullName + "." + a.Name;
+                var eTypeName = string.Format("M:{0}.{1}.{2}", type.Namespace, type.Name, a.Name);
+                var eParaNames = "";
                 if(paras != null && paras.Count() > 0)
                 {
-                    ename += string.Format("({0})", string.Join(",", paras.Select(o => o.ParameterType.FullName)));
+                    eParaNames = string.Format("({0})", string.Join(",", paras.Select(o => o.ParameterType.FullName)));
                 }
-                var aele = comments.Elements("member").FirstOrDefault(o => o.Attribute("name").Value == ename);
+                var aele = comments.Elements("member").FirstOrDefault(o => o.Attribute("name").Value == eTypeName + eParaNames);
+                if (aele == null)
+                {
+                    var btype = type.BaseType;
+                    while (btype != null)
+                    {
+                        eTypeName = string.Format("M:{0}.{1}.{2}", btype.Namespace, btype.Name, a.Name);
+                        aele = comments.Elements("member").FirstOrDefault(o => o.Attribute("name").Value == eTypeName + eParaNames);
+                        if (aele != null)
+                            break;
+                        btype = btype.BaseType;
+                    }
+                }
                 if(aele != null)
                     ai.Comments = aele.Element("summary").Value;
 

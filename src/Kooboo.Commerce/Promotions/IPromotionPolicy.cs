@@ -15,6 +15,6 @@ namespace Kooboo.Commerce.Promotions
 
         string DisplayName { get; }
 
-        void Execute(PromotionPolicyExecutionContext context);
+        void Execute(PromotionContext context);
     }
 }

@@ -33,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Kooboo.Commerce.Web.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -233,6 +234,24 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\CommerceWebAPI\CommerceWebAPIAreaRegistration.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\ApiInfoController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\BrandController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\CommerceAPIControllerAccessBase.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\CommerceAPIControllerBase.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\CommerceAPIControllerQueryBase.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\CountryController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\OrderController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\PaymentController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\PaymentMethodController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\PriceController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\ProductController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\Controllers\ShoppingCartController.cs" />
+    <Compile Include="Areas\CommerceWebAPI\ViewModels\ApiInfo.cs" />
+    <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
+    <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
     <Compile Include="Areas\Commerce\Controllers\ActivityController.cs" />
     <Compile Include="Areas\Commerce\Controllers\AddInManagementController.cs" />
@@ -243,7 +262,6 @@
     <Compile Include="Areas\Commerce\Controllers\HomeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\OrderController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\PaymentController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PaymentMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductTypeController.cs" />
@@ -254,6 +272,7 @@
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
     <Compile Include="Areas\Commerce\EntityUtil.cs" />
+    <Compile Include="Areas\Commerce\Extensions\PagedListExtensions.cs" />
     <Compile Include="Areas\Commerce\Html\CommandType.cs" />
     <Compile Include="Areas\Commerce\Html\GridChecked.cs" />
     <Compile Include="Areas\Commerce\Html\HeaderPanel.cs" />
@@ -305,7 +324,9 @@
     <Compile Include="Areas\Commerce\Models\Rules\ConditionParameterModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConditionsExpressionPrettifier.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConditionsModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Settings\ImageSetting.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSettingEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Settings\ImageSettingsHelper.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSizeEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ProductSettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\SettingEditorModel.cs" />
@@ -2251,6 +2272,13 @@
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\PaymentReturn\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Pay\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Pay\template.cshtml" />
+    <Content Include="Areas\CommerceWebAPI\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\CommerceWebAPI\Views\ApiInfo\AllAPI.cshtml" />
+    <Content Include="Areas\CommerceWebAPI\Views\ApiInfo\APIDetail.cshtml" />
+    <Content Include="Areas\CommerceWebAPI\Views\ApiInfo\Index.cshtml" />
+    <Content Include="Areas\CommerceWebAPI\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\CommerceWebAPI\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\CommerceWebAPI\Views\Web.config" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -2406,9 +2434,9 @@
       <Project>{5ba65d94-5968-4861-907a-460c252433cd}</Project>
       <Name>Kooboo.Commerce.API.CmsSite</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce.API.RestProvider\Kooboo.Commerce.API.RestProvider.csproj">
-      <Project>{17485074-a10c-42a6-be94-2be21f2c60e3}</Project>
-      <Name>Kooboo.Commerce.API.RestProvider</Name>
+    <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
+      <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
+      <Name>Kooboo.Commerce.API.LocalProvider</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>

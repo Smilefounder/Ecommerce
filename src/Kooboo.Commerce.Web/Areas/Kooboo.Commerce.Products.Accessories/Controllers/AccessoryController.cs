@@ -1,0 +1,84 @@
+﻿using Kooboo.Commerce.Products.Accessories.Models;
+using Kooboo.Commerce.Products.Services;
+using Kooboo.Commerce.Settings.Services;
+using Kooboo.Commerce.Web.Mvc;
+using Kooboo.Commerce.Web.Mvc.Controllers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Kooboo.Commerce.Products.Accessories.Controllers
+{
+    public class AccessoryController : CommerceControllerBase
+    {
+        private ISettingService _settingService;
+        private IProductService _productService;
+
+        public AccessoryController(
+            ISettingService settingService,
+            IProductService productService)
+        {
+            _settingService = settingService;
+            _productService = productService;
+        }
+
+        public ActionResult List(int productId)
+        {
+            var service = new ProductAccessoryService(_settingService);
+            var accessories = service.GetAccessories(productId);
+            var models = new List<ProductAccessoryModel>();
+
+            foreach (var accessory in accessories)
+            {
+                var product = _productService.GetById(accessory.ProductId);
+
+                if (product != null)
+                {
+                    var model = new ProductAccessoryModel
+                    {
+                        ProductId = accessory.ProductId,
+                        ProductName = product.Name,
+                        BrandName = product.Brand.Name,
+                        Rank = accessory.Rank
+                    };
+
+                    models.Add(model);
+                }
+            }
+
+            return JsonNet(models).UsingClientConvention();
+        }
+
+        [HttpPost, HandleAjaxFormError, AutoDbCommit]
+        public ActionResult Save(int productId, IList<ProductAccessoryModel> accessories)
+        {
+            var service = new ProductAccessoryService(_settingService);
+
+            service.SaveAccessories(productId, accessories.Select(x => new ProductAccessory
+            {
+                ProductId = x.ProductId,
+                Rank = x.Rank
+            }));
+
+            return AjaxForm();
+        }
+
+        public ActionResult SearchProducts(string term)
+        {
+            var products = _productService.Query()
+                                          .Where(x => !x.IsDeleted && x.Name.Contains(term))
+                                          .Take(10)
+                                          .Select(x => new
+                                          {
+                                              x.Id,
+                                              x.Name,
+                                              BrandName = x.Brand.Name
+                                          })
+                                          .ToList();
+
+            return JsonNet(products).UsingClientConvention();
+        }
+    }
+}

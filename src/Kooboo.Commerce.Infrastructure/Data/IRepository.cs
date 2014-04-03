@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Data
 
         Type EntityType { get; }
 
-        object Get(object id);
+        object Get(params object[] id);
 
         IQueryable Query();
 

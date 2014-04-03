@@ -7,24 +7,16 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Settings
 {
-    public class StoreSetting
+    public class StoreSettings
     {
-        public static StoreSetting NewDefault() {
-            return new StoreSetting() {
-                PriceIndex = 1.000M,
-                Culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name,
-                CurrencyISOCode = "USD",
-                WeightUnitName = "KG",
-                SizeUnitName = "MM"
-            };
-        }
+        public static readonly string Key = typeof(StoreSettings).Name;
 
         /// <summary>
         /// The price index to display all prices. Can be used:
         /// 1. To increase or descrease price of all items. 
         /// 2. Use to convert into different currency when used in different shops. 
         /// </summary>
-        public decimal PriceIndex { get; set; } 
+        public decimal PriceIndex { get; set; }
 
         /// <summary>
         /// The culture shown on your website. This is used to display currency, date, number and other culture related content.
@@ -48,5 +40,14 @@ namespace Kooboo.Commerce.Settings
         /// Size unit name, e.g. cm, inch, etc. 
         /// </summary>
         public string SizeUnitName { get; set; }
+
+        public StoreSettings()
+        {
+            PriceIndex = 1.000M;
+            Culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+            CurrencyISOCode = "USD";
+            WeightUnitName = "KG";
+            SizeUnitName = "MM";
+        }
     }
 }

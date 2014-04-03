@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "Create Product".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
+
+    var customTabs = Kooboo.CMS.Sites.Extension.UI.Tabs.CustomTabs.GetTabs(ViewContext.RequestContext).ToArray();
 }
 @section Panel {
     @Html.HeaderPanel().Buttons(buttons =>
@@ -20,6 +22,12 @@
                 <li><a href="#images">@("Product Images".Localize())</a></li>
                 <li data-bind="visible: ProductTypeId"><a href="#variants">@("Product Variants".Localize())</a></li>
                 <li data-bind="visible: ProductTypeId"><a href="#customFields">@("Custom Fields".Localize())</a></li>
+                @foreach (var tab in customTabs)
+                {
+                    <li>
+                        <a href="#@tab.Name">@tab.DisplayText.Localize()</a>
+                    </li>
+                }
             </ul>
             <div id="basicInfo">
                 <div class="common-form">
@@ -143,6 +151,12 @@
                     </table>
                 </div>
             </div>
+            @foreach (var tab in customTabs)
+            {
+                <div class="tab-content" id="@tab.Name">
+                    @Html.Partial(tab.VirtualPath)
+                </div>
+            }
         </div>
     </form>
 </div>
@@ -242,12 +256,21 @@
                 $('#J_ProductTabs').tabs();
                 $('#category_tree li.tree-node').treeNode();
                 InitUpload();
+
+                kb.events.trigger('Product/Edit/ViewModelReady', self, {
+                    productId: self.data().Id()
+                });
             },
             onSaveSuccess: function (self, info) {
-                utils.showMessage('Notice', info.message, 'info');
-                window.location.href = '/Commerce/Product/Index?commerceName=@Request.QueryString["commerceName"]';
-                //$('#J_ProductTabs').tabs();
-                //$('#category_tree li.tree-node').treeNode();
+                kb.events.trigger('Product/Edit/FormSubmitted', self, {
+                    productId: self.data().Id()
+                })
+                .done(function () {
+                    utils.showMessage('Notice', info.message, 'info');
+                    window.location.href = '/Commerce/Product/Index?commerceName=@Request.QueryString["commerceName"]';
+                    //$('#J_ProductTabs').tabs();
+                    //$('#category_tree li.tree-node').treeNode();
+                });
             },
             onReceiveData: function (self, data) {
                 if ('Success' in data) { data.status = data.Success ? 0 : 1; }
@@ -435,6 +458,9 @@
                 vm.GetBrands(function () {
                     vm.GetCategories(function () {
                         vm.getData();
+                        kb.events.trigger('Product/Edit/FormDataBinding', vm, {
+                            viewModel: vm
+                        });
                         ko.applyBindings(vm);
                     });
                 });

@@ -51,6 +51,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -134,13 +138,20 @@
     <Compile Include="Locations\Services\ICountryService.cs" />
     <Compile Include="Orders\ExtendedQuery\MostCostOrder.cs" />
     <Compile Include="Orders\ExtendedQuery\RecentOrder.cs" />
-    <Compile Include="Orders\IPriceCalculator.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderingProcessManager.cs" />
     <Compile Include="Orders\OrderQueryModel.cs" />
-    <Compile Include="Orders\PriceCalculationContext.cs" />
-    <Compile Include="Orders\PriceCalculator.cs" />
-    <Compile Include="Orders\PricingItem.cs" />
+    <Compile Include="Orders\Pricing\PricingItem.cs" />
+    <Compile Include="Orders\Pricing\IPricingStage.cs" />
+    <Compile Include="Orders\Pricing\PriceWithDiscount.cs" />
+    <Compile Include="Orders\Pricing\PricingContext.cs" />
+    <Compile Include="Orders\Pricing\PricingPipeline.cs" />
+    <Compile Include="Orders\Pricing\PricingStageTypeCollection.cs" />
+    <Compile Include="Orders\Pricing\Stages\PreparingPricingStage.cs" />
+    <Compile Include="Orders\Pricing\Stages\PaymentMethodPricingStage.cs" />
+    <Compile Include="Orders\Pricing\Stages\PromotionPricingStage.cs" />
+    <Compile Include="Orders\Pricing\Stages\ShippingPricingStage.cs" />
+    <Compile Include="Orders\Pricing\Stages\TaxPricingStage.cs" />
     <Compile Include="Payments\Extensions\PaymentsExtensions.cs" />
     <Compile Include="Payments\IPaymentProcessorFactory.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
@@ -163,13 +174,12 @@
     <Compile Include="Promotions\PromotionConditionContextModel.cs" />
     <Compile Include="Promotions\PromotionConditionChecker.cs" />
     <Compile Include="Promotions\PromotionMatch.cs" />
-    <Compile Include="Promotions\PromotionPolicyExecutionContext.cs" />
+    <Compile Include="Promotions\PromotionContext.cs" />
     <Compile Include="Rules\CustomerGenderValueDataSource.cs" />
-    <Compile Include="Settings\Services\IKeyValueService.cs" />
-    <Compile Include="Settings\Services\KeyValueService.cs" />
+    <Compile Include="Settings\Services\ISettingService.cs" />
+    <Compile Include="Settings\Services\SettingService.cs" />
     <Compile Include="Products\Services\IProductService.cs" />
     <Compile Include="Promotions\PromotionOverlappingUsage.cs" />
-    <Compile Include="Settings\ImageSetting.cs" />
     <Compile Include="Payments\Services\IPaymentMethodService.cs" />
     <Compile Include="Payments\Services\PaymentMethodService.cs" />
     <Compile Include="PriceChangeMode.cs" />
@@ -201,10 +211,7 @@
     <Compile Include="Products\ProductImage.cs" />
     <Compile Include="Products\ProductReview.cs" />
     <Compile Include="Products\ProductType.cs" />
-    <Compile Include="Settings\ProductSetting.cs" />
-    <Compile Include="Settings\Services\ISettingService.cs" />
-    <Compile Include="Settings\Services\SettingService.cs" />
-    <Compile Include="Settings\StoreSetting.cs" />
+    <Compile Include="Settings\StoreSettings.cs" />
     <Compile Include="EAV\FieldValidationRule.cs" />
     <Compile Include="Promotions\IPromotionPolicyFactory.cs" />
     <Compile Include="Promotions\IPromotionPolicy.cs" />

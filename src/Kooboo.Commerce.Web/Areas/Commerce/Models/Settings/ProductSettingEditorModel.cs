@@ -6,37 +6,25 @@ using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.EAV;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Settings {
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Settings
+{
 
-    public class ProductSettingEditorModel {
+    public class ProductSettingEditorModel
+    {
+        public List<CustomFieldEditorModel> SystemFields { get; set; }
 
-        public ProductSettingEditorModel() {
+        public ProductSettingEditorModel()
+        {
+            SystemFields = new List<CustomFieldEditorModel>();
         }
 
-        public ProductSettingEditorModel(ProductSetting productSetting) {
-            this.SystemFields = new List<CustomFieldEditorModel>();
-            if (productSetting.SystemFields != null) {
-                foreach (var item in productSetting.SystemFields) {
-                    this.SystemFields.Add(new CustomFieldEditorModel(item));
-                }
+        public ProductSettingEditorModel(IEnumerable<CustomField> systemFields)
+            : this()
+        {
+            foreach (var field in systemFields)
+            {
+                SystemFields.Add(new CustomFieldEditorModel(field));
             }
         }
-
-        public void UpdateTo(ProductSetting productSetting) {
-            productSetting.SystemFields = new List<CustomField>();
-            if (this.SystemFields != null) {
-                foreach (var item in this.SystemFields) {
-                    var field = new CustomField(); item.UpdateTo(field);
-                    productSetting.SystemFields.Add(field);
-                }
-            }
-        }
-
-        public List<CustomFieldEditorModel> SystemFields {
-            get;
-            set;
-        }
-
-        // Other product settings
     }
 }

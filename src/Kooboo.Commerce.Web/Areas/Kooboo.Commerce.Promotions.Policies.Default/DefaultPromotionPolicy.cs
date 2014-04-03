@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             }
         }
 
-        public void Execute(PromotionPolicyExecutionContext context)
+        public void Execute(PromotionContext context)
         {
             var promotion = context.Promotion;
 
@@ -40,16 +40,19 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             {
                 foreach (var matchedItem in context.ConditionMatchedItems)
                 {
-                    matchedItem.Discount += ComputeDiscount(matchedItem.Subtotal, data);
+                    matchedItem.Subtotal.AddDiscount(
+                        ComputeDiscount(matchedItem.Subtotal.OriginalValue, data));
                 }
             }
             else if (data.DiscountAppliedTo == DiscountAppliedTo.OrderShipping)
             {
-                context.PriceCalculationContext.ShippingDiscount += ComputeDiscount(context.PriceCalculationContext.ShippingCost, data);
+                context.PricingContext.ShippingCost.AddDiscount(
+                    ComputeDiscount(context.PricingContext.ShippingCost.OriginalValue, data));
             }
             else if (data.DiscountAppliedTo == DiscountAppliedTo.OrderSubtotal)
             {
-                context.PriceCalculationContext.DiscountExItemDiscounts += ComputeDiscount(context.PriceCalculationContext.Subtotal, data);
+                context.PricingContext.Subtotal.AddDiscount(
+                    ComputeDiscount(context.PricingContext.Subtotal.OriginalValue, data));
             }
         }
 

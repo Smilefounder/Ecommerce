@@ -16,6 +16,13 @@ namespace Kooboo.Commerce.WebAPI.Controllers
         /// <summary>
         /// return all api objects filtered by query string parameters
         /// </summary>
+        /// <example>
+        /// fdsafds
+        /// dfsafdsd
+        ///     dfadfsa
+        ///         dfdsa
+        ///         
+        /// </example>
         /// <returns>api objects</returns>
         [HttpGet]
         public virtual IEnumerable<T> Get()

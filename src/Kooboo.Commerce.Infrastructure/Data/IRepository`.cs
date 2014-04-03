@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Data
     {
         ICommerceDatabase Database { get; }
 
-        T Get(object id);
+        T Get(params object[] id);
 
         IQueryable<T> Query();
 

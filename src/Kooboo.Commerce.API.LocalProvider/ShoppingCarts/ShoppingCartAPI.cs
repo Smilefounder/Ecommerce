@@ -3,6 +3,7 @@ using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.ShoppingCarts.Services;
@@ -86,17 +87,16 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             var cart = _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
 
             // Calculate promotion discounts
-            var calculator = new PriceCalculator(_promotionService, _promotionPolicyFactory);
-            var context = PriceCalculationContext.CreateFrom(obj);
-            calculator.Calculate(context);
+            var context = PricingContext.CreateFrom(obj);
+            new PricingPipeline().Execute(context);
 
             foreach (var item in cart.Items)
             {
                 var pricingItem = context.Items.FirstOrDefault(x => x.Id == item.Id);
-                item.Discount = pricingItem.Discount;
+                item.Discount = pricingItem.Subtotal.Discount;
             }
 
-            cart.DiscountExItemDiscounts = context.DiscountExItemDiscounts;
+            cart.SubtotalDiscount = context.Subtotal.Discount;
 
             foreach (var promotion in context.AppliedPromotions)
             {

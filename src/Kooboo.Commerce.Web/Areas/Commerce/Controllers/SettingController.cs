@@ -10,44 +10,75 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Settings;
 using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
+using Kooboo.Commerce.EAV.Services;
+using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.ImageSizes.Services;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class SettingController : CommerceControllerBase
     {
-        private readonly ISettingService _settingService;
+        private readonly ISettingService _settings;
+        private readonly ICustomFieldService _customFieldService;
+        private readonly IImageSizeService _imageSizeService;
 
-        public SettingController(ISettingService settingService)
+        public SettingController(
+            ISettingService settings,
+            ICustomFieldService customFieldService,
+            IImageSizeService imageSizeService)
         {
-            _settingService = settingService;
+            _settings = settings;
+            _customFieldService = customFieldService;
+            _imageSizeService = imageSizeService;
         }
 
         public ActionResult Index()
         {
-            var storeSetting = _settingService.GetStoreSetting();
-            var imageSetting = _settingService.GetImageSetting();
-            var productSetting = _settingService.GetProductSetting();
-            var model = new SettingEditorModel(storeSetting, imageSetting, productSetting);
+            var model = new SettingEditorModel();
+
+            var storeSettings = _settings.Get<StoreSettings>(StoreSettings.Key) ?? new StoreSettings();
+            model.StoreSetting = new StoreSettingEditorModel(storeSettings);
+
+            var imageSettings = new ImageSettingsHelper(_imageSizeService).GetImageSetting();
+            model.ImageSetting = new ImageSettingEditorModel(imageSettings);
+
+            model.ProductSetting = new ProductSettingEditorModel(_customFieldService.GetSystemFields());
+
             return View(model);
         }
 
         [HttpPost, HandleAjaxFormError, AutoDbCommit]
         public ActionResult Index(SettingEditorModel model)
         {
-            var storeSett = new StoreSetting();
+            var storeSettings = new StoreSettings();
             if (model.StoreSetting != null)
-                model.StoreSetting.UpdateTo(storeSett);
-            _settingService.SetStoreSetting(storeSett);
+            {
+                model.StoreSetting.UpdateTo(storeSettings);
+            }
 
-            var imageSett = new ImageSetting();
+            _settings.Set(StoreSettings.Key, storeSettings);
+
+            var imageSettings = new ImageSetting();
             if (model.ImageSetting != null)
-                model.ImageSetting.UpdateTo(imageSett);
-            _settingService.SetImageSetting(imageSett);
+            {
+                model.ImageSetting.UpdateTo(imageSettings);
+            }
 
-            var productSett = new ProductSetting();
+            new ImageSettingsHelper(_imageSizeService).SetImageSetting(imageSettings);
+
             if (model.ProductSetting != null)
-                model.ProductSetting.UpdateTo(productSett);
-            _settingService.SetProductSetting(productSett);
+            {
+                // Update system fields
+                var systemFields = new List<CustomField>();
+                foreach (var fieldModel in model.ProductSetting.SystemFields)
+                {
+                    var field = new CustomField();
+                    fieldModel.UpdateTo(field);
+                    systemFields.Add(field);
+                }
+
+                _customFieldService.SetSystemFields(systemFields);
+            }
 
             return AjaxForm().ReloadPage();
         }

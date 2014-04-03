@@ -1,0 +1,31 @@
+﻿@model Kooboo.Commerce.Web.Areas.CommerceWebAPI.ViewModels.ApiActionInfo
+@{
+    ViewBag.Title = "APIDetail";
+    var controller = ViewBag.Controller as Kooboo.Commerce.Web.Areas.CommerceWebAPI.ViewModels.ApiControllerInfo;
+}
+
+<h2>APIDetail</h2>
+@Html.ActionLink("Back to all API list".Localize(), "AllAPI", "ApiInfo", new { area = "CommerceWebAPI" }, null)
+@if (Model == null)
+{
+    <p>@("No action found.".Localize())</p>
+}
+else
+{
+    <h3>@controller.ControllerName</h3>
+    <div>
+        @controller.Comments
+    </div>
+    <h3>@Model.ActionName</h3>
+    <div>
+        @Model.Comments
+    </div>
+    if(Model.Parameters != null)
+    { 
+        foreach (var p in Model.Parameters)
+        {
+            <h5>@(p.ParameterName) : @(p.TypeName)</h5>
+            <p>@p.Comments</p>
+        }
+    }
+}

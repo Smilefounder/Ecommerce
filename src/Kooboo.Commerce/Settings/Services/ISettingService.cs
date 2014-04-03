@@ -3,22 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Settings.Services {
+namespace Kooboo.Commerce.Settings.Services
+{
+    public interface ISettingService
+    {
+        string Get(string key, string category = null);
 
-    public interface ISettingService {
+        T Get<T>(string key, string category = null);
 
-        void SetStoreSetting(StoreSetting setting);
+        void Set(string key, object value, string category = null);
 
-        StoreSetting GetStoreSetting();
-
-
-        void SetImageSetting(ImageSetting setting);
-
-        ImageSetting GetImageSetting();
-
-
-        void SetProductSetting(ProductSetting setting);
-
-        ProductSetting GetProductSetting();
+        IEnumerable<KeyValueSetting> GetByCategory(string category);
     }
 }
