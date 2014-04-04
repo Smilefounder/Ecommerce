@@ -1,0 +1,22 @@
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.CmsSite;
+
+@{
+    var productId = Convert.ToInt32(Page_Context.Current.PageRequestContext.AllQueryString["id"]);
+    var recommendations = Site.Current.Commerce().Recommendations().ForProduct(productId);
+}
+
+@if (recommendations.Length > 0)
+{
+
+    <h3>Recommendations:</h3>
+    <ul>
+        @foreach (var recommendation in recommendations)
+        {
+            <li>
+                <a href="/ProductList/ProductDetail/@recommendation.Id">@recommendation.Name</a>
+            </li>
+        }
+    </ul>
+}
+ 

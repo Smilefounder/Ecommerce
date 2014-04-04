@@ -2283,6 +2283,8 @@
     <Content Include="Areas\CommerceWebAPI\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\CommerceWebAPI\Views\Shared\Error.cshtml" />
     <Content Include="Areas\CommerceWebAPI\Views\Web.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Recommendations\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Recommendations\template.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

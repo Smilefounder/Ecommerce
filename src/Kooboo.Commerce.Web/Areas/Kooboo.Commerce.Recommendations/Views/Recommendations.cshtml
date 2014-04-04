@@ -1,17 +1,17 @@
 ﻿<div class="simple-table">
     <div>
-        <input type="text" id="accessory-searchbox" class="large" placeholder="@("Type keyword to search product")" />
+        <input type="text" id="recommendation-product-searchbox" class="large" placeholder="@("Type keyword to search product")" />
     </div>
     <table style="margin-top:10px">
         <thead>
             <tr>
-                <th>@("Accessory Product Name".Localize())</th>
+                <th>@("Recommended Product Name".Localize())</th>
                 <th>@("Brand".Localize())</th>
                 <th>@("Rank".Localize())</th>
                 <th></th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: $root.accessories">
+        <tbody data-bind="foreach: $root.recommendations">
             <tr>
                 <td data-bind="text: productName"></td>
                 <td data-bind="text: brandName"></td>
@@ -19,7 +19,7 @@
                     <input type="text" class="mini" data-bind="value: rank" />
                 </td>
                 <td>
-                    <a href="#" data-bind="click: $root.removeAccessory">
+                    <a href="#" data-bind="click: $root.removeRecommendation">
                         @Html.IconImage("minus small")
                     </a>
                 </td>
@@ -35,16 +35,16 @@
 
         kb.events.on('Product/Edit/FormDataBinding', function (sender, args) {
             vm = args.viewModel;
-            vm.accessories = ko.observableArray();
-            vm.removeAccessory = function (accessory) {
-                vm.accessories.remove(accessory);
+            vm.recommendations = ko.observableArray();
+            vm.removeRecommendation = function (recommendation) {
+                vm.recommendations.remove(recommendation);
             }
         });
 
         kb.events.on('Product/Edit/ViewModelReady', function (sender, args) {
-            loadAccessories(args.productId).done(function (data) {
+            loadRecommendations(args.productId).done(function (data) {
                 $.each(data, function () {
-                    vm.accessories.push(ko.mapping.fromJS(this));
+                    vm.recommendations.push(ko.mapping.fromJS(this));
                 });
             });
 
@@ -55,10 +55,10 @@
             var defer = $.Deferred();
             var data = {
                 productId: vm.data().Id(),
-                accessories: ko.mapping.toJS(vm.accessories())
+                recommendations: ko.mapping.toJS(vm.recommendations())
             };
             $.ajax({
-                url: '/Kooboo.Commerce.Accessories/Accessory/Save?commerceName=' + commerceName,
+                url: '/Kooboo.Commerce.Recommendations/Recommendation/Save?commerceName=' + commerceName,
                 type: 'POST',
                 data: JSON.stringify(data),
                 contentType: 'application/json'
@@ -75,19 +75,19 @@
             return defer.promise();
         });
 
-        function loadAccessories(productId) {
-            return $.get('/Kooboo.Commerce.Accessories/Accessory/List', {
+        function loadRecommendations(productId) {
+            return $.get('/Kooboo.Commerce.Recommendations/Recommendation/List', {
                 commerceName: commerceName,
                 productId: productId
             });
         }
 
         function initSearchBox() {
-            $('#accessory-searchbox').autocomplete({
-                source: '/Kooboo.Commerce.Accessories/Accessory/SearchProducts?commerceName=' + commerceName,
+            $('#recommendation-product-searchbox').autocomplete({
+                source: '/Kooboo.Commerce.Recommendations/Recommendation/SearchProducts?commerceName=' + commerceName,
                 minLength: 2,
                 select: function (event, ui) {
-                    vm.accessories.push({
+                    vm.recommendations.push({
                         productId: ko.observable(ui.item.id),
                         productName: ko.observable(ui.item.name),
                         brandName: ko.observable(ui.item.brandName),
