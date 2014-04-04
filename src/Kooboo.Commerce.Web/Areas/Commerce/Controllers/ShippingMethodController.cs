@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.Commerce.Shipping.Services;
 using Kooboo.Commerce.Web.Mvc;
@@ -10,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods;
 using Kooboo.Commerce.Shipping;
+using Kooboo.Commerce.Web.Areas.Commerce.Models;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -96,7 +98,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var method = _shippingMethodService.GetById(model[0].Id);
             var views = _shippingRateProviderViewsFactory.FindByProviderName(method.ShippingRateProviderName);
-            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
+            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", method.Id));
 
             return AjaxForm().RedirectTo(url);
         }
@@ -126,13 +128,22 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 model.Name = method.Name;
                 model.Description = method.Description;
                 model.ShippingRateProviderName = method.ShippingRateProviderName;
+
+                foreach (var field in method.CustomFields)
+                {
+                    model.CustomFields.Add(new NameValue
+                    {
+                        Name = field.Name,
+                        Value = field.Value
+                    });
+                }
             }
 
             return View(model);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Save(ShippingMethodEditorModel model)
+        public ActionResult BasicInfo(ShippingMethodEditorModel model)
         {
             var method = model.Id > 0 ? _shippingMethodService.GetById(model.Id) : new ShippingMethod();
 
@@ -144,13 +155,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 _shippingMethodService.Create(method);
             }
-            else
+
+            method.CustomFields.Clear();
+
+            foreach (var field in model.CustomFields)
             {
-                _shippingMethodService.Update(method);
+                method.CustomFields.Add(new ShippingMethodCustomField
+                {
+                    ShippingMethodId = method.Id,
+                    Name = field.Name,
+                    Value = field.Value
+                });
             }
 
             var views = _shippingRateProviderViewsFactory.FindByProviderName(method.ShippingRateProviderName);
-            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
+            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", method.Id));
 
             return AjaxForm().RedirectTo(url);
         }

@@ -21,5 +21,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods
         public string ShippingRateProviderName { get; set; }
 
         public IList<SelectListItem> AvailableShippingRateProviders { get; set; }
+
+        public IList<NameValue> CustomFields { get; set; }
+
+        public ShippingMethodEditorModel()
+        {
+            AvailableShippingRateProviders = new List<SelectListItem>();
+            CustomFields = new List<NameValue>();
+        }
     }
 }

@@ -13,8 +13,6 @@ namespace Kooboo.Commerce.Shipping.Services
 
         bool Create(ShippingMethod method);
 
-        bool Update(ShippingMethod method);
-
         bool Delete(ShippingMethod method);
 
         void Enable(ShippingMethod method);

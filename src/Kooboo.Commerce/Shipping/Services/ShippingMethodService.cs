@@ -32,11 +32,6 @@ namespace Kooboo.Commerce.Shipping.Services
             return _repository.Insert(method);
         }
 
-        public bool Update(ShippingMethod method)
-        {
-            return _repository.Update(method, k => new object[] { k.Id });
-        }
-
         public bool Delete(ShippingMethod method)
         {
             return _repository.Delete(method);

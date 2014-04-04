@@ -95,18 +95,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        public ActionResult Create(string policy)
-        {
-            var model = new PromotionEditorModel();
-            model.PromotionPolicy = policy;
-            model.OtherPromotions = _promotionService.Query()
-                                                    .OrderBy(x => x.Priority)
-                                                    .ThenBy(x => x.Id)
-                                                    .ToList(x => new PromotionRowModel(x));
-
-            return View(model);
-        }
-
         [ChildActionOnly]
         public ActionResult Steps(int step)
         {
@@ -114,51 +102,54 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return PartialView();
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult BasicInfo(string policy, int? id)
         {
-            var promotion = _promotionService.GetById(id);
-            var model = new PromotionEditorModel
-            {
-                Id = promotion.Id,
-                Name = promotion.Name,
-                StartTime = promotion.StartTimeUtc == null ? null : (DateTime?)promotion.StartTimeUtc.Value.ToLocalTime(),
-                EndTime = promotion.EndTimeUtc == null ? null : (DateTime?)promotion.EndTimeUtc.Value.ToLocalTime(),
-                Priority = promotion.Priority,
-                CouponCode = promotion.CouponCode,
-                ConditionsExpression = promotion.ConditionsExpression,
-                RequireCouponCode = promotion.RequireCouponCode,
-                PromotionPolicy = promotion.PromotionPolicyName,
-                OverlappingUsage = promotion.OverlappingUsage
-            };
+            var model = new PromotionEditorModel();
+            model.PromotionPolicy = policy;
 
-            model.OtherPromotions = _promotionService.Query()
-                                                    .Where(x => x.Id != id)
-                                                    .OrderBy(x => x.Priority)
-                                                    .ThenBy(x => x.Id)
-                                                    .ToList(x => new PromotionRowModel(x));
-
-            foreach (var other in promotion.OverlappablePromotions)
+            if (id != null)
             {
-                model.OtherPromotions.First(x => x.Id == other.Id).IsSelected = true;
+                var promotion = _promotionService.GetById(id.Value);
+                model.UpdateFrom(promotion);
+                model.OtherPromotions = GetOtherPromotions(promotion.Id);
+
+                foreach (var other in promotion.OverlappablePromotions)
+                {
+                    model.OtherPromotions.First(x => x.Id == other.Id).IsSelected = true;
+                }
+            }
+            else
+            {
+                model.OtherPromotions = GetOtherPromotions(0);
             }
 
             return View(model);
         }
 
+        private IList<PromotionRowModel> GetOtherPromotions(int promotionId)
+        {
+            return _promotionService.Query().Where(x => x.Id != promotionId)
+                                            .OrderBy(x => x.Priority)
+                                            .ThenBy(x => x.Id)
+                                            .ToList(x => new PromotionRowModel(x));
+        }
+
         [HttpPost, Transactional]
-        public ActionResult Save(PromotionEditorModel model)
+        public ActionResult BasicInfo(PromotionEditorModel model)
         {
             var promotion = model.Id > 0 ? _promotionService.GetById(model.Id) : new Promotion();
 
-            model.UpdateTo(promotion);
+            model.UpdateSimplePropertiesTo(promotion);
 
             if (model.Id > 0)
             {
+                model.UpdateCustomFieldsTo(promotion);
                 _promotionService.Update(promotion);
             }
             else
             {
                 _promotionService.Create(promotion);
+                model.UpdateCustomFieldsTo(promotion);
             }
 
             promotion.OverlappablePromotions.Clear();
@@ -168,12 +159,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 promotion.OverlappablePromotions.Add(_promotionService.GetById(other.Id));
             }
 
-            return AjaxForm().RedirectTo(Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("promotionId", promotion.Id)));
+            return AjaxForm().RedirectTo(Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("id", promotion.Id)));
         }
 
-        public ActionResult Policy(int promotionId)
+        public ActionResult Policy(int id)
         {
-            var promotion = _promotionService.GetById(promotionId);
+            var promotion = _promotionService.GetById(id);
             var views = _policyViewsFactory.FindByPolicyName(promotion.PromotionPolicyName);
             var url = Url.RouteUrl(views.Settings(promotion, ControllerContext), RouteValues.From(Request.QueryString));
             return Redirect(url);

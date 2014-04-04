@@ -6,7 +6,7 @@
 @section Panel {
     @(Html.HeaderPanel().Buttons(buttons =>
     {
-        buttons.AddCreateButton().WithUrl(Url.Action("BasicInfo", RouteValues.From(Request.QueryString).Merge("return", Request.RawUrl)));
+        buttons.AddCreateButton("BasicInfo");
         buttons.AddEnableButton();
         buttons.AddDisableButton();
         buttons.AddAjaxPostButton("Settings", "setting", "Settings", new { @return = Request.RawUrl })

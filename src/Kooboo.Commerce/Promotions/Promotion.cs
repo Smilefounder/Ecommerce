@@ -39,16 +39,19 @@ namespace Kooboo.Commerce.Promotions
 
         public PromotionOverlappingUsage OverlappingUsage { get; set; }
 
-        public virtual ICollection<Promotion> OverlappablePromotions { get; set; }
+        public virtual ICollection<Promotion> OverlappablePromotions { get; protected set; }
 
         public DateTime CreatedAtUtc { get; protected set; }
 
         public DateTime LastUpdatedAtUtc { get; protected set; }
 
+        public virtual ICollection<PromotionCustomField> CustomFields { get; protected set; }
+
         public Promotion()
         {
             CreatedAtUtc = DateTime.UtcNow;
             LastUpdatedAtUtc = DateTime.UtcNow;
+            CustomFields = new List<PromotionCustomField>();
             OverlappablePromotions = new List<Promotion>();
         }
 

@@ -1,6 +1,6 @@
 ﻿@model ShippingMethodEditorModel
 
-@using (Html.BeginForm("Save", "ShippingMethod", RouteValues.From(Request.QueryString)))
+@using (Html.BeginForm("BasicInfo", "ShippingMethod", RouteValues.From(Request.QueryString)))
 {
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.ShippingRateProviderName)
@@ -19,6 +19,12 @@
                 <td>
                     @Html.DropDownListFor(m => m.ShippingRateProviderName, Model.AvailableShippingRateProviders, new { @class = "medium" })
                     @Html.ValidationMessageFor(m => m.ShippingRateProviderName)
+                </td>
+            </tr>
+            <tr>
+                <th>@("Custom Fields".Localize())</th>
+                <td>
+                    @Html.Partial("_SimpleCustomFields", Model.CustomFields)
                 </td>
             </tr>
         </table>

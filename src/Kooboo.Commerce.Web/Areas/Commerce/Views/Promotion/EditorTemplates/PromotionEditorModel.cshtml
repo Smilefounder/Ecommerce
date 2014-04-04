@@ -1,6 +1,6 @@
 ﻿@model PromotionEditorModel
 
-@using (Html.BeginForm("Save", "Promotion", RouteValues.From(Request.QueryString)))
+@using (Html.BeginForm("BasicInfo", "Promotion", RouteValues.From(Request.QueryString)))
 {
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.PromotionPolicy)
@@ -35,6 +35,12 @@
                         @Html.DropDownListFor(m => m.OverlappingUsage, Model.AvailableOverlappingUsages, new { @class = "medium" })
                     </div>
                     @Html.Partial("_SelectOverlappablePromotions", Model.OtherPromotions)
+                </td>
+            </tr>
+            <tr>
+                <th>@("Custom Fields".Localize())</th>
+                <td>
+                    @Html.Partial("_SimpleCustomFields", Model.CustomFields)
                 </td>
             </tr>
         </table>

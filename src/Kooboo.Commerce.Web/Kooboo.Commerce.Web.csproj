@@ -306,6 +306,7 @@
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\CustomFieldEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\FieldValidationRuleEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\NameValue.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\Grid2\PaymentMethodRowModelGridItem.cs" />
@@ -2288,6 +2289,7 @@
     <Content Include="Areas\Commerce\Views\PaymentMethod\Complete.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Steps.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Complete.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_SimpleCustomFields.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -2501,7 +2503,7 @@
     <Content Include="Areas\Commerce\Views\PaymentMethod\BasicInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Promotion\Create.cshtml" />
+    <Content Include="Areas\Commerce\Views\Promotion\BasicInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Promotion\Index.cshtml" />
@@ -2565,9 +2567,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Promotion\EditorTemplates\PromotionEditorModel.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Promotion\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Promotion\_SelectOverlappablePromotions.cshtml" />

@@ -48,13 +48,39 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
 
         public IList<PromotionRowModel> OtherPromotions { get; set; }
 
+        public IList<NameValue> CustomFields { get; set; }
+
         public PromotionEditorModel()
         {
+            CustomFields = new List<NameValue>();
             OtherPromotions = new List<PromotionRowModel>();
             AvailableOverlappingUsages = Kooboo.Commerce.Web.Mvc.EnumUtil.ToSelectList(typeof(PromotionOverlappingUsage));
         }
 
-        public void UpdateTo(Promotion promotion)
+        public void UpdateFrom(Promotion promotion)
+        {
+            Id = promotion.Id;
+            Name = promotion.Name;
+            StartTime = promotion.StartTimeUtc == null ? null : (DateTime?)promotion.StartTimeUtc.Value.ToLocalTime();
+            EndTime = promotion.EndTimeUtc == null ? null : (DateTime?)promotion.EndTimeUtc.Value.ToLocalTime();
+            RequireCouponCode = promotion.RequireCouponCode;
+            CouponCode = promotion.CouponCode;
+            Priority = promotion.Priority;
+            PromotionPolicy = promotion.PromotionPolicyName;
+            ConditionsExpression = promotion.ConditionsExpression;
+            OverlappingUsage = promotion.OverlappingUsage;
+
+            foreach (var field in promotion.CustomFields)
+            {
+                CustomFields.Add(new NameValue
+                {
+                    Name = field.Name,
+                    Value = field.Value
+                });
+            }
+        }
+
+        public void UpdateSimplePropertiesTo(Promotion promotion)
         {
             promotion.Name = Name.Trim();
             promotion.StartTimeUtc = StartTime == null ? null : (DateTime?)StartTime.Value.ToUniversalTime();
@@ -65,6 +91,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
             promotion.PromotionPolicyName = PromotionPolicy;
             promotion.OverlappingUsage = OverlappingUsage;
             promotion.ConditionsExpression = ConditionsExpression;
+        }
+
+        public void UpdateCustomFieldsTo(Promotion promotion)
+        {
+            promotion.CustomFields.Clear();
+
+            foreach (var field in CustomFields)
+            {
+                promotion.CustomFields.Add(new PromotionCustomField
+                {
+                    PromotionId = promotion.Id,
+                    Name = field.Name,
+                    Value = field.Value
+                });
+            }
         }
     }
 }

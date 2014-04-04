@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Kooboo.Commerce.Web.Areas.Commerce.Models.NameValue>
+
+<div id="customFields">
+    <table>
+        <thead>
+            <tr>
+                <th>@("Name".Localize())</th>
+                <th>@("Value".Localize())</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                var index = 0;
+                
+                foreach (var field in Model)
+                {
+                    <tr data-index="@index">
+                        <td>@Html.TextBox("CustomFields[" + index + "].Name", field.Name)</td>
+                        <td>@Html.TextBox("CustomFields[" + index + "].Value", field.Value)</td>
+                        <td><a href="#" class="btn-remove-customfield">@Html.IconImage("minus small")</a></td>
+                    </tr>
+                
+                    index++;
+                }
+            }
+        </tbody>
+    </table>
+    <a href="#" class="action btn-add-customfield">@Html.IconImage("plus small")</a>
+</div>
+
+<script>
+    (function ($) {
+
+        var $container = $('#customFields');
+
+        $('.btn-add-customfield').on('click', function () {
+            var index = $container.find('table tbody tr').length;
+
+            var html = '<tr data-index="' + index + '">'
+                            + '<td><input type="text" name="CustomFields[' + index + '].Name" /></td>'
+                            + '<td><input type="text" name="CustomFields[' + index + '].Value" /></td>'
+                            + '<td>'
+                                    + '<a href="#" class="btn-remove-customfield"><img class="icon minus small" src="/Images/invis.gif"/></a>'
+                            + '</td>'
+                     + '</tr>';
+
+            $container.find('table tbody').append(html);
+        });
+
+        $container.on('click', '.btn-remove-customfield', function () {
+            var $tr = $(this).closest('tr');
+            $tr.nextAll().each(function () {
+                var oldIndex = $(this).data('index');
+                var newIndex = oldIndex - 1;
+                $(this).data('index', newIndex);
+
+                $(this).find(':text').each(function () {
+                    $(this).attr('name', $(this).attr('name').replace('[' + oldIndex + ']', '[' + newIndex + ']'));
+                });
+            });
+
+            $tr.remove();
+        });
+
+    })(jQuery);
+</script>

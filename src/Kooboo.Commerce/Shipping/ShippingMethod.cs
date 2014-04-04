@@ -23,6 +23,13 @@ namespace Kooboo.Commerce.Shipping
 
         public string ShippingRateProviderData { get; set; }
 
+        public virtual ICollection<ShippingMethodCustomField> CustomFields { get; protected set; }
+
+        public ShippingMethod()
+        {
+            CustomFields = new List<ShippingMethodCustomField>();
+        }
+
         public void Enable()
         {
             if (!IsEnabled)

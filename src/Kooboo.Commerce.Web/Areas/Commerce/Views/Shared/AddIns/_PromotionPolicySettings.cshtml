@@ -5,6 +5,8 @@
     {
         ViewBag.Title = "Promotion Policy".Localize();
     }
+
+    var promotionId = ViewContext.RouteData.Values["id"];
 }
 
 @section Panel {
@@ -23,7 +25,7 @@
     @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 2 })
     @RenderBody()
     <div class="wizard-buttons">
-        <a class="button gray" href="@Url.Action("Conditions", "Promotion", RouteValues.From(Request.QueryString).Merge("area", "Commerce"))">@("Back".Localize())</a>
+        <a class="button gray" href="@Url.Action("BasicInfo", "Promotion", RouteValues.From(Request.QueryString).Merge("area", "Commerce").Merge("id", promotionId))">@("Back".Localize())</a>
         <a class="button" data-ajaxform="">@("Next".Localize())</a>
     </div>
 </div>

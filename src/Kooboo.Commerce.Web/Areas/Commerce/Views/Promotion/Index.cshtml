@@ -12,7 +12,7 @@
             foreach (var policy in policies)
             {
                 items.Add(policy.Text)
-                     .WithUrl(Url.Action("Create", RouteValues.From(Request.QueryString).Merge("policy", policy.Value).Merge("return", Request.RawUrl)));
+                     .WithUrl(Url.Action("BasicInfo", RouteValues.From(Request.QueryString).Merge("policy", policy.Value).Merge("return", Request.RawUrl)));
             }
         });
         

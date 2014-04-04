@@ -45,13 +45,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
 
         public IList<PaymentProcessorModel> AvailablePaymentProcessors { get; set; }
 
+        public IList<NameValue> CustomFields { get; set; }
+
         public PaymentMethodEditorModel()
         {
             AvailablePaymentProcessors = new List<PaymentProcessorModel>();
             AllFeeChargeModes = EnumUtil.ToSelectList(typeof(PriceChangeMode));
+            CustomFields = new List<NameValue>();
         }
 
-        public void UpdateTo(PaymentMethod method)
+        public void UpdateSimplePropertiesTo(PaymentMethod method)
         {
             method.DisplayName = DisplayName;
             method.UniqueId = UniqueId;
@@ -59,6 +62,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
             method.AdditionalFeeChargeMode = AdditionalFeeChargeMode;
             method.AdditionalFeeAmount = AdditionalFeeAmount;
             method.AdditionalFeePercent = AdditionalFeePercent;
+        }
+
+        public void UpdateCustomFieldsTo(PaymentMethod method)
+        {
+            method.CustomFields.Clear();
+
+            foreach (var field in CustomFields)
+            {
+                method.CustomFields.Add(new PaymentMethodCustomField
+                {
+                    PaymentMethodId = method.Id,
+                    Name = field.Name,
+                    Value = field.Value
+                });
+            }
         }
     }
 }

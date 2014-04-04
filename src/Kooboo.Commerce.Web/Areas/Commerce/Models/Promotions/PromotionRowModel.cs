@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
     {
         public int Id { get; set; }
 
-        [GridColumn(GridItemColumnType = typeof(EditGridActionItemColumn))]
+        [EditorLinkedGridColumn(EditActionName = "BasicInfo")]
         public string Name { get; set; }
 
         [GridColumn(HeaderText = "Coupon code")]

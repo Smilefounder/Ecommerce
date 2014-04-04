@@ -15,6 +15,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Web.Areas.Commerce.Models;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -73,6 +74,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 model.AdditionalFeeChargeMode = method.AdditionalFeeChargeMode;
                 model.AdditionalFeeAmount = method.AdditionalFeeAmount;
                 model.AdditionalFeePercent = method.AdditionalFeePercent;
+                model.CustomFields = method.CustomFields.Select(x => new NameValue
+                {
+                    Name = x.Name,
+                    Value = x.Value
+                })
+                .ToList();
             }
 
             return View(model);
@@ -155,20 +162,22 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             if (model.Id > 0)
             {
                 method = _paymentMethodService.GetById(model.Id);
-                model.UpdateTo(method);
+                model.UpdateSimplePropertiesTo(method);
+                model.UpdateCustomFieldsTo(method);
             }
             else
             {
                 method = new PaymentMethod();
-                model.UpdateTo(method);
+                model.UpdateSimplePropertiesTo(method);
                 _paymentMethodService.Create(method);
+                model.UpdateCustomFieldsTo(method);
             }
 
             var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);
 
             if (views != null)
             {
-                var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", model.Id));
+                var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", method.Id));
                 return AjaxForm().RedirectTo(url);
             }
 

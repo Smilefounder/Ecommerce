@@ -34,9 +34,12 @@ namespace Kooboo.Commerce.Payments
 
         public DateTime CreatedAtUtc { get; set; }
 
+        public virtual ICollection<PaymentMethodCustomField> CustomFields { get; protected set; }
+
         public PaymentMethod()
         {
             CreatedAtUtc = DateTime.UtcNow;
+            CustomFields = new List<PaymentMethodCustomField>();
         }
 
         public virtual decimal GetPaymentMethodCost(decimal sutotal)
