@@ -2151,7 +2151,6 @@
     <Content Include="Areas\Commerce\Views\Shared\_Sidebar.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\Decimal.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\Events.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\List.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\EditorTemplates\AttachedActivityModel.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\Create.cshtml" />

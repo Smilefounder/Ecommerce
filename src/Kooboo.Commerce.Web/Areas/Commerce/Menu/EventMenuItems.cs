@@ -11,27 +11,6 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 {
-    public class EventCategoryMenuItem : MenuItem
-    {
-        public string Category { get; set; }
-
-        public EventCategoryMenuItem(string category)
-        {
-            Category = category;
-
-            Name = category;
-            Text = category;
-
-            Controller = "Activity";
-            Action = "Events";
-
-            RouteValues = new System.Web.Routing.RouteValueDictionary();
-            RouteValues.Add("category", category);
-
-            Initializer = new EventCategoryMenuItemInitializer();
-        }
-    }
-
     public class EventMenuItem : MenuItem
     {
         public EventMenuItem(Type eventType)
@@ -70,7 +49,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
             foreach (var category in _eventRegistry.GetCategories())
             {
-                var categoryMenuItem = new EventCategoryMenuItem(category);
+                var categoryMenuItem = new MenuItem
+                {
+                    Text = category,
+                    Name = category
+                };
+
                 menuItems.Add(categoryMenuItem);
 
                 var eventTypes = _eventRegistry.GetEventTypesByCategory(category);

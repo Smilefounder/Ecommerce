@@ -1,20 +1,13 @@
-﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Activities;
+﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using Kooboo.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc.Paging;
-using Kooboo.Web.Mvc;
-using System.Web.Routing;
-using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Registry;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -35,27 +28,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _activityRuleService = activityRuleService;
             _activityFactory = activityFactory;
             _activityViewsFactory = activityViewsFactory;
-        }
-
-        public ActionResult Events(string category, int? page, int? pageSize)
-        {
-            ViewBag.Category = category;
-
-            var eventTypes = _activityEventRegistry.GetEventTypesByCategory(category);
-            var models = new List<ActivityEventRowModel>();
-
-            foreach (var eventType in eventTypes)
-            {
-                var model = new ActivityEventRowModel
-                {
-                    EventType = eventType.AssemblyQualifiedNameWithoutVersion(),
-                    Name = eventType.GetDescription() ?? eventType.Name.Humanize()
-                };
-
-                models.Add(model);
-            }
-
-            return View(models.ToPagedList(page ?? 1, pageSize ?? 50));
         }
 
         [Transactional]
