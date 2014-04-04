@@ -10,8 +10,8 @@
 @section Panel{
     <ul class="header-panel">
     <li>
-        <a href="@ViewBag.Return">
-            @Html.IconImage("cancel") @("Previous".Localize())
+        <a href="/Commerce/Order?commerceName=@Request.QueryString["commerceName"]">
+            @Html.IconImage("back") @("Cancel".Localize())
         </a>
     </li>
     <li>
@@ -92,12 +92,6 @@
 									</td>
 								</tr>
 								<tr>
-									<th>@("Payment Status".Localize())</th>
-									<td>
-										@Html.DropDownListFor(i => i.PaymentStatus, EnumUtil.ToSelectList<PaymentStatus>(), new { @class = "medium" })
-									</td>
-								</tr>
-								<tr>
 									<th>@("Created At".Localize())</th>
 									<td>
 										<span>@Model.CreatedAtUtc.ToShortDateString()</span>
@@ -159,18 +153,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>@("Payment Method".Localize())</th>
-                                <td>
-                                    <select id="PaymentMethodId" name="PaymentMethodId" onchange="Calculate();" class="medium">
-                                        <option value=""></option>
-                                        @foreach (var pm in ViewBag.PaymentMethods)
-                                        {
-                                            <option value="@pm.Id" data-method="@pm.AdditionalFeeChargeMode" data-amount="@pm.AdditionalFeeAmount" data-percent="@pm.AdditionalFeePercent" @(pm.Id == (Model.PaymentMethodId.HasValue ? Model.PaymentMethodId.Value : 0) ? "selected='selected'" : "")>@pm.DisplayName</option>
-                                        }
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
                                 <th>
                                     @("Payment Method Cost".Localize())
                                 </th>
@@ -202,21 +184,87 @@
                     <legend>
                         @("Shipping address".Localize())
                     </legend>
-                    @Html.Partial("_Address", Model.ShippingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "ShippingAddress"))
+                    <div>
+                        <div>
+                            @if(Model.ShippingAddress == null)
+                            {
+                                <span>@("No Shipping Address".Localize())</span>
+                                <a href="javascript:;" onclick="$('#shippingAddress').toggle();">@("Add Shipping Address".Localize())</a>
+                            }
+                            else
+                            { 
+                                <span>@string.Format("{0} {1}", Model.ShippingAddress.FirstName, Model.ShippingAddress.LastName)</span>
+                                <span>@Model.ShippingAddress.Address1</span>
+                                <a href="javascript:;" onclick="$('#shippingAddress').toggle();">@("Edit Shipping Address".Localize())</a>
+                            }
+                        </div>
+                        <div id="shippingAddress" class="hide">
+                            @Html.Partial("_Address", Model.ShippingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "ShippingAddress"))
+                        </div>
+                    </div>
                 </fieldset>
             </div>
 				</div>
 				<div class="span6">
 					<div class="common-form">
-                <fieldset>
-                    <legend>
-                        @("Billing address".Localize())
-                    </legend>
-                    @Html.Partial("_Address", Model.BillingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "BillingAddress"))
-                </fieldset>
+                        <fieldset>
+                            <legend>
+                                @("Billing address".Localize())
+                            </legend>
+                            <div>
+                                <div>
+                                    @if (Model.BillingAddress == null)
+                                    {
+                                        <span>@("No Billing Address".Localize())</span>
+                                        <a href="javascript:;" onclick="$('#billingAddress').toggle();">@("Add Billing Address".Localize())</a>
+                                    }
+                                    else
+                                    {
+                                        <span>@string.Format("{0} {1}", Model.BillingAddress.FirstName, Model.BillingAddress.LastName)</span>
+                                        <span>@Model.BillingAddress.Address1</span>
+                                        <a href="javascript:;" onclick="$('#billingAddress').toggle();">@("Edit Shipping Address".Localize())</a>
+                                    }
+                                </div>
+                                <div id="billingAddress" class="hide">
+                                    @Html.Partial("_Address", Model.BillingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "BillingAddress"))
+                                </div>
+                            </div>
+                        </fieldset>
             </div>
 				</div>
 			</div>
+        </div>
+        <div class="common-form order-form">
+            <fieldset>
+                <legend>
+                    @("Order Custom Fields".Localize())
+                </legend>
+                <table id="customFields">
+                    <thead>
+                        <tr>
+                            <th>@("Name".Localize())</th>
+                            <th>@("Value".Localize())</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.CustomFields != null)
+                        {
+                            foreach (var cf in Model.CustomFields)
+                            {
+                                <tr>
+                                    <td>@Html.TextBox("CustomFields.Name", cf.Name)</td>
+                                    <td>@Html.TextBox("CustomFields.Value", cf.Value)</td>
+                                    <td><a href="javascript:;" onclick="RemoveCustomField(this);">@Html.IconImage("minus small")</a></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <a href="javascript:;" class="action" onclick="AddCustomField();">
+                    @Html.IconImage("plus small")
+                </a>
+            </fieldset>
         </div>
         <div class="common-form order-form">
             <fieldset>
@@ -235,22 +283,36 @@
             </fieldset>
         </div>
     }
+    <div class="process-button">
+        <a href="@ViewBag.Return" class="button">
+            @("Previous".Localize())
+        </a>
+    </div>
 </div>
 <script type="text/javascript">
     function Calculate() {
-        var op = $('#PaymentMethodId').find('option:selected');
-        var chargeMethod = op.attr('data-method') || 'ByAmount';
-        var amount = parseFloat(op.attr('data-amount')) || 0;
-        var percent = parseFloat(op.attr('data-percent')) || 0;
         var subtotal = parseFloat($("#SubTotal").val()) || 0;
         var discount = parseFloat($("#Discount").val()) || 0;
         var tax = parseFloat($("#TotalTax").val()) || 0;
         var shippingCost = parseFloat($("#ShippingCost").val()) || 0;
-        var cost = chargeMethod == 'ByAmount' ? amount : (percent > 0 ? subtotal * percent : 0); // 0: charge by amount 1: charge by percent
-        if (cost <= 0)
-            cost = parseFloat($('#PaymentMethodCost').val()) || 0;
+        var cost = parseFloat($('#PaymentMethodCost').val()) || 0;
         var total = subtotal - discount + tax + shippingCost + cost;
-        $('#PaymentMethodCost').val(cost);
         $('#Total').val(total);
+    }
+
+    function AddCustomField() {
+        var tr = $('<tr></tr>');
+        var name = $('<input type="text" name="CustomFields.Name" value="" />');
+        var value = $('<input type="text" name="CustomFields.Value" value="" />');
+        var icon = $('<a href="javascript:;" onclick="RemoveCustomField(this);"><img class="icon minus small" src="/Images/invis.gif"></a>');
+        tr.append($('<td></td>').append(name));
+        tr.append($('<td></td>').append(value));
+        tr.append($('<td></td>').append(icon));
+        $('#customFields').append(tr);
+    }
+
+    function RemoveCustomField(ele) {
+        var tr = $(ele).closest('tr');
+        tr.remove();
     }
 </script>

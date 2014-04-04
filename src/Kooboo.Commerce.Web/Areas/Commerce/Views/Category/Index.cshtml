@@ -1,4 +1,4 @@
-﻿@model PagedList<Kooboo.Commerce.Categories.Category>
+﻿@model PagedList<Kooboo.Commerce.Web.Areas.Commerce.Models.Categories.CategoryRowModel>
 @{
     ViewBag.Title = "Categories".Localize();
 }
@@ -32,7 +32,7 @@
                             <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
                         </td>
                         <td>
-                            @if (p.Children.Count > 0)
+                            @if (p.ChildrenCount > 0)
                             {
                                 <span class="expander" onclick="ToggleChildren(event, this, '@p.Id');">@Html.IconImage("sprite")</span>
                             }
@@ -88,9 +88,12 @@
                         var ctd2 = $('<td></td>');
                         var times = level - 1;
                         ctd2.css('padding-left', 5 + 14 * times);
-                        var span = $('<span class="expander" onclick="ToggleChildren(event, this, \'' + n.Id + '\');"><img class="icon sprite" src="/Images/invis.gif" /></span>');
-                        var a = $('<a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"><img class="icon file file-doc" src="/Images/invis.gif" /></a>').append(n.Name);
+                        var span = $('<span class="expander disabled"></span>');
+                        if (n.ChildrenCount > 0) {
+                            span = $('<span class="expander" onclick="ToggleChildren(event, this, \'' + n.Id + '\');"><img class="icon sprite" src="/Images/invis.gif" /></span>'); 
+                        }
                         ctd2.append(span);
+                        var a = $('<a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"><img class="icon file file-doc" src="/Images/invis.gif" /></a>').append(n.Name);
                         ctd2.append(a);
                         ctr.append(ctd2);
                         ctr.append($('<td>' + (n.Published ? "YES" : "-") + '</td>'));

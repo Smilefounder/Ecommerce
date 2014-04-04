@@ -187,11 +187,9 @@
                         </a>
                     </li>
                 </ul>
-                <!-- ko if: IsMultiple() || $root.GetImageUrl($data).length < 1 -->
-                <a href="javascript:;" class="upload" data-owner="commerce" data-bind="attr: { 'data-property': Name }">
+                <a href="javascript:;" class="upload" data-owner="commerce" data-bind="attr: { 'data-property': Name, 'data-multiple': IsMultiple }">
                     @Html.IconImage("plus small")
                 </a>
-                <!-- /ko -->
             </div>
         </td>
     </tr>
@@ -386,14 +384,20 @@
                 };
 
                 self.AddImage = function (imgType, url) {
-                    var img = {
-                        Id: ko.observable(0),
-                        ProductId: ko.observable(self.data().Id()),
-                        ImageSizeName: ko.observable(imgType),
-                        ImageUrl: ko.observable(url),
-                        IsVisible: ko.observable(true)
-                    };
-                    self.data().Images.push(img);
+                    var t = $.grep(self.ImageTypes(), function (n, i) { return n.Name() == imgType; })[0];
+                    if (t) {
+                        var img = {
+                            Id: ko.observable(0),
+                            ProductId: ko.observable(self.data().Id()),
+                            ImageSizeName: ko.observable(imgType),
+                            ImageUrl: ko.observable(url),
+                            IsVisible: ko.observable(true)
+                        };
+                        if (!t.IsMultiple()) {
+                            self.data().Images.removeAll();
+                        }
+                        self.data().Images.push(img);
+                    }
                 };
 
                 self.RemoveImage = function (item) {
@@ -474,7 +478,9 @@
     function InitUpload() {
         $('.upload').upload({
             on_file_select: function (data) {
-                vm.AddImage(data.property, data.file.Url);
+                $.each(data.files, function (i, n) {
+                    vm.AddImage(data.property, n.Url);
+                });
             }
         });
 

@@ -79,8 +79,12 @@
     $(function () {
         $('.J_Upload').upload({
             on_file_select: function (data) {
-                $('#Logo').val(data.file.Url);
-                $('#logoImg').attr('src', data.file.Url);
+                var url = '';
+                if (data.files && data.files.length > 0) {
+                    url = data.files[0].Url;
+                }
+                $('#Logo').val(url);
+                $('#logoImg').attr('src', url);
                 $('#logoImg').parent().show();
             }
         });

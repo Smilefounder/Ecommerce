@@ -24,13 +24,8 @@
 @section Panel{
     <ul class="header-panel">
         <li>
-            <a href="@ViewBag.Return">
-                @Html.IconImage("cancel") @("Previous".Localize())
-            </a>
-        </li>
-        <li>
-            <a href="/Commerce/Order/FillOrderInfo?commerceName=@Request.QueryString["commerceName"]">
-                @Html.IconImage("next") @("Next".Localize())
+            <a href="/Commerce/Order?commerceName=@Request.QueryString["commerceName"]">
+                @Html.IconImage("back") @("Cancel".Localize())
             </a>
         </li>
     </ul>
@@ -121,6 +116,14 @@
             </table>
         </div>
     }
+    <div class="process-button">
+        <a href="@ViewBag.Return" class="button">
+            @("Previous".Localize())
+        </a>
+        <a href="/Commerce/Order/FillOrderInfo?commerceName=@Request.QueryString["commerceName"]" class="button">
+            @("Next".Localize())
+        </a>
+    </div>
 </div>
 <div id="productPriceList" class="hide">
     @using (Html.BeginForm("AddProduct", "Order", RouteValues.From(Request.QueryString)))
