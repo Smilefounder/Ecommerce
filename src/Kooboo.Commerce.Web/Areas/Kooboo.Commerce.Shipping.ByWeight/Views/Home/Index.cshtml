@@ -1,7 +1,6 @@
 ﻿@model ByWeightShippingRulesModel
 @{
     Layout = "~/Areas/Commerce/Views/Shared/AddIns/_ShippingRateProviderSettings.cshtml";
-    ViewBag.Title = "By weight shipping rules".Localize();
 }
 
 @using (Html.BeginForm())
@@ -48,14 +47,14 @@
                 </tr>
                 <tr data-bind="if: isEditing">
                     <td>
-                        <input type="text" data-bind="value: fromWeight" class="mini" placeholder="@("KG".Localize())">
+                        <input type="text" data-bind="value: fromWeight" class="small" placeholder="@("KG".Localize())">
                     </td>
                     <td>
-                        <input type="text" data-bind="value: toWeight" class="mini" placeholder="@("KG".Localize())">
+                        <input type="text" data-bind="value: toWeight" class="small" placeholder="@("KG".Localize())">
                     </td>
                     <td>
-                        <input type="text" data-bind="value: shippingPrice" class="mini" placeholder="@("Price".Localize())">
-                        <select data-bind="options: $root.availablePriceUnits, optionsText: 'text', optionsValue: 'value', value: priceUnit" class="mini"></select>
+                        <input type="text" data-bind="value: shippingPrice" class="small" placeholder="@("Price".Localize())">
+                        <select data-bind="options: $root.availablePriceUnits, optionsText: 'text', optionsValue: 'value', value: priceUnit" class="small"></select>
                     </td>
                     <td>
                         <a data-bind="click: $root.commitRuleEditing">@Html.IconImage("save-small")</a>

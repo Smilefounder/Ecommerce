@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods
     {
         public int Id { get; set; }
 
-        [EditorLinkedGridColumn]
+        [EditorLinkedGridColumn(EditActionName = "BasicInfo")]
         public string Name { get; set; }
 
         [GridColumn(HeaderText = "Shipping rate provider")]

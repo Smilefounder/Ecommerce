@@ -2,6 +2,7 @@
 using Kooboo.Commerce.Shipping.ByWeight.Domain;
 using Kooboo.Commerce.Shipping.ByWeight.Models;
 using Kooboo.Commerce.Shipping.Services;
+using Kooboo.Commerce.Web.Areas.Commerce.Controllers;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
 {
-    public class HomeController : CommerceControllerBase
+    public class HomeController : ShippingRateProviderSettingsControllerBase
     {
         private IShippingMethodService _service;
 
@@ -47,7 +48,7 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
             var method = _service.GetById(model.ShippingMethodId);
             method.ShippingRateProviderData = JsonConvert.SerializeObject(model.Rules);
 
-            return AjaxForm().RedirectTo(@return);
+            return AjaxForm().RedirectTo(NextStepUrl(method.Id));
         }
     }
 }

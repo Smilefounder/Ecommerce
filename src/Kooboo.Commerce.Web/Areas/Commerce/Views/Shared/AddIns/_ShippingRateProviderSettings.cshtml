@@ -1,10 +1,12 @@
 ﻿@{
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
 
     if (String.IsNullOrEmpty(ViewBag.Title as string))
     {
-        ViewBag.Title = "Shipping rave provider settings".Localize();
+        ViewBag.Title = "Settings".Localize();
     }
+
+    var methodId = ViewContext.RouteData.Values["id"];
 }
 
 @section Panel {
@@ -16,12 +18,18 @@
     {
         @Html.HeaderPanel().Buttons(buttons =>
        {
-           buttons.AddSaveButton();
            buttons.AddCancelButton();
        })
     }
 }
 
 <div class="block">
+    @Html.Action("Steps", "ShippingMethod", new { area = "Commerce", step = 2 })
     @RenderBody()
+    <div class="wizard-buttons">
+        <a class="button gray" href="@Url.Action("BasicInfo", "ShippingMethod", RouteValues.From(Request.QueryString).Merge("area", "Commerce").Merge("id", methodId))">
+            @("Back".Localize())
+        </a>
+        <a data-ajaxform="" class="button">@("Next".Localize())</a>
+    </div>
 </div>

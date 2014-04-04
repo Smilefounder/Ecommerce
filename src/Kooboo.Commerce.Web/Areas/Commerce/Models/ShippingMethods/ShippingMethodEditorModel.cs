@@ -16,9 +16,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods
 
         public string Description { get; set; }
 
-        [Display(Name = "Enabled")]
-        public bool IsEnabled { get; set; }
-
         [Required]
         [Display(Name = "Shipping rate provider")]
         public string ShippingRateProviderName { get; set; }

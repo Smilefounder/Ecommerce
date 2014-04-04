@@ -58,6 +58,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
+        [HttpPost, Transactional]
+        public void EnableShippingMethod(int id)
+        {
+            var method = _shippingMethodService.GetById(id);
+            _shippingMethodService.Enable(method);
+        }
+
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Disable(ShippingMethodRowModel[] model)
         {
@@ -94,33 +101,32 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().RedirectTo(url);
         }
 
-        public ActionResult Create()
+        [ChildActionOnly]
+        public ActionResult Steps(int step)
+        {
+            ViewBag.Step = step;
+            return PartialView();
+        }
+
+        public ActionResult BasicInfo(int? id)
         {
             var model = new ShippingMethodEditorModel
             {
                 AvailableShippingRateProviders = _shippingRateProviderFactory.All().ToSelectList().ToList()
             };
-
             if (model.AvailableShippingRateProviders.Count > 0)
             {
                 model.ShippingRateProviderName = model.AvailableShippingRateProviders[0].Value;
             }
 
-            return View(model);
-        }
-
-        public ActionResult Edit(int id)
-        {
-            var method = _shippingMethodService.GetById(id);
-            var model = new ShippingMethodEditorModel
+            if (id != null)
             {
-                Id = method.Id,
-                Name = method.Name,
-                Description = method.Description,
-                IsEnabled = method.IsEnabled,
-                ShippingRateProviderName = method.ShippingRateProviderName,
-                AvailableShippingRateProviders = _shippingRateProviderFactory.All().ToSelectList().ToList()
-            };
+                var method = _shippingMethodService.GetById(id.Value);
+                model.Id = method.Id;
+                model.Name = method.Name;
+                model.Description = method.Description;
+                model.ShippingRateProviderName = method.ShippingRateProviderName;
+            }
 
             return View(model);
         }
@@ -143,19 +149,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 _shippingMethodService.Update(method);
             }
 
-            if (model.IsEnabled)
-            {
-                _shippingMethodService.Enable(method);
-            }
-            else
-            {
-                _shippingMethodService.Disable(method);
-            }
-
             var views = _shippingRateProviderViewsFactory.FindByProviderName(method.ShippingRateProviderName);
             var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
 
             return AjaxForm().RedirectTo(url);
+        }
+
+        public ActionResult Complete(int id)
+        {
+            var method = _shippingMethodService.GetById(id);
+            return View(method);
         }
 
         private string GetShippingRateProviderDisplayName(string name)

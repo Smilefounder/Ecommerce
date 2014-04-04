@@ -23,30 +23,30 @@ namespace Kooboo.Commerce.Web.Html
                           .WithCommandType(CommandType.AjaxPost);
         }
 
-        public static HeaderPanelButton AddCreateButton(this HeaderPanelButtonCollection buttons)
+        public static HeaderPanelButton AddCreateButton(this HeaderPanelButtonCollection buttons, string actionName = "Create")
         {
             var urlHelper = new UrlHelper(buttons.Html.ViewContext.RequestContext);
             var routeValues = RouteValues.From(buttons.Html.ViewContext.HttpContext.Request.QueryString).Merge("return", buttons.Html.ViewContext.HttpContext.Request.RawUrl);
-            return buttons.Add("Create", "add", urlHelper.Action("Create", routeValues));
+            return buttons.Add("Create", "add", urlHelper.Action(actionName, routeValues));
         }
 
-        public static HeaderPanelButton AddEnableButton(this HeaderPanelButtonCollection buttons)
+        public static HeaderPanelButton AddEnableButton(this HeaderPanelButtonCollection buttons, string actionName = "Enable")
         {
-            return buttons.AddAjaxPostButton("Enable", "add", "Enable")
+            return buttons.AddAjaxPostButton("Enable", "add", actionName)
                           .VisibleWhen(GridChecked.Any)
                           .VisibleWhenSelected(".disabled");
         }
 
-        public static HeaderPanelButton AddDisableButton(this HeaderPanelButtonCollection buttons)
+        public static HeaderPanelButton AddDisableButton(this HeaderPanelButtonCollection buttons, string actionName = "Disable")
         {
-            return buttons.AddAjaxPostButton("Disable", "delete", "Disable")
+            return buttons.AddAjaxPostButton("Disable", "delete", actionName)
                           .VisibleWhen(GridChecked.Any)
                           .VisibleWhenSelected(".enabled");
         }
 
-        public static HeaderPanelButton AddDeleteButton(this HeaderPanelButtonCollection buttons)
+        public static HeaderPanelButton AddDeleteButton(this HeaderPanelButtonCollection buttons, string actionName = "Delete")
         {
-            return buttons.AddAjaxPostButton("Delete", "delete", "Delete")
+            return buttons.AddAjaxPostButton("Delete", "delete", actionName)
                           .VisibleWhen(GridChecked.Any)
                           .WithConfirmMessage("Are you sure to delete this record?");
         }

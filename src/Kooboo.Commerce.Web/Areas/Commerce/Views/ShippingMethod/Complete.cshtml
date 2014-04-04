@@ -1,0 +1,42 @@
+﻿@model Kooboo.Commerce.Shipping.ShippingMethod
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "Complete".Localize();
+}
+
+@section Panel {
+    <ul class="header-panel">
+        <li><a href="@ViewContext.RequestContext.GetRequestValue("return")">@Html.IconImage("back") @("Back to shipping method list".Localize())</a></li>
+    </ul>
+}
+
+<div class="block">
+    @Html.Action("Steps", "ShippingMethod", new { area = "Commerce", step = 3 })
+    <div class="block message success">
+        <p>
+            @(String.Format("Shipping method \"{0}\" is successfully created/updated".Localize(), Model.Name))
+        </p>
+    </div>
+    @if (!Model.IsEnabled)
+    {
+        <div class="wizard-buttons">
+            <a href="#" data-id="@Model.Id" class="button btn-enable-shippingmethod">@("Enable this shipping method".Localize())</a>
+        </div>
+    }
+</div>
+
+<script>
+    $(function () {
+        var commerceName = '@(ViewContext.RequestContext.GetRequestValue("commerceName"))';
+
+        $('.btn-enable-shippingmethod').click(function () {
+            window.loading.show();
+            $.post('@Url.Action("EnableShippingMethod")', { id: $(this).data('id'), commerceName: commerceName }, function () {
+                window.loading.hide();
+                location.href = '@(ViewContext.RequestContext.GetRequestValue("return"))';
+            });
+
+            return false;
+        });
+    });
+</script>

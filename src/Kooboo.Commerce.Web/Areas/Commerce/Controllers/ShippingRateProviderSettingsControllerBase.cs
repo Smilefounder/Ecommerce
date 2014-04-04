@@ -3,12 +3,12 @@ using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class PaymentProcessorSettingsControllerBase : CommerceControllerBase
+    public class ShippingRateProviderSettingsControllerBase : CommerceControllerBase
     {
         protected virtual ActionResult NextStep(int methodId)
         {
@@ -20,7 +20,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var routeValues = RouteValues.From(Request.QueryString)
                                          .Merge("area", "Commerce")
                                          .Merge("id", methodId);
-            return Url.Action("Complete", "PaymentMethod", routeValues);
+
+            return Url.Action("Complete", "ShippingMethod", routeValues);
         }
     }
 }
