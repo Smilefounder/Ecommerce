@@ -30,6 +30,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var categories = _categoryService.Query().Where(o => o.Parent == null)
                 .OrderByDescending(x => x.Id)
+                .Select(x => new CategoryRowModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Published = x.Published,
+                    ChildrenCount = x.Children.Count
+                })
                 .ToPagedList(page, pageSize);
                 //.Transform(x => new CategoryRowModel(x, true));
 
@@ -49,7 +56,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Children(int parentId)
         {
-            var children = _categoryService.Query().Where(o => o.Parent.Id == parentId).ToArray();
+            var children = _categoryService.Query().Where(o => o.Parent.Id == parentId)
+                .Select(x => new CategoryRowModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Published = x.Published,
+                    ChildrenCount = x.Children.Count
+                })
+                .ToArray();
             return JsonNet(children);
         }
 
@@ -57,7 +72,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var model = new CategoryEditorModel();
             if (parentId.HasValue)
+            {
                 model.ParentId = parentId.Value.ToString();
+                var parent = _categoryService.GetById(parentId.Value);
+                model.SetParentCrumble(parent);
+            }
             return View(model);
         }
 

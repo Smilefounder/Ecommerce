@@ -17,6 +17,7 @@
         @Html.EditorFor(o => o.Width, "StringCustom")
         <span class="left" style="margin-right: 10px;">X</span>
         @Html.EditorFor(o => o.Height, "StringCustom")
+        @Html.EditorFor(m => m.IsMultiple, "BooleanCustom")
         @Html.EditorFor(m => m.IsEnabled, "BooleanCustom")
         @if (ViewData["CustomSizes"] == "true") {
             <a class="button removeRow">@("Remove".Localize())</a>

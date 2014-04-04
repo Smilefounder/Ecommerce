@@ -131,10 +131,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var order = Session["TempOrder"] as Order;
 
-            if (order.ShippingAddress == null)
-                order.ShippingAddress = new OrderAddress();
-            if (order.BillingAddress == null)
-                order.BillingAddress = new OrderAddress();
 
             if (order.OrderItems != null)
             {
@@ -161,7 +157,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             order.Customer = customer;
             ViewBag.Addresses = customer.Addresses;
             ViewBag.Countries = _countryService.Query();
-            ViewBag.PaymentMethods = _paymentMethodService.GetAllPaymentMethods();
+            //ViewBag.PaymentMethods = _paymentMethodService.GetAllPaymentMethods();
+            if (order.ShippingAddress == null)
+            { 
+                order.ShippingAddress = new OrderAddress();
+                if (customer.ShippingAddress != null)
+                    order.ShippingAddress.FromAddress(customer.ShippingAddress);
+            }
+            if (order.BillingAddress == null)
+            {
+                order.BillingAddress = new OrderAddress();
+                if (customer.BillingAddress != null)
+                    order.BillingAddress.FromAddress(customer.BillingAddress);
+            }
 
             Session["TempOrder"] = order;
             ViewBag.Return = "/Commerce/Order/SelectProduct?commerceName=" + Request.QueryString["commerceName"];
@@ -280,6 +288,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 order.BillingAddress.CustomerId = order.CustomerId;
                 order.BillingAddress.Id = order.BillingAddressId.HasValue ? order.BillingAddressId.Value : 0;
             }
+
+            order.CustomFields = FormHelper.BindToModels<OrderCustomField>(Request.Form, "CustomFields.");
 
             order.Remark = form["Remark"];
 

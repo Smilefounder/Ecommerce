@@ -7,13 +7,8 @@
 @section Panel{
     <ul class="header-panel">
         <li>
-            <a href="@ViewBag.Return">
+            <a href="/Commerce/Order?commerceName=@Request.QueryString["commerceName"]">
                 @Html.IconImage("back") @("Cancel".Localize())
-            </a>
-        </li>
-        <li>
-            <a href="javascript:;" onclick="window.leaveConfirm.pass(); $('form').submit();">
-                @Html.IconImage("next") @("Next".Localize())
             </a>
         </li>
     </ul>
@@ -71,6 +66,9 @@
             </table>
         </div>
     }
+    <div class="process-button">
+        <a href="javascript:;" onclick="window.leaveConfirm.pass(); $('form').submit();" class="button">@("Next".Localize())</a>
+    </div>
 </div>
 <script type="text/javascript">
     $(function () {

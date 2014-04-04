@@ -2,6 +2,7 @@
     Layout = "~/Views/Shared/Popup.cshtml";
 
     ViewBag.Title = "Media library".Localize();
+    string selector = Request.QueryString["multiple"] == "true" ? "checkbox" : "radio";
 }
 <div id="main-container">
     <div class="topbar">
@@ -93,7 +94,7 @@
             <!-- ko foreach: Folders -->
             <tr class="foldertr">
                 <td class="checkbox">
-                    <input type="radio" disabled="disabled" />
+                    <input type="@selector" disabled="disabled" />
                 </td>
                 <td>
                     <!-- ko if: $root.IsNewFolder($data) -->
@@ -118,7 +119,7 @@
             <!-- ko foreach: Files -->
             <tr class="doctr">
                 <td class="checkbox">
-                    <input type="radio" name="select" data-bind="event: { change: $root.SelectedFile }" />
+                    <input type="@selector" name="select" data-bind="event: { change: $root.SelectFile }" />
                 </td>
                 <td data-bind="event: { click: $root.SelectFile }">
                     <a href="javascript:;">
@@ -158,7 +159,7 @@
         <ul class="file image" data-bind="foreach: Files">
             <li>
                 <a class="select">
-                    <input type="radio" name="select" class="select doc" data-bind="event: { change: $root.SelectedFile }" />
+                    <input type="@selector" name="select" class="select doc" data-bind="event: { change: $root.SelectFile }" />
                     <span class="checked"></span>
                     <!-- ko if: $data.IsImage() -->
                     <img data-bind="attr: { src: Url, alt: FileName }, event: { click: $root.SelectFile }" />
@@ -214,7 +215,7 @@
         self.options = $.extend({}, {
         }, options);
         self.data = ko.observable(null);
-        self.SelectedFile = ko.observable(null);
+        self.SelectedFiles = ko.observableArray([]);
         self.SearchWord = ko.observable(null);
         self.ListStyle = ko.observable('list');
         self.CurrentPathIndex = ko.observable(0);
@@ -340,12 +341,17 @@
             vm.getData(path);
         };
         self.InsertFile = function () {
-            utils.postMessage("fileselected", { owner: '@Request.QueryString["owner"]', property: '@Request.QueryString["path"]', file: ko.toJS(vm.SelectedFile()) }, window.top);
+            utils.postMessage("fileselected", { owner: '@Request.QueryString["owner"]', property: '@Request.QueryString["path"]', files: ko.toJS(vm.SelectedFiles()) }, window.top);
             utils.closeDialog();
         };
         self.SelectFile = function (item, event) {
             stopEvent(event);
-            self.SelectedFile(item);
+            var f = $.grep(self.SelectedFiles(), function (n, i) { return n.Url == item.Url; })[0];
+            if (f) {
+                self.SelectedFiles.remove(item);
+            } else {
+                self.SelectedFiles.push(item);
+            }
             $(event.target).closest('tr').siblings().removeClass('active');
             $(event.target).closest('tr').toggleClass('active').find('input:radio').prop('checked', true);
             $(event.target).closest('li').siblings().removeClass('active');

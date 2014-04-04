@@ -38,7 +38,16 @@
                 </td>
             </tr>
             @Html.EditorFor(o => o.Published)
-            @Html.EditorFor(o => o.ParentId, new { HtmlAttributes = new { @class = "medium" } })
+            <tr>
+                <th>
+                    <label>
+                        @("Parent".Localize())
+                    </label>
+                </th>
+                <td>
+                    @(string.IsNullOrEmpty(Model.ParentCrumble) ? "None" : Model.ParentCrumble)
+                </td>
+            </tr>
             <tr>
                 <th>
                     <label>
@@ -81,8 +90,12 @@
     $(function () {
         $('.J_Upload').upload({
             on_file_select: function (data) {
-                $('#Photo').val(data.file.Url);
-                $('#photoImg').attr('src', data.file.Url);
+                var url = '';
+                if (data.files && data.files.length > 0) {
+                    url = data.files[0].Url;
+                }
+                $('#Photo').val(url);
+                $('#photoImg').attr('src', url);
                 $('#photoImg').parent().show();
             }
         });

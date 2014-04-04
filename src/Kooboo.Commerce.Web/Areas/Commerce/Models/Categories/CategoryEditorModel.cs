@@ -9,28 +9,36 @@ using Kooboo.Web.Mvc;
 using Kooboo.Commerce.Categories;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.DataSources;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories {
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
+{
 
-    public class CategoryEditorModel {
+    public class CategoryEditorModel
+    {
 
-        public CategoryEditorModel() {
+        public CategoryEditorModel()
+        {
             this.Children = new List<CategoryEditorModel>();
         }
 
         public CategoryEditorModel(Category category, bool children = false)
-            : this() {
+            : this()
+        {
             this.Id = category.Id;
             this.Name = category.Name;
             this.Photo = category.Photo;
             this.Description = category.Description;
             this.Published = category.Published;
             //
-            if (category.Parent != null) {
+            if (category.Parent != null)
+            {
                 this.ParentId = category.Parent.Id.ToString();
+                SetParentCrumble(category.Parent);
             }
             //
-            if (children && category.Children != null) {
-                foreach (var item in category.Children) {
+            if (children && category.Children != null)
+            {
+                foreach (var item in category.Children)
+                {
                     this.Children.Add(new CategoryEditorModel(item, children));
                 }
             }
@@ -46,9 +54,22 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories {
                     this.CustomFields.Add(cfm);
                 }
             }
-            }
+        }
 
-        public void UpdateTo(Category category) {
+        public void SetParentCrumble(Category parent)
+        {
+            var p = parent;
+            List<string> crumbles = new List<string>();
+            while (p != null)
+            {
+                crumbles.Insert(0, p.Name);
+                p = p.Parent;
+            }
+            this.ParentCrumble = string.Join(">>", crumbles.ToArray());
+        }
+
+        public void UpdateTo(Category category)
+        {
             category.Id = this.Id;
             category.Name = (this.Name ?? string.Empty).Trim();
             category.Photo = (this.Photo ?? string.Empty).Trim();
@@ -59,9 +80,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories {
             //    category.Parent = new Category() { Id = int.Parse(this.ParentId) };
             //}
             //
-            if (this.Children != null) {
+            if (this.Children != null)
+            {
                 category.Children = new List<Category>();
-                foreach (var item in this.Children) {
+                foreach (var item in this.Children)
+                {
                     var obj = new Category();
                     item.UpdateTo(obj);
                     category.Children.Add(obj);
@@ -82,28 +105,33 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories {
             }
         }
 
-        public int Id {
+        public int Id
+        {
             get;
             set;
         }
 
         [Required(ErrorMessage = "Required")]
-        public string Name {
+        public string Name
+        {
             get;
             set;
         }
 
-        public string Photo {
+        public string Photo
+        {
             get;
             set;
         }
 
-        public string Description {
+        public string Description
+        {
             get;
             set;
         }
 
-        public bool Published {
+        public bool Published
+        {
             get;
             set;
         }
@@ -111,12 +139,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories {
         [UIHint("DropDownList")]
         [DataSource(typeof(CategoryDataSource))]
         [DisplayName("Parent Category")]
-        public string ParentId {
+        public string ParentId
+        {
             get;
             set;
         }
 
-        public List<CategoryEditorModel> Children {
+        public string ParentCrumble { get; set; }
+
+        public List<CategoryEditorModel> Children
+        {
             get;
             set;
         }

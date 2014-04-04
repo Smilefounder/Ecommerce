@@ -6,73 +6,79 @@
 
 @section Panel{
     <ul class="header-panel">
-    <li>
-        <a href="@ViewBag.Return">
-            @Html.IconImage("cancel") @("Back".Localize())
-        </a>
-    </li>
-</ul>
+        <li>
+            <a href="@ViewBag.Return">
+                @Html.IconImage("cancel") @("Back".Localize())
+            </a>
+        </li>
+    </ul>
 }
 
 <div class="head">
-	<h2 class="title">Order @Model.Id</h2>
+    <h2 class="title">Order @Model.Id</h2>
 </div>
 <div class="block framework clearfix">
-    <div id="customerName">Customer @Model.Customer.FullName</div>
-    <div id="customerDetail" class="common-form">
-        <table>
-            <tbody>
-                <tr>
-                    <th>@("First Name".Localize())</th>
-                    <td>
-                        @Model.Customer.FirstName
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("Middle Name".Localize())</th>
-                    <td>
-                        @Model.Customer.MiddleName
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("Last Name".Localize())</th>
-                    <td>
-                        @Model.Customer.LastName
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("Gender".Localize())</th>
-                    <td>
-                        @Model.Customer.Gender
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("Phone".Localize())</th>
-                    <td>
-                        @Model.Customer.Phone
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("Country".Localize())</th>
-                    <td>
-                        @Model.Customer.Country.Name
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("City".Localize())</th>
-                    <td>
-                        @Model.Customer.City
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("Email".Localize())</th>
-                    <td>
-                        @Model.Customer.Email
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="common-form">
+        <div>
+            <span>@Model.Customer.FullName</span>
+            <span>@Model.Customer.Email</span>
+            <a href="javascript:;" onclick="$('#customerDetail').toggle();">@("View Customer Detail".Localize())</a>
+        </div>
+        <div id="customerDetail" class="hide">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>@("First Name".Localize())</th>
+                        <td>
+                            @Model.Customer.FirstName
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Middle Name".Localize())</th>
+                        <td>
+                            @Model.Customer.MiddleName
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Last Name".Localize())</th>
+                        <td>
+                            @Model.Customer.LastName
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Gender".Localize())</th>
+                        <td>
+                            @Model.Customer.Gender
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Phone".Localize())</th>
+                        <td>
+                            @Model.Customer.Phone
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Country".Localize())</th>
+                        <td>
+                            @Model.Customer.Country.Name
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("City".Localize())</th>
+                        <td>
+                            @Model.Customer.City
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Email".Localize())</th>
+                        <td>
+                            @Model.Customer.Email
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
+        </div>
     </div>
 </div>
 <div class="block framework clearfix">
@@ -102,209 +108,260 @@
             </thead>
             <tbody>
                 @if (Model.OrderItems != null)
-                {
-                    foreach (var p in Model.OrderItems)
-                    {
-                        <tr>
-                            <td>
-                                @p.ProductPrice.Product.Name
-                            </td>
-                            <td>
-                                @foreach (var variant in p.ProductPrice.VariantValues)
-                                {
-                                    <div class="block">
-                                        <span>@variant.CustomField.Name</span>
-                                        <span>:</span>
-                                        <span>@variant.FieldValue</span>
-                                    </div>
-                                }
-                            </td>
-                            <td>
-                                @p.ProductPrice.Sku
-                            </td>
-                            <td>
-                                @p.UnitPrice
-                            </td>
-                            <td>
-                                @p.Quantity
-                            </td>
-                            <td>
-                                @p.SubTotal
-                            </td>
-                        </tr>
-                    }
-                }
+                        {
+                            foreach (var p in Model.OrderItems)
+                            {
+                    <tr>
+                        <td>
+                            @p.ProductPrice.Product.Name
+                        </td>
+                        <td>
+                            @foreach (var variant in p.ProductPrice.VariantValues)
+                                        {
+                                <div class="block">
+                                    <span>@variant.CustomField.Name</span>
+                                    <span>:</span>
+                                    <span>@variant.FieldValue</span>
+                                </div>
+                                        }
+                        </td>
+                        <td>
+                            @p.ProductPrice.Sku
+                        </td>
+                        <td>
+                            @p.UnitPrice
+                        </td>
+                        <td>
+                            @p.Quantity
+                        </td>
+                        <td>
+                            @p.SubTotal
+                        </td>
+                    </tr>
+                            }
+                        }
             </tbody>
         </table>
     </div>
 </div>
 <div class="block framework clearfix">
     <div class="order-form clearfix">
-		<div class="columns">
-			<div class="span6">
-				<div class="common-form">
-            <fieldset>
-                <legend>
-                    @("Order info".Localize())
-                </legend>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>@("Order Id".Localize())</th>
-                            <td>
-                                <span>@Model.Id</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Customer".Localize())</th>
-                            <td>
-                                <span>@Model.Customer.FullName</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Shopping Cart".Localize())</th>
-                            <td>
-                                @if (Model.ShoppingCart == null)
-                                {
-                                    <span>No Shopping Cart</span>
-                                }
-                                else
-                                {
-                                    <a href="/Commerce/ShoppingCart/@(Model.ShoppingCart.Id)">@(Model.ShoppingCart.Id)</a>
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Coupon".Localize())</th>
-                            <td>
-                                @Model.Coupon
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Order Status".Localize())</th>
-                            <td>
-                                @Model.OrderStatus
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Payment Status".Localize())</th>
-                            <td>
-                                @Model.PaymentStatus
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Created At".Localize())</th>
-                            <td>
-                                <span>@Model.CreatedAtUtc.ToShortDateString()</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </fieldset>
+        <div class="columns">
+            <div class="span6">
+                <div class="common-form">
+                    <fieldset>
+                        <legend>
+                            @("Order info".Localize())
+                        </legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>@("Order Id".Localize())</th>
+                                    <td>
+                                        <span>@Model.Id</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@("Customer".Localize())</th>
+                                    <td>
+                                        <span>@Model.Customer.FullName</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@("Shopping Cart".Localize())</th>
+                                    <td>
+                                        @if (Model.ShoppingCart == null)
+                                                {
+                                            <span>No Shopping Cart</span>
+                                                }
+                                                else
+                                                {
+                                            <a href="/Commerce/ShoppingCart/@(Model.ShoppingCart.Id)">@(Model.ShoppingCart.Id)</a>
+                                                }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@("Coupon".Localize())</th>
+                                    <td>
+                                        @Model.Coupon
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@("Order Status".Localize())</th>
+                                    <td>
+                                        @Model.OrderStatus
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@("Created At".Localize())</th>
+                                    <td>
+                                        <span>@Model.CreatedAtUtc.ToShortDateString()</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="common-form">
+                    <fieldset>
+                        <legend>
+                            <span>
+                                @("Order totals".Localize())
+                            </span>
+                        </legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        @("Subtotal".Localize())
+                                    </th>
+                                    <td>
+                                        @Model.SubTotal
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        @("Discount".Localize())
+                                    </th>
+                                    <td>
+                                        @Model.Discount
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        @("Total Tax".Localize())
+                                    </th>
+                                    <td>
+                                        @Model.TotalTax
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        @("Total Weight".Localize())
+                                    </th>
+                                    <td>
+                                        @Model.TotalWeight
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        @("Shipping Cost".Localize())
+                                    </th>
+                                    <td>
+                                        @Model.ShippingCost
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        @("Payment Method Cost".Localize())
+                                    </th>
+                                    <td>
+                                        @Model.PaymentMethodCost
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        @("Total".Localize())
+                                    </th>
+                                    <td>
+                                        @Model.Total
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
         </div>
-			</div>
-			<div class="span6">
-				<div class="common-form">
-            <fieldset>
-                <legend>
-                    <span>
-                        @("Order totals".Localize())
-                    </span>
-                </legend>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>
-                                @("Subtotal".Localize())
-                            </th>
-                            <td>
-                                @Model.SubTotal
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                @("Discount".Localize())
-                            </th>
-                            <td>
-                                @Model.Discount
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                @("Total Tax".Localize())
-                            </th>
-                            <td>
-                                @Model.TotalTax
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                @("Total Weight".Localize())
-                            </th>
-                            <td>
-                                @Model.TotalWeight
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                @("Shipping Cost".Localize())
-                            </th>
-                            <td>
-                                @Model.ShippingCost
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Payment Method".Localize())</th>
-                            <td>
-                                @(Model.PaymentMethod == null ? "NONE" : Model.PaymentMethod.DisplayName)
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                @("Payment Method Cost".Localize())
-                            </th>
-                            <td>
-                                @Model.PaymentMethodCost
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                @("Total".Localize())
-                            </th>
-                            <td>
-                                @Model.Total
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </fieldset>
-        </div>
-			</div>
-		</div>
     </div>
     <div class="order-form clearfix">
-		<div class="columns">
-			<div class="span6">
-				<div class="common-form">
-            <fieldset>
-                <legend>
-                    @("Shipping address".Localize())
-                </legend>
-                @Html.Partial("_AddressDetail", Model.ShippingAddress)
-            </fieldset>
+        <div class="columns">
+            <div class="span6">
+                <div class="common-form">
+                    <fieldset>
+                        <legend>
+                            @("Shipping address".Localize())
+                        </legend>
+                        <div>
+                            <div>
+                                @if (Model.ShippingAddress == null)
+                                        {
+                                    <span>@("No Shipping Address".Localize())</span>
+                                    <a href="javascript:;" onclick="$('#shippingAddress').toggle();">@("Add Shipping Address".Localize())</a>
+                                        }
+                                        else
+                                        {
+                                    <span>@string.Format("{0} {1}", Model.ShippingAddress.FirstName, Model.ShippingAddress.LastName)</span>
+                                    <span>@Model.ShippingAddress.Address1</span>
+                                    <a href="javascript:;" onclick="$('#shippingAddress').toggle();">@("Edit Shipping Address".Localize())</a>
+                                        }
+                            </div>
+                            <div id="shippingAddress" class="hide">
+                                @Html.Partial("_AddressDetail", Model.ShippingAddress)
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="common-form">
+                    <fieldset>
+                        <legend>
+                            @("Billing address".Localize())
+                        </legend>
+                        <div>
+                            <div>
+                                @if (Model.BillingAddress == null)
+                                        {
+                                    <span>@("No Billing Address".Localize())</span>
+                                    <a href="javascript:;" onclick="$('#billingAddress').toggle();">@("Add Billing Address".Localize())</a>
+                                        }
+                                        else
+                                        {
+                                    <span>@string.Format("{0} {1}", Model.BillingAddress.FirstName, Model.BillingAddress.LastName)</span>
+                                    <span>@Model.BillingAddress.Address1</span>
+                                    <a href="javascript:;" onclick="$('#billingAddress').toggle();">@("Edit Shipping Address".Localize())</a>
+                                        }
+                            </div>
+                            <div id="billingAddress" class="hide">
+                                @Html.Partial("_AddressDetail", Model.BillingAddress)
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </div>
+            </div>
         </div>
-			</div>
-			<div class="span6">
-				<div class="common-form">
-            <fieldset>
-                <legend>
-                    @("Billing address".Localize())
-                </legend>
-                @Html.Partial("_AddressDetail", Model.BillingAddress)
-            </fieldset>
-        </div>
-			</div>
-		</div>
+    </div>
+    <div class="common-form order-form">
+        <fieldset>
+            <legend>
+                @("Order Custom Fields".Localize())
+            </legend>
+            <table id="customFields">
+                <thead>
+                    <tr>
+                        <th>@("Name".Localize())</th>
+                        <th>@("Value".Localize())</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.CustomFields != null)
+                            {
+                                foreach (var cf in Model.CustomFields)
+                                {
+                        <tr>
+                            <td>@cf.Name</td>
+                            <td>@cf.Value</td>
+                        </tr>
+                                }
+                            }
+                </tbody>
+            </table>
+        </fieldset>
     </div>
     <div class="common-form order-form">
         <fieldset>

@@ -6,6 +6,7 @@
             property: '',
             width: 180,
             height: 220,
+            multiple: true,
             max_file_size: 5 * 1024 * 1024,
             accept_file_types: /(\.|\/)(gif|jpe?g|png)$/i,
             src: '',
@@ -19,12 +20,14 @@
             if (typeof ops.property == "function") { ops.property = ops.property(ele); }
             if (typeof ops.width == "function") { ops.width = ops.width(ele); }
             if (typeof ops.height == "function") { ops.height = ops.height(ele); }
+            if (typeof ops.multiple == "function") { ops.multiple = ops.multiple(ele); }
             if (typeof ops.src == "function") { ops.src = ops.src(ele); }
 
             ops.owner = $(ele).attr('data-owner') || ops.owner;
             ops.property = $(ele).attr('data-property') || ops.property;
             ops.width = $(ele).attr('data-width') || ops.width;
             ops.height = $(ele).attr('data-height') || ops.height;
+            ops.multiple = $(ele).attr('data-multiple') || ops.multiple;
             ops.src = $(ele).attr('data-src') || ops.src;
 
             $(ele).on('click', function () {
@@ -54,9 +57,10 @@
             property = $(ele).attr('data-property') || ops.property;
             width = $(ele).attr('data-width') || ops.width;
             height = $(ele).attr('data-height') || ops.height;
+            multiple = $(ele).attr('data-multiple') || ops.multiple;
             src = $(ele).attr('data-src') || ops.src;
 
-            var url = ops.url + '?owner=' + owner + '&path=' + property + '&width=' + width + '&height=' + height + '&max_file_size=' + ops.max_file_size + '&accept_file_types=' + ops.accept_file_types + '&file=' + src;
+            var url = ops.url + '?owner=' + owner + '&path=' + property + '&width=' + width + '&height=' + height + '&max_file_size=' + ops.max_file_size + '&multiple=' + multiple + '&accept_file_types=' + ops.accept_file_types + '&file=' + src;
             utils.openDialog('select file...', url, 800, 500);
         },
         destroy: function () {
