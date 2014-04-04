@@ -45,11 +45,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
 
         public IList<PaymentProcessorModel> AvailablePaymentProcessors { get; set; }
 
-        [Display(Name = "Enabled")]
-        public bool IsEnabled { get; set; }
-
-        public bool IsEdit { get; set; }
-
         public PaymentMethodEditorModel()
         {
             AvailablePaymentProcessors = new List<PaymentProcessorModel>();

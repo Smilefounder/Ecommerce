@@ -1,0 +1,42 @@
+﻿@model Kooboo.Commerce.Payments.PaymentMethod
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "Complete".Localize();
+}
+
+@section Panel {
+    <ul class="header-panel">
+        <li><a href="@ViewContext.RequestContext.GetRequestValue("return")">@Html.IconImage("back") @("Back to payment method list".Localize())</a></li>
+    </ul>
+}
+
+<div class="block">
+    @Html.Action("Steps", "PaymentMethod", new { area = "Commerce", step = 3 })
+    <div class="block message success">
+        <p>
+            @(String.Format("Payment method \"{0}\" is successfully created/updated".Localize(), Model.DisplayName))
+        </p>
+    </div>
+    @if (!Model.IsEnabled)
+    {
+        <div class="wizard-buttons">
+            <a href="#" data-id="@Model.Id" class="button btn-enable-paymentmethod">@("Enable this payment method".Localize())</a>
+        </div>
+    }
+</div>
+
+<script>
+    $(function () {
+        var commerceName = '@(ViewContext.RequestContext.GetRequestValue("commerceName"))';
+
+        $('.btn-enable-paymentmethod').click(function () {
+            window.loading.show();
+            $.post('@Url.Action("EnablePaymentMethod")', { id: $(this).data('id'), commerceName: commerceName }, function () {
+                window.loading.hide();
+                location.href = '@(ViewContext.RequestContext.GetRequestValue("return"))';
+            });
+
+            return false;
+        });
+    });
+</script>

@@ -1,12 +1,14 @@
 ﻿@using Kooboo.Commerce.Payments.PayPal;
 @model PayPalSettings
 @{
-    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_PaymentGatewaySettings.cshtml";
-    ViewBag.Title = "PayPal settings".Localize();
+    Layout = "~/Areas/Commerce/Views/Shared/AddIns/_PaymentProcessorSettings.cshtml";
 }
 
-<blockquote>
-    <strong>@("Credit Card Parameters".Localize()):</strong>
+<div class="block message info">
+    <strong>@("Implementation instructions".Localize()):</strong>
+    <p>
+        @("Frontend site implementors need to send following parameters to the payment processor"):
+    </p>
     <p>
         <ul>
             @foreach (var each in PayPalConstants.ParameterDescriptors)
@@ -15,7 +17,7 @@
             }
         </ul>
     </p>
-</blockquote>
+</div>
 
 <div class="block common-form">
     @using (Html.BeginForm())

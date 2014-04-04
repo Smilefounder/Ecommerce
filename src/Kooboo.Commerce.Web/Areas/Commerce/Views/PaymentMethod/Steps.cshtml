@@ -1,0 +1,7 @@
+﻿<div class="wizard">
+    <div class="container">
+        <span class="active">@("Basic info".Localize())<b></b></span>
+        <span class="@(ViewBag.Step > 1 ? "active" : "")">@("Settings".Localize())@Html.Raw(ViewBag.Step > 2 ? "<b></b>" : "")</span>
+        <span class="@(ViewBag.Step > 2 ? "active" : "")">@("Complete".Localize())@Html.Raw(ViewBag.Step > 3 ? "<b></b>" : "")</span>
+    </div>
+</div>

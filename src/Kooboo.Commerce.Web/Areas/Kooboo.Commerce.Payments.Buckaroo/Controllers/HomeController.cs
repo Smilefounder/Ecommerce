@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
+using Kooboo.Commerce.Web.Areas.Commerce.Controllers;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
@@ -10,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
 {
-    public class HomeController : CommerceControllerBase
+    public class HomeController : PaymentProcessorSettingsControllerBase
     {
         private IPaymentMethodService _paymentMethodService;
 
@@ -31,7 +32,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
         {
             var method = _paymentMethodService.GetById(methodId);
             method.PaymentProcessorData = settings.Serialize();
-            return AjaxForm().RedirectTo(@return);
+            return AjaxForm().RedirectTo(NextStepUrl(methodId));
         }
     }
 }

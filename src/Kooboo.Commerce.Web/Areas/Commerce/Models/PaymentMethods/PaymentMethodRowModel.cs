@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
     {
         public int Id { get; set; }
 
-        [EditorLinkedGridColumn]
+        [EditorLinkedGridColumn(EditActionName = "BasicInfo")]
         public string DisplayName { get; set; }
 
         [GridColumn(HeaderText = "Payment Processor")]

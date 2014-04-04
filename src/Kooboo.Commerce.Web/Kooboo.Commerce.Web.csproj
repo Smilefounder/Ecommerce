@@ -263,6 +263,7 @@
     <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\OrderController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PaymentMethodController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\PaymentProcessorSettingsControllerBase.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PromotionController.cs" />
@@ -2283,6 +2284,8 @@
     <Content Include="Areas\CommerceWebAPI\Views\Web.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Recommendations\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Recommendations\template.cshtml" />
+    <Content Include="Areas\Commerce\Views\PaymentMethod\Steps.cshtml" />
+    <Content Include="Areas\Commerce\Views\PaymentMethod\Complete.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -2493,7 +2496,7 @@
     <Content Include="Areas\Commerce\Views\PaymentMethod\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Views\PaymentMethod\Create.cshtml" />
+    <Content Include="Areas\Commerce\Views\PaymentMethod\BasicInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Promotion\Create.cshtml" />
@@ -2587,10 +2590,7 @@
     <Content Include="Areas\Commerce\Views\Customer\EditorTemplates\CustomerEditorModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Shared\AddIns\_PaymentGatewaySettings.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Commerce\Views\PaymentMethod\Edit.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\AddIns\_PaymentProcessorSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Category\Index.cshtml" />

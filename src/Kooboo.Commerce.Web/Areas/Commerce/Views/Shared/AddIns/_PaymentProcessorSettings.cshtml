@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/Blank.cshtml";
+
+    var methodId = ViewContext.RouteData.Values["id"];
+}
+
+@section Panel {
+    @if (IsSectionDefined("Panel"))
+    {
+        @RenderSection("Panel")
+    }
+    else
+    {
+        @Html.HeaderPanel().Buttons(buttons =>
+       {
+           buttons.AddCancelButton();
+       })
+    }
+}
+
+<div class="block">
+    @Html.Action("Steps", "PaymentMethod", new { area = "Commerce", step = 2 })
+    @RenderBody()
+    <div class="wizard-buttons">
+        <a class="button gray" href="@Url.Action("BasicInfo", "PaymentMethod", RouteValues.From(Request.QueryString).Merge("area", "Commerce").Merge("id", methodId))">
+            @("Back".Localize())
+        </a>
+        <a class="button" data-ajaxform="">@("Next".Localize())</a>
+    </div>
+</div>

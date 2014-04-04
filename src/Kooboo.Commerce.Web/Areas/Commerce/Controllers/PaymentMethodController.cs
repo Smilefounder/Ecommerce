@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Web.Mvc;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Payments;
@@ -49,34 +50,38 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(methods);
         }
 
-        public ActionResult Create()
+        public ActionResult Steps(int step)
+        {
+            ViewBag.Step = step;
+            return PartialView();
+        }
+
+        public ActionResult BasicInfo(int? id)
         {
             var model = new PaymentMethodEditorModel
             {
                 AvailablePaymentProcessors = GetAvailablePaymentProcessors()
             };
 
+            if (id != null)
+            {
+                var method = _paymentMethodService.GetById(id.Value);
+                model.Id = method.Id;
+                model.DisplayName = method.DisplayName;
+                model.UniqueId = method.UniqueId;
+                model.PaymentProcessorName = method.PaymentProcessorName;
+                model.AdditionalFeeChargeMode = method.AdditionalFeeChargeMode;
+                model.AdditionalFeeAmount = method.AdditionalFeeAmount;
+                model.AdditionalFeePercent = method.AdditionalFeePercent;
+            }
+
             return View(model);
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Complete(int id)
         {
             var method = _paymentMethodService.GetById(id);
-            var model = new PaymentMethodEditorModel
-            {
-                Id = method.Id,
-                DisplayName = method.DisplayName,
-                UniqueId = method.UniqueId,
-                AvailablePaymentProcessors = GetAvailablePaymentProcessors(),
-                PaymentProcessorName = method.PaymentProcessorName,
-                AdditionalFeeChargeMode = method.AdditionalFeeChargeMode,
-                AdditionalFeeAmount = method.AdditionalFeeAmount,
-                AdditionalFeePercent = method.AdditionalFeePercent,
-                IsEnabled = method.IsEnabled,
-                IsEdit = true,
-            };
-
-            return View(model);
+            return View(method);
         }
 
         private IList<PaymentProcessorModel> GetAvailablePaymentProcessors()
@@ -94,7 +99,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var method = _paymentMethodService.GetById(model[0].Id);
             var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);
-            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
+            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", method.Id));
 
             return AjaxForm().RedirectTo(url);
         }
@@ -109,6 +114,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             return AjaxForm().ReloadPage();
+        }
+
+        [HttpPost, Transactional]
+        public void EnablePaymentMethod(int id)
+        {
+            var method = _paymentMethodService.GetById(id);
+            _paymentMethodService.Enable(method);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
@@ -152,20 +164,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 _paymentMethodService.Create(method);
             }
 
-            if (model.IsEnabled)
-            {
-                _paymentMethodService.Enable(method);
-            }
-            else
-            {
-                _paymentMethodService.Disable(method);
-            }
-
             var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);
 
             if (views != null)
             {
-                var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString));
+                var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", model.Id));
                 return AjaxForm().RedirectTo(url);
             }
 
