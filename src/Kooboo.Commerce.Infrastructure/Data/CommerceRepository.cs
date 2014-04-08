@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
+using Kooboo.Commerce.ComponentModel;
 
 namespace Kooboo.Commerce.Data
 {
@@ -59,6 +60,11 @@ namespace Kooboo.Commerce.Data
 
             int ret = DbContext.SaveChanges();
 
+            if (obj is INotifyObjectCreated)
+            {
+                ((INotifyObjectCreated)obj).NotifyCreated();
+            }
+
             return ret > 0;
         }
 
@@ -106,6 +112,11 @@ namespace Kooboo.Commerce.Data
             }
 
             int ret = DbContext.SaveChanges();
+
+            if (obj is INotifyObjectDeleted)
+            {
+                ((INotifyObjectDeleted)obj).NotifyDeleted();
+            }
 
             return ret > 0;
         }

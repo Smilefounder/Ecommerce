@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Orders
 
         public void Handle(PaymentStatusChanged @event, EventDispatchingContext context)
         {
-            if (@event.Payment.PaymentTargetType != PaymentTargetTypes.Order)
+            if (@event.Payment.PaymentTarget.Type != PaymentTargetTypes.Order)
             {
                 return;
             }
@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Orders
                 return;
             }
 
-            var orderId = Convert.ToInt32(@event.Payment.PaymentTargetId);
+            var orderId = Convert.ToInt32(@event.Payment.PaymentTarget.Id);
             var order = _orderService.GetById(orderId);
 
             var otherSuccessPayments = _paymentService.Query()

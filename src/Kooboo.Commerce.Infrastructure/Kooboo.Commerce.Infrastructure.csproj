@@ -140,6 +140,8 @@
     <Compile Include="Activities\IActivityRuleService.cs" />
     <Compile Include="Activities\IActivityViews.cs" />
     <Compile Include="Activities\IActivityViewsFactory.cs" />
+    <Compile Include="ComponentModel\INotifyObjectCreated.cs" />
+    <Compile Include="ComponentModel\INotifyObjectDeleted.cs" />
     <Compile Include="Data\CommerceDatabaseExtensions.cs" />
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />

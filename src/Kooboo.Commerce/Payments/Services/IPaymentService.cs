@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Payments.Services
 
         IQueryable<Payment> Query();
 
-        void Create(Payment payment);
+        Payment Create(PaymentTarget target, decimal amount, PaymentMethod method, string description);
 
         void HandlePaymentResult(Payment payment, ProcessPaymentResult result);
     }
@@ -38,10 +38,11 @@ namespace Kooboo.Commerce.Payments.Services
             return _payments.Query();
         }
 
-        public void Create(Payment payment)
+        public Payment Create(PaymentTarget target, decimal amount, PaymentMethod method, string description)
         {
-            payment.Create();
+            var payment = new Payment(target, amount, method, description);
             _payments.Insert(payment);
+            return payment;
         }
 
         public void HandlePaymentResult(Payment payment, ProcessPaymentResult result)

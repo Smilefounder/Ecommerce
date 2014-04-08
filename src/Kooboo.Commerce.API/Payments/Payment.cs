@@ -15,21 +15,11 @@ namespace Kooboo.Commerce.API.Payments
 
         public PaymentMethodReference PaymentMethod { get; set; }
 
-        public TransactionType TransactionType { get; set; }
-
         public PaymentStatus Status { get; set; }
 
         public string ThirdPartyTransactionId { get; set; }
 
-        /// <summary>
-        /// The type of the object this payment is applied to.
-        /// </summary>
-        public string PaymentTargetType { get; set; }
-
-        /// <summary>
-        /// The key of the object this payment is applied to.
-        /// </summary>
-        public string PaymentTargetId { get; set; }
+        public PaymentTarget PaymentTarget { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
     }
@@ -37,11 +27,5 @@ namespace Kooboo.Commerce.API.Payments
     public static class PaymentTargetTypes
     {
         public static readonly string Order = "Order";
-    }
-
-    public enum TransactionType
-    {
-        Payment = 0,
-        Refund = 1
     }
 }
