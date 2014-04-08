@@ -22,6 +22,20 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
   <ItemGroup>
+    <Content Include="Payment.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Payment.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Payment.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="Promotion.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Promotion.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Promotion.sequencediagram</DependentUpon>
+    </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\Kooboo.Commerce.Modeling.uml">
       <SubType>Content</SubType>

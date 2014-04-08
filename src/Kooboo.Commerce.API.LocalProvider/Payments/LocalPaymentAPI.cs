@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             // TODO: How can I call SaveChanges?
             PaymentService.Create(payment);
 
-            var processor = _processorFactory.FindByName(paymentMethod.PaymentProcessorName);
+            var processor = _processorFactory.Find(paymentMethod.PaymentProcessorName);
             var processResult = processor.ProcessPayment(new ProcessPaymentRequest(payment)
             {
                 CurrencyCode = request.CurrencyCode,

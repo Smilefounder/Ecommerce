@@ -150,7 +150,7 @@ namespace Kooboo.Commerce.Orders.Services
                     order.BillingAddress = address;
                 }
 
-                CalculateOrderPrice(order);
+                CalculatePrice(order);
 
                 _orderRepository.Insert(order);
                 return order;
@@ -158,7 +158,7 @@ namespace Kooboo.Commerce.Orders.Services
             return null;
         }
 
-        private void CalculateOrderPrice(Order order)
+        public void CalculatePrice(Order order)
         {
             var context = PricingContext.CreateFrom(order);
             new PricingPipeline().Execute(context);

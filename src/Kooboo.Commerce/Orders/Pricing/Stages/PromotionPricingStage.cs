@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
 
             foreach (var match in matches)
             {
-                var policy = _policyFactory.FindByName(match.Promotion.PromotionPolicyName);
+                var policy = _policyFactory.Find(match.Promotion.PromotionPolicyName);
                 if (policy == null)
                     throw new InvalidOperationException("Cannot load promotion policy with name '" + match.Promotion.PromotionPolicyName + "'. Ensure corresponding add-in has been installed.");
 
