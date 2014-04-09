@@ -21,6 +21,8 @@ namespace Kooboo.Commerce.Payments
 
         public PaymentMethodReference PaymentMethod { get; set; }
 
+        public decimal PaymentMethodCost { get; set; }
+
         public PaymentStatus Status { get; set; }
 
         public string ThirdPartyTransactionId { get; set; }
@@ -36,6 +38,7 @@ namespace Kooboo.Commerce.Payments
             PaymentTarget = target;
             Amount = amount;
             PaymentMethod = new PaymentMethodReference(method);
+            PaymentMethodCost = method.GetPaymentMethodCost(amount);
             Description = description;
             CreatedAtUtc = DateTime.UtcNow;
         }

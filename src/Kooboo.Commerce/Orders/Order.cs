@@ -53,6 +53,11 @@ namespace Kooboo.Commerce.Orders
         public decimal Total { get; set; }
 
         /// <summary>
+        /// Amount already paid by the customer. An order is marked as Paid when TotalPaid equals Total.
+        /// </summary>
+        public decimal TotalPaid { get; protected set; }
+
+        /// <summary>
         /// The namer of choosen shipping method. For example, UPS, TNT, DHL, PostMail, etc. 
         /// redundant column
         /// </summary>
@@ -74,6 +79,24 @@ namespace Kooboo.Commerce.Orders
         public virtual OrderAddress ShippingAddress { get; set; }
         public virtual OrderAddress BillingAddress { get; set; }
         public virtual ICollection<OrderCustomField> CustomFields { get; set; }
+
+        /// <summary>
+        /// Accept a succeeded payment.
+        /// </summary>
+        public virtual void AcceptPayment(Payment payment)
+        {
+            Require.NotNull(payment, "payment");
+            Require.That(payment.Status == PaymentStatus.Success, "payment", "Can only accept succeed payment.");
+            Require.That(payment.PaymentTarget.Type == PaymentTargetTypes.Order && payment.PaymentTarget.Id == Id.ToString(), "payment", "Payment is not targeting this order.");
+
+            TotalPaid += payment.Amount;
+            PaymentMethodCost += payment.PaymentMethodCost;
+
+            if (TotalPaid >= Total)
+            {
+                ChangeStatus(OrderStatus.Paid);
+            }
+        }
 
         public virtual void ChangeStatus(OrderStatus newStatus)
         {

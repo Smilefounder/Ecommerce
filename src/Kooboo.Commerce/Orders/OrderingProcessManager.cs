@@ -16,12 +16,10 @@ namespace Kooboo.Commerce.Orders
         : IHandles<PaymentStatusChanged>
     {
         private IOrderService _orderService;
-        private IPaymentService _paymentService;
 
-        public OrderingProcessManager(IOrderService orderService, IPaymentService paymentService)
+        public OrderingProcessManager(IOrderService orderService)
         {
             _orderService = orderService;
-            _paymentService = paymentService;
         }
 
         public void Handle(PaymentStatusChanged @event, EventDispatchingContext context)
@@ -37,18 +35,7 @@ namespace Kooboo.Commerce.Orders
 
             var orderId = Convert.ToInt32(@event.Payment.PaymentTarget.Id);
             var order = _orderService.GetById(orderId);
-
-            var otherSuccessPayments = _paymentService.Query()
-                                                      .ByTarget(PaymentTargetTypes.Order, orderId.ToString())
-                                                      .WhereSucceeded()
-                                                      .Where(x => x.Id != @event.Payment.Id)
-                                                      .ToList();
-
-            var paidTotal = @event.Payment.Amount + otherSuccessPayments.Sum(x => x.Amount);
-            if (paidTotal >= order.Total)
-            {
-                order.ChangeStatus(OrderStatus.Paid);
-            }
+            order.AcceptPayment(@event.Payment);
         }
     }
 }

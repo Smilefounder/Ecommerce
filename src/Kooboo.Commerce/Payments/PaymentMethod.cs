@@ -42,14 +42,14 @@ namespace Kooboo.Commerce.Payments
             CustomFields = new List<PaymentMethodCustomField>();
         }
 
-        public virtual decimal GetPaymentMethodCost(decimal sutotal)
+        public virtual decimal GetPaymentMethodCost(decimal amountToPay)
         {
             if (AdditionalFeeChargeMode == PriceChangeMode.ByAmount)
             {
                 return AdditionalFeeAmount;
             }
 
-            return sutotal * (decimal)AdditionalFeePercent;
+            return amountToPay * (decimal)AdditionalFeePercent;
         }
 
         public virtual void Enable()
