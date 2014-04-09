@@ -115,6 +115,20 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         }
 
         /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>brand query</returns>
+        public ICategoryQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            EnsureQuery();
+            var customFieldQuery = _categoryService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
+            _query = _query.Where(o => customFieldQuery.Any(c => c.CategoryId == o.Id));
+            return this;
+        }
+
+        /// <summary>
         /// load the category/categories with parent
         /// </summary>
         /// <returns>category query</returns>

@@ -64,6 +64,13 @@ namespace Kooboo.Commerce.API.Orders
         /// <returns>order query</returns>
         IOrderQuery ByTotal(decimal? from, decimal? to);
         /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>order query</returns>
+        IOrderQuery ByCustomField(string customFieldName, string fieldValue);       
+        /// <summary>
         /// get current logon user's last active order
         /// </summary>
         /// <param name="sessionId">current user's session id</param>

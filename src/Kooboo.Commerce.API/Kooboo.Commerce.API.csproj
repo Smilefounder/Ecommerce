@@ -66,12 +66,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brands\Brand.cs" />
+    <Compile Include="Brands\BrandCustomField.cs" />
     <Compile Include="Brands\IBrandAPI.cs" />
     <Compile Include="Categories\Category.cs" />
+    <Compile Include="Categories\CategoryCustomField.cs" />
     <Compile Include="Categories\ICategoryAPI.cs" />
     <Compile Include="Categories\ICategoryQuery.cs" />
     <Compile Include="CommerceAPIBase.cs" />
     <Compile Include="Customers\Customer.cs" />
+    <Compile Include="Customers\CustomerCustomField.cs" />
     <Compile Include="Customers\CustomerLoyalty.cs" />
     <Compile Include="Customers\ICustomerAccess.cs" />
     <Compile Include="Customers\ICustomerAPI.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="Orders\IOrderQuery.cs" />
     <Compile Include="Orders\Order.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
+    <Compile Include="Orders\OrderCustomField.cs" />
     <Compile Include="Orders\OrderItem.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
     <Compile Include="Payments\PaymentTarget.cs" />

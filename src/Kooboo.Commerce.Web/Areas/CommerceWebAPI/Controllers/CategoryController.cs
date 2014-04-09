@@ -32,6 +32,8 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 else
                     query = query.ByParentId(null);
             }
+            if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))
+                query = query.ByCustomField(qs["customField.name"], qs["customField.value"]);
 
             if (qs["LoadWithParent"] == "true")
                 query = query.LoadWithParent();

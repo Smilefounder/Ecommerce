@@ -75,6 +75,19 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
             _query = _query.Where(o => o.Name == name);
             return this;
         }
+        /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>brand query</returns>
+        public IBrandQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            EnsureQuery();
+            var customFieldQuery = _brandService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
+            _query = _query.Where(o => customFieldQuery.Any(c => c.BrandId == o.Id));
+            return this;
+        }
 
         /// <summary>
         /// create a query
@@ -84,5 +97,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
         {
             return this;
         }
+
     }
 }

@@ -39,6 +39,8 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 query = query.ByCity(qs["city"]);
             if (!string.IsNullOrEmpty(qs["countryId"]))
                 query = query.ByCountry(Convert.ToInt32(qs["countryId"]));
+            if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))
+                query = query.ByCustomField(qs["customField.name"], qs["customField.value"]);
 
             if (qs["LoadWithCountry"] == "true")
                 query = query.LoadWithCountry();

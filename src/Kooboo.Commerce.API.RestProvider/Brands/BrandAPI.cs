@@ -36,6 +36,19 @@ namespace Kooboo.Commerce.API.RestProvider.Brands
         }
 
         /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>brand query</returns>
+        public IBrandQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            QueryParameters.Add("customField.name", customFieldName);
+            QueryParameters.Add("customField.value", fieldValue);
+            return this;
+        }
+
+        /// <summary>
         /// create a query
         /// </summary>
         /// <returns>brand query</returns>
