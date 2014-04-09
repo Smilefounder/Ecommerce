@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.Events
 {
     public static class Event
     {
-        public static void Apply<TEvent>(TEvent @event)
+        public static void Raise<TEvent>(TEvent @event)
             where TEvent : IEvent
         {
             Require.NotNull(@event, "event");

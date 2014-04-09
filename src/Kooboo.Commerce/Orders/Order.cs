@@ -104,7 +104,7 @@ namespace Kooboo.Commerce.Orders
             {
                 var oldStatus = OrderStatus;
                 OrderStatus = newStatus;
-                Event.Apply(new OrderStatusChanged(this, oldStatus, newStatus));
+                Event.Raise(new OrderStatusChanged(this, oldStatus, newStatus));
             }
         }
     }

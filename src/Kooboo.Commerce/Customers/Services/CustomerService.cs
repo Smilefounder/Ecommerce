@@ -125,7 +125,7 @@ namespace Kooboo.Commerce.Customers.Services
         public bool Create(Customer customer)
         {
             bool result = _customerRepository.Insert(customer);
-            Event.Apply(new CustomerCreated(customer));
+            Event.Raise(new CustomerCreated(customer));
             return result;
         }
 

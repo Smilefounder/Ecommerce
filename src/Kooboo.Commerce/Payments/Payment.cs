@@ -49,13 +49,13 @@ namespace Kooboo.Commerce.Payments
             if (oldStatus != newStatus)
             {
                 Status = newStatus;
-                Event.Apply(new PaymentStatusChanged(this, oldStatus, Status));
+                Event.Raise(new PaymentStatusChanged(this, oldStatus, Status));
             }
         }
 
         void INotifyObjectCreated.NotifyCreated()
         {
-            Event.Apply(new PaymentCreated(this));
+            Event.Raise(new PaymentCreated(this));
         }
     }
 

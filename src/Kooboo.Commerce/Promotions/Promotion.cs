@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Promotions
         public virtual void MarkUpdated()
         {
             LastUpdatedAtUtc = DateTime.Now;
-            Event.Apply(new PromotionUpdated(this));
+            Event.Raise(new PromotionUpdated(this));
         }
 
         public virtual void Enable()
@@ -66,7 +66,7 @@ namespace Kooboo.Commerce.Promotions
             if (!IsEnabled)
             {
                 IsEnabled = true;
-                Event.Apply(new PromotionEnabled(this));
+                Event.Raise(new PromotionEnabled(this));
             }
         }
 
@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.Promotions
             if (IsEnabled)
             {
                 IsEnabled = false;
-                Event.Apply(new PromotionDisabled(this));
+                Event.Raise(new PromotionDisabled(this));
             }
         }
 

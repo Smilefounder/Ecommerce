@@ -78,7 +78,7 @@ namespace Kooboo.Commerce.Activities
 
             AttachedActivities.Add(attachedActivity);
 
-            Event.Apply(new ActivityAttached(this, attachedActivity));
+            Event.Raise(new ActivityAttached(this, attachedActivity));
 
             return attachedActivity;
         }
@@ -101,7 +101,7 @@ namespace Kooboo.Commerce.Activities
             var detached = AttachedActivities.Remove(activity);
             if (detached)
             {
-                Event.Apply(new ActivityDetached(this, activity));
+                Event.Raise(new ActivityDetached(this, activity));
             }
 
             return detached;

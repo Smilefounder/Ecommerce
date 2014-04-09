@@ -28,15 +28,15 @@ namespace Kooboo.Commerce.Data
             {
                 if (entry.State.HasFlag(EntityState.Added))
                 {
-                    Event.Apply(new EntityAdded(CommerceInstanceMetadata.Name, entry.Entity));
+                    Event.Raise(new EntityAdded(CommerceInstanceMetadata.Name, entry.Entity));
                 }
                 else if (entry.State.HasFlag(EntityState.Deleted))
                 {
-                    Event.Apply(new EntityDeleted(CommerceInstanceMetadata.Name, entry.Entity));
+                    Event.Raise(new EntityDeleted(CommerceInstanceMetadata.Name, entry.Entity));
                 }
                 else if (entry.State.HasFlag(EntityState.Modified))
                 {
-                    Event.Apply(new EntityUpdated(CommerceInstanceMetadata.Name, entry.Entity));
+                    Event.Raise(new EntityUpdated(CommerceInstanceMetadata.Name, entry.Entity));
                 }
             }
 
