@@ -27,6 +27,250 @@ The only difference is that it subscribes all events while other event handlers 
           LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
       </annotatedElements>
     </comment>
+    <comment
+      Id="61db3f3b-95bc-46a9-8794-8920caac2acf">
+      <body>Event: ItemAddedToCart</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="5bb1edab-b9c5-4862-b837-211d983eb3bb"
+          LastKnownName="Add to Shopping Cart"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="1df7916d-a8a2-4db0-9727-4289cfb54ac6">
+      <body>Event: ShoppingCartCreated</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="5336124e-a436-4ef5-9676-fc1b432f8fe1"
+          LastKnownName="Create New Shopping Cart"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="79852fc2-84a1-4323-9024-2d173f2ab205">
+      <body>Events: ItemQuantityChanged, etc</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="839ddd38-8964-446d-a320-592647db5623"
+          LastKnownName="Change Cart Items"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="b15ea3a6-8bbe-402a-9c70-c154529a5843">
+      <body>Events:
+PromotionApplying,
+PromotionApplied</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="db992e3a-984d-4c68-bd6e-05b1417d0cfc"
+          LastKnownName="Apply Promotions"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="74cf6055-283a-4857-b3cc-86047de77ddb">
+      <body>Events:
+TaxRuleApplying,
+TaxRuleApplied</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="1a84d6cc-af92-4ef6-b21e-119cfc7aa286"
+          LastKnownName="Apply Tax Rule"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="b38a8fd5-3d31-4e5f-a113-7f0a001a1ee8">
+      <body>Event:
+PaymentStatusChanged</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="04222b74-b08d-4ef0-b582-637a0831ec53"
+          LastKnownName="Complete Transaction"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="11bb0c98-d284-492e-add8-b4cad522f954">
+      <body>Event:
+InvoiceCreated</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="7a36ec56-0d96-462b-abc8-e76412c58d2e"
+          LastKnownName="Create Invoice"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="4ac5dd0c-e583-4c21-abe1-38e16d863f66">
+      <body>Event:
+PaymentCancelled</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="74ddcdb6-e842-426c-9276-090fd2a101fc"
+          LastKnownName="Cancel Transaction"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="3c235bd6-d58d-4231-9f3f-c01a16d6d2b4">
+      <body>Event:
+PaymentCreated</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="90a72c98-fdab-4821-860c-4569c8d6677a"
+          LastKnownName="Generate Transaction"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="28db9422-f7c4-4941-9392-29af178c67d4">
+      <body>Event: 
+OrderShipped</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="4912a9de-7419-47bb-9162-a23b54cc1e7e"
+          LastKnownName="Shipping"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="7492492b-ab39-44fb-8861-4173570e994c">
+      <body>Event:
+DeliverySuspended</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="16af5f18-75fd-4c44-9fef-e88abe309b42"
+          LastKnownName="Suspend Delivery"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="b522d929-d737-47a7-a3f7-2fd95fc64abe">
+      <body>Event:
+DeliverySheetGenerated</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="ff4485ab-52b6-4644-9631-7369e54ee7b9"
+          LastKnownName="Generate Delivery Sheet"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="d77a52e0-bc1b-47f5-aa95-eef76d3f7d49">
+      <body>Event:
+DeliveryStatusChanged</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="b9c68e7f-5432-4eb6-b420-3d2cd311e17e"
+          LastKnownName="Update Delivery Status"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="0f7c5432-58a9-4838-a543-6289f2c6ac78">
+      <body>Event:
+DeliveryRejected</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="daf5229d-d50a-4fa7-a591-df3dd9341245"
+          LastKnownName="Reject"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="5cc772bb-97dd-4aed-a716-dcc02988c436">
+      <body>Event:
+OrderPaid</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="8a76cac3-835d-48f5-9632-5a66d24a87d2"
+          LastKnownName="Pay"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="fcfdd84a-8453-4fc2-9065-b4bb4804f450">
+      <body>Events:
+DeliveryAddressChanged,
+ShippingAddressChanged,
+etc</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="e2e41e33-7a77-4aef-9077-fb7072402c9c"
+          LastKnownName="Update Order"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="78141d4c-d2e6-4c1f-bddb-47280c8267fb">
+      <body>Events:
+ShippingCostCalculating,
+ShippingCostCalculated</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="69a3a9ca-2697-41ae-9b0c-7e8ee2b24c32"
+          LastKnownName="Calculate Shipping Cost"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="177fa5c0-9f11-412c-b1ba-006bdeb307e0">
+      <body>Extension Point:
+IPaymentProcessor</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="f4182b7f-92eb-4f07-b2bd-41e3e879b874"
+          LastKnownName="Payment"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="fbe8f82b-966f-4b1c-b1d1-faf526b68378">
+      <body>Extension Point:
+IShippingTracker</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="c418d47f-c3ae-4b11-aff2-266ac2b6dd0d"
+          LastKnownName="Tracing"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="06310c7c-4274-45db-8f43-e77f012a1b9c">
+      <body>Extension Point:
+IPromotionPolicy</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="db992e3a-984d-4c68-bd6e-05b1417d0cfc"
+          LastKnownName="Apply Promotions"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="ace3c18b-87c1-4ca7-9743-21f912424f03">
+      <body>Extension Point:
+ITaxProvider</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="1a84d6cc-af92-4ef6-b21e-119cfc7aa286"
+          LastKnownName="Apply Tax Rule"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="76f1575d-4724-4d28-8d6f-34e428642a7e">
+      <body>Extension Point:
+IShippingRateProvider</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="69a3a9ca-2697-41ae-9b0c-7e8ee2b24c32"
+          LastKnownName="Calculate Shipping Cost"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
   </ownedCommentsInternal>
   <profileInstances>
     <packageHasProfileInstances
@@ -6750,22 +6994,22 @@ PromotionPricingStage</body>
             </covered>
           </executionOccurrenceSpecification>
           <messageOccurrenceSpecification
-            Id="58fd3b73-e484-46ed-88a7-bb5ba16dc766"
-            name="MessageOccurrenceSpecification11">
-            <covered>
-              <lifelineMoniker
-                Id="49ddd884-6dfa-439f-836e-8454efa851c8"
-                LastKnownName="Web API"
-                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification
             Id="6771d75f-1ac2-4590-a32d-2bd618a37756"
             name="MessageOccurrenceSpecification12">
             <covered>
               <lifelineMoniker
                 Id="a8fc12aa-cffc-42fb-9230-e3f5b13d001e"
                 LastKnownName="Domain Objects &amp; Services"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="58fd3b73-e484-46ed-88a7-bb5ba16dc766"
+            name="MessageOccurrenceSpecification11">
+            <covered>
+              <lifelineMoniker
+                Id="49ddd884-6dfa-439f-836e-8454efa851c8"
+                LastKnownName="Web API"
                 LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
             </covered>
           </messageOccurrenceSpecification>

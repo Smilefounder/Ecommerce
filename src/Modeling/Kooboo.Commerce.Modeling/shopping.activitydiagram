@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" name="shopping" linkedPackageId="5d54faeb-44a4-4d62-a3d6-2146882594f8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" name="shopping" linkedPackageId="5d54faeb-44a4-4d62-a3d6-2146882594f8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
   <ownedCommentsInternal>
     <comment Id="07e541e0-01a3-46dd-abb2-441873d5e452">
       <elementDefinition Id="1adedf61-0dde-499a-8328-a56aef63d940" />
@@ -7,6 +7,184 @@
 OrderCreated</body>
       <annotatedElements>
         <opaqueActionMoniker Id="576b42ad-8e33-441e-aed6-e99cf7233035" LastKnownName="Create Order" />
+      </annotatedElements>
+    </comment>
+    <comment Id="346ebfa5-cf6f-46ad-b4d5-729c1cdd57f8">
+      <elementDefinition Id="61db3f3b-95bc-46a9-8794-8920caac2acf" />
+      <body>Event: ItemAddedToCart</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="eb220bd2-8a26-4c21-80cf-a114ffb111b6" LastKnownName="Add to Shopping Cart" />
+      </annotatedElements>
+    </comment>
+    <comment Id="faaeb3a8-c3c6-4f34-9f78-c40785995672">
+      <elementDefinition Id="1df7916d-a8a2-4db0-9727-4289cfb54ac6" />
+      <body>Event: ShoppingCartCreated</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="0e6c07ea-7512-476e-836b-dabaa8ad4be4" LastKnownName="Create New Shopping Cart" />
+      </annotatedElements>
+    </comment>
+    <comment Id="591cea6a-2cc6-4686-b7a8-9ebc9105e47d">
+      <elementDefinition Id="79852fc2-84a1-4323-9024-2d173f2ab205" />
+      <body>Events: ItemQuantityChanged, etc</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="0af7e9f0-20fc-42fe-91ea-020b6f87be18" LastKnownName="Change Cart Items" />
+      </annotatedElements>
+    </comment>
+    <comment Id="f979a1b1-04cb-4ac0-8fb3-55377faefa5f">
+      <elementDefinition Id="b15ea3a6-8bbe-402a-9c70-c154529a5843" />
+      <body>Events:
+PromotionApplying,
+PromotionApplied</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="a7882cc0-e3ff-4780-934d-4ecedc394bc7" LastKnownName="Apply Promotions" />
+      </annotatedElements>
+    </comment>
+    <comment Id="e2390037-7ede-43bf-9d42-96ed9a47fc95">
+      <elementDefinition Id="74cf6055-283a-4857-b3cc-86047de77ddb" />
+      <body>Events:
+TaxRuleApplying,
+TaxRuleApplied</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="d4add4f2-1ecc-45ae-a1ba-5f07be32cb1c" LastKnownName="Apply Tax Rule" />
+      </annotatedElements>
+    </comment>
+    <comment Id="8737086a-1e6e-458c-97da-7c8047e50035">
+      <elementDefinition Id="b38a8fd5-3d31-4e5f-a113-7f0a001a1ee8" />
+      <body>Event:
+PaymentStatusChanged</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="47a9c588-9039-4596-a939-d323dfb51870" LastKnownName="Complete Transaction" />
+      </annotatedElements>
+    </comment>
+    <comment Id="ad24a069-55e5-4bb7-b663-a93ff9c9e698">
+      <elementDefinition Id="11bb0c98-d284-492e-add8-b4cad522f954" />
+      <body>Event:
+InvoiceCreated</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="80f29668-7686-4d8e-97e6-61eaaedfec5b" LastKnownName="Create Invoice" />
+      </annotatedElements>
+    </comment>
+    <comment Id="01ee5404-1e4b-40cc-8fef-7719d49712c3">
+      <elementDefinition Id="4ac5dd0c-e583-4c21-abe1-38e16d863f66" />
+      <body>Event:
+PaymentCancelled</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="7f150d49-6f5e-415e-ad1e-f4cfc9f7b6ef" LastKnownName="Cancel Transaction" />
+      </annotatedElements>
+    </comment>
+    <comment Id="e2c70111-cc93-4645-bf01-828a7bd75baf">
+      <elementDefinition Id="3c235bd6-d58d-4231-9f3f-c01a16d6d2b4" />
+      <body>Event:
+PaymentCreated</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="768a338b-e9b5-4383-a8db-7c546f71c9ad" LastKnownName="Generate Transaction" />
+      </annotatedElements>
+    </comment>
+    <comment Id="53da4cae-cd65-4121-81f9-13c3e4335c9a">
+      <elementDefinition Id="28db9422-f7c4-4941-9392-29af178c67d4" />
+      <body>Event: 
+OrderShipped</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="a503a47c-a4d8-457b-9252-5d7b66832612" LastKnownName="Shipping" />
+      </annotatedElements>
+    </comment>
+    <comment Id="08387b5c-9c52-43ea-8ad3-030b0424a7a3">
+      <elementDefinition Id="7492492b-ab39-44fb-8861-4173570e994c" />
+      <body>Event:
+DeliverySuspended</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="60ace3b7-e779-498e-ae20-6c1c5ab90d2b" LastKnownName="Suspend Delivery" />
+      </annotatedElements>
+    </comment>
+    <comment Id="bad7998e-bd40-4c9c-a0b0-0802385f81c9">
+      <elementDefinition Id="b522d929-d737-47a7-a3f7-2fd95fc64abe" />
+      <body>Event:
+DeliverySheetGenerated</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="a48e5a58-0830-4237-9ebe-4ea2a0adb901" LastKnownName="Generate Delivery Sheet" />
+      </annotatedElements>
+    </comment>
+    <comment Id="9bd4df65-f234-445e-922b-d26e4b48c1cc">
+      <elementDefinition Id="d77a52e0-bc1b-47f5-aa95-eef76d3f7d49" />
+      <body>Event:
+DeliveryStatusChanged</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="a2ce3d80-2ea6-4cc7-bb3a-50a55b50da3b" LastKnownName="Update Delivery Status" />
+      </annotatedElements>
+    </comment>
+    <comment Id="193ba54b-7533-459a-b6c8-2b1ae8183aa8">
+      <elementDefinition Id="0f7c5432-58a9-4838-a543-6289f2c6ac78" />
+      <body>Event:
+DeliveryRejected</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="fc07f6a6-fc49-4e4f-9c60-0571cb5ca1e8" LastKnownName="Reject" />
+      </annotatedElements>
+    </comment>
+    <comment Id="ad89edfb-825e-45d0-a701-8b59564bbe62">
+      <elementDefinition Id="5cc772bb-97dd-4aed-a716-dcc02988c436" />
+      <body>Event:
+OrderPaid</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="5f246968-be6e-41ca-ae8c-4da3ca95a21b" LastKnownName="Pay" />
+      </annotatedElements>
+    </comment>
+    <comment Id="de2f05ca-7d58-424a-a935-125d586b1e0d">
+      <elementDefinition Id="fcfdd84a-8453-4fc2-9065-b4bb4804f450" />
+      <body>Events:
+DeliveryAddressChanged,
+ShippingAddressChanged,
+etc</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="bbad2703-a086-42e9-aba8-8a60bebba700" LastKnownName="Update Order" />
+      </annotatedElements>
+    </comment>
+    <comment Id="039fb0fd-d8c0-48f6-b632-461a523dd14a">
+      <elementDefinition Id="78141d4c-d2e6-4c1f-bddb-47280c8267fb" />
+      <body>Events:
+ShippingCostCalculating,
+ShippingCostCalculated</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="44254595-742b-457c-85b0-80c890927c2d" LastKnownName="Calculate Shipping Cost" />
+      </annotatedElements>
+    </comment>
+    <comment Id="d6745532-8aef-40f0-ba40-1c2d3bc4809a">
+      <elementDefinition Id="177fa5c0-9f11-412c-b1ba-006bdeb307e0" />
+      <body>Extension Point:
+IPaymentProcessor</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="db44f4f8-45e1-49a6-b649-2c3e88d5af55" LastKnownName="Payment" />
+      </annotatedElements>
+    </comment>
+    <comment Id="cde1622f-4bd7-4fa9-90e8-67c1207100b8">
+      <elementDefinition Id="fbe8f82b-966f-4b1c-b1d1-faf526b68378" />
+      <body>Extension Point:
+IShippingTracker</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="3726cdbc-386e-43aa-81ca-7404a44be966" LastKnownName="Tracing" />
+      </annotatedElements>
+    </comment>
+    <comment Id="c4d901d5-ee55-497b-bcaf-8382d994b455">
+      <elementDefinition Id="06310c7c-4274-45db-8f43-e77f012a1b9c" />
+      <body>Extension Point:
+IPromotionPolicy</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="a7882cc0-e3ff-4780-934d-4ecedc394bc7" LastKnownName="Apply Promotions" />
+      </annotatedElements>
+    </comment>
+    <comment Id="4395f071-6b12-4803-b672-1e3e878980fb">
+      <elementDefinition Id="ace3c18b-87c1-4ca7-9743-21f912424f03" />
+      <body>Extension Point:
+ITaxProvider</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="d4add4f2-1ecc-45ae-a1ba-5f07be32cb1c" LastKnownName="Apply Tax Rule" />
+      </annotatedElements>
+    </comment>
+    <comment Id="f910ca9c-b8ae-48ad-8d43-8293229e5a45">
+      <elementDefinition Id="76f1575d-4724-4d28-8d6f-34e428642a7e" />
+      <body>Extension Point:
+IShippingRateProvider</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="44254595-742b-457c-85b0-80c890927c2d" LastKnownName="Calculate Shipping Cost" />
       </annotatedElements>
     </comment>
   </ownedCommentsInternal>
