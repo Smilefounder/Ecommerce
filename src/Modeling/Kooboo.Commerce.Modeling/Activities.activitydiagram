@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="405544a6-703a-4db3-b145-641b31dc76de" name="Activities" linkedPackageId="feb8fd70-29fa-4186-8b95-6a8d72d65c30" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <ownedCommentsInternal>
+    <comment Id="87fca862-328a-459a-8263-635164c13625">
+      <elementDefinition Id="7897b4d1-9ab7-4250-8df2-6754de0ae97b" />
+      <body>ActivityEventHook is just a normal EventHandler.
+
+The only difference is that it subscribes all events while other event handlers often just subscribe some specific events.</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="3d3b8e8f-f30f-448e-9057-1113d619ac5c" LastKnownName="Execute ActivityEventHook" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <activityRootModelHasActivity>
+      <activity Id="dec2e3d4-1ef1-46d9-a2c5-d7885a43e1e0" name="Activities" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
+        <elementDefinition Id="83262629-467c-4b13-b7fe-4438e5079976" />
+        <nodes>
+          <initialNode Id="797a9c4d-d3c9-4b68-bc3f-abb04692708f" name="Initial1" isLeaf="false">
+            <elementDefinition Id="d0314796-f230-4b6f-ab16-ccfa3c340abb" />
+            <objectFlowTargets>
+              <objectFlow Id="211ddcb6-3be9-429c-818c-f755b931a115" isLeaf="false" isMulticast="false" isMultireceive="false">
+                <objectNodeMoniker Id="a6857cfe-8b78-468a-8aa4-d403b995796f" LastKnownName="Event Dispatcher" />
+                <elementDefinition Id="cc4b1fce-c04c-40af-a9a1-94c7aab48dbf" />
+              </objectFlow>
+            </objectFlowTargets>
+          </initialNode>
+          <opaqueAction Id="94e71e29-c488-4e82-8654-92015818f3e4" name="Dispatch Events" isLeaf="false">
+            <elementDefinition Id="9143eedd-703a-4a33-941b-1b0e9ade867a" />
+            <flowNodeTargets>
+              <controlFlow Id="ad095a65-9b30-4ea7-b169-6fe389979612" isLeaf="false">
+                <opaqueActionMoniker Id="bd78d8f7-3d74-4bad-a136-c62bbea781d0" LastKnownName="Execute Event Handlers" />
+                <elementDefinition Id="e6d39d99-171e-4548-8988-da702853c0d1" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode Id="7d87b92c-3108-4127-bfa1-1710999bedca" name="Fork1" isLeaf="false">
+            <elementDefinition Id="591ef0b6-94a6-4ca1-be53-db207efca072" />
+            <flowNodeTargets>
+              <controlFlow Id="41bb7792-3be0-46b3-a3e4-9bd5cfdc13ed" isLeaf="false">
+                <opaqueActionMoniker Id="9a9e393c-f908-4d1f-9522-46262d5e6b7e" LastKnownName="Execute Normal Handlers" />
+                <elementDefinition Id="b4d13d35-1dbd-4a88-84ac-bd2eb2ffa481" />
+              </controlFlow>
+              <controlFlow Id="f7eae680-716a-4902-8f38-aeb9a3fe2d08" isLeaf="false">
+                <opaqueActionMoniker Id="3d3b8e8f-f30f-448e-9057-1113d619ac5c" LastKnownName="Execute ActivityEventHook" />
+                <elementDefinition Id="63c624ab-24f4-484d-9def-8814c007675d" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction Id="bd78d8f7-3d74-4bad-a136-c62bbea781d0" name="Execute Event Handlers" isLeaf="false">
+            <elementDefinition Id="64f0ae77-c05e-4ad1-a6e8-7fb2030203ba" />
+            <flowNodeTargets>
+              <controlFlow Id="c25390b9-9e07-4bc9-85c6-95fe6a2df5ba" isLeaf="false">
+                <forkNodeMoniker Id="7d87b92c-3108-4127-bfa1-1710999bedca" LastKnownName="Fork1" />
+                <elementDefinition Id="8627a8b4-8632-41ab-885b-1df8cdc98548" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="9a9e393c-f908-4d1f-9522-46262d5e6b7e" name="Execute Normal Handlers" isLeaf="false">
+            <elementDefinition Id="a4097b8f-27f1-4170-83fa-fca87d29605e" />
+            <flowNodeTargets>
+              <controlFlow Id="5675852c-e230-473e-b16c-7da9102f7726" isLeaf="false">
+                <activityFinalNodeMoniker Id="2d20935e-2949-4e9e-9ae4-49d86b17f744" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="c9f21160-0c32-41a3-9d6e-4eab7ac49f4d" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="3d3b8e8f-f30f-448e-9057-1113d619ac5c" name="Execute ActivityEventHook" isLeaf="false">
+            <elementDefinition Id="d084486d-b69e-447a-83bb-94be6bc07815" />
+            <flowNodeTargets>
+              <controlFlow Id="2925def3-d846-4382-b537-8741b8e34463" isLeaf="false">
+                <opaqueActionMoniker Id="3e0e63cb-c9b6-4d0c-9a2d-04afbb9a2f53" LastKnownName="Peek Next Activity" />
+                <elementDefinition Id="e2a479c9-90c9-4799-a225-2c88503eff73" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <decisionNode Id="9b000194-ade2-4c2c-9623-6ac921261fd3" name="Decision1" isLeaf="false">
+            <elementDefinition Id="6e4da51f-f54b-4179-8ab8-caa69110434c" />
+            <flowNodeTargets>
+              <controlFlow Id="36d17411-83cc-449d-aeb7-0468713416c1" guard="Rule Passed" isLeaf="false">
+                <opaqueActionMoniker Id="c77822fe-324c-462a-9d4d-80b47fcfb5ba" LastKnownName="Execute Activity" />
+                <elementDefinition Id="9921166c-c7b9-4600-8e77-71386fe3f136" />
+              </controlFlow>
+              <controlFlow Id="6472d3db-6581-423d-9ac5-d21dfdedabe2" guard="Rule Not Passed" isLeaf="false">
+                <opaqueActionMoniker Id="3e0e63cb-c9b6-4d0c-9a2d-04afbb9a2f53" LastKnownName="Peek Next Activity" />
+                <elementDefinition Id="3bbb7442-d827-4d6a-8d46-3b8e1aee8d63" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction Id="c77822fe-324c-462a-9d4d-80b47fcfb5ba" name="Execute Activity" isLeaf="false">
+            <elementDefinition Id="6e155021-5649-4aa3-bcb5-71349558ef20" />
+            <flowNodeTargets>
+              <controlFlow Id="c96478bb-cdbb-4955-9f6d-665712860ded" isLeaf="false">
+                <decisionNodeMoniker Id="a393f529-433e-4b20-b842-d2230cb66cf5" LastKnownName="Decision2" />
+                <elementDefinition Id="118a38ce-f391-4487-b5ca-39adda0b1b44" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <activityFinalNode Id="2d20935e-2949-4e9e-9ae4-49d86b17f744" name="ActivityFinal1" isLeaf="false">
+            <elementDefinition Id="264b67cf-f42f-4d86-840c-8d3f09e70aba" />
+          </activityFinalNode>
+          <opaqueAction Id="4b5bc44c-ddcc-4c8a-a999-300ba074b602" name="Validate Rules" isLeaf="false">
+            <elementDefinition Id="8100ab1e-2b40-45d7-9ab8-420b7c89d551" />
+            <flowNodeTargets>
+              <controlFlow Id="d0df7e0a-a673-4335-9603-965c5e91d67a" isLeaf="false">
+                <decisionNodeMoniker Id="9b000194-ade2-4c2c-9623-6ac921261fd3" LastKnownName="Decision1" />
+                <elementDefinition Id="a3f8acdf-cf25-4a8f-95d4-0f46052f35f5" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <objectNode Id="a6857cfe-8b78-468a-8aa4-d403b995796f" name="Event Dispatcher" isLeaf="false" ordering="Unordered" isControlType="false">
+            <elementDefinition Id="0023c74b-6f2f-4c04-8388-91f9965b9984" />
+            <objectFlowTargets>
+              <objectFlow Id="2b9d47e2-92f2-496e-9fde-b0ff79f56808" isLeaf="false" isMulticast="false" isMultireceive="false">
+                <opaqueActionMoniker Id="94e71e29-c488-4e82-8654-92015818f3e4" LastKnownName="Dispatch Events" />
+                <elementDefinition Id="41de226c-e8ae-4b52-8532-290408a8bb96" />
+              </objectFlow>
+            </objectFlowTargets>
+            <upperBound>
+              <literalInteger Id="c0be2943-8fc0-4f68-825c-36a6913fec84" name="2147483647" value="2147483647">
+                <elementDefinition Id="10c47ab0-5dc6-4d8d-9786-7fa51d8a3467" />
+              </literalInteger>
+            </upperBound>
+          </objectNode>
+          <decisionNode Id="a393f529-433e-4b20-b842-d2230cb66cf5" name="Decision2" isLeaf="false">
+            <elementDefinition Id="9345dfb6-147f-40e2-be49-c9f5caa1531d" />
+            <flowNodeTargets>
+              <controlFlow Id="84d2ef4f-b034-4035-8b48-e57da2c00e36" guard="Result = AbortTransaction" isLeaf="false">
+                <opaqueActionMoniker Id="cbc6b5de-dcca-4f2d-a2b3-595275de90f8" LastKnownName="Abort Transaction" />
+                <elementDefinition Id="010d617d-ae27-43ec-984e-8af4536f4a60" />
+              </controlFlow>
+              <controlFlow Id="077f9c6e-9e5b-445d-92dd-4435cd69f7ed" guard="Result = Continue" isLeaf="false">
+                <opaqueActionMoniker Id="3e0e63cb-c9b6-4d0c-9a2d-04afbb9a2f53" LastKnownName="Peek Next Activity" />
+                <elementDefinition Id="bb568549-6082-44d8-847b-6fd5431c8f5c" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction Id="cbc6b5de-dcca-4f2d-a2b3-595275de90f8" name="Abort Transaction" isLeaf="false">
+            <elementDefinition Id="252f88e0-1c7c-4220-abec-6c451d233d1c" />
+            <flowNodeTargets>
+              <controlFlow Id="f3183875-5c7a-4a04-a451-f564a078a0c0" isLeaf="false">
+                <activityFinalNodeMoniker Id="2d20935e-2949-4e9e-9ae4-49d86b17f744" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="8625ff93-b37a-4a16-85b7-aec03440dbe8" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <decisionNode Id="ac845c96-4eae-4c65-bf8d-d7530eae319b" name="Decision3" isLeaf="false">
+            <elementDefinition Id="17d3a363-600d-4e17-96b7-beab0586b042" />
+            <flowNodeTargets>
+              <controlFlow Id="9cf58f89-7501-4aa0-8bfe-f4b247037b5d" guard="Peeked An Activity" isLeaf="false">
+                <opaqueActionMoniker Id="4b5bc44c-ddcc-4c8a-a999-300ba074b602" LastKnownName="Validate Rules" />
+                <elementDefinition Id="52faa27b-fac4-46a3-8cb1-39b0547b1d85" />
+              </controlFlow>
+              <controlFlow Id="73329c4b-a429-472a-9b4c-afc03220cc1b" guard="No Activity" isLeaf="false">
+                <activityFinalNodeMoniker Id="2d20935e-2949-4e9e-9ae4-49d86b17f744" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="2a393640-69f2-48b0-b81f-62cbbf4dbb13" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction Id="3e0e63cb-c9b6-4d0c-9a2d-04afbb9a2f53" name="Peek Next Activity" isLeaf="false">
+            <elementDefinition Id="178c12db-f71d-4391-8f39-317b13fc12bd" />
+            <flowNodeTargets>
+              <controlFlow Id="00cd94af-fd8b-4ae4-8b95-2789244f54f7" isLeaf="false">
+                <decisionNodeMoniker Id="ac845c96-4eae-4c65-bf8d-d7530eae319b" LastKnownName="Decision3" />
+                <elementDefinition Id="2a5e1dcc-c2c3-48e7-ace3-d4792f1bd85c" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+        </nodes>
+      </activity>
+    </activityRootModelHasActivity>
+  </packagedElements>
+  <package Id="feb8fd70-29fa-4186-8b95-6a8d72d65c30" name="Kooboo.Commerce.Modeling">
+    <elementDefinition Id="e6a05e0a-2f7d-4600-8c37-919af6dc599f" />
+    <profileInstances>
+      <packageHasProfileInstances Id="ecd2297b-2329-416f-93be-2e3bab6aa93f">
+        <profileInstance Id="31ca109a-5925-480a-a2b0-004070a94305" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="f23205f6-9968-4781-93fd-3b1c58937de5">
+        <profileInstance Id="7f21854a-9820-4826-b280-5d530c14a41d" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="08ae7ba1-1cb2-4a56-8c08-baba51d6548f">
+        <profileInstance Id="c32099ac-8c94-4f71-a77a-3bfb2e6970aa" name="CSharpProfile">
+          <elementDefinition Id="3125b211-ef20-4502-b6be-b6c5850b360f" />
+        </profileInstance>
+        <elementDefinition Id="643855c1-a02f-4ec5-a441-92554e5e9765" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</activityRootModel>

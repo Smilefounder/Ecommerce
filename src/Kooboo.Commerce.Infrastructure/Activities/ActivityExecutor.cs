@@ -66,11 +66,7 @@ namespace Kooboo.Commerce.Activities
 
                 var response = activity.Execute(@event, new ActivityExecutionContext(rule, attachedActivity));
 
-                if (response == ActivityResult.SkipSubsequentActivities)
-                {
-                    break;
-                }
-                else if (response == ActivityResult.AbortTransaction)
+                if (response == ActivityResult.AbortTransaction)
                 {
                     throw new TransactionAbortException("Activity requested to abort transaction.");
                 }
