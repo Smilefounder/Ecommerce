@@ -239,6 +239,27 @@
     <Content Include="ModelDefinition\Package_1130.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Payment.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Payment.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Payment.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="PricingPipeline.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PricingPipeline.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>PricingPipeline.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="Promotion.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Promotion.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Promotion.sequencediagram</DependentUpon>
+    </Content>
     <Content Include="shopping.activitydiagram">
       <SubType>Content</SubType>
     </Content>

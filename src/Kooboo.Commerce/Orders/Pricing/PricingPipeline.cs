@@ -45,11 +45,18 @@ namespace Kooboo.Commerce.Orders.Pricing
 
         public void Execute(PricingContext context)
         {
+            Prepare(context);
+
             var stages = _stageTypes.Select(type => (IPricingStage)_typeActivator.Activate(type)).ToList();
             foreach (var stage in stages)
             {
                 stage.Execute(context);
             }
+        }
+
+        private void Prepare(PricingContext context)
+        {
+            context.Subtotal.SetOriginalValue(context.Items.Sum(x => x.Subtotal.OriginalValue));
         }
 
         public static PricingPipeline Create()
@@ -59,7 +66,6 @@ namespace Kooboo.Commerce.Orders.Pricing
 
         public static readonly PricingStageTypeCollection DefaultStages = new PricingStageTypeCollection(new Type[]
         {
-            typeof(PreparingPricingStage),
             typeof(PaymentMethodPricingStage),
             typeof(ShippingPricingStage),
             typeof(TaxPricingStage),
