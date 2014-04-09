@@ -23,5 +23,12 @@ namespace Kooboo.Commerce.API.Brands
         /// <param name="name">brand name</param>
         /// <returns>brand query</returns>
         IBrandQuery ByName(string name);
+        /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>brand query</returns>
+        IBrandQuery ByCustomField(string customFieldName, string fieldValue);
     }
 }

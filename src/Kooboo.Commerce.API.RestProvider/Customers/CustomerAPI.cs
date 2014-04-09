@@ -125,6 +125,19 @@ namespace Kooboo.Commerce.API.RestProvider.Customers
         }
 
         /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>customer query</returns>
+        public ICustomerQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            QueryParameters.Add("customField.name", customFieldName);
+            QueryParameters.Add("customField.value", fieldValue);
+            return this;
+        }
+
+        /// <summary>
         /// load the customer/customers with country
         /// </summary>
         /// <returns>customer query</returns>

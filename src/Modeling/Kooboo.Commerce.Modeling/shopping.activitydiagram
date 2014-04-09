@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm11="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" dslVersion="1.0.0.0" Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" name="shopping" linkedPackageId="5d54faeb-44a4-4d62-a3d6-2146882594f8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" name="shopping" linkedPackageId="5d54faeb-44a4-4d62-a3d6-2146882594f8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
   <ownedCommentsInternal>
     <comment Id="07e541e0-01a3-46dd-abb2-441873d5e452">
       <elementDefinition Id="1adedf61-0dde-499a-8328-a56aef63d940" />
@@ -7,13 +7,6 @@
 OrderCreated</body>
       <annotatedElements>
         <opaqueActionMoniker Id="576b42ad-8e33-441e-aed6-e99cf7233035" LastKnownName="Create Order" />
-      </annotatedElements>
-    </comment>
-    <comment Id="54b85f38-975f-42ca-9d2b-196f90cfd775">
-      <elementDefinition Id="5ce39daf-5efd-4c7b-87a9-49c0df374e9f" />
-      <body>Price calculation is modeled as a pipleline, which contains multiple stages. We can plug-in new stages into the pipleline to apply new pricing rules.</body>
-      <annotatedElements>
-        <joinNodeMoniker Id="8a3e87b2-800c-4573-9b8d-2dd72755dbb8" LastKnownName="Join21" />
       </annotatedElements>
     </comment>
   </ownedCommentsInternal>
@@ -76,9 +69,6 @@ OrderCreated</body>
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <activityFinalNode Id="ef2ca6ec-a0b6-4d1c-8f61-d2ec90311f40" name="ActivityFinal1" isLeaf="false">
-            <elementDefinition Id="4e70ab22-c655-443e-9eb3-6ec058c8615e" />
-          </activityFinalNode>
           <opaqueAction Id="f802d55e-bbe3-4ed9-bb08-772a2b286f6f" name="Search Product" isLeaf="false">
             <elementDefinition Id="cdec3046-adfe-401c-a35a-aeac4e267ddf" />
             <flowNodeTargets>

@@ -257,6 +257,20 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         }
 
         /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>order query</returns>
+        public IOrderQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            EnsureQuery();
+            var customFieldQuery = _orderService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
+            _query = _query.Where(o => customFieldQuery.Any(c => c.OrderId == o.Id));
+            return this;
+        }
+
+        /// <summary>
         /// get current logon user's last active order
         /// </summary>
         /// <param name="sessionId">current user's session id</param>

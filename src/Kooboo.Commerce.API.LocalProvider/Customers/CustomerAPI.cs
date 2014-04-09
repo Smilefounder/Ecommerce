@@ -197,6 +197,20 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         }
 
         /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>customer query</returns>
+        public ICustomerQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            EnsureQuery();
+            var customFieldQuery = _customerService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
+            _query = _query.Where(o => customFieldQuery.Any(c => c.CustomerId == o.Id));
+            return this;
+        }
+
+        /// <summary>
         /// load the customer/customers with country
         /// </summary>
         /// <returns>customer query</returns>

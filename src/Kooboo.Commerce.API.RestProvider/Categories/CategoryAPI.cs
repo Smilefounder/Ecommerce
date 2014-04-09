@@ -62,6 +62,19 @@ namespace Kooboo.Commerce.API.RestProvider.Categories
         }
 
         /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>category query</returns>
+        public ICategoryQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            QueryParameters.Add("customField.name", customFieldName);
+            QueryParameters.Add("customField.value", fieldValue);
+            return this;
+        }
+
+        /// <summary>
         /// load the category/categories with parent
         /// </summary>
         /// <returns>category query</returns>

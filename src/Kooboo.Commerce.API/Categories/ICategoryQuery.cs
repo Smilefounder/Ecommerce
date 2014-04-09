@@ -38,6 +38,13 @@ namespace Kooboo.Commerce.API.Categories
         /// <returns>category query</returns>
         ICategoryQuery ByParentId(int? parentId);
         /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>category query</returns>
+        ICategoryQuery ByCustomField(string customFieldName, string fieldValue);        
+        /// <summary>
         /// load the category/categories with parent
         /// </summary>
         /// <returns>category query</returns>

@@ -80,7 +80,13 @@ namespace Kooboo.Commerce.API.Customers
         /// <param name="countryId">customer country id</param>
         /// <returns>customer query</returns>
         ICustomerQuery ByCountry(int countryId);
-
+        /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>customer query</returns>
+        ICustomerQuery ByCustomField(string customFieldName, string fieldValue);
         /// <summary>
         /// load the customer/customers with country
         /// </summary>

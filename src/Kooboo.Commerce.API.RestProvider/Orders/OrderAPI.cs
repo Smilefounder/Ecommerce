@@ -111,6 +111,19 @@ namespace Kooboo.Commerce.API.RestProvider.Orders
         }
 
         /// <summary>
+        /// filter by custom field value
+        /// </summary>
+        /// <param name="customFieldName">custom field name</param>
+        /// <param name="fieldValue">custom field valule</param>
+        /// <returns>order query</returns>
+        public IOrderQuery ByCustomField(string customFieldName, string fieldValue)
+        {
+            QueryParameters.Add("customField.name", customFieldName);
+            QueryParameters.Add("customField.value", fieldValue);
+            return this;
+        }
+
+        /// <summary>
         /// get current logon user's last active order
         /// </summary>
         /// <param name="sessionId">current user's session id</param>

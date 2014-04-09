@@ -26,6 +26,8 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 query = query.ById(Convert.ToInt32(qs["id"]));
             if (!string.IsNullOrEmpty(qs["name"]))
                 query = query.ByName(qs["name"]);
+            if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))
+                query = query.ByCustomField(qs["customField.name"], qs["customField.value"]);
 
             return query;
         }
