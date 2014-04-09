@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" dslVersion="1.0.0.0" Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" name="shopping" linkedPackageId="5d54faeb-44a4-4d62-a3d6-2146882594f8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
-  <profileInstances>
-    <packageHasProfileInstances Id="e65e8a80-421c-4b1e-a6c5-836a3167c31a">
-      <profileInstance Id="ebb56ad4-af54-4f0b-b441-8035da74f290" name="CSharpProfile">
-        <elementDefinition Id="3125b211-ef20-4502-b6be-b6c5850b360f" />
-      </profileInstance>
-      <elementDefinition Id="643855c1-a02f-4ec5-a441-92554e5e9765" />
-    </packageHasProfileInstances>
-  </profileInstances>
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" name="shopping" linkedPackageId="5d54faeb-44a4-4d62-a3d6-2146882594f8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+  <ownedCommentsInternal>
+    <comment Id="07e541e0-01a3-46dd-abb2-441873d5e452">
+      <elementDefinition Id="1adedf61-0dde-499a-8328-a56aef63d940" />
+      <body>Events:
+OrderCreated</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="576b42ad-8e33-441e-aed6-e99cf7233035" LastKnownName="Create Order" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
   <packagedElements>
     <activityRootModelHasActivity>
       <activity Id="ea8a35c6-28fe-4e02-a43a-4b1e9d1a6cbf" name="shopping" isAbstract="false" isLeaf="false" isActiveClass="false" isReentrant="false" isReadOnly="false" isSingleExecution="false">
@@ -1022,6 +1024,12 @@
           <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
         </profileInstance>
         <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="e65e8a80-421c-4b1e-a6c5-836a3167c31a">
+        <profileInstance Id="ebb56ad4-af54-4f0b-b441-8035da74f290" name="CSharpProfile">
+          <elementDefinition Id="3125b211-ef20-4502-b6be-b6c5850b360f" />
+        </profileInstance>
+        <elementDefinition Id="643855c1-a02f-4ec5-a441-92554e5e9765" />
       </packageHasProfileInstances>
     </profileInstances>
   </package>
