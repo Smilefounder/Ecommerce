@@ -29,6 +29,13 @@
       <SubType>Content</SubType>
       <DependentUpon>Payment.sequencediagram</DependentUpon>
     </Content>
+    <Content Include="PricingPipeline.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PricingPipeline.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>PricingPipeline.sequencediagram</DependentUpon>
+    </Content>
     <Content Include="Promotion.sequencediagram">
       <SubType>Content</SubType>
     </Content>

@@ -3357,6 +3357,653 @@
         Id="c100e773-d481-485f-ae0b-34e0c92e9825"
         name="ExecutionEvent" />
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <interaction
+        Id="523831dd-aaa1-40ce-a3ca-21d7e41b005f"
+        name="PricingPipeline"
+        collapseFragmentsFlag="false"
+        isActiveClass="false"
+        isAbstract="false"
+        isLeaf="false"
+        isReentrant="false">
+        <ownedCommentsInternal>
+          <comment
+            Id="05aa755a-945f-4cb7-942c-a4e92f45aeae">
+            <body>Builtin IPricingStage(s) are:
+
+PaymentMethodPricingStage
+ShippingPricingStage
+TaxPricingStage
+PromotionPricingStage</body>
+            <annotatedElements>
+              <lifelineMoniker
+                Id="74a93485-907e-4c80-a691-a8403b625bce"
+                LastKnownName="IPricingStage"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </annotatedElements>
+          </comment>
+        </ownedCommentsInternal>
+        <fragments>
+          <messageOccurrenceSpecification
+            Id="d664fdd5-c5c8-4001-9a7c-eb7225f1f8ae"
+            name="MessageOccurrenceSpecification1">
+            <covered>
+              <lifelineMoniker
+                Id="4014396f-7558-47d9-8c8c-69144585d2fd"
+                LastKnownName="Client Code"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="2eeba9ff-f1a5-4a5f-b2cf-a64b204423f8"
+            name="BehaviorExecutionSpecification1">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="4014396f-7558-47d9-8c8c-69144585d2fd"
+                LastKnownName="Client Code"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="f7c388fd-1101-44fd-a71a-f09a711aa31b"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="f15fac8b-8ede-46a1-87c5-43c8d02c767d"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="c54090e7-aee0-422c-b94e-dfbf4cb9c40d"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="f15fac8b-8ede-46a1-87c5-43c8d02c767d"
+            name="ExecutionOccurrenceSpecification1">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="5ceb6c20-29a5-40f9-8100-6e13aa6450b6"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="4014396f-7558-47d9-8c8c-69144585d2fd"
+                LastKnownName="Client Code"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="c54090e7-aee0-422c-b94e-dfbf4cb9c40d"
+            name="MessageOccurrenceSpecification2">
+            <covered>
+              <lifelineMoniker
+                Id="4014396f-7558-47d9-8c8c-69144585d2fd"
+                LastKnownName="Client Code"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="f7c388fd-1101-44fd-a71a-f09a711aa31b"
+            name="ExecutionOccurrenceSpecification2">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="b52f39ee-3bc9-4904-928f-40c9cbc6c3c9"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="4014396f-7558-47d9-8c8c-69144585d2fd"
+                LastKnownName="Client Code"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="0865bf80-6bff-4009-8e49-df994623fcd3"
+            name="BehaviorExecutionSpecification2">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="ec55de51-f989-41ba-833c-94e6b45a79a8"
+                LastKnownName="ExecutionOccurrenceSpecification4"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="20b22592-572c-4f4a-b5eb-fd70977a5819"
+                LastKnownName="ExecutionOccurrenceSpecification3"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="9f3f4ecd-dec0-4c03-82ff-0be9680ca3ed"
+                LastKnownName="MessageOccurrenceSpecification4"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <operandOccurrenceSpecificationMoniker
+                Id="0ef7a5d5-4ac7-4f8b-9124-8f22d8fcf618"
+                LastKnownName="OperandOccurrenceSpecification3"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="1b40a017-65ae-4b26-ac60-621c35afc1dc"
+                LastKnownName="MessageOccurrenceSpecification7"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="f3a13884-59ca-47ba-9e54-6ff4700ef13d"
+                LastKnownName="MessageOccurrenceSpecification10"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <operandOccurrenceSpecificationMoniker
+                Id="6b825465-62a8-4b72-90f4-c50f065cebd3"
+                LastKnownName="OperandOccurrenceSpecification4"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="c3b509c9-95fd-46c5-bd07-1e41167f2b96"
+                LastKnownName="MessageOccurrenceSpecification5"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="20b22592-572c-4f4a-b5eb-fd70977a5819"
+            name="ExecutionOccurrenceSpecification3">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="441a20c1-4d62-4f95-bdf0-39c06fed4378"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="3c691c9d-18b4-4bb0-bef8-26bc206eb2af"
+            name="MessageOccurrenceSpecification3">
+            <covered>
+              <lifelineMoniker
+                Id="4014396f-7558-47d9-8c8c-69144585d2fd"
+                LastKnownName="Client Code"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="9f3f4ecd-dec0-4c03-82ff-0be9680ca3ed"
+            name="MessageOccurrenceSpecification4">
+            <covered>
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <combinedFragment
+            Id="bc79034d-a6c8-49ea-8d40-d033256d4061"
+            name="CombinedFragment1"
+            interactionOperator="Loop">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="74a93485-907e-4c80-a691-a8403b625bce"
+                LastKnownName="IPricingStage"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </coveredLifelines>
+            <operands>
+              <interactionOperand
+                Id="25eaa0af-e93d-4c07-a4b8-9a4878174658"
+                name="InteractionOperand1">
+                <coveredLifelines>
+                  <lifelineMoniker
+                    Id="74a93485-907e-4c80-a691-a8403b625bce"
+                    LastKnownName="IPricingStage"
+                    LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+                  <lifelineMoniker
+                    Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                    LastKnownName="PricingPipeline"
+                    LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+                </coveredLifelines>
+                <guard>
+                  <interactionConstraint
+                    Id="6b625ae0-81d9-4d33-bce9-7e7e14dd4376"
+                    guardText="foreach pricing stages">
+                    <maxInt>
+                      <literalString
+                        Id="1606c375-03df-4bf8-b358-97627e684e3e"
+                        name="LiteralString1" />
+                    </maxInt>
+                    <minInt>
+                      <literalString
+                        Id="9fb07f58-c806-4a35-a039-86866e569973"
+                        name="LiteralString2" />
+                    </minInt>
+                  </interactionConstraint>
+                </guard>
+                <operandOccurrenceSpecifications>
+                  <operandOccurrenceSpecificationMoniker
+                    Id="574a0ac9-6d63-4155-a8a6-632592376178"
+                    LastKnownName="OperandOccurrenceSpecification1"
+                    LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+                  <operandOccurrenceSpecificationMoniker
+                    Id="adf53508-37bb-4d1d-8c84-2e345e8325cc"
+                    LastKnownName="OperandOccurrenceSpecification2"
+                    LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+                  <operandOccurrenceSpecificationMoniker
+                    Id="0ef7a5d5-4ac7-4f8b-9124-8f22d8fcf618"
+                    LastKnownName="OperandOccurrenceSpecification3"
+                    LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+                  <operandOccurrenceSpecificationMoniker
+                    Id="6b825465-62a8-4b72-90f4-c50f065cebd3"
+                    LastKnownName="OperandOccurrenceSpecification4"
+                    LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+                </operandOccurrenceSpecifications>
+              </interactionOperand>
+            </operands>
+          </combinedFragment>
+          <operandOccurrenceSpecification
+            Id="0ef7a5d5-4ac7-4f8b-9124-8f22d8fcf618"
+            name="OperandOccurrenceSpecification3">
+            <covered>
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification
+            Id="574a0ac9-6d63-4155-a8a6-632592376178"
+            name="OperandOccurrenceSpecification1">
+            <covered>
+              <lifelineMoniker
+                Id="74a93485-907e-4c80-a691-a8403b625bce"
+                LastKnownName="IPricingStage"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="9f74eb39-98b9-4fe7-a547-fcae540e11c0"
+            name="BehaviorExecutionSpecification3">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="74a93485-907e-4c80-a691-a8403b625bce"
+                LastKnownName="IPricingStage"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="c521116f-be75-41b9-8dab-07f3812de582"
+                LastKnownName="ExecutionOccurrenceSpecification6"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="9065c76c-049f-4e47-be91-2037746a16c6"
+                LastKnownName="ExecutionOccurrenceSpecification5"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="d6ae8194-425c-4add-81c2-e90292fd0c2f"
+                LastKnownName="MessageOccurrenceSpecification8"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="eb3e1e1d-9faa-49be-9609-ef95e9e6a3e3"
+                LastKnownName="MessageOccurrenceSpecification9"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="9065c76c-049f-4e47-be91-2037746a16c6"
+            name="ExecutionOccurrenceSpecification5">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="69ba03f9-73b1-45f5-a548-5d323c2bf01d"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="74a93485-907e-4c80-a691-a8403b625bce"
+                LastKnownName="IPricingStage"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="1b40a017-65ae-4b26-ac60-621c35afc1dc"
+            name="MessageOccurrenceSpecification7">
+            <covered>
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="d6ae8194-425c-4add-81c2-e90292fd0c2f"
+            name="MessageOccurrenceSpecification8">
+            <covered>
+              <lifelineMoniker
+                Id="74a93485-907e-4c80-a691-a8403b625bce"
+                LastKnownName="IPricingStage"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="f3a13884-59ca-47ba-9e54-6ff4700ef13d"
+            name="MessageOccurrenceSpecification10">
+            <covered>
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="eb3e1e1d-9faa-49be-9609-ef95e9e6a3e3"
+            name="MessageOccurrenceSpecification9">
+            <covered>
+              <lifelineMoniker
+                Id="74a93485-907e-4c80-a691-a8403b625bce"
+                LastKnownName="IPricingStage"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="c521116f-be75-41b9-8dab-07f3812de582"
+            name="ExecutionOccurrenceSpecification6">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="a7f1daa2-aef4-4c7b-8630-fe8b3da17718"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="74a93485-907e-4c80-a691-a8403b625bce"
+                LastKnownName="IPricingStage"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <operandOccurrenceSpecification
+            Id="6b825465-62a8-4b72-90f4-c50f065cebd3"
+            name="OperandOccurrenceSpecification4">
+            <covered>
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification
+            Id="adf53508-37bb-4d1d-8c84-2e345e8325cc"
+            name="OperandOccurrenceSpecification2">
+            <covered>
+              <lifelineMoniker
+                Id="74a93485-907e-4c80-a691-a8403b625bce"
+                LastKnownName="IPricingStage"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="c3b509c9-95fd-46c5-bd07-1e41167f2b96"
+            name="MessageOccurrenceSpecification5">
+            <covered>
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="4c73ad22-0058-4d38-844e-42ca73b47bdd"
+            name="MessageOccurrenceSpecification6">
+            <covered>
+              <lifelineMoniker
+                Id="4014396f-7558-47d9-8c8c-69144585d2fd"
+                LastKnownName="Client Code"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="ec55de51-f989-41ba-833c-94e6b45a79a8"
+            name="ExecutionOccurrenceSpecification4">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="51feb410-7dbf-4814-b6f7-f0a28fafef58"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+                LastKnownName="PricingPipeline"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline
+            Id="4014396f-7558-47d9-8c8c-69144585d2fd"
+            name="Client Code"
+            isActor="false"
+            lifelineDisplayName="Client Code">
+            <topLevelOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="d664fdd5-c5c8-4001-9a7c-eb7225f1f8ae"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="f15fac8b-8ede-46a1-87c5-43c8d02c767d"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="f7c388fd-1101-44fd-a71a-f09a711aa31b"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="3c691c9d-18b4-4bb0-bef8-26bc206eb2af"
+                LastKnownName="MessageOccurrenceSpecification3"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="4c73ad22-0058-4d38-844e-42ca73b47bdd"
+                LastKnownName="MessageOccurrenceSpecification6"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="e0353ad8-3c26-492d-b5e1-4708603fb3fe"
+            name="PricingPipeline"
+            isActor="false"
+            lifelineDisplayName="PricingPipeline">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="20b22592-572c-4f4a-b5eb-fd70977a5819"
+                LastKnownName="ExecutionOccurrenceSpecification3"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="ec55de51-f989-41ba-833c-94e6b45a79a8"
+                LastKnownName="ExecutionOccurrenceSpecification4"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="74a93485-907e-4c80-a691-a8403b625bce"
+            name="IPricingStage"
+            isActor="false"
+            lifelineDisplayName="IPricingStage">
+            <topLevelOccurrences>
+              <operandOccurrenceSpecificationMoniker
+                Id="574a0ac9-6d63-4155-a8a6-632592376178"
+                LastKnownName="OperandOccurrenceSpecification1"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="9065c76c-049f-4e47-be91-2037746a16c6"
+                LastKnownName="ExecutionOccurrenceSpecification5"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="c521116f-be75-41b9-8dab-07f3812de582"
+                LastKnownName="ExecutionOccurrenceSpecification6"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              <operandOccurrenceSpecificationMoniker
+                Id="adf53508-37bb-4d1d-8c84-2e345e8325cc"
+                LastKnownName="OperandOccurrenceSpecification2"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message
+            Id="76f07a0c-d827-4472-a18f-7d4e3a4a7dc0"
+            name="Create PricingContext"
+            messageKind="Complete"
+            messageSort="SynchCall"
+            createSelfMessage="true">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="d664fdd5-c5c8-4001-9a7c-eb7225f1f8ae"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="c54090e7-aee0-422c-b94e-dfbf4cb9c40d"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="c1a85176-b2e4-4af3-b40a-8ef91642fe92"
+            name="Execute(pricingContext)"
+            messageKind="Complete"
+            messageSort="SynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="3c691c9d-18b4-4bb0-bef8-26bc206eb2af"
+                LastKnownName="MessageOccurrenceSpecification3"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="9f3f4ecd-dec0-4c03-82ff-0be9680ca3ed"
+                LastKnownName="MessageOccurrenceSpecification4"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="0725a976-3612-442d-a2c1-a06e0b83b629"
+            name="Execute(pricingContext)"
+            messageKind="Complete"
+            messageSort="SynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="1b40a017-65ae-4b26-ac60-621c35afc1dc"
+                LastKnownName="MessageOccurrenceSpecification7"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="d6ae8194-425c-4add-81c2-e90292fd0c2f"
+                LastKnownName="MessageOccurrenceSpecification8"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="6e7c4191-934d-4cc1-a28d-03e82d278b51"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="eb3e1e1d-9faa-49be-9609-ef95e9e6a3e3"
+                LastKnownName="MessageOccurrenceSpecification9"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="f3a13884-59ca-47ba-9e54-6ff4700ef13d"
+                LastKnownName="MessageOccurrenceSpecification10"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="c4d4cd34-1d61-4f58-a309-e1d61dccea90"
+            name="&lt;&lt;return&gt;&gt;"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="c3b509c9-95fd-46c5-bd07-1e41167f2b96"
+                LastKnownName="MessageOccurrenceSpecification5"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="4c73ad22-0058-4d38-844e-42ca73b47bdd"
+                LastKnownName="MessageOccurrenceSpecification6"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </receiveEvent>
+          </message>
+        </messages>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="5ceb6c20-29a5-40f9-8100-6e13aa6450b6"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="b52f39ee-3bc9-4904-928f-40c9cbc6c3c9"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="441a20c1-4d62-4f95-bdf0-39c06fed4378"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="51feb410-7dbf-4814-b6f7-f0a28fafef58"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="69ba03f9-73b1-45f5-a548-5d323c2bf01d"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="a7f1daa2-aef4-4c7b-8630-fe8b3da17718"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
   </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"

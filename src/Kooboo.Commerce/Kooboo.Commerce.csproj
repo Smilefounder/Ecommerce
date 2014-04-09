@@ -151,7 +151,6 @@
     <Compile Include="Orders\Pricing\PricingContext.cs" />
     <Compile Include="Orders\Pricing\PricingPipeline.cs" />
     <Compile Include="Orders\Pricing\PricingStageTypeCollection.cs" />
-    <Compile Include="Orders\Pricing\Stages\PreparingPricingStage.cs" />
     <Compile Include="Orders\Pricing\Stages\PaymentMethodPricingStage.cs" />
     <Compile Include="Orders\Pricing\Stages\PromotionPricingStage.cs" />
     <Compile Include="Orders\Pricing\Stages\ShippingPricingStage.cs" />
