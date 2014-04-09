@@ -142,9 +142,9 @@ namespace Kooboo.Commerce.Payments.PayPal
 
             // If the website don't pass in customer info,
             // then we try to fill these info automatically
-            if (request.Payment.PaymentTargetType == PaymentTargetTypes.Order)
+            if (request.Payment.PaymentTarget.Type == PaymentTargetTypes.Order)
             {
-                var orderId = Convert.ToInt32(request.Payment.PaymentTargetId);
+                var orderId = Convert.ToInt32(request.Payment.PaymentTarget.Id);
                 var order = _orderService.GetById(orderId);
 
                 card.first_name = order.Customer.FirstName;

@@ -9,12 +9,12 @@ namespace Kooboo.Commerce.Payments
     {
         public static IQueryable<Payment> ByTarget(this IQueryable<Payment> query, string targetType, string targetId)
         {
-            return query.Where(x => x.PaymentTargetType == targetType && x.PaymentTargetId == targetId);
+            return query.Where(x => x.PaymentTarget.Type == targetType && x.PaymentTarget.Id == targetId);
         }
 
         public static IQueryable<Payment> ByTargetType(this IQueryable<Payment> query, string targetType)
         {
-            return query.Where(x => x.PaymentTargetType == targetType);
+            return query.Where(x => x.PaymentTarget.Type == targetType);
         }
 
         public static IQueryable<Payment> ForOrders(this IQueryable<Payment> query)

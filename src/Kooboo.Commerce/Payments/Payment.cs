@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Events;
+﻿using Kooboo.Commerce.ComponentModel;
+using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Payments;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Payments
 {
-    public class Payment
+    public class Payment : INotifyObjectCreated
     {
         public int Id { get; set; }
 
@@ -24,28 +25,19 @@ namespace Kooboo.Commerce.Payments
 
         public string ThirdPartyTransactionId { get; set; }
 
-        /// <summary>
-        /// The type of the object this payment is applied to.
-        /// </summary>
-        [Required, StringLength(100)]
-        public string PaymentTargetType { get; set; }
-
-        /// <summary>
-        /// The key of the object this payment is applied to.
-        /// </summary>
-        [Required, StringLength(100)]
-        public string PaymentTargetId { get; set; }
+        public PaymentTarget PaymentTarget { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
 
-        public Payment()
-        {
-            CreatedAtUtc = DateTime.UtcNow;
-        }
+        public Payment() { }
 
-        public void Create()
+        public Payment(PaymentTarget target, decimal amount, PaymentMethod method, string description)
         {
-            Event.Apply(new PaymentCreated(this));
+            PaymentTarget = target;
+            Amount = amount;
+            PaymentMethod = new PaymentMethodReference(method);
+            Description = description;
+            CreatedAtUtc = DateTime.UtcNow;
         }
 
         public void ChangeStatus(PaymentStatus newStatus)
@@ -56,6 +48,11 @@ namespace Kooboo.Commerce.Payments
                 Status = newStatus;
                 Event.Apply(new PaymentStatusChanged(this, oldStatus, Status));
             }
+        }
+
+        void INotifyObjectCreated.NotifyCreated()
+        {
+            Event.Apply(new PaymentCreated(this));
         }
     }
 

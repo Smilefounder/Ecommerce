@@ -164,6 +164,7 @@
     <Compile Include="Payments\PaymentProcessorException.cs" />
     <Compile Include="Payments\Payment.cs" />
     <Compile Include="Payments\PaymentProcessorParameterDescriptor.cs" />
+    <Compile Include="Payments\PaymentTarget.cs" />
     <Compile Include="Payments\ProcessPaymentResult.cs" />
     <Compile Include="Payments\Services\IPaymentService.cs" />
     <Compile Include="Orders\Services\IOrderService.cs" />

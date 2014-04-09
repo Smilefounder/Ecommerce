@@ -59,7 +59,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         {
             var method = _mapper.MapTo(obj);
 
-            var processor = _processorFactory.FindByName(obj.PaymentProcessorName);
+            var processor = _processorFactory.Find(obj.PaymentProcessorName);
             if (processor == null)
                 throw new InvalidOperationException("Cannot find payment processor '" + obj.PaymentProcessorName + "' for payment method '" + obj.DisplayName + "'.");
 

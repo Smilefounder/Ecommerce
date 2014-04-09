@@ -30,14 +30,14 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         public IPaymentQuery ByTarget(string targetType, string targetId)
         {
             EnsureQuery();
-            _query = _query.Where(x => x.PaymentTargetType == targetType && x.PaymentTargetId == targetId);
+            _query = _query.Where(x => x.PaymentTarget.Type ==  targetType && x.PaymentTarget.Id == targetId);
             return this;
         }
 
-        public IPaymentQuery ByStatus(PaymentStatus status)
+        public IPaymentQuery ByStatus(Kooboo.Commerce.API.Payments.PaymentStatus status)
         {
             EnsureQuery();
-            var mappedStatus = (Kooboo.Commerce.Payments.PaymentStatus)Enum.Parse(typeof(PaymentStatus), status.ToString());
+            var mappedStatus = (Kooboo.Commerce.Payments.PaymentStatus)(int)status;
             _query = _query.Where(x => x.Status == mappedStatus);
             return this;
         }

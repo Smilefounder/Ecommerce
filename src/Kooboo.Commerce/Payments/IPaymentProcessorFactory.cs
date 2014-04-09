@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Payments
     {
         IEnumerable<IPaymentProcessor> All();
 
-        IPaymentProcessor FindByName(string name);
+        IPaymentProcessor Find(string processorName);
     }
 
     [Dependency(typeof(IPaymentProcessorFactory))]
@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Payments
             return _engine.ResolveAll<IPaymentProcessor>();
         }
 
-        public IPaymentProcessor FindByName(string name)
+        public IPaymentProcessor Find(string name)
         {
             return All().FirstOrDefault(x => x.Name == name);
         }

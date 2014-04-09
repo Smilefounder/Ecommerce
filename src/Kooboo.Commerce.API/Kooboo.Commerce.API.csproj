@@ -96,6 +96,7 @@
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderItem.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
+    <Compile Include="Payments\PaymentTarget.cs" />
     <Compile Include="Prices\CalculateOrderPriceRequest.cs" />
     <Compile Include="Prices\CalculatePriceRequest.cs" />
     <Compile Include="Prices\CalculatePriceResult.cs" />

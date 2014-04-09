@@ -26,6 +26,8 @@ namespace Kooboo.Commerce.Orders.Services
 
         //IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize);
 
+        void CalculatePrice(Order order);
+
         bool Create(Order order);
 
         bool Update(Order order);
