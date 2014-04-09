@@ -1,0 +1,1204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="bf06dd57-f145-4096-80ca-3611e21381c4"
+  name="Brands"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="63186a31-3ec8-4099-bb7c-6cea97fff6a0"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DKooboo.Commerce.Brands"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="d8af4bb5-6c6f-444b-83e8-0f9cf97fbb5c"
+        name="Brand"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="d90bc8b1-d989-4b0a-bf92-8bf71ec8b5d9"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrand"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="93075182-a554-4c34-9ec8-608c12b2d1cc"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="c24941c7-62c6-493e-afc1-c133680281c0">
+                <propertyInstance
+                  Id="03b3a754-4f8a-4b7b-98f4-68c71fc57208"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="5dfd54f5-a523-4e86-849a-69419d0adc9d">
+                <propertyInstance
+                  Id="b755a9b0-2117-4688-b55b-442a9c42bdef"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="43c082a2-038d-40df-b1a9-5d78be014ac5">
+                <propertyInstance
+                  Id="daf7b455-bf87-41a0-ad5f-49c925ed4d53"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="19904858-02f2-40d0-84e9-48d579add75d">
+                <propertyInstance
+                  Id="809daace-4dea-4031-843f-7af93212bb1d"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="aa89d090-23dc-46ea-ac61-02d60f9d04d5">
+                <propertyInstance
+                  Id="4cd616a2-6d85-493a-8122-f1697277aec2"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <targetEnds>
+          <association
+            Id="42396897-8288-4b3a-91ca-3b192d389da7"
+            isDerived="false"
+            sourceEndRoleName="Brand"
+            targetEndRoleName="CustomFields"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="3b589ef4-0903-4b83-9b7f-55d8510921f0"
+              LastKnownName="ICollection&lt;BrandCustomField‎&gt;"
+              LastKnownLocation="Package2_1058.uml" />
+            <description>Property CustomFields references type ICollection&lt;BrandCustomField‎&gt;.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="4c293d87-faee-47c7-8ee6-2cfcf9805edf"
+                  name="Brand"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="6faac85b-4530-45b7-bcaf-a9da00ad8774"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="b9b983a1-be5c-4d08-a88f-6212c9f42b98"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2824cf9a-4976-4731-87f9-1a617511abdf"
+                  name="CustomFields"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="eea0a273-e4a0-4cc9-9f5b-73dfcd5291a6"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="c90790e6-7b92-40b9-8d71-aa505f016b39"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="59a123a6-6e63-4ed0-bd89-abaf512738fb"
+            name="Id"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="afb193d2-3d41-44f6-9044-c577787183d8"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrand Member%3DId"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="6b304ec6-28db-4423-ae48-5cb6beda6800"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e0ce9dde-11fb-4ff0-a1ab-276f2cdf2b79">
+                    <propertyInstance
+                      Id="bd9a9478-8868-4c6e-8de6-9c960913186b"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="251323f7-4572-4a43-8505-540945441783">
+                    <propertyInstance
+                      Id="ec76e372-adc0-4000-a090-add3e7ff483e"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="93c242eb-1f69-4783-9e09-97a5b265ddd6">
+                    <propertyInstance
+                      Id="13e5c7f7-c1cb-4eda-b0cf-49d7646c1414"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8eca3c54-4be7-49d6-bd2d-e7dce9a57a51">
+                    <propertyInstance
+                      Id="fe3b4783-a244-4b2b-8372-676fc63d8f90"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="89a81ea1-0cca-40ca-b1e3-1eaf9889b060">
+                    <propertyInstance
+                      Id="4b9523ef-cd90-4507-9bc6-a12d7beafb9f"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="14d84fb4-4ebd-4e85-8a9c-2eb327801fcf">
+                    <propertyInstance
+                      Id="34e1508b-27b3-4322-8a69-615e7c4e285f"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f2eda272-7e6b-44b8-a015-bc31efb3f319">
+                    <propertyInstance
+                      Id="2105e981-8014-4be0-ae9f-f1e3bf0b9995"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                LastKnownName="Integer"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="7848632e-01e6-4c8c-be6a-caca1109c954"
+            name="Name"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="7ffd7d2b-1572-486a-bad3-d51aebd4366f"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrand Member%3DName"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="5b437bab-67c6-4bbc-b08e-e737e34f5fb5"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="29f37613-eff5-4593-86b5-d412470c59e7">
+                    <propertyInstance
+                      Id="cb96ba28-7749-409a-8a80-55b725cf71e4"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e31f7267-bd5c-4ba0-9ae6-add9ab8575ea">
+                    <propertyInstance
+                      Id="f23dc8f8-5d05-4801-9271-f97d7629d42f"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8db1cd00-6d2c-4089-aa44-fd5c5c340148">
+                    <propertyInstance
+                      Id="01a7d604-90c4-420f-99c2-8d9b14d69d39"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ec031d92-65d8-4002-bef5-612cc0b44de0">
+                    <propertyInstance
+                      Id="1e3b1416-83e7-47b9-8530-dd14447ffc5e"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="33d33488-ac01-4208-bbc0-d47d1a2f06fe">
+                    <propertyInstance
+                      Id="f63a128a-9f90-4382-bcda-731599e26e14"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="01e8c847-2998-47b7-92ef-5ba38f13eb83">
+                    <propertyInstance
+                      Id="bc0dd2a9-0957-4b9b-a6c5-33e0d75e44ed"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fac94e09-97f9-45c5-96be-f3dcd07a23a9">
+                    <propertyInstance
+                      Id="92ef9cc4-4846-4032-bc40-dbda42455ae1"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                LastKnownName="String"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="1f0403a5-e308-4c8a-bbc4-b2ab1d5c795b"
+            name="Description"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="7665562b-209a-4462-8c1f-040588c6deb4"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrand Member%3DDescription"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="56ec285a-25c8-48e5-99f3-3c26f00af3ac"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5de26ba9-a579-4263-93ea-24e7d3726bdc">
+                    <propertyInstance
+                      Id="fc5d0813-2fe0-4aef-8750-6c59a161df05"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="38a349ab-5e69-4c21-9488-36651699e9d3">
+                    <propertyInstance
+                      Id="6b0aefb2-82e3-4903-b725-0c19abaf3992"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ced73d99-6dda-45b8-9192-af0233f01990">
+                    <propertyInstance
+                      Id="23840141-9d08-4906-a777-d9b1c1f75658"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="7ece2ac9-67e1-4414-8074-ebd205716772">
+                    <propertyInstance
+                      Id="a863cf83-daeb-4590-839d-d420b41025d4"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="de3cac7f-d838-4de3-b8e5-6186d8fab195">
+                    <propertyInstance
+                      Id="03631666-b1b1-4ff8-8e56-59da52946e17"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c6abd9c9-4675-45f7-adc1-c1d76bb27016">
+                    <propertyInstance
+                      Id="b3132141-4707-47d2-90d1-3f935b548403"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="623e5523-f914-48ec-aa1e-135b5faac60d">
+                    <propertyInstance
+                      Id="08501d99-9b5c-4f89-80f4-7509fb14a2c7"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                LastKnownName="String"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="4537fc23-7b00-4112-a428-2ee8d132e6ba"
+            name="Logo"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="acaefdaa-d861-4e4c-b96e-838213058bb5"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrand Member%3DLogo"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="0b72132b-ea63-41c0-81db-c52bc1968b01"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3224ad27-ffe2-42df-b0ed-ea095e8c5778">
+                    <propertyInstance
+                      Id="2533a54b-6c9e-461a-bc3d-86cce9a5901b"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="485ba9e5-b36d-4f6a-92fb-dac3e7d0c35d">
+                    <propertyInstance
+                      Id="d1dc0ebd-950b-4446-aa66-a23d90bccbea"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8caad80c-ae1b-4ea6-9e60-14d21571ee3d">
+                    <propertyInstance
+                      Id="6c0e1ea3-4c29-4e19-be8f-3be1cdea31e3"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="35b91b5f-c1a2-433a-ac0b-16e0d613a8d6">
+                    <propertyInstance
+                      Id="07e77abc-fdb9-4652-9828-2bc612af2d59"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="cf521e08-7de2-47e3-8efc-48a88f8d8c31">
+                    <propertyInstance
+                      Id="46cdf488-a3a7-4754-8882-ac6aec6655c6"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b4b70d54-775a-4903-aeda-d812a8e95003">
+                    <propertyInstance
+                      Id="7d6b7bb8-f085-4148-979b-6ddd2297f6de"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="cfebe7ab-b895-46f7-8232-7f18f4517346">
+                    <propertyInstance
+                      Id="43d8530b-ef96-4af2-b0ec-841908d9f062"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                LastKnownName="String"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="1cfc08e0-554f-443b-9b50-df0e15e7ff56"
+            name="CustomFields"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="1e1efb28-68dc-4041-af52-9342d4a1dfa6"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrand Member%3DCustomFields"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="8318f18a-f45a-450b-b835-49b2e28197d3"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e5efee08-1ba7-443b-a5c1-14cf05f2aca1">
+                    <propertyInstance
+                      Id="637b7656-9cd8-42d8-83aa-95990e8af6bb"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8b6658aa-9fc0-4086-81d8-be3d7ddda2a8">
+                    <propertyInstance
+                      Id="a53623fd-ee04-46a0-a511-d934b78a7f9b"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9f7d4fba-75ba-4f19-a7cf-63b399fd3c46">
+                    <propertyInstance
+                      Id="0731bcdf-1bd3-4a73-a77e-2b9f477f04b9"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9f77efaa-025e-424b-9026-ec7712a7b369">
+                    <propertyInstance
+                      Id="07111531-26df-47d5-b42c-437cc47c0229"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f765a1f9-0fbe-42e5-8045-4dcb5cd1ed76">
+                    <propertyInstance
+                      Id="aecfdfa8-9ad8-4263-8527-adce72487e31"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="eac1b851-a156-450a-ab42-6a4f96a12125">
+                    <propertyInstance
+                      Id="5759eb8c-129b-4b44-a22b-56718158cf5a"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d0eca87a-aade-47fa-a46a-891cb43b0e8b">
+                    <propertyInstance
+                      Id="2c3491da-71b3-491a-98ce-f24a3345c4b1"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="3b589ef4-0903-4b83-9b7f-55d8510921f0"
+                LastKnownName="ICollection&lt;BrandCustomField‎&gt;"
+                LastKnownLocation="Package2_1058.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="13966c02-54f0-4eca-8f97-3cc0ce217aaf"
+            name="ToString"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="503a27d2-3778-4e4a-9b62-cd8a41b51aed"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrand Member%3DToString"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="a13f9806-172b-41ae-b829-0b2ca331dfe3"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ba0664ad-5d4d-4289-877c-1f16bd8effec">
+                    <propertyInstance
+                      Id="16736033-24d9-4d69-bea6-5f36e7a911d4"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="bb6dddc4-82f8-41f1-847e-6b1dfc370d70">
+                    <propertyInstance
+                      Id="a19057ee-da4b-4d24-8fc3-9e7465fd05e1"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6fa54592-28b3-4249-b4db-8ce0f1a5dc26">
+                    <propertyInstance
+                      Id="b4bbe511-5ed0-4fda-af11-ae2166f2ce1e"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fafabb3d-9ec8-4245-abbf-11f227324018">
+                    <propertyInstance
+                      Id="cf4b49c8-f0a9-469b-9411-9046d33a4d39"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="48a23a23-7d78-4fc1-96bd-a6e66467b779">
+                    <propertyInstance
+                      Id="ad8c30a1-579a-4a0c-85dd-3dccceab9b3a"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e8e22562-3a53-4573-b924-ccb8a24f9d99">
+                    <propertyInstance
+                      Id="279e1799-eecb-4cff-b6f5-5fd190d638e6"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="9c1a351b-c1c6-4baf-90d4-f4fd07e6558f"
+                  direction="Return">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="2256bde5-fd5f-4b68-90e1-403300899dc0"
+            name="Brand"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="67346461-4806-4c7d-b513-976c3e7f5757"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrand Member%3D.ctor"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="8d73220f-5da6-43b6-af4f-f0ef6bf0a26c"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="709e23ea-9c11-403b-bdc6-8327dc7fb976">
+                    <propertyInstance
+                      Id="4e22f3f6-7ad3-4728-83fb-16edbadee26a"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b1aca1b9-0439-41d2-9ca9-09a5a3dbac83">
+                    <propertyInstance
+                      Id="af035c69-b473-40d8-b135-803b76e817c6"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="7bd042ea-8bef-4ebd-8e24-2c8d61e4eaae">
+                    <propertyInstance
+                      Id="aeb35a85-7566-48d2-8904-3b87e7b620ba"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0f81f45b-9419-4cdb-8a08-f119dd757354">
+                    <propertyInstance
+                      Id="e232a50a-b954-4544-b7a8-8c4b416af717"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d387212c-6486-4c6c-9a09-40bdf60393cc">
+                    <propertyInstance
+                      Id="25285a4f-9f89-4577-9691-d50528d40a52"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2f598223-83e7-41da-b74e-f96785be9bcb">
+                    <propertyInstance
+                      Id="0de8bbea-6682-48bf-a561-027d7e110dc3"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="4b112ece-9d2b-48c1-a817-de853279eeb1"
+        name="BrandCustomField"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="77c4ed2a-9323-4eff-bcf6-31ae68aa9c3e"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrandCustomField"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="6c8a12eb-9b19-46bb-8b43-dfaa1eeb30cb"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="7038de66-c100-4852-a4d3-1694a53dccfb">
+                <propertyInstance
+                  Id="e0e33ba7-16ec-41e8-bd59-18552bccd64f"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="700501a9-1c52-417c-95d7-8df67699c575">
+                <propertyInstance
+                  Id="27fe85b2-9cc7-4593-bedf-a386fee86a2f"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="cce93982-788a-45cb-a9f7-6eb4167e71ed">
+                <propertyInstance
+                  Id="56838522-99be-4994-a28a-f3a02d278a1f"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0b164330-c913-4f02-833a-dc3944ceb795">
+                <propertyInstance
+                  Id="dc3fc694-110d-4199-b9e1-50689d3fec5b"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="41533ef0-fa6b-4811-8982-3f2786d9bdcd">
+                <propertyInstance
+                  Id="ba6413df-112e-4339-ab05-3bd0a0185883"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <targetEnds>
+          <association
+            Id="9f8443cd-8f0d-4853-a8f1-aadee9fd24dd"
+            isDerived="false"
+            sourceEndRoleName="BrandCustomField"
+            targetEndRoleName="Brand"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="d8af4bb5-6c6f-444b-83e8-0f9cf97fbb5c"
+              LastKnownName="Brand"
+              LastKnownLocation="Package_1059.uml" />
+            <description>Property Brand references type Brand.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="11ab625c-9291-4fe2-ba36-ad2dcac59049"
+                  name="BrandCustomField"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="1423a993-61aa-4d70-b853-299761b58e62"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="cfb17d5b-ac31-4012-a9ba-ff008a4a5397"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="776839ca-9290-4da6-9a62-6ae0a5023dcf"
+                  name="Brand"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="f782c7a4-e656-4b5d-b3ce-cb1cb84aeea4"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="22a6c32f-f218-4749-9283-68c3dcbf5682"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="cefecff3-83e2-495f-ae3d-f40516f2bbc1"
+            name="BrandId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="383991d5-8ac5-4fd6-bd97-f37568db8014"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrandCustomField Member%3DBrandId"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="4961b294-f02d-4797-a19e-4c51c604b4a5"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="4a371921-663b-4e5c-9e94-ca1be29eb3c0">
+                    <propertyInstance
+                      Id="50eaab96-7117-4a31-88e1-442b28d0aecb"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6e58c301-f564-40f5-bde3-e57523546b2a">
+                    <propertyInstance
+                      Id="f825d227-a0ea-47c4-9fb2-bde3f44c85ea"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f86284f4-db92-4751-bbe7-d1b645d2c5ac">
+                    <propertyInstance
+                      Id="6e91e60f-bc87-441f-8858-2641d27e60f6"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9bfb7436-3460-4a0f-b204-5a783c96f02a">
+                    <propertyInstance
+                      Id="f3b5e237-3729-4b61-9450-45a00cd7d854"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="39220dbf-d609-4936-981e-67e34a4b9b1a">
+                    <propertyInstance
+                      Id="91972ded-a1ac-4fef-8a48-b1b48b9d4c0f"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c758ee57-d34e-44a2-96b8-9d7de817464c">
+                    <propertyInstance
+                      Id="1ada2724-5e5d-43bd-9a68-e1f27ffa4d5a"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="df2b48f7-4126-4eb8-ac1c-2b0c1e395323">
+                    <propertyInstance
+                      Id="ceb7aa79-daeb-4414-a56f-b7bf12ac8186"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                LastKnownName="Integer"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="27bd3d98-3bcd-41a3-94f4-3dfc3931b644"
+            name="Name"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="375365c6-a2b3-42ed-a462-e6f9309dfc51"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrandCustomField Member%3DName"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="8998a344-bce1-47f8-a57d-fcdadf699a18"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d312e90a-6fb9-466c-81a6-c0c909d5fbc5">
+                    <propertyInstance
+                      Id="9e47e63e-5de5-49c2-8cac-bcd27bdc0625"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="77336f8b-f64b-4d37-882a-8ae7f9bfff93">
+                    <propertyInstance
+                      Id="d0d3b4e9-ea83-4920-8b70-cb64034e5f65"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="75ba20e6-5c7e-47fb-ae4b-fb5458b0e7fa">
+                    <propertyInstance
+                      Id="4c9e0e5c-6c99-424d-81bc-f7bf699d7f3e"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="90b6fa2c-4cb9-461f-a45b-513d45b21a0a">
+                    <propertyInstance
+                      Id="dbe693b3-97ab-479a-9d28-6c346167a6c6"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="130e3650-fcdd-499b-95c1-e98bcb10883c">
+                    <propertyInstance
+                      Id="8a083cdd-75fd-437e-86d3-7f55f3921c53"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6eba3369-73d3-48e0-ab14-4c158c416cfc">
+                    <propertyInstance
+                      Id="bdaaf64f-78e0-402d-bdf6-75ffdabcd6db"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c5efca31-8190-41ad-acc1-0f89d28db905">
+                    <propertyInstance
+                      Id="7b522ca2-1724-4af0-ad58-470e630787a1"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                LastKnownName="String"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="9c97ad87-788d-4e6a-9f35-a47b04ec4c7a"
+            name="Value"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="97992624-39ae-4e8f-9aa7-2e39302ca988"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrandCustomField Member%3DValue"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="0fe2fe5e-97c5-4db8-9eab-5159a8082d0d"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6fe2c3f6-20d5-4d21-a7c2-52c375a5ba8f">
+                    <propertyInstance
+                      Id="3770347f-f924-49b4-977f-0e11d23c90ff"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b4585354-4692-429f-8a5a-7d32474a273e">
+                    <propertyInstance
+                      Id="84e7be76-9edb-458b-8d79-ef3f487e1365"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0e07f040-a02f-4218-b685-cd46b23775a6">
+                    <propertyInstance
+                      Id="a58e91fe-b2f4-4859-8d89-bd4582f12706"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e86189df-29d0-4301-aa51-9bf0dc0e8f25">
+                    <propertyInstance
+                      Id="455da18d-60ac-4ec3-bf70-3036a95da80d"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="386e4aee-7a6b-430c-a5ad-6343f804e2bf">
+                    <propertyInstance
+                      Id="09d09540-c794-4f05-9bcb-89d8965cb14f"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5c80996a-0e3e-4296-91c9-1c43f8aa7305">
+                    <propertyInstance
+                      Id="464d2a70-f302-4f3e-87c3-f63836a70046"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c3a29977-ca18-4210-887b-5955e50d7016">
+                    <propertyInstance
+                      Id="8feaf70c-0ed5-4838-b2cf-266e7b08b37c"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                LastKnownName="String"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="bdae208c-1366-47fd-8702-e7eafbd65a0a"
+            name="Brand"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="ea9b8d3e-3511-45cd-aeb1-53fc62ef5845"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrandCustomField Member%3DBrand"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="646ee02c-d915-415f-ba13-acaa959b3d68"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fe86dd38-948b-43ff-b5c3-880884b7d821">
+                    <propertyInstance
+                      Id="ce57d2a3-1d7e-4385-832a-0bccc416079d"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="28b61f5b-e32b-43b5-9533-599daccba4f0">
+                    <propertyInstance
+                      Id="041390cb-60d7-4360-9b66-b9f086586826"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="bc5ed920-8b7a-4ff8-bfc9-397466d0635d">
+                    <propertyInstance
+                      Id="10d187fb-b720-4a47-b1e1-b4d85f9c23bc"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="59bbe987-ac19-4166-b2b8-73fc7a8f4f66">
+                    <propertyInstance
+                      Id="8a35f78f-575a-42b1-9dbb-87bedc5aa2b2"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f4991d95-2f74-4f36-9048-375e13195448">
+                    <propertyInstance
+                      Id="7f85b040-7209-45f9-a14d-a9323995febd"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a38b6fe6-475b-4b7c-ab6c-75509a74feb1">
+                    <propertyInstance
+                      Id="bab5b591-6940-476d-a63a-22a037be666f"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="4dd9d9ef-b4d4-4048-9d45-f2953184c05e">
+                    <propertyInstance
+                      Id="53252533-f816-4bac-b401-3af3417b6d6b"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="d8af4bb5-6c6f-444b-83e8-0f9cf97fbb5c"
+                LastKnownName="Brand"
+                LastKnownLocation="Package_1059.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="2dfe1c87-f9df-4648-8798-5648cab9c610"
+            name="BrandCustomField"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="4b4b604c-7fee-4d31-b619-e096ec5e331e"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Brands Type%3DBrandCustomField Member%3D.ctor"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="10256abc-38b3-481a-b8f4-4e6481013dd5"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="74a61469-a695-4bf6-bb89-aa98ac613d38">
+                    <propertyInstance
+                      Id="b4091a97-f0d5-4278-b563-a66f5ca64d3c"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="669a2065-733c-4efb-810e-e3246d6ce12b">
+                    <propertyInstance
+                      Id="c5abe127-095b-41b5-b856-020ec9c89ae6"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="edbcfeed-e7a3-427a-8d7a-5f26acacde92">
+                    <propertyInstance
+                      Id="4ba09070-b23c-45f2-a4a5-a198b48ea743"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2613dbd8-99c7-48f8-b9d7-9f195bd1b71b">
+                    <propertyInstance
+                      Id="05680d81-d065-47c7-b0d7-9ff2f6ee8feb"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2cca036f-9fc4-4dac-a0c6-54104c72c350">
+                    <propertyInstance
+                      Id="4ccaca69-f731-4c53-b444-e50752f15dcd"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="501a4d68-a4eb-48a9-95bd-69a7ecddeac6">
+                    <propertyInstance
+                      Id="543b3e01-af6b-4001-9f24-c07bfc9547dc"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

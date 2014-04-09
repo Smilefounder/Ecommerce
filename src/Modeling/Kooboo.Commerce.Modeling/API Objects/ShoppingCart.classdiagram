@@ -1,0 +1,1205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" dslVersion="1.0.0.0" Id="4c5e44cd-a2cc-4bea-8807-33f26c029628" name="ShoppingCart" linkedPackageId="d4c62d09-9f51-4e30-8625-bf3c7b3f5da9" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="317bbd14-5c99-41df-89ef-4df1f8f3186a">
+      <profileInstance Id="7333d58a-7276-404b-b046-af8db45b874d" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="37886160-c083-48b4-98b1-1b3a5b0f2266">
+      <profileInstance Id="531d3c4d-75fc-4a6b-a47f-4c69bd887f83" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="474740f6-f23a-4bf3-bfce-856bd975f964">
+      <profileInstance Id="9c9c5d0f-7a4d-4598-836a-269718b43f8f" name="CSharpProfile">
+        <elementDefinition Id="3125b211-ef20-4502-b6be-b6c5850b360f" />
+      </profileInstance>
+      <elementDefinition Id="643855c1-a02f-4ec5-a441-92554e5e9765" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="995372d9-3f81-42e5-9a8f-8b5449b85234" name="ShoppingCart" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <referencesInternal>
+          <reference Id="2ea22b7f-463e-4911-aeb7-e3f5cb58bf12" handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart" tag="ViewCode">
+            <elementDefinition Id="1ced6af9-69d6-49ae-a2e4-f4d582c65f3a" />
+          </reference>
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance Id="9604fdff-f5de-4969-92da-b13a25905041" name="class" profile="CSharpProfile">
+            <elementDefinition Id="7865b44d-98e3-4297-90a9-f28d5554d783" />
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="735bd024-338b-4a0b-8d79-b71210e4e9cf">
+                <propertyInstance Id="3f00ca3c-c78e-41e6-806c-e20e824dbc24" name="ClrAttributes">
+                  <elementDefinition Id="8d892a8b-81c7-4925-a607-6c4f4f6b588d" />
+                </propertyInstance>
+                <elementDefinition Id="43196599-f2da-4bf5-aee9-4d147b826d9a" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="ed70e7ac-8ee9-431b-baa3-a8bd40824100">
+                <propertyInstance Id="0d5f4019-b33c-4744-bc5f-9a64cbdeccc0" name="IsPartial" value="false">
+                  <elementDefinition Id="a6baaee2-da5c-4920-a299-b34f8312e4e2" />
+                </propertyInstance>
+                <elementDefinition Id="7d00762f-8e93-4f2c-8b41-9bd47b2efd8b" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="82522c35-d6d0-401e-9c64-1cc8a2e9b509">
+                <propertyInstance Id="c398aafb-4a22-4315-998b-a7adf05c5369" name="IsStatic" value="False">
+                  <elementDefinition Id="0becb473-38cf-417c-a407-bd35d4fac77b" />
+                </propertyInstance>
+                <elementDefinition Id="399bd8fe-5b39-4ea1-9250-edceb0fe89c4" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="b0c49726-9a8e-430c-afc7-ff446c332631">
+                <propertyInstance Id="59ba6ab8-2dea-4091-a3cf-40850e6fd183" name="IsUnsafe" value="false">
+                  <elementDefinition Id="963c9977-9c6b-4eb4-ba95-51d7fb35b547" />
+                </propertyInstance>
+                <elementDefinition Id="13a53c09-67a9-4f2e-bd51-84542699c33c" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="1f5346d6-2b81-4767-b9db-b52ffefd633f">
+                <propertyInstance Id="02070a64-ec28-4c77-bf22-81b5d593b0b0" name="PackageVisibility" value="internal">
+                  <elementDefinition Id="11e325eb-fb76-4f4d-834b-25911f38e4aa" />
+                </propertyInstance>
+                <elementDefinition Id="09aed724-9b68-4a46-9817-66586a251a6c" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <elementDefinition Id="fc7f9f4b-055c-4510-8b1a-84756cbe6a72" />
+        <targetEnds>
+          <association Id="a64b948e-6b6e-49f7-bc95-084961d0bc76" isDerived="false" sourceEndRoleName="ShoppingCart" targetEndRoleName="Items" isLeaf="false" isAbstract="false">
+            <classMoniker Id="4ae04f0b-b445-4fe9-9626-d439b4b30d3c" LastKnownName="ShoppingCartItem" />
+            <description>Property Items references type ShoppingCartItem.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="cd6e5496-7003-42a4-bfeb-1778a915b86b" name="ShoppingCart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString Id="fe4e6ffb-a52a-401e-be85-0ec9d8f5755c" name="Lower" value="*">
+                      <elementDefinition Id="25d71305-d1b5-40d7-8548-4d5e5d645295" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="e72f7506-2b50-4eef-87b9-031bf80c5f09" name="Upper" value="*">
+                      <elementDefinition Id="d773b4cb-5671-4209-ad64-f4d540f751dd" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="285872ae-0176-45ee-9fdf-5e3a44c17077" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="eecbcc63-ad7a-403b-ac8d-a84a7221b68d" name="Items" isLeaf="false" isStatic="false" isReadOnly="false" isOrdered="true" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="63d94b13-3045-4f07-9aeb-e9f8b705b966" name="Lower" value="*">
+                      <elementDefinition Id="c06c6540-a42f-4f34-9d63-802a8dcbefe1" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="644b62e5-aba0-4f7e-8de5-03843f60916c" name="Upper" value="*">
+                      <elementDefinition Id="6bf8f4fb-b334-483e-99d8-b1ce376cabe1" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="d5eb68a3-44ec-43d3-b61e-11876c2eb52e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="c09fb4ee-1375-4753-840f-89b51275cf9d" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="b2be71c2-df52-448a-b7eb-8aedb4e1d87b" name="AppliedPromotions" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="0f9583dd-6a32-49ce-a86a-e18465a17ee6" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3DAppliedPromotions" tag="ViewCode">
+                <elementDefinition Id="d8a1e5db-05e1-4b22-9c09-7c912d0275fd" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="fdd2751c-44b6-4abb-aa39-cf331c00686c" name="property" profile="CSharpProfile">
+                <elementDefinition Id="1c7058dc-97ae-4e85-8a9b-343fc41c1776" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="8617be36-8994-437e-8a60-8b6d7785d3e9">
+                    <propertyInstance Id="f3b62a57-8536-47c9-a43c-38d7c2d02977" name="ClrAttributes">
+                      <elementDefinition Id="c843b23e-07c7-425c-8e27-6242a7213668" />
+                    </propertyInstance>
+                    <elementDefinition Id="72724e0d-abd3-4824-b9b0-cf5e28970c92" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="04acfaeb-9073-40a9-ab68-508cf88b2441">
+                    <propertyInstance Id="27ec1546-74f3-40d4-947a-84700ba50188" name="Get" value="public">
+                      <elementDefinition Id="831b2328-333f-4995-a463-36e94032eb00" />
+                    </propertyInstance>
+                    <elementDefinition Id="e19ea6f7-5ddb-46a6-8afa-87c09a78b414" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="c260009c-cf2d-4bca-a284-b430f0153355">
+                    <propertyInstance Id="2549cc83-f18d-4840-9d78-fcf89ca16162" name="HasBody" value="false">
+                      <elementDefinition Id="aeba9cdc-73a4-469f-afe9-8d67fdf09879" />
+                    </propertyInstance>
+                    <elementDefinition Id="5f2f04fa-93b1-4e35-ad27-6b1b39479751" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="f94615a7-aaa1-4439-833c-c10e87e51a62">
+                    <propertyInstance Id="0ad5ab33-3fe3-45e3-b313-bb949609fc08" name="IsUnsafe" value="false">
+                      <elementDefinition Id="56d977a0-17ec-43f7-a4a1-c8d65c47cab0" />
+                    </propertyInstance>
+                    <elementDefinition Id="00dfb829-0ff0-422b-b5da-a36fd80667c5" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="10e0a518-ce8f-4f58-99d5-c7c79e0fadde">
+                    <propertyInstance Id="c49620d6-5035-4a5b-8922-f4bf33f15037" name="Inheritance" value="none">
+                      <elementDefinition Id="335c320d-97d8-49b0-a344-4bf5666d8c80" />
+                    </propertyInstance>
+                    <elementDefinition Id="f6debb85-7a28-44ed-aeec-256910dfdca8" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="8b53a780-76e3-4d10-b009-4e898fb0743a">
+                    <propertyInstance Id="f23adbac-8c04-4d14-8ba4-6acd51d3d4a0" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="7e148edf-b807-4cdd-99cc-edfb52e643e5" />
+                    </propertyInstance>
+                    <elementDefinition Id="2e49f092-4206-4f57-97a4-5715ae872fd1" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="749706ed-8baa-4645-b42b-0c2cc32129cc">
+                    <propertyInstance Id="d8499ca6-bfc8-40fd-833c-0c45b62a9dc6" name="Set" value="public">
+                      <elementDefinition Id="24129565-4082-48e4-be8b-22c38c4bee09" />
+                    </propertyInstance>
+                    <elementDefinition Id="28c89c9a-b5a4-4369-a329-1d37a7eb60ee" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="a6b1a478-dfab-44e5-b185-e85d44c222f8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="22c325fd-a521-41eb-ab60-5e00ef80403c" LastKnownName="IList&lt;Promotion‎&gt;" />
+            </type_NamedElement>
+          </property>
+          <property Id="ae073a73-fdd3-4d26-a6cb-7a5d1718d324" name="BillingAddress" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="600d9d69-3538-4c82-ba77-9e894cf5d94e" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3DBillingAddress" tag="ViewCode">
+                <elementDefinition Id="992e37b1-cc08-43c4-83e1-d4615eb4e84a" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="34fed93d-354d-427d-adf4-b953879a964b" name="property" profile="CSharpProfile">
+                <elementDefinition Id="980f79ab-5f74-46d2-b31f-5a427da4ec1c" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="c8d8fb4e-3269-48aa-b413-8525e083e72d">
+                    <propertyInstance Id="b54400c3-a5d8-4c83-8a52-f14c8b121289" name="ClrAttributes">
+                      <elementDefinition Id="6aaaf4b8-9bf6-4830-8f02-b1ba122ea3e9" />
+                    </propertyInstance>
+                    <elementDefinition Id="840003ea-68ab-4335-8625-5fb9328f412c" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="8e486b03-9111-4b37-b8da-20ed19b45435">
+                    <propertyInstance Id="c57d9808-a8b7-4d1a-b29b-e7c0738ecfff" name="Get" value="public">
+                      <elementDefinition Id="82d15f5a-f863-4091-b6a4-092c788317ed" />
+                    </propertyInstance>
+                    <elementDefinition Id="99d7e383-dbca-4a1b-b9c2-4485a7a43c39" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="1d0ad2c5-eb05-49b7-a818-84e3f5445a1a">
+                    <propertyInstance Id="17faad75-8eee-4ee2-b3de-93b9deb3e2cd" name="HasBody" value="false">
+                      <elementDefinition Id="ec6358b1-a580-4bd2-8da9-2f4b689ce2cd" />
+                    </propertyInstance>
+                    <elementDefinition Id="973ab259-d1aa-4c91-be8b-8e0a308b648a" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="5f07e467-4c21-4e0f-8f79-aee13848295d">
+                    <propertyInstance Id="c0524e4e-444e-4eff-846d-e32a7fd9fb67" name="IsUnsafe" value="false">
+                      <elementDefinition Id="2cccd17d-d203-4489-876c-42377ee7fd9f" />
+                    </propertyInstance>
+                    <elementDefinition Id="39682015-80ea-4338-9de9-22c3b6ab3ebb" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="97e78f4b-c49a-439d-bb53-dc386dc7e16d">
+                    <propertyInstance Id="18ea4678-0b80-4e24-8db5-3c95ff33df54" name="Inheritance" value="none">
+                      <elementDefinition Id="e36750ba-4d38-4095-ae13-a882a13f3b6f" />
+                    </propertyInstance>
+                    <elementDefinition Id="7a27c62b-680a-43c2-b932-687373cd6368" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="f4c392f7-0ea6-4a03-8b08-0314b3f39d7c">
+                    <propertyInstance Id="44c78038-a197-4d2c-a637-3d5b1a9b434b" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="60aeda95-a2d4-42e9-92bb-adb4573d8f8f" />
+                    </propertyInstance>
+                    <elementDefinition Id="a96bbfc6-9727-4e96-8ede-cfe74ee674d5" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="6ce81bf4-f01f-486d-a390-748ce6a5148a">
+                    <propertyInstance Id="d53a8708-c362-4849-bdc7-dcc8943beacb" name="Set" value="public">
+                      <elementDefinition Id="f15f549f-e6b0-44f0-b387-c52d456af77a" />
+                    </propertyInstance>
+                    <elementDefinition Id="ac7c224d-d30d-43a5-8509-4651d6da3bf6" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="a256a43e-6dd5-4f8f-9bcb-f9c3fcca107b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="6f5079c7-50a3-4960-aed2-97e6cf987a7f" LastKnownName="Address" />
+            </type_NamedElement>
+          </property>
+          <property Id="79b59497-6eb3-495a-a3f9-d3a6d63b6081" name="CouponCode" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="db9416f8-2288-4758-8ef3-11f40a0e251b" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3DCouponCode" tag="ViewCode">
+                <elementDefinition Id="c40a0c49-fc5a-4371-bcd0-705b2078338f" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="27e23ce4-9dd2-466e-acae-5a9ad6b756ac" name="property" profile="CSharpProfile">
+                <elementDefinition Id="4d682e2c-9020-4eaf-a682-ab771ee6fde8" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="8a29a149-a68a-44af-9015-28ae4e5312fa">
+                    <propertyInstance Id="95f135c7-b401-4715-ac34-fd82a87eaf2e" name="ClrAttributes">
+                      <elementDefinition Id="095fa675-1276-4481-b2a2-09b1cd68f657" />
+                    </propertyInstance>
+                    <elementDefinition Id="4e9bf127-8ea5-469f-b073-deac2e674334" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="53cfb4a3-e2bf-4903-8825-c130331b7542">
+                    <propertyInstance Id="871043f2-3b30-483b-b67e-e2ed5cc1916d" name="Get" value="public">
+                      <elementDefinition Id="d0814ac0-08c8-4b81-89be-e5a7e5ac34d0" />
+                    </propertyInstance>
+                    <elementDefinition Id="d1a5a589-0e6b-4fa5-9771-401ef8b9869f" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="4724eb28-261b-43ab-aba0-c2309f5753d9">
+                    <propertyInstance Id="153ae8d3-bbc9-4ed2-a057-4c4b51853857" name="HasBody" value="false">
+                      <elementDefinition Id="93f0b9fb-71bb-47e4-b234-aa20aa23cd0b" />
+                    </propertyInstance>
+                    <elementDefinition Id="850a6e17-eb78-453e-bed9-d54b0bc318e3" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="9ecd251c-6bdf-4314-8976-6dd9e444d738">
+                    <propertyInstance Id="8365a6c6-ddf3-453d-8326-0cba8c95e1c4" name="IsUnsafe" value="false">
+                      <elementDefinition Id="40c5eb13-dfc0-4b28-8ab9-0937730f97b0" />
+                    </propertyInstance>
+                    <elementDefinition Id="8f836d6f-892c-4d2b-8254-ae93f15583b1" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="0112420a-f1be-4cfe-af37-195cb4029084">
+                    <propertyInstance Id="c5a36c53-3e7c-427d-98d5-44b95f614315" name="Inheritance" value="none">
+                      <elementDefinition Id="d58327f8-2868-454f-a750-972756f46ece" />
+                    </propertyInstance>
+                    <elementDefinition Id="c9faa71b-8348-43a7-8d28-73aba5775724" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="96b207b2-8d06-40f5-b1fb-c8a4339f711c">
+                    <propertyInstance Id="f7127aaa-8797-4792-92b2-4d0161eb1e35" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="4cccd066-da8b-4e9f-bac0-5007519786a5" />
+                    </propertyInstance>
+                    <elementDefinition Id="782f706f-fb35-4ce0-bc1c-7179e4836b9c" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="9d0855f7-8d4b-4816-a544-9f1806cb07c0">
+                    <propertyInstance Id="dfb20115-c190-4e6b-8ff5-abbbb7ae9f13" name="Set" value="public">
+                      <elementDefinition Id="180c6065-0b25-4a0b-bee8-ec39bbef886d" />
+                    </propertyInstance>
+                    <elementDefinition Id="f78b85a6-49bb-4757-afbe-2e5619053789" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="037d160b-ba15-40c9-8118-bf133f90f694" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="d1a375cb-ed82-4510-97ce-980139a1a46a" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="3d5e6d33-b40d-47c6-8c9d-c017a61f047d" name="Customer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="f2a746b5-a9c3-4264-8420-4eeb67bf7057" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3DCustomer" tag="ViewCode">
+                <elementDefinition Id="1ebb1b37-fd3e-4489-9e9e-81cef2fe65d2" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="46fcf413-0484-4c38-a879-1af0506f7be7" name="property" profile="CSharpProfile">
+                <elementDefinition Id="0ac606fd-e655-4174-838f-e5ee224ffefb" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="2fe34403-0ccb-4e25-a645-90c09499b401">
+                    <propertyInstance Id="051ff598-d511-48fc-8fd2-c4c17e12b9c0" name="ClrAttributes">
+                      <elementDefinition Id="df00a3b4-b9e1-4ac8-87e2-f8f77f5ffab1" />
+                    </propertyInstance>
+                    <elementDefinition Id="809ad25f-d1c5-4acf-adb9-d7fb457cd268" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="6ad75afc-ca66-49c4-8328-77a9a838cb8f">
+                    <propertyInstance Id="f258c29e-2aaa-4171-867b-a6e3b910a85c" name="Get" value="public">
+                      <elementDefinition Id="cd70a0bd-218a-4da1-81f7-a0d5f611ff58" />
+                    </propertyInstance>
+                    <elementDefinition Id="12e46e56-34be-43c4-8835-393ac7da278f" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="0e264e25-7988-4628-ad8e-81a1a549a44c">
+                    <propertyInstance Id="9bfe6128-e529-46c4-8708-a8fe8c588924" name="HasBody" value="false">
+                      <elementDefinition Id="86504185-6fde-4e60-8f4d-074cc16107ff" />
+                    </propertyInstance>
+                    <elementDefinition Id="6a6936f7-f72c-457d-a705-497ef12c7f3f" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="ad1282b3-32d7-454c-8e1c-e4f7057c4145">
+                    <propertyInstance Id="b09e06ec-0b7e-4cd8-8e04-859993ec82b6" name="IsUnsafe" value="false">
+                      <elementDefinition Id="1a65c6b7-0935-491a-b07c-bc0415227065" />
+                    </propertyInstance>
+                    <elementDefinition Id="d2183f1d-4c56-42ff-ab52-b021975b5f68" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="a8ac1c75-272f-4e6c-a5d9-ab9a2e66ddca">
+                    <propertyInstance Id="a7a617d3-b324-4d40-b706-baa7ecc1ec43" name="Inheritance" value="none">
+                      <elementDefinition Id="1fe25461-b67b-4f51-a51b-f131dd87ecbd" />
+                    </propertyInstance>
+                    <elementDefinition Id="0b00a77d-20fb-4942-9376-8a28ec001798" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="d3f38d99-fcc5-457c-8698-a1cb6239188b">
+                    <propertyInstance Id="f5662fe2-e6f8-4332-a21c-eb150f3e741d" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="fd159e9e-9d47-4b2a-a3be-efe998286af5" />
+                    </propertyInstance>
+                    <elementDefinition Id="444c3463-548f-412c-ac9b-43bad9d051ec" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="ba93da9b-75ab-49b6-ac72-4c693f716dc2">
+                    <propertyInstance Id="d0b3584c-7e76-4606-8a80-6a6614673551" name="Set" value="public">
+                      <elementDefinition Id="e7b0f78e-9d47-412d-bea9-994ec0aa9df3" />
+                    </propertyInstance>
+                    <elementDefinition Id="991d0914-4e86-4634-a0c0-58ff10d76663" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="5309e0e3-01d2-469c-86fb-cd86c4efb912" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="540f58f6-2b9e-4882-8a35-55c676e93e06" LastKnownName="Customer" />
+            </type_NamedElement>
+          </property>
+          <property Id="dbf5fb52-0196-4de6-b47e-959c5ac43800" name="Id" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="5921f799-5808-4e7d-9b73-c11298eb3ed8" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3DId" tag="ViewCode">
+                <elementDefinition Id="3d2ecd53-b968-4509-af35-3526f35f56a0" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="808bfe89-1bf9-4415-8bb8-a84a0a1e01a0" name="property" profile="CSharpProfile">
+                <elementDefinition Id="1e1222f4-4aa0-4dd0-8098-c497864cb86a" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="3c82d58e-caaf-485d-a57c-972b7e511cc2">
+                    <propertyInstance Id="ce76da53-2c30-43be-aa1d-2a06220fbf41" name="ClrAttributes">
+                      <elementDefinition Id="d6d71113-1d3c-4b84-b929-196d09114e9b" />
+                    </propertyInstance>
+                    <elementDefinition Id="e443ee48-c6e3-4a40-afd2-5b86530fc2d8" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="d40fe576-9e41-4321-9147-9227af50892a">
+                    <propertyInstance Id="47f52a80-c614-4515-9333-c3362fbba329" name="Get" value="public">
+                      <elementDefinition Id="917b3c81-4c80-494b-98c8-4b4539a3aba5" />
+                    </propertyInstance>
+                    <elementDefinition Id="7973884b-c035-42fd-a67f-146004627810" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="c31cc5dc-aaa2-41de-bf1c-697362f70ca9">
+                    <propertyInstance Id="8dcccac1-b511-4a34-abb9-822c20840886" name="HasBody" value="false">
+                      <elementDefinition Id="ae302cb2-3e57-4925-be09-cc29b7fa87be" />
+                    </propertyInstance>
+                    <elementDefinition Id="7a7b11e7-8a78-4c7c-ab0b-f834e0020907" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="5fb11861-28e5-4d3e-84c6-bce54aaf59a5">
+                    <propertyInstance Id="3c8a87c6-7769-42de-b83a-d9c438c9fe5f" name="IsUnsafe" value="false">
+                      <elementDefinition Id="f5635ef2-8691-497a-9245-648072690175" />
+                    </propertyInstance>
+                    <elementDefinition Id="aa8381fa-45d2-40e0-986a-588c2e1afb3d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="20be1ed0-0995-4e8a-a3a0-e7cd49395a20">
+                    <propertyInstance Id="9e8af776-dc43-413c-aa2c-6f2c87e66682" name="Inheritance" value="none">
+                      <elementDefinition Id="e485954b-6c32-41b6-a7ee-1291d3de0d9e" />
+                    </propertyInstance>
+                    <elementDefinition Id="c76b6429-6159-4400-8740-aa4f2baff690" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="649c727c-358e-400f-83d4-a38f918ed44b">
+                    <propertyInstance Id="5091bcf6-e183-4440-a8ca-709ead7e7494" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="15878ef4-7a56-4a8a-86fc-e7517aa7bd04" />
+                    </propertyInstance>
+                    <elementDefinition Id="f24e7bf2-abf2-42d9-9f0e-bb326881cbee" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="f672fac5-1a80-4854-bfb3-8ab7d69dab25">
+                    <propertyInstance Id="0dcbb8cf-8be7-4238-a169-d0c910292dae" name="Set" value="public">
+                      <elementDefinition Id="944f9e8c-eb3d-428e-888d-46d2fca55279" />
+                    </propertyInstance>
+                    <elementDefinition Id="8064de7f-a660-4397-9ce7-5bfb5174e96b" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="c2b4edfa-92bc-4c08-a5cb-f7438514ce44" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="81130de9-d7d7-434b-8981-7760f7b4c892" LastKnownName="Integer" />
+            </type_NamedElement>
+          </property>
+          <property Id="984fafea-1bcd-49a9-9848-fe22da8885d6" name="Items" isLeaf="false" isStatic="false" isReadOnly="false" isOrdered="true" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="68e84813-f1d1-415e-9fee-59dec8d3f6e4" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3DItems" tag="ViewCode">
+                <elementDefinition Id="2801d485-f26e-4357-9440-15ea4b168adb" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="9d1185ac-db4e-42fd-bc66-f69cc92368d2" name="property" profile="CSharpProfile">
+                <elementDefinition Id="8f88066d-b944-462b-a114-77cd03b16507" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="360ceb22-95d7-46a1-a491-dbd612d51912">
+                    <propertyInstance Id="b6e6336f-9013-4791-9e57-d96233acdbfa" name="ClrAttributes">
+                      <elementDefinition Id="8254e730-e62b-440b-80fc-65e04c7c5f36" />
+                    </propertyInstance>
+                    <elementDefinition Id="d4cb7110-d71e-4989-8284-e9c9a88ae6af" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="c43376ff-3660-4495-9744-0864bae5894d">
+                    <propertyInstance Id="9c535fd3-6b72-4d22-8a63-abcee22a46c9" name="Get" value="public">
+                      <elementDefinition Id="945272b5-853d-4ec3-9539-f49cf4c22a1d" />
+                    </propertyInstance>
+                    <elementDefinition Id="b757428b-2dc8-44a2-af5c-e3ef3f1bba06" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="fc3c5a8d-1228-486c-b845-10adcb4d27d8">
+                    <propertyInstance Id="937f3cb2-53e3-42ab-aa0f-35237ab955f1" name="HasBody" value="false">
+                      <elementDefinition Id="7f21d263-7ca7-4e04-9838-6f638e4f6a36" />
+                    </propertyInstance>
+                    <elementDefinition Id="5656bb6e-45c1-40c3-be8d-8c446c67076f" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="463cacdf-8430-4aa9-9c90-fb62ed4250da">
+                    <propertyInstance Id="ca467de9-9a72-4dd3-ae97-07767041fb6f" name="IsUnsafe" value="false">
+                      <elementDefinition Id="3946b53a-9e68-4506-bb85-9e17ab98750a" />
+                    </propertyInstance>
+                    <elementDefinition Id="a63b3812-f01c-4250-9bc5-7b21ab77c658" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="4482f115-161e-4e86-9895-f86a396f020e">
+                    <propertyInstance Id="19034634-74e5-4593-990c-3b631fd5ab64" name="Inheritance" value="none">
+                      <elementDefinition Id="ecd585c7-24d5-4d4b-837b-9c574a61b955" />
+                    </propertyInstance>
+                    <elementDefinition Id="e77f25de-2932-4e3f-8c50-84d016048c48" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="42ce6ac5-927c-4682-b135-27cc31ecb5e2">
+                    <propertyInstance Id="82766043-4642-4cba-986e-ddfa6edb9226" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="29a0dbfe-a5c9-4042-936f-899a2eaa024d" />
+                    </propertyInstance>
+                    <elementDefinition Id="342b79cf-a246-46cb-b002-e6676097f770" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="304c954a-f4fb-4a5d-b9d4-ae42c708b973">
+                    <propertyInstance Id="cd176539-15b7-4daa-a557-ccc4217b09a2" name="Set" value="public">
+                      <elementDefinition Id="f80207ac-3a2e-4bc9-9e9b-5cb257f872f2" />
+                    </propertyInstance>
+                    <elementDefinition Id="e83dfd9d-dde7-4fa2-9950-6977333ad953" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <lowerValueInternal>
+              <literalString Id="8e9be6f1-b157-46ec-8c85-f0a4109eec9d" name="Lower" value="*">
+                <elementDefinition Id="ec20a8ae-9004-44f6-b21e-d7aae8a08ad4" />
+              </literalString>
+            </lowerValueInternal>
+            <upperValueInternal>
+              <literalString Id="54e03966-2094-4fa8-9892-dd751f928601" name="Upper" value="*">
+                <elementDefinition Id="81063eea-17fc-4ffb-a12a-65e72fc0923c" />
+              </literalString>
+            </upperValueInternal>
+            <elementDefinition Id="bb50c5e4-97f3-40be-a7c7-7af92f70a80f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="61cbef92-4855-4eb4-8602-66ca8727e2af" LastKnownName="ShoppingCartItem" />
+            </type_NamedElement>
+          </property>
+          <property Id="b2c2d59a-212e-4310-b9bb-523a280c1f6c" name="SessionId" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="6b43312b-8786-4455-b6a1-d32ae386ca68" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3DSessionId" tag="ViewCode">
+                <elementDefinition Id="0e8ff349-fdd5-4552-8710-d4101045d212" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="3afa467e-22df-41cc-a845-f81b047da247" name="property" profile="CSharpProfile">
+                <elementDefinition Id="80a7852f-46f6-405c-be0e-a7b1f770a3f6" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="e1ed0151-359a-4e4c-9c70-50fb6b8d5429">
+                    <propertyInstance Id="ece2ab28-dc2d-405a-95de-7e124ef0dae3" name="ClrAttributes">
+                      <elementDefinition Id="70de97c3-6627-484c-b408-117914eab8ab" />
+                    </propertyInstance>
+                    <elementDefinition Id="e6cfedb5-90e0-43d6-8a60-82b92eaf16a3" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="441d14de-397d-4292-a386-c7f951614424">
+                    <propertyInstance Id="79d3b0f3-df1d-4f92-81a9-5847c270bca3" name="Get" value="public">
+                      <elementDefinition Id="37c24709-5a43-4eb4-af4b-e05a40e68ecf" />
+                    </propertyInstance>
+                    <elementDefinition Id="d8d8ecd1-1217-42e4-af85-32df831c798e" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="62a3c252-9aa2-45e1-8e9c-674af2fee5e3">
+                    <propertyInstance Id="08cf1449-f2c8-4d31-bcbf-85b8f22953d4" name="HasBody" value="false">
+                      <elementDefinition Id="8348b84a-cc2f-4e70-8326-d6c73b236c0b" />
+                    </propertyInstance>
+                    <elementDefinition Id="55e84527-5ef6-429b-abe4-fa6f135e6bf4" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="61f5240e-d23b-4222-b1e4-0c52bff11d31">
+                    <propertyInstance Id="7c6c78d6-bd15-4b8e-8677-7edc164c0bc5" name="IsUnsafe" value="false">
+                      <elementDefinition Id="0bf2e686-17f3-4084-b922-32a9f62bfaa0" />
+                    </propertyInstance>
+                    <elementDefinition Id="49820bc1-2f08-4e20-bb1a-3aab5af4b7ce" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="6687a7ef-a56f-4269-bff5-503940ad790b">
+                    <propertyInstance Id="57b622a7-61e5-4b3f-a4f8-8c0ab4fc8e1d" name="Inheritance" value="none">
+                      <elementDefinition Id="3e61a7dc-797c-4db7-bf7c-2b5d6e1465ca" />
+                    </propertyInstance>
+                    <elementDefinition Id="a5252987-8e89-4978-b26d-4f21b307e6e9" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="c04e500a-57ba-469f-bd37-bcff1396c73b">
+                    <propertyInstance Id="e3659af5-f58a-454e-abf8-966eed46bf91" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="a89d1b16-7e04-4b46-a85d-bf2549c218e2" />
+                    </propertyInstance>
+                    <elementDefinition Id="a066394b-b74b-43fb-a04a-6429f5295fca" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="e16c2a05-6a6e-43e5-b674-0c7db8fb1daf">
+                    <propertyInstance Id="ba2832d0-511a-4408-9d3f-f57cad2b9d0c" name="Set" value="public">
+                      <elementDefinition Id="61f1f4e0-c59c-4db5-8eb2-bd37c21c4784" />
+                    </propertyInstance>
+                    <elementDefinition Id="fcc779d1-368f-4972-b75b-99517251f572" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="a0ae2323-203e-4989-83ff-8a03a4631c62" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="d1a375cb-ed82-4510-97ce-980139a1a46a" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="b02a5c0d-35df-4630-98d5-2c385cb42b62" name="ShippingAddress" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="7b5f6a62-abff-4333-a003-d2eaf5c1cede" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3DShippingAddress" tag="ViewCode">
+                <elementDefinition Id="c0fa6936-c755-4816-8fd7-343f98778ac7" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="d3814497-021c-49c4-b660-335024cc3f21" name="property" profile="CSharpProfile">
+                <elementDefinition Id="3a546764-7039-45b5-94ec-5e7136718b0d" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="36cae4a2-8b27-47cc-b866-9939279e0668">
+                    <propertyInstance Id="4ff99658-ea92-48d6-9dba-358df9af1f3e" name="ClrAttributes">
+                      <elementDefinition Id="7ce005b9-3ffa-4af3-8e07-933629ef6fc5" />
+                    </propertyInstance>
+                    <elementDefinition Id="b0a7c783-4c84-4f3f-9660-38213b7ea26d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="21474c4a-9caf-4a8e-a2f0-97c3353fd4eb">
+                    <propertyInstance Id="2e8f8771-136c-4bea-b37c-c111a6ef9117" name="Get" value="public">
+                      <elementDefinition Id="d8a88de0-9697-4ebe-8535-a9f3b042bde7" />
+                    </propertyInstance>
+                    <elementDefinition Id="80e47f82-86b1-4b50-a7de-16fdc3541dbb" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="7f740caf-2b1c-4f3e-b46c-a21e57121ba8">
+                    <propertyInstance Id="a3d388f0-bab1-4fc3-b8a2-eef293ad2640" name="HasBody" value="false">
+                      <elementDefinition Id="4b2da125-de4d-47f0-b478-1d2c7aebb789" />
+                    </propertyInstance>
+                    <elementDefinition Id="40b2e9bb-42db-4f55-9612-53bd1e10ca49" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="ab0bee6c-0447-4957-9202-6b0658a02239">
+                    <propertyInstance Id="33385762-088d-41d9-9883-1e81dd0daffb" name="IsUnsafe" value="false">
+                      <elementDefinition Id="aca9e7b6-b0dd-4def-abee-c255bbd1fe2b" />
+                    </propertyInstance>
+                    <elementDefinition Id="c4126209-0b26-426d-80b2-863622f495fa" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="d1c9300f-3b7d-4d69-80b4-4fbf10f09f00">
+                    <propertyInstance Id="b197188d-eea6-467c-9413-b30d0af971ed" name="Inheritance" value="none">
+                      <elementDefinition Id="47da5fe5-8d2e-4eee-88ea-76b176421686" />
+                    </propertyInstance>
+                    <elementDefinition Id="17dbc535-284c-4752-ac3a-ce0028bda67a" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="bb5e29f0-dd57-4bfb-9fc4-78508f8924fd">
+                    <propertyInstance Id="11daf5be-5ac4-4564-a861-6ea4979c3871" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="07671474-a1a3-4f55-91d3-177f7d4a0111" />
+                    </propertyInstance>
+                    <elementDefinition Id="99a6820e-ae1e-4a0d-aeb8-18d596416f43" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="dd320d35-8903-4ec7-b1a4-ec877598d68e">
+                    <propertyInstance Id="542dde27-c419-45ce-88d0-fe68cc859605" name="Set" value="public">
+                      <elementDefinition Id="249734ea-f1ce-49ae-a027-69dc723234b4" />
+                    </propertyInstance>
+                    <elementDefinition Id="4d604327-c339-4a33-b9e2-b1c1ca474044" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="0b0e8041-8047-403b-8ef4-5cc7cecff00c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="6f5079c7-50a3-4960-aed2-97e6cf987a7f" LastKnownName="Address" />
+            </type_NamedElement>
+          </property>
+          <property Id="40f5d569-d388-4c74-bf56-f01d5256bef4" name="SubtotalDiscount" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="7afbd62a-5bf3-4a84-a045-21b7ac458ce4" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3DSubtotalDiscount" tag="ViewCode">
+                <elementDefinition Id="5dfecbc0-789e-4a3c-82a0-cd287dcd6e1e" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="8466130d-6dad-4931-9d8b-ca8de0459a2b" name="property" profile="CSharpProfile">
+                <elementDefinition Id="4040e59e-647f-4677-b3da-075f4372d4e5" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="d2eaed98-05d1-43ba-b470-ef891d0fa013">
+                    <propertyInstance Id="b93baf04-f94b-4dd4-b370-80636c5b1bba" name="ClrAttributes">
+                      <elementDefinition Id="4eac2c93-1dc1-470b-81fc-b724a6ffd84c" />
+                    </propertyInstance>
+                    <elementDefinition Id="6fcc06ca-ff92-4446-84ca-bd401ab06081" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="e169123f-df17-42bb-8981-22aac88f200f">
+                    <propertyInstance Id="34ec964f-6430-42bc-bdc2-f1911ed85b2e" name="Get" value="public">
+                      <elementDefinition Id="2745016d-51c2-4589-a42c-20e5acab5474" />
+                    </propertyInstance>
+                    <elementDefinition Id="3b34b37e-4dd6-4965-b6c0-b5b029864964" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="22d3f349-9968-4463-9c32-d17e1f8757fc">
+                    <propertyInstance Id="5c7ff174-aaa8-4d9c-9687-22b339ba90d3" name="HasBody" value="false">
+                      <elementDefinition Id="37bcc760-d553-47a0-86ad-cce4d1ef503e" />
+                    </propertyInstance>
+                    <elementDefinition Id="135260cf-b2e9-4a53-9a8d-3bffa930bdd9" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="a39eef3b-31dd-4e3e-8c93-eece9d80e758">
+                    <propertyInstance Id="2c4287f6-6409-4879-b5f3-dbb98792fb50" name="IsUnsafe" value="false">
+                      <elementDefinition Id="c07ed660-3942-40d3-9493-ffafd475b967" />
+                    </propertyInstance>
+                    <elementDefinition Id="dcf33af7-fdb5-484e-8195-33646ce5cf6c" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="f78448d8-7457-44b3-a918-51e51b162b0c">
+                    <propertyInstance Id="0617e9dd-4d52-45ad-a8b5-ea266f700957" name="Inheritance" value="none">
+                      <elementDefinition Id="362480ed-4676-4b84-be14-8f19cc3a13e7" />
+                    </propertyInstance>
+                    <elementDefinition Id="36015afd-df0c-4d81-927b-bc9a3d7af2fd" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="31d3aca9-29f8-4770-ab33-bb80d05dec99">
+                    <propertyInstance Id="404988eb-186a-4931-8b31-339cce0bb2c4" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="d8c09950-fd81-42ba-8b1d-30f7349904b9" />
+                    </propertyInstance>
+                    <elementDefinition Id="0700e8f6-b418-4368-b5a4-b4251b8a6da8" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="9956de4a-c82c-48a9-9194-3a249cf00b97">
+                    <propertyInstance Id="429d4a21-3a70-4ee8-98fd-33f995f518e2" name="Set" value="public">
+                      <elementDefinition Id="797fcdb8-c409-4057-a88d-787d535d04f0" />
+                    </propertyInstance>
+                    <elementDefinition Id="867addf6-dcc9-4fe3-a7ba-a796cde54159" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="5ef19c76-3833-4011-a14a-f1e2d73d41e8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="4bdd6c46-c61c-4bf4-bef9-497259c54d7c" LastKnownName="Decimal" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="8697079e-1c87-48fe-9e2c-736fea494c97" name="ShoppingCart" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <referencesInternal>
+              <reference Id="19c6e05d-85b3-435a-b05b-e7192070d3ff" handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCart Member%3D.ctor" tag="ViewCode">
+                <elementDefinition Id="7266a425-56a5-479b-bdc0-cc46e3724ed7" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="0edf1ae5-847f-428b-bb28-14f710405e65" name="method" profile="CSharpProfile">
+                <elementDefinition Id="d38c3225-04e7-4438-ac22-d8450ae72554" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="5be20400-a775-4f53-ad0a-85b2588f090c">
+                    <propertyInstance Id="b27e61e8-c01d-470f-ab93-c10269c55f51" name="ClrAttributes">
+                      <elementDefinition Id="2ac3b79a-1062-4e0c-909f-e45ebf748747" />
+                    </propertyInstance>
+                    <elementDefinition Id="91030abe-8633-40c5-b0c3-41dbc6f109ab" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="33063752-f58c-437c-b03d-eeee9a678dc1">
+                    <propertyInstance Id="f3871585-8980-44fa-9e86-68dbc2122f85" name="IsPartial" value="false">
+                      <elementDefinition Id="6301ba58-fed9-48ad-b449-181a50bcf2ea" />
+                    </propertyInstance>
+                    <elementDefinition Id="b69cc0a8-9474-4259-add7-5aada6a2fa4f" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="217f2988-e6a1-4e1d-b5bc-b4ad688ca261">
+                    <propertyInstance Id="c09013fa-53ff-43b4-931a-1f682f5bd18c" name="IsUnsafe" value="false">
+                      <elementDefinition Id="2708fbb3-6ba1-4e56-aa6b-040f6ad2744b" />
+                    </propertyInstance>
+                    <elementDefinition Id="31511f02-5fbb-4113-9650-a1b960b4833d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="af37e6a1-ee31-49e8-a139-3bc88474e7d6">
+                    <propertyInstance Id="3ea229d6-7545-4e1b-bb84-19993a771236" name="Inheritance" value="none">
+                      <elementDefinition Id="cd11a31c-a992-4c54-a084-0d1929ac9659" />
+                    </propertyInstance>
+                    <elementDefinition Id="177942ae-487a-4bac-beee-fa565309eb49" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="0fc939e4-f2a3-4364-a14b-89d215837c89">
+                    <propertyInstance Id="92aa63dc-8264-496a-81af-d4d46bab5ecf" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="368c544d-4c5b-4cb3-adab-4f9b5144dbe9" />
+                    </propertyInstance>
+                    <elementDefinition Id="18e6b92d-5dbf-4e35-aae7-fef69a20d0f6" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="a0024624-ddc9-412c-8d97-0183f76e0a4d">
+                    <propertyInstance Id="044b6d75-ccec-4dc7-abad-78e899fcc583" name="params" value="false">
+                      <elementDefinition Id="a17c6fd2-36e5-4b5c-afb6-598d55e8495b" />
+                    </propertyInstance>
+                    <elementDefinition Id="9fe65e0f-e949-4f3e-b179-41033c39561c" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="4463dd94-b434-4c1c-a52d-09a7dd6ccf5f" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="22c325fd-a521-41eb-ab60-5e00ef80403c" name="IList&lt;Promotion‎&gt;" isAbstract="false" isLeaf="false" cachedFullName="Kooboo.Commerce.Modeling::System::Collections::Generic::IList&lt;Promotion‎&gt;">
+        <elementDefinition Id="f3221542-39ed-4a7c-aa64-df73112d13f2" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="6f5079c7-50a3-4960-aed2-97e6cf987a7f" name="Address" isAbstract="false" isLeaf="false" cachedFullName="Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Locations::Address">
+        <elementDefinition Id="eb373b47-ae12-4bcd-8b0e-08f4aaa4b044" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="d1a375cb-ed82-4510-97ce-980139a1a46a" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="540f58f6-2b9e-4882-8a35-55c676e93e06" name="Customer" isAbstract="false" isLeaf="false" cachedFullName="Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Customers::Customer">
+        <elementDefinition Id="69d66e3a-1954-4911-95e6-3ee49626ba7b" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="81130de9-d7d7-434b-8981-7760f7b4c892" name="Integer" isAbstract="false" isLeaf="false" cachedFullName="Integer">
+        <elementDefinition Id="220a3521-e091-4221-bae9-3ef9018e845c" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="61cbef92-4855-4eb4-8602-66ca8727e2af" name="ShoppingCartItem" isAbstract="false" isLeaf="false" cachedFullName="Kooboo.Commerce.Modeling::Kooboo::Commerce::API::ShoppingCarts::ShoppingCartItem">
+        <elementDefinition Id="b8d06b7a-b0f9-4cf8-8935-6ce8e4ea32a4" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="4bdd6c46-c61c-4bf4-bef9-497259c54d7c" name="Decimal" isAbstract="false" isLeaf="false" cachedFullName="Kooboo.Commerce.Modeling::System::Decimal">
+        <elementDefinition Id="87e0420e-3a2c-4531-9dc6-39e72f490684" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="4ae04f0b-b445-4fe9-9626-d439b4b30d3c" name="ShoppingCartItem" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <referencesInternal>
+          <reference Id="13d11a9d-dfcb-4b61-a8d2-67ee390a0590" handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCartItem" tag="ViewCode">
+            <elementDefinition Id="cb0541b0-d9f5-4557-901c-45c2351b8fcc" />
+          </reference>
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance Id="535a0d45-3d1e-4915-ae65-a54c31c9581f" name="class" profile="CSharpProfile">
+            <elementDefinition Id="2dab2bb7-1cf4-4758-9299-b9cd47d121f6" />
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="2e67fb1c-b199-43d4-863e-ca4cb7af82e0">
+                <propertyInstance Id="c36a6c4e-1d56-47e1-9bf0-c7a94214e833" name="ClrAttributes">
+                  <elementDefinition Id="6c59f6d4-a5f0-4fcd-8580-b9a945f89287" />
+                </propertyInstance>
+                <elementDefinition Id="2460f6d3-dd63-44c9-8b4e-d94f2b9b33e6" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="f4b97f28-1a88-499f-9c06-f8f19df0f916">
+                <propertyInstance Id="7fcc1b15-360a-4b4b-8135-1581dcf85270" name="IsPartial" value="false">
+                  <elementDefinition Id="5c1e4e85-457f-4826-abe6-ba392525236f" />
+                </propertyInstance>
+                <elementDefinition Id="64fc2a7e-68ef-4a41-ba9a-f4fd1a0b5758" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="c1ff3f18-259c-40bf-bac3-cffce049aea8">
+                <propertyInstance Id="09212e28-a7df-4c54-a0b0-011474cd7786" name="IsStatic" value="False">
+                  <elementDefinition Id="8b24c830-a356-4b62-9cf7-5c61777cf0d5" />
+                </propertyInstance>
+                <elementDefinition Id="53ce5fde-b69f-4ac6-93d7-de8c9da70714" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="b630a0d9-aacf-4784-a5ba-46bc49424911">
+                <propertyInstance Id="b4acfe0a-a066-4210-85c3-ab5eea4259b2" name="IsUnsafe" value="false">
+                  <elementDefinition Id="d1f3c3f6-00bf-4631-82ca-b624375df9b7" />
+                </propertyInstance>
+                <elementDefinition Id="d9a350dc-35a4-46e6-a0c9-48ca84917c3b" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="554337b7-34df-444b-8cc6-9420713949b8">
+                <propertyInstance Id="b374689c-abf8-4c6c-a0f1-803e8faea9e3" name="PackageVisibility" value="internal">
+                  <elementDefinition Id="3d871e4c-7f9e-4aa6-b754-4c7a763e516a" />
+                </propertyInstance>
+                <elementDefinition Id="35e4ab4f-a8d5-4041-bb09-da069ace4802" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <elementDefinition Id="b8d06b7a-b0f9-4cf8-8935-6ce8e4ea32a4" />
+        <targetEnds>
+          <association Id="247342d0-2846-4a90-97bc-e5847ce48510" isDerived="false" sourceEndRoleName="ShoppingCartItem" targetEndRoleName="ShoppingCart" isLeaf="false" isAbstract="false">
+            <classMoniker Id="995372d9-3f81-42e5-9a8f-8b5449b85234" LastKnownName="ShoppingCart" />
+            <description>Property ShoppingCart references type ShoppingCart.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="fbe70ab9-33ae-4b95-a45e-0cfdded707e2" name="ShoppingCartItem" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString Id="c12aabca-17a0-417c-b2e8-5144b092e721" name="Lower" value="*">
+                      <elementDefinition Id="6d4581ea-166a-45c4-8a96-512cae62c45f" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="9872ec05-2753-4b83-ab9f-e435f9557d37" name="Upper" value="*">
+                      <elementDefinition Id="0c4a528d-9711-40c7-aa44-4417dd729270" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="e2234ee4-4678-46d6-ae3e-e57389fb66d4" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="42f538de-2566-4745-9965-07c569507daa" name="ShoppingCart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="18d29594-dbf6-4d42-ba1d-9205ae5d1c13" name="Lower" value="1">
+                      <elementDefinition Id="b3d33b75-05e8-46a1-ae9a-26fa01725624" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="91ab1343-bc90-41b3-bf8b-54dca1fd9c16" name="Upper" value="1">
+                      <elementDefinition Id="05e9a54f-f6fc-4533-ba32-8bb7c5b1d376" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="adf108ba-3fe7-4041-aac2-4fb6658ae4df" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="ce441fdc-9f00-4595-9809-eafe50b7bd0d" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="6b8e7cad-8ac7-4543-8716-a5419f82ddc3" name="Discount" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="de123a45-43b1-4605-b045-ff864924d45f" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCartItem Member%3DDiscount" tag="ViewCode">
+                <elementDefinition Id="72179339-f098-4409-b0db-891c5c0305d1" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="19c25d83-475c-4353-baca-0e37a2cfe848" name="property" profile="CSharpProfile">
+                <elementDefinition Id="16862f97-6d30-425e-9d83-cce3d26f8725" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="20405681-98f9-4377-986f-0c2015f3d273">
+                    <propertyInstance Id="ec13b803-18cc-418d-a35d-c070ec3111b6" name="ClrAttributes">
+                      <elementDefinition Id="7dc6670b-5b01-4e31-b895-ce407885f25e" />
+                    </propertyInstance>
+                    <elementDefinition Id="bfe6d16e-5b33-4f1e-aa43-50954205d56a" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="d7afdebb-bb07-45bc-b498-21b2eb69acd9">
+                    <propertyInstance Id="a4001b7b-1c09-45cf-b2cd-c935b72c5649" name="Get" value="public">
+                      <elementDefinition Id="b83de537-45e4-4da1-96c3-77f49c15b88f" />
+                    </propertyInstance>
+                    <elementDefinition Id="949f0c06-87f2-4c69-a45c-1794d07ecb8f" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="4f3f893d-c4c5-47b9-8253-16c57d3cd600">
+                    <propertyInstance Id="a1f535c0-4403-4bbf-b421-d23a3be42ef6" name="HasBody" value="false">
+                      <elementDefinition Id="d3e64da3-b843-47ce-8b8f-a30f96fb3086" />
+                    </propertyInstance>
+                    <elementDefinition Id="909a26f5-d6c7-4754-8739-5abfe4ec0cd0" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="2cde9f2a-a77c-46f3-9047-025a56514557">
+                    <propertyInstance Id="f8e17344-a154-4e6e-8827-09715e069eaa" name="IsUnsafe" value="false">
+                      <elementDefinition Id="9ac85ee6-d89c-4de8-9ddf-ed1dc98e72f6" />
+                    </propertyInstance>
+                    <elementDefinition Id="4628455b-c624-4d39-82b9-2f46d03623c9" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="844a35f4-d207-443e-ba97-4c755d57d095">
+                    <propertyInstance Id="b58c5ef6-6b82-4853-8772-80f2f86f712b" name="Inheritance" value="none">
+                      <elementDefinition Id="802c23a9-763d-41c8-87b2-f92c1e60c1a3" />
+                    </propertyInstance>
+                    <elementDefinition Id="a4249134-adec-49ae-9626-f35c53c94e9d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="460ea9df-444c-4197-8c53-21a6a9de54c2">
+                    <propertyInstance Id="eb570a87-e915-48f6-9d3b-b54490e39c92" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="b9140279-6ce7-4ba3-a9e4-f61373ad09bb" />
+                    </propertyInstance>
+                    <elementDefinition Id="bcd3d6a8-dd54-4e41-b926-a3e2db956d23" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="c4cb7357-8de6-4592-8050-3d5fde1dbfaf">
+                    <propertyInstance Id="2db0825a-067c-49e9-a03e-cbe77ef23c04" name="Set" value="public">
+                      <elementDefinition Id="f6cd4192-43b6-44c6-b2a1-765c59baa594" />
+                    </propertyInstance>
+                    <elementDefinition Id="a0005a7a-ca3e-4a8a-b7a5-0c9dea46bf7d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="aa2e59ca-b503-440c-a9f4-168ebf216d20" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="4bdd6c46-c61c-4bf4-bef9-497259c54d7c" LastKnownName="Decimal" />
+            </type_NamedElement>
+          </property>
+          <property Id="bbdda110-d184-48fd-9f34-5583ff969d9e" name="Id" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="68cfc11f-a7f8-43bb-aadd-ae5a2cd14901" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCartItem Member%3DId" tag="ViewCode">
+                <elementDefinition Id="0267a85f-68ce-4f07-8f2d-1cae2c4093b7" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="91a069ba-ab94-43ad-84e3-ccc759f13e12" name="property" profile="CSharpProfile">
+                <elementDefinition Id="09365436-7a58-4618-8814-d1e9c1e369a1" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="1c9fc4b9-2563-4d45-8b4b-7ce86053a50b">
+                    <propertyInstance Id="5cfa41f1-7682-45bd-b17e-33ec7938bb9f" name="ClrAttributes">
+                      <elementDefinition Id="c8bfe77a-c91e-47ab-b8a1-efb9ab2a3657" />
+                    </propertyInstance>
+                    <elementDefinition Id="01c650b0-3b9f-4594-8b1f-6987dedeba7d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="10ecd114-9235-41c5-917d-be6b503a2478">
+                    <propertyInstance Id="af8dbbe1-831f-4437-a02e-05aa7dd42893" name="Get" value="public">
+                      <elementDefinition Id="ac42da02-1268-458a-bd87-45fe31d7e174" />
+                    </propertyInstance>
+                    <elementDefinition Id="37492a7c-e044-46ef-9400-9f4c692dbaa4" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="080541cb-4be3-4d68-b26e-eb4b66166200">
+                    <propertyInstance Id="379ca719-a18b-4055-95ac-ea43ff413423" name="HasBody" value="false">
+                      <elementDefinition Id="c3c34a5b-cc53-45e1-bed8-f24ff5cc4b15" />
+                    </propertyInstance>
+                    <elementDefinition Id="cd1858b0-3521-48cc-adc2-aa25af01e39e" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="d5623d0d-9ab6-4bce-bddd-ec3e5cc32ae3">
+                    <propertyInstance Id="11f63a2f-b1d2-40b4-a244-7e652a7d48a5" name="IsUnsafe" value="false">
+                      <elementDefinition Id="733a57e1-3682-4181-a97f-92f8663582f3" />
+                    </propertyInstance>
+                    <elementDefinition Id="9ed2150b-915d-42d5-8a7e-99e03b7d54aa" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="4cc5f159-8a9c-4696-a88f-907824b689d8">
+                    <propertyInstance Id="a54d74e5-4034-45f3-ac6c-65345150cdf4" name="Inheritance" value="none">
+                      <elementDefinition Id="1b1174b1-420b-4c94-a8d5-3c77ef7d18a8" />
+                    </propertyInstance>
+                    <elementDefinition Id="bc4d6635-1a22-4fd0-8332-eca7c0e13d9c" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="7746c511-2759-4f07-a047-bb5b82b7a300">
+                    <propertyInstance Id="835321d2-e729-460e-ae97-ec5cc6c92643" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="2a15a8f3-f4c7-407e-b966-8bc33f0c9808" />
+                    </propertyInstance>
+                    <elementDefinition Id="1fc8acec-724a-482d-9921-2613c2a6b7bb" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="db16cfa4-1c74-4b35-933a-15f9e79fcaed">
+                    <propertyInstance Id="d6db663f-e830-46e0-b739-711f862dd1a2" name="Set" value="public">
+                      <elementDefinition Id="c1506bf4-3b03-440f-b980-86aa1c4d0046" />
+                    </propertyInstance>
+                    <elementDefinition Id="d8f76562-c72f-4af8-b316-394fe3983f25" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="9b361766-f69b-437b-aa89-0ad1fdeac550" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="81130de9-d7d7-434b-8981-7760f7b4c892" LastKnownName="Integer" />
+            </type_NamedElement>
+          </property>
+          <property Id="39912443-26d4-4cb9-bd92-9dc5c8340015" name="ProductPrice" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="10325389-0434-49ce-bb8e-47bd6dc11532" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCartItem Member%3DProductPrice" tag="ViewCode">
+                <elementDefinition Id="d11ac6ba-a52d-4e92-a6b1-10021a0c5041" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="fa2911fd-a99a-4452-aaff-955eed3375e9" name="property" profile="CSharpProfile">
+                <elementDefinition Id="c2c2465a-8c1b-4f8c-a5d8-5dfcca407b08" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="29d6014e-9c16-417e-b74a-1d629769dbee">
+                    <propertyInstance Id="045669f8-35af-4621-93ca-2936af3ad940" name="ClrAttributes">
+                      <elementDefinition Id="75ffba33-ca90-40ce-a19a-c06629cd127d" />
+                    </propertyInstance>
+                    <elementDefinition Id="bfa92df8-3bfc-434f-a7c6-bc8f8512e1f5" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="93a24073-0ae2-47ef-b4e5-a8abe0e536da">
+                    <propertyInstance Id="87da2e8e-ae89-4fe6-a8b7-a3d671c26776" name="Get" value="public">
+                      <elementDefinition Id="ceb8e022-3a70-49df-ae4b-1772bc75e128" />
+                    </propertyInstance>
+                    <elementDefinition Id="897ccc78-15b0-4e8f-a4c1-abfabf8fe2ac" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="b463f5a5-e9db-4a91-8243-318beec26ac9">
+                    <propertyInstance Id="bba87360-e79e-4308-985f-2e1862becbc8" name="HasBody" value="false">
+                      <elementDefinition Id="9c9a8fa8-0c76-408d-9c5c-3f55080b1ac6" />
+                    </propertyInstance>
+                    <elementDefinition Id="b78ddfc9-949b-42ed-9010-36b8183e5345" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="af3b4fbf-9695-429e-942a-9e9f5c55862c">
+                    <propertyInstance Id="844c60fe-0e18-479b-b23a-0e65f9b31644" name="IsUnsafe" value="false">
+                      <elementDefinition Id="841d9e6d-9559-48f5-a25e-9e963bcc886c" />
+                    </propertyInstance>
+                    <elementDefinition Id="33aee15f-8079-4d76-abc5-b82dec08524a" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="cf32ae94-02b3-4b3b-9282-c6cf626cff5f">
+                    <propertyInstance Id="1607e5f4-2347-4e9f-bdf2-3dff06ae5511" name="Inheritance" value="none">
+                      <elementDefinition Id="f4897772-37e4-43f6-9d09-a2e4709c6423" />
+                    </propertyInstance>
+                    <elementDefinition Id="a7c0d07f-2ba3-4c0c-95ad-18b1cb86ec2c" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="cc586b8c-7307-4604-a731-4dd84bee94c7">
+                    <propertyInstance Id="50708d15-b16f-4ea6-b32f-a388dc2bb8dc" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="7faf33d8-8fe2-4208-b996-95af15768098" />
+                    </propertyInstance>
+                    <elementDefinition Id="18c234f5-e50b-40b0-8fe3-184e1f8c9438" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="4fba81d0-53a6-42f7-b16e-ff9a396b7b5d">
+                    <propertyInstance Id="d8afb674-02e6-4cd3-8b9d-af7ee433c4d2" name="Set" value="public">
+                      <elementDefinition Id="4096fb3e-2d26-446b-9aab-546ea1bf36e7" />
+                    </propertyInstance>
+                    <elementDefinition Id="309bcf40-7106-4eba-beb5-d422bc26620a" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="f27a7fec-094e-4291-805d-0f3f93f4c731" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a08e9a03-4a66-47c0-b5f0-c843f9b146b4" LastKnownName="ProductPrice" />
+            </type_NamedElement>
+          </property>
+          <property Id="ee283831-a5f6-425e-9118-d3fc081cf9e9" name="Quantity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="b28f2129-8a2a-4cc1-a396-998825cccc17" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCartItem Member%3DQuantity" tag="ViewCode">
+                <elementDefinition Id="df39cc3c-f02e-4cec-910f-58e30323c76d" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="0413ca49-5d43-4130-9cf6-fad72fe79393" name="property" profile="CSharpProfile">
+                <elementDefinition Id="d9a728e5-8b67-424e-b34a-027c300d13da" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="527a5cbf-7b11-43fe-ac95-c616d6a6f597">
+                    <propertyInstance Id="cada66a7-4f0f-490b-8d58-3e311174acef" name="ClrAttributes">
+                      <elementDefinition Id="2d3c9224-67a0-423e-8492-f89f9957506e" />
+                    </propertyInstance>
+                    <elementDefinition Id="ff41adf3-3b32-4d3b-913e-992d4fd81b88" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="a4b894d2-a17f-4ce8-bf33-00ef0ae89c93">
+                    <propertyInstance Id="f9416057-49bd-49d0-bb83-71e671e52491" name="Get" value="public">
+                      <elementDefinition Id="33c57698-d486-4bf6-b787-35cb4f7ea162" />
+                    </propertyInstance>
+                    <elementDefinition Id="0a0dc1cc-68de-4e86-a4c2-31820574eb35" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="5f537149-c705-4b1d-b655-08b22cf85d6b">
+                    <propertyInstance Id="9d508acd-4bc5-4b91-ad19-33d21c854d3a" name="HasBody" value="false">
+                      <elementDefinition Id="24e2a68a-586d-4b07-9071-fe7e8ece1708" />
+                    </propertyInstance>
+                    <elementDefinition Id="e9b4418b-006a-4017-a069-6cf89dc538ad" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="84dfe010-1c84-47b8-beb9-254a73f94395">
+                    <propertyInstance Id="d8ca02ee-536f-476d-9966-fed7dc202f8e" name="IsUnsafe" value="false">
+                      <elementDefinition Id="ae9bfb4c-4b92-47d9-831d-ae050b3f8688" />
+                    </propertyInstance>
+                    <elementDefinition Id="0346ee1d-2a96-4c71-8e35-6593cb04281d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="fc270f66-df48-403b-b949-6d6277a24991">
+                    <propertyInstance Id="49993314-ef9e-48dd-95d6-a70683374f8c" name="Inheritance" value="none">
+                      <elementDefinition Id="b0ae66f3-30d4-4502-b0f9-b556c968a99a" />
+                    </propertyInstance>
+                    <elementDefinition Id="41a24040-b705-4105-b840-b80da221e4c1" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="e330f1ea-70ce-4081-a799-ebff4805ce71">
+                    <propertyInstance Id="fb3fe752-8095-4037-b1bf-1da537f75ced" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="2bdf459c-6e1d-438e-a7cc-3fab8711b03b" />
+                    </propertyInstance>
+                    <elementDefinition Id="380c9126-0f51-4ac7-ad70-21533b12b641" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="80182b70-3c43-4252-95ac-529ec8864a12">
+                    <propertyInstance Id="ab3e4725-0f65-4624-af84-a764f65c63bb" name="Set" value="public">
+                      <elementDefinition Id="6f2442a3-47a8-4452-9ea4-93dc45e192b1" />
+                    </propertyInstance>
+                    <elementDefinition Id="adce21d5-7221-4268-8a22-6bdc268c1e21" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="7ff75c52-6b54-4109-8c90-4fd8a2e4abb2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="81130de9-d7d7-434b-8981-7760f7b4c892" LastKnownName="Integer" />
+            </type_NamedElement>
+          </property>
+          <property Id="03208122-1d80-478b-b7da-b254fcf56fac" name="ShoppingCart" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="75bc4b7b-fcd7-4cca-953a-7e92d820af4e" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCartItem Member%3DShoppingCart" tag="ViewCode">
+                <elementDefinition Id="6cb17cd2-6981-4edf-acbd-a762d0d1db3c" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="63ceee67-9b68-4ec4-adb1-466a67f1be9e" name="property" profile="CSharpProfile">
+                <elementDefinition Id="567b8240-e92f-4db9-b795-5920bffa81da" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="570863c5-cdab-443b-b012-46e75d6db24a">
+                    <propertyInstance Id="45864f94-30d1-4ab3-a034-10756e1d4fc9" name="ClrAttributes">
+                      <elementDefinition Id="40005c7a-123e-46ab-9b6b-c12138e5be83" />
+                    </propertyInstance>
+                    <elementDefinition Id="4a48cae3-cd69-4a7b-a61e-9e41c3683eaa" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="149bff9a-79d4-4274-8090-35a4ac6ce65d">
+                    <propertyInstance Id="9b10bd9d-0de9-42ce-8a14-3bde6bbfb012" name="Get" value="public">
+                      <elementDefinition Id="568e0cbe-5bbe-4d0b-a4ad-5376f9cc5e95" />
+                    </propertyInstance>
+                    <elementDefinition Id="b19eee7e-85d4-4590-96d1-86e397416963" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="81cefd7f-503f-457f-a026-bb31f3d523bf">
+                    <propertyInstance Id="5812253d-0ac0-4801-aa88-9f6ca35ee455" name="HasBody" value="false">
+                      <elementDefinition Id="388f16b9-297f-4573-859c-0ad130cb1b03" />
+                    </propertyInstance>
+                    <elementDefinition Id="ba730198-daa3-46e7-aa07-04ae99960613" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="6c09e44f-8da3-4c6a-8d78-d0f9428ecbae">
+                    <propertyInstance Id="10292543-daa0-4124-b411-eee700c0146b" name="IsUnsafe" value="false">
+                      <elementDefinition Id="2b256125-87c3-4a24-a9af-82497121bd17" />
+                    </propertyInstance>
+                    <elementDefinition Id="f3bfcbce-83af-4c30-9000-4c0b03a3f7a5" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="825afd38-02bf-4523-801a-508d9abfa800">
+                    <propertyInstance Id="a449983d-e155-4749-a291-4e722ea918ce" name="Inheritance" value="none">
+                      <elementDefinition Id="72f4fd0d-9ca5-445c-87b9-8528f24bf3a3" />
+                    </propertyInstance>
+                    <elementDefinition Id="d669f6e2-01eb-45e9-a195-d3a049e476f3" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="c81a9d9d-96eb-4e92-b824-4607f5d3f304">
+                    <propertyInstance Id="e56ffb2f-c38f-4c91-90c1-e6f197599da1" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="41ad9e59-3e66-4364-8701-1dd33fcb249e" />
+                    </propertyInstance>
+                    <elementDefinition Id="2f0cb3ab-5e3f-4bb9-a5e3-0d1dc28914d7" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="51326b54-b3f2-426d-9094-28753f3bf0cf">
+                    <propertyInstance Id="644fd64f-7bec-43c0-91b0-fffe31bc0bec" name="Set" value="public">
+                      <elementDefinition Id="f66da9ba-28ad-403e-badb-2a437ee5fc18" />
+                    </propertyInstance>
+                    <elementDefinition Id="3b2dc34c-cbfa-49e8-a93c-0cc23b867171" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="e868a3b1-da5f-40e0-ad99-00efe22feaa3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="061c609e-2b89-4f37-9663-7510e2b466db" LastKnownName="ShoppingCart" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="dc0c0cf8-3b37-4232-b8cc-917cf5973c5c" name="ShoppingCartItem" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <referencesInternal>
+              <reference Id="09c4066a-8cdb-4855-aa55-b6e26a794bdc" handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API.ShoppingCarts Type%3DShoppingCartItem Member%3D.ctor" tag="ViewCode">
+                <elementDefinition Id="08947576-9035-4af5-a222-57cf32057d7b" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="5d6b4f76-7658-4e4f-9da4-a4d2f5cc13c8" name="method" profile="CSharpProfile">
+                <elementDefinition Id="3a2a3b3f-1051-4857-a6b6-946b4309d2ec" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="6dd0aa0f-a549-45f1-a7a0-66483b8c4bf8">
+                    <propertyInstance Id="74ef542c-cb90-4d32-9af0-b4845f83febc" name="ClrAttributes">
+                      <elementDefinition Id="a92a7f71-6f76-47be-b54c-6af058dd00d3" />
+                    </propertyInstance>
+                    <elementDefinition Id="349fb473-b79a-48dc-9b21-e4ec3cccb8bf" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="91ddb658-b6bc-4d99-be7f-1dbd2f54645e">
+                    <propertyInstance Id="ebe55e33-6bdd-4ce9-864a-7f2a6a316a61" name="IsPartial" value="false">
+                      <elementDefinition Id="be8ef3ae-b73b-4829-99ee-71f260043fb8" />
+                    </propertyInstance>
+                    <elementDefinition Id="d19f703c-0e4d-4677-828a-257f11c92c9d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="b73830ac-698a-4b25-8244-1af4ce117837">
+                    <propertyInstance Id="cf7023b7-deb4-417a-ac24-0334892355f3" name="IsUnsafe" value="false">
+                      <elementDefinition Id="ff4153b0-de04-4227-b326-e8e76e057be8" />
+                    </propertyInstance>
+                    <elementDefinition Id="a3cc7357-fd3f-4283-a1d5-2909c9dfbb92" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="0d517188-02f5-43ab-9e84-987ad2b8c3f3">
+                    <propertyInstance Id="7be2fb56-e551-43f4-9820-2ebe017e6366" name="Inheritance" value="none">
+                      <elementDefinition Id="485dcbca-cf42-43a0-9e89-9116eabd77f6" />
+                    </propertyInstance>
+                    <elementDefinition Id="53ece6a7-9e98-4110-9724-42dab05bd4f8" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="61afef10-0a9d-42b4-b80e-7a817d147b37">
+                    <propertyInstance Id="c929bcb6-a0b2-41b4-8547-3566a7740595" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="46323236-efad-4123-bd5b-f61e5d63c9ea" />
+                    </propertyInstance>
+                    <elementDefinition Id="94b7ca59-73e7-472a-bbb0-54b75234319c" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="71fbc1e2-0a2d-4f9c-95b1-69fd9f517575">
+                    <propertyInstance Id="da0c0895-42cb-4cb2-a095-671d8ce35a88" name="params" value="false">
+                      <elementDefinition Id="08589d79-6e68-441d-a95f-c8effec47540" />
+                    </propertyInstance>
+                    <elementDefinition Id="c8561e60-c504-400a-a970-bbf475373154" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="d816efd1-c41b-4b88-8053-c47e892128c0" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="a08e9a03-4a66-47c0-b5f0-c843f9b146b4" name="ProductPrice" isAbstract="false" isLeaf="false" cachedFullName="Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Products::ProductPrice">
+        <elementDefinition Id="8b497c5e-a42e-4cf5-a492-7314c076054d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="061c609e-2b89-4f37-9663-7510e2b466db" name="ShoppingCart" isAbstract="false" isLeaf="false" cachedFullName="Kooboo.Commerce.Modeling::Kooboo::Commerce::API::ShoppingCarts::ShoppingCart">
+        <elementDefinition Id="fc7f9f4b-055c-4510-8b1a-84756cbe6a72" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="d4c62d09-9f51-4e30-8625-bf3c7b3f5da9" name="Kooboo.Commerce.Modeling">
+    <elementDefinition Id="e6a05e0a-2f7d-4600-8c37-919af6dc599f" />
+  </package>
+</logicalClassDesignerModel>
