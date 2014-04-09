@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<activityDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 19, 23.875" name="shopping">
+<activityDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 19, 19.75" name="shopping">
   <activityRootModelMoniker Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" />
   <nestedChildShapes>
     <initialNodeShape Id="99f97683-a1b6-42fa-9688-cd4a85512a39" absoluteBounds="1.875, 0.5, 0.125, 0.125" customColor="89, 89, 89">
@@ -20,9 +20,6 @@
     <actionShape Id="ce0d5e1b-f365-4348-80ca-7132f3ed71cb" absoluteBounds="1.375, 17.625, 1.125, 0.375" customColor="161, 199, 231">
       <opaqueActionMoniker Id="70419cfe-c48e-41df-9573-53fdb86286fd" LastKnownName="Delivery" />
     </actionShape>
-    <activityFinalNodeShape Id="dd8f0c6c-6e49-48ac-b274-f34601541324" absoluteBounds="1.875, 23.5, 0.125, 0.125" customColor="89, 89, 89">
-      <activityFinalNodeMoniker Id="ef2ca6ec-a0b6-4d1c-8f61-d2ec90311f40" LastKnownName="ActivityFinal1" />
-    </activityFinalNodeShape>
     <actionShape Id="1e33b455-3c31-4cc9-8ea1-03078897f8a3" absoluteBounds="11, 0.625, 1.125, 0.375" customColor="161, 199, 231">
       <opaqueActionMoniker Id="f802d55e-bbe3-4ed9-bb08-772a2b286f6f" LastKnownName="Search Product" />
     </actionShape>

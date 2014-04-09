@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
   dslVersion="1.0.0.0"
   Id="e6a05e0a-2f7d-4600-8c37-919af6dc599f"
   name="Kooboo.Commerce.Modeling" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -138,10 +138,6 @@ OrderCreated</body>
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <activityFinalNode
-            Id="4e70ab22-c655-443e-9eb3-6ec058c8615e"
-            name="ActivityFinal1"
-            isLeaf="false" />
           <opaqueAction
             Id="cdec3046-adfe-401c-a35a-aeac4e267ddf"
             name="Search Product"
@@ -3960,16 +3956,6 @@ PromotionPricingStage</body>
             </covered>
           </executionOccurrenceSpecification>
           <messageOccurrenceSpecification
-            Id="cca50e1e-8358-4498-a25f-0586f05e3774"
-            name="MessageOccurrenceSpecification49">
-            <covered>
-              <lifelineMoniker
-                Id="4d33aabb-51f9-4e0b-825c-13e5f131d72c"
-                LastKnownName="Website UI"
-                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification
             Id="8eb608dd-a059-45b0-8749-f9114df304c3"
             name="MessageOccurrenceSpecification47">
             <covered>
@@ -3986,6 +3972,16 @@ PromotionPricingStage</body>
               <lifelineMoniker
                 Id="b08d1718-d87e-48d0-8def-30df9375e4b7"
                 LastKnownName="Event System"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="cca50e1e-8358-4498-a25f-0586f05e3774"
+            name="MessageOccurrenceSpecification49">
+            <covered>
+              <lifelineMoniker
+                Id="4d33aabb-51f9-4e0b-825c-13e5f131d72c"
+                LastKnownName="Website UI"
                 LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -4100,16 +4096,6 @@ PromotionPricingStage</body>
             </covered>
           </executionOccurrenceSpecification>
           <operandOccurrenceSpecification
-            Id="24eb6ebc-9bea-4ea0-8e05-074ec88b44e8"
-            name="OperandOccurrenceSpecification22">
-            <covered>
-              <lifelineMoniker
-                Id="b08d1718-d87e-48d0-8def-30df9375e4b7"
-                LastKnownName="Event System"
-                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification
             Id="1809bfc3-5498-4c7b-b05c-1f729a18a6fc"
             name="OperandOccurrenceSpecification20">
             <covered>
@@ -4126,6 +4112,16 @@ PromotionPricingStage</body>
               <lifelineMoniker
                 Id="4d33aabb-51f9-4e0b-825c-13e5f131d72c"
                 LastKnownName="Website UI"
+                LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification
+            Id="24eb6ebc-9bea-4ea0-8e05-074ec88b44e8"
+            name="OperandOccurrenceSpecification22">
+            <covered>
+              <lifelineMoniker
+                Id="b08d1718-d87e-48d0-8def-30df9375e4b7"
+                LastKnownName="Event System"
                 LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
             </covered>
           </operandOccurrenceSpecification>

@@ -6,14 +6,22 @@
   <MessageClass Name="Error" Label="Error" Option="Show errors" />
   <MessageClass Name="Property" Label="Property" Option="Show metadata" />
   <MessageClass Name="Diagnostic" Label="Message" Option="Show diagnostic messages" />
-  <Message Timestamp="2014-04-09T11:31:47" Importance="High" Text="Reverse Engineering Started." />
-  <Message Timestamp="2014-04-09T11:31:48" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo' -  (Package)" />
-  <Message Timestamp="2014-04-09T11:31:48" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce' -  (Package)" />
-  <Message Timestamp="2014-04-09T11:31:48" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API' -  (Package)" />
-  <Message Timestamp="2014-04-09T11:31:48" Importance="Medium" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Gender' -  (Enumeration)" />
-  <Message Timestamp="2014-04-09T11:31:48" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Gender::Female' -  (EnumerationLiteral)" />
-  <Message Timestamp="2014-04-09T11:31:48" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Gender::Male' -  (EnumerationLiteral)" />
-  <Message Timestamp="2014-04-09T11:31:48" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Gender::Unknown' -  (EnumerationLiteral)" />
-  <Message Timestamp="2014-04-09T11:31:48" Importance="High" Text="(1) type(s) fully reverse engineered." />
-  <Message Timestamp="2014-04-09T11:31:48" Importance="High" Text="The reverse engineering operation completed with (0) error(s), and (0) warning(s)." />
+  <Message Timestamp="2014-04-09T13:47:14" Importance="High" Text="Reverse Engineering Started." />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Integer' -  (PrimitiveType)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo' -  (Package)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce' -  (Package)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API' -  (Package)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders' -  (Package)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders::Order' -  (Class)   (partially reverse engineered - definition not updated) " />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Medium" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders::OrderCustomField' -  (Class)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders::OrderCustomField::Name' -  (Property)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders::OrderCustomField::Order' -  (Property)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders::OrderCustomField::OrderCustomField' -  (Operation)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders::OrderCustomField::OrderId' -  (Property)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders::OrderCustomField::Value' -  (Property)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'String' -  (PrimitiveType)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="Diagnostic" Text="Relationship reverse engineered into the UML model: Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders::OrderCustomField to Kooboo.Commerce.Modeling::Kooboo::Commerce::API::Orders::Order (Association)" />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="High" Text="(1) type(s) fully reverse engineered." />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="High" Text="(1) type(s) partially reverse engineered.  These types were not included in the original selection so their full definitions are not reverse engineered.  Instead, this shallow operation has simply ensured these types exist in the UML model because they are needed in order to fully describe other elements." />
+  <Message Timestamp="2014-04-09T13:47:15" Importance="High" Text="The reverse engineering operation completed with (0) error(s), and (0) warning(s)." />
 </Log>
