@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="7788f940-c0e7-4dd5-a2cd-7cd3d5a5e61d"
+  name="Kooboo"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="059fec8d-c3da-472a-8c8e-4c91c6c6d902"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DKooboo"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="aa0b713e-6872-41a9-b89c-f58b1558b791"
+        LastKnownName="Commerce"
+        LastKnownLocation="Package1_1057.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="3c628474-736c-4949-909f-895797a843b4"
+        name="IPagedList&lt;TResult‎&gt;"
+        isAbstract="false"
+        isLeaf="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="7b959e84-cddd-451a-9496-13b006d40ee1"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="14841d8d-e7c3-4ed4-ad07-87a0d28e22ec">
+                <propertyInstance
+                  Id="74b0b023-0e05-43e0-a604-a4a66a9eace2"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4cfcd1f6-b8c5-4f6a-8a45-a7e393a0d69f">
+                <propertyInstance
+                  Id="1af8d45f-a52c-4221-b205-5e208e7564b4"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="c755ec83-5e73-4493-b751-afebc9ae9488">
+                <propertyInstance
+                  Id="2421df1a-8ba4-4cff-a20d-41d9862d33bf"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a6b6b279-d6b4-4c86-902a-622e2722cd94">
+                <propertyInstance
+                  Id="007d9a3f-b518-4698-8889-4a465e81b61e"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <signatures>
+          <templateBinding
+            Id="dc4b71b4-ca58-4e3a-9217-98731952ba6f">
+            <redefinableTemplateSignatureMoniker
+              Id="7d9dc673-ddda-4b44-9aba-1da457189b9f"
+              LastKnownLocation="Package_1057.uml" />
+            <relationshipOwnedElementsInternal>
+              <templateBindingHasTemplateParameterSubstitution>
+                <templateParameterSubstitution
+                  Id="4cb9349c-8f6d-4388-b004-f7fcc0aa8a1e">
+                  <formal>
+                    <classifierTemplateParameterMoniker
+                      Id="91ee7374-2db2-4e16-9e79-9600970be295"
+                      LastKnownLocation="Package_1057.uml" />
+                  </formal>
+                </templateParameterSubstitution>
+              </templateBindingHasTemplateParameterSubstitution>
+            </relationshipOwnedElementsInternal>
+          </templateBinding>
+        </signatures>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="972eaa04-d779-44a0-83db-2a04107e7112"
+        name="IPagedList"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="4037249a-a667-4129-b1f2-33a42eca7df9"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2Flib%2FKooboo_CMS%2FKooboo.dll Namespace%3DKooboo Type%3D(Name%3DIPagedList GenericParameterCount%3D1)"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="59fc8751-8849-47fb-9738-e5f63d1921bc"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="22b49e05-d8b0-49fb-a302-d24affac317f">
+                <propertyInstance
+                  Id="e5205d38-e1a3-4c2b-ae72-d5f6368939ad"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="e884a27f-642f-4ddb-ac29-2ed552e15a6d">
+                <propertyInstance
+                  Id="910bf432-0457-4a76-8450-7accf07847ff"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ebc025a8-581f-4b28-93aa-f0e3550131af">
+                <propertyInstance
+                  Id="afe274c3-ca47-49c7-9870-edbae02ec4d4"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="b038ea66-8c41-4f70-b06e-ffdbb125d739">
+                <propertyInstance
+                  Id="05fe6151-281b-431f-bbb9-df4c1310c98a"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="bee17ceb-cb42-475a-879a-e7548337fe4a"
+            isSubstitutable="false">
+            <interfaceMoniker
+              Id="4dc7864a-d497-4021-85bf-bb3911b9575b"
+              LastKnownName="IEnumerable&lt;T‎&gt;"
+              LastKnownLocation="Package2_1058.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedRedefinableTemplateSignatureInternal>
+          <redefinableTemplateSignature
+            Id="7d9dc673-ddda-4b44-9aba-1da457189b9f"
+            parameters=""
+            name="RedefinableTemplateSignature1"
+            isLeaf="false">
+            <ownedParameters>
+              <classifierTemplateParameter
+                Id="91ee7374-2db2-4e16-9e79-9600970be295">
+                <referencesInternal>
+                  <reference
+                    Id="25d21435-f008-4a22-ab62-ee622cd05993"
+                    handle="viewcode://./CodeSchema_GenericParameter?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2Flib%2FKooboo_CMS%2FKooboo.dll Namespace%3DKooboo Type%3D(Name%3DIPagedList GenericParameterCount%3D1) ParameterIdentifier%3D0"
+                    tag="ViewCode" />
+                </referencesInternal>
+                <ownedParameterableElement>
+                  <class
+                    Id="d85bc50e-1cce-44bf-b617-a0908c45893a"
+                    name="T"
+                    isAbstract="false"
+                    isLeaf="false"
+                    isActiveClass="false" />
+                </ownedParameterableElement>
+              </classifierTemplateParameter>
+            </ownedParameters>
+          </redefinableTemplateSignature>
+        </ownedRedefinableTemplateSignatureInternal>
+      </Interface>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

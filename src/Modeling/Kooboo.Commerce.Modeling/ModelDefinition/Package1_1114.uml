@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="91d15689-31b8-41ed-8044-4eb01b518da8"
+  name="API"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="6e55d1de-b700-47f7-8d71-db9e796aff8a"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DKooboo.Commerce.API"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="b2082c4c-81b3-492c-96df-092a57f358b2"
+        LastKnownName="Brands"
+        LastKnownLocation="Package_1114.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="e1c334b4-df5b-4af5-addf-8e4bbd2e52cc"
+        LastKnownName="Categories"
+        LastKnownLocation="Package_1118.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="cfca6dba-50fe-4a09-908a-5c798004dbe6"
+        LastKnownName="Customers"
+        LastKnownLocation="Package1_1118.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="c6d55182-1088-4d60-af5d-6b74d3e84ab8"
+        LastKnownName="Locations"
+        LastKnownLocation="Package2_1118.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="d9d1f684-0954-47a0-b6f8-f7e16ce4dbff"
+        name="Gender"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="c59c64fe-e3aa-4046-b267-ea1c44bb0991"
+            handle="viewcode://./CodeSchema_Enum?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API Type%3DGender"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="e084e801-65b6-465b-a3a0-85862f51a198"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="fc87def3-8489-4867-a33f-6bf30edb6f35">
+                <propertyInstance
+                  Id="713a1597-febd-4278-9803-5726e0737e1d"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="e37efa44-2042-496f-8574-dd60c762c236">
+                <propertyInstance
+                  Id="6625b10e-12f7-4eba-8f7e-7472aa4f6a6e"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="94598188-16c5-4f0e-93ca-088c1ae87ddf">
+                <propertyInstance
+                  Id="c1a209d8-f7c9-4ffa-8968-b3088d655eef"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="d7073b24-59ba-4d73-a671-d116edece619"
+            name="Unknown">
+            <referencesInternal>
+              <reference
+                Id="4b32c71a-203c-4e55-b45a-c40975dc889c"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API Type%3DGender Member%3DUnknown"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+          <enumerationLiteral
+            Id="fd0d60d5-9871-4f72-b922-26bdd43c7826"
+            name="Male">
+            <referencesInternal>
+              <reference
+                Id="c95099ce-6b38-4068-be59-432c11290ca3"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API Type%3DGender Member%3DMale"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+          <enumerationLiteral
+            Id="1282a2f5-1d7e-4157-bac0-39d59cf0e026"
+            name="Female">
+            <referencesInternal>
+              <reference
+                Id="be5e6e97-fb8a-41ec-9eb6-7af017ee63a9"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API Type%3DGender Member%3DFemale"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="8ef37c36-16bf-4d42-bd74-3f7be6e3d5eb"
+        LastKnownName="Orders"
+        LastKnownLocation="Package2_1128.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="68bd5ee6-14f7-4496-9973-ceea8e24db78"
+        LastKnownName="Products"
+        LastKnownLocation="Package_1128.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="adc87eba-5a99-4b4c-9b44-d7cc69a17133"
+        LastKnownName="Payments"
+        LastKnownLocation="Package3_1128.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="07d2acc1-34e4-4ea5-9c22-209dad1762ae"
+        LastKnownName="ShoppingCarts"
+        LastKnownLocation="Package1_1128.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="aec88ecc-938d-4c11-8f3a-fa8f4f104917"
+        name="PriceChangeMode"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="f673a2fc-1ab7-4219-ad43-b23237b4cafd"
+            handle="viewcode://./CodeSchema_Enum?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce.API%2Fbin%2FDebug%2FKooboo.Commerce.API.dll Namespace%3DKooboo.Commerce.API Type%3DPriceChangeMode"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="6881e480-4057-4e84-baca-a32e0c137e8d"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="af5bcaa1-7315-4583-8a75-1f76d651fd28">
+                <propertyInstance
+                  Id="e898affb-6515-44bb-801f-0043263914b4"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="de862789-adec-4efd-967f-6374cda2b8ba">
+                <propertyInstance
+                  Id="43983f34-3d57-4149-98a8-00cbf90dc131"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ed0e72d9-094c-4046-a5be-004fbe496327">
+                <propertyInstance
+                  Id="7dd40bc3-868f-4831-94a9-f7fee8dd84e0"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="b72b9637-ef99-401d-9016-92381bc494eb"
+        LastKnownName="EAV"
+        LastKnownLocation="Package_1129.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="1cb9d462-c599-44c5-9594-d8bec84aec98"
+        LastKnownName="Promotions"
+        LastKnownLocation="Package_1130.uml" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

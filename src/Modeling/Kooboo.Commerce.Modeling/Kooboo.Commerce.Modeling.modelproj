@@ -22,9 +22,235 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
   <ItemGroup>
+    <Content Include="API Objects\Brand.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="API Objects\Brand.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>API Objects\Brand.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="API Objects\Category.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="API Objects\Category.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>API Objects\Category.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="API Objects\Customer.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="API Objects\Customer.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>API Objects\Customer.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="API Objects\Order.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="API Objects\Order.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>API Objects\Order.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="API Objects\Payment.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="API Objects\Payment.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>API Objects\Payment.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="API Objects\Product.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="API Objects\Product.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>API Objects\Product.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="API Objects\Shipping.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="API Objects\Shipping.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>API Objects\Shipping.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="API Objects\ShoppingCart.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="API Objects\ShoppingCart.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>API Objects\ShoppingCart.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Biz Objects\Brand.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Biz Objects\Brand.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Biz Objects\Brand.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Biz Objects\Category.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Biz Objects\Category.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Biz Objects\Category.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Biz Objects\Customer.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Biz Objects\Customer.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Biz Objects\Customer.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Biz Objects\Order.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Biz Objects\Order.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Biz Objects\Order.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Biz Objects\Payment.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Biz Objects\Payment.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Biz Objects\Payment.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Biz Objects\Product.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Biz Objects\Product.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Biz Objects\Product.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Biz Objects\Shipping.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Biz Objects\Shipping.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Biz Objects\Shipping.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Biz Objects\ShoppingCart.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Biz Objects\ShoppingCart.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Biz Objects\ShoppingCart.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1057.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1058.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1100.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1101.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1103.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1105.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1106.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1114.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1118.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1128.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1057.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1058.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1103.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1106.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1118.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1128.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package3_1058.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package3_1128.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package4_1058.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package5_1058.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package6_1058.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1057.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1058.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1059.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1100.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1101.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1102.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1103.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1105.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1106.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1114.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1118.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1128.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1129.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1130.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="shopping.activitydiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="shopping.activitydiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>shopping.activitydiagram</DependentUpon>
+    </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\Kooboo.Commerce.Modeling.uml">
       <SubType>Content</SubType>
     </Content>
+    <Folder Include="Biz Objects" />
+    <Folder Include="API Objects" />
   </ItemGroup>
 </Project>

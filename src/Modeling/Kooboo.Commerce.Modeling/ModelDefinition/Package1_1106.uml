@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="5fe90f13-c673-4e48-9d89-5bd5658ce985"
+  name="Pricing"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="cc1687c1-7c5d-420d-aff9-e78d295525cc"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DKooboo.Commerce.Orders.Pricing"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="bb9ae698-245a-429b-85dd-05e605f02e9b"
+        name="PricingItem"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="e4260d82-b49c-405e-9f71-3e6830e9bbf2"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Orders.Pricing Type%3DPricingItem"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="43b4e1f6-ff2c-4a63-8843-1e8b45f52dae"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="28f9b3e1-a9c8-4933-8b76-f6415ee8fc04">
+                <propertyInstance
+                  Id="9a97c512-4762-4b79-9acc-1c743707cd2d"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a859ccd7-81e8-45b6-b7d6-06e7e86d6158">
+                <propertyInstance
+                  Id="1bd3d5fb-de46-4c66-8c9f-00ff38e9c13b"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="15ab3384-34a2-4e81-98ef-a51a1777aa85">
+                <propertyInstance
+                  Id="27527c89-2d7b-4d0c-bb23-e6b9af63cc11"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="dd4f1d77-4f47-4bb7-901a-d899c19d942b">
+                <propertyInstance
+                  Id="c0e69ad0-3826-4739-a6af-d0a52091d306"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ee4f2a64-4437-43b1-a9da-25af59dd0697">
+                <propertyInstance
+                  Id="735a4003-30ad-4d6d-a31a-a877fe54919d"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="9d938a34-a8ec-48f7-8dfb-9728630e71c0"
+        name="PricingContext"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="7f9fcae3-097c-4e96-8645-59ae40ade7f4"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FD:%2Fyardi%2Fecommerce%2FEcommerce%2Fsrc%2FKooboo.Commerce%2Fbin%2FDebug%2FKooboo.Commerce.dll Namespace%3DKooboo.Commerce.Orders.Pricing Type%3DPricingContext"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="04af7224-e87a-46ac-a7c2-57867e3a3d0b"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="f8c40ac3-a2e5-4176-9221-3dc462a516db">
+                <propertyInstance
+                  Id="4877f4a5-b957-4b94-9f78-d7dea75b1a54"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="9619d1da-48ae-4432-98d1-ce6e061678ba">
+                <propertyInstance
+                  Id="f095834c-5607-4f0b-bff5-a84061923300"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="1f069640-a4ed-4f73-b0b0-1198a831b90b">
+                <propertyInstance
+                  Id="de0ef6f8-aaf2-4c02-9f19-8da3ce73b469"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="dd851d13-2562-4b4c-a8dd-75d14bb26455">
+                <propertyInstance
+                  Id="2d489235-5df7-4f04-ab9e-c4e8defd0244"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ced000b9-52aa-40c4-85b9-e85a60fc7a53">
+                <propertyInstance
+                  Id="f64c968b-ebcd-4ea3-b107-9784f1e07dee"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>
