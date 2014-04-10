@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
   dslVersion="1.0.0.0"
   Id="e6a05e0a-2f7d-4600-8c37-919af6dc599f"
   name="Kooboo.Commerce.Modeling" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -24,16 +24,6 @@ The only difference is that it subscribes all events while other event handlers 
         <opaqueActionMoniker
           Id="d084486d-b69e-447a-83bb-94be6bc07815"
           LastKnownName="Execute ActivityEventHook"
-          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-      </annotatedElements>
-    </comment>
-    <comment
-      Id="61db3f3b-95bc-46a9-8794-8920caac2acf">
-      <body>Event: ItemAddedToCart</body>
-      <annotatedElements>
-        <opaqueActionMoniker
-          Id="5bb1edab-b9c5-4862-b837-211d983eb3bb"
-          LastKnownName="Add to Shopping Cart"
           LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
       </annotatedElements>
     </comment>
@@ -84,7 +74,10 @@ TaxRuleApplied</body>
     <comment
       Id="b38a8fd5-3d31-4e5f-a113-7f0a001a1ee8">
       <body>Event:
-PaymentStatusChanged</body>
+PaymentStatusChanged
+
+Consequently:
+OrderPaid</body>
       <annotatedElements>
         <opaqueActionMoniker
           Id="04222b74-b08d-4ef0-b582-637a0831ec53"
@@ -192,19 +185,6 @@ OrderPaid</body>
       </annotatedElements>
     </comment>
     <comment
-      Id="fcfdd84a-8453-4fc2-9065-b4bb4804f450">
-      <body>Events:
-DeliveryAddressChanged,
-ShippingAddressChanged,
-etc</body>
-      <annotatedElements>
-        <opaqueActionMoniker
-          Id="e2e41e33-7a77-4aef-9077-fb7072402c9c"
-          LastKnownName="Update Order"
-          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-      </annotatedElements>
-    </comment>
-    <comment
       Id="78141d4c-d2e6-4c1f-bddb-47280c8267fb">
       <body>Events:
 ShippingCostCalculating,
@@ -213,17 +193,6 @@ ShippingCostCalculated</body>
         <opaqueActionMoniker
           Id="69a3a9ca-2697-41ae-9b0c-7e8ee2b24c32"
           LastKnownName="Calculate Shipping Cost"
-          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-      </annotatedElements>
-    </comment>
-    <comment
-      Id="177fa5c0-9f11-412c-b1ba-006bdeb307e0">
-      <body>Extension Point:
-IPaymentProcessor</body>
-      <annotatedElements>
-        <opaqueActionMoniker
-          Id="f4182b7f-92eb-4f07-b2bd-41e3e879b874"
-          LastKnownName="Payment"
           LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
       </annotatedElements>
     </comment>
@@ -268,6 +237,61 @@ IShippingRateProvider</body>
         <opaqueActionMoniker
           Id="69a3a9ca-2697-41ae-9b0c-7e8ee2b24c32"
           LastKnownName="Calculate Shipping Cost"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="189a6521-86c1-4706-9a21-dfcbe6531e56">
+      <body>? todo: determine prices with context</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="4a6ef2eb-347e-442a-9a98-bde8287d2f50"
+          LastKnownName="Show Price"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="4c980bb1-0a3a-4952-a931-869c61ea4a73">
+      <body>Event: ItemAddedToCart</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="229aa7a9-25d1-4593-a9a3-d10f7ef61712"
+          LastKnownName="Adding to Shopping Cart"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="97da58ed-04df-4dbb-9a32-3c7db42d4034">
+      <body>Events:
+DeliveryAddressChanged,
+ShippingAddressChanged,
+etc</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="7cb3bf6b-0a41-4274-8b47-5b5e92594f53"
+          LastKnownName="Fill Custom Info"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="21a6f00f-06f9-41e7-b2f2-93ba31619de8">
+      <body>Extension Point:
+IPaymentProcessor</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="83ab1154-1344-4ad2-ae7a-f2033c3ec0a6"
+          LastKnownName="Process Payment"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="3455df07-95d7-4471-97c5-9149ddcc5add">
+      <body>Event:
+OrderSigned</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="72fe8be0-9cae-48c2-b168-57ec47e88ac7"
+          LastKnownName="Sign "
           LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
       </annotatedElements>
     </comment>

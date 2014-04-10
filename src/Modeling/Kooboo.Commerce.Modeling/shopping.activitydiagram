@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" name="shopping" linkedPackageId="5d54faeb-44a4-4d62-a3d6-2146882594f8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
+<activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" name="shopping" linkedPackageId="5d54faeb-44a4-4d62-a3d6-2146882594f8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
   <ownedCommentsInternal>
     <comment Id="07e541e0-01a3-46dd-abb2-441873d5e452">
       <elementDefinition Id="1adedf61-0dde-499a-8328-a56aef63d940" />
@@ -7,13 +7,6 @@
 OrderCreated</body>
       <annotatedElements>
         <opaqueActionMoniker Id="576b42ad-8e33-441e-aed6-e99cf7233035" LastKnownName="Create Order" />
-      </annotatedElements>
-    </comment>
-    <comment Id="346ebfa5-cf6f-46ad-b4d5-729c1cdd57f8">
-      <elementDefinition Id="61db3f3b-95bc-46a9-8794-8920caac2acf" />
-      <body>Event: ItemAddedToCart</body>
-      <annotatedElements>
-        <opaqueActionMoniker Id="eb220bd2-8a26-4c21-80cf-a114ffb111b6" LastKnownName="Add to Shopping Cart" />
       </annotatedElements>
     </comment>
     <comment Id="faaeb3a8-c3c6-4f34-9f78-c40785995672">
@@ -51,7 +44,10 @@ TaxRuleApplied</body>
     <comment Id="8737086a-1e6e-458c-97da-7c8047e50035">
       <elementDefinition Id="b38a8fd5-3d31-4e5f-a113-7f0a001a1ee8" />
       <body>Event:
-PaymentStatusChanged</body>
+PaymentStatusChanged
+
+Consequently:
+OrderPaid</body>
       <annotatedElements>
         <opaqueActionMoniker Id="47a9c588-9039-4596-a939-d323dfb51870" LastKnownName="Complete Transaction" />
       </annotatedElements>
@@ -128,16 +124,6 @@ OrderPaid</body>
         <opaqueActionMoniker Id="5f246968-be6e-41ca-ae8c-4da3ca95a21b" LastKnownName="Pay" />
       </annotatedElements>
     </comment>
-    <comment Id="de2f05ca-7d58-424a-a935-125d586b1e0d">
-      <elementDefinition Id="fcfdd84a-8453-4fc2-9065-b4bb4804f450" />
-      <body>Events:
-DeliveryAddressChanged,
-ShippingAddressChanged,
-etc</body>
-      <annotatedElements>
-        <opaqueActionMoniker Id="bbad2703-a086-42e9-aba8-8a60bebba700" LastKnownName="Update Order" />
-      </annotatedElements>
-    </comment>
     <comment Id="039fb0fd-d8c0-48f6-b632-461a523dd14a">
       <elementDefinition Id="78141d4c-d2e6-4c1f-bddb-47280c8267fb" />
       <body>Events:
@@ -145,14 +131,6 @@ ShippingCostCalculating,
 ShippingCostCalculated</body>
       <annotatedElements>
         <opaqueActionMoniker Id="44254595-742b-457c-85b0-80c890927c2d" LastKnownName="Calculate Shipping Cost" />
-      </annotatedElements>
-    </comment>
-    <comment Id="d6745532-8aef-40f0-ba40-1c2d3bc4809a">
-      <elementDefinition Id="177fa5c0-9f11-412c-b1ba-006bdeb307e0" />
-      <body>Extension Point:
-IPaymentProcessor</body>
-      <annotatedElements>
-        <opaqueActionMoniker Id="db44f4f8-45e1-49a6-b649-2c3e88d5af55" LastKnownName="Payment" />
       </annotatedElements>
     </comment>
     <comment Id="cde1622f-4bd7-4fa9-90e8-67c1207100b8">
@@ -185,6 +163,46 @@ ITaxProvider</body>
 IShippingRateProvider</body>
       <annotatedElements>
         <opaqueActionMoniker Id="44254595-742b-457c-85b0-80c890927c2d" LastKnownName="Calculate Shipping Cost" />
+      </annotatedElements>
+    </comment>
+    <comment Id="d71625f4-afc3-45ae-9002-454e9c3a099d">
+      <elementDefinition Id="189a6521-86c1-4706-9a21-dfcbe6531e56" />
+      <body>? todo: determine prices with context</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="f029a3d9-bc02-4547-974a-ac75f808c080" LastKnownName="Show Price" />
+      </annotatedElements>
+    </comment>
+    <comment Id="b34be98b-166b-4b13-8c53-2bca64289264">
+      <elementDefinition Id="4c980bb1-0a3a-4952-a931-869c61ea4a73" />
+      <body>Event: ItemAddedToCart</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="e5fa3f69-7a1d-48dc-a76d-7c0e36062cae" LastKnownName="Adding to Shopping Cart" />
+      </annotatedElements>
+    </comment>
+    <comment Id="d27077f9-6441-4c1f-a4db-1c091b8db250">
+      <elementDefinition Id="97da58ed-04df-4dbb-9a32-3c7db42d4034" />
+      <body>Events:
+DeliveryAddressChanged,
+ShippingAddressChanged,
+etc</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="003df603-2fe2-4a7e-8ff4-a8bca6a30242" LastKnownName="Fill Custom Info" />
+      </annotatedElements>
+    </comment>
+    <comment Id="a99f11ef-de8f-47b0-b9ba-39f54e41132c">
+      <elementDefinition Id="21a6f00f-06f9-41e7-b2f2-93ba31619de8" />
+      <body>Extension Point:
+IPaymentProcessor</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="94c36edc-5187-4dd5-80c0-1218e561ee5e" LastKnownName="Process Payment" />
+      </annotatedElements>
+    </comment>
+    <comment Id="f43bb43b-d7a1-441a-8b38-51afa9d0bba6">
+      <elementDefinition Id="3455df07-95d7-4471-97c5-9149ddcc5add" />
+      <body>Event:
+OrderSigned</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="95f655d0-01db-4a23-9928-b65b473294b2" LastKnownName="Sign " />
       </annotatedElements>
     </comment>
   </ownedCommentsInternal>
