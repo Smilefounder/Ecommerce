@@ -256,7 +256,7 @@ IPaymentProcessor</body>
       <body>Events:
 
 OrderCreated
-OrderUpdated</body>
+</body>
       <annotatedElements>
         <opaqueActionMoniker
           Id="5d1b6457-3837-4c67-87a4-ea32689c108d"
@@ -282,6 +282,17 @@ OrderStatusChanged</body>
         <opaqueActionMoniker
           Id="782b8175-f809-469b-bbfc-671cd8480d91"
           LastKnownName="Expire Shopping Cart"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="6ff26f3d-aa22-4c5d-94ca-df63383fb387">
+      <body>Event:
+OrderSplitted</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="a88bd5ee-0358-4758-856a-7e5f8c21f7a1"
+          LastKnownName="Split Order"
           LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
       </annotatedElements>
     </comment>
