@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <activityRootModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="39169b2c-87f3-4778-816e-ea8d711a8c0c" name="shopping" linkedPackageId="5d54faeb-44a4-4d62-a3d6-2146882594f8" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner">
   <ownedCommentsInternal>
-    <comment Id="07e541e0-01a3-46dd-abb2-441873d5e452">
-      <elementDefinition Id="1adedf61-0dde-499a-8328-a56aef63d940" />
-      <body>Events:
-OrderCreated</body>
-      <annotatedElements>
-        <opaqueActionMoniker Id="576b42ad-8e33-441e-aed6-e99cf7233035" LastKnownName="Create Order" />
-      </annotatedElements>
-    </comment>
     <comment Id="faaeb3a8-c3c6-4f34-9f78-c40785995672">
       <elementDefinition Id="1df7916d-a8a2-4db0-9727-4289cfb54ac6" />
       <body>Event: ShoppingCartCreated</body>
@@ -49,7 +41,7 @@ PaymentStatusChanged
 Consequently:
 OrderPaid</body>
       <annotatedElements>
-        <opaqueActionMoniker Id="47a9c588-9039-4596-a939-d323dfb51870" LastKnownName="Complete Transaction" />
+        <opaqueActionMoniker Id="47a9c588-9039-4596-a939-d323dfb51870" LastKnownName="Change Payment Status" />
       </annotatedElements>
     </comment>
     <comment Id="ad24a069-55e5-4bb7-b663-a93ff9c9e698">
@@ -105,23 +97,7 @@ DeliverySheetGenerated</body>
       <body>Event:
 DeliveryStatusChanged</body>
       <annotatedElements>
-        <opaqueActionMoniker Id="a2ce3d80-2ea6-4cc7-bb3a-50a55b50da3b" LastKnownName="Update Delivery Status" />
-      </annotatedElements>
-    </comment>
-    <comment Id="193ba54b-7533-459a-b6c8-2b1ae8183aa8">
-      <elementDefinition Id="0f7c5432-58a9-4838-a543-6289f2c6ac78" />
-      <body>Event:
-DeliveryRejected</body>
-      <annotatedElements>
-        <opaqueActionMoniker Id="fc07f6a6-fc49-4e4f-9c60-0571cb5ca1e8" LastKnownName="Reject" />
-      </annotatedElements>
-    </comment>
-    <comment Id="ad89edfb-825e-45d0-a701-8b59564bbe62">
-      <elementDefinition Id="5cc772bb-97dd-4aed-a716-dcc02988c436" />
-      <body>Event:
-OrderPaid</body>
-      <annotatedElements>
-        <opaqueActionMoniker Id="5f246968-be6e-41ca-ae8c-4da3ca95a21b" LastKnownName="Pay" />
+        <opaqueActionMoniker Id="a2ce3d80-2ea6-4cc7-bb3a-50a55b50da3b" LastKnownName="Change Delivery Status" />
       </annotatedElements>
     </comment>
     <comment Id="039fb0fd-d8c0-48f6-b632-461a523dd14a">
@@ -167,7 +143,7 @@ IShippingRateProvider</body>
     </comment>
     <comment Id="d71625f4-afc3-45ae-9002-454e9c3a099d">
       <elementDefinition Id="189a6521-86c1-4706-9a21-dfcbe6531e56" />
-      <body>? todo: determine prices with context</body>
+      <body>determine prices with context</body>
       <annotatedElements>
         <opaqueActionMoniker Id="f029a3d9-bc02-4547-974a-ac75f808c080" LastKnownName="Show Price" />
       </annotatedElements>
@@ -197,12 +173,29 @@ IPaymentProcessor</body>
         <opaqueActionMoniker Id="94c36edc-5187-4dd5-80c0-1218e561ee5e" LastKnownName="Process Payment" />
       </annotatedElements>
     </comment>
-    <comment Id="f43bb43b-d7a1-441a-8b38-51afa9d0bba6">
-      <elementDefinition Id="3455df07-95d7-4471-97c5-9149ddcc5add" />
-      <body>Event:
-OrderSigned</body>
+    <comment Id="1d54e40b-f310-4c4d-b0a1-ffdfd30ebc54">
+      <elementDefinition Id="288c0ea1-2f41-4e2b-b562-243dbaaef602" />
+      <body>Events:
+
+OrderCreated
+OrderUpdated</body>
       <annotatedElements>
-        <opaqueActionMoniker Id="95f655d0-01db-4a23-9928-b65b473294b2" LastKnownName="Sign " />
+        <opaqueActionMoniker Id="cf0585a1-43a8-4fb5-b510-d105e31fb81c" LastKnownName="Create/Update Order" />
+      </annotatedElements>
+    </comment>
+    <comment Id="be1cca9b-9eb4-40ee-acd2-53d0bab15aad">
+      <elementDefinition Id="58dd891e-21bf-4834-8715-48ed6edf29ea" />
+      <body>Events:
+OrderStatusChanged</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="cdea422d-0884-4aa6-8c2a-bccc3e052b03" LastKnownName="Change Order Status" />
+      </annotatedElements>
+    </comment>
+    <comment Id="62feca7a-084c-49e9-a976-c425751f33a0">
+      <elementDefinition Id="d60c41e0-bafb-4210-9cbe-2a2d18334b0b" />
+      <body>Only execute when create order from shopping cart</body>
+      <annotatedElements>
+        <opaqueActionMoniker Id="d0b7637f-a0ea-46b1-9e23-739fbcefb9a1" LastKnownName="Expire Shopping Cart" />
       </annotatedElements>
     </comment>
   </ownedCommentsInternal>
@@ -492,39 +485,21 @@ OrderSigned</body>
               </controlFlow>
             </flowNodeTargets>
           </decisionNode>
-          <opaqueAction Id="576b42ad-8e33-441e-aed6-e99cf7233035" name="Create Order" isLeaf="false">
+          <opaqueAction Id="576b42ad-8e33-441e-aed6-e99cf7233035" name="Generate Order In Memory" isLeaf="false">
             <elementDefinition Id="78c73f66-9bbf-4a84-b104-8e3ee5e26677" />
             <flowNodeTargets>
-              <controlFlow Id="0e0548b1-86d2-4f18-9b47-a7d91fa468d6" isLeaf="false">
-                <mergeNodeMoniker Id="a49fe87b-add3-46b2-b8a8-90fe9fa97033" LastKnownName="Merge2" />
-                <elementDefinition Id="bbc8cb8d-13be-45b7-8b01-ec73e6d7ae94" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="bbad2703-a086-42e9-aba8-8a60bebba700" name="Update Order" isLeaf="false">
-            <elementDefinition Id="e2e41e33-7a77-4aef-9077-fb7072402c9c" />
-            <flowNodeTargets>
-              <controlFlow Id="37f0961c-4219-477c-9218-15931d36d206" isLeaf="false">
-                <mergeNodeMoniker Id="a49fe87b-add3-46b2-b8a8-90fe9fa97033" LastKnownName="Merge2" />
-                <elementDefinition Id="b39c3402-e847-4b4e-a46b-5dbfa363eed8" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="1931152e-d866-4736-acb4-e083329cb245" name="Change Order Items" isLeaf="false">
-            <elementDefinition Id="4ddb5f6d-77f7-4d41-b009-7cdb7a6fa79c" />
-            <flowNodeTargets>
-              <controlFlow Id="e5a57d23-7a6a-462d-81a5-748edcaf2a9a" isLeaf="false">
-                <opaqueActionMoniker Id="bbad2703-a086-42e9-aba8-8a60bebba700" LastKnownName="Update Order" />
-                <elementDefinition Id="1d359ccd-e812-46dd-94c4-58d3496b7878" />
+              <controlFlow Id="51fb2efe-97b3-456a-baab-6faebdffa1f1" isLeaf="false">
+                <opaqueActionMoniker Id="dea0fe9c-a094-45de-a3c3-9e75342475b1" LastKnownName="Apply Currency" />
+                <elementDefinition Id="01cfd8b4-77df-4fa0-8982-6307a786a5c5" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
           <opaqueAction Id="0e46b92b-f606-43a4-be04-a9bc404ce7c5" name="Calculate Cost" isLeaf="false">
             <elementDefinition Id="14063cb1-f543-403d-8346-4ffcdc56b617" />
             <flowNodeTargets>
-              <controlFlow Id="46771190-eddc-4dc5-9763-77ef2d5b42e8" isLeaf="false">
-                <opaqueActionMoniker Id="df6b13c7-2a04-4830-b153-63c23ac92b68" LastKnownName="View Order" />
-                <elementDefinition Id="cf599aa7-846e-463c-b86f-4170a6f32a9d" />
+              <controlFlow Id="bc8953c8-390e-431e-bb88-517e2b705d44" isLeaf="false">
+                <opaqueActionMoniker Id="cf0585a1-43a8-4fb5-b510-d105e31fb81c" LastKnownName="Create/Update Order" />
+                <elementDefinition Id="69545e9b-ed77-4bd1-aa43-dcc0019d31c6" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -661,24 +636,11 @@ OrderSigned</body>
                 <opaqueActionMoniker Id="a7882cc0-e3ff-4780-934d-4ecedc394bc7" LastKnownName="Apply Promotions" />
                 <elementDefinition Id="e9afc7bf-e678-45dc-b4d8-c5f6a08e0772" />
               </controlFlow>
-              <controlFlow Id="4296b0f1-d4bf-42d0-90bb-8843cfc44845" isLeaf="false">
-                <opaqueActionMoniker Id="237057b9-5b3c-4f4e-b2a4-4609c59366d2" LastKnownName="Calculate Item Prices" />
-                <elementDefinition Id="9d144d51-6c94-4274-9f63-3c3d320ac2c6" />
-              </controlFlow>
             </flowNodeTargets>
           </forkNode>
           <activityFinalNode Id="8e0b3763-4a7d-4130-9439-d4e9041c472f" name="ActivityFinal5" isLeaf="false">
             <elementDefinition Id="584ee648-82c7-4c46-b0a5-ef972180a8dc" />
           </activityFinalNode>
-          <opaqueAction Id="237057b9-5b3c-4f4e-b2a4-4609c59366d2" name="Calculate Item Prices" isLeaf="false">
-            <elementDefinition Id="6ab18919-3c77-44e7-8ca5-0b44d03a02dd" />
-            <flowNodeTargets>
-              <controlFlow Id="5916c065-1a36-4cd5-81fa-dbfc0cf50289" isLeaf="false">
-                <joinNodeMoniker Id="8a3e87b2-800c-4573-9b8d-2dd72755dbb8" LastKnownName="Join21" />
-                <elementDefinition Id="6060041b-28b0-42e8-8882-280f367af0a6" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
           <opaqueAction Id="1f9520ae-1bc9-43a5-a58b-4331ef0f0f89" name="Calulate Weight &amp; Packages" isLeaf="false">
             <elementDefinition Id="0d59c4fd-c6c7-4ee8-ac9e-3b66db88d6a1" />
             <flowNodeTargets>
@@ -810,25 +772,16 @@ OrderSigned</body>
               </controlFlow>
             </flowNodeTargets>
           </mergeNode>
-          <mergeNode Id="a49fe87b-add3-46b2-b8a8-90fe9fa97033" name="Merge2" isLeaf="false">
-            <elementDefinition Id="525a3f62-542a-4ed4-b92d-05b811457a5e" />
-            <flowNodeTargets>
-              <controlFlow Id="a78ab05c-2d2c-443b-a24c-4d0fda6abe64" isLeaf="false">
-                <opaqueActionMoniker Id="dea0fe9c-a094-45de-a3c3-9e75342475b1" LastKnownName="Select/Apply Currency" />
-                <elementDefinition Id="a7e27f67-4ab0-4944-8de6-a333a9eb78ab" />
-              </controlFlow>
-            </flowNodeTargets>
-          </mergeNode>
           <mergeNode Id="1b7e6330-ed0e-45dc-8c12-72974bc5ba6e" name="Merge3" isLeaf="false">
             <elementDefinition Id="5a0fae8b-a6ee-4a86-927b-442bcd3a87e3" />
             <flowNodeTargets>
               <controlFlow Id="0ddda61d-9466-4b8f-9b25-f03dac2fed79" isLeaf="false">
-                <opaqueActionMoniker Id="576b42ad-8e33-441e-aed6-e99cf7233035" LastKnownName="Create Order" />
+                <opaqueActionMoniker Id="576b42ad-8e33-441e-aed6-e99cf7233035" LastKnownName="Generate Order In Memory" />
                 <elementDefinition Id="d24f48b2-86e5-4306-ac06-f0ce48626e74" />
               </controlFlow>
             </flowNodeTargets>
           </mergeNode>
-          <opaqueAction Id="dea0fe9c-a094-45de-a3c3-9e75342475b1" name="Select/Apply Currency" isLeaf="false">
+          <opaqueAction Id="dea0fe9c-a094-45de-a3c3-9e75342475b1" name="Apply Currency" isLeaf="false">
             <elementDefinition Id="f3e1bd13-e9a5-467c-9e27-e9e0f29bd863" />
             <flowNodeTargets>
               <controlFlow Id="612e1041-26df-48f5-9719-8b25a4b5a26c" isLeaf="false">
@@ -837,29 +790,16 @@ OrderSigned</body>
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction Id="9c2216f9-b11a-41be-a542-ca976ba8a415" name="Change Currency" isLeaf="false">
-            <elementDefinition Id="850848d2-baae-4cd1-8c67-97b04c41ec29" />
-            <flowNodeTargets>
-              <controlFlow Id="20c1f3f8-3caf-4b2d-a71a-7a56ea74a4e0" isLeaf="false">
-                <opaqueActionMoniker Id="dea0fe9c-a094-45de-a3c3-9e75342475b1" LastKnownName="Select/Apply Currency" />
-                <elementDefinition Id="952f59eb-44e6-4826-9a5d-516ae4a37017" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
           <forkNode Id="15146914-57a0-4c74-b478-ef2e598e983b" name="Fork3" isLeaf="false">
             <elementDefinition Id="e6b081ca-5999-47c4-a248-3031a5cb7bd8" />
             <flowNodeTargets>
-              <controlFlow Id="5d6df8ba-68eb-4e67-8f25-d63410eefebb" isLeaf="false">
-                <opaqueActionMoniker Id="9c2216f9-b11a-41be-a542-ca976ba8a415" LastKnownName="Change Currency" />
-                <elementDefinition Id="8217a3fc-c804-4ba2-ad27-d14a0367aaa6" />
-              </controlFlow>
-              <controlFlow Id="8aa8a91e-6eb6-454c-9d2a-cf7a24bf8887" isLeaf="false">
-                <opaqueActionMoniker Id="1931152e-d866-4736-acb4-e083329cb245" LastKnownName="Change Order Items" />
-                <elementDefinition Id="8856db4c-7483-43c9-927c-657848b1ac52" />
-              </controlFlow>
               <controlFlow Id="7a8f2d46-8a77-477f-905e-b3e6b0dd4224" isLeaf="false">
                 <opaqueActionMoniker Id="77ef2fbd-19c0-4d36-bfc2-e48d67989127" LastKnownName="Split Order" />
                 <elementDefinition Id="2aee6542-bff0-4a58-8243-6df0824cd7c2" />
+              </controlFlow>
+              <controlFlow Id="509e788d-8082-4876-bc26-f4fb7e82d296" isLeaf="false">
+                <opaqueActionMoniker Id="fbd97eb8-39c9-4a12-9add-b7f6419f8c8b" LastKnownName="Return Order" />
+                <elementDefinition Id="502ceee2-1510-4257-8d86-8a4c8cd24121" />
               </controlFlow>
             </flowNodeTargets>
           </forkNode>
@@ -908,25 +848,12 @@ OrderSigned</body>
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction Id="995582f3-df75-4811-bda8-7a0401235417" name="Suspend Transaction" isLeaf="false">
-            <elementDefinition Id="fd9e0f01-9790-4c9a-a4e5-ef979a826846" />
-            <flowNodeTargets>
-              <controlFlow Id="49d61a4f-2ef2-407d-a6b6-279296e8521c" isLeaf="false">
-                <opaqueActionMoniker Id="94c36edc-5187-4dd5-80c0-1218e561ee5e" LastKnownName="Process Payment" />
-                <elementDefinition Id="88133e9f-18f2-42b3-9c74-b8882477fe94" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="47a9c588-9039-4596-a939-d323dfb51870" name="Complete Transaction" isLeaf="false">
+          <opaqueAction Id="47a9c588-9039-4596-a939-d323dfb51870" name="Change Payment Status" isLeaf="false">
             <elementDefinition Id="04222b74-b08d-4ef0-b582-637a0831ec53" />
             <flowNodeTargets>
-              <controlFlow Id="d4b6fc3a-9703-41c5-a0a3-38992f3a13d7" isLeaf="false">
-                <activityFinalNodeMoniker Id="0bde3147-a6a9-488c-a28b-3eca2f60c838" LastKnownName="ActivityFinal7" />
-                <elementDefinition Id="67130bf1-dc4b-4f94-a363-b4e2eb6f2226" />
-              </controlFlow>
-              <controlFlow Id="df132f5c-dc4a-4127-bb72-8a6770a18702" isLeaf="false">
-                <opaqueActionMoniker Id="80f29668-7686-4d8e-97e6-61eaaedfec5b" LastKnownName="Create Invoice" />
-                <elementDefinition Id="f45832da-cbc6-45a3-9940-f6f2a3006517" />
+              <controlFlow Id="ad1d7144-3009-4878-a1e9-7a45f42fa52c" isLeaf="false">
+                <decisionNodeMoniker Id="e223a125-dabb-4ec5-90a4-89f5686e7bdb" LastKnownName="Decision14" />
+                <elementDefinition Id="75386a3e-63c3-4c66-aced-dc26282cacef" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -936,15 +863,6 @@ OrderSigned</body>
               <controlFlow Id="43aa1411-16bc-44d5-b019-7da902020892" isLeaf="false">
                 <decisionNodeMoniker Id="75c03b00-2a1c-421d-918c-5b61796fa599" LastKnownName="Decision11" />
                 <elementDefinition Id="d4b2208e-f63c-4e20-ab02-2466e866ddbf" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="161534c1-2f11-4ce8-822b-5f057d1e21ec" name="Retry Payment" isLeaf="false">
-            <elementDefinition Id="fc5d2cb8-d4f5-4061-9da0-0b7e3f3dc120" />
-            <flowNodeTargets>
-              <controlFlow Id="f2ef3252-8861-4b07-ab39-ac269f9a5a9f" isLeaf="false">
-                <opaqueActionMoniker Id="8f8e845e-6c1b-4417-aad9-e9f3e522e6db" LastKnownName="Renew Transaction" />
-                <elementDefinition Id="7759d468-1fbb-4a96-9e34-57c97a1210ae" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -963,42 +881,29 @@ OrderSigned</body>
           <decisionNode Id="75c03b00-2a1c-421d-918c-5b61796fa599" name="Decision11" isLeaf="false">
             <elementDefinition Id="c23ea964-2774-425a-94b2-5bdf18859341" />
             <flowNodeTargets>
-              <controlFlow Id="703f3302-e530-4e3b-8be8-11cd122d4ddc" guard="Payment Accepted" isLeaf="false">
-                <opaqueActionMoniker Id="995582f3-df75-4811-bda8-7a0401235417" LastKnownName="Suspend Transaction" />
-                <elementDefinition Id="0ca0a00a-9cf6-4bf3-b6ef-59beb0ba77cb" />
-              </controlFlow>
               <controlFlow Id="5c3c3d56-17c2-40fb-aaef-821d00822165" guard="Payment ShakeHand Failed" isLeaf="false">
                 <opaqueActionMoniker Id="7f150d49-6f5e-415e-ad1e-f4cfc9f7b6ef" LastKnownName="Cancel Transaction" />
                 <elementDefinition Id="9e19f47b-c620-4a97-9a25-6632ef617470" />
+              </controlFlow>
+              <controlFlow Id="d00a76b1-4c32-4dd2-91b3-01f0ef140aa2" guard="Payment Accepted" isLeaf="false">
+                <opaqueActionMoniker Id="94c36edc-5187-4dd5-80c0-1218e561ee5e" LastKnownName="Process Payment" />
+                <elementDefinition Id="98921ea2-fd1c-4ed4-871e-159ca2e265ad" />
               </controlFlow>
             </flowNodeTargets>
           </decisionNode>
           <decisionNode Id="e0436b40-f748-4f21-9177-c28f5ab2cf0c" name="Decision12" isLeaf="false">
             <elementDefinition Id="e574ff11-27dd-4281-afe6-ea8df155f92e" />
             <flowNodeTargets>
-              <controlFlow Id="1c3d7f1b-415f-4c13-9da9-bbcb9c75d2c8" guard="Payment Success" isLeaf="false">
-                <opaqueActionMoniker Id="47a9c588-9039-4596-a939-d323dfb51870" LastKnownName="Complete Transaction" />
-                <elementDefinition Id="b88e4944-0de6-4f9d-8f36-17b7bb77a70b" />
-              </controlFlow>
-              <controlFlow Id="663038a3-f53f-4d18-9a39-a546498df705" guard="Payment Failure" isLeaf="false">
-                <opaqueActionMoniker Id="161534c1-2f11-4ce8-822b-5f057d1e21ec" LastKnownName="Retry Payment" />
-                <elementDefinition Id="cedfa641-04ec-4121-9bca-ee98702a5b3e" />
-              </controlFlow>
               <controlFlow Id="be674a96-c333-44d3-87cc-9f7f93fdca31" guard="Payment Failure" isLeaf="false">
                 <opaqueActionMoniker Id="7f150d49-6f5e-415e-ad1e-f4cfc9f7b6ef" LastKnownName="Cancel Transaction" />
                 <elementDefinition Id="e2dfac32-f399-41ed-bbf2-a97f0bd06bcd" />
               </controlFlow>
-            </flowNodeTargets>
-          </decisionNode>
-          <opaqueAction Id="8f8e845e-6c1b-4417-aad9-e9f3e522e6db" name="Renew Transaction" isLeaf="false">
-            <elementDefinition Id="3f87e5f1-1688-4040-b377-ee0947a62997" />
-            <flowNodeTargets>
-              <controlFlow Id="b919b800-2c55-4ba3-81cb-004dd90e11ba" isLeaf="false">
-                <opaqueActionMoniker Id="2cf149c3-cc5e-47d5-8b64-2a479cfbef72" LastKnownName="Request Payment" />
-                <elementDefinition Id="49d76d07-8e65-470f-a9cc-314c37a15ed4" />
+              <controlFlow Id="2e1d9c0f-48a2-4765-97a0-f249e17a957a" guard="Payment Success" isLeaf="false">
+                <opaqueActionMoniker Id="a8111203-d306-4873-80fa-072dde14ad6b" LastKnownName="Complete Transaction" />
+                <elementDefinition Id="3505db05-2b93-45a1-8f6f-c651da6ddc77" />
               </controlFlow>
             </flowNodeTargets>
-          </opaqueAction>
+          </decisionNode>
           <opaqueAction Id="77ef2fbd-19c0-4d36-bfc2-e48d67989127" name="Split Order" isLeaf="false">
             <elementDefinition Id="a88bd5ee-0358-4758-856a-7e5f8c21f7a1" />
             <flowNodeTargets>
@@ -1011,9 +916,9 @@ OrderSigned</body>
           <opaqueAction Id="c584b047-e99e-4692-b1a9-34e341299639" name="Select Order Items" isLeaf="false">
             <elementDefinition Id="c34f81c1-d3a4-4ee3-bef1-fb8f76440ae7" />
             <flowNodeTargets>
-              <controlFlow Id="53263d32-7985-4791-8523-fe5485e971a0" isLeaf="false">
-                <opaqueActionMoniker Id="576b42ad-8e33-441e-aed6-e99cf7233035" LastKnownName="Create Order" />
-                <elementDefinition Id="53753ee1-6cc8-429c-8a39-09edc754408b" />
+              <controlFlow Id="d37e3353-1018-467a-8def-98bc060361b8" isLeaf="false">
+                <forkNodeMoniker Id="bbde7f8d-6972-4892-a630-2e2e1df842c9" LastKnownName="Fork5" />
+                <elementDefinition Id="ede81a88-bc07-4915-9ee8-2e3f831befa9" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -1029,18 +934,9 @@ OrderSigned</body>
           <opaqueAction Id="a48e5a58-0830-4237-9ebe-4ea2a0adb901" name="Generate Delivery Sheet" isLeaf="false">
             <elementDefinition Id="ff4485ab-52b6-4644-9631-7369e54ee7b9" />
             <flowNodeTargets>
-              <controlFlow Id="8f9620d7-750a-4335-8dc7-c8a471fb6faf" isLeaf="false">
-                <opaqueActionMoniker Id="4bd53d62-9b51-4efe-abec-5ee22a01aeb9" LastKnownName="Stocking" />
-                <elementDefinition Id="b8a8aba0-f103-4c2b-b409-da38f1e540a6" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="4bd53d62-9b51-4efe-abec-5ee22a01aeb9" name="Stocking" isLeaf="false">
-            <elementDefinition Id="8e88e1ed-d046-4445-8988-75b04fafe365" />
-            <flowNodeTargets>
-              <controlFlow Id="a0f337d5-260f-4dd2-82a2-6771b6be6f07" isLeaf="false">
-                <decisionNodeMoniker Id="a09af2da-690e-4060-8ad8-bd16a0c74674" LastKnownName="Decision13" />
-                <elementDefinition Id="f6445443-5510-4f53-8796-78c87cd6868f" />
+              <controlFlow Id="d009058a-6040-437c-9a4f-d703035ca669" isLeaf="false">
+                <opaqueActionMoniker Id="cc1fede2-ddcc-4181-b771-ec52fa8a7e51" LastKnownName="Select Delivery" />
+                <elementDefinition Id="a4da93f4-4c9e-4f4b-a674-a778b2591f7c" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -1056,22 +952,9 @@ OrderSigned</body>
           <opaqueAction Id="3726cdbc-386e-43aa-81ca-7404a44be966" name="Tracing" isLeaf="false">
             <elementDefinition Id="c418d47f-c3ae-4b11-aff2-266ac2b6dd0d" />
             <flowNodeTargets>
-              <controlFlow Id="ab27235b-4ff9-44d8-ac6f-902eb8af9fa7" isLeaf="false">
-                <opaqueActionMoniker Id="4ba86922-aff2-41f8-b9ab-e1c623c0c367" LastKnownName="Receive" />
-                <elementDefinition Id="c039151e-7ae5-4c16-86e2-8504cfbdcef1" />
-              </controlFlow>
               <controlFlow Id="a5d0ae55-5a53-4ffd-a26c-ef0e480b9f90" isLeaf="false">
-                <opaqueActionMoniker Id="a2ce3d80-2ea6-4cc7-bb3a-50a55b50da3b" LastKnownName="Update Delivery Status" />
+                <opaqueActionMoniker Id="a2ce3d80-2ea6-4cc7-bb3a-50a55b50da3b" LastKnownName="Change Delivery Status" />
                 <elementDefinition Id="a7f6147b-c219-4137-b7e1-18dcbad52929" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="4ba86922-aff2-41f8-b9ab-e1c623c0c367" name="Receive" isLeaf="false">
-            <elementDefinition Id="3c5052dd-681d-43cf-8060-886243ab92d5" />
-            <flowNodeTargets>
-              <controlFlow Id="9c03f46d-694b-4c4f-bdd9-13da477300a1" isLeaf="false">
-                <decisionNodeMoniker Id="a7fe4d15-10a6-46f9-9bdb-fef1cbfaee8f" LastKnownName="Decision14" />
-                <elementDefinition Id="e97a1bb9-637b-42b8-a1d9-c5989a6e46d1" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
@@ -1084,83 +967,46 @@ OrderSigned</body>
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <activityFinalNode Id="44576bed-4499-4f43-9677-96311ee85d54" name="ActivityFinal8" isLeaf="false">
-            <elementDefinition Id="bbff9e7d-22d8-4a69-94e0-a82428e7d621" />
-          </activityFinalNode>
-          <decisionNode Id="a09af2da-690e-4060-8ad8-bd16a0c74674" name="Decision13" isLeaf="false">
-            <elementDefinition Id="90d2a796-efe0-4c50-9926-4a7412f5f65e" />
-            <flowNodeTargets>
-              <controlFlow Id="4921e926-a25d-48ea-aba0-dcd265f1e2df" guard="Inventory Shortage" isLeaf="false">
-                <opaqueActionMoniker Id="60ace3b7-e779-498e-ae20-6c1c5ab90d2b" LastKnownName="Suspend Delivery" />
-                <elementDefinition Id="346adfb9-8d20-427b-b8aa-48798c4e4aae" />
-              </controlFlow>
-              <controlFlow Id="3239ec63-f491-4694-8ff4-ce26dd9314b2" guard="In Stock" isLeaf="false">
-                <opaqueActionMoniker Id="a503a47c-a4d8-457b-9252-5d7b66832612" LastKnownName="Shipping" />
-                <elementDefinition Id="b789633e-659e-494e-b69f-c510c630268f" />
-              </controlFlow>
-            </flowNodeTargets>
-          </decisionNode>
           <opaqueAction Id="60ace3b7-e779-498e-ae20-6c1c5ab90d2b" name="Suspend Delivery" isLeaf="false">
             <elementDefinition Id="16af5f18-75fd-4c44-9fef-e88abe309b42" />
             <flowNodeTargets>
-              <controlFlow Id="887d258f-fa4c-40a0-be62-d9a51fb5921f" isLeaf="false">
-                <opaqueActionMoniker Id="4bd53d62-9b51-4efe-abec-5ee22a01aeb9" LastKnownName="Stocking" />
-                <elementDefinition Id="41d5e138-28c9-477f-9857-6acf71dee516" />
+              <controlFlow Id="8bcee7a2-4290-46b4-8d51-aaa4dda6e4df" isLeaf="false">
+                <opaqueActionMoniker Id="cc1fede2-ddcc-4181-b771-ec52fa8a7e51" LastKnownName="Select Delivery" />
+                <elementDefinition Id="81c579f6-e505-4053-a7e3-7e32b24d6e20" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
           <opaqueAction Id="54d9dd57-14bb-4bef-9a5d-03a69ec95922" name="Request Delivery Status" isLeaf="false">
             <elementDefinition Id="410e9eb3-4952-4c41-9890-b9d0e249db71" />
+            <flowNodeTargets>
+              <controlFlow Id="8ad6c609-130a-456f-a36f-07a46363925d" isLeaf="false">
+                <opaqueActionMoniker Id="a2ce3d80-2ea6-4cc7-bb3a-50a55b50da3b" LastKnownName="Change Delivery Status" />
+                <elementDefinition Id="2c2de843-a1d2-483d-a157-c55f6c2677a0" />
+              </controlFlow>
+            </flowNodeTargets>
           </opaqueAction>
           <opaqueAction Id="b6ce9397-2046-497f-bf8d-2ee02e41d9a0" name="View Delivery" isLeaf="false">
             <elementDefinition Id="d04512a8-b6e1-44a0-b1d4-c505947c2c82" />
             <flowNodeTargets>
-              <controlFlow Id="1b4cd870-67ae-438c-b9fd-5f2b8ab85f11" isLeaf="false">
+              <controlFlow Id="2fdb8428-c787-44ef-8508-958c81b63082" isLeaf="false">
+                <activityFinalNodeMoniker Id="ca053520-c586-452f-be57-ff5b7300d2ae" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="cfce3d74-312e-4002-95f7-3a52ef2b3060" />
+              </controlFlow>
+              <controlFlow Id="a89fbf4b-5bff-4fda-ab7b-7ad29e19e5d7" isLeaf="false">
                 <opaqueActionMoniker Id="54d9dd57-14bb-4bef-9a5d-03a69ec95922" LastKnownName="Request Delivery Status" />
-                <elementDefinition Id="17ea6d4d-d501-491c-b1e6-ed1d183c4701" />
+                <elementDefinition Id="ce4a72be-e209-4bd9-bff6-f70163a48231" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction Id="a2ce3d80-2ea6-4cc7-bb3a-50a55b50da3b" name="Update Delivery Status" isLeaf="false">
+          <opaqueAction Id="a2ce3d80-2ea6-4cc7-bb3a-50a55b50da3b" name="Change Delivery Status" isLeaf="false">
             <elementDefinition Id="b9c68e7f-5432-4eb6-b420-3d2cd311e17e" />
             <flowNodeTargets>
-              <controlFlow Id="44c4bc49-6c58-4ccf-a836-7a1705d9d81b" isLeaf="false">
-                <opaqueActionMoniker Id="54d9dd57-14bb-4bef-9a5d-03a69ec95922" LastKnownName="Request Delivery Status" />
-                <elementDefinition Id="08187545-d29e-4965-968a-03946d09899a" />
+              <controlFlow Id="efd1a569-42c9-4be0-987f-fdf61559f7ec" isLeaf="false">
+                <activityFinalNodeMoniker Id="ca053520-c586-452f-be57-ff5b7300d2ae" LastKnownName="ActivityFinal1" />
+                <elementDefinition Id="7afbe76b-725a-4028-a60e-4530a3a88410" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction Id="95f655d0-01db-4a23-9928-b65b473294b2" name="Sign " isLeaf="false">
-            <elementDefinition Id="72fe8be0-9cae-48c2-b168-57ec47e88ac7" />
-            <flowNodeTargets>
-              <controlFlow Id="196d8868-a461-499b-8a8a-bdfa6d4ef84f" isLeaf="false">
-                <decisionNodeMoniker Id="a0dd11e5-8a40-4c25-a081-e8c2dcb0ce72" LastKnownName="Decision15" />
-                <elementDefinition Id="3cb7a1be-c1af-46d4-8219-43a45eebb7af" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction Id="fc07f6a6-fc49-4e4f-9c60-0571cb5ca1e8" name="Reject" isLeaf="false">
-            <elementDefinition Id="daf5229d-d50a-4fa7-a591-df3dd9341245" />
-            <flowNodeTargets>
-              <controlFlow Id="2060f31e-7412-4d17-82d1-07f1c5e55a17" isLeaf="false">
-                <activityFinalNodeMoniker Id="44576bed-4499-4f43-9677-96311ee85d54" LastKnownName="ActivityFinal8" />
-                <elementDefinition Id="f5baf7f2-b1af-4e96-842c-4c0c704fdae0" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <decisionNode Id="a7fe4d15-10a6-46f9-9bdb-fef1cbfaee8f" name="Decision14" isLeaf="false">
-            <elementDefinition Id="b7fd5950-4481-486e-95cf-e4c72aa87462" />
-            <flowNodeTargets>
-              <controlFlow Id="43963297-3cf3-436d-a1ae-8dce314538e5" guard="Accept" isLeaf="false">
-                <opaqueActionMoniker Id="95f655d0-01db-4a23-9928-b65b473294b2" LastKnownName="Sign " />
-                <elementDefinition Id="29e79bea-f11a-42b3-8b6b-cdb5bec053ad" />
-              </controlFlow>
-              <controlFlow Id="80659d8e-6dc9-407b-b736-edfb04b780bb" guard="Reject" isLeaf="false">
-                <opaqueActionMoniker Id="fc07f6a6-fc49-4e4f-9c60-0571cb5ca1e8" LastKnownName="Reject" />
-                <elementDefinition Id="0a72b45d-033a-4539-a1ac-36fca6f3fbd9" />
-              </controlFlow>
-            </flowNodeTargets>
-          </decisionNode>
           <forkNode Id="85d7376d-a451-45f7-ac09-50f4c2904050" name="Fork4" isLeaf="false">
             <elementDefinition Id="37c5c8bc-026d-471e-b692-98c3464cde86" />
             <flowNodeTargets>
@@ -1168,37 +1014,118 @@ OrderSigned</body>
                 <opaqueActionMoniker Id="3726cdbc-386e-43aa-81ca-7404a44be966" LastKnownName="Tracing" />
                 <elementDefinition Id="3f1c1c93-e782-4748-b014-be6dfd1d35c6" />
               </controlFlow>
-              <controlFlow Id="07b62000-0b79-4501-a769-3bce44dafbc2" isLeaf="false">
+              <controlFlow Id="8dbcd4c4-de2f-49be-9c46-7b354e21e8ad" isLeaf="false">
                 <opaqueActionMoniker Id="b6ce9397-2046-497f-bf8d-2ee02e41d9a0" LastKnownName="View Delivery" />
-                <elementDefinition Id="0a9d4daa-7bb6-4693-a562-b703271818ad" />
+                <elementDefinition Id="3896d22d-8c60-48de-8c5b-0920c1e986b5" />
               </controlFlow>
             </flowNodeTargets>
           </forkNode>
-          <decisionNode Id="a0dd11e5-8a40-4c25-a081-e8c2dcb0ce72" name="Decision15" isLeaf="false">
-            <elementDefinition Id="e9e7f309-b9db-4085-a090-5c4383b63cb2" />
-            <flowNodeTargets>
-              <controlFlow Id="f8941a97-9cfb-4e7a-be42-578516628817" guard="Need to Pay" isLeaf="false">
-                <opaqueActionMoniker Id="5f246968-be6e-41ca-ae8c-4da3ca95a21b" LastKnownName="Pay" />
-                <elementDefinition Id="110dbc1c-212c-419b-8956-00f2da9a1285" />
-              </controlFlow>
-              <controlFlow Id="e525b00a-e8f6-4fdd-9c94-7ae16bbd1afc" isLeaf="false">
-                <activityFinalNodeMoniker Id="44576bed-4499-4f43-9677-96311ee85d54" LastKnownName="ActivityFinal8" />
-                <elementDefinition Id="edec1f0a-0e74-422e-a2b2-defa2156502c" />
-              </controlFlow>
-            </flowNodeTargets>
-          </decisionNode>
-          <opaqueAction Id="5f246968-be6e-41ca-ae8c-4da3ca95a21b" name="Pay" isLeaf="false">
-            <elementDefinition Id="8a76cac3-835d-48f5-9632-5a66d24a87d2" />
-            <flowNodeTargets>
-              <controlFlow Id="a4e62c20-b197-4125-8c09-2e12217e4c30" isLeaf="false">
-                <activityFinalNodeMoniker Id="44576bed-4499-4f43-9677-96311ee85d54" LastKnownName="ActivityFinal8" />
-                <elementDefinition Id="88c2afc3-e724-40f8-98ad-a12d1347d14f" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
           <activityFinalNode Id="57797490-987d-41cf-aeb0-20b9c53cd628" name="ActivityFinal9" isLeaf="false">
             <elementDefinition Id="720bf10f-650f-4970-ba6f-95e5e2bba11b" />
           </activityFinalNode>
+          <opaqueAction Id="cf0585a1-43a8-4fb5-b510-d105e31fb81c" name="Create/Update Order" isLeaf="false">
+            <elementDefinition Id="5d1b6457-3837-4c67-87a4-ea32689c108d" />
+            <flowNodeTargets>
+              <controlFlow Id="761e1663-0817-4898-a595-67b6bc5d2052" isLeaf="false">
+                <opaqueActionMoniker Id="df6b13c7-2a04-4830-b153-63c23ac92b68" LastKnownName="View Order" />
+                <elementDefinition Id="ba1e6620-a73b-4404-8ced-55b25945ecd5" />
+              </controlFlow>
+              <controlFlow Id="4220198d-fc44-4d36-8866-b5a9432fd3f7" isLeaf="false">
+                <opaqueActionMoniker Id="d0b7637f-a0ea-46b1-9e23-739fbcefb9a1" LastKnownName="Expire Shopping Cart" />
+                <elementDefinition Id="fee64e9f-c025-49e9-ba31-ba2d6941dccf" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <activityFinalNode Id="ca053520-c586-452f-be57-ff5b7300d2ae" name="ActivityFinal1" isLeaf="false">
+            <elementDefinition Id="dc8ad4e7-fa7c-43cd-98dc-afe7e088b549" />
+          </activityFinalNode>
+          <decisionNode Id="092efc4f-a7b7-45ff-b16f-f1de5971ca5b" name="Decision13" isLeaf="false">
+            <elementDefinition Id="e0f6fd0e-a6ae-438c-9534-eacf91566e1a" />
+            <flowNodeTargets>
+              <controlFlow Id="59c4177f-3a28-4d22-9b12-0033cb997513" guard="Cannot Deliver" isLeaf="false">
+                <opaqueActionMoniker Id="60ace3b7-e779-498e-ae20-6c1c5ab90d2b" LastKnownName="Suspend Delivery" />
+                <elementDefinition Id="139b468c-035b-4bba-812e-0005946c075d" />
+              </controlFlow>
+              <controlFlow Id="a17af62f-b1fb-4627-8cad-021343f7a438" guard="Can Deliver" isLeaf="false">
+                <opaqueActionMoniker Id="a503a47c-a4d8-457b-9252-5d7b66832612" LastKnownName="Shipping" />
+                <elementDefinition Id="bd2d9b0b-89c3-4e2b-8bc9-1794ccb3810c" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction Id="cc1fede2-ddcc-4181-b771-ec52fa8a7e51" name="Select Delivery" isLeaf="false">
+            <elementDefinition Id="165781bd-4154-47c3-ae9d-db10b34c55a1" />
+            <flowNodeTargets>
+              <controlFlow Id="6a7fddd1-c9ba-4b10-887d-6502b90632e1" isLeaf="false">
+                <decisionNodeMoniker Id="092efc4f-a7b7-45ff-b16f-f1de5971ca5b" LastKnownName="Decision13" />
+                <elementDefinition Id="b92422e5-ae05-4b31-9683-c9d1541d5973" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="fbd97eb8-39c9-4a12-9add-b7f6419f8c8b" name="Return Order" isLeaf="false">
+            <elementDefinition Id="010a1386-cbb0-4dcc-9875-ecb4a138050f" />
+            <flowNodeTargets>
+              <controlFlow Id="9f8bd673-df76-4448-ba89-12c0ab7bce07" isLeaf="false">
+                <opaqueActionMoniker Id="cdea422d-0884-4aa6-8c2a-bccc3e052b03" LastKnownName="Change Order Status" />
+                <elementDefinition Id="4d46ac59-b046-4420-8812-5c9fc440b78d" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="cdea422d-0884-4aa6-8c2a-bccc3e052b03" name="Change Order Status" isLeaf="false">
+            <elementDefinition Id="8d08c2f8-89b1-4663-919a-10e965b3c40d" />
+            <flowNodeTargets>
+              <controlFlow Id="1164db37-81ca-430c-b650-e2b41bbee574" isLeaf="false">
+                <opaqueActionMoniker Id="df6b13c7-2a04-4830-b153-63c23ac92b68" LastKnownName="View Order" />
+                <elementDefinition Id="f0387b4b-112c-4e1f-989d-24f6cdc08005" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction Id="05177f54-1f96-450d-afd7-6fb1637a09f0" name="Change Order" isLeaf="false">
+            <elementDefinition Id="80ec194a-0c26-4973-9925-a9c755a13030" />
+            <flowNodeTargets>
+              <controlFlow Id="144d861e-1f66-4d3c-8544-b58db0d2d036" isLeaf="false">
+                <opaqueActionMoniker Id="dea0fe9c-a094-45de-a3c3-9e75342475b1" LastKnownName="Apply Currency" />
+                <elementDefinition Id="9adebc34-be54-4610-a3cd-93ff3080f4c7" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode Id="bbde7f8d-6972-4892-a630-2e2e1df842c9" name="Fork5" isLeaf="false">
+            <elementDefinition Id="cb9f1cfb-8842-422d-8645-746fde567fab" />
+            <flowNodeTargets>
+              <controlFlow Id="c04374f3-efec-4e17-bbcb-a770350e5a99" isLeaf="false">
+                <opaqueActionMoniker Id="05177f54-1f96-450d-afd7-6fb1637a09f0" LastKnownName="Change Order" />
+                <elementDefinition Id="326798dc-cca3-4292-93b6-412ade937a5c" />
+              </controlFlow>
+              <controlFlow Id="ff32e943-bb56-471d-9af4-e170d462aa10" isLeaf="false">
+                <opaqueActionMoniker Id="576b42ad-8e33-441e-aed6-e99cf7233035" LastKnownName="Generate Order In Memory" />
+                <elementDefinition Id="512d87a8-c744-42ba-af82-58f9bb600327" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction Id="a8111203-d306-4873-80fa-072dde14ad6b" name="Complete Transaction" isLeaf="false">
+            <elementDefinition Id="1af8cf44-709f-47d8-bf5b-7759276dadc5" />
+            <flowNodeTargets>
+              <controlFlow Id="9b87fa99-487d-409f-8979-a9ad2ffa9a8f" isLeaf="false">
+                <opaqueActionMoniker Id="47a9c588-9039-4596-a939-d323dfb51870" LastKnownName="Change Payment Status" />
+                <elementDefinition Id="b20fde87-3499-476c-866c-7a4d04d0aeb1" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <decisionNode Id="e223a125-dabb-4ec5-90a4-89f5686e7bdb" name="Decision14" isLeaf="false">
+            <elementDefinition Id="027ced70-feaf-413c-85ee-5bfd0534d567" />
+            <flowNodeTargets>
+              <controlFlow Id="a72628bf-1572-43ce-96eb-9d5d78c41e8e" guard="Need Invoice" isLeaf="false">
+                <opaqueActionMoniker Id="80f29668-7686-4d8e-97e6-61eaaedfec5b" LastKnownName="Create Invoice" />
+                <elementDefinition Id="102635aa-ebfa-461c-8bea-7b8de40d8127" />
+              </controlFlow>
+              <controlFlow Id="2868ffc1-169a-4169-b9c6-1979c6e74f3e" isLeaf="false">
+                <activityFinalNodeMoniker Id="0bde3147-a6a9-488c-a28b-3eca2f60c838" LastKnownName="ActivityFinal7" />
+                <elementDefinition Id="6671558c-afe3-4ece-8a46-eaef811aa721" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction Id="d0b7637f-a0ea-46b1-9e23-739fbcefb9a1" name="Expire Shopping Cart" isLeaf="false">
+            <elementDefinition Id="782b8175-f809-469b-bbfc-671cd8480d91" />
+          </opaqueAction>
         </nodes>
       </activity>
     </activityRootModelHasActivity>

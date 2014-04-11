@@ -5,17 +5,6 @@
   name="Kooboo.Commerce.Modeling" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <ownedCommentsInternal>
     <comment
-      Id="1adedf61-0dde-499a-8328-a56aef63d940">
-      <body>Events:
-OrderCreated</body>
-      <annotatedElements>
-        <opaqueActionMoniker
-          Id="78c73f66-9bbf-4a84-b104-8e3ee5e26677"
-          LastKnownName="Create Order"
-          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-      </annotatedElements>
-    </comment>
-    <comment
       Id="7897b4d1-9ab7-4250-8df2-6754de0ae97b">
       <body>ActivityEventHook is just a normal EventHandler.
 
@@ -81,7 +70,7 @@ OrderPaid</body>
       <annotatedElements>
         <opaqueActionMoniker
           Id="04222b74-b08d-4ef0-b582-637a0831ec53"
-          LastKnownName="Complete Transaction"
+          LastKnownName="Change Payment Status"
           LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
       </annotatedElements>
     </comment>
@@ -158,29 +147,7 @@ DeliveryStatusChanged</body>
       <annotatedElements>
         <opaqueActionMoniker
           Id="b9c68e7f-5432-4eb6-b420-3d2cd311e17e"
-          LastKnownName="Update Delivery Status"
-          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-      </annotatedElements>
-    </comment>
-    <comment
-      Id="0f7c5432-58a9-4838-a543-6289f2c6ac78">
-      <body>Event:
-DeliveryRejected</body>
-      <annotatedElements>
-        <opaqueActionMoniker
-          Id="daf5229d-d50a-4fa7-a591-df3dd9341245"
-          LastKnownName="Reject"
-          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-      </annotatedElements>
-    </comment>
-    <comment
-      Id="5cc772bb-97dd-4aed-a716-dcc02988c436">
-      <body>Event:
-OrderPaid</body>
-      <annotatedElements>
-        <opaqueActionMoniker
-          Id="8a76cac3-835d-48f5-9632-5a66d24a87d2"
-          LastKnownName="Pay"
+          LastKnownName="Change Delivery Status"
           LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
       </annotatedElements>
     </comment>
@@ -242,7 +209,7 @@ IShippingRateProvider</body>
     </comment>
     <comment
       Id="189a6521-86c1-4706-9a21-dfcbe6531e56">
-      <body>? todo: determine prices with context</body>
+      <body>determine prices with context</body>
       <annotatedElements>
         <opaqueActionMoniker
           Id="4a6ef2eb-347e-442a-9a98-bde8287d2f50"
@@ -285,13 +252,36 @@ IPaymentProcessor</body>
       </annotatedElements>
     </comment>
     <comment
-      Id="3455df07-95d7-4471-97c5-9149ddcc5add">
-      <body>Event:
-OrderSigned</body>
+      Id="288c0ea1-2f41-4e2b-b562-243dbaaef602">
+      <body>Events:
+
+OrderCreated
+OrderUpdated</body>
       <annotatedElements>
         <opaqueActionMoniker
-          Id="72fe8be0-9cae-48c2-b168-57ec47e88ac7"
-          LastKnownName="Sign "
+          Id="5d1b6457-3837-4c67-87a4-ea32689c108d"
+          LastKnownName="Create/Update Order"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="58dd891e-21bf-4834-8715-48ed6edf29ea">
+      <body>Events:
+OrderStatusChanged</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="8d08c2f8-89b1-4663-919a-10e965b3c40d"
+          LastKnownName="Change Order Status"
+          LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="d60c41e0-bafb-4210-9cbe-2a2d18334b0b">
+      <body>Only execute when create order from shopping cart</body>
+      <annotatedElements>
+        <opaqueActionMoniker
+          Id="782b8175-f809-469b-bbfc-671cd8480d91"
+          LastKnownName="Expire Shopping Cart"
           LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
       </annotatedElements>
     </comment>
@@ -815,45 +805,15 @@ OrderSigned</body>
           </decisionNode>
           <opaqueAction
             Id="78c73f66-9bbf-4a84-b104-8e3ee5e26677"
-            name="Create Order"
+            name="Generate Order In Memory"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="bbc8cb8d-13be-45b7-8b01-ec73e6d7ae94"
-                isLeaf="false">
-                <mergeNodeMoniker
-                  Id="525a3f62-542a-4ed4-b92d-05b811457a5e"
-                  LastKnownName="Merge2"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="e2e41e33-7a77-4aef-9077-fb7072402c9c"
-            name="Update Order"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="b39c3402-e847-4b4e-a46b-5dbfa363eed8"
-                isLeaf="false">
-                <mergeNodeMoniker
-                  Id="525a3f62-542a-4ed4-b92d-05b811457a5e"
-                  LastKnownName="Merge2"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="4ddb5f6d-77f7-4d41-b009-7cdb7a6fa79c"
-            name="Change Order Items"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="1d359ccd-e812-46dd-94c4-58d3496b7878"
+                Id="01cfd8b4-77df-4fa0-8982-6307a786a5c5"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="e2e41e33-7a77-4aef-9077-fb7072402c9c"
-                  LastKnownName="Update Order"
+                  Id="f3e1bd13-e9a5-467c-9e27-e9e0f29bd863"
+                  LastKnownName="Apply Currency"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -864,11 +824,11 @@ OrderSigned</body>
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="cf599aa7-846e-463c-b86f-4170a6f32a9d"
+                Id="69545e9b-ed77-4bd1-aa43-dcc0019d31c6"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="a527e35b-389c-4df0-a0b3-96dfe8fe76ae"
-                  LastKnownName="View Order"
+                  Id="5d1b6457-3837-4c67-87a4-ea32689c108d"
+                  LastKnownName="Create/Update Order"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1106,35 +1066,12 @@ OrderSigned</body>
                   LastKnownName="Apply Promotions"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
-              <controlFlow
-                Id="9d144d51-6c94-4274-9f63-3c3d320ac2c6"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="6ab18919-3c77-44e7-8ca5-0b44d03a02dd"
-                  LastKnownName="Calculate Item Prices"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
             </flowNodeTargets>
           </forkNode>
           <activityFinalNode
             Id="584ee648-82c7-4c46-b0a5-ef972180a8dc"
             name="ActivityFinal5"
             isLeaf="false" />
-          <opaqueAction
-            Id="6ab18919-3c77-44e7-8ca5-0b44d03a02dd"
-            name="Calculate Item Prices"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="6060041b-28b0-42e8-8882-280f367af0a6"
-                isLeaf="false">
-                <joinNodeMoniker
-                  Id="bbc699d9-fe24-41d9-b2a2-c43cf40c0ff0"
-                  LastKnownName="Join21"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
           <opaqueAction
             Id="0d59c4fd-c6c7-4ee8-ac9e-3b66db88d6a1"
             name="Calulate Weight &amp; Packages"
@@ -1365,21 +1302,6 @@ OrderSigned</body>
             </flowNodeTargets>
           </mergeNode>
           <mergeNode
-            Id="525a3f62-542a-4ed4-b92d-05b811457a5e"
-            name="Merge2"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="a7e27f67-4ab0-4944-8de6-a333a9eb78ab"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="f3e1bd13-e9a5-467c-9e27-e9e0f29bd863"
-                  LastKnownName="Select/Apply Currency"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </mergeNode>
-          <mergeNode
             Id="5a0fae8b-a6ee-4a86-927b-442bcd3a87e3"
             name="Merge3"
             isLeaf="false">
@@ -1389,14 +1311,14 @@ OrderSigned</body>
                 isLeaf="false">
                 <opaqueActionMoniker
                   Id="78c73f66-9bbf-4a84-b104-8e3ee5e26677"
-                  LastKnownName="Create Order"
+                  LastKnownName="Generate Order In Memory"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
           </mergeNode>
           <opaqueAction
             Id="f3e1bd13-e9a5-467c-9e27-e9e0f29bd863"
-            name="Select/Apply Currency"
+            name="Apply Currency"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
@@ -1409,48 +1331,25 @@ OrderSigned</body>
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <opaqueAction
-            Id="850848d2-baae-4cd1-8c67-97b04c41ec29"
-            name="Change Currency"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="952f59eb-44e6-4826-9a5d-516ae4a37017"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="f3e1bd13-e9a5-467c-9e27-e9e0f29bd863"
-                  LastKnownName="Select/Apply Currency"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
           <forkNode
             Id="e6b081ca-5999-47c4-a248-3031a5cb7bd8"
             name="Fork3"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="8217a3fc-c804-4ba2-ad27-d14a0367aaa6"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="850848d2-baae-4cd1-8c67-97b04c41ec29"
-                  LastKnownName="Change Currency"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-              <controlFlow
-                Id="8856db4c-7483-43c9-927c-657848b1ac52"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="4ddb5f6d-77f7-4d41-b009-7cdb7a6fa79c"
-                  LastKnownName="Change Order Items"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-              <controlFlow
                 Id="2aee6542-bff0-4a58-8243-6df0824cd7c2"
                 isLeaf="false">
                 <opaqueActionMoniker
                   Id="a88bd5ee-0358-4758-856a-7e5f8c21f7a1"
                   LastKnownName="Split Order"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="502ceee2-1510-4257-8d86-8a4c8cd24121"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="010a1386-cbb0-4dcc-9875-ecb4a138050f"
+                  LastKnownName="Return Order"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1531,39 +1430,16 @@ OrderSigned</body>
             </flowNodeTargets>
           </opaqueAction>
           <opaqueAction
-            Id="fd9e0f01-9790-4c9a-a4e5-ef979a826846"
-            name="Suspend Transaction"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="88133e9f-18f2-42b3-9c74-b8882477fe94"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="83ab1154-1344-4ad2-ae7a-f2033c3ec0a6"
-                  LastKnownName="Process Payment"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
             Id="04222b74-b08d-4ef0-b582-637a0831ec53"
-            name="Complete Transaction"
+            name="Change Payment Status"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="67130bf1-dc4b-4f94-a363-b4e2eb6f2226"
+                Id="75386a3e-63c3-4c66-aced-dc26282cacef"
                 isLeaf="false">
-                <activityFinalNodeMoniker
-                  Id="55384645-9a69-4bf6-a00a-8a0670c28db7"
-                  LastKnownName="ActivityFinal7"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-              <controlFlow
-                Id="f45832da-cbc6-45a3-9940-f6f2a3006517"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="7a36ec56-0d96-462b-abc8-e76412c58d2e"
-                  LastKnownName="Create Invoice"
+                <decisionNodeMoniker
+                  Id="027ced70-feaf-413c-85ee-5bfd0534d567"
+                  LastKnownName="Decision14"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1579,21 +1455,6 @@ OrderSigned</body>
                 <decisionNodeMoniker
                   Id="c23ea964-2774-425a-94b2-5bdf18859341"
                   LastKnownName="Decision11"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="fc5d2cb8-d4f5-4061-9da0-0b7e3f3dc120"
-            name="Retry Payment"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="7759d468-1fbb-4a96-9e34-57c97a1210ae"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="3f87e5f1-1688-4040-b377-ee0947a62997"
-                  LastKnownName="Renew Transaction"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1623,21 +1484,21 @@ OrderSigned</body>
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="0ca0a00a-9cf6-4bf3-b6ef-59beb0ba77cb"
-                guard="Payment Accepted"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="fd9e0f01-9790-4c9a-a4e5-ef979a826846"
-                  LastKnownName="Suspend Transaction"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-              <controlFlow
                 Id="9e19f47b-c620-4a97-9a25-6632ef617470"
                 guard="Payment ShakeHand Failed"
                 isLeaf="false">
                 <opaqueActionMoniker
                   Id="74ddcdb6-e842-426c-9276-090fd2a101fc"
                   LastKnownName="Cancel Transaction"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="98921ea2-fd1c-4ed4-871e-159ca2e265ad"
+                guard="Payment Accepted"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="83ab1154-1344-4ad2-ae7a-f2033c3ec0a6"
+                  LastKnownName="Process Payment"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1648,24 +1509,6 @@ OrderSigned</body>
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="b88e4944-0de6-4f9d-8f36-17b7bb77a70b"
-                guard="Payment Success"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="04222b74-b08d-4ef0-b582-637a0831ec53"
-                  LastKnownName="Complete Transaction"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-              <controlFlow
-                Id="cedfa641-04ec-4121-9bca-ee98702a5b3e"
-                guard="Payment Failure"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="fc5d2cb8-d4f5-4061-9da0-0b7e3f3dc120"
-                  LastKnownName="Retry Payment"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-              <controlFlow
                 Id="e2dfac32-f399-41ed-bbf2-a97f0bd06bcd"
                 guard="Payment Failure"
                 isLeaf="false">
@@ -1674,23 +1517,17 @@ OrderSigned</body>
                   LastKnownName="Cancel Transaction"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
-            </flowNodeTargets>
-          </decisionNode>
-          <opaqueAction
-            Id="3f87e5f1-1688-4040-b377-ee0947a62997"
-            name="Renew Transaction"
-            isLeaf="false">
-            <flowNodeTargets>
               <controlFlow
-                Id="49d76d07-8e65-470f-a9cc-314c37a15ed4"
+                Id="3505db05-2b93-45a1-8f6f-c651da6ddc77"
+                guard="Payment Success"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="9069e969-055f-4fa7-b512-c11f45ab0565"
-                  LastKnownName="Request Payment"
+                  Id="1af8cf44-709f-47d8-bf5b-7759276dadc5"
+                  LastKnownName="Complete Transaction"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
-          </opaqueAction>
+          </decisionNode>
           <opaqueAction
             Id="a88bd5ee-0358-4758-856a-7e5f8c21f7a1"
             name="Split Order"
@@ -1712,11 +1549,11 @@ OrderSigned</body>
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="53753ee1-6cc8-429c-8a39-09edc754408b"
+                Id="ede81a88-bc07-4915-9ee8-2e3f831befa9"
                 isLeaf="false">
-                <opaqueActionMoniker
-                  Id="78c73f66-9bbf-4a84-b104-8e3ee5e26677"
-                  LastKnownName="Create Order"
+                <forkNodeMoniker
+                  Id="cb9f1cfb-8842-422d-8645-746fde567fab"
+                  LastKnownName="Fork5"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1742,26 +1579,11 @@ OrderSigned</body>
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="b8a8aba0-f103-4c2b-b409-da38f1e540a6"
+                Id="a4da93f4-4c9e-4f4b-a674-a778b2591f7c"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="8e88e1ed-d046-4445-8988-75b04fafe365"
-                  LastKnownName="Stocking"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="8e88e1ed-d046-4445-8988-75b04fafe365"
-            name="Stocking"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="f6445443-5510-4f53-8796-78c87cd6868f"
-                isLeaf="false">
-                <decisionNodeMoniker
-                  Id="90d2a796-efe0-4c50-9926-4a7412f5f65e"
-                  LastKnownName="Decision13"
+                  Id="165781bd-4154-47c3-ae9d-db10b34c55a1"
+                  LastKnownName="Select Delivery"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1787,34 +1609,11 @@ OrderSigned</body>
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="c039151e-7ae5-4c16-86e2-8504cfbdcef1"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="3c5052dd-681d-43cf-8060-886243ab92d5"
-                  LastKnownName="Receive"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-              <controlFlow
                 Id="a7f6147b-c219-4137-b7e1-18dcbad52929"
                 isLeaf="false">
                 <opaqueActionMoniker
                   Id="b9c68e7f-5432-4eb6-b420-3d2cd311e17e"
-                  LastKnownName="Update Delivery Status"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="3c5052dd-681d-43cf-8060-886243ab92d5"
-            name="Receive"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="e97a1bb9-637b-42b8-a1d9-c5989a6e46d1"
-                isLeaf="false">
-                <decisionNodeMoniker
-                  Id="b7fd5950-4481-486e-95cf-e4c72aa87462"
-                  LastKnownName="Decision14"
+                  LastKnownName="Change Delivery Status"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1834,46 +1633,17 @@ OrderSigned</body>
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <activityFinalNode
-            Id="bbff9e7d-22d8-4a69-94e0-a82428e7d621"
-            name="ActivityFinal8"
-            isLeaf="false" />
-          <decisionNode
-            Id="90d2a796-efe0-4c50-9926-4a7412f5f65e"
-            name="Decision13"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="346adfb9-8d20-427b-b8aa-48798c4e4aae"
-                guard="Inventory Shortage"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="16af5f18-75fd-4c44-9fef-e88abe309b42"
-                  LastKnownName="Suspend Delivery"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-              <controlFlow
-                Id="b789633e-659e-494e-b69f-c510c630268f"
-                guard="In Stock"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="4912a9de-7419-47bb-9162-a23b54cc1e7e"
-                  LastKnownName="Shipping"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </decisionNode>
           <opaqueAction
             Id="16af5f18-75fd-4c44-9fef-e88abe309b42"
             name="Suspend Delivery"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="41d5e138-28c9-477f-9857-6acf71dee516"
+                Id="81c579f6-e505-4053-a7e3-7e32b24d6e20"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="8e88e1ed-d046-4445-8988-75b04fafe365"
-                  LastKnownName="Stocking"
+                  Id="165781bd-4154-47c3-ae9d-db10b34c55a1"
+                  LastKnownName="Select Delivery"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
@@ -1881,14 +1651,33 @@ OrderSigned</body>
           <opaqueAction
             Id="410e9eb3-4952-4c41-9890-b9d0e249db71"
             name="Request Delivery Status"
-            isLeaf="false" />
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="2c2de843-a1d2-483d-a157-c55f6c2677a0"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="b9c68e7f-5432-4eb6-b420-3d2cd311e17e"
+                  LastKnownName="Change Delivery Status"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
           <opaqueAction
             Id="d04512a8-b6e1-44a0-b1d4-c505947c2c82"
             name="View Delivery"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="17ea6d4d-d501-491c-b1e6-ed1d183c4701"
+                Id="cfce3d74-312e-4002-95f7-3a52ef2b3060"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="dc8ad4e7-fa7c-43cd-98dc-afe7e088b549"
+                  LastKnownName="ActivityFinal1"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="ce4a72be-e209-4bd9-bff6-f70163a48231"
                 isLeaf="false">
                 <opaqueActionMoniker
                   Id="410e9eb3-4952-4c41-9890-b9d0e249db71"
@@ -1899,74 +1688,19 @@ OrderSigned</body>
           </opaqueAction>
           <opaqueAction
             Id="b9c68e7f-5432-4eb6-b420-3d2cd311e17e"
-            name="Update Delivery Status"
+            name="Change Delivery Status"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="08187545-d29e-4965-968a-03946d09899a"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="410e9eb3-4952-4c41-9890-b9d0e249db71"
-                  LastKnownName="Request Delivery Status"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="72fe8be0-9cae-48c2-b168-57ec47e88ac7"
-            name="Sign "
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="3cb7a1be-c1af-46d4-8219-43a45eebb7af"
-                isLeaf="false">
-                <decisionNodeMoniker
-                  Id="e9e7f309-b9db-4085-a090-5c4383b63cb2"
-                  LastKnownName="Decision15"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </opaqueAction>
-          <opaqueAction
-            Id="daf5229d-d50a-4fa7-a591-df3dd9341245"
-            name="Reject"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="f5baf7f2-b1af-4e96-842c-4c0c704fdae0"
+                Id="7afbe76b-725a-4028-a60e-4530a3a88410"
                 isLeaf="false">
                 <activityFinalNodeMoniker
-                  Id="bbff9e7d-22d8-4a69-94e0-a82428e7d621"
-                  LastKnownName="ActivityFinal8"
+                  Id="dc8ad4e7-fa7c-43cd-98dc-afe7e088b549"
+                  LastKnownName="ActivityFinal1"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
-          <decisionNode
-            Id="b7fd5950-4481-486e-95cf-e4c72aa87462"
-            name="Decision14"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="29e79bea-f11a-42b3-8b6b-cdb5bec053ad"
-                guard="Accept"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="72fe8be0-9cae-48c2-b168-57ec47e88ac7"
-                  LastKnownName="Sign "
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-              <controlFlow
-                Id="0a72b45d-033a-4539-a1ac-36fca6f3fbd9"
-                guard="Reject"
-                isLeaf="false">
-                <opaqueActionMoniker
-                  Id="daf5229d-d50a-4fa7-a591-df3dd9341245"
-                  LastKnownName="Reject"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </decisionNode>
           <forkNode
             Id="37c5c8bc-026d-471e-b692-98c3464cde86"
             name="Fork4"
@@ -1981,7 +1715,7 @@ OrderSigned</body>
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
               <controlFlow
-                Id="0a9d4daa-7bb6-4693-a562-b703271818ad"
+                Id="3896d22d-8c60-48de-8c5b-0920c1e986b5"
                 isLeaf="false">
                 <opaqueActionMoniker
                   Id="d04512a8-b6e1-44a0-b1d4-c505947c2c82"
@@ -1990,48 +1724,187 @@ OrderSigned</body>
               </controlFlow>
             </flowNodeTargets>
           </forkNode>
-          <decisionNode
-            Id="e9e7f309-b9db-4085-a090-5c4383b63cb2"
-            name="Decision15"
+          <activityFinalNode
+            Id="720bf10f-650f-4970-ba6f-95e5e2bba11b"
+            name="ActivityFinal9"
+            isLeaf="false" />
+          <opaqueAction
+            Id="5d1b6457-3837-4c67-87a4-ea32689c108d"
+            name="Create/Update Order"
             isLeaf="false">
             <flowNodeTargets>
               <controlFlow
-                Id="110dbc1c-212c-419b-8956-00f2da9a1285"
-                guard="Need to Pay"
+                Id="ba1e6620-a73b-4404-8ced-55b25945ecd5"
                 isLeaf="false">
                 <opaqueActionMoniker
-                  Id="8a76cac3-835d-48f5-9632-5a66d24a87d2"
-                  LastKnownName="Pay"
+                  Id="a527e35b-389c-4df0-a0b3-96dfe8fe76ae"
+                  LastKnownName="View Order"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
               <controlFlow
-                Id="edec1f0a-0e74-422e-a2b2-defa2156502c"
+                Id="fee64e9f-c025-49e9-ba31-ba2d6941dccf"
                 isLeaf="false">
-                <activityFinalNodeMoniker
-                  Id="bbff9e7d-22d8-4a69-94e0-a82428e7d621"
-                  LastKnownName="ActivityFinal8"
-                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
-              </controlFlow>
-            </flowNodeTargets>
-          </decisionNode>
-          <opaqueAction
-            Id="8a76cac3-835d-48f5-9632-5a66d24a87d2"
-            name="Pay"
-            isLeaf="false">
-            <flowNodeTargets>
-              <controlFlow
-                Id="88c2afc3-e724-40f8-98ad-a12d1347d14f"
-                isLeaf="false">
-                <activityFinalNodeMoniker
-                  Id="bbff9e7d-22d8-4a69-94e0-a82428e7d621"
-                  LastKnownName="ActivityFinal8"
+                <opaqueActionMoniker
+                  Id="782b8175-f809-469b-bbfc-671cd8480d91"
+                  LastKnownName="Expire Shopping Cart"
                   LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
               </controlFlow>
             </flowNodeTargets>
           </opaqueAction>
           <activityFinalNode
-            Id="720bf10f-650f-4970-ba6f-95e5e2bba11b"
-            name="ActivityFinal9"
+            Id="dc8ad4e7-fa7c-43cd-98dc-afe7e088b549"
+            name="ActivityFinal1"
+            isLeaf="false" />
+          <decisionNode
+            Id="e0f6fd0e-a6ae-438c-9534-eacf91566e1a"
+            name="Decision13"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="139b468c-035b-4bba-812e-0005946c075d"
+                guard="Cannot Deliver"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="16af5f18-75fd-4c44-9fef-e88abe309b42"
+                  LastKnownName="Suspend Delivery"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="bd2d9b0b-89c3-4e2b-8bc9-1794ccb3810c"
+                guard="Can Deliver"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="4912a9de-7419-47bb-9162-a23b54cc1e7e"
+                  LastKnownName="Shipping"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction
+            Id="165781bd-4154-47c3-ae9d-db10b34c55a1"
+            name="Select Delivery"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b92422e5-ae05-4b31-9683-c9d1541d5973"
+                isLeaf="false">
+                <decisionNodeMoniker
+                  Id="e0f6fd0e-a6ae-438c-9534-eacf91566e1a"
+                  LastKnownName="Decision13"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="010a1386-cbb0-4dcc-9875-ecb4a138050f"
+            name="Return Order"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="4d46ac59-b046-4420-8812-5c9fc440b78d"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="8d08c2f8-89b1-4663-919a-10e965b3c40d"
+                  LastKnownName="Change Order Status"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="8d08c2f8-89b1-4663-919a-10e965b3c40d"
+            name="Change Order Status"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="f0387b4b-112c-4e1f-989d-24f6cdc08005"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="a527e35b-389c-4df0-a0b3-96dfe8fe76ae"
+                  LastKnownName="View Order"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="80ec194a-0c26-4973-9925-a9c755a13030"
+            name="Change Order"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="9adebc34-be54-4610-a3cd-93ff3080f4c7"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="f3e1bd13-e9a5-467c-9e27-e9e0f29bd863"
+                  LastKnownName="Apply Currency"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <forkNode
+            Id="cb9f1cfb-8842-422d-8645-746fde567fab"
+            name="Fork5"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="326798dc-cca3-4292-93b6-412ade937a5c"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="80ec194a-0c26-4973-9925-a9c755a13030"
+                  LastKnownName="Change Order"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="512d87a8-c744-42ba-af82-58f9bb600327"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="78c73f66-9bbf-4a84-b104-8e3ee5e26677"
+                  LastKnownName="Generate Order In Memory"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </forkNode>
+          <opaqueAction
+            Id="1af8cf44-709f-47d8-bf5b-7759276dadc5"
+            name="Complete Transaction"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="b20fde87-3499-476c-866c-7a4d04d0aeb1"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="04222b74-b08d-4ef0-b582-637a0831ec53"
+                  LastKnownName="Change Payment Status"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <decisionNode
+            Id="027ced70-feaf-413c-85ee-5bfd0534d567"
+            name="Decision14"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="102635aa-ebfa-461c-8bea-7b8de40d8127"
+                guard="Need Invoice"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="7a36ec56-0d96-462b-abc8-e76412c58d2e"
+                  LastKnownName="Create Invoice"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="6671558c-afe3-4ece-8a46-eaef811aa721"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="55384645-9a69-4bf6-a00a-8a0670c28db7"
+                  LastKnownName="ActivityFinal7"
+                  LastKnownLocation="Kooboo.Commerce.Modeling.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction
+            Id="782b8175-f809-469b-bbfc-671cd8480d91"
+            name="Expire Shopping Cart"
             isLeaf="false" />
         </nodes>
       </activity>
