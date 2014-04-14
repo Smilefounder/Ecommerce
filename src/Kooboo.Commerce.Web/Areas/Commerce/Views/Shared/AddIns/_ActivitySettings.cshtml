@@ -2,10 +2,14 @@
     Layout = "~/Views/Shared/Popup.cshtml";
 }
 
-<div class="block">
+<div class="topbar">
     <h1 class="title">@ViewBag.Title</h1>
-    <div class="step-content clearfix">
-        @RenderBody()
+</div>
+<div class="warp">
+    <div class="block">
+        <div class="step-content clearfix">
+            @RenderBody()
+        </div>
     </div>
 </div>
 

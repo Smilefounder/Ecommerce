@@ -221,14 +221,13 @@
 
             this.addRule = function (name) {
                 _this.beginRuleContext(null);
-                ConditionsEditor.reset();
                 ConditionsEditor.open();
             }
 
             this.editRule = function (rule) {
                 _this.beginRuleContext(rule);
                 ConditionsEditor.open({
-                    conditionsExpression: rule.conditionsExpression()
+                    expression: rule.conditionsExpression()
                 });
             }
 

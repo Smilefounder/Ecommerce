@@ -81,23 +81,12 @@ namespace Kooboo.Commerce.Data
         public void Commit()
         {
             var transaction = Transaction;
-
-            try
+            if (transaction == null)
             {
-                if (transaction == null)
-                {
-                    transaction = BeginTransaction();
-                }
+                transaction = BeginTransaction();
+            }
 
-                transaction.Commit();
-            }
-            finally
-            {
-                if (transaction != null)
-                {
-                    transaction.Dispose();
-                }
-            }
+            transaction.Commit();
         }
 
         private void AssertNoCurrentTransaction()

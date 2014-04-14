@@ -39,6 +39,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return model.Conditions.GetExpression();
         }
 
+        public string PrettifyConditionsExpression(string expression, string contextModelType)
+        {
+            return new ConditionsExpressionPrettifier().Prettify(expression, System.Type.GetType(contextModelType, true));
+        }
+
         public ActionResult GetConditionModels(string expression, string contextModelType)
         {
             try

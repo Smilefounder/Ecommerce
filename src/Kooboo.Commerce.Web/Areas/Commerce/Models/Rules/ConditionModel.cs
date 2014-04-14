@@ -8,12 +8,20 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 {
+    public enum ConditionLogicalOperator
+    {
+        AND = 0,
+        OR = 1,
+        ThenAND = 2,
+        ThenOR = 3
+    }
+
     public class ConditionModel
     {
         /// <summary>
-        /// The logical operator to connect this condition with last condition.
+        /// The logical operator to connect last condition with this condition .
         /// </summary>
-        public LogicalOperator LogicalOperator { get; set; }
+        public ConditionLogicalOperator LogicalOperator { get; set; }
 
         public string ParamName { get; set; }
 
@@ -25,53 +33,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public bool IsNumberValue { get; set; }
 
-        public bool IsGroup { get; set; }
-
-        public IList<ConditionModel> Conditions { get; set; }
-
-        public ConditionModel()
-        {
-            Conditions = new List<ConditionModel>();
-        }
-
-        public void AddConditions(IEnumerable<ConditionModel> conditions)
-        {
-            foreach (var condition in conditions)
-            {
-                Conditions.Add(condition);
-            }
-        }
-
         public string GetExpression()
         {
-            var exp = new StringBuilder();
-
-            if (IsGroup)
+            var value = Value;
+            if (!IsNumberValue)
             {
-                exp.Append("(");
-                exp.Append(Conditions.GetExpression());
-                exp.Append(")");
-            }
-            else
-            {
-                exp.Append(ParamName).Append(" ").Append(ComparisonOperators.TryGetOperatorShortcut(ComparisonOperator)).Append(" ");
-
-                if (IsNumberValue)
-                {
-                    exp.Append(Value);
-                }
-                else
-                {
-                    exp.Append("\"").Append(Value).Append("\"");
-                }
+                value = "\"" + value + "\"";
             }
 
-            return exp.ToString();
+            return ParamName + " " + ComparisonOperator + " " + value;
         }
 
         public override string ToString()
         {
-            return LogicalOperator + " " + ParamName + " " + ComparisonOperator + " " + Value;
+            return GetExpression();
         }
     }
 }

@@ -2290,6 +2290,7 @@
     <Content Include="Areas\Commerce\Views\ShippingMethod\Steps.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Complete.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_SimpleCustomFields.cshtml" />
+    <Content Include="Areas\Commerce\Styles\kooboo-commerce.less" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

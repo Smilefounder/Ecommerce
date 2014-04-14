@@ -28,10 +28,7 @@
                     <div data-bind="visible: attachedActivities().length > 0" style="display:none">
                         <ul data-bind="foreach: attachedActivities" class="attached-activities">
                             <li>
-                                <span style="display:inline-block">
-                                    @Html.IconImage("chevron-right-gray")
-                                </span>
-                                <span data-bind="html: description"></span>
+                                <span data-bind="html: description" style="font-size:14px"></span>
                                 <a href="#" data-bind="click: $parent.editAttachedActivity" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a>
                                 <a href="#" data-bind="visible: configUrl, click: $parent.configureAttachedActivity" title="@("Settings".Localize())">@Html.IconImage("edit-small")</a>
                                 <a href="#" data-bind="click: $parent.detachActivity" title="@("Detach".Localize())">@Html.IconImage("minus-small")</a>
@@ -39,16 +36,15 @@
                         </ul>
                     </div>
                     <div>
-                        <a href="#" style="display:inline-block" data-bind="click: beginAttachActivity" title="Attach activity">@Html.IconImage("plus-small")</a>
-                    </div>
-                    <div data-bind="visible: isAttachingActivity" style="display:none">
-                        <div data-bind="visible: $root.availableActivities().length > 0">
-                            <select class="large" data-bind="options: $root.availableActivities, optionsText: 'displayName', optionsValue: 'name', value: selectedActivityName"></select>
-                            <a href="#" class="button" data-bind="click: openAttachActivityDialog">@("Attach".Localize())</a>
-                            <a href="#" class="button gray" data-bind="click: cancelAttachActivity">@("Cancel".Localize())</a>
+                        <div>
+                            <a href="#" style="display:inline-block" data-bind="click: beginAttachActivity" title="Attach activity">@Html.IconImage("plus-small")</a>
                         </div>
-                        <div data-bind="visible: $root.availableActivities().length == 0">
-                            @("There's no activity available for this event, ensure you have related plugins installed".Localize())
+                        <div data-bind="visible: isAttachingActivity" style="display:none">
+                            <div>
+                                <select class="large" data-bind="options: $root.availableActivities, optionsText: 'displayName', optionsValue: 'name', value: selectedActivityName"></select>
+                                <a href="#" class="button" data-bind="click: openAttachActivityDialog">@("Attach".Localize())</a>
+                                <a href="#" class="button gray" data-bind="click: cancelAttachActivity">@("Cancel".Localize())</a>
+                            </div>
                         </div>
                     </div>
                 </div>

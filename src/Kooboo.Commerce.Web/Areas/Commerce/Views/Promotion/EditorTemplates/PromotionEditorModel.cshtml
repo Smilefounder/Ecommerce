@@ -52,6 +52,7 @@
 <script>
     $(function () {
 
+        var commerceName = '@(Request.QueryString["commerceName"])';
         // Coupon code
         var $requireCoupon = $(':checkbox[name="RequireCouponCode"]');
 
@@ -88,19 +89,30 @@
         }
 
         // Conditions Editing
+        var contextModelType = '@Html.Raw(typeof(Kooboo.Commerce.Promotions.PromotionConditionContextModel).AssemblyQualifiedNameWithoutVersion())';
+
         ConditionsEditor.init({
-            contextModelTypeName: '@Html.Raw(typeof(Kooboo.Commerce.Promotions.PromotionConditionContextModel).AssemblyQualifiedNameWithoutVersion())',
+            contextModelTypeName: contextModelType,
             save: function (exp) {
                 $(':hidden[name="ConditionsExpression"]').val(exp);
                 $('.conditions-expression').html(exp);
                 ConditionsEditor.close();
+
+                $.get('@Url.Action("PrettifyConditionsExpression", "Condition")', {
+                    expression: exp,
+                    contextModelType: contextModelType,
+                    commerceName: commerceName
+                })
+                .done(function (html) {
+                    $('.conditions-expression').html(html);
+                });
             }
         });
 
         $('.btn-edit-conditions').on('click', function () {
-            var conditionsExpression = $(':hidden[name="ConditionsExpression"]').val();
+            var expression = $(':hidden[name="ConditionsExpression"]').val();
             ConditionsEditor.open({
-                conditionsExpression: conditionsExpression
+                expression: expression
             });
             return false;
         });

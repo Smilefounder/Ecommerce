@@ -64,6 +64,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var attachedActivity = rule.AttacheActivity(model.RuleBranch, model.Description, model.ActivityName, null);
             attachedActivity.IsEnabled = model.IsEnabled;
 
+            CommerceContext.CurrentInstance.Database.Commit();
+
             var configUrl = String.Empty;
 
             var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);

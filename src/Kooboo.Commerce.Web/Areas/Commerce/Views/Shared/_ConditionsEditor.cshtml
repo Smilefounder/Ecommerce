@@ -1,33 +1,69 @@
 ﻿
 <div id="conditions-editor" style="display:none">
     <div class="topbar">
-        <h1 class="title">@("Add Rule".Localize())</h1>
-        <ul class="button-switcher right">
-            <li data-bind="css: { active: mode() == 'standard' }"><a href="#" data-bind="click: switchToStandardMode">@("Standard mode".Localize())</a></li>
-            <li data-bind="css: { active: mode() == 'expert' }"><a href="#" data-bind="click: switchToExpertMode">@("Expert mode".Localize())</a></li>
-        </ul>
+        <h1 class="title">@("Rule Conditions".Localize())</h1>
     </div>
     <div class="wrap">
-        <div class="block conditions">
-            <!-- ko if: mode() == 'standard' -->
-            <div class="toolbar">
-                <a href="#" data-bind="click: addCondition" class="button">@("Add Condition".Localize())</a>
-                <a href="#" data-bind="click: addGroup" class="button">@("Add Group".Localize())</a>
+        <div class="block conditions" style="width:550px">
+            <div data-bind="foreach: conditions">
+                <div style="padding-bottom:10px">
+                    <div class="clearfix" data-bind="if: !isEditing()">
+                        <div class="container">
+                            <div class="columns">
+                                <div class="span8" style="font-size:14px">
+                                    <span data-bind="visible: $index() > 0">
+                                        <span data-bind="text: logicalOperatorDisplayText"></span>
+                                   </span>
+                                    <span data-bind="text: paramName"></span>
+                                    <span data-bind="text: comparisonOperatorDisplayText"></span>
+                                    <span data-bind="html: valueDisplayText"></span>
+                                </div>
+                                <div class="span4">
+                                    <a class="action" data-bind="click: edit">@Html.IconImage("edit-small")</a>
+                                    <a class="action" data-bind="click: $root.removeCondition">@Html.IconImage("minus-small")</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix" data-bind="if: isEditing">
+                        <div class="container">
+                            <div class="columns">
+                                <div class="span4">
+                                    <select data-bind="value: temp.logicalOperator">
+                                        <option value="AND">AND</option>
+                                        <option value="OR">OR</option>
+                                        <option value="ThenAND">Then AND</option>
+                                        <option value="ThenOR">Then OR</option>
+                                    </select>
+                                </div>
+                                <div class="span8">
+                                    <select data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: temp.paramName"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container" style="margin-top:5px">
+                            <div class="columns">
+                                <div class="span4">
+                                    <select data-bind="options: temp.availableOperators, optionsText: 'displayName', optionsValue: 'name', value: temp.comparisonOperator"></select>
+                                </div>
+                                <div class="span8">
+                                    <!-- ko if: temp.hasMultipleValues -->
+                                    <select data-bind="options: temp.values, optionsText: 'text', optionsValue: 'value', value: temp.value"></select>
+                                    <!-- /ko -->
+                                    <!-- ko if: !temp.hasMultipleValues() -->
+                                    <input type="text" data-bind="value: temp.value" />
+                                    <!-- /ko -->
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding:5px 0">
+                            <a href="#" class="button" data-bind="click: commitEditing">@("Save".Localize())</a>
+                            <a href="#" class="button gray" data-bind="click: cancelEditing">@("Cancel".Localize())</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="box">
-                <!-- ko foreach: conditions -->
-                <div data-bind="template: { name: 'ConditionTemplate' }"></div>
-                <!-- /ko -->
-            </div>
-            <!-- /ko-->
-            <!-- ko if: mode() == 'expert' -->
-            <textarea data-bind="value: expression"></textarea>
-            <div data-bind="visible: expressionErrors().length > 0" class="text-red">
-                <ul data-bind="foreach: expressionErrors">
-                    <li data-bind="text: $data"></li>
-                </ul>
-            </div>
-            <!-- /ko-->
+            <a href="#" data-bind="click: addCondition">@Html.IconImage("plus")</a>
         </div>
     </div>
     <div class="buttons">
@@ -36,125 +72,120 @@
     </div>
 </div>
 
-<script type="text/html" id="ConditionTemplate">
-    <!-- ko if: isGroup -->
-    <div class="condition-group">
-        <div class="toolbar">
-            <a class="button" href="#" data-bind="click: addCondition" title="@("Add Conditoin".Localize())">@("Add Condition".Localize())</a>
-            <a class="button" href="#" data-bind="click: addGroup" title="@("Add Group".Localize())">@("Add Group".Localize())</a>
-            <a class="action right" href="#" data-bind="click: $parent.removeCondition" title="@("Remove Group".Localize())">@Html.IconImage("minus")</a>
-            <select class="small right" data-bind="visible: $index() > 0, value: logicalOperator">
-                <option value="AND">AND</option>
-                <option value="OR">OR</option>
-            </select>
-        </div>
-        <div class="container">
-            <div>
-                <!-- ko foreach: conditions -->
-                <div data-bind="template: { name: 'ConditionTemplate' }"></div>
-                <!-- /ko -->
-            </div>
-        </div>
-    </div>
-    <!-- /ko -->
-    <!-- ko if: !isGroup() -->
-    <div data-bind="template: { name: 'NonGroupConditionTemplate' }"></div>
-    <!-- /ko -->
-</script>
-
-<script type="text/html" id="NonGroupConditionTemplate">
-    <div class="condition">
-        <a class="action right" href="#" data-bind="click: $parent.removeCondition" style="display:inline-block;vertical-align:middle">@Html.IconImage("minus")</a>
-        <div class="container">
-
-            <div class="columns">
-                <div class="span2">
-                    <select data-bind="value: logicalOperator, css: { hide: $index() == 0 }">
-                        <option value="AND">AND</option>
-                        <option value="OR">OR</option>
-                    </select>
-                    <!-- ko if: $index() == 0 -->
-                    <span>&nbsp;</span>
-                    <!-- /ko -->
-                </div>
-                <div class="span3"><select data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select></div>
-                <div class="span2"><select data-bind="options: availableOperators, optionsText: 'displayName', optionsValue: 'name', value: comparisonOperator"></select></div>
-                <!-- ko if: hasMultipleValues -->
-                <div class="span5"><select data-bind="options: values, optionsText: 'text', optionsValue: 'value', value: value"></select></div>
-                <!-- /ko -->
-                <!-- ko if: !hasMultipleValues() -->
-                <div class="span5"><input type="text" data-bind="value: value" /></div>
-                <!-- /ko -->
-            </div>
-        </div>
-    </div>
-</script>
-
 <script>
     (function () {
         var commerceName = '@Request["commerceName"]';
-
-        var koMappingConfig = {
-            conditions: {
-                create: function (args) {
-                    var condition = new ConditionViewModel(viewModel);
-                    ko.mapping.fromJS(args.data, koMappingConfig, condition);
-                    return condition;
-                }
-            }
-        };
 
         function ConditionViewModel(root) {
             var _this = this;
             var _root = root;
 
+            this.isNew = ko.observable(false);
+
+            this.isEditing = ko.observable(false);
+
             this.logicalOperator = ko.observable('AND');
 
+            this.logicalOperatorDisplayText = ko.computed(function () {
+                var map = {
+                    'AND': 'AND',
+                    'ThenAND': 'Then AND',
+                    'OR': 'OR',
+                    'ThenOR': 'Then OR'
+                };
+
+                return map[_this.logicalOperator()] || '';
+            });
+
             this.paramName = ko.observable();
-
-            this.comparisonOperator = ko.observable();
-
-            this.value = ko.observable();
-
-            this.isNumberValue = ko.observable();
-
-            this.valueType = ko.observable();
-
-            this.isGroup = ko.observable(false);
-
-            this.conditions = ko.observableArray([]);
 
             this.availableOperators = ko.computed(function () {
                 return _root.availableOperatorsFor(_this.paramName());
             });
 
-            this.addCondition = function () {
-                _this.conditions.push(_root.createCondition());
+            this.comparisonOperator = ko.observable();
+
+            this.comparisonOperatorDisplayText = ko.computed(function () {
+                var op = _.find(_this.availableOperators(), function (x) {
+                    return x.name() == _this.comparisonOperator();
+                });
+
+                if (op) {
+                    return (op.shortcut() || op.displayName());
+                }
+
+                return _this.comparisonOperator() || '';
+            });
+
+            this.isNumberValue = ko.observable();
+
+            this.valueType = ko.observable();
+
+            this.value = ko.observable();
+
+            this.valueDisplayText = ko.computed(function () {
+                if (!_this.isNumberValue()) {
+                    return '"' + _this.value() + '"';
+                }
+
+                return _this.value() || '';
+            });
+
+            this.temp = {
+                logicalOperator: ko.observable(),
+                paramName: ko.observable(),
+                availableOperators: ko.observableArray(),
+                comparisonOperator: ko.observable(),
+                value: ko.observable(),
+                valueType: ko.observable(),
+                isNumberValue: ko.observable(),
+                hasMultipleValues: ko.observable(),
+                values: ko.observableArray()
+            };
+
+            this.edit = function () {
+                _this.temp.logicalOperator(_this.logicalOperator());
+                _this.temp.paramName(_this.paramName());
+                _this.temp.comparisonOperator(_this.comparisonOperator());
+                _this.temp.value(_this.value());                
+                _this.isEditing(true);
             }
 
-            this.addGroup = function () {
-                var group = _root.createCondition();
-                group.isGroup(true);
-                group.addCondition();
-                _this.conditions.push(group);
+            this.commitEditing = function () {
+                _this.logicalOperator(_this.temp.logicalOperator());
+                _this.paramName(_this.temp.paramName());
+                _this.comparisonOperator(_this.temp.comparisonOperator());
+                _this.value(_this.temp.value());
+                _this.isEditing(false);
+                _this.isNew(false);
             }
 
-            this.removeCondition = function (condition) {
-                _this.conditions.remove(condition);
+            this.cancelEditing = function () {
+                if (_this.isNew()) {
+                    _root.removeCondition(_this);
+                } else {
+                    _this.isEditing(false);
+                }
             }
-
-            this.hasMultipleValues = ko.observable();
-
-            this.values = ko.observableArray();
 
             _this.paramName.subscribe(function (name) {
                 var param = _root.findAvailableParameterByName(name);
                 if (param) {
                     _this.valueType(param.valueType());
                     _this.isNumberValue(param.isNumberValue());
-                    _this.hasMultipleValues(param.values().length > 0);
                     _this.value(null);
-                    _this.values(param.values());
+                }
+            });
+
+            _this.temp.paramName.subscribe(function (name) {
+                var param = _root.findAvailableParameterByName(name);
+                if (param) {
+                    _this.temp.availableOperators(_root.availableOperatorsFor(param.name()));
+                    _this.temp.valueType(param.valueType());
+                    _this.temp.isNumberValue(param.isNumberValue());
+                    _this.temp.hasMultipleValues(param.values().length > 0);
+                    _this.temp.value(null);
+                    _this.temp.values(param.values());
                 }
             });
         }
@@ -186,12 +217,6 @@
 
             this.availableParameters = ko.observableArray([]);
 
-            this.mode = ko.observable('standard');
-
-            this.expression = ko.observable();
-
-            this.expressionErrors = ko.observableArray([]);
-
             this.availableOperatorsFor = function (paramName) {
                 if (!paramName) {
                     return [];
@@ -213,6 +238,7 @@
 
             this.createCondition = function () {
                 var condition = new ConditionViewModel(_this);
+                condition.isNew(true);
                 if (_this.availableParameters().length > 0) {
                     condition.paramName(_this.availableParameters()[0].name());
                 }
@@ -220,14 +246,9 @@
             }
 
             this.addCondition = function () {
-                _this.conditions.push(_this.createCondition());
-            }
-
-            this.addGroup = function () {
-                var group = _this.createCondition();
-                group.isGroup(true);
-                group.conditions.push(_this.createCondition());
-                _this.conditions.push(group);
+                var condition = _this.createCondition();
+                _this.conditions.push(condition);
+                condition.edit();
             }
 
             this.removeCondition = function (condition) {
@@ -235,95 +256,42 @@
             }
 
             // sync expression from the model if it's in the 'standard' mode
-            this.syncExpression = function () {
+            this.getExpression = function () {
                 var deferred = $.Deferred();
 
-                if (_this.mode() == 'expert') {
-                    deferred.resolve();
-                } else {
-                    var model = ko.mapping.toJS(_this);
-                    // Only conditions are needed
-                    model = {
-                        conditions: model.conditions
-                    };
+                var model = ko.mapping.toJS(_this);
+                // Only conditions are needed
+                model = {
+                    conditions: model.conditions
+                };
 
-                    $.ajax({
-                        url: '@Url.Action("GetExpression", "Condition")' + '?commerceName=' + commerceName,
-                        type: 'POST',
-                        data: JSON.stringify(model),
-                        contentType: 'application/json; charset=utf-8'
-                    })
-                    .success(function (exp) {
-                        _this.expression(exp);
-                        deferred.resolve();
-                    });
-                }
+                $.ajax({
+                    url: '@Url.Action("GetExpression", "Condition")' + '?commerceName=' + commerceName,
+                    type: 'POST',
+                    data: JSON.stringify(model),
+                    contentType: 'application/json; charset=utf-8'
+                })
+                .done(function (exp) {
+                    deferred.resolve(exp);
+                });
 
                 return deferred.promise();
             }
 
-            this.switchToExpertMode = function () {
-                _this.syncExpression()
-                     .then(function () {
-                         _this.mode('expert');
-                     });
-            }
-
-            this.switchToStandardMode = function () {
-                var exp = $.trim(_this.expression() || '');
-                if (exp.length == 0) {
-                    _this.conditions.removeAll();
-                    _this.expressionErrors.removeAll();
-                    return;
-                }
-
-                _this.compileExpression()
-                     .then(function (result) {
-                         if (result.success) {
-                             _this.conditions.removeAll();
-
-                             var conditions = result.conditions;
-                             $.each(conditions, function () {
-                                 var condition = new ConditionViewModel(_this);
-                                 ko.mapping.fromJS(this, koMappingConfig, condition);
-                                 _this.conditions.push(condition);
-                             });
-                             _this.mode('standard');
-                         }
-                     });
-            }
-
-            this.compileExpression = function () {
-                var deferred = $.Deferred();
+            this.setExpression = function (exp) {
+                _this.conditions.removeAll();
 
                 $.get('@Url.Action("GetConditionModels", "Condition")', {
-                    commerceName: commerceName,
-                    expression: encodeURIComponent(_this.expression() || ''),
-                    contextModelType: _this.contextModelTypeName()
-                })
-                .then(function (result) {
-                    if (result.success) {
-                        deferred.resolve({
-                            success: true,
-                            conditions: result.models
-                        });
-                    } else {
-                        _this.displayErrors(result.errors);
-                        deferred.resolve({
-                            success: false,
-                            errors: result.errors
-                        });
-                    }
-                });
-
-                return deferred.promise();
-            }
-
-            this.displayErrors = function (errors) {
-                _this.expressionErrors.removeAll();
-                $.each(errors, function () {
-                    _this.expressionErrors.push(this);
-                });
+                    expression: exp,
+                    contextModelType: _this.contextModelTypeName(),
+                    commerceName: commerceName
+                 })
+                 .done(function (result) {
+                     $.each(result.models, function (i) {
+                         var condition = new ConditionViewModel(_this);
+                         _this.conditions.push(ko.mapping.fromJS(this, {}, condition));
+                     });
+                 });
             }
         }
 
@@ -343,9 +311,6 @@
                     if (options.contextModelTypeName) {
                         self.model.contextModelTypeName(options.contextModelTypeName);
                     }
-                    if (options.conditionsExpression) {
-                        self.model.expression(options.conditionsExpression);
-                    }
 
                     self.$dialog = $('#conditions-editor').dialog({
                         autoOpen: false,
@@ -360,20 +325,19 @@
                     self.$dialog.find('.J_Save')
                                 .on('click', function (e) {
                                     if (options.save) {
-                                        $('input:focus').blur();
+                                        var anyNotSaved = _.any(self.model.conditions(), function (it) {
+                                            return it.isEditing();
+                                        });
 
-                                        if (self.model.mode() == 'standard') {
-                                            self.model.syncExpression().then(function () {
-                                                options.save.apply(self, [self.model.expression()]);
+                                        if (anyNotSaved) {
+                                            window.info.show('@("You have unsaved conditions, please save them or cancel editing.".Localize())', false);
+                                        } else if (self.model.conditions().length === 0) {
+                                            window.info.show('@("Please add at least one condition")', false);
+                                        } else {
+                                            self.model.getExpression().then(function (exp) {
+                                                options.save.apply(self, [exp]);
                                                 self.close();
                                             });
-                                        } else {
-                                            self.model.compileExpression()
-                                                      .then(function (result) {
-                                                          if (result.success) {
-                                                              options.save.apply(self, [self.model.expression()]);
-                                                          }
-                                                      });
                                         }
                                     }
                                     e.preventDefault();
@@ -394,22 +358,21 @@
                 return deferred.promise();
             },
             open: function (options) {
-                if (options && options.conditionsExpression) {
-                    this.model.expression(options.conditionsExpression);
+                this.model.setExpression(null);
+
+                if (options && options.expression) {
+                    this.model.setExpression(options.expression);
+                } else {
+                    this.model.addCondition();
                 }
 
                 var self = this;
                 self.init().then(function () {
                     self.$dialog.dialog('open');
-                    self.model.switchToStandardMode();
                 });
             },
             close: function () {
                 this.$dialog.dialog('close');
-            },
-            reset: function () {
-                this.model.expression('');
-                this.model.switchToStandardMode();
             }
         };
 

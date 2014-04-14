@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
     {
         private IModelParameterProvider _parameterFactory;
         private List<IParameter> _parameters;
-        private Stack<ConditionModel> _conditions = new Stack<ConditionModel>();
+        private Stack<List<ConditionModel>> _conditionTrees = new Stack<List<ConditionModel>>();
 
         public ConditionModelBuilder(IModelParameterProvider parameterFactory)
         {
@@ -35,13 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
             Visit(Expression.Parse(expression));
 
-            var result = _conditions.Pop();
-            if (result.IsGroup)
-            {
-                return result.Conditions;
-            }
-
-            return new List<ConditionModel> { result };
+            return _conditionTrees.Pop();
         }
 
         protected override void Visit(LogicalBindaryExpression exp)
@@ -49,70 +43,43 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             Visit(exp.Left);
             Visit(exp.Right);
 
-            var rightTree = _conditions.Pop();
-            var leftTree = _conditions.Pop();
+            var rightTreeConditions = _conditionTrees.Pop();
+            var leftTreeConditions = _conditionTrees.Pop();
 
-            rightTree.LogicalOperator = exp.Operator;
-
-            var group = new ConditionModel
-            {
-                IsGroup = true,
-                LogicalOperator = exp.Operator
-            };
-
-            // A group is rendered as a block wrapped with a pair of parenthese.
-            // Before building a conditon group, we need to check if we can trim the redundant parenthese for left and right trees.
-            // For example, the parsed expression tree might be: (A AND B) AND C
-            // In the UI, user will see (A AND B) as a group, so he will see two level conditions, which is not friendly
-            // In this case, we shoud transform the expression to A AND B AND C and show only one level in the UI.
-            // 
-            // But if the expression is A OR (B AND C),
-            // we will leave B AND C as a group to make the ui easier to understand although the parenthses are also redundant.
-
-            // Try trim redundant parenthese for left tree
-            foreach (var condition in TryTrimRedundantParentheseForLeftTree(leftTree, exp.Operator))
-            {
-                group.Conditions.Add(condition);
-            }
-
-            // No need to trim parentheses for right tree.
-            // It should all be kept in this stage.
-            group.Conditions.Add(rightTree);
-
-            _conditions.Push(group);
-        }
-
-        private List<ConditionModel> TryTrimRedundantParentheseForLeftTree(ConditionModel leftTree, LogicalOperator parentOperator)
-        {
             var conditions = new List<ConditionModel>();
+            conditions.AddRange(leftTreeConditions);
 
-            if (!leftTree.IsGroup)
+            if (leftTreeConditions.Count > 1)
             {
-                conditions.Add(leftTree);
-                return conditions;
-            }
+                var prevOperator = leftTreeConditions[leftTreeConditions.Count - 1].LogicalOperator;
 
-            var prevOperator = leftTree.Conditions.Last().LogicalOperator;
-
-            // (A AND B) AND RightTree -> Remove unnecessary parenthese
-            // (A AND B) OR RightTree  -> Keep parenthese
-            // (A OR B) AND RightTree  -> Keep parenthese
-            // (A OR B) OR RightTree   -> Remove unnecessary parenthese
-            if ((prevOperator == LogicalOperator.AND && parentOperator == LogicalOperator.AND)
-                || (prevOperator == LogicalOperator.OR) && parentOperator == LogicalOperator.OR)
-            {
-                foreach (var child in leftTree.Conditions)
+                if (prevOperator == ConditionLogicalOperator.OR && exp.Operator == LogicalOperator.AND)
                 {
-                    conditions.Add(child);
+                    rightTreeConditions[0].LogicalOperator = ConditionLogicalOperator.ThenAND;
                 }
-
-                return conditions;
+                else
+                {
+                    rightTreeConditions[0].LogicalOperator = SimplyConvertFrom(exp.Operator);
+                }
             }
             else
             {
-                conditions.Add(leftTree);
-                return conditions;
+                rightTreeConditions[0].LogicalOperator = SimplyConvertFrom(exp.Operator);
             }
+
+            conditions.AddRange(rightTreeConditions);
+
+            _conditionTrees.Push(conditions);
+        }
+
+        private ConditionLogicalOperator SimplyConvertFrom(LogicalOperator @operator)
+        {
+            if (@operator == LogicalOperator.AND)
+            {
+                return ConditionLogicalOperator.AND;
+            }
+
+            return ConditionLogicalOperator.OR;
         }
 
         protected override void Visit(ConditionExpression exp)
@@ -137,7 +104,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             model.ValueType = param.ValueType.FullName;
             model.IsNumberValue = param.ValueType.IsNumber();
 
-            _conditions.Push(model);
+            _conditionTrees.Push(new List<ConditionModel> { model });
         }
     }
 }

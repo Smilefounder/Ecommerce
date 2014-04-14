@@ -55,12 +55,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public string DisplayName { get; set; }
 
+        public string Shortcut { get; set; }
+
         public ComparisonOperatorModel() { }
 
         public ComparisonOperatorModel(IComparisonOperator @operator)
         {
             Name = @operator.Name;
             DisplayName = @operator.DisplayName;
+            Shortcut = ComparisonOperators.TryGetOperatorShortcut(@operator.Name);
         }
     }
 }
