@@ -360,6 +360,8 @@
                     self.$dialog.find('.J_Save')
                                 .on('click', function (e) {
                                     if (options.save) {
+                                        $('input:focus').blur();
+
                                         if (self.model.mode() == 'standard') {
                                             self.model.syncExpression().then(function () {
                                                 options.save.apply(self, [self.model.expression()]);

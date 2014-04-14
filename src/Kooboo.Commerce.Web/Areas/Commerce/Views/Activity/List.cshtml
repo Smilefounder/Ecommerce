@@ -42,9 +42,14 @@
                         <a href="#" style="display:inline-block" data-bind="click: beginAttachActivity" title="Attach activity">@Html.IconImage("plus-small")</a>
                     </div>
                     <div data-bind="visible: isAttachingActivity" style="display:none">
-                        <select class="large" data-bind="options: $root.availableActivities, optionsText: 'displayName', optionsValue: 'name', value: selectedActivityName"></select>
-                        <a href="#" class="button" data-bind="click: openAttachActivityDialog">@("Attach".Localize())</a>
-                        <a href="#" class="button gray" data-bind="click: cancelAttachActivity">@("Cancel".Localize())</a>
+                        <div data-bind="visible: $root.availableActivities().length > 0">
+                            <select class="large" data-bind="options: $root.availableActivities, optionsText: 'displayName', optionsValue: 'name', value: selectedActivityName"></select>
+                            <a href="#" class="button" data-bind="click: openAttachActivityDialog">@("Attach".Localize())</a>
+                            <a href="#" class="button gray" data-bind="click: cancelAttachActivity">@("Cancel".Localize())</a>
+                        </div>
+                        <div data-bind="visible: $root.availableActivities().length == 0">
+                            @("There's no activity available for this event, ensure you have related plugins installed".Localize())
+                        </div>
                     </div>
                 </div>
             </div>
