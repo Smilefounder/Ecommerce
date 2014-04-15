@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ShipmentTrackers
         [Key]
         public string Name { get; set; }
 
-        [EditorLinkedGridColumn(EditActionName = "Settings", HeaderText = "Name")]
+        [LinkedGridColumn(TargetAction = "Settings", HeaderText = "Name")]
         public string DisplayName { get; set; }
 
         [GridColumn(HeaderText = "Supported carriers")]

@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Hal.Persistence
+namespace Kooboo.Commerce.HAL.Persistence
 {
-    public class FileResourceLinkPersitence : IResourceLinkPersitence
+    [Dependency(typeof(IResourceLinkPersistence))]
+    public class FileResourceLinkPersistence : IResourceLinkPersistence
     {
         public void Save(ResourceLink link)
         {

@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
             set;
         }
 
-        [GridColumn(GridItemColumnType = typeof(EditGridActionItemColumn))]
+        [GridColumn(GridItemColumnType = typeof(LinkedGridItemColumn))]
         public string Name
         {
             get;

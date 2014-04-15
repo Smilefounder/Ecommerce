@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Hal
+namespace Kooboo.Commerce.HAL
 {
     public class ResourceParameter
     {

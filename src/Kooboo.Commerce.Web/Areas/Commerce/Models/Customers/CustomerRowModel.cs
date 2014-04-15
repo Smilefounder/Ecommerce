@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
     [Grid(IdProperty = "Id", Checkable = true)]
     public class CustomerRowModel
     {
-        [GridColumn(GridItemColumnType = typeof (EditGridActionItemColumn))]
+        [GridColumn(GridItemColumnType = typeof (LinkedGridItemColumn))]
         public int Id { get; set; }
 
         [GridColumn]

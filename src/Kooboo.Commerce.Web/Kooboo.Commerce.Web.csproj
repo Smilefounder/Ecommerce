@@ -259,6 +259,7 @@
     <Compile Include="Areas\Commerce\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CountryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\HalController.cs" />
     <Compile Include="Areas\Commerce\Controllers\HomeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\OrderController.cs" />
@@ -306,6 +307,9 @@
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\CustomFieldEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\FieldValidationRuleEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\HAL\ResourceLinkModel.cs" />
+    <Compile Include="Areas\Commerce\Models\HAL\ResourceModel.cs" />
+    <Compile Include="Areas\Commerce\Models\HAL\ResourceDetailModel.cs" />
     <Compile Include="Areas\Commerce\Models\NameValue.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderRowModel.cs" />
@@ -368,8 +372,8 @@
     <Compile Include="Extensions\PagePlugin\PostGetSample.cs" />
     <Compile Include="Extensions\Submission\SubmissionPluginSample.cs" />
     <Compile Include="Areas\Commerce\Grid2\BooleanGridColumnAttribute.cs" />
-    <Compile Include="Areas\Commerce\Grid2\EditGridActionItemColumn.cs" />
-    <Compile Include="Areas\Commerce\Grid2\EditorLinkedGridColumnAttribute.cs" />
+    <Compile Include="Areas\Commerce\Grid2\LinkedGridItemColumn.cs" />
+    <Compile Include="Areas\Commerce\Grid2\LinkedGridColumnAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Areas\Commerce\Scripts\jquery.validate.unobtrusive.ext.js" />
     <Content Include="Areas\Commerce\Scripts\Kooboo_CMS.js" />
@@ -2291,6 +2295,7 @@
     <Content Include="Areas\Commerce\Views\ShippingMethod\Complete.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_SimpleCustomFields.cshtml" />
     <Content Include="Areas\Commerce\Styles\kooboo-commerce.less" />
+    <Content Include="Areas\Commerce\Views\HAL\Resources.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -2409,7 +2414,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Web.config" />
+    <Content Include="Areas\Commerce\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\_ViewStart.cshtml" />
@@ -2461,6 +2468,10 @@
     <ProjectReference Include="..\Kooboo.Commerce.Data.SqlServer\Kooboo.Commerce.Data.SqlServer.csproj">
       <Project>{5b8b6f8c-f82f-425f-b521-40b2949383e4}</Project>
       <Name>Kooboo.Commerce.Data.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.Hal\Kooboo.Commerce.HAL.csproj">
+      <Project>{28e5672f-9bea-467a-86eb-3db6dc514f13}</Project>
+      <Name>Kooboo.Commerce.HAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>

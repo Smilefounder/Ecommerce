@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes {
 
         public int Id { get; set; }
 
-        [EditorLinkedGridColumn]
+        [LinkedGridColumn]
         public string Name { get; set; }
 
         [GridColumn]

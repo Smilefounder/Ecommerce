@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Products {
 
         public int Id { get; set; }
 
-        [GridColumn(GridItemColumnType = typeof(EditGridActionItemColumn))]
+        [GridColumn(GridItemColumnType = typeof(LinkedGridItemColumn))]
         public string Name { get; set; }
 
         [BooleanGridColumn(HeaderText = "Published")]

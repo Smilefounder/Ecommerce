@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries
     {
         public int Id { get; set; }
 
-        [GridColumn(GridItemColumnType = typeof (EditGridActionItemColumn))]
+        [GridColumn(GridItemColumnType = typeof (LinkedGridItemColumn))]
         public string Name { get; set; }
         [GridColumn()]
         public string ThreeLetterISOCode { get; set; }

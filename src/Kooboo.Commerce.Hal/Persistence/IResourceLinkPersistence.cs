@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Hal.Persistence
+namespace Kooboo.Commerce.HAL.Persistence
 {
-    public interface IResourceLinkPersitence : IResourceLinkProvider
+    public interface IResourceLinkPersistence : IResourceLinkProvider
     {
         void Save(ResourceLink link);
 

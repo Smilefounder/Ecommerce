@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
         [Key]
         public string EventType { get; set; }
 
-        [EditorLinkedGridColumn(EditActionName = "List")]
+        [LinkedGridColumn(TargetAction = "List")]
         public string Name { get; set; }
     }
 }

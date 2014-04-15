@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands {
             set;
         }
 
-        [GridColumn(GridItemColumnType = typeof(EditGridActionItemColumn))]
+        [GridColumn(GridItemColumnType = typeof(LinkedGridItemColumn))]
         public string Name {
             get;
             set;

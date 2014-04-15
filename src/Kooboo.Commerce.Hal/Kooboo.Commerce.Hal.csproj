@@ -7,8 +7,8 @@
     <ProjectGuid>{28E5672F-9BEA-467A-86EB-3DB6DC514F13}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.Commerce.Hal</RootNamespace>
-    <AssemblyName>Kooboo.Commerce.Hal</AssemblyName>
+    <RootNamespace>Kooboo.Commerce.HAL</RootNamespace>
+    <AssemblyName>Kooboo.Commerce.HAL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Kooboo">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Common">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,10 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Persistence\FileResourceLinkPersitence.cs" />
+    <Compile Include="FakeResourceDescriptorProvider.cs" />
+    <Compile Include="Persistence\FileResourceLinkPersistence.cs" />
     <Compile Include="IResourceDescriptorProvider.cs" />
     <Compile Include="IResourceLinkProvider.cs" />
-    <Compile Include="Persistence\IResourceLinkPersitence.cs" />
+    <Compile Include="Persistence\IResourceLinkPersistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceDescriptor.cs" />
     <Compile Include="ResourceLink.cs" />

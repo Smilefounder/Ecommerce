@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Hal
+namespace Kooboo.Commerce.HAL
 {
     public class ResourceLink
     {
@@ -15,6 +15,11 @@ namespace Kooboo.Commerce.Hal
 
         public string Rel { get; set; }
 
-        public IDictionary<string, string> ParameterMappings { get; set; }
+        //public IDictionary<string, string> ParameterMappings { get; set; }
+
+        public ResourceLink()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
     }
 }

@@ -7,16 +7,16 @@ using System.Web;
 namespace Kooboo.Commerce.Web.Grid2
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class EditorLinkedGridColumnAttribute : GridColumnAttribute
+    public class LinkedGridColumnAttribute : GridColumnAttribute
     {
-        public string EditActionName { get; set; }
+        public string TargetAction { get; set; }
 
         public string KeyQueryStringParamName { get; set; }
 
-        public EditorLinkedGridColumnAttribute()
+        public LinkedGridColumnAttribute()
         {
-            EditActionName = "Edit";
-            GridItemColumnType = typeof(EditGridActionItemColumn);
+            TargetAction = "Edit";
+            GridItemColumnType = typeof(LinkedGridItemColumn);
         }
     }
 }
