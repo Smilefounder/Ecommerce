@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Settings.Services
                 var valueType = value.GetType();
                 if (valueType.IsValueType || valueType == typeof(String))
                 {
-                    strValue = valueType.ToString();
+                    strValue = value.ToString();
                 }
                 else
                 {

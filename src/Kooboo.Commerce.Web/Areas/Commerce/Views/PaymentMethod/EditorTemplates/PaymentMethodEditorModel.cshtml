@@ -56,12 +56,6 @@
                         @Html.ValidationMessageFor(m => m.AdditionalFeePercent)
                     </td>
                 </tr>
-                <tr>
-                    <th>@("Custom Fields".Localize())</th>
-                    <td>
-                        @Html.Partial("_SimpleCustomFields", Model.CustomFields)
-                    </td>
-                </tr>
             </tbody>
         </table>
     }

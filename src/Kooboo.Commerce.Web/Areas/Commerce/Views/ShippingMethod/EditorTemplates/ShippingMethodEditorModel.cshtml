@@ -21,12 +21,6 @@
                     @Html.ValidationMessageFor(m => m.ShippingRateProviderName)
                 </td>
             </tr>
-            <tr>
-                <th>@("Custom Fields".Localize())</th>
-                <td>
-                    @Html.Partial("_SimpleCustomFields", Model.CustomFields)
-                </td>
-            </tr>
         </table>
     </div>
 }
