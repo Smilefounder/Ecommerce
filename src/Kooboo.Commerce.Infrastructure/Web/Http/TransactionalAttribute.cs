@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Web.Http
         {
             try
             {
-                if (actionExecutedContext.Exception == null)
+                if (actionExecutedContext.Exception == null && !_transaction.IsCommitted)
                 {
                     _transaction.Commit();
                 }

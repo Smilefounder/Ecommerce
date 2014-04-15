@@ -83,10 +83,17 @@ namespace Kooboo.Commerce.Data
             var transaction = Transaction;
             if (transaction == null)
             {
-                transaction = BeginTransaction();
+                using (transaction = BeginTransaction())
+                {
+                    DbContext.SaveChanges();
+                    transaction.Commit();
+                }
             }
-
-            transaction.Commit();
+            else
+            {
+                DbContext.SaveChanges();
+                transaction.Commit();
+            }
         }
 
         private void AssertNoCurrentTransaction()

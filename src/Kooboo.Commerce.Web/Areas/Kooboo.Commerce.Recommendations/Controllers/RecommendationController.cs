@@ -51,11 +51,14 @@ namespace Kooboo.Commerce.Recommendations.Controllers
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(int productId, IList<ProductRecommendationModel> recommendations)
         {
-            _recommendationService.SaveRecommendations(productId, recommendations.Select(x => new ProductRecommendation
+            if (recommendations != null)
             {
-                ProductId = x.ProductId,
-                Rank = x.Rank
-            }));
+                _recommendationService.SaveRecommendations(productId, recommendations.Select(x => new ProductRecommendation
+                {
+                    ProductId = x.ProductId,
+                    Rank = x.Rank
+                }));
+            }
 
             return AjaxForm();
         }

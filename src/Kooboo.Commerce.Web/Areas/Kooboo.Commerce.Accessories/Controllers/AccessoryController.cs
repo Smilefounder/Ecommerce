@@ -53,11 +53,14 @@ namespace Kooboo.Commerce.Accessories.Controllers
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(int productId, IList<ProductAccessoryModel> accessories)
         {
-            _accessoryService.UpdateAccessories(productId, accessories.Select(x => new ProductAccessory
+            if (accessories != null)
             {
-                ProductId = x.ProductId,
-                Rank = x.Rank
-            }));
+                _accessoryService.UpdateAccessories(productId, accessories.Select(x => new ProductAccessory
+                {
+                    ProductId = x.ProductId,
+                    Rank = x.Rank
+                }));
+            }
 
             return AjaxForm();
         }
