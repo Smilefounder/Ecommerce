@@ -1,0 +1,177 @@
+﻿@model ResourceDetailModel
+@{
+    ViewBag.Title = "Resource".Localize() + " - " + Model.ResourceName;
+}
+
+@section Panel {
+
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddBackButton();
+    })
+
+}
+
+<div class="block common-form">
+    <table>
+        <tr>
+            <th>@("Resource Name".Localize())</th>
+            <td>
+                @Model.ResourceName
+            </td>
+        </tr>
+        <tr>
+            <th>@("URI".Localize())</th>
+            <td>
+                @Model.ResourceUri
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>
+                <button type="button" class="button" data-bind="click: addLink">@("Add Link".Localize())</button>
+                <div class="simple-table" data-bind="visible: links().length > 0" style="margin-top:10px">
+                    <form id="links-form">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>@("Relation".Localize())</th>
+                                    <th>@("Linked Resource".Localize())</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: { data: links, afterRender: updateValidation }">
+                                <tr data-bind="visible: !isEditing()">
+                                    <td data-bind="text: relation"></td>
+                                    <td>
+                                        <span data-bind="text: destinationResource.resourceUri"></span>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-bind="click: $root.editLink">@Html.IconImage("edit-small")</a>
+                                        <a href="#" data-bind="click: $root.deleteLink">@Html.IconImage("minus-small")</a>
+                                    </td>
+                                </tr>
+                                <tr data-bind="visible: isEditing">
+                                    <td>
+                                        <input type="text" class="medium" data-bind="value: relation, attr: { name: 'Relation' + $index() }" maxlength="50"
+                                               data-val="true"
+                                               data-val-required="*" />
+                                        <span data-bind="attr: { 'data-valmsg-for': 'Relation' + $index }" data-valmsg-replace="true"></span>
+                                    </td>
+                                    <td>
+                                        <select data-bind="options: $root.linkableResources, optionsText: 'resourceUri', optionsValue: 'resourceName', value: destinationResource.resourceName"></select>
+                                    </td>
+                                    <td>
+                                        <a href="#" data-bind="click: $root.commitLinkEditing">@Html.IconImage("save-small")</a>
+                                        <a href="#" data-bind="click: $root.cancelLinkEditing">@Html.IconImage("minus-small")</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        var jsModel = @Html.Raw(Model.ToJson(PropertyNaming.CamelCase));
+        var viewModel = new ResourceDetailModel();
+
+        function ResourceDetailModel() {
+            var _this = this;
+
+            this.updateValidation = function () {
+                $.validator.unobtrusive.reparse($('#links-form'));
+            }
+
+            this.validate = function () {
+                return $('#links-form').valid();
+            }
+
+            this.findLinkableResource = function (resourceName) {
+                return _.find(_this.linkableResources(), function (it) {
+                    return it.resourceName() == resourceName;
+                });
+            }
+
+            this.addLink = function () {
+                var link = {
+                    id: ko.observable(),
+                    relation: ko.observable(),
+                    destinationResource: {
+                        resourceName: ko.observable(),
+                        resourceUri: ko.observable()
+                    },
+                    isNew: true,
+                    isEditing: ko.observable(false)
+                };
+
+                _this.links.push(link);
+                _this.editLink(link);
+            }
+
+            this.editLink = function (link) {
+                link.memo = ko.mapping.toJS(link);
+                link.isEditing(true);
+            }
+
+            this.cancelLinkEditing = function (link) {
+                if (link.isNew) {
+                    _this.links.remove(link);
+                } else {
+                    ko.mapping.fromJS(link.memo, {}, link);
+                    delete link.memo;
+                    link.isEditing(false);
+                }
+            }
+
+            this.commitLinkEditing = function (link) {
+                if (!_this.validate()) {
+                    return;
+                }
+
+                delete link.isNew;
+                delete link.memo;
+
+                var resource = _this.findLinkableResource(link.destinationResource.resourceName());
+                link.destinationResource.resourceUri(resource.resourceUri());
+
+                $.ajax({
+                    url: '@Url.Action("SaveLink")?sourceResourceName=' + encodeURIComponent(_this.resourceName()),
+                    type: 'POST',
+                    data: JSON.stringify(ko.mapping.toJS(link)),
+                    contentType: 'application/json'
+                })
+                .done(function (result) {
+                    if (result.Success) {
+                        link.id(result.Model.Id);
+                        link.isEditing(false);
+                    } else {
+                        info.show(result.Messages.join('<br/>'), false);
+                    }
+                });
+            }
+
+            this.deleteLink = function (link) {
+                if (!link.id()) {
+                    _this.links.remove(link);
+                } else {
+                    $.post('@Url.Action("DeleteLink")?linkId=' + link.id())
+                     .done(function (result) {
+                         if (result.Success) {
+                             _this.links.remove(link);
+                         } else {
+                             info.show(result.Messages.join('<br/>'), false);
+                         }
+                     });
+                }
+            }
+        }
+
+        ko.mapping.fromJS(jsModel, {}, viewModel);
+        ko.applyBindings(viewModel);
+    });
+</script>

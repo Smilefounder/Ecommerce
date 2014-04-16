@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.HAL;
 using Kooboo.Commerce.HAL.Persistence;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.HAL;
+using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Resource(string resourceName)
         {
             var resource = _resourceDescriptorProvider.GetDescriptor(resourceName);
-            var linkableResources = _resourceDescriptorProvider.GetLinkableResources(resourceName);
+            var linkableResources = _resourceDescriptorProvider.GetAllDescriptors();
 
             var model = new ResourceDetailModel
             {
@@ -48,7 +49,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 var linkModel = new ResourceLinkModel
                 {
                     Id = link.Id,
-                    Rel = link.Rel,
+                    Relation = link.Relation,
                     DestinationResource = new ResourceModel(linkedResource)
                 };
 
@@ -56,6 +57,42 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost, HandleAjaxFormError]
+        public ActionResult SaveLink(string sourceResourceName, ResourceLinkModel linkModel)
+        {
+            ResourceLink link = null;
+
+            if (!String.IsNullOrEmpty(linkModel.Id))
+            {
+                link = _resourceLinkPersistence.GetById(linkModel.Id);
+                link.Relation = linkModel.Relation;
+                link.DestinationResourceName = linkModel.DestinationResource.ResourceName;
+                _resourceLinkPersistence.Save(link);
+            }
+            else
+            {
+                link = new ResourceLink
+                {
+                    Relation = linkModel.Relation,
+                    SourceResourceName = sourceResourceName,
+                    DestinationResourceName = linkModel.DestinationResource.ResourceName
+                };
+                _resourceLinkPersistence.Save(link);
+            }
+
+            return AjaxForm().Success().WithModel(new
+            {
+                Id = link.Id
+            });
+        }
+
+        [HttpPost, HandleAjaxFormError]
+        public ActionResult DeleteLink(string linkId)
+        {
+            _resourceLinkPersistence.Delete(linkId);
+            return AjaxForm().Success();
         }
     }
 }

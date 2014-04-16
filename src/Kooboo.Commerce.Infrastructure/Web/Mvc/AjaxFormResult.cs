@@ -16,6 +16,12 @@ namespace Kooboo.Commerce.Web.Mvc
             Data = new JsonResultData(modelState);
         }
 
+        public AjaxFormResult Success()
+        {
+            Data.Success = true;
+            return this;
+        }
+
         public AjaxFormResult RedirectTo(string url)
         {
             Data.RedirectUrl = url;

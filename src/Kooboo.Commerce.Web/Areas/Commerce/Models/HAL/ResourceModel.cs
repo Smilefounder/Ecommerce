@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
     [Grid(IdProperty = "ResourceName")]
     public class ResourceModel
     {
-        [LinkedGridColumn(TargetAction = "Resource")]
+        [LinkedGridColumn(TargetAction = "Resource", HeaderText = "Resource Name")]
         public string ResourceName { get; set; }
 
         [GridColumn(HeaderText = "Resource URI")]

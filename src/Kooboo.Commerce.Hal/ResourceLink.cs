@@ -13,13 +13,18 @@ namespace Kooboo.Commerce.HAL
 
         public string DestinationResourceName { get; set; }
 
-        public string Rel { get; set; }
+        public string Relation { get; set; }
 
         //public IDictionary<string, string> ParameterMappings { get; set; }
 
         public ResourceLink()
         {
             Id = Guid.NewGuid().ToString();
+        }
+
+        public ResourceLink Clone()
+        {
+            return (ResourceLink)MemberwiseClone();
         }
     }
 }
