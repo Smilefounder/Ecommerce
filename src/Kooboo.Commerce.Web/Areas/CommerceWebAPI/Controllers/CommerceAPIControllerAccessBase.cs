@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.Commerce.HAL;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -19,6 +20,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="obj">api object</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
+        [Resource("save")]
         public virtual bool Post(T obj)
         {
             var accesser = GetAccesser();
@@ -30,6 +32,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="obj">api object</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPut]
+        [Resource("update")]
         public virtual bool Put(T obj)
         {
             var accesser = GetAccesser();
@@ -41,6 +44,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="obj">api object</param>
         /// <returns>true if successfully, else false</returns>
         [HttpDelete]
+        [Resource("delete")]
         public virtual bool Delete(T obj)
         {
             var accesser = GetAccesser();

@@ -10,7 +10,5 @@ namespace Kooboo.Commerce.HAL
         IEnumerable<ResourceDescriptor> GetAllDescriptors();
 
         ResourceDescriptor GetDescriptor(string resourceName);
-
-        IEnumerable<ResourceDescriptor> GetLinkableResources(string resourceName);
     }
 }

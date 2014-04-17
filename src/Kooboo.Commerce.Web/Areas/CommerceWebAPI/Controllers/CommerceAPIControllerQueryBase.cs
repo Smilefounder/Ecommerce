@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using Kooboo.Commerce.API;
+using Kooboo.Commerce.HAL;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -25,6 +26,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// </example>
         /// <returns>api objects</returns>
         [HttpGet]
+        [Resource("all", itemName: "detail")]
         public virtual IEnumerable<T> Get()
         {
             var query = BuildQueryFromQueryStrings();
@@ -37,6 +39,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="pageSize">page size</param>
         /// <returns>api objects</returns>
         [HttpGet]
+        [Resource("list", itemName: "detail")]
         public virtual IEnumerable<T> Pagination(int pageIndex, int pageSize)
         {
             var query = BuildQueryFromQueryStrings();
@@ -47,6 +50,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// </summary>
         /// <returns>api object</returns>
         [HttpGet]
+        [Resource("detail")]
         public virtual T First()
         {
             var query = BuildQueryFromQueryStrings();
@@ -57,6 +61,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// </summary>
         /// <returns>total count</returns>
         [HttpGet]
+        [Resource("count")]
         public virtual int Count()
         {
             var query = BuildQueryFromQueryStrings();

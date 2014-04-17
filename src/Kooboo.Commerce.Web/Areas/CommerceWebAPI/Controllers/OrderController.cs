@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Kooboo.Commerce.HAL;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -63,6 +64,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="user">current logon user info</param>
         /// <returns>order</returns>
         [HttpPost]
+        [Resource("myorder")]
         public Order GetMyOrder(string sessionId, bool deleteShoppingCart, [FromBody]MembershipUser user)
         {
             return Commerce().Orders.GetMyOrder(sessionId, user, deleteShoppingCart);

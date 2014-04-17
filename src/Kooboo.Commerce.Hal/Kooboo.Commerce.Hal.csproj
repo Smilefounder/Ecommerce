@@ -42,6 +42,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,15 +53,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultUriResolver.cs" />
     <Compile Include="FakeResourceDescriptorProvider.cs" />
+    <Compile Include="IUriResolver.cs" />
     <Compile Include="Persistence\FileResourceLinkPersistence.cs" />
     <Compile Include="IResourceDescriptorProvider.cs" />
     <Compile Include="IResourceLinkProvider.cs" />
     <Compile Include="Persistence\IResourceLinkPersistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionResourceDescriptorProvider.cs" />
+    <Compile Include="ResourceAttribute.cs" />
     <Compile Include="ResourceDescriptor.cs" />
     <Compile Include="ResourceLink.cs" />
-    <Compile Include="ResourceParameter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

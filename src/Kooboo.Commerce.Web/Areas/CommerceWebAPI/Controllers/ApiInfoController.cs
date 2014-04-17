@@ -57,8 +57,14 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             return types;
         }
 
+        /// <summary>
+        /// load assembly comments
+        /// </summary>
+        /// <param name="asm">assembly name</param>
+        /// <returns>comments root element</returns>
         private XElement LoadComments(Assembly asm)
         {
+            // find assembly comments file
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", asm.GetName().Name + ".xml");
             if (System.IO.File.Exists(path))
             {
@@ -71,6 +77,11 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             return null;
         }
 
+        /// <summary>
+        /// get api infoes from type
+        /// </summary>
+        /// <param name="type">api type</param>
+        /// <returns>api info of this type</returns>
         private ApiControllerInfo GetAPIInfo(Type type)
         {
             var comments = LoadComments(type.Assembly);
@@ -83,6 +94,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 if (cele != null)
                     ci.Comments = cele.Element("summary").Value;
             }
+            // get api actions
             var actions = type.GetMethods()
                     .Where(o => o.IsPublic && !o.IsSpecialName && !o.IsSecurityTransparent && o.GetMethodImplementationFlags() == MethodImplAttributes.IL)
                     .ToArray();
@@ -94,15 +106,19 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 ai.ApiRoute = string.Format("/{{instance}}/{0}/{1}", ci.ControllerName, ai.ActionName);
 
                 var paras = a.GetParameters();
+                // build comment member name
                 var eTypeName = string.Format("M:{0}.{1}.{2}", type.Namespace, type.Name, a.Name);
                 var eParaNames = "";
                 if(paras != null && paras.Count() > 0)
                 {
+                    // if this action contains parameters, the member name should contact with parameters
                     eParaNames = string.Format("({0})", string.Join(",", paras.Select(o => o.ParameterType.FullName)));
                 }
+                // find action comment
                 var aele = comments.Elements("member").FirstOrDefault(o => o.Attribute("name").Value == eTypeName + eParaNames);
                 if (aele == null)
                 {
+                    // if the action comment doesn't find in the derived type, try to probe it from base types
                     var btype = type.BaseType;
                     while (btype != null)
                     {
@@ -113,7 +129,8 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                         btype = btype.BaseType;
                     }
                 }
-                if(aele != null)
+                // set resource description
+                if (aele != null)
                     ai.Comments = aele.Element("summary").Value;
 
                 var pis = new List<ApiParameterInfo>();
@@ -125,9 +142,11 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 
                     if(aele != null)
                     {
+                        // find parameter comment
                         var pele = aele.Elements("param").FirstOrDefault(o => o.Attribute("name").Value == p.Name);
                         if(pele != null)
                         {
+                            // set parameter descrption
                             pi.Comments = pele.Value;
                         }
                     }

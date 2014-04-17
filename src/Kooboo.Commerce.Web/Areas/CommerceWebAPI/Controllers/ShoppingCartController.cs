@@ -7,6 +7,7 @@ using System.Web.Http;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.API;
+using Kooboo.Commerce.HAL;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -38,6 +39,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="item">shopping cart item</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
+        [Resource("add_cart_item")]
         public bool AddCartItem(int cartId, [FromBody]ShoppingCartItem item)
         {
             return Commerce().ShoppingCarts.AddCartItem(cartId, item);
@@ -50,6 +52,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="item">shopping cart item</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
+        [Resource("update_cart_item")]
         public bool UpdateCartItem(int cartId, [FromBody]ShoppingCartItem item)
         {
             return Commerce().ShoppingCarts.UpdateCartItem(cartId, item);
@@ -61,6 +64,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="item">shopping cart item</param>
         /// <returns>true if successfully, else false</returns>
         [HttpDelete]
+        [Resource("remove_cart_item")]
         public bool RemoveCartItem(int cartId, int cartItemId)
         {
             return Commerce().ShoppingCarts.RemoveCartItem(cartId, cartItemId);
@@ -76,6 +80,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="quantity">quantity</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
+        [Resource("add_to_cart")]
         public bool AddToCart(string sessionId, string accountId, int productPriceId, int quantity)
         {
             return Commerce().ShoppingCarts.AddToCart(sessionId, accountId, productPriceId, quantity);
@@ -91,6 +96,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="quantity">quantity</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
+        [Resource("update_cart")]
         public bool UpdateCart(string sessionId, string accountId, int productPriceId, int quantity)
         {
             return Commerce().ShoppingCarts.UpdateCart(sessionId, accountId, productPriceId, quantity);
@@ -103,6 +109,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="user">current user's info</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
+        [Resource("fill_cart_customer")]
         public bool FillCustomerByAccount(string sessionId, [FromBody]Kooboo.CMS.Membership.Models.MembershipUser user)
         {
             return Commerce().ShoppingCarts.FillCustomerByAccount(sessionId, user);
@@ -114,6 +121,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="shoppingCartId">shopping cart id</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
+        [Resource("expire_cart")]
         public bool ExpireShppingCart(int shoppingCartId)
         {
             return Commerce().ShoppingCarts.ExpireShppingCart(shoppingCartId);

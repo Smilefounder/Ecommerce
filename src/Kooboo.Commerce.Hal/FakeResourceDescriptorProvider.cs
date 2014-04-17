@@ -32,10 +32,5 @@ namespace Kooboo.Commerce.HAL
         {
             return _descriptors.FirstOrDefault(x => x.ResourceName == resourceName);
         }
-
-        public IEnumerable<ResourceDescriptor> GetLinkableResources(string resourceName)
-        {
-            return _descriptors;
-        }
     }
 }

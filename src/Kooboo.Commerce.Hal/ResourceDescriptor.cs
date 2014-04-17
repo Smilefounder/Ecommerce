@@ -7,18 +7,36 @@ namespace Kooboo.Commerce.HAL
 {
     public class ResourceDescriptor
     {
-        public string ResourceName { get; private set; }
+        public string ResourceName { get; set; }
 
-        public string ResourceUri { get; private set; }
+        public string ResourceUri { get; set; }
 
-        public IList<ResourceParameter> InputParameters { get; private set; }
+        public bool IsListResource { get; set; }
 
-        public IList<ResourceParameter> OutputParameters { get; private set; }
+        private string itemResourceName;
+        public string ItemResourceName
+        {
+            get { return itemResourceName; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    IsListResource = true;
+                }
+                itemResourceName = value;
+            }
+        }
 
-        public ResourceDescriptor(string resourceName, string resourceUri)
+        public ResourceDescriptor()
+        {
+        }
+
+        public ResourceDescriptor(string resourceName, string resourceUri, bool isListResource = false, string itemResourceName = null)
         {
             ResourceName = resourceName;
             ResourceUri = resourceUri;
+            IsListResource = isListResource;
+            ItemResourceName = itemResourceName;
         }
     }
 }
