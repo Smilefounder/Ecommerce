@@ -76,25 +76,34 @@ namespace Kooboo.Commerce.HAL
                         var resource = new ResourceDescriptor();
                         
                         var controllerName = type.Name.Replace("Controller", "");
-                        if (string.IsNullOrEmpty(resAttr.Name))
-                            resource.ResourceName = string.Format("{0}:{1}", controllerName, action.Name);
-                        else if (resAttr.Name.IndexOf(':') < 0)
-                            resource.ResourceName = string.Format("{0}:{1}", controllerName, resAttr.Name);
-                        else
-                            resource.ResourceName = resAttr.Name;
+                        resource.ResourceName = NormalizeResourceName(resAttr.Name, controllerName, action.Name);
 
                         if (string.IsNullOrEmpty(resAttr.Uri))
                             resource.ResourceUri = string.Format("/{{instance}}/{0}/{1}", controllerName, resource.ResourceName);
                         else
                             resource.ResourceUri = resAttr.Uri;
                         resource.IsListResource = resAttr.IsList;
-                        resource.ItemResourceName = resAttr.ItemName;
+                        if (!string.IsNullOrEmpty(resAttr.ItemName))
+                        {
+                            resource.IsListResource = true;
+                            resource.ItemResourceName = NormalizeResourceName(resAttr.ItemName, controllerName, null);
+                        }
                         resources.Add(resource);
                     }
                 }
             }
 
             return resources;
+        }
+
+
+        private string NormalizeResourceName(string resName, string controller, string action)
+        {
+            if (string.IsNullOrEmpty(resName))
+                resName = string.Format("{0}:{1}", controller, action);
+            else if (resName.IndexOf(':') < 0)
+                resName = string.Format("{0}:{1}", controller, resName);
+            return resName;
         }
 
     }
