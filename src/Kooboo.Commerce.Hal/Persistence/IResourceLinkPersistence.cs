@@ -5,9 +5,11 @@ using System.Text;
 
 namespace Kooboo.Commerce.HAL.Persistence
 {
-    public interface IResourceLinkPersistence : IResourceLinkProvider
+    public interface IResourceLinkPersistence
     {
         ResourceLink GetById(string linkId);
+
+        IEnumerable<ResourceLink> GetLinks(string resourceName);
 
         void Save(ResourceLink link);
 

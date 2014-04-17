@@ -16,6 +16,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
         [LinkedGridColumn(TargetAction = "Resource", HeaderText = "Resource Name")]
         public string ResourceName { get; set; }
 
+        [BooleanGridColumn(HeaderText = "Is List Resource")]
+        public bool IsListResource { get; set; }
+
         [GridColumn(HeaderText = "Resource URI")]
         public string ResourceUri { get; set; }
 
@@ -25,6 +28,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
         {
             ResourceName = resource.ResourceName;
             ResourceUri = resource.ResourceUri;
+            IsListResource = resource.IsListResource;
         }
     }
 }

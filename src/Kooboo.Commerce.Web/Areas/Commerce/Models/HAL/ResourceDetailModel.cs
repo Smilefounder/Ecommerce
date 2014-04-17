@@ -11,6 +11,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
 
         public string ResourceUri { get; set; }
 
+        public bool IsListResource { get; set; }
+
+        public ResourceModel ItemResource { get; set; }
+
         public IList<ResourceModel> LinkableResources { get; set; }
 
         public IList<ResourceLinkModel> Links { get; set; }

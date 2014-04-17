@@ -27,6 +27,20 @@
             </td>
         </tr>
         <tr>
+            <th>@("Is List Resource".Localize())</th>
+            <td>
+                @(Model.IsListResource ? "YES".Localize() : "NO".Localize())
+            </td>
+        </tr>
+        @if (Model.IsListResource) { 
+        <tr>
+            <th>@("Item Resource".Localize())</th>
+            <td>
+                <a href="@Url.Action("Resource", RouteValues.From(Request.QueryString).Merge("resourceName", Model.ItemResource.ResourceName))">@Model.ItemResource.ResourceUri</a>
+            </td>
+        </tr>
+        }
+        <tr>
             <th></th>
             <td>
                 <button type="button" class="button" data-bind="click: addLink">@("Add Link".Localize())</button>

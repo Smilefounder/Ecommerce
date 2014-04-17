@@ -19,6 +19,10 @@ using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Parsing;
 using System.Text;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+using Kooboo.Commerce.HAL;
+using Kooboo.Commerce.HAL.Persistence;
+using Newtonsoft.Json;
+using Kooboo.Commerce.HAL.Serialization;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -34,6 +38,66 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Hal()
+        {
+            var brand = new Kooboo.Commerce.API.Brands.Brand
+            {
+                Id = 5,
+                Name = "Apple"
+            };
+
+            var resourceDescriptorProvider = EngineContext.Current.Resolve<IResourceDescriptorProvider>();
+            var resourceLinkPersistence = EngineContext.Current.Resolve<IResourceLinkPersistence>();
+            var uriResolver = EngineContext.Current.Resolve<IUriResolver>();
+
+            var wrapper = new HalWrapper(resourceDescriptorProvider, resourceLinkPersistence, uriResolver);
+
+            var descriptor = EngineContext.Current.Resolve<IResourceDescriptorProvider>().GetDescriptor("Brand:detail");
+            var response = new ResourceResponse("/jd/brand/5", descriptor, brand);
+            var resource = wrapper.Wrap(response, new Dictionary<string, object>
+            {
+                { "instance", "jd" }
+            });
+
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.ResourceConverter());
+            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.LinksConverter());
+
+            var json = JsonConvert.SerializeObject(resource, Formatting.Indented, settings);
+
+            return Content(json);
+        }
+        public ActionResult HalList()
+        {
+            var brands = new List<Brand>
+            {
+                new Brand { Id = 1, Name = "Dell" },
+                new Brand { Id = 2, Name = "Microsoft" },
+                new Brand { Id = 3, Name = "Lenovo" }
+            };
+
+            var resourceDescriptorProvider = EngineContext.Current.Resolve<IResourceDescriptorProvider>();
+            var resourceLinkPersistence = EngineContext.Current.Resolve<IResourceLinkPersistence>();
+            var uriResolver = EngineContext.Current.Resolve<IUriResolver>();
+
+            var wrapper = new HalWrapper(resourceDescriptorProvider, resourceLinkPersistence, uriResolver);
+
+            var descriptor = EngineContext.Current.Resolve<IResourceDescriptorProvider>().GetDescriptor("Brand:all");
+            var response = new ResourceResponse("/jd/brand", descriptor, brands);
+            var resource = wrapper.Wrap(response, new Dictionary<string, object>
+            {
+                { "instance", "jd" }
+            });
+
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.ResourceConverter());
+            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.LinksConverter());
+
+            var json = JsonConvert.SerializeObject(resource, Formatting.Indented, settings);
+
+            return Content(json);
         }
 
         public void Transaction()

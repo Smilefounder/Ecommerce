@@ -39,8 +39,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 ResourceName = resource.ResourceName,
                 ResourceUri = resource.ResourceUri,
+                IsListResource = resource.IsListResource,
                 LinkableResources = linkableResources.Select(x => new ResourceModel(x)).ToList()
             };
+
+            if (resource.IsListResource && !String.IsNullOrEmpty(resource.ItemResourceName))
+            {
+                var itemResource = _resourceDescriptorProvider.GetDescriptor(resource.ItemResourceName);
+                model.ItemResource = new ResourceModel(itemResource);
+            }
 
             var links = _resourceLinkPersistence.GetLinks(resource.ResourceName);
             foreach (var link in links)

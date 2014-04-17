@@ -12,8 +12,9 @@ namespace Kooboo.Commerce.HAL.Persistence
     [Dependency(typeof(IResourceLinkPersistence), ComponentLifeStyle.Singleton)]
     public class FileResourceLinkPersistence : IResourceLinkPersistence
     {
-        private Dictionary<string, ResourceLink> _linksById = new Dictionary<string, ResourceLink>();
-        private Dictionary<string, List<ResourceLink>> _linksByResource = new Dictionary<string, List<ResourceLink>>();
+        private readonly object _loadLock = new object();
+        private Dictionary<string, ResourceLink> _linksById;
+        private Dictionary<string, List<ResourceLink>> _linksByResource;
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         public string FilePath { get; private set; }
@@ -35,6 +36,8 @@ namespace Kooboo.Commerce.HAL.Persistence
         {
             if (link == null)
                 throw new ArgumentNullException("link");
+
+            EnsureCacheLoaded();
 
             _lock.EnterWriteLock();
 
@@ -91,6 +94,8 @@ namespace Kooboo.Commerce.HAL.Persistence
 
         public void Delete(string linkId)
         {
+            EnsureCacheLoaded();
+
             _lock.EnterWriteLock();
 
             try
@@ -117,6 +122,8 @@ namespace Kooboo.Commerce.HAL.Persistence
 
         public IEnumerable<ResourceLink> GetLinks(string resourceName)
         {
+            EnsureCacheLoaded();
+
             _lock.EnterReadLock();
 
             try
@@ -137,6 +144,8 @@ namespace Kooboo.Commerce.HAL.Persistence
 
         public ResourceLink GetById(string linkId)
         {
+            EnsureCacheLoaded();
+
             _lock.EnterReadLock();
 
             try
@@ -152,6 +161,49 @@ namespace Kooboo.Commerce.HAL.Persistence
             {
                 _lock.ExitReadLock();
             }
+        }
+
+        private void EnsureCacheLoaded()
+        {
+            if (_linksById == null)
+            {
+                lock (_loadLock)
+                {
+                    if (_linksById == null)
+                    {
+                        var linksById = new Dictionary<string, ResourceLink>();
+                        var linksByResource = new Dictionary<string, List<ResourceLink>>();
+
+                        var allLinks = ReadLinks();
+
+                        foreach (var link in allLinks)
+                        {
+                            linksById.Add(link.Id, link);
+
+                            if (!linksByResource.ContainsKey(link.SourceResourceName))
+                            {
+                                linksByResource.Add(link.SourceResourceName, new List<ResourceLink>());
+                            }
+
+                            linksByResource[link.SourceResourceName].Add(link);
+                        }
+
+                        _linksById = linksById;
+                        _linksByResource = linksByResource;
+                    }
+                }
+            }
+        }
+
+        private List<ResourceLink> ReadLinks()
+        {
+            if (File.Exists(FilePath))
+            {
+                var json = File.ReadAllText(FilePath, Encoding.UTF8);
+                return JsonConvert.DeserializeObject<List<ResourceLink>>(json);
+            }
+
+            return new List<ResourceLink>();
         }
 
         private void Flush(IEnumerable<ResourceLink> links)
