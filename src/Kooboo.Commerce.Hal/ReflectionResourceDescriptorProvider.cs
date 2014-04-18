@@ -16,6 +16,7 @@ namespace Kooboo.Commerce.HAL
     {
         private ITypeFinder _typeFinder;
         private IEnumerable<ResourceDescriptor> _resources;
+        private string[] _specialActionNames = new string[] { "get", "put", "post", "delete" };
 
         public ReflectionResourceDescriptorProvider()
         {
@@ -78,8 +79,14 @@ namespace Kooboo.Commerce.HAL
                         var controllerName = type.Name.Replace("Controller", "");
                         resource.ResourceName = NormalizeResourceName(resAttr.Name, controllerName, action.Name);
 
+
                         if (string.IsNullOrEmpty(resAttr.Uri))
-                            resource.ResourceUri = string.Format("/{{instance}}/{0}/{1}", controllerName, resource.ResourceName);
+                        {
+                            string actionName = action.Name;
+                            if (_specialActionNames.Contains(action.Name.ToLower()))
+                                actionName = string.Empty;
+                            resource.ResourceUri = string.Format("/{{instance}}/{0}/{1}", controllerName, actionName).TrimEnd('/');
+                        }
                         else
                             resource.ResourceUri = resAttr.Uri;
                         resource.IsListResource = resAttr.IsList;
