@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.HAL;
+﻿using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.Web.Grid2;
 using Kooboo.ComponentModel;
 using Kooboo.Web.Mvc.Grid2.Design;

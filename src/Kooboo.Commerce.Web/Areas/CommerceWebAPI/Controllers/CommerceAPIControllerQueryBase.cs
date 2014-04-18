@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using Kooboo.Commerce.API;
-using Kooboo.Commerce.HAL;
+using Kooboo.Commerce.API.HAL;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {

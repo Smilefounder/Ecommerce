@@ -104,7 +104,7 @@ Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Kooboo.Commerce.Modeling", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Modeling", "1. Modeling", "{36C0ACBB-6356-42A8-8DAB-8346B535B0C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.HAL", "Kooboo.Commerce.Hal\Kooboo.Commerce.HAL.csproj", "{28E5672F-9BEA-467A-86EB-3DB6DC514F13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.HAL", "Kooboo.Commerce.API.HAL\Kooboo.Commerce.API.HAL.csproj", "{28E5672F-9BEA-467A-86EB-3DB6DC514F13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

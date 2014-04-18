@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.HAL.Serialization.Converters
+namespace Kooboo.Commerce.API.HAL.Serialization.Converters
 {
     public class LinksConverter : JsonConverter
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{28E5672F-9BEA-467A-86EB-3DB6DC514F13}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.Commerce.HAL</RootNamespace>
-    <AssemblyName>Kooboo.Commerce.HAL</AssemblyName>
+    <RootNamespace>Kooboo.Commerce.API.HAL</RootNamespace>
+    <AssemblyName>Kooboo.Commerce.API.HAL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

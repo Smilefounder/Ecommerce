@@ -1,5 +1,5 @@
-﻿using Kooboo.Commerce.HAL;
-using Kooboo.Commerce.HAL.Persistence;
+﻿using Kooboo.Commerce.API.HAL;
+using Kooboo.Commerce.API.HAL.Persistence;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.HAL;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
