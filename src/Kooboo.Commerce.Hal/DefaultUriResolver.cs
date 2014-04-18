@@ -24,11 +24,11 @@ namespace Kooboo.Commerce.HAL
         /// <returns></returns>
         public ResourceDescriptor FindResource(string uri)
         {
-            Uri inputUri = new Uri(uri, UriKind.Relative);
+            Uri inputUri = MockAbsoluteUri(uri);
             var resources = _resourceProvider.GetAllDescriptors();
             foreach(var res in resources)
             {
-                Uri resUri = new Uri(res.ResourceUri, UriKind.Relative);
+                Uri resUri = MockAbsoluteUri(res.ResourceUri);
                 if (IsUriMatched(inputUri, resUri))
                 {
                     return res;
@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.HAL
         /// <returns></returns>
         public string Resovle(string uriPattern, Dictionary<string, object> paras)
         {
-            Uri resUri = new Uri(uriPattern, UriKind.Relative);
+            Uri resUri = MockAbsoluteUri(uriPattern);
             var segements = resUri.Segments.Select(o =>
                 {
                     string val = o.TrimStart('/').TrimEnd('/');
@@ -98,6 +98,16 @@ namespace Kooboo.Commerce.HAL
                 return paraVal == null ? defaultValue.ToString() : paraVal.ToString();
             }
             return defaultValue.ToString();
+        }
+
+        private Uri MockAbsoluteUri(string url)
+        {
+            if (url.IndexOf("://") > 0)
+                return new Uri(url);
+            if (!url.StartsWith("/"))
+                url = "/" + url;
+            url = "http://localhost:80" + url;
+            return new Uri(url);
         }
     }
 }
