@@ -1,31 +1,29 @@
-﻿@if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("commerceName")))
+﻿@using Kooboo.CMS.Sites;
+@using Kooboo.CMS.Web.Areas.Sites;
+
+@if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("siteName")))
 {
     <div class="topbar">
         <div class="block sitemanager">
-            <a class="right" href="@Url.Action("Index", new { controller = "Home", area = "Commerce" })" title="@("Go to instance cluster".Localize())">@Html.IconImage("cluster")</a>
-            <h6 class="title">@("Instance manager".Localize())</h6>
-            @Html.Partial("_InstancesDropdown")
+            <a class="right" href="@Url.Action("Index", new { controller = "Home", area = "sites" })" title="@("Go to site cluster".Localize())">@Html.IconImage("cluster")</a>
+            <h6 class="title">@("Site manager".Localize())</h6>
+            @Html.Partial("_SitesNavTree", Site.Current)
             @if (ServiceFactory.UserManager.IsAdministrator(User.Identity.Name))
             {
-                <a class="right add" href="@Url.Action("Create", "CommerceInstance", new { area = "Commerce", @return = ViewContext.HttpContext.Request.RawUrl })" title='@("New commerce instance".Localize())'>@Html.IconImage("add")</a>
+                <a class="right add" href="@Url.Action("CreateSubSite", "Site", new { area = "Sites", parent = ViewContext.RequestContext.GetRequestValue("siteName"), @return = ViewContext.HttpContext.Request.RawUrl })" title='@("New sub site".Localize())'>@Html.IconImage("add")</a>
             }
         </div>
     </div>
 
     <div class="wrap">
         <nav class="block menu">
-            @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Commerce"))
+            @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Sites").SetCurrentSite(this.ViewContext))
         </nav>
     </div>
-}
-else
-{
-    <div class="topbar">
-        @Html.Partial("_SidebarTopSearch")
-    </div>
-    <div class="wrap">
-        <nav class="block menu">
-            @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "CommerceGlobalMenu"))
-        </nav>
-    </div>
+} else {
+    @Html.Partial("_SidebarTopSearch")
+
+    <nav class="container block menu">
+        @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
+    </nav>
 }

@@ -26,8 +26,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
                 , null
                 , new[] { "Kooboo.Commerce.Web.Areas.Commerce.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
             );
-
-            //MenuFactory.RegisterAreaMenu("CommerceGlobalMenu", Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", AreaName, "GlobalMenu.config"));
+            
             var globalMenuFile = AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "GlobalMenu.config");
             if (File.Exists(globalMenuFile))
             {
