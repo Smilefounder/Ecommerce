@@ -2385,6 +2385,7 @@
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Category\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Comment\~contents\" />
+    <Folder Include="Cms_Data\Sites\SampleSite\Labels\" />
     <Folder Include="Cms_Data\Sites\SampleSite\Pages\Member\Activate\" />
     <Folder Include="Cms_Data\Sites\SampleSite\Pages\Member\ChangePassword\" />
     <Folder Include="Cms_Data\Sites\SampleSite\Pages\Member\ConfirmMail\" />
@@ -2662,9 +2663,6 @@
     <Content Include="Styles\support.less" />
     <Content Include="Styles\tabs.less" />
     <Content Include="Styles\ui.less" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Cms_Data\Sites\SampleSite\Labels\Labels.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

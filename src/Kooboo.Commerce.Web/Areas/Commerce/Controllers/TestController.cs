@@ -40,6 +40,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View();
         }
 
+        public void UriResolver()
+        {
+            var resolver = EngineContext.Current.Resolve<IUriResolver>();
+            var resource = resolver.FindResource("/jd/brand/5");
+            var test = resource;
+        }
+
         public ActionResult Hal()
         {
             var brand = new Kooboo.Commerce.API.Brands.Brand
