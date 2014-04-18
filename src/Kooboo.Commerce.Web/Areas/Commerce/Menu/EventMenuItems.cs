@@ -21,6 +21,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
             Controller = "Activity";
             Action = "List";
+            Area = "Commerce";
 
             RouteValues = new System.Web.Routing.RouteValueDictionary();
             RouteValues.Add("eventType", eventType.AssemblyQualifiedNameWithoutVersion());

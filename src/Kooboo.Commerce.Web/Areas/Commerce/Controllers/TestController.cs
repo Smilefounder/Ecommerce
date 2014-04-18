@@ -60,13 +60,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var uriResolver = EngineContext.Current.Resolve<IUriResolver>();
 
             var wrapper = new HalWrapper(resourceDescriptorProvider, resourceLinkPersistence, uriResolver);
+            var controllerContext = new System.Web.Http.Controllers.HttpControllerContext();
+            controllerContext.Request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "http://api.commerce.com/jd/brand/5");
 
-            var descriptor = EngineContext.Current.Resolve<IResourceDescriptorProvider>().GetDescriptor("Brand:detail");
-            var response = new ResourceResponse("/jd/brand/5", descriptor, brand);
-            var resource = wrapper.Wrap(response, new Dictionary<string, object>
-            {
-                { "instance", "jd" }
-            });
+            var resource = wrapper.Wrap("Brand:detail", brand, controllerContext, new { instance = "jd" });
 
             var settings = new JsonSerializerSettings();
             settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.ResourceConverter());
@@ -90,12 +87,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var uriResolver = EngineContext.Current.Resolve<IUriResolver>();
 
             var wrapper = new HalWrapper(resourceDescriptorProvider, resourceLinkPersistence, uriResolver);
+            var controllerContext = new System.Web.Http.Controllers.HttpControllerContext();
+            controllerContext.Request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "http://api.commerce.com/jd/brands");
 
-            var descriptor = EngineContext.Current.Resolve<IResourceDescriptorProvider>().GetDescriptor("Brand:all");
-            var response = new ResourceResponse("/jd/brand", descriptor, brands);
-            var resource = wrapper.Wrap(response, new Dictionary<string, object>
+            var resource = wrapper.Wrap("Brand:all", brands, controllerContext, new { instance = "jd" }, item =>
             {
-                { "instance", "jd" }
+                var brand = (Brand)item;
+                return new
+                {
+                    id = brand.Id
+                };
             });
 
             var settings = new JsonSerializerSettings();
