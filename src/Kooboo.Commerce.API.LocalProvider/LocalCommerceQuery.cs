@@ -20,6 +20,10 @@ namespace Kooboo.Commerce.API.LocalProvider
         /// </summary>
         protected IQueryable<Model> _query;
         /// <summary>
+        /// include hal links in the result.
+        /// </summary>
+        protected bool _includeHalLinks = true;
+        /// <summary>
         /// create entity query
         /// </summary>
         /// <returns>queryable object</returns>
@@ -40,7 +44,13 @@ namespace Kooboo.Commerce.API.LocalProvider
         /// this method will be called after query executed
         /// </summary>
         protected virtual void OnQueryExecuted()
-        { }
+        {
+            if (_includeHalLinks)
+            {
+                // todo: wrap the result with hal links.
+            }
+            _includeHalLinks = true;
+        }
         /// <summary>
         /// ensure the query is not null
         /// </summary>
@@ -98,6 +108,13 @@ namespace Kooboo.Commerce.API.LocalProvider
             EnsureQuery();
             int count = _query.Count();
             return count;
+        }
+        /// <summary>
+        /// query data without requesting hal links to save time
+        /// </summary>
+        public void WithoutHalLinks()
+        {
+            _includeHalLinks = false;
         }
     }
 }

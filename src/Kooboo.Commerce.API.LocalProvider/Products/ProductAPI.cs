@@ -396,6 +396,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// </summary>
         protected override void OnQueryExecuted()
         {
+            base.OnQueryExecuted();
             _loadWithProductType = false;
             _loadWithBrand = false;
             _loadWithCategories = false;

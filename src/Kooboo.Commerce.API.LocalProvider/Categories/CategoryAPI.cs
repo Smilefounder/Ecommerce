@@ -163,6 +163,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         /// </summary>
         protected override void OnQueryExecuted()
         {
+            base.OnQueryExecuted();
             _loadWithParent = false;
             _loadWithParents = false;
             _loadWithChildren = false;

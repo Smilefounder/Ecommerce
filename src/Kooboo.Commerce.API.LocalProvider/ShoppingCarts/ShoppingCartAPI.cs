@@ -115,6 +115,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         /// </summary>
         protected override void OnQueryExecuted()
         {
+            base.OnQueryExecuted();
             _loadWithCutomer = false;
         }
 

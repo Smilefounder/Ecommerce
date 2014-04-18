@@ -43,5 +43,9 @@ namespace Kooboo.Commerce.API
         /// </summary>
         /// <returns>count of commerce objects</returns>
         int Count();
+        /// <summary>
+        /// query data without requesting hal links to save time
+        /// </summary>
+        void WithoutHalLinks();
     }
 }

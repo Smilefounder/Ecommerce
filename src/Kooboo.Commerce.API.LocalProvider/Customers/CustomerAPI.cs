@@ -245,6 +245,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// </summary>
         protected override void OnQueryExecuted()
         {
+            base.OnQueryExecuted();
             _loadWithCountry = false;
             _loadWithAddresses = false;
             _loadWithCustomerLoyalty = false;
