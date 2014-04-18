@@ -60,26 +60,24 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var uriResolver = EngineContext.Current.Resolve<IUriResolver>();
 
             var wrapper = new HalWrapper(resourceDescriptorProvider, resourceLinkPersistence, uriResolver);
-            var controllerContext = new System.Web.Http.Controllers.HttpControllerContext();
-            controllerContext.Request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "http://api.commerce.com/jd/brand/5");
 
-            var resource = wrapper.Wrap("Brand:detail", brand, controllerContext, new { instance = "jd" });
+            wrapper.AddLinks("Brand:detail", brand, new { instance = "jd" });
 
             var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.ResourceConverter());
+            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.ResourceListConverter());
             settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.LinksConverter());
 
-            var json = JsonConvert.SerializeObject(resource, Formatting.Indented, settings);
+            var json = JsonConvert.SerializeObject(brand, Formatting.Indented, settings);
 
             return Content(json);
         }
         public ActionResult HalList()
         {
-            var brands = new List<Brand>
+            var brands = new Kooboo.Commerce.API.ListResource<Kooboo.Commerce.API.Brands.Brand>
             {
-                new Brand { Id = 1, Name = "Dell" },
-                new Brand { Id = 2, Name = "Microsoft" },
-                new Brand { Id = 3, Name = "Lenovo" }
+                new Kooboo.Commerce.API.Brands.Brand { Id = 1, Name = "Dell" },
+                new Kooboo.Commerce.API.Brands.Brand { Id = 2, Name = "Microsoft" },
+                new Kooboo.Commerce.API.Brands.Brand { Id = 3, Name = "Lenovo" }
             };
 
             var resourceDescriptorProvider = EngineContext.Current.Resolve<IResourceDescriptorProvider>();
@@ -87,12 +85,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var uriResolver = EngineContext.Current.Resolve<IUriResolver>();
 
             var wrapper = new HalWrapper(resourceDescriptorProvider, resourceLinkPersistence, uriResolver);
-            var controllerContext = new System.Web.Http.Controllers.HttpControllerContext();
-            controllerContext.Request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "http://api.commerce.com/jd/brands");
 
-            var resource = wrapper.Wrap("Brand:all", brands, controllerContext, new { instance = "jd" }, item =>
+            wrapper.AddLinks("Brand:all", brands, new { instance = "jd" }, item =>
             {
-                var brand = (Brand)item;
+                var brand = (Kooboo.Commerce.API.Brands.Brand)item;
                 return new
                 {
                     id = brand.Id
@@ -100,10 +96,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             });
 
             var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.ResourceConverter());
+            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.ResourceListConverter());
             settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.LinksConverter());
 
-            var json = JsonConvert.SerializeObject(resource, Formatting.Indented, settings);
+            var json = JsonConvert.SerializeObject(brands, Formatting.Indented, settings);
 
             return Content(json);
         }

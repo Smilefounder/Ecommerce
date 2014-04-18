@@ -8,6 +8,6 @@ namespace Kooboo.Commerce.HAL
     public interface IUriResolver
     {
         ResourceDescriptor FindResource(string uri);
-        string Resovle(string uriPattern, Dictionary<string, object> paras);
+        string Resovle(string uriPattern, IDictionary<string, object> paras);
     }
 }

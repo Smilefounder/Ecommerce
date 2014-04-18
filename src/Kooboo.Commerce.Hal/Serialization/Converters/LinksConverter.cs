@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kooboo.Commerce.API;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,14 @@ namespace Kooboo.Commerce.HAL.Serialization.Converters
             return typeof(IEnumerable<Link>).IsAssignableFrom(objectType);
         }
 
+        public override bool CanRead
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
@@ -22,7 +31,6 @@ namespace Kooboo.Commerce.HAL.Serialization.Converters
         {
             var links = (IEnumerable<Link>)value;
 
-            writer.WritePropertyName("_links");
             writer.WriteStartObject();
 
             foreach (var link in links)

@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.HAL
         /// <param name="uriPattern"></param>
         /// <param name="paras"></param>
         /// <returns></returns>
-        public string Resovle(string uriPattern, Dictionary<string, object> paras)
+        public string Resovle(string uriPattern, IDictionary<string, object> paras)
         {
             Uri resUri = MockAbsoluteUri(uriPattern);
             var segements = resUri.Segments.Select(o =>
@@ -89,7 +89,7 @@ namespace Kooboo.Commerce.HAL
             return true;
         }
 
-        private string GetValueFromParameters(string key, Dictionary<string, object> paras, object defaultValue)
+        private string GetValueFromParameters(string key, IDictionary<string, object> paras, object defaultValue)
         {
             if (key.StartsWith("{") && key.EndsWith("}"))
             {

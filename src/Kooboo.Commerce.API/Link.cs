@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Kooboo.Commerce.HAL.Serialization
+namespace Kooboo.Commerce.API
 {
+    /// <summary>
+    /// Represents a HAL link.
+    /// </summary>
     public class Link
     {
         public string Rel { get; set; }

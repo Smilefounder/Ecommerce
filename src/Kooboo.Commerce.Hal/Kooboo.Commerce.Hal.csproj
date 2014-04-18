@@ -63,24 +63,28 @@
   <ItemGroup>
     <Compile Include="DefaultUriResolver.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Serialization\HalWrapper.cs" />
+    <Compile Include="HalWrapper.cs" />
+    <Compile Include="IHalWrapper.cs" />
     <Compile Include="IUriResolver.cs" />
     <Compile Include="Persistence\FileResourceLinkPersistence.cs" />
     <Compile Include="IResourceDescriptorProvider.cs" />
     <Compile Include="Persistence\IResourceLinkPersistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionResourceDescriptorProvider.cs" />
-    <Compile Include="Serialization\Link.cs" />
-    <Compile Include="Serialization\Resource.cs" />
     <Compile Include="ResourceAttribute.cs" />
     <Compile Include="ResourceDescriptor.cs" />
     <Compile Include="ResourceLink.cs" />
     <Compile Include="Serialization\Converters\LinksConverter.cs" />
-    <Compile Include="Serialization\Converters\ResourceConverter.cs" />
-    <Compile Include="Serialization\ResourceResponse.cs" />
+    <Compile Include="Serialization\Converters\ResourceListConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
+      <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
+      <Name>Kooboo.Commerce.API</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
