@@ -5,7 +5,7 @@ using System.Text;
 using System.Web;
 using Kooboo.CMS.Common.Runtime.Dependency;
 
-namespace Kooboo.Commerce.HAL
+namespace Kooboo.Commerce.API.HAL
 {
     [Dependency(typeof(IUriResolver), ComponentLifeStyle.Singleton)]
     public class DefaultUriResolver : IUriResolver

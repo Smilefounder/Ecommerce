@@ -19,10 +19,10 @@ using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Parsing;
 using System.Text;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
-using Kooboo.Commerce.HAL;
-using Kooboo.Commerce.HAL.Persistence;
+using Kooboo.Commerce.API.HAL;
+using Kooboo.Commerce.API.HAL.Persistence;
 using Newtonsoft.Json;
-using Kooboo.Commerce.HAL.Serialization;
+using Kooboo.Commerce.API.HAL.Serialization;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -64,8 +64,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             wrapper.AddLinks("Brand:detail", brand, new { instance = "jd" });
 
             var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.ResourceListConverter());
-            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.LinksConverter());
+            settings.Converters.Add(new Kooboo.Commerce.API.HAL.Serialization.Converters.ResourceListConverter());
+            settings.Converters.Add(new Kooboo.Commerce.API.HAL.Serialization.Converters.LinksConverter());
 
             var json = JsonConvert.SerializeObject(brand, Formatting.Indented, settings);
 
@@ -96,8 +96,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             });
 
             var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.ResourceListConverter());
-            settings.Converters.Add(new Kooboo.Commerce.HAL.Serialization.Converters.LinksConverter());
+            settings.Converters.Add(new Kooboo.Commerce.API.HAL.Serialization.Converters.ResourceListConverter());
+            settings.Converters.Add(new Kooboo.Commerce.API.HAL.Serialization.Converters.LinksConverter());
 
             var json = JsonConvert.SerializeObject(brands, Formatting.Indented, settings);
 

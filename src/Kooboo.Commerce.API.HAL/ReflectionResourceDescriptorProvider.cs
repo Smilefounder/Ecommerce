@@ -9,7 +9,7 @@ using System.Web.Http;
 using System.Xml.Linq;
 using Kooboo.CMS.Common.Runtime.Dependency;
 
-namespace Kooboo.Commerce.HAL
+namespace Kooboo.Commerce.API.HAL
 {
     [Dependency(typeof(IResourceDescriptorProvider), ComponentLifeStyle.Singleton)]
     public class ReflectionResourceDescriptorProvider : IResourceDescriptorProvider

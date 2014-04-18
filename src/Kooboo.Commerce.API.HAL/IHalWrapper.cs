@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.HAL
+namespace Kooboo.Commerce.API.HAL
 {
     public interface IHalWrapper
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.HAL.Persistence
+namespace Kooboo.Commerce.API.HAL.Persistence
 {
     public interface IResourceLinkPersistence
     {

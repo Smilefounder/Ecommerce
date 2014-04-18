@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Kooboo.Commerce.HAL.Persistence
+namespace Kooboo.Commerce.API.HAL.Persistence
 {
     [Dependency(typeof(IResourceLinkPersistence), ComponentLifeStyle.Singleton)]
     public class FileResourceLinkPersistence : IResourceLinkPersistence

@@ -7,7 +7,7 @@ using System.Web.Http;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.API;
-using Kooboo.Commerce.HAL;
+using Kooboo.Commerce.API.HAL;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {

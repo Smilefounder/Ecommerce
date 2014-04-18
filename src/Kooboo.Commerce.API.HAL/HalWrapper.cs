@@ -1,12 +1,11 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API;
-using Kooboo.Commerce.HAL.Persistence;
+using Kooboo.Commerce.API.HAL.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.HAL
+namespace Kooboo.Commerce.API.HAL
 {
     [Dependency(typeof(IHalWrapper))]
     public class HalWrapper : IHalWrapper
