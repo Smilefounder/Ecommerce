@@ -1,53 +1,75 @@
 ﻿@model AttachedActivityModel
 
-@Html.ValidationSummary(true)
-@Html.HiddenFor(m => m.Id)
-@Html.HiddenFor(m => m.ActivityName)
-@Html.HiddenFor(m => m.RuleBranch)
-<table id="activity-binding-form">
-    <tbody>
-        <tr>
-            <th>@("Activity".Localize())</th>
-            <td>
-                @Model.ActivityDisplayName
-            </td>
-        </tr>
-        @Html.EditorFor(m => m.EnableAsyncExecution)
-        <tr class="delay-row" style="display:none">
-            <th>@("Delay".Localize())</th>
-            <td>
-                @Html.TextBoxFor(m => m.DelayDays, new { @class = "small" })
-                @("Days".Localize())
-                @Html.DropDownListFor(m => m.DelayHours, Enumerable.Range(0, 24).ToSelectListItems(), new { @class = "small" })
-                @("Hours".Localize())
-                @Html.DropDownListFor(m => m.DelayMinutes, Enumerable.Range(0, 60).ToSelectListItems(), new { @class = "small" })
-                @("Minutes".Localize())
-                @Html.DropDownListFor(m => m.DelaySeconds, Enumerable.Range(0, 60).ToSelectListItems(), new { @class = "small" })
-                @("Seconds".Localize())
-            </td>
-        </tr>
-        @Html.EditorFor(m => m.Description)
-        @Html.EditorFor(m => m.Priority)
-        @Html.EditorFor(m => m.IsEnabled)
-    </tbody>
-</table>
+<div class="topbar">
+    <h1 class="title">@ViewBag.Title</h1>
+</div>
+<div class="warp">
+    @using (Html.BeginForm("Save", "Activity", RouteValues.From(Request.QueryString)))
+    {
+        <div class="step-content clearfix">
+            <div class="common-form">
 
-<p class="buttons">
-    <button type="submit" data-ajaxform="">@("Next".Localize()) »</button>
-    <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
-</p>
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.ActivityName)
+                @Html.HiddenFor(m => m.RuleBranch)
+                <table id="activity-binding-form">
+                    <tbody>
+                        <tr>
+                            <th>@("Activity".Localize())</th>
+                            <td>
+                                @Model.ActivityDisplayName
+                            </td>
+                        </tr>
+                        @Html.EditorFor(m => m.Description)
+                        @Html.EditorFor(m => m.Priority)
+                        @Html.EditorFor(m => m.EnableAsyncExecution)
+                        <tr class="delay-row" style="display:none">
+                            <th>@("Delay".Localize())</th>
+                            <td>
+                                <div class="columns">
+                                    <div class="span3">
+                                        @Html.TextBoxFor(m => m.DelayDays, new { @class = "xlarge" })
+                                        @("Days".Localize())
+                                    </div>
+                                    <div class="span3">
+                                        @Html.DropDownListFor(m => m.DelayHours, Enumerable.Range(0, 24).ToSelectListItems(), new { @class = "xlarge" })
+                                        @("Hours".Localize())
+                                    </div>
+                                    <div class="span3">
+                                        @Html.DropDownListFor(m => m.DelayMinutes, Enumerable.Range(0, 60).ToSelectListItems(), new { @class = "xlarge" })
+                                        @("Minutes".Localize())
+                                    </div>
+                                    <div class="span3">
+                                        @Html.DropDownListFor(m => m.DelaySeconds, Enumerable.Range(0, 60).ToSelectListItems(), new { @class = "xlarge" })
+                                        @("Seconds".Localize())
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @Html.EditorFor(m => m.IsEnabled)
+                    </tbody>
+                </table>
 
+                <p class="buttons">
+                    <button type="submit" data-ajaxform="">@("Next".Localize()) »</button>
+                    <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
+                </p>
+            </div>
+        </div>
+    }
+</div>
 <script>
     (function () {
 
         updateDelayRowVisibility();
 
-        $('checkbox[name="EnableAsyncExecution"]').click(function () {
+        $(':checkbox[name="EnableAsyncExecution"]').click(function () {
             updateDelayRowVisibility();
         });
 
         function updateDelayRowVisibility() {
-            var enableAsyncExecution = $('checkbox[name="EnableAsyncExecution"]').is(':checked');
+            var enableAsyncExecution = $(':checkbox[name="EnableAsyncExecution"]').is(':checked');
             if (enableAsyncExecution) {
                 $('.delay-row').show();
             } else {

@@ -125,6 +125,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
+        [HandleAjaxError]
         public ActionResult GetRules(string eventType)
         {
             var rules = _activityRuleService.GetRulesByEventType(Type.GetType(eventType, true)).ToList();
