@@ -128,6 +128,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             IsEnabled = activity.IsEnabled;
             Priority = activity.Priority;
             RuleBranch = activity.RuleBranch;
+            EnableAsyncExecution = activity.IsAsyncExeuctionEnabled;
+
+            if (activity.AsyncExecutionDelay > 0)
+            {
+                var delay = TimeSpan.FromSeconds(activity.AsyncExecutionDelay);
+                DelayDays = delay.Days;
+                DelayHours = delay.Hours;
+                DelayMinutes = delay.Minutes;
+                DelaySeconds = delay.Seconds;
+            }
         }
     }
 }

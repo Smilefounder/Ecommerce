@@ -56,4 +56,28 @@
         };
     })();
 
+    (function () {
+        kb.http = {
+            safeGet: function (url, data) {
+                return $.get(url, data)
+                        .fail(function (xhr) {
+                            var result = JSON.parse(xhr.responseText);
+                            showError(result);
+                        });
+            },
+            safePost: function (url, data) {
+                return $.post(url, data)
+                        .fail(function (xhr) {
+                            var result = JSON.parse(xhr.responseText);
+                            showError(result);
+                        });
+            }
+        };
+
+        function showError(error) {
+            window.loading.hide();
+            info.show(error.message, false);
+        }
+    })();
+
 })(jQuery);

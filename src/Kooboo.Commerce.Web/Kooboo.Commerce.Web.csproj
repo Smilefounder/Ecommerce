@@ -361,6 +361,7 @@
       <DependentUpon>UploadHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Media\MediaAreaRegistration.cs" />
+    <Compile Include="Areas\Commerce\Common\Mvc\HandleAjaxErrorAttribute.cs" />
     <Compile Include="Extensions\ABTest\SampleABRule.cs" />
     <Compile Include="Extensions\ContentEvent\CustomContentEventSubscriber.cs" />
     <Compile Include="Extensions\MembershipConnectClient\DictionaryExtensions.cs" />

@@ -264,25 +264,25 @@
             }
         }
 
-        var loadAvailableActivitiesAsync = $.get('@Url.Action("GetAvailableActivities")', { eventType: eventType, commerceName: commerceName })
-                                            .then(function (data) {
-                                                $.each(data, function () {
-                                                    vm.availableActivities.push(ko.mapping.fromJS(this));
-                                                });
-                                            });
+        window.loading.show();
 
-        var loadRulesAsync = $.get('@Url.Action("GetRules")', { eventType: eventType, commerceName: commerceName })
-                              .then(function (rules) {
-                                  $.each(rules, function () {
-                                      vm.rules.push(ko.mapping.fromJS(this, mappingOptions));
-                                  });
-                              });
+        var loadAvailableActivitiesAsync = kb.http.safeGet('@Url.Action("GetAvailableActivities")', { eventType: eventType, commerceName: commerceName })
+                                                  .then(function (data) {
+                                                      $.each(data, function () {
+                                                          vm.availableActivities.push(ko.mapping.fromJS(this));
+                                                      });
+                                                  });
+
+        var loadRulesAsync = kb.http.safeGet('@Url.Action("GetRules")', { eventType: eventType, commerceName: commerceName })
+                                    .then(function (rules) {
+                                        $.each(rules, function () {
+                                            vm.rules.push(ko.mapping.fromJS(this, mappingOptions));
+                                        });
+                                    });
 
         setTimeout(function () {
-            window.loading.show();
-
             $.when(loadAvailableActivitiesAsync, loadRulesAsync)
-             .then(function () {
+             .done(function () {
                  ko.applyBindings(vm, document.getElementById('rules-container'));
                  window.loading.hide();
              });

@@ -4,16 +4,4 @@
     ViewBag.Title = "Attach Activity".Localize();
 }
 
-<div class="topbar">
-    <h1 class="title">@ViewBag.Title</h1>
-</div>
-<div class="warp">
-    @using (Html.BeginForm())
-    {
-        <div class="step-content clearfix">
-            <div class="common-form">
-                @Html.EditorForModel()
-            </div>
-        </div>
-    }
-</div>
+@Html.EditorForModel()
