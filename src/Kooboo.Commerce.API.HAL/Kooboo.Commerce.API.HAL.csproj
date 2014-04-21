@@ -63,7 +63,9 @@
   <ItemGroup>
     <Compile Include="DefaultUriResolver.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="HalContext.cs" />
     <Compile Include="HalWrapper.cs" />
+    <Compile Include="IContextEnviromentProvider.cs" />
     <Compile Include="IHalWrapper.cs" />
     <Compile Include="IUriResolver.cs" />
     <Compile Include="Persistence\FileResourceLinkPersistence.cs" />
