@@ -13,6 +13,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
 
         public ResourceModel DestinationResource { get; set; }
 
+        public string EnvironmentName { get; set; }
+
         public bool IsEditing { get; set; }
     }
 }

@@ -15,7 +15,10 @@ namespace Kooboo.Commerce.API.HAL
 
         public string Relation { get; set; }
 
-        //public IDictionary<string, string> ParameterMappings { get; set; }
+        /// <summary>
+        /// Name of the environment in which this link is available.
+        /// </summary>
+        public string EnvironmentName { get; set; }
 
         public ResourceLink()
         {

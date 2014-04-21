@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.Globalization;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -15,9 +16,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     {
         private IResourceDescriptorProvider _resourceDescriptorProvider;
         private IResourceLinkPersistence _resourceLinkPersistence;
+        private IEnumerable<IContextEnviromentProvider> _environmentProviders;
 
-        public HalController(IResourceDescriptorProvider resourceDescriptorProvider, IResourceLinkPersistence resourceLinkPersistence)
+        public HalController(IEnumerable<IContextEnviromentProvider> environmentProviders, IResourceDescriptorProvider resourceDescriptorProvider, IResourceLinkPersistence resourceLinkPersistence)
         {
+            _environmentProviders = environmentProviders;
             _resourceDescriptorProvider = resourceDescriptorProvider;
             _resourceLinkPersistence = resourceLinkPersistence;
         }
@@ -42,6 +45,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 IsListResource = resource.IsListResource,
                 LinkableResources = linkableResources.Select(x => new ResourceModel(x)).ToList()
             };
+
+            foreach (var provider in _environmentProviders)
+            {
+                model.Environments.Add(new SelectListItem
+                {
+                    Text = provider.Name,
+                    Value = provider.Name
+                });
+            }
 
             if (resource.IsListResource && !String.IsNullOrEmpty(resource.ItemResourceName))
             {
@@ -76,6 +88,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 link = _resourceLinkPersistence.GetById(linkModel.Id);
                 link.Relation = linkModel.Relation;
                 link.DestinationResourceName = linkModel.DestinationResource.ResourceName;
+                link.EnvironmentName = linkModel.EnvironmentName;
                 _resourceLinkPersistence.Save(link);
             }
             else
@@ -84,7 +97,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 {
                     Relation = linkModel.Relation,
                     SourceResourceName = sourceResourceName,
-                    DestinationResourceName = linkModel.DestinationResource.ResourceName
+                    DestinationResourceName = linkModel.DestinationResource.ResourceName,
+                    EnvironmentName = linkModel.EnvironmentName
                 };
                 _resourceLinkPersistence.Save(link);
             }

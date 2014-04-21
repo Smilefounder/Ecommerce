@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllContextEnvironementProvider.cs" />
     <Compile Include="DefaultUriResolver.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="HalContext.cs" />

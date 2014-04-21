@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
 {
@@ -19,10 +20,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
 
         public IList<ResourceLinkModel> Links { get; set; }
 
+        public IList<SelectListItem> Environments { get; set; }
+
         public ResourceDetailModel()
         {
             LinkableResources = new List<ResourceModel>();
             Links = new List<ResourceLinkModel>();
+            Environments = new List<SelectListItem>();
         }
     }
 }

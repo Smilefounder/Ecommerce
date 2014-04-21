@@ -49,6 +49,7 @@
                         <table>
                             <thead>
                                 <tr>
+                                    <th>@("Environement".Localize())</th>
                                     <th>@("Relation".Localize())</th>
                                     <th>@("Linked Resource".Localize())</th>
                                     <th></th>
@@ -56,6 +57,7 @@
                             </thead>
                             <tbody data-bind="foreach: { data: links, afterRender: updateValidation }">
                                 <tr data-bind="visible: !isEditing()">
+                                    <td data-bind="text: environmentName"></td>
                                     <td data-bind="text: relation"></td>
                                     <td>
                                         <span data-bind="text: destinationResource.resourceUri"></span>
@@ -66,6 +68,9 @@
                                     </td>
                                 </tr>
                                 <tr data-bind="visible: isEditing">
+                                    <td>
+                                        <select data-bind="options: $root.environments, optionsText: 'text', optionsValue: 'value', value: environmentName"></select>
+                                    </td>
                                     <td>
                                         <input type="text" class="medium" data-bind="value: relation, attr: { name: 'Relation' + $index() }" maxlength="50"
                                                data-val="true"
@@ -114,6 +119,7 @@
             this.addLink = function () {
                 var link = {
                     id: ko.observable(),
+                    environmentName: ko.observable(),
                     relation: ko.observable(),
                     destinationResource: {
                         resourceName: ko.observable(),
