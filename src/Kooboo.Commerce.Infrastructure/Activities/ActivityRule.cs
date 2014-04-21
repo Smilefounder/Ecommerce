@@ -66,16 +66,9 @@ namespace Kooboo.Commerce.Activities
             };
         }
 
-        public AttachedActivity AttacheActivity(RuleBranch branch, string description, string activityName, string activityData)
+        public AttachedActivity AttachActivity(RuleBranch branch, string description, string activityName, string activityData)
         {
-            var attachedActivity = new AttachedActivity(this, branch)
-            {
-                Description = description,
-                ActivityName = activityName,
-                ActivityData = activityData,
-                IsEnabled = true
-            };
-
+            var attachedActivity = new AttachedActivity(this, branch, description, activityName, activityData);
             AttachedActivities.Add(attachedActivity);
 
             Event.Raise(new ActivityAttached(this, attachedActivity));

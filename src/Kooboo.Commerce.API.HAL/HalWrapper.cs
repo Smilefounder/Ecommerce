@@ -13,18 +13,21 @@ namespace Kooboo.Commerce.API.HAL
         private IUriResolver _uriResolver;
         private IResourceLinkPersistence _resourceLinkPersistence;
         private IResourceDescriptorProvider _resourceDescriptorProvider;
+        private IEnumerable<IContextEnviromentProvider> _environmentProviders;
 
         public HalWrapper(
             IResourceDescriptorProvider resourceDescriptorProvider,
             IResourceLinkPersistence resourceLinkPersistence,
-            IUriResolver uriResolver)
+            IUriResolver uriResolver,
+            IEnumerable<IContextEnviromentProvider> environmentProviders)
         {
             _resourceDescriptorProvider = resourceDescriptorProvider;
             _resourceLinkPersistence = resourceLinkPersistence;
             _uriResolver = uriResolver;
+            _environmentProviders = environmentProviders;
         }
 
-        public void AddLinks(string resourceName, IItemResource resource, IDictionary<string, object> parameterValues)
+        public void AddLinks(string resourceName, IItemResource resource, HalContext context, IDictionary<string, object> parameterValues)
         {
             if (String.IsNullOrEmpty(resourceName))
                 throw new ArgumentException("Resource name is required.", "resourceName");
@@ -34,10 +37,10 @@ namespace Kooboo.Commerce.API.HAL
 
             var descriptor = _resourceDescriptorProvider.GetDescriptor(resourceName);
             AssertDescriptorNotNull(descriptor, resourceName);
-            FillLinksNoRecursive(descriptor, resource, parameterValues);
+            FillLinksNoRecursive(descriptor, resource, parameterValues, GetAvailableEnvironmentNames(context));
         }
 
-        public void AddLinks<T>(string resourceName, IListResource<T> resource, IDictionary<string, object> parameterValues, Func<T, IDictionary<string, object>> itemParameterValuesResolver)
+        public void AddLinks<T>(string resourceName, IListResource<T> resource, HalContext context, IDictionary<string, object> parameterValues, Func<T, IDictionary<string, object>> itemParameterValuesResolver)
             where T : IItemResource
         {
             if (String.IsNullOrEmpty(resourceName))
@@ -47,9 +50,11 @@ namespace Kooboo.Commerce.API.HAL
                 throw new ArgumentNullException("resource");
 
             var descriptor = _resourceDescriptorProvider.GetDescriptor(resourceName);
-
             AssertDescriptorNotNull(descriptor, resourceName);
-            FillLinksNoRecursive(descriptor, resource, parameterValues);
+
+            var environmentNames = GetAvailableEnvironmentNames(context);
+
+            FillLinksNoRecursive(descriptor, resource, parameterValues, environmentNames);
 
             var itemDescriptor = _resourceDescriptorProvider.GetDescriptor(descriptor.ItemResourceName);
             AssertDescriptorNotNull(itemDescriptor, descriptor.ItemResourceName);
@@ -57,11 +62,17 @@ namespace Kooboo.Commerce.API.HAL
             foreach (var item in resource)
             {
                 var itemParamValues = itemParameterValuesResolver == null ? null : itemParameterValuesResolver(item);
-                FillLinksNoRecursive(itemDescriptor, item, itemParamValues);
+                FillLinksNoRecursive(itemDescriptor, item, itemParamValues, environmentNames);
             }
         }
 
-        private void FillLinksNoRecursive(ResourceDescriptor descriptor, IResource resource, IDictionary<string, object> parameterValues)
+        private ISet<string> GetAvailableEnvironmentNames(HalContext context)
+        {
+            var providers = _environmentProviders.Where(x => x.IsContextRunInEnviroment(context)).ToList();
+            return new HashSet<string>(providers.Select(x => x.Name));
+        }
+
+        private void FillLinksNoRecursive(ResourceDescriptor descriptor, IResource resource, IDictionary<string, object> parameterValues, ISet<string> environmentProviderNames)
         {
             // Add self
             resource.Links.Add(new Link
@@ -70,7 +81,7 @@ namespace Kooboo.Commerce.API.HAL
                 Href = _uriResolver.Resovle(descriptor.ResourceUri, parameterValues)
             });
 
-            var savedLinks = _resourceLinkPersistence.GetLinks(descriptor.ResourceName);
+            var savedLinks = _resourceLinkPersistence.GetLinks(descriptor.ResourceName, environmentProviderNames);
 
             foreach (var savedLink in savedLinks)
             {

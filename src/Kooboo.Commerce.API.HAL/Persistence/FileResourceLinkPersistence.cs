@@ -120,7 +120,7 @@ namespace Kooboo.Commerce.API.HAL.Persistence
             }
         }
 
-        public IEnumerable<ResourceLink> GetLinks(string resourceName)
+        public IEnumerable<ResourceLink> GetLinks(string resourceName, ISet<string> environmentNames)
         {
             EnsureCacheLoaded();
 
@@ -128,13 +128,22 @@ namespace Kooboo.Commerce.API.HAL.Persistence
 
             try
             {
+                var resultLinks = Enumerable.Empty<ResourceLink>();
+
                 List<ResourceLink> links = null;
                 if (_linksByResource.TryGetValue(resourceName, out links))
                 {
-                    return links.Select(x => x.Clone()).ToList();
+                    if (environmentNames != null && environmentNames.Count > 0)
+                    {
+                        resultLinks = links.Where(x => environmentNames.Contains(x.EnvironmentName)).ToList();
+                    }
+                    else
+                    {
+                        resultLinks = links;
+                    }
                 }
 
-                return Enumerable.Empty<ResourceLink>();
+                return resultLinks.Select(x => x.Clone()).ToList();
             }
             finally
             {

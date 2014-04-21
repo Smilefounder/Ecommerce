@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.API.HAL
         public string Relation { get; set; }
 
         /// <summary>
-        /// Name of the environment in which this link is available.
+        /// Name of the environment in which this link is available for the source resource.
         /// </summary>
         public string EnvironmentName { get; set; }
 

@@ -57,7 +57,7 @@
                             </thead>
                             <tbody data-bind="foreach: { data: links, afterRender: updateValidation }">
                                 <tr data-bind="visible: !isEditing()">
-                                    <td data-bind="text: environmentName"></td>
+                                    <td data-bind="text: environmentName() || '@("Any".Localize())'"></td>
                                     <td data-bind="text: relation"></td>
                                     <td>
                                         <span data-bind="text: destinationResource.resourceUri"></span>

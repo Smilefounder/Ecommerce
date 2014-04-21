@@ -58,11 +58,40 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Create(AttachedActivityModel model)
+        public ActionResult Save(AttachedActivityModel model)
         {
             var rule = _activityRuleService.GetById(model.RuleId);
-            var attachedActivity = rule.AttacheActivity(model.RuleBranch, model.Description, model.ActivityName, null);
+            AttachedActivity attachedActivity = null;
+
+            if (model.Id > 0)
+            {
+                attachedActivity = rule.AttachedActivities.ById(model.Id);
+            }
+            else
+            {
+                attachedActivity = rule.AttachActivity(model.RuleBranch, model.Description, model.ActivityName, null);
+            }
+
+            attachedActivity.Description = model.Description;
             attachedActivity.IsEnabled = model.IsEnabled;
+
+            if (model.EnableAsyncExecution)
+            {
+                var delay = new TimeSpan(model.DelayDays, model.DelayHours, model.DelayMinutes, model.DelaySeconds);
+
+                if (attachedActivity.IsAsyncExeuctionEnabled)
+                {
+                    attachedActivity.UpdateAsyncExecutionDelay((int)delay.TotalSeconds);
+                }
+                else
+                {
+                    attachedActivity.EnableAsyncExecution((int)delay.TotalSeconds);
+                }
+            }
+            else
+            {
+                attachedActivity.DisableAsyncExecution();
+            }
 
             CommerceContext.CurrentInstance.Database.Commit();
 
@@ -94,31 +123,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             model.ActivityDisplayName = activity.DisplayName;
 
             return View(model);
-        }
-
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Edit(AttachedActivityModel model)
-        {
-            var rule = _activityRuleService.GetById(model.RuleId);
-            var attachedActivity = rule.AttachedActivities.ById(model.Id);
-
-            attachedActivity.Description = model.Description;
-            attachedActivity.IsEnabled = model.IsEnabled;
-
-            var configUrl = String.Empty;
-
-            var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
-            if (views != null)
-            {
-                configUrl = Url.RouteUrl(views.Settings(attachedActivity, ControllerContext), RouteValues.From(Request.QueryString));
-            }
-
-            return AjaxForm().WithModel(new
-            {
-                RuleId = rule.Id,
-                AttachedActivityId = attachedActivity.Id,
-                ConfigUrl = configUrl
-            });
         }
 
         public ActionResult GetRules(string eventType)

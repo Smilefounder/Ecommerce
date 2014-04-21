@@ -46,6 +46,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 LinkableResources = linkableResources.Select(x => new ResourceModel(x)).ToList()
             };
 
+            model.Environments.Add(new SelectListItem
+            {
+                Text = "Any".Localize(),
+                Value = ""
+            });
+
             foreach (var provider in _environmentProviders)
             {
                 model.Environments.Add(new SelectListItem
@@ -61,7 +67,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 model.ItemResource = new ResourceModel(itemResource);
             }
 
-            var links = _resourceLinkPersistence.GetLinks(resource.ResourceName);
+            var links = _resourceLinkPersistence.GetLinks(resource.ResourceName, null);
             foreach (var link in links)
             {
                 var linkedResource = _resourceDescriptorProvider.GetDescriptor(link.DestinationResourceName);

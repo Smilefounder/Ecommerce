@@ -2,6 +2,7 @@
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -95,6 +96,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
         public bool IsEnabled { get; set; }
 
         public int Priority { get; set; }
+
+        [Display(Name = "Enable Async Execution")]
+        public bool EnableAsyncExecution { get; set; }
+
+        public int DelayDays { get; set; }
+
+        public int DelayHours { get; set; }
+
+        public int DelayMinutes { get; set; }
+
+        public int DelaySeconds { get; set; }
 
         public string ConfigUrl { get; set; }
 
