@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.API
     /// common data access interface for commerce objects
     /// </summary>
     /// <typeparam name="T">commerce object type</typeparam>
-    public interface ICommerceAccess<T>
+    public interface ICommerceAccess<T> where T : IItemResource
     {
         /// <summary>
         /// create the commerce object

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.API.HAL;
 
 namespace Kooboo.Commerce.API.LocalProvider.Categories
 {
@@ -20,7 +21,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         private bool _loadWithParents = false;
         private bool _loadWithChildren = false;
 
-        public CategoryAPI(ICategoryService categoryService, IMapper<Category, Kooboo.Commerce.Categories.Category> mapper)
+        public CategoryAPI(IHalWrapper halWrapper, ICategoryService categoryService, IMapper<Category, Kooboo.Commerce.Categories.Category> mapper)
+            : base(halWrapper)
         {
             _categoryService = categoryService;
             _mapper = mapper;

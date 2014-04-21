@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.API.Locations
     /// <summary>
     /// country
     /// </summary>
-    public class Country
+    public class Country : ItemResource
     {
         /// <summary>
         /// country id

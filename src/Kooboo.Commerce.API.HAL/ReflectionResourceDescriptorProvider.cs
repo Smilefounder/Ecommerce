@@ -32,6 +32,7 @@ namespace Kooboo.Commerce.API.HAL
         public ResourceDescriptor GetDescriptor(string resourceName)
         {
             ScanResources();
+            resourceName = resourceName.ToLower();
             return _resources.FirstOrDefault(o => o.ResourceName == resourceName);
         }
 
@@ -85,7 +86,7 @@ namespace Kooboo.Commerce.API.HAL
                             string actionName = action.Name;
                             if (_specialActionNames.Contains(action.Name.ToLower()))
                                 actionName = string.Empty;
-                            resource.ResourceUri = string.Format("/{{instance}}/{0}/{1}", controllerName, actionName).TrimEnd('/');
+                            resource.ResourceUri = string.Format("/{{instance}}/{0}/{1}", controllerName, actionName).TrimEnd('/').ToLower();
                         }
                         else
                             resource.ResourceUri = resAttr.Uri;
@@ -110,7 +111,7 @@ namespace Kooboo.Commerce.API.HAL
                 resName = string.Format("{0}:{1}", controller, action);
             else if (resName.IndexOf(':') < 0)
                 resName = string.Format("{0}:{1}", controller, resName);
-            return resName;
+            return resName.ToLower();
         }
 
     }

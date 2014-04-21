@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.API.HAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,14 @@ namespace Kooboo.Commerce.API.LocalProvider
     /// <typeparam name="T">api object type</typeparam>
     /// <typeparam name="Model">entity type</typeparam>
     public abstract class LocalCommerceQueryAccess<T, Model> : LocalCommerceQuery<T, Model>, ICommerceAccess<T>
-        where T : class, new()
+        where T : IItemResource
         where Model : class, new()
     {
+        public LocalCommerceQueryAccess(IHalWrapper halWrapper)
+            : base(halWrapper)
+        {
+        }
+
         /// <summary>
         /// create object
         /// </summary>
@@ -41,5 +47,20 @@ namespace Kooboo.Commerce.API.LocalProvider
         /// <param name="obj">object</param>
         /// <returns>true if successfully, else false</returns>
         public abstract bool Delete(T obj);
+
+        protected override IQueryable<Model> CreateQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IQueryable<Model> OrderByDefault(IQueryable<Model> query)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override T Map(Model obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

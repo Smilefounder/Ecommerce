@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
+using Kooboo.Commerce.API.HAL;
 
 namespace Kooboo.Commerce.API.LocalProvider
 {
@@ -11,10 +12,17 @@ namespace Kooboo.Commerce.API.LocalProvider
     /// </summary>
     /// <typeparam name="T">api object type</typeparam>
     /// <typeparam name="Model">entity type</typeparam>
-    public abstract class LocalCommerceQuery<T, Model> : ICommerceQuery<T>
-        where T : class, new()
+    public abstract class LocalCommerceQuery<T, Model> : IHalContextAware, ICommerceQuery<T>
+        where T : IItemResource
         where Model : class, new()
     {
+        protected IHalWrapper _halWrapper;
+
+        public LocalCommerceQuery(IHalWrapper halWrapper)
+        {
+            _halWrapper = halWrapper;
+        }
+
         /// <summary>
         /// entity query for build up fluent api filters
         /// </summary>
@@ -51,6 +59,43 @@ namespace Kooboo.Commerce.API.LocalProvider
             }
             _includeHalLinks = true;
         }
+
+        protected virtual string BuildResourceName(string resourceName)
+        {
+            return string.Format("{0}:{1}", typeof(T).Name, resourceName).ToLower();
+        }
+
+        protected void AppendHalContextParameters(IDictionary<string, object> parameters)
+        {
+            parameters.Add("instance", HalContext.CommerceInstance);
+            parameters.Add("language", HalContext.Language);
+            parameters.Add("currency", HalContext.Currency);
+        }
+
+        protected virtual IDictionary<string, object> BuildListHalParameters(T[] data)
+        {
+            var paras = new Dictionary<string, object>();
+            return paras;
+        }
+
+        protected virtual IDictionary<string, object> BuildItemHalParameters(T data)
+        {
+            var paras = new Dictionary<string, object>();
+            return paras;
+        }
+
+        public virtual void WrapHalLinks(T[] data, string resourceName, IDictionary<string, object> listHalParameters, Func<T, IDictionary<string, object>> itemHalParameterResolver)
+        {
+            resourceName = BuildResourceName(resourceName);
+            IListResource<T> listData = new ListResource<T>(data);
+            _halWrapper.AddLinks(resourceName, listData, HalContext, listHalParameters, o => itemHalParameterResolver(o));
+        }
+
+        public virtual void WrapHalLinks(T data, string resourceName, IDictionary<string, object> itemHalParameters)
+        {
+            resourceName = BuildResourceName(resourceName);
+            _halWrapper.AddLinks(resourceName, data, HalContext, itemHalParameters);
+        }
         /// <summary>
         /// ensure the query is not null
         /// </summary>
@@ -68,9 +113,24 @@ namespace Kooboo.Commerce.API.LocalProvider
         public virtual T[] Pagination(int pageIndex, int pageSize)
         {
             EnsureQuery();
-            var objs = OrderByDefault(_query).Skip(pageIndex * pageSize).Take(pageSize).ToArray();
+            var query = OrderByDefault(_query);
+            var objs = query.Skip(pageIndex * pageSize).Take(pageSize).ToArray();
             var mobjs = objs.Select(o => Map(o)).ToArray();
             OnQueryExecuted();
+            if (_includeHalLinks)
+            {
+                var listParas = BuildListHalParameters(mobjs);
+                AppendHalContextParameters(listParas);
+                Func<T, IDictionary<string, object>> itemParasResolver = o =>
+                {
+                    var itemParas = BuildItemHalParameters(o);
+                    AppendHalContextParameters(itemParas);
+                    return itemParas;
+                };
+                listParas.Add("page", pageIndex);
+                listParas.Add("pageSize", pageSize);
+                WrapHalLinks(mobjs, "list", listParas, itemParasResolver);
+            }
             return mobjs;
         }
         /// <summary>
@@ -81,10 +141,16 @@ namespace Kooboo.Commerce.API.LocalProvider
         {
             EnsureQuery();
             var obj = _query.FirstOrDefault();
-            T mobj = null;
+            T mobj = default(T);
             if (obj != null)
                 mobj = Map(obj);
             OnQueryExecuted();
+            if (_includeHalLinks)
+            {
+                var itemParas = BuildItemHalParameters(mobj);
+                AppendHalContextParameters(itemParas);
+                WrapHalLinks(mobj, "detail", itemParas);
+            }
             return mobj;
         }
         /// <summary>
@@ -97,6 +163,18 @@ namespace Kooboo.Commerce.API.LocalProvider
             var objs = _query.ToArray();
             var mobjs = objs.Select(o => Map(o)).ToArray();
             OnQueryExecuted();
+            if (_includeHalLinks)
+            {
+                var listParas = BuildListHalParameters(mobjs);
+                AppendHalContextParameters(listParas);
+                Func<T, IDictionary<string, object>> itemParasResolver = o =>
+                {
+                    var itemParas = BuildItemHalParameters(o);
+                    AppendHalContextParameters(itemParas);
+                    return itemParas;
+                };
+                WrapHalLinks(mobjs, "all", listParas, itemParasResolver);
+            }
             return mobjs;
         }
         /// <summary>
@@ -116,5 +194,7 @@ namespace Kooboo.Commerce.API.LocalProvider
         {
             _includeHalLinks = false;
         }
+
+        public HalContext HalContext { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Locations.Services;
@@ -26,11 +27,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         private bool _loadWithAddresses = false;
         private bool _loadWithCustomerLoyalty = false;
 
-        public CustomerAPI(ICustomerService customerService, ICountryService countryService, 
+        public CustomerAPI(IHalWrapper halWrapper, ICustomerService customerService, ICountryService countryService, 
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> mapper, 
             IMapper<Country, Kooboo.Commerce.Locations.Country> countryMapper,
             IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper,
             IMapper<CustomerLoyalty, Kooboo.Commerce.Customers.CustomerLoyalty> customerLoyaltyMapper)
+            : base(halWrapper)
         {
             _customerService = customerService;
             _countryService = countryService;

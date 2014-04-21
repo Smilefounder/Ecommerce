@@ -27,8 +27,9 @@ namespace Kooboo.Commerce.API
         /// </summary>
         /// <param name="instance">commerce intance</param>
         /// <param name="language">lanuage</param>
+        /// <param name="currency">currency</param>
         /// <param name="settings">the extra settings for provider</param>
-        public abstract void InitCommerceInstance(string instance, string language, Dictionary<string, string> settings);
+        public abstract void InitCommerceInstance(string instance, string language, string currency, Dictionary<string, string> settings);
         /// <summary>
         /// get the corresponding api from runtime context
         /// </summary>

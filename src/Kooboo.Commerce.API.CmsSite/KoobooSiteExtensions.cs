@@ -34,13 +34,18 @@ namespace Kooboo.Commerce.API.CmsSite
             return site.Culture;
         }
 
+        public static string GetCurrency(this Site site)
+        {
+            return null;
+        }
+
         public static ICommerceAPI Commerce(this Site site)
         {
             // get ioc injected commerce api
             var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();
             // init commerce instance by commerce name and languages, 
             // extra parameters needed for initializing the commerce instance are in the site's custom fields
-            commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage(), site.CustomFields);
+            commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage(), site.GetCurrency(), site.CustomFields);
             return commerceService;
         }
     }

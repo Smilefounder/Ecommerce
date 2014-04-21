@@ -22,7 +22,8 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();
             string commerceInstance = this.ControllerContext.RouteData.Values["instance"].ToString();
             string language = "";
-            commerceService.InitCommerceInstance(commerceInstance, language, null);
+            string currency = "";
+            commerceService.InitCommerceInstance(commerceInstance, language, currency, null);
             return commerceService;
         }
 	}

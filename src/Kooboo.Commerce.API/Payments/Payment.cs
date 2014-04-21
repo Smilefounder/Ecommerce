@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Payments
 {
-    public class Payment
+    public class Payment : ItemResource
     {
         public int Id { get; set; }
 

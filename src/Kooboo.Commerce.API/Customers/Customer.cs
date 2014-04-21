@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.API.Customers
     /// <summary>
     /// custom api object
     /// </summary>
-    public class Customer
+    public class Customer : ItemResource
     {
         /// <summary>
         /// customer id

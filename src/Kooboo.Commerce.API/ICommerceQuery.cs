@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.API
     /// var products = query.Pagination(1, 50);
     /// </summary>
     /// <typeparam name="T">commerce object</typeparam>
-    public interface ICommerceQuery<T>
+    public interface ICommerceQuery<T> where T : IItemResource
     {
         /// <summary>
         /// pagination the query result
@@ -47,5 +47,9 @@ namespace Kooboo.Commerce.API
         /// query data without requesting hal links to save time
         /// </summary>
         void WithoutHalLinks();
+
+        void WrapHalLinks(T[] data, string resourceName, IDictionary<string, object> listHalParameters, Func<T, IDictionary<string, object>> itemHalParameterResolver);
+
+        void WrapHalLinks(T data, string resourceName, IDictionary<string, object> itemHalParameters);
     }
 }

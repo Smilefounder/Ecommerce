@@ -13,6 +13,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class CommerceAPIControllerAccessBase<T> : CommerceAPIControllerQueryBase<T>
+            where T : IItemResource
     {
         /// <summary>
         /// create or save the api object

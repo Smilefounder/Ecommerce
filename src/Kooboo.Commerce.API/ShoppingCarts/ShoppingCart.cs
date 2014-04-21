@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.API.ShoppingCarts
     /// <summary>
     /// shopping cart
     /// </summary>
-    public class ShoppingCart
+    public class ShoppingCart : ItemResource
     {
         /// <summary>
         /// shopping cart id

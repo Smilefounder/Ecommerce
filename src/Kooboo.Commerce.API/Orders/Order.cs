@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.API.Orders
     /// <summary>
     /// order
     /// </summary>
-    public class Order
+    public class Order : ItemResource
     {
         /// <summary>
         /// order id

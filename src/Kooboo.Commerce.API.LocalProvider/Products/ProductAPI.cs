@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Brands;
+using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
@@ -38,7 +39,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private bool _loadWithCustomFields = false;
         private bool _loadWithPriceList = false;
 
-        public ProductAPI(IProductService productService, IBrandService brandService, IProductTypeService productTypeService, ICustomFieldService customFieldService,
+        public ProductAPI(IHalWrapper halWrapper, IProductService productService, IBrandService brandService, IProductTypeService productTypeService, ICustomFieldService customFieldService,
             ICategoryService categoryService,
             IMapper<Product, Kooboo.Commerce.Products.Product> mapper,
             IMapper<Brand, Kooboo.Commerce.Brands.Brand> brandMapper,
@@ -48,6 +49,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             IMapper<ProductCategory, Kooboo.Commerce.Products.ProductCategory> productCategoryMapper,
             IMapper<ProductCustomFieldValue, Kooboo.Commerce.Products.ProductCustomFieldValue> productCustomFieldValueMapper,
             IMapper<ProductPriceVariantValue, Kooboo.Commerce.Products.ProductPriceVariantValue> productPriceVariantValueMapper)
+            : base(halWrapper)
         {
             _productService = productService;
             _brandService = brandService;

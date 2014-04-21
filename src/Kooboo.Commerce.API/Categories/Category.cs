@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.API.Categories
     /// <summary>
     /// category api object, mostly product category
     /// </summary>
-    public class Category
+    public class Category : ItemResource
     {
         /// <summary>
         /// category id

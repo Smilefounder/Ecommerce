@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.API
     {
         public IList<Link> Links { get; set; }
 
-        protected ItemResource()
+        public ItemResource()
         {
             Links = new List<Link>();
         }

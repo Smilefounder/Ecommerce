@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.API
     }
 
     public class ListResource<T> : ItemResource, IListResource<T>
-        where T : ItemResource
+        where T : IItemResource
     {
         private List<T> _items;
 

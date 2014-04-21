@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Orders;
@@ -30,6 +31,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private bool _loadWithCutomer = false;
 
         public ShoppingCartAPI(
+            IHalWrapper halWrapper,
             IShoppingCartService shoppingCartService, 
             ICustomerService customerService,
             IPromotionService promotionService,
@@ -37,6 +39,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
             IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper,
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> customerMapper)
+            : base(halWrapper)
         {
             _shoppingCartService = shoppingCartService;
             _customerService = customerService;

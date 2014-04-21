@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Membership.Models;
+using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Orders;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Orders.Services;
@@ -24,8 +25,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         private bool _loadWithCustomer = false;
         private bool _loadWithShoppingCart = false;
 
-        public OrderAPI(IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
+        public OrderAPI(IHalWrapper halWrapper, IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
             IMapper<Order, Kooboo.Commerce.Orders.Order> mapper)
+            : base(halWrapper)
         {
             _orderService = orderService;
             _shoppingCartService = shoppingCartService;
