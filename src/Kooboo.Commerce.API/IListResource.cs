@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.API
     {
     }
 
-    public class ListResource<T> : ItemResource, IListResource<T>
+    public class ListResource<T> : IListResource<T>
         where T : IItemResource
     {
         private List<T> _items;
@@ -22,6 +22,8 @@ namespace Kooboo.Commerce.API
                 return _items.Count;
             }
         }
+
+        public IList<Link> Links { get; set; }
 
         public ListResource()
         {
