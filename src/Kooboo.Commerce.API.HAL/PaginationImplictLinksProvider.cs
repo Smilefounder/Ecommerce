@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.API.HAL
             int totalPageCount = Convert.ToInt32(Math.Ceiling((double)totalItemCount / pageSize));
 
             var links = new List<Link>();
-            parameters["first"] = 0;
+            parameters["pageIndex"] = 0;
             links.Add(new Link
             {
                 Rel = "first",

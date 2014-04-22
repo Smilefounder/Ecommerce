@@ -14,12 +14,12 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
             return this;
         }
 
-        public PaymentMethod[] Pagination(int pageIndex, int pageSize)
+        public IListResource<PaymentMethod> Pagination(int pageIndex, int pageSize)
         {
             QueryParameters.Add("pageSize", pageSize.ToString());
             QueryParameters.Add("pageIndex", pageIndex.ToString());
 
-            return Get<PaymentMethod[]>(null);
+            return Get<ListResource<PaymentMethod>>(null);
         }
 
         public PaymentMethod FirstOrDefault()
@@ -27,14 +27,24 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
             return Get<PaymentMethod>("First");
         }
 
-        public PaymentMethod[] ToArray()
+        public IListResource<PaymentMethod> ToArray()
         {
-            return Get<PaymentMethod[]>(null);
+            return Get<ListResource<PaymentMethod>>(null);
         }
 
         public int Count()
         {
             return Get<int>("Count");
+        }
+
+        public void WithoutHalLinks()
+        {
+            QueryParameters.Add("includeHalLinks", "false");
+        }
+
+        public void SetHalParameter(string name, object value)
+        {
+            QueryParameters.Add(string.Format("halParameters.{0}", name), value == null ? "" : value.ToString());
         }
 
         protected override string ApiControllerPath

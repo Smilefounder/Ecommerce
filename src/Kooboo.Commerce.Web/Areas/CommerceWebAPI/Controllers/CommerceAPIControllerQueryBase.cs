@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net.Http;
 using System.Web.Http;
 using Kooboo.Commerce.API;
 using Kooboo.Commerce.API.HAL;
@@ -31,6 +32,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         public virtual IListResource<T> Get()
         {
             var query = BuildQueryFromQueryStrings();
+            BuildHalParameters(query);
             return query.ToArray();
         }
         /// <summary>
@@ -40,10 +42,11 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="pageSize">page size</param>
         /// <returns>api objects</returns>
         [HttpGet]
-        [Resource("list", itemName: "detail", uri: "/{instance}/{controller}/{action}?pageIndex={pageIndex}&pageSize={pageSize}", ImplicitLinksProvider=typeof(PaginationImplictLinksProvider))]
+        [Resource("list", itemName: "detail", uri: "/{instance}/{controller}/{action}?pageIndex={pageIndex}&pageSize={pageSize}", ImplicitLinksProvider = typeof(PaginationImplictLinksProvider))]
         public virtual IListResource<T> List(int pageIndex, int pageSize)
         {
             var query = BuildQueryFromQueryStrings();
+            BuildHalParameters(query);
             var objs = query.Pagination(pageIndex, pageSize);
             return objs;
         }
@@ -56,6 +59,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         public virtual T Get(int id)
         {
             var query = BuildQueryFromQueryStrings();
+            BuildHalParameters(query);
             return query.FirstOrDefault();
         }
         /// <summary>
@@ -67,6 +71,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         public virtual int Count()
         {
             var query = BuildQueryFromQueryStrings();
+            BuildHalParameters(query);
             return query.Count();
         }
         /// <summary>
@@ -74,5 +79,32 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// </summary>
         /// <returns>commerce query</returns>
         protected abstract ICommerceQuery<T> BuildQueryFromQueryStrings();
-  }
+
+        /// <summary>
+        /// build hal paramters from query string
+        /// query string:
+        /// includeHalLinks=false:  exclude the hal links in the return result.
+        /// halParameters.xxx: set hal parameter value
+        /// </summary>
+        /// <param name="query"></param>
+        protected virtual void BuildHalParameters(ICommerceQuery<T> query)
+        {
+            var qs = Request.RequestUri.ParseQueryString();
+            if (qs["includeHalLinks"] == "false")
+            {
+                query.WithoutHalLinks();
+            }
+            else
+            {
+                var halParas = qs.AllKeys.Where(o => o.StartsWith("halParameters.")).Select(o => o.Replace("halParameters.", ""));
+                if (halParas.Count() > 0)
+                {
+                    foreach (var key in halParas)
+                    {
+                        query.SetHalParameter(key, qs[key]);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -10,6 +10,7 @@ namespace Kooboo.Commerce.API.RestProvider
     /// </summary>
     /// <typeparam name="T">api object type</typeparam>
     public class RestApiQueryBase<T> : RestApiBase, ICommerceQuery<T>
+        where T : IItemResource
     {
         /// <summary>
         /// get paginated data that matches the query
@@ -17,11 +18,11 @@ namespace Kooboo.Commerce.API.RestProvider
         /// <param name="pageIndex">current page index</param>
         /// <param name="pageSize">page size</param>
         /// <returns>paginated data</returns>
-        public virtual T[] Pagination(int pageIndex, int pageSize)
+        public virtual IListResource<T> Pagination(int pageIndex, int pageSize)
         {
             QueryParameters.Add("pageIndex", pageIndex.ToString());
             QueryParameters.Add("pageSize", pageSize.ToString());
-            return Get<T[]>("Pagination");
+            return Get<ListResource<T>>("Pagination");
         }
 
         /// <summary>
@@ -37,9 +38,9 @@ namespace Kooboo.Commerce.API.RestProvider
         /// get all objects that matches the query
         /// </summary>
         /// <returns>objects</returns>
-        public virtual T[] ToArray()
+        public virtual IListResource<T> ToArray()
         {
-            return Get<T[]>(null);
+            return Get<ListResource<T>>(null);
         }
 
         /// <summary>
@@ -59,6 +60,16 @@ namespace Kooboo.Commerce.API.RestProvider
             {
                 return typeof(T).Name;
             }
+        }
+
+        public void WithoutHalLinks()
+        {
+            QueryParameters.Add("includeHalLinks", "false");
+        }
+
+        public void SetHalParameter(string name, object value)
+        {
+            QueryParameters.Add(string.Format("halParameters.{0}", name), value == null ? "" : value.ToString());
         }
     }
 }
