@@ -40,8 +40,8 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="pageSize">page size</param>
         /// <returns>api objects</returns>
         [HttpGet]
-        [Resource("list", itemName: "detail", uri: "/{instance}/{controller}/{action}?pageIndex={pageIndex}&pageSize={pageSize}&{rel}={rel}")]
-        public virtual IListResource<T> Pagination(int pageIndex, int pageSize)
+        [Resource("list", itemName: "detail", uri: "/{instance}/{controller}/{action}?pageIndex={pageIndex}&pageSize={pageSize}", ImplicitLinksProvider=typeof(PaginationImplictLinksProvider))]
+        public virtual IListResource<T> List(int pageIndex, int pageSize)
         {
             var query = BuildQueryFromQueryStrings();
             var objs = query.Pagination(pageIndex, pageSize);

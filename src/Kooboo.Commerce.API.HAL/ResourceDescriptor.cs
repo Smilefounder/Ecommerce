@@ -38,5 +38,7 @@ namespace Kooboo.Commerce.API.HAL
             IsListResource = isListResource;
             ItemResourceName = itemResourceName;
         }
+
+        public IImplicitLinkProvider ImplicitLinkProvider { get; set; }
     }
 }

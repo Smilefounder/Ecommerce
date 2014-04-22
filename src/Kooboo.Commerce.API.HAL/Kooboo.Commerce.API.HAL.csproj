@@ -67,7 +67,9 @@
     <Compile Include="HalWrapper.cs" />
     <Compile Include="IContextEnviromentProvider.cs" />
     <Compile Include="IHalWrapper.cs" />
+    <Compile Include="IImplicitLinkProvider.cs" />
     <Compile Include="IUriResolver.cs" />
+    <Compile Include="PaginationImplictLinksProvider.cs" />
     <Compile Include="Persistence\FileResourceLinkPersistence.cs" />
     <Compile Include="IResourceDescriptorProvider.cs" />
     <Compile Include="Persistence\IResourceLinkPersistence.cs" />

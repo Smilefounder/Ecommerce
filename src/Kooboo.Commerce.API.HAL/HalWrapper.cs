@@ -100,6 +100,23 @@ namespace Kooboo.Commerce.API.HAL
 
                 resource.Links.Add(link);
             }
+
+            AddImplicitLinks(descriptor, resource, parameterValues);
+        }
+
+        private void AddImplicitLinks(ResourceDescriptor descriptor, IResource resource, IDictionary<string, object> parameterValues)
+        {
+            if (descriptor.ImplicitLinkProvider != null)
+            {
+                var links = descriptor.ImplicitLinkProvider.GetImplicitLinks(_uriResolver, descriptor, parameterValues);
+                if (links != null)
+                {
+                    foreach (var link in links)
+                    {
+                        resource.Links.Add(link);
+                    }
+                }
+            }
         }
 
         private void AssertDescriptorNotNull(ResourceDescriptor descriptor, string resourceName)

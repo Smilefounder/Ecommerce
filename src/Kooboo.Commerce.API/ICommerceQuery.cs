@@ -47,9 +47,11 @@ namespace Kooboo.Commerce.API
         /// query data without requesting hal links to save time
         /// </summary>
         void WithoutHalLinks();
-
-        void WrapHalLinks(IListResource<T> data, string resourceName, IDictionary<string, object> listHalParameters, Func<T, IDictionary<string, object>> itemHalParameterResolver);
-
-        void WrapHalLinks(T data, string resourceName, IDictionary<string, object> itemHalParameters);
+        /// <summary>
+        /// set hal parameter value
+        /// </summary>
+        /// <param name="name">hal parameter name</param>
+        /// <param name="value">hal parameter value</param>
+        void SetHalParameter(string name, object value);
     }
 }

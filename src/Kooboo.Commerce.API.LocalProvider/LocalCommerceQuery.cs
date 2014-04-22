@@ -18,10 +18,12 @@ namespace Kooboo.Commerce.API.LocalProvider
         where Model : class, new()
     {
         protected IHalWrapper _halWrapper;
+        protected IDictionary<string, object> _halParameters;
 
         public LocalCommerceQuery(IHalWrapper halWrapper)
         {
             _halWrapper = halWrapper;
+            _halParameters = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -54,11 +56,6 @@ namespace Kooboo.Commerce.API.LocalProvider
         /// </summary>
         protected virtual void OnQueryExecuted()
         {
-            if (_includeHalLinks)
-            {
-                // todo: wrap the result with hal links.
-            }
-            _includeHalLinks = true;
         }
 
         protected virtual string BuildResourceName(string resourceName)
@@ -94,12 +91,37 @@ namespace Kooboo.Commerce.API.LocalProvider
         public virtual void WrapHalLinks(IListResource<T> data, string resourceName, IDictionary<string, object> listHalParameters, Func<T, IDictionary<string, object>> itemHalParameterResolver)
         {
             resourceName = BuildResourceName(resourceName);
-            _halWrapper.AddLinks(resourceName, data, HalContext, listHalParameters, o => itemHalParameterResolver(o));
+            if (_halParameters != null)
+            {
+                foreach(var kvp in _halParameters)
+                {
+                    listHalParameters[kvp.Key] = kvp.Value;
+                }
+            }
+            _halWrapper.AddLinks(resourceName, data, HalContext, listHalParameters, o => 
+                {
+                    var paras = itemHalParameterResolver(o);
+                    if (_halParameters != null)
+                    {
+                        foreach (var kvp in _halParameters)
+                        {
+                            paras[kvp.Key] = kvp.Value;
+                        }
+                    }
+                    return paras;
+                });
         }
 
         public virtual void WrapHalLinks(T data, string resourceName, IDictionary<string, object> itemHalParameters)
         {
             resourceName = BuildResourceName(resourceName);
+            if (_halParameters != null)
+            {
+                foreach (var kvp in _halParameters)
+                {
+                    itemHalParameters[kvp.Key] = kvp.Value;
+                }
+            }
             _halWrapper.AddLinks(resourceName, data, HalContext, itemHalParameters);
         }
         /// <summary>
@@ -134,15 +156,11 @@ namespace Kooboo.Commerce.API.LocalProvider
                     return itemParas;
                 };
                 int totalItemCount = _query.Count();
-                int totalPageCount = Convert.ToInt32(Math.Ceiling((double)totalItemCount / pageSize));
+                
                 listParas.Add("pageIndex", pageIndex);
                 listParas.Add("pageSize", pageSize);
-                if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["prev"]))
-                    listParas["pageIndex"] = pageIndex - 1 <= 0 ? 0 : pageIndex - 1;
-                if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["next"]))
-                    listParas["pageIndex"] = pageIndex + 1 > totalPageCount - 1 ? totalPageCount - 1 : pageIndex + 1;
-                if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["goto"]))
-                    listParas["pageIndex"] = HttpContext.Current.Request.QueryString["goto"];
+                listParas.Add("totalItemCount", totalItemCount);
+                
                 WrapHalLinks(mobjs, "list", listParas, itemParasResolver);
             }
             return mobjs;
@@ -207,6 +225,16 @@ namespace Kooboo.Commerce.API.LocalProvider
         public void WithoutHalLinks()
         {
             _includeHalLinks = false;
+        }
+
+        /// <summary>
+        /// set hal parameter value
+        /// </summary>
+        /// <param name="name">hal parameter name</param>
+        /// <param name="value">hal parameter value</param>
+        public void SetHalParameter(string name, object value)
+        {
+            _halParameters[name] = value;
         }
 
         public HalContext HalContext { get; set; }
