@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 var settings = new JsonSerializerSettings();
                 settings.Converters.Add(new ResourceConverter());
 
-                var category = JsonConvert.DeserializeObject<ListResource<Kooboo.Commerce.API.Categories.Category>>(result, settings);
+                var category = JsonConvert.DeserializeObject<IListResource<Kooboo.Commerce.API.Categories.Category>>(result, settings);
 
                 var a = 0;
             }

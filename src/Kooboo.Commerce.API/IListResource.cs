@@ -5,64 +5,29 @@ using System.Text;
 
 namespace Kooboo.Commerce.API
 {
-    public interface IListResource<T> : IResource, IEnumerable<T>
+    public interface IListResource<T> : IResource, IList<T>
         where T : IItemResource
     {
     }
 
-    public class ListResource<T> : IListResource<T>
+    public class ListResource<T> : List<T>, IListResource<T>
         where T : IItemResource
     {
-        private List<T> _items;
+        private List<Link> _links = new List<Link>();
 
-        public int Count
+        public IList<Link> Links
         {
             get
             {
-                return _items.Count;
+                return _links;
             }
         }
 
-        public IList<Link> Links { get; set; }
-
-        public ListResource()
-        {
-            _items = new List<T>();
-        }
+        public ListResource() { }
 
         public ListResource(IEnumerable<T> items)
+            : base(items)
         {
-            _items = items.ToList();
-        }
-
-        public void Add(T item)
-        {
-            _items.Add(item);
-        }
-
-        public void AddRange(IEnumerable<T> items)
-        {
-            _items.AddRange(items);
-        }
-
-        public bool Remove(T item)
-        {
-            return _items.Remove(item);
-        }
-
-        public void Clear()
-        {
-            _items.Clear();
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _items.GetEnumerator();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

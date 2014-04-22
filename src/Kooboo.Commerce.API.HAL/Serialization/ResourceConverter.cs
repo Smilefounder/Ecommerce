@@ -30,16 +30,25 @@ namespace Kooboo.Commerce.API.HAL.Serialization
             // Read data
             if (typeof(IEnumerable).IsAssignableFrom(objectType))
             {
+
+                // Client code will more likely use Deserialize<IListResource<T>>(), so we handle this case only
+                if (!objectType.IsGenericType || (objectType.GetGenericTypeDefinition() != typeof(IListResource<>) && objectType.GetGenericTypeDefinition() != typeof(ListResource<>)))
+                    throw new InvalidOperationException("Custom IListResource<T> implementation is not supported. Use IListResource<T> or ListResource<T> as the return type in deserialization.");
+
+                var itemType = objectType.GetGenericArguments()[0];
+                var resourceType = typeof(ListResource<>).MakeGenericType(itemType);
+
+                resource = (IResource)Activator.CreateInstance(resourceType);
+
                 var itemsArray = jObject["items"] as JArray;
-                resource = (IResource)itemsArray.ToObject(objectType);
 
-                var index = 0;
-
-                foreach (var item in (IEnumerable)resource)
+                foreach (var itemJObject in itemsArray)
                 {
-                    var itemJObject = itemsArray[index];
-                    ReadHalLinks((IResource)item, itemJObject);
-                    index++;
+                    var item = (IResource)itemJObject.ToObject(itemType);
+                    var addMethod = resourceType.GetMethod("Add", new Type[] { itemType });
+                    addMethod.Invoke(resource, new [] { item });
+
+                    ReadHalLinks(item, itemJObject);
                 }
             }
             else
