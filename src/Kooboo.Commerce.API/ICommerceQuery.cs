@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.API
         /// <param name="pageIndex">current page index</param>
         /// <param name="pageSize">page size</param>
         /// <returns>paged query result</returns>
-        T[] Pagination(int pageIndex, int pageSize);
+        IListResource<T> Pagination(int pageIndex, int pageSize);
         /// <summary>
         /// get the first commerce object of the query. returns null if the query result is empty.
         /// </summary>
@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.API
         /// get all commerce objects of the query
         /// </summary>
         /// <returns>commerce objects</returns>
-        T[] ToArray();
+        IListResource<T> ToArray();
         /// <summary>
         /// get total count of the query
         /// </summary>
@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.API
         /// </summary>
         void WithoutHalLinks();
 
-        void WrapHalLinks(T[] data, string resourceName, IDictionary<string, object> listHalParameters, Func<T, IDictionary<string, object>> itemHalParameterResolver);
+        void WrapHalLinks(IListResource<T> data, string resourceName, IDictionary<string, object> listHalParameters, Func<T, IDictionary<string, object>> itemHalParameterResolver);
 
         void WrapHalLinks(T data, string resourceName, IDictionary<string, object> itemHalParameters);
     }

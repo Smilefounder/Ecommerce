@@ -27,8 +27,8 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// </example>
         /// <returns>api objects</returns>
         [HttpGet]
-        [Resource("all", itemName: "detail")]
-        public virtual IEnumerable<T> Get()
+        [Resource("all", itemName: "detail", uri: "/{instance}/{controller}")]
+        public virtual IListResource<T> Get()
         {
             var query = BuildQueryFromQueryStrings();
             return query.ToArray();
@@ -40,19 +40,20 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="pageSize">page size</param>
         /// <returns>api objects</returns>
         [HttpGet]
-        [Resource("list", itemName: "detail")]
-        public virtual IEnumerable<T> Pagination(int pageIndex, int pageSize)
+        [Resource("list", itemName: "detail", uri: "/{instance}/{controller}/{action}?page={pageIndex}&pageSize={pageSize}&{rel}={rel}")]
+        public virtual IListResource<T> Pagination(int pageIndex, int pageSize)
         {
             var query = BuildQueryFromQueryStrings();
-            return query.Pagination(pageIndex, pageSize);
+            var objs = query.Pagination(pageIndex, pageSize);
+            return objs;
         }
         /// <summary>
         /// return api object filtered by query string parameters
         /// </summary>
         /// <returns>api object</returns>
         [HttpGet]
-        [Resource("detail")]
-        public virtual T First()
+        [Resource("detail", uri: "/{instance}/{controller}/{id}")]
+        public virtual T Get(int id)
         {
             var query = BuildQueryFromQueryStrings();
             return query.FirstOrDefault();
