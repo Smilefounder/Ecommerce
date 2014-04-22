@@ -89,7 +89,7 @@ namespace Kooboo.Commerce.API.HAL
                             resource.ResourceUri = string.Format("/{{instance}}/{0}/{1}", controllerName, actionName).TrimEnd('/').ToLower();
                         }
                         else
-                            resource.ResourceUri = resAttr.Uri;
+                            resource.ResourceUri = resAttr.Uri.Replace("{controller}", controllerName).Replace("{action}", action.Name);
                         resource.IsListResource = resAttr.IsList;
                         if (!string.IsNullOrEmpty(resAttr.ItemName))
                         {

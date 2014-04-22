@@ -19,6 +19,8 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         {
             var qs = Request.RequestUri.ParseQueryString();
             var query = Commerce().Categories.Query();
+            if (Request.GetRouteData().Values.Keys.Contains("id"))
+                query = query.ById(Convert.ToInt32(Request.GetRouteData().Values["id"]));
             if (!string.IsNullOrEmpty(qs["id"]))
                 query = query.ById(Convert.ToInt32(qs["id"]));
             if (!string.IsNullOrEmpty(qs["name"]))

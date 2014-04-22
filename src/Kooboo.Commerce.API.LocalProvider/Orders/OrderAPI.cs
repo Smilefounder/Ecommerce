@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace Kooboo.Commerce.API.LocalProvider.Orders
 {
@@ -325,6 +326,15 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         {
             _loadWithShoppingCart = true;
             return this;
+        }
+
+        protected override IDictionary<string, object> BuildItemHalParameters(Order data)
+        {
+            var paras = base.BuildItemHalParameters(data);
+            var request = HttpContext.Current.Request;
+            paras.Add("sessionId", request.QueryString["sessionId"]);
+            paras.Add("deleteShoppingCart", request.QueryString["deleteShoppingCart"]);
+            return paras;
         }
 
         /// <summary>

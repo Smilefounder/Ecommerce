@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using System.Collections.Specialized;
 
 namespace Kooboo.Commerce.API.HAL
 {
@@ -47,23 +48,33 @@ namespace Kooboo.Commerce.API.HAL
         public string Resovle(string uriPattern, IDictionary<string, object> paras)
         {
             Uri resUri = MockAbsoluteUri(uriPattern);
-            var segements = resUri.Segments.Select(o =>
+            var segements = resUri.Segments.Where(o => o != "/").Select(o =>
                 {
                     string val = o.TrimStart('/').TrimEnd('/');
+                    val = HttpUtility.UrlDecode(val);
                     return GetValueFromParameters(val, paras, val);
                 });
+            string path = "/" + string.Join("/", segements.ToArray()).ToLower();
             string queryString = string.Empty;
             if (!string.IsNullOrEmpty(resUri.Query))
             {
-                var qs = HttpUtility.ParseQueryString(resUri.Query);
-                foreach(var k in qs.AllKeys)
+                var qs = new NameValueCollection();
+                var uqs = HttpUtility.ParseQueryString(resUri.Query);
+                foreach (var k in uqs.AllKeys)
                 {
-                    string val = qs[k];
-                    qs[k] = GetValueFromParameters(k, paras, val);
+                    string key = HttpUtility.UrlDecode(k);
+                    key = GetValueFromParameters(key, paras, key);
+                    // this is a place holder query string and is not replaced with parameters, so ignore this key.
+                    if (key.StartsWith("{") && key.EndsWith("}"))
+                        continue;
+                    string val = HttpUtility.UrlDecode(uqs[k]);
+                    val = GetValueFromParameters(val, paras, val);
+                    qs[key] = val;
                 }
-                queryString = qs.ToString();
+                queryString = string.Join("&", qs.AllKeys.Select(o => string.Format("{0}={1}", o, qs[o])));
+                return string.Join("?", path, queryString);
             }
-            return string.Join("?", "/" + string.Join("/", segements.ToArray()), queryString);
+            return path;
         }
 
         /// <summary>

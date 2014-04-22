@@ -40,14 +40,8 @@ namespace Kooboo.Commerce.API.HAL.Serialization.Converters
 
             writer.WriteStartObject();
 
-            writer.WritePropertyName("_embedded");
-            writer.WriteStartObject();
-
-            // TODO: Descriptor provider should provide this relation "items"?
             writer.WritePropertyName("items");
             WriteItemsArray(writer, serializer, resource);
-
-            writer.WriteEndObject();
 
             writer.WritePropertyName("_links");
             serializer.Serialize(writer, ((IResource)resource).Links);

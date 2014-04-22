@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 using Kooboo.Commerce.API.HAL;
+using System.Web;
 
 namespace Kooboo.Commerce.API.LocalProvider
 {
@@ -72,7 +73,7 @@ namespace Kooboo.Commerce.API.LocalProvider
             parameters.Add("currency", HalContext.Currency);
         }
 
-        protected virtual IDictionary<string, object> BuildListHalParameters(T[] data)
+        protected virtual IDictionary<string, object> BuildListHalParameters(IListResource<T> data)
         {
             var paras = new Dictionary<string, object>();
             return paras;
@@ -81,14 +82,19 @@ namespace Kooboo.Commerce.API.LocalProvider
         protected virtual IDictionary<string, object> BuildItemHalParameters(T data)
         {
             var paras = new Dictionary<string, object>();
+            var propertyInfo = typeof(T).GetProperty("Id");
+            if (propertyInfo != null)
+            {
+                var id = propertyInfo.GetValue(data, null);
+                paras.Add("id", id);
+            }
             return paras;
         }
 
-        public virtual void WrapHalLinks(T[] data, string resourceName, IDictionary<string, object> listHalParameters, Func<T, IDictionary<string, object>> itemHalParameterResolver)
+        public virtual void WrapHalLinks(IListResource<T> data, string resourceName, IDictionary<string, object> listHalParameters, Func<T, IDictionary<string, object>> itemHalParameterResolver)
         {
             resourceName = BuildResourceName(resourceName);
-            IListResource<T> listData = new ListResource<T>(data);
-            _halWrapper.AddLinks(resourceName, listData, HalContext, listHalParameters, o => itemHalParameterResolver(o));
+            _halWrapper.AddLinks(resourceName, data, HalContext, listHalParameters, o => itemHalParameterResolver(o));
         }
 
         public virtual void WrapHalLinks(T data, string resourceName, IDictionary<string, object> itemHalParameters)
@@ -110,12 +116,12 @@ namespace Kooboo.Commerce.API.LocalProvider
         /// <param name="pageIndex">current page index</param>
         /// <param name="pageSize">page size</param>
         /// <returns>paginated data</returns>
-        public virtual T[] Pagination(int pageIndex, int pageSize)
+        public virtual IListResource<T> Pagination(int pageIndex, int pageSize)
         {
             EnsureQuery();
             var query = OrderByDefault(_query);
             var objs = query.Skip(pageIndex * pageSize).Take(pageSize).ToArray();
-            var mobjs = objs.Select(o => Map(o)).ToArray();
+            var mobjs = new ListResource<T>(objs.Select(o => Map(o)).ToArray());
             OnQueryExecuted();
             if (_includeHalLinks)
             {
@@ -127,8 +133,16 @@ namespace Kooboo.Commerce.API.LocalProvider
                     AppendHalContextParameters(itemParas);
                     return itemParas;
                 };
-                listParas.Add("page", pageIndex);
+                int totalItemCount = _query.Count();
+                int totalPageCount = Convert.ToInt32(Math.Ceiling((double)totalItemCount / pageSize));
+                listParas.Add("pageIndex", pageIndex);
                 listParas.Add("pageSize", pageSize);
+                if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["prev"]))
+                    listParas["pageIndex"] = pageIndex - 1 <= 0 ? 0 : pageIndex - 1;
+                if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["next"]))
+                    listParas["pageIndex"] = pageIndex + 1 > totalPageCount - 1 ? totalPageCount - 1 : pageIndex + 1;
+                if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["goto"]))
+                    listParas["pageIndex"] = HttpContext.Current.Request.QueryString["goto"];
                 WrapHalLinks(mobjs, "list", listParas, itemParasResolver);
             }
             return mobjs;
@@ -157,11 +171,11 @@ namespace Kooboo.Commerce.API.LocalProvider
         /// get all objects that matches the query
         /// </summary>
         /// <returns>objects</returns>
-        public virtual T[] ToArray()
+        public virtual IListResource<T> ToArray()
         {
             EnsureQuery();
             var objs = _query.ToArray();
-            var mobjs = objs.Select(o => Map(o)).ToArray();
+            var mobjs = new ListResource<T>(objs.Select(o => Map(o)).ToArray());
             OnQueryExecuted();
             if (_includeHalLinks)
             {

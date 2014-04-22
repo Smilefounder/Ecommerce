@@ -60,7 +60,7 @@
                                     <td data-bind="text: environmentName() || '@("Any".Localize())'"></td>
                                     <td data-bind="text: relation"></td>
                                     <td>
-                                        <span data-bind="text: destinationResource.resourceUri"></span>
+                                        <span data-bind="text: destinationResource.resourceName"></span>
                                     </td>
                                     <td>
                                         <a href="#" data-bind="click: $root.editLink">@Html.IconImage("edit-small")</a>
@@ -78,7 +78,7 @@
                                         <span data-bind="attr: { 'data-valmsg-for': 'Relation' + $index }" data-valmsg-replace="true"></span>
                                     </td>
                                     <td>
-                                        <select data-bind="options: $root.linkableResources, optionsText: 'resourceUri', optionsValue: 'resourceName', value: destinationResource.resourceName"></select>
+                                        <select data-bind="options: $root.linkableResources, optionsText: 'resourceName', optionsValue: 'resourceName', value: destinationResource.resourceName"></select>
                                     </td>
                                     <td>
                                         <a href="#" data-bind="click: $root.commitLinkEditing">@Html.IconImage("save-small")</a>

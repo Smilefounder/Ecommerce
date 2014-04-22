@@ -88,6 +88,9 @@ namespace Kooboo.Commerce.API.HAL
                 var targetResourceDescriptor = _resourceDescriptorProvider.GetDescriptor(savedLink.DestinationResourceName);
 
                 AssertDescriptorNotNull(targetResourceDescriptor, savedLink.DestinationResourceName);
+                parameterValues["src"] = descriptor.ResourceName;
+                parameterValues["dest"] = savedLink.DestinationResourceName;
+                parameterValues["rel"] = savedLink.Relation;
 
                 var link = new Link
                 {
