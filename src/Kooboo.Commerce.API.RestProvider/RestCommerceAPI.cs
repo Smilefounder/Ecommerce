@@ -23,8 +23,9 @@ namespace Kooboo.Commerce.API.RestProvider
         /// </summary>
         /// <param name="instance">commerce instance name</param>
         /// <param name="language">language</param>
+        /// <param name="currency">currency</param>
         /// <param name="settings">kooboo cms site's custom field settings</param>
-        public override void InitCommerceInstance(string instance, string language, Dictionary<string, string> settings)
+        public override void InitCommerceInstance(string instance, string language, string currency, Dictionary<string, string> settings)
         {
             this._instance = instance;
             this._language = language;
