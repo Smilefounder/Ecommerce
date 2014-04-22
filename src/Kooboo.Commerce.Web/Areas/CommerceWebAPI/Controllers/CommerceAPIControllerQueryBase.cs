@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="pageSize">page size</param>
         /// <returns>api objects</returns>
         [HttpGet]
-        [Resource("list", itemName: "detail", uri: "/{instance}/{controller}/{action}?page={pageIndex}&pageSize={pageSize}&{rel}={rel}")]
+        [Resource("list", itemName: "detail", uri: "/{instance}/{controller}/{action}?pageIndex={pageIndex}&pageSize={pageSize}&{rel}={rel}")]
         public virtual IListResource<T> Pagination(int pageIndex, int pageSize)
         {
             var query = BuildQueryFromQueryStrings();

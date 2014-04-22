@@ -135,15 +135,14 @@ namespace Kooboo.Commerce.API.LocalProvider
                 };
                 int totalItemCount = _query.Count();
                 int totalPageCount = Convert.ToInt32(Math.Ceiling((double)totalItemCount / pageSize));
-                listParas.Add("page", pageIndex);
+                listParas.Add("pageIndex", pageIndex);
                 listParas.Add("pageSize", pageSize);
                 if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["prev"]))
-                    listParas["page"] = pageIndex - 1 <= 0 ? 0 : pageIndex - 1;
+                    listParas["pageIndex"] = pageIndex - 1 <= 0 ? 0 : pageIndex - 1;
                 if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["next"]))
-                    listParas["page"] = pageIndex + 1 > totalPageCount - 1 ? totalPageCount - 1 : pageIndex + 1;
+                    listParas["pageIndex"] = pageIndex + 1 > totalPageCount - 1 ? totalPageCount - 1 : pageIndex + 1;
                 if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["goto"]))
-                    listParas["page"] = HttpContext.Current.Request.QueryString["goto"];
-                listParas.Add("pageIndex", listParas["page"]);
+                    listParas["pageIndex"] = HttpContext.Current.Request.QueryString["goto"];
                 WrapHalLinks(mobjs, "list", listParas, itemParasResolver);
             }
             return mobjs;
