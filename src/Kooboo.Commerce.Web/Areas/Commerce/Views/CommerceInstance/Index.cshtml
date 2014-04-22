@@ -16,7 +16,7 @@
 
 @if (!Model.Any())
 {
-    <div class="block fixed">
+    <div class="block">
         <div class="sitemap-panel clearfix">
             <div class="blank">
                 <p>
@@ -29,7 +29,7 @@
 }
 else
 {
-    <div class="block fixed" id="instance-list">
+    <div class="block" id="instance-list">
         @foreach (var instance in Model)
         {
             <div class="content-block commerce-instance database">

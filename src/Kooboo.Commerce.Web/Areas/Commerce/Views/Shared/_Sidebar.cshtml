@@ -20,10 +20,15 @@
             @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Sites").SetCurrentSite(this.ViewContext))
         </nav>
     </div>
-} else {
-    @Html.Partial("_SidebarTopSearch")
-
-    <nav class="container block menu">
-        @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
-    </nav>
+}
+else
+{
+    <div class="topbar">
+        @Html.Partial("_SidebarTopSearch")
+    </div>
+    <div class="wrap">
+        <nav class="container block menu">
+            @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
+        </nav>
+    </div>
 }
