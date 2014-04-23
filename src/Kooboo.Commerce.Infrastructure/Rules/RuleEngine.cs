@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Rules.Expressions;
 using Kooboo.Commerce.Rules.Parsing;
 using System;
@@ -10,20 +11,13 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
+    [Dependency(typeof(RuleEngine))]
     public class RuleEngine
     {
         private IModelParameterProvider _parameterProvider;
         private IComparisonOperatorProvider _comparisonOperatorProvider;
 
-        public RuleEngine()
-            : this(EngineContext.Current.Resolve<IModelParameterProvider>()
-                , EngineContext.Current.Resolve<IComparisonOperatorProvider>())
-        {
-        }
-
-        public RuleEngine(
-            IModelParameterProvider parameterProvider,
-            IComparisonOperatorProvider operatorProvider)
+        public RuleEngine(IModelParameterProvider parameterProvider, IComparisonOperatorProvider operatorProvider)
         {
             Require.NotNull(parameterProvider, "parameterProvider");
             Require.NotNull(operatorProvider, "operatorProvider");

@@ -17,7 +17,17 @@ namespace Kooboo.Commerce.Data
         public CommerceInstance CurrentInstance
         {
             get
-            {
+            {                   
+                // TODO: We hack this for activity execution job for now!
+                //       It might be better to refactor CommerceInstanceContext to Scope to provider more controllable object scope.
+                var instance = Scope<CommerceInstance>.Current;
+                if (instance != null)
+                {
+                    // Simply return without setting _currentInstance.
+                    // Because scope could be disposed
+                    return instance;
+                }
+
                 if (_currentInstance == null)
                 {
                     var name = _nameResolver.GetCurrentInstanceName();

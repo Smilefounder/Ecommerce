@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Orders
 {
-    public class OrderStatusChanged : IOrderEvent
+    public class OrderStatusChanged : Event, IOrderEvent
     {
         public Order Order { get; private set; }
 

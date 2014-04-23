@@ -15,6 +15,13 @@ namespace Kooboo.Commerce.Promotions
     /// </summary>
     public class PromotionConditionChecker
     {
+        private RuleEngine _ruleEngine;
+
+        public PromotionConditionChecker(RuleEngine ruleEngine)
+        {
+            _ruleEngine = ruleEngine;
+        }
+
         public CheckPromotionConditionResult CheckConditions(Promotion promotion, PricingContext context)
         {
             var result = new CheckPromotionConditionResult();
@@ -31,7 +38,6 @@ namespace Kooboo.Commerce.Promotions
             }
 
             var expression = Expression.Parse(promotion.ConditionsExpression);
-            var ruleEngine = new RuleEngine();
 
             foreach (var item in context.Items)
             {
@@ -41,7 +47,7 @@ namespace Kooboo.Commerce.Promotions
                     Customer = context.Customer
                 };
 
-                if (ruleEngine.CheckCondition(expression, contextModel))
+                if (_ruleEngine.CheckCondition(expression, contextModel))
                 {
                     result.Success = true;
                     result.MatchedItems.Add(item);

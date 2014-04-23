@@ -126,9 +126,7 @@ namespace Kooboo.Commerce.Events.Registry
                 foreach (var method in thisHandlerMethods)
                 {
                     var parameters = method.GetParameters();
-                    if (parameters.Length == 2 
-                        && parameters[0].ParameterType == eventType
-                        && parameters[1].ParameterType == typeof(EventDispatchingContext))
+                    if (parameters.Length == 1 && parameters[0].ParameterType == eventType)
                     {
                         handlerMethods.Add(method);
                         break;

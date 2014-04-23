@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Brands
 {
     [ActivityVisible("Brand Events")]
-    public class BrandCreated : IEvent
+    public class BrandCreated : Event
     {
         public Brand Brand { get; private set; }
 

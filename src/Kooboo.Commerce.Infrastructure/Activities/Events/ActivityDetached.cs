@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Activities.Events
 {
-    public class ActivityDetached : IEvent
+    public class ActivityDetached : Event
     {
         public ActivityRule Rule { get; private set; }
 

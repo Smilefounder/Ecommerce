@@ -13,7 +13,7 @@ using System.Text;
 namespace Kooboo.Commerce.Orders
 {
     public class OrderingProcessManager
-        : IHandles<PaymentStatusChanged>
+        : IHandle<PaymentStatusChanged>
     {
         private IOrderService _orderService;
 
@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Orders
             _orderService = orderService;
         }
 
-        public void Handle(PaymentStatusChanged @event, EventDispatchingContext context)
+        public void Handle(PaymentStatusChanged @event)
         {
             if (@event.Payment.PaymentTarget.Type != PaymentTargetTypes.Order)
             {

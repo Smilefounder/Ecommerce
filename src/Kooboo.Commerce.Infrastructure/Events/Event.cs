@@ -7,8 +7,16 @@ using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.Commerce.Events
 {
-    public static class Event
+    [Serializable]
+    public abstract class Event : IEvent
     {
+        public DateTime TimestampUtc { get; set; }
+
+        public Event()
+        {
+            TimestampUtc = DateTime.UtcNow;
+        }
+
         public static void Raise<TEvent>(TEvent @event)
             where TEvent : IEvent
         {

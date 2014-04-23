@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Products
 {
-    public class ProductCreated : IProductEvent
+    public class ProductCreated : Event, IProductEvent
     {
         public Product Product { get; set; }
 

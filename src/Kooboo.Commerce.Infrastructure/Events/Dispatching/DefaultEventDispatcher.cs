@@ -83,7 +83,7 @@ namespace Kooboo.Commerce.Events.Dispatching
 
             try
             {
-                _handlerInvoker.Invoke(handler, handlerMethod, evnt, context);
+                _handlerInvoker.Invoke(handler, handlerMethod, evnt);
             }
             catch (Exception ex)
             {

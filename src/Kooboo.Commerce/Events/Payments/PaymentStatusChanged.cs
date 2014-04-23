@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Payments
 {
-    public class PaymentStatusChanged : IEvent
+    public class PaymentStatusChanged : Event
     {
         public Payment Payment { get; private set; }
 

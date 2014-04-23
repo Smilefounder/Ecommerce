@@ -123,10 +123,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\ActivityQueueItem.cs" />
     <Compile Include="Activities\ActivityRule.cs" />
     <Compile Include="Activities\AttachedActivity.cs" />
     <Compile Include="Activities\DefaultActivityEventRegistry.cs" />
-    <Compile Include="Activities\ActivityExecutor.cs" />
     <Compile Include="Activities\ActivityResult.cs" />
     <Compile Include="Activities\ActivityEventHook.cs" />
     <Compile Include="Activities\Events\ActivityAttached.cs" />
@@ -140,6 +140,7 @@
     <Compile Include="Activities\IActivityRuleService.cs" />
     <Compile Include="Activities\IActivityViews.cs" />
     <Compile Include="Activities\IActivityViewsFactory.cs" />
+    <Compile Include="Activities\Jobs\AsyncActivityExecutionJob.cs" />
     <Compile Include="ComponentModel\INotifyObjectCreated.cs" />
     <Compile Include="ComponentModel\INotifyObjectDeleted.cs" />
     <Compile Include="Data\CommerceDatabaseExtensions.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\LinqDynamicExtension.cs" />
     <Compile Include="Data\QueryableExtensions.cs" />
+    <Compile Include="Data\QueryStream.cs" />
     <Compile Include="Data\TransactionAbortException.cs" />
     <Compile Include="Activities\ActivityVisibleAttribute.cs" />
     <Compile Include="Dependencies\EventDependencyRegistrar.cs" />
@@ -190,9 +192,10 @@
     <Compile Include="Events\Dispatching\IHandlerInvoker.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\IEvent.cs" />
-    <Compile Include="Events\IHandles.cs" />
+    <Compile Include="Events\IHandle.cs" />
     <Compile Include="Events\WhenNotInTransaction.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IObjectPersistence.cs" />
@@ -240,6 +243,7 @@
     <Compile Include="Rules\RuleEngine.cs" />
     <Compile Include="Rules\TypeExtensions.cs" />
     <Compile Include="Runtime\ITypeActivator.cs" />
+    <Compile Include="Scope.cs" />
     <Compile Include="Web\Http\TransactionalAttribute.cs" />
     <Compile Include="Web\Mvc\HandleAjaxFormErrorAttribute.cs" />
     <Compile Include="Web\Mvc\AjaxFormResult.cs" />

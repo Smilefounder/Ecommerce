@@ -10,7 +10,6 @@ namespace Kooboo.Commerce.Events
     public class EventTrackingContext : IDisposable
     {
         private List<IEvent> _pendingEvents = new List<IEvent>();
-        private IEventDispatcher _dispatcher;
 
         public IEnumerable<IEvent> PendingEvents
         {

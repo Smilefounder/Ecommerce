@@ -11,19 +11,19 @@ using System.Web;
 namespace Kooboo.Commerce.AddIns.Samples.EventTracking
 {
     [AwaitDbCommit]
-    public class PersistentEventTracker : IHandles<EntityAdded>, IHandles<EntityUpdated>, IHandles<EntityDeleted>
+    public class PersistentEventTracker : IHandle<EntityAdded>, IHandle<EntityUpdated>, IHandle<EntityDeleted>
     {
-        public void Handle(EntityAdded @event, EventDispatchingContext context)
+        public void Handle(EntityAdded @event)
         {
             Log(@event.CommerceName + ": Add " + @event.Entity.GetType().Name);
         }
 
-        public void Handle(EntityUpdated @event, EventDispatchingContext context)
+        public void Handle(EntityUpdated @event)
         {
             Log(@event.CommerceName + ": Update " + @event.Entity.GetType().Name);
         }
 
-        public void Handle(EntityDeleted @event, EventDispatchingContext context)
+        public void Handle(EntityDeleted @event)
         {
             Log(@event.CommerceName + ": Delete " + @event.Entity.GetType().Name);
         }
