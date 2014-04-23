@@ -86,16 +86,23 @@ namespace Kooboo.Commerce.API.HAL
                             string actionName = action.Name;
                             if (_specialActionNames.Contains(action.Name.ToLower()))
                                 actionName = string.Empty;
-                            resource.ResourceUri = string.Format("/{{instance}}/{0}/{1}", controllerName, actionName).TrimEnd('/').ToLower();
+                            resource.ResourceUri = string.Format("/{{instance}}/{0}/{1}", controllerName.ToLower(), actionName.ToLower()).TrimEnd('/');
                         }
                         else
-                            resource.ResourceUri = resAttr.Uri.Replace("{controller}", controllerName).Replace("{action}", action.Name);
+                            resource.ResourceUri = resAttr.Uri.Replace("{controller}", controllerName.ToLower()).Replace("{action}", action.Name.ToLower());
                         resource.IsListResource = resAttr.IsList;
                         if (!string.IsNullOrEmpty(resAttr.ItemName))
                         {
                             resource.IsListResource = true;
                             resource.ItemResourceName = NormalizeResourceName(resAttr.ItemName, controllerName, null);
                         }
+                        
+                        if (resAttr.ImplicitLinksProvider != null && typeof(IImplicitLinkProvider).IsAssignableFrom(resAttr.ImplicitLinksProvider))
+                        {
+                            var linksProvider = Activator.CreateInstance(resAttr.ImplicitLinksProvider) as IImplicitLinkProvider;
+                            resource.ImplicitLinkProvider = linksProvider;
+                        }
+
                         resources.Add(resource);
                     }
                 }

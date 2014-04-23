@@ -37,7 +37,7 @@
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -65,9 +65,12 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="HalContext.cs" />
     <Compile Include="HalWrapper.cs" />
+    <Compile Include="Serialization\JsonHalMediaTypeFormatter.cs" />
     <Compile Include="IContextEnviromentProvider.cs" />
     <Compile Include="IHalWrapper.cs" />
+    <Compile Include="IImplicitLinkProvider.cs" />
     <Compile Include="IUriResolver.cs" />
+    <Compile Include="PaginationImplictLinksProvider.cs" />
     <Compile Include="Persistence\FileResourceLinkPersistence.cs" />
     <Compile Include="IResourceDescriptorProvider.cs" />
     <Compile Include="Persistence\IResourceLinkPersistence.cs" />
@@ -76,8 +79,7 @@
     <Compile Include="ResourceAttribute.cs" />
     <Compile Include="ResourceDescriptor.cs" />
     <Compile Include="ResourceLink.cs" />
-    <Compile Include="Serialization\Converters\LinksConverter.cs" />
-    <Compile Include="Serialization\Converters\ResourceListConverter.cs" />
+    <Compile Include="Serialization\ResourceConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -24,6 +24,8 @@ namespace Kooboo.Commerce.API.HAL
         public string Uri { get; set; }
         public bool IsList { get; set; }
 
+        public Type ImplicitLinksProvider { get; set; }
+
         private string itemName;
         public string ItemName
         {

@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.API
 {
     public interface IResource
     {
-        [JsonProperty("_links")]
+        [JsonIgnore]
         IList<Link> Links { get; }
     }
 
