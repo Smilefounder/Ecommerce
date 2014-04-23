@@ -153,25 +153,22 @@
 		padding: 0 0 6px;
 
 		.ui-icon {
-			background: url(images/arrows.png) no-repeat;
-			height: 8px;
 			margin: -4px 0 0 -3px;
-			width: 6px;
 		}
 
 		.ui-datepicker-prev .ui-icon {
-			background-position: -12px -16px;
+			.sprite(@chevron-left-gray);
 		}
 
 		.ui-datepicker-next .ui-icon {
-			background-position: -18px -16px;
+			.sprite(@chevron-right-gray);
 		}
 
 		.ui-corner-all {
 			background: #F5F5F5;
 
 			&:hover {
-				background: #E1E1E1;
+				background: #E9E9E9;
 				cursor: pointer;
 			}
 		}
@@ -219,6 +216,10 @@
 			border: 1px solid @light-blue;
 			color: #FFF;
 		}
+	}
+
+	.ui-datepicker-buttonpane button {
+		padding: 0 10px;
 	}
 }
 

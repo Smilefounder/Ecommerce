@@ -13,7 +13,7 @@
                                 <div class="span8" style="font-size:14px">
                                     <span data-bind="visible: $index() > 0">
                                         <span data-bind="text: logicalOperatorDisplayText"></span>
-                                   </span>
+                                    </span>
                                     <span data-bind="text: paramName"></span>
                                     <span data-bind="text: comparisonOperatorDisplayText"></span>
                                     <span data-bind="html: valueDisplayText"></span>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <a href="#" data-bind="click: addCondition">@Html.IconImage("plus")</a>
+            <a href="#" data-bind="click: addCondition">@Html.IconImage("plus-small")</a>
         </div>
     </div>
     <div class="buttons">
@@ -147,7 +147,7 @@
                 _this.temp.logicalOperator(_this.logicalOperator());
                 _this.temp.paramName(_this.paramName());
                 _this.temp.comparisonOperator(_this.comparisonOperator());
-                _this.temp.value(_this.value());                
+                _this.temp.value(_this.value());
                 _this.isEditing(true);
             }
 
@@ -285,7 +285,7 @@
                     expression: exp,
                     contextModelType: _this.contextModelTypeName(),
                     commerceName: commerceName
-                 })
+                })
                  .done(function (result) {
                      $.each(result.models, function (i) {
                          var condition = new ConditionViewModel(_this);
