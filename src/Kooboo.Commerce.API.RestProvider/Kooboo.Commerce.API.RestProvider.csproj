@@ -38,8 +38,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Membership.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -92,6 +92,10 @@
     <Compile Include="ShoppingCarts\ShoppingCartAPI.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kooboo.Commerce.API.HAL\Kooboo.Commerce.API.HAL.csproj">
+      <Project>{28e5672f-9bea-467a-86eb-3db6dc514f13}</Project>
+      <Name>Kooboo.Commerce.API.HAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
       <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
       <Name>Kooboo.Commerce.API.LocalProvider</Name>
@@ -100,6 +104,9 @@
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

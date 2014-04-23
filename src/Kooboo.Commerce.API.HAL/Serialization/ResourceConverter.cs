@@ -10,13 +10,6 @@ namespace Kooboo.Commerce.API.HAL.Serialization
 {
     public class ResourceConverter : JsonConverter
     {
-        public Func<bool> GenerateHalLinks { get; set; }
-
-        public ResourceConverter()
-        {
-            GenerateHalLinks = () => true;
-        }
-
         public override bool CanConvert(Type objectType)
         {
             return typeof(IResource).IsAssignableFrom(objectType);
