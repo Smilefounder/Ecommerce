@@ -48,5 +48,15 @@ namespace Kooboo.Commerce.API.HAL
             parameters["pageIndex"] = pageIndex;
             return links;
         }
+
+        public string Name
+        {
+            get { return "Pagination Links Provider"; }
+        }
+
+        public string Description
+        {
+            get { return @"Add first, prev, next, last, goto links to the resource."; }
+        }
     }
 }
