@@ -23,6 +23,8 @@ using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.HAL.Persistence;
 using Newtonsoft.Json;
 using Kooboo.Commerce.API.HAL.Serialization;
+using Newtonsoft.Json.Linq;
+using Kooboo.Commerce.API;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -40,69 +42,31 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View();
         }
 
+        public void Hal()
+        {
+            using (var client = new System.Net.WebClient())
+            {
+                client.Encoding = Encoding.UTF8;
+                client.Headers["Content-Type"] = "application/hal+json";
+
+                var result = client.DownloadString("http://localhost:63739/api/jd/category/list?pageIndex=0&pageSize=3");
+                Console.WriteLine(result);
+
+                var settings = new JsonSerializerSettings();
+                settings.Converters.Add(new ResourceConverter());
+
+                var category = JsonConvert.DeserializeObject<IListResource<Kooboo.Commerce.API.Categories.Category>>(result, settings);
+
+                var a = 0;
+            }
+        }
+
         public void UriResolver()
         {
             var resolver = EngineContext.Current.Resolve<IUriResolver>();
             var resource = resolver.FindResource("/jd/brand/5");
             var test = resource;
         }
-
-        //public ActionResult Hal()
-        //{
-        //    var brand = new Kooboo.Commerce.API.Brands.Brand
-        //    {
-        //        Id = 5,
-        //        Name = "Apple"
-        //    };
-
-        //    var resourceDescriptorProvider = EngineContext.Current.Resolve<IResourceDescriptorProvider>();
-        //    var resourceLinkPersistence = EngineContext.Current.Resolve<IResourceLinkPersistence>();
-        //    var uriResolver = EngineContext.Current.Resolve<IUriResolver>();
-
-        //    var wrapper = new HalWrapper(resourceDescriptorProvider, resourceLinkPersistence, uriResolver);
-
-        //    wrapper.AddLinks("Brand:detail", brand, new { instance = "jd" });
-
-        //    var settings = new JsonSerializerSettings();
-        //    settings.Converters.Add(new Kooboo.Commerce.API.HAL.Serialization.Converters.ResourceListConverter());
-        //    settings.Converters.Add(new Kooboo.Commerce.API.HAL.Serialization.Converters.LinksConverter());
-
-        //    var json = JsonConvert.SerializeObject(brand, Formatting.Indented, settings);
-
-        //    return Content(json);
-        //}
-        //public ActionResult HalList()
-        //{
-        //    var brands = new Kooboo.Commerce.API.ListResource<Kooboo.Commerce.API.Brands.Brand>
-        //    {
-        //        new Kooboo.Commerce.API.Brands.Brand { Id = 1, Name = "Dell" },
-        //        new Kooboo.Commerce.API.Brands.Brand { Id = 2, Name = "Microsoft" },
-        //        new Kooboo.Commerce.API.Brands.Brand { Id = 3, Name = "Lenovo" }
-        //    };
-
-        //    var resourceDescriptorProvider = EngineContext.Current.Resolve<IResourceDescriptorProvider>();
-        //    var resourceLinkPersistence = EngineContext.Current.Resolve<IResourceLinkPersistence>();
-        //    var uriResolver = EngineContext.Current.Resolve<IUriResolver>();
-
-        //    var wrapper = new HalWrapper(resourceDescriptorProvider, resourceLinkPersistence, uriResolver);
-
-        //    wrapper.AddLinks("Brand:all", brands, new { instance = "jd" }, item =>
-        //    {
-        //        var brand = (Kooboo.Commerce.API.Brands.Brand)item;
-        //        return new
-        //        {
-        //            id = brand.Id
-        //        };
-        //    });
-
-        //    var settings = new JsonSerializerSettings();
-        //    settings.Converters.Add(new Kooboo.Commerce.API.HAL.Serialization.Converters.ResourceListConverter());
-        //    settings.Converters.Add(new Kooboo.Commerce.API.HAL.Serialization.Converters.LinksConverter());
-
-        //    var json = JsonConvert.SerializeObject(brands, Formatting.Indented, settings);
-
-        //    return Content(json);
-        //}
 
         public void Transaction()
         {

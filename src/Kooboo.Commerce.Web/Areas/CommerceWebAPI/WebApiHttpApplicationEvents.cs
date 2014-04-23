@@ -10,7 +10,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Net.Http.Headers;
 using System.Web.Routing;
-using Kooboo.Commerce.API.HAL.Serialization.Converters;
+using Kooboo.Commerce.API.HAL.Serialization;
+using System.Net.Http.Formatting;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI
 {
@@ -29,11 +30,9 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI
 #endif
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
-            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.MediaTypeMappings.Add(new QueryStringMapping("json", "true", "application/json"));
 
-            var serializerSettings = GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings;
-            serializerSettings.Converters.Add(new ResourceListConverter());
-            serializerSettings.Converters.Add(new LinksConverter());
+            GlobalConfiguration.Configuration.Formatters.Add(new JsonHalMediaTypeFormatter());
         }
     }
 }
