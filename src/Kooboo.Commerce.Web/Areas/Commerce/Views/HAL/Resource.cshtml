@@ -41,6 +41,24 @@
         </tr>
         }
         <tr>
+            <th>@("Implicit Link Provider".Localize())</th>
+            <td>
+                @if (Model.ImplicitLinkProvider != null)
+                {
+                    <span>
+                        @Model.ImplicitLinkProvider.Name
+                    </span>
+                    <div class="tip">
+                        @Model.ImplicitLinkProvider.Description
+                    </div>
+                }
+                else
+                {
+                    <span>@("None".Localize())</span>
+                }
+            </td>
+        </tr>
+        <tr>
             <th></th>
             <td>
                 <button type="button" class="button" data-bind="click: addLink">@("Add Link".Localize())</button>

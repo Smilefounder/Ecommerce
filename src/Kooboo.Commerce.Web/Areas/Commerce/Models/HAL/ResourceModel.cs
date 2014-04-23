@@ -22,6 +22,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
         [GridColumn(HeaderText = "Resource URI")]
         public string ResourceUri { get; set; }
 
+        public IImplicitLinkProvider ImplicitLinkProvider { get; set; }
+
+        [GridColumn(HeaderText = "Implicit Link Provider")]
+        public string ImplicitLinkProviderName
+        {
+            get
+            {
+                return ImplicitLinkProvider == null ? null : ImplicitLinkProvider.Name;
+            }
+        }
+
         public ResourceModel() { }
 
         public ResourceModel(ResourceDescriptor resource)
@@ -29,6 +40,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
             ResourceName = resource.ResourceName;
             ResourceUri = resource.ResourceUri;
             IsListResource = resource.IsListResource;
+            ImplicitLinkProvider = resource.ImplicitLinkProvider;
         }
     }
 }
