@@ -177,7 +177,7 @@ namespace Kooboo.Commerce.API.LocalProvider
             if (obj != null)
                 mobj = Map(obj);
             OnQueryExecuted();
-            if (_includeHalLinks)
+            if (_includeHalLinks && obj != null)
             {
                 var itemParas = BuildItemHalParameters(mobj);
                 AppendHalContextParameters(itemParas);
