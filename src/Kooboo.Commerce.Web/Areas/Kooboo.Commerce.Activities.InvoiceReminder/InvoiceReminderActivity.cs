@@ -11,6 +11,7 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Events.Customers;
 using System.Text;
+using Kooboo.Commerce.Events.Brands;
 
 namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
@@ -35,25 +36,31 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
 
         public bool CanBindTo(Type eventType)
         {
-            return typeof(IOrderEvent).IsAssignableFrom(eventType);
+            return typeof(BrandCreated).IsAssignableFrom(eventType);
+            //return typeof(IOrderEvent).IsAssignableFrom(eventType);
         }
 
         public ActivityResult Execute(IEvent evnt, ActivityExecutionContext context)
         {
-            var order = ((IOrderEvent)evnt).Order;
+            var brand = (BrandCreated)evnt;
+            //var order = ((IOrderEvent)evnt).Order;
 
-            var settings = JsonConvert.DeserializeObject<InvoiceReminderSettings>(context.AttachedActivity.ActivityData);
+            //var settings = JsonConvert.DeserializeObject<InvoiceReminderSettings>(context.AttachedActivity.ActivityData);
 
-            var subject = settings.SubjectTemplate;
-            var body = settings.BodyTemplate;
+            //var subject = settings.SubjectTemplate;
+            //var body = settings.BodyTemplate;
             
-            // Send mail
-            var message =  "[" + DateTime.Now + "] #" + order.Id + ", " + subject + Environment.NewLine;
+            //// Send mail
+            //var message =  "[" + DateTime.Now + "] #" + order.Id + ", " + subject + Environment.NewLine;
+            //var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\InvoiceReminder.txt");
+            var message = "[" + DateTime.Now + "] #" + brand.BrandId + ", " + brand.BrandName + ", Event time: " + evnt.TimestampUtc.ToLocalTime() + Environment.NewLine;
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\InvoiceReminder.txt");
             if (!File.Exists(filePath))
             {
                 File.WriteAllText(filePath, message, Encoding.UTF8);
-            } else {
+            }
+            else
+            {
                 File.AppendAllText(filePath, message, Encoding.UTF8);
             }
 

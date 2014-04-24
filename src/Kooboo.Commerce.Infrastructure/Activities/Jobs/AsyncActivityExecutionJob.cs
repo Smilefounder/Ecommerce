@@ -78,8 +78,9 @@ namespace Kooboo.Commerce.Activities.Jobs
                         }
                     }
                 }
-
             }
+
+            InProgress = false;
         }
     }
 }

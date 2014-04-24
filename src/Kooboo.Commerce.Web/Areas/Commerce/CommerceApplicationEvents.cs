@@ -2,6 +2,7 @@
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime.Mvc;
+using Kooboo.Commerce.Activities.Jobs;
 using Kooboo.Commerce.ComponentModel.DataAnnotations;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Dispatching;
@@ -27,6 +28,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
             // Mvc
             DataAnnotationsModelValidatorProvider.RegisterAdapter(
                 typeof(RequiredIfAttribute), typeof(RequiredAttributeAdapter));
+
+            // Async Activity
+            //Kooboo.Job.Jobs.Instance.AttachJob(typeof(AsyncActivityExecutionJob).FullName, new AsyncActivityExecutionJob(), 30 * 1000, null);
         }
     }
 }

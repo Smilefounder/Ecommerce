@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Activities
         private IActivityFactory _activityFactory;
         private CommerceInstanceContext _instanceContext;
 
-        protected ActivityEventHook(CommerceInstanceContext instanceContext, IActivityFactory activityFactory)
+        public ActivityEventHook(CommerceInstanceContext instanceContext, IActivityFactory activityFactory)
         {
             Require.NotNull(instanceContext, "instanceContext");
             Require.NotNull(activityFactory, "activityFactory");
@@ -42,7 +42,11 @@ namespace Kooboo.Commerce.Activities
             var ruleEngine = EngineContext.Current.Resolve<RuleEngine>();
 
             var activityQueue = database.GetRepository<ActivityQueueItem>();
-            var rules = database.GetRepository<ActivityRule>().Query().ByEvent(@event.GetType()).OrderBy(x => x.Id);
+            var rules = database.GetRepository<ActivityRule>()
+                                .Query()
+                                .ByEvent(@event.GetType())
+                                .OrderBy(x => x.Id)
+                                .ToList();
 
             foreach (var rule in rules)
             {
