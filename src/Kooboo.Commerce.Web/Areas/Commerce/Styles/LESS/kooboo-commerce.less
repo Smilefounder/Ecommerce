@@ -3,39 +3,41 @@
 .block.conditions {
 	min-height: 360px;
 
-	.condition,
-	.condition-group {
-		border-top: 1px solid #CCC;
-		padding: 10px 0;
-
-		> div {
-			.clearfix();
-			margin-bottom: 10px;
-		}
+	.wrap {
+		margin-bottom: 10px;
 	}
 
-	.condition {
-		.container {
-			margin-right: 40px;
+	.item {
+		background: #F5F5F5;
+		border: 1px solid #CCC;
+		margin-top: 36px;
+		padding: 10px 48px 10px 10px;
+		position: relative;
+		.rounded(4px);
+
+		&:first-child {
+			margin-top: 0;
+
+			.logic-operator {
+				display: none;
+			}
 		}
 
-		.condition-op {
-			margin-bottom: 10px;
-		}
-	}
-
-	.condition-group {
-		border-bottom: 1px solid #CCC;
-		border-left: 2px solid #CCC;
-		margin-bottom: 20px;
-		padding: 0;
-
-		.toolbar {
-			padding-right: 0;
+		.logic-operator {
+			background: #F5F5F5;
+			border-left: 1px solid #CCC;
+			border-right: 1px solid #CCC;
+			margin-left: 50px;
+			padding: 5px 10px;
+			position: absolute;
+			top: -38px;
+			width: 100px;
 		}
 
-		> .container {
-			padding: 10px 0 0 10px;
+		.action {
+			position: absolute;
+			right: 10px;
+			top: 10px;
 		}
 	}
 }

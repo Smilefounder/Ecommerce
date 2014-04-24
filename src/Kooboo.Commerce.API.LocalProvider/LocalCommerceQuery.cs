@@ -222,9 +222,10 @@ namespace Kooboo.Commerce.API.LocalProvider
         /// <summary>
         /// query data without requesting hal links to save time
         /// </summary>
-        public void WithoutHalLinks()
+        public ICommerceQuery<T> WithoutHalLinks()
         {
             _includeHalLinks = false;
+            return this;
         }
 
         /// <summary>
@@ -232,9 +233,10 @@ namespace Kooboo.Commerce.API.LocalProvider
         /// </summary>
         /// <param name="name">hal parameter name</param>
         /// <param name="value">hal parameter value</param>
-        public void SetHalParameter(string name, object value)
+        public ICommerceQuery<T> SetHalParameter(string name, object value)
         {
             _halParameters[name] = value;
+            return this;
         }
 
         public HalContext HalContext { get; set; }
