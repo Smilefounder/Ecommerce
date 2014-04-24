@@ -34,6 +34,14 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
             }
         }
 
+        public bool AllowAsyncExecution
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public bool CanBindTo(Type eventType)
         {
             return typeof(BrandCreated).IsAssignableFrom(eventType);

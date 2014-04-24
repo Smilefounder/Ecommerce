@@ -68,11 +68,16 @@ namespace Kooboo.Commerce.Activities
             StartedAtUtc = DateTime.UtcNow;
         }
 
-        public virtual void MarkFailed(Exception exception)
+        public virtual void MarkFailed(string errorMessage, string errorDetail = null)
         {
             Status = QueueItemStatus.Failed;
-            ErrorMessage = exception.Message;
-            Exception = exception.Print();
+            ErrorMessage = errorMessage;
+            Exception = errorDetail;
+        }
+
+        public virtual void MarkFailed(Exception exception)
+        {
+            MarkFailed(exception.Message, exception.Print());
         }
     }
 }
