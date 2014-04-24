@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Data
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new QueryStreamEnumerator<T>(_query, _batchSize);
+            return new QueryStreamEnumerator(_query, _batchSize);
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Data
             return GetEnumerator();
         }
 
-        private class QueryStreamEnumerator<T> : IEnumerator<T>
+        private class QueryStreamEnumerator : IEnumerator<T>
         {
             private List<T> _batchItems;
             private int _nextBatchItemIndex;

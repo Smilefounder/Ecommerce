@@ -40,5 +40,8 @@ namespace Kooboo.Commerce.API.HAL
         }
 
         public IImplicitLinkProvider ImplicitLinkProvider { get; set; }
+
+        public HalParameter[] InputPramameters { get; set; }
+        public HalParameter[] OutputParameters { get; set; }
     }
 }

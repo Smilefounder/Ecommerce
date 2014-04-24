@@ -34,7 +34,7 @@ namespace Kooboo.Commerce
             }
         }
 
-        public static Scope<T> Begin<T>(T instance) where T : class
+        public static Scope<T> Begin(T instance)
         {
             Require.NotNull(instance, "instance");
             return new Scope<T>(instance);

@@ -65,10 +65,16 @@ namespace Kooboo.Commerce.Activities.Jobs
                                 var attachedActivity = rule.AttachedActivities.ById(queueItem.AttachedActivityId);
                                 var activity = activityFactory.FindByName(attachedActivity.ActivityName);
 
-                                activity.Execute(@event, new ActivityExecutionContext(rule, attachedActivity));
-
-                                // TODO: Delete queue item when success, but i think some log is needed
-                                queue.Delete(queueItem);
+                                if (activity != null)
+                                {
+                                    activity.Execute(@event, new ActivityExecutionContext(rule, attachedActivity, true));
+                                    // TODO: Delete queue item when success, but i think some log is needed
+                                    queue.Delete(queueItem);
+                                }
+                                else
+                                {
+                                    queueItem.MarkFailed("Cannot find activity with name '" + attachedActivity.ActivityName + "'. Ensure the activity is installed.");
+                                }
                             }
                             catch (Exception ex)
                             {

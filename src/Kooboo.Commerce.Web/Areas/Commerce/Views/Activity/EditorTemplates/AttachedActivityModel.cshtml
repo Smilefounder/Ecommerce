@@ -23,7 +23,28 @@
                         </tr>
                         @Html.EditorFor(m => m.Description)
                         @Html.EditorFor(m => m.Priority)
-                        @Html.EditorFor(m => m.EnableAsyncExecution)
+                        <tr>
+                            <th></th>
+                            <td>
+                                <div class="clearfix">
+                                    @if (Model.ActivityAllowAsyncExecution)
+                                    {
+                                        @Html.CheckBoxFor(m => m.EnableAsyncExecution)
+                                    }
+                                    else
+                                    {
+                                        @Html.CheckBoxFor(m => m.EnableAsyncExecution, new { disabled = "disabled" })
+                                    }
+                                    @Html.LabelFor(m => m.EnableAsyncExecution, new { @class = "inline" })
+                                </div>
+                                @if (!Model.ActivityAllowAsyncExecution)
+                                {
+                                    <div class="block message warning" style="margin-top:5px">
+                                        @("This activity does not allow async execution".Localize())
+                                    </div>
+                                }
+                            </td>
+                        </tr>
                         <tr class="delay-row" style="display:none">
                             <th>@("Delay".Localize())</th>
                             <td>

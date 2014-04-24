@@ -72,18 +72,22 @@ namespace Kooboo.Commerce.Activities
         {
             foreach (var attachedActivity in attachedActivities.SortByExecutionOrder())
             {
-                if (attachedActivity.IsAsyncExeuctionEnabled)
+                var activity = _activityFactory.FindByName(attachedActivity.ActivityName);
+                if (activity == null)
+                    throw new InvalidOperationException("Cannot find activity with name \"" + attachedActivity.ActivityName + "\".");
+
+                // It's possible that the first version of the activity allows async execution, 
+                // and admin configured it to "execute async", 
+                // but the second version of the activity doesn't allow async execution.
+                // In this case, we need to ignore admin settings, that is, execute it right now
+                if (attachedActivity.IsAsyncExeuctionEnabled && activity.AllowAsyncExecution)
                 {
                     var queueItem = new ActivityQueueItem(attachedActivity, @event);
                     activityQueue.Insert(queueItem);
                 }
                 else
                 {
-                    var activity = _activityFactory.FindByName(attachedActivity.ActivityName);
-                    if (activity == null)
-                        throw new InvalidOperationException("Cannot find activity with name \"" + attachedActivity.ActivityName + "\".");
-
-                    var response = activity.Execute(@event, new ActivityExecutionContext(rule, attachedActivity));
+                    var response = activity.Execute(@event, new ActivityExecutionContext(rule, attachedActivity, false));
                     if (response == ActivityResult.AbortTransaction)
                     {
                         throw new TransactionAbortException("Activity requested to abort transaction.");
