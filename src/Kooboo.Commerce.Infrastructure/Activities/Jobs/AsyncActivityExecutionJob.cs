@@ -42,10 +42,10 @@ namespace Kooboo.Commerce.Activities.Jobs
                 using (var scope = Scope<CommerceInstance>.Begin(instance))
                 {
                     var batchSize = 100;
-                    var query = instance.Database.GetRepository<ActivityQueueItem>()
-                                                 .Query()
-                                                 .Where(x => x.Status == QueueItemStatus.Pending && x.ScheduledExecuteTimeUtc <= now)
-                                                 .OrderBy(x => x.Id);
+                    var queue = instance.Database.GetRepository<ActivityQueueItem>();
+                    var query = queue.Query()
+                                     .Where(x => x.Status == QueueItemStatus.Pending && x.ScheduledExecuteTimeUtc <= now)
+                                     .OrderBy(x => x.Id);
 
                     var ruleRepository = instance.Database.GetRepository<ActivityRule>();
 
@@ -67,7 +67,8 @@ namespace Kooboo.Commerce.Activities.Jobs
 
                                 activity.Execute(@event, new ActivityExecutionContext(rule, attachedActivity));
 
-                                queueItem.MarkSuccess();
+                                // TODO: Delete queue item when success, but i think some log is needed
+                                queue.Delete(queueItem);
                             }
                             catch (Exception ex)
                             {

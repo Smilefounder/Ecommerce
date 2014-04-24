@@ -62,12 +62,6 @@ namespace Kooboo.Commerce.Activities
             StartedAtUtc = DateTime.UtcNow;
         }
 
-        public virtual void MarkSuccess()
-        {
-            Status = QueueItemStatus.Success;
-            CompletedAtUtc = DateTime.UtcNow;
-        }
-
         public virtual void MarkFailed(Exception exception)
         {
             Status = QueueItemStatus.Failed;

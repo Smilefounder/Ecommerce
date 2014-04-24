@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
                 typeof(RequiredIfAttribute), typeof(RequiredAttributeAdapter));
 
             // Async Activity
-            //Kooboo.Job.Jobs.Instance.AttachJob(typeof(AsyncActivityExecutionJob).FullName, new AsyncActivityExecutionJob(), 30 * 1000, null);
+            Kooboo.Job.Jobs.Instance.AttachJob(typeof(AsyncActivityExecutionJob).FullName, new AsyncActivityExecutionJob(), 30 * 1000, null);
         }
     }
 }
