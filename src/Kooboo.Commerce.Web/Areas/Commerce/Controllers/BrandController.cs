@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(BrandEditorModel model, string @return)
         {
             model.CustomFields = FormHelper.BindToModels<BrandCustomFieldModel>(Request.Form, "CustomFields.");

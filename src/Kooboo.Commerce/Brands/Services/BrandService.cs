@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.Brands.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
+                //using (var tx = _db.BeginTransaction())
                 {
                     _brandRepository.Update(brand, k => new object[] { k.Id });
                     _brandCustomFieldRepository.DeleteBatch(o => o.BrandId == brand.Id);
@@ -61,7 +61,7 @@ namespace Kooboo.Commerce.Brands.Services
                             _brandCustomFieldRepository.Insert(cf);
                         }
                     }
-                    tx.Commit();
+                    //tx.Commit();
                 }
                 return true;
             }

@@ -103,6 +103,9 @@
     <Compile Include="Customers\ExtendedQuery\TopOrderedCustomers.cs" />
     <Compile Include="DefaultExtendedQueryManager.cs" />
     <Compile Include="Events\Brands\BrandCreated.cs" />
+    <Compile Include="Events\Brands\BrandDeleted.cs" />
+    <Compile Include="Events\Brands\BrandUpdated.cs" />
+    <Compile Include="Events\Brands\IBrandEvent.cs" />
     <Compile Include="Events\Orders\DeliveryBegan.cs" />
     <Compile Include="Events\Orders\OrderCreated.cs" />
     <Compile Include="Events\Orders\OrderStatusChanged.cs" />

@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Brands
 {
-    public class Brand : INotifyObjectCreated
+    public class Brand : INotifyObjectCreated, INotifyObjectUpdated, INotifyObjectDeleted
     {
         [Parameter(Name = "BrandId", DisplayName = "Brand ID")]
         public int Id { get; set; }
@@ -35,6 +35,16 @@ namespace Kooboo.Commerce.Brands
         void INotifyObjectCreated.NotifyCreated()
         {
             Event.Raise(new BrandCreated(this));
+        }
+
+        void INotifyObjectUpdated.NotifyUpdated()
+        {
+            Event.Raise(new BrandUpdated(this));
+        }
+
+        void INotifyObjectDeleted.NotifyDeleted()
+        {
+            Event.Raise(new BrandDeleted(this));
         }
     }
 }

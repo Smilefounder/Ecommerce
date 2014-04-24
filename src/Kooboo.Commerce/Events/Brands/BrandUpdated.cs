@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.Activities;
-using Kooboo.Commerce.Brands;
+﻿using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Brands
 {
     [Serializable]
-    public class BrandCreated : Event, IBrandEvent
+    public class BrandUpdated : Event, IBrandEvent
     {
         [Parameter]
         public int BrandId { get; set; }
@@ -20,9 +19,9 @@ namespace Kooboo.Commerce.Events.Brands
         [Parameter]
         public string BrandDescription { get; set; }
 
-        public BrandCreated() { }
+        public BrandUpdated() { }
 
-        public BrandCreated(Brand brand)
+        public BrandUpdated(Brand brand)
         {
             BrandId = brand.Id;
             BrandName = brand.Name;

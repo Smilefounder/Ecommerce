@@ -9,7 +9,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Brands
 {
     [Serializable]
-    public class BrandCreated : Event, IBrandEvent
+    public class BrandDeleted : Event, IBrandEvent
     {
         [Parameter]
         public int BrandId { get; set; }
@@ -20,9 +20,9 @@ namespace Kooboo.Commerce.Events.Brands
         [Parameter]
         public string BrandDescription { get; set; }
 
-        public BrandCreated() { }
+        public BrandDeleted() { }
 
-        public BrandCreated(Brand brand)
+        public BrandDeleted(Brand brand)
         {
             BrandId = brand.Id;
             BrandName = brand.Name;

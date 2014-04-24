@@ -44,13 +44,13 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
 
         public bool CanBindTo(Type eventType)
         {
-            return typeof(BrandCreated).IsAssignableFrom(eventType);
+            return typeof(IBrandEvent).IsAssignableFrom(eventType);
             //return typeof(IOrderEvent).IsAssignableFrom(eventType);
         }
 
         public ActivityResult Execute(IEvent evnt, ActivityExecutionContext context)
         {
-            var brand = (BrandCreated)evnt;
+            var brand = (IBrandEvent)evnt;
             //var order = ((IOrderEvent)evnt).Order;
 
             //var settings = JsonConvert.DeserializeObject<InvoiceReminderSettings>(context.AttachedActivity.ActivityData);
@@ -61,7 +61,7 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
             //// Send mail
             //var message =  "[" + DateTime.Now + "] #" + order.Id + ", " + subject + Environment.NewLine;
             //var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\InvoiceReminder.txt");
-            var message = "[" + DateTime.Now + "] #" + brand.BrandId + ", " + brand.BrandName + ", Event time: " + evnt.TimestampUtc.ToLocalTime() + Environment.NewLine;
+            var message = "[" + DateTime.Now + "] Event: " + evnt.GetType().Name + ", #" + brand.BrandId + ", Event time: " + evnt.TimestampUtc.ToLocalTime() + Environment.NewLine;
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\InvoiceReminder.txt");
             if (!File.Exists(filePath))
             {

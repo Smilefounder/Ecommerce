@@ -53,8 +53,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 RuleBranch = branch,
                 ActivityName = activityName,
                 ActivityDisplayName = activity.DisplayName,
-                ActivityAllowAsyncExecution = activity.AllowAsyncExecution,
-                EnableAsyncExecution = activity.AllowAsyncExecution
+                ActivityAllowAsyncExecution = activity.AllowAsyncExecution
             };
             return View(model);
         }
