@@ -20,14 +20,14 @@
                 <tr>
                     <th>@Html.DisplayNameFor(m => m.PaymentProcessorName)</th>
                     <td>
-                        <select name="PaymentProcessorName" class="xxlarge" data-bind="options: availablePaymentProcessors, optionsText: 'name', optionsValue: 'name', value: paymentProcessorName"></select>
+                        <select name="PaymentProcessorName" class="medium" data-bind="options: availablePaymentProcessors, optionsText: 'name', optionsValue: 'name', value: paymentProcessorName"></select>
                         @Html.ValidationMessageFor(m => m.PaymentProcessorName)
                     </td>
                 </tr>
                 <tr>
                     <th>@Html.DisplayNameFor(m => m.DisplayName)</th>
                     <td>
-                        @Html.TextBoxFor(m => m.DisplayName, new { data_bind = "value: displayName", @class = "xxlarge" })
+                        @Html.TextBoxFor(m => m.DisplayName, new { data_bind = "value: displayName", @class = "medium" })
                         @Html.ValidationMessageFor(m => m.DisplayName)
                     </td>
                 </tr>
@@ -37,7 +37,7 @@
                     <td>
                         @Html.DropDownListFor(m => m.AdditionalFeeChargeMode, Model.AllFeeChargeModes, new
                         {
-                            @class = "xxlarge",
+                            @class = "medium",
                             data_bind = "value: additionalFeeChargeMode"
                         })
                     </td>
@@ -45,14 +45,14 @@
                 <tr data-bind="visible: additionalFeeChargeMode() == 'ByAmount'">
                     <th>@Html.DisplayNameFor(m => m.AdditionalFeeAmount)</th>
                     <td>
-                        @Html.TextBoxFor(m => m.AdditionalFeeAmount, new { @class = "xxlarge" })
+                        @Html.TextBoxFor(m => m.AdditionalFeeAmount, new { @class = "medium" })
                         @Html.ValidationMessageFor(m => m.AdditionalFeeAmount)
                     </td>
                 </tr>
                 <tr data-bind="visible: additionalFeeChargeMode() == 'ByPercent'">
                     <th>@Html.DisplayNameFor(m => m.AdditionalFeePercent)</th>
                     <td>
-                        @Html.TextBoxFor(m => m.AdditionalFeePercent, new { @class = "xxlarge" }) %
+                        @Html.TextBoxFor(m => m.AdditionalFeePercent, new { @class = "medium" }) %
                         @Html.ValidationMessageFor(m => m.AdditionalFeePercent)
                     </td>
                 </tr>

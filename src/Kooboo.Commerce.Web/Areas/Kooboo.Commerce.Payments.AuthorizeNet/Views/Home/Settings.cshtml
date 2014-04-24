@@ -9,8 +9,8 @@
         @Html.ValidationSummary(true)
         <table>
             <tbody>
-                @Html.EditorFor(m => m.LoginId)
-                @Html.EditorFor(m => m.TransactionKey)
+                @Html.EditorFor(m => m.LoginId, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.TransactionKey, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.SandboxMode)
             </tbody>
         </table>

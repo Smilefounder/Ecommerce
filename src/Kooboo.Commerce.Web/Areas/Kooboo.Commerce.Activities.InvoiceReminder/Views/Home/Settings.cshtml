@@ -20,7 +20,7 @@
                 <tr>
                     <th>@Html.DisplayNameFor(m => m.BodyTemplate)</th>
                     <td>
-                        @Html.TextAreaFor(m => m.BodyTemplate, new { style = "min-height:300px" })
+                        @Html.TextAreaFor(m => m.BodyTemplate)
                         @Html.ValidationMessageFor(m => m.BodyTemplate)
                     </td>
                 </tr>
@@ -28,13 +28,13 @@
         </table>
         <p class="buttons">
             <button type="submit" data-ajaxform="">@("Save".Localize())</button>
-            <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
+            <a href="#" class="button gray J_Cancel">@("Cancel".Localize())</a>
         </p>
     }
 </div>
 
 <script>
-    $('.btn-cancel').on('click', function () {
+    $('.J_Cancel').on('click', function () {
         window.parent.ViewModel.activityContext().cancel();
     });
 </script>

@@ -40,13 +40,13 @@
                             {
                                 <span class="expander disabled"></span>
                             }
-                            <a class="with-icon" href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]">@Html.IconImage("file file-doc") @p.Name</a>
+                            <a class="with-icon" href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]&Id=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]">@Html.IconImage("file file-doc") @p.Name</a>
                         </td>
                         <td>
                             @(p.Published ? "YES" : "-")
                         </td>
                         <td>
-                            <a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&ParentId=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]">@Html.IconImage("plus-small")</a>
+                            <a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]&ParentId=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]">@Html.IconImage("plus-small")</a>
                         </td>
                     </tr>
                 }
@@ -78,7 +78,7 @@
         var level = parseInt($(tr).attr('data-level') || "1") + 1;
         if ($(ele).hasClass('active')) {
             if (eles.length <= 0) {
-                utils.getJson('/Commerce/Category/Children?commerceName=@Request.QueryString["commercename"]&parentId=' + pid, null, function (data) {
+                utils.getJson('/Commerce/Category/Children?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]&parentId=' + pid, null, function (data) {
                     $.each(data, function (i, n) {
                         var ctr = $('<tr></tr>').attr('data-parent-id', pid).attr('data-level', level);
                         var ctd1 = $('<td class="checkbox"></td>');
@@ -90,15 +90,15 @@
                         ctd2.css('padding-left', 5 + 14 * times);
                         var span = $('<span class="expander disabled"></span>');
                         if (n.ChildrenCount > 0) {
-                            span = $('<span class="expander" onclick="ToggleChildren(event, this, \'' + n.Id + '\');"><img class="icon sprite" src="/Images/invis.gif" /></span>'); 
+                            span = $('<span class="expander" onclick="ToggleChildren(event, this, \'' + n.Id + '\');"><img class="icon sprite" src="/Images/invis.gif" /></span>');
                         }
                         ctd2.append(span);
-                        var a = $('<a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&Id=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"><img class="icon file file-doc" src="/Images/invis.gif" /></a>').append(n.Name);
+                        var a = $('<a href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]&Id=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]"><img class="icon file file-doc" src="/Images/invis.gif" /></a>').append(n.Name);
                         ctd2.append(a);
                         ctr.append(ctd2);
                         ctr.append($('<td>' + (n.Published ? "YES" : "-") + '</td>'));
                         var ctdl = $('<td></td>');
-                        var ca = $('<a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&ParentId=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]"><img class="icon plus-small" src="/Images/invis.gif" /></a>');
+                        var ca = $('<a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]&ParentId=' + n.Id + '&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]"><img class="icon plus-small" src="/Images/invis.gif" /></a>');
                         ctdl.append(ca);
                         ctr.append(ctdl);
                         ctr.insertAfter(tr);

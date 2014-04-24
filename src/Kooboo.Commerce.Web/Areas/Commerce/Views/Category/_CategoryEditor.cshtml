@@ -7,6 +7,16 @@
     @Html.HiddenFor(m => m.Id)
     <div class="common-form">
         <table>
+            <tr>
+                <th>
+                    <label>
+                        @("Parent".Localize())
+                    </label>
+                </th>
+                <td>
+                    @(string.IsNullOrEmpty(Model.ParentCrumble) ? "None" : Model.ParentCrumble)
+                </td>
+            </tr>
             @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
             <tr>
                 <th><label>@("Photo".Localize())</label></th>
@@ -38,16 +48,6 @@
                 </td>
             </tr>
             @Html.EditorFor(o => o.Published)
-            <tr>
-                <th>
-                    <label>
-                        @("Parent".Localize())
-                    </label>
-                </th>
-                <td>
-                    @(string.IsNullOrEmpty(Model.ParentCrumble) ? "None" : Model.ParentCrumble)
-                </td>
-            </tr>
             <tr>
                 <th>
                     <label>

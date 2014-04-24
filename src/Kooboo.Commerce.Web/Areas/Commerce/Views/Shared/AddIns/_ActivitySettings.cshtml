@@ -1,15 +1,13 @@
 ﻿@{
-    Layout = "~/Views/Shared/Popup.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Popup.cshtml";
 }
 
 <div class="topbar">
     <h1 class="title">@ViewBag.Title</h1>
 </div>
-<div class="warp">
+<div class="wrap">
     <div class="block">
-        <div class="step-content clearfix">
-            @RenderBody()
-        </div>
+        @RenderBody()
     </div>
 </div>
 
