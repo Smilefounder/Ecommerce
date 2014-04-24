@@ -267,7 +267,7 @@
                 })
                 .done(function () {
                     utils.showMessage('Notice', info.message, 'info');
-                    window.location.href = '/Commerce/Product/Index?commerceName=@Request.QueryString["commerceName"]';
+                    window.location.href = '/Commerce/Product/Index?commerceName=@(Request.QueryString["commerceName"])&siteName=@(Request.QueryString["siteName"])';
                     //$('#J_ProductTabs').tabs();
                     //$('#category_tree li.tree-node').treeNode();
                 });

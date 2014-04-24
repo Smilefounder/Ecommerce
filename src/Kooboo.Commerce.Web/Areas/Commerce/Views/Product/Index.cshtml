@@ -55,7 +55,7 @@
                         <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
                     </td>
                     <td>
-                        <a href="/Commerce/Product/Edit?commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&productTypeId=@(p.ProductTypeId)&return=@(Request.RawUrl)">@p.Name</a>
+                        <a href="/Commerce/Product/Edit?commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&productTypeId=@(p.ProductTypeId)&return=@Html.Raw(Server.UrlEncode(Request.RawUrl))">@p.Name</a>
                     </td>
                     <td>
                         @p.Type.Name
