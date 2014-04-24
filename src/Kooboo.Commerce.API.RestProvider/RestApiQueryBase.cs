@@ -12,6 +12,12 @@ namespace Kooboo.Commerce.API.RestProvider
     public class RestApiQueryBase<T> : RestApiBase, ICommerceQuery<T>
         where T : IItemResource
     {
+        public RestApiQueryBase()
+        {
+            ContentType = "application/hal+json";
+            Accept = "application/hal+json;application/json";
+        }
+
         /// <summary>
         /// get paginated data that matches the query
         /// </summary>
@@ -22,7 +28,7 @@ namespace Kooboo.Commerce.API.RestProvider
         {
             QueryParameters.Add("pageIndex", pageIndex.ToString());
             QueryParameters.Add("pageSize", pageSize.ToString());
-            return Get<ListResource<T>>("Pagination");
+            return Get<ListResource<T>>("List");
         }
 
         /// <summary>
@@ -31,7 +37,7 @@ namespace Kooboo.Commerce.API.RestProvider
         /// <returns>object</returns>
         public virtual T FirstOrDefault()
         {
-            return Get<T>("First");
+            return Get<T>(null);
         }
 
         /// <summary>
@@ -62,15 +68,18 @@ namespace Kooboo.Commerce.API.RestProvider
             }
         }
 
+
         public ICommerceQuery<T> WithoutHalLinks()
         {
-            QueryParameters.Add("includeHalLinks", "false");
+            //QueryParameters.Add("includeHalLinks", "false");
+            ContentType = "application/json";
+            Accept = "application/json";
             return this;
         }
 
         public ICommerceQuery<T> SetHalParameter(string name, object value)
         {
-            QueryParameters.Add(string.Format("halParameters.{0}", name), value == null ? "" : value.ToString());
+            QueryParameters.Add(string.Format("halParameters.{0}", name), value == null ? "" : value.ToString());;
             return this;
         }
     }

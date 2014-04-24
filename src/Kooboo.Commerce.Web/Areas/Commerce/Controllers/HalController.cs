@@ -43,7 +43,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 ResourceName = resource.ResourceName,
                 ResourceUri = resource.ResourceUri,
                 IsListResource = resource.IsListResource,
-                LinkableResources = linkableResources.Select(x => new ResourceModel(x)).ToList()
+                LinkableResources = linkableResources.Select(x => new ResourceModel(x)).ToList(),
+                ImplicitLinkProvider = resource.ImplicitLinkProvider
             };
 
             model.Environments.Add(new SelectListItem
