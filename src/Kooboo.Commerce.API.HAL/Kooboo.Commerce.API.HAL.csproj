@@ -64,6 +64,8 @@
     <Compile Include="DefaultUriResolver.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="HalContext.cs" />
+    <Compile Include="HalParameter.cs" />
+    <Compile Include="HalParameterAttribute.cs" />
     <Compile Include="HalWrapper.cs" />
     <Compile Include="Serialization\JsonHalMediaTypeFormatter.cs" />
     <Compile Include="IContextEnviromentProvider.cs" />
