@@ -37,14 +37,16 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
             return Get<int>("Count");
         }
 
-        public void WithoutHalLinks()
+        public ICommerceQuery<PaymentMethod> WithoutHalLinks()
         {
             QueryParameters.Add("includeHalLinks", "false");
+            return this;
         }
 
-        public void SetHalParameter(string name, object value)
+        public ICommerceQuery<PaymentMethod> SetHalParameter(string name, object value)
         {
             QueryParameters.Add(string.Format("halParameters.{0}", name), value == null ? "" : value.ToString());
+            return this;
         }
 
         protected override string ApiControllerPath

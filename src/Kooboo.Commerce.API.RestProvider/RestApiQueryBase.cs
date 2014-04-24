@@ -68,16 +68,19 @@ namespace Kooboo.Commerce.API.RestProvider
             }
         }
 
-        public void WithoutHalLinks()
+
+        public ICommerceQuery<T> WithoutHalLinks()
         {
             //QueryParameters.Add("includeHalLinks", "false");
             ContentType = "application/json";
             Accept = "application/json";
+            return this;
         }
 
-        public void SetHalParameter(string name, object value)
+        public ICommerceQuery<T> SetHalParameter(string name, object value)
         {
-            //QueryParameters.Add(string.Format("halParameters.{0}", name), value == null ? "" : value.ToString());
+            QueryParameters.Add(string.Format("halParameters.{0}", name), value == null ? "" : value.ToString());;
+            return this;
         }
     }
 }
