@@ -1,7 +1,7 @@
 ﻿@using Kooboo.Commerce.Orders;
 @model PagedList<Kooboo.Commerce.Orders.Order>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Orders";
     IEnumerable<IExtendedQuery<Order, OrderQueryModel>> extendedQueries = ViewBag.ExtendedQueries as IEnumerable<IExtendedQuery<Order, OrderQueryModel>>;
     var extendedQueryViewModel = new ViewDataDictionary();
     extendedQueryViewModel.Add("GetExtendedParametersUrl", "/Commerce/Order/GetParameters");
@@ -9,7 +9,8 @@
     extendedQueryViewModel.Add("ExecuteQueryUrl", "/Commerce/Order/ExtendQuery");
 }
 
-@helper RenderSingleItem(string text, string url) {
+@helper RenderSingleItem(string text, string url)
+{
     <li class="SingleItem" style="display:none;">
         <span>
             <a href="javascript:;" onclick="Goto('@url');">@text</a>
@@ -37,58 +38,58 @@
 }
 
 <div class="common-table">
-@using (Html.BeginForm("Delete", "Order", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class = "no-stop" }))
-{
-    <table>
-        <thead>
-            <tr>
-                <th class="checkbox">
-                    <input type="checkbox" class="select-all">
-                </th>
-                <th>
-                    @("Id".Localize())
-                </th>
-                <th>
-                    @("Customer".Localize())
-                </th>
-                <th>
-                    @("Total".Localize())
-                </th>
-                <th>
-                    @("Order Status".Localize())
-                </th>
-                <th>
-                    @("Create Date".Localize())
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in Model)
-            {
+    @using (Html.BeginForm("Delete", "Order", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class = "no-stop" }))
+    {
+        <table>
+            <thead>
                 <tr>
-                    <td class="checkbox ">
-                        <input type="checkbox" class="select" name="select" value="@p.Id" onchange="SelectItem();" data-id-property="Id" autocomplete="off">
-                    </td>
-                    <td>
-                        <a href="/Commerce/Order/Detail?commerceName=@Request.QueryString["commerceName"]&id=@(p.Id)&return=/Commerce/Order">@p.Id</a>
-                    </td>
-                    <td>
-                        @p.Customer.FullName
-                    </td>
-                    <td>
-                        @(p.Total)
-                    </td>
-                    <td>
-                        @(p.OrderStatus)
-                    </td>
-                    <td>
-                        @(p.CreatedAtUtc.ToShortDateString())
-                    </td>
+                    <th class="checkbox">
+                        <input type="checkbox" class="select-all">
+                    </th>
+                    <th>
+                        @("Id".Localize())
+                    </th>
+                    <th>
+                        @("Customer".Localize())
+                    </th>
+                    <th>
+                        @("Total".Localize())
+                    </th>
+                    <th>
+                        @("Order Status".Localize())
+                    </th>
+                    <th>
+                        @("Create Date".Localize())
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td class="checkbox ">
+                            <input type="checkbox" class="select" name="select" value="@p.Id" onchange="SelectItem();" data-id-property="Id" autocomplete="off">
+                        </td>
+                        <td>
+                            <a href="/Commerce/Order/Detail?commerceName=@Request.QueryString["commerceName"]&id=@(p.Id)&return=/Commerce/Order">@p.Id</a>
+                        </td>
+                        <td>
+                            @p.Customer.FullName
+                        </td>
+                        <td>
+                            @(p.Total)
+                        </td>
+                        <td>
+                            @(p.OrderStatus)
+                        </td>
+                        <td>
+                            @(p.CreatedAtUtc.ToShortDateString())
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>
 <script type="text/javascript">
     $(function () {

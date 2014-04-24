@@ -3,7 +3,7 @@
 <div class="topbar">
     <h1 class="title">@ViewBag.Title</h1>
 </div>
-<div class="warp">
+<div class="wrap">
     @using (Html.BeginForm("Save", "Activity", RouteValues.From(Request.QueryString)))
     {
         <div class="step-content clearfix">
@@ -49,21 +49,29 @@
                             <th>@("Delay".Localize())</th>
                             <td>
                                 <div class="columns">
-                                    <div class="span3">
-                                        @Html.TextBoxFor(m => m.DelayDays, new { @class = "xlarge" })
-                                        @("Days".Localize())
+                                    <div class="span2">
+                                        @Html.TextBoxFor(m => m.DelayDays)
                                     </div>
-                                    <div class="span3">
-                                        @Html.DropDownListFor(m => m.DelayHours, Enumerable.Range(0, 24).ToSelectListItems(), new { @class = "xlarge" })
-                                        @("Hours".Localize())
+                                    <div class="span1">
+                                        @("days".Localize())
                                     </div>
-                                    <div class="span3">
-                                        @Html.DropDownListFor(m => m.DelayMinutes, Enumerable.Range(0, 60).ToSelectListItems(), new { @class = "xlarge" })
-                                        @("Minutes".Localize())
+                                    <div class="span2">
+                                        @Html.DropDownListFor(m => m.DelayHours, Enumerable.Range(0, 24).ToSelectListItems())
                                     </div>
-                                    <div class="span3">
-                                        @Html.DropDownListFor(m => m.DelaySeconds, Enumerable.Range(0, 60).ToSelectListItems(), new { @class = "xlarge" })
-                                        @("Seconds".Localize())
+                                    <div class="span1">
+                                        @("hr.".Localize())
+                                    </div>
+                                    <div class="span2">
+                                        @Html.DropDownListFor(m => m.DelayMinutes, Enumerable.Range(0, 60).ToSelectListItems())
+                                    </div>
+                                    <div class="span1">
+                                        @("min.".Localize())
+                                    </div>
+                                    <div class="span2">
+                                        @Html.DropDownListFor(m => m.DelaySeconds, Enumerable.Range(0, 60).ToSelectListItems())
+                                    </div>
+                                    <div class="span1">
+                                        @("sec.".Localize())
                                     </div>
                                 </div>
                             </td>
@@ -74,7 +82,7 @@
 
                 <p class="buttons">
                     <button type="submit" data-ajaxform="">@("Next".Localize()) »</button>
-                    <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
+                    <a href="#" class="button gray J_Cancel">@("Cancel".Localize())</a>
                 </p>
             </div>
         </div>
@@ -113,7 +121,7 @@
             }
         };
 
-        $('.btn-cancel').on('click', function () {
+        $('.J_Cancel').on('click', function () {
             window.parent.ViewModel.activityContext().cancel();
         });
     })();

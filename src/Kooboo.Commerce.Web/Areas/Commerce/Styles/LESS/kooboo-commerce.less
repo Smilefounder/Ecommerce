@@ -1,4 +1,4 @@
-/* Conditions
+/* Conditions block
 ----------------------------------------------------------*/
 .block.conditions {
 	min-height: 360px;
@@ -42,51 +42,89 @@
 	}
 }
 
-.conditions-expression {
-	display: inline-block;
-	font-size: 14px;
-	border-radius: 4px;
-}
+/* Rules block
+----------------------------------------------------------*/
+.block.rules {
+	.rule {
+		padding: 10px 0;
+		border-bottom: 1px solid #DDD;
 
-	.conditions-expression .string {
-		color: #A31515;
+		.columns {
+			margin-bottom: 5px;
+		}
+
+		.conditions-expression {
+			.container {
+				float: left;
+				margin-right: 10px;
+			}
+
+			.action {
+				float: left;
+				margin: 4px 5px 0 0;
+			}
+		}
+
+		select,
+		.button {
+			float: left;
+			margin-right: 10px;
+		}
 	}
 
-	.conditions-expression .keyword {
-		color: #0000FF;
-	}
-
-	.conditions-expression .param {
-		color: #008080;
-	}
-
-	.conditions-expression .operator {
-		color: #666;
-	}
-
-	.conditions-expression .flat-condition {
-		background: #eee;
-		border-radius: 4px;
-		padding: 2px 4px;
-	}
-
-.activity-rule {
-	padding: 10px 0;
-	border-bottom: #ddd 1px solid;
-}
-
-	.activity-rule .rule-label {
+	.rule-label {
 		font-size: 16px;
 		color: #3CA8DB;
 		display: block;
-		text-align: right;
 		text-transform: uppercase;
 	}
-
-.attached-activities-holder {
-	padding-top: 5px;
 }
 
-.attached-activities li {
-	margin-bottom: 5px;
+/* Condition expression
+----------------------------------------------------------*/
+.conditions-expression {
+	font-size: 14px;
+
+	.flat-condition {
+		background: #EEE;
+		color: #777;
+		margin: 0 2px;
+		padding: 0 4px;
+		.rounded(4px);
+	}
+
+	.keyword,
+	.parenthsis {
+		color: #666;
+	}
+
+	.param,
+	.value {
+		font-weight: 600;
+	}
+}
+
+/* Attached activities
+----------------------------------------------------------*/
+.attached-activities-holder {
+	padding-top: 5px;
+
+	.attached-activities {
+		li {
+			margin-bottom: 5px;
+			.clearfix();
+
+			.desc {
+				float: left;
+				font-size: 14px;
+				line-height: 16px;
+				margin-right: 10px;
+			}
+
+			.action {
+				float: left;
+				margin-right: 5px;
+			}
+		}
+	}
 }

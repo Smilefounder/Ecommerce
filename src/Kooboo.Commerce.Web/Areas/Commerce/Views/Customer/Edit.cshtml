@@ -119,13 +119,13 @@
                         <tr>
                             <th>@("Default Shipping Address".Localize())</th>
                             <td>
-                                <select data-bind="options: $data.Addresses, optionsText: 'Address1', optionsValue: 'Id', optionsCaption: ' ', value: ShippingAddressId"></select>
+                                <select data-bind="options: $data.Addresses, optionsText: 'Address1', optionsValue: 'Id', optionsCaption: ' ', value: ShippingAddressId" class="medium"></select>
                             </td>
                         </tr>
                         <tr>
                             <th>@("Default Billing Address".Localize())</th>
                             <td>
-                                <select data-bind="options: $data.Addresses, optionsText: 'Address1', optionsValue: 'Id', optionsCaption: ' ', value: BillingAddressId"></select>
+                                <select data-bind="options: $data.Addresses, optionsText: 'Address1', optionsValue: 'Id', optionsCaption: ' ', value: BillingAddressId" class="medium"></select>
                             </td>
                         </tr>
                     </tbody>
@@ -201,16 +201,16 @@
                     <table data-bind="with: data">
                         <thead>
                             <tr>
-                                <th class="mini">@("Name".Localize())</th>
-                                <th class="mini">@("Value".Localize())</th>
-                                <th class="mini"></th>
+                                <th>@("Name".Localize())</th>
+                                <th>@("Value".Localize())</th>
+                                <th class="action"></th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: CustomFields">
                             <tr>
-                                <td class="mini"><input data-bind="value:Name" type="text"></td>
-                                <td class="mini"><input data-bind="value:Value" type="text"></td>
-                                <td class="mini"><a href="javascript:;" data-bind="click: $root.RemoveCustomField">@Html.IconImage("minus small")</a></td>
+                                <td><input data-bind="value:Name" type="text"></td>
+                                <td><input data-bind="value:Value" type="text"></td>
+                                <td class="action"><a href="javascript:;" data-bind="click: $root.RemoveCustomField">@Html.IconImage("minus small")</a></td>
                             </tr>
                         </tbody>
                     </table>
