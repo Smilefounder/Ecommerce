@@ -46,12 +46,12 @@ namespace Kooboo.Commerce.API
         /// <summary>
         /// query data without requesting hal links to save time
         /// </summary>
-        void WithoutHalLinks();
+        ICommerceQuery<T> WithoutHalLinks();
         /// <summary>
         /// set hal parameter value
         /// </summary>
         /// <param name="name">hal parameter name</param>
         /// <param name="value">hal parameter value</param>
-        void SetHalParameter(string name, object value);
+        ICommerceQuery<T> SetHalParameter(string name, object value);
     }
 }
