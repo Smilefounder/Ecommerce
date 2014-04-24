@@ -24,9 +24,15 @@ namespace Kooboo.Commerce.Activities
 
         public virtual int AttachedActivityId { get; set; }
 
+        /// <summary>
+        /// The CLR type of the event.
+        /// </summary>
         public virtual string EventType { get; set; }
 
-        public virtual string EventPayload { get; set; }
+        /// <summary>
+        /// The json serialized event data (payload).
+        /// </summary>
+        public virtual string EventData { get; set; }
 
         public virtual DateTime ScheduledExecuteTimeUtc { get; set; }
 
@@ -47,13 +53,13 @@ namespace Kooboo.Commerce.Activities
             RuleId = activity.Rule.Id;
             AttachedActivityId = activity.Id;
             EventType = @event.GetType().AssemblyQualifiedNameWithoutVersion();
-            EventPayload = JsonConvert.SerializeObject(@event);
+            EventData = JsonConvert.SerializeObject(@event);
             ScheduledExecuteTimeUtc = activity.CalculateExecutionTime(@event.TimestampUtc);
         }
 
         public virtual IEvent LoadEvent()
         {
-            return (IEvent)JsonConvert.DeserializeObject(EventPayload, Type.GetType(EventType));
+            return (IEvent)JsonConvert.DeserializeObject(EventData, Type.GetType(EventType));
         }
 
         public virtual void MarkStarted()
