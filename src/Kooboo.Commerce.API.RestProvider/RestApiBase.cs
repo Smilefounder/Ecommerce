@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Configuration;
 using Newtonsoft.Json;
+using Kooboo.Commerce.API.HAL.Serialization;
 
 namespace Kooboo.Commerce.API.RestProvider
 {
@@ -14,8 +15,14 @@ namespace Kooboo.Commerce.API.RestProvider
     /// </summary>
     public abstract class RestApiBase
     {
+        public string ContentType { get; set; }
+
+        public string Accept { get; set; }
+
         public RestApiBase()
         {
+            ContentType = "application/json";
+            Accept = "application/json";
             QueryParameters = new Dictionary<string, string>();
         }
 
@@ -106,9 +113,14 @@ namespace Kooboo.Commerce.API.RestProvider
                     url = string.Join("?", string.IsNullOrEmpty(uri.Query) ? uri.AbsoluteUri : uri.AbsoluteUri.Replace(uri.Query, ""), ToFormatString(queryString));
                 }
             }
-            var json = HttpHelper.Request(method, url, jsonData);
-            var obj = JsonConvert.DeserializeObject<T>(json);
-            return obj;
+            var json = HttpHelper.Request(method, url, jsonData, accept: Accept, contentType: ContentType);
+
+            if (ContentType == "application/hal+json")
+            {
+                return JsonConvert.DeserializeObject<T>(json, new ResourceConverter());
+            }
+
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.API.HAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,6 +22,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
         public IList<ResourceLinkModel> Links { get; set; }
 
         public IList<SelectListItem> Environments { get; set; }
+
+        public IImplicitLinkProvider ImplicitLinkProvider { get; set; }
 
         public ResourceDetailModel()
         {

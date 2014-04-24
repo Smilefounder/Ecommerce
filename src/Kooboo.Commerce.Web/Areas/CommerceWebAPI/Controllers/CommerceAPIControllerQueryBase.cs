@@ -19,12 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <summary>
         /// return all api objects filtered by query string parameters
         /// </summary>
-        /// <example>
-        /// fdsafds
-        /// dfsafdsd
-        ///     dfadfsa
-        ///         dfdsa
-        ///         
+        /// <example>      
         /// </example>
         /// <returns>api objects</returns>
         [HttpGet]
