@@ -52,7 +52,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 RuleId = rule.Id,
                 RuleBranch = branch,
                 ActivityName = activityName,
-                ActivityDisplayName = activity.DisplayName
+                ActivityDisplayName = activity.DisplayName,
+                ActivityAllowAsyncExecution = activity.AllowAsyncExecution,
+                EnableAsyncExecution = activity.AllowAsyncExecution
             };
             return View(model);
         }
@@ -121,6 +123,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             var model = new AttachedActivityModel(attachedActivity);
             model.ActivityDisplayName = activity.DisplayName;
+            model.ActivityAllowAsyncExecution = activity.AllowAsyncExecution;
+
+            if (!model.ActivityAllowAsyncExecution)
+            {
+                model.EnableAsyncExecution = false;
+            }
 
             return View(model);
         }

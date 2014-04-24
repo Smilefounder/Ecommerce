@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Promotions
 {
-    public class PromotionDisabled : IPromotionEvent
+    public class PromotionDisabled : Event, IPromotionEvent
     {
         public Promotion Promotion { get; private set; }
 

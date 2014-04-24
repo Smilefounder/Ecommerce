@@ -25,6 +25,9 @@ using Newtonsoft.Json;
 using Kooboo.Commerce.API.HAL.Serialization;
 using Newtonsoft.Json.Linq;
 using Kooboo.Commerce.API;
+using Kooboo.Commerce.Brands.Services;
+using Kooboo.Commerce.Activities;
+using Kooboo.Commerce.Events.Brands;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -32,14 +35,35 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     {
         public CommerceInstanceContext CommerceInstanceContext { get; private set; }
 
-        public TestController(CommerceInstanceContext context)
+        private IBrandService _brandService;
+        private IRepository<ActivityQueueItem> _queue;
+
+        public TestController(CommerceInstanceContext context, IBrandService brandService, IRepository<ActivityQueueItem> queue)
         {
             CommerceInstanceContext = context;
+            _brandService = brandService;
+            _queue = queue;
         }
 
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Event()
+        {
+            var brand = new Brand
+            {
+                Name = "Brand 2"
+            };
+
+            _brandService.Create(brand);
+
+            var item = new ActivityQueueItem(new AttachedActivity(ActivityRule.Create(typeof(BrandCreated), "Id = 2", RuleType.Always), RuleBranch.Else, "", "", ""), new BrandCreated(brand));
+            _queue.Insert(item);
+
+
+            return Content("OK");
         }
 
         public void Hal()

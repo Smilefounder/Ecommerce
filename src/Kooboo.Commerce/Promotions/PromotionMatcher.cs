@@ -2,6 +2,7 @@
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Pricing;
+using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,13 @@ namespace Kooboo.Commerce.Promotions
 {
     public class PromotionMatcher
     {
+        private RuleEngine _ruleEngine;
+
+        public PromotionMatcher(RuleEngine ruleEngine)
+        {
+            _ruleEngine = ruleEngine;
+        }
+
         public IEnumerable<PromotionMatch> MatchApplicablePromotions(PricingContext context, IEnumerable<Promotion> candidatePromotions)
         {
             var matches = new List<PromotionMatch>();
@@ -68,7 +76,7 @@ namespace Kooboo.Commerce.Promotions
             }
             else
             {
-                var conditionChecker = new PromotionConditionChecker();
+                var conditionChecker = new PromotionConditionChecker(_ruleEngine);
                 var result = conditionChecker.CheckConditions(promotion, context);
                 if (result.Success)
                 {

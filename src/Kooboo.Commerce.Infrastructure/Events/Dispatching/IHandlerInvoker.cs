@@ -8,14 +8,14 @@ namespace Kooboo.Commerce.Events.Dispatching
 {
     public interface IHandlerInvoker
     {
-        void Invoke(object handler, MethodInfo handleMethod, IEvent evnt, EventDispatchingContext context);
+        void Invoke(object handler, MethodInfo handleMethod, IEvent evnt);
     }
 
     public class DefaultHandlerInvoker : IHandlerInvoker
     {
-        public void Invoke(object handler, MethodInfo handleMethod, IEvent evnt, EventDispatchingContext context)
+        public void Invoke(object handler, MethodInfo handleMethod, IEvent evnt)
         {
-            handleMethod.Invoke(handler, new object[] { evnt, context });
+            handleMethod.Invoke(handler, new object[] { evnt });
         }
     }
 }

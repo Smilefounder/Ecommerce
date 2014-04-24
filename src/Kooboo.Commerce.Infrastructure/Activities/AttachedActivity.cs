@@ -52,6 +52,16 @@ namespace Kooboo.Commerce.Activities
             CreatedAtUtc = DateTime.UtcNow;
         }
 
+        public DateTime CalculateExecutionTime(DateTime eventTimeUtc)
+        {
+            if (!IsAsyncExeuctionEnabled)
+            {
+                return eventTimeUtc;
+            }
+
+            return eventTimeUtc.AddSeconds(AsyncExecutionDelay);
+        }
+
         public void EnableAsyncExecution(int delay)
         {
             IsAsyncExeuctionEnabled = true;

@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Events.Dispatching
             {
                 if (!@interface.IsGenericType) continue;
 
-                if (@interface.GetGenericTypeDefinition() == typeof(IHandles<>))
+                if (@interface.GetGenericTypeDefinition() == typeof(IHandle<>))
                 {
                     foreach (var argType in @interface.GetGenericArguments())
                     {

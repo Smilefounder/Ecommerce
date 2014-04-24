@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Customers
 {
-    public class CustomerCreated : ICustomerEvent
+    public class CustomerCreated : Event, ICustomerEvent
     {
         public Customer Customer { get; private set; }
 

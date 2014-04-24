@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +12,26 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
     {
         private IPromotionService _promotionService;
         private IPromotionPolicyFactory _policyFactory;
+        private RuleEngine _ruleEngine;
 
         public PromotionPricingStage(
             IPromotionService promotionService,
-            IPromotionPolicyFactory policyFactory)
+            IPromotionPolicyFactory policyFactory,
+            RuleEngine ruleEngine)
         {
             Require.NotNull(promotionService, "promotionService");
             Require.NotNull(policyFactory, "policyFactory");
+            Require.NotNull(ruleEngine, "ruleEngine");
 
             _promotionService = promotionService;
             _policyFactory = policyFactory;
+            _ruleEngine = ruleEngine;
         }
 
         public void Execute(PricingContext context)
         {
-            var matcher = new PromotionMatcher();
-            var promotions = _promotionService.Query()
-                                              .WhereAvailableNow()
-                                              .ToList();
+            var matcher = new PromotionMatcher(_ruleEngine);
+            var promotions = _promotionService.Query().WhereAvailableNow().ToList();
 
             var matches = matcher.MatchApplicablePromotions(context, promotions);
 

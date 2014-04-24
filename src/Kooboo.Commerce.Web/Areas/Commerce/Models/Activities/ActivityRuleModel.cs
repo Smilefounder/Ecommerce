@@ -93,6 +93,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public string ActivityDisplayName { get; set; }
 
+        public bool ActivityAllowAsyncExecution { get; set; }
+
         public bool IsEnabled { get; set; }
 
         public int Priority { get; set; }

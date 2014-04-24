@@ -19,5 +19,10 @@ namespace Kooboo.Commerce.Data
         {
             return System.Data.Entity.QueryableExtensions.Include<T, TProperty>(query, path);
         }
+
+        public static QueryStream<T> Stream<T>(this IQueryable<T> query, int batchSize)
+        {
+            return new QueryStream<T>(query, batchSize);
+        }
     }
 }
