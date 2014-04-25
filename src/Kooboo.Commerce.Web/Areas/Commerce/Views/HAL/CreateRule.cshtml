@@ -1,0 +1,16 @@
+﻿@model HalRuleEditorModel
+@{
+    ViewBag.Title = "New HAL Rule".Localize();
+}
+
+@section Panel{
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddBackButton();
+    })
+}
+
+<div class="block common-form">
+    @Html.Partial("_RuleEditor", Model)
+</div>

@@ -307,9 +307,12 @@
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\CustomFieldEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\FieldValidationRuleEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\HAL\HalRuleEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\HAL\HalRuleResourceModel.cs" />
     <Compile Include="Areas\Commerce\Models\HAL\ResourceLinkModel.cs" />
     <Compile Include="Areas\Commerce\Models\HAL\ResourceModel.cs" />
     <Compile Include="Areas\Commerce\Models\HAL\ResourceDetailModel.cs" />
+    <Compile Include="Areas\Commerce\Models\HAL\HalRuleRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\NameValue.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderRowModel.cs" />
@@ -2276,6 +2279,10 @@
     <Content Include="Areas\Commerce\Views\HAL\Resources.cshtml" />
     <Content Include="Areas\Commerce\Views\HAL\Resource.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_SitesNavTree.cshtml" />
+    <Content Include="Areas\Commerce\Views\HAL\ResourceRules.cshtml" />
+    <Content Include="Areas\Commerce\Views\HAL\_RuleEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\HAL\CreateRule.cshtml" />
+    <Content Include="Areas\Commerce\Views\HAL\EditRule.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

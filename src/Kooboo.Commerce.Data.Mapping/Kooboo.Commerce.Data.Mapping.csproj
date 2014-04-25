@@ -59,6 +59,8 @@
     <Compile Include="CustomerMap.cs" />
     <Compile Include="CustomFieldMap.cs" />
     <Compile Include="FieldValidationRuleMap.cs" />
+    <Compile Include="HalRuleMap.cs" />
+    <Compile Include="HalRuleResourceMap.cs" />
     <Compile Include="ImageSizeMap.cs" />
     <Compile Include="KeyValueSettingMap.cs" />
     <Compile Include="OrderMap.cs" />
@@ -76,6 +78,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kooboo.Commerce.API.HAL\Kooboo.Commerce.API.HAL.csproj">
+      <Project>{28e5672f-9bea-467a-86eb-3db6dc514f13}</Project>
+      <Name>Kooboo.Commerce.API.HAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
       <Name>Kooboo.Commerce.Infrastructure</Name>
