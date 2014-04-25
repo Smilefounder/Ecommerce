@@ -2276,6 +2276,7 @@
     <Content Include="Areas\Commerce\Views\HAL\Resources.cshtml" />
     <Content Include="Areas\Commerce\Views\HAL\Resource.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_SitesNavTree.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\Popup.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
