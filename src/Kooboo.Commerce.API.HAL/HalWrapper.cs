@@ -1,5 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.HAL.Persistence;
+using Kooboo.Commerce.API.HAL.Services;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +16,24 @@ namespace Kooboo.Commerce.API.HAL
         private IResourceLinkPersistence _resourceLinkPersistence;
         private IResourceDescriptorProvider _resourceDescriptorProvider;
         private IEnumerable<IContextEnviromentProvider> _environmentProviders;
+        private RuleEngine _ruleEngine;
+        private IEnumerable<HalRule> _halRules;
+        private IHalRuleService _halRuleService;
 
         public HalWrapper(
             IResourceDescriptorProvider resourceDescriptorProvider,
             IResourceLinkPersistence resourceLinkPersistence,
             IUriResolver uriResolver,
-            IEnumerable<IContextEnviromentProvider> environmentProviders)
+            IEnumerable<IContextEnviromentProvider> environmentProviders,
+            IHalRuleService halRuleService,
+            RuleEngine ruleEngine)
         {
             _resourceDescriptorProvider = resourceDescriptorProvider;
             _resourceLinkPersistence = resourceLinkPersistence;
             _uriResolver = uriResolver;
             _environmentProviders = environmentProviders;
+            _halRuleService = halRuleService;
+            _ruleEngine = ruleEngine;
         }
 
         public void AddLinks(string resourceName, IItemResource resource, HalContext context, IDictionary<string, object> parameterValues)
@@ -37,7 +46,8 @@ namespace Kooboo.Commerce.API.HAL
 
             var descriptor = _resourceDescriptorProvider.GetDescriptor(resourceName);
             AssertDescriptorNotNull(descriptor, resourceName);
-            FillLinksNoRecursive(descriptor, resource, parameterValues, GetAvailableEnvironmentNames(context));
+            var halRules = GetHalRulesByHalContext(context);
+            FillLinksNoRecursive(descriptor, resource, parameterValues, halRules);
         }
 
         public void AddLinks<T>(string resourceName, IListResource<T> resource, HalContext context, IDictionary<string, object> parameterValues, Func<T, IDictionary<string, object>> itemParameterValuesResolver)
@@ -52,27 +62,43 @@ namespace Kooboo.Commerce.API.HAL
             var descriptor = _resourceDescriptorProvider.GetDescriptor(resourceName);
             AssertDescriptorNotNull(descriptor, resourceName);
 
-            var environmentNames = GetAvailableEnvironmentNames(context);
+            var halRules = GetHalRulesByHalContext(context);
+            FillLinksNoRecursive(descriptor, resource, parameterValues, halRules);
 
-            FillLinksNoRecursive(descriptor, resource, parameterValues, environmentNames);
 
             var itemDescriptor = _resourceDescriptorProvider.GetDescriptor(descriptor.ItemResourceName);
             AssertDescriptorNotNull(itemDescriptor, descriptor.ItemResourceName);
 
-            foreach (var item in resource)
+            if (IsResourceInRules(descriptor.ItemResourceName, halRules))
             {
-                var itemParamValues = itemParameterValuesResolver == null ? null : itemParameterValuesResolver(item);
-                FillLinksNoRecursive(itemDescriptor, item, itemParamValues, environmentNames);
+                foreach (var item in resource)
+                {
+                    var itemParamValues = itemParameterValuesResolver == null ? null : itemParameterValuesResolver(item);
+                    FillLinksNoRecursive(itemDescriptor, item, itemParamValues, halRules);
+                }
             }
         }
 
-        private ISet<string> GetAvailableEnvironmentNames(HalContext context)
+        private IEnumerable<HalRule> GetHalRulesByHalContext(HalContext context)
         {
-            var providers = _environmentProviders.Where(x => x.IsContextRunInEnviroment(context)).ToList();
-            return new HashSet<string>(providers.Select(x => x.Name));
+            if (_halRules == null)
+                _halRules = _halRuleService.Query().ToArray();
+            return _halRules.Where(o => _ruleEngine.CheckCondition(o.ConditionsExpression, context));
         }
 
-        private void FillLinksNoRecursive(ResourceDescriptor descriptor, IResource resource, IDictionary<string, object> parameterValues, ISet<string> environmentProviderNames)
+        private bool IsResourceInRules(string resourceName, IEnumerable<HalRule> halRules)
+        {
+            if (halRules == null || halRules.Count() <= 0)
+                return true;
+            foreach(var rule in halRules)
+            {
+                if (rule.Resources.Any(o => o.ResourceName == resourceName))
+                    return true;
+            }
+            return false;
+        }
+
+        private void FillLinksNoRecursive(ResourceDescriptor descriptor, IResource resource, IDictionary<string, object> parameterValues, IEnumerable<HalRule> halRules)
         {
             // Add self
             resource.Links.Add(new Link
@@ -81,10 +107,13 @@ namespace Kooboo.Commerce.API.HAL
                 Href = _uriResolver.Resovle(descriptor.ResourceUri, parameterValues)
             });
 
-            var savedLinks = _resourceLinkPersistence.GetLinks(descriptor.ResourceName, environmentProviderNames);
+            var savedLinks = _resourceLinkPersistence.GetLinks(descriptor.ResourceName, null);
 
             foreach (var savedLink in savedLinks)
             {
+                // if this link resource is not in the hal rule. continue;
+                if (!IsResourceInRules(savedLink.DestinationResourceName, halRules))
+                    continue;
                 var targetResourceDescriptor = _resourceDescriptorProvider.GetDescriptor(savedLink.DestinationResourceName);
 
                 AssertDescriptorNotNull(targetResourceDescriptor, savedLink.DestinationResourceName);

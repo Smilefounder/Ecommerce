@@ -1,0 +1,17 @@
+﻿@model PagedList<HalRuleRowModel>
+@{
+    ViewBag.Title = "HAL Rules".Localize();
+}
+
+@section Panel {
+    @(Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddCreateButton(actionName: "CreateRule");
+        buttons.AddDeleteButton(actionName: "DeleteRule");
+    }))
+}
+
+@Html.GridFor2(typeof(HalRuleRowModel), Model)
+<div class="pagination">
+    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+</div>
