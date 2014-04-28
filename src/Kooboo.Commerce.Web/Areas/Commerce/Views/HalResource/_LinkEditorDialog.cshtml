@@ -1,0 +1,297 @@
+﻿
+<div id="resource-link-editor-dialog" style="display:none">
+    <div class="topbar">
+        <h1 class="title" data-bind="text: dialogTitle"></h1>
+    </div>
+    <div class="wrap">
+        <div class="common-form">
+            <table>
+                <tr>
+                    <th>@("Relation".Localize())</th>
+                    <td>
+                        <input type="text" name="Relation" data-bind="value: link.relation" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Linked Resource".Localize())</th>
+                    <td>
+                        <select name="DestinationResourceName" 
+                                data-bind="options: linkableResources, optionsText: 'resourceName', optionsValue: 'resourceName', value: link.destinationResourceName"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Parameters".Localize())</th>
+                    <td>
+                        <div class="message" data-bind="visible: destinationResourceInputParameters().length === 0">
+                            @("The linked resource does not require input parameters")
+                        </div>
+                        <div class="simple-table" style="display:none;margin-top:10px" data-bind="visible: link.destinationResourceParameterValues().length > 0">
+                            <table>
+                                <tbody data-bind="foreach: link.destinationResourceParameterValues">
+                                    <tr>
+                                        <td style="width:150px" data-bind="text: $root.getParameterDisplayName(parameterName), attr: { title: parameterName }"></td>
+                                        <td style="width:150px">
+                                            <!-- ko if: isFixedValue -->
+                                            <input type="text" data-bind="value: parameterValue" />
+                                            <!-- /ko -->
+                                            <!-- ko if: !isFixedValue() -->
+                                            <select data-bind="options: $root.sourceResourceOutputParameters, optionsText: 'displayName', optionsValue: 'name', value: parameterValue"></select>
+                                            <!-- /ko -->
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" data-bind="checked: isFixedValue, attr: { id: 'IsFixedValue_' + $index() }" />
+                                            <label class="inline" data-bind="attr: { 'for': 'IsFixedValue_' + $index() }">
+                                                @("Fixed Value".Localize())
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+        var Texts = {
+            AddLink: '@("Add Link".Localize())',
+            EditLink: '@("Edit Link".Localize())',
+            Save: '@("Save".Localize())',
+            Cancel: '@("Cancel".Localize())'
+        };
+
+        function ViewModel() {
+            var _this = this;
+
+            this.dialogTitle = ko.observable(Texts.AddLink);
+
+            this.sourceResourceName = ko.observable();
+
+            this.linkableResources = ko.observableArray();
+
+            this.link = {
+                id: ko.observable(),
+                relation: ko.observable(),
+                destinationResourceName: ko.observable(),
+                destinationResourceParameterValues: ko.observableArray()
+            }
+
+            this.sourceResourceOutputParameters = ko.observableArray();
+
+            this.destinationResourceInputParameters = ko.observableArray();
+
+            this.getParameterDisplayName = function (paramName) {
+                var index = paramName.indexOf('.');
+                return index >= 0 ? paramName.substr(index + 1) : paramName;
+            }
+        }
+
+        function ResourceLinkEditorDialog() {
+            var _this = this;
+            var _$dialog = null;
+            var _callbacks = {};
+
+            this.model = new ViewModel();
+
+            this.init = function () {
+                _$dialog = $('#resource-link-editor-dialog');
+                _$dialog.dialog({
+                    autoOpen: false,
+                    modal: true,
+                    buttons: [
+                        {
+                            text: Texts.Save,
+                            click: function () {
+                                _this.save();
+                            }
+                        },
+                        {
+                            text: Texts.Cancel,
+                            class: 'gray',
+                            click: function () {
+                                _this.close();
+                            }
+                        }
+                    ]
+                });
+
+                _this.model.link.destinationResourceName.subscribe(_this.onDestinationResourceSelectionChanged);
+
+                return loadLinkableResources().done(function () {
+                            ko.applyBindings(_this.model, _$dialog[0]);
+                       });
+            }
+
+            this.on = function (eventName, callback) {
+                var callbacks = _callbacks[eventName];
+                if (callbacks === undefined) {
+                    callbacks = [];
+                    _callbacks[eventName] = callbacks;
+                }
+                callbacks.push(callback);
+            }
+
+            this.trigger = function (eventName, args) {
+                var callbacks = _callbacks[eventName];
+                if (callbacks) {
+                    $.each(callbacks, function () {
+                        this.apply(_this, args);
+                    });
+                }
+            }
+
+            this.open = function (options) {
+                _$dialog.dialog('open');
+
+                _this.model.link.id(null);
+                _this.model.link.relation(null);
+                _this.model.link.destinationResourceName(null);
+                _this.model.link.destinationResourceParameterValues.removeAll();
+
+                var resourceName = options.resourceName;
+                var linkId = options.linkId || 0;
+
+                _this.model.sourceResourceName(resourceName);
+
+                loadResource(resourceName).done(function (data) {
+                    ko.mapping.fromJS(data.outputParameters, {}, _this.model.sourceResourceOutputParameters);
+
+                    if (linkId) {
+                        // Load request resource link
+                        loadResourceLink(linkId).done(function (data) {
+                            var link = _this.model.link;
+                            link.id(data.id);
+                            link.relation(data.relation);
+
+                            _destinationResourceChangeContext.updateParameterList = false;
+
+                            link.destinationResourceName(data.destinationResourceName);
+                            updateParameterList(data.destinationResourceName, data.destinationResourceParameterValues);
+
+                            _destinationResourceChangeContext.updateParameterList = true;
+                        });
+                    }
+                });
+            }
+
+            this.onDestinationResourceSelectionChanged = function () {
+                if (_destinationResourceChangeContext.updateParameterList) {
+                    updateParameterList(_this.model.link.destinationResourceName());
+                }
+            }
+
+            this.save = function () {
+                window.loading.show();
+
+                $.ajax({
+                    url: '@Url.Action("SaveLink", "HalResource")?sourceResourceName=' + _this.model.sourceResourceName(),
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(ko.toJS(_this.model.link))
+                })
+                .done(function (result) {
+                    window.loading.hide();
+
+                    if (result.Success) {
+                        var linkId = result.Model.Id;
+                        _this.model.link.id(linkId);
+                        _this.trigger('saved', [linkId]);
+                        _this.close();
+                    } else {
+                        info.show(result.Messages.join('<br/>'), false);
+                    }
+                });
+            }
+
+            this.close = function () {
+                _$dialog.dialog('close');
+            }
+
+            // Helper Methods
+
+            var _destinationResourceChangeContext = {
+                updateParameterList: true
+            };
+
+            function updateParameterList(resourceName, paramValuesData) {
+                var link = _this.model.link;
+
+                _this.model.destinationResourceInputParameters.removeAll();
+                link.destinationResourceParameterValues.removeAll();
+
+                if (resourceName) {
+                    loadResource(resourceName).done(function (data) {
+                        ko.mapping.fromJS(data.inputParameters, {}, _this.model.destinationResourceInputParameters);
+
+                        $.each(_this.model.destinationResourceInputParameters(), function (i, param) {
+                            link.destinationResourceParameterValues.push(createResourceParameterValue(param));
+                        });
+
+                        if (paramValuesData) {
+                            // Update parameer values
+                            $.each(paramValuesData, function () {
+                                var paramName = this.parameterName;
+                                var paramValue = _.find(link.destinationResourceParameterValues(), function (it) {
+                                    return it.parameterName === paramName;
+                                });
+                                if (paramValue) {
+                                    paramValue.isFixedValue(this.isFixedValue);
+                                    paramValue.parameterValue(this.parameterValue);
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+
+            function createResourceParameterValue(param) {
+                var paramValue = {
+                    parameterName: param.name(),
+                    parameterValue: ko.observable(null),
+                    isFixedValue: ko.observable(false)
+                };
+
+                return paramValue;
+            }
+
+            function loadLinkableResources() {
+                return $.get('@Url.Action("LinkableResources", "HalResource")')
+                        .then(function (data) {
+                            ko.mapping.fromJS(data, {}, _this.model.linkableResources);
+                        });
+            }
+
+            function loadResource(resourceName) {
+                return $.get('@Url.Action("Resource", "HalResource")', { resourceName: resourceName });
+            }
+
+            function loadResourceLink(linkId) {
+                return $.get('@Url.Action("ResourceLink", "HalResource")', { linkId: linkId });
+            }
+        }
+
+        var instance = new ResourceLinkEditorDialog();
+        var initTask = instance.init();
+
+        ResourceLinkEditorDialog.open = function (options) {
+            initTask.done(function () {
+                instance.open(options);
+            });
+        };
+
+        ResourceLinkEditorDialog.close = function () {
+            instance.close();
+        };
+
+        ResourceLinkEditorDialog.on = function (eventName, callback) {
+            instance.on(eventName, callback);
+        }
+
+        window.ResourceLinkEditorDialog = ResourceLinkEditorDialog;
+
+    })(jQuery);
+</script>

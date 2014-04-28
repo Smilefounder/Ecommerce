@@ -107,7 +107,7 @@ namespace Kooboo.Commerce.API.HAL
                 Href = _uriResolver.Resovle(descriptor.ResourceUri, parameterValues)
             });
 
-            var savedLinks = _resourceLinkPersistence.GetLinks(descriptor.ResourceName, null);
+            var savedLinks = _resourceLinkPersistence.GetLinks(descriptor.ResourceName);
 
             foreach (var savedLink in savedLinks)
             {

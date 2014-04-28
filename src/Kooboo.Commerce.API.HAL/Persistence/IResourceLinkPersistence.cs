@@ -9,13 +9,7 @@ namespace Kooboo.Commerce.API.HAL.Persistence
     {
         ResourceLink GetById(string linkId);
 
-        /// <summary>
-        /// Get configured links filtering by specified environments for the specified resource
-        /// </summary>
-        /// <param name="resourceName">The resource name.</param>
-        /// <param name="environmentNames">The environment names used to filter the links. Use empty set to return all available links.</param>
-        /// <returns>Links for the specified resource.</returns>
-        IEnumerable<ResourceLink> GetLinks(string resourceName, ISet<string> environmentNames);
+        IEnumerable<ResourceLink> GetLinks(string resourceName);
 
         void Save(ResourceLink link);
 

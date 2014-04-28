@@ -5,6 +5,27 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.HAL
 {
+    public class HalParameterValue
+    {
+        public string ParameterName { get; set; }
+
+        /// <summary>
+        /// The parameter value. It'll be the source parameter name if IsFixedValue is set to false.
+        /// </summary>
+        public string ParameterValue { get; set; }
+
+        /// <summary>
+        /// Indicates if the parameter value is a fixed value. 
+        /// If not fixed, the parameter value will store the name of the parameter from which the parameter value is dynamically retrieved at runtime.
+        /// </summary>
+        public bool IsFixedValue { get; set; }
+
+        public HalParameterValue Clone()
+        {
+            return (HalParameterValue)MemberwiseClone();
+        }
+    }
+
     public class ResourceLink
     {
         public string Id { get; set; }
@@ -15,35 +36,30 @@ namespace Kooboo.Commerce.API.HAL
 
         public string Relation { get; set; }
 
-        /// <summary>
-        /// Name of the environment in which this link is available for the source resource.
-        /// </summary>
-        public string EnvironmentName { get; set; }
-
-        /// <summary>
-        /// The parameter mapping from the source resource to the destination resource.
-        /// </summary>
-        public IDictionary<string, string> ParameterMapping { get; set; }
+        public IList<HalParameterValue> DestinationResourceParameterValues { get; set; }
 
         public ResourceLink()
         {
             Id = Guid.NewGuid().ToString();
-            ParameterMapping = new Dictionary<string, string>();
+            DestinationResourceParameterValues = new List<HalParameterValue>();
         }
 
         public ResourceLink Clone()
         {
             var link = (ResourceLink)MemberwiseClone();
-            if (ParameterMapping != null && ParameterMapping.Count > 0)
-            {
-                link.ParameterMapping = new Dictionary<string, string>(ParameterMapping);
-            }
-            else
-            {
-                link.ParameterMapping = new Dictionary<string, string>();
-            }
-
+            link.DestinationResourceParameterValues = DestinationResourceParameterValues.Select(v => v.Clone()).ToList();
             return link;
+        }
+
+        /// <summary>
+        /// Copy link information to the other link without the Id.
+        /// </summary>
+        internal void CopyTo(ResourceLink other)
+        {
+            other.SourceResourceName = SourceResourceName;
+            other.Relation = Relation;
+            other.DestinationResourceName = DestinationResourceName;
+            other.DestinationResourceParameterValues = DestinationResourceParameterValues.Select(v => v.Clone()).ToList();
         }
     }
 }

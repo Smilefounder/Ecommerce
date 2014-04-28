@@ -1,6 +1,8 @@
-﻿@model ResourceDetailModel
+﻿@model ResourceDescriptor
 @{
     ViewBag.Title = "Resource".Localize() + " - " + Model.ResourceName;
+
+    var itemResource = ViewBag.ItemResource as ResourceDescriptor;
 }
 
 @section Panel {
@@ -36,7 +38,7 @@
         <tr>
             <th>@("Item Resource".Localize())</th>
             <td>
-                <a href="@Url.Action("Resource", RouteValues.From(Request.QueryString).Merge("resourceName", Model.ItemResource.ResourceName))">@Model.ItemResource.ResourceUri</a>
+                <a href="@Url.Action("Resource", RouteValues.From(Request.QueryString).Merge("resourceName", itemResource.ResourceName))">@itemResource.ResourceUri</a>
             </td>
         </tr>
         }
@@ -61,155 +63,97 @@
         <tr>
             <th></th>
             <td>
-                <button type="button" class="button" data-bind="click: addLink">@("Add Link".Localize())</button>
-                <div class="simple-table" data-bind="visible: links().length > 0" style="margin-top:10px">
-                    <form id="links-form">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>@("Environement".Localize())</th>
-                                    <th>@("Relation".Localize())</th>
-                                    <th>@("Linked Resource".Localize())</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="foreach: { data: links, afterRender: updateValidation }">
-                                <tr data-bind="visible: !isEditing()">
-                                    <td data-bind="text: environmentName() || '@("Any".Localize())'"></td>
-                                    <td data-bind="text: relation"></td>
-                                    <td>
-                                        <span data-bind="text: destinationResource.resourceName"></span>
-                                    </td>
-                                    <td>
-                                        <a href="#" data-bind="click: $root.editLink">@Html.IconImage("edit-small")</a>
-                                        <a href="#" data-bind="click: $root.deleteLink">@Html.IconImage("minus-small")</a>
-                                    </td>
-                                </tr>
-                                <tr data-bind="visible: isEditing">
-                                    <td>
-                                        <select data-bind="options: $root.environments, optionsText: 'text', optionsValue: 'value', value: environmentName"></select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="medium" data-bind="value: relation, attr: { name: 'Relation' + $index() }" maxlength="50"
-                                               data-val="true"
-                                               data-val-required="*" />
-                                        <span data-bind="attr: { 'data-valmsg-for': 'Relation' + $index }" data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <select data-bind="options: $root.linkableResources, optionsText: 'resourceName', optionsValue: 'resourceName', value: destinationResource.resourceName"></select>
-                                    </td>
-                                    <td>
-                                        <a href="#" data-bind="click: $root.commitLinkEditing">@Html.IconImage("save-small")</a>
-                                        <a href="#" data-bind="click: $root.cancelLinkEditing">@Html.IconImage("minus-small")</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
+                <div id="link-list-container">
+                    <button type="button" class="button" data-bind="click: addLink">@("Add Link".Localize())</button>
+                    <div class="simple-table" data-bind="visible: links().length > 0" style="display:none;margin-top:10px">
+                        <form id="links-form">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>@("Relation".Localize())</th>
+                                        <th>@("Linked Resource".Localize())</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: links">
+                                    <tr>
+                                        <td data-bind="text: relation"></td>
+                                        <td>
+                                            <span data-bind="text: destinationResourceName"></span>
+                                        </td>
+                                        <td>
+                                            <a href="#" data-bind="click: $root.editLink">@Html.IconImage("edit-small")</a>
+                                            <a href="#" data-bind="click: $root.deleteLink">@Html.IconImage("minus-small")</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
             </td>
         </tr>
     </table>
 </div>
 
+@Html.Partial("_LinkEditorDialog")
 <script>
     $(function () {
-        var jsModel = @Html.Raw(Model.ToJson(PropertyNaming.CamelCase));
-        var viewModel = new ResourceDetailModel();
+        var resourceName = '@Html.Raw(Model.ResourceName)';
+        var linkListModel = new ResourceLinkListModel();
 
-        function ResourceDetailModel() {
+        function ResourceLinkListModel() {
             var _this = this;
 
-            this.updateValidation = function () {
-                $.validator.unobtrusive.reparse($('#links-form'));
-            }
+            this.links = ko.observableArray();
 
-            this.validate = function () {
-                return $('#links-form').valid();
-            }
-
-            this.findLinkableResource = function (resourceName) {
-                return _.find(_this.linkableResources(), function (it) {
-                    return it.resourceName() == resourceName;
+            this.findLinkById = function (id) {
+                return _.find(_this.links(), function (link) {
+                    return link.id() === id;
                 });
             }
 
             this.addLink = function () {
-                var link = {
-                    id: ko.observable(),
-                    environmentName: ko.observable(),
-                    relation: ko.observable(),
-                    destinationResource: {
-                        resourceName: ko.observable(),
-                        resourceUri: ko.observable()
-                    },
-                    isNew: true,
-                    isEditing: ko.observable(false)
-                };
-
-                _this.links.push(link);
-                _this.editLink(link);
+                ResourceLinkEditorDialog.open({
+                    resourceName: resourceName
+                });
             }
 
             this.editLink = function (link) {
-                link.memo = ko.mapping.toJS(link);
-                link.isEditing(true);
-            }
-
-            this.cancelLinkEditing = function (link) {
-                if (link.isNew) {
-                    _this.links.remove(link);
-                } else {
-                    ko.mapping.fromJS(link.memo, {}, link);
-                    delete link.memo;
-                    link.isEditing(false);
-                }
-            }
-
-            this.commitLinkEditing = function (link) {
-                if (!_this.validate()) {
-                    return;
-                }
-
-                delete link.isNew;
-                delete link.memo;
-
-                var resource = _this.findLinkableResource(link.destinationResource.resourceName());
-                link.destinationResource.resourceUri(resource.resourceUri());
-
-                $.ajax({
-                    url: '@Url.Action("SaveLink")?sourceResourceName=' + encodeURIComponent(_this.resourceName()),
-                    type: 'POST',
-                    data: JSON.stringify(ko.mapping.toJS(link)),
-                    contentType: 'application/json'
-                })
-                .done(function (result) {
-                    if (result.Success) {
-                        link.id(result.Model.Id);
-                        link.isEditing(false);
-                    } else {
-                        info.show(result.Messages.join('<br/>'), false);
-                    }
+                ResourceLinkEditorDialog.open({
+                    resourceName: resourceName,
+                    linkId: link.id()
                 });
             }
 
             this.deleteLink = function (link) {
-                if (!link.id()) {
-                    _this.links.remove(link);
-                } else {
-                    $.post('@Url.Action("DeleteLink")?linkId=' + link.id())
-                     .done(function (result) {
-                         if (result.Success) {
-                             _this.links.remove(link);
-                         } else {
-                             info.show(result.Messages.join('<br/>'), false);
-                         }
-                     });
-                }
+                $.post('@Url.Action("DeleteLink")?linkId=' + link.id())
+                 .done(function (result) {
+                     if (result.Success) {
+                         _this.links.remove(link);
+                     } else {
+                         info.show(result.Messages.join('<br/>'), false);
+                     }
+                 });
             }
         }
 
-        ko.mapping.fromJS(jsModel, {}, viewModel);
-        ko.applyBindings(viewModel);
+        $.get('@Url.Action("Links")', { resourceName: resourceName })
+         .then(function (links) {
+             ko.mapping.fromJS(links, {}, linkListModel.links);
+             ko.applyBindings(linkListModel, document.getElementById('link-list-container'));
+         });
+
+        ResourceLinkEditorDialog.on('saved', function (linkId) {
+            $.get('@Url.Action("ResourceLink")', { linkId: linkId })
+             .then(function (data) {
+                 var existing = linkListModel.findLinkById(linkId);
+                 if (existing) {
+                     ko.mapping.fromJS(data, {}, existing);
+                 } else {
+                     linkListModel.links.push(ko.mapping.fromJS(data));
+                 }
+             });
+        });
     });
 </script>

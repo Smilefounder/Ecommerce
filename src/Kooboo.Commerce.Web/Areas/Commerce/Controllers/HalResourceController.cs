@@ -38,51 +38,60 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var resource = _resourceDescriptorProvider.GetDescriptor(resourceName);
             var linkableResources = _resourceDescriptorProvider.GetAllDescriptors();
 
-            var model = new ResourceDetailModel
-            {
-                ResourceName = resource.ResourceName,
-                ResourceUri = resource.ResourceUri,
-                IsListResource = resource.IsListResource,
-                LinkableResources = linkableResources.Select(x => new ResourceModel(x)).ToList(),
-                ImplicitLinkProvider = resource.ImplicitLinkProvider
-            };
-
-            model.Environments.Add(new SelectListItem
-            {
-                Text = "Any".Localize(),
-                Value = ""
-            });
-
-            foreach (var provider in _environmentProviders)
-            {
-                model.Environments.Add(new SelectListItem
-                {
-                    Text = provider.Name,
-                    Value = provider.Name
-                });
-            }
-
             if (resource.IsListResource && !String.IsNullOrEmpty(resource.ItemResourceName))
             {
                 var itemResource = _resourceDescriptorProvider.GetDescriptor(resource.ItemResourceName);
-                model.ItemResource = new ResourceModel(itemResource);
+                ViewBag.ItemResource = itemResource;
             }
 
-            var links = _resourceLinkPersistence.GetLinks(resource.ResourceName, null);
+            return View(resource);
+        }
+
+        public ActionResult Links(string resourceName)
+        {
+            var result = new List<ResourceLinkModel>();
+            var links = _resourceLinkPersistence.GetLinks(resourceName);
             foreach (var link in links)
             {
                 var linkedResource = _resourceDescriptorProvider.GetDescriptor(link.DestinationResourceName);
-                var linkModel = new ResourceLinkModel
-                {
-                    Id = link.Id,
-                    Relation = link.Relation,
-                    DestinationResource = new ResourceModel(linkedResource)
-                };
-
-                model.Links.Add(linkModel);
+                var linkModel = new ResourceLinkModel(link);
+                result.Add(linkModel);
             }
 
-            return View(model);
+            return JsonNet(result).UsingClientConvention();
+        }
+
+        public ActionResult Resource(string resourceName)
+        {
+            var descriptor = _resourceDescriptorProvider.GetDescriptor(resourceName);
+            var model = new ResourceModel(descriptor);
+
+            // TODO: Fake
+            model.OutputParameters.Add(new HalParameterModel
+            {
+                Name = "page"
+            });
+            model.OutputParameters.Add(new HalParameterModel
+            {
+                Name = "brandId"
+            });
+
+            return JsonNet(model).UsingClientConvention();
+        }
+
+        public ActionResult ResourceLink(string linkId)
+        {
+            var link = _resourceLinkPersistence.GetById(linkId);
+            var model = new ResourceLinkModel(link);
+            return JsonNet(model).UsingClientConvention();
+        }
+
+        public ActionResult LinkableResources()
+        {
+            var resources = _resourceDescriptorProvider.GetAllDescriptors()
+                                                       .Select(x => new ResourceModel(x));
+
+            return JsonNet(resources).UsingClientConvention();
         }
 
         [HttpPost, HandleAjaxFormError]
@@ -93,20 +102,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             if (!String.IsNullOrEmpty(linkModel.Id))
             {
                 link = _resourceLinkPersistence.GetById(linkModel.Id);
-                link.Relation = linkModel.Relation;
-                link.DestinationResourceName = linkModel.DestinationResource.ResourceName;
-                link.EnvironmentName = linkModel.EnvironmentName;
+                linkModel.UpdateTo(link);
                 _resourceLinkPersistence.Save(link);
             }
             else
             {
                 link = new ResourceLink
                 {
-                    Relation = linkModel.Relation,
-                    SourceResourceName = sourceResourceName,
-                    DestinationResourceName = linkModel.DestinationResource.ResourceName,
-                    EnvironmentName = linkModel.EnvironmentName
+                    SourceResourceName = sourceResourceName
                 };
+                linkModel.UpdateTo(link);
                 _resourceLinkPersistence.Save(link);
             }
 

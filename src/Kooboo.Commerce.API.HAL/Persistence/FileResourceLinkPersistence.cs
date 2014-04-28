@@ -37,6 +37,12 @@ namespace Kooboo.Commerce.API.HAL.Persistence
             if (link == null)
                 throw new ArgumentNullException("link");
 
+            if (String.IsNullOrWhiteSpace(link.SourceResourceName))
+                throw new ArgumentException("Source resource name must be set.");
+
+            if (String.IsNullOrWhiteSpace(link.DestinationResourceName))
+                throw new ArgumentException("Destination resource name must be set.");
+
             EnsureCacheLoaded();
 
             _lock.EnterWriteLock();
@@ -47,18 +53,13 @@ namespace Kooboo.Commerce.API.HAL.Persistence
 
                 if (!String.IsNullOrEmpty(link.Id) && _linksById.TryGetValue(link.Id, out oldLink))
                 {
-                    if (link.Relation != oldLink.Relation
-                        || link.SourceResourceName != oldLink.SourceResourceName
-                        || link.DestinationResourceName != oldLink.DestinationResourceName)
-                    {
-                        var allLinks = _linksById.Values.ToList();
-                        allLinks.Remove(oldLink);
-                        allLinks.Add(link);
+                    var allLinks = _linksById.Values.ToList();
+                    allLinks.Remove(oldLink);
+                    allLinks.Add(link);
 
-                        Flush(allLinks);
-                        // Update cache
-                        CopyLinkInfo(link, oldLink);
-                    }
+                    Flush(allLinks);
+                    // Update cache
+                    link.CopyTo(oldLink);
                 }
                 else
                 {
@@ -83,13 +84,6 @@ namespace Kooboo.Commerce.API.HAL.Persistence
             {
                 _lock.ExitWriteLock();
             }
-        }
-
-        private void CopyLinkInfo(ResourceLink from, ResourceLink to)
-        {
-            to.SourceResourceName = from.SourceResourceName;
-            to.DestinationResourceName = from.DestinationResourceName;
-            to.Relation = from.Relation;
         }
 
         public void Delete(string linkId)
@@ -120,7 +114,7 @@ namespace Kooboo.Commerce.API.HAL.Persistence
             }
         }
 
-        public IEnumerable<ResourceLink> GetLinks(string resourceName, ISet<string> environmentNames)
+        public IEnumerable<ResourceLink> GetLinks(string resourceName)
         {
             EnsureCacheLoaded();
 
@@ -128,22 +122,13 @@ namespace Kooboo.Commerce.API.HAL.Persistence
 
             try
             {
-                var resultLinks = Enumerable.Empty<ResourceLink>();
-
                 List<ResourceLink> links = null;
                 if (_linksByResource.TryGetValue(resourceName, out links))
                 {
-                    if (environmentNames != null && environmentNames.Count > 0)
-                    {
-                        resultLinks = links.Where(x => environmentNames.Contains(x.EnvironmentName)).ToList();
-                    }
-                    else
-                    {
-                        resultLinks = links;
-                    }
+                    return links.Select(x => x.Clone()).ToList();
                 }
 
-                return resultLinks.Select(x => x.Clone()).ToList();
+                return Enumerable.Empty<ResourceLink>();
             }
             finally
             {

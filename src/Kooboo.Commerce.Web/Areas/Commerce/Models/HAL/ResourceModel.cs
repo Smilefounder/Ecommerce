@@ -22,25 +22,36 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
         [GridColumn(HeaderText = "Resource URI")]
         public string ResourceUri { get; set; }
 
-        public IImplicitLinkProvider ImplicitLinkProvider { get; set; }
-
         [GridColumn(HeaderText = "Implicit Link Provider")]
-        public string ImplicitLinkProviderName
+        public ImplicitLinkProviderModel ImplicitLinkProvider { get; set; }
+
+        public IList<HalParameterModel> InputParameters { get; set; }
+
+        public IList<HalParameterModel> OutputParameters { get; set; }
+
+        public ResourceModel()
         {
-            get
-            {
-                return ImplicitLinkProvider == null ? null : ImplicitLinkProvider.Name;
-            }
+            InputParameters = new List<HalParameterModel>();
+            OutputParameters = new List<HalParameterModel>();
         }
 
-        public ResourceModel() { }
-
         public ResourceModel(ResourceDescriptor resource)
+            : this()
         {
             ResourceName = resource.ResourceName;
             ResourceUri = resource.ResourceUri;
             IsListResource = resource.IsListResource;
-            ImplicitLinkProvider = resource.ImplicitLinkProvider;
+            ImplicitLinkProvider = resource.ImplicitLinkProvider == null ? null : new ImplicitLinkProviderModel(resource.ImplicitLinkProvider);
+
+            if (resource.InputPramameters != null && resource.InputPramameters.Length > 0)
+            {
+                InputParameters = resource.InputPramameters.Select(p => new HalParameterModel(p)).ToList();
+            }
+
+            if (resource.OutputParameters != null && resource.OutputParameters.Length > 0)
+            {
+                OutputParameters = resource.OutputParameters.Select(p => new HalParameterModel(p)).ToList();
+            }
         }
     }
 }
