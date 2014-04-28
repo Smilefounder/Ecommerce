@@ -9,11 +9,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
 {
     public class HalRuleEditorModel
     {
-         public HalRuleEditorModel() {
+        public HalRuleEditorModel()
+        {
+            Resources = new List<HalRuleResourceModel>();
         }
 
-         public HalRuleEditorModel(HalRule rule)
-         {
+        public HalRuleEditorModel(HalRule rule)
+        {
             this.Id = rule.Id;
             this.Name = rule.Name;
             this.ConditionsExpression = rule.ConditionsExpression;
@@ -21,15 +23,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
             if (rule.Resources != null && rule.Resources.Count > 0)
             {
                 foreach (var cf in rule.Resources)
-               {
-                   var cfm = new HalRuleResourceModel(cf);
-                   this.Resources.Add(cfm);
-               }
+                {
+                    var cfm = new HalRuleResourceModel(cf);
+                    this.Resources.Add(cfm);
+                }
             }
         }
 
-         public void UpdateTo(HalRule rule)
-         {
+        public void UpdateTo(HalRule rule)
+        {
             rule.Id = this.Id;
             rule.Name = (this.Name ?? string.Empty).Trim();
             rule.ConditionsExpression = (this.ConditionsExpression ?? string.Empty).Trim();
@@ -55,5 +57,5 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
         public string ConditionsExpression { get; set; }
 
         public ICollection<HalRuleResourceModel> Resources { get; set; }
-   }
+    }
 }

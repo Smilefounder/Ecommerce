@@ -20,14 +20,30 @@ namespace Kooboo.Commerce.API.HAL
         /// </summary>
         public string EnvironmentName { get; set; }
 
+        /// <summary>
+        /// The parameter mapping from the source resource to the destination resource.
+        /// </summary>
+        public IDictionary<string, string> ParameterMapping { get; set; }
+
         public ResourceLink()
         {
             Id = Guid.NewGuid().ToString();
+            ParameterMapping = new Dictionary<string, string>();
         }
 
         public ResourceLink Clone()
         {
-            return (ResourceLink)MemberwiseClone();
+            var link = (ResourceLink)MemberwiseClone();
+            if (ParameterMapping != null && ParameterMapping.Count > 0)
+            {
+                link.ParameterMapping = new Dictionary<string, string>(ParameterMapping);
+            }
+            else
+            {
+                link.ParameterMapping = new Dictionary<string, string>();
+            }
+
+            return link;
         }
     }
 }

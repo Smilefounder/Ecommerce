@@ -259,6 +259,7 @@
     <Compile Include="Areas\Commerce\Controllers\CountryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Commerce\Controllers\HalController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\HalResourceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\HomeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\OrderController.cs" />
@@ -2276,13 +2277,13 @@
     <Content Include="Areas\Commerce\Views\ShippingMethod\Steps.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Complete.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_SimpleCustomFields.cshtml" />
-    <Content Include="Areas\Commerce\Views\HAL\Resources.cshtml" />
-    <Content Include="Areas\Commerce\Views\HAL\Resource.cshtml" />
+    <Content Include="Areas\Commerce\Views\HalResource\List.cshtml" />
+    <Content Include="Areas\Commerce\Views\HalResource\Detail.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_SitesNavTree.cshtml" />
-    <Content Include="Areas\Commerce\Views\HAL\ResourceRules.cshtml" />
-    <Content Include="Areas\Commerce\Views\HAL\_RuleEditor.cshtml" />
-    <Content Include="Areas\Commerce\Views\HAL\CreateRule.cshtml" />
-    <Content Include="Areas\Commerce\Views\HAL\EditRule.cshtml" />
+    <Content Include="Areas\Commerce\Views\Hal\ResourceRules.cshtml" />
+    <Content Include="Areas\Commerce\Views\Hal\_RuleEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Hal\CreateRule.cshtml" />
+    <Content Include="Areas\Commerce\Views\Hal\EditRule.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
