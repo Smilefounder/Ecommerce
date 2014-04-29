@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.HAL
 {
-    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class HalParameterAttribute : Attribute
     {
         public HalParameterAttribute()

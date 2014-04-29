@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API;
+using Kooboo.Commerce.API.HAL;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -15,6 +16,19 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// build the commerce query filters from query string.
         /// </summary>
         /// <returns>commerce query</returns>
+        [HalParameterProvider()]
+        [HalParameter(Name = "id", ParameterType = typeof(int))]
+        [HalParameter(Name = "accountId", ParameterType = typeof(int))]
+        [HalParameter(Name = "firstName", ParameterType = typeof(string))]
+        [HalParameter(Name = "middleName", ParameterType = typeof(string))]
+        [HalParameter(Name = "lastName", ParameterType = typeof(string))]
+        [HalParameter(Name = "email", ParameterType = typeof(string))]
+        [HalParameter(Name = "gender", ParameterType = typeof(int))]
+        [HalParameter(Name = "phone", ParameterType = typeof(string))]
+        [HalParameter(Name = "city", ParameterType = typeof(string))]
+        [HalParameter(Name = "countryId", ParameterType = typeof(int))]
+        [HalParameter(Name = "customField.name", ParameterType = typeof(string))]
+        [HalParameter(Name = "customField.value", ParameterType = typeof(string))]
         protected override ICommerceQuery<Customer> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();

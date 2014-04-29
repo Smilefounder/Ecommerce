@@ -67,9 +67,11 @@
     <Compile Include="HalContext.cs" />
     <Compile Include="HalParameter.cs" />
     <Compile Include="HalParameterAttribute.cs" />
+    <Compile Include="HalParameterProviderAttribute.cs" />
     <Compile Include="HalRuleResource.cs" />
     <Compile Include="HalWrapper.cs" />
     <Compile Include="HalRule.cs" />
+    <Compile Include="ReflectionResourceDescriptorProvider.cs" />
     <Compile Include="Serialization\JsonHalMediaTypeFormatter.cs" />
     <Compile Include="IContextEnviromentProvider.cs" />
     <Compile Include="IHalWrapper.cs" />
@@ -80,7 +82,6 @@
     <Compile Include="IResourceDescriptorProvider.cs" />
     <Compile Include="Persistence\IResourceLinkPersistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionResourceDescriptorProvider.cs" />
     <Compile Include="ResourceAttribute.cs" />
     <Compile Include="ResourceDescriptor.cs" />
     <Compile Include="ResourceLink.cs" />

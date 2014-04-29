@@ -17,6 +17,9 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// build the commerce query filters from query string.
         /// </summary>
         /// <returns>commerce query</returns>
+        [HalParameterProvider()]
+        [HalParameter(Name = "sessionId", ParameterType = typeof(string))]
+        [HalParameter(Name = "accountId", ParameterType = typeof(string))]
         protected override ICommerceQuery<ShoppingCart> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();
