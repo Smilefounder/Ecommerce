@@ -1,7 +1,7 @@
 ﻿@model Kooboo.Commerce.Orders.Order
 @{
-    ViewBag.Title = "Create an Order".Localize();
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "Create an order".Localize();
 }
 
 @section Panel{
@@ -67,7 +67,7 @@
         </div>
     }
     <div class="wizard-buttons">
-        <a href="javascript:;" onclick="window.leaveConfirm.pass(); $('form').submit();" class="button">@("Next".Localize())</a>
+        <a href="javascript:;" onclick="window.leaveConfirm.pass(); $('form').submit();" class="button">@("Next".Localize()) &raquo;</a>
     </div>
 </div>
 <script type="text/javascript">

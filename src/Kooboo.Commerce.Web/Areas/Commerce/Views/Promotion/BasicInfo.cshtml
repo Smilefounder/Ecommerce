@@ -1,7 +1,7 @@
 ﻿@model PromotionEditorModel
 @{
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
-    ViewBag.Title = "Promotion Basic Info".Localize();
+    ViewBag.Title = "Promotion".Localize();
 }
 
 @section Panel {
@@ -12,6 +12,6 @@
     @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 1 })
     @Html.EditorForModel()
     <div class="wizard-buttons">
-        <a data-ajaxform="" class="button">@("Next".Localize())</a>
+        <a data-ajaxform="" class="button">@("Next".Localize()) &raquo;</a>
     </div>
 </div>

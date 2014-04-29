@@ -1,9 +1,9 @@
 ﻿@{
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
 
     if ((ViewBag.Title as string) == null)
     {
-        ViewBag.Title = "Promotion Policy".Localize();
+        ViewBag.Title = "Promotion".Localize();
     }
 
     var promotionId = ViewContext.RouteData.Values["id"];
@@ -25,7 +25,7 @@
     @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 2 })
     @RenderBody()
     <div class="wizard-buttons">
-        <a class="button gray" href="@Url.Action("BasicInfo", "Promotion", RouteValues.From(Request.QueryString).Merge("area", "Commerce").Merge("id", promotionId))">@("Back".Localize())</a>
-        <a class="button" data-ajaxform="">@("Next".Localize())</a>
+        <a class="button gray" href="@Url.Action("BasicInfo", "Promotion", RouteValues.From(Request.QueryString).Merge("area", "Commerce").Merge("id", promotionId))">&laquo; @("Back".Localize())</a>
+        <a class="button" data-ajaxform="">@("Next".Localize()) &raquo;</a>
     </div>
 </div>

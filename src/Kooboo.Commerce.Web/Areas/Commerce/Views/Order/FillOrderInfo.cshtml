@@ -3,113 +3,99 @@
 @using Kooboo.Commerce.Payments;
 @model Kooboo.Commerce.Orders.Order
 @{
-    ViewBag.Title = "Create an Order".Localize();
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "Create an order".Localize();
 }
 
 @section Panel{
     <ul class="header-panel">
-    <li>
-        <a href="/Commerce/Order?commerceName=@Request.QueryString["commerceName"]">
-            @Html.IconImage("back") @("Cancel".Localize())
-        </a>
-    </li>
-    <li>
-        <a href="javascript:;" onclick="window.leaveConfirm.pass(); $('form').submit();">
-            @Html.IconImage("save") @("Save Order".Localize())
-        </a>
-    </li>
-    <li>
-        <a href="/Commerce/Order?commerceName=@Request.QueryString["commercename"]">
-            @Html.IconImage("cancel") @("Cancel".Localize())
-        </a>
-    </li>
-</ul>
+        <li>
+            <a href="javascript:;" onclick="window.leaveConfirm.pass(); $('form').submit();">
+                @Html.IconImage("save") @("Save order".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="/Commerce/Order?commerceName=@Request.QueryString["commerceName"]">
+                @Html.IconImage("back") @("Cancel".Localize())
+            </a>
+        </li>
+    </ul>
 }
 
-
-<div class="block">
-    <div class="wizard">
-        <div class="container">
-            <span>@("Select a Customer".Localize())</span>
-            <span>@("Select Products".Localize())</span>
-            <span class="active">@("Fill Order Info".Localize())<b></b></span>
-        </div>
+<div class="wizard">
+    <div class="container">
+        <span>@("Select a Customer".Localize())</span>
+        <span>@("Select Products".Localize())</span>
+        <span class="active">@("Fill Order Info".Localize())<b></b></span>
     </div>
-    @if (TempData["Message"] != null)
-    {
-        <div class="message">
-            @TempData["Message"]
+</div>
+@if (TempData["Message"] != null)
+{
+    <div class="message">
+        @TempData["Message"]
+    </div>
+}
+@using (Html.BeginForm("Save", "Order", RouteValues.From(Request.QueryString)))
+{
+    <div class="columns">
+        <div class="span6">
+            <div class="block">
+                <div class="head light-gray"><h3 class="title">@("Order info".Localize())</h3></div>
+                <div class="box common-form">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>@("Order Id".Localize())</th>
+                                <td>
+                                    <span>@Model.Id</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Customer".Localize())</th>
+                                <td>
+                                    <span>@Model.Customer.FullName</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Shopping Cart".Localize())</th>
+                                <td>
+                                    @if (Model.ShoppingCart == null)
+                                    {
+                                        <span>No Shopping Cart</span>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Commerce/ShoppingCart/@(Model.ShoppingCart.Id)?commerceName=@Request.QueryString["commerceName"]">@(Model.ShoppingCart.Id)</a>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Coupon".Localize())</th>
+                                <td>
+                                    @Html.TextBoxFor(i => i.Coupon, new { @class = "medium" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Order Status".Localize())</th>
+                                <td>
+                                    @Html.DropDownListFor(i => i.OrderStatus, EnumUtil.ToSelectList<OrderStatus>(), new { @class = "medium" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Created At".Localize())</th>
+                                <td>
+                                    <span>@Model.CreatedAtUtc.ToShortDateString()</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    }
-    @using (Html.BeginForm("Save", "Order", RouteValues.From(Request.QueryString)))
-    {
-        <div class="order-form clearfix">
-			<div class="columns">
-				<div class="span6">
-					<div class="common-form">
-					<fieldset>
-						<legend>
-							@("Order info".Localize())
-						</legend>
-						<table>
-							<tbody>
-								<tr>
-									<th>@("Order Id".Localize())</th>
-									<td>
-										<span>@Model.Id</span>
-									</td>
-								</tr>
-								<tr>
-									<th>@("Customer".Localize())</th>
-									<td>
-										<span>@Model.Customer.FullName</span>
-									</td>
-								</tr>
-								<tr>
-									<th>@("Shopping Cart".Localize())</th>
-									<td>
-										@if(Model.ShoppingCart == null)
-										{
-											<span>No Shopping Cart</span>
-										}
-										else
-										{
-											<a href="/Commerce/ShoppingCart/@(Model.ShoppingCart.Id)?commerceName=@Request.QueryString["commerceName"]">@(Model.ShoppingCart.Id)</a>
-										}
-									</td>
-								</tr>
-								<tr>
-									<th>@("Coupon".Localize())</th>
-									<td>
-										@Html.TextBoxFor(i => i.Coupon, new { @class = "medium" })
-									</td>
-								</tr>
-								<tr>
-									<th>@("Order Status".Localize())</th>
-									<td>
-										@Html.DropDownListFor(i => i.OrderStatus, EnumUtil.ToSelectList<OrderStatus>(), new { @class = "medium" })
-									</td>
-								</tr>
-								<tr>
-									<th>@("Created At".Localize())</th>
-									<td>
-										<span>@Model.CreatedAtUtc.ToShortDateString()</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</fieldset>
-				</div>
-				</div>
-				<div class="span6">
-					<div class="common-form">
-                <fieldset>
-                    <legend>
-                        <span>
-                            @("Order totals".Localize())
-                        </span>
-                    </legend>
+        <div class="span6">
+            <div class="block">
+                <div class="head light-gray"><h3 class="title">@("Order totals".Localize())</h3></div>
+                <div class="box common-form">
                     <table>
                         <tbody>
                             <tr>
@@ -149,7 +135,7 @@
                                     @("Shipping Cost".Localize())
                                 </th>
                                 <td>
-                                    @Html.TextBoxFor(i => i.ShippingCost, new { @class = "medium", onchange="Calculate();" })
+                                    @Html.TextBoxFor(i => i.ShippingCost, new { @class = "medium", onchange = "Calculate();" })
                                 </td>
                             </tr>
                             <tr>
@@ -170,124 +156,106 @@
                             </tr>
                         </tbody>
                     </table>
-                </fieldset>
+                </div>
             </div>
-				</div>
-			</div>
-            
         </div>
-        <div class="order-form clearfix">
-			<div class="columns">
-				<div class="span6">
-					<div class="common-form">
-                <fieldset>
-                    <legend>
-                        @("Shipping address".Localize())
-                    </legend>
-                    <div>
-                        <div>
-                            @if(Model.ShippingAddress == null)
-                            {
-                                <span>@("No Shipping Address".Localize())</span>
-                                <a href="javascript:;" onclick="$('#shippingAddress').toggle();">@("Add Shipping Address".Localize())</a>
-                            }
-                            else
-                            { 
-                                <span>@string.Format("{0} {1}", Model.ShippingAddress.FirstName, Model.ShippingAddress.LastName)</span>
-                                <span>@Model.ShippingAddress.Address1</span>
-                                <a href="javascript:;" onclick="$('#shippingAddress').toggle();">@("Edit Shipping Address".Localize())</a>
-                            }
-                        </div>
-                        <div id="shippingAddress" class="hide">
-                            @Html.Partial("_Address", Model.ShippingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "ShippingAddress"))
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-				</div>
-				<div class="span6">
-					<div class="common-form">
-                        <fieldset>
-                            <legend>
-                                @("Billing address".Localize())
-                            </legend>
-                            <div>
-                                <div>
-                                    @if (Model.BillingAddress == null)
-                                    {
-                                        <span>@("No Billing Address".Localize())</span>
-                                        <a href="javascript:;" onclick="$('#billingAddress').toggle();">@("Add Billing Address".Localize())</a>
-                                    }
-                                    else
-                                    {
-                                        <span>@string.Format("{0} {1}", Model.BillingAddress.FirstName, Model.BillingAddress.LastName)</span>
-                                        <span>@Model.BillingAddress.Address1</span>
-                                        <a href="javascript:;" onclick="$('#billingAddress').toggle();">@("Edit Shipping Address".Localize())</a>
-                                    }
-                                </div>
-                                <div id="billingAddress" class="hide">
-                                    @Html.Partial("_Address", Model.BillingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "BillingAddress"))
-                                </div>
-                            </div>
-                        </fieldset>
-            </div>
-				</div>
-			</div>
-        </div>
-        <div class="common-form order-form">
-            <fieldset>
-                <legend>
-                    @("Order Custom Fields".Localize())
-                </legend>
-                <table id="customFields">
-                    <thead>
-                        <tr>
-                            <th>@("Name".Localize())</th>
-                            <th>@("Value".Localize())</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.CustomFields != null)
-                        {
-                            foreach (var cf in Model.CustomFields)
-                            {
-                                <tr>
-                                    <td>@Html.TextBox("CustomFields.Name", cf.Name)</td>
-                                    <td>@Html.TextBox("CustomFields.Value", cf.Value)</td>
-                                    <td><a href="javascript:;" onclick="RemoveCustomField(this);">@Html.IconImage("minus small")</a></td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-                <a href="javascript:;" class="action" onclick="AddCustomField();">
-                    @Html.IconImage("plus small")
-                </a>
-            </fieldset>
-        </div>
-        <div class="common-form order-form">
-            <fieldset>
-                <legend>
-                    @("Order remark".Localize())
-                </legend>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                @Html.TextAreaFor(i => i.Remark, new { style = "height: 96px; width: 100%;" })
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </fieldset>
-        </div>
-    }
-    <div class="process-button">
-        <a href="@ViewBag.Return" class="button">
-            @("Previous".Localize())
-        </a>
     </div>
+    <div class="columns">
+        <div class="span6">
+            <div class="block">
+                <div class="head light-gray"><h3 class="title">@("Shipping address".Localize())</h3></div>
+                <div class="box common-form">
+                    <div>
+                        @if (Model.ShippingAddress == null)
+                        {
+                            <span>@("No Shipping Address".Localize())</span>
+                            <a class="button" href="javascript:;" onclick="$('#shippingAddress').toggle();">@("Add Shipping Address".Localize())</a>
+                        }
+                        else
+                        {
+                            <span>@string.Format("{0} {1}", Model.ShippingAddress.FirstName, Model.ShippingAddress.LastName)</span>
+                            <span>@Model.ShippingAddress.Address1</span>
+                            <a class="button" href="javascript:;" onclick="$('#shippingAddress').toggle();">@("Edit Shipping Address".Localize())</a>
+                        }
+                    </div>
+                    <div id="shippingAddress" class="hide">
+                        @Html.Partial("_Address", Model.ShippingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "ShippingAddress"))
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="block">
+                <div class="head light-gray"><h3 class="title">@("Billing address".Localize())</h3></div>
+                <div class="box common-form">
+                    <div>
+                        @if (Model.BillingAddress == null)
+                        {
+                            <span>@("No Billing Address".Localize())</span>
+                            <a class="button" href="javascript:;" onclick="$('#billingAddress').toggle();">@("Add Billing Address".Localize())</a>
+                        }
+                        else
+                        {
+                            <span>@string.Format("{0} {1}", Model.BillingAddress.FirstName, Model.BillingAddress.LastName)</span>
+                            <span>@Model.BillingAddress.Address1</span>
+                            <a class="button" href="javascript:;" onclick="$('#billingAddress').toggle();">@("Edit billing address".Localize())</a>
+                        }
+                    </div>
+                    <div id="billingAddress" class="hide">
+                        @Html.Partial("_Address", Model.BillingAddress, Kooboo.Commerce.Web.Mvc.FormHelper.AppendOrReplace(ViewData, "ControlId", "BillingAddress"))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block">
+        <div class="head light-gray"><h3 class="title">@("Order custom fields".Localize())</h3></div>
+        <div class="box common-form">
+            <table id="customFields">
+                <thead>
+                    <tr>
+                        <th>@("Name".Localize())</th>
+                        <th>@("Value".Localize())</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.CustomFields != null)
+                    {
+                        foreach (var cf in Model.CustomFields)
+                        {
+                            <tr>
+                                <td>@Html.TextBox("CustomFields.Name", cf.Name)</td>
+                                <td>@Html.TextBox("CustomFields.Value", cf.Value)</td>
+                                <td><a href="javascript:;" onclick="RemoveCustomField(this);">@Html.IconImage("minus small")</a></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <a href="javascript:;" class="action" onclick="AddCustomField();">
+                @Html.IconImage("plus small")
+            </a>
+        </div>
+    </div>
+    <div class="block">
+        <div class="head light-gray"><h3 class="title">@("Order remark".Localize())</h3></div>
+        <div class="box common-form">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.TextAreaFor(i => i.Remark, new { style = "height: 96px; width: 100%;" })
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<div class="wizard-buttons">
+    <a href="@ViewBag.Return" class="button gray">&laquo; @("Back".Localize())</a>
+    <a href="javascript:;" class="button" onclick="window.leaveConfirm.pass(); $('form').submit();">@("Save order".Localize())</a>
 </div>
 <script type="text/javascript">
     function Calculate() {

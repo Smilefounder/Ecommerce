@@ -14,16 +14,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
     {
         public int Id { get; set; }
 
-        [LinkedGridColumn(TargetAction = "BasicInfo")]
+        [LinkedGridColumn(TargetAction = "BasicInfo", HeaderText = "Display name")]
         public string DisplayName { get; set; }
 
-        [GridColumn(HeaderText = "Payment Processor")]
+        [GridColumn(HeaderText = "Payment processor")]
         public string PaymentProcessorName { get; set; }
 
-        [GridColumn]
+        [GridColumn(HeaderText = "Additional fee")]
         public string AdditionalFee { get; set; }
 
-        [BooleanGridColumn]
+        [BooleanGridColumn(HeaderText = "Enabled")]
         public bool IsEnabled { get; set; }
 
         public bool IsConfigurable { get; set; }

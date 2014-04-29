@@ -1,7 +1,7 @@
 ﻿@model ShippingMethodEditorModel
 @{
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
-    ViewBag.Title = "Basic info".Localize();
+    ViewBag.Title = "Shipping method".Localize();
 }
 
 @section Panel {
@@ -15,6 +15,6 @@
     @Html.Action("Steps", "ShippingMethod", new { area = "Commerce", step = 1 })
     @Html.EditorForModel()
     <div class="wizard-buttons">
-        <a data-ajaxform="" class="button">@("Next".Localize())</a>
+        <a data-ajaxform="" class="button">@("Next".Localize()) &raquo;</a>
     </div>
 </div>
