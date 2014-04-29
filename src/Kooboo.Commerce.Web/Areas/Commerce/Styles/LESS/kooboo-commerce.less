@@ -49,8 +49,15 @@
 		padding: 10px 0;
 		border-bottom: 1px solid #DDD;
 
-		.columns {
+		.wrap {
+			border-bottom: 1px dashed #EEE;
 			margin-bottom: 5px;
+			padding-bottom: 5px;
+
+			&:last-child {
+				border: none;
+				margin: 0;
+			}
 		}
 
 		.conditions-expression {

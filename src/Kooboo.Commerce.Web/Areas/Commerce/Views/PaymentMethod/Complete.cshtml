@@ -1,7 +1,7 @@
 ﻿@model Kooboo.Commerce.Payments.PaymentMethod
 @{
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
-    ViewBag.Title = "Complete".Localize();
+    ViewBag.Title = "Payment method".Localize();
 }
 
 @section Panel {
@@ -20,7 +20,7 @@
     @if (!Model.IsEnabled)
     {
         <div class="wizard-buttons">
-            <a href="#" data-id="@Model.Id" class="button btn-enable-paymentmethod">@("Enable this payment method".Localize())</a>
+            <a href="#" data-id="@Model.Id" class="button J_EnablePaymentMethod">@("Enable this payment method".Localize())</a>
         </div>
     }
 </div>
@@ -29,7 +29,7 @@
     $(function () {
         var commerceName = '@(ViewContext.RequestContext.GetRequestValue("commerceName"))';
 
-        $('.btn-enable-paymentmethod').click(function () {
+        $('.J_EnablePaymentMethod').click(function () {
             window.loading.show();
             $.post('@Url.Action("EnablePaymentMethod")', { id: $(this).data('id'), commerceName: commerceName }, function () {
                 window.loading.hide();
