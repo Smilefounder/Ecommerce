@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.API;
 using Kooboo.Commerce.API.Categories;
+using Kooboo.Commerce.API.HAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,13 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// build the commerce query filters from query string.
         /// </summary>
         /// <returns>commerce query</returns>
+        [HalParameterProvider()]
+        [HalParameter(Name = "id", ParameterType = typeof(int))]
+        [HalParameter(Name = "name", ParameterType = typeof(string))]
+        [HalParameter(Name = "published", ParameterType = typeof(bool))]
+        [HalParameter(Name = "parentId", ParameterType = typeof(int))]
+        [HalParameter(Name = "customField.name", ParameterType = typeof(string))]
+        [HalParameter(Name = "customField.value", ParameterType = typeof(string))]
         protected override ICommerceQuery<Category> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();

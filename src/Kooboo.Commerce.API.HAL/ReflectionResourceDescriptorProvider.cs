@@ -67,6 +67,9 @@ namespace Kooboo.Commerce.API.HAL
             var actions = type.GetMethods()
                     .Where(o => o.IsPublic && !o.IsSpecialName && !o.IsSecurityTransparent && o.GetMethodImplementationFlags() == MethodImplAttributes.IL)
                     .ToArray();
+            var halParameterProviders = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .Where(o => o.IsDefined(typeof(HalParameterProviderAttribute), true))
+                .ToArray();
             foreach (var action in actions)
             {
                 var resAttrs = action.GetCustomAttributes(typeof(ResourceAttribute), true);
@@ -76,7 +79,7 @@ namespace Kooboo.Commerce.API.HAL
                     if (resAttr != null)
                     {
                         var resource = new ResourceDescriptor();
-                        
+
                         var controllerName = type.Name.Replace("Controller", "");
                         resource.ResourceName = NormalizeResourceName(resAttr.Name, controllerName, action.Name);
 
@@ -96,21 +99,22 @@ namespace Kooboo.Commerce.API.HAL
                             resource.IsListResource = true;
                             resource.ItemResourceName = NormalizeResourceName(resAttr.ItemName, controllerName, null);
                         }
-                        
+
                         if (resAttr.ImplicitLinksProvider != null && typeof(IImplicitLinkProvider).IsAssignableFrom(resAttr.ImplicitLinksProvider))
                         {
                             var linksProvider = Activator.CreateInstance(resAttr.ImplicitLinksProvider) as IImplicitLinkProvider;
                             resource.ImplicitLinkProvider = linksProvider;
                         }
 
+                        List<HalParameter> inputParameters = new List<HalParameter>();
+                        List<HalParameter> outputParameters = new List<HalParameter>();
                         var paras = action.GetParameters();
                         if (paras != null && paras.Count() > 0)
                         {
-                            List<HalParameter> inputParameters = new List<HalParameter>();
                             var halParas = paras.Where(o => o.GetCustomAttributes(true).OfType<HalParameterAttribute>().Count() > 0);
                             if (halParas.Count() > 0)
                             {
-                                foreach(var para in halParas)
+                                foreach (var para in halParas)
                                 {
                                     var pa = para.GetCustomAttributes(true).OfType<HalParameterAttribute>().First();
                                     if (string.IsNullOrEmpty(pa.Name))
@@ -120,14 +124,14 @@ namespace Kooboo.Commerce.API.HAL
                                     if (!pa.Required.HasValue)
                                         pa.Required = !para.IsOptional && IsTypeRequired(pa.ParameterType);
 
-                                    inputParameters.Add(new HalParameter(string.Format("{0}.{1}", controllerName, pa.Name), pa.ParameterType, pa.Required.Value));
+                                    inputParameters.Add(new HalParameter(string.Format("{0}.{1}", controllerName, pa.Name), pa.ParameterType, pa.Required.HasValue ? pa.Required.Value : false));
                                 }
                             }
                             else
                             {
-                                foreach(var para in paras)
+                                foreach (var para in paras)
                                 {
-                                    if(IsSimpleType(para.ParameterType))
+                                    if (IsSimpleType(para.ParameterType))
                                     {
                                         bool required = !para.IsOptional && IsTypeRequired(para.ParameterType);
                                         inputParameters.Add(new HalParameter(string.Format("{0}.{1}", controllerName, para.Name), para.ParameterType, required));
@@ -135,9 +139,8 @@ namespace Kooboo.Commerce.API.HAL
                                 }
                             }
 
-                            List<HalParameter> outputParameters = new List<HalParameter>();
-                            if(action.ReturnType != typeof(void))
-                            { 
+                            if (action.ReturnType != typeof(void))
+                            {
                                 var returnPara = action.ReturnParameter;
                                 if (IsSimpleType(returnPara.ParameterType))
                                 {
@@ -152,7 +155,7 @@ namespace Kooboo.Commerce.API.HAL
                                     {
 
                                         var returnParas = ptype.GetProperties();
-                                        foreach(var para in returnParas)
+                                        foreach (var para in returnParas)
                                         {
                                             if (para.Name == "Links")
                                                 continue;
@@ -165,9 +168,31 @@ namespace Kooboo.Commerce.API.HAL
                                 }
                             }
 
-                            resource.InputPramameters = inputParameters.ToArray();
-                            resource.OutputParameters = outputParameters.ToArray();
                         }
+
+                        // add parameters from hal parameter provider
+                        string resName = (string.IsNullOrEmpty(resAttr.Name) ? action.Name : resAttr.Name).ToLower();
+                        if (halParameterProviders != null && halParameterProviders.Count() > 0)
+                        {
+                            foreach (var halParameterProvider in halParameterProviders)
+                            {
+                                var providerAttr = halParameterProvider.GetCustomAttributes(true).OfType<HalParameterProviderAttribute>().First();
+                                if (providerAttr.ForResources == null || providerAttr.ForResources.Count() <= 0 || providerAttr.ForResources.Contains(resName))
+                                {
+                                    var pattrs = halParameterProvider.GetCustomAttributes(true).OfType<HalParameterAttribute>();
+                                    foreach (var pattr in pattrs)
+                                    {
+                                        string pname = string.Format("{0}.{1}", controllerName, pattr.Name);
+                                        if (inputParameters.Any(o => o.Name == pname))
+                                            continue;
+                                        inputParameters.Add(new HalParameter(pname, pattr.ParameterType, pattr.Required.HasValue ? pattr.Required.Value : false));
+                                    }
+                                }
+                            }
+                        }
+
+                        resource.InputPramameters = inputParameters.ToArray();
+                        resource.OutputParameters = outputParameters.ToArray();
 
                         resources.Add(resource);
                     }
