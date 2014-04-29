@@ -145,11 +145,11 @@ namespace Kooboo.Commerce.API.HAL
                                 }
                                 else
                                 {
-                                    if (typeof(IItemResource).IsAssignableFrom(returnPara.ParameterType))
+                                    var ptype = returnPara.ParameterType;
+                                    if (ptype.IsGenericType && ptype.GetGenericTypeDefinition().Equals(typeof(IListResource<>)))
+                                        ptype = ptype.GetGenericTypeDefinition().GetGenericArguments()[0];
+                                    if (typeof(IItemResource).IsAssignableFrom(ptype))
                                     {
-                                        var ptype = returnPara.ParameterType;
-                                        if (ptype.IsGenericType && ptype.GetGenericTypeDefinition().Equals(typeof(IListResource<>)))
-                                            ptype = ptype.GetGenericTypeDefinition().GetGenericArguments()[0];
 
                                         var returnParas = ptype.GetProperties();
                                         foreach(var para in returnParas)
