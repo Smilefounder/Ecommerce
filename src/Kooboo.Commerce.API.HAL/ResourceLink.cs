@@ -5,24 +5,24 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.HAL
 {
-    public class HalParameterValue
+    public class ResourceLinkParameter
     {
-        public string ParameterName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// The parameter value. It'll be the source parameter name if IsFixedValue is set to false.
         /// </summary>
-        public string ParameterValue { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// Indicates if the parameter value is a fixed value. 
         /// If not fixed, the parameter value will store the name of the parameter from which the parameter value is dynamically retrieved at runtime.
         /// </summary>
-        public bool IsFixedValue { get; set; }
+        public bool UseFixedValue { get; set; }
 
-        public HalParameterValue Clone()
+        public ResourceLinkParameter Clone()
         {
-            return (HalParameterValue)MemberwiseClone();
+            return (ResourceLinkParameter)MemberwiseClone();
         }
     }
 
@@ -36,18 +36,21 @@ namespace Kooboo.Commerce.API.HAL
 
         public string Relation { get; set; }
 
-        public IList<HalParameterValue> DestinationResourceParameterValues { get; set; }
+        /// <summary>
+        /// The parameters used in this resource link. It's a subset of the input parameters of the destination resource.
+        /// </summary>
+        public IList<ResourceLinkParameter> Parameters { get; set; }
 
         public ResourceLink()
         {
             Id = Guid.NewGuid().ToString();
-            DestinationResourceParameterValues = new List<HalParameterValue>();
+            Parameters = new List<ResourceLinkParameter>();
         }
 
         public ResourceLink Clone()
         {
             var link = (ResourceLink)MemberwiseClone();
-            link.DestinationResourceParameterValues = DestinationResourceParameterValues.Select(v => v.Clone()).ToList();
+            link.Parameters = Parameters.Select(v => v.Clone()).ToList();
             return link;
         }
 
@@ -59,7 +62,7 @@ namespace Kooboo.Commerce.API.HAL
             other.SourceResourceName = SourceResourceName;
             other.Relation = Relation;
             other.DestinationResourceName = DestinationResourceName;
-            other.DestinationResourceParameterValues = DestinationResourceParameterValues.Select(v => v.Clone()).ToList();
+            other.Parameters = Parameters.Select(v => v.Clone()).ToList();
         }
     }
 }

@@ -29,12 +29,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.HAL
 
         public bool Required { get; set; }
 
+        public string ParameterType { get; set; }
+
         public HalParameterModel() { }
 
         public HalParameterModel(HalParameter param)
         {
             Name = param.Name;
             Required = param.Required;
+            ParameterType = param.ParameterType.Name;
         }
     }
 }

@@ -313,6 +313,7 @@
     <Compile Include="Areas\Commerce\Models\HAL\HalRuleResourceModel.cs" />
     <Compile Include="Areas\Commerce\Models\HAL\ImplicitLinkProviderModel.cs" />
     <Compile Include="Areas\Commerce\Models\HAL\ResourceLinkModel.cs" />
+    <Compile Include="Areas\Commerce\Models\HAL\ResourceLinkParameterModel.cs" />
     <Compile Include="Areas\Commerce\Models\HAL\ResourceModel.cs" />
     <Compile Include="Areas\Commerce\Models\HAL\HalRuleRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\NameValue.cs" />

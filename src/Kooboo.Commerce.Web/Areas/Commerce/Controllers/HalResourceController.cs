@@ -53,8 +53,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var links = _resourceLinkPersistence.GetLinks(resourceName);
             foreach (var link in links)
             {
-                var linkedResource = _resourceDescriptorProvider.GetDescriptor(link.DestinationResourceName);
-                var linkModel = new ResourceLinkModel(link);
+                var destinationResource = _resourceDescriptorProvider.GetDescriptor(link.DestinationResourceName);
+                var linkModel = new ResourceLinkModel(link, destinationResource);
                 result.Add(linkModel);
             }
 
@@ -65,24 +65,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var descriptor = _resourceDescriptorProvider.GetDescriptor(resourceName);
             var model = new ResourceModel(descriptor);
-
-            // TODO: Fake
-            model.OutputParameters.Add(new HalParameterModel
-            {
-                Name = "page"
-            });
-            model.OutputParameters.Add(new HalParameterModel
-            {
-                Name = "brandId"
-            });
-
             return JsonNet(model).UsingClientConvention();
         }
 
         public ActionResult ResourceLink(string linkId)
         {
             var link = _resourceLinkPersistence.GetById(linkId);
-            var model = new ResourceLinkModel(link);
+            var destinationResource = _resourceDescriptorProvider.GetDescriptor(link.DestinationResourceName);
+            var model = new ResourceLinkModel(link, destinationResource);
             return JsonNet(model).UsingClientConvention();
         }
 
@@ -92,6 +82,52 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                                                        .Select(x => new ResourceModel(x));
 
             return JsonNet(resources).UsingClientConvention();
+        }
+
+        public ActionResult LoadLinkParametersWithDefault(string sourceResourceName, string destinationResourceName)
+        {
+            var sourceResource = _resourceDescriptorProvider.GetDescriptor(sourceResourceName);
+            var destinationResource = _resourceDescriptorProvider.GetDescriptor(destinationResourceName);
+
+            var requiredParams = new List<ResourceLinkParameterModel>();
+            var optionalParams = new List<ResourceLinkParameterModel>();
+
+            foreach (var param in destinationResource.InputPramameters)
+            {
+                var paramModel = new ResourceLinkParameterModel
+                {
+                    Name = param.Name,
+                    ParameterType = param.ParameterType.Name,
+                    Required = param.Required
+                };
+
+                if (param.Required)
+                {
+                    // Populate default value for required parameters
+                    var fromParam = sourceResource.OutputParameters
+                                                  .FirstOrDefault(p => 
+                                                      p.ParameterType == param.ParameterType 
+                                                      && ResourceLinkParameterModel.GetParameterDisplayName(p.Name).Equals(paramModel.DisplayName, StringComparison.OrdinalIgnoreCase));
+
+                    if (fromParam != null)
+                    {
+                        paramModel.Value = fromParam.Name;
+                    }
+
+                    requiredParams.Add(paramModel);
+                }
+                else
+                {
+                    optionalParams.Add(paramModel);
+                }
+            }
+
+            return JsonNet(new
+            {
+                RequiredParameters = requiredParams,
+                OptionalParameters = optionalParams
+            })
+            .UsingClientConvention();
         }
 
         [HttpPost, HandleAjaxFormError]

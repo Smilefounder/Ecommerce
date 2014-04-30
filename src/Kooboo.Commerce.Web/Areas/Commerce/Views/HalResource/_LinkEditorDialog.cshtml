@@ -13,7 +13,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>@("Linked Resource".Localize())</th>
+                    <th>@("Destination Resource".Localize())</th>
                     <td>
                         <select name="DestinationResourceName" 
                                 data-bind="options: linkableResources, optionsText: 'resourceName', optionsValue: 'resourceName', value: link.destinationResourceName"></select>
@@ -22,31 +22,28 @@
                 <tr>
                     <th>@("Parameters".Localize())</th>
                     <td>
-                        <div class="message" data-bind="visible: destinationResourceInputParameters().length === 0">
+                        <div class="message" data-bind="visible: link.requiredParameters().length === 0">
                             @("The linked resource does not require input parameters")
                         </div>
-                        <div class="simple-table" style="display:none;margin-top:10px" data-bind="visible: link.destinationResourceParameterValues().length > 0">
+                        <div class="simple-table" style="display:none;margin-top:10px" data-bind="visible: link.requiredParameters().length > 0">
                             <table>
-                                <tbody data-bind="foreach: link.destinationResourceParameterValues">
-                                    <tr>
-                                        <td style="width:150px" data-bind="text: $root.getParameterDisplayName(parameterName), attr: { title: parameterName }"></td>
-                                        <td style="width:150px">
-                                            <!-- ko if: isFixedValue -->
-                                            <input type="text" data-bind="value: parameterValue" />
-                                            <!-- /ko -->
-                                            <!-- ko if: !isFixedValue() -->
-                                            <select data-bind="options: $root.sourceResourceOutputParameters, optionsText: 'displayName', optionsValue: 'name', value: parameterValue"></select>
-                                            <!-- /ko -->
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" data-bind="checked: isFixedValue, attr: { id: 'IsFixedValue_' + $index() }" />
-                                            <label class="inline" data-bind="attr: { 'for': 'IsFixedValue_' + $index() }">
-                                                @("Fixed Value".Localize())
-                                            </label>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <tbody data-bind="foreach: { data: link.requiredParameters, template: 'ParamItemTemplate' }"></tbody>
                             </table>
+                        </div>
+                        <div style="display:none;margin-top:10px;" data-bind="visible: link.optionalParameters().length > 0">
+                            <div>
+                                <a href="#" data-bind="visible: isOptionalParametersVisible, click: toggleOptionalParameters">
+                                    @Html.IconImage("chevron-down-black") @("Optional Parameters".Localize())
+                                </a>
+                                <a href="#" data-bind="visible: !isOptionalParametersVisible(), click: toggleOptionalParameters">
+                                    @Html.IconImage("chevron-right-black") @("Optional Parameters".Localize())
+                                </a>
+                            </div>
+                            <div class="simple-table" data-bind="visible: isOptionalParametersVisible">
+                                <table>
+                                    <tbody data-bind="template: { name: 'ParamItemTemplate', foreach: link.optionalParameters }"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -54,6 +51,28 @@
         </div>
     </div>
 </div>
+
+<script type="text/html" id="ParamItemTemplate">
+    <tr>
+        <td style="width:150px">
+            <span data-bind="text: $root.getParameterDisplayName(name()), attr: { title: name }"></span>
+        </td>
+        <td style="width:200px">
+            <!-- ko if: useFixedValue -->
+            <input type="text" data-bind="value: value" />
+            <!-- /ko -->
+            <!-- ko if: !useFixedValue() -->
+            <select data-bind="options: $root.getSuitableSourceResourceOutputParameters(parameterType()), optionsText: 'displayName', optionsCaption: '@("Choose source parameter".Localize())', optionsValue: 'name', value: value"></select>
+            <!-- /ko -->
+        </td>
+        <td>
+            <input type="checkbox" data-bind="checked: useFixedValue, attr: { id: 'UseFixedValue_' + $index() }" />
+            <label class="inline" data-bind="attr: { 'for': 'UseFixedValue_' + $index() }">
+                @("Fixed Value".Localize())
+            </label>
+        </td>
+    </tr>
+</script>
 
 <script>
     (function ($) {
@@ -77,16 +96,32 @@
                 id: ko.observable(),
                 relation: ko.observable(),
                 destinationResourceName: ko.observable(),
-                destinationResourceParameterValues: ko.observableArray()
-            }
+                requiredParameters: ko.observableArray(),
+                optionalParameters: ko.observableArray()
+            };
 
             this.sourceResourceOutputParameters = ko.observableArray();
 
-            this.destinationResourceInputParameters = ko.observableArray();
+            this.getSuitableSourceResourceOutputParameters = function (paramType) {
+                var params = [];
+                $.each(_this.sourceResourceOutputParameters(), function () {
+                    if (this.parameterType() === paramType) {
+                        params.push(this);
+                    }
+                });
+
+                return params;
+            }
 
             this.getParameterDisplayName = function (paramName) {
                 var index = paramName.indexOf('.');
                 return index >= 0 ? paramName.substr(index + 1) : paramName;
+            }
+
+            this.isOptionalParametersVisible = ko.observable(false);
+
+            this.toggleOptionalParameters = function () {
+                _this.isOptionalParametersVisible(!_this.isOptionalParametersVisible());
             }
         }
 
@@ -94,6 +129,19 @@
             var _this = this;
             var _$dialog = null;
             var _callbacks = {};
+
+            var _linkParamMappingOptions = {
+                useFixedValue: {
+                    create: function (args) {
+                        var param = args.parent;
+                        var observable = ko.observable(args.data);
+                        observable.subscribe(function (value) {
+                            _this.onUseFixedValueChanged(param, value);
+                        });
+                        return observable;
+                    }
+                }
+            };
 
             this.model = new ViewModel();
 
@@ -147,10 +195,10 @@
             this.open = function (options) {
                 _$dialog.dialog('open');
 
+                _this.model.isOptionalParametersVisible(false);
                 _this.model.link.id(null);
                 _this.model.link.relation(null);
                 _this.model.link.destinationResourceName(null);
-                _this.model.link.destinationResourceParameterValues.removeAll();
 
                 var resourceName = options.resourceName;
                 var linkId = options.linkId || 0;
@@ -166,22 +214,22 @@
                             var link = _this.model.link;
                             link.id(data.id);
                             link.relation(data.relation);
-
-                            _destinationResourceChangeContext.updateParameterList = false;
-
                             link.destinationResourceName(data.destinationResourceName);
-                            updateParameterList(data.destinationResourceName, data.destinationResourceParameterValues);
 
-                            _destinationResourceChangeContext.updateParameterList = true;
+                            _updateParameterListTask.done(function () {
+                                updateParameterValues(data.requiredParameters, data.optionalParameters);
+                            });
                         });
                     }
                 });
             }
 
             this.onDestinationResourceSelectionChanged = function () {
-                if (_destinationResourceChangeContext.updateParameterList) {
-                    updateParameterList(_this.model.link.destinationResourceName());
-                }
+                updateParameterList(_this.model.link.destinationResourceName());
+            }
+
+            this.onUseFixedValueChanged = function (param, value) {
+                param.value(null);
             }
 
             this.save = function () {
@@ -213,49 +261,68 @@
 
             // Helper Methods
 
-            var _destinationResourceChangeContext = {
-                updateParameterList: true
-            };
+            var _updateParameterListTask = null;
 
-            function updateParameterList(resourceName, paramValuesData) {
+            function updateParameterList(destinationResourceName) {
+                var sourceResourceName = _this.model.sourceResourceName();
+                if (!sourceResourceName) {
+                    return false;
+                }
+
+                var defer = $.Deferred();
+                _updateParameterListTask = defer.promise();
+
                 var link = _this.model.link;
 
-                _this.model.destinationResourceInputParameters.removeAll();
-                link.destinationResourceParameterValues.removeAll();
-
-                if (resourceName) {
-                    loadResource(resourceName).done(function (data) {
-                        ko.mapping.fromJS(data.inputParameters, {}, _this.model.destinationResourceInputParameters);
-
-                        $.each(_this.model.destinationResourceInputParameters(), function (i, param) {
-                            link.destinationResourceParameterValues.push(createResourceParameterValue(param));
-                        });
-
-                        if (paramValuesData) {
-                            // Update parameer values
-                            $.each(paramValuesData, function () {
-                                var paramName = this.parameterName;
-                                var paramValue = _.find(link.destinationResourceParameterValues(), function (it) {
-                                    return it.parameterName === paramName;
-                                });
-                                if (paramValue) {
-                                    paramValue.isFixedValue(this.isFixedValue);
-                                    paramValue.parameterValue(this.parameterValue);
-                                }
-                            });
-                        }
+                if (destinationResourceName) {
+                    loadLinkParametersWithDefault(sourceResourceName, destinationResourceName).done(function (data) {
+                        ko.mapping.fromJS(data.requiredParameters, _linkParamMappingOptions, link.requiredParameters);
+                        ko.mapping.fromJS(data.optionalParameters, _linkParamMappingOptions, link.optionalParameters);
+                        defer.resolve();
+                        console.log('update param list done');
                     });
+                } else {
+                    defer.resolve();
                 }
             }
 
-            function createResourceParameterValue(param) {
-                var paramValue = {
-                    parameterName: param.name(),
-                    parameterValue: ko.observable(null),
-                    isFixedValue: ko.observable(false)
-                };
+            function updateParameterValues(requiredParamValues, optionalParamValues) {
+                console.log('update param values');
+                var link = _this.model.link;
 
-                return paramValue;
+                $.each(link.requiredParameters(), function () {
+                    var paramName = this.name();
+                    var newParam = _.find(requiredParamValues, function (it) {
+                        return it.name === paramName;
+                    });
+
+                    if (newParam) {
+                        updateParameterValue(this, newParam);
+                    }
+                });
+
+                $.each(link.optionalParameters(), function () {
+                    var paramName = this.name();
+                    var newParam = _.find(optionalParamValues, function (it) {
+                        return it.name === paramName;
+                    });
+
+                    if (newParam) {
+                        updateParameterValue(this, newParam);
+                    }
+                });
+            }
+
+            function updateParameterValue(target, source) {
+                target.useFixedValue(ko.utils.unwrapObservable(source.useFixedValue));
+                target.value(ko.utils.unwrapObservable(source.value));
+            }
+
+            function loadLinkParametersWithDefault(sourceResourceName, destinationResourceName) {
+                return $.get('@Url.Action("LoadLinkParametersWithDefault")', {
+                    sourceResourceName: sourceResourceName,
+                    destinationResourceName: destinationResourceName
+                });
             }
 
             function loadLinkableResources() {
