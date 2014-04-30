@@ -7,7 +7,7 @@ namespace Kooboo.Commerce.API.HAL
 {
     public class ResourceDescriptor
     {
-        public string ResourceName { get; set; }
+        public ResourceName ResourceName { get; set; }
 
         public string ResourceUri { get; set; }
 

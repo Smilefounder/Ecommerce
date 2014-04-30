@@ -22,5 +22,10 @@ namespace Kooboo.Commerce.API.HAL
         public string Name { get; set; }
         public Type ParameterType { get; set; }
         public bool Required { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

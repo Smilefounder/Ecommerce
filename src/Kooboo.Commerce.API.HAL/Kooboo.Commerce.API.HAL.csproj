@@ -72,6 +72,7 @@
     <Compile Include="HalWrapper.cs" />
     <Compile Include="HalRule.cs" />
     <Compile Include="ReflectionResourceDescriptorProvider.cs" />
+    <Compile Include="ResourceName.cs" />
     <Compile Include="Serialization\JsonHalMediaTypeFormatter.cs" />
     <Compile Include="IContextEnviromentProvider.cs" />
     <Compile Include="IHalWrapper.cs" />

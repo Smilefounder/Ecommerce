@@ -1,6 +1,61 @@
-﻿@model IEnumerable<ResourceModel>
+﻿@model IEnumerable<IGrouping<string, ResourceModel>>
 @{
     ViewBag.Title = "HAL API".Localize();
 }
 
-@Html.GridForModel2()
+<div class="common-table">
+    <table>
+        <thead>
+            <tr>
+                <th>@("Resource Name".Localize())</th>
+                <th>@("URI".Localize())</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var group in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="#" data-key="@group.Key" data-toggle="toggle-children" data-state="close">
+                            <span class="expander">@Html.IconImage("sprite")</span>
+                            @group.Key
+                        </a>
+                    </td>
+                </tr>
+                foreach (var item in group)
+                {
+                    <tr data-type="child" data-parent="@group.Key" style="display:none">
+                        <td style="padding-left:38px">
+                            <a href="@Url.Action("Detail", new { resourceName = item.ResourceName, @return = Request.RawUrl })">@item.ResourceName</a>
+                        </td>
+                        <td>
+                            @item.ResourceUri
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $('[data-toggle="toggle-children"]').on('click', function () {
+        var $trigger = $(this);
+        var state = $trigger.data('state');
+        var key = $trigger.data('key');
+        var $children = $('tr[data-parent="' + key + '"]');
+
+        if (state === 'open') {
+            $children.hide();
+            $trigger.find('expander').removeClass('active');
+            $trigger.data('state', 'close');
+        } else {
+            $children.show();
+            $trigger.find('expander').addClass('active');
+            $trigger.data('state', 'open');
+        }
+
+        return false;
+    });
+
+</script>

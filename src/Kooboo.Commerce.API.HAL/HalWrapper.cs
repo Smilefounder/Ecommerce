@@ -124,7 +124,7 @@ namespace Kooboo.Commerce.API.HAL
                 var link = new Link
                 {
                     Rel = savedLink.Relation,
-                    Href = _uriResolver.Resovle(BuildResourceUri(targetResourceDescriptor, savedLink.DestinationResourceParameterValues), parameterValues)
+                    Href = _uriResolver.Resovle(BuildResourceUri(targetResourceDescriptor, savedLink.Parameters), parameterValues)
                 };
 
                 resource.Links.Add(link);
@@ -133,7 +133,7 @@ namespace Kooboo.Commerce.API.HAL
             AddImplicitLinks(descriptor, resource, parameterValues);
         }
 
-        private string BuildResourceUri(ResourceDescriptor descriptor, IEnumerable<HalParameterValue> parameterValues)
+        private string BuildResourceUri(ResourceDescriptor descriptor, IEnumerable<ResourceLinkParameter> parameterValues)
         {
             string url = descriptor.ResourceUri;
             if (descriptor.InputPramameters != null && descriptor.InputPramameters.Length > 0 && parameterValues != null && parameterValues.Count() > 0)
@@ -141,13 +141,13 @@ namespace Kooboo.Commerce.API.HAL
                 var paras = new List<string>();
                 foreach(var resPara in descriptor.InputPramameters)
                 {
-                    var halPara = parameterValues.FirstOrDefault(o => o.ParameterName == resPara.Name);
+                    var halPara = parameterValues.FirstOrDefault(o => o.Name == resPara.Name);
                     if (halPara != null)
                     {
-                        var dotIndex = halPara.ParameterName.IndexOf('.');
-                        var paraName = dotIndex > 0 ? halPara.ParameterName.Substring(dotIndex + 1) : halPara.ParameterName;
-                        dotIndex = halPara.ParameterValue.IndexOf('.');
-                        var paraValue = dotIndex > 0 ? halPara.ParameterValue.Substring(dotIndex + 1) : halPara.ParameterValue;
+                        var dotIndex = halPara.Name.IndexOf('.');
+                        var paraName = dotIndex > 0 ? halPara.Name.Substring(dotIndex + 1) : halPara.Name;
+                        dotIndex = halPara.Value.IndexOf('.');
+                        var paraValue = dotIndex > 0 ? halPara.Value.Substring(dotIndex + 1) : halPara.Value;
                         paras.Add(string.Format("{0}={{{1}}}", paraName, paraValue));
                     }
                 }

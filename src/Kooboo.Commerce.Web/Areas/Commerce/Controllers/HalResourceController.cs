@@ -27,10 +27,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult List()
         {
-            var descriptors = _resourceDescriptorProvider.GetAllDescriptors()
-                                                         .Select(x => new ResourceModel(x))
-                                                         .ToList();
-            return View(descriptors);
+            var descriptorsByCategories = _resourceDescriptorProvider.GetAllDescriptors()
+                                                                     .ToList()
+                                                                     .GroupBy(x => x.ResourceName.Category, x => new ResourceModel(x));
+
+            return View(descriptorsByCategories);
         }
 
         public ActionResult Detail(string resourceName)
