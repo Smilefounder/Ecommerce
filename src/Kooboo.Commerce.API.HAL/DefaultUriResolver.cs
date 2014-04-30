@@ -118,6 +118,7 @@ namespace Kooboo.Commerce.API.HAL
                 return new Uri(url);
             if (!url.StartsWith("/"))
                 url = "/" + url;
+            // mock a absoulte uri, so that we can use segements of uri
             url = "http://localhost:80" + url;
             return new Uri(url);
         }

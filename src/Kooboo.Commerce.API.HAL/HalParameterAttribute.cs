@@ -10,10 +10,10 @@ namespace Kooboo.Commerce.API.HAL
     {
         public HalParameterAttribute()
         {
-            Required = null;
+            Required = false;
         }
 
-        public HalParameterAttribute(string name, Type parameterType, bool? required = null)
+        public HalParameterAttribute(string name, Type parameterType, bool required = false)
         {
             Name = name;
             ParameterType = parameterType;
@@ -22,6 +22,6 @@ namespace Kooboo.Commerce.API.HAL
 
         public string Name { get; set; }
         public Type ParameterType { get; set; }
-        public bool? Required { get; set; }
+        public bool Required { get; set; }
     }
 }

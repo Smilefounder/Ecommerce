@@ -121,10 +121,10 @@ namespace Kooboo.Commerce.API.HAL
                                         pa.Name = para.Name;
                                     if (pa.ParameterType == null)
                                         pa.ParameterType = para.ParameterType;
-                                    if (!pa.Required.HasValue)
+                                    if (!pa.Required)
                                         pa.Required = !para.IsOptional && IsTypeRequired(pa.ParameterType);
 
-                                    inputParameters.Add(new HalParameter(string.Format("{0}.{1}", controllerName, pa.Name), pa.ParameterType, pa.Required.HasValue ? pa.Required.Value : false));
+                                    inputParameters.Add(new HalParameter(string.Format("{0}.{1}", controllerName, pa.Name), pa.ParameterType, pa.Required));
                                 }
                             }
                             else
@@ -185,7 +185,7 @@ namespace Kooboo.Commerce.API.HAL
                                         string pname = string.Format("{0}.{1}", controllerName, pattr.Name);
                                         if (inputParameters.Any(o => o.Name == pname))
                                             continue;
-                                        inputParameters.Add(new HalParameter(pname, pattr.ParameterType, pattr.Required.HasValue ? pattr.Required.Value : false));
+                                        inputParameters.Add(new HalParameter(pname, pattr.ParameterType, pattr.Required));
                                     }
                                 }
                             }
