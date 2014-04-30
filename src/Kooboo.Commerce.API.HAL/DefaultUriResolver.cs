@@ -104,8 +104,9 @@ namespace Kooboo.Commerce.API.HAL
         {
             if (key.StartsWith("{") && key.EndsWith("}"))
             {
-                string paraName = key.Substring(1, key.Length - 2);
-                object paraVal = paras.ContainsKey(paraName) ? paras[paraName] : defaultValue;
+                string paraName = key.Substring(1, key.Length - 2).ToLower();
+                var para = paras.FirstOrDefault(o => o.Key.ToLower() == paraName);
+                object paraVal = default(KeyValuePair<string,object>).Equals(para) ? defaultValue : para.Value;
                 return paraVal == null ? defaultValue.ToString() : paraVal.ToString();
             }
             return defaultValue.ToString();
@@ -117,6 +118,7 @@ namespace Kooboo.Commerce.API.HAL
                 return new Uri(url);
             if (!url.StartsWith("/"))
                 url = "/" + url;
+            // mock a absoulte uri, so that we can use segements of uri
             url = "http://localhost:80" + url;
             return new Uri(url);
         }

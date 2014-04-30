@@ -1,7 +1,7 @@
 ﻿@model Kooboo.Commerce.Shipping.ShippingMethod
 @{
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
-    ViewBag.Title = "Complete".Localize();
+    ViewBag.Title = "Shipping method".Localize();
 }
 
 @section Panel {
@@ -20,7 +20,7 @@
     @if (!Model.IsEnabled)
     {
         <div class="wizard-buttons">
-            <a href="#" data-id="@Model.Id" class="button btn-enable-shippingmethod">@("Enable this shipping method".Localize())</a>
+            <a href="#" data-id="@Model.Id" class="button J_EnableShippingMethod">@("Enable this shipping method".Localize())</a>
         </div>
     }
 </div>
@@ -29,7 +29,7 @@
     $(function () {
         var commerceName = '@(ViewContext.RequestContext.GetRequestValue("commerceName"))';
 
-        $('.btn-enable-shippingmethod').click(function () {
+        $('.J_EnableShippingMethod').click(function () {
             window.loading.show();
             $.post('@Url.Action("EnableShippingMethod")', { id: $(this).data('id'), commerceName: commerceName }, function () {
                 window.loading.hide();

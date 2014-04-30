@@ -1,5 +1,7 @@
 ﻿@{
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
+
+    ViewBag.Title = "Payment method".Localize();
 
     var methodId = ViewContext.RouteData.Values["id"];
 }
@@ -22,9 +24,7 @@
     @Html.Action("Steps", "PaymentMethod", new { area = "Commerce", step = 2 })
     @RenderBody()
     <div class="wizard-buttons">
-        <a class="button gray" href="@Url.Action("BasicInfo", "PaymentMethod", RouteValues.From(Request.QueryString).Merge("area", "Commerce").Merge("id", methodId))">
-            @("Back".Localize())
-        </a>
-        <a class="button" data-ajaxform="">@("Next".Localize())</a>
+        <a class="button gray" href="@Url.Action("BasicInfo", "PaymentMethod", RouteValues.From(Request.QueryString).Merge("area", "Commerce").Merge("id", methodId))">&laquo; @("Back".Localize())</a>
+        <a class="button" data-ajaxform="">@("Next".Localize()) &raquo;</a>
     </div>
 </div>

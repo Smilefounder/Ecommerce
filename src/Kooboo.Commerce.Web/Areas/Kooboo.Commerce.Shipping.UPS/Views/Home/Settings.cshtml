@@ -1,11 +1,10 @@
 ﻿@model Kooboo.Commerce.Shipping.UPS.UPSSettings
 @{
     Layout = "~/Areas/Commerce/Views/Shared/AddIns/_ShipmentTrackerSettings.cshtml";
-    ViewBag.Title = "UPS settings".Localize();
+    ViewBag.Title = "Shipping tracker: UPS".Localize();
 }
 
 <div class="block">
-    <h1 class="title">@ViewBag.Title</h1>
     @using (Html.BeginForm())
     {
         <div class="common-form">

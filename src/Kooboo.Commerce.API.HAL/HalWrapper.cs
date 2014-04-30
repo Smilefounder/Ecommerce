@@ -104,7 +104,7 @@ namespace Kooboo.Commerce.API.HAL
             resource.Links.Add(new Link
             {
                 Rel = "self",
-                Href = _uriResolver.Resovle(descriptor.ResourceUri, parameterValues)
+                Href = _uriResolver.Resovle(BuildResourceUri(descriptor, null), parameterValues)
             });
 
             var savedLinks = _resourceLinkPersistence.GetLinks(descriptor.ResourceName);
@@ -124,13 +124,38 @@ namespace Kooboo.Commerce.API.HAL
                 var link = new Link
                 {
                     Rel = savedLink.Relation,
-                    Href = _uriResolver.Resovle(targetResourceDescriptor.ResourceUri, parameterValues)
+                    Href = _uriResolver.Resovle(BuildResourceUri(targetResourceDescriptor, savedLink.DestinationResourceParameterValues), parameterValues)
                 };
 
                 resource.Links.Add(link);
             }
 
             AddImplicitLinks(descriptor, resource, parameterValues);
+        }
+
+        private string BuildResourceUri(ResourceDescriptor descriptor, IEnumerable<HalParameterValue> parameterValues)
+        {
+            string url = descriptor.ResourceUri;
+            if (descriptor.InputPramameters != null && descriptor.InputPramameters.Length > 0 && parameterValues != null && parameterValues.Count() > 0)
+            {
+                var paras = new List<string>();
+                foreach(var resPara in descriptor.InputPramameters)
+                {
+                    var halPara = parameterValues.FirstOrDefault(o => o.ParameterName == resPara.Name);
+                    if (halPara != null)
+                    {
+                        var dotIndex = halPara.ParameterName.IndexOf('.');
+                        var paraName = dotIndex > 0 ? halPara.ParameterName.Substring(dotIndex + 1) : halPara.ParameterName;
+                        dotIndex = halPara.ParameterValue.IndexOf('.');
+                        var paraValue = dotIndex > 0 ? halPara.ParameterValue.Substring(dotIndex + 1) : halPara.ParameterValue;
+                        paras.Add(string.Format("{0}={{{1}}}", paraName, paraValue));
+                    }
+                }
+                var spliter = url.IndexOf('?') > 0 ? "&" : "?";
+                var qs = string.Join("&", paras.ToArray());
+                url = url + spliter + qs;
+            }
+            return url;
         }
 
         private void AddImplicitLinks(ResourceDescriptor descriptor, IResource resource, IDictionary<string, object> parameterValues)
