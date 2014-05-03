@@ -4,38 +4,45 @@
         <h1 class="title">@("Rule Conditions".Localize())</h1>
     </div>
     <div class="wrap">
-        <div class="block conditions">
-            <div class="wrap" data-bind="foreach: conditions">
-                <div class="item">
-                    <div class="logic-operator">
-                        <select data-bind="value: logicalOperator">
-                            <option value="AND">AND</option>
-                            <option value="OR">OR</option>
-                            <option value="ThenAND">Then AND</option>
-                            <option value="ThenOR">Then OR</option>
-                        </select>
-                    </div>
-                    <div class="columns">
-                        <div class="span4">
-                            <select data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select>
-                        </div>
-                        <div class="span2">
-                            <select data-bind="options: availableOperators, optionsText: 'displayName', optionsValue: 'name', value: comparisonOperator"></select>
-                        </div>
-                        <div class="span6">
-                            <!-- ko if: hasMultipleValues -->
-                            <select data-bind="options: values, optionsText: 'text', optionsValue: 'value', value: value"></select>
-                            <!-- /ko -->
-                            <!-- ko if: !hasMultipleValues() -->
-                            <input type="text" data-bind="value: value" />
-                            <!-- /ko -->
-                        </div>
-                    </div>
-                    <a class="action" data-bind="click: $root.removeCondition">@Html.IconImage("minus")</a>
-                </div>
-            </div>
-            <a class="action" data-bind="click: addCondition">@Html.IconImage("plus")</a>
+        <div style="padding-bottom:10px">
+            <span data-bind="html: expressionPreview" class="conditions-expression"></span>
         </div>
+        <form id="conditions-form">
+            <div class="block conditions">
+                <div class="wrap" data-bind="foreach: { data: conditions, afterRender: $root.updateValidation }">
+                    <div class="item">
+                        <div class="logic-operator">
+                            <select data-bind="value: logicalOperator">
+                                <option value="AND">AND</option>
+                                <option value="OR">OR</option>
+                                <option value="ThenAND">Then AND</option>
+                                <option value="ThenOR">Then OR</option>
+                            </select>
+                        </div>
+                        <div class="columns">
+                            <div class="span4">
+                                <select data-bind="options: $root.availableParameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select>
+                            </div>
+                            <div class="span2">
+                                <select data-bind="options: availableOperators, optionsText: 'displayName', optionsValue: 'name', value: comparisonOperator"></select>
+                            </div>
+                            <div class="span6">
+                                <span data-bind="if: hasMultipleValues">
+                                    <select data-bind="options: values, optionsText: 'text', optionsValue: 'value', value: value"></select>
+                                </span>
+                                <span data-bind="if: !hasMultipleValues()">
+                                    <input type="text" data-bind="value: value, attr: { name: 'ConditionValueTextBox_' + $index() }"
+                                           data-val="true"
+                                           data-val-required="*" />
+                                </span>
+                            </div>
+                        </div>
+                        <a class="action" data-bind="click: $root.removeCondition">@Html.IconImage("minus")</a>
+                    </div>
+                </div>
+                <a class="action" data-bind="click: addCondition">@Html.IconImage("plus")</a>
+            </div>
+        </form>
     </div>
     <div class="buttons">
         <a href="#" class="button gray right J_Cancel">@("Cancel".Localize())</a>
@@ -102,6 +109,8 @@
                 return _this.value() || '';
             });
 
+            this.isChanged = ko.observable();
+
             _this.paramName.subscribe(function (name) {
                 var param = _root.findAvailableParameterByName(name);
                 if (param) {
@@ -112,6 +121,20 @@
                     _this.values(param.values());
                 }
             });
+
+            // Change tracking
+            _this.logicalOperator.subscribe(notifyChanges);
+            _this.paramName.subscribe(notifyChanges);
+            _this.comparisonOperator.subscribe(notifyChanges);
+            _this.value.subscribe(notifyChanges);
+
+            _this.isChanged.subscribe(function (changed) {
+                _root.isChanged(true);
+            });
+
+            function notifyChanges() {
+                _this.isChanged(true);
+            }
         }
 
         function ConditionsEditorViewModel() {
@@ -128,6 +151,15 @@
                              viewModel.availableParameters.push(ko.mapping.fromJS(this));
                          });
 
+                         // update expression preview on changed
+                         _this.isChanged.subscribe(function (changed) {
+                             if (changed) {
+                                 _this.updateExpressionPreviewIfValid();
+                                 // always reset, so we are able to get next change
+                                 _this.markUnchanged();
+                             }
+                         });
+
                          deferred.resolve();
                      });
                 } else {
@@ -136,6 +168,17 @@
 
                 return deferred.promise();
             }
+
+            this.isChanged = ko.observable(false).extend({ throttle: 500 });
+
+            this.markUnchanged = function () {
+                $.each(_this.conditions(), function () {
+                    this.isChanged(false);
+                });
+                _this.isChanged(false);
+            }
+
+            this.expressionPreview = ko.observable();
 
             this.contextModelTypeName = ko.observable();
 
@@ -171,14 +214,36 @@
             this.addCondition = function () {
                 var condition = _this.createCondition();
                 _this.conditions.push(condition);
+                _this.isChanged(true);
             }
 
             this.removeCondition = function (condition) {
                 _this.conditions.remove(condition);
+                _this.isChanged(true);
             }
 
-            // sync expression from the model if it's in the 'standard' mode
-            this.getExpression = function () {
+            this.updateValidation = function () {
+                $.validator.unobtrusive.reparse($('#conditions-form'));
+            }
+
+            this.validate = function () {
+                return $('#conditions-form').valid();
+            }
+
+            this.isValid = function () {
+                return $('#conditions-form').validate().checkForm();
+            }
+
+            this.updateExpressionPreviewIfValid = function () {
+                if (_this.isValid()) {
+                    _this.getExpression(true)
+                         .done(function (exp) {
+                             _this.expressionPreview(exp);
+                         });
+                }
+            }
+
+            this.getExpression = function (prettify) {
                 var deferred = $.Deferred();
 
                 var model = ko.mapping.toJS(_this);
@@ -188,7 +253,7 @@
                 };
 
                 $.ajax({
-                    url: '@Url.Action("GetExpression", "Condition")' + '?commerceName=' + commerceName,
+                    url: '@Url.Action("GetExpression", "Condition")' + '?commerceName=' + commerceName + '&contextModelType=' + _this.contextModelTypeName() + '&prettify=' + (prettify || false),
                     type: 'POST',
                     data: JSON.stringify(model),
                     contentType: 'application/json; charset=utf-8'
@@ -250,13 +315,15 @@
                                         // unfocus the inputs so the changes can be updated to view model before save
                                         self.$dialog.find(':focus').blur();
 
-                                        if (self.model.conditions().length === 0) {
-                                            window.info.show('@("Please add at least one condition")', false);
-                                        } else {
-                                            self.model.getExpression().then(function (exp) {
-                                                options.save.apply(self, [exp]);
-                                                self.close();
-                                            });
+                                        if (self.model.validate()) {
+                                            if (self.model.conditions().length === 0) {
+                                                window.info.show('@("Please add at least one condition")', false);
+                                            } else {
+                                                self.model.getExpression().then(function (exp) {
+                                                    options.save.apply(self, [exp]);
+                                                    self.close();
+                                                });
+                                            }
                                         }
                                     }
                                     e.preventDefault();

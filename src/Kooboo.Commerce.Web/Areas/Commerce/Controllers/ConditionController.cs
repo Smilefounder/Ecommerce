@@ -34,9 +34,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost]
-        public string GetExpression(ConditionsModel model)
+        public string GetExpression(ConditionsModel model, string contextModelType, bool prettify)
         {
-            return model.Conditions.GetExpression();
+            var expression = model.Conditions.GetExpression();
+            if (prettify)
+            {
+                expression = PrettifyConditionsExpression(expression, contextModelType);
+            }
+
+            return expression;
         }
 
         public string PrettifyConditionsExpression(string expression, string contextModelType)
