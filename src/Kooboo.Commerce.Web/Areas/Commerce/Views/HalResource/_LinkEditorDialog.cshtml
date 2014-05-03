@@ -15,8 +15,13 @@
                 <tr>
                     <th>@("Destination Resource".Localize())</th>
                     <td>
-                        <select name="DestinationResourceName" 
-                                data-bind="options: linkableResources, optionsText: 'resourceName', optionsValue: 'resourceName', value: link.destinationResourceName"></select>
+                        <select name="DestinationResourceName" data-bind="value: link.destinationResourceName">
+                            <!-- ko foreach: resourceCategories -->
+                                <optgroup data-bind="attr: { label: name }, foreach: resources">
+                                    <option data-bind="text: resourceName, attr: { value: resourceName }"></option>
+                                </optgroup>
+                            <!-- /ko -->
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -90,7 +95,7 @@
 
             this.sourceResourceName = ko.observable();
 
-            this.linkableResources = ko.observableArray();
+            this.resourceCategories = ko.observableArray();
 
             this.link = {
                 id: ko.observable(),
@@ -279,7 +284,6 @@
                         ko.mapping.fromJS(data.requiredParameters, _linkParamMappingOptions, link.requiredParameters);
                         ko.mapping.fromJS(data.optionalParameters, _linkParamMappingOptions, link.optionalParameters);
                         defer.resolve();
-                        console.log('update param list done');
                     });
                 } else {
                     defer.resolve();
@@ -287,7 +291,6 @@
             }
 
             function updateParameterValues(requiredParamValues, optionalParamValues) {
-                console.log('update param values');
                 var link = _this.model.link;
 
                 $.each(link.requiredParameters(), function () {
@@ -326,9 +329,9 @@
             }
 
             function loadLinkableResources() {
-                return $.get('@Url.Action("LinkableResources", "HalResource")')
+                return $.get('@Url.Action("ResourceCategories", "HalResource")')
                         .then(function (data) {
-                            ko.mapping.fromJS(data, {}, _this.model.linkableResources);
+                            ko.mapping.fromJS(data, {}, _this.model.resourceCategories);
                         });
             }
 

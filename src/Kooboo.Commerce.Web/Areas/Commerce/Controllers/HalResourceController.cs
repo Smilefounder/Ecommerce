@@ -77,12 +77,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return JsonNet(model).UsingClientConvention();
         }
 
-        public ActionResult LinkableResources()
+        public ActionResult ResourceCategories()
         {
-            var resources = _resourceDescriptorProvider.GetAllDescriptors()
-                                                       .Select(x => new ResourceModel(x));
+            var categories = _resourceDescriptorProvider.GetAllDescriptors()
+                                                        .ToList()
+                                                        .GroupBy(x => x.ResourceName.Category)
+                                                        .Select(x => new
+                                                        {
+                                                            Name = x.Key,
+                                                            Resources = x.Select(it => new ResourceModel(it))
+                                                        })
+                                                        .ToList();
 
-            return JsonNet(resources).UsingClientConvention();
+            return JsonNet(categories).UsingClientConvention();
         }
 
         public ActionResult LoadLinkParametersWithDefault(string sourceResourceName, string destinationResourceName)
@@ -106,8 +113,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 {
                     // Populate default value for required parameters
                     var fromParam = sourceResource.OutputParameters
-                                                  .FirstOrDefault(p => 
-                                                      p.ParameterType == param.ParameterType 
+                                                  .FirstOrDefault(p =>
+                                                      p.ParameterType == param.ParameterType
                                                       && ResourceLinkParameterModel.GetParameterDisplayName(p.Name).Equals(paramModel.DisplayName, StringComparison.OrdinalIgnoreCase));
 
                     if (fromParam != null)
