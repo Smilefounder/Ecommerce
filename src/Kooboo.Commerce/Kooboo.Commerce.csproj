@@ -106,17 +106,13 @@
     <Compile Include="Events\Brands\BrandDeleted.cs" />
     <Compile Include="Events\Brands\BrandUpdated.cs" />
     <Compile Include="Events\Brands\IBrandEvent.cs" />
-    <Compile Include="Events\Orders\DeliveryBegan.cs" />
     <Compile Include="Events\Orders\OrderCreated.cs" />
     <Compile Include="Events\Orders\OrderStatusChanged.cs" />
     <Compile Include="Events\Payments\IPaymentEvent.cs" />
     <Compile Include="Events\Payments\PaymentCreated.cs" />
     <Compile Include="Events\Payments\PaymentStatusChanged.cs" />
-    <Compile Include="Events\Products\FindOne.cs" />
-    <Compile Include="Events\Products\IQueryProductListEvent.cs" />
     <Compile Include="Events\Products\ProductCreated.cs" />
     <Compile Include="Events\Products\ProductDeleted.cs" />
-    <Compile Include="Events\Products\ProductUpdated.cs" />
     <Compile Include="Events\Promotions\PromotionCreated.cs" />
     <Compile Include="Events\Promotions\PromotionDeleted.cs" />
     <Compile Include="Events\Promotions\PromotionDisabled.cs" />

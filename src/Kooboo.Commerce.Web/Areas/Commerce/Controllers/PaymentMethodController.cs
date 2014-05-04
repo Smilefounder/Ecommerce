@@ -173,7 +173,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 return AjaxForm().RedirectTo(url);
             }
 
-            return AjaxForm().RedirectTo(@return);
+            return AjaxForm().RedirectTo(Url.Action("Complete", RouteValues.From(Request.QueryString).Merge("id", method.Id)));
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Kooboo.Commerce.Events.Customers
     [ActivityVisible("Customer Events")]
     public interface ICustomerEvent : IEvent
     {
-        Customer Customer { get; }
+        int CustomerId { get; }
     }
 }

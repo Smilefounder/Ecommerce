@@ -12,11 +12,12 @@ namespace Kooboo.Commerce.Events.Products
     [ActivityVisible("Product Events")]
     public interface IProductEvent : IEvent
     {
-        Product Product { get; }
+        int ProductId { get; }
     }
 
+    [ActivityVisible("Product Price Events")]
     public interface IProdutPriceEvent : IProductEvent
     {
-        ProductPrice ProductPrice { get; }
+        int ProductPriceId { get; }
     }
 }

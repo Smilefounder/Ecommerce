@@ -9,10 +9,11 @@ using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.ComponentModel;
 
 namespace Kooboo.Commerce.Orders
 {
-    public class Order
+    public class Order : INotifyCreated
     {
         public Order()
         {
@@ -106,6 +107,11 @@ namespace Kooboo.Commerce.Orders
                 OrderStatus = newStatus;
                 Event.Raise(new OrderStatusChanged(this, oldStatus, newStatus));
             }
+        }
+
+        void INotifyCreated.NotifyCreated()
+        {
+            Event.Raise(new OrderCreated(this));
         }
     }
 }

@@ -225,10 +225,7 @@ namespace Kooboo.Commerce.Orders.Services
 
         public bool Create(Order order)
         {
-            bool result = _orderRepository.Insert(order);
-            Event.Raise(new OrderCreated(order));
-
-            return result;
+            return _orderRepository.Insert(order);
         }
 
         public bool Update(Order order)

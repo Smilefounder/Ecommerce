@@ -12,6 +12,6 @@ namespace Kooboo.Commerce.Events.Orders
     [ActivityVisible("Order Events")]
     public interface IOrderEvent : IEvent
     {
-        Order Order { get; }
+        int OrderId { get; }
     }
 }

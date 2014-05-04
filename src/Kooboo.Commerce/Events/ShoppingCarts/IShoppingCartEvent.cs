@@ -12,6 +12,6 @@ namespace Kooboo.Commerce.Events.ShoppingCarts
     [ActivityVisible("Shopping Cart Events")]
     public interface IShoppingCartEvent : IEvent
     {
-        ShoppingCart Cart { get; }
+        int CartId { get; }
     }
 }
