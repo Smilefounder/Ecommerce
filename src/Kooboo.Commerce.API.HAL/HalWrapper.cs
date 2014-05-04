@@ -90,7 +90,7 @@ namespace Kooboo.Commerce.API.HAL
         {
             if (halRules == null || halRules.Count() <= 0)
                 return true;
-            foreach(var rule in halRules)
+            foreach (var rule in halRules)
             {
                 if (rule.Resources.Any(o => o.ResourceName == resourceName))
                     return true;
@@ -139,16 +139,22 @@ namespace Kooboo.Commerce.API.HAL
             if (descriptor.InputPramameters != null && descriptor.InputPramameters.Length > 0 && parameterValues != null && parameterValues.Count() > 0)
             {
                 var paras = new List<string>();
-                foreach(var resPara in descriptor.InputPramameters)
+                foreach (var resPara in descriptor.InputPramameters)
                 {
                     var halPara = parameterValues.FirstOrDefault(o => o.Name == resPara.Name);
                     if (halPara != null)
                     {
                         var dotIndex = halPara.Name.IndexOf('.');
                         var paraName = dotIndex > 0 ? halPara.Name.Substring(dotIndex + 1) : halPara.Name;
-                        dotIndex = halPara.Value.IndexOf('.');
+                        dotIndex = halPara.Value == null ? -1 : halPara.Value.IndexOf('.');
                         var paraValue = dotIndex > 0 ? halPara.Value.Substring(dotIndex + 1) : halPara.Value;
-                        paras.Add(string.Format("{0}={{{1}}}", paraName, paraValue));
+                        if (!string.IsNullOrEmpty(paraValue))
+                        {
+                            if (halPara.UseFixedValue)
+                                paras.Add(string.Format("{0}={1}", paraName, paraValue));
+                            else
+                                paras.Add(string.Format("{0}={{{1}}}", paraName, paraValue));
+                        }
                     }
                 }
                 var spliter = url.IndexOf('?') > 0 ? "&" : "?";

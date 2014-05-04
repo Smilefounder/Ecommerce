@@ -68,6 +68,8 @@ namespace Kooboo.Commerce.API.HAL
                     if (key.StartsWith("{") && key.EndsWith("}"))
                         continue;
                     string val = HttpUtility.UrlDecode(uqs[k]);
+                    if (val.IndexOf(',') > 0)
+                        val = val.Substring(val.LastIndexOf(',') + 1);
                     val = GetValueFromParameters(val, paras, val);
                     qs[key] = val;
                 }

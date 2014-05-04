@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	@Html.FrontHtml().HtmlTitle()
+	@Html.FrontHtml().Meta()
+	@Html.FrontHtml().RegisterStyles()
+</head>
+<body>
+<div id="header">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/images/logo.gif" border="0" title="Vitamines en voedingssupplementen" alt="Vitamines en voedingssupplementen"></a>
+                    </div>
+                    <div class="banner">
+                        
+<div class="top-nav-wapper">
+    
+        <ul class="top-nav">
+            <li class="top-nav-login"><a class="top-nav-login-link" href="/Login.aspx?returnUrl=%2fcategory.aspx%3fparentId%3d1%26subName%3dAlgemeen" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'inloggen'});">inloggen</a>
+                <ul>
+                    <li>
+                        <input id="top-nav-txtLogin" type="text" value="" autocomplete="off" placeholder="inloggen"></li>
+                    <li>
+                        <input type="password" id="top-nav-txtPassword" value="" autocomplete="off" placeholder="wachtwoord"></li>
+                    <li class="top-nav-btnLogin"><a href="#">aanmelden</a></li>
+                    <li class="top-nav-autologin vertical_middle">
+                        <input type="checkbox" id="top-nav-autologin"><label for="top-nav-autologin">automatisch inloggen</label></li>
+                    <li class="top-nav-forgotPassword"><a href="/PasswordForget.aspx">wachtwoord vergeten?</a></li>
+                </ul>
+            </li>
+            <li>|</li>
+            <li><a href="/Register.aspx?returnUrl=%2fcategory.aspx%3fparentId%3d1%26subName%3dAlgemeen" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'account aanmaken'});">account aanmaken</a></li>
+            <li>|</li>
+            <li><a href="/Profile/Default.aspx#myOrder" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'vorige bestellingen'});">vorige bestellingen</a></li>
+            <li>|</li>
+            <li><a href="/klantenservice" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'klantenservice'});">klantenservice</a></li>
+            <li>|</li>
+            <li><a href="/shop/" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'onze winkels'});">onze winkels</a></li>
+        </ul>
+    
+    
+    
+</div>
+
+                    </div>
+                    <ul class="search-box">
+                        <li>
+                            <input type="text" placeholder="Zoek door ons gehele assortiment" class="search-input ac_input" autocomplete="off"></li>
+                        <li>
+                            <a href="/RefinedSearch.aspx" class="search-advanced">geavanceerd zoeken</a></li>
+                    </ul>
+                    <a href="javascript:;" class="search-btn"></a>
+                </div>  
+    <div>
+      @Html.FrontHtml().Position("Left")
+        @Html.FrontHtml().Position("Main")
+      @Html.FrontHtml().Position("Right")
+      <div id="footer" style="overflow: hidden;">
+    <div class="footer_Item">
+        <div class="footer_Item_Title">
+            <a href="/klantenservice/veilig-winkelen/">veilig winkelen</a>
+        </div>
+        <ul>
+            <li style="margin-top: 5px;"><a href="/klantenservice/Keurmerken/">Keurmerken</a></li>
+            <li><a href="/klantenservice/hacker_safe/">Hacker safe</a></li>
+            <li><a href="/klantenservice/ssl-gecertificeerd/">SSL gecertificeerd</a></li>
+        </ul>
+    </div>
+    <div class="footer_Item" style="margin-left: 6px;">
+        <div class="footer_Item_Title">
+            <a href="/klantenservice/Bestellen">bestellen en betalen</a>
+        </div>
+        <ul>
+            <li style="margin-top: 5px;"><a href="/klantenservice/betalingsinfo/">Betaalmogelijkheden</a></li>
+            <li><a href="/klantenservice/Verzending-en-Retourneren/">Verzending
+                            en Retourneren</a></li>
+            <li><a href="/service/snel-in-huis">Snel in huis</a></li>
+        </ul>
+    </div>
+    <div class="footer_Item" style="margin-left: 6px;">
+        <div class="footer_Item_Title">
+            <a href="/klantenservice/advies-en-klantenservice/">advies
+                            en service</a>
+        </div>
+        <ul>
+            <li style="margin-top: 5px;"><a href="/FAQ.aspx">Veel gestelde
+                            vragen</a></li>
+            <li><a href="/klantenservice">Klantenservice</a></li>
+            <li><a href="/Informatie-Vitamines-en-Supplementen">Informatie
+                            Vitamines en Supplementen</a></li>
+        </ul>
+    </div>
+    <div class="footer_Item" style="margin-left: 6px;">
+        <div class="footer_Item_Title">
+            <a href="/klantenservice/vitaminstore/">vitaminstore</a>
+        </div>
+        <ul>
+            <li style="margin-top: 5px;"><a href="/klantenservice/Over-vitaminstore/">Over vitaminstore</a></li>
+            <li><a href="/job.aspx">Werken bij vitaminstore</a></li>
+            <li><a href="/franchise">Franchisenemers</a></li>
+        </ul>
+    </div>
+    <div style="float: left; width: 233px; height: 40px;">
+        <a href="https://beheer.thuiswinkel.org/waarborg/index.asp?bedrijfid=1988" class="thuiswinkel" target="_blank"></a><a href="/klantenservice/ssl-gecertificeerd/" class="globalsign" target="_blank"></a>
+    </div>
+    <div class="footer_Item_Bottom footer_icons">
+        <a href="/klantenservice/betalingsinfo/" class="mastercard"></a><a href="/klantenservice/betalingsinfo/" class="visa"></a><a href="/klantenservice/betalingsinfo/" class="express"></a><a href="/klantenservice/betalingsinfo/" class="ideal"></a><a href="#" class="paypal" onclick="javascript:window.open('https://www.paypal.com/nl/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=400, height=350');"></a>
+    </div>
+    <div class="footer_Item_Bottom" style="width: 472px">
+        <ul class="menu">
+            <li><a href="/collectie">Collecties</a></li>
+            <li class="menuDiv"></li>
+            <li><a href="/emailnieuwsbrieven">Nieuwsbrieven</a></li>
+            <li class="menuDiv"></li>
+            <li><a href="/klantenservice/contact/">Contact</a></li>
+            <li class="menuDiv"></li>
+            <li><a href="/klantenservice/disclaimer/">Disclaimer</a></li>
+            <li class="menuDiv"></li>
+            <li><a href="/klantenservice/Privacy-Statement/">Privacy Statement</a></li>
+            <li class="menuDiv"></li>
+            <li><a href="/klantenservice/algemene-voorwaarden/">Algemene
+                            Voorwaarden</a></li>
+            <li class="menuDiv"></li>
+            <li><a href="/links">Partnerprogramma</a></li>
+            <li class="menuDiv"></li>
+            <li><a href="/klantenservice/B2B/">B2B</a></li>
+            <li class="menuDiv"></li>
+            <li><a href="/klantenservice/Spaarsysteem/">Spaarsysteem</a></li>
+            <li class="menuDiv"></li>
+            <li><a href="/Sitemap.aspx">Sitemap</a></li>
+            <li class="menuDiv"></li>
+            <li>Copyright ©
+                            2014, Vitaminstore online BV</li>
+        </ul>
+    </div>
+</div>
+    </div>
+</body>
+</html>
