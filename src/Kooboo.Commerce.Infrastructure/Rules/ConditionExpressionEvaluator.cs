@@ -15,18 +15,18 @@ namespace Kooboo.Commerce.Rules
     {
         private object _contextModel;
         private Stack<bool> _results = new Stack<bool>();
-        private List<ParameterInfo> _availableParameters;
-        private IModelParameterProvider _parameterProvider;
+        private List<IConditionParameter> _availableParameters;
+        private IEnumerable<IConditionParameterProvider> _modelParameterProviders;
         private IComparisonOperatorProvider _comparisonOperatorProvider;
 
         public ConditionExpressionEvaluator(
-            IModelParameterProvider parameterProvider,
+            IEnumerable<IConditionParameterProvider> modelParameterProviders,
             IComparisonOperatorProvider comparisonOperatorProvider)
         {
-            Require.NotNull(parameterProvider, "parameterProvider");
+            Require.NotNull(modelParameterProviders, "modelParameterProviders");
             Require.NotNull(comparisonOperatorProvider, "comparisonOperatorProvider");
 
-            _parameterProvider = parameterProvider;
+            _modelParameterProviders = modelParameterProviders;
             _comparisonOperatorProvider = comparisonOperatorProvider;
         }
 
@@ -42,7 +42,11 @@ namespace Kooboo.Commerce.Rules
             Require.NotNull(contextModel, "contextModel");
 
             _contextModel = contextModel;
-            _availableParameters = _parameterProvider.GetParameters(contextModel.GetType()).ToList();
+
+            var contextModelType = contextModel.GetType();
+            _availableParameters = _modelParameterProviders.SelectMany(x => x.GetParameters(contextModelType))
+                                                           .DistinctBy(x => x.Name)
+                                                           .ToList();
 
             Visit(expression);
 
@@ -54,8 +58,8 @@ namespace Kooboo.Commerce.Rules
         protected override void Visit(ConditionExpression exp)
         {
             var paramName = exp.Param.ParamName;
-            var modelParam = _availableParameters.FirstOrDefault(x => x.Parameter.Name == paramName);
-            if (modelParam == null)
+            var param = _availableParameters.FirstOrDefault(x => x.Name == paramName);
+            if (param == null)
                 throw new InvalidOperationException("Unrecognized parameter \"" + paramName + "\" or it's not accessable in currect context.");
 
 
@@ -68,8 +72,7 @@ namespace Kooboo.Commerce.Rules
             if (@operator == null)
                 throw new InvalidOperationException("Unrecognized comparison operator \"" + exp.Operator + "\".");
 
-            var param = modelParam.Parameter;
-            var paramValue = modelParam.GetValue(_contextModel);
+            var paramValue = param.GetValue(_contextModel);
             var conditionValue = GetConditionValue(exp.Value, param);
             var result = @operator.Apply(param, paramValue, conditionValue);
 
@@ -107,7 +110,7 @@ namespace Kooboo.Commerce.Rules
             Visit(exp.Right);
         }
 
-        private object GetConditionValue(ConditionValueExpression exp, IParameter param)
+        private object GetConditionValue(ConditionValueExpression exp, IConditionParameter param)
         {
             return param.ParseValue(exp.Value);
         }

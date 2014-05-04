@@ -8,17 +8,16 @@ namespace Kooboo.Commerce.Rules
     /// <summary>
     /// Represents a parameter to be used in condition expressions.
     /// </summary>
-    public interface IParameter
+    public interface IConditionParameter
     {
         string Name { get; }
 
         string DisplayName { get; }
 
         /// <summary>
-        /// The model type that this parameter is bound to.
-        /// A parameter is only available when its model is present in the context.
+        /// The context model type that this parameter is applicable to.
         /// </summary>
-        Type ModelType { get; }
+        Type ContextModelType { get; }
 
         /// <summary>
         /// The type of parameter value.

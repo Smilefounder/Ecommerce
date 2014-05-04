@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             SupportedOperators = new List<ComparisonOperatorModel>();
         }
 
-        public ConditionParameterModel(IParameter param) : this()
+        public ConditionParameterModel(IConditionParameter param) : this()
         {
             Name = param.Name;
             DisplayName = param.DisplayName;

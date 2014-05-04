@@ -205,14 +205,15 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Rules\ConditionExpressionEvaluator.cs" />
     <Compile Include="Rules\ConditionParameterAttribute.cs" />
+    <Compile Include="Rules\IContextModelAdapter.cs" />
+    <Compile Include="Rules\ModelPropertyBackedConditionParameter.cs" />
     <Compile Include="Rules\ParameterInfo.cs" />
-    <Compile Include="Rules\DynamicParameter.cs" />
     <Compile Include="Rules\Expressions\ExpressionVisitor.cs" />
     <Compile Include="Rules\IComparisonOperator.cs" />
     <Compile Include="Rules\IComparisonOperatorProvider.cs" />
-    <Compile Include="Rules\IModelParameterProvider.cs" />
+    <Compile Include="Rules\IConditionParameterProvider.cs" />
     <Compile Include="Rules\IParameterValueDataSourceProvider.cs" />
-    <Compile Include="Rules\IParameter.cs" />
+    <Compile Include="Rules\IConditionParameter.cs" />
     <Compile Include="Rules\IParameterValueDataSource.cs" />
     <Compile Include="Rules\Operators\ContainsOperator.cs" />
     <Compile Include="Rules\Operators\EqualsOperator.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Rules\Parsing\TokenKind.cs" />
     <Compile Include="Rules\RuleEngine.cs" />
     <Compile Include="Rules\TypeExtensions.cs" />
+    <Compile Include="Rules\AdaptedConditionParameter.cs" />
     <Compile Include="Runtime\ITypeActivator.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Web\Http\TransactionalAttribute.cs" />

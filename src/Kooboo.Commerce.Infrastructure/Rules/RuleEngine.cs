@@ -14,15 +14,15 @@ namespace Kooboo.Commerce.Rules
     [Dependency(typeof(RuleEngine))]
     public class RuleEngine
     {
-        private IModelParameterProvider _parameterProvider;
+        private IEnumerable<IConditionParameterProvider> _modelParameterProviders;
         private IComparisonOperatorProvider _comparisonOperatorProvider;
 
-        public RuleEngine(IModelParameterProvider parameterProvider, IComparisonOperatorProvider operatorProvider)
+        public RuleEngine(IEnumerable<IConditionParameterProvider> modelParameterProviders, IComparisonOperatorProvider operatorProvider)
         {
-            Require.NotNull(parameterProvider, "parameterProvider");
+            Require.NotNull(modelParameterProviders, "modelParameterProviders");
             Require.NotNull(operatorProvider, "operatorProvider");
 
-            _parameterProvider = parameterProvider;
+            _modelParameterProviders = modelParameterProviders;
             _comparisonOperatorProvider = operatorProvider;
         }
 
@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Rules
             Require.NotNull(expression, "expression");
             Require.NotNull(contextModel, "contextModel");
 
-            var evaluator = new ConditionExpressionEvaluator(_parameterProvider, _comparisonOperatorProvider);
+            var evaluator = new ConditionExpressionEvaluator(_modelParameterProviders, _comparisonOperatorProvider);
             return evaluator.Evaluate(expression, contextModel);
         }
     }

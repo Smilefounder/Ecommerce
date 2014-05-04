@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Rules
     /// </summary>
     public class ParameterInfo
     {
-        public IParameter Parameter { get; private set; }
+        public IConditionParameter Parameter { get; private set; }
 
         /// <summary>
         /// The path of the parameter's model from root context model.
@@ -29,17 +29,17 @@ namespace Kooboo.Commerce.Rules
         /// </code>
         /// The the model of CustomerId parameter is Customer class.
         /// The container of CustomerId parameter is the Customer property of Order class.
-        /// So the model path of CustomerId parameter is: Order proprety -> Customer property
+        /// So the container path of CustomerId parameter is: Order proprety -> Customer property
         /// </remark>
-        public IEnumerable<MemberInfo> ModelPath { get; private set; }
+        public IEnumerable<MemberInfo> ContainerPath { get; private set; }
 
-        public ParameterInfo(IParameter parameter, IEnumerable<MemberInfo> modelPath)
+        public ParameterInfo(IConditionParameter parameter, IEnumerable<MemberInfo> containerPath)
         {
             Require.NotNull(parameter, "parameter");
-            Require.NotNull(modelPath, "modelPath");
+            Require.NotNull(containerPath, "containerPath");
 
             Parameter = parameter;
-            ModelPath = modelPath.ToList();
+            ContainerPath = containerPath.ToList();
         }
 
         /// <summary>
@@ -47,20 +47,20 @@ namespace Kooboo.Commerce.Rules
         /// </summary>
         public object GetValue(object rootModel)
         {
-            var model = ResolveModel(rootModel);
+            var model = ResolveParameterContainer(rootModel);
             return Parameter.GetValue(model);
         }
 
-        private object ResolveModel(object rootModel)
+        private object ResolveParameterContainer(object rootModel)
         {
-            if (ModelPath.Count() == 0)
+            if (ContainerPath.Count() == 0)
             {
                 return rootModel;
             }
 
             var container = rootModel;
 
-            foreach (var path in ModelPath)
+            foreach (var path in ContainerPath)
             {
                 if (path is FieldInfo)
                 {

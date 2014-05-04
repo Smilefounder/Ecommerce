@@ -179,6 +179,7 @@
     <Compile Include="Promotions\PromotionMatch.cs" />
     <Compile Include="Promotions\PromotionContext.cs" />
     <Compile Include="Rules\CustomerGenderValueDataSource.cs" />
+    <Compile Include="Rules\Orders\OrderEventParameterProvider.cs" />
     <Compile Include="Settings\Services\ISettingService.cs" />
     <Compile Include="Settings\Services\SettingService.cs" />
     <Compile Include="Products\Services\IProductService.cs" />

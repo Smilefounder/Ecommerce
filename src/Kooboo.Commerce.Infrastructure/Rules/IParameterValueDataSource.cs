@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Rules
         /// <summary>
         /// Retrieve available values for the parameter.
         /// </summary>
-        IEnumerable<ParameterValue> GetValues(IParameter parameter);
+        IEnumerable<ParameterValue> GetValues(IConditionParameter parameter);
     }
 
     public class ParameterValue

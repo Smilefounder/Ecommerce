@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Rules
         /// <summary>
         /// Apply the operator to the specified parameter and the input value.
         /// </summary>
-        bool Apply(IParameter param, object paramValue, object inputValue);
+        bool Apply(IConditionParameter param, object paramValue, object inputValue);
     }
 
     public static class ComparisonOperators

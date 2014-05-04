@@ -13,11 +13,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ConditionController : CommerceControllerBase
     {
-        private IModelParameterProvider _parameterFactory;
+        private IEnumerable<IConditionParameterProvider> _parameterProviders;
 
-        public ConditionController(IModelParameterProvider parameterFactory)
+        public ConditionController(IEnumerable<IConditionParameterProvider> parameterProviders)
         {
-            _parameterFactory = parameterFactory;
+            _parameterProviders = parameterProviders;
         }
 
         public ActionResult AvailableParameters(string contextModelTypeName)
@@ -25,9 +25,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var contextModelType = Type.GetType(contextModelTypeName, true);
             var models = new List<ConditionParameterModel>();
 
-            foreach (var param in _parameterFactory.GetParameters(contextModelType))
+            foreach (var param in _parameterProviders.SelectMany(x => x.GetParameters(contextModelType)).DistinctBy(x => x.Name))
             {
-                models.Add(new ConditionParameterModel(param.Parameter));
+                models.Add(new ConditionParameterModel(param));
             }
 
             return JsonNet(models).UsingClientConvention();
@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
                 if (!String.IsNullOrEmpty(expression))
                 {
-                    var builder = new ConditionModelBuilder(_parameterFactory);
+                    var builder = new ConditionModelBuilder(_parameterProviders);
                     models = builder.BuildFrom(Server.UrlDecode(expression), Type.GetType(contextModelType, true));
                 }
 

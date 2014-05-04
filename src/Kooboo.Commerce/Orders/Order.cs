@@ -21,7 +21,6 @@ namespace Kooboo.Commerce.Orders
             OrderItems = new List<OrderItem>();
         }
 
-        [ConditionParameter(Name = "OrderID", DisplayName = "Order ID")]
         public int Id { get; set; }
 
         public int CustomerId { get; set; }

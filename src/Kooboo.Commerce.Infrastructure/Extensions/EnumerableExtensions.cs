@@ -18,5 +18,29 @@ namespace Kooboo.Commerce
 
             return list;
         }
+
+        public static IEnumerable<T> DistinctBy<T>(this IEnumerable<T> items, Func<T, object> property)
+        {
+            return items.Distinct(new Comparer<T> { PropertyAccessor = property });
+        }
+
+        class Comparer<T> : IEqualityComparer<T>
+        {
+            public Func<T, object> PropertyAccessor = null;
+
+            public bool Equals(T x, T y)
+            {
+                var propX = PropertyAccessor(x);
+                var propY = PropertyAccessor(y);
+
+                return propX.Equals(propY);
+            }
+
+            public int GetHashCode(T obj)
+            {
+                return PropertyAccessor(obj).GetHashCode();
+            }
+        }
+
     }
 }

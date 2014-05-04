@@ -12,21 +12,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
     public class ConditionsExpressionPrettifier : ExpressionVisitor
     {
         private StringBuilder _html;
-        private IComparisonOperatorProvider _operatorFactory;
-        private IModelParameterProvider _paramFactory;
-        private List<IParameter> _parameters;
+        private IComparisonOperatorProvider _operatorProvider;
+        private IEnumerable<IConditionParameterProvider> _parameterProviders;
+        private List<IConditionParameter> _parameters;
 
         public ConditionsExpressionPrettifier()
-            : this(EngineContext.Current.Resolve<IComparisonOperatorProvider>(), EngineContext.Current.Resolve<IModelParameterProvider>())
+            : this(EngineContext.Current.Resolve<IComparisonOperatorProvider>(), EngineContext.Current.ResolveAll<IConditionParameterProvider>())
         {
         }
 
         public ConditionsExpressionPrettifier(
-            IComparisonOperatorProvider comparisonOperatorFactory,
-            IModelParameterProvider paramFactory)
+            IComparisonOperatorProvider operatorProvider,
+            IEnumerable<IConditionParameterProvider> parameerProviders)
         {
-            _operatorFactory = comparisonOperatorFactory;
-            _paramFactory = paramFactory;
+            _operatorProvider = operatorProvider;
+            _parameterProviders = parameerProviders;
         }
 
         public string Prettify(string expression, Type contextModelType)
@@ -42,12 +42,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
         private string Prettify(Expression expression, Type contextModelType)
         {
             _html = new StringBuilder();
-            _parameters = _paramFactory.GetParameters(contextModelType)
-                                       .Select(x => x.Parameter)
-                                       .ToList();
+            _parameters = _parameterProviders.SelectMany(x => x.GetParameters(contextModelType))
+                                             .DistinctBy(x => x.Name)
+                                             .ToList();
 
             Visit(expression);
-            
+
             return _html.ToString();
         }
 
@@ -138,7 +138,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         private string GetFriendlyOperator(string @operator)
         {
-            var op = _operatorFactory.GetOperatorByName(@operator);
+            var op = _operatorProvider.GetOperatorByName(@operator);
             if (op == null)
             {
                 op = ComparisonOperators.GetOperatorFromShortcut(@operator);

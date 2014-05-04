@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Rules
             }
         }
 
-        public IEnumerable<ParameterValue> GetValues(IParameter param)
+        public IEnumerable<ParameterValue> GetValues(IConditionParameter param)
         {
             return new List<ParameterValue>
             {
