@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Rules.Orders
 
                 foreach (var param in provider.GetParameters(typeof(Order)))
                 {
-                    result.Add(new AdaptedConditionParameter(modelType, param, null));
+                    result.Add(new AdaptedConditionParameter(modelType, param, new OrderEventToOrderAdapter()));
                 }
 
                 return result;

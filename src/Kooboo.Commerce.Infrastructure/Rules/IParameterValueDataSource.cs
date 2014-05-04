@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
+    // TODO: Maybe better to remove this and directly add GetAvailableValues to IConditionParameter
     /// <summary>
     /// Represents the data source of a parameter.
     /// If there's a data source can provide values for a parameter,
