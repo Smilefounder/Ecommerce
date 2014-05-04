@@ -10,6 +10,6 @@ namespace Kooboo.Commerce.Events.Promotions
     [ActivityVisible("Promotion Events")]
     public interface IPromotionEvent : IEvent
     {
-        Promotion Promotion { get; }
+        int PromotionId { get; }
     }
 }

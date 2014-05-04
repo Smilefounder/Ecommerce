@@ -74,12 +74,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 model.AdditionalFeeChargeMode = method.AdditionalFeeChargeMode;
                 model.AdditionalFeeAmount = method.AdditionalFeeAmount;
                 model.AdditionalFeePercent = method.AdditionalFeePercent;
-                model.CustomFields = method.CustomFields.Select(x => new NameValue
-                {
-                    Name = x.Name,
-                    Value = x.Value
-                })
-                .ToList();
             }
 
             return View(model);
@@ -117,7 +111,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var each in model)
             {
                 var method = _paymentMethodService.GetById(each.Id);
-                _paymentMethodService.Enable(method);
+                method.Enable();
             }
 
             return AjaxForm().ReloadPage();
@@ -127,7 +121,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public void EnablePaymentMethod(int id)
         {
             var method = _paymentMethodService.GetById(id);
-            _paymentMethodService.Enable(method);
+            method.Enable();
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
@@ -136,7 +130,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var each in model)
             {
                 var method = _paymentMethodService.GetById(each.Id);
-                _paymentMethodService.Disable(method);
+                method.Disable();
             }
 
             return AjaxForm().ReloadPage();
@@ -162,15 +156,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             if (model.Id > 0)
             {
                 method = _paymentMethodService.GetById(model.Id);
-                model.UpdateSimplePropertiesTo(method);
-                model.UpdateCustomFieldsTo(method);
+                model.UpdateTo(method);
             }
             else
             {
                 method = new PaymentMethod();
-                model.UpdateSimplePropertiesTo(method);
+                model.UpdateTo(method);
                 _paymentMethodService.Create(method);
-                model.UpdateCustomFieldsTo(method);
             }
 
             var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);

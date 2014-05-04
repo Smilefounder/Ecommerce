@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.ShoppingCarts
 
         public virtual ProductPrice ProductPrice { get; set; }
 
-        [Parameter]
+        [ConditionParameter]
         public int Quantity { get; set; }
 
         public ShoppingCartItem() { }

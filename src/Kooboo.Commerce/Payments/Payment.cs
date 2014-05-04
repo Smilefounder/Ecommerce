@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Payments
 {
-    public class Payment : INotifyObjectCreated
+    public class Payment : INotifyCreated
     {
         public int Id { get; set; }
 
@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Payments
             }
         }
 
-        void INotifyObjectCreated.NotifyCreated()
+        void INotifyCreated.NotifyCreated()
         {
             Event.Raise(new PaymentCreated(this));
         }

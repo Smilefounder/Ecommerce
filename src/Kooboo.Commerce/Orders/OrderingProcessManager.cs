@@ -16,15 +16,19 @@ namespace Kooboo.Commerce.Orders
         : IHandle<PaymentStatusChanged>
     {
         private IOrderService _orderService;
+        private IPaymentService _paymentService;
 
-        public OrderingProcessManager(IOrderService orderService)
+        public OrderingProcessManager(IOrderService orderService, IPaymentService paymentService)
         {
             _orderService = orderService;
+            _paymentService = paymentService;
         }
 
         public void Handle(PaymentStatusChanged @event)
         {
-            if (@event.Payment.PaymentTarget.Type != PaymentTargetTypes.Order)
+            var payment = _paymentService.GetById(@event.PaymentId);
+
+            if (payment.PaymentTarget.Type != PaymentTargetTypes.Order)
             {
                 return;
             }
@@ -33,9 +37,9 @@ namespace Kooboo.Commerce.Orders
                 return;
             }
 
-            var orderId = Convert.ToInt32(@event.Payment.PaymentTarget.Id);
+            var orderId = Convert.ToInt32(payment.PaymentTarget.Id);
             var order = _orderService.GetById(orderId);
-            order.AcceptPayment(@event.Payment);
+            order.AcceptPayment(payment);
         }
     }
 }

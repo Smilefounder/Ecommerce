@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Kooboo.Commerce.ComponentModel;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Payments;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,8 +19,7 @@ namespace Kooboo.Commerce.Payments
         /// </summary>
         public string UniqueId { get; set; }
 
-        [Required]
-        [StringLength(100)]
+        [Required, StringLength(100)]
         public string DisplayName { get; set; }
 
         public string PaymentProcessorName { get; set; }
@@ -34,12 +36,9 @@ namespace Kooboo.Commerce.Payments
 
         public DateTime CreatedAtUtc { get; set; }
 
-        public virtual ICollection<PaymentMethodCustomField> CustomFields { get; protected set; }
-
         public PaymentMethod()
         {
             CreatedAtUtc = DateTime.UtcNow;
-            CustomFields = new List<PaymentMethodCustomField>();
         }
 
         public virtual decimal GetPaymentMethodCost(decimal amountToPay)

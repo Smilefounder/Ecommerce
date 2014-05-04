@@ -47,8 +47,6 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Controllers
 
             promotion.PromotionPolicyData = policyData.Serialize();
 
-            PromotionService.Update(promotion);
-
             var url = Url.Action("Complete", "Promotion", new
             {
                 commerceName = commerceName,

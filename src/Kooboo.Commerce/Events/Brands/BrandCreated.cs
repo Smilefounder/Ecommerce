@@ -11,13 +11,13 @@ namespace Kooboo.Commerce.Events.Brands
     [Serializable]
     public class BrandCreated : Event, IBrandEvent
     {
-        [Parameter]
+        [ConditionParameter]
         public int BrandId { get; set; }
 
-        [Parameter]
+        [ConditionParameter]
         public string BrandName { get; set; }
 
-        [Parameter]
+        [ConditionParameter]
         public string BrandDescription { get; set; }
 
         public BrandCreated() { }

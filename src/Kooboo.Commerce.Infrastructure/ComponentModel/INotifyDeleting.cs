@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.ComponentModel
 {
-    public interface INotifyObjectCreated
+    public interface INotifyDeleting
     {
-        void NotifyCreated();
+        void NotifyDeleting();
     }
 }

@@ -14,28 +14,28 @@ namespace Kooboo.Commerce.Products
             VariantValues = new List<ProductPriceVariantValue>();
         }
 
-        [Parameter(Name = "PriceId", DisplayName = "Price ID")]
+        [ConditionParameter(Name = "PriceId", DisplayName = "Price ID")]
         public int Id { get; set; }
 
-        [Parameter(DisplayName = "Product ID")]
+        [ConditionParameter(DisplayName = "Product ID")]
         public int ProductId { get; set; }
 
-        [Parameter(Name = "PriceName", DisplayName = "Price Name")]
+        [ConditionParameter(Name = "PriceName", DisplayName = "Price Name")]
         public string Name { get; set; }
 
-        [Parameter]
+        [ConditionParameter]
         public string Sku { get; set; }
 
-        [Parameter]
+        [ConditionParameter]
         public decimal PurchasePrice { get; set; }
 
-        [Parameter]
+        [ConditionParameter]
         public decimal RetailPrice { get; set; }
 
-        [Parameter]
+        [ConditionParameter]
         public int Stock { get; set; }
 
-        [Parameter]
+        [ConditionParameter]
         public int DeliveryDays { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }

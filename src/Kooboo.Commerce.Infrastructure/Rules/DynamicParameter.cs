@@ -53,8 +53,8 @@ namespace Kooboo.Commerce.Rules
         {
             Require.NotNull(property, "property");
 
-            var attribute = property.GetCustomAttributes(typeof(ParameterAttribute), true)
-                                    .OfType<ParameterAttribute>()
+            var attribute = property.GetCustomAttributes(typeof(ConditionParameterAttribute), true)
+                                    .OfType<ConditionParameterAttribute>()
                                     .FirstOrDefault();
 
             if (attribute != null)
@@ -65,7 +65,7 @@ namespace Kooboo.Commerce.Rules
             return null;
         }
 
-        static DynamicParameter CreateFrom(PropertyInfo property, ParameterAttribute attribute)
+        static DynamicParameter CreateFrom(PropertyInfo property, ConditionParameterAttribute attribute)
         {
             var param = new DynamicParameter
             {

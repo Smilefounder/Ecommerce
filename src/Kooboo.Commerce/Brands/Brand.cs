@@ -10,12 +10,12 @@ using System.Text;
 
 namespace Kooboo.Commerce.Brands
 {
-    public class Brand : INotifyObjectCreated, INotifyObjectUpdated, INotifyObjectDeleted
+    public class Brand : INotifyCreated, INotifyUpdated, INotifyDeleted
     {
-        [Parameter(Name = "BrandId", DisplayName = "Brand ID")]
+        [ConditionParameter(Name = "BrandId", DisplayName = "Brand ID")]
         public int Id { get; set; }
 
-        [Parameter(Name = "BrandName", DisplayName = "Brand Name")]
+        [ConditionParameter(Name = "BrandName", DisplayName = "Brand Name")]
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -32,17 +32,17 @@ namespace Kooboo.Commerce.Brands
             return Name;
         }
 
-        void INotifyObjectCreated.NotifyCreated()
+        void INotifyCreated.NotifyCreated()
         {
             Event.Raise(new BrandCreated(this));
         }
 
-        void INotifyObjectUpdated.NotifyUpdated()
+        void INotifyUpdated.NotifyUpdated()
         {
             Event.Raise(new BrandUpdated(this));
         }
 
-        void INotifyObjectDeleted.NotifyDeleted()
+        void INotifyDeleted.NotifyDeleted()
         {
             Event.Raise(new BrandDeleted(this));
         }

@@ -141,9 +141,10 @@
     <Compile Include="Activities\IActivityViews.cs" />
     <Compile Include="Activities\IActivityViewsFactory.cs" />
     <Compile Include="Activities\Jobs\AsyncActivityExecutionJob.cs" />
-    <Compile Include="ComponentModel\INotifyObjectCreated.cs" />
-    <Compile Include="ComponentModel\INotifyObjectDeleted.cs" />
-    <Compile Include="ComponentModel\INotifyObjectUpdated.cs" />
+    <Compile Include="ComponentModel\INotifyCreated.cs" />
+    <Compile Include="ComponentModel\INotifyDeleted.cs" />
+    <Compile Include="ComponentModel\INotifyDeleting.cs" />
+    <Compile Include="ComponentModel\INotifyUpdated.cs" />
     <Compile Include="Data\CommerceDatabaseExtensions.cs" />
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
@@ -203,7 +204,7 @@
     <Compile Include="Require.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Rules\ConditionExpressionEvaluator.cs" />
-    <Compile Include="Rules\ParameterAttribute.cs" />
+    <Compile Include="Rules\ConditionParameterAttribute.cs" />
     <Compile Include="Rules\ParameterInfo.cs" />
     <Compile Include="Rules\DynamicParameter.cs" />
     <Compile Include="Rules\Expressions\ExpressionVisitor.cs" />

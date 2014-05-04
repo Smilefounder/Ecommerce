@@ -16,21 +16,21 @@ namespace Kooboo.Commerce.Payments
 
         public string RedirectUrl { get; set; }
 
-        public static ProcessPaymentResult Success(string paymentTransactionId = null)
+        public static ProcessPaymentResult Success(string thirdPartyTransactionId = null)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Success,
-                ThirdPartyTransactionId = paymentTransactionId
+                ThirdPartyTransactionId = thirdPartyTransactionId
             };
         }
 
-        public static ProcessPaymentResult Failed(string errorMessage, string paymentTransactionId = null)
+        public static ProcessPaymentResult Failed(string errorMessage, string thirdPartyTransactionId = null)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Failed,
-                ThirdPartyTransactionId = paymentTransactionId,
+                ThirdPartyTransactionId = thirdPartyTransactionId,
                 Message = errorMessage
             };
         }
@@ -43,22 +43,22 @@ namespace Kooboo.Commerce.Payments
             };
         }
 
-        public static ProcessPaymentResult Reserved(string transactionId)
+        public static ProcessPaymentResult Reserved(string thirdPartyTransactionId)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Reserved,
-                ThirdPartyTransactionId = transactionId
+                ThirdPartyTransactionId = thirdPartyTransactionId
             };
         }
 
-        public static ProcessPaymentResult Pending(string redirectUrl, string paymentTransactionId = null)
+        public static ProcessPaymentResult Pending(string redirectUrl, string thirdPartyTransactionId = null)
         {
             return new ProcessPaymentResult
             {
                 PaymentStatus = PaymentStatus.Pending,
                 RedirectUrl = redirectUrl,
-                ThirdPartyTransactionId = paymentTransactionId
+                ThirdPartyTransactionId = thirdPartyTransactionId
             };
         }
     }

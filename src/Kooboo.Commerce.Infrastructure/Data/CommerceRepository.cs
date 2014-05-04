@@ -60,9 +60,9 @@ namespace Kooboo.Commerce.Data
 
             int ret = DbContext.SaveChanges();
 
-            if (obj is INotifyObjectCreated)
+            if (obj is INotifyCreated)
             {
-                ((INotifyObjectCreated)obj).NotifyCreated();
+                ((INotifyCreated)obj).NotifyCreated();
             }
 
             return ret > 0;
@@ -111,11 +111,16 @@ namespace Kooboo.Commerce.Data
                 DbContext.Set<T>().Remove(obj);
             }
 
+            if (obj is INotifyDeleting)
+            {
+                ((INotifyDeleting)obj).NotifyDeleting();
+            }
+
             int ret = DbContext.SaveChanges();
 
-            if (obj is INotifyObjectDeleted)
+            if (obj is INotifyDeleted)
             {
-                ((INotifyObjectDeleted)obj).NotifyDeleted();
+                ((INotifyDeleted)obj).NotifyDeleted();
             }
 
             return ret > 0;

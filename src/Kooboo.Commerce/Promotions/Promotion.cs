@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Events;
+﻿using Kooboo.Commerce.ComponentModel;
+using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Promotions;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Promotions
 {
-    public class Promotion
+    public class Promotion : INotifyCreated, INotifyDeleted
     {
         public int Id { get; set; }
 
@@ -41,24 +42,12 @@ namespace Kooboo.Commerce.Promotions
 
         public virtual ICollection<Promotion> OverlappablePromotions { get; protected set; }
 
-        public DateTime CreatedAtUtc { get; protected set; }
-
-        public DateTime LastUpdatedAtUtc { get; protected set; }
-
-        public virtual ICollection<PromotionCustomField> CustomFields { get; protected set; }
+        public DateTime CreatedAtUtc { get; set; }
 
         public Promotion()
         {
             CreatedAtUtc = DateTime.UtcNow;
-            LastUpdatedAtUtc = DateTime.UtcNow;
-            CustomFields = new List<PromotionCustomField>();
             OverlappablePromotions = new List<Promotion>();
-        }
-
-        public virtual void MarkUpdated()
-        {
-            LastUpdatedAtUtc = DateTime.Now;
-            Event.Raise(new PromotionUpdated(this));
         }
 
         public virtual void Enable()
@@ -102,6 +91,16 @@ namespace Kooboo.Commerce.Promotions
             {
                 throw new NotSupportedException(OverlappingUsage + " is not supported.");
             }
+        }
+
+        void INotifyCreated.NotifyCreated()
+        {
+            Event.Raise(new PromotionCreated(this));
+        }
+
+        void INotifyDeleted.NotifyDeleted()
+        {
+            Event.Raise(new PromotionDeleted(this));
         }
     }
 }

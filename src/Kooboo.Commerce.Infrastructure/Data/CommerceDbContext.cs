@@ -25,13 +25,13 @@ namespace Kooboo.Commerce.Data
 
         public override int SaveChanges()
         {
-            var updateObservers = new List<INotifyObjectUpdated>();
+            var updateObservers = new List<INotifyUpdated>();
 
             foreach (var entry in ChangeTracker.Entries())
             {
                 if (entry.State.HasFlag(EntityState.Modified))
                 {
-                    var observer = entry.Entity as INotifyObjectUpdated;
+                    var observer = entry.Entity as INotifyUpdated;
                     if (observer != null)
                     {
                         updateObservers.Add(observer);
