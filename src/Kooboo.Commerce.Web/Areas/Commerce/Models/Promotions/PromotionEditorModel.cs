@@ -69,15 +69,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
             PromotionPolicy = promotion.PromotionPolicyName;
             ConditionsExpression = promotion.ConditionsExpression;
             OverlappingUsage = promotion.OverlappingUsage;
-
-            foreach (var field in promotion.CustomFields)
-            {
-                CustomFields.Add(new NameValue
-                {
-                    Name = field.Name,
-                    Value = field.Value
-                });
-            }
         }
 
         public void UpdateSimplePropertiesTo(Promotion promotion)
@@ -91,21 +82,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
             promotion.PromotionPolicyName = PromotionPolicy;
             promotion.OverlappingUsage = OverlappingUsage;
             promotion.ConditionsExpression = ConditionsExpression;
-        }
-
-        public void UpdateCustomFieldsTo(Promotion promotion)
-        {
-            promotion.CustomFields.Clear();
-
-            foreach (var field in CustomFields)
-            {
-                promotion.CustomFields.Add(new PromotionCustomField
-                {
-                    PromotionId = promotion.Id,
-                    Name = field.Name,
-                    Value = field.Value
-                });
-            }
         }
     }
 }

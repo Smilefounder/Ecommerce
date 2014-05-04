@@ -6,55 +6,55 @@
     <div class="toolbar">
         <a href="#" class="button" data-bind="click: addRule">@("Add Rule".Localize())</a>
     </div>
-    <!-- ko foreach: rules -->
-    <div class="rule">
-        <div class="wrap" data-bind="if: type() == 'Normal', visible:type() == 'Normal'">
-            <div class="columns">
-                <div class="span1">
-                    <span class="rule-label">@("IF".Localize())</span>
-                </div>
-                <div class="span11">
-                    <div class="conditions-expression">
-                        <span class="container" data-bind="html: highlightedConditionsExpression"></span>
-                        <a class="action" href="#" data-bind="click: $root.editRule">@Html.IconImage("edit-small")</a>
-                        <a class="action" href="#" data-bind="click: $root.deleteRule">@Html.IconImage("minus-small")</a>
+    <div data-bind="visible: rules().length > 0, foreach: rules" style="display:none">
+        <div class="rule">
+            <div class="wrap" data-bind="if: type() == 'Normal', visible:type() == 'Normal'">
+                <div class="columns">
+                    <div class="span1">
+                        <span class="rule-label">@("IF".Localize())</span>
+                    </div>
+                    <div class="span11">
+                        <div class="conditions-expression">
+                            <span class="container" data-bind="html: highlightedConditionsExpression"></span>
+                            <a class="action" href="#" data-bind="click: $root.editRule">@Html.IconImage("edit-small")</a>
+                            <a class="action" href="#" data-bind="click: $root.deleteRule">@Html.IconImage("minus-small")</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- ko foreach: branches -->
-        <div class="wrap">
-            <div class="columns">
-                <div class="span1">
-                    <span class="rule-label" data-bind="text: $parent.type() == 'Normal' ? branch() : '@("Always".Localize())'"></span>
-                </div>
-                <div class="span11">
-                    <div class="attached-activities-holder">
-                        <div data-bind="visible: attachedActivities().length > 0" style="display:none">
-                            <ul data-bind="foreach: attachedActivities" class="attached-activities">
-                                <li>
-                                    <span class="desc" data-bind="html: description"></span>
-                                    <a class="action" href="#" data-bind="click: $parent.editAttachedActivity" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a>
-                                    <a class="action" href="#" data-bind="visible: configUrl, click: $parent.configureAttachedActivity" title="@("Settings".Localize())">@Html.IconImage("edit-small")</a>
-                                    <a class="action" href="#" data-bind="click: $parent.detachActivity" title="@("Detach".Localize())">@Html.IconImage("minus-small")</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <a class="action" href="#" data-bind="click: beginAttachActivity" title="Attach activity">@Html.IconImage("plus-small")</a>
-                            <div data-bind="visible: isAttachingActivity" style="display:none">
-                                <select class="small" data-bind="options: $root.availableActivities, optionsText: 'displayName', optionsValue: 'name', value: selectedActivityName"></select>
-                                <a href="#" class="button" data-bind="click: openAttachActivityDialog">@("Attach".Localize())</a>
-                                <a href="#" class="button gray" data-bind="click: cancelAttachActivity">@("Cancel".Localize())</a>
+            <!-- ko foreach: branches -->
+            <div class="wrap">
+                <div class="columns">
+                    <div class="span1">
+                        <span class="rule-label" data-bind="text: $parent.type() == 'Normal' ? branch() : '@("Always".Localize())'"></span>
+                    </div>
+                    <div class="span11">
+                        <div class="attached-activities-holder">
+                            <div data-bind="visible: attachedActivities().length > 0" style="display:none">
+                                <ul data-bind="foreach: attachedActivities" class="attached-activities">
+                                    <li>
+                                        <span class="desc" data-bind="html: description"></span>
+                                        <a class="action" href="#" data-bind="click: $parent.editAttachedActivity" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a>
+                                        <a class="action" href="#" data-bind="visible: configUrl, click: $parent.configureAttachedActivity" title="@("Settings".Localize())">@Html.IconImage("edit-small")</a>
+                                        <a class="action" href="#" data-bind="click: $parent.detachActivity" title="@("Detach".Localize())">@Html.IconImage("minus-small")</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <a class="action" href="#" data-bind="click: beginAttachActivity" title="Attach activity">@Html.IconImage("plus-small")</a>
+                                <div data-bind="visible: isAttachingActivity" style="display:none">
+                                    <select class="small" data-bind="options: $root.availableActivities, optionsText: 'displayName', optionsValue: 'name', value: selectedActivityName"></select>
+                                    <a href="#" class="button" data-bind="click: openAttachActivityDialog">@("Attach".Localize())</a>
+                                    <a href="#" class="button gray" data-bind="click: cancelAttachActivity">@("Cancel".Localize())</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- /ko -->
         </div>
-        <!-- /ko -->
     </div>
-    <!-- /ko -->
 </div>
 
 @Html.Partial("_ConditionsEditor")

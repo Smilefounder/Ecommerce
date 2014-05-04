@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Orders.Pricing
 
         public ProductPrice ProductPrice { get; private set; }
 
-        [Parameter]
+        [ConditionParameter]
         public int Quantity { get; private set; }
 
         public PriceWithDiscount Subtotal { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Payments;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,17 +7,23 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Payments
 {
-    public class PaymentStatusChanged : Event
+    [Serializable]
+    public class PaymentStatusChanged : Event, IPaymentEvent
     {
-        public Payment Payment { get; private set; }
+        [ConditionParameter]
+        public int PaymentId { get; set; }
 
-        public PaymentStatus OldStatus { get; private set; }
+        [ConditionParameter]
+        public PaymentStatus OldStatus { get; set; }
 
-        public PaymentStatus NewStatus { get; private set; }
+        [ConditionParameter]
+        public PaymentStatus NewStatus { get; set; }
+
+        public PaymentStatusChanged() { }
 
         public PaymentStatusChanged(Payment payment, PaymentStatus oldStatus, PaymentStatus newStatus)
         {
-            Payment = payment;
+            PaymentId = payment.Id;
             OldStatus = oldStatus;
             NewStatus = newStatus;
         }

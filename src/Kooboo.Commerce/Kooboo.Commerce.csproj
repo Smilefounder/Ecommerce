@@ -109,6 +109,7 @@
     <Compile Include="Events\Orders\DeliveryBegan.cs" />
     <Compile Include="Events\Orders\OrderCreated.cs" />
     <Compile Include="Events\Orders\OrderStatusChanged.cs" />
+    <Compile Include="Events\Payments\IPaymentEvent.cs" />
     <Compile Include="Events\Payments\PaymentCreated.cs" />
     <Compile Include="Events\Payments\PaymentStatusChanged.cs" />
     <Compile Include="Events\Products\FindOne.cs" />
@@ -116,10 +117,11 @@
     <Compile Include="Events\Products\ProductCreated.cs" />
     <Compile Include="Events\Products\ProductDeleted.cs" />
     <Compile Include="Events\Products\ProductUpdated.cs" />
+    <Compile Include="Events\Promotions\PromotionCreated.cs" />
+    <Compile Include="Events\Promotions\PromotionDeleted.cs" />
     <Compile Include="Events\Promotions\PromotionDisabled.cs" />
     <Compile Include="Events\Promotions\IPromotionEvent.cs" />
     <Compile Include="Events\Promotions\PromotionEnabled.cs" />
-    <Compile Include="Events\Promotions\PromotionUpdated.cs" />
     <Compile Include="IExtendedQuery.cs" />
     <Compile Include="EAV\FieldDataType.cs" />
     <Compile Include="EAV\CustomFieldType.cs" />
@@ -159,7 +161,6 @@
     <Compile Include="Payments\Extensions\PaymentsExtensions.cs" />
     <Compile Include="Payments\IPaymentProcessorFactory.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
-    <Compile Include="Payments\PaymentMethodCustomField.cs" />
     <Compile Include="Payments\PaymentMethodReference.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />
     <Compile Include="Payments\Payment.cs" />
@@ -176,7 +177,6 @@
     <Compile Include="Promotions\CheckPromotionConditionResult.cs" />
     <Compile Include="Promotions\Extensions\PromotionsExtensions.cs" />
     <Compile Include="Promotions\IPromotionPolicyViewsFactory.cs" />
-    <Compile Include="Promotions\PromotionCustomField.cs" />
     <Compile Include="Promotions\PromotionMatcher.cs" />
     <Compile Include="Promotions\PromotionConditionContextModel.cs" />
     <Compile Include="Promotions\PromotionConditionChecker.cs" />

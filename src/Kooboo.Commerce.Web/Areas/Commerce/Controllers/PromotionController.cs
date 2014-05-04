@@ -141,15 +141,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             model.UpdateSimplePropertiesTo(promotion);
 
-            if (model.Id > 0)
-            {
-                model.UpdateCustomFieldsTo(promotion);
-                _promotionService.Update(promotion);
-            }
-            else
+            if (model.Id == 0)
             {
                 _promotionService.Create(promotion);
-                model.UpdateCustomFieldsTo(promotion);
             }
 
             promotion.OverlappablePromotions.Clear();

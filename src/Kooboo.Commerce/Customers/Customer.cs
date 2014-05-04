@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Customers
             CustomFields = new List<CustomerCustomField>();
         }
 
-        [Parameter(Name = "CustomerId", DisplayName = "Customer ID")]
+        [ConditionParameter(Name = "CustomerId", DisplayName = "Customer ID")]
         public int Id { get; set; }
 
         public string AccountId { get; set; }
@@ -26,10 +26,10 @@ namespace Kooboo.Commerce.Customers
 
         public string LastName { get; set; }
 
-        [Parameter(Name = "CustomerEmail", DisplayName = "Customer Email")]
+        [ConditionParameter(Name = "CustomerEmail", DisplayName = "Customer Email")]
         public string Email { get; set; }
 
-        [Parameter(Name = "CustomerGender", DisplayName = "Customer Gender")]
+        [ConditionParameter(Name = "CustomerGender", DisplayName = "Customer Gender")]
         public Gender Gender { get; set; }
 
         public string Phone { get; set; }
@@ -79,7 +79,7 @@ namespace Kooboo.Commerce.Customers
         public virtual CustomerLoyalty Loyalty { get; set; }
         public virtual ICollection<CustomerCustomField> CustomFields { get; set; }
 
-        [Parameter(Name = "CustomerFullName", DisplayName = "Customer Fullname")]
+        [ConditionParameter(Name = "CustomerFullName", DisplayName = "Customer Fullname")]
         public string FullName
         {
             get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); }

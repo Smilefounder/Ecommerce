@@ -22,34 +22,14 @@ namespace Kooboo.Commerce.Payments.Services
             return _repository.Get(o => o.Id == id);
         }
 
-        public IEnumerable<PaymentMethod> GetAllPaymentMethods()
-        {
-            return _repository.Query().ToArray();
-        }
-
         public IQueryable<PaymentMethod> Query()
         {
             return _repository.Query();
         }
 
-        public void Enable(PaymentMethod method)
-        {
-            method.Enable();
-        }
-
-        public void Disable(PaymentMethod method)
-        {
-            method.Disable();
-        }
-
         public bool Create(PaymentMethod method)
         {
             return _repository.Insert(method);
-        }
-
-        public bool Update(PaymentMethod method)
-        {
-            return _repository.Update(method, k => new object[] { k.Id });
         }
 
         public bool Delete(PaymentMethod method)
