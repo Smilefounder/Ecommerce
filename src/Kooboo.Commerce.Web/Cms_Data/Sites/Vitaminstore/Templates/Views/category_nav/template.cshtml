@@ -1,16 +1,19 @@
-﻿ <div class="Category_nav">
-                            
-<ul class="health_Item">
-    <li><a class="leftnav health" href="/health/">health</a></li>
-    <li><a href="/Health/Vitaminen_en_mineralen/">Vitaminen en mineralen</a></li><li><a href="/Health/Speciaal/">Speciaal</a></li><li><a href="/Health/Algemeen/">Algemeen</a></li>
-</ul>
-<ul class="sports_Item" style="margin-top: 7px;">
-    <li><a class="leftnav sports" href="/sports/">sports</a></li>
-    <li><a href="/sports/spieren/">spieren</a></li><li><a href="/sports/prestatie/">prestatie</a></li><li><a href="/sports/slank/">slank</a></li>
-</ul>
-<ul class="beauty_Item" style="margin-top: 7px;">
-    <li><a class="leftnav beauty" href="/beauty/">beauty</a></li>
-    <li><a href="/beauty/haar/">haar</a></li><li><a href="/beauty/lichaam/">lichaam</a></li><li><a href="/beauty/huid/">huid</a></li>
-</ul>
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.CmsSite;
+@using Kooboo.Commerce.API.Categories;
+@{
+    var categories = Site.Current.Commerce().Categories.LoadWithChildren().ToArray();
+}
 
-                        </div>
+ <div class="Category_nav" style="padding-top: 20px;">
+    @foreach(var cate in categories)
+    {
+        <ul class="@(cate.Name)_Item">
+            <li><a class="leftnav @(cate.Name)" href="@CmsSiteUrlResolver.MapUrl(cate, "products")">@cate.Name</a></li>
+            @foreach(var sub in cate.Children)
+            { 
+            <li><a href="@CmsSiteUrlResolver.MapUrl(sub, "products")">@sub.Name</a></li>
+            }
+        </ul>
+    }
+</div>
