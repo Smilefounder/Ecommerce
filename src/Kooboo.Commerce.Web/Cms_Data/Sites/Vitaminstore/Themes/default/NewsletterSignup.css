@@ -1,0 +1,100 @@
+﻿ .newsletter-signup-form {
+    float: left;
+    margin-top: 20px;
+    position: relative;
+}
+
+    .newsletter-signup-form .newsletter-star {
+        position: absolute;
+        left: -3px;
+        top: -8px;
+    }
+
+.newsletter-signup {
+    width: 608px;
+    padding: 10px;
+    border: 1px solid #ff7723;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.newsletter-signup-home {
+    width: 602px;
+    border-width: 4px;
+}
+
+.newsletter-signup ul {
+    float: right;
+}
+
+.newsletter-signup li {
+    float: left;
+    list-style: none;
+    margin-left: 10px;
+}
+
+.newsletter-signup .promo-text {
+    width: 190px;
+}
+
+    .newsletter-signup .promo-text h3 {
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 15px;
+    }
+
+    .newsletter-signup .promo-text p {
+        padding-top: 5px;
+        line-height: 15px;
+    }
+
+.newsletter-signup .mailbox {
+    width: 190px;
+}
+
+    .newsletter-signup .mailbox input {
+        width: 170px;
+        height: 20px;
+        font-size: 14px;
+        font-style: italic;
+        border: 2px solid #acacac;
+        padding: 5px 8px;
+    }
+
+    .newsletter-signup .mailbox p {
+        font-size: 9px;
+        line-height: 12px;
+        padding-top: 5px;
+    }
+
+    .newsletter-signup .mailbox a {
+        color: #3c3c3c;
+    }
+
+.newsletter-signup .btn-signup input {
+    width: 110px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 7px 0;
+    border: 2px solid #ff7723;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    color: #ff7723;
+    background: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+}
+
+    .newsletter-signup .btn-signup input.home {
+        padding: 8px 0;
+        border: none;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        border-radius: 0;
+        color: #ffffff;
+        background: #ff7723;
+    }

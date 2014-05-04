@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<banner>
+  <left>
+    <image src="/flash/images/zomer09_left.jpg" url="http://www.vitaminstore.nl/beauty/" />
+  </left>
+  <right>
+    <image src="/flash/images/zomer09_01.jpg" url="http://www.vitaminstore.nl/Search.aspx?keywords=zonn" />
+    <image src="/flash/images/zomer09_2.jpg" url="http://www.vitaminstore.nl/sports/slank/" />
+    <image src="/flash/images/zomer09_03.jpg" url="http://www.vitaminstore.nl/beauty/" />
+  </right>
+</banner>
