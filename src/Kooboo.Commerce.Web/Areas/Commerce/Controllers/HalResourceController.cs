@@ -109,19 +109,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     Required = param.Required
                 };
 
+                // Populate default value for required parameters
+                var fromParam = sourceResource.OutputParameters.FirstOrDefault(p => p.ParameterType == param.ParameterType 
+                                                                                    && p.Name.Equals(paramModel.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (fromParam != null)
+                {
+                    paramModel.Value = fromParam.Name;
+                }
+
                 if (param.Required)
                 {
-                    // Populate default value for required parameters
-                    var fromParam = sourceResource.OutputParameters
-                                                  .FirstOrDefault(p =>
-                                                      p.ParameterType == param.ParameterType
-                                                      && ResourceLinkParameterModel.GetParameterDisplayName(p.Name).Equals(paramModel.DisplayName, StringComparison.OrdinalIgnoreCase));
-
-                    if (fromParam != null)
-                    {
-                        paramModel.Value = fromParam.Name;
-                    }
-
                     requiredParams.Add(paramModel);
                 }
                 else

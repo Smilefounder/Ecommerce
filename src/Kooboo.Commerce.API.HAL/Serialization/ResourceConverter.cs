@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Kooboo.Commerce.API.HAL.Serialization
@@ -12,7 +13,7 @@ namespace Kooboo.Commerce.API.HAL.Serialization
     {
         public override bool CanConvert(Type objectType)
         {
-            return typeof(IResource).IsAssignableFrom(objectType);
+            return ResourceTypeUtil.IsResourceType(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -39,7 +40,7 @@ namespace Kooboo.Commerce.API.HAL.Serialization
                 {
                     var item = (IResource)itemJObject.ToObject(itemType);
                     var addMethod = resourceType.GetMethod("Add", new Type[] { itemType });
-                    addMethod.Invoke(resource, new [] { item });
+                    addMethod.Invoke(resource, new[] { item });
 
                     ReadHalLinks(item, itemJObject);
                 }
@@ -88,9 +89,53 @@ namespace Kooboo.Commerce.API.HAL.Serialization
             }
             else
             {
-                foreach (var token in JToken.FromObject(resource))
+                var resourceType = value.GetType();
+
+                foreach (var prop in resourceType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                 {
-                    serializer.Serialize(writer, token);
+                    // Simply ignore Links property because we write _links in the end of this method
+                    if (!ResourceTypeUtil.IsLinkCollection(prop.PropertyType))
+                    {
+                        if (prop.IsDefined(typeof(JsonIgnoreAttribute), true))
+                        {
+                            continue;
+                        }
+
+                        var propName = prop.Name;
+
+                        var jsonProp = prop.GetCustomAttributes(typeof(JsonPropertyAttribute), true)
+                                           .OfType<JsonPropertyAttribute>()
+                                           .FirstOrDefault();
+
+                        if (jsonProp != null && !String.IsNullOrEmpty(jsonProp.PropertyName))
+                        {
+                            propName = jsonProp.PropertyName;
+                        }
+
+                        writer.WritePropertyName(propName);
+
+                        var propValue = prop.GetValue(resource, null);
+
+                        if (ResourceTypeUtil.IsResourceCollection(prop.PropertyType))
+                        {
+                            writer.WriteStartArray();
+
+                            var list = propValue as IEnumerable;
+                            if (list != null)
+                            {
+                                foreach (var item in list)
+                                {
+                                    serializer.Serialize(writer, item);
+                                }
+                            }
+
+                            writer.WriteEndArray();
+                        }
+                        else
+                        {
+                            serializer.Serialize(writer, propValue);
+                        }
+                    }
                 }
             }
 

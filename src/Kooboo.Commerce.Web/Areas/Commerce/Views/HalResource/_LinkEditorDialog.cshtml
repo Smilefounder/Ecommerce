@@ -60,14 +60,14 @@
 <script type="text/html" id="ParamItemTemplate">
     <tr>
         <td style="width:150px">
-            <span data-bind="text: $root.getParameterDisplayName(name()), attr: { title: name }"></span>
+            <span data-bind="text: name, attr: { title: name }"></span>
         </td>
         <td style="width:200px">
             <!-- ko if: useFixedValue -->
             <input type="text" data-bind="value: value" />
             <!-- /ko -->
             <!-- ko if: !useFixedValue() -->
-            <select data-bind="options: $root.getSuitableSourceResourceOutputParameters(parameterType()), optionsText: 'displayName', optionsCaption: '@("Choose source parameter".Localize())', optionsValue: 'name', value: value"></select>
+            <select data-bind="options: $root.getSuitableSourceResourceOutputParameters(parameterType()), optionsText: 'name', optionsCaption: '@("Choose source parameter".Localize())', optionsValue: 'name', value: value"></select>
             <!-- /ko -->
         </td>
         <td>
@@ -283,6 +283,7 @@
                     loadLinkParametersWithDefault(sourceResourceName, destinationResourceName).done(function (data) {
                         ko.mapping.fromJS(data.requiredParameters, _linkParamMappingOptions, link.requiredParameters);
                         ko.mapping.fromJS(data.optionalParameters, _linkParamMappingOptions, link.optionalParameters);
+                        showOptionalParamsIfAnyNonEmptyOptionalParam();
                         defer.resolve();
                     });
                 } else {
@@ -314,11 +315,26 @@
                         updateParameterValue(this, newParam);
                     }
                 });
-            }
+
+                showOptionalParamsIfAnyNonEmptyOptionalParam();
+            }            
 
             function updateParameterValue(target, source) {
                 target.useFixedValue(ko.utils.unwrapObservable(source.useFixedValue));
                 target.value(ko.utils.unwrapObservable(source.value));
+            }
+
+            function showOptionalParamsIfAnyNonEmptyOptionalParam() {
+                var hasNonEmptyOptionalParam = false;
+
+                $.each(_this.model.link.optionalParameters(), function () {
+                    var paramValue = this.value();
+                    if (paramValue !== null && paramValue !== undefined && paramValue !== '') {
+                        hasNonEmptyOptionalParam = true;
+                    }
+                });
+
+                _this.model.isOptionalParametersVisible(hasNonEmptyOptionalParam);
             }
 
             function loadLinkParametersWithDefault(sourceResourceName, destinationResourceName) {

@@ -87,6 +87,7 @@
     <Compile Include="ResourceDescriptor.cs" />
     <Compile Include="ResourceLink.cs" />
     <Compile Include="Serialization\ResourceConverter.cs" />
+    <Compile Include="Serialization\ResourceTypeUtil.cs" />
     <Compile Include="Services\HalRuleService.cs" />
     <Compile Include="Services\IHalRuleService.cs" />
   </ItemGroup>
