@@ -49,7 +49,7 @@ else
                     {
                         <tr data-order-id="@p.Id">
                             <td>
-                                <a href="/Commerce/Order/Detail?commerceName=@Request.QueryString["commerceName"]&id=@(p.Id)&return=/Commerce/Order">@p.Id</a>
+                                <a href="/Commerce/Order/Detail?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&id=@(p.Id)&return=/Commerce/Order">@p.Id</a>
                             </td>
                             <td>
                                 @customer.FullName

@@ -68,7 +68,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Detail(int id)
         {
             var order = _orderService.GetById(id);
-            ViewBag.Return = "/Commerce/Order?commerceName=" + Request.QueryString["commerceName"];
+            ViewBag.Return = "/Commerce/Order?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commerceName"];
             return View(order);
         }
 
@@ -97,7 +97,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 TempData["Message"] = string.Format("Current Order: {0} {1} {2}", customer.FirstName, customer.MiddleName, customer.LastName);
             }
             Session["TempOrder"] = order;
-            ViewBag.Return = "/Commerce/Order?commerceName=" + Request.QueryString["commerceName"];
+            ViewBag.Return = "/Commerce/Order?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commerceName"];
             return View(order);
         }
         public ActionResult SelectProduct(int? pageIndex, int? pageSize)
@@ -124,7 +124,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.Products = products;
 
             Session["TempOrder"] = order;
-            ViewBag.Return = "/Commerce/Order/Create?commerceName=" + Request.QueryString["commerceName"] + "&id=" + order.Id;
+            ViewBag.Return = "/Commerce/Order/Create?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commerceName"] + "&id=" + order.Id;
             return View(order);
         }
         public ActionResult FillOrderInfo()
@@ -172,7 +172,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             Session["TempOrder"] = order;
-            ViewBag.Return = "/Commerce/Order/SelectProduct?commerceName=" + Request.QueryString["commerceName"];
+            ViewBag.Return = "/Commerce/Order/SelectProduct?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commerceName"];
             return View(order);
         }
         [HttpGet]
@@ -183,7 +183,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             order.OrderItems.Remove(order.OrderItems.First(o => o.ProductPriceId == id));
 
             Session["TempOrder"] = order;
-            ViewBag.Return = "/Commerce/Order/SelectProduct?commerceName=" + Request.QueryString["commerceName"];
+            ViewBag.Return = "/Commerce/Order/SelectProduct?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commerceName"];
             return RedirectToAction("SelectProduct", RouteValues.From(Request.QueryString));
         }
         [HttpPost]
@@ -201,7 +201,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             Session["TempOrder"] = order;
-            ViewBag.Return = "/Commerce/Order/SelectProduct?commerceName=" + Request.QueryString["commerceName"];
+            ViewBag.Return = "/Commerce/Order/SelectProduct?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commerceName"];
             return RedirectToAction("SelectProduct", RouteValues.From(Request.QueryString));
         }
         [HttpPost]
@@ -237,7 +237,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             Session["TempOrder"] = order;
-            ViewBag.Return = "/Commerce/Order/SelectProduct?commerceName=" + Request.QueryString["commerceName"];
+            ViewBag.Return = "/Commerce/Order/SelectProduct?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commerceName"];
             return RedirectToAction("SelectProduct", RouteValues.From(Request.QueryString));
         }
         [HttpPost]

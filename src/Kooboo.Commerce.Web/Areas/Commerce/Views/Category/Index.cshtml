@@ -25,30 +25,37 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var p in Model)
+                @if (Model == null || Model.Count() <= 0)
                 {
-                    <tr data-level="1">
-                        <td class="checkbox">
-                            <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
-                        </td>
-                        <td>
-                            @if (p.ChildrenCount > 0)
-                            {
-                                <span class="expander" onclick="ToggleChildren(event, this, '@p.Id');">@Html.IconImage("sprite")</span>
-                            }
-                            else
-                            {
-                                <span class="expander disabled"></span>
-                            }
-                            <a class="with-icon" href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]&Id=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]">@Html.IconImage("file file-doc") @p.Name</a>
-                        </td>
-                        <td>
-                            @(p.Published ? "YES" : "-")
-                        </td>
-                        <td>
-                            <a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]&ParentId=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]">@Html.IconImage("plus-small")</a>
-                        </td>
-                    </tr>
+                    <tr class="empty"><td colspan="100">@("Empty".Localize())</td></tr>
+                }
+                else
+                {
+                    foreach (var p in Model)
+                    {
+                        <tr data-level="1">
+                            <td class="checkbox">
+                                <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
+                            </td>
+                            <td>
+                                @if (p.ChildrenCount > 0)
+                                {
+                                    <span class="expander" onclick="ToggleChildren(event, this, '@p.Id');">@Html.IconImage("sprite")</span>
+                                }
+                                else
+                                {
+                                    <span class="expander disabled"></span>
+                                }
+                                <a class="with-icon" href="/Commerce/Category/Edit?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]&Id=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]">@Html.IconImage("file file-doc") @p.Name</a>
+                            </td>
+                            <td>
+                                @(p.Published ? "YES" : "-")
+                            </td>
+                            <td>
+                                <a href="/Commerce/Category/Create?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]&ParentId=@(p.Id)&return=/Commerce/Category?commerceName=@Request.QueryString["commercename"]&siteName=@Request.QueryString["sitename"]">@Html.IconImage("plus-small")</a>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>

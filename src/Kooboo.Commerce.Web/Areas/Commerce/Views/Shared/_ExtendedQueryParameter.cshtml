@@ -61,10 +61,10 @@
 
             vmEQP = new ObjectModel({
                 getQueryUrl: function (self) {
-                    return '@(getUrl)?commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
+                    return '@(getUrl)?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
                 },
                 getSaveUrl: function (self) {
-                    return '@(saveurl)?commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
+                    return '@(saveurl)?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
                 },
                 onInit: function (self) {
                     self.Name = ko.observable(null);

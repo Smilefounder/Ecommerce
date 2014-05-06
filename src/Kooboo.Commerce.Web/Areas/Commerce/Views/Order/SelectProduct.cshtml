@@ -24,7 +24,7 @@
 @section Panel{
     <ul class="header-panel">
         <li>
-            <a href="/Commerce/Order?commerceName=@Request.QueryString["commerceName"]">
+            <a href="/Commerce/Order?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]">
                 @Html.IconImage("back") @("Cancel".Localize())
             </a>
         </li>
@@ -108,7 +108,7 @@
                                     @p.SubTotal
                                 </td>
                                 <td>
-                                    <a href="/Commerce/Order/RemoveProduct?commerceName=@Request.QueryString["commerceName"]&id=@p.ProductPriceId" title="@("Remove".Localize())">@Html.IconImage("minus")</a>
+                                    <a href="/Commerce/Order/RemoveProduct?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&id=@p.ProductPriceId" title="@("Remove".Localize())">@Html.IconImage("minus")</a>
                                 </td>
                             </tr>
                         }
@@ -119,7 +119,7 @@
     }
     <div class="wizard-buttons">
         <a href="@ViewBag.Return" class="button gray">&laquo; @("Back".Localize())</a>
-        <a href="/Commerce/Order/FillOrderInfo?commerceName=@Request.QueryString["commerceName"]" class="button">@("Next".Localize()) &raquo;</a>
+        <a href="/Commerce/Order/FillOrderInfo?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]" class="button">@("Next".Localize()) &raquo;</a>
     </div>
 </div>
 <div id="productPriceList" class="hide">
@@ -190,8 +190,8 @@
                 </table>
             </div>
             <div class="buttons">
-                <a class="button gray right" href="#">@("Cancel".Localize())</a>
-                <a class="button right" href="#">@("Save".Localize())</a>
+                <a class="button gray right" href="#" onclick="SaveProducts();">@("Cancel".Localize())</a>
+                <a class="button right" href="#" onclick="CancelProducts();">@("Save".Localize())</a>
             </div>
         </div>
     }
@@ -204,10 +204,21 @@
     });
 
     function OpenProductList() {
-        utils.showDialog('#productPriceList', 'Select Products', function () {
-            window.leaveConfirm.pass();
-            $('#productPriceList form').submit();
+        utils.showDialog('#productPriceList', 'Select Products', null, null, null, null, {
+            buttons: null, create: function () {
+                $(document).dialogScroll();
+            }
         })
+    }
+
+    function SaveProducts() {
+        window.leaveConfirm.pass();
+        $('#productPriceList form').submit();
+        $('#productPriceList').dialog('close');
+    }
+
+    function CancelProducts() {
+        $('#productPriceList').dialog('close');
     }
 
     function ChangeQuantity(ele) {
