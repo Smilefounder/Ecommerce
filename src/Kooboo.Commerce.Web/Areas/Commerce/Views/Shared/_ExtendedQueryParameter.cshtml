@@ -10,14 +10,14 @@
         @foreach (var q in Model)
         {
             <li>
-                <a href="@(executeurl)?commerceName=@Request.QueryString["commerceName"]&name=@(q.Name)&return=/Commerce/Customer?commerceName=@Request.QueryString["commerceName"]">@(q.Name)</a>
+                <a href="@(executeurl)?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&name=@(q.Name)">@(q.Name)</a>
                 <a href="javascript:EditParameters('@(q.Name)');">Parameters</a>
             </li>
         }
     </ul>
 </div>
 
-    <div id="extendedQueryParameterDiv" class="common-form" style="display:none;" data-bind="with: data">
+<div id="extendedQueryParameterDiv" class="common-form" style="display:none;" data-bind="with: data">
     <div class="clearfix" data-bind="with: Query">
         <h3>Extended Query: <span data-bind="text: Name"></span></h3>
         <p data-bind="text: Description"></p>

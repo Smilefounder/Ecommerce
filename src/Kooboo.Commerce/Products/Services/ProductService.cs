@@ -110,32 +110,28 @@ namespace Kooboo.Commerce.Products.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
-                {
-                    _repoProduct.Save(o => o.Id == product.Id, product, o => new object[] { o.Id });
+                _repoProduct.Save(o => o.Id == product.Id, product, o => new object[] { o.Id });
 
-                    var dbProductCategories = _repoProductCategory.Query(o => o.ProductId == product.Id).ToArray();
-                    _repoProductCategory.SaveAll(_db, dbProductCategories, product.Categories, o => new object[] { o.ProductId, o.CategoryId }, (o, n) => o.ProductId == n.ProductId && o.CategoryId == n.CategoryId);
+                var dbProductCategories = _repoProductCategory.Query(o => o.ProductId == product.Id).ToArray();
+                _repoProductCategory.SaveAll(_db, dbProductCategories, product.Categories, o => new object[] { o.ProductId, o.CategoryId }, (o, n) => o.ProductId == n.ProductId && o.CategoryId == n.CategoryId);
 
-                    var dbProductImages = _repoProductImage.Query(o => o.ProductId == product.Id).ToArray();
-                    _repoProductImage.SaveAll(_db, dbProductImages, product.Images, o => new object[] { o.Id }, (o, n) => o.ProductId == n.ProductId && o.ImageSizeName == n.ImageSizeName);
+                var dbProductImages = _repoProductImage.Query(o => o.ProductId == product.Id).ToArray();
+                _repoProductImage.SaveAll(_db, dbProductImages, product.Images, o => new object[] { o.Id }, (o, n) => o.ProductId == n.ProductId && o.ImageSizeName == n.ImageSizeName);
 
-                    var dbCustomFieldValues = _repoProductCustomFields.Query(o => o.ProductId == product.Id).ToArray();
-                    _repoProductCustomFields.SaveAll(_db, dbCustomFieldValues, product.CustomFieldValues, o => new object[] { o.ProductId, o.CustomFieldId }, (o, n) => o.ProductId == n.ProductId && o.CustomFieldId == n.CustomFieldId);
+                var dbCustomFieldValues = _repoProductCustomFields.Query(o => o.ProductId == product.Id).ToArray();
+                _repoProductCustomFields.SaveAll(_db, dbCustomFieldValues, product.CustomFieldValues, o => new object[] { o.ProductId, o.CustomFieldId }, (o, n) => o.ProductId == n.ProductId && o.CustomFieldId == n.CustomFieldId);
 
-                    var dbProductPrice = _repoProductPrice.Query(o => o.ProductId == product.Id).ToArray();
-                    _repoProductPrice.SaveAll(_db, dbProductPrice, product.PriceList, (o, n) => o.Id == n.Id,
-                        (repo, o) => repo.Insert(o),
-                        (repo, o, n) =>
-                        {
-                            var dbPriceVariants = _repoProductPriceVariants.Query(v => v.ProductPriceId == o.Id).ToArray();
-                            _repoProductPriceVariants.SaveAll(_db, dbPriceVariants, n.VariantValues, k => new object[] { k.ProductPriceId, k.CustomFieldId }, (vo, vn) => vo.ProductPriceId == vn.ProductPriceId && vo.CustomFieldId == vn.CustomFieldId);
-                            repo.Update(n, k => new object[] { k.Id });
-                        },
-                        (repo, o) => repo.Delete(o));
+                var dbProductPrice = _repoProductPrice.Query(o => o.ProductId == product.Id).ToArray();
+                _repoProductPrice.SaveAll(_db, dbProductPrice, product.PriceList, (o, n) => o.Id == n.Id,
+                    (repo, o) => repo.Insert(o),
+                    (repo, o, n) =>
+                    {
+                        var dbPriceVariants = _repoProductPriceVariants.Query(v => v.ProductPriceId == o.Id).ToArray();
+                        _repoProductPriceVariants.SaveAll(_db, dbPriceVariants, n.VariantValues, k => new object[] { k.ProductPriceId, k.CustomFieldId }, (vo, vn) => vo.ProductPriceId == vn.ProductPriceId && vo.CustomFieldId == vn.CustomFieldId);
+                        repo.Update(n, k => new object[] { k.Id });
+                    },
+                    (repo, o) => repo.Delete(o));
 
-                    tx.Commit();
-                }
                 return true;
             }
             catch

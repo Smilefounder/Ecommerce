@@ -78,7 +78,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Create()
         {
             var model = new ProductTypeEditorModel();
-            model.SystemFields = _customFieldService.GetSystemFields().Select(o => new CustomFieldEditorModel(o)).ToList();
+            model.SystemFields = _customFieldService.GetSystemFields().ToArray();
             return View(model);
         }
 
@@ -86,7 +86,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var productType = _productTypeService.GetById(id);
             var model = new ProductTypeEditorModel(productType);
-            model.SystemFields = _customFieldService.GetSystemFields().Select(o => new CustomFieldEditorModel(o)).ToList();
+            model.SystemFields = _customFieldService.GetSystemFields().ToArray();
             return View(model);
         }
 
@@ -99,16 +99,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var updated = false;
             if (model.Id > 0)
             {
-                var existType = _productTypeService.GetById(model.Id);
-                if (existType != null)
-                {
-                    _productTypeService.Update(existType, productType);
-                    updated = true;
-                }
+                updated = _productTypeService.Update(productType);
             }
-            if (!updated)
+            else
             {
-                _productTypeService.Create(productType);
+                updated = _productTypeService.Create(productType);
             }
 
             return AjaxForm().RedirectTo(Url.Action("Edit", RouteValues.From(Request.QueryString).Merge("id", productType.Id)));

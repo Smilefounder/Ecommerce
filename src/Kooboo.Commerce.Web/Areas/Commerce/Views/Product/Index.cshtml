@@ -1,6 +1,12 @@
-﻿@model PagedList<Kooboo.Commerce.Products.Product>
+﻿@using Kooboo.Commerce.Products;
+@model PagedList<Product>
 @{
     ViewBag.Title = "Products".Localize();
+    IEnumerable<IExtendedQuery<Product, Product>> extendedQueries = ViewBag.ExtendedQueries as IEnumerable<IExtendedQuery<Product, Product>>;
+    var extendedQueryViewModel = new ViewDataDictionary();
+    extendedQueryViewModel.Add("GetExtendedParametersUrl", "/Commerce/Product/GetParameters");
+    extendedQueryViewModel.Add("SaveExtendedParametersUrl", "/Commerce/Product/SaveParameters");
+    extendedQueryViewModel.Add("ExecuteQueryUrl", "/Commerce/Product/ExtendQuery");
 }
 
 @section Panel {
@@ -24,7 +30,11 @@
 
 @section Topbar {
     <h1 class="title">@ViewBag.Title</h1>
-    @Html.Partial("_Search")
+    <div class="search-panel">
+        @Html.Partial("_Search")
+        <a class="more">@Html.IconImage("arrow small black-down")</a>
+        @Html.Partial("_ExtendedQueryParameter", extendedQueries, extendedQueryViewModel)
+    </div>
 }
 
 <div class="common-table">

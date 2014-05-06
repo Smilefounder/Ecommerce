@@ -152,7 +152,9 @@
         </div>
         <div id="Product">
             @{var gridViewData = new ViewDataDictionary();
-            gridViewData.Add("CreateButtonText", "Create system field".Localize());}
+            gridViewData.Add("CreateButtonText", "Create system field".Localize());
+            gridViewData.Add("FieldType", 1);
+}
             @Html.Partial("_CustomFieldsGrid", Model.ProductSetting.SystemFields, gridViewData)
         </div>
     </div>
@@ -162,5 +164,8 @@
             $('#Product').customFields({ data: @Html.Raw(Model.ProductSetting.SystemFields.ToJson(PropertyNaming.Default)), nameFmt: 'ProductSetting.SystemFields[{0}].{1}' });
         });
     </script>
+}
+@{
+ViewData.Add("FieldType", 1);
 }
 @Html.Partial("_CustomFieldsScripts", ViewData)

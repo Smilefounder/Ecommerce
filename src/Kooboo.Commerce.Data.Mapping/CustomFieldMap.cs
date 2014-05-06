@@ -11,11 +11,6 @@ namespace Kooboo.Commerce.Data.Mapping
     {
         public CustomFieldMap()
         {
-
-            this.HasOptional(o => o.ByCustomFields).WithMany(o => o.CustomFields);
-
-            this.HasOptional(o => o.ByVariationFields).WithMany(o => o.VariationFields);
-
             this.HasMany(o => o.ValidationRules).WithRequired().WillCascadeOnDelete(true);
         }
     }

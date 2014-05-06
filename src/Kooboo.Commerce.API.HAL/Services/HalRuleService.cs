@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.API.HAL.Services
             _ruleRepository = ruleRepository;
             _ruleResourceRepository = ruleResourceRepository;
         }
-        
+
         public HalRule GetById(int id)
         {
             var query = Query();
@@ -47,18 +47,14 @@ namespace Kooboo.Commerce.API.HAL.Services
         {
             try
             {
-                //using (var tx = _db.BeginTransaction())
+                _ruleRepository.Update(rule, k => new object[] { k.Id });
+                _ruleResourceRepository.DeleteBatch(o => o.RuleId == rule.Id);
+                if (rule.Resources != null && rule.Resources.Count > 0)
                 {
-                    _ruleRepository.Update(rule, k => new object[] { k.Id });
-                    _ruleResourceRepository.DeleteBatch(o => o.RuleId == rule.Id);
-                    if (rule.Resources != null && rule.Resources.Count > 0)
+                    foreach (var cf in rule.Resources)
                     {
-                        foreach (var cf in rule.Resources)
-                        {
-                            _ruleResourceRepository.Insert(cf);
-                        }
+                        _ruleResourceRepository.Insert(cf);
                     }
-                    //tx.Commit();
                 }
                 return true;
             }
@@ -88,12 +84,8 @@ namespace Kooboo.Commerce.API.HAL.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
-                {
-                    _ruleResourceRepository.DeleteBatch(o => o.RuleId == rule.Id);
-                    _ruleRepository.Delete(rule);
-                    tx.Commit();
-                }
+                _ruleResourceRepository.DeleteBatch(o => o.RuleId == rule.Id);
+                _ruleRepository.Delete(rule);
                 return true;
             }
             catch

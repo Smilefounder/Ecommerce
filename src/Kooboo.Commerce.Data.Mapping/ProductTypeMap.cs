@@ -11,9 +11,9 @@ namespace Kooboo.Commerce.Data.Mapping
 
         public ProductTypeMap() {
 
-            this.HasMany(o => o.CustomFields).WithOptional(o => o.ByCustomFields);
+            this.HasMany(o => o.CustomFields).WithRequired(o => o.ProductType);
 
-            this.HasMany(o => o.VariationFields).WithOptional(o => o.ByVariationFields);
+            this.HasMany(o => o.VariationFields).WithRequired(o => o.ProductType);
         }
     }
 }

@@ -101,6 +101,7 @@ b.rtop b.r4,b.rbottom b.r4{margin:0 1px;height:2px}
 .navigation li.beauty a{background-position:-918px}
 .navigation li.beauty a:hover,.navigation li.beauty a.selected{background-position:-1071px}
 .navigation li.beauty .nav-dropdown{right:0;left:auto;width:390px;background:#f238a7;border-radius:5px 0 5px 5px}
+.navigation li.nav-top-item:last-child{margin:0}
 .search{float:left;width:630px;height:24px;line-height:24px;padding-top:3px;vertical-align:middle;position:relative}
 .searchtext,.searchbtn{display:inline-block;background-position:0 -443px;width:46px;height:15px;cursor:pointer}
 .searchbtn{background-position:0 -408px;width:23px;height:25px}

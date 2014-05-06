@@ -81,10 +81,6 @@ namespace Kooboo.Commerce.EAV {
 
         public string SelectionItems { get; set; }
 
-        public virtual ProductType ByCustomFields { get; set; }
-
-        public virtual ProductType ByVariationFields { get; set; }
-
         public virtual ICollection<FieldValidationRule> ValidationRules { get; set; }
     }
 }

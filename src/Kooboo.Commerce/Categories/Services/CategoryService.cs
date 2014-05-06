@@ -7,7 +7,7 @@ using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Categories.Services
 {
-    [Dependency(typeof (ICategoryService))]
+    [Dependency(typeof(ICategoryService))]
     public class CategoryService : ICategoryService
     {
         private readonly ICommerceDatabase _db;
@@ -64,18 +64,14 @@ namespace Kooboo.Commerce.Categories.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
+                _categoryRepository.Update(category, k => new object[] { k.Id });
+                _categoryCustomFieldRepository.DeleteBatch(o => o.CategoryId == category.Id);
+                if (category.CustomFields != null && category.CustomFields.Count > 0)
                 {
-                    _categoryRepository.Update(category, k => new object[] { k.Id });
-                    _categoryCustomFieldRepository.DeleteBatch(o => o.CategoryId == category.Id);
-                    if (category.CustomFields != null && category.CustomFields.Count > 0)
+                    foreach (var cf in category.CustomFields)
                     {
-                        foreach (var cf in category.CustomFields)
-                        {
-                            _categoryCustomFieldRepository.Insert(cf);
-                        }
+                        _categoryCustomFieldRepository.Insert(cf);
                     }
-                    tx.Commit();
                 }
                 return true;
             }
@@ -105,12 +101,8 @@ namespace Kooboo.Commerce.Categories.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
-                {
-                    _categoryCustomFieldRepository.DeleteBatch(o => o.CategoryId == category.Id);
-                    _categoryRepository.Delete(category);
-                    tx.Commit();
-                }
+                _categoryCustomFieldRepository.DeleteBatch(o => o.CategoryId == category.Id);
+                _categoryRepository.Delete(category);
                 return true;
             }
             catch

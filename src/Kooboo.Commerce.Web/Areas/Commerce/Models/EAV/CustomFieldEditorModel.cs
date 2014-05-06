@@ -13,6 +13,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV {
     public class CustomFieldEditorModel {
 
         public CustomFieldEditorModel() {
+            this.FieldType = CustomFieldType.Custom;
             this.ValidationRules = new List<FieldValidationRuleEditorModel>();
         }
 
@@ -33,6 +34,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV {
             this.ShowInGrid = field.ShowInGrid;
             this.Summarize = field.Summarize;
             this.IsEnabled = field.IsEnabled;
+            this.FieldType = field.FieldType;
             this.CustomSettings = field.CustomSettings;
             this.SelectionItems = field.SelectionItems;
             if (field.ValidationRules != null) {
@@ -58,6 +60,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV {
             field.ShowInGrid = this.ShowInGrid;
             field.Summarize = this.Summarize;
             field.IsEnabled = this.IsEnabled;
+            field.FieldType = this.FieldType;
             field.CustomSettings = this.CustomSettings;
             field.SelectionItems = this.SelectionItems;
             field.ValidationRules = new List<FieldValidationRule>();
@@ -131,6 +134,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV {
         public bool Summarize { get; set; }
 
         public bool IsEnabled { get; set; }
+
+        public CustomFieldType FieldType { get; set; }
 
         [Description("The other custom settings for the field.")]
         public string CustomSettings { get; set; }

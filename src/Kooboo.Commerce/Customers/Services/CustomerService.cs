@@ -13,7 +13,7 @@ using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.Commerce.Customers.Services
 {
-    [Dependency(typeof (ICustomerService))]
+    [Dependency(typeof(ICustomerService))]
     public class CustomerService : ICustomerService
     {
         private readonly ICommerceDatabase _db;
@@ -133,31 +133,27 @@ namespace Kooboo.Commerce.Customers.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
+                if (customer.Loyalty != null)
                 {
-                    if (customer.Loyalty != null)
-                    {
-                        _customerLoyaltyRepository.Save(o => o.CustomerId == customer.Loyalty.CustomerId, customer.Loyalty, o => new object[] { o.CustomerId });
-                    }
-                    if (customer.Addresses != null)
-                    {
-                        foreach (var address in customer.Addresses)
-                        {
-                            _addressRepository.Save(o => o.Id == address.Id, address, o => new object[] { o.Id });
-                        }
-                    }
-                    _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
-                    if (customer.CustomFields != null && customer.CustomFields.Count > 0)
-                    {
-                        foreach (var cf in customer.CustomFields)
-                        {
-                            _customerCustomFieldRepository.Insert(cf);
-                        }
-                    }
-                    _customerRepository.Update(customer, k => new object[] { k.Id });
-
-                    tx.Commit();
+                    _customerLoyaltyRepository.Save(o => o.CustomerId == customer.Loyalty.CustomerId, customer.Loyalty, o => new object[] { o.CustomerId });
                 }
+                if (customer.Addresses != null)
+                {
+                    foreach (var address in customer.Addresses)
+                    {
+                        _addressRepository.Save(o => o.Id == address.Id, address, o => new object[] { o.Id });
+                    }
+                }
+                _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
+                if (customer.CustomFields != null && customer.CustomFields.Count > 0)
+                {
+                    foreach (var cf in customer.CustomFields)
+                    {
+                        _customerCustomFieldRepository.Insert(cf);
+                    }
+                }
+                _customerRepository.Update(customer, k => new object[] { k.Id });
+
                 return true;
             }
             catch
@@ -169,7 +165,7 @@ namespace Kooboo.Commerce.Customers.Services
         public bool Save(Customer customer)
         {
 
-            if(customer.Id > 0)
+            if (customer.Id > 0)
             {
                 bool exists = _customerRepository.Query(o => o.Id == customer.Id).Any();
                 if (exists)
@@ -187,14 +183,10 @@ namespace Kooboo.Commerce.Customers.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
-                {
-                    _customerLoyaltyRepository.DeleteBatch(o => o.CustomerId == customer.Id);
-                    _addressRepository.DeleteBatch(o => o.CustomerId == customer.Id);
-                    _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
-                    _customerRepository.Delete(customer);
-                    tx.Commit();
-                }
+                _customerLoyaltyRepository.DeleteBatch(o => o.CustomerId == customer.Id);
+                _addressRepository.DeleteBatch(o => o.CustomerId == customer.Id);
+                _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
+                _customerRepository.Delete(customer);
                 return true;
             }
             catch
