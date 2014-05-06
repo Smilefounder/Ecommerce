@@ -4,6 +4,7 @@ using Kooboo.Commerce.API.HAL.Services;
 using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -19,6 +20,7 @@ namespace Kooboo.Commerce.API.HAL
         private RuleEngine _ruleEngine;
         private IEnumerable<HalRule> _halRules;
         private IHalRuleService _halRuleService;
+        private IEnumerable<HalRule> _currentContextRules;
 
         public HalWrapper(
             IResourceDescriptorProvider resourceDescriptorProvider,
@@ -65,7 +67,6 @@ namespace Kooboo.Commerce.API.HAL
             var halRules = GetHalRulesByHalContext(context);
             FillLinksNoRecursive(descriptor, resource, parameterValues, halRules);
 
-
             var itemDescriptor = _resourceDescriptorProvider.GetDescriptor(descriptor.ItemResourceName);
             AssertDescriptorNotNull(itemDescriptor, descriptor.ItemResourceName);
 
@@ -74,7 +75,7 @@ namespace Kooboo.Commerce.API.HAL
                 foreach (var item in resource)
                 {
                     var itemParamValues = itemParameterValuesResolver == null ? null : itemParameterValuesResolver(item);
-                    FillLinksNoRecursive(itemDescriptor, item, itemParamValues, halRules);
+                    AddLinks(itemDescriptor.ResourceName, item, context, itemParamValues);
                 }
             }
         }
