@@ -57,7 +57,16 @@ namespace DAF.Core.Map
                                 // TODO: need recursive map? this will cause repository attrive all properties from database and may cause recursive overflow.
                                 // add mutual collection-array mapping.
                                 IEnumerable evals = op.GetValue(fobj, null) as IEnumerable;
-                                var topType = top.PropertyType.GetElementType();
+                                Type topType = null;
+                                if (top.PropertyType.IsArray)
+                                {
+                                    topType = top.PropertyType.GetElementType();
+                                }
+                                else
+                                {
+                                    topType = top.PropertyType.GetGenericArguments()[0];
+                                }
+
                                 Type listType = typeof(List<>).MakeGenericType(new[] { topType });
                                 object nvals = Activator.CreateInstance(listType);
                                 foreach (var val in evals)

@@ -124,6 +124,8 @@
     </div>
 </div>
 
+<button type="button" id="btn-add-test-item">Add Test Item</button>
+
 <script>
     $(function () {
         var requestVerificationToken = $(':hidden[name="__RequestVerificationToken"]').val();
@@ -134,8 +136,17 @@
         }
 
         // TODO: Add item test
-        function AddItem() {
 
+        $('#btn-add-test-item').on('click', function () {
+            AddItem();
+        });
+
+        function AddItem() {
+            $.post('@Url.FrontUrl().SubmissionUrl("Cart")?action=additem', {
+                __RequestVerificationToken: requestVerificationToken,
+                productPriceId: 1,
+                quantity: 1
+            });
         }
 
         $.post('@Url.FrontUrl().SubmissionUrl("Cart")?action=cartinfo', {

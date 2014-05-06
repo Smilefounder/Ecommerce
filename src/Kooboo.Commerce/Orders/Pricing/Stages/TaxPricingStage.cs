@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
     {
         public void Execute(PricingContext context)
         {
-            context.Tax.SetOriginalValue(context.Subtotal.OriginalValue * .21m);
+            context.Tax.SetOriginalValue(Math.Round(context.Subtotal.OriginalValue * .21m, 2));
         }
     }
 }
