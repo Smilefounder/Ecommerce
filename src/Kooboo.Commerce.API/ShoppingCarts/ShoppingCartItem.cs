@@ -28,9 +28,13 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// </summary>
         public int Quantity { get; set; }
 
+        public decimal Subtotal { get; set; }
+
         /// <summary>
         /// Discount of the cart item from applicable promotions.
         /// </summary>
         public decimal Discount { get; set; }
+
+        public decimal Total { get; set; }
     }
 }

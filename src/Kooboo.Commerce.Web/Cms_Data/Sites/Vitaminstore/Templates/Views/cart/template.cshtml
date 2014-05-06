@@ -1,0 +1,151 @@
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.CmsSite;
+
+<div class="checkout" id="cart-main">
+    <ul class="checkout-nav">
+        <li class="checkout-nav-item selected"><a>Uw Besteloverzicht</a></li>
+        <li class="split"><a></a></li>
+        <li class="checkout-nav-item"><a>Uw persoonlijke gegevens</a></li>
+        <li class="split"><a></a></li>
+        <li class="checkout-nav-item"><a>Bestelling afronden en betalen</a></li>
+    </ul>
+
+    @Html.AntiForgeryToken()
+
+    <div class="checkout-content cart">
+        <table>
+            <tbody>
+                <tr data-bind="if: Items().length === 0">
+                    <td colspan="6" class="empty">U heeft op dit moment geen artikelen in uw winkelwagen.</td>
+                </tr>
+                <!-- ko foreach: Items -->
+                    <tr>
+                        <td rowspan="3" class="pic top">
+                            <a href="/Health/Speciaal/nacht/1002-SLAAPCOMPLEX-AOV/P215474">
+                                <img src="http://productimages1.vitaminstore.nl/n_215474b.jpg" alt="1002 Slaapcomplex">
+                            </a>
+                            <input type="hidden" name="ctl00$cpContent$rptProducts$ctl00$hfId" id="ctl00_cpContent_rptProducts_ctl00_hfId" value="10245858">
+                        </td>
+                        <td colspan="3" class="name top">
+                            <strong>1002 Slaapcomplex</strong> van <em>AOV Voedingssupplementen</em>
+                        </td>
+                        <td colspan="2" class="subtotal top remove">
+                            <a id="ctl00_cpContent_rptProducts_ctl00_lbtnDelete" href="javascript:__doPostBack('ctl00$cpContent$rptProducts$ctl00$lbtnDelete','')">Product verwijderen</a>
+                            <i class="icon-remove"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="content field-title">Inhoud</td>
+                        <td class="quantity field-title">Aantal</td>
+                        <td class="price field-title"><em>Prijs per stuk</em></td>
+                        <td class="discount field-title"><em>Uw voordeel</em></td>
+                        <td class="subtotal field-title"><strong>Totale Prijs</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="value">
+                            <select name="ctl00$cpContent$rptProducts$ctl00$ddlVariants" onchange="javascript:setTimeout('__doPostBack(\'ctl00$cpContent$rptProducts$ctl00$ddlVariants\',\'\')', 0)" id="ctl00_cpContent_rptProducts_ctl00_ddlVariants">
+                                <option selected="selected" value="225229">30 vegicaps</option>
+
+                            </select>
+                        </td>
+                        <td class="value">
+                            <select name="ctl00$cpContent$rptProducts$ctl00$ddlQuantity" onchange="javascript:setTimeout('__doPostBack(\'ctl00$cpContent$rptProducts$ctl00$ddlQuantity\',\'\')', 0)" id="ctl00_cpContent_rptProducts_ctl00_ddlQuantity">
+                                <option selected="selected" value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+
+                            </select>
+
+                        </td>
+                        <td class="value">
+                            € 11,47
+                        </td>
+                        <td class="discount value">
+                            € 2,03
+                        </td>
+                        <td class="subtotal subtotal-value value">
+                            <strong>
+                                € 11,47
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="separator"></td>
+                    </tr>
+                <!-- /ko -->
+
+                <tr class="summary">
+                    <td colspan="3" class="ordercode">
+
+                        <ul>
+                            <li>
+                                <strong>Heeft u een kortingscode?</strong><br>
+                                Vul deze dan hier in:
+                            </li>
+                            <li class="ordercode-input">
+                                <input type="text" class="code"><a id="ctl00_cpContent_ibtnAddOrderCode" href="javascript:__doPostBack('ctl00$cpContent$ibtnAddOrderCode','')"><i class="icon-refresh"></i></a>
+                            </li>
+                            <li>
+                                <br>
+                            </li>
+                        </ul>
+
+                    </td>
+                    <td colspan="3" class="subtotal">
+                        <span class="total-title">Totaal voor deze bestelling:</span><br>
+                        <span class="total-value">€ <span data-bind="text: Total"></span></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="subtotal buttons">
+                        <a href="/ContinueShopping.aspx" class="btn continue-shopping">verder winkelen</a>
+                        <a id="ctl00_cpContent_lbtnNextStep" class="btn orange-btn next-step" href="javascript:__doPostBack('ctl00$cpContent$lbtnNextStep','')">naar stap 2 <i class="icon-chevron-right"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        var requestVerificationToken = $(':hidden[name="__RequestVerificationToken"]').val();
+        var viewModel = new ShoppingCartViewModel();
+
+        function ShoppingCartViewModel() {
+
+        }
+
+        // TODO: Add item test
+        function AddItem() {
+
+        }
+
+        $.post('@Url.FrontUrl().SubmissionUrl("Cart")?action=cartinfo', {
+            __RequestVerificationToken: requestVerificationToken
+        })
+         .done(function (result) {
+             if (result.Success) {
+                 ko.mapping.fromJS(result.Model, {}, viewModel);
+                 ko.applyBindings(viewModel, document.getElementById('cart-main'));
+             }
+         });
+    });
+</script>

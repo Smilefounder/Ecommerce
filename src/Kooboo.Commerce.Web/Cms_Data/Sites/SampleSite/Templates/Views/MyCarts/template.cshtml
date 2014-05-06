@@ -3,15 +3,12 @@
 @{
     var shoppingCart = Site.Current.Commerce().ShoppingCarts.BySessionId(Context.Session.SessionID).FirstOrDefault();
 }
-@if(shoppingCart == null || shoppingCart.Items == null || shoppingCart.Items.Length <= 0)
+@if(shoppingCart == null || shoppingCart.Items == null || shoppingCart.Items.Count <= 0)
 {
     <p>@("Nothing in shopping cart.".Localize())</p><a href="/ProductList">@("Go Shopping".Localize())</a>
 }
 else
 {
-    var totalPrice = 0.0m;
-    var totalItemDiscounts = 0m;
-    int totalCount = 0;
     if(shoppingCart.Customer != null)
     {
         <h4>@shoppingCart.Customer.FirstName</h4>
@@ -28,26 +25,19 @@ else
         <tbody>
             @foreach (var item in shoppingCart.Items)
             {
-                var price = item.Quantity * item.ProductPrice.RetailPrice - item.Discount;
-                totalPrice += price;
-                totalItemDiscounts += item.Discount;
-                totalCount += item.Quantity;
                 <tr>
                     <td>@item.ProductPrice.Product.Name</td>
                     <td>@item.Quantity</td>
                     <td>@item.Discount.ToString("C")</td>
-                    <td>@(price.ToString("C"))</td>
+                    <td>@(item.Total.ToString("C"))</td>
                 </tr>
             }
         </tbody>
-        @{
-    totalPrice -= shoppingCart.SubtotalDiscount;
-        }
         <tfoot class="total">
             <tr>
                 <td colspan="4">
-                    @("Discount".Localize()): @((shoppingCart.SubtotalDiscount + totalItemDiscounts).ToString("C")),
-                    @("Total".Localize()): <em>@(totalPrice.ToString("C"))</em>
+                    @("Discount".Localize()): @(shoppingCart.TotalDiscount.ToString("C")),
+                    @("Total".Localize()): <em>@(shoppingCart.Total.ToString("C"))</em>
                 </td>
             </tr>
         </tfoot>

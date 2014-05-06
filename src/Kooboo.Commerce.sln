@@ -100,6 +100,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Modeling", "1. Modeling"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.HAL", "Kooboo.Commerce.API.HAL\Kooboo.Commerce.API.HAL.csproj", "{28E5672F-9BEA-467A-86EB-3DB6DC514F13}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Vitaminstore Sample", "6. Vitaminstore Sample", "{0BF2F3DE-D506-490E-B65E-743C0EF0A060}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Plugins.Vitaminstore", "Kooboo.CMS.Plugins.Vitaminstore\Kooboo.CMS.Plugins.Vitaminstore.csproj", "{863D483B-7B9B-461E-8DB1-CC83F59B785B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -226,6 +230,10 @@ Global
 		{28E5672F-9BEA-467A-86EB-3DB6DC514F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28E5672F-9BEA-467A-86EB-3DB6DC514F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28E5672F-9BEA-467A-86EB-3DB6DC514F13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863D483B-7B9B-461E-8DB1-CC83F59B785B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863D483B-7B9B-461E-8DB1-CC83F59B785B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863D483B-7B9B-461E-8DB1-CC83F59B785B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863D483B-7B9B-461E-8DB1-CC83F59B785B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -271,5 +279,6 @@ Global
 		{BBDA8E59-2ED4-4403-94ED-2164A0E86000} = {11931A08-B935-4F57-952D-900559B9BBDD}
 		{ACEB620E-1E50-4530-9D18-7F42BCD4A135} = {11931A08-B935-4F57-952D-900559B9BBDD}
 		{B331A4E7-3B6B-4ADD-9E41-F13562C12D3C} = {36C0ACBB-6356-42A8-8DAB-8346B535B0C9}
+		{863D483B-7B9B-461E-8DB1-CC83F59B785B} = {0BF2F3DE-D506-490E-B65E-743C0EF0A060}
 	EndGlobalSection
 EndGlobal

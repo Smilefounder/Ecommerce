@@ -96,10 +96,14 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             foreach (var item in cart.Items)
             {
                 var pricingItem = context.Items.FirstOrDefault(x => x.Id == item.Id);
+                item.Subtotal = pricingItem.Subtotal.OriginalValue;
                 item.Discount = pricingItem.Subtotal.Discount;
+                item.Total = pricingItem.Subtotal.FinalValue;
             }
 
-            cart.SubtotalDiscount = context.Subtotal.Discount;
+            cart.Subtotal = context.Subtotal.OriginalValue;
+            cart.TotalDiscount = context.Items.Sum(x => x.Subtotal.Discount) + context.Subtotal.Discount;
+            cart.Total = context.Total;
 
             foreach (var promotion in context.AppliedPromotions)
             {
