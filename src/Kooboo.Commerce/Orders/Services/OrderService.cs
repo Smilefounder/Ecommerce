@@ -54,7 +54,7 @@ namespace Kooboo.Commerce.Orders.Services
         public Order GetById(int id, bool loadAllInfo = true)
         {
             var order = _orderRepository.Get(o => o.Id == id);
-            if(loadAllInfo && order != null)
+            if (loadAllInfo && order != null)
             {
                 if (order.ShippingAddressId.HasValue)
                 {
@@ -67,15 +67,15 @@ namespace Kooboo.Commerce.Orders.Services
                     order.BillingAddress.Country = _countryRepository.Query(o => o.Id == order.BillingAddress.CountryId).FirstOrDefault();
                 }
                 order.OrderItems = _orderItemRepository.Query(o => o.OrderId == order.Id).ToArray();
-                if(order.OrderItems != null && order.OrderItems.Count > 0)
+                if (order.OrderItems != null && order.OrderItems.Count > 0)
                 {
-                    foreach(var item in order.OrderItems)
+                    foreach (var item in order.OrderItems)
                     {
                         item.ProductPrice = _productService.GetProductPriceById(item.ProductPriceId, true, true);
                     }
                 }
                 order.Customer = _customerService.GetById(order.CustomerId);
-                if(order.Customer != null)
+                if (order.Customer != null)
                 {
                     order.Customer.Country = _countryRepository.Query(o => o.Id == order.Customer.CountryId).FirstOrDefault();
                 }
@@ -100,13 +100,13 @@ namespace Kooboo.Commerce.Orders.Services
 
         public Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool deleteShoppingCart)
         {
-            if(shoppingCart != null)
+            if (shoppingCart != null)
             {
                 var customer = shoppingCart.Customer;
                 if (customer == null)
                 {
                     customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
-                    if(customer == null)
+                    if (customer == null)
                     {
                         customer = _customerService.CreateByAccount(user);
                     }
@@ -120,9 +120,9 @@ namespace Kooboo.Commerce.Orders.Services
                 order.IsCompleted = false;
                 order.ChangeStatus(OrderStatus.Created);
 
-                if(shoppingCart.Items.Count > 0)
+                if (shoppingCart.Items.Count > 0)
                 {
-                    foreach(var item in shoppingCart.Items)
+                    foreach (var item in shoppingCart.Items)
                     {
                         var orderItem = new OrderItem();
                         orderItem.Order = order;
@@ -136,7 +136,7 @@ namespace Kooboo.Commerce.Orders.Services
                     }
                 }
 
-                if(shoppingCart.ShippingAddress != null)
+                if (shoppingCart.ShippingAddress != null)
                 {
                     OrderAddress address = new OrderAddress();
                     address.FromAddress(shoppingCart.ShippingAddress);
@@ -232,26 +232,20 @@ namespace Kooboo.Commerce.Orders.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
+                var dbOrderItems = _orderItemRepository.Query(o => o.OrderId == order.Id).ToArray();
+                _orderItemRepository.SaveAll(_db, dbOrderItems, order.OrderItems, k => new object[] { k.Id }, (o, n) => o.Id == n.Id);
+
+                _orderAddressRepository.Save(o => o.Id == order.ShippingAddressId, order.ShippingAddress, k => new object[] { k.Id });
+                _orderAddressRepository.Save(o => o.Id == order.BillingAddressId, order.BillingAddress, k => new object[] { k.Id });
+                _orderCustomFieldRepository.DeleteBatch(o => o.OrderId == order.Id);
+                if (order.CustomFields != null && order.CustomFields.Count > 0)
                 {
-
-                    var dbOrderItems = _orderItemRepository.Query(o => o.OrderId == order.Id).ToArray();
-                    _orderItemRepository.SaveAll(_db, dbOrderItems, order.OrderItems, k => new object[] { k.Id }, (o, n) => o.Id == n.Id);
-
-                    _orderAddressRepository.Save(o => o.Id == order.ShippingAddressId, order.ShippingAddress, k => new object[] { k.Id });
-                    _orderAddressRepository.Save(o => o.Id == order.BillingAddressId, order.BillingAddress, k => new object[] { k.Id });
-                    _orderCustomFieldRepository.DeleteBatch(o => o.OrderId == order.Id);
-                    if (order.CustomFields != null && order.CustomFields.Count > 0)
+                    foreach (var cf in order.CustomFields)
                     {
-                        foreach (var cf in order.CustomFields)
-                        {
-                            _orderCustomFieldRepository.Insert(cf);
-                        }
+                        _orderCustomFieldRepository.Insert(cf);
                     }
-                    _orderRepository.Update(order, k => new object[] { k.Id });
-
-                    tx.Commit();
                 }
+                _orderRepository.Update(order, k => new object[] { k.Id });
                 return true;
             }
             catch
@@ -280,15 +274,11 @@ namespace Kooboo.Commerce.Orders.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
-                {
-                    _orderItemRepository.DeleteBatch(o => o.OrderId == order.Id);
-                    _orderAddressRepository.DeleteBatch(o => o.Id == order.ShippingAddressId);
-                    _orderAddressRepository.DeleteBatch(o => o.Id == order.BillingAddressId);
-                    _orderCustomFieldRepository.DeleteBatch(o => o.OrderId == order.Id);
-                    _orderRepository.Delete(order);
-                    tx.Commit();
-                }
+                _orderItemRepository.DeleteBatch(o => o.OrderId == order.Id);
+                _orderAddressRepository.DeleteBatch(o => o.Id == order.ShippingAddressId);
+                _orderAddressRepository.DeleteBatch(o => o.Id == order.BillingAddressId);
+                _orderCustomFieldRepository.DeleteBatch(o => o.OrderId == order.Id);
+                _orderRepository.Delete(order);
                 return true;
             }
             catch

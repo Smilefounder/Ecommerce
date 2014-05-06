@@ -23,7 +23,8 @@
         </div>
         <div id="CustomFields">
             @{var customGridViewData = new ViewDataDictionary();
-            customGridViewData.Add("CreateButtonText", "Create custom field".Localize());}
+            customGridViewData.Add("CreateButtonText", "Create custom field".Localize());
+}
             @Html.Partial("_CustomFieldsGrid", Model.CustomFields, customGridViewData)
             @*<br />
                 <div class="block command">
@@ -33,7 +34,8 @@
         </div>
         <div id="VariationFields">
             @{var variationGridViewData = new ViewDataDictionary();
-            variationGridViewData.Add("CreateButtonText", "Create variation field".Localize());}
+            variationGridViewData.Add("CreateButtonText", "Create variation field".Localize());
+            }
             @Html.Partial("_CustomFieldsGrid", Model.VariationFields, variationGridViewData)
             @*<br />
                 <div class="block command">
@@ -92,10 +94,11 @@
                     });
                 });
             };
-            var model = new basicInfoViewModel(@Html.Raw(Model.SystemFields.ToJson(PropertyNaming.Default)));
-            ko.applyBindings(model, document.getElementById('BasicInfo'));
             updateProductTypeValidation();
         });
     </script>
+}
+@{
+    ViewData.Add("SystemFields", Model.SystemFields);
 }
 @Html.Partial("_CustomFieldsScripts", ViewData)

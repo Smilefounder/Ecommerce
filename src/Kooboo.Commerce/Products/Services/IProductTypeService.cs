@@ -17,8 +17,6 @@ namespace Kooboo.Commerce.Products.Services {
 
         bool Update(ProductType type);
 
-        bool Update(ProductType oldType, ProductType newType);
-
         bool Delete(ProductType type);
 
         void Enable(ProductType type);

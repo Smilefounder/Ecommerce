@@ -1,4 +1,5 @@
-﻿<div style="display: none;">
+﻿
+<div style="display: none;">
     <div id="custom_field_editor_dialog">
         @Html.Partial("_CustomFieldEditor", new CustomFieldEditorModel())
     </div>
@@ -36,11 +37,13 @@
             <td data-bind="text:((Label()==''||Label()==null)?'-':Label)"></td>
             <td data-bind="text:ControlType"></td>
             <td><span data-bind="text:((ShowInGrid()==''||ShowInGrid()==null)?'-':'@("YES".Localize())')"></span></td>
+            <td><span data-bind="text: FieldType"></span></td>
             <td data-bind="text:Sequence"></td>
             <td class="action"><a class="action" data-bind="click:$root.removeField">@Html.IconImage("minus-small")</a></td>
         </tr>
     </script>
     <script type="text/javascript">
+        var fieldType = '@((ViewData.ContainsKey("FieldType") ? Convert.ToInt32(ViewData["FieldType"]) : 0) == 0 ? "Custom" : "System")';
         (function ($, ko) {
             // override
             $.validator.setDefaults({ ignore: 'input[type="hidden"]' });
@@ -147,8 +150,10 @@
             //
             var fieldsGridModel = function (set) {
                 var self = this;
+                this.container = null;
                 this.nameFmt = ko.observable(set.nameFmt);
                 this.fields = ko.mapping.fromJS(set.data);
+                this.systemFields = ko.mapping.fromJS($.parseJSON('@Html.Raw(ViewData["SystemFields"].ToJson(PropertyNaming.Default))'));
                 this.fields.subscribe(function () {
                     $.each(self.fields(), function (i) {
                         this.Sequence(i + 1);
@@ -160,6 +165,7 @@
                     var field = ko.mapping.fromJS(emptyCustomField);
                     if (count === 0) { field.ShowInGrid(true); }
                     field.Sequence(count + 1);
+                    field.FieldType(fieldType);
                     utilities.showDialog(self, field, false);
                 };
                 //
@@ -178,6 +184,18 @@
                         return true;
                     }
                 };
+                this.addSystemField = function () {
+                    var dlg = $(self.container).find('#systemFields');
+                    utils.showDialog(dlg, 'Add System Fields', function () {
+                        $.each(dlg.find('tbody input:checkbox:checked'), function () {
+                            var fid = $(this).val();
+                            var sf = $.grep(self.systemFields(), function (n, i) { return n.Id() == fid; })[0];
+                            if (sf) {
+                                self.insertField(sf);
+                            }
+                        });
+                    });
+                }
                 //
                 this.fmtName = function (index, name) {
                     return $.format(self.nameFmt(), index(), name);
@@ -320,6 +338,7 @@
                     // ko
                     var model = new fieldsGridModel(set);
                     ko.applyBindings(model, this);
+                    model.container = this;
                     $(this).data('fieldsGridModel', model);
                     // jq
                     $(this).find('table tbody').sortable({
@@ -345,7 +364,7 @@
                     });
                 });
             };
-
+            
         }(jQuery, ko));
     </script>
 </div>

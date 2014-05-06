@@ -18,9 +18,5 @@ namespace Kooboo.Commerce.API.EAV
         /// system field, which may not allow user to delete
         /// </summary>
         System = 1,
-        /// <summary>
-        /// sku field, used in product
-        /// </summary>
-        SkuField = 2
     }
 }

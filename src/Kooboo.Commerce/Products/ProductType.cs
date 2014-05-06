@@ -27,8 +27,8 @@ namespace Kooboo.Commerce.Products {
 
         public DateTime? DeletedAtUtc { get; set; }
 
-        public virtual ICollection<CustomField> CustomFields { get; set; }
+        public virtual ICollection<ProductTypeCustomField> CustomFields { get; set; }
 
-        public virtual ICollection<CustomField> VariationFields { get; set; }
+        public virtual ICollection<ProductTypeVariantField> VariationFields { get; set; }
     }
 }

@@ -19,6 +19,7 @@ using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.CMS.Common;
 using Kooboo.Commerce.ImageSizes.Services;
+using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -26,24 +27,29 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     public class ProductController : CommerceControllerBase
     {
 
+        private readonly ICommerceDatabase _db;
         private readonly IProductService _productService;
         private readonly IImageSizeService _imageSizeService;
         private readonly IProductTypeService _productTypeService;
         private readonly IBrandService _brandService;
         private readonly ICategoryService _categoryService;
+        private readonly IExtendedQueryManager _extendedQueryManager;
 
-        public ProductController(
+        public ProductController(ICommerceDatabase db,
                 IProductService productService,
                 IImageSizeService imageSizeService,
                 IProductTypeService productTypeService,
                 IBrandService brandService,
-                ICategoryService categoryService)
+                ICategoryService categoryService,
+                IExtendedQueryManager extendedQueryManager)
         {
+            _db = db;
             _productService = productService;
             _imageSizeService = imageSizeService;
             _productTypeService = productTypeService;
             _brandService = brandService;
             _categoryService = categoryService;
+            _extendedQueryManager = extendedQueryManager;
         }
 
         public ActionResult Index(string search, int? page, int? pageSize)
@@ -56,6 +62,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 .OrderByDescending(x => x.Id)
                 .ToPagedList(page, pageSize);
             ViewBag.ProductTypes = productTypes.ToList();
+            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<Product, Product>();
             return View(model);
         }
 
@@ -176,6 +183,52 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 query = query.Where(o => o.Parent == null);
             var objs = query.ToArray();
             return JsonNet(objs);
+        }
+
+        [HttpGet]
+        public ActionResult ExtendQuery(string name, int? page, int? pageSize)
+        {
+            var productTypes = _productTypeService.GetAllProductTypes();
+            ViewBag.ProductTypes = productTypes.ToList();
+            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<Product, Product>();
+            IPagedList<Product> model = null;
+            var query = _extendedQueryManager.GetExtendedQuery<Product, Product>(name);
+            if (query != null)
+            {
+                var paras = _extendedQueryManager.GetExtendedQueryParameters<Product, Product>(name);
+
+                model = query.Query<Product>(paras, _db, page ?? 1, pageSize ?? 50, o => o);
+            }
+            else
+            {
+                var pquery = _productService.Query();
+                model = pquery
+                    .OrderByDescending(x => x.Id)
+                    .ToPagedList(page, pageSize);
+            }
+            return View("Index", model);
+        }
+
+        [HttpGet]
+        public ActionResult GetParameters(string name)
+        {
+            var query = _extendedQueryManager.GetExtendedQuery<Product, Product>(name);
+            var paras = _extendedQueryManager.GetExtendedQueryParameters<Product, Product>(name);
+            return JsonNet(new { Query = query, Parameters = paras });
+        }
+
+        [HttpPost]
+        public ActionResult SaveParameters(string name, IEnumerable<ExtendedQueryParameter> parameters)
+        {
+            try
+            {
+                _extendedQueryManager.SaveExtendedQueryParameters<Product, Product>(name, parameters);
+                return this.JsonNet(new { status = 0, message = "Parameter Saved." });
+            }
+            catch (Exception ex)
+            {
+                return this.JsonNet(new { status = 1, message = ex.Message });
+            }
         }
     }
 }

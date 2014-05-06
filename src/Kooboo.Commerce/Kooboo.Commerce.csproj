@@ -99,8 +99,6 @@
     <Compile Include="Categories\Services\ICategoryService.cs" />
     <Compile Include="Customers\CustomerCustomField.cs" />
     <Compile Include="Customers\CustomerQueryModel.cs" />
-    <Compile Include="Customers\ExtendedQuery\RecentOrderedCustomers.cs" />
-    <Compile Include="Customers\ExtendedQuery\TopOrderedCustomers.cs" />
     <Compile Include="DefaultExtendedQueryManager.cs" />
     <Compile Include="Events\Brands\BrandCreated.cs" />
     <Compile Include="Events\Brands\BrandDeleted.cs" />
@@ -138,8 +136,6 @@
     <Compile Include="ImageSizes\Services\ImageSizeService.cs" />
     <Compile Include="Locations\Services\CountryService.cs" />
     <Compile Include="Locations\Services\ICountryService.cs" />
-    <Compile Include="Orders\ExtendedQuery\MostCostOrder.cs" />
-    <Compile Include="Orders\ExtendedQuery\RecentOrder.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderCustomField.cs" />
     <Compile Include="Orders\OrderingProcessManager.cs" />
@@ -170,6 +166,8 @@
     <Compile Include="Products\ProductCustomFieldValue.cs" />
     <Compile Include="Products\ProductPrice.cs" />
     <Compile Include="Products\ProductPriceVariantValue.cs" />
+    <Compile Include="Products\ProductTypeCustomField.cs" />
+    <Compile Include="Products\ProductTypeVariantField.cs" />
     <Compile Include="Promotions\CheckPromotionConditionResult.cs" />
     <Compile Include="Promotions\Extensions\PromotionsExtensions.cs" />
     <Compile Include="Promotions\IPromotionPolicyViewsFactory.cs" />

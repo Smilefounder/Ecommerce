@@ -7,7 +7,7 @@ using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Brands.Services
 {
-    [Dependency(typeof (IBrandService))]
+    [Dependency(typeof(IBrandService))]
     public class BrandService : IBrandService
     {
         private readonly ICommerceDatabase _db;
@@ -50,18 +50,14 @@ namespace Kooboo.Commerce.Brands.Services
         {
             try
             {
-                //using (var tx = _db.BeginTransaction())
+                _brandRepository.Update(brand, k => new object[] { k.Id });
+                _brandCustomFieldRepository.DeleteBatch(o => o.BrandId == brand.Id);
+                if (brand.CustomFields != null && brand.CustomFields.Count > 0)
                 {
-                    _brandRepository.Update(brand, k => new object[] { k.Id });
-                    _brandCustomFieldRepository.DeleteBatch(o => o.BrandId == brand.Id);
-                    if (brand.CustomFields != null && brand.CustomFields.Count > 0)
+                    foreach (var cf in brand.CustomFields)
                     {
-                        foreach (var cf in brand.CustomFields)
-                        {
-                            _brandCustomFieldRepository.Insert(cf);
-                        }
+                        _brandCustomFieldRepository.Insert(cf);
                     }
-                    //tx.Commit();
                 }
                 return true;
             }
@@ -91,12 +87,8 @@ namespace Kooboo.Commerce.Brands.Services
         {
             try
             {
-                using (var tx = _db.BeginTransaction())
-                {
-                    _brandCustomFieldRepository.DeleteBatch(o => o.BrandId == brand.Id);
-                    _brandRepository.Delete(brand);
-                    tx.Commit();
-                }
+                _brandCustomFieldRepository.DeleteBatch(o => o.BrandId == brand.Id);
+                _brandRepository.Delete(brand);
                 return true;
             }
             catch

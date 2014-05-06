@@ -1,4 +1,11 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.CmsSite;
+@using Kooboo.Commerce.API.Categories;
+@{
+    var categories = Site.Current.Commerce().Categories.ByParentId(null).LoadWithChildren().ToArray();
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     @Html.FrontHtml().HtmlTitle()
@@ -138,45 +145,39 @@
 
                 <div class="navigation">
                     <ul>
-                        <li class="nav-top-item home"><a href="/Default.aspx" class="selected"></a></li>
-                        <li class="nav-top-item health">
-                            <a href="/health/" class="nav-top-main">
-                            </a>
+                        <li class="nav-top-item home"><a href="/" class="selected"></a></li>
+                        @foreach (var cate in categories)
+                        {
+                            <li class="nav-top-item @(cate.Name)">
+                                <a href="@CmsSiteUrlResolver.MapUrl(cate, "products")" class="nav-top-main">
+                                </a>
 
-                            <div class="nav-dropdown">
-                                <div class="category-columns">
-                                    <div class="category-column"><h3 class="category-column-title"><a href="/Health/Vitaminen_en_mineralen/">Vitaminen en mineralen</a></h3><div class="category-column-body"><ul><li><a href="/Health/Vitaminen_en_mineralen/Multivitaminen/" title="Multivitaminen">Multivitaminen</a><ul><li><a href="/Health/Vitaminen_en_mineralen/Multivitaminen/algemeen/" title="algemeen">algemeen</a></li><li><a href="/Health/Vitaminen_en_mineralen/Multivitaminen/man/" title="man">man</a></li><li><a href="/Health/Vitaminen_en_mineralen/Multivitaminen/vrouw/" title="vrouw">vrouw</a></li><li><a href="/Health/Vitaminen_en_mineralen/Multivitaminen/senioren/" title="senioren">senioren</a></li><li><a href="/Health/Vitaminen_en_mineralen/Multivitaminen/zwanger/" title="zwanger">zwanger</a></li><li><a href="/Health/Vitaminen_en_mineralen/Multivitaminen/kind/" title="kind">kind</a></li></ul></li><li><a href="/Health/Vitaminen_en_mineralen/vitaminen/" title="vitaminen">vitaminen</a></li><li><a href="/Health/Vitaminen_en_mineralen/mineralen/" title="mineralen">mineralen</a></li></ul></div></div><div class="category-column"><h3 class="category-column-title"><a href="/Health/Speciaal/">Speciaal</a></h3><div class="category-column-body"><ul><li><a href="/Health/Speciaal/nacht/" title="nacht">nacht</a></li><li><a href="/Health/Speciaal/bewegen/" title="bewegen">bewegen</a></li><li><a href="/Health/Speciaal/lucht/" title="lucht">lucht</a></li><li><a href="/Health/Speciaal/hoofd/" title="hoofd">hoofd</a></li><li><a href="/Health/Speciaal/probiotica_en_vezels/" title="probiotica en vezels">probiotica en vezels</a></li><li><a href="/Health/Speciaal/balans/" title="balans">balans</a></li><li><a href="/Health/Speciaal/adaptogenen_en_Q10/" title="adaptogenen en Q10">adaptogenen en Q10</a></li><li><a href="/Health/Speciaal/medische_hulpmiddelen/" title="medische hulpmiddelen">medische hulpmiddelen</a></li><li><a href="/Health/Speciaal/man/" title="man">man</a><ul><li><a href="/Health/Speciaal/man/afrodisiaca/" title="afrodisiaca">afrodisiaca</a></li><li><a href="/Health/Speciaal/man/vitamines_en_zink/" title="vitamines en zink">vitamines en zink</a></li></ul></li><li><a href="/Health/Speciaal/vrouw/" title="vrouw">vrouw</a><ul><li><a href="/Health/Speciaal/vrouw/vetzuren_en_kruiden/" title="vetzuren en kruiden">vetzuren en kruiden</a></li><li><a href="/Health/Speciaal/vrouw/intieme_verzorging/" title="intieme verzorging">intieme verzorging</a></li><li><a href="/Health/Speciaal/vrouw/vitamine_C_en_zure_bessen/" title="vitamine C en zure bessen">vitamine C en zure bessen</a></li></ul></li></ul></div></div><div class="category-column"><div class="category-column-body"><ul><li><a href="/Health/Speciaal/kind/" title="kind">kind</a><ul><li><a href="/Health/Speciaal/kind/vetzuren/" title="vetzuren">vetzuren</a></li><li><a href="/Health/Speciaal/kind/vitamines_en_mineralen/" title="vitamines en mineralen">vitamines en mineralen</a></li></ul></li><li><a href="/Health/Speciaal/weerstand/" title="weerstand">weerstand</a></li><li><a href="/Health/Speciaal/seksualiteit/" title="seksualiteit">seksualiteit</a><ul><li><a href="/Health/Speciaal/seksualiteit/anticonceptie/" title="anticonceptie">anticonceptie</a></li><li><a href="/Health/Speciaal/seksualiteit/vibrators/" title="vibrators">vibrators</a></li><li><a href="/Health/Speciaal/seksualiteit/fun/" title="fun">fun</a></li></ul></li><li><a href="/Health/Speciaal/antioxidanten/" title="antioxidanten">antioxidanten</a></li></ul></div></div><div class="category-column"><h3 class="category-column-title"><a href="/Health/Algemeen/">Algemeen</a></h3><div class="category-column-body"><ul><li><a href="/Health/Algemeen/hart_en_bloedvaten/" title="hart en bloedvaten">hart en bloedvaten</a><ul><li><a href="/Health/Algemeen/hart_en_bloedvaten/cholesterol/" title="cholesterol">cholesterol</a></li><li><a href="/Health/Algemeen/hart_en_bloedvaten/bloeddruk/" title="bloeddruk">bloeddruk</a></li></ul></li><li><a href="/Health/Algemeen/omega_vetzuren/" title="omega vetzuren">omega vetzuren</a></li><li><a href="/Health/Algemeen/botten/" title="botten">botten</a></li><li><a href="/Health/Algemeen/speciale_voeding/" title="speciale voeding">speciale voeding</a></li><li><a href="/Health/Algemeen/sappen/" title="sappen">sappen</a></li><li><a href="/Health/Algemeen/thee/" title="thee">thee</a></li><li><a href="/Health/Algemeen/macronutriënten/" title="macronutriënten">macronutriënten</a></li><li><a href="/Health/Algemeen/boeken,_cd's_en_dvd's/" title="boeken, cd" s="" en="" dvd's'="">boeken, cd's en dvd's</a></li><li><a href="/Health/Algemeen/zelftesten/" title="zelftesten">zelftesten</a></li><li><a href="/Health/Algemeen/circulatie/" title="circulatie">circulatie</a></li></ul></div></div>
-                                    <div class="clear">
+                                <div class="nav-dropdown">
+                                    <div class="category-columns">
+                                        @foreach (var sub in cate.Children)
+                                        {
+                                            var children = Site.Current.Commerce().Categories.ByParentId(sub.Id).ToArray();
+                                            <div class="category-column">
+                                                <h3 class="category-column-title">
+                                                    <a href="@CmsSiteUrlResolver.MapUrl(sub, "products")">@(sub.Name)</a>
+                                                </h3>
+                                                <div class="category-column-body">
+                                                    <ul>
+                                                        @foreach (var child in children)
+                                                        {
+                                                            <li><a href="@CmsSiteUrlResolver.MapUrl(child, "products")" title="@child.Name">@child.Name</a></li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="clear">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        </li>
-                        <li class="nav-top-item sports">
-                            <a href="/sports/" class="nav-top-main">
-                            </a>
-
-                            <div class="nav-dropdown">
-                                <div class="category-columns">
-                                    <div class="category-column"><h3 class="category-column-title"><a href="/sports/spieren/">spieren</a></h3><div class="category-column-body"><ul><li><a href="/sports/spieren/spiergroei/" title="spiergroei">spiergroei</a></li><li><a href="/sports/spieren/herstel/" title="herstel">herstel</a></li></ul></div></div><div class="category-column"><h3 class="category-column-title"><a href="/sports/prestatie/">prestatie</a></h3><div class="category-column-body"><ul><li><a href="/sports/prestatie/sprintkracht/" title="sprintkracht">sprintkracht</a></li><li><a href="/sports/prestatie/energie/" title="energie">energie</a></li><li><a href="/sports/prestatie/duursport/" title="duursport">duursport</a></li></ul></div></div><div class="category-column"><h3 class="category-column-title"><a href="/sports/slank/">slank</a></h3><div class="category-column-body"><ul><li><a href="/sports/slank/vetblokkers/" title="vetblokkers">vetblokkers</a></li><li><a href="/sports/slank/vetverbranding/" title="vetverbranding">vetverbranding</a></li><li><a href="/sports/slank/dieet/" title="dieet">dieet</a></li></ul></div></div>
-                                    <div class="clear">
-                                    </div>
-                                </div>
-                            </div>
-
-                        </li>
-                        <li class="nav-top-item beauty" style="margin: 0">
-                            <a href="/beauty/" class="nav-top-main"></a>
-
-                            <div class="nav-dropdown">
-                                <div class="category-columns">
-                                    <div class="category-column"><h3 class="category-column-title"><a href="/beauty/haar/">haar</a></h3><div class="category-column-body"><ul><li><a href="/beauty/haar/onderhoud/" title="onderhoud">onderhoud</a></li><li><a href="/beauty/haar/haarkleur/" title="haarkleur">haarkleur</a></li><li><a href="/beauty/haar/verzorging/" title="verzorging">verzorging</a></li></ul></div></div><div class="category-column"><h3 class="category-column-title"><a href="/beauty/lichaam/">lichaam</a></h3><div class="category-column-body"><ul><li><a href="/beauty/lichaam/vorm/" title="vorm">vorm</a></li><li><a href="/beauty/lichaam/lichaamsverzorging/" title="lichaamsverzorging">lichaamsverzorging</a></li></ul></div></div><div class="category-column"><h3 class="category-column-title"><a href="/beauty/huid/">huid</a></h3><div class="category-column-body"><ul><li><a href="/beauty/huid/gezichtsverzorging/" title="gezichtsverzorging">gezichtsverzorging</a></li><li><a href="/beauty/huid/zonbescherming/" title="zonbescherming">zonbescherming</a></li><li><a href="/beauty/huid/je_ware_leeftijd/" title="je ware leeftijd">je ware leeftijd</a></li><li><a href="/beauty/huid/huidverzorging/" title="huidverzorging">huidverzorging</a></li></ul></div></div>
-                                    <div class="clear">
-                                    </div>
-                                </div>
-                            </div>
-
-                        </li>
+                            </li>
+                        }
                     </ul>
                 </div>
 
