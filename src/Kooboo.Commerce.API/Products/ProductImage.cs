@@ -31,9 +31,5 @@ namespace Kooboo.Commerce.API.Products
         /// is visible at ui
         /// </summary>
         public bool IsVisible { get; set; }
-        /// <summary>
-        /// product
-        /// </summary>
-        public Product Product { get; set; }
     }
 }

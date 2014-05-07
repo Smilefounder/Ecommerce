@@ -1449,11 +1449,13 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\images\zomeractie.jpg" />
     <Content Include="Cms_Data\Sites\Vitaminstore\images\zoom.gif" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\home.min.js" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\app.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\knockout-3.1.0.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\knockout.mapping.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\product.min.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\scripts-bottom.min.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\scripts.min.js" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\underscore-min.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\checkout.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\font-awesome.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\home.css" />

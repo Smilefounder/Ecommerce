@@ -24,6 +24,24 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
             return this;
         }
 
+        public IShoppingCartQuery LoadWithBrands()
+        {
+            QueryParameters.Add("LoadWithBrands", "true");
+            return this;
+        }
+
+        public IShoppingCartQuery LoadWithProductPrices()
+        {
+            QueryParameters.Add("LoadWithProductPrices", "true");
+            return this;
+        }
+
+        public IShoppingCartQuery LoadWithProductImages()
+        {
+            QueryParameters.Add("LoadWithProductImages", "true");
+            return this;
+        }
+
         /// <summary>
         /// add session id filter to query
         /// </summary>
@@ -44,6 +62,11 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
         {
             QueryParameters.Add("accountId", accountId);
             return this;
+        }
+
+        public int CreteCart()
+        {
+            return Post<int>(null);
         }
 
         /// <summary>

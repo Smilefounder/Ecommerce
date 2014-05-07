@@ -32,22 +32,6 @@ namespace Kooboo.Commerce.API.Products
         /// </summary>
         public DateTime CreatedAtUtc { get; set; }
         /// <summary>
-        /// is deleted
-        /// </summary>
-        public bool IsDeleted { get; set; }
-        /// <summary>
-        /// delete time at utc
-        /// </summary>
-        public DateTime? DeletedAtUtc { get; set; }
-        /// <summary>
-        /// is published
-        /// </summary>
-        public bool IsPublished { get; set; }
-        /// <summary>
-        /// publish time at utc
-        /// </summary>
-        public DateTime? PublishedAtUtc { get; set; }
-        /// <summary>
         /// product type
         /// </summary>
         public ProductType Type { get; set; }
@@ -59,6 +43,7 @@ namespace Kooboo.Commerce.API.Products
         /// product catgories
         /// </summary>
         public ProductCategory[] Categories { get; set; }
+
         /// <summary>
         /// images
         /// </summary>

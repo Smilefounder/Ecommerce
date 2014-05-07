@@ -31,5 +31,10 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// <returns>shopping cart query</returns>
         IShoppingCartQuery LoadWithCustomer();
 
+        IShoppingCartQuery LoadWithBrands();
+
+        IShoppingCartQuery LoadWithProductPrices();
+
+        IShoppingCartQuery LoadWithProductImages();
     }
 }

@@ -20,9 +20,9 @@ namespace Kooboo.Commerce.ShoppingCarts
 
         public ShoppingCartItem() { }
 
-        public ShoppingCartItem(ProductPrice variation, int quantity, ShoppingCart cart)
+        public ShoppingCartItem(ProductPrice productPrice, int quantity, ShoppingCart cart)
         {
-            ProductPrice = variation;
+            ProductPrice = productPrice;
             Quantity = quantity;
             ShoppingCart = cart;
         }

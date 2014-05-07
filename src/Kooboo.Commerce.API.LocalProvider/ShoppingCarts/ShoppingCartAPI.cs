@@ -29,6 +29,9 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> _cartItemMapper;
         private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _customerMapper;
         private bool _loadWithCutomer = false;
+        private bool _loadWithBrands = false;
+        private bool _loadWithProductPrices = false;
+        private bool _loadWithProductImages = false;
 
         public ShoppingCartAPI(
             IHalWrapper halWrapper,
@@ -86,8 +89,25 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             {
                 includeComplexPropertyNames.Add("Customer");
             }
+            if (_loadWithBrands)
+            {
+                includeComplexPropertyNames.Add("Items.ProductPrice.Product.Brand");
+            }
+            if (_loadWithProductPrices)
+            {
+                includeComplexPropertyNames.Add("Items.ProductPrice.Product.PriceList");
+            }
+            if (_loadWithProductImages)
+            {
+                includeComplexPropertyNames.Add("Items.ProductPrice.Product.Images");
+            }
 
             var cart = _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
+
+            foreach (var item in cart.Items)
+            {
+                item.ProductPriceId = item.ProductPrice.Id;
+            }
 
             // Calculate promotion discounts
             var context = PricingContext.CreateFrom(obj);
@@ -105,14 +125,12 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             cart.TotalDiscount = context.Items.Sum(x => x.Subtotal.Discount) + context.Subtotal.Discount;
             cart.Total = context.Total;
 
-            foreach (var promotion in context.AppliedPromotions)
+            cart.AppliedPromotions = context.AppliedPromotions.Select(p => new Promotions.Promotion
             {
-                cart.AppliedPromotions.Add(new Promotions.Promotion
-                {
-                    Id = promotion.Id,
-                    Name = promotion.Name
-                });
-            }
+                Id = p.Id,
+                Name = p.Name
+            })
+            .ToArray();
 
             return cart;
         }
@@ -133,6 +151,24 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public IShoppingCartQuery LoadWithCustomer()
         {
             _loadWithCutomer = true;
+            return this;
+        }
+
+        public IShoppingCartQuery LoadWithBrands()
+        {
+            _loadWithBrands = true;
+            return this;
+        }
+
+        public IShoppingCartQuery LoadWithProductPrices()
+        {
+            _loadWithProductPrices = true;
+            return this;
+        }
+
+        public IShoppingCartQuery LoadWithProductImages()
+        {
+            _loadWithProductImages = true;
             return this;
         }
 

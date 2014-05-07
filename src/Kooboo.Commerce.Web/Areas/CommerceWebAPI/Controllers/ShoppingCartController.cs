@@ -33,8 +33,18 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (qs["LoadWithCustomer"] == "true")
                 query = query.LoadWithCustomer();
 
+            if (qs["LoadWithBrands"] == "true")
+                query = query.LoadWithBrands();
+
+            if (qs["LoadWithProductPrices"] == "true")
+                query = query.LoadWithProductPrices();
+
+            if (qs["LoadWithProductImages"] == "true")
+                query = query.LoadWithProductImages();
+
             return query;
         }
+
         /// <summary>
         /// add item to shopping cart
         /// </summary>

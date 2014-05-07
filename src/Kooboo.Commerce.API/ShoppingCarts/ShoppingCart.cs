@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// <summary>
         /// shopping cart items
         /// </summary>
-        public IList<ShoppingCartItem> Items { get; set; }
+        public ShoppingCartItem[] Items { get; set; }
         /// <summary>
         /// shipping address
         /// will copy to order's shipping address when create order from shopping cart
@@ -47,18 +47,12 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// <summary>
         /// Applicable promotions for this shopping cart.
         /// </summary>
-        public IList<Promotion> AppliedPromotions { get; set; }
+        public Promotion[] AppliedPromotions { get; set; }
 
         public decimal Subtotal { get; set; }
 
         public decimal TotalDiscount { get; set; }
 
         public decimal Total { get; set; }
-
-        public ShoppingCart()
-        {
-            Items = new List<ShoppingCartItem>();
-            AppliedPromotions = new List<Promotion>();
-        }
     }
 }

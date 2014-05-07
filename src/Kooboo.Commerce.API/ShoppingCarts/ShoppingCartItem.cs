@@ -23,6 +23,9 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// product price
         /// </summary>
         public ProductPrice ProductPrice { get; set; }
+
+        public int ProductPriceId { get; set; }
+
         /// <summary>
         /// quantity
         /// </summary>
