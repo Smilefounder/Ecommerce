@@ -7,7 +7,7 @@
 @section Panel{
     <ul class="header-panel">
         <li>
-            <a href="/Commerce/Order?commerceName=@Request.QueryString["commerceName"]">
+            <a href="/Commerce/Order?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]">
                 @Html.IconImage("back") @("Cancel".Localize())
             </a>
         </li>

@@ -3,10 +3,13 @@ using Kooboo.Commerce.API.HAL.Persistence;
 using Kooboo.Commerce.API.HAL.Services;
 using Kooboo.Commerce.Rules;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Web;
 
 namespace Kooboo.Commerce.API.HAL
 {
@@ -50,6 +53,7 @@ namespace Kooboo.Commerce.API.HAL
             AssertDescriptorNotNull(descriptor, resourceName);
             var halRules = GetHalRulesByHalContext(context);
             FillLinksNoRecursive(descriptor, resource, parameterValues, halRules);
+            AddPropertyResourceLinks(descriptor, resource, context, parameterValues);
         }
 
         public void AddLinks<T>(string resourceName, IListResource<T> resource, HalContext context, IDictionary<string, object> parameterValues, Func<T, IDictionary<string, object>> itemParameterValuesResolver)
@@ -142,7 +146,7 @@ namespace Kooboo.Commerce.API.HAL
                 var paras = new List<string>();
                 foreach (var resPara in descriptor.InputPramameters)
                 {
-                    var halPara = parameterValues.FirstOrDefault(o => o.Name == resPara.Name);
+                    var halPara = parameterValues.FirstOrDefault(o => o.Name.ToLower() == resPara.Name);
                     if (halPara != null)
                     {
                         var dotIndex = halPara.Name.IndexOf('.');
@@ -158,9 +162,24 @@ namespace Kooboo.Commerce.API.HAL
                         }
                     }
                 }
-                var spliter = url.IndexOf('?') > 0 ? "&" : "?";
-                var qs = string.Join("&", paras.ToArray());
-                url = url + spliter + qs;
+                if(url.IndexOf('?') > 0)
+                {
+                    var oqs = HttpUtility.ParseQueryString(url.Substring(url.IndexOf('?') + 1));
+                    var nqs = HttpUtility.ParseQueryString(string.Join("&", paras.ToArray()));
+                    foreach(var k in oqs.AllKeys)
+                    {
+                        if(string.IsNullOrEmpty(k) || nqs.AllKeys.Contains(k))
+                            continue;
+                        nqs.Add(k, oqs[k]);
+                    }
+                    var qsStrings = nqs.AllKeys.Select(o => string.Format("{0}={1}", o, nqs[o]));
+                    url = url.Substring(0, url.IndexOf('?')) + "?" + string.Join("&", qsStrings.ToArray());
+                }
+                else
+                {
+                    var qs = string.Join("&", paras.ToArray());
+                    url = url + "?" + qs;
+                }
             }
             return url;
         }
@@ -175,6 +194,75 @@ namespace Kooboo.Commerce.API.HAL
                     foreach (var link in links)
                     {
                         resource.Links.Add(link);
+                    }
+                }
+            }
+        }
+
+        private IDictionary<string, object> BuildEntityParameters(ResourceDescriptor descriptor, object entity, PropertyInfo[] properties = null, IDictionary<string, object> parentResourceParameterValues = null)
+        {
+            if (properties == null)
+                properties = entity.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var typeName = entity.GetType().Name;
+            IDictionary<string, object> propParameters = new Dictionary<string, object>();
+            if (descriptor.InputPramameters != null && descriptor.InputPramameters.Length > 0)
+            {
+                foreach (var ipara in descriptor.InputPramameters)
+                {
+                    var prop = properties.FirstOrDefault(o => HalParameter.NormailizeParameterName(typeName, o.Name) == ipara.Name.ToLower());
+                    if (prop == null)
+                        continue;
+                    propParameters.Add(prop.Name.ToLower(), prop.GetValue(entity, null));
+                }
+            }
+            if (parentResourceParameterValues != null && parentResourceParameterValues.Count > 0)
+            {
+                if(parentResourceParameterValues.ContainsKey("instance"))
+                {
+                    propParameters.Add("instance", parentResourceParameterValues["instance"]);
+                }
+                //foreach(var kvp in parentResourceParameterValues)
+                //{
+                //    if (propParameters.ContainsKey(kvp.Key))
+                //        continue;
+                //    propParameters.Add(kvp.Key, kvp.Value);
+                //}
+            }
+            return propParameters;
+        }
+
+        public void AddPropertyResourceLinks(ResourceDescriptor descriptor, object entity, HalContext context, IDictionary<string, object> parentResourceParameterValues = null)
+        {
+            if (descriptor.PropertyResourceProvider != null)
+            {
+                var propResources = descriptor.PropertyResourceProvider.GetPropertyResources(descriptor, entity);
+                if (propResources != null)
+                {
+                    foreach (var propResource in propResources)
+                    {
+                        if (propResource.ResourceNames == null || propResource.ResourceNames.Count() <= 0)
+                            continue;
+                        var properties = entity.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                        foreach (var resName in propResource.ResourceNames)
+                        {
+                            var propRes = _resourceDescriptorProvider.GetDescriptor(resName);
+                            if (propRes == null)
+                                continue;
+                            if (propResource.IsEnumerable)
+                            {
+                                foreach (var val in (IEnumerable)propResource.Value)
+                                {
+                                    // directly pass properties to the method to avoid calling reflection in the loop.
+                                    var parameterValues = BuildEntityParameters(descriptor, entity, properties, parentResourceParameterValues);
+                                    AddLinks(resName, val as IItemResource, context, parameterValues);
+                                }
+                            }
+                            else
+                            {
+                                var parameterValues = BuildEntityParameters(descriptor, entity, properties, parentResourceParameterValues);
+                                AddLinks(resName, propResource.Value as IItemResource, context, parameterValues);
+                            }
+                        }
                     }
                 }
             }

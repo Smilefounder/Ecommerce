@@ -64,28 +64,35 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var p in Model)
+                @if (Model == null || Model.Count() <= 0)
                 {
-                    <tr>
-                        <td class="checkbox ">
-                            <input type="checkbox" class="select" name="select" value="@p.Id" onchange="SelectItem();" data-id-property="Id" autocomplete="off">
-                        </td>
-                        <td>
-                            <a href="/Commerce/Order/Detail?commerceName=@Request.QueryString["commerceName"]&id=@(p.Id)&return=/Commerce/Order">@p.Id</a>
-                        </td>
-                        <td>
-                            @p.Customer.FullName
-                        </td>
-                        <td>
-                            @(p.Total)
-                        </td>
-                        <td>
-                            @(p.OrderStatus)
-                        </td>
-                        <td>
-                            @(p.CreatedAtUtc.ToShortDateString())
-                        </td>
-                    </tr>
+                    <tr class="empty"><td colspan="100">@("Empty".Localize())</td></tr>
+                }
+                else
+                {
+                    foreach (var p in Model)
+                    {
+                        <tr>
+                            <td class="checkbox ">
+                                <input type="checkbox" class="select" name="select" value="@p.Id" onchange="SelectItem();" data-id-property="Id" autocomplete="off">
+                            </td>
+                            <td>
+                                <a href="/Commerce/Order/Detail?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&id=@(p.Id)&return=/Commerce/Order?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]">@p.Id</a>
+                            </td>
+                            <td>
+                                @p.Customer.FullName
+                            </td>
+                            <td>
+                                @(p.Total)
+                            </td>
+                            <td>
+                                @(p.OrderStatus)
+                            </td>
+                            <td>
+                                @(p.CreatedAtUtc.ToShortDateString())
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -112,7 +119,7 @@
         var cbs = $('form input:checkbox:checked');
         if (cbs.length == 1) {
             var id = cbs.val();
-            window.location.href = url + '?commerceName=@Request.QueryString["commerceName"]&return=/Commerce/Order?commerceName=@Request.QueryString["commerceName"]&id=' + id;
+            window.location.href = url + '?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&return=/Commerce/Order?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&id=' + id;
         }
     }
 </script>

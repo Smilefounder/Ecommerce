@@ -92,7 +92,7 @@
                             <tr>
                                 <th>@("Sku".Localize())</th>
                                 <!-- ko foreach: $root.ProductType().VariationFields() -->
-                                <th data-bind="text: Name"></th>
+                                <th data-bind="with: CustomField"><span data-bind="text: Name"></span></th>
                                 <!-- /ko -->
                                 <th class="mini">@("PurchasePrice".Localize())</th>
                                 <th class="mini">@("RetailPrice".Localize())</th>
@@ -124,7 +124,7 @@
                                 @*<td><input type="text" data-bind="value:Name" class="mini"></td>*@
                                 <td><input type="text" data-bind="value:Sku"></td>
                                 <!-- ko foreach: $root.ProductType().VariationFields() -->
-                                <td data-bind="template: { name: 'variant_field_template', data: $data }"></td>
+                                <td data-bind="template: { name: 'variant_field_template', data: CustomField }"></td>
                                 <!-- /ko -->
                                 <td class="mini"><input type="text" data-bind="value:PurchasePrice" class="mini"></td>
                                 <td class="mini"><input type="text" data-bind="value:RetailPrice" class="mini"></td>
@@ -144,8 +144,8 @@
                     <table data-bind="with: $root.ProductType">
                         <tbody data-bind="foreach: CustomFields">
                             <tr>
-                                <th data-bind="text:Name"></th>
-                                <td data-bind="template: { name: 'custom_field_template', data: $data }"></td>
+                                <th data-bind="with: CustomField"><span data-bind="text:Name"></span></th>
+                                <td data-bind="template: { name: 'custom_field_template', data: CustomField }"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -243,10 +243,10 @@
     $(function () {
         vm = new ObjectModel({
             getQueryUrl: function (self) {
-                return '/Commerce/Product/Get?commerceName=@(Request.QueryString["commerceName"])&id=@(Request.QueryString["Id"])&productTypeId=@(Request.QueryString["productTypeId"])';
+                return '/Commerce/Product/Get?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&id=@(Request.QueryString["Id"])&productTypeId=@(Request.QueryString["productTypeId"])';
             },
             getSaveUrl: function (self) {
-                return '/Commerce/Product/Save?commerceName=@(Request.QueryString["commerceName"])';
+                return '/Commerce/Product/Save?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])';
             },
             onQuerySuccess: function (self) {
                 self.SelectedCategories.removeAll();
@@ -372,7 +372,7 @@
                 };
 
                 self.GetPriceVaiantText = function (field, price) {
-                    var f = $.grep(price.VariantValues(), function (n, i) { return n.CustomFieldId() == field.Id(); })[0];
+                    var f = $.grep(price.VariantValues(), function (n, i) { return n.CustomFieldId() == field.CustomFieldId(); })[0];
                     if (f)
                         return f.FieldValue();
                     return '';
@@ -421,28 +421,28 @@
                 };
 
                 self.GetImageTypes = function (func) {
-                    utils.getJson('/Commerce/Product/GetImageTypes?commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                    utils.getJson('/Commerce/Product/GetImageTypes?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
                         ko.mapping.viewModel(data, self.ImageTypes);
                         if (func) { func(); }
                     })
                 };
 
                 self.GetProductTypes = function (func) {
-                    utils.getJson('/Commerce/Product/GetProductType?commerceName=@(Request.QueryString["commerceName"])&id=@(Request.QueryString["productTypeId"])', null, function (data) {
+                    utils.getJson('/Commerce/Product/GetProductType?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&id=@(Request.QueryString["productTypeId"])', null, function (data) {
                         ko.mapping.viewModel(data, self.ProductType);
                         if (func) { func(); }
                     })
                 };
 
                 self.GetBrands = function (func) {
-                    utils.getJson('/Commerce/Product/GetBrands?commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                    utils.getJson('/Commerce/Product/GetBrands?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
                         ko.mapping.viewModel(data, self.Brands);
                         if (func) { func(); }
                     })
                 };
 
                 self.GetCategories = function (func) {
-                    utils.getJson('/Commerce/Product/GetCategories?commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                    utils.getJson('/Commerce/Product/GetCategories?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
                         ko.mapping.viewModel(data, self.Categories);
                         if (func) { func(); }
                     })
@@ -450,7 +450,7 @@
 
                 self.GetSubCategories = function (item) {
                     if (!item.Children()) {
-                        utils.getJson('/Commerce/Product/GetCategories?commerceName=@(Request.QueryString["commerceName"])&parentId=' + item.Id(), null, function (data) {
+                        utils.getJson('/Commerce/Product/GetCategories?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&parentId=' + item.Id(), null, function (data) {
                             item.Children(data);
                             $('#category_tree li.tree-node').treeNode();
                         });

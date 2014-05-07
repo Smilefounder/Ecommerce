@@ -251,73 +251,79 @@
             <h1 class="title">@("Address".Localize())</h1>
         </div>
         <div class="wrap">
-            <div class="common-form">
-                <table>
-                    <tbody data-bind="with: EditingAddress">
-                        <tr>
-                            <th>@("First Name".Localize())</th>
-                            <td>
-                                <input data-bind="value:FirstName" type="text" class="xlarge">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Last Name".Localize())</th>
-                            <td>
-                                <input data-bind="value:LastName" type="text" class="xlarge">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Phone".Localize())</th>
-                            <td>
-                                <input data-bind="value:Phone" type="text" class="xlarge">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Country".Localize())</th>
-                            <td>
-                                <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId" class="xlarge"></select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("State".Localize())</th>
-                            <td>
-                                <input data-bind="value:State" type="text" class="xlarge">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("City".Localize())</th>
-                            <td>
-                                <input data-bind="value:City" type="text" class="xlarge">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Postcode".Localize())</th>
-                            <td>
-                                <input data-bind="value:Postcode" type="text" class="xlarge">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Address1".Localize())</th>
-                            <td>
-                                <input data-bind="value:Address1" type="text" class="xlarge">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Address2".Localize())</th>
-                            <td>
-                                <input data-bind="value:Address2" type="text" class="xlarge">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td>
-                                <input data-bind="checked:IsDefault" type="checkbox" id="IsDefault">
-                                <label class="inline" for="IsDefault">@("Set as default address".Localize())</label>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <form class="common-form">
+                <div>
+                    <table>
+                        <tbody data-bind="with: EditingAddress">
+                            <tr>
+                                <th>@("First Name".Localize())</th>
+                                <td>
+                                    <input data-bind="value:FirstName" type="text" class="xlarge">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Last Name".Localize())</th>
+                                <td>
+                                    <input data-bind="value:LastName" type="text" class="xlarge">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Phone".Localize())</th>
+                                <td>
+                                    <input data-bind="value:Phone" type="text" class="xlarge">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Country".Localize())</th>
+                                <td>
+                                    <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId" class="xlarge"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("State".Localize())</th>
+                                <td>
+                                    <input data-bind="value:State" type="text" class="xlarge">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("City".Localize())</th>
+                                <td>
+                                    <input data-bind="value:City" type="text" class="xlarge">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Postcode".Localize())</th>
+                                <td>
+                                    <input data-bind="value:Postcode" type="text" class="xlarge">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Address1".Localize())</th>
+                                <td>
+                                    <input data-bind="value:Address1" type="text" class="xlarge">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>@("Address2".Localize())</th>
+                                <td>
+                                    <input data-bind="value:Address2" type="text" class="xlarge">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td>
+                                    <input data-bind="checked:IsDefault" type="checkbox" id="IsDefault">
+                                    <label class="inline" for="IsDefault">@("Set as default address".Localize())</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="buttons">
+                    <input type="button" class="button" onclick="vm.SaveAddress();" value="@("OK".Localize())">
+                    <a class="button gray" onclick="vm.CancelAddress();">@("Cancel".Localize())</a>
+                </p>
+            </form>
         </div>
     </div>
 </div>
@@ -330,10 +336,10 @@
     $(function () {
         vm = new ObjectModel({
             getQueryUrl: function (self) {
-                return '/Commerce/Customer/Get?commerceName=@Request.QueryString["commerceName"]&id=@(Request.QueryString["Id"])';
+                return '/Commerce/Customer/Get?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&id=@(Request.QueryString["Id"])';
             },
             getSaveUrl: function (self) {
-                return '/Commerce/Customer/Save?commerceName=@Request.QueryString["commerceName"]';
+                return '/Commerce/Customer/Save?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]';
             },
             onQuerySuccess: function (self) {
                 $('#J_CustomerTabs').tabs();
@@ -341,7 +347,7 @@
             },
             onSaveSuccess: function (self, info) {
                 utils.showMessage('Notice', info.message, 'info');
-                window.location.href = '/Commerce/Customer/Index?commerceName=@Request.QueryString["commerceName"]';
+                window.location.href = '/Commerce/Customer/Index?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]';
                 //$('#J_CustomerTabs').tabs();
             },
             onInit: function (self) {
@@ -388,15 +394,23 @@
                 };
                 self.EditAddress = function (item) {
                     self.EditingAddress(item);
-                    utils.showDialog('#addressDiv', 'Edit Address', function () {
-                        if (vm.EditingAddress().isNew)
-                            vm.EditingAddress().isNew = false;
-                    }, function () {
-                        if (vm.EditingAddress().isNew) {
-                            vm.data().Addresses.remove(vm.EditingAddress());
+                    utils.showDialog('#addressDiv', 'Edit Address', null, null, null, null, {
+                        buttons: null, create: function () {
+                            $(document).dialogScroll();
                         }
                     });
                 };
+                self.SaveAddress = function () {
+                    if (vm.EditingAddress().isNew)
+                        vm.EditingAddress().isNew = false;
+                    $('#addressDiv').dialog("close");
+                };
+                self.CancelAddress = function () {
+                    if (vm.EditingAddress().isNew) {
+                        vm.data().Addresses.remove(vm.EditingAddress());
+                    }
+                    $('#addressDiv').dialog("close");
+                }
                 self.AddCustomField = function () {
                     var item = {
                         Name: ko.observable(null),
@@ -413,7 +427,7 @@
                     self.GetOrders();
                 });
                 self.GetOrders = function () {
-                    var url = '/Commerce/Customer/GetOrders?commerceName=@Request.QueryString["commerceName"]&customerId=' + self.data().Id();
+                    var url = '/Commerce/Customer/GetOrders?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&customerId=' + self.data().Id();
                     url += '&page=' + self.OrderPageIndex() + '&pageSize=50';
                     utils.getJson(url, null, function (orders) {
                         ko.mapping.viewModel(orders, vm.Orders);
@@ -423,7 +437,7 @@
         });
 
         ko.applyBindings(vm);
-        utils.getJson('/Commerce/Customer/GetCountries?commerceName=@Request.QueryString["commerceName"]', null, function (dc) {
+        utils.getJson('/Commerce/Customer/GetCountries?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]', null, function (dc) {
             ko.mapping.viewModel(dc, vm.Countries);
             vm.getData();
         });

@@ -62,6 +62,8 @@ namespace Kooboo.Commerce.API.HAL
                 var uqs = HttpUtility.ParseQueryString(resUri.Query);
                 foreach (var k in uqs.AllKeys)
                 {
+                    if (string.IsNullOrEmpty(k))
+                        continue;
                     string key = HttpUtility.UrlDecode(k);
                     key = GetValueFromParameters(key, paras, key);
                     // this is a place holder query string and is not replaced with parameters, so ignore this key.

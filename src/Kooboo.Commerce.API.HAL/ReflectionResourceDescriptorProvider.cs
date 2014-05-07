@@ -100,10 +100,18 @@ namespace Kooboo.Commerce.API.HAL
                             resource.ItemResourceName = NormalizeResourceName(resAttr.ItemName, controllerName, null);
                         }
 
+                        // set implicit link provider. implicit links means these links will be implictly added to the resource.
                         if (resAttr.ImplicitLinksProvider != null && typeof(IImplicitLinkProvider).IsAssignableFrom(resAttr.ImplicitLinksProvider))
                         {
                             var linksProvider = Activator.CreateInstance(resAttr.ImplicitLinksProvider) as IImplicitLinkProvider;
                             resource.ImplicitLinkProvider = linksProvider;
+                        }
+
+                        // set property link provider. property links will visit the model type and automatically add reference resources to this resource
+                        if (resAttr.PropertyResourceProvider != null && typeof(IPropertyResourceProvider).IsAssignableFrom(resAttr.PropertyResourceProvider))
+                        {
+                            var resourcesProvider = Activator.CreateInstance(resAttr.PropertyResourceProvider) as IPropertyResourceProvider;
+                            resource.PropertyResourceProvider = resourcesProvider;
                         }
 
                         List<HalParameter> inputParameters = new List<HalParameter>();
@@ -124,7 +132,7 @@ namespace Kooboo.Commerce.API.HAL
                                     if (!pa.Required)
                                         pa.Required = !para.IsOptional && IsTypeRequired(pa.ParameterType);
 
-                                    inputParameters.Add(new HalParameter(string.Format("{0}.{1}", controllerName, pa.Name), pa.ParameterType, pa.Required));
+                                    inputParameters.Add(new HalParameter(HalParameter.NormailizeParameterName(controllerName, pa.Name), pa.ParameterType, pa.Required));
                                 }
                             }
                             else
@@ -134,7 +142,7 @@ namespace Kooboo.Commerce.API.HAL
                                     if (IsSimpleType(para.ParameterType))
                                     {
                                         bool required = !para.IsOptional && IsTypeRequired(para.ParameterType);
-                                        inputParameters.Add(new HalParameter(string.Format("{0}.{1}", controllerName, para.Name), para.ParameterType, required));
+                                        inputParameters.Add(new HalParameter(HalParameter.NormailizeParameterName(controllerName, para.Name), para.ParameterType, required));
                                     }
                                 }
                             }
@@ -161,7 +169,7 @@ namespace Kooboo.Commerce.API.HAL
                                                 continue;
                                             if (IsSimpleType(para.PropertyType))
                                             {
-                                                outputParameters.Add(new HalParameter(string.Format("{0}.{1}", ptype.Name, para.Name), para.PropertyType, IsTypeRequired(para.PropertyType)));
+                                                outputParameters.Add(new HalParameter(HalParameter.NormailizeParameterName(ptype.Name, para.Name), para.PropertyType, IsTypeRequired(para.PropertyType)));
                                             }
                                         }
                                     }
@@ -182,7 +190,7 @@ namespace Kooboo.Commerce.API.HAL
                                     var pattrs = halParameterProvider.GetCustomAttributes(true).OfType<HalParameterAttribute>();
                                     foreach (var pattr in pattrs)
                                     {
-                                        string pname = string.Format("{0}.{1}", controllerName, pattr.Name);
+                                        string pname = HalParameter.NormailizeParameterName(controllerName, pattr.Name);
                                         if (inputParameters.Any(o => o.Name == pname))
                                             continue;
                                         inputParameters.Add(new HalParameter(pname, pattr.ParameterType, pattr.Required));
@@ -206,9 +214,9 @@ namespace Kooboo.Commerce.API.HAL
         private string NormalizeResourceName(string resName, string controller, string action)
         {
             if (string.IsNullOrEmpty(resName))
-                resName = string.Format("{0}:{1}", controller, action);
+                resName = ResourceDescriptor.NomalizeResourceName(controller, action);
             else if (resName.IndexOf(':') < 0)
-                resName = string.Format("{0}:{1}", controller, resName);
+                resName = ResourceDescriptor.NomalizeResourceName(controller, resName);
             return resName.ToLower();
         }
 

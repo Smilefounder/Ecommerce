@@ -185,7 +185,12 @@
                     }
                 };
                 this.addSystemField = function () {
-                    var dlg = $(self.container).find('#systemFields');
+                    var dlg = self.systemFieldsDialog;
+                    if (dlg == undefined) {
+                        dlg = $(self.container).find('#systemFields');
+                        self.systemFieldsDialog = dlg;
+                    }
+                    dlg.find('input:checkbox').prop('checked', false);
                     utils.showDialog(dlg, 'Add System Fields', function () {
                         $.each(dlg.find('tbody input:checkbox:checked'), function () {
                             var fid = $(this).val();

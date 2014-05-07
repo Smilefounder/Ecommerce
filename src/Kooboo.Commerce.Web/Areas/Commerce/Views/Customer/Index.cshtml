@@ -27,7 +27,7 @@
 }
 
 <div class="common-table">
-    @using (Html.BeginForm("Delete", "Customer", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class="no-stop" }))
+    @using (Html.BeginForm("Delete", "Customer", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class = "no-stop" }))
     {
         <table>
             <thead>
@@ -47,22 +47,29 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var p in Model)
+                @if (Model == null || Model.Count() <= 0)
                 {
-                    <tr>
-                        <td class="checkbox ">
-                            <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
-                        </td>
-                        <td>
-                            <a href="/Commerce/Customer/Edit?commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=/Commerce/Customer?commerceName=@Request.QueryString["commercename"]">@p.Name</a>
-                        </td>
-                        <td>
-                            @p.Email
-                        </td>
-                        <td>
-                            @p.Orders
-                        </td>
-                    </tr>
+                    <tr class="empty"><td colspan="100">@("Empty".Localize())</td></tr>
+                }
+                else
+                {
+                    foreach (var p in Model)
+                    {
+                        <tr>
+                            <td class="checkbox ">
+                                <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
+                            </td>
+                            <td>
+                                <a href="/Commerce/Customer/Edit?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=/Commerce/Customer?commerceName=@Request.QueryString["commercename"]">@p.Name</a>
+                            </td>
+                            <td>
+                                @p.Email
+                            </td>
+                            <td>
+                                @p.Orders
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
