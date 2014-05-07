@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// </example>
         /// <returns>api objects</returns>
         [HttpGet]
-        [Resource("all", itemName: "detail", uri: "/{instance}/{controller}")]
+        [Resource("all", itemName: "detail", uri: "/{instance}/{controller}", PropertyResourceProvider = typeof(DefaultPropertyResourceProvider))]
         public virtual IListResource<T> Get()
         {
             var query = BuildQueryFromQueryStrings();
@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="pageSize">page size</param>
         /// <returns>api objects</returns>
         [HttpGet]
-        [Resource("list", itemName: "detail", uri: "/{instance}/{controller}/{action}?pageIndex={pageIndex}&pageSize={pageSize}", ImplicitLinksProvider = typeof(PaginationImplictLinksProvider))]
+        [Resource("list", itemName: "detail", uri: "/{instance}/{controller}/{action}?pageIndex={pageIndex}&pageSize={pageSize}", PropertyResourceProvider = typeof(DefaultPropertyResourceProvider), ImplicitLinksProvider = typeof(PaginationImplictLinksProvider))]
         public virtual IListResource<T> List(int pageIndex, int pageSize)
         {
             var query = BuildQueryFromQueryStrings();
@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// </summary>
         /// <returns>api object</returns>
         [HttpGet]
-        [Resource("detail", uri: "/{instance}/{controller}/{id}")]
+        [Resource("detail", uri: "/{instance}/{controller}/{id}", PropertyResourceProvider = typeof(DefaultPropertyResourceProvider))]
         public virtual T Get(int id)
         {
             var query = BuildQueryFromQueryStrings();

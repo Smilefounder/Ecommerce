@@ -27,5 +27,10 @@ namespace Kooboo.Commerce.API.HAL
         {
             return Name;
         }
+
+        public static string NormailizeParameterName(string typeName, string paraName)
+        {
+            return string.Format("{0}.{1}", typeName, paraName).ToLower();
+        }
     }
 }

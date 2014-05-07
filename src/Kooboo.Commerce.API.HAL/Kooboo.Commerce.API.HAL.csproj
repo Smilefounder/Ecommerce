@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultPropertyResourceProvider.cs" />
     <Compile Include="DefaultUriResolver.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="HalContext.cs" />
@@ -71,6 +72,8 @@
     <Compile Include="HalRuleResource.cs" />
     <Compile Include="HalWrapper.cs" />
     <Compile Include="HalRule.cs" />
+    <Compile Include="IPropertyResourceProvider.cs" />
+    <Compile Include="PropertyResource.cs" />
     <Compile Include="ReflectionResourceDescriptorProvider.cs" />
     <Compile Include="ResourceName.cs" />
     <Compile Include="Serialization\JsonHalMediaTypeFormatter.cs" />

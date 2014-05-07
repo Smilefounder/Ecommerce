@@ -39,7 +39,13 @@ namespace Kooboo.Commerce.API.HAL
             ItemResourceName = itemResourceName;
         }
 
+        public static string NomalizeResourceName(string typeName, string resourceName)
+        {
+            return string.Format("{0}:{1}", typeName, resourceName).ToLower();
+        }
+
         public IImplicitLinkProvider ImplicitLinkProvider { get; set; }
+        public IPropertyResourceProvider PropertyResourceProvider { get; set; }
 
         public HalParameter[] InputPramameters { get; set; }
         public HalParameter[] OutputParameters { get; set; }
