@@ -60,7 +60,7 @@
                                 <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
                             </td>
                             <td>
-                                <a href="/Commerce/Customer/Edit?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=/Commerce/Customer?commerceName=@Request.QueryString["commercename"]">@p.Name</a>
+                                <a href="/Commerce/Customer/Edit?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&return=@Url.Encode("/Commerce/Customer?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commercename"])">@p.Name</a>
                             </td>
                             <td>
                                 @p.Email

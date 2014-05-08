@@ -1,6 +1,6 @@
 ﻿@model CustomerEditorModel
 @{
-    ViewBag.Title = "Edit Customer".Localize();
+    ViewBag.Title = (string.IsNullOrEmpty(Request.QueryString["Id"]) ? "Create Customer" : "Edit Customer").Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 
@@ -221,21 +221,21 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>@("Order id".Localize())</th>
                                 <th>@("Order date".Localize())</th>
                                 <th>@("Total price".Localize())</th>
                                 <th>@("Total weight".Localize())</th>
                                 <th>@("Order status".Localize())</th>
-                                <th>@("Payment status".Localize())</th>
                                 <th>@("Completed".Localize())</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: $root.Orders">
                             <tr>
+                                <td data-bind="text:Id"></td>
                                 <td data-bind="text:CreatedAtUtc"></td>
                                 <td data-bind="text:Total"></td>
                                 <td data-bind="text:TotalWeight"></td>
                                 <td data-bind="text:OrderStatus"></td>
-                                <td data-bind="text:PaymentStatus"></td>
                                 <td data-bind="text:IsCompleted"></td>
                             </tr>
                         </tbody>

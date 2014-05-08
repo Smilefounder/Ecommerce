@@ -69,6 +69,13 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
             return Post<int>(null);
         }
 
+        public bool ApplyCoupon(int cartId, string coupon)
+        {
+            QueryParameters.Add("cartId", cartId.ToString());
+            QueryParameters.Add("coupon", coupon);
+            return Post<bool>("ApplyCoupon");
+        }
+
         /// <summary>
         /// add item to shopping cart
         /// </summary>

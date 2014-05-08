@@ -88,7 +88,7 @@ namespace Kooboo.Commerce.API.HAL
         {
             if (_halRules == null)
                 _halRules = _halRuleService.Query().ToArray();
-            return _halRules.Where(o => _ruleEngine.CheckCondition(o.ConditionsExpression, context));
+            return _halRules.Where(o => String.IsNullOrEmpty(o.ConditionsExpression) || _ruleEngine.CheckCondition(o.ConditionsExpression, context));
         }
 
         private bool IsResourceInRules(string resourceName, IEnumerable<HalRule> halRules)

@@ -15,6 +15,8 @@ namespace Kooboo.Commerce.Web
 
             foreach (var key in nv.AllKeys)
             {
+                if (string.IsNullOrEmpty(key))
+                    continue;
                 routeValues.Add(key, nv[key]);
             }
 
