@@ -18,6 +18,7 @@ namespace Kooboo.Commerce.Web.Html
         private string _url;
         private string _confirm;
         private bool _isAjaxFormTrigger;
+        private string _ajaxFormId = null;
         private string _customHtml;
 
         private HeaderPanelButtonCollection _dropdownItems;
@@ -78,9 +79,10 @@ namespace Kooboo.Commerce.Web.Html
             return this;
         }
 
-        public HeaderPanelButton AsAjaxFormTrigger()
+        public HeaderPanelButton AsAjaxFormTrigger(string ajaxFormId = null)
         {
             _isAjaxFormTrigger = true;
+            _ajaxFormId = ajaxFormId;
             return this;
         }
 

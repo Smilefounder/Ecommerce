@@ -70,7 +70,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             model.UpdateTo(rule);
             _halRuleService.Save(rule);
 
-            return AjaxForm().RedirectTo(@return);
+            return AjaxForm().Success().RedirectTo(@return);
         }
 
         [HttpPost, HandleAjaxFormError]

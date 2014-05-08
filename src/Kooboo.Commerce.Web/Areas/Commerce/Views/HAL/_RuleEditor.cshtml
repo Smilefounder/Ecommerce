@@ -3,7 +3,7 @@
 <style type="text/css">
     .checkbox-field { width: 25%; }
 </style>
-@using (Html.BeginForm("SaveRule", "Hal", RouteValues.From(Request.QueryString)))
+@using (Html.BeginForm("SaveRule", "Hal", RouteValues.From(Request.QueryString), FormMethod.Post, new Dictionary<string, object> { { "id", "resource-rule-form" } }))
 {
     @Html.ValidationSummary(true)
 
@@ -49,37 +49,3 @@
     </div>
 }
 
-@Html.Partial("_ConditionsEditor")
-
-<script type="text/javascript">
-    $(function () {
-        ConditionsEditor.init({
-            contextModelTypeName: '@Html.Raw(ViewBag.CurrentEventType)',
-            save: function (exp) {
-                Highlight(exp, function () {
-                    $('#ConditionsExpression').val(exp);
-                    ConditionsEditor.close();
-                });
-            }
-        });
-    });
-    function EditRule() {
-        ConditionsEditor.open({
-            expression: $('#ConditionsExpression').val()
-        });
-    }
-
-    function DeleteRule() {
-        $('#ConditionsExpression').val(null);
-        $('div.conditions-expression>span.container').empty();
-    }
-
-    function Highlight(expression, func) {
-        var commerceName = '@(Request["commerceName"])';
-        return $.post('@Url.Action("HighlightConditionsExpression")', { commerceName: commerceName, expression: expression })
-        .then(function (data) {
-            $('div.conditions-expression>span.container').html(data.conditionsExpression);
-            if (typeof (func) == "function") { func(); }
-        });
-    }
-</script>

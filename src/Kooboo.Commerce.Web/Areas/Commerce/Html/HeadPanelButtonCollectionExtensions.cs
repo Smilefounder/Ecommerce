@@ -51,14 +51,14 @@ namespace Kooboo.Commerce.Web.Html
                           .WithConfirmMessage("Are you sure to delete this record?");
         }
 
-        public static HeaderPanelButton AddSaveButton(this HeaderPanelButtonCollection buttons)
+        public static HeaderPanelButton AddSaveButton(this HeaderPanelButtonCollection buttons, string ajaxFormId = null)
         {
-            return buttons.Add("Save", "save").AsAjaxFormTrigger();
+            return buttons.Add("Save", "save").AsAjaxFormTrigger(ajaxFormId);
         }
 
-        public static HeaderPanelButton AddSaveAndNextButton(this HeaderPanelButtonCollection buttons)
+        public static HeaderPanelButton AddSaveAndNextButton(this HeaderPanelButtonCollection buttons, string ajaxFormId = null)
         {
-            return buttons.Add("Next", "next").AsAjaxFormTrigger();
+            return buttons.Add("Next", "next").AsAjaxFormTrigger(ajaxFormId);
         }
 
         public static HeaderPanelButton AddCancelButton(this HeaderPanelButtonCollection buttons)
