@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Create Product".Localize();
+    ViewBag.Title = (string.IsNullOrEmpty(Request.QueryString["Id"]) ? "Create Product" : "Edit Product").Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 
     var customTabs = Kooboo.CMS.Sites.Extension.UI.Tabs.CustomTabs.GetTabs(ViewContext.RequestContext).ToArray();
@@ -459,6 +459,7 @@
             }
         });
 
+        ko.applyBindings(vm);
         vm.GetImageTypes(function () {
             vm.GetProductTypes(function () {
                 vm.GetBrands(function () {
@@ -467,7 +468,6 @@
                         kb.events.trigger('Product/Edit/FormDataBinding', vm, {
                             viewModel: vm
                         });
-                        ko.applyBindings(vm);
                     });
                 });
             });

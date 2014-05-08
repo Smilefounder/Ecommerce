@@ -7,6 +7,11 @@ using Kooboo.Commerce.API.HAL;
 
 namespace Kooboo.Commerce.API.CmsSite
 {
+    /// <summary>
+    /// this resolver is temporary for providing cms friendly url to sample commerce vitaminstore. 
+    /// this should be removed and replaced with kooboo cms friendly url solution
+    /// TODO: to be removed.
+    /// </summary>
     public class CmsSiteUrlResolver
     {
         public static string MapUrl(IItemResource resource, string linkRelName, string url = null)
@@ -25,7 +30,6 @@ namespace Kooboo.Commerce.API.CmsSite
                     switch(linkUrl.Segments[2].TrimEnd('/').ToLower())
                     {
                         case "product":
-                            path.Add("product");
                             if(linkUrl.Segments.Length > 3)
                             switch(linkUrl.Segments[3].TrimEnd('/').ToLower())
                             {

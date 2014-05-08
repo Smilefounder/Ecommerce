@@ -60,7 +60,7 @@
                     <tr>
                         <th>@("Country".Localize())</th>
                         <td>
-                            @Model.Customer.Country.Name
+                            @(Model.Customer.Country == null ? "" : Model.Customer.Country.Name)
                         </td>
                     </tr>
                     <tr>
