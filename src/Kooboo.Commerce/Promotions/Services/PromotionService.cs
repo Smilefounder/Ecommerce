@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Promotions.Services
 
         public bool Create(Promotion promotion)
         {
-            if (promotion.RequireCouponCode && !IsCouponAvailable(promotion.CouponCode, promotion.Id))
+            if (promotion.RequireCouponCode && IsCouponAlreadyTaken(promotion.CouponCode, promotion.Id))
             {
                 throw new InvalidOperationException("Coupon code has been taken.");
             }
@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Promotions.Services
 
         public bool Update(Promotion promotion)
         {
-            if (promotion.RequireCouponCode && !IsCouponAvailable(promotion.CouponCode, promotion.Id))
+            if (promotion.RequireCouponCode && IsCouponAlreadyTaken(promotion.CouponCode, promotion.Id))
             {
                 throw new InvalidOperationException("Coupon code has been taken.");
             }
@@ -62,10 +62,9 @@ namespace Kooboo.Commerce.Promotions.Services
             return _repository.Delete(promotion);
         }
 
-        public bool IsCouponAvailable(string coupon, int candidatePromotionId)
+        private bool IsCouponAlreadyTaken(string coupon, int candidatePromotionId)
         {
-            return !Query().Any(x => 
-                x.RequireCouponCode && x.CouponCode == coupon && x.Id != candidatePromotionId);
+            return Query().Any(x => x.RequireCouponCode && x.CouponCode == coupon && x.Id != candidatePromotionId);
         }
     }
 }

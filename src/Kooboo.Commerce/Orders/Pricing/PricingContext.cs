@@ -39,10 +39,20 @@ namespace Kooboo.Commerce.Orders.Pricing
         {
             get
             {
-                var total = Items.Sum(x => x.Subtotal.FinalValue);
+                var total = Subtotal.FinalValue;
+
+                var itemDiscounts = Items.Sum(x => x.Subtotal.Discount);
+                if (itemDiscounts > total)
+                {
+                    itemDiscounts = total;
+                }
+
+                total -= itemDiscounts;
+
                 total += PaymentMethodCost.FinalValue;
                 total += ShippingCost.FinalValue;
                 total += Tax.FinalValue;
+
                 return total;
             }
         }

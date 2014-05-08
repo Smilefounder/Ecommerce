@@ -1,11 +1,11 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Prices;
+using Kooboo.Commerce.API.Pricing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.RestProvider.Prices
+namespace Kooboo.Commerce.API.RestProvider.Pricing
 {
     [Dependency(typeof(IPriceAPI))]
     public class RestPriceAPI : RestApiBase, IPriceAPI

@@ -4,7 +4,7 @@ using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.API.Orders;
 using Kooboo.Commerce.API.Payments;
-using Kooboo.Commerce.API.Prices;
+using Kooboo.Commerce.API.Pricing;
 using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.API.ShoppingCarts;
 using System;

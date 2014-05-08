@@ -8,6 +8,9 @@ using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.CMS.Membership.Models;
+using Kooboo.Commerce.Promotions;
+using Kooboo.Commerce.Promotions.Services;
+using Kooboo.Commerce.Orders.Pricing;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
@@ -17,14 +20,21 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         private readonly IRepository<ShoppingCart> _shoppingCartRepository;
         private readonly IRepository<ShoppingCartItem> _shoppingCartItemRepository;
         private readonly ICustomerService _customerService;
+        private readonly IPromotionService _promotionService;
         private readonly IRepository<ProductPrice> _productPriceRepository;
 
-        public ShoppingCartService(IRepository<ShoppingCart> shoppingCartRepository, IRepository<ShoppingCartItem> shoppingCartItemRepository, ICustomerService customerService, IRepository<ProductPrice> productPriceRepository)
+        public ShoppingCartService(
+            IRepository<ShoppingCart> shoppingCartRepository, 
+            IRepository<ShoppingCartItem> shoppingCartItemRepository, 
+            ICustomerService customerService, 
+            IRepository<ProductPrice> productPriceRepository,
+            IPromotionService promotionService)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _shoppingCartItemRepository = shoppingCartItemRepository;
             _customerService = customerService;
             _productPriceRepository = productPriceRepository;
+            _promotionService = promotionService;
         }
 
         #region IShoppingCartService Members
@@ -39,6 +49,30 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             return _shoppingCartItemRepository.Query();
         }
 
+        public bool ApplyCoupon(int cartId, string coupon)
+        {
+            if (String.IsNullOrWhiteSpace(coupon))
+            {
+                return false;
+            }
+
+            var cart = _shoppingCartRepository.Get(cartId);
+            var oldCoupon = cart.CouponCode;
+
+            cart.CouponCode = coupon;
+
+            var context = PricingContext.CreateFrom(cart);
+            new PricingPipeline().Execute(context);
+
+            if (context.AppliedPromotions.Any(p => p.RequireCouponCode && p.CouponCode == coupon))
+            {
+                return true;
+            }
+
+            cart.CouponCode = oldCoupon;
+
+            return false;
+        }
 
         //public ShoppingCart GetBySessionId(string sessionId)
         //{

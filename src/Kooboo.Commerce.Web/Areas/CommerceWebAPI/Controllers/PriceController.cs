@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.API.Prices;
+﻿using Kooboo.Commerce.API.Pricing;
 using System;
 using System.Collections.Generic;
 using System.Linq;

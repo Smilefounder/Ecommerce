@@ -12,7 +12,7 @@ using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Payments;
-using Kooboo.Commerce.API.Prices;
+using Kooboo.Commerce.API.Pricing;
 
 namespace Kooboo.Commerce.API
 {

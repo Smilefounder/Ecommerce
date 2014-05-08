@@ -45,6 +45,13 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             return query;
         }
 
+        [HttpPost]
+        [Resource("apply_coupon")]
+        public bool ApplyCoupon(int cartId, string coupon)
+        {
+            return Commerce().ShoppingCarts.ApplyCoupon(cartId, coupon);
+        }
+
         /// <summary>
         /// add item to shopping cart
         /// </summary>

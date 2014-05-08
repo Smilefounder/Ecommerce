@@ -1,6 +1,6 @@
 ﻿using Kooboo.CMS.Common;
 using Kooboo.CMS.Sites.Extension;
-using Kooboo.Commerce.API.Prices;
+using Kooboo.Commerce.API.Pricing;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -103,12 +103,12 @@
     <Compile Include="Orders\OrderItem.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
     <Compile Include="Payments\PaymentTarget.cs" />
-    <Compile Include="Prices\CalculateOrderPriceRequest.cs" />
-    <Compile Include="Prices\CalculatePriceRequest.cs" />
-    <Compile Include="Prices\CalculatePriceResult.cs" />
-    <Compile Include="Prices\CalculateItemPriceResult.cs" />
-    <Compile Include="Prices\PriceWithDiscount.cs" />
-    <Compile Include="Prices\PricingItem.cs" />
+    <Compile Include="Pricing\CalculateOrderPriceRequest.cs" />
+    <Compile Include="Pricing\CalculatePriceRequest.cs" />
+    <Compile Include="Pricing\CalculatePriceResult.cs" />
+    <Compile Include="Pricing\CalculateItemPriceResult.cs" />
+    <Compile Include="Pricing\PriceWithDiscount.cs" />
+    <Compile Include="Pricing\PricingItem.cs" />
     <Compile Include="Payments\PaymentRequest.cs" />
     <Compile Include="Payments\PaymentResult.cs" />
     <Compile Include="Payments\IPaymentAccess.cs" />
@@ -123,7 +123,7 @@
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="Payments\PaymentProcessorParameterDescriptor.cs" />
     <Compile Include="PriceChangeMode.cs" />
-    <Compile Include="Prices\IPriceAPI.cs" />
+    <Compile Include="Pricing\IPriceAPI.cs" />
     <Compile Include="Products\IProductAccess.cs" />
     <Compile Include="Products\IProductAPI.cs" />
     <Compile Include="Products\IProductQuery.cs" />

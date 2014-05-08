@@ -176,6 +176,7 @@
     <Compile Include="Promotions\PromotionConditionChecker.cs" />
     <Compile Include="Promotions\PromotionMatch.cs" />
     <Compile Include="Promotions\PromotionContext.cs" />
+    <Compile Include="Promotions\PromotionSpecifications.cs" />
     <Compile Include="Rules\CustomerGenderValueDataSource.cs" />
     <Compile Include="Rules\Orders\OrderEventParameterProvider.cs" />
     <Compile Include="Settings\Services\ISettingService.cs" />

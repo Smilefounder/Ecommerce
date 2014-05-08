@@ -78,22 +78,26 @@
                                 Vul deze dan hier in:
                             </li>
                             <li class="ordercode-input">
-                                <input type="text" class="code"><a id="ctl00_cpContent_ibtnAddOrderCode" href="javascript:__doPostBack('ctl00$cpContent$ibtnAddOrderCode','')"><i class="icon-refresh"></i></a>
+                                <input type="text" class="code" data-bind="value: CouponCode" /><a href="#" data-bind="click: ApplyCoupon"><i class="icon-refresh"></i></a>
                             </li>
-                            <li>
-                                <br>
+                            <li data-bind="visible: !IsCouponCodeValid()" style="display:none">
+                                <br />
+                                <span style="color:red">De door u ingevulde bestelcode is onjuist of verlopen.</span>
+                            </li>
+                            <li data-bind="visible: IsCouponCodeValid() && TotalDiscount() > 0" style="display:none">
+                                <div style="color:darkorange;padding-top:10px;padding-left:10px">Uw voordeel: € <span data-bind="text: TotalDiscount"></span></div>
                             </li>
                         </ul>
 
                     </td>
                     <td colspan="3" class="subtotal">
                         <span class="total-title">Totaal voor deze bestelling:</span><br>
-                        <span class="total-value">€ <span data-bind="text: Total"></span></span>
+                        <span class="total-value">€ <span data-bind="text: FinalSubtotal"></span></span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="6" class="subtotal buttons">
-                        <a href="/ContinueShopping.aspx" class="btn continue-shopping">verder winkelen</a>
+                        <a href="@Url.FrontUrl().PageUrl("/Home")" class="btn continue-shopping">verder winkelen</a>
                         <a class="btn orange-btn next-step" href="javascript:__doPostBack('ctl00$cpContent$lbtnNextStep','')">naar stap 2 <i class="icon-chevron-right"></i></a>
                     </td>
                 </tr>
@@ -143,7 +147,28 @@
         function ShoppingCartModel() {
             var _this = this;
 
+            this.CouponCode = ko.observable();
+
+            this.IsCouponCodeValid = ko.observable(true);
+
             this.QuantityRange = _.range(1, 20, 1);
+
+            this.Items = ko.observableArray();
+
+            this.Subtotal = ko.observable();
+
+            this.TotalDiscount = ko.observable(0);
+
+            this.FinalSubtotal = ko.computed(function () {
+                var subtotal = _this.Subtotal();
+                var discount = _this.TotalDiscount();
+
+                if (!isNaN(subtotal)) {
+                    return (subtotal - discount).toFixed(2);
+                }
+
+                return subtotal;
+            });
 
             this.GetDefaultImageUrl = function (product) {
                 var images = product.Images();
@@ -175,6 +200,19 @@
                     newProductPriceId: newProductPriceId
                 })
                 .done(updateModelIfAjaxSuccess);
+            }
+
+            this.ApplyCoupon = function () {
+                var coupon = _this.CouponCode();
+                http.post(serviceUrl + '?action=apply-coupon', {
+                    coupon: coupon
+                })
+                .done(function (result) {
+                    _this.IsCouponCodeValid(result.Success);
+                    if (result.Success) {
+                        updateModelIfAjaxSuccess(result);
+                    }
+                });
             }
 
             function updateModelIfAjaxSuccess(result) {

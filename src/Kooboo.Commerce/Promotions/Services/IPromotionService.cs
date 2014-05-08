@@ -18,7 +18,5 @@ namespace Kooboo.Commerce.Promotions.Services
         bool Create(Promotion promotion);
 
         bool Delete(Promotion promotion);
-
-        bool IsCouponAvailable(string coupon, int candidatePromotionId);
     }
 }

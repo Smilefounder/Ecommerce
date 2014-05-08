@@ -53,6 +53,10 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 {
                     result = ChangePrice(site, controllerContext, submissionSetting);
                 }
+                else if (action == "apply-coupon")
+                {
+                    result = ApplyCoupon(site, controllerContext, submissionSetting);
+                }
 
                 jsonResultData.Success = true;
                 jsonResultData.Model = result;
@@ -151,6 +155,23 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             }
 
             return null;
+        }
+
+        private ShoppingCart ApplyCoupon(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
+        {
+            var request = controllerContext.HttpContext.Request;
+            var sessionId = controllerContext.HttpContext.Session.SessionID;
+            var coupon = request["coupon"];
+            var cart = site.Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
+            if (cart != null)
+            {
+                if (!site.Commerce().ShoppingCarts.ApplyCoupon(cart.Id, coupon))
+                {
+                    throw new Exception("Invalid coupon code.");
+                }
+            }
+
+            return CartInfo(site, controllerContext, submissionSetting);
         }
     }
 }

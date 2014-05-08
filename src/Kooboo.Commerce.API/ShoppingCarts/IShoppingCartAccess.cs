@@ -11,6 +11,8 @@ namespace Kooboo.Commerce.API.ShoppingCarts
     /// </summary>
     public interface IShoppingCartAccess
     {
+        bool ApplyCoupon(int cartId, string coupon);
+
         /// <summary>
         /// add item to shopping cart
         /// </summary>

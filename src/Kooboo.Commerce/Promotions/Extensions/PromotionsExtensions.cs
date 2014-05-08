@@ -7,6 +7,11 @@ namespace Kooboo.Commerce.Promotions
 {
     public static class PromotionsExtensions
     {
+        public static Promotion ByCoupon(this IQueryable<Promotion> query, string coupon)
+        {
+            return query.Where(p => p.RequireCouponCode && p.CouponCode == coupon).FirstOrDefault();
+        }
+
         public static IQueryable<Promotion> WhereAvailableNow(this IQueryable<Promotion> query)
         {
             return query.WhereAvailableNow(DateTime.UtcNow);
@@ -14,9 +19,7 @@ namespace Kooboo.Commerce.Promotions
 
         public static IQueryable<Promotion> WhereAvailableNow(this IQueryable<Promotion> query, DateTime utcNow)
         {
-            return query.Where(x => x.IsEnabled)
-                        .Where(x => x.StartTimeUtc == null || x.StartTimeUtc <= utcNow)
-                        .Where(x => x.EndTimeUtc == null || x.EndTimeUtc > utcNow);
+            return query.Where(PromotionSpecifications.AvailableNow(utcNow));
         }
     }
 }

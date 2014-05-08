@@ -13,6 +13,8 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
 
         IQueryable<ShoppingCartItem> ShoppingCartItemQuery();
 
+        bool ApplyCoupon(int cartId, string coupon);
+
         bool Create(ShoppingCart shoppingCart);
 
         bool Update(ShoppingCart shoppingCart);

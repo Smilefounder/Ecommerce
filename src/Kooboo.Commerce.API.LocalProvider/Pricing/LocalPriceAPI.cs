@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Prices;
+using Kooboo.Commerce.API.Pricing;
 using Kooboo.Commerce.Orders.Pricing;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using CommerceApi = Kooboo.Commerce.API;
 
-namespace Kooboo.Commerce.API.LocalProvider.Prices
+namespace Kooboo.Commerce.API.LocalProvider.Pricing
 {
     [Dependency(typeof(IPriceAPI))]
     public class LocalPriceAPI : IPriceAPI

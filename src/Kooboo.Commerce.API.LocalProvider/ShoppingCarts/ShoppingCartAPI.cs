@@ -3,6 +3,7 @@ using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.Customers.Services;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Promotions;
@@ -21,6 +22,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
     [Dependency(typeof(IShoppingCartAPI), ComponentLifeStyle.Transient)]
     public class ShoppingCartAPI : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartAPI
     {
+        private ICommerceDatabase _db;
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
@@ -35,6 +37,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 
         public ShoppingCartAPI(
             IHalWrapper halWrapper,
+            ICommerceDatabase db,
             IShoppingCartService shoppingCartService, 
             ICustomerService customerService,
             IPromotionService promotionService,
@@ -44,6 +47,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> customerMapper)
             : base(halWrapper)
         {
+            _db = db;
             _shoppingCartService = shoppingCartService;
             _customerService = customerService;
             _promotionService = promotionService;
@@ -130,7 +134,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
                 Id = p.Id,
                 Name = p.Name
             })
-            .ToArray();
+            .ToList();
 
             return cart;
         }
@@ -194,6 +198,20 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             EnsureQuery();
             _query = _query.Where(o => o.Customer.AccountId == accountId);
             return this;
+        }
+
+        public bool ApplyCoupon(int cartId, string coupon)
+        {
+            using (var tx = _db.BeginTransaction())
+            {
+                if (_shoppingCartService.ApplyCoupon(cartId, coupon))
+                {
+                    tx.Commit();
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         /// <summary>

@@ -50,6 +50,16 @@ namespace Kooboo.Commerce.Promotions
             OverlappablePromotions = new List<Promotion>();
         }
 
+        public bool IsAvailableNow()
+        {
+            return IsAvailableNow(DateTime.UtcNow);
+        }
+
+        public bool IsAvailableNow(DateTime utcNow)
+        {
+            return PromotionSpecifications.AvailableNow(utcNow).Compile()(this);
+        }
+
         public virtual void Enable()
         {
             if (!IsEnabled)
