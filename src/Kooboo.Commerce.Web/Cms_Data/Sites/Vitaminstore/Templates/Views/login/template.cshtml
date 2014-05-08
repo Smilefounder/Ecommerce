@@ -1,0 +1,106 @@
+﻿<div class="checkout">
+    <ul class="checkout-nav">
+        <li class="checkout-nav-item completed"><a href="ShoppingCart.aspx"><i class="icon-ok"></i>Uw Besteloverzicht</a></li>
+        <li class="split through"><a></a></li>
+        <li class="checkout-nav-item selected"><a>Uw persoonlijke gegevens</a></li>
+        <li class="split"><a></a></li>
+        <li class="checkout-nav-item"><a>Bestelling afronden en betalen</a></li>
+    </ul>
+
+    <div class="checkout-content checkout-login-new">
+        <div class="checkout-login">
+            <h2>Inloggen bij mijn <span class="gray">vitamin</span><span class="orange">store</span></h2>
+            <p>Login met uw email adres en uw wachtwoord.</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="login-title">Uw Email Adres:</td>
+                        <td>
+                            <input name="ctl00$cpContent$txtEmail" type="text" maxlength="100" id="ctl00_cpContent_txtEmail" placeholder="Email" data-val="true" data-val-required="*" data-val-email="*">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="password login-title">Uw Wachtwoord:</td>
+                        <td class="password">
+                            <input name="ctl00$cpContent$txtPassword" type="password" maxlength="50" id="ctl00_cpContent_txtPassword" placeholder="Wachtwoord" data-val="true" data-val-required="*" autocomplete="off">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="login">
+                            <input type="submit" name="ctl00$cpContent$btnLogin" value="inloggen" id="ctl00_cpContent_btnLogin" class="btn orange-btn">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="forgot"><a href="../PasswordForget.aspx">Wachtwoord vergeten?</a></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="center"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="checkout-new">
+            <h2>Ik bestel voor de eerste keer bij <span class="gray">vitamin</span><span class="orange">store</span></h2>
+            <p>
+                <a href="@Url.FrontUrl().PageUrl("Register")" class="btn orange-btn">ga verder <i class="icon-chevron-right"></i></a>
+            </p>
+        </div>
+
+
+
+        <dl class="right-box order-overview">
+            <dt>
+                Uw Bestelling
+            </dt>
+
+            <dd class="item">
+                <strong>Omnium®</strong> van <em>Solgar Vitamins</em>
+            </dd>
+            <dd>
+                1x 30 tabletten <span class="price">€ 34,30</span>
+            </dd>
+
+            <dd class="item">
+                <strong>Cooking Cream geurloos</strong> van <em>Royal Green</em>
+            </dd>
+            <dd>
+                1x 250 ml <span class="price">€ 3,35</span>
+            </dd>
+
+            <dd class="item">
+                <strong>Vitaminstore Lippenbalm</strong> van <em>Acties</em>
+            </dd>
+            <dd>
+                1x 1 exemplaar <span class="price">€ 2,50</span>
+            </dd>
+
+            <dd class="item">
+                <strong>VitaminMagazine</strong> van <em>Vitaminstore</em>
+            </dd>
+            <dd>
+                1x 1 x 68 pag. <span class="price">€ 0,00</span>
+            </dd>
+
+            <dd class="item summary">
+                <em>
+                    Indicatie Verzendkosten:<br>
+                    € 0,00
+                </em>
+            </dd>
+
+            <dd class="item summary">
+                Totaal voor deze bestelling:<br>
+                <span id="ctl00_cpContent_OrderOverview_lblTotal" class="total orange">€ 40,15</span>
+            </dd>
+
+
+        </dl>
+
+
+        <div class="clear">&nbsp;</div>
+    </div>
+    <div class="clear">&nbsp;</div>
+</div> 

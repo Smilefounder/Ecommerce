@@ -1,0 +1,336 @@
+﻿ <div class="checkout">
+    <ul class="checkout-nav">
+        <li class="checkout-nav-item completed"><a href="ShoppingCart.aspx"><i class="icon-ok"></i>Uw Besteloverzicht</a></li>
+        <li class="split through"><a></a></li>
+        <li class="checkout-nav-item selected"><a>Uw persoonlijke gegevens</a></li>
+        <li class="split"><a></a></li>
+        <li class="checkout-nav-item"><a>Bestelling afronden en betalen</a></li>
+    </ul>
+
+    <div class="new-account">
+        <div class="checkout-content new-account-form">
+            <h2>Nieuw account aanmaken</h2>
+
+            <form>
+                <table>
+                    <tbody>
+                        <tr class="sub-title">
+                            <td>
+                                <h3>Vitaminclub</h3>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="lbl">Heeft u al een Vitaminclubkaart?</td>
+                            <td class="clubcard-options">
+                                <span class="vertical_middle clubcard-yes"><input type="radio" id="ClubCardYes" name="ClubCard" value="rbClubCardYes"><label for="ClubCardYes">Ja</label></span>
+                                <span class="vertical_middle clubcard-no"><input type="radio" id="ClubCardNo" name="ClubCard" value="rbClubCardNo"><label for="ClubCardNo">Nee</label></span>
+                            </td>
+                        </tr>
+                        <tr class="clubcard" style="display: table-row;">
+                            <td class="lbl">Vitaminclub nummer *</td>
+                            <td>
+                                <input name="ClubCardNumber" type="text" id="ClubCardNumber" class="input clubcard-number" data-val="true" data-val-required="*" data-val-clubcardnumber="*" />
+                            </td>
+                        </tr>
+                        <tr class="clubcard" style="display: table-row;">
+                            <td class="lbl" valign="top">Postcode *</td>
+                            <td>
+                                <input name="ClubCardPostcode" type="text" id="ClubCardPostcode" class="input clubcard-postcode" data-val="true" data-val-required="*" data-val-regex="*" data-val-regex-pattern="^[1-9]{1}[0-9]{3} ?[A-Za-z]{2}$">
+                                <span class="error-msg clubcard-number-invalid" data-valmsg-for="ClubCardNumber" data-valmsg-replace="false">
+                                    <br>
+                                    Dit nummer is helaas niet bij ons bekend. Controleer het nummer alstublieft.
+                                </span>
+                                <span class="error-msg clubcard-invalid" style="display: none;">
+                                    <br>
+                                    Dit nummer is helaas niet bij ons bekend. Controleer het nummer alstublieft.
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="no-clubcard" style="display: none;">
+                            <td></td>
+                            <td>
+                                Indien u nog geen clubnummer hebt zullen wij deze voor u aanmaken, zodat u kunt profiteren van de vele voordelen en kortingen.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="new-account-inputs">
+                    <div class="new-account-left">
+                        <table>
+                            <tbody>
+                                <tr class="sub-title">
+                                    <td>
+                                        <h3>Persoonlijke gegevens</h3>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Titel *</td>
+                                    <td>
+                                        <select name="Gender" id="Gender" class="input gender valid">
+                                            <option value="M">Dhr.</option>
+                                            <option value="V">Mevr.</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Voornaam *</td>
+                                    <td>
+                                        <input name="FirstName" type="text" maxlength="200" id="FirstName" class="input firstname" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Tussenvoegsel</td>
+                                    <td>
+                                        <input name="MiddleName" type="text" maxlength="200" id="MiddleName" class="input middlename">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Achternaam *</td>
+                                    <td>
+                                        <input name="LastName" type="text" maxlength="200" id="LastName" class="input lastname" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Geboortedatum *</td>
+                                    <td>
+                                        <input name="Birthday" type="text" maxlength="50" id="Birthday" class="input birthdate" placeholder="DD-MM-YYYY" data-val="true" data-val-required="*" data-val-birthdate="DD-MM-YYYY">
+                                        <span class="error-msg" data-valmsg-for="Birthdate" data-valmsg-replace="false">DD-MM-YYYY</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Telefoonnummer</td>
+                                    <td>
+                                        <input name="Tel" type="text" maxlength="50" id="Tel" class="input tel">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Mobiel Telefoonnummer</td>
+                                    <td>
+                                        <input name="Mobile" type="text" maxlength="50" id="Mobile" class="input mobile">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Banknummer</td>
+                                    <td>
+                                        <input name="BankNumber" type="text" maxlength="50" id="BankNumber" class="input">
+                                    </td>
+                                </tr>
+                                <tr class="sub-title">
+                                    <td>
+                                        <h3>Adresgegevens</h3>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Postcode *</td>
+                                    <td>
+                                        <input name="Postcode" type="text" maxlength="100" id="Postcode" class="input postcode" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Huisnummer *</td>
+                                    <td>
+                                        <input name="HouseNumber" type="text" maxlength="100" id="HouseNumber" class="input housenumber" data-val="true" data-val-required="*" data-val-regex="*" data-val-regex-pattern="^\d+$">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Toevoeging</td>
+                                    <td>
+                                        <input name="HouseNumberAddition" type="text" maxlength="100" id="HouseNumberAddition" class="input housenumberExt" autocomplete="off">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Straat *</td>
+                                    <td>
+                                        <input name="Street" type="text" maxlength="200" id="Street" class="input street" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Plaats *</td>
+                                    <td>
+                                        <input name="City" type="text" maxlength="200" id="City" class="input city" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Land *</td>
+                                    <td>
+                                        <select name="Country" id="Country" class="input country valid">
+                                            <option value="AR">Argentinië</option>
+                                            <option value="AM">Armenië</option>
+                                            <option value="AU">Australië</option>
+                                            <option value="BE">België</option>
+                                            <option value="BR">Brazilië</option>
+                                            <option value="CA">Canada</option>
+                                            <option value="CN">China</option>
+                                            <option value="CO">Colombia</option>
+                                            <option value="CW">Curacao</option>
+                                            <option value="DK">Denemarken</option>
+                                            <option value="DE">Duitsland</option>
+                                            <option value="FI">Finland</option>
+                                            <option value="FR">Frankrijk</option>
+                                            <option value="GR">Griekenland</option>
+                                            <option value="HU">Hongarije</option>
+                                            <option value="HK">Hongkong</option>
+                                            <option value="IE">Ierland</option>
+                                            <option value="ID">Indonesië</option>
+                                            <option value="IT">Italië</option>
+                                            <option value="JP">Japan</option>
+                                            <option value="LU">Luxemburg</option>
+                                            <option value="CM">Monaco</option>
+                                            <option selected="selected" value="NL">Nederland</option>
+                                            <option value="NZ">Nieuw-Zeeland</option>
+                                            <option value="NO">Noorwegen</option>
+                                            <option value="AT">Oostenrijk</option>
+                                            <option value="PT">Portugal</option>
+                                            <option value="RO">Roemenië</option>
+                                            <option value="RU">Rusland</option>
+                                            <option value="SM">San Marino</option>
+                                            <option value="SA">Saudi Arabia</option>
+                                            <option value="SG">Singapore</option>
+                                            <option value="SI">Slovenië</option>
+                                            <option value="ES">Spanje</option>
+                                            <option value="SR">Suriname</option>
+                                            <option value="TH">Thailand</option>
+                                            <option value="CZ">Tsjechie</option>
+                                            <option value="TR">Turkije</option>
+                                            <option value="AE">United Arab Emirates</option>
+                                            <option value="GB">United Kingdom</option>
+                                            <option value="US">Verenigde Staten</option>
+                                            <option value="ZA">Zuid-Afrika</option>
+                                            <option value="SE">Zweden </option>
+                                            <option value="CH">Zwitserland</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="new-account-right">
+                        <table>
+                            <tbody>
+                                <tr class="sub-title">
+                                    <td>
+                                        <h3>Inloggegevens</h3>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Email Adres *</td>
+                                    <td>
+                                        <input name="Email" type="text" maxlength="150" id="Email" class="input email" data-val="true" data-val-required="*" data-val-email="*" data-val-remote="*" data-val-remote-type="POST" data-val-remote-url="/Profile/ValidateEmail.ashx">
+                                        <span class="error-msg" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Bevestiging Email Adres *</td>
+                                    <td>
+                                        <input name="EmailConfirm" type="text" maxlength="150" id="EmailConfirm" class="input email" data-val="true" data-val-required="*" data-val-equalto="*" data-val-equalto-other="Email">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Wachtwoord *</td>
+                                    <td>
+                                        <input name="Password" type="password" id="Password" class="input" data-val="true" data-val-required="*" data-val-length="*" data-val-length-min="3" data-val-length-max="20" autocomplete="off">
+                                        <span class="error-msg" data-valmsg-for="Password" data-valmsg-replace="false">Uw wachtwoord dient meer dan 3 leestekens te zijn.</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Bevestiging wachtwoord *</td>
+                                    <td>
+                                        <input name="PasswordConfirm" type="password" id="PasswordConfirm" class="input" data-val="true" data-val-required="*" data-val-equalto="*" data-val-equalto-other="Password" autocomplete="off">
+                                    </td>
+                                </tr>
+                                <tr class="sub-title">
+                                    <td>
+                                        <h3>Uw interesses</h3>
+                                    </td>
+                                    <td><em>(Optioneel)</em></td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Waar kent u ons van?</td>
+                                    <td>
+                                        <select name="WhereKnowUsFrom" id="WhereKnowUsFrom" class="input valid">
+                                            <option value=""></option>
+                                            <option value="Ik ben klant in van jullie winkels;">Ik ben klant in van jullie winkels;</option>
+                                            <option value="Ik ken jullie winkels, maar ben nog geen klant;">Ik ken jullie winkels, maar ben nog geen klant;</option>
+                                            <option value="Via een vriend/kennis;">Via een vriend/kennis;</option>
+                                            <option value="Advies van een specialist">Advies van een specialist</option>
+                                            <option value="Via Google/Bing/Yahoo">Via Google/Bing/Yahoo</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="more-space">
+                                    <td class="lbl">In welke producten bent u het meest geïnteresseerd?</td>
+                                    <td>
+                                        <ul class="favorite-category">
+                                            <li class="favorite-cat-health"><a href="#" data-value="health" class="selected">Health</a></li>
+                                            <li class="favorite-cat-sports"><a href="#" data-value="sports" class="selected">Sports</a></li>
+                                            <li class="favorite-cat-beauty"><a href="#" data-value="beauty" class="selected">Beauty</a></li>
+                                        </ul>
+                                        <input type="hidden" name="FavoriteCategories" id="FavoriteCategories" value="#health#sports#beauty">
+                                    </td>
+                                </tr>
+                                <tr class="more-space">
+                                    <td class="lbl">Wilt u op de hoogte gehouden worden van acties en aanbiedingen?</td>
+                                    <td>
+                                        <span class="vertical_middle"><input id="NewsletterYes" type="radio" name="Newsletter" value="rbNewsletterYes" checked="checked"><label for="NewsletterYes">Ja, stuur mij de email nieuwsbrief</label></span><br>
+                                        <span class="vertical_middle"><input id="NewsletterNo" type="radio" name="Newsletter" value="rbNewsletterNo"><label for="NewsletterNo">Nee, liever niet.</label></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="btn-create">
+                                        <input type="submit" name="Create" value="account aanmaken" id="Create" class="btn orange-btn" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <span class="icon-question-sign clubcard-question"></span>
+                <div class="clubcard-tip-diamond" style="display: none;">
+                </div>
+                <div class="clubcard-tip" style="display: none;">
+                    <h2><span class="gray">vitamin</span><span class="orange">club</span></h2>
+                    <p>
+                        Met een Vitaminstore account spaart u
+                        automatisch punten: u ontvangt 1 spaarpunt
+                        voor iedere euro die u bij ons besteedt.
+                        Heeft u 250 spaarpunten, dan krijgt u 10 euro
+                        korting op de volgende besteding, of kunt u
+                        een keuze maken uit een aantal gratis
+                        producten. Bij 'Mijn Vitaminstore' kunt u zien
+                        hoeveel punten u al heeft gespaard.
+                    </p>
+                    <h3>Heeft u al een Vitaminclub kaart?</h3>
+                    <p class="already-have-card">
+                        Vul dan hier uw clubkaartnummer in. U vindt
+                        deze aan de achterkant van uw kaart, onder de
+                        barcode.
+                    </p>
+                </div>
+                <div class="clubcard-loading">
+                    <div class="clubcard-loading-left">
+
+                        <div class="bubblingG">
+                            <span id="bubblingG_1"></span>
+                            <span id="bubblingG_2"></span>
+                            <span id="bubblingG_3"></span>
+                        </div>
+
+                    </div>
+                    <div class="clubcard-loading-right">
+                        <h3>een moment alstublieft.</h3>
+                        <p>Wij pakken uw gegevens er even bij.</p>
+                    </div>
+                </div>
+            </form>
+
+            <div class="clear">&nbsp;</div>
+        </div>
+    </div>
+</div>

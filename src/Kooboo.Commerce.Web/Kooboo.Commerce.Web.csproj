@@ -1450,8 +1450,13 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\images\zoom.gif" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\home.min.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\app.js" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\jquery-1.5.1.min.js" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\jquery.validate.min.js" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\jquery.validate.unobtrusive.ext.js" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\knockout-3.1.0.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\knockout.mapping.js" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\new-account.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\product.min.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\scripts-bottom.min.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\scripts.min.js" />
@@ -1460,6 +1465,7 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\font-awesome.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\home.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\jquery.visible.css" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\new-account.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\NewsletterSignup.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\search.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\styles.css" />
@@ -3403,6 +3409,13 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Layouts\two-col\template.cshtml" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\cart-mini\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\cart-mini\template.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Pages\Cart\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Pages\Login\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\login\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\login\template.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\register\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\register\template.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Pages\Register\setting.config" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
