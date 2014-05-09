@@ -7,10 +7,16 @@ namespace Kooboo.Commerce.API.Customers
 {
     public class CustomerCustomField
     {
-        public int CustomerId { get; set; }
         public string Name { get; set; }
+
         public string Value { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        public CustomerCustomField() { }
+
+        public CustomerCustomField(string name, string value)
+        {
+            Name = name;
+            Value = value;
+        }
     }
 }

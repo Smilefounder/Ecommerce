@@ -13,7 +13,7 @@ using Kooboo.Commerce.API.Products;
 
 namespace Kooboo.CMS.Plugins.Vitaminstore
 {
-    public class CartSubmissionPlugin : ISubmissionPlugin
+    public class CartPlugin : ISubmissionPlugin
     {
         public Dictionary<string, object> Parameters
         {

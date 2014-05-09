@@ -52,11 +52,18 @@ namespace Kooboo.Commerce.API.Customers
         /// country 
         /// </summary>
         public Country Country { get; set; }
+
+        public int? CountryId { get; set; }
+
+        public int? ShippingAddressId { get; set; }
+
+        public int? BillingAddressId { get; set; }
+
         /// <summary>
         /// the addresses of the customer
         /// a customer may has many addresses, and my be same/different to the order addresses.
         /// </summary>
-        public Address[] Addresses { get; set; }
+        public IList<Address> Addresses { get; set; }
         /// <summary>
         /// customer loyalty 
         /// customer points system.
@@ -68,6 +75,14 @@ namespace Kooboo.Commerce.API.Customers
         public string FullName
         {
             get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); }
+        }
+
+        public IList<CustomerCustomField> CustomFields { get; set; }
+
+        public Customer()
+        {
+            Addresses = new List<Address>();
+            CustomFields = new List<CustomerCustomField>();
         }
     }
 }

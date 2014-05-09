@@ -1,4 +1,10 @@
-﻿
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.CmsSite;
+
+@{
+    var countries = Site.Current.Commerce().Countries.ToArray();
+}
+
 <script src="/Cms_Data/Sites/Vitaminstore/Javascript/new-account.js"></script>
 
  <div class="checkout">
@@ -14,7 +20,8 @@
         <div class="checkout-content new-account-form">
             <h2>Nieuw account aanmaken</h2>
 
-            <form>
+            <form id="register-form">
+                @Html.AntiForgeryToken()
                 <table>
                     <tbody>
                         <tr class="sub-title">
@@ -26,8 +33,8 @@
                         <tr>
                             <td class="lbl">Heeft u al een Vitaminclubkaart?</td>
                             <td class="clubcard-options">
-                                <span class="vertical_middle clubcard-yes"><input type="radio" id="ClubCardYes" name="ClubCard" value="rbClubCardYes"><label for="ClubCardYes">Ja</label></span>
-                                <span class="vertical_middle clubcard-no"><input type="radio" id="ClubCardNo" name="ClubCard" value="rbClubCardNo"><label for="ClubCardNo">Nee</label></span>
+                                <span class="vertical_middle clubcard-yes"><input type="radio" id="ClubCardYes" name="ClubCard" value="true"><label for="ClubCardYes">Ja</label></span>
+                                <span class="vertical_middle clubcard-no"><input type="radio" id="ClubCardNo" name="ClubCard" value="false"><label for="ClubCardNo">Nee</label></span>
                             </td>
                         </tr>
                         <tr class="clubcard" style="display: table-row;">
@@ -72,8 +79,8 @@
                                     <td class="lbl">Titel *</td>
                                     <td>
                                         <select name="Gender" id="Gender" class="input gender valid">
-                                            <option value="M">Dhr.</option>
-                                            <option value="V">Mevr.</option>
+                                            <option value="Male">Dhr.</option>
+                                            <option value="Female">Mevr.</option>
 
                                         </select>
                                     </td>
@@ -161,50 +168,10 @@
                                     <td class="lbl">Land *</td>
                                     <td>
                                         <select name="Country" id="Country" class="input country valid">
-                                            <option value="AR">Argentinië</option>
-                                            <option value="AM">Armenië</option>
-                                            <option value="AU">Australië</option>
-                                            <option value="BE">België</option>
-                                            <option value="BR">Brazilië</option>
-                                            <option value="CA">Canada</option>
-                                            <option value="CN">China</option>
-                                            <option value="CO">Colombia</option>
-                                            <option value="CW">Curacao</option>
-                                            <option value="DK">Denemarken</option>
-                                            <option value="DE">Duitsland</option>
-                                            <option value="FI">Finland</option>
-                                            <option value="FR">Frankrijk</option>
-                                            <option value="GR">Griekenland</option>
-                                            <option value="HU">Hongarije</option>
-                                            <option value="HK">Hongkong</option>
-                                            <option value="IE">Ierland</option>
-                                            <option value="ID">Indonesië</option>
-                                            <option value="IT">Italië</option>
-                                            <option value="JP">Japan</option>
-                                            <option value="LU">Luxemburg</option>
-                                            <option value="CM">Monaco</option>
-                                            <option selected="selected" value="NL">Nederland</option>
-                                            <option value="NZ">Nieuw-Zeeland</option>
-                                            <option value="NO">Noorwegen</option>
-                                            <option value="AT">Oostenrijk</option>
-                                            <option value="PT">Portugal</option>
-                                            <option value="RO">Roemenië</option>
-                                            <option value="RU">Rusland</option>
-                                            <option value="SM">San Marino</option>
-                                            <option value="SA">Saudi Arabia</option>
-                                            <option value="SG">Singapore</option>
-                                            <option value="SI">Slovenië</option>
-                                            <option value="ES">Spanje</option>
-                                            <option value="SR">Suriname</option>
-                                            <option value="TH">Thailand</option>
-                                            <option value="CZ">Tsjechie</option>
-                                            <option value="TR">Turkije</option>
-                                            <option value="AE">United Arab Emirates</option>
-                                            <option value="GB">United Kingdom</option>
-                                            <option value="US">Verenigde Staten</option>
-                                            <option value="ZA">Zuid-Afrika</option>
-                                            <option value="SE">Zweden </option>
-                                            <option value="CH">Zwitserland</option>
+                                            @foreach (var country in countries)
+                                            {
+                                                <option value="@country.Id">@country.Name</option>
+                                            }
                                         </select>
                                     </td>
                                 </tr>
@@ -280,8 +247,8 @@
                                 <tr class="more-space">
                                     <td class="lbl">Wilt u op de hoogte gehouden worden van acties en aanbiedingen?</td>
                                     <td>
-                                        <span class="vertical_middle"><input id="NewsletterYes" type="radio" name="Newsletter" value="rbNewsletterYes" checked="checked"><label for="NewsletterYes">Ja, stuur mij de email nieuwsbrief</label></span><br>
-                                        <span class="vertical_middle"><input id="NewsletterNo" type="radio" name="Newsletter" value="rbNewsletterNo"><label for="NewsletterNo">Nee, liever niet.</label></span>
+                                        <span class="vertical_middle"><input id="NewsletterYes" type="radio" name="AcceptNewsletter" value="true" checked="checked"><label for="NewsletterYes">Ja, stuur mij de email nieuwsbrief</label></span><br>
+                                        <span class="vertical_middle"><input id="NewsletterNo" type="radio" name="AcceptNewsletter" value="false"><label for="NewsletterNo">Nee, liever niet.</label></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -337,3 +304,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $('#register-form').submit(function () {
+            $.ajax({
+                url: '@Url.FrontUrl().SubmissionUrl("Register")',
+                type: 'POST',
+                data: $(this).serializeArray()
+            })
+            .done(function (result) {
+                if (result.Success) {
+                    location.href = '@Url.FrontUrl().PageUrl("Cart")';
+                } else {
+                    alert(result.Messages.join('\n'));
+                }
+            });
+        });
+    });
+</script>
