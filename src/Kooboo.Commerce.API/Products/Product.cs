@@ -56,5 +56,49 @@ namespace Kooboo.Commerce.API.Products
         /// product price list
         /// </summary>
         public ProductPrice[] PriceList { get; set; }
+
+        public ProductImage GetImage(string imageSizeName)
+        {
+            if (Images != null)
+            {
+                var image = Images.FirstOrDefault(o => o.ImageSizeName == imageSizeName);
+                return image;
+            }
+            return null;
+        }
+
+        public string GetCustomFieldValue(string customFieldName)
+        {
+            if (CustomFieldValues != null)
+            {
+                var customField = CustomFieldValues.FirstOrDefault(o => o.CustomField.Name == customFieldName);
+                if (customField != null)
+                {
+                    return string.IsNullOrEmpty(customField.FieldValue) ? customField.FieldText : customField.FieldValue;
+                }
+            }
+            return string.Empty;
+        }
+
+        public ProductPrice GetLowestPrice()
+        {
+            if (PriceList != null)
+            {
+                var price = PriceList.OrderBy(o => o.RetailPrice).FirstOrDefault();
+                return price;
+            }
+            return null;
+        }
+
+        public Tuple<decimal, decimal> GetPriceRange()
+        {
+            if(PriceList != null)
+            {
+                var lowestPrice = PriceList.OrderBy(o => o.RetailPrice).First();
+                var highestPrice = PriceList.OrderBy(o => o.RetailPrice).Last();
+                return new Tuple<decimal, decimal>(lowestPrice.RetailPrice, highestPrice.RetailPrice);
+            }
+            return null;
+        }
     }
 }

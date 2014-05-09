@@ -62,5 +62,18 @@ namespace Kooboo.Commerce.API.Products
         /// product variant values
         /// </summary>
         public ProductPriceVariantValue[] VariantValues { get; set; }
+
+        public string GetVariantValue(string variantFieldName)
+        {
+            if (VariantValues != null)
+            {
+                var customField = VariantValues.FirstOrDefault(o => o.CustomField.Name == variantFieldName);
+                if (customField != null)
+                {
+                    return string.IsNullOrEmpty(customField.FieldValue) ? customField.FieldText : customField.FieldValue;
+                }
+            }
+            return string.Empty;
+        }
     }
 }

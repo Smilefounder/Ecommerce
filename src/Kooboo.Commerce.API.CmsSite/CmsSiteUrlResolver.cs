@@ -41,6 +41,10 @@ namespace Kooboo.Commerce.API.CmsSite
                                         qs.Remove("categoryId");
                                     }
                                     break;
+                                default:
+                                    path.Add("product");
+                                    path.Add(linkUrl.Segments[3].TrimEnd('/'));
+                                    break;
                             }
                             break;
 
@@ -61,8 +65,10 @@ namespace Kooboo.Commerce.API.CmsSite
                     {
                         nurl += "?" + string.Join("&", qs.AllKeys.Select(o => string.Format("{0}={1}", o, qs[o])).ToArray());
                     }
-                    return nurl;
+                    if(!string.IsNullOrEmpty(nurl))
+                        return "/" + nurl;
                 }
+                return link.Href;
             }
             return url;
         }

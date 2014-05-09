@@ -116,6 +116,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             if (_loadWithCustomFields)
             {
                 includeComplexPropertyNames.Add("CustomFieldValues");
+                includeComplexPropertyNames.Add("CustomFieldValues.CustomField");
             }
 
             return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());

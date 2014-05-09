@@ -1,0 +1,556 @@
+﻿ .myProfile {
+    width: 100%;
+    font-size: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+    .myProfile div {
+        overflow: hidden;
+    }
+
+    .myProfile h1 {
+        font-size: 22px;
+    }
+
+    .myProfile h3 {
+        font-size: 18px;
+    }
+
+    .myProfile a {
+        color: #3c3c3c;
+    }
+
+        .myProfile a i {
+            text-decoration: none;
+        }
+
+        .myProfile a .icon {
+            text-decoration: none;
+            padding-right: 3px;
+        }
+
+    .myProfile ul, .myProfile li {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+
+
+    .myProfile table {
+        width: 100%;
+    }
+
+    .myProfile th, .myProfile td {
+        text-align: left;
+        padding: 0;
+        margin: 0;
+    }
+
+    .myProfile .header {
+        width: 100%;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #d6d6d6;
+        position: relative;
+    }
+
+        .myProfile .header ul {
+            position: absolute;
+            top: 5px;
+            right: 0;
+        }
+
+        .myProfile .header li {
+            float: left;
+            margin-left: 15px;
+        }
+
+    .myProfile .gray {
+        color: #adadad;
+    }
+
+    .myProfile .orange {
+        color: #ff7623;
+    }
+
+    .myProfile .box {
+        padding: 10px 14px;
+        border: 1px solid #d6d6d6;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .myProfile .section {
+        margin-top: 15px;
+    }
+
+    .myProfile .section-header {
+        padding-bottom: 5px;
+    }
+
+    .myProfile .myInfo {
+        width: 100%;
+    }
+
+        .myProfile .myInfo th {
+            padding-bottom: 5px;
+        }
+
+        .myProfile .myInfo .myInfo-edit {
+            text-align: right;
+        }
+
+        .myProfile .myInfo .myInfo-box {
+            width: 515px;
+        }
+
+    .myProfile .myInfo-box td {
+        vertical-align: top;
+    }
+
+    .myProfile .myInfo .myInfo-box .col1 {
+        width: 140px;
+        padding-right: 10px;
+    }
+
+    .myProfile .myInfo .myInfo-box .col2 {
+        width: 140px;
+        padding-right: 10px;
+    }
+
+    .myProfile .myInfo .myInfo-box .col3 {
+        width: 155px;
+        margin: 0;
+    }
+
+    .myProfile .myInfo-box span.customerId {
+        float: right;
+        font-size: 10px;
+    }
+
+    .myProfile .myInfo-box td.fullname {
+        font-size: 14px;
+        padding-bottom: 10px;
+    }
+
+    .myProfile .myInfo-box td.email {
+        word-break: break-all;
+        line-height: 15px;
+    }
+
+    .myProfile .myInfo-box td.password {
+        padding: 20px 0;
+    }
+
+    .myProfile .myInfo-box .col2 dd {
+        padding-top: 18px;
+    }
+
+        .myProfile .myInfo-box .col2 dd.firstAddress {
+            padding: 0px;
+        }
+
+.myInfo-box .icon-facebook-sign {
+    color: #01b8e0;
+}
+
+.myInfo-box .icon-twitter-sign {
+    color: #01b8e0;
+}
+
+.myInfo-box .icon-pinterest-sign {
+    color: #ff2600;
+}
+
+.myInfo-box .icon-google-plus-sign {
+    color: #ee7f00;
+}
+
+.myProfile .myInfo-bottom {
+    width: 100%;
+}
+
+.myInfo-bottom .newsletter-subscribe {
+    text-decoration: none;
+}
+
+.myProfile .myInfo-bottom td {
+    width: 50%;
+}
+
+.myProfile .myInfo-box .social {
+    float: right;
+}
+
+    .myProfile .myInfo-box .social a {
+        font-size: 13px;
+        text-decoration: none;
+    }
+
+    .myProfile .myInfo-box .social li {
+        display: table-cell;
+        vertical-align: middle;
+        *float: left;
+    }
+
+.myProfile .myInfo-box dt strong {
+    font-size: 13px;
+}
+
+.myProfile .myInfo .myCard-box {
+    width: 100px;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.myProfile .myCard-points {
+    font-size: 48px;
+    padding-top: 5px;
+    display: block;
+}
+
+.myProfile .myInfo .space {
+    width: 15px;
+}
+
+.myProfile .recentOrders {
+    width: 100%;
+}
+
+    .myProfile .recentOrders .date-col {
+        width: 96px;
+    }
+
+    .myProfile .recentOrders .orderid-col {
+        width: 66px;
+    }
+
+    .myProfile .recentOrders .quantity-col {
+        width: 146px;
+    }
+
+    .myProfile .recentOrders .status-col {
+        width: 227px;
+    }
+
+    .myProfile .recentOrders .price-col {
+        width: 73px;
+    }
+
+    .myProfile .recentOrders th, .myProfile .recentOrders td {
+        border-bottom: 1px solid #d6d6d6;
+        padding: 3px 0;
+    }
+
+    .myProfile .recentOrders tr.order-col:hover, .myProfile .recentOrders tr.selected {
+        background: #ebebeb;
+        cursor: pointer;
+    }
+
+    .myProfile .recentOrders span.unpaid {
+        color: #ff2600;
+    }
+
+    .myProfile .recentOrders span.Sent {
+        color: #8fd300;
+    }
+
+    .myProfile .recentOrders td.show-earlier {
+        border: none;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+.recentOrders .order-second-view td, .recentOrders .order-second-view th {
+    border: none;
+}
+
+.myProfile .recentOrders .order-detail td {
+    padding: 10px 0;
+    vertical-align: top;
+    text-align: left;
+    width: 33%;
+}
+
+.myProfile .recentOrders .order-detail-btns a {
+    width: 180px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid #d6d6d6;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.myProfile .recentOrders .order-detail-btns i {
+    font-size: 16px;
+    padding-right: 5px;
+}
+
+.myProfile .recentOrders .order-detail-btns li {
+    margin-bottom: 10px;
+}
+
+.myProfile .recentOrders a.now-pay {
+    font-size: 16px;
+}
+
+.myProfile .orderedProducts {
+    border-top: 1px solid #d6d6d6;
+}
+
+    .myProfile .orderedProducts .wishList-subtotal {
+        padding-right: 10px;
+    }
+
+.myProfile .recentOrders .order-status td {
+    padding: 5px 0 8px 0;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.myProfile .recentOrders .order-status-text {
+    font-size: 13px;
+    padding-right: 10px;
+}
+
+.myProfile .recentOrders .order-status a.now-pay {
+    width: 180px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background: #ff7623;
+    color: #fff;
+    display: inline-block;
+}
+
+.wishList {
+    width: 100%;
+}
+
+    .wishList td.wishList-line {
+        padding-bottom: 10px;
+        border-bottom: solid 1px #d6d6d6;
+    }
+
+    .wishList td.wishList-pic {
+        text-align: center;
+        width: 50px;
+        padding: 10px 0;
+        border-bottom: solid 1px #d6d6d6;
+    }
+
+    .wishList td.wishList-name {
+        padding: 10px 0;
+        vertical-align: top;
+    }
+
+        .wishList td.wishList-name strong {
+            font-size: 13px;
+        }
+
+    .wishList td.wishList-remove {
+        padding-top: 10px;
+        vertical-align: top;
+        text-align: right;
+    }
+
+        .wishList td.wishList-remove a {
+            font-size: 10px;
+            text-decoration: none;
+        }
+
+        .wishList td.wishList-remove i {
+            font-size: 12px;
+        }
+
+    .wishList th {
+        font-weight: normal;
+    }
+
+    .wishList td.wishList-content {
+        width: 120px;
+    }
+
+    .wishList td.wishList-quantity {
+        width: 50px;
+    }
+
+    .wishList .wishList-discount {
+        width: 80px;
+        text-align: right;
+    }
+
+    .wishList .wishList-price, .wishList .wishList-subtotal {
+        width: 70px;
+        text-align: right;
+    }
+
+    .wishList td.wishList-addcart {
+        text-align: right;
+        padding-bottom: 10px;
+        border-bottom: solid 1px #d6d6d6;
+    }
+
+        .wishList td.wishList-addcart a {
+            font-size: 11px;
+            font-weight: bold;
+            color: #fff;
+            background: #ff7623;
+            padding: 3px 6px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+    .wishList .btn-addcart-3d:after {
+        line-height: 24px;
+    }
+
+    .wishList .show-more {
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center;
+        padding: 10px 0 5px 0;
+    }
+
+.profile-dialog {
+    overflow: hidden;
+    padding: 10px;
+    background: #fff;
+    border: 2px solid #7a7a7a;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    box-shadow: 3px 3px 5px #7a7a7a;
+    position: absolute;
+    top: 45px;
+    z-index: 999;
+}
+
+.profile-dialog-detail {
+    width: 600px;
+    font-size: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+    .profile-dialog-detail h2 {
+        font-size: 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #d6d6d6;
+    }
+
+    .profile-dialog-detail h3 {
+        font-size: 13px;
+        padding: 10px 0;
+    }
+
+    .profile-dialog-detail a {
+        color: #3c3c3c;
+    }
+
+        .profile-dialog-detail a i {
+            text-decoration: none;
+        }
+
+    .profile-dialog-detail .close {
+        color: #3c3c3c;
+        position: absolute;
+        top: 5px;
+        right: 0;
+    }
+
+    .profile-dialog-detail table {
+        width: 100%;
+    }
+
+    .profile-dialog-detail .actions {
+        padding-top: 30px;
+        text-align: center;
+    }
+
+    .profile-dialog-detail .left-btn, .profile-dialog-detail .right-btn {
+        font-size: 18px;
+        padding: 8px 20px;
+        border: 1px solid #d6d6d6;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .profile-dialog-detail .left-btn {
+        color: #ff7623;
+        margin-right: 20px;
+    }
+
+    .profile-dialog-detail .right-btn {
+        color: #fff;
+        background: #ff7623;
+    }
+
+    .profile-dialog-detail .succeeded {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 24px;
+        color: #8fd300;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+.addedToCartTip, .savedTip {
+    position: fixed !important;
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    z-index: 999;
+    margin-left: -80px;
+    width: 160px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    background: #7aca7c;
+    color: #fff;
+    border: 1px solid #d6d6d6;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    display: none;
+}
+
+.savedTip {
+    top: 40%;
+}
+
+input.input-validation-error {
+    border: 1px solid red;
+}
+
+span.error-msg {
+    display: none;
+}
+
+span.field-validation-error {
+    display: block;
+    color: red;
+}

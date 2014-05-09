@@ -253,7 +253,7 @@ namespace Kooboo.Commerce.API.HAL
                                 foreach (var val in (IEnumerable)propResource.Value)
                                 {
                                     // directly pass properties to the method to avoid calling reflection in the loop.
-                                    var parameterValues = BuildEntityParameters(descriptor, entity, properties, parentResourceParameterValues);
+                                    var parameterValues = BuildEntityParameters(descriptor, val, properties, parentResourceParameterValues);
                                     AddLinks(resName, val as IItemResource, context, parameterValues);
                                 }
                             }
