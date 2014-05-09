@@ -1,0 +1,53 @@
+﻿ <div id="header">
+    <div class="logo">
+        <a href="/">
+            <img src="/Cms_Data/Sites/Vitaminstore/images/logo.gif" border="0" title="Vitamines en voedingssupplementen" alt="Vitamines en voedingssupplementen" />
+        </a>
+    </div>
+    <div class="banner">
+
+        <div class="top-nav-wapper">
+
+            <ul class="top-nav">
+                @if (ViewContext.HttpContext.Membership().GetMember().Identity.IsAuthenticated)
+                {
+                    <li>Welcome, @ViewContext.HttpContext.Membership().GetMembershipUser().UserName</li>
+                }
+                else
+                {
+                    <li class="top-nav-login">
+                        <a href="@Url.FrontUrl().PageUrl("Login")">inloggen</a>
+                    </li>
+                    <li>|</li>
+                    <li><a href="@Url.FrontUrl().PageUrl("Register")" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'account aanmaken'});">account aanmaken</a></li>
+                }
+                <li>|</li>
+                <li><a href="/Profile/Default.aspx#myOrder" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'vorige bestellingen'});">vorige bestellingen</a></li>
+                <li>|</li>
+                <li><a href="/klantenservice" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'klantenservice'});">klantenservice</a></li>
+                <li>|</li>
+                <li><a href="/shop/" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'onze winkels'});">onze winkels</a></li>
+                @if (ViewContext.HttpContext.Membership().GetMember().Identity.IsAuthenticated)
+                {
+                    <li>|</li>
+                    <li>
+                        <form>
+                            @Html.AntiForgeryToken()
+                            <a href="#" data-toggle="logout">log uit</a>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </div>
+
+    </div>
+    <ul class="search-box">
+        <li>
+            <input type="text" placeholder="Zoek door ons gehele assortiment" class="search-input ac_input" autocomplete="off" />
+        </li>
+        <li>
+            <a href="/RefinedSearch.aspx" class="search-advanced">geavanceerd zoeken</a>
+        </li>
+    </ul>
+    <a href="javascript:;" class="search-btn"></a>
+</div>

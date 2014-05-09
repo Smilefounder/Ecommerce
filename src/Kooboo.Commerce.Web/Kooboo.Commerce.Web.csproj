@@ -1458,6 +1458,8 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\scripts-bottom.min.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\scripts.min.js" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Scripts\underscore-min.js" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\product.css" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\Product3DButton.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\checkout.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\font-awesome.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Themes\default\home.css" />
@@ -3422,6 +3424,8 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_detail\template.cshtml" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_recommendation\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_recommendation\template.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\header\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\header\template.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

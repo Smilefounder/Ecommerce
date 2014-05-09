@@ -261,7 +261,17 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         public override bool Create(Customer obj)
         {
             if (obj != null)
-                return _customerService.Create(_mapper.MapFrom(obj));
+            {
+                var customer = _mapper.MapFrom(obj);
+
+                foreach (var address in obj.Addresses)
+                {
+                    customer.Addresses.Add(_addressMapper.MapFrom(address));
+                }
+
+                return _customerService.Create(customer);
+            }
+
             return false;
         }
 

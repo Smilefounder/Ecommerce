@@ -76,6 +76,9 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
 
                 var address = new Address
                 {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Phone = model.Mobile,
                     Postcode = model.Postcode,
                     Address1 = model.Street,
                     Address2 = model.HouseNumber + " " + model.HouseNumberAddition,

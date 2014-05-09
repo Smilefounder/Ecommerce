@@ -12,58 +12,7 @@
 <body>
     <div id="page">
         <div id="left">
-            <div id="header">
-                <div class="logo">
-                    <a href="/">
-                        <img src="/Cms_Data/Sites/Vitaminstore/images/logo.gif" border="0" title="Vitamines en voedingssupplementen" alt="Vitamines en voedingssupplementen" />
-                    </a>
-                </div>
-                <div class="banner">
-
-                    <div class="top-nav-wapper">
-
-                        <ul class="top-nav">
-                            <li class="top-nav-login">
-                                <a class="top-nav-login-link" href="/Login.aspx?returnUrl=%2fDefault.aspx" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'inloggen'});">inloggen</a>
-                                <ul>
-                                    <li>
-                                        <input id="top-nav-txtLogin" type="text" value="" autocomplete="off" placeholder="inloggen" />
-                                    </li>
-                                    <li>
-                                        <input type="password" id="top-nav-txtPassword" value="" autocomplete="off" placeholder="wachtwoord" />
-                                    </li>
-                                    <li class="top-nav-btnLogin"><a href="#">aanmelden</a></li>
-                                    <li class="top-nav-autologin vertical_middle">
-                                        <input type="checkbox" id="top-nav-autologin" /><label for="top-nav-autologin">automatisch inloggen</label>
-                                    </li>
-                                    <li class="top-nav-forgotPassword"><a href="/PasswordForget.aspx">wachtwoord vergeten?</a></li>
-                                </ul>
-                            </li>
-                            <li>|</li>
-                            <li><a href="/Register.aspx?returnUrl=%2fDefault.aspx" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'account aanmaken'});">account aanmaken</a></li>
-                            <li>|</li>
-                            <li><a href="/Profile/Default.aspx#myOrder" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'vorige bestellingen'});">vorige bestellingen</a></li>
-                            <li>|</li>
-                            <li><a href="/klantenservice" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'klantenservice'});">klantenservice</a></li>
-                            <li>|</li>
-                            <li><a href="/shop/" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'NewNavigation',  'eventAction': 'Click', 'eventLabel': 'onze winkels'});">onze winkels</a></li>
-                        </ul>
-
-
-
-                    </div>
-
-                </div>
-                <ul class="search-box">
-                    <li>
-                        <input type="text" placeholder="Zoek door ons gehele assortiment" class="search-input ac_input" autocomplete="off" />
-                    </li>
-                    <li>
-                        <a href="/RefinedSearch.aspx" class="search-advanced">geavanceerd zoeken</a>
-                    </li>
-                </ul>
-                <a href="javascript:;" class="search-btn"></a>
-            </div>
+            @Html.FrontHtml().RenderView("header")
             <div class="header-second-row">
                 <div class="store-nav">
                     <dl class="StoreSearch">
