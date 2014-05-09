@@ -3418,6 +3418,10 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\home_category_nav\template.cshtml" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_list_in_category\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_list_in_category\template.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_detail\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_detail\template.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_recommendation\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_recommendation\template.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
