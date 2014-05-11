@@ -167,6 +167,13 @@ namespace Kooboo.Commerce.API.RestProvider.Customers
             return this;
         }
 
+        public bool AddAddress(int customerId, Address address)
+        {
+            var addressId = Post<int>("Address", address);
+            address.Id = addressId;
+            return true;
+        }
+
         /// <summary>
         /// create customer query
         /// </summary>

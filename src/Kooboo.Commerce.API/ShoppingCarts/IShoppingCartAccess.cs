@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Membership.Models;
+using Kooboo.Commerce.API.Locations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,10 @@ namespace Kooboo.Commerce.API.ShoppingCarts
     public interface IShoppingCartAccess
     {
         bool ApplyCoupon(int cartId, string coupon);
+
+        bool ChangeShippingAddress(int cartId, Address address);
+
+        bool ChangeBillingAddress(int cartId, Address address);
 
         /// <summary>
         /// add item to shopping cart

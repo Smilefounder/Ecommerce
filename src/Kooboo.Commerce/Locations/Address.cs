@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Locations
         /// </summary>
         public string State { get; set; }
 
-        public Country Country { get; set; }
+        public virtual Country Country { get; set; }
 
         /// <summary>
         /// optional

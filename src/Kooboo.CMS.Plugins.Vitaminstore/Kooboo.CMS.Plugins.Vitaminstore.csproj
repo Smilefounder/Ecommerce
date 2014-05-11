@@ -64,9 +64,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CartPlugin.cs" />
+    <Compile Include="NewAddressModel.cs" />
+    <Compile Include="CheckoutPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterModel.cs" />
     <Compile Include="RegisterPlugin.cs" />
+    <Compile Include="ShippingAddressesModel.cs" />
+    <Compile Include="ShippingPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kooboo.Commerce.API.CmsSite\Kooboo.Commerce.API.CmsSite.csproj">

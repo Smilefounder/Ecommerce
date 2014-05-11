@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.HAL;
+using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
@@ -24,6 +25,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
     {
         private ICommerceDatabase _db;
         private IShoppingCartService _shoppingCartService;
+        private ICustomerAPI _customerApi;
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
         private IPromotionPolicyFactory _promotionPolicyFactory;
@@ -38,6 +40,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public ShoppingCartAPI(
             IHalWrapper halWrapper,
             ICommerceDatabase db,
+            ICustomerAPI customerApi,
             IShoppingCartService shoppingCartService, 
             ICustomerService customerService,
             IPromotionService promotionService,
@@ -48,6 +51,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             : base(halWrapper)
         {
             _db = db;
+            _customerApi = customerApi;
             _shoppingCartService = shoppingCartService;
             _customerService = customerService;
             _promotionService = promotionService;
@@ -88,7 +92,9 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             includeComplexPropertyNames.Add("Items.ProductPrice");
             includeComplexPropertyNames.Add("Items.ProductPrice.Product");
             includeComplexPropertyNames.Add("ShippingAddress");
+            includeComplexPropertyNames.Add("ShippingAddress.Country");
             includeComplexPropertyNames.Add("BillingAddress");
+            includeComplexPropertyNames.Add("BillingAddress.Country");
             if (_loadWithCutomer)
             {
                 includeComplexPropertyNames.Add("Customer");
@@ -212,6 +218,61 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 
                 return false;
             }
+        }
+
+        public bool ChangeShippingAddress(int cartId, Address address)
+        {
+            var cart = _shoppingCartService.Query().ById(cartId);
+            var addr = GetOrCreateAddress(cart.Customer.Id, address);
+
+            if (address.Id == 0)
+            {
+                address.Id = addr.Id;
+            }
+
+            using (var tx = _db.BeginTransaction())
+            {
+                cart.ShippingAddress = addr;
+                tx.Commit();
+            }
+
+            return true;
+        }
+
+        public bool ChangeBillingAddress(int cartId, Address address)
+        {
+            var cart = _shoppingCartService.Query().ById(cartId);
+            var addr = GetOrCreateAddress(cart.Customer.Id, address);
+
+            if (address.Id == 0)
+            {
+                address.Id = addr.Id;
+            }
+
+            using (var tx = _db.BeginTransaction())
+            {
+                cart.BillingAddress = addr;
+                tx.Commit();
+            }
+
+            return true;
+        }
+
+        private Kooboo.Commerce.Locations.Address GetOrCreateAddress(int customerId, Address address)
+        {
+            Kooboo.Commerce.Locations.Address addr = null;
+
+            if (address.Id > 0)
+            {
+                addr = _customerService.QueryAddress().ById(address.Id);
+            }
+            else
+            {
+                _customerApi.AddAddress(customerId, address);
+                addr = _customerService.QueryAddress().ById(address.Id);
+            }
+
+            return addr;
         }
 
         /// <summary>

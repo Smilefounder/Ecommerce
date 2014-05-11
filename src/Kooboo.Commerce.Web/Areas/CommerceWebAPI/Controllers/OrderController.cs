@@ -84,6 +84,14 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         {
             return Commerce().Orders.GetMyOrder(sessionId, user, deleteShoppingCart);
         }
+
+        [HttpPost]
+        [Resource("create_from_cart")]
+        public Order CreateFromShoppingCart(int cartId, bool deleteShoppingCart, [FromBody]MembershipUser user)
+        {
+            return Commerce().Orders.CreateFromShoppingCart(cartId, user, deleteShoppingCart);
+        }
+
         protected override ICommerceAccess<Order> GetAccesser()
         {
             return Commerce().Orders;

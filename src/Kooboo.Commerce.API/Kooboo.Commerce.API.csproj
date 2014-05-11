@@ -104,7 +104,6 @@
     <Compile Include="Orders\OrderStatus.cs" />
     <Compile Include="Payments\PaymentTarget.cs" />
     <Compile Include="Pricing\CalculateOrderPriceRequest.cs" />
-    <Compile Include="Pricing\CalculatePriceRequest.cs" />
     <Compile Include="Pricing\CalculatePriceResult.cs" />
     <Compile Include="Pricing\CalculateItemPriceResult.cs" />
     <Compile Include="Pricing\PriceWithDiscount.cs" />

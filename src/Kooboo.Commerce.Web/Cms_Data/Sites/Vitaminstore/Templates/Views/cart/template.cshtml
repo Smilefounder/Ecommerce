@@ -1,6 +1,11 @@
 ﻿@using Kooboo.Commerce.API;
 @using Kooboo.Commerce.API.CmsSite;
 
+@{
+    var logined = ViewContext.HttpContext.Membership().GetMember().Identity.IsAuthenticated;
+    var nextStepUrl = logined ? Url.FrontUrl().PageUrl("Checkout-Shipping") : Url.FrontUrl().PageUrl("Login");
+}
+
 <div class="checkout" id="cart-main">
     <ul class="checkout-nav">
         <li class="checkout-nav-item selected"><a>Uw Besteloverzicht</a></li>
@@ -98,7 +103,7 @@
                 <tr>
                     <td colspan="6" class="subtotal buttons">
                         <a href="@Url.FrontUrl().PageUrl("/Home")" class="btn continue-shopping">verder winkelen</a>
-                        <a class="btn orange-btn next-step" href="@Url.FrontUrl().PageUrl("Login")">naar stap 2 <i class="icon-chevron-right"></i></a>
+                        <a class="btn orange-btn next-step" href="@nextStepUrl">naar stap 2 <i class="icon-chevron-right"></i></a>
                     </td>
                 </tr>
             </tbody>

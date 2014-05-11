@@ -7,6 +7,7 @@ using System.Web.Http;
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API;
 using Kooboo.Commerce.API.HAL;
+using Kooboo.Commerce.API.Locations;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -66,6 +67,13 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 query = query.LoadWithCustomerLoyalty();
 
             return query;
+        }
+
+        [HttpPost]
+        public int PostAddress(int customerId, [FromBody]Address address)
+        {
+            Commerce().Customers.AddAddress(customerId, address);
+            return address.Id;
         }
 
         protected override ICommerceAccess<Customer> GetAccesser()

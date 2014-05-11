@@ -8,6 +8,7 @@ using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.API;
 using Kooboo.Commerce.API.HAL;
+using Kooboo.Commerce.API.Locations;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -50,6 +51,22 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         public bool ApplyCoupon(int cartId, string coupon)
         {
             return Commerce().ShoppingCarts.ApplyCoupon(cartId, coupon);
+        }
+
+        [HttpPost]
+        [Resource("change_shipping_address")]
+        public int ChangeShippingAddress(int cartId, Address address)
+        {
+            Commerce().ShoppingCarts.ChangeShippingAddress(cartId, address);
+            return address.Id;
+        }
+
+        [HttpPost]
+        [Resource("change_billing_address")]
+        public int ChangeBillingAddress(int cartId, Address address)
+        {
+            Commerce().ShoppingCarts.ChangeBillingAddress(cartId, address);
+            return address.Id;
         }
 
         /// <summary>

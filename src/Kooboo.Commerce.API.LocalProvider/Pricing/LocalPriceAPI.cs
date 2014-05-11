@@ -13,50 +13,26 @@ namespace Kooboo.Commerce.API.LocalProvider.Pricing
     public class LocalPriceAPI : IPriceAPI
     {
         private Kooboo.Commerce.Orders.Services.IOrderService _orderService;
+        private Kooboo.Commerce.ShoppingCarts.Services.IShoppingCartService _cartService;
         private Kooboo.Commerce.Payments.Services.IPaymentMethodService _paymentMethodService;
         private Kooboo.Commerce.Customers.Services.ICustomerService _customerService;
         private Kooboo.Commerce.Products.Services.IProductService _productService;
 
         public LocalPriceAPI(
             Kooboo.Commerce.Orders.Services.IOrderService orderService,
+            Kooboo.Commerce.ShoppingCarts.Services.IShoppingCartService cartService,
             Kooboo.Commerce.Payments.Services.IPaymentMethodService paymentMethodService,
             Kooboo.Commerce.Customers.Services.ICustomerService customerService,
             Kooboo.Commerce.Products.Services.IProductService productService)
         {
             _orderService = orderService;
+            _cartService = cartService;
             _paymentMethodService = paymentMethodService;
             _customerService = customerService;
             _productService = productService;
         }
 
-        public CalculatePriceResult Calculate(CalculatePriceRequest request)
-        {
-            var ctx = new PricingContext
-            {
-                CouponCode = request.CouponCode
-            };
-
-            if (request.CustomerId != null)
-            {
-                ctx.Customer = _customerService.GetById(request.CustomerId.Value);
-            }
-            if (request.PaymentMethodId != null)
-            {
-                ctx.PaymentMethod = _paymentMethodService.GetById(request.PaymentMethodId.Value);
-            }
-
-            foreach (var item in request.Items)
-            {
-                var price = _productService.GetProductPriceById(item.ProductPriceId);
-                ctx.Items.Add(new Commerce.Orders.Pricing.PricingItem(item.Id, price, item.Quantity));
-            }
-
-            new PricingPipeline().Execute(ctx);
-
-            return GetResult(ctx);
-        }
-
-        public CalculatePriceResult CalculateOrderPrice(CalculateOrderPriceRequest request)
+        public CalculatePriceResult OrderPrice(CalculateOrderPriceRequest request)
         {
             var order = _orderService.GetById(request.OrderId);
             var ctx = PricingContext.CreateFrom(order);
@@ -68,6 +44,16 @@ namespace Kooboo.Commerce.API.LocalProvider.Pricing
             new PricingPipeline().Execute(ctx);
 
             return GetResult(ctx);
+        }
+
+        public CalculatePriceResult CartPrice(int cartId)
+        {
+            var cart = _cartService.Query().ById(cartId);
+            var context = PricingContext.CreateFrom(cart);
+
+            new PricingPipeline().Execute(context);
+
+            return GetResult(context);
         }
 
         private CalculatePriceResult GetResult(PricingContext ctx)

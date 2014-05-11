@@ -7,8 +7,8 @@ namespace Kooboo.Commerce.API.Pricing
 {
     public interface IPriceAPI
     {
-        CalculatePriceResult Calculate(CalculatePriceRequest request);
+        CalculatePriceResult OrderPrice(CalculateOrderPriceRequest request);
 
-        CalculatePriceResult CalculateOrderPrice(CalculateOrderPriceRequest request);
+        CalculatePriceResult CartPrice(int cartId);
     }
 }

@@ -27,5 +27,15 @@ namespace Kooboo.Commerce.API.Payments
         {
             PaymentProcessorParameterDescriptors = new List<PaymentProcessorParameterDescriptor>();
         }
+
+        public decimal GetPaymentMethodFee(decimal total)
+        {
+            if (AdditionalFeeChargeMode == PriceChangeMode.ByAmount)
+            {
+                return AdditionalFeeAmount;
+            }
+
+            return Math.Round((decimal)AdditionalFeePercent * total, 2);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.API.ShoppingCarts;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,18 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
             QueryParameters.Add("cartId", cartId.ToString());
             QueryParameters.Add("coupon", coupon);
             return Post<bool>("ApplyCoupon");
+        }
+
+        public bool ChangeShippingAddress(int cartId, Address address)
+        {
+            QueryParameters.Add("cartId", cartId.ToString());
+            return Post<bool>("ChangeShippingAddress", address);
+        }
+
+        public bool ChangeBillingAddress(int cartId, Address address)
+        {
+            QueryParameters.Add("cartId", cartId.ToString());
+            return Post<bool>("ChangeBillingAddress", address);
         }
 
         /// <summary>

@@ -11,18 +11,18 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
     public class PriceController : CommerceAPIControllerBase
     {
-        [HttpPost]
-        [Resource("calculate_product_price")]
-        public CalculatePriceResult Calculate(CalculatePriceRequest request)
+        [HttpGet]
+        [Resource("order_price")]
+        public CalculatePriceResult OrderPrice([FromUri]CalculateOrderPriceRequest request)
         {
-            return Commerce().Prices.Calculate(request);
+            return Commerce().Prices.OrderPrice(request);
         }
 
         [HttpPost]
-        [Resource("calculate_order_price")]
-        public CalculatePriceResult CalculateOrderPrice(CalculateOrderPriceRequest request)
+        [Resource("cart_price")]
+        public CalculatePriceResult CartPrice(int cartId)
         {
-            return Commerce().Prices.CalculateOrderPrice(request);
+            return Commerce().Prices.CartPrice(cartId);
         }
     }
 }

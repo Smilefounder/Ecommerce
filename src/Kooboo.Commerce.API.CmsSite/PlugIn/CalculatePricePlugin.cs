@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.API.CmsSite.PlugIn
                     paymentMethodId = Convert.ToInt32(request["paymentMethodId"]);
                 }
 
-                var result = commerce.Prices.CalculateOrderPrice(new CalculateOrderPriceRequest
+                var result = commerce.Prices.OrderPrice(new CalculateOrderPriceRequest
                 {
                     OrderId = orderId,
                     PaymentMethodId = paymentMethodId

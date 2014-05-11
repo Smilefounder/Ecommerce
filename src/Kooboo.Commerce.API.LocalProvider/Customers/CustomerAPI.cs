@@ -3,6 +3,7 @@ using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.Customers.Services;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Locations.Services;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
     [Dependency(typeof(ICustomerAPI), ComponentLifeStyle.Transient)]
     public class CustomerAPI : LocalCommerceQueryAccess<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerAPI
     {
+        private ICommerceDatabase _db;
         private ICustomerService _customerService;
         private ICountryService _countryService;
         private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _mapper;
@@ -27,13 +29,16 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         private bool _loadWithAddresses = false;
         private bool _loadWithCustomerLoyalty = false;
 
-        public CustomerAPI(IHalWrapper halWrapper, ICustomerService customerService, ICountryService countryService, 
+        public CustomerAPI(
+            ICommerceDatabase db,
+            IHalWrapper halWrapper, ICustomerService customerService, ICountryService countryService, 
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> mapper, 
             IMapper<Country, Kooboo.Commerce.Locations.Country> countryMapper,
             IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper,
             IMapper<CustomerLoyalty, Kooboo.Commerce.Customers.CustomerLoyalty> customerLoyaltyMapper)
             : base(halWrapper)
         {
+            _db = db;
             _customerService = customerService;
             _countryService = countryService;
             _mapper = mapper;
@@ -71,8 +76,13 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             List<string> includeComplexPropertyNames = new List<string>();
             if(_loadWithCountry)
                 includeComplexPropertyNames.Add("Country");
-            if(_loadWithAddresses)
+
+            if (_loadWithAddresses)
+            {
                 includeComplexPropertyNames.Add("Addresses");
+                includeComplexPropertyNames.Add("Addresses.Country");
+            }
+
             if(_loadWithCustomerLoyalty)
                 includeComplexPropertyNames.Add("Loyalty");
             return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
@@ -251,6 +261,28 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             _loadWithCountry = false;
             _loadWithAddresses = false;
             _loadWithCustomerLoyalty = false;
+        }
+
+        public bool AddAddress(int customerId, Address address)
+        {
+            var customer = _customerService.GetById(customerId);
+            var addr = _addressMapper.MapFrom(address);
+
+            if (String.IsNullOrEmpty(addr.FirstName) && String.IsNullOrEmpty(addr.LastName))
+            {
+                addr.FirstName = customer.FirstName;
+                addr.LastName = customer.LastName;
+            }
+
+            using (var tx = _db.BeginTransaction())
+            {
+                customer.Addresses.Add(addr);
+                tx.Commit();
+
+                address.Id = addr.Id;
+            }
+
+            return true;
         }
 
         /// <summary>

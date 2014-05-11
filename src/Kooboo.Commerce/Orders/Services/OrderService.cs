@@ -118,6 +118,7 @@ namespace Kooboo.Commerce.Orders.Services
                 order.ShoppingCartId = shoppingCart.Id;
                 order.CustomerId = customer.Id;
                 order.IsCompleted = false;
+                order.Coupon = shoppingCart.CouponCode;
                 order.ChangeStatus(OrderStatus.Created);
 
                 if (shoppingCart.Items.Count > 0)
@@ -168,7 +169,7 @@ namespace Kooboo.Commerce.Orders.Services
                 var pricingItem = context.Items.FirstOrDefault(x => x.Id == item.Id);
                 item.Discount = pricingItem.Subtotal.Discount;
                 item.SubTotal = pricingItem.Subtotal.OriginalValue;
-                item.Total = item.SubTotal - item.Discount;
+                item.Total = pricingItem.Subtotal.FinalValue;
             }
 
             order.SubTotal = context.Subtotal.FinalValue;
@@ -177,7 +178,7 @@ namespace Kooboo.Commerce.Orders.Services
             order.TotalTax = context.Tax.FinalValue;
             order.Discount = context.Subtotal.Discount + context.Items.Sum(x => x.Subtotal.Discount);
 
-            order.Total = order.SubTotal + order.TotalTax + order.ShippingCost + order.PaymentMethodCost - order.Discount;
+            order.Total = context.Total;
         }
 
         //public IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize)

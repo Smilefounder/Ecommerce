@@ -3426,6 +3426,10 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_recommendation\template.cshtml" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\header\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\header\template.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-shipping\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-shipping\template.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-confirm\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-confirm\template.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

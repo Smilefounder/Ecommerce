@@ -100,6 +100,13 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             _loadWithShoppingCart = false;
         }
 
+        public Order CreateFromShoppingCart(int cartId, MembershipUser user, bool deleteShoppingCart)
+        {
+            var cart = _shoppingCartService.Query().ById(cartId);
+            var order =_orderService.CreateOrderFromShoppingCart(cart, user, deleteShoppingCart);
+            return _mapper.MapTo(order);
+        }
+
         /// <summary>
         /// create object
         /// </summary>

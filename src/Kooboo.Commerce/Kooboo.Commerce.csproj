@@ -97,6 +97,7 @@
     <Compile Include="Categories\CategoryCustomField.cs" />
     <Compile Include="Categories\Services\CategoryService.cs" />
     <Compile Include="Categories\Services\ICategoryService.cs" />
+    <Compile Include="Locations\AddressExtensions.cs" />
     <Compile Include="Customers\CustomerCustomField.cs" />
     <Compile Include="Customers\CustomerQueryModel.cs" />
     <Compile Include="DefaultExtendedQueryManager.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="EAV\WebControls\IWebControlFactory.cs" />
     <Compile Include="EAV\Validation\ValidationExtensions.cs" />
     <Compile Include="EAV\WebControls\WebControlModel.cs" />
+    <Compile Include="ShoppingCarts\ShoppingCartExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

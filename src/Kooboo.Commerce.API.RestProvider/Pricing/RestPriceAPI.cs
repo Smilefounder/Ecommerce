@@ -15,14 +15,15 @@ namespace Kooboo.Commerce.API.RestProvider.Pricing
             get { return "Price"; }
         }
 
-        public CalculatePriceResult Calculate(CalculatePriceRequest request)
+        public CalculatePriceResult OrderPrice(CalculateOrderPriceRequest request)
         {
-            return Post<CalculatePriceResult>("Calculate", request);
+            return Post<CalculatePriceResult>("OrderPrice", request);
         }
 
-        public CalculatePriceResult CalculateOrderPrice(CalculateOrderPriceRequest request)
+        public CalculatePriceResult CartPrice(int cartId)
         {
-            return Post<CalculatePriceResult>("CalculateOrderPrice", request);
+            QueryParameters.Add("cartId", cartId.ToString());
+            return Post<CalculatePriceResult>("CartPrice");
         }
     }
 }
