@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Kooboo.Commerce.API.CmsSite;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.API.Products;
+using Kooboo.Commerce.API.Pricing;
 
 namespace Kooboo.CMS.Plugins.Vitaminstore
 {
@@ -36,6 +37,10 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 if (action == "cartinfo")
                 {
                     result = CartInfo(site, controllerContext, submissionSetting);
+                }
+                else if (action == "mini-cartinfo")
+                {
+                    result = MiniCartInfo(site, controllerContext);
                 }
                 else if (action == "add-item")
                 {
@@ -92,6 +97,36 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             return query.FirstOrDefault() ?? new ShoppingCart
             {
                 SessionId = sessionId
+            };
+        }
+        private object MiniCartInfo(Site site, ControllerContext controllerContext)
+        {
+            var api = site.Commerce();
+            var query = api.ShoppingCarts.Query();
+            var sessionId = controllerContext.HttpContext.Session.SessionID;
+            var user = controllerContext.HttpContext.Membership().GetMembershipUser();
+            if (user == null)
+            {
+                query = query.BySessionId(sessionId);
+            }
+            else
+            {
+                query = query.ByAccountId(user.UUID);
+            }
+
+            var cart = query.FirstOrDefault();
+            if (cart == null)
+            {
+                return null;
+            }
+
+            var price = api.Prices.CartPrice(cart.Id);
+            var count = cart.Items.Sum(x => x.Quantity);
+
+            return new
+            {
+                TotalQuantity = count,
+                Subtotal = price.Subtotal.FinalValue
             };
         }
 
