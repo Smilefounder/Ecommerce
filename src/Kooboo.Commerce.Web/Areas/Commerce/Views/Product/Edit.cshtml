@@ -115,8 +115,8 @@
                                 <td class="mini" data-bind="text:Stock"></td>
                                 <td class="mini" data-bind="text:DeliveryDays"></td>
                                 <td class="mini" data-bind="text:IsPublished"></td>
-                                <td><a href="javascript:;" data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit small")</a></td>
-                                <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Delete">@Html.IconImage("minus small")</a></td>
+                                <td><a href="javascript:;" data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit-small")</a></td>
+                                <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Delete">@Html.IconImage("minus-small")</a></td>
                             </tr>
                             <!-- /ko -->
                             <!-- ko if: $root.IsEditingPrice($data) -->
@@ -131,8 +131,8 @@
                                 <td class="mini"><input type="text" data-bind="value:Stock" class="mini"></td>
                                 <td class="mini"><input type="text" data-bind="value:DeliveryDays" class="mini"></td>
                                 <td class="mini"><input type="checkbox" data-bind="checked:IsPublished"></td>
-                                <td><a href="javascript:;" onclick="vm.EditingPrice(null);" title="Save">@Html.IconImage("save small")</a></td>
-                                <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Cancel">@Html.IconImage("minus small")</a></td>
+                                <td><a href="javascript:;" onclick="vm.EditingPrice(null);" title="Save">@Html.IconImage("save-small")</a></td>
+                                <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Cancel">@Html.IconImage("minus-small")</a></td>
                             </tr>
                             <!-- /ko -->
                         </tbody>
@@ -178,19 +178,17 @@
     <tr>
         <th><span data-bind="text:Name"></span><br />(<span data-bind="text:Width"></span>X<span data-bind="text:Height"></span>)</th>
         <td>
-            <div class="mediafile1">
-                <ul class="clearfix" data-bind="foreach: $root.GetImageUrl($data)">
-                    <li class="img">
+            <ul class="form-list images" data-bind="foreach: $root.GetImageUrl($data)">
+                <li>
+                    <div class="file-thumbnail">
                         <img class="crop_image" data-bind="attr:{src:ImageUrl, width: $root.GetImageWidth($data), height: $root.GetImageHeight($data), 'data-width': $root.GetImageWidth($data), 'data-height': $root.GetImageHeight($data) }" />
-                        <a href="javascript:;" data-bind="click: $root.RemoveImage">
-                            @Html.IconImage("minus small")
-                        </a>
-                    </li>
-                </ul>
-                <a href="javascript:;" class="upload" data-owner="commerce" data-bind="attr: { 'data-property': Name, 'data-multiple': IsMultiple }">
-                    @Html.IconImage("plus small")
-                </a>
-            </div>
+                        <a href="javascript:;" class="action" data-bind="click: $root.RemoveImage">@Html.IconImage("minus-small")</a>
+                    </div>
+                </li>
+            </ul>
+            <a href="javascript:;" class="action J_Upload" data-owner="commerce" data-bind="attr: { 'data-property': Name, 'data-multiple': IsMultiple }">
+                @Html.IconImage("plus-small")
+            </a>
         </td>
     </tr>
 </script>
@@ -476,7 +474,7 @@
     });
 
     function InitUpload() {
-        $('.upload').upload({
+        $('.J_Upload').upload({
             on_file_select: function (data) {
                 $.each(data.files, function (i, n) {
                     vm.AddImage(data.property, n.Url);

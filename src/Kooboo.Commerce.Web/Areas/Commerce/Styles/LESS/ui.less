@@ -329,7 +329,7 @@
 			.sprite(@minus-mini);
 		}
 
-		li ul {
+		> ul {
 			display: block;
 		}
 	}
@@ -754,15 +754,16 @@
 	}
 
 	.content-block-header {
+		background: #FFF;
+		color: #FFF;
 		height: 32px;
 		line-height: 32px;
-		padding-left: 20px;
-		color: #fff;
-		background: #fff;
+		padding: 0 15px;
 		position: relative;
+		overflow: hidden;
 
 		a {
-			color: #fff;
+			color: #FFF;
 			position: relative;
 			z-index: 3;
 		}
@@ -788,10 +789,11 @@
 	}
 
 	input[type="radio"] {
-		margin: 4px 4px 0 0;
-		float: right;
 		display: none;
-		position: relative;
+		margin: 0;
+		position: absolute;
+		right: 4px;
+		top: 4px;
 		z-index: 2;
 
 		& ~ label {
@@ -822,10 +824,9 @@
 	}
 
 	> ul {
-		padding: 10px 0 10px 20px;
-		border-left: 1px solid #CCC;
-		border-right: 1px solid #CCC;
-		border-bottom: 1px solid #CCC;
+		padding: 10px 15px;
+		border: 1px solid #CCC;
+		border-top: none;
 
 		li {
 			height: 32px;
@@ -842,14 +843,13 @@
 	}
 
 	&:hover > ul {
-		padding-left: 19px;
-		border-left: 2px solid #CCC;
-		border-right: 2px solid #CCC;
-		border-bottom: 2px solid #CCC;
+		border: 2px solid #CCC;
+		border-top: none;
+		padding: 10px 14px;
 	}
 
 	&.checked > ul {
-		padding-left: 19px;
+		padding: 10px 14px;
 	}
 
 	&.checked input[type="radio"],

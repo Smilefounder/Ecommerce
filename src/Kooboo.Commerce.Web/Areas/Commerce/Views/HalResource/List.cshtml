@@ -15,12 +15,11 @@
             @foreach (var group in Model)
             {
                 <tr>
-                    <td>
-                        <a href="#" data-key="@group.Key" data-toggle="toggle-children" data-state="close">
-                            <span class="expander">@Html.IconImage("sprite")</span>
-                            @group.Key
-                        </a>
+                    <td class="common">
+                        <span class="expander" data-key="@group.Key" data-toggle="toggle-children" data-state="close">@Html.IconImage("sprite")</span>
+                        <span data-key="@group.Key" data-toggle="toggle-children" data-state="close">@group.Key</span>
                     </td>
+                    <td></td>
                 </tr>
                 foreach (var item in group)
                 {
@@ -39,23 +38,22 @@
 </div>
 
 <script>
-    $('[data-toggle="toggle-children"]').on('click', function () {
-        var $trigger = $(this);
-        var state = $trigger.data('state');
-        var key = $trigger.data('key');
-        var $children = $('tr[data-parent="' + key + '"]');
+    $(function () {
+        $('[data-toggle="toggle-children"]').click(function () {
+            var $trigger = $(this);
+            var state = $trigger.data('state');
+            var key = $trigger.data('key');
+            var $children = $('tr[data-parent="' + key + '"]');
 
-        if (state === 'open') {
-            $children.hide();
-            $trigger.find('expander').removeClass('active');
-            $trigger.data('state', 'close');
-        } else {
-            $children.show();
-            $trigger.find('expander').addClass('active');
-            $trigger.data('state', 'open');
-        }
-
-        return false;
-    });
-
+            if (state == 'open') {
+                $children.hide();
+                $trigger.removeClass('active');
+                $trigger.data('state', 'close');
+            } else {
+                $children.show();
+                $trigger.addClass('active');
+                $trigger.data('state', 'open');
+            }
+        });
+    })
 </script>

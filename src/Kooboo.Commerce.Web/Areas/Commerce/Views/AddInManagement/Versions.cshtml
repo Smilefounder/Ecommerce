@@ -5,17 +5,17 @@
 }
 @section Panel{
     <ul class="header-panel">
-    <li>
-        <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-            @Html.IconImage("cancel") @("Back".Localize())
-        </a>
-    </li>
-    <li>
-        <a href="@Url.Action("Reinstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
-            @Html.IconImage("reset") @("Reinstall".Localize())
-        </a>
-    </li>
-</ul>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("back") @("Back".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Reinstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("reset") @("Reinstall".Localize())
+            </a>
+        </li>
+    </ul>
 }
 
 <div class="block common-form">

@@ -20,34 +20,29 @@
 }
 @section Panel{
     <ul class="header-panel">
-    @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
-    {
-        @Html.Partial("_ToolbarGroupButtons", group)
-    }
-    <li>
-        <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-            @Html.IconImage("cancel") @("Cancel".Localize())
-        </a>
-    </li>
-    <li>
-        <a data-ajaxform="">
-            @Html.IconImage("next") @("Next".Localize())
-        </a>
-    </li>
-</ul>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("back") @("Cancel".Localize())
+            </a>
+        </li>
+    </ul>
 
 }
 <div class="block">
     <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
-    <div class="process-steps">
-        <div class="steps-inner">
+    <div class="wizard">
+        <div class="container">
             <span>@("Add-in selection".Localize())</span>
-            <span class="current">@("Installation".Localize())<b></b></span>
+            <span class="active">@("Installation".Localize())<b></b></span>
             <span>@("Finish".Localize())</span>
         </div>
     </div>
     <div class="content">
-         <p>@("We are about to reinstall your add-in. In this step, we will perform the following actions:".Localize())</p>
+        <p>@("We are about to reinstall your add-in. In this step, we will perform the following actions:".Localize())</p>
         <ol>
             <li><strong>@("Copy the add-in files into Kooboo CMS system.".Localize())</strong></li>
             <li><strong>@("Run the 'Reinstallation' events defined by add-in developers".Localize())</strong></li>
@@ -63,6 +58,9 @@
     }
     <div class="content">
         <p>@Html.Raw("When you are ready, click the <strong>Next</strong> button to start the installation.".Localize())</p>
+    </div>
+    <div class="wizard-buttons">
+        <a class="button" data-ajaxform="">@("Next".Localize()) &raquo;</a>
     </div>
 </div>
 

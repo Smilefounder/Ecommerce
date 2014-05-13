@@ -78,7 +78,7 @@
                                             <label class="inline" data-bind="attr:{'for':$parent.attId($data,'IsEnabled')}">@("IsEnabled".Localize())</label>
                                         </div>
                                     </div>
-                                    <div class="span8">
+                                    <div class="span6">
                                         <!--ko ifnot:IsSystemDefault-->
                                         <a class="action" data-bind="click:$parent.delRow">@Html.IconImage("minus")</a>
                                         <!--/ko-->
@@ -154,7 +154,7 @@
             @{var gridViewData = new ViewDataDictionary();
             gridViewData.Add("CreateButtonText", "Create system field".Localize());
             gridViewData.Add("FieldType", 1);
-}
+            }
             @Html.Partial("_CustomFieldsGrid", Model.ProductSetting.SystemFields, gridViewData)
         </div>
     </div>
@@ -166,6 +166,6 @@
     </script>
 }
 @{
-ViewData.Add("FieldType", 1);
+    ViewData.Add("FieldType", 1);
 }
 @Html.Partial("_CustomFieldsScripts", ViewData)

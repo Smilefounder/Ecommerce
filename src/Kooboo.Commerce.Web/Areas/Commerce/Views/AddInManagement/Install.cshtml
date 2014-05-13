@@ -10,7 +10,7 @@
     <ul class="header-panel">
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Cancel".Localize())
+                @Html.IconImage("back") @("Cancel".Localize())
             </a>
         </li>
         @if (isValidUpload)
@@ -21,7 +21,7 @@
                 </a>
             </li>
         }
-        
+
         @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
         {
             @Html.Partial("_ToolbarGroupButtons", group)
@@ -30,9 +30,9 @@
 }
 <div class="block">
     <h1 class="title">@ViewBag.Title</h1>
-    <div class="process-steps">
-        <div class="steps-inner">
-            <span class="current">@("Add-in selection".Localize())<b></b></span>
+    <div class="wizard">
+        <div class="container">
+            <span class="active">@("Add-in selection".Localize())<b></b></span>
             <span>@("Installation".Localize())</span>
             <span>@("Finish".Localize())</span>
         </div>

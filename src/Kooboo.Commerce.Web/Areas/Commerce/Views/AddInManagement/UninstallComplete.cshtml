@@ -5,32 +5,28 @@
 }
 @section Panel{
     <ul class="header-panel">
-    @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
-    {
-        @Html.Partial("_ToolbarGroupButtons", group)
-    }
-    <li>
-        <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-            @Html.IconImage("cancel") @("Finish".Localize())
-        </a>
-    </li>
-</ul>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Finish".Localize())
+            </a>
+        </li>
+    </ul>
 
 }
 <div class="block">
     <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
-    <div class="process-steps">
-        <div class="steps-inner">
+    <div class="wizard">
+        <div class="container">
             <span>@("Add-in info".Localize())</span>
             <span>@("Uninstallation".Localize())</span>
-            <span class="current">@("Finish".Localize())<b></b></span>
+            <span class="active">@("Finish".Localize())<b></b></span>
         </div>
     </div>
-    <div class="block content">
-        <p></p>
-        <b>@("Your add-in has been removed from the Kooboo CMS system.".Localize())</b>
-        <p></p>
-        <p></p>
-      
+    <div class="block message success">
+        <p>@("Your add-in has been removed from the Kooboo CMS system.".Localize())</p>
     </div>
 </div>

@@ -24,22 +24,17 @@
         }
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Cancel".Localize())
-            </a>
-        </li>
-        <li>
-            <a data-ajaxform="">
-                @Html.IconImage("next") @("Next".Localize())
+                @Html.IconImage("back") @("Cancel".Localize())
             </a>
         </li>
     </ul>
 }
 <div class="block">
     <h1 class="title">@ViewBag.Title</h1>
-    <div class="process-steps">
-        <div class="steps-inner">
+    <div class="wizard">
+        <div class="container">
             <span>@("Add-in selection".Localize())</span>
-            <span class="current">@("Installation".Localize())<b></b></span>
+            <span class="active">@("Installation".Localize())<b></b></span>
             <span>@("Finish".Localize())</span>
         </div>
     </div>
@@ -62,6 +57,9 @@
     <div class="content">
         <p>@Html.Raw("When you are ready, click the <strong>Next</strong> button to start the installation.".Localize())</p>
     </div>
+    <div class="wizard-buttons">
+        <a class="button" data-ajaxform="">@("Next".Localize()) &raquo;</a>
+    </div>
 </div>
 <script>
     window.ajaxFormParam = {
@@ -75,9 +73,9 @@
                 success: function (data, textStatus, jqXHR) {
                     parse_JsonResultData.call(this, data, textStatus, jqXHR)
                     success = data.Success;
-                },             
+                },
                 async: false
-            });          
+            });
             return success;
         }
     }

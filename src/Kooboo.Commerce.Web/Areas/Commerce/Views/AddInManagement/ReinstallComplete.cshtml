@@ -5,33 +5,30 @@
 }
 @section Panel{
     <ul class="header-panel">
-    @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
-    {
-        @Html.Partial("_ToolbarGroupButtons", group)
-    }
-    <li>
-        <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-            @Html.IconImage("cancel") @("Finish".Localize())
-        </a>
-    </li>
-</ul>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("back") @("Finish".Localize())
+            </a>
+        </li>
+    </ul>
 
 }
 
 <div class="block">
     <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
-    <div class="process-steps">
-        <div class="steps-inner">
+    <div class="wizard">
+        <div class="container">
             <span>@("Add-in selection".Localize())</span>
             <span>@("Installation".Localize())</span>
-            <span class="current">@("Finish".Localize())<b></b></span>
+            <span class="active">@("Finish".Localize())<b></b></span>
         </div>
     </div>
-    <div class="block content">
-        <p></p>
-        <b>@("Your add-in has been updated".Localize())</b>
-        <p></p>
-        <p></p>
+    <div class="block message success">
+        <p>@("Your add-in has been updated".Localize())</p>
     </div>
 </div>
 
