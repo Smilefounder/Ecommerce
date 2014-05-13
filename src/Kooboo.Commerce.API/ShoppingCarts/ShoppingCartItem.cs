@@ -15,10 +15,7 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// shopping cart item id
         /// </summary>
         public int Id { get; set; }
-        /// <summary>
-        /// shopping cart
-        /// </summary>
-        public ShoppingCart ShoppingCart { get; set; }
+
         /// <summary>
         /// product price
         /// </summary>

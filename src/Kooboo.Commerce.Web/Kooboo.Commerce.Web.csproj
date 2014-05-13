@@ -3430,6 +3430,8 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-shipping\template.cshtml" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-confirm\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-confirm\template.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-thankyou\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-thankyou\template.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

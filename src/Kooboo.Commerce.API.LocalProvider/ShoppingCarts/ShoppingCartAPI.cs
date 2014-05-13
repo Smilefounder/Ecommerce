@@ -2,6 +2,7 @@
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.API.Pricing;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
@@ -24,6 +25,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
     public class ShoppingCartAPI : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartAPI
     {
         private ICommerceDatabase _db;
+        private IPriceAPI _priceApi;
         private IShoppingCartService _shoppingCartService;
         private ICustomerAPI _customerApi;
         private ICustomerService _customerService;
@@ -34,6 +36,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public ShoppingCartAPI(
             IHalWrapper halWrapper,
             ICommerceDatabase db,
+            IPriceAPI priceApi,
             ICustomerAPI customerApi,
             IShoppingCartService shoppingCartService, 
             ICustomerService customerService,
@@ -44,6 +47,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             : base(halWrapper, mapper)
         {
             _db = db;
+            _priceApi = priceApi;
             _customerApi = customerApi;
             _shoppingCartService = shoppingCartService;
             _customerService = customerService;
@@ -95,6 +99,33 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             EnsureQuery();
             _query = _query.Where(o => o.Customer.AccountId == accountId && !o.SessionId.StartsWith("EXPIRED_"));
             return this;
+        }
+
+        protected override ShoppingCart Map(Commerce.ShoppingCarts.ShoppingCart obj)
+        {
+            var cart = base.Map(obj);
+
+            foreach (var item in cart.Items)
+            {
+                // TODO: hack for now
+                item.ProductPriceId = item.ProductPrice.Id;
+            }
+            
+            // calculate prices
+            var prices = _priceApi.CartPrice(cart.Id);
+
+            foreach (var item in prices.Items)
+            {
+                var cartItem = cart.Items.FirstOrDefault(x => x.Id == item.Id);
+                cartItem.Subtotal = item.Subtotal.OriginalValue;
+                cartItem.Discount = item.Subtotal.Discount;
+            }
+
+            cart.Subtotal = prices.Subtotal.FinalValue;
+            cart.TotalDiscount = prices.Subtotal.Discount + cart.Items.Sum(x => x.Discount);
+            cart.Total = prices.Total;
+
+            return cart;
         }
 
         public bool ApplyCoupon(int cartId, string coupon)
