@@ -21,17 +21,13 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         private ICommerceDatabase _db;
         private ICustomerService _customerService;
         private ICountryService _countryService;
-        //private IMapper<Country, Kooboo.Commerce.Locations.Country> _countryMapper;
         private IMapper<Address, Kooboo.Commerce.Locations.Address> _addressMapper;
-        //private IMapper<CustomerLoyalty, Kooboo.Commerce.Customers.CustomerLoyalty> _customerLoyaltyMapper;
 
         public CustomerAPI(
             ICommerceDatabase db,
             IHalWrapper halWrapper, ICustomerService customerService, ICountryService countryService, 
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> mapper, 
-            IMapper<Country, Kooboo.Commerce.Locations.Country> countryMapper,
-            IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper,
-            IMapper<CustomerLoyalty, Kooboo.Commerce.Customers.CustomerLoyalty> customerLoyaltyMapper)
+            IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper)
             : base(halWrapper, mapper)
         {
             _db = db;

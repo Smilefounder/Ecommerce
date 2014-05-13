@@ -24,24 +24,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private IProductTypeService _productTypeService;
         private ICategoryService _categoryService;
         private ICustomFieldService _customFieldService;
-        //private IMapper<Brand, Kooboo.Commerce.Brands.Brand> _brandMapper;
-        //private IMapper<ProductType, Kooboo.Commerce.Products.ProductType> _productTypeMapper;
-        //private IMapper<ProductPrice, Kooboo.Commerce.Products.ProductPrice> _productPriceMapper;
-        //private IMapper<ProductImage, Kooboo.Commerce.Products.ProductImage> _productImageMapper;
-        //private IMapper<ProductCategory, Kooboo.Commerce.Products.ProductCategory> _productCategoryMapper;
-        //private IMapper<ProductCustomFieldValue, Kooboo.Commerce.Products.ProductCustomFieldValue> _productCustomFieldValueMapper;
-        //private IMapper<ProductPriceVariantValue, Kooboo.Commerce.Products.ProductPriceVariantValue> _productPriceVariantValueMapper;
 
         public ProductAPI(IHalWrapper halWrapper, IProductService productService, IBrandService brandService, IProductTypeService productTypeService, ICustomFieldService customFieldService,
             ICategoryService categoryService,
-            IMapper<Product, Kooboo.Commerce.Products.Product> mapper,
-            IMapper<Brand, Kooboo.Commerce.Brands.Brand> brandMapper,
-            IMapper<ProductType, Kooboo.Commerce.Products.ProductType> productTypeMapper,
-            IMapper<ProductPrice, Kooboo.Commerce.Products.ProductPrice> productPriceMapper,
-            IMapper<ProductImage, Kooboo.Commerce.Products.ProductImage> productImageMapper,
-            IMapper<ProductCategory, Kooboo.Commerce.Products.ProductCategory> productCategoryMapper,
-            IMapper<ProductCustomFieldValue, Kooboo.Commerce.Products.ProductCustomFieldValue> productCustomFieldValueMapper,
-            IMapper<ProductPriceVariantValue, Kooboo.Commerce.Products.ProductPriceVariantValue> productPriceVariantValueMapper)
+            IMapper<Product, Kooboo.Commerce.Products.Product> mapper)
             : base(halWrapper, mapper)
         {
             _productService = productService;
@@ -49,7 +35,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             _productTypeService = productTypeService;
             _customFieldService = customFieldService;
             _categoryService = categoryService;
-            _mapper = mapper;
         }
 
         /// <summary>

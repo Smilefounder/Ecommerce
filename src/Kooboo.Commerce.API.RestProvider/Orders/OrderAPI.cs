@@ -143,24 +143,6 @@ namespace Kooboo.Commerce.API.RestProvider.Orders
             QueryParameters.Add("deleteShoppingCart", deleteShoppingCart.ToString());
             return Post<Order>("GetMyOrder", user);
         }
-        /// <summary>
-        /// load order with customer info
-        /// </summary>
-        /// <returns>order query</returns>
-        public IOrderQuery LoadWithCustomer()
-        {
-            QueryParameters.Add("LoadWithCountry", "true");
-            return this;
-        }
-        /// <summary>
-        /// load order with shopping cart info
-        /// </summary>
-        /// <returns>order query</returns>
-        public IOrderQuery LoadWithShoppingCart()
-        {
-            QueryParameters.Add("LoadWithCountry", "true");
-            return this;
-        }
 
         /// <summary>
         /// create order query

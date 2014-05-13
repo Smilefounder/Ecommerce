@@ -30,11 +30,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private IPromotionService _promotionService;
         private IPromotionPolicyFactory _promotionPolicyFactory;
         private IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> _cartItemMapper;
-        //private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _customerMapper;
-        private bool _loadWithCutomer = false;
-        private bool _loadWithBrands = false;
-        private bool _loadWithProductPrices = false;
-        private bool _loadWithProductImages = false;
 
         public ShoppingCartAPI(
             IHalWrapper halWrapper,
@@ -45,8 +40,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             IPromotionService promotionService,
             IPromotionPolicyFactory promotionPolicyFactory,
             IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
-            IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper,
-            IMapper<Customer, Kooboo.Commerce.Customers.Customer> customerMapper)
+            IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper)
             : base(halWrapper, mapper)
         {
             _db = db;
@@ -75,80 +69,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         protected override IQueryable<Commerce.ShoppingCarts.ShoppingCart> OrderByDefault(IQueryable<Commerce.ShoppingCarts.ShoppingCart> query)
         {
             return query.OrderByDescending(o => o.Id);
-        }
-
-        /// <summary>
-        /// map the entity to object
-        /// </summary>
-        /// <param name="obj">entity</param>
-        /// <returns>object</returns>
-        protected override ShoppingCart Map(Commerce.ShoppingCarts.ShoppingCart obj)
-        {
-            List<string> includeComplexPropertyNames = new List<string>();
-            includeComplexPropertyNames.Add("Items");
-            includeComplexPropertyNames.Add("Items.ProductPrice");
-            includeComplexPropertyNames.Add("Items.ProductPrice.Product");
-            includeComplexPropertyNames.Add("ShippingAddress");
-            includeComplexPropertyNames.Add("ShippingAddress.Country");
-            includeComplexPropertyNames.Add("BillingAddress");
-            includeComplexPropertyNames.Add("BillingAddress.Country");
-            if (_loadWithCutomer)
-            {
-                includeComplexPropertyNames.Add("Customer");
-            }
-            if (_loadWithBrands)
-            {
-                includeComplexPropertyNames.Add("Items.ProductPrice.Product.Brand");
-            }
-            if (_loadWithProductPrices)
-            {
-                includeComplexPropertyNames.Add("Items.ProductPrice.Product.PriceList");
-            }
-            if (_loadWithProductImages)
-            {
-                includeComplexPropertyNames.Add("Items.ProductPrice.Product.Images");
-            }
-
-            var cart = _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
-
-            foreach (var item in cart.Items)
-            {
-                item.ProductPriceId = item.ProductPrice.Id;
-            }
-
-            // Calculate promotion discounts
-            var context = PricingContext.CreateFrom(obj);
-            new PricingPipeline().Execute(context);
-
-            foreach (var item in cart.Items)
-            {
-                var pricingItem = context.Items.FirstOrDefault(x => x.Id == item.Id);
-                item.Subtotal = pricingItem.Subtotal.OriginalValue;
-                item.Discount = pricingItem.Subtotal.Discount;
-                item.Total = pricingItem.Subtotal.FinalValue;
-            }
-
-            cart.Subtotal = context.Subtotal.OriginalValue;
-            cart.TotalDiscount = context.Items.Sum(x => x.Subtotal.Discount) + context.Subtotal.Discount;
-            cart.Total = context.Total;
-
-            cart.AppliedPromotions = context.AppliedPromotions.Select(p => new Promotions.Promotion
-            {
-                Id = p.Id,
-                Name = p.Name
-            })
-            .ToList();
-
-            return cart;
-        }
-
-        /// <summary>
-        /// this method will be called after query executed
-        /// </summary>
-        protected override void OnQueryExecuted()
-        {
-            base.OnQueryExecuted();
-            _loadWithCutomer = false;
         }
 
         /// <summary>
