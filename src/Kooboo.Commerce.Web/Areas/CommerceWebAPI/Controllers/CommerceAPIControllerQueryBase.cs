@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Kooboo.Commerce.API;
 using Kooboo.Commerce.API.HAL;
+using System.Collections.Specialized;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -69,11 +70,28 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             BuildHalParameters(query);
             return query.Count();
         }
+        protected abstract ICommerceQuery<T> BuildQueryFromQueryStrings();
         /// <summary>
         /// build the commerce query filters from query string.
         /// </summary>
         /// <returns>commerce query</returns>
-        protected abstract ICommerceQuery<T> BuildQueryFromQueryStrings();
+        protected virtual ICommerceQuery<T> BuildLoadWithFromQueryStrings(ICommerceQuery<T> query, NameValueCollection qs)
+        {
+            if (qs == null || query == null || qs.Count <= 0)
+                return query;
+            var loadWithProperties = qs.AllKeys.Where(o => o.ToLower().StartsWith("loadwith"));
+            if (loadWithProperties != null && loadWithProperties.Count() > 0)
+            {
+                foreach (var property in loadWithProperties)
+                {
+                    if (qs[property] == "true")
+                    {
+                        query = query.Include(property.Substring("LoadWith".Length));
+                    }
+                }
+            }
+            return query;
+        }
 
         /// <summary>
         /// build hal paramters from query string

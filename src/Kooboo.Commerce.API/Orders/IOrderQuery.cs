@@ -78,15 +78,5 @@ namespace Kooboo.Commerce.API.Orders
         /// <param name="deleteShoppingCart">whether to delete the shopping cart when order created</param>
         /// <returns>order</returns>
         Order GetMyOrder(string sessionId, MembershipUser user, bool deleteShoppingCart = true);
-        /// <summary>
-        /// load order with customer info
-        /// </summary>
-        /// <returns>order query</returns>
-        IOrderQuery LoadWithCustomer();
-        /// <summary>
-        /// load order with shopping cart info
-        /// </summary>
-        /// <returns>order query</returns>
-        IOrderQuery LoadWithShoppingCart();
     }
 }

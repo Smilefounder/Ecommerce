@@ -1,7 +1,7 @@
 ﻿@using Kooboo.Commerce.API;
 @using Kooboo.Commerce.API.CmsSite;
 @{
-    var categories = Site.Current.Commerce().Categories.LoadWithChildren().ToArray();
+    var categories = Site.Current.Commerce().Categories.Include(o => o.Children).ToArray();
 }
 <div class="block menu">
     <ul>

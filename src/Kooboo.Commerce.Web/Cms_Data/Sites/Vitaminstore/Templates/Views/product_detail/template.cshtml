@@ -3,7 +3,7 @@
 @using Kooboo.Commerce.API.Products;
 @{
     var productId = Page_Context.Current.PageRequestContext.RouteValues["id"];
-    var product = Site.Current.Commerce().Products.ById(Convert.ToInt32(productId)).LoadWithBrand().LoadWithProductType().LoadWithPriceList().LoadWithImages().FirstOrDefault();
+    var product = Site.Current.Commerce().Products.ById(Convert.ToInt32(productId)).Include(o => o.Brand).Include(o => o.Type).Include(o => o.PriceList).Include(o => o.Images).FirstOrDefault();
     var image = product.GetImage("detail");
     if (image == null)
     {

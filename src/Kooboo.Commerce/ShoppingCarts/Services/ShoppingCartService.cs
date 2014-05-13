@@ -74,38 +74,6 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             return false;
         }
 
-        //public ShoppingCart GetBySessionId(string sessionId)
-        //{
-        //    ShoppingCart shoppingCart = _shoppingCartRepository.Query()
-        //        .Where(x => x.SessionId == sessionId)
-        //        .FirstOrDefault();
-
-        //    if (shoppingCart == null)
-        //    {
-        //        shoppingCart = new ShoppingCart();
-        //        shoppingCart.SessionId = sessionId;
-        //        Create(shoppingCart);
-        //    }
-
-        //    return shoppingCart;
-        //}
-
-        //public ShoppingCart GetByCustomer(int customerId)
-        //{
-        //    ShoppingCart shoppingCart = _shoppingCartRepository.Query()
-        //        .Where(x => x.Customer.Id == customerId)
-        //        .FirstOrDefault();
-
-        //    if (shoppingCart == null)
-        //    {
-        //        shoppingCart = new ShoppingCart();
-        //        shoppingCart.Customer = _customerService.GetById(customerId);
-        //        Create(shoppingCart);
-        //    }
-
-        //    return shoppingCart;
-        //}
-
         public bool Create(ShoppingCart shoppingCart)
         {
             return _shoppingCartRepository.Insert(shoppingCart);
@@ -249,7 +217,7 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         {
             if (shoppingCart != null)
             {
-                shoppingCart.SessionId += "_" + DateTime.UtcNow.Ticks.ToString();
+                shoppingCart.SessionId = string.Format("EXPIRED_{0}_{1}", shoppingCart.SessionId, DateTime.UtcNow.Ticks.ToString());
                 return _shoppingCartRepository.Update(shoppingCart, k => new object[] { k.Id });
             }
             return false;

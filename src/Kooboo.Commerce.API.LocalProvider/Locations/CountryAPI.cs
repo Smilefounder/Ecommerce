@@ -17,13 +17,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
     public class CountryAPI : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryAPI
     {
         private ICountryService _countryService;
-        private IMapper<Country, Kooboo.Commerce.Locations.Country> _mapper;
 
         public CountryAPI(IHalWrapper halWrapper, ICountryService countryService, IMapper<Country, Kooboo.Commerce.Locations.Country> mapper)
-            : base(halWrapper)
+            : base(halWrapper, mapper)
         {
             _countryService = countryService;
-            _mapper = mapper;
         }
 
         /// <summary>

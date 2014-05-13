@@ -44,21 +44,5 @@ namespace Kooboo.Commerce.API.Categories
         /// <param name="fieldValue">custom field valule</param>
         /// <returns>category query</returns>
         ICategoryQuery ByCustomField(string customFieldName, string fieldValue);        
-        /// <summary>
-        /// load the category/categories with parent
-        /// </summary>
-        /// <returns>category query</returns>
-        ICategoryQuery LoadWithParent();
-        /// <summary>
-        /// load the category/categories with all parents
-        /// the parents will be null on the top/root level of category
-        /// </summary>
-        /// <returns>category query</returns>
-        ICategoryQuery LoadWithAllParents();
-        /// <summary>
-        /// load the category/categories with children
-        /// </summary>
-        /// <returns>category query</returns>
-        ICategoryQuery LoadWithChildren();
     }
 }

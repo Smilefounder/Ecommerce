@@ -12,11 +12,11 @@ namespace Kooboo.Commerce.API.LocalProvider
     /// <typeparam name="T">api object type</typeparam>
     /// <typeparam name="Model">entity type</typeparam>
     public abstract class LocalCommerceQueryAccess<T, Model> : LocalCommerceQuery<T, Model>, ICommerceAccess<T>
-        where T : IItemResource
+        where T : class, IItemResource, new()
         where Model : class, new()
     {
-        public LocalCommerceQueryAccess(IHalWrapper halWrapper)
-            : base(halWrapper)
+        public LocalCommerceQueryAccess(IHalWrapper halWrapper, IMapper<T, Model> mapper)
+            : base(halWrapper, mapper)
         {
         }
 
@@ -54,11 +54,6 @@ namespace Kooboo.Commerce.API.LocalProvider
         }
 
         protected override IQueryable<Model> OrderByDefault(IQueryable<Model> query)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override T Map(Model obj)
         {
             throw new NotImplementedException();
         }

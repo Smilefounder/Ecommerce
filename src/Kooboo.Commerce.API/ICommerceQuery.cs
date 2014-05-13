@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Kooboo.Commerce.API
@@ -21,6 +22,9 @@ namespace Kooboo.Commerce.API
     /// <typeparam name="T">commerce object</typeparam>
     public interface ICommerceQuery<T> where T : IItemResource
     {
+        ICommerceQuery<T> Include(string property);
+
+        ICommerceQuery<T> Include<TProperty>(Expression<Func<T, TProperty>> property);
         /// <summary>
         /// pagination the query result
         /// </summary>

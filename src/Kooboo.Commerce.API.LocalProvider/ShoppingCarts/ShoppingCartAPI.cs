@@ -29,9 +29,8 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
         private IPromotionPolicyFactory _promotionPolicyFactory;
-        private IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> _mapper;
         private IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> _cartItemMapper;
-        private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _customerMapper;
+        //private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _customerMapper;
         private bool _loadWithCutomer = false;
         private bool _loadWithBrands = false;
         private bool _loadWithProductPrices = false;
@@ -48,7 +47,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
             IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper,
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> customerMapper)
-            : base(halWrapper)
+            : base(halWrapper, mapper)
         {
             _db = db;
             _customerApi = customerApi;
@@ -56,9 +55,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             _customerService = customerService;
             _promotionService = promotionService;
             _promotionPolicyFactory = promotionPolicyFactory;
-            _mapper = mapper;
             _cartItemMapper = cartItemMapper;
-            _customerMapper = customerMapper;
         }
 
         /// <summary>
@@ -155,34 +152,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         }
 
         /// <summary>
-        /// load shopping cart with customer info
-        /// </summary>
-        /// <returns>shopping cart query</returns>
-        public IShoppingCartQuery LoadWithCustomer()
-        {
-            _loadWithCutomer = true;
-            return this;
-        }
-
-        public IShoppingCartQuery LoadWithBrands()
-        {
-            _loadWithBrands = true;
-            return this;
-        }
-
-        public IShoppingCartQuery LoadWithProductPrices()
-        {
-            _loadWithProductPrices = true;
-            return this;
-        }
-
-        public IShoppingCartQuery LoadWithProductImages()
-        {
-            _loadWithProductImages = true;
-            return this;
-        }
-
-        /// <summary>
         /// add session id filter to query
         /// </summary>
         /// <param name="sessionId">session id</param>
@@ -202,7 +171,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public IShoppingCartQuery ByAccountId(string accountId)
         {
             EnsureQuery();
-            _query = _query.Where(o => o.Customer.AccountId == accountId);
+            _query = _query.Where(o => o.Customer.AccountId == accountId && !o.SessionId.StartsWith("EXPIRED_"));
             return this;
         }
 

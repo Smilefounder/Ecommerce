@@ -2,7 +2,7 @@
 @using Kooboo.Commerce.API.CmsSite;
 @using Kooboo.Commerce.API.Categories;
 @{
-    var categories = Site.Current.Commerce().Categories.ByParentId(null).LoadWithChildren().ToArray();
+    var categories = Site.Current.Commerce().Categories.ByParentId(null).Include(o => o.Children).ToArray();
 }
 
  <div class="Category_nav" style="padding-top: 20px;">

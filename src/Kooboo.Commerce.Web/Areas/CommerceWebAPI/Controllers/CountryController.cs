@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (!string.IsNullOrEmpty(qs["numericISOCode"]))
                 query = query.ByNumericISOCode(qs["numericISOCode"]);
 
-            return query;
+            return BuildLoadWithFromQueryStrings(query, qs);
         }
     }
 }

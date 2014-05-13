@@ -45,14 +45,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))
                 query = query.ByCustomField(qs["customField.name"], qs["customField.value"]);
 
-            if (qs["LoadWithParent"] == "true")
-                query = query.LoadWithParent();
-            if (qs["LoadWithAllParents"] == "true")
-                query = query.LoadWithAllParents();
-            if (qs["LoadWithChildren"] == "true")
-                query = query.LoadWithChildren();
-
-            return query;
+            return BuildLoadWithFromQueryStrings(query, qs);
         }
 
     }

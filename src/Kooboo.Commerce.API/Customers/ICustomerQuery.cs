@@ -87,20 +87,5 @@ namespace Kooboo.Commerce.API.Customers
         /// <param name="fieldValue">custom field valule</param>
         /// <returns>customer query</returns>
         ICustomerQuery ByCustomField(string customFieldName, string fieldValue);
-        /// <summary>
-        /// load the customer/customers with country
-        /// </summary>
-        /// <returns>customer query</returns>
-        ICustomerQuery LoadWithCountry();
-        /// <summary>
-        /// load the customer/customers with addresses
-        /// </summary>
-        /// <returns>customer query</returns>
-        ICustomerQuery LoadWithAddresses();
-        /// <summary>
-        /// load the customer/customers with loyalty
-        /// </summary>
-        /// <returns>customer query</returns>
-        ICustomerQuery LoadWithCustomerLoyalty();
     }
 }

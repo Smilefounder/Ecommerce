@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.API.HAL;
+using System.Web;
+using System.Web.Routing;
 
 namespace Kooboo.Commerce.API.CmsSite
 {
@@ -47,6 +50,43 @@ namespace Kooboo.Commerce.API.CmsSite
             // extra parameters needed for initializing the commerce instance are in the site's custom fields
             commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage(), site.GetCurrency(), site.CustomFields);
             return commerceService;
+        }
+
+        public static void AddHalLinks(string resourceName, IItemResource resource, object parameters)
+        {
+            IDictionary<string, object> paras = parameters == null ? null : new RouteValueDictionary(parameters);
+            AddHalLinks(resourceName, resource, paras);
+        }
+
+        public static void AddHalLinks(string resourceName, IItemResource resource, IDictionary<string, object> parameters)
+        {
+            HalContext context = new HalContext();
+            context.CommerceInstance = Site.Current.GetCommerceName();
+            context.Language = Site.Current.GetLanguage();
+            context.Currency = Site.Current.GetCurrency();
+            context.WebContext = HttpContext.Current;
+            context.ResourceName = resourceName;
+            var halWrapper = EngineContext.Current.Resolve<IHalWrapper>();
+            halWrapper.AddLinks(resourceName, resource, context, parameters);
+        }
+        public static void AddHalLinks<T>(string resourceName, IListResource<T> resource, object parameters, Func<T, IDictionary<string, object>> itemParameterValuesResolver)
+            where T : IItemResource
+        {
+            IDictionary<string, object> paras = parameters == null ? null : new RouteValueDictionary(parameters);
+            AddHalLinks(resourceName, resource, paras, itemParameterValuesResolver);
+        }
+
+        public static void AddHalLinks<T>(string resourceName, IListResource<T> resource, IDictionary<string, object> parameters, Func<T, IDictionary<string, object>> itemParameterValuesResolver)
+            where T : IItemResource
+        {
+            HalContext context = new HalContext();
+            context.CommerceInstance = Site.Current.GetCommerceName();
+            context.Language = Site.Current.GetLanguage();
+            context.Currency = Site.Current.GetCurrency();
+            context.WebContext = HttpContext.Current;
+            context.ResourceName = resourceName;
+            var halWrapper = EngineContext.Current.Resolve<IHalWrapper>();
+            halWrapper.AddLinks(resourceName, resource, context, parameters, itemParameterValuesResolver);
         }
     }
 }

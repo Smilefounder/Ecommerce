@@ -63,12 +63,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))
                 query = query.ByCustomField(qs["customField.name"], qs["customField.value"]);
 
-            if (qs["LoadWithCustomer"] == "true")
-                query = query.LoadWithCustomer();
-            if (qs["LoadWithShoppingCart"] == "true")
-                query = query.LoadWithShoppingCart();
-
-            return query;
+            return BuildLoadWithFromQueryStrings(query, qs);
         }
 
         /// <summary>

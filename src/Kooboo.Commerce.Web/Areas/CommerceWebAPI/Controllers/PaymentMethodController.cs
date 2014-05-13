@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 query = query.ById(Convert.ToInt32(qs["id"]));
             }
 
-            return query;
+            return BuildLoadWithFromQueryStrings(query, qs);
         }
     }
 }
