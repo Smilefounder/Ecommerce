@@ -11,6 +11,7 @@ using Kooboo.Commerce.API.CmsSite;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.API.Pricing;
+using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.CMS.Plugins.Vitaminstore
 {
@@ -90,6 +91,8 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 query = query.ByAccountId(user.UUID);
             }
 
+            query.Include("Items.ProductPrice");
+            query.Include("Items.ProductPrice.Product");
             query.Include("Items.ProductPrice.Product.Brand");
             query.Include("Items.ProductPrice.Product.PriceList");
             query.Include("Items.ProductPrice.Product.Images");
@@ -102,19 +105,8 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
         private object MiniCartInfo(Site site, ControllerContext controllerContext)
         {
             var api = site.Commerce();
-            var query = api.ShoppingCarts.Query();
-            var sessionId = controllerContext.HttpContext.Session.SessionID;
-            var user = controllerContext.HttpContext.Membership().GetMembershipUser();
-            if (user == null)
-            {
-                query = query.BySessionId(sessionId);
-            }
-            else
-            {
-                query = query.ByAccountId(user.UUID);
-            }
 
-            var cart = query.FirstOrDefault();
+            var cart = GetShoppingCart(site, controllerContext);
             if (cart == null)
             {
                 return null;
@@ -149,7 +141,7 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
         private ShoppingCart RemoveItem(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
         {
             var sessionId = controllerContext.HttpContext.Session.SessionID;
-            var cart = site.Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
+            var cart = GetShoppingCart(site, controllerContext);
             if (cart != null) {
                 var itemId = Convert.ToInt32(controllerContext.HttpContext.Request["itemId"]);
                 site.Commerce().ShoppingCarts.RemoveCartItem(cart.Id, itemId); 
@@ -177,14 +169,17 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             var newProductPriceId = Convert.ToInt32(request["newProductPriceId"]);
             var sessionId = controllerContext.HttpContext.Session.SessionID;
             var member = controllerContext.HttpContext.Membership().GetMembershipUser();
-            var cart = site.Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
+            var cart = GetShoppingCart(site, controllerContext);
             if (cart != null)
             {
                 var item = cart.Items.FirstOrDefault(x => x.Id == itemId);
-                var quantity = item.Quantity;
+                if (item != null)
+                {
+                    var quantity = item.Quantity;
 
-                site.Commerce().ShoppingCarts.RemoveCartItem(cart.Id, itemId);
-                site.Commerce().ShoppingCarts.AddToCart(sessionId, member == null ? null : member.UUID, newProductPriceId, quantity);
+                    site.Commerce().ShoppingCarts.RemoveCartItem(cart.Id, itemId);
+                    site.Commerce().ShoppingCarts.AddToCart(sessionId, member == null ? null : member.UUID, newProductPriceId, quantity);
+                }
 
                 return CartInfo(site, controllerContext, submissionSetting);
             }
@@ -197,7 +192,7 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             var request = controllerContext.HttpContext.Request;
             var sessionId = controllerContext.HttpContext.Session.SessionID;
             var coupon = request["coupon"];
-            var cart = site.Commerce().ShoppingCarts.BySessionId(sessionId).FirstOrDefault();
+            var cart = GetShoppingCart(site, controllerContext);
             if (cart != null)
             {
                 if (!site.Commerce().ShoppingCarts.ApplyCoupon(cart.Id, coupon))
@@ -207,6 +202,17 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             }
 
             return CartInfo(site, controllerContext, submissionSetting);
+        }
+
+        private ShoppingCart GetShoppingCart(Site site, ControllerContext controllerContext)
+        {
+            var member = controllerContext.HttpContext.Membership().GetMembershipUser();
+            if (member != null)
+            {
+                return site.Commerce().ShoppingCarts.ByAccountId(member.UUID).FirstOrDefault();
+            }
+
+            return site.Commerce().ShoppingCarts.BySessionId(controllerContext.HttpContext.Session.SessionID).FirstOrDefault();
         }
     }
 }
