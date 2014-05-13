@@ -59,14 +59,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))
                 query = query.ByCustomField(qs["customField.name"], qs["customField.value"]);
 
-            if (qs["LoadWithCountry"] == "true")
-                query = query.LoadWithCountry();
-            if (qs["LoadWithAddresses"] == "true")
-                query = query.LoadWithAddresses();
-            if (qs["LoadWithCustomerLoyalty"] == "true")
-                query = query.LoadWithCustomerLoyalty();
-
-            return query;
+            return BuildLoadWithFromQueryStrings(query, qs);
         }
 
         [HttpPost]

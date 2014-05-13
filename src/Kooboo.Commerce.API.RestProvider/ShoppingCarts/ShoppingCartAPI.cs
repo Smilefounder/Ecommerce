@@ -16,34 +16,6 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
     public class ShoppingCartAPI : RestApiQueryBase<ShoppingCart>, IShoppingCartAPI
     {
         /// <summary>
-        /// load shopping cart with customer info
-        /// </summary>
-        /// <returns>shopping cart query</returns>
-        public IShoppingCartQuery LoadWithCustomer()
-        {
-            QueryParameters.Add("LoadWithCustomer", "true");
-            return this;
-        }
-
-        public IShoppingCartQuery LoadWithBrands()
-        {
-            QueryParameters.Add("LoadWithBrands", "true");
-            return this;
-        }
-
-        public IShoppingCartQuery LoadWithProductPrices()
-        {
-            QueryParameters.Add("LoadWithProductPrices", "true");
-            return this;
-        }
-
-        public IShoppingCartQuery LoadWithProductImages()
-        {
-            QueryParameters.Add("LoadWithProductImages", "true");
-            return this;
-        }
-
-        /// <summary>
         /// add session id filter to query
         /// </summary>
         /// <param name="sessionId">session id</param>

@@ -62,20 +62,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (!string.IsNullOrEmpty(qs["priceVariant.name"]) && !string.IsNullOrEmpty(qs["priceVariant.value"]))
                 query = query.ByPriceVariant(qs["priceVariant.name"], qs["priceVariant.value"]);
 
-            if (qs["LoadWithProductType"] == "true")
-                query = query.LoadWithProductType();
-            if (qs["LoadWithBrand"] == "true")
-                query = query.LoadWithBrand();
-            if (qs["LoadWithCategories"] == "true")
-                query = query.LoadWithCategories();
-            if (qs["LoadWithImages"] == "true")
-                query = query.LoadWithImages();
-            if (qs["LoadWithCustomFields"] == "true")
-                query = query.LoadWithCustomFields();
-            if (qs["LoadWithPriceList"] == "true")
-                query = query.LoadWithPriceList();
-
-            return query;
+            return BuildLoadWithFromQueryStrings(query, qs);
         }
 
         protected override ICommerceAccess<Product> GetAccesser()

@@ -18,13 +18,13 @@
         query = query.ByCategoryId(cateId.Value);
     }
     var total = query.Count();
-    var products = query.LoadWithBrand().LoadWithProductType().LoadWithImages().Pagination(0, 50);
+    var products = query.Include(o => o.Brand).Include(o => o.Type).Include(o => o.Images).Pagination(0, 50);
     var pager = new PagedList<Product>(products, 0, 50, total);
 }
 
 @if (cateId.HasValue)
 {
-    var cate = Site.Current.Commerce().Categories.ById(cateId.Value).LoadWithAllParents().FirstOrDefault();
+    var cate = Site.Current.Commerce().Categories.ById(cateId.Value).Include(o => o.Parent).FirstOrDefault();
     var cates = new List<Kooboo.Commerce.API.Categories.Category>();
     while (cate != null)
     {

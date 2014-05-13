@@ -60,8 +60,8 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             var model = new ShippingAddressesModel();
             var member = controllerContext.HttpContext.Membership().GetMembershipUser();
             var customer = site.Commerce().Customers
-                                          .LoadWithAddresses()
                                           .ByAccountId(member.UUID)
+                                          .Include(c => c.Addresses)
                                           .FirstOrDefault();
 
             Address defaultAddr = null;

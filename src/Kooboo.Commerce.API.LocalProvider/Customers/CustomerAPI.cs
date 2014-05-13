@@ -21,30 +21,18 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         private ICommerceDatabase _db;
         private ICustomerService _customerService;
         private ICountryService _countryService;
-        private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _mapper;
-        private IMapper<Country, Kooboo.Commerce.Locations.Country> _countryMapper;
         private IMapper<Address, Kooboo.Commerce.Locations.Address> _addressMapper;
-        private IMapper<CustomerLoyalty, Kooboo.Commerce.Customers.CustomerLoyalty> _customerLoyaltyMapper;
-        private bool _loadWithCountry = false;
-        private bool _loadWithAddresses = false;
-        private bool _loadWithCustomerLoyalty = false;
 
         public CustomerAPI(
             ICommerceDatabase db,
             IHalWrapper halWrapper, ICustomerService customerService, ICountryService countryService, 
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> mapper, 
-            IMapper<Country, Kooboo.Commerce.Locations.Country> countryMapper,
-            IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper,
-            IMapper<CustomerLoyalty, Kooboo.Commerce.Customers.CustomerLoyalty> customerLoyaltyMapper)
-            : base(halWrapper)
+            IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper)
+            : base(halWrapper, mapper)
         {
             _db = db;
             _customerService = customerService;
             _countryService = countryService;
-            _mapper = mapper;
-            _countryMapper = countryMapper;
-            _addressMapper = addressMapper;
-            _customerLoyaltyMapper = customerLoyaltyMapper;
         }
 
         /// <summary>
@@ -64,28 +52,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         protected override IQueryable<Kooboo.Commerce.Customers.Customer> OrderByDefault(IQueryable<Kooboo.Commerce.Customers.Customer> query)
         {
             return query.OrderBy(o => o.Id);
-        }
-
-        /// <summary>
-        /// map the entity to object
-        /// </summary>
-        /// <param name="obj">entity</param>
-        /// <returns>object</returns>
-        protected override Customer Map(Commerce.Customers.Customer obj)
-        {
-            List<string> includeComplexPropertyNames = new List<string>();
-            if(_loadWithCountry)
-                includeComplexPropertyNames.Add("Country");
-
-            if (_loadWithAddresses)
-            {
-                includeComplexPropertyNames.Add("Addresses");
-                includeComplexPropertyNames.Add("Addresses.Country");
-            }
-
-            if(_loadWithCustomerLoyalty)
-                includeComplexPropertyNames.Add("Loyalty");
-            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
         }
 
         /// <summary>
@@ -220,47 +186,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             var customFieldQuery = _customerService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
             _query = _query.Where(o => customFieldQuery.Any(c => c.CustomerId == o.Id));
             return this;
-        }
-
-        /// <summary>
-        /// load the customer/customers with country
-        /// </summary>
-        /// <returns>customer query</returns>
-        public ICustomerQuery LoadWithCountry()
-        {
-            _loadWithCountry = true;
-            return this;
-        }
-
-        /// <summary>
-        /// load the customer/customers with addresses
-        /// </summary>
-        /// <returns>customer query</returns>
-        public ICustomerQuery LoadWithAddresses()
-        {
-            _loadWithAddresses = true;
-            return this;
-        }
-
-        /// <summary>
-        /// load the customer/customers with loyalty
-        /// </summary>
-        /// <returns>customer query</returns>
-        public ICustomerQuery LoadWithCustomerLoyalty()
-        {
-            _loadWithCustomerLoyalty = true;
-            return this;
-        }
-
-        /// <summary>
-        /// this method will be called after query executed
-        /// </summary>
-        protected override void OnQueryExecuted()
-        {
-            base.OnQueryExecuted();
-            _loadWithCountry = false;
-            _loadWithAddresses = false;
-            _loadWithCustomerLoyalty = false;
         }
 
         public bool AddAddress(int customerId, Address address)

@@ -156,66 +156,6 @@ namespace Kooboo.Commerce.API.RestProvider.Products
         }
 
         /// <summary>
-        /// load product with product type
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithProductType()
-        {
-            QueryParameters.Add("LoadWithProductType", "true");
-            return this;
-        }
-
-        /// <summary>
-        /// load product with brand
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithBrand()
-        {
-            QueryParameters.Add("LoadWithBrand", "true");
-            return this;
-        }
-
-        /// <summary>
-        /// load product with product categories
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithCategories()
-        {
-            QueryParameters.Add("LoadWithCategories", "true");
-            return this;
-        }
-
-        /// <summary>
-        /// load product with product images
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithImages()
-        {
-            QueryParameters.Add("LoadWithImages", "true");
-            return this;
-        }
-
-        /// <summary>
-        /// load product with product custom fields
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithCustomFields()
-        {
-            QueryParameters.Add("LoadWithCustomFields", "true");
-            return this;
-        }
-
-        /// <summary>
-        /// load product with product price list
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithPriceList()
-        {
-            QueryParameters.Add("LoadWithPriceList", "true");
-            return this;
-        }
-
-        /// <summary>
         /// create product query
         /// </summary>
         /// <returns>product query</returns>

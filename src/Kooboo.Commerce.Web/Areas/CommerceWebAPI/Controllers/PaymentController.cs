@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 query = query.ByStatus(status);
             }
 
-            return query;
+            return BuildLoadWithFromQueryStrings(query, qs);
         }
     }
 }

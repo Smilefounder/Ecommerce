@@ -13,18 +13,16 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     {
         private IPaymentMethodService _paymentMethodService;
         private Kooboo.Commerce.Payments.IPaymentProcessorFactory _processorFactory;
-        private IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> _mapper;
 
         public LocalPaymentMethodQuery(
             IHalWrapper halWrapper,
             IPaymentMethodService paymentMethodService, 
             Kooboo.Commerce.Payments.IPaymentProcessorFactory processorFactory,
             IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
-            : base(halWrapper)
+            : base(halWrapper, mapper)
         {
             _paymentMethodService = paymentMethodService;
             _processorFactory = processorFactory;
-            _mapper = mapper;
         }
 
         public IPaymentMethodQuery ById(int id)

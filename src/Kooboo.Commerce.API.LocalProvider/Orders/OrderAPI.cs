@@ -22,18 +22,14 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         private IOrderService _orderService;
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
-        private IMapper<Order, Kooboo.Commerce.Orders.Order> _mapper;
-        private bool _loadWithCustomer = false;
-        private bool _loadWithShoppingCart = false;
 
         public OrderAPI(IHalWrapper halWrapper, IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
             IMapper<Order, Kooboo.Commerce.Orders.Order> mapper)
-            : base(halWrapper)
+            : base(halWrapper, mapper)
         {
             _orderService = orderService;
             _shoppingCartService = shoppingCartService;
             _customerService = customerService;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -56,48 +52,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         }
 
         /// <summary>
-        /// map the entity to object
-        /// </summary>
-        /// <param name="obj">entity</param>
-        /// <returns>object</returns>
-        protected override Order Map(Commerce.Orders.Order obj)
-        {
-            List<string> includeComplexPropertyNames = new List<string>();
-            includeComplexPropertyNames.Add("OrderItem");
-            includeComplexPropertyNames.Add("OrderItem.ProductPrice");
-            includeComplexPropertyNames.Add("OrderItem.ProductPrice.Product");
-            includeComplexPropertyNames.Add("OrderItem.ProductPrice.ProductPriceVariantValue");
-            includeComplexPropertyNames.Add("OrderItem.ProductPrice.ProductPriceVariantValue.ProductPrice");
-            includeComplexPropertyNames.Add("OrderItem.ProductPrice.ProductPriceVariantValue.CustomField");
-            includeComplexPropertyNames.Add("ShippingAddress");
-            includeComplexPropertyNames.Add("ShippingAddress.Country");
-            includeComplexPropertyNames.Add("BillingAddress");
-            includeComplexPropertyNames.Add("BillingAddress.Country");
-            includeComplexPropertyNames.Add("PaymentMethod");
-            if (_loadWithCustomer)
-            {
-                includeComplexPropertyNames.Add("Customer");
-            }
-            if(_loadWithShoppingCart)
-            {
-                includeComplexPropertyNames.Add("ShoppingCart");
-                includeComplexPropertyNames.Add("ShoppingCart.Items");
-                includeComplexPropertyNames.Add("ShoppingCart.Items.ProductPrice");
-                includeComplexPropertyNames.Add("ShoppingCart.Items.ProductPrice.Product");
-                includeComplexPropertyNames.Add("ShoppingCart.ShippingAddress");
-                includeComplexPropertyNames.Add("ShoppingCart.BillingAddress");
-            }
-
-            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
-        }
-        /// <summary>
         /// this method will be called after query executed
         /// </summary>
         protected override void OnQueryExecuted()
         {
             base.OnQueryExecuted();
-            _loadWithCustomer = false;
-            _loadWithShoppingCart = false;
         }
 
         public Order CreateFromShoppingCart(int cartId, MembershipUser user, bool deleteShoppingCart)
@@ -308,31 +267,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             }
             if (order != null)
             {
-                LoadWithCustomer();
+                this.Include(o => o.Customer);
                 var morder = Map(order);
                 OnQueryExecuted();
                 return morder;
             }
             return null;
-        }
-
-        /// <summary>
-        /// load order with customer info
-        /// </summary>
-        /// <returns>order query</returns>
-        public IOrderQuery LoadWithCustomer()
-        {
-            _loadWithCustomer = true;
-            return this;
-        }
-        /// <summary>
-        /// load order with shopping cart info
-        /// </summary>
-        /// <returns>order query</returns>
-        public IOrderQuery LoadWithShoppingCart()
-        {
-            _loadWithShoppingCart = true;
-            return this;
         }
 
         protected override IDictionary<string, object> BuildItemHalParameters(Order data)

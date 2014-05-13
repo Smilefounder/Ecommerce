@@ -90,9 +90,9 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 query = query.ByAccountId(user.UUID);
             }
 
-            query.LoadWithBrands();
-            query.LoadWithProductPrices();
-            query.LoadWithProductImages();
+            query.Include("Items.ProductPrice.Product.Brand");
+            query.Include("Items.ProductPrice.Product.PriceList");
+            query.Include("Items.ProductPrice.Product.Images");
 
             return query.FirstOrDefault() ?? new ShoppingCart
             {

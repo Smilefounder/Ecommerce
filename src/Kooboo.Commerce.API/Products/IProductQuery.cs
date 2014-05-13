@@ -91,36 +91,5 @@ namespace Kooboo.Commerce.API.Products
         /// <param name="variantVallue">price variant value</param>
         /// <returns>product query</returns>
         IProductQuery ByPriceVariant(string variantName, string variantValue);
-
-        /// <summary>
-        /// load product with product type
-        /// </summary>
-        /// <returns>product query</returns>
-        IProductQuery LoadWithProductType();
-        /// <summary>
-        /// load product with brand
-        /// </summary>
-        /// <returns>product query</returns>
-        IProductQuery LoadWithBrand();
-        /// <summary>
-        /// load product with product categories
-        /// </summary>
-        /// <returns>product query</returns>
-        IProductQuery LoadWithCategories();
-        /// <summary>
-        /// load product with product images
-        /// </summary>
-        /// <returns>product query</returns>
-        IProductQuery LoadWithImages();
-        /// <summary>
-        /// load product with product custom fields
-        /// </summary>
-        /// <returns>product query</returns>
-        IProductQuery LoadWithCustomFields();
-        /// <summary>
-        /// load product with product price list
-        /// </summary>
-        /// <returns>product query</returns>
-        IProductQuery LoadWithPriceList();
     }
 }

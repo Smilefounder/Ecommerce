@@ -29,13 +29,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
         private IPromotionPolicyFactory _promotionPolicyFactory;
-        private IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> _mapper;
         private IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> _cartItemMapper;
-        private IMapper<Customer, Kooboo.Commerce.Customers.Customer> _customerMapper;
-        private bool _loadWithCutomer = false;
-        private bool _loadWithBrands = false;
-        private bool _loadWithProductPrices = false;
-        private bool _loadWithProductImages = false;
 
         public ShoppingCartAPI(
             IHalWrapper halWrapper,
@@ -46,9 +40,8 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             IPromotionService promotionService,
             IPromotionPolicyFactory promotionPolicyFactory,
             IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
-            IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper,
-            IMapper<Customer, Kooboo.Commerce.Customers.Customer> customerMapper)
-            : base(halWrapper)
+            IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper)
+            : base(halWrapper, mapper)
         {
             _db = db;
             _customerApi = customerApi;
@@ -56,9 +49,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             _customerService = customerService;
             _promotionService = promotionService;
             _promotionPolicyFactory = promotionPolicyFactory;
-            _mapper = mapper;
             _cartItemMapper = cartItemMapper;
-            _customerMapper = customerMapper;
         }
 
         /// <summary>
@@ -81,108 +72,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         }
 
         /// <summary>
-        /// map the entity to object
-        /// </summary>
-        /// <param name="obj">entity</param>
-        /// <returns>object</returns>
-        protected override ShoppingCart Map(Commerce.ShoppingCarts.ShoppingCart obj)
-        {
-            List<string> includeComplexPropertyNames = new List<string>();
-            includeComplexPropertyNames.Add("Items");
-            includeComplexPropertyNames.Add("Items.ProductPrice");
-            includeComplexPropertyNames.Add("Items.ProductPrice.Product");
-            includeComplexPropertyNames.Add("ShippingAddress");
-            includeComplexPropertyNames.Add("ShippingAddress.Country");
-            includeComplexPropertyNames.Add("BillingAddress");
-            includeComplexPropertyNames.Add("BillingAddress.Country");
-            if (_loadWithCutomer)
-            {
-                includeComplexPropertyNames.Add("Customer");
-            }
-            if (_loadWithBrands)
-            {
-                includeComplexPropertyNames.Add("Items.ProductPrice.Product.Brand");
-            }
-            if (_loadWithProductPrices)
-            {
-                includeComplexPropertyNames.Add("Items.ProductPrice.Product.PriceList");
-            }
-            if (_loadWithProductImages)
-            {
-                includeComplexPropertyNames.Add("Items.ProductPrice.Product.Images");
-            }
-
-            var cart = _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
-
-            foreach (var item in cart.Items)
-            {
-                item.ProductPriceId = item.ProductPrice.Id;
-            }
-
-            // Calculate promotion discounts
-            var context = PricingContext.CreateFrom(obj);
-            new PricingPipeline().Execute(context);
-
-            foreach (var item in cart.Items)
-            {
-                var pricingItem = context.Items.FirstOrDefault(x => x.Id == item.Id);
-                item.Subtotal = pricingItem.Subtotal.OriginalValue;
-                item.Discount = pricingItem.Subtotal.Discount;
-                item.Total = pricingItem.Subtotal.FinalValue;
-            }
-
-            cart.Subtotal = context.Subtotal.OriginalValue;
-            cart.TotalDiscount = context.Items.Sum(x => x.Subtotal.Discount) + context.Subtotal.Discount;
-            cart.Total = context.Total;
-
-            cart.AppliedPromotions = context.AppliedPromotions.Select(p => new Promotions.Promotion
-            {
-                Id = p.Id,
-                Name = p.Name
-            })
-            .ToList();
-
-            return cart;
-        }
-
-        /// <summary>
-        /// this method will be called after query executed
-        /// </summary>
-        protected override void OnQueryExecuted()
-        {
-            base.OnQueryExecuted();
-            _loadWithCutomer = false;
-        }
-
-        /// <summary>
-        /// load shopping cart with customer info
-        /// </summary>
-        /// <returns>shopping cart query</returns>
-        public IShoppingCartQuery LoadWithCustomer()
-        {
-            _loadWithCutomer = true;
-            return this;
-        }
-
-        public IShoppingCartQuery LoadWithBrands()
-        {
-            _loadWithBrands = true;
-            return this;
-        }
-
-        public IShoppingCartQuery LoadWithProductPrices()
-        {
-            _loadWithProductPrices = true;
-            return this;
-        }
-
-        public IShoppingCartQuery LoadWithProductImages()
-        {
-            _loadWithProductImages = true;
-            return this;
-        }
-
-        /// <summary>
         /// add session id filter to query
         /// </summary>
         /// <param name="sessionId">session id</param>
@@ -202,7 +91,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public IShoppingCartQuery ByAccountId(string accountId)
         {
             EnsureQuery();
-            _query = _query.Where(o => o.Customer.AccountId == accountId);
+            _query = _query.Where(o => o.Customer.AccountId == accountId && !o.SessionId.StartsWith("EXPIRED_"));
             return this;
         }
 

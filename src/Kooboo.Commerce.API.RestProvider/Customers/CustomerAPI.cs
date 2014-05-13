@@ -137,36 +137,6 @@ namespace Kooboo.Commerce.API.RestProvider.Customers
             return this;
         }
 
-        /// <summary>
-        /// load the customer/customers with country
-        /// </summary>
-        /// <returns>customer query</returns>
-        public ICustomerQuery LoadWithCountry()
-        {
-            QueryParameters.Add("LoadWithCountry", "true");
-            return this;
-        }
-
-        /// <summary>
-        /// load the customer/customers with addresses
-        /// </summary>
-        /// <returns>customer query</returns>
-        public ICustomerQuery LoadWithAddresses()
-        {
-            QueryParameters.Add("LoadWithAddresses", "true");
-            return this;
-        }
-
-        /// <summary>
-        /// load the customer/customers with loyalty
-        /// </summary>
-        /// <returns>customer query</returns>
-        public ICustomerQuery LoadWithCustomerLoyalty()
-        {
-            QueryParameters.Add("LoadWithCustomerLoyalty", "true");
-            return this;
-        }
-
         public bool AddAddress(int customerId, Address address)
         {
             var addressId = Post<int>("Address", address);

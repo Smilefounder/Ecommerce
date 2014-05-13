@@ -24,46 +24,17 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private IProductTypeService _productTypeService;
         private ICategoryService _categoryService;
         private ICustomFieldService _customFieldService;
-        private IMapper<Product, Kooboo.Commerce.Products.Product> _mapper;
-        private IMapper<Brand, Kooboo.Commerce.Brands.Brand> _brandMapper;
-        private IMapper<ProductType, Kooboo.Commerce.Products.ProductType> _productTypeMapper;
-        private IMapper<ProductPrice, Kooboo.Commerce.Products.ProductPrice> _productPriceMapper;
-        private IMapper<ProductImage, Kooboo.Commerce.Products.ProductImage> _productImageMapper;
-        private IMapper<ProductCategory, Kooboo.Commerce.Products.ProductCategory> _productCategoryMapper;
-        private IMapper<ProductCustomFieldValue, Kooboo.Commerce.Products.ProductCustomFieldValue> _productCustomFieldValueMapper;
-        private IMapper<ProductPriceVariantValue, Kooboo.Commerce.Products.ProductPriceVariantValue> _productPriceVariantValueMapper;
-        private bool _loadWithProductType = false;
-        private bool _loadWithBrand = false;
-        private bool _loadWithCategories = false;
-        private bool _loadWithImages = false;
-        private bool _loadWithCustomFields = false;
-        private bool _loadWithPriceList = false;
 
         public ProductAPI(IHalWrapper halWrapper, IProductService productService, IBrandService brandService, IProductTypeService productTypeService, ICustomFieldService customFieldService,
             ICategoryService categoryService,
-            IMapper<Product, Kooboo.Commerce.Products.Product> mapper,
-            IMapper<Brand, Kooboo.Commerce.Brands.Brand> brandMapper,
-            IMapper<ProductType, Kooboo.Commerce.Products.ProductType> productTypeMapper,
-            IMapper<ProductPrice, Kooboo.Commerce.Products.ProductPrice> productPriceMapper,
-            IMapper<ProductImage, Kooboo.Commerce.Products.ProductImage> productImageMapper,
-            IMapper<ProductCategory, Kooboo.Commerce.Products.ProductCategory> productCategoryMapper,
-            IMapper<ProductCustomFieldValue, Kooboo.Commerce.Products.ProductCustomFieldValue> productCustomFieldValueMapper,
-            IMapper<ProductPriceVariantValue, Kooboo.Commerce.Products.ProductPriceVariantValue> productPriceVariantValueMapper)
-            : base(halWrapper)
+            IMapper<Product, Kooboo.Commerce.Products.Product> mapper)
+            : base(halWrapper, mapper)
         {
             _productService = productService;
             _brandService = brandService;
             _productTypeService = productTypeService;
             _customFieldService = customFieldService;
             _categoryService = categoryService;
-            _mapper = mapper;
-            _brandMapper = brandMapper;
-            _productTypeMapper = productTypeMapper;
-            _productPriceMapper = productPriceMapper;
-            _productImageMapper = productImageMapper;
-            _productCategoryMapper = productCategoryMapper;
-            _productCustomFieldValueMapper = productCustomFieldValueMapper;
-            _productPriceVariantValueMapper = productPriceVariantValueMapper;
         }
 
         /// <summary>
@@ -83,43 +54,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         protected override IQueryable<Commerce.Products.Product> OrderByDefault(IQueryable<Commerce.Products.Product> query)
         {
             return query.OrderByDescending(o => o.Id);
-        }
-
-        /// <summary>
-        /// map the entity to object
-        /// </summary>
-        /// <param name="obj">entity</param>
-        /// <returns>object</returns>
-        protected override Product Map(Commerce.Products.Product obj)
-        {
-            List<string> includeComplexPropertyNames = new List<string>();
-            if (_loadWithProductType)
-                includeComplexPropertyNames.Add("Type");
-            if (_loadWithPriceList)
-            {
-                includeComplexPropertyNames.Add("PriceList");
-                includeComplexPropertyNames.Add("PriceList.VariantValues");
-                includeComplexPropertyNames.Add("PriceList.VariantValues.ProductPrice");
-                includeComplexPropertyNames.Add("PriceList.VariantValues.CustomField");
-            }
-            if (_loadWithBrand)
-                includeComplexPropertyNames.Add("Brand");
-            if (_loadWithCategories)
-            {
-                includeComplexPropertyNames.Add("Categories");
-                includeComplexPropertyNames.Add("Categories.Category");
-            }
-            if (_loadWithImages)
-            {
-                includeComplexPropertyNames.Add("Images");
-            }
-            if (_loadWithCustomFields)
-            {
-                includeComplexPropertyNames.Add("CustomFieldValues");
-                includeComplexPropertyNames.Add("CustomFieldValues.CustomField");
-            }
-
-            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
         }
 
         /// <summary>
@@ -331,81 +265,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             var priceQuery = _productService.ProductPriceQuery().Where(o => o.VariantValues.Any(c => c.ProductPriceId == o.Id));
             _query = _query.Where(o => priceQuery.Any(c => c.ProductId == o.Id));
             return this;
-        }
-
-
-        /// <summary>
-        /// load product with product type
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithProductType()
-        {
-            _loadWithProductType = true;
-            return this;
-        }
-
-        /// <summary>
-        /// load product with brand
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithBrand()
-        {
-            _loadWithBrand = true;
-            return this;
-        }
-
-        /// <summary>
-        /// load product with product categories
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithCategories()
-        {
-            _loadWithCategories = true;
-            return this;
-        }
-
-        /// <summary>
-        /// load product with product images
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithImages()
-        {
-            _loadWithImages = true;
-            return this;
-        }
-
-        /// <summary>
-        /// load product with product custom fields
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithCustomFields()
-        {
-            _loadWithCustomFields = true;
-            return this;
-        }
-
-        /// <summary>
-        /// load product with product price list
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery LoadWithPriceList()
-        {
-            _loadWithPriceList = true;
-            return this;
-        }
-
-        /// <summary>
-        /// this method will be called after query executed
-        /// </summary>
-        protected override void OnQueryExecuted()
-        {
-            base.OnQueryExecuted();
-            _loadWithProductType = false;
-            _loadWithBrand = false;
-            _loadWithCategories = false;
-            _loadWithImages = false;
-            _loadWithCustomFields = false;
-            _loadWithPriceList = false;
         }
 
         /// <summary>
