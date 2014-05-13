@@ -10,12 +10,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Activities
 {
-    public enum RuleBranch
-    {
-        Then,
-        Else,
-    }
-
     public class ActivityRule
     {
         public int Id { get; set; }
@@ -28,23 +22,23 @@ namespace Kooboo.Commerce.Activities
         [StringLength(3000)]
         public string ConditionsExpression { get; set; }
 
-        public virtual ICollection<AttachedActivity> AttachedActivities { get; protected set; }
+        public virtual ICollection<AttachedActivityInfo> AttachedActivityInfos { get; protected set; }
 
         [NotMapped]
-        public virtual ICollection<AttachedActivity> ThenActivities
+        public virtual ICollection<AttachedActivityInfo> ThenActivityInfos
         {
             get
             {
-                return AttachedActivities.Where(x => x.RuleBranch == RuleBranch.Then).ToList();
+                return AttachedActivityInfos.Where(x => x.RuleBranch == RuleBranch.Then).ToList();
             }
         }
 
         [NotMapped]
-        public virtual ICollection<AttachedActivity> ElseActivities
+        public virtual ICollection<AttachedActivityInfo> ElseActivityInfos
         {
             get
             {
-                return AttachedActivities.Where(x => x.RuleBranch == RuleBranch.Else).ToList();
+                return AttachedActivityInfos.Where(x => x.RuleBranch == RuleBranch.Else).ToList();
             }
         }
 
@@ -53,7 +47,7 @@ namespace Kooboo.Commerce.Activities
         protected ActivityRule()
         {
             CreatedAtUtc = DateTime.UtcNow;
-            AttachedActivities = new List<AttachedActivity>();
+            AttachedActivityInfos = new List<AttachedActivityInfo>();
         }
 
         public static ActivityRule Create(Type eventType, string conditionsExpression, RuleType type)
@@ -66,19 +60,19 @@ namespace Kooboo.Commerce.Activities
             };
         }
 
-        public AttachedActivity AttachActivity(RuleBranch branch, string description, string activityName, string activityData)
+        public AttachedActivityInfo AttachActivity(RuleBranch branch, string description, string activityName, object config)
         {
-            var attachedActivity = new AttachedActivity(this, branch, description, activityName, activityData);
-            AttachedActivities.Add(attachedActivity);
+            var attachedActivity = new AttachedActivityInfo(this, branch, description, activityName, config);
+            AttachedActivityInfos.Add(attachedActivity);
 
             Event.Raise(new ActivityAttached(this, attachedActivity));
 
             return attachedActivity;
         }
 
-        public bool DetachActivity(int attachedActivityId)
+        public bool DetachActivity(int attachedActivityInfoId)
         {
-            var attachedActivity = AttachedActivities.ById(attachedActivityId);
+            var attachedActivity = AttachedActivityInfos.ById(attachedActivityInfoId);
             if (attachedActivity != null)
             {
                 return DetachActivity(attachedActivity);
@@ -87,14 +81,14 @@ namespace Kooboo.Commerce.Activities
             return false;
         }
 
-        public bool DetachActivity(AttachedActivity activity)
+        public bool DetachActivity(AttachedActivityInfo attachedActivityInfo)
         {
-            Require.NotNull(activity, "activity");
+            Require.NotNull(attachedActivityInfo, "attachedActivityInfo");
 
-            var detached = AttachedActivities.Remove(activity);
+            var detached = AttachedActivityInfos.Remove(attachedActivityInfo);
             if (detached)
             {
-                Event.Raise(new ActivityDetached(this, activity));
+                Event.Raise(new ActivityDetached(this, attachedActivityInfo));
             }
 
             return detached;
@@ -102,16 +96,10 @@ namespace Kooboo.Commerce.Activities
 
         public void DetachAllActivities()
         {
-            foreach (var activity in AttachedActivities.ToList())
+            foreach (var activity in AttachedActivityInfos.ToList())
             {
                 DetachActivity(activity);
             }
         }
-    }
-
-    public enum RuleType
-    {
-        Normal = 0,
-        Always = 1
     }
 }

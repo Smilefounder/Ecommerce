@@ -10,12 +10,12 @@ namespace Kooboo.Commerce.Activities.Events
     {
         public ActivityRule Rule { get; private set; }
 
-        public AttachedActivity Activity { get; private set; }
+        public AttachedActivityInfo AttachedActivityInfo { get; private set; }
 
-        public ActivityAttached(ActivityRule rule, AttachedActivity activity)
+        public ActivityAttached(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
         {
             Rule = rule;
-            Activity = activity;
+            AttachedActivityInfo = attachedActivityInfo;
         }
     }
 }

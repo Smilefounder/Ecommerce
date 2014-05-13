@@ -59,7 +59,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             _brandService.Create(brand);
 
-            var item = new ActivityQueueItem(new AttachedActivity(ActivityRule.Create(typeof(BrandCreated), "Id = 2", RuleType.Always), RuleBranch.Else, "", "", ""), new BrandCreated(brand));
+            var item = new ActivityQueueItem(new AttachedActivityInfo(ActivityRule.Create(typeof(BrandCreated), "Id = 2", RuleType.Always), RuleBranch.Else, "", "", ""), new BrandCreated(brand));
             _queue.Insert(item);
 
 

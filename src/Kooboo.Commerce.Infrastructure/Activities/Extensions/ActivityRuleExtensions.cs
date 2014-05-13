@@ -6,7 +6,7 @@ using Kooboo.Extensions;
 
 namespace Kooboo.Commerce.Activities
 {
-    public static class ActivityRulesExtensions
+    public static class ActivityRuleExtensions
     {
         public static bool HasAlwaysRule(this IEnumerable<ActivityRule> rules)
         {

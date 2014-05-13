@@ -1,0 +1,29 @@
+﻿@model IActivityDescriptor
+@{
+    var rule = ViewBag.Rule as ActivityRule;
+}
+
+<div id="activity-editor-tabs">
+    <ul>
+        <li><a href="#basicinfo">@("Basic Info".Localize())</a></li>
+        @if (Model.Configurable) { 
+        <li><a href="#config">@("Activity Configuration".Localize())</a></li>
+        }
+    </ul>
+    <div id="basicinfo">
+        @Html.Partial("_BasicInfo")
+    </div>
+    @if (Model.Configurable) { 
+    <div id="config">
+        @Html.Partial(Model.ConfigViewVirtualPath)
+    </div>
+    }
+</div>
+
+<script>
+    $(function () {
+        $('#activity-editor-tabs').tabs();
+    });
+</script>
+
+@Html.Partial("_Editor.Scripts")

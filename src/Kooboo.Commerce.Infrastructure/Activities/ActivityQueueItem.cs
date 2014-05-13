@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Activities
 
         public virtual int RuleId { get; set; }
 
-        public virtual int AttachedActivityId { get; set; }
+        public virtual int AttachedActivityInfoId { get; set; }
 
         /// <summary>
         /// The CLR type of the event.
@@ -48,10 +48,10 @@ namespace Kooboo.Commerce.Activities
 
         public ActivityQueueItem() { }
 
-        public ActivityQueueItem(AttachedActivity activity, IEvent @event)
+        public ActivityQueueItem(AttachedActivityInfo activity, IEvent @event)
         {
             RuleId = activity.Rule.Id;
-            AttachedActivityId = activity.Id;
+            AttachedActivityInfoId = activity.Id;
             EventType = @event.GetType().AssemblyQualifiedNameWithoutVersion();
             EventData = JsonConvert.SerializeObject(@event);
             ScheduledExecuteTimeUtc = activity.CalculateExecutionTime(@event.TimestampUtc);

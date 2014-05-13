@@ -15,40 +15,9 @@ using Kooboo.Commerce.Events.Brands;
 
 namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
-    [Dependency(typeof(IActivity), Key = "Kooboo.Commerce.Activities.InvoiceReminder.InvoiceReminderActivity")]
     public class InvoiceReminderActivity : IActivity
     {
-        public string Name
-        {
-            get
-            {
-                return Strings.ActivityName;
-            }
-        }
-
-        public string DisplayName
-        {
-            get
-            {
-                return "Invoice reminder";
-            }
-        }
-
-        public bool AllowAsyncExecution
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public bool CanBindTo(Type eventType)
-        {
-            return typeof(IBrandEvent).IsAssignableFrom(eventType);
-            //return typeof(IOrderEvent).IsAssignableFrom(eventType);
-        }
-
-        public ActivityResult Execute(IEvent evnt, ActivityExecutionContext context)
+        public ActivityResult Execute(IEvent evnt, ActivityContext context)
         {
             var brand = (IBrandEvent)evnt;
             //var order = ((IOrderEvent)evnt).Order;

@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Activities;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 using Kooboo.Commerce.Web.Mvc;
@@ -14,20 +15,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     public class ActivityController : CommerceControllerBase
     {
         private IActivityEventRegistry _activityEventRegistry;
-        private IActivityRuleService _activityRuleService;
-        private IActivityFactory _activityFactory;
-        private IActivityViewsFactory _activityViewsFactory;
+        private IActivityProvider _activityProvider;
+        private IRepository<ActivityRule> _activityRuleRepository;
 
         public ActivityController(
             IActivityEventRegistry activityEventRegistry,
-            IActivityRuleService activityRuleService,
-            IActivityFactory activityFactory,
-            IActivityViewsFactory activityViewsFactory)
+            IActivityProvider activityFactory)
         {
             _activityEventRegistry = activityEventRegistry;
-            _activityRuleService = activityRuleService;
-            _activityFactory = activityFactory;
-            _activityViewsFactory = activityViewsFactory;
+            _activityProvider = activityFactory;
         }
 
         [Transactional]
@@ -38,31 +34,23 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.CurrentEventType = eventClrType.AssemblyQualifiedNameWithoutVersion();
             ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name.Humanize();
 
-            _activityRuleService.EnsureAlwaysRule(eventClrType);
+            _activityRuleRepository.EnsureAlwaysRule(eventClrType);
 
             return View();
         }
 
         public ActionResult Create(int ruleId, RuleBranch branch, string activityName)
         {
-            var rule = _activityRuleService.GetById(ruleId);
-            var activity = _activityFactory.FindByName(activityName);
-            var model = new AttachedActivityModel
-            {
-                RuleId = rule.Id,
-                RuleBranch = branch,
-                ActivityName = activityName,
-                ActivityDisplayName = activity.DisplayName,
-                ActivityAllowAsyncExecution = activity.AllowAsyncExecution
-            };
-            return View(model);
+            ViewBag.Rule = _activityRuleRepository.Get(ruleId);
+            var descriptor = _activityProvider.GetDescriptorFor(activityName);
+            return View(descriptor);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(AttachedActivityModel model)
         {
             var rule = _activityRuleService.GetById(model.RuleId);
-            AttachedActivity attachedActivity = null;
+            AttachedActivityInfo attachedActivity = null;
 
             if (model.Id > 0)
             {
@@ -116,7 +104,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var rule = _activityRuleService.GetById(ruleId);
             var attachedActivity = rule.AttachedActivities.ById(attachedActivityId);
-            var activity = _activityFactory.FindByName(attachedActivity.ActivityName);
+            var activity = _activityProvider.FindByName(attachedActivity.ActivityName);
             var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
             var eventType = Type.GetType(rule.EventType, true);
 
@@ -181,7 +169,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult GetAvailableActivities(string eventType)
         {
-            var result = _activityFactory.FindActivitiesBindableTo(Type.GetType(eventType, true))
+            var result = _activityProvider.FindActivitiesBindableTo(Type.GetType(eventType, true))
                                    .Select(x => new
                                    {
                                        Name = x.Name,
@@ -201,12 +189,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }).UsingClientConvention();
         }
 
-        private string GetActivityConfigUrl(ActivityRule rule, AttachedActivity attachedActivity)
+        private string GetActivityConfigUrl(ActivityRule rule, AttachedActivityInfo attachedActivity)
         {
             var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
             if (views != null)
             {
-                return Url.RouteUrl(views.Settings(rule.AttachedActivities.ById(attachedActivity.Id), ControllerContext), RouteValues.From(Request.QueryString));
+                return Url.RouteUrl(views.Settings(rule.AttachedActivityInfos.ById(attachedActivity.Id), ControllerContext), RouteValues.From(Request.QueryString));
             }
 
             return null;

@@ -10,9 +10,9 @@ namespace Kooboo.Commerce.Activities.Events
     {
         public ActivityRule Rule { get; private set; }
 
-        public AttachedActivity Activity { get; private set; }
+        public AttachedActivityInfo Activity { get; private set; }
 
-        public ActivityDetached(ActivityRule rule, AttachedActivity activity)
+        public ActivityDetached(ActivityRule rule, AttachedActivityInfo activity)
         {
             Rule = rule;
             Activity = activity;

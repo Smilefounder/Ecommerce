@@ -286,6 +286,7 @@
     <Compile Include="Areas\Commerce\Html\IVisibleRule.cs" />
     <Compile Include="Areas\Commerce\Html\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Menu\CommerceMenuItemInitializer.cs" />
+    <Compile Include="Areas\Commerce\Models\Activities\ActivityEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryCustomFieldModel.cs" />
@@ -3229,7 +3230,6 @@
     <Content Include="Areas\Commerce\Views\Setting\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\Decimal.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\List.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\EditorTemplates\AttachedActivityModel.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\Create.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\Edit.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\_SettingEditor.cshtml" />
@@ -3430,6 +3430,9 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-shipping\template.cshtml" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-confirm\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-confirm\template.cshtml" />
+    <Content Include="Areas\Commerce\Views\Activity\_BasicInfo.cshtml" />
+    <Content Include="Areas\Commerce\Views\Activity\_Editor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Activity\_Editor.Scripts.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

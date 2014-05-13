@@ -121,11 +121,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InvoiceReminderActivityViews.cs" />
+    <Compile Include="InvoiceReminderActivityConfig.cs" />
+    <Compile Include="InvoiceReminderActivityDescriptor.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="InvoiceReminderActivity.cs" />
     <Compile Include="AddInAreaRegistration.cs" />
-    <Compile Include="InvoiceReminderSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.cs" />
   </ItemGroup>

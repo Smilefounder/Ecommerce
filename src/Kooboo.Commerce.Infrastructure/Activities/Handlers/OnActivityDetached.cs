@@ -13,9 +13,9 @@ namespace Kooboo.Commerce.Activities.Handlers
     // It's a hack but I haven't find more elegant solution at the moment.
     class OnActivityDetached : IHandle<ActivityDetached>
     {
-        private IRepository<AttachedActivity> _repository;
+        private IRepository<AttachedActivityInfo> _repository;
 
-        public OnActivityDetached(IRepository<AttachedActivity> repository)
+        public OnActivityDetached(IRepository<AttachedActivityInfo> repository)
         {
             _repository = repository;
         }

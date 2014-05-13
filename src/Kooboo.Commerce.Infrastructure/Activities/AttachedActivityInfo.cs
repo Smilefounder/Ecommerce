@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using Kooboo.Extensions;
+using Newtonsoft.Json;
 
 namespace Kooboo.Commerce.Activities
 {
-    public class AttachedActivity
+    public class AttachedActivityInfo
     {
         public virtual int Id { get; set; }
 
         [Required, StringLength(100)]
         public virtual string Description { get; set; }
 
-        [Required]
         public virtual string ActivityName { get; set; }
 
-        public virtual string ActivityData { get; set; }
+        // TODO: Make private
+        public virtual string ActivityConfig { get; set; }
 
         public virtual bool IsEnabled { get; set; }
 
@@ -38,17 +40,22 @@ namespace Kooboo.Commerce.Activities
 
         public virtual RuleBranch RuleBranch { get; set; }
 
-        protected AttachedActivity()
+        protected AttachedActivityInfo()
         {
         }
 
-        public AttachedActivity(ActivityRule rule, RuleBranch branch, string description, string activityName, string activityData)
+        public AttachedActivityInfo(
+            ActivityRule rule
+            , RuleBranch branch
+            , string description
+            , string activityName
+            , object config)
         {
             Rule = rule;
             RuleBranch = branch;
             Description = description;
             ActivityName = activityName;
-            ActivityData = activityData;
+            ActivityConfig = JsonConvert.SerializeObject(config);
             CreatedAtUtc = DateTime.UtcNow;
         }
 

@@ -43,7 +43,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             {
                 RuleId = Id,
                 Branch = RuleBranch.Then,
-                AttachedActivities = rule.ThenActivities.Select(x => new AttachedActivityModel(x)).ToList()
+                AttachedActivities = rule.ThenActivityInfos.Select(x => new AttachedActivityModel(x)).ToList()
             });
 
             if (rule.Type == RuleType.Normal)
@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
                 {
                     RuleId = Id,
                     Branch = RuleBranch.Else,
-                    AttachedActivities = rule.ElseActivities.Select(x => new AttachedActivityModel(x)).ToList()
+                    AttachedActivities = rule.ElseActivityInfos.Select(x => new AttachedActivityModel(x)).ToList()
                 });
             }
         }
@@ -121,7 +121,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             IsEnabled = true;
         }
 
-        public AttachedActivityModel(AttachedActivity activity)
+        public AttachedActivityModel(AttachedActivityInfo activity)
         {
             Id = activity.Id;
             RuleId = activity.Rule.Id;

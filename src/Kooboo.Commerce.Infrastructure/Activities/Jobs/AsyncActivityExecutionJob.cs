@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Activities.Jobs
 
             var engine = EngineContext.Current;
             var instanceManager = engine.Resolve<ICommerceInstanceManager>();
-            var activityFactory = engine.Resolve<IActivityFactory>();
+            var activityFactory = engine.Resolve<IActivityProvider>();
             var now = DateTime.UtcNow;
 
             foreach (var metadata in instanceManager.GetAllInstanceMetadatas())
@@ -62,18 +62,18 @@ namespace Kooboo.Commerce.Activities.Jobs
                             {
                                 var @event = queueItem.LoadEvent();
                                 var rule = ruleRepository.Get(queueItem.RuleId);
-                                var attachedActivity = rule.AttachedActivities.ById(queueItem.AttachedActivityId);
-                                var activity = activityFactory.FindByName(attachedActivity.ActivityName);
-
+                                var attachedActivityInfo = rule.AttachedActivityInfos.ById(queueItem.AttachedActivityInfoId);
+                                var descriptor = activityFactory.GetDescriptorFor(attachedActivityInfo.ActivityName);
+                                var activity = EngineContext.Current.Resolve(descriptor.ActivityType) as IActivity;
                                 if (activity != null)
                                 {
-                                    activity.Execute(@event, new ActivityExecutionContext(rule, attachedActivity, true));
+                                    activity.Execute(@event, new ActivityContext(rule, attachedActivityInfo, true));
                                     // TODO: Delete queue item when success, but i think some log is needed
                                     queue.Delete(queueItem);
                                 }
                                 else
                                 {
-                                    queueItem.MarkFailed("Cannot find activity with name '" + attachedActivity.ActivityName + "'. Ensure the activity is installed.");
+                                    queueItem.MarkFailed("Cannot find activity with name '" + attachedActivityInfo.ActivityName + "'. Ensure the activity is installed.");
                                 }
                             }
                             catch (Exception ex)

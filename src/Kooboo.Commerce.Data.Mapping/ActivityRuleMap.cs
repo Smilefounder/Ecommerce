@@ -11,13 +11,13 @@ namespace Kooboo.Commerce.Data.Mapping
     {
         public ActivityRuleMap()
         {
-            HasMany(x => x.AttachedActivities)
+            HasMany(x => x.AttachedActivityInfos)
                 .WithRequired(x => x.Rule)
                 .Map(x => x.MapKey("ActivityRule_Id"));
         }
     }
 
-    public class AttachedActivityMap : EntityTypeConfiguration<AttachedActivity>
+    public class AttachedActivityMap : EntityTypeConfiguration<AttachedActivityInfo>
     {
         public AttachedActivityMap()
         {

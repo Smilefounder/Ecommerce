@@ -123,24 +123,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\ActivityContext.cs" />
     <Compile Include="Activities\ActivityQueueItem.cs" />
     <Compile Include="Activities\ActivityRule.cs" />
-    <Compile Include="Activities\AttachedActivity.cs" />
+    <Compile Include="Activities\AttachedActivityInfo.cs" />
     <Compile Include="Activities\DefaultActivityEventRegistry.cs" />
     <Compile Include="Activities\ActivityResult.cs" />
-    <Compile Include="Activities\ActivityEventHook.cs" />
+    <Compile Include="Activities\EventToActivityBridge.cs" />
     <Compile Include="Activities\Events\ActivityAttached.cs" />
     <Compile Include="Activities\Events\ActivityDetached.cs" />
-    <Compile Include="Activities\Extensions\ActivityRulesExtensions.cs" />
-    <Compile Include="Activities\Extensions\AttachedActivitiesExtensions.cs" />
+    <Compile Include="Activities\Extensions\ActivityDescriptorExtensions.cs" />
+    <Compile Include="Activities\Extensions\ActivityRuleRepositoryExtensions.cs" />
+    <Compile Include="Activities\Extensions\ActivityRuleExtensions.cs" />
+    <Compile Include="Activities\Extensions\AttachedActivitieInfoExtensions.cs" />
     <Compile Include="Activities\Handlers\OnActivityDetached.cs" />
     <Compile Include="Activities\IActivity.cs" />
+    <Compile Include="Activities\IActivityDescriptor.cs" />
     <Compile Include="Activities\IActivityEventRegistry.cs" />
-    <Compile Include="Activities\IActivityFactory.cs" />
-    <Compile Include="Activities\IActivityRuleService.cs" />
-    <Compile Include="Activities\IActivityViews.cs" />
-    <Compile Include="Activities\IActivityViewsFactory.cs" />
+    <Compile Include="Activities\IActivityProvider.cs" />
     <Compile Include="Activities\Jobs\AsyncActivityExecutionJob.cs" />
+    <Compile Include="Activities\RuleBranch.cs" />
+    <Compile Include="Activities\RuleType.cs" />
     <Compile Include="ComponentModel\INotifyCreated.cs" />
     <Compile Include="ComponentModel\INotifyDeleted.cs" />
     <Compile Include="ComponentModel\INotifyDeleting.cs" />

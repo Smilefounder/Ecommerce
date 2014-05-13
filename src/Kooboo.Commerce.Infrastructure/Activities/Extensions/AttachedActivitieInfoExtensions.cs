@@ -5,19 +5,19 @@ using System.Text;
 
 namespace Kooboo.Commerce.Activities
 {
-    public static class AttachedActivitiesExtensions
+    public static class AttachedActivityInfoExtensions
     {
-        public static AttachedActivity ById(this IEnumerable<AttachedActivity> activities, int attachedActivityId)
+        public static AttachedActivityInfo ById(this IEnumerable<AttachedActivityInfo> activities, int attachedActivityId)
         {
             return activities.FirstOrDefault(x => x.Id == attachedActivityId);
         }
 
-        public static IEnumerable<AttachedActivity> WhereEnabled(this IEnumerable<AttachedActivity> activities)
+        public static IEnumerable<AttachedActivityInfo> WhereEnabled(this IEnumerable<AttachedActivityInfo> activities)
         {
             return activities.Where(x => x.IsEnabled);
         }
 
-        public static IEnumerable<AttachedActivity> SortByExecutionOrder(this IEnumerable<AttachedActivity> activities)
+        public static IEnumerable<AttachedActivityInfo> OrderByExecutionOrder(this IEnumerable<AttachedActivityInfo> activities)
         {
             return activities.OrderByDescending(x => x.Priority)
                              .ThenBy(x => x.Id);
