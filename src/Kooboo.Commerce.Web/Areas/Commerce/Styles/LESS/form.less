@@ -96,6 +96,48 @@ label {
 	display: inline-block;
 }
 
+div.checkbox {
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+
+	label {
+		display: block;
+		position: relative;
+		z-index: 2;
+
+		.sprite {
+			cursor: pointer;
+			display: block;
+			.sprite(@checkbox);
+		}
+	}
+
+	input {
+		position: absolute;
+		.opacity(0);
+
+		&:checked ~ label {
+			.sprite {
+				.sprite(@checkbox-checked);
+			}
+		}
+
+		&:disabled ~ label {
+			.sprite {
+				cursor: default;
+				.sprite(@checkbox-disabled);
+			}
+		}
+
+		&:disabled:checked ~ label {
+			.sprite {
+				.sprite(@checkbox-checked-disabled);
+			}
+		}
+	}
+}
+
 /* Form list(For checkbox & Radio button)
 ----------------------------------------------------------*/
 .form-list {
@@ -375,6 +417,49 @@ label {
 	font-style: italic;
 	line-height: 14px;
 	margin-top: 4px;
+}
+
+/* Editable field
+----------------------------------------------------------*/
+.editable-field {
+	display: inline-block;
+
+	.text {
+		border: 1px solid transparent;
+		cursor: text;
+		display: block;
+		height: 28px;
+		overflow: hidden;
+		padding: 4px 6px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 100%;
+		.box-sizing(border-box);
+
+		&:hover {
+			border-color: #DDD;
+		}
+	}
+
+	input,
+	textarea {
+		display: none;
+	}
+
+	textarea {
+		resize: vertical;
+	}
+
+	&.active {
+		.text {
+			display: none;
+		}
+
+		input,
+		textarea {
+			display: block;
+		}
+	}
 }
 
 /* Common form

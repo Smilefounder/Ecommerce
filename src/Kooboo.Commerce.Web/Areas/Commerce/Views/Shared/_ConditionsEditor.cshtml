@@ -4,7 +4,7 @@
         <h1 class="title">@("Rule Conditions".Localize())</h1>
     </div>
     <div class="wrap">
-        <div style="padding-bottom:10px">
+        <div class="condition-result">
             <span data-bind="html: expressionPreview" class="conditions-expression"></span>
         </div>
         <form id="conditions-form">
@@ -365,4 +365,17 @@
         window.ConditionsEditor = ConditionsEditor;
 
     })(jQuery);
+    $(function () {
+        $('#conditions-editor').scroll(function () {
+            if ($(this).scrollTop() != 0) {
+                $('.condition-result').addClass('fixed');
+                $('.condition-result').css('top', $(this).scrollTop() + $('#conditions-editor .topbar').outerHeight());
+                $('.block.conditions').css('margin-top', $('.condition-result').height() + parseInt($('.condition-result').css('margin-bottom')));
+            } else {
+                $('.condition-result').removeClass('fixed');
+                $('.block.conditions').css('margin-top', 0);
+            }
+        })
+
+    })
 </script>
