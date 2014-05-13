@@ -90,6 +90,8 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 query = query.ByAccountId(user.UUID);
             }
 
+            query.Include("Items.ProductPrice");
+            query.Include("Items.ProductPrice.Product");
             query.Include("Items.ProductPrice.Product.Brand");
             query.Include("Items.ProductPrice.Product.PriceList");
             query.Include("Items.ProductPrice.Product.Images");

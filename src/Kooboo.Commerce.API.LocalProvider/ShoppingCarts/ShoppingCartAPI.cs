@@ -50,6 +50,8 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             _promotionService = promotionService;
             _promotionPolicyFactory = promotionPolicyFactory;
             _cartItemMapper = cartItemMapper;
+
+            Include(c => c.Items);
         }
 
         /// <summary>
