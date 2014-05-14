@@ -45,35 +45,7 @@
 </div>
 @if (fieldType == 0)
 {
-    <div id="systemFields" class="simple-table" style="display: none;">
-        <table data-bind="jqData:$data">
-            <thead>
-                <tr>
-                    <th class="checkbox">
-                        <input type="checkbox" onchange="$(this).closest('#systemFields').find('tbody input:checkbox').prop('checked', $(this).prop('checked'));" />
-                    </th>
-                    <th>@("Name".Localize())</th>
-                    <th>@("Label".Localize())</th>
-                    <th>@("Control type".Localize())</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!--ko if:!$data.systemFields().length-->
-                <tr class="empty">
-                    <td colspan="100">@("Empty".Localize())</td>
-                </tr>
-                <!--/ko-->
-                <!--ko foreach:$data.systemFields-->
-                <tr>
-                    <td class="checkbox">
-                        <input type="checkbox" data-bind="value: Id" />
-                    </td>
-                    <td data-bind="text:Name"></td>
-                    <td data-bind="text:((Label()==''||Label()==null)?'-':Label)"></td>
-                    <td data-bind="text:ControlType"></td>
-                </tr>
-                <!--/ko-->
-            </tbody>
-        </table>
+    <div id="custom_system_field_editor_dialog" class="hide">
+        @Html.Partial("_CustomSystemFiledEditor")
     </div>
 }

@@ -3,7 +3,7 @@
 @using Kooboo.Commerce.API.Categories;
 @{
     var cateId = Page_Context.Current.PageRequestContext.RouteValues["id"];
-    var products = cateId == null || string.IsNullOrEmpty(cateId.ToString()) ? null : Site.Current.Commerce().Products.ByCategoryId(Convert.ToInt32(cateId)).Include(o => o.Brand).Include(o => o.Images).Include(o => o.PriceList).Include(o => o.CustomFieldValues).Include("CustomFieldValues.CustomField").ToArray();
+    var products = cateId == null || string.IsNullOrEmpty(cateId.ToString()) ? null : Site.Current.Commerce().Products.ByCategoryId(Convert.ToInt32(cateId)).Include(o => o.Brand).Include(o => o.Images).Include(o => o.PriceList).Include(o => o.CustomFieldValues).Include(o => o.CustomFieldValues.Select(f => f.CustomField)).ToArray();
     var categories = Site.Current.Commerce().Categories.ByParentId(null).Include(o => o.Children).ToArray();
 }
 <form id="__AjaxAntiForgeryForm" action="#" method="post">

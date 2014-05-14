@@ -85,7 +85,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public IShoppingCartQuery BySessionId(string sessionId)
         {
             EnsureQuery();
-            _query = _query.Where(o => o.SessionId == sessionId);
+            _query = _query.Where(o => o.SessionId == sessionId && o.Customer == null);
             return this;
         }
 
@@ -103,14 +103,9 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 
         protected override ShoppingCart Map(Commerce.ShoppingCarts.ShoppingCart obj)
         {
-            var cart = base.Map(obj);
-
-            foreach (var item in cart.Items)
-            {
-                // TODO: hack for now
-                item.ProductPriceId = item.ProductPrice.Id;
-            }
-            
+            Include(o => o.Items);
+            Include(o => o.Items.Select(i => i.ProductPrice));
+            var cart = base.Map(obj);            
             // calculate prices
             var prices = _priceApi.CartPrice(cart.Id);
 

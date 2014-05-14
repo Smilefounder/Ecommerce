@@ -100,12 +100,12 @@ namespace Kooboo.Commerce.API.LocalProvider
             resourceName = BuildResourceName(resourceName);
             if (_halParameters != null)
             {
-                foreach(var kvp in _halParameters)
+                foreach (var kvp in _halParameters)
                 {
                     listHalParameters[kvp.Key] = kvp.Value;
                 }
             }
-            _halWrapper.AddLinks(resourceName, data, HalContext, listHalParameters, o => 
+            _halWrapper.AddLinks(resourceName, data, HalContext, listHalParameters, o =>
                 {
                     var paras = itemHalParameterResolver(o);
                     if (_halParameters != null)
@@ -142,47 +142,77 @@ namespace Kooboo.Commerce.API.LocalProvider
 
         public ICommerceQuery<T> Include(string property)
         {
-            _includeComplexPropertyNames.Add(property);
+            if(!_includeComplexPropertyNames.Contains(property))
+                _includeComplexPropertyNames.Add(property);
             return this;
         }
+
         public ICommerceQuery<T> Include<TProperty>(Expression<Func<T, TProperty>> property)
         {
-            List<string> propNames = new List<string>();
-            var express = property.Body;
-            while(express.NodeType != ExpressionType.Parameter)
+            var expression = property.Body;
+            switch (expression.NodeType)
             {
-                string propName = "";
-                switch(express.NodeType)
-                {
-                    case ExpressionType.MemberAccess:
-                        propName = ((MemberExpression)express).Member.Name;
-                        propNames.Insert(0, propName);
-                        express = ((MemberExpression)express).Expression;
-                        break;
-                    //case ExpressionType.Call:
-                    //    var args = ((MethodCallExpression)express).Arguments;
-                }
+                case ExpressionType.MemberAccess:
+                    var member = DecodeMemberExpression(expression as MemberExpression);
+                    _includeComplexPropertyNames.AddRange(member.Where(o => !_includeComplexPropertyNames.Contains(o)));
+                    break;
+                case ExpressionType.Call:
+                    var calls = DecodeCallExpression(expression as MethodCallExpression);
+                    _includeComplexPropertyNames.AddRange(calls.Where(o => !_includeComplexPropertyNames.Contains(o)));
+                    break;
             }
-            string expPropName = string.Join(".", propNames.ToArray());
-            _includeComplexPropertyNames.Add(expPropName);
             return this;
         }
 
-        //private string DecodeExpression(Expression expression, List<string> propNames)
-        //{
-        //    switch(expression.NodeType)
-        //    {
-        //        case ExpressionType.Parameter:
-        //            break;
-        //        case ExpressionType.MemberAccess:
-        //            var propName = ((MemberExpression)expression).Member.Name;
-        //            propNames.Insert(0, propName);
-        //            expression = ((MemberExpression)expression).Expression;
-        //            break;
+        private IEnumerable<string> DecodeMemberExpression(MemberExpression expression)
+        {
+            List<string> propNames = new List<string>();
+            while (expression != null && expression.NodeType != ExpressionType.Parameter)
+            {
+                var propName = expression.Member.Name;
+                for (int i = 0; i < propNames.Count; i++)
+                {
+                    propNames[i] = string.Format("{0}.{1}", propName, propNames[i]);
+                }
+                propNames.Insert(0, propName);
+                expression = expression.Expression as MemberExpression;
+            }
+            return propNames;
+        }
 
-        //    }
-                
-        //}
+        private IEnumerable<string> DecodeLambdaExpression(LambdaExpression expression, string prefix)
+        {
+            if (expression.Body.NodeType == ExpressionType.MemberAccess)
+            {
+                var props = DecodeMemberExpression(expression.Body as MemberExpression);
+                return props.Select(o => string.Format("{0}.{1}", prefix, o));
+            }
+            else if (expression.Body.NodeType == ExpressionType.Call)
+            {
+                var props = DecodeCallExpression(expression.Body as MethodCallExpression);
+                return props.Select(o => string.Format("{0}.{1}", prefix, o));
+            }
+            return Enumerable.Empty<string>();
+        }
+
+        private IEnumerable<string> DecodeCallExpression(MethodCallExpression expression)
+        {
+            var paras = new List<string>();
+
+            var args = expression.Arguments;
+            if (args.Count > 0 && args[0].NodeType == ExpressionType.MemberAccess)
+            {
+                var members = DecodeMemberExpression(args[0] as MemberExpression);
+                paras.AddRange(members);
+                if (args.Count > 1 && args[1].NodeType == ExpressionType.Lambda)
+                {
+                    var lparas = DecodeLambdaExpression(args[1] as LambdaExpression, members.Last());
+                    paras.AddRange(lparas);
+                }
+            }
+
+            return paras;
+        }
 
         /// <summary>
         /// get paginated data that matches the query
@@ -208,11 +238,11 @@ namespace Kooboo.Commerce.API.LocalProvider
                     return itemParas;
                 };
                 int totalItemCount = _query.Count();
-                
+
                 listParas.Add("pageIndex", pageIndex);
                 listParas.Add("pageSize", pageSize);
                 listParas.Add("totalItemCount", totalItemCount);
-                
+
                 WrapHalLinks(mobjs, "list", listParas, itemParasResolver);
             }
             return mobjs;

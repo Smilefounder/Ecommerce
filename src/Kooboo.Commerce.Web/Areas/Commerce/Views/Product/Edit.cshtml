@@ -114,7 +114,7 @@
                                 <td class="mini" data-bind="text:RetailPrice"></td>
                                 <td class="mini" data-bind="text:Stock"></td>
                                 <td class="mini" data-bind="text:DeliveryDays"></td>
-                                <td class="mini" data-bind="text:IsPublished"></td>
+                                <td class="mini" data-bind="text:IsPublished() ? 'YES' : '-' "></td>
                                 <td><a href="javascript:;" data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit-small")</a></td>
                                 <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Delete">@Html.IconImage("minus-small")</a></td>
                             </tr>
