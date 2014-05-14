@@ -85,7 +85,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public IShoppingCartQuery BySessionId(string sessionId)
         {
             EnsureQuery();
-            _query = _query.Where(o => o.SessionId == sessionId);
+            _query = _query.Where(o => o.SessionId == sessionId && o.Customer == null);
             return this;
         }
 
