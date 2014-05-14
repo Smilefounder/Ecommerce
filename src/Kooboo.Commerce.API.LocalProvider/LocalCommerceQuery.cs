@@ -142,7 +142,8 @@ namespace Kooboo.Commerce.API.LocalProvider
 
         public ICommerceQuery<T> Include(string property)
         {
-            _includeComplexPropertyNames.Add(property);
+            if(!_includeComplexPropertyNames.Contains(property))
+                _includeComplexPropertyNames.Add(property);
             return this;
         }
 
@@ -153,11 +154,11 @@ namespace Kooboo.Commerce.API.LocalProvider
             {
                 case ExpressionType.MemberAccess:
                     var member = DecodeMemberExpression(expression as MemberExpression);
-                    _includeComplexPropertyNames.AddRange(member);
+                    _includeComplexPropertyNames.AddRange(member.Where(o => !_includeComplexPropertyNames.Contains(o)));
                     break;
                 case ExpressionType.Call:
                     var calls = DecodeCallExpression(expression as MethodCallExpression);
-                    _includeComplexPropertyNames.AddRange(calls);
+                    _includeComplexPropertyNames.AddRange(calls.Where(o => !_includeComplexPropertyNames.Contains(o)));
                     break;
             }
             return this;
@@ -212,22 +213,6 @@ namespace Kooboo.Commerce.API.LocalProvider
 
             return paras;
         }
-
-        //private string DecodeExpression(Expression expression, List<string> propNames)
-        //{
-        //    switch(expression.NodeType)
-        //    {
-        //        case ExpressionType.Parameter:
-        //            break;
-        //        case ExpressionType.MemberAccess:
-        //            var propName = ((MemberExpression)expression).Member.Name;
-        //            propNames.Insert(0, propName);
-        //            expression = ((MemberExpression)expression).Expression;
-        //            break;
-
-        //    }
-
-        //}
 
         /// <summary>
         /// get paginated data that matches the query
