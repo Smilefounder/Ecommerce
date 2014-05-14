@@ -54,6 +54,10 @@
                 </tr>
             </table>
         </div>
+        <p class="buttons">
+            <button type="button" class="btn-save">@("Save".Localize())</button>
+            <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
+        </p>
     </div>
 </div>
 
@@ -154,23 +158,11 @@
                 _$dialog = $('#resource-link-editor-dialog');
                 _$dialog.dialog({
                     autoOpen: false,
-                    modal: true,
-                    buttons: [
-                        {
-                            text: Texts.Save,
-                            click: function () {
-                                _this.save();
-                            }
-                        },
-                        {
-                            text: Texts.Cancel,
-                            class: 'gray',
-                            click: function () {
-                                _this.close();
-                            }
-                        }
-                    ]
+                    modal: true
                 });
+
+                _$dialog.find('.btn-cancel').on('click', _this.close);
+                _$dialog.find('.btn-save').on('click', _this.save);
 
                 _this.model.link.destinationResourceName.subscribe(_this.onDestinationResourceSelectionChanged);
 
