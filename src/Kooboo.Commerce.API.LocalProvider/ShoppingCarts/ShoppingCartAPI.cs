@@ -104,7 +104,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         protected override ShoppingCart Map(Commerce.ShoppingCarts.ShoppingCart obj)
         {
             Include(o => o.Items);
-            Include("Items.ProductPrice");
+            Include(o => o.Items.Select(i => i.ProductPrice));
             var cart = base.Map(obj);            
             // calculate prices
             var prices = _priceApi.CartPrice(cart.Id);
