@@ -1,110 +1,101 @@
-﻿@model AttachedActivityModel
+﻿@model ActivityEditorModel
 
-<div class="topbar">
-    <h1 class="title">@ViewBag.Title</h1>
-</div>
-<div class="wrap">
-    @using (Html.BeginForm("Save", "Activity", RouteValues.From(Request.QueryString)))
-    {
-        <div class="step-content clearfix">
-            <div class="common-form">
-
-                @Html.ValidationSummary(true)
-                @Html.HiddenFor(m => m.Id)
-                @Html.HiddenFor(m => m.ActivityName)
-                @Html.HiddenFor(m => m.RuleBranch)
-                <table id="activity-binding-form">
-                    <tbody>
-                        <tr>
-                            <th>@("Activity".Localize())</th>
-                            <td>
-                                @Model.ActivityDisplayName
-                            </td>
-                        </tr>
-                        @Html.EditorFor(m => m.Description)
-                        @Html.EditorFor(m => m.Priority)
-                        <tr>
-                            <th></th>
-                            <td>
-                                <div class="clearfix">
-                                    @if (Model.ActivityAllowAsyncExecution)
-                                    {
-                                        @Html.CheckBoxFor(m => m.EnableAsyncExecution)
-                                    }
-                                    else
-                                    {
-                                        @Html.CheckBoxFor(m => m.EnableAsyncExecution, new { disabled = "disabled" })
-                                    }
-                                    @Html.LabelFor(m => m.EnableAsyncExecution, new { @class = "inline" })
+<form id="activity-editor-form">
+    <div class="step-content clearfix">
+        <div class="common-form">
+            <table id="activity-binding-form">
+                <tbody>
+                    <tr>
+                        <th>@("Activity".Localize())</th>
+                        <td>
+                            <span data-bind="text: activityDescriptor.name"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Description".Localize())</th>
+                        <td>
+                            <input type="text" data-bind="value: description" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Priority".Localize())</th>
+                        <td>
+                            <input type="text" data-bind="value: priority" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <div class="clearfix">
+                                <input type="checkbox" id="EnableAsyncExecution" data-bind="checked: enableAsyncExecution, enable: activityDescriptor.allowAsyncExecution" />
+                                <label class="inline" for="EnableAsyncExecution">@("Enable Async Execution".Localize())</label>
+                            </div>
+                            <div class="block message warning" style="margin-top:5px" data-bind="visible: !activityDescriptor.allowAsyncExecution()">
+                                @("This activity does not allow async execution".Localize())
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="display:none" data-bind="visible: enableAsyncExecution">
+                        <th>@("Delay".Localize())</th>
+                        <td>
+                            <div class="columns">
+                                <div class="span2">
+                                    <input type="text" data-bind="value: delayDays" />
                                 </div>
-                                @if (!Model.ActivityAllowAsyncExecution)
-                                {
-                                    <div class="block message warning" style="margin-top:5px">
-                                        @("This activity does not allow async execution".Localize())
-                                    </div>
-                                }
-                            </td>
-                        </tr>
-                        <tr class="delay-row" style="display:none">
-                            <th>@("Delay".Localize())</th>
-                            <td>
-                                <div class="columns">
-                                    <div class="span2">
-                                        @Html.TextBoxFor(m => m.DelayDays)
-                                    </div>
-                                    <div class="span1">
-                                        @("days".Localize())
-                                    </div>
-                                    <div class="span2">
-                                        @Html.DropDownListFor(m => m.DelayHours, Enumerable.Range(0, 24).ToSelectListItems())
-                                    </div>
-                                    <div class="span1">
-                                        @("hr.".Localize())
-                                    </div>
-                                    <div class="span2">
-                                        @Html.DropDownListFor(m => m.DelayMinutes, Enumerable.Range(0, 60).ToSelectListItems())
-                                    </div>
-                                    <div class="span1">
-                                        @("min.".Localize())
-                                    </div>
-                                    <div class="span2">
-                                        @Html.DropDownListFor(m => m.DelaySeconds, Enumerable.Range(0, 60).ToSelectListItems())
-                                    </div>
-                                    <div class="span1">
-                                        @("sec.".Localize())
-                                    </div>
+                                <div class="span1">
+                                    @("days".Localize())
                                 </div>
-                            </td>
-                        </tr>
-                        @Html.EditorFor(m => m.IsEnabled)
-                    </tbody>
-                </table>
-
-                <p class="buttons">
-                    <button type="submit" data-ajaxform="">@("Next".Localize()) »</button>
-                    <a href="#" class="button gray J_Cancel">@("Cancel".Localize())</a>
-                </p>
-            </div>
+                                <div class="span2">
+                                    <select data-bind="value: delayHours">
+                                        @foreach (var hour in Enumerable.Range(0, 24))
+                                        {
+                                            <option value="@hour">@hour</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="span1">
+                                    @("hr.".Localize())
+                                </div>
+                                <div class="span2">
+                                    <select data-bind="value: delayMinutes">
+                                        @foreach (var min in Enumerable.Range(0, 60))
+                                        {
+                                            <option value="@min">@min</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="span1">
+                                    @("min.".Localize())
+                                </div>
+                                <div class="span2">
+                                    <select data-bind="value: delaySeconds">
+                                        @foreach (var sec in Enumerable.Range(0, 60))
+                                        {
+                                            <option value="@sec">@sec</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="span1">
+                                    @("sec.".Localize())
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <input id="IsActivityEnabled" type="checkbox" data-bind="checked: isEnabled" />
+                            <label for="IsActivityEnabled" class="inline">@("Enabled")</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    }
-</div>
+    </div>
+</form>
 <script>
     (function () {
 
-        updateDelayRowVisibility();
-
-        $(':checkbox[name="EnableAsyncExecution"]').click(function () {
-            updateDelayRowVisibility();
-        });
-
-        function updateDelayRowVisibility() {
-            var enableAsyncExecution = $(':checkbox[name="EnableAsyncExecution"]').is(':checked');
-            if (enableAsyncExecution) {
-                $('.delay-row').show();
-            } else {
-                $('.delay-row').hide();
-            }
-        }
 
         window.ajaxFormParam = {
             success: function (result) {

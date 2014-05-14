@@ -11,14 +11,14 @@ namespace Kooboo.Commerce.Activities
     {
         public static void EnsureAlwaysRule(this IRepository<ActivityRule> repository, Type eventType)
         {
-            var eventTypeName = eventType.AssemblyQualifiedNameWithoutVersion();
             var exists = repository.Query()
-                                   .Where(x => x.EventType == eventTypeName && x.Type == RuleType.Always)
+                                   .ByEvent(eventType)
+                                   .Where(x => x.Type == RuleType.Always)
                                    .Any();
 
             if (!exists)
             {
-                repository.Insert(ActivityRule.Create(eventType, String.Empty, RuleType.Always));
+                repository.Insert(new ActivityRule(eventType, String.Empty, RuleType.Always));
             }
         }
     }

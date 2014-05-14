@@ -12,9 +12,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public string Description { get; set; }
 
-        public string ActivityName { get; set; }
-
-        public IActivityDescriptor ActivityDescriptor { get; set; }
+        public ActivityDescriptorModel ActivityDescriptor { get; set; }
 
         public bool IsEnabled { get; set; }
 
@@ -34,6 +32,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public RuleBranch RuleBranch { get; set; }
 
-        public object ActivityConfig { get; set; }
+        public ActivityEditorModel()
+        {
+            IsEnabled = true;
+        }
     }
 }

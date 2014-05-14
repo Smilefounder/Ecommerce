@@ -44,23 +44,18 @@ namespace Kooboo.Commerce.Activities
 
         public DateTime CreatedAtUtc { get; set; }
 
-        protected ActivityRule()
+        protected ActivityRule() { }
+
+        public ActivityRule(Type eventType, string conditionsExpression, RuleType type)
         {
+            EventType = eventType.AssemblyQualifiedNameWithoutVersion();
+            ConditionsExpression = conditionsExpression;
+            Type = type;
             CreatedAtUtc = DateTime.UtcNow;
             AttachedActivityInfos = new List<AttachedActivityInfo>();
         }
 
-        public static ActivityRule Create(Type eventType, string conditionsExpression, RuleType type)
-        {
-            return new ActivityRule
-            {
-                EventType = eventType.AssemblyQualifiedNameWithoutVersion(),
-                ConditionsExpression = conditionsExpression,
-                Type = type
-            };
-        }
-
-        public AttachedActivityInfo AttachActivity(RuleBranch branch, string description, string activityName, object config)
+        public AttachedActivityInfo AttachActivity(RuleBranch branch, string description, string activityName, object config = null)
         {
             var attachedActivity = new AttachedActivityInfo(this, branch, description, activityName, config);
             AttachedActivityInfos.Add(attachedActivity);
@@ -72,7 +67,7 @@ namespace Kooboo.Commerce.Activities
 
         public bool DetachActivity(int attachedActivityInfoId)
         {
-            var attachedActivity = AttachedActivityInfos.ById(attachedActivityInfoId);
+            var attachedActivity = AttachedActivityInfos.Find(attachedActivityInfoId);
             if (attachedActivity != null)
             {
                 return DetachActivity(attachedActivity);

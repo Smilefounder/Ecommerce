@@ -13,13 +13,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     public class LocalPaymentQuery : LocalCommerceQuery<Payment, Kooboo.Commerce.Payments.Payment>, IPaymentQuery
     {
         protected IPaymentService PaymentService { get; private set; }
-        private IMapper<Payment, Kooboo.Commerce.Payments.Payment> _mapper;
 
         public LocalPaymentQuery(IHalWrapper halWrapper, IPaymentService paymentService, IMapper<Payment, Kooboo.Commerce.Payments.Payment> mapper)
-            : base(halWrapper)
+            : base(halWrapper, mapper)
         {
             PaymentService = paymentService;
-            _mapper = mapper;
         }
 
         public IPaymentQuery ById(int id)

@@ -18,28 +18,23 @@
 }
 @section Panel{
     <ul class="header-panel">
-    @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
-    {
-        @Html.Partial("_ToolbarGroupButtons", group)
-    }
-    <li>
-        <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-            @Html.IconImage("cancel") @("Cancel".Localize())
-        </a>
-    </li>
-    <li>
-        <a data-ajaxform="">
-            @Html.IconImage("next") @("Next".Localize())
-        </a>
-    </li>
-</ul>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("back") @("Cancel".Localize())
+            </a>
+        </li>
+    </ul>
 
 }
 <div class="block">
     <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
-    <div class="process-steps">
-        <div class="steps-inner">
-            <span class="current">@("Add-in info".Localize())<b></b></span>
+    <div class="wizard">
+        <div class="container">
+            <span class="active">@("Add-in info".Localize())<b></b></span>
             <span>@("Uninstallation".Localize())</span>
             <span>@("Finish".Localize())</span>
         </div>
@@ -75,6 +70,9 @@
             </div>
         </div>
     }
+    <div class="wizard-buttons">
+        <a class="button" data-ajaxform="">@("Next".Localize()) &raquo;</a>
+    </div>
 </div>
 
 

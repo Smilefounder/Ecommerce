@@ -1,0 +1,56 @@
+﻿<form class="common-form" id="invoice-reminder-config-form">
+    <table>
+        <tbody>
+            <tr>
+                <th>@("Subject Template".Localize())</th>
+                <td>
+                    <input type="text" data-bind="value: subjectTemplate" />
+                </td>
+            </tr>
+            <tr>
+                <th>@("Body Template".Localize())</th>
+                <td>
+                    <textarea data-bind="value: bodyTemplate"></textarea>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+<script>
+    $(function () {
+
+        var editor = window.ActivityEditor;
+        var model = new InvoiceReminderConfigModel();
+        var ruleId = editor.model().ruleId();
+
+        editor.on('databound', function (sender, args) {
+            ko.applyBindings(model, document.getElementById('invoice-reminder-config-form'));
+
+            var attachedActivityInfoId = editor.model().attachedActivityInfoId();
+            if (attachedActivityInfoId) {
+                var url = '@Url.Action("GetConfig", "InvoiceReminder", new { area = Strings.AreaName, commerceName = Request.QueryString["commerceName"] })';
+                return $.get(url + '&ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityInfoId)
+                        .then(function (data) {
+                            ko.mapping.fromJS(data, {}, model);
+                        });
+            }
+        });
+
+        editor.on('saving', function (sender, args) {
+        });
+
+        editor.on('saved', function (sender, args) {
+            var url = '@Url.Action("SaveConfig", "InvoiceReminder", new { area = Strings.AreaName, commerceName = Request.QueryString["commerceName"] })';
+            var attachedActivityId = editor.model().attachedActivityInfoId();
+            return kb.http.safePost(url + '&ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityId, ko.mapping.toJS(model));
+        });
+
+        function InvoiceReminderConfigModel() {
+            
+            this.subjectTemplate = ko.observable();
+
+            this.bodyTemplate = ko.observable();
+        }
+    });
+</script>

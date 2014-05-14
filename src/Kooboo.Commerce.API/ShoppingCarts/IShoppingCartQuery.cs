@@ -24,17 +24,5 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// <param name="accountId">account id</param>
         /// <returns>shopping cart query</returns>
         IShoppingCartQuery ByAccountId(string accountId);
-
-        /// <summary>
-        /// load shopping cart with customer info
-        /// </summary>
-        /// <returns>shopping cart query</returns>
-        IShoppingCartQuery LoadWithCustomer();
-
-        IShoppingCartQuery LoadWithBrands();
-
-        IShoppingCartQuery LoadWithProductPrices();
-
-        IShoppingCartQuery LoadWithProductImages();
     }
 }

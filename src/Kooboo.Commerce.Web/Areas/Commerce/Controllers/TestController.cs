@@ -50,22 +50,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View();
         }
 
-        public ActionResult Event()
-        {
-            var brand = new Brand
-            {
-                Name = "Brand 2"
-            };
-
-            _brandService.Create(brand);
-
-            var item = new ActivityQueueItem(new AttachedActivityInfo(ActivityRule.Create(typeof(BrandCreated), "Id = 2", RuleType.Always), RuleBranch.Else, "", "", ""), new BrandCreated(brand));
-            _queue.Insert(item);
-
-
-            return Content("OK");
-        }
-
         public void Hal()
         {
             using (var client = new System.Net.WebClient())

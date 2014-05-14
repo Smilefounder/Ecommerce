@@ -13,48 +13,49 @@
         return parent;
     };
 
-    (function () {
-        var handlersByEventName = {};
+    kb.Events = function () {
+        var _handlersByEventName = {};
 
-        kb.events = {
-            on: function (eventName, handler) {
-                var handlers = handlersByEventName[eventName];
-                if (!handlers) {
-                    handlers = [];
-                    handlersByEventName[eventName] = handlers;
-                }
+        this.on = function (eventName, handler) {
+            var handlers = _handlersByEventName[eventName];
+            if (!handlers) {
+                handlers = [];
+                _handlersByEventName[eventName] = handlers;
+            }
 
-                handlers.push(handler);
-            },
-            trigger: function (eventName, sender, args) {
-                var deferred = $.Deferred();
-                var handlers = handlersByEventName[eventName];
-                if (handlers) {
-                    var promises = [];
+            handlers.push(handler);
+        };
 
-                    $.each(handlers, function () {
-                        var result = this(sender, args);
-                        if (result && result.then && typeof(result.then) === 'function') {
-                            promises.push(result);
-                        }
-                    });
+        this.fire = function (eventName, sender, args) {
+            var deferred = $.Deferred();
+            var handlers = _handlersByEventName[eventName];
+            if (handlers) {
+                var promises = [];
 
-                    if (promises.length > 0) {
-                        $.when.apply($, promises)
-                         .then(function () {
-                             deferred.resolve();
-                         });
-                    } else {
-                        deferred.resolve();
+                $.each(handlers, function () {
+                    var result = this(sender, args);
+                    if (result && result.then && typeof(result.then) === 'function') {
+                        promises.push(result);
                     }
+                });
+
+                if (promises.length > 0) {
+                    $.when.apply($, promises)
+                     .then(function () {
+                         deferred.resolve();
+                     });
                 } else {
                     deferred.resolve();
                 }
-
-                return deferred.promise();
+            } else {
+                deferred.resolve();
             }
-        };
-    })();
+
+            return deferred.promise();
+        }
+    };
+
+    ko.events = new kb.Events();
 
     (function () {
         kb.http = {
@@ -66,11 +67,16 @@
                         });
             },
             safePost: function (url, data) {
-                return $.post(url, data)
-                        .fail(function (xhr) {
-                            var result = JSON.parse(xhr.responseText);
-                            showError(result);
-                        });
+                return $.ajax({
+                    url: url, 
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data)
+                })
+                .fail(function (xhr) {
+                    var result = JSON.parse(xhr.responseText);
+                    showError(result);
+                });
             }
         };
 

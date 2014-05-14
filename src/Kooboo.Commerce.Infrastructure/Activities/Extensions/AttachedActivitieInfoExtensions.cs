@@ -7,7 +7,7 @@ namespace Kooboo.Commerce.Activities
 {
     public static class AttachedActivityInfoExtensions
     {
-        public static AttachedActivityInfo ById(this IEnumerable<AttachedActivityInfo> activities, int attachedActivityId)
+        public static AttachedActivityInfo Find(this IEnumerable<AttachedActivityInfo> activities, int attachedActivityId)
         {
             return activities.FirstOrDefault(x => x.Id == attachedActivityId);
         }

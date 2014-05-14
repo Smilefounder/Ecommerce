@@ -69,7 +69,7 @@ namespace Kooboo.Commerce.Activities
         {
             foreach (var setting in settings.OrderByExecutionOrder())
             {
-                var descriptor = _provider.GetDescriptorFor(setting.ActivityName);
+                var descriptor = _provider.GetDescriptor(setting.ActivityName);
                 if (descriptor == null)
                     throw new InvalidOperationException("Cannot find activity with name \"" + setting.ActivityName + "\".");
 

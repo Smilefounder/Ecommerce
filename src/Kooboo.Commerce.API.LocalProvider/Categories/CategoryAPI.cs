@@ -16,16 +16,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
     public class CategoryAPI : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryAPI
     {
         private ICategoryService _categoryService;
-        private IMapper<Category, Kooboo.Commerce.Categories.Category> _mapper;
-        private bool _loadWithParent = false;
-        private bool _loadWithParents = false;
-        private bool _loadWithChildren = false;
 
         public CategoryAPI(IHalWrapper halWrapper, ICategoryService categoryService, IMapper<Category, Kooboo.Commerce.Categories.Category> mapper)
-            : base(halWrapper)
+            : base(halWrapper, mapper)
         {
             _categoryService = categoryService;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -52,17 +47,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         /// </summary>
         /// <param name="obj">entity</param>
         /// <returns>object</returns>
-        protected override Category Map(Commerce.Categories.Category obj)
-        {
-            List<string> includeComplexPropertyNames = new List<string>();
-            if (_loadWithParent || _loadWithParents)
-                includeComplexPropertyNames.Add("Parent");
-            if (_loadWithParents)
-                includeComplexPropertyNames.Add("Parent.Parent");
-            if (_loadWithChildren)
-                includeComplexPropertyNames.Add("Children");
-            return _mapper.MapTo(obj, includeComplexPropertyNames.ToArray());
-        }
 
         /// <summary>
         /// add id filter to query
@@ -128,47 +112,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             var customFieldQuery = _categoryService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
             _query = _query.Where(o => customFieldQuery.Any(c => c.CategoryId == o.Id));
             return this;
-        }
-
-        /// <summary>
-        /// load the category/categories with parent
-        /// </summary>
-        /// <returns>category query</returns>
-        public ICategoryQuery LoadWithParent()
-        {
-            _loadWithParent = true;
-            return this;
-        }
-
-        /// <summary>
-        /// load the category/categories with all parents
-        /// the parents will be null on the top/root level of category
-        /// </summary>
-        /// <returns>category query</returns>
-        public ICategoryQuery LoadWithAllParents()
-        {
-            _loadWithParents = true;
-            return this;
-        }
-
-        /// <summary>
-        /// load the category/categories with children
-        /// </summary>
-        /// <returns>category query</returns>
-        public ICategoryQuery LoadWithChildren()
-        {
-            _loadWithChildren = true;
-            return this;
-        }
-        /// <summary>
-        /// this method will be called after query executed
-        /// </summary>
-        protected override void OnQueryExecuted()
-        {
-            base.OnQueryExecuted();
-            _loadWithParent = false;
-            _loadWithParents = false;
-            _loadWithChildren = false;
         }
 
         /// <summary>

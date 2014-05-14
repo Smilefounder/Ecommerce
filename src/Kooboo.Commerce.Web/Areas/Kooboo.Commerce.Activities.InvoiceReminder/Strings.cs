@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
-    static class Strings
+    public static class Strings
     {
         public static readonly string AreaName = "Kooboo.Commerce.Activities.InvoiceReminder";
 

@@ -75,37 +75,6 @@ namespace Kooboo.Commerce.API.RestProvider.Categories
         }
 
         /// <summary>
-        /// load the category/categories with parent
-        /// </summary>
-        /// <returns>category query</returns>
-        public ICategoryQuery LoadWithParent()
-        {
-            QueryParameters.Add("LoadWithParent", "true");
-            return this;
-        }
-
-        /// <summary>
-        /// load the category/categories with all parents
-        /// the parents will be null on the top/root level of category
-        /// </summary>
-        /// <returns>category query</returns>
-        public ICategoryQuery LoadWithAllParents()
-        {
-            QueryParameters.Add("LoadWithAllParents", "true");
-            return this;
-        }
-
-        /// <summary>
-        /// load the category/categories with children
-        /// </summary>
-        /// <returns>category query</returns>
-        public ICategoryQuery LoadWithChildren()
-        {
-            QueryParameters.Add("LoadWithChildren", "true");
-            return this;
-        }
-
-        /// <summary>
         /// create category query 
         /// </summary>
         /// <returns>category query</returns>

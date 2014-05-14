@@ -1,8 +1,11 @@
-﻿@model AttachedActivityModel
+﻿@model ActivityEditorModel
 @{
     Layout = "~/Areas/Commerce/Views/Shared/Popup.cshtml";
-    ViewBag.Title = "Attach Activity".Localize();
+    ViewBag.Title = "Edit Attached Activity".Localize();
 }
 
+<div class="topbar">
+    <h1 class="title">@ViewBag.Title</h1>
+</div>
 
-@Html.EditorForModel()
+@Html.Partial("_Editor")

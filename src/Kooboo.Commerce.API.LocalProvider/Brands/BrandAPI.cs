@@ -16,13 +16,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
     public class BrandAPI : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandAPI
     {
         private IBrandService _brandService;
-        private IMapper<Brand, Kooboo.Commerce.Brands.Brand> _mapper;
 
         public BrandAPI(IHalWrapper halWrapper, IBrandService brandService, IMapper<Brand, Kooboo.Commerce.Brands.Brand> mapper)
-            : base(halWrapper)
+            : base(halWrapper, mapper)
         {
             _brandService = brandService;
-            _mapper = mapper;
         }
 
         /// <summary>

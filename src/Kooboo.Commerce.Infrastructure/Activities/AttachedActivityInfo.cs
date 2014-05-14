@@ -44,19 +44,43 @@ namespace Kooboo.Commerce.Activities
         {
         }
 
-        public AttachedActivityInfo(
-            ActivityRule rule
-            , RuleBranch branch
-            , string description
-            , string activityName
-            , object config)
+        public AttachedActivityInfo(ActivityRule rule, RuleBranch branch, string description, string activityName, object config = null)
         {
+            Require.NotNullOrEmpty(description, "description");
+            Require.NotNullOrEmpty(activityName, "activityName");
+
             Rule = rule;
             RuleBranch = branch;
             Description = description;
             ActivityName = activityName;
-            ActivityConfig = JsonConvert.SerializeObject(config);
             CreatedAtUtc = DateTime.UtcNow;
+
+            if (config != null)
+            {
+                SetActivityConfig(config);
+            }
+        }
+
+        public T GetActivityConfig<T>()
+        {
+            if (String.IsNullOrEmpty(ActivityConfig))
+            {
+                return default(T);
+            }
+
+            return JsonConvert.DeserializeObject<T>(ActivityConfig);
+        }
+
+        public void SetActivityConfig(object config)
+        {
+            if (config == null)
+            {
+                ActivityConfig = null;
+            }
+            else
+            {
+                ActivityConfig = JsonConvert.SerializeObject(config);
+            }
         }
 
         public DateTime CalculateExecutionTime(DateTime eventTimeUtc)

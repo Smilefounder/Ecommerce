@@ -14,15 +14,18 @@ namespace Kooboo.Commerce.API.LocalProvider
     /// <typeparam name="T">api object type</typeparam>
     /// <typeparam name="Model">entity type</typeparam>
     public abstract class LocalCommerceQuery<T, Model> : IHalContextAware, ICommerceQuery<T>
-        where T : IItemResource
+        where T : class, IItemResource, new()
         where Model : class, new()
     {
         protected IHalWrapper _halWrapper;
         protected IDictionary<string, object> _halParameters;
+        protected IMapper<T, Model> _mapper;
+        protected List<string> _includeComplexPropertyNames = new List<string>();
 
-        public LocalCommerceQuery(IHalWrapper halWrapper)
+        public LocalCommerceQuery(IHalWrapper halWrapper, IMapper<T, Model> mapper)
         {
             _halWrapper = halWrapper;
+            _mapper = mapper;
             _halParameters = new Dictionary<string, object>();
         }
 
@@ -50,12 +53,16 @@ namespace Kooboo.Commerce.API.LocalProvider
         /// </summary>
         /// <param name="obj">entity</param>
         /// <returns>object</returns>
-        protected abstract T Map(Model obj);
+        protected virtual T Map(Model obj)
+        {
+            return _mapper.MapTo(obj, _includeComplexPropertyNames.ToArray());
+        }
         /// <summary>
         /// this method will be called after query executed
         /// </summary>
         protected virtual void OnQueryExecuted()
         {
+            _includeComplexPropertyNames.Clear();
         }
 
         protected virtual string BuildResourceName(string resourceName)
@@ -132,6 +139,51 @@ namespace Kooboo.Commerce.API.LocalProvider
             if (_query == null)
                 _query = CreateQuery();
         }
+
+        public ICommerceQuery<T> Include(string property)
+        {
+            _includeComplexPropertyNames.Add(property);
+            return this;
+        }
+        public ICommerceQuery<T> Include<TProperty>(Expression<Func<T, TProperty>> property)
+        {
+            List<string> propNames = new List<string>();
+            var express = property.Body;
+            while(express.NodeType != ExpressionType.Parameter)
+            {
+                string propName = "";
+                switch(express.NodeType)
+                {
+                    case ExpressionType.MemberAccess:
+                        propName = ((MemberExpression)express).Member.Name;
+                        propNames.Insert(0, propName);
+                        express = ((MemberExpression)express).Expression;
+                        break;
+                    //case ExpressionType.Call:
+                    //    var args = ((MethodCallExpression)express).Arguments;
+                }
+            }
+            string expPropName = string.Join(".", propNames.ToArray());
+            _includeComplexPropertyNames.Add(expPropName);
+            return this;
+        }
+
+        //private string DecodeExpression(Expression expression, List<string> propNames)
+        //{
+        //    switch(expression.NodeType)
+        //    {
+        //        case ExpressionType.Parameter:
+        //            break;
+        //        case ExpressionType.MemberAccess:
+        //            var propName = ((MemberExpression)expression).Member.Name;
+        //            propNames.Insert(0, propName);
+        //            expression = ((MemberExpression)expression).Expression;
+        //            break;
+
+        //    }
+                
+        //}
+
         /// <summary>
         /// get paginated data that matches the query
         /// </summary>

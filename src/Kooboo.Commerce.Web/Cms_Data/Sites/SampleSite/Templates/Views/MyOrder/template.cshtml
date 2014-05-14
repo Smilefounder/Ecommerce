@@ -10,7 +10,7 @@
     var memberAuth = this.Context.Membership();
     var member = memberAuth.GetMembershipUser();
     var paymentMethods = commerce.PaymentMethods.ToArray();
-    var customer = commerce.Customers.ByAccountId(member.UUID).LoadWithAddresses().FirstOrDefault();
+    var customer = commerce.Customers.ByAccountId(member.UUID).Include(o => o.Addresses).FirstOrDefault();
     var addresses = customer == null ? Enumerable.Empty<Address>() : customer.Addresses;
     var countries = commerce.Countries.ToArray();
     var order = commerce.Orders.GetMyOrder(Context.Session.SessionID, member, true);

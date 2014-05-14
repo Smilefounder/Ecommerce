@@ -23,10 +23,8 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
                 name: AreaName + "_default",
                 url: AreaName + "/{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "Kooboo.Commerce.Activities.InvoiceReminder.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
+                namespaces: new[] { "Kooboo.Commerce.Activities.InvoiceReminder.Controllers", "Kooboo.Web.Mvc" }
             );
-
-            Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "WebResources.config"));
         }
     }
 }

@@ -56,17 +56,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
                 });
             }
         }
-
-        public void ForEachAttachedActivity(Action<AttachedActivityModel> action)
-        {
-            foreach (var branch in Branches)
-            {
-                foreach (var activity in branch.AttachedActivities)
-                {
-                    action(activity);
-                }
-            }
-        }
     }
 
     public class ActivityRuleBranchModel

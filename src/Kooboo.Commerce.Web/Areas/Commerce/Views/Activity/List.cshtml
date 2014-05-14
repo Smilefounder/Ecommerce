@@ -35,7 +35,6 @@
                                     <li>
                                         <span class="desc" data-bind="html: description"></span>
                                         <a class="action" href="#" data-bind="click: $parent.editAttachedActivity" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a>
-                                        <a class="action" href="#" data-bind="visible: configUrl, click: $parent.configureAttachedActivity" title="@("Settings".Localize())">@Html.IconImage("edit-small")</a>
                                         <a class="action" href="#" data-bind="click: $parent.detachActivity" title="@("Detach".Localize())">@Html.IconImage("minus-small")</a>
                                     </li>
                                 </ul>

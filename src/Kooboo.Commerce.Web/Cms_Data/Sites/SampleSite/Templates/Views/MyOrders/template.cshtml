@@ -10,8 +10,8 @@
     var memberAuth = this.Context.Membership();
     var member = memberAuth.GetMembershipUser();
     var paymentMethods = commerce.PaymentMethods.ToArray();
-    var customer = commerce.Customers.ByAccountId(member.UUID).LoadWithAddresses().FirstOrDefault();
-    var orders = customer == null ? null : commerce.Orders.ByCustomerId(customer.Id).LoadWithCustomer().ToArray();
+    var customer = commerce.Customers.ByAccountId(member.UUID).Include(o => o.Addresses).FirstOrDefault();
+    var orders = customer == null ? null : commerce.Orders.ByCustomerId(customer.Id).Include(o => o.Customer).ToArray();
 }
 
 @if (orders == null || orders.Count() <= 0)

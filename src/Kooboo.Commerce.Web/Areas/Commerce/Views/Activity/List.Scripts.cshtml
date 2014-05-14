@@ -69,8 +69,12 @@
                 return _currentActivity;
             }
 
-            this.accept = function () {
+            this.accept = function (attachedActivityInfoId) {
                 var branch = _this.currentBranch();
+
+                if (attachedActivityInfoId) {
+                    _currentActivityId = attachedActivityInfoId;
+                }
 
                 _this.refresh()
                      .then(function () {
@@ -89,7 +93,7 @@
                 var ruleId = rule.id();
                 var activityId = _currentActivityId;
 
-                return $.get('@Url.Action("GetAttachedActivity")', { ruleId: ruleId, attachedActivityId: activityId, commerceName: commerceName })
+                return $.get('@Url.Action("GetAttachedActivityInfo")', { ruleId: ruleId, attachedActivityInfoId: activityId, commerceName: commerceName })
                         .then(function (data) {
                             if (!_currentActivity) {
                                 _currentActivity = ko.mapping.fromJS(data);
@@ -150,15 +154,7 @@
                 vm.beginActivityContext(_rule, _this, attachedActivity);
                 $.pop({
                     height: 500,
-                    url: '@Url.Action("Edit")' + '?commerceName=' + commerceName + '&ruleId=' + _this.ruleId() + '&attachedActivityId=' + attachedActivity.id()
-                });
-            }
-
-            this.configureAttachedActivity = function (attachedActivity) {
-                vm.beginActivityContext(_rule, _this, attachedActivity);
-                $.pop({
-                    height: 500,
-                    url: attachedActivity.configUrl()
+                    url: '@Url.Action("Edit")' + '?commerceName=' + commerceName + '&ruleId=' + _this.ruleId() + '&attachedActivityInfoId=' + attachedActivity.id()
                 });
             }
 
@@ -167,7 +163,7 @@
                     return false;
                 }
 
-                $.post('@Url.Action("DetachActivity")', { ruleId: _this.ruleId(), attachedActivityId: attachedActivity.id(), commerceName: commerceName })
+                $.post('@Url.Action("DetachActivity")', { ruleId: _this.ruleId(), attachedActivityInfoId: attachedActivity.id(), commerceName: commerceName })
                  .then(function (result) {
                      if (result.Success) {
                          _this.attachedActivities.remove(attachedActivity);

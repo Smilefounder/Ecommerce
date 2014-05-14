@@ -62,8 +62,8 @@ namespace Kooboo.Commerce.Activities.Jobs
                             {
                                 var @event = queueItem.LoadEvent();
                                 var rule = ruleRepository.Get(queueItem.RuleId);
-                                var attachedActivityInfo = rule.AttachedActivityInfos.ById(queueItem.AttachedActivityInfoId);
-                                var descriptor = activityFactory.GetDescriptorFor(attachedActivityInfo.ActivityName);
+                                var attachedActivityInfo = rule.AttachedActivityInfos.Find(queueItem.AttachedActivityInfoId);
+                                var descriptor = activityFactory.GetDescriptor(attachedActivityInfo.ActivityName);
                                 var activity = EngineContext.Current.Resolve(descriptor.ActivityType) as IActivity;
                                 if (activity != null)
                                 {

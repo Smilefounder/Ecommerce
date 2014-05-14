@@ -1,23 +1,29 @@
-﻿@model IActivityDescriptor
-@{
-    var rule = ViewBag.Rule as ActivityRule;
-}
+﻿@model ActivityEditorModel
 
-<div id="activity-editor-tabs">
-    <ul>
-        <li><a href="#basicinfo">@("Basic Info".Localize())</a></li>
-        @if (Model.Configurable) { 
-        <li><a href="#config">@("Activity Configuration".Localize())</a></li>
+<div class="wrap">
+    <div id="activity-editor-tabs">
+        <ul>
+            <li><a href="#basicinfo">@("Basic Info".Localize())</a></li>
+            @if (Model.ActivityDescriptor.Configurable)
+            {
+                <li><a href="#config">@("Activity Configuration".Localize())</a></li>
+            }
+        </ul>
+        <div id="basicinfo">
+            @Html.Partial("_BasicInfo")
+        </div>
+        @if (Model.ActivityDescriptor.Configurable)
+        {
+            <div id="config">
+                @Html.Partial(Model.ActivityDescriptor.ConfigViewVirtualPath)
+            </div>
         }
-    </ul>
-    <div id="basicinfo">
-        @Html.Partial("_BasicInfo")
     </div>
-    @if (Model.Configurable) { 
-    <div id="config">
-        @Html.Partial(Model.ConfigViewVirtualPath)
-    </div>
-    }
+
+    <p class="buttons">
+        <button type="submit" class="btn-save">@("Save".Localize())</button>
+        <a href="#" class="button gray btn-cancel">@("Cancel".Localize())</a>
+    </p>
 </div>
 
 <script>

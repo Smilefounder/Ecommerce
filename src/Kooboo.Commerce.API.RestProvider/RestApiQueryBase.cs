@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Linq.Expressions;
 
 namespace Kooboo.Commerce.API.RestProvider
 {
@@ -16,6 +17,35 @@ namespace Kooboo.Commerce.API.RestProvider
         {
             ContentType = "application/hal+json";
             Accept = "application/hal+json;application/json";
+        }
+
+        public ICommerceQuery<T> Include(string property)
+        {
+            QueryParameters.Add("LoadWith" + property, "true");
+            return this;
+        }
+
+        public ICommerceQuery<T> Include<TProperty>(Expression<Func<T, TProperty>> property)
+        {
+            List<string> propNames = new List<string>();
+            var express = property.Body;
+            while (express.NodeType != ExpressionType.Parameter)
+            {
+                string propName = "";
+                switch (express.NodeType)
+                {
+                    case ExpressionType.MemberAccess:
+                        propName = ((MemberExpression)express).Member.Name;
+                        propNames.Insert(0, propName);
+                        express = ((MemberExpression)express).Expression;
+                        break;
+                    //case ExpressionType.Call:
+                    //    var args = ((MethodCallExpression)express).Arguments;
+                }
+            }
+            string expPropName = string.Join(".", propNames.ToArray());
+            QueryParameters.Add("LoadWith" + expPropName, "true");
+            return this;
         }
 
         /// <summary>

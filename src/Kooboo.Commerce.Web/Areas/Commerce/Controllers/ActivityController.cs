@@ -14,16 +14,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ActivityController : CommerceControllerBase
     {
-        private IActivityEventRegistry _activityEventRegistry;
+        private IActivityEventRegistry _eventRegistry;
         private IActivityProvider _activityProvider;
-        private IRepository<ActivityRule> _activityRuleRepository;
+        private IRepository<ActivityRule> _ruleRepository;
 
-        public ActivityController(
-            IActivityEventRegistry activityEventRegistry,
-            IActivityProvider activityFactory)
+        public ActivityController(IActivityEventRegistry eventRegistry, IActivityProvider activityProvider, IRepository<ActivityRule> ruleRepository)
         {
-            _activityEventRegistry = activityEventRegistry;
-            _activityProvider = activityFactory;
+            _eventRegistry = eventRegistry;
+            _activityProvider = activityProvider;
+            _ruleRepository = ruleRepository;
         }
 
         [Transactional]
@@ -34,106 +33,125 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.CurrentEventType = eventClrType.AssemblyQualifiedNameWithoutVersion();
             ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name.Humanize();
 
-            _activityRuleRepository.EnsureAlwaysRule(eventClrType);
+            _ruleRepository.EnsureAlwaysRule(eventClrType);
 
             return View();
         }
 
         public ActionResult Create(int ruleId, RuleBranch branch, string activityName)
         {
-            ViewBag.Rule = _activityRuleRepository.Get(ruleId);
-            var descriptor = _activityProvider.GetDescriptorFor(activityName);
-            return View(descriptor);
+            var descriptor = _activityProvider.GetDescriptor(activityName);
+
+            return View(new ActivityEditorModel
+            {
+                RuleId = ruleId,
+                RuleBranch = branch,
+                ActivityDescriptor = new ActivityDescriptorModel(descriptor)
+            });
+        }
+        public ActionResult Edit(int ruleId, int attachedActivityInfoId)
+        {
+            var rule = _ruleRepository.Get(ruleId);
+            var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
+            var descriptor = _activityProvider.GetDescriptor(attachedActivityInfo.ActivityName);
+
+            return View(new ActivityEditorModel
+            {
+                RuleId = ruleId,
+                AttachedActivityInfoId = attachedActivityInfoId,
+                ActivityDescriptor = new ActivityDescriptorModel(descriptor)
+            });
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Save(AttachedActivityModel model)
+        public ActionResult EditorModel(int ruleId, RuleBranch branch, string activityName, int attachedActivityInfoId)
         {
-            var rule = _activityRuleService.GetById(model.RuleId);
-            AttachedActivityInfo attachedActivity = null;
+            var model = new ActivityEditorModel();
+            var rule = _ruleRepository.Get(ruleId);
 
-            if (model.Id > 0)
+            model.RuleId = rule.Id;
+            model.RuleBranch = branch;
+
+            var descriptor = _activityProvider.GetDescriptor(activityName);
+            model.ActivityDescriptor = new ActivityDescriptorModel(descriptor);
+
+            if (attachedActivityInfoId > 0)
             {
-                attachedActivity = rule.AttachedActivities.ById(model.Id);
+                var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
+                model.AttachedActivityInfoId = attachedActivityInfo.Id;
+                model.Description = attachedActivityInfo.Description;
+                model.Priority = attachedActivityInfo.Priority;
+                model.EnableAsyncExecution = attachedActivityInfo.IsAsyncExeuctionEnabled;
+
+                var delay = TimeSpan.FromSeconds(attachedActivityInfo.AsyncExecutionDelay);
+                model.DelayDays = delay.Days;
+                model.DelayHours = delay.Hours;
+                model.DelayMinutes = delay.Minutes;
+                model.DelaySeconds = delay.Seconds;
+            }
+
+            return JsonNet(model).UsingClientConvention();
+        }
+
+        [HttpPost, HandleAjaxError, Transactional]
+        public ActionResult Save(ActivityEditorModel model)
+        {
+            var rule = _ruleRepository.Get(model.RuleId);
+            AttachedActivityInfo activityInfo = null;
+
+            if (model.AttachedActivityInfoId > 0)
+            {
+                activityInfo = rule.AttachedActivityInfos.Find(model.AttachedActivityInfoId);
             }
             else
             {
-                attachedActivity = rule.AttachActivity(model.RuleBranch, model.Description, model.ActivityName, null);
+                activityInfo = rule.AttachActivity(model.RuleBranch, model.Description, model.ActivityDescriptor.Name, null);
             }
 
-            attachedActivity.Description = model.Description;
-            attachedActivity.IsEnabled = model.IsEnabled;
+            activityInfo.Description = model.Description;
+            activityInfo.IsEnabled = model.IsEnabled;
 
             if (model.EnableAsyncExecution)
             {
                 var delay = new TimeSpan(model.DelayDays, model.DelayHours, model.DelayMinutes, model.DelaySeconds);
 
-                if (attachedActivity.IsAsyncExeuctionEnabled)
+                if (activityInfo.IsAsyncExeuctionEnabled)
                 {
-                    attachedActivity.UpdateAsyncExecutionDelay((int)delay.TotalSeconds);
+                    activityInfo.UpdateAsyncExecutionDelay((int)delay.TotalSeconds);
                 }
                 else
                 {
-                    attachedActivity.EnableAsyncExecution((int)delay.TotalSeconds);
+                    activityInfo.EnableAsyncExecution((int)delay.TotalSeconds);
                 }
             }
             else
             {
-                attachedActivity.DisableAsyncExecution();
+                activityInfo.DisableAsyncExecution();
             }
 
             CommerceContext.CurrentInstance.Database.Commit();
 
-            var configUrl = String.Empty;
-
-            var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
-            if (views != null)
-            {
-                configUrl = Url.RouteUrl(views.Settings(attachedActivity, ControllerContext), RouteValues.From(Request.QueryString));
-            }
-
-            return AjaxForm().WithModel(new
+            return JsonNet(new
             {
                 RuleId = rule.Id,
-                AttachedActivityId = attachedActivity.Id,
-                ConfigUrl = configUrl
-            });
-        }
-
-        public ActionResult Edit(int ruleId, int attachedActivityId)
-        {
-            var rule = _activityRuleService.GetById(ruleId);
-            var attachedActivity = rule.AttachedActivities.ById(attachedActivityId);
-            var activity = _activityProvider.FindByName(attachedActivity.ActivityName);
-            var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
-            var eventType = Type.GetType(rule.EventType, true);
-
-            var model = new AttachedActivityModel(attachedActivity);
-            model.ActivityDisplayName = activity.DisplayName;
-            model.ActivityAllowAsyncExecution = activity.AllowAsyncExecution;
-
-            if (!model.ActivityAllowAsyncExecution)
-            {
-                model.EnableAsyncExecution = false;
-            }
-
-            return View(model);
+                AttachedActivityInfoId = activityInfo.Id
+            })
+            .UsingClientConvention();
         }
 
         [HandleAjaxError]
         public ActionResult GetRules(string eventType)
         {
-            var rules = _activityRuleService.GetRulesByEventType(Type.GetType(eventType, true)).ToList();
+            var rules = _ruleRepository.Query()
+                                       .ByEvent(Type.GetType(eventType, true))
+                                       .OrderBy(x => x.Type)
+                                       .ThenBy(x => x.Id)
+                                       .ToList();
+
             var models = new List<ActivityRuleModel>();
 
             foreach (var rule in rules)
             {
                 var model = new ActivityRuleModel(rule);
-                model.ForEachAttachedActivity(x =>
-                {
-                    x.ConfigUrl = GetActivityConfigUrl(rule, rule.AttachedActivities.ById(x.Id));
-                });
-
                 models.Add(model);
             }
 
@@ -143,14 +161,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [Transactional]
         public ActionResult CreateRule(string expression, string eventType)
         {
-            var rule = _activityRuleService.Create(Type.GetType(eventType, true), expression);
+            var rule = new ActivityRule(Type.GetType(eventType, true), expression, RuleType.Normal);
+            _ruleRepository.Insert(rule);
             return JsonNet(new ActivityRuleModel(rule)).UsingClientConvention();
         }
 
         [Transactional]
         public ActionResult UpdateConditions(int ruleId, string expression)
         {
-            var rule = _activityRuleService.GetById(ruleId);
+            var rule = _ruleRepository.Get(ruleId);
             rule.ConditionsExpression = expression;
 
             return JsonNet(new
@@ -163,48 +182,35 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [Transactional]
         public void DeleteRule(int ruleId)
         {
-            var rule = _activityRuleService.GetById(ruleId);
-            _activityRuleService.Delete(rule);
+            var rule = _ruleRepository.Get(ruleId);
+            _ruleRepository.Delete(rule);
         }
 
         public ActionResult GetAvailableActivities(string eventType)
         {
-            var result = _activityProvider.FindActivitiesBindableTo(Type.GetType(eventType, true))
-                                   .Select(x => new
-                                   {
-                                       Name = x.Name,
-                                       DisplayName = x.DisplayName
-                                   });
+            var result = _activityProvider.GetAllDescriptors()
+                                          .BindableTo(Type.GetType(eventType, true))
+                                          .Select(x => new
+                                          {
+                                              Name = x.Name,
+                                              DisplayName = x.Name
+                                          });
 
             return JsonNet(result).UsingClientConvention();
         }
 
-        public ActionResult GetAttachedActivity(int ruleId, int attachedActivityId)
+        public ActionResult GetAttachedActivityInfo(int ruleId, int attachedActivityInfoId)
         {
-            var rule = _activityRuleService.GetById(ruleId);
-            var attachedActivity = rule.AttachedActivities.ById(attachedActivityId);
-            return JsonNet(new AttachedActivityModel(attachedActivity)
-            {
-                ConfigUrl = GetActivityConfigUrl(rule, attachedActivity)
-            }).UsingClientConvention();
-        }
-
-        private string GetActivityConfigUrl(ActivityRule rule, AttachedActivityInfo attachedActivity)
-        {
-            var views = _activityViewsFactory.FindByActivityName(attachedActivity.ActivityName);
-            if (views != null)
-            {
-                return Url.RouteUrl(views.Settings(rule.AttachedActivityInfos.ById(attachedActivity.Id), ControllerContext), RouteValues.From(Request.QueryString));
-            }
-
-            return null;
+            var rule = _ruleRepository.Get(ruleId);
+            var attachedActivity = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
+            return JsonNet(new AttachedActivityModel(attachedActivity)).UsingClientConvention();
         }
 
         [HandleAjaxFormError, Transactional]
-        public ActionResult DetachActivity(int ruleId, int attachedActivityId)
+        public ActionResult DetachActivity(int ruleId, int attachedActivityInfoId)
         {
-            var rule = _activityRuleService.GetById(ruleId);
-            rule.DetachActivity(attachedActivityId);
+            var rule = _ruleRepository.Get(ruleId);
+            rule.DetachActivity(attachedActivityInfoId);
             return AjaxForm();
         }
     }

@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Activities
     {
         IEnumerable<IActivityDescriptor> GetAllDescriptors();
 
-        IActivityDescriptor GetDescriptorFor(string activityName);
+        IActivityDescriptor GetDescriptor(string activityName);
     }
 
     [Dependency(typeof(IActivityProvider), ComponentLifeStyle.Singleton)]
@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Activities
             return _descriptorsByNames.Value.Values.ToList();
         }
 
-        public IActivityDescriptor GetDescriptorFor(string activityName)
+        public IActivityDescriptor GetDescriptor(string activityName)
         {
             IActivityDescriptor descriptor;
 

@@ -1,18 +1,124 @@
-﻿<script>
+﻿@model ActivityEditorModel
+
+<script>
 
     (function ($) {
 
-        function ActivityEditorModel() {
+        var commerceName = '@Request["commerceName"]';
+        var ruleId = @Model.RuleId;
+        var branch = '@Model.RuleBranch';
+        var activityName = '@Model.ActivityDescriptor.Name';
+        var activityInfoId = @Model.AttachedActivityInfoId;
+        var editor = new ActivityEditor();
 
+        function ActivityEditorModel() {
+            var _this = this;
+
+            this.ruleId = ko.observable();
+
+            this.ruleBranch = ko.observable();
+
+            this.attachedActivityInfoId = ko.observable();
         }
 
         function ActivityEditor() {
+            var _this = this;
+            var _events = new kb.Events();
+            var _model = new ActivityEditorModel();
+
+            _model.ruleId(ruleId);
+            _model.ruleBranch(branch);
+            _model.attachedActivityInfoId(activityInfoId);
 
             this.model = function () {
+                return _model;
+            }
 
+            this.$form = function () {
+                return $('#activity-editor-form');
+            }
+
+            this.on = function (eventName, handler) {
+                _events.on(eventName, handler);
+            }
+
+            this.load = function () {
+                $.get('@Url.Action("EditorModel")', {
+                    commerceName: commerceName,
+                    ruleId: ruleId,
+                    branch: branch,
+                    activityName: activityName,
+                    attachedActivityInfoId: activityInfoId
+                })
+                .done(function (data) {
+                    _this.databind(data).done(_this.initValidation());
+                });
+            }
+
+            this.initValidation = function () {
+                $.validator.unobtrusive.reparse(_this.$form());
+            }
+
+            this.databind = function (data) {
+                _events.fire('databinding', _this, { data: data })
+                       .then(function () {
+                           ko.mapping.fromJS(data, {}, _model);
+                           ko.applyBindings(_model, _this.$form()[0]);
+                       });
+
+                return _events.fire('databound', _this);
+            }
+
+            this.validate = function () {
+                return _this.$form().validate();
+            }
+
+            this.cancel = function () {
+                _events.fire('cancelling', _this)
+                       .done(function () {
+                           window.parent.ViewModel.activityContext().cancel();
+                           _events.fire('cancelled', _this);
+                       });
+            }
+
+            this.save = function () {
+                if (!_this.validate()) {
+                    return false;
+                }
+
+                var data = ko.mapping.toJS(_model);
+                var context = { data: data, cancel: false };
+
+                _events.fire('saving', _this, context)
+                       .done(function () {
+                           if (!context.cancel) {
+                               kb.http.safePost('@Url.Action("Save", RouteValues.From(Request.QueryString))', data)
+                                      .done(function (data) {
+                                          _model.attachedActivityInfoId(data.attachedActivityInfoId);
+                                          _events.fire('saved').done(function () {
+                                              window.leaveConfirm.pass();
+                                              window.parent.ViewModel.activityContext().accept(data.attachedActivityInfoId);
+                                          });
+                                      });
+                           }
+                       });
             }
         }
 
+        window.ActivityEditor = editor;
+
+        $(function () {
+            editor.load();
+
+            $('.btn-cancel').on('click', function (e) {
+                editor.cancel();
+                e.preventDefault();
+            });
+            $('.btn-save').on('click', function (e) {
+                editor.save();
+                e.preventDefault();
+            });
+        });
 
     })(jQuery);
 

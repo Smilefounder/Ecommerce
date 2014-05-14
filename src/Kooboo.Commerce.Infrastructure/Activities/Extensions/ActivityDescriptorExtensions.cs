@@ -7,7 +7,7 @@ namespace Kooboo.Commerce.Activities
 {
     public static class ActivityDescriptorExtensions
     {
-        public static IEnumerable<IActivityDescriptor> CanBindTo(this IEnumerable<IActivityDescriptor> descriptors, Type eventType)
+        public static IEnumerable<IActivityDescriptor> BindableTo(this IEnumerable<IActivityDescriptor> descriptors, Type eventType)
         {
             return descriptors.Where(x => x.CanBindTo(eventType));
         }

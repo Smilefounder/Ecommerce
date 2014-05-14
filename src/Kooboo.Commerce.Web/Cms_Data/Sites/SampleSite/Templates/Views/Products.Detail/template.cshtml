@@ -6,7 +6,7 @@
     Product product = null;
     if(id != null)
     { 
-        product = Site.Current.Commerce().Products.ById(Convert.ToInt32(id)).LoadWithBrand().LoadWithProductType().LoadWithPriceList().LoadWithImages().FirstOrDefault();
+        product = Site.Current.Commerce().Products.ById(Convert.ToInt32(id)).Include(o => o.Brand).Include(o => o.Type).Include(o => o.PriceList).Include(o => o.Images).FirstOrDefault();
     }
 }
 @if(product == null)
