@@ -27,6 +27,7 @@ namespace Kooboo.Commerce.Infrastructure.Dependencies
                 (
                     new HttpContextItemCommerceInstanceNameResolver(),
                     new QueryStringCommerceInstanceNameResolver(),
+                    new HttpHeaderCommerceInstanceNameResolver("X-Kooboo-Commerce-Instance"),
                     new PostParamsCommerceInstanceNameResolver(),
                     new RouteDataCommerceInstanceResolver("instance")
                 );

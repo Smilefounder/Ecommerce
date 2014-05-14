@@ -34,7 +34,7 @@
 
                 $.each(handlers, function () {
                     var result = this(sender, args);
-                    if (result && result.then && typeof(result.then) === 'function') {
+                    if (result && result.then && typeof (result.then) === 'function') {
                         promises.push(result);
                     }
                 });
@@ -57,33 +57,60 @@
 
     ko.events = new kb.Events();
 
-    (function () {
-        kb.http = {
-            safeGet: function (url, data) {
-                return $.get(url, data)
-                        .fail(function (xhr) {
-                            var result = JSON.parse(xhr.responseText);
-                            showError(result);
-                        });
-            },
-            safePost: function (url, data) {
-                return $.ajax({
-                    url: url, 
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(data)
-                })
-                .fail(function (xhr) {
-                    var result = JSON.parse(xhr.responseText);
-                    showError(result);
-                });
-            }
-        };
-
-        function showError(error) {
-            window.loading.hide();
-            info.show(error.message, false);
+    kb.http = {
+        safeGet: function (url, data) {
+            return $.get(url, data)
+                    .fail(function (xhr) {
+                        var result = JSON.parse(xhr.responseText);
+                        showError(result);
+                    });
+        },
+        safePost: function (url, data) {
+            return $.ajax({
+                url: url,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data)
+            })
+            .fail(function (xhr) {
+                var result = JSON.parse(xhr.responseText);
+                showError(result);
+            });
         }
-    })();
+    };
+
+    function showError(error) {
+        window.loading.hide();
+        info.show(error.message, false);
+    }
+
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            var query = window.location.search;
+            if (query) {
+                if (query[0] === '?') {
+                    query = query.substr(1);
+                }
+
+                var instance = null;
+                var parts = query.split('&');
+
+                for (var i = 0, len = parts.length; i < len; i++) {
+                    var part = parts[i];
+                    if (part.indexOf('commerceName') === 0 || part.indexOf('instance') === 0) {
+                        var indexOfAssign = parts[i].indexOf('=');
+                        if (indexOfAssign > 0) {
+                            instance = part.substr(indexOfAssign + 1);
+                            break;
+                        }
+                    }
+                }
+
+                if (instance) {
+                    xhr.setRequestHeader('X-Kooboo-Commerce-Instance', instance);
+                }
+            }
+        }
+    });
 
 })(jQuery);

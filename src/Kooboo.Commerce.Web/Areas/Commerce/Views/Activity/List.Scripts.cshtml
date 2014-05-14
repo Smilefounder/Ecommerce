@@ -93,7 +93,7 @@
                 var ruleId = rule.id();
                 var activityId = _currentActivityId;
 
-                return $.get('@Url.Action("GetAttachedActivityInfo")', { ruleId: ruleId, attachedActivityInfoId: activityId, commerceName: commerceName })
+                return $.get('@Url.Action("GetAttachedActivityInfo")', { ruleId: ruleId, attachedActivityInfoId: activityId })
                         .then(function (data) {
                             if (!_currentActivity) {
                                 _currentActivity = ko.mapping.fromJS(data);
@@ -163,7 +163,7 @@
                     return false;
                 }
 
-                $.post('@Url.Action("DetachActivity")', { ruleId: _this.ruleId(), attachedActivityInfoId: attachedActivity.id(), commerceName: commerceName })
+                $.post('@Url.Action("DetachActivity")', { ruleId: _this.ruleId(), attachedActivityInfoId: attachedActivity.id() })
                  .then(function (result) {
                      if (result.Success) {
                          _this.attachedActivities.remove(attachedActivity);
@@ -228,7 +228,7 @@
             }
 
             this.updateConditions = function (rule, expression) {
-                return $.post('@Url.Action("UpdateConditions")', { ruleId: rule.id(), expression: expression, commerceName: commerceName })
+                return $.post('@Url.Action("UpdateConditions")', { ruleId: rule.id(), expression: expression })
                         .then(function (data) {
                             rule.conditionsExpression(data.conditionsExpression);
                             rule.highlightedConditionsExpression(data.highlightedConditionsExpression);
@@ -236,7 +236,7 @@
             }
 
             this.createRule = function (expression) {
-                return $.post('@Url.Action("CreateRule")', { expression: expression, eventType: eventType, commerceName: commerceName })
+                return $.post('@Url.Action("CreateRule")', { expression: expression, eventType: eventType })
                         .success(function (data) {
                             _this.rules.splice(_this.rules().length - 1, 0, ko.mapping.fromJS(data, mappingOptions));
                         });
@@ -247,7 +247,7 @@
                     return false;
                 }
 
-                $.post('@Url.Action("DeleteRule")', { ruleId: rule.id(), commerceName: commerceName })
+                $.post('@Url.Action("DeleteRule")', { ruleId: rule.id() })
                  .then(function () {
                      _this.rules.remove(rule);
                  });
@@ -262,14 +262,14 @@
 
         window.loading.show();
 
-        var loadAvailableActivitiesAsync = kb.http.safeGet('@Url.Action("GetAvailableActivities")', { eventType: eventType, commerceName: commerceName })
+        var loadAvailableActivitiesAsync = kb.http.safeGet('@Url.Action("GetAvailableActivities")', { eventType: eventType })
                                                   .then(function (data) {
                                                       $.each(data, function () {
                                                           vm.availableActivities.push(ko.mapping.fromJS(this));
                                                       });
                                                   });
 
-        var loadRulesAsync = kb.http.safeGet('@Url.Action("GetRules")', { eventType: eventType, commerceName: commerceName })
+        var loadRulesAsync = kb.http.safeGet('@Url.Action("GetRules")', { eventType: eventType })
                                     .then(function (rules) {
                                         $.each(rules, function () {
                                             vm.rules.push(ko.mapping.fromJS(this, mappingOptions));

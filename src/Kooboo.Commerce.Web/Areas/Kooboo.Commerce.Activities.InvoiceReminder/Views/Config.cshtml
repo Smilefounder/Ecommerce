@@ -29,8 +29,8 @@
 
             var attachedActivityInfoId = editor.model().attachedActivityInfoId();
             if (attachedActivityInfoId) {
-                var url = '@Url.Action("GetConfig", "InvoiceReminder", new { area = Strings.AreaName, commerceName = Request.QueryString["commerceName"] })';
-                return $.get(url + '&ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityInfoId)
+                var url = '@Url.Action("GetConfig", "InvoiceReminder", new { area = Strings.AreaName })';
+                return $.get(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityInfoId)
                         .then(function (data) {
                             ko.mapping.fromJS(data, {}, model);
                         });
@@ -41,9 +41,9 @@
         });
 
         editor.on('saved', function (sender, args) {
-            var url = '@Url.Action("SaveConfig", "InvoiceReminder", new { area = Strings.AreaName, commerceName = Request.QueryString["commerceName"] })';
             var attachedActivityId = editor.model().attachedActivityInfoId();
-            return kb.http.safePost(url + '&ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityId, ko.mapping.toJS(model));
+            var url = '@Url.Action("SaveConfig", "InvoiceReminder", new { area = Strings.AreaName })';
+            return kb.http.safePost(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityId, ko.mapping.toJS(model));
         });
 
         function InvoiceReminderConfigModel() {

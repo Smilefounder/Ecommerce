@@ -3512,7 +3512,6 @@
     <Content Include="Views\Shared\_SitesNavTree.cshtml" />
     <Content Include="Views\NotFound\Index.cshtml" />
     <Content Include="WebResources.config" />
-    <Content Include="Areas\Commerce\Views\Shared\AddIns\_ActivitySettings.cshtml" />
     <Content Include="Views\Shared\_Toolbar.cshtml" />
     <Content Include="Views\Shared\_ToolbarButton.cshtml" />
     <Content Include="Views\Shared\_ToolbarGroupButtons.cshtml" />
