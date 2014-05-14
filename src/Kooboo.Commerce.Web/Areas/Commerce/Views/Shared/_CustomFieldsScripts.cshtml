@@ -187,20 +187,36 @@
                 this.addSystemField = function () {
                     var dlg = self.systemFieldsDialog;
                     if (dlg == undefined) {
-                        dlg = $(self.container).find('#systemFields');
+                        dlg = $(self.container).find('#custom_system_field_editor_dialog');
                         self.systemFieldsDialog = dlg;
                     }
                     dlg.find('input:checkbox').prop('checked', false);
-                    utils.showDialog(dlg, 'Add System Fields', function () {
-                        $.each(dlg.find('tbody input:checkbox:checked'), function () {
-                            var fid = $(this).val();
-                            var sf = $.grep(self.systemFields(), function (n, i) { return n.Id() == fid; })[0];
-                            if (sf) {
-                                self.insertField(sf);
-                            }
-                        });
+                    utils.showDialog(dlg, 'Add System Fields', null, null, null, null, { buttons: null });
+                };
+
+                this.insertSystemField = function () {
+                    var dlg = self.systemFieldsDialog;
+                    if (dlg == undefined) {
+                        dlg = $(self.container).find('#custom_system_field_editor_dialog');
+                        self.systemFieldsDialog = dlg;
+                    }
+                    $.each(dlg.find('tbody input:checkbox:checked'), function () {
+                        var fid = $(this).val();
+                        var sf = $.grep(self.systemFields(), function (n, i) { return n.Id() == fid; })[0];
+                        if (sf) {
+                            self.insertField(sf);
+                        }
                     });
-                }
+                    dlg.dialog('close');
+                };
+                this.cancelSystemField = function () {
+                    var dlg = self.systemFieldsDialog;
+                    if (dlg == undefined) {
+                        dlg = $(self.container).find('#custom_system_field_editor_dialog');
+                        self.systemFieldsDialog = dlg;
+                    }
+                    dlg.dialog('close');
+                };
                 //
                 this.fmtName = function (index, name) {
                     return $.format(self.nameFmt(), index(), name);
@@ -262,7 +278,9 @@
                 };
 
                 //
-                this.save = function () {
+                this.save = function (ff, dd) {
+                    // trigger change event to ensure the input value update to dataMap, don't know why it will lose values.
+                    utilities.fieldEditorForm().find('input').trigger('change');
                     if (!refObj || !utilities.fieldEditorForm().valid()) {
                         var tabSwapped = false;
                         utilities.fieldEditorTabs().find('.tab-index a').each(function (i) {
@@ -324,7 +342,7 @@
             $.validator.addMethod('uniquecolumn', function (value) {
                 var fields = customFieldModel.currentRef().fields();
                 return !ko.utils.arrayFirst(fields, function (item) {
-                    return item.Name().toLowerCase() === value.toLowerCase();
+                    return item.Name() && item.Name().toLowerCase() === value.toLowerCase();
                 });
             });
             $.validator.unobtrusive.adapters.addBool('uniquecolumn');

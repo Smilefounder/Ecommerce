@@ -1,0 +1,42 @@
+﻿<div class="topbar">
+    <h1 class="title">@("Custom field".Localize())</h1>
+</div>
+<div class="wrap">
+    <form class="common-form" id="custom_system_field_editor_form">
+        <div id="systemFields" class="simple-table">
+            <table data-bind="jqData:$data">
+                <thead>
+                    <tr>
+                        <th class="checkbox">
+                            <input type="checkbox" onchange="$(this).closest('#systemFields').find('tbody input:checkbox').prop('checked', $(this).prop('checked'));" />
+                        </th>
+                        <th>@("Name".Localize())</th>
+                        <th>@("Label".Localize())</th>
+                        <th>@("Control type".Localize())</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--ko if:!$data.systemFields().length-->
+                    <tr class="empty">
+                        <td colspan="100">@("Empty".Localize())</td>
+                    </tr>
+                    <!--/ko-->
+                    <!--ko foreach:$data.systemFields-->
+                    <tr>
+                        <td class="checkbox">
+                            <input type="checkbox" data-bind="value: Id" />
+                        </td>
+                        <td data-bind="text:Name"></td>
+                        <td data-bind="text:((Label()==''||Label()==null)?'-':Label)"></td>
+                        <td data-bind="text:ControlType"></td>
+                    </tr>
+                    <!--/ko-->
+                </tbody>
+            </table>
+        </div>
+        <p class="buttons">
+            <input type="button" class="button" data-bind="click:insertSystemField" value="@("Save".Localize())">
+            <a class="button gray" data-bind="click:cancelSystemField">@("Cancel".Localize())</a>
+        </p>
+    </form>
+</div>
