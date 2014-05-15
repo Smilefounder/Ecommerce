@@ -1,0 +1,81 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+@using Newtonsoft.Json;
+@using Kooboo.CMS.Sites.DataSource;
+
+@{
+    var model = Model;
+
+    if (model == null || model.DataSource == null)
+    {
+        model = new DataSourceSetting() { 
+            DataSource = new CommerceDataSource()
+        };
+    }
+}
+
+<script>
+    $(function () {
+
+        var viewModel = new ViewModel();
+
+        function ViewModel() {
+            var _this = this;
+
+            this.ResourceCategories = ko.observableArray();
+
+            this.DataSourceSetting = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(model)));
+
+            this.SelectedResource = ko.computed(function () {
+                var resourceName = _this.DataSourceSetting.DataSource.ResourceName();
+                if (!resourceName) {
+                    return null;
+                }
+
+                var resource = null;
+
+                $.each(_this.ResourceCategories(), function (i, category) {
+                    $.each(category.Resources(), function () {
+                        if (this.Name() === resourceName) {
+                            resource = this;
+                            return false;
+                        }
+                    });
+
+                    if (resource) {
+                        return false;
+                    }
+                });
+
+                return resource;
+            });
+
+            this.GetParameterValue = function (param) {
+                var name = param.Name();
+                if (param.Required()) {
+                    return _this.DataSourceSetting.DataSource.RequiredParameterValues[name];
+                }
+
+                return _this.DataSourceSetting.DataSource.OptionalParameterValues[name];
+            }
+
+            this.ReparseValidation = function () {
+                var $form = $('#commerce-datasource').closest('form');
+                $form.removeData('validator');
+                $form.removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse($form);
+            }
+        }
+
+        $.when(LoadResourceCategories())
+         .then(function () {
+             ko.applyBindings(viewModel, document.getElementById('commerce-datasource'));
+         });
+
+        function LoadResourceCategories() {
+            $.get('/Kooboo.Commerce.CMSIntegration.DataSources/CommerceDataSource/ResourceCategories')
+             .then(function (data) {
+                 ko.mapping.fromJS(data, {}, viewModel.ResourceCategories);
+             });
+        }
+    });
+</script>

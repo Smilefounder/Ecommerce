@@ -1,0 +1,74 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+
+@using (Html.BeginForm())
+{
+    if (ViewBag.IsEditing != true)
+    {
+        <h1 class="title"><label for="DataName">@ViewBag.Title:</label> @Html.EditorFor(m => m.DataName, new { Layout = "_NoLabel.cshtml" })</h1>
+    }
+    else
+    {
+        <h1 class="title">@ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+    }
+    @Html.Hidden("Designer", ((Kooboo.CMS.Sites.DataSource.IDataSourceDesigner)ViewBag.Designer).Name)
+    <div id="commerce-datasource" class="block common-form">
+        <table>
+            <tr>
+                <th>
+                    @("Resource".Localize())
+                </th>
+                <td>
+                    <select name="DataSource.ResourceName" data-bind="foreach: ResourceCategories, value: DataSourceSetting.DataSource.ResourceName">
+                        <optgroup data-bind="attr: { label: Name }, foreach: Resources">
+                            <option data-bind="attr: { value: Name }, text: Name"></option>
+                        </optgroup>
+                    </select>
+                </td>
+            </tr>
+            <tr data-bind="visible: SelectedResource()">
+                <th>
+                    @("Parameters".Localize())
+                </th>
+                <td data-bind="with: SelectedResource">
+                    <fieldset data-bind="visible: RequiredParameters().length > 0">
+                        <legend>@("Required Parameters".Localize())</legend>
+                        <div style="padding-top:15px">
+                            <table>
+                                <tbody data-bind="template: { name: 'ParamItemTemplate', foreach: RequiredParameters, afterRender: $root.ReparseValidation }"></tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                    <fieldset data-bind="visible: OptionalParameters().length > 0">
+                        <legend>@("Optional Parameters".Localize())</legend>
+                        <div style="padding-top:15px">
+                            <table>
+                                <tbody data-bind="template: { name: 'ParamItemTemplate', foreach: OptionalParameters, afterRender: $root.ReparseValidation }"></tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+
+<script type="text/html" id="ParamItemTemplate">
+    <tr>
+        <td style="width:120px">
+            <span data-bind="text: Name"></span>
+            <input type="hidden" data-bind="value: Name, attr: { name: 'DataSource.' + (Required() ? 'RequiredParameterValues' : 'OptionalParameterValues') + '[' + $index() + '].Key' }" />
+        </td>
+        <td>
+            <input type="text" 
+                   data-bind="
+                        value: $root.GetParameterValue($data), 
+                        attr: { 
+                            'name': 'DataSource.' + (Required() ? 'RequiredParameterValues' : 'OptionalParameterValues') + '[' + $index() + '].Value',
+                            'data-val': Required() ? 'true' : 'false'    
+                        }"
+                   data-val-required="*" />
+        </td>
+    </tr>
+</script>
+
+@Html.Partial("~/Areas/Kooboo.Commerce.CMSIntegration.DataSources/Views/_Scripts.cshtml")
