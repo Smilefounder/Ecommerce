@@ -369,6 +369,7 @@
     </Compile>
     <Compile Include="Areas\Media\MediaAreaRegistration.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\HandleAjaxErrorAttribute.cs" />
+    <Compile Include="Areas\Sites\Views\DataSource\IndexToolbarProvider.cs" />
     <Compile Include="Extensions\ABTest\SampleABRule.cs" />
     <Compile Include="Extensions\ContentEvent\CustomContentEventSubscriber.cs" />
     <Compile Include="Extensions\MembershipConnectClient\DictionaryExtensions.cs" />
@@ -3437,6 +3438,13 @@
     <Content Include="Areas\Commerce\Views\Activity\_BasicInfo.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\_Editor.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\_Editor.Scripts.cshtml" />
+    <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_ChooseFolder.cshtml" />
+    <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_Index.cshtml" />
+    <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_Scripts.cshtml" />
+    <Content Include="Areas\Sites\Views\DataSource\Create.cshtml" />
+    <Content Include="Areas\Sites\Views\DataSource\Edit.cshtml" />
+    <Content Include="Areas\Sites\Views\DataSource\Index.cshtml" />
+    <Content Include="Areas\Sites\Views\DataSource\_Designers.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
