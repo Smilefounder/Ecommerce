@@ -48,6 +48,9 @@
     <Reference Include="Kooboo.CMS.Sites">
       <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Sites.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.CMS.Web">
+      <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -125,6 +128,7 @@
     <Compile Include="CommerceDataSource.cs" />
     <Compile Include="CommerceDataSourceDesigner.cs" />
     <Compile Include="Controllers\CommerceDataSourceController.cs" />
+    <Compile Include="Models\QueryDescriptorModel.cs" />
     <Compile Include="Models\ResourceModel.cs" />
     <Compile Include="ModuleAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

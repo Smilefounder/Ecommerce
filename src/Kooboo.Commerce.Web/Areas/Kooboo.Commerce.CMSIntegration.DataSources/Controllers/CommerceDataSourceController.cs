@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.API.HAL;
+using Kooboo.Commerce.API.Metadata;
 using Kooboo.Commerce.CMSIntegration.DataSources.Models;
 using System;
 using System.Collections.Generic;
@@ -17,17 +18,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Controllers
             _descriptorProvider = descriptorProvider;
         }
 
-        public ActionResult ResourceCategories()
+        public ActionResult Queries()
         {
-            var descriptors = _descriptorProvider.GetAllDescriptors()
-                                                 .GroupBy(x => x.ResourceName.Category)
-                                                 .Select(x => new
-                                                 {
-                                                     Name = x.Key,
-                                                     Resources = x.Select(r => new ResourceModel(r)).ToList()
-                                                 })
-                                                 .ToList();
-
+            var descriptors = QueryDescriptors.Descriptors.Select(x => new QueryDescriptorModel(x)).ToList();
             return Json(descriptors, JsonRequestBehavior.AllowGet);
         }
     }

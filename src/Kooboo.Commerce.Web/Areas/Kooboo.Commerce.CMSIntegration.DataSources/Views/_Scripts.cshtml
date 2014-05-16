@@ -20,42 +20,118 @@
 
         function ViewModel() {
             var _this = this;
+            var _mappingOptions = {
+                QueryFilters: {
+                    create: function (args) {
+                        var filter = ko.mapping.fromJS(args.data);
+                        filter.IsEditing = ko.observable(false);
+                        filter.IsNew = ko.observable(false);
+                        return filter;
+                    }
+                }
+            };
 
-            this.ResourceCategories = ko.observableArray();
+            this.Queries = ko.observableArray();
 
-            this.DataSourceSetting = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(model)));
+            this.DataSourceSetting = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(model)), _mappingOptions);
 
-            this.SelectedResource = ko.computed(function () {
-                var resourceName = _this.DataSourceSetting.DataSource.ResourceName();
-                if (!resourceName) {
+            this.SelectedQuery = ko.computed(function () {
+                var queryName = _this.DataSourceSetting.DataSource.QueryName();
+                if (!queryName) {
                     return null;
                 }
 
-                var resource = null;
-
-                $.each(_this.ResourceCategories(), function (i, category) {
-                    $.each(category.Resources(), function () {
-                        if (this.Name() === resourceName) {
-                            resource = this;
-                            return false;
-                        }
-                    });
-
-                    if (resource) {
-                        return false;
-                    }
-                });
+                var resource = _.find(_this.Queries(), function (q) {
+                    return q.Name() === queryName;
+                })
 
                 return resource;
             });
 
-            this.GetParameterValue = function (param) {
-                var name = param.Name();
-                if (param.Required()) {
-                    return _this.DataSourceSetting.DataSource.RequiredParameterValues[name];
+            this.AvailableFilters = ko.computed(function () {
+                var query = _this.SelectedQuery();
+                if (!query) {
+                    return [];
                 }
 
-                return _this.DataSourceSetting.DataSource.OptionalParameterValues[name];
+                return query.Filters();
+            });
+
+            this.AddFilter = function () {
+                var filter = {
+                    Name: ko.observable(),
+                    ParameterValues: ko.observableArray(),
+                    IsEditing: ko.observable(false),
+                    IsNew: ko.observable(true)
+                };
+
+                filter.Name.subscribe(function (name) {
+                    var params = _this.GetFilterParameters(name);
+                    filter.ParameterValues.removeAll();
+                    $.each(params, function () {
+                        filter.ParameterValues.push({
+                            ParameterName: ko.observable(this.Name()),
+                            ParameterValue: ko.observable()
+                        });
+                    });
+                });
+
+                _this.DataSourceSetting.DataSource.QueryFilters.push(filter);
+                _this.EditFilter(filter);
+            }
+
+            this.EditFilter = function (filter) {
+                filter.memo = ko.mapping.toJS(filter);
+                filter.IsEditing(true);
+            }
+
+            this.RemoveFilter = function (filter) {
+                _this.DataSourceSetting.DataSource.QueryFilters.remove(filter);
+            }
+
+            this.CommitFilterEditing = function (filter) {
+                if (_this.Validate()) {
+                    filter.IsNew(false);
+                    filter.IsEditing(false);
+                }
+            }
+
+            this.CancelFilterEditing = function (filter) {
+                if (filter.IsNew()) {
+                    _this.DataSourceSetting.DataSource.QueryFilters.remove(filter);
+                } else {
+                    ko.mapping.fromJS(filter.memo, {}, filter);
+                    filter.IsEditing(false);
+                }
+            }
+
+            this.GetFilterParameters = function (filterName) {
+                var query = _this.SelectedQuery();
+                var filter = _.find(query.Filters(), function (it) {
+                    return it.Name() === filterName;
+                });
+
+                return filter.Parameters();
+            }
+
+            this.GetFilterParametersDisplayText = function (filter) {
+                var text = '';
+                $.each(filter.ParameterValues(), function () {
+                    var value = this.ParameterValue();
+                    if (value !== null && value !== undefined && value !== '') {
+                        var name = this.ParameterName();
+                        if (text.length > 0) {
+                            text += ', ';
+                        }
+                        text += name + ' = ' + value;
+                    }
+                });
+
+                return text;
+            }
+
+            this.Validate = function () {
+                return $('#commerce-datasource').closest('form').valid();
             }
 
             this.ReparseValidation = function () {
@@ -64,18 +140,22 @@
                 $form.removeData('unobtrusiveValidation');
                 $.validator.unobtrusive.parse($form);
             }
+
+            this.DataSourceSetting.DataSource.QueryName.subscribe(function () {
+                _this.DataSourceSetting.DataSource.QueryFilters.removeAll();
+            });
         }
 
-        $.when(LoadResourceCategories())
+        $.when(LoadQueries())
          .then(function () {
              ko.applyBindings(viewModel, document.getElementById('commerce-datasource'));
          });
 
-        function LoadResourceCategories() {
-            $.get('/Kooboo.Commerce.CMSIntegration.DataSources/CommerceDataSource/ResourceCategories')
-             .then(function (data) {
-                 ko.mapping.fromJS(data, {}, viewModel.ResourceCategories);
-             });
+        function LoadQueries() {
+            return $.get('/Kooboo.Commerce.CMSIntegration.DataSources/CommerceDataSource/Queries')
+                    .then(function (data) {
+                         ko.mapping.fromJS(data, {}, viewModel.Queries);
+                    });
         }
     });
 </script>
