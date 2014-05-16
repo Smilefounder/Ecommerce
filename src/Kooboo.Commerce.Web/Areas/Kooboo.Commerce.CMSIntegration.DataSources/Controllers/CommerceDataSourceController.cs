@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Controllers
 {
+    [Authorize]
     public class CommerceDataSourceController : Controller
     {
         private IResourceDescriptorProvider _descriptorProvider;

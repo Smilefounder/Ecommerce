@@ -44,9 +44,9 @@ namespace Kooboo.Commerce.API.Metadata
 
     public class QueryFilterParameter
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public Type Type { get; set; }
+        public Type Type { get; private set; }
 
         public QueryFilterParameter(string name, Type type)
         {

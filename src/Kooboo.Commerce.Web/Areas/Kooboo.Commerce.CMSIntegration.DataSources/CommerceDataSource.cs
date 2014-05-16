@@ -8,37 +8,6 @@ using System.Web;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources
 {
-    [DataContract]
-    public class AddedQueryFilter
-    {
-        [DataMember]
-        public string Name { get; set; }
-
-        [DataMember]
-        public List<QueryFilterParameterValue> ParameterValues { get; set; }
-
-        public AddedQueryFilter()
-        {
-            ParameterValues = new List<QueryFilterParameterValue>();
-        }
-    }
-
-    [DataContract]
-    public class QueryFilterParameterValue
-    {
-        [DataMember]
-        public string ParameterName { get; set; }
-
-        [DataMember]
-        public string ParameterValue { get; set; }
-    }
-
-    public enum QueryType
-    {
-        List = 0,
-        FirstOrDefault = 1
-    }
-
     [DataContract(Name = "CommerceDataSource")]
     [KnownType(typeof(CommerceDataSource))]
     public class CommerceDataSource : IDataSource

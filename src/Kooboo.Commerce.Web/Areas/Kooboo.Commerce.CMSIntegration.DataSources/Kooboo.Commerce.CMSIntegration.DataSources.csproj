@@ -125,13 +125,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddedQueryFilter.cs" />
     <Compile Include="CommerceDataSource.cs" />
     <Compile Include="CommerceDataSourceDesigner.cs" />
     <Compile Include="Controllers\CommerceDataSourceController.cs" />
     <Compile Include="Models\QueryDescriptorModel.cs" />
-    <Compile Include="Models\ResourceModel.cs" />
+    <Compile Include="Models\QueryFilterModel.cs" />
     <Compile Include="ModuleAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryFilterParameterValue.cs" />
+    <Compile Include="QueryType.cs" />
     <Compile Include="Strings.cs" />
   </ItemGroup>
   <ItemGroup>
