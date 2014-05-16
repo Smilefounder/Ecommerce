@@ -16,7 +16,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
     /// <summary>
     /// product api
     /// </summary>
-    [Dependency(typeof(IProductAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(IProductAPI))]
+    [Dependency(typeof(IProductQuery))]
     public class ProductAPI : LocalCommerceQueryAccess<Product, Kooboo.Commerce.Products.Product>, IProductAPI
     {
         private IProductService _productService;

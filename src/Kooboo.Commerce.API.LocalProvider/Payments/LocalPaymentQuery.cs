@@ -10,6 +10,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
+    [Dependency(typeof(IPaymentQuery))]
     public class LocalPaymentQuery : LocalCommerceQuery<Payment, Kooboo.Commerce.Payments.Payment>, IPaymentQuery
     {
         protected IPaymentService PaymentService { get; private set; }

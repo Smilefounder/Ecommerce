@@ -11,7 +11,8 @@ namespace Kooboo.Commerce.API.RestProvider.Locations
     /// <summary>
     /// country api
     /// </summary>
-    [Dependency(typeof(ICountryAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(ICountryAPI))]
+    [Dependency(typeof(ICountryQuery))]
     public class CountryAPI : RestApiQueryBase<Country>, ICountryAPI
     {
         /// <summary>

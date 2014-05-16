@@ -10,7 +10,8 @@ namespace Kooboo.Commerce.API.RestProvider.Brands
     /// <summary>
     /// brand api
     /// </summary>
-    [Dependency(typeof(IBrandAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(IBrandAPI))]
+    [Dependency(typeof(IBrandQuery))]
     public class BrandAPI : RestApiAccessBase<Brand>, IBrandAPI
     {
         /// <summary>

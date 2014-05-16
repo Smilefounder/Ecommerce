@@ -17,6 +17,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
     /// order api
     /// </summary>
     [Dependency(typeof(IOrderAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(IOrderQuery), ComponentLifeStyle.Transient)]
     public class OrderAPI : LocalCommerceQueryAccess<Order, Kooboo.Commerce.Orders.Order>, IOrderAPI
     {
         private IOrderService _orderService;
