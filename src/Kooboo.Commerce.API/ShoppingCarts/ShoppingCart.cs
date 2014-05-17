@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.API.Metadata;
 using Kooboo.Commerce.API.Promotions;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,7 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// <summary>
         /// Applicable promotions for this shopping cart.
         /// </summary>
+        [NotSupportOptionalInclude]
         public IList<Promotion> AppliedPromotions { get; set; }
 
         public decimal Subtotal { get; set; }

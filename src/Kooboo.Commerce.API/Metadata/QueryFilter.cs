@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Metadata
 {
+    /// <summary>
+    /// Represents the metadata of a filter method in a query api.
+    /// </summary>
     public class QueryFilter
     {
         public string Name { get; private set; }

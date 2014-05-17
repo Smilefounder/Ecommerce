@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kooboo.Commerce.API.Metadata;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Kooboo.Commerce.API
 
     public abstract class ItemResource : IItemResource
     {
+        [NotSupportOptionalInclude]
         public IList<Link> Links { get; set; }
 
         public ItemResource()

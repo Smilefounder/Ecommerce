@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.API.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace Kooboo.Commerce.API.Payments
 
         public string PaymentProcessorName { get; set; }
 
+        [NotSupportOptionalInclude]
         public IList<PaymentProcessorParameterDescriptor> PaymentProcessorParameterDescriptors { get; set; }
 
         public PaymentMethod()

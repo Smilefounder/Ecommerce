@@ -95,6 +95,7 @@
     <Compile Include="Locations\ICountryAPI.cs" />
     <Compile Include="Locations\ICountryQuery.cs" />
     <Compile Include="Metadata\FilterAttribute.cs" />
+    <Compile Include="Metadata\NotSupportOptionalIncludeAttribute.cs" />
     <Compile Include="Metadata\Inflector.cs" />
     <Compile Include="Metadata\NonFilterAttribute.cs" />
     <Compile Include="Metadata\QueryAttribute.cs" />

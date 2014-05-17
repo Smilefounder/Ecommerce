@@ -101,7 +101,7 @@
             </tr>
         </table>
         <fieldset data-bind="visible: DataSourceSetting.DataSource.QueryType() == 0">
-            <legend class="clickable">@Html.IconImage("arrow") @("Advanced".Localize())</legend>
+            <legend class="clickable">@Html.IconImage("arrow") @("Paignation".Localize())</legend>
             <div style="padding-top:10px">
                 <table class="common-form">
                     <tr>
@@ -128,6 +128,32 @@
                             </em>
                         </td>
                     </tr>
+                </table>
+            </div>
+        </fieldset>
+        <fieldset data-bind="visible: SelectedQuery() && SelectedQuery().OptionalIncludablePaths().length > 0" style="display:none">
+            <legend class="clickable">@Html.IconImage("arrow") @("Includes".Localize())</legend>
+            <div style="padding-top:10px">
+                <table class="common-form">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <div class="clearfix" style="padding-bottom:10px">
+                                    <input id="IncludeAll" name="IncludeAll" type="checkbox" data-bind="checked: $root.AllPathsIncluded, click: $root.ToggleIncludeAll" />
+                                    <label class="inline" for="IncludeAll">@("All".Localize())</label>
+                                </div>
+                                <div data-bind="foreach: SelectedQuery().OptionalIncludablePaths">
+                                    <div class="clearfix" style="padding-bottom:10px">
+                                        <input type="checkbox" name="IncludablePaths" data-bind="attr: { id: 'IncludablePath_' + $index(), value: $data }, checked: $root.IsPathIncluded($data), disable: $root.IsPathDisabled($data), click: $root.TogglePathInclude" />
+                                        <label class="inline" data-bind="text: $data, attr: { 'for': 'IncludablePath_' + $index() }"></label>
+                                        <!-- Values of disabled form elements won't be sent to server, so we use a hidden checkbox to hold the real values to be sent to server -->
+                                        <input type="checkbox" style="display:none" name="DataSource.Includes" data-bind="attr: { value: $data }, checked: $root.IsPathIncluded($data)" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </fieldset>

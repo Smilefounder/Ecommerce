@@ -91,8 +91,6 @@ namespace Kooboo.Commerce.API.Orders
         /// </summary>
         public string PaymentName { get; set; }
 
-        //string ShippingTrackingCode  { get;  set; }
-
         /// <summary>
         /// Remark from users who ordered it.
         /// </summary>
@@ -110,10 +108,6 @@ namespace Kooboo.Commerce.API.Orders
         /// order customer
         /// </summary>
         public Customer Customer { get; set; }
-        /// <summary>
-        /// shipping cart to generate this order. can be null
-        /// </summary>
-        public ShoppingCart ShoppingCart { get; set; }
         /// <summary>
         /// shipping address
         /// </summary>

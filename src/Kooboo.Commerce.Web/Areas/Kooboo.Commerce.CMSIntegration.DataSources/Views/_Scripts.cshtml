@@ -31,6 +31,10 @@
                 }
             };
 
+            this.Init = function () {
+                _this.UpdateAllPathsIncluded();
+            }
+
             this.Queries = ko.observableArray();
 
             this.DataSourceSetting = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(model)), _mappingOptions);
@@ -130,6 +134,81 @@
                 return text;
             }
 
+            this.IsPathIncluded = function (path) {
+                return _.any(_this.DataSourceSetting.DataSource.Includes(), function (p) {
+                    return p === path;
+                });
+            }
+
+            this.IsPathDisabled = function (path) {
+                return _.any(_this.DataSourceSetting.DataSource.Includes(), function (p) {
+                    return p.length > path.length && p.indexOf(path) === 0;
+                });
+            }
+
+            this.TogglePathInclude = function (path) {
+                if (_this.IsPathIncluded(path)) {
+                    _this.ExcludePath(path);
+                } else {
+                    _this.IncludePath(path);
+                }
+
+                return true;
+            }
+
+            this.IncludePath = function (path) {
+                var includesMap = {};
+                _.each(_this.DataSourceSetting.DataSource.Includes(), function (p) {
+                    includesMap[p] = true;
+                });
+
+                // Add also parent paths
+                _.each(_this.SelectedQuery().OptionalIncludablePaths(), function (p) {
+                    if (!includesMap[p] && p.length < path.length && (path.indexOf(p) === 0)) {
+                        _this.DataSourceSetting.DataSource.Includes.push(p);
+                    }
+                });
+
+                _this.DataSourceSetting.DataSource.Includes.push(path);
+                _this.UpdateAllPathsIncluded();
+            }
+
+            this.ExcludePath = function (path) {
+                _this.DataSourceSetting.DataSource.Includes.remove(path);
+                _this.AllPathsIncluded(false);
+            }
+
+            this.IncludeAllPaths = function () {
+                _this.DataSourceSetting.DataSource.Includes.removeAll();
+                _.each(_this.SelectedQuery().OptionalIncludablePaths(), function (p) {
+                    _this.DataSourceSetting.DataSource.Includes.push(p);
+                });
+                _this.UpdateAllPathsIncluded();
+            }
+
+            this.ExcludeAllPaths = function () {
+                _this.DataSourceSetting.DataSource.Includes.removeAll();
+                _this.AllPathsIncluded(false);
+            }
+
+            this.AllPathsIncluded = ko.observable();
+
+            this.UpdateAllPathsIncluded = function () {
+                _this.AllPathsIncluded(
+                    _this.SelectedQuery()
+                    && _this.SelectedQuery().OptionalIncludablePaths().length === _this.DataSourceSetting.DataSource.Includes().length);
+            }
+
+            this.ToggleIncludeAll = function () {
+                if (_this.AllPathsIncluded()) {
+                    _this.IncludeAllPaths();
+                } else {
+                    _this.ExcludeAllPaths();
+                }
+
+                return true;
+            }
+
             this.Validate = function () {
                 return $('#commerce-datasource').closest('form').valid();
             }
@@ -143,11 +222,14 @@
 
             this.DataSourceSetting.DataSource.QueryName.subscribe(function () {
                 _this.DataSourceSetting.DataSource.QueryFilters.removeAll();
+                _this.DataSourceSetting.DataSource.Includes.removeAll();
+                _this.AllPathsIncluded(false);
             });
         }
 
         $.when(LoadQueries())
          .then(function () {
+             viewModel.Init();
              ko.applyBindings(viewModel, document.getElementById('commerce-datasource'));
          });
 
