@@ -21,7 +21,8 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
     /// <summary>
     /// shopping cart api
     /// </summary>
-    [Dependency(typeof(IShoppingCartAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(IShoppingCartAPI))]
+    [Dependency(typeof(IShoppingCartQuery))]
     public class ShoppingCartAPI : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartAPI
     {
         private ICommerceDatabase _db;

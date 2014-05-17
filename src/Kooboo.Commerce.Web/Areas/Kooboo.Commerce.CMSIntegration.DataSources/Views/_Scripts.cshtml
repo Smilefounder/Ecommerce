@@ -1,0 +1,243 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+@using Newtonsoft.Json;
+@using Kooboo.CMS.Sites.DataSource;
+
+@{
+    var model = Model;
+
+    if (model == null || model.DataSource == null)
+    {
+        model = new DataSourceSetting() { 
+            DataSource = new CommerceDataSource()
+        };
+    }
+}
+
+<script>
+    $(function () {
+
+        var viewModel = new ViewModel();
+
+        function ViewModel() {
+            var _this = this;
+            var _mappingOptions = {
+                QueryFilters: {
+                    create: function (args) {
+                        var filter = ko.mapping.fromJS(args.data);
+                        filter.IsEditing = ko.observable(false);
+                        filter.IsNew = ko.observable(false);
+                        return filter;
+                    }
+                }
+            };
+
+            this.Init = function () {
+                _this.UpdateAllPathsIncluded();
+            }
+
+            this.Queries = ko.observableArray();
+
+            this.DataSourceSetting = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(model)), _mappingOptions);
+
+            this.SelectedQuery = ko.computed(function () {
+                var queryName = _this.DataSourceSetting.DataSource.QueryName();
+                if (!queryName) {
+                    return null;
+                }
+
+                var resource = _.find(_this.Queries(), function (q) {
+                    return q.Name() === queryName;
+                })
+
+                return resource;
+            });
+
+            this.AvailableFilters = ko.computed(function () {
+                var query = _this.SelectedQuery();
+                if (!query) {
+                    return [];
+                }
+
+                return query.Filters();
+            });
+
+            this.AddFilter = function () {
+                var filter = {
+                    Name: ko.observable(),
+                    ParameterValues: ko.observableArray(),
+                    IsEditing: ko.observable(false),
+                    IsNew: ko.observable(true)
+                };
+
+                filter.Name.subscribe(function (name) {
+                    var params = _this.GetFilterParameters(name);
+                    filter.ParameterValues.removeAll();
+                    $.each(params, function () {
+                        filter.ParameterValues.push({
+                            ParameterName: ko.observable(this.Name()),
+                            ParameterValue: ko.observable()
+                        });
+                    });
+                });
+
+                _this.DataSourceSetting.DataSource.QueryFilters.push(filter);
+                _this.EditFilter(filter);
+            }
+
+            this.EditFilter = function (filter) {
+                filter.memo = ko.mapping.toJS(filter);
+                filter.IsEditing(true);
+            }
+
+            this.RemoveFilter = function (filter) {
+                _this.DataSourceSetting.DataSource.QueryFilters.remove(filter);
+            }
+
+            this.CommitFilterEditing = function (filter) {
+                if (_this.Validate()) {
+                    filter.IsNew(false);
+                    filter.IsEditing(false);
+                }
+            }
+
+            this.CancelFilterEditing = function (filter) {
+                if (filter.IsNew()) {
+                    _this.DataSourceSetting.DataSource.QueryFilters.remove(filter);
+                } else {
+                    ko.mapping.fromJS(filter.memo, {}, filter);
+                    filter.IsEditing(false);
+                }
+            }
+
+            this.GetFilterParameters = function (filterName) {
+                var query = _this.SelectedQuery();
+                var filter = _.find(query.Filters(), function (it) {
+                    return it.Name() === filterName;
+                });
+
+                return filter.Parameters();
+            }
+
+            this.GetFilterParametersDisplayText = function (filter) {
+                var text = '';
+                $.each(filter.ParameterValues(), function () {
+                    var value = this.ParameterValue();
+                    if (value !== null && value !== undefined && value !== '') {
+                        var name = this.ParameterName();
+                        if (text.length > 0) {
+                            text += ', ';
+                        }
+                        text += name + ' = ' + value;
+                    }
+                });
+
+                return text;
+            }
+
+            this.IsPathIncluded = function (path) {
+                return _.any(_this.DataSourceSetting.DataSource.Includes(), function (p) {
+                    return p === path;
+                });
+            }
+
+            this.IsPathDisabled = function (path) {
+                return _.any(_this.DataSourceSetting.DataSource.Includes(), function (p) {
+                    return p.length > path.length && p.indexOf(path) === 0;
+                });
+            }
+
+            this.TogglePathInclude = function (path) {
+                if (_this.IsPathIncluded(path)) {
+                    _this.ExcludePath(path);
+                } else {
+                    _this.IncludePath(path);
+                }
+
+                return true;
+            }
+
+            this.IncludePath = function (path) {
+                var includesMap = {};
+                _.each(_this.DataSourceSetting.DataSource.Includes(), function (p) {
+                    includesMap[p] = true;
+                });
+
+                // Add also parent paths
+                _.each(_this.SelectedQuery().OptionalIncludablePaths(), function (p) {
+                    if (!includesMap[p] && p.length < path.length && (path.indexOf(p) === 0)) {
+                        _this.DataSourceSetting.DataSource.Includes.push(p);
+                    }
+                });
+
+                _this.DataSourceSetting.DataSource.Includes.push(path);
+                _this.UpdateAllPathsIncluded();
+            }
+
+            this.ExcludePath = function (path) {
+                _this.DataSourceSetting.DataSource.Includes.remove(path);
+                _this.AllPathsIncluded(false);
+            }
+
+            this.IncludeAllPaths = function () {
+                _this.DataSourceSetting.DataSource.Includes.removeAll();
+                _.each(_this.SelectedQuery().OptionalIncludablePaths(), function (p) {
+                    _this.DataSourceSetting.DataSource.Includes.push(p);
+                });
+                _this.UpdateAllPathsIncluded();
+            }
+
+            this.ExcludeAllPaths = function () {
+                _this.DataSourceSetting.DataSource.Includes.removeAll();
+                _this.AllPathsIncluded(false);
+            }
+
+            this.AllPathsIncluded = ko.observable();
+
+            this.UpdateAllPathsIncluded = function () {
+                _this.AllPathsIncluded(
+                    _this.SelectedQuery()
+                    && _this.SelectedQuery().OptionalIncludablePaths().length === _this.DataSourceSetting.DataSource.Includes().length);
+            }
+
+            this.ToggleIncludeAll = function () {
+                if (_this.AllPathsIncluded()) {
+                    _this.IncludeAllPaths();
+                } else {
+                    _this.ExcludeAllPaths();
+                }
+
+                return true;
+            }
+
+            this.Validate = function () {
+                return $('#commerce-datasource').closest('form').valid();
+            }
+
+            this.ReparseValidation = function () {
+                var $form = $('#commerce-datasource').closest('form');
+                $form.removeData('validator');
+                $form.removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse($form);
+            }
+
+            this.DataSourceSetting.DataSource.QueryName.subscribe(function () {
+                _this.DataSourceSetting.DataSource.QueryFilters.removeAll();
+                _this.DataSourceSetting.DataSource.Includes.removeAll();
+                _this.AllPathsIncluded(false);
+            });
+        }
+
+        $.when(LoadQueries())
+         .then(function () {
+             viewModel.Init();
+             ko.applyBindings(viewModel, document.getElementById('commerce-datasource'));
+         });
+
+        function LoadQueries() {
+            return $.get('/Kooboo.Commerce.CMSIntegration.DataSources/CommerceDataSource/Queries')
+                    .then(function (data) {
+                         ko.mapping.fromJS(data, {}, viewModel.Queries);
+                    });
+        }
+    });
+</script>

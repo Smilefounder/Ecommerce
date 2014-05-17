@@ -10,7 +10,8 @@ namespace Kooboo.Commerce.API.RestProvider.Categories
     /// <summary>
     /// category api
     /// </summary>
-    [Dependency(typeof(ICategoryAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(ICategoryAPI))]
+    [Dependency(typeof(ICategoryQuery))]
     public class CategoryAPI : RestApiQueryBase<Category>, ICategoryAPI
     {
         /// <summary>

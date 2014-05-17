@@ -14,6 +14,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
     /// country api
     /// </summary>
     [Dependency(typeof(ICountryAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(ICountryQuery), ComponentLifeStyle.Transient)]
     public class CountryAPI : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryAPI
     {
         private ICountryService _countryService;

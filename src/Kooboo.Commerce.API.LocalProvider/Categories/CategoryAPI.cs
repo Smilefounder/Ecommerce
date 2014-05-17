@@ -13,6 +13,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
     /// category api
     /// </summary>
     [Dependency(typeof(ICategoryAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(ICategoryQuery), ComponentLifeStyle.Transient)]
     public class CategoryAPI : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryAPI
     {
         private ICategoryService _categoryService;

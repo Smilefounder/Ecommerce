@@ -13,6 +13,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
     /// brand api
     /// </summary>
     [Dependency(typeof(IBrandAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(IBrandQuery), ComponentLifeStyle.Transient)]
     public class BrandAPI : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandAPI
     {
         private IBrandService _brandService;

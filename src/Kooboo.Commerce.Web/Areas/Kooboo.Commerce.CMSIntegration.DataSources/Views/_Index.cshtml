@@ -1,0 +1,163 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+
+@using (Html.BeginForm())
+{
+    if (ViewBag.IsEditing != true)
+    {
+        <h1 class="title"><label for="DataName">@ViewBag.Title:</label> @Html.EditorFor(m => m.DataName, new { Layout = "_NoLabel.cshtml" })</h1>
+    }
+    else
+    {
+        <h1 class="title">@ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+    }
+    @Html.Hidden("Designer", ((Kooboo.CMS.Sites.DataSource.IDataSourceDesigner)ViewBag.Designer).Name)
+    <div id="commerce-datasource" class="block common-form">
+        <table>
+            <tr>
+                <th>
+                    @("Source".Localize())
+                </th>
+                <td>
+                    <select name="DataSource.QueryName" data-bind="options: Queries, optionsText: 'Name', optionsValue: 'Name', value: DataSourceSetting.DataSource.QueryName"></select>
+                </td>
+            </tr>
+            <tr data-bind="visible: SelectedQuery() && SelectedQuery().Filters().length > 0" style="display:none">
+                <th>
+                    @("Filters".Localize())
+                </th>
+                <td>
+                    <div data-bind="foreach: DataSourceSetting.DataSource.QueryFilters" style="margin-bottom:10px">
+                        <div data-bind="visible: !IsEditing()">
+                            <span data-bind="text: Name"></span>
+                            <span style="color:#888;">
+                                (<span data-bind="text: $root.GetFilterParametersDisplayText($data)"></span>)
+                            </span>
+                            <span>
+                                <a href="#" data-bind="click: $root.EditFilter" style="display:inline-block">@Html.IconImage("edit small")</a>
+                                <a href="#" data-bind="click: $root.RemoveFilter" style="display:inline-block">@Html.IconImage("minus small")</a>
+                            </span>
+
+                            <input type="hidden" data-bind="attr: { name: 'DataSource.QueryFilters[' + $index() + '].Name' }, value: Name" />
+                            <!-- ko foreach: ParameterValues -->
+                            <input type="hidden" data-bind="attr: { name: 'DataSource.QueryFilters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterName' }, value: ParameterName" />
+                            <input type="hidden" data-bind="attr: { name: 'DataSource.QueryFilters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterValue' }, value: ParameterValue" />
+                            <!-- /ko -->
+                        </div>
+                        <div data-bind="visible: IsEditing" style="margin-top:10px;padding:10px;background:#eee;">
+                            <div class="clearfix">
+                                <span data-bind="if: IsNew">
+                                    <select data-bind="options: $root.AvailableFilters, optionsText: 'Name', optionsValue: 'Name', value: Name"></select>
+                                </span>
+                                <span data-bind="if: !IsNew()">
+                                    <span data-bind="text: Name"></span>
+                                </span>
+                            </div>
+
+                            <fieldset style="margin-top:10px;">
+                                <legend>@("Filter Parameters".Localize())</legend>
+                                <div style="padding-top:10px">
+                                    <table>
+                                        <tbody data-bind="foreach: { data: ParameterValues, afterRender: $root.ReparseValidation }">
+                                            <tr>
+                                                <th>
+                                                    <span data-bind="text: ParameterName"></span>
+                                                </th>
+                                                <td>
+                                                    <input type="text" data-bind="value: ParameterValue, attr: { name: 'Filter_' + $parentContext.$index() + '_ParameterValue_' + $index() }"
+                                                           data-val="true"
+                                                           data-val-required="*" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <p>
+                                <a href="#" data-bind="click: $root.CommitFilterEditing" class="button">@("Save".Localize())</a>
+                                <a href="#" data-bind="click: $root.CancelFilterEditing" class="button gray">@("Cancel".Localize())</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="#" data-bind="click: AddFilter">
+                            @Html.IconImage("plus small")
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>@("Query type".Localize())</th>
+                <td>
+                    <div class="clearfix">
+                        <input type="radio" id="QueryType_List" name="DataSource.QueryType" value="0" data-bind="checked: DataSourceSetting.DataSource.QueryType" />
+                        <label for="QueryType_List" class="inline">@("List of contents".Localize())</label>
+                    </div>
+                    <div class="clearfix" style="margin-top:10px">
+                        <input type="radio" id="QueryType_FirstOrDefault" name="DataSource.QueryType" value="1" data-bind="checked: DataSourceSetting.DataSource.QueryType" />
+                        <label for="QueryType_FirstOrDefault" class="inline">@("First or default (one content item)".Localize())</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <fieldset data-bind="visible: DataSourceSetting.DataSource.QueryType() == 0">
+            <legend class="clickable">@Html.IconImage("arrow") @("Paignation".Localize())</legend>
+            <div style="padding-top:10px">
+                <table class="common-form">
+                    <tr>
+                        <th>@("Enable paging".Localize())</th>
+                        <td>
+                            <input type="checkbox" name="DataSource.EnablePaging" value="true" data-bind="checked: DataSourceSetting.DataSource.EnablePaging" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Page size".Localize())</th>
+                        <td>
+                            <input type="text" name="DataSource.PageSize" data-bind="enable: DataSourceSetting.DataSource.EnablePaging, value: DataSourceSetting.DataSource.PageSize" />
+                            <em class="tip">
+                                @("A const value OR dynamic value get from query string. eg: 10 OR {PageSize}".Localize())
+                            </em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@("Page number".Localize())</th>
+                        <td>
+                            <input type="text" name="DataSource.PageNumber" data-bind="enable: DataSourceSetting.DataSource.EnablePaging, value: DataSourceSetting.DataSource.PageNumber" />
+                            <em class="tip">
+                                @("The page number parameter name. eg:{PageNumber}".Localize())
+                            </em>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+        <fieldset data-bind="visible: SelectedQuery() && SelectedQuery().OptionalIncludablePaths().length > 0" style="display:none">
+            <legend class="clickable">@Html.IconImage("arrow") @("Includes".Localize())</legend>
+            <div style="padding-top:10px">
+                <table class="common-form">
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <div class="clearfix" style="padding-bottom:10px">
+                                    <input id="IncludeAll" name="IncludeAll" type="checkbox" data-bind="checked: $root.AllPathsIncluded, click: $root.ToggleIncludeAll" />
+                                    <label class="inline" for="IncludeAll">@("All".Localize())</label>
+                                </div>
+                                <div data-bind="foreach: SelectedQuery().OptionalIncludablePaths">
+                                    <div class="clearfix" style="padding-bottom:10px">
+                                        <input type="checkbox" name="IncludablePaths" data-bind="attr: { id: 'IncludablePath_' + $index(), value: $data }, checked: $root.IsPathIncluded($data), disable: $root.IsPathDisabled($data), click: $root.TogglePathInclude" />
+                                        <label class="inline" data-bind="text: $data, attr: { 'for': 'IncludablePath_' + $index() }"></label>
+                                        <!-- Values of disabled form elements won't be sent to server, so we use a hidden checkbox to hold the real values to be sent to server -->
+                                        <input type="checkbox" style="display:none" name="DataSource.Includes" data-bind="attr: { value: $data }, checked: $root.IsPathIncluded($data)" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+}
+
+@Html.Partial("~/Areas/Kooboo.Commerce.CMSIntegration.DataSources/Views/_Scripts.cshtml")

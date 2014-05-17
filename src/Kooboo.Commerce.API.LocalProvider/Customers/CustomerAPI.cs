@@ -16,6 +16,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
     /// customer api
     /// </summary>
     [Dependency(typeof(ICustomerAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(ICustomerQuery), ComponentLifeStyle.Transient)]
     public class CustomerAPI : LocalCommerceQueryAccess<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerAPI
     {
         private ICommerceDatabase _db;
@@ -33,6 +34,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             _db = db;
             _customerService = customerService;
             _countryService = countryService;
+            _addressMapper = addressMapper;
         }
 
         /// <summary>

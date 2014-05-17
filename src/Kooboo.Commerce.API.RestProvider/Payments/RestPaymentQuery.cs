@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.API.Payments;
+﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.API.Payments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.RestProvider.Payments
 {
+    [Dependency(typeof(IPaymentQuery))]
     public class RestPaymentQuery : RestApiQueryBase<Payment>, IPaymentQuery
     {
         public IPaymentQuery ById(int id)

@@ -1,0 +1,17 @@
+﻿@{
+    var brands = ViewBag.Brands as IEnumerable<Kooboo.Commerce.API.Brands.Brand>;
+}
+
+@if (brands != null)
+{
+    foreach (var brand in brands)
+    {
+        <span>
+            @brand.Name, 
+        </span>
+    }
+}
+
+<div class="homebanner1 orbit" style="overflow: hidden; width: 630px; height: 200px;">
+    <a href="http://newshoppage.vitaminstore.eu/Health/Vitaminen-en-mineralen/mineralen/Magnesium-Tauraat-voor-de-zorg-van-spieren-VitaminSports-ontspanning/P118" style="z-index: 3; display: block;"><img src="/Cms_Data/Sites/Vitaminstore/flash/images/45Magnesium-Tauraat.jpg" alt="" border="0"></a>
+</div>

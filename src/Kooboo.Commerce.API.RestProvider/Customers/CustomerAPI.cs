@@ -11,7 +11,8 @@ namespace Kooboo.Commerce.API.RestProvider.Customers
     /// <summary>
     /// customer api
     /// </summary>
-    [Dependency(typeof(ICustomerAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(ICustomerAPI))]
+    [Dependency(typeof(ICustomerQuery))]
     public class CustomerAPI : RestApiAccessBase<Customer>, ICustomerAPI
     {
         /// <summary>

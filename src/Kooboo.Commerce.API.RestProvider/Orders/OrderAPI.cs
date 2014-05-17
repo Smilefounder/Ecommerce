@@ -11,7 +11,8 @@ namespace Kooboo.Commerce.API.RestProvider.Orders
     /// <summary>
     /// order api
     /// </summary>
-    [Dependency(typeof(IOrderAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(IOrderAPI))]
+    [Dependency(typeof(IOrderQuery))]
     public class OrderAPI : RestApiAccessBase<Order>, IOrderAPI
     {
         /// <summary>

@@ -12,7 +12,8 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
     /// <summary>
     /// shopping cart api
     /// </summary>
-    [Dependency(typeof(IShoppingCartAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(IShoppingCartAPI))]
+    [Dependency(typeof(IShoppingCartQuery))]
     public class ShoppingCartAPI : RestApiQueryBase<ShoppingCart>, IShoppingCartAPI
     {
         /// <summary>

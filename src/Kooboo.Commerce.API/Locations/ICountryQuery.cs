@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.API.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Kooboo.Commerce.API.Locations
     /// country query
     /// all query filter should return self(this) to support fluent api.
     /// </summary>
+    [Query]
     public interface ICountryQuery : ICommerceQuery<Country>
     {
         /// <summary>
