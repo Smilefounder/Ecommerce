@@ -291,15 +291,31 @@ body {
 		line-height: 1;
 		margin-bottom: 26px;
 	}
+	/* Topbar */
+	> .topbar {
+		background: #FFF;
+		border-bottom: 1px solid #CCC;
+		height: 30px;
+		left: 0;
+		padding: 20px;
+		position: fixed;
+		right: 0;
+		top: 40px;
+		z-index: 999;
+	}
 	/* Wrap */
 	> .wrap {
-		bottom: 30px;
+		bottom: 31px;
 		left: 0;
 		overflow: auto;
 		padding: 20px;
 		position: fixed;
 		right: 0;
 		top: 40px;
+
+		&.with-topbar {
+			top: 111px;
+		}
 	}
 
 	.block {
@@ -351,18 +367,6 @@ body {
 		.searchbox {
 			float: right;
 		}
-	}
-
-	#main-container > .wrap .topbar {
-		background: #FFF;
-		border-bottom: 1px solid #CCC;
-		height: 30px;
-		left: 0;
-		padding: 20px;
-		position: fixed;
-		right: 0;
-		top: 40px;
-		z-index: 999;
 	}
 
 	/* Common-form
