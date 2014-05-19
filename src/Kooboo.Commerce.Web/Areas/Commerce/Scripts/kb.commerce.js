@@ -55,7 +55,7 @@
         }
     };
 
-    ko.events = new kb.Events();
+    kb.events = new kb.Events();
 
     kb.http = {
         safeGet: function (url, data) {
