@@ -278,7 +278,7 @@
                 };
 
                 //
-                this.save = function (ff, dd) {
+                this.save = function () {
                     // trigger change event to ensure the input value update to dataMap, don't know why it will lose values.
                     utilities.fieldEditorForm().find('input').trigger('change');
                     if (!refObj || !utilities.fieldEditorForm().valid()) {
