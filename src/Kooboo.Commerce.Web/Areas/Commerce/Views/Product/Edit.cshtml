@@ -167,7 +167,7 @@
         <!-- ko if: Children() && Children().length > 0 -->
         <span class="toggle">@Html.IconImage("sprite")</span>
         <!-- /ko -->
-        <input type="checkbox" data-bind="checked: $root.SelectedCategories, value:Id" />
+        <input type="checkbox" data-bind="value:Id(), checked: $root.SelectedCategories" />
         <span class="text" data-bind="text:Name"></span>
         <!-- ko if: Children() && Children().length > 0 -->
         <ul data-bind="template: { name: 'category_template', foreach: Children }"></ul>
@@ -478,10 +478,14 @@
             on_file_select: function (data) {
                 $.each(data.files, function (i, n) {
                     vm.AddImage(data.property, n.Url);
+                    $('.crop_image').cropimage({
+                        on_image_croped: function (data) {
+                            $(data.element).attr('src', data.url + '?v=' + new Date().getTime())
+                        }
+                    });
                 });
             }
         });
-
         $('.crop_image').cropimage({
             on_image_croped: function (data) {
                 $(data.element).attr('src', data.url + '?v=' + new Date().getTime())

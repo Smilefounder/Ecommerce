@@ -1,0 +1,148 @@
+﻿@using Kooboo.Commerce.Products;
+@using Kooboo.Commerce.Orders;
+@model Kooboo.Commerce.Orders.Order
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/Popup.cshtml";
+    ViewBag.Title = "Select Product".Localize();
+}
+
+@functions {
+    public int GetProductPriceQuantity(ProductPrice price, Order order)
+    {
+        if (order.OrderItems != null)
+        {
+            var item = order.OrderItems.FirstOrDefault(o => o.ProductPriceId == price.Id);
+            if (item != null)
+            {
+                return item.Quantity;
+            }
+        }
+        return 0;
+    }
+}
+
+    <div class="topbar" style="z-index: 1203;">
+        <h1 class="title">Select products</h1>
+        <form id="search-product" action="/Commerce/Order/ProductList?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]" method="POST" class="no-stop" novalidate="novalidate" style="float: right">
+            <input type="text" name="search" value="@ViewBag.Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" style="width:200px;">
+            <button type="button" onclick="$('#search-product').submit();" style="background: none; min-width: 10px;">
+                @Html.IconImage("search")
+            </button>
+        </form>
+    </div>
+    @using (Html.BeginForm("AddProduct", "Order", RouteValues.From(Request.QueryString), FormMethod.Post, new { id = "add-product" }))
+    {
+        <div class="wrap">
+            <div class="common-table" style="margin-top: 0px; height: 370px; width: 840px; padding: 0px 8px; overflow: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                @("Quantity".Localize())
+                            </th>
+                            <th>
+                                @("Product Name".Localize())
+                            </th>
+                            <th>
+                                @("Variants".Localize())
+                            </th>
+                            <th>
+                                @("Sku".Localize())
+                            </th>
+                            <th>
+                                @("Price".Localize())
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in ViewBag.Products)
+                        {
+                            foreach (var p in product.PriceList)
+                            {
+                                <tr class="@(GetProductPriceQuantity(p, Model) > 0 ? "active" : "")">
+                                    <td>
+                                        <input type="number" id="Quantity" name="Quantity" value="@GetProductPriceQuantity(p, Model)" onchange="ChangeQuantity(this);" class="mini" style="width:50px;">
+                                        <input type="hidden" id="ProductPriceId" name="ProductPriceId" value="@p.Id">
+                                        <input type="hidden" id="ProductId" name="ProductId" value="@p.ProductId">
+                                        <input type="hidden" id="ProductName" name="ProductName" value="@p.Product.Name">
+                                        <input type="hidden" id="SKU" name="SKU" value="@p.Sku">
+                                        <input type="hidden" id="UnitPrice" name="UnitPrice" value="@p.RetailPrice">
+                                    </td>
+                                    <td>
+                                        @p.Product.Name
+                                    </td>
+                                    <td>
+                                        @foreach (var variant in p.VariantValues)
+                                        {
+                                            <div class="block">
+                                                <span>@variant.CustomField.Name</span>
+                                                <span>:</span>
+                                                <span>@variant.FieldValue</span>
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>
+                                        @p.Sku
+                                    </td>
+                                    <td>
+                                        @p.RetailPrice
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="buttons right">
+                @if (ViewBag.Products != null)
+                {
+                    var pagerOptions = new PagerOptions();
+                    pagerOptions.NumericPagerItemCount = 5;
+                    <div class="pagination left" style="margin: 0px;">
+                        @Html.Pager(ViewBag.Products as IPagedList<Product>, pagerOptions, "", ViewContext.RequestContext.AllRouteValues(), null)
+                    </div>
+                }
+                <div class="right">
+                    <a class="button gray right" href="#" onclick="CancelProducts();">@("Cancel".Localize())</a>
+                    <a class="button right" href="#" onclick="SaveProducts();">@("Save".Localize())</a>
+                </div>
+            </div>
+        </div>
+    }
+
+<script type="text/javascript">
+    $(function () {
+        var table = $('.common-table table');
+        table.scrollFixTable();
+        table.grid();
+    });
+
+    function OpenProductList() {
+        utils.showDialog('#productPriceList', 'Select Products', null, null, null, null, {
+            buttons: null, create: function () {
+                $(document).dialogScroll();
+            }
+        })
+    }
+
+    function SaveProducts() {
+        window.top.leaveConfirm.pass();
+        $('#add-product').submit();
+        $(window.top.document.body).find('#productPriceList').dialog('close');
+    }
+
+    function CancelProducts() {
+        $(window.top.document.body).find('#productPriceList').dialog('close');
+    }
+
+    function ChangeQuantity(ele) {
+        var val = $(ele).val();
+        var row = $(ele).closest('tr');
+        row.removeClass('active');
+        if (val && val != '') {
+            if (parseInt(val) > 0) {
+                row.addClass('active');
+            }
+        }
+    }
+</script>

@@ -3444,6 +3444,7 @@
     <Content Include="Areas\Sites\Views\DataSource\Edit.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\Index.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\_Designers.cshtml" />
+    <Content Include="Areas\Commerce\Views\Order\ProductList.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

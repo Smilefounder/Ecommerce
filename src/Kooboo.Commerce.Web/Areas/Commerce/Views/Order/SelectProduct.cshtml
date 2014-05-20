@@ -123,78 +123,9 @@
     </div>
 </div>
 <div id="productPriceList" class="hide">
-    <div class="topbar">
-        <h1 class="title">Select products</h1>
-    </div>
-    @using (Html.BeginForm("AddProduct", "Order", RouteValues.From(Request.QueryString)))
-    {
-        <div class="wrap">
-            <div class="common-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                @("Quantity".Localize())
-                            </th>
-                            <th>
-                                @("Product Name".Localize())
-                            </th>
-                            <th>
-                                @("Variants".Localize())
-                            </th>
-                            <th>
-                                @("Sku".Localize())
-                            </th>
-                            <th>
-                                @("Price".Localize())
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var product in ViewBag.Products)
-                        {
-                            foreach (var p in product.PriceList)
-                            {
-                                <tr class="@(GetProductPriceQuantity(p, Model) > 0 ? "active" : "")">
-                                    <td>
-                                        <input type="text" id="Quantity" name="Quantity" value="@GetProductPriceQuantity(p, Model)" onchange="ChangeQuantity(this);" class="mini">
-                                        <input type="hidden" id="ProductPriceId" name="ProductPriceId" value="@p.Id">
-                                        <input type="hidden" id="ProductId" name="ProductId" value="@p.ProductId">
-                                        <input type="hidden" id="ProductName" name="ProductName" value="@p.Product.Name">
-                                        <input type="hidden" id="SKU" name="SKU" value="@p.Sku">
-                                        <input type="hidden" id="UnitPrice" name="UnitPrice" value="@p.RetailPrice">
-                                    </td>
-                                    <td>
-                                        @p.Product.Name
-                                    </td>
-                                    <td>
-                                        @foreach (var variant in p.VariantValues)
-                                        {
-                                            <div class="block">
-                                                <span>@variant.CustomField.Name</span>
-                                                <span>:</span>
-                                                <span>@variant.FieldValue</span>
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @p.Sku
-                                    </td>
-                                    <td>
-                                        @p.RetailPrice
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="buttons">
-                <a class="button gray right" href="#" onclick="CancelProducts();">@("Cancel".Localize())</a>
-                <a class="button right" href="#" onclick="SaveProducts();">@("Save".Localize())</a>
-            </div>
-        </div>
-    }
+    <iframe src="/Commerce/Order/ProductList?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]" style="width: 840px; height: 490px;" frameborder="0">
+
+    </iframe>
 </div>
 <script type="text/javascript">
     $(function () {

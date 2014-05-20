@@ -100,7 +100,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.Return = "/Commerce/Order?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commerceName"];
             return View(order);
         }
-        public ActionResult SelectProduct(int? pageIndex, int? pageSize)
+        public ActionResult SelectProduct()
         {
             var order = Session["TempOrder"] as Order;
             ViewBag.SelectedCustomerId = -1;
@@ -120,13 +120,27 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
             }
 
-            var products = _productService.Query().OrderByDescending(x => x.Id).ToPagedList(pageIndex, pageSize);
-            ViewBag.Products = products;
-
             Session["TempOrder"] = order;
             ViewBag.Return = "/Commerce/Order/Create?siteName=" + Request.QueryString["siteName"] + "&commerceName=" + Request.QueryString["commerceName"] + "&id=" + order.Id;
             return View(order);
         }
+
+        public ActionResult ProductList(int? page = 1, int? pageSize = 50)
+        {
+            var query = _productService.Query();
+            string search = Request.Form["search"];
+            if (!string.IsNullOrEmpty(search))
+            {
+
+                query = query.Where(o => o.Name.StartsWith(search));
+            }
+            var products = query.OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
+            ViewBag.Products = products;
+            ViewBag.Search = search;
+            var order = Session["TempOrder"] as Order;
+            return View(order);
+        }
+
         public ActionResult FillOrderInfo()
         {
             var order = Session["TempOrder"] as Order;

@@ -6,7 +6,7 @@
             property: '',
             width: 180,
             height: 220,
-            multiple: true,
+            multiple: false,
             max_file_size: 5 * 1024 * 1024,
             accept_file_types: /(\.|\/)(gif|jpe?g|png)$/i,
             src: '',
@@ -100,6 +100,8 @@
             ops.height = $(ele).attr('data-height') || ops.height;
             ops.src = $(ele).attr('src') || $(ele).attr('data-src') || ops.src;
             ops.keep_ratio = $(ele).attr('data-keep-ratio') || ops.keep_ratio;
+
+            $(ele).css({ width: ops.width + 'px', height: ops.height + 'px' });
 
             $(ele).on('click', null, function () { self.open(); });
 
