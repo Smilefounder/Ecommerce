@@ -20,8 +20,9 @@
                 <td>
                     <div class="conditions-expression">
                         <span class="container">@Html.Raw(new Kooboo.Commerce.Web.Areas.Commerce.Models.Rules.ConditionsExpressionPrettifier().Prettify(Model.ConditionsExpression, typeof(HalContext)))</span>
-                        <a class="action" href="#" onclick="EditRule();">@Html.IconImage("edit-small")</a>
-                        <a class="action" href="#" onclick="DeleteRule();">@Html.IconImage("minus-small")</a>
+                        <a class="action add-rule" href="#" onclick="EditRule();">@Html.IconImage("plus-small")</a>
+                        <a class="action edit-rule" href="#" onclick="EditRule();">@Html.IconImage("edit-small")</a>
+                        <a class="action del-rule" href="#" onclick="DeleteRule();">@Html.IconImage("minus-small")</a>
                     </div>
                     @Html.HiddenFor(m => m.ConditionsExpression)
                 </td>
@@ -48,4 +49,56 @@
         </table>
     </div>
 }
+@Html.Partial("_ConditionsEditor")
+
+<script type="text/javascript">
+    $(function () {
+        ConditionsEditor.init({
+            contextModelTypeName: '@Html.Raw(ViewBag.CurrentEventType)',
+            save: function (exp) {
+                Highlight(exp, function () {
+                    $('#ConditionsExpression').val(exp);
+                    ConditionsEditor.close();
+                    InitRuleButtons();
+                });
+            }
+        });
+
+        InitRuleButtons();
+    });
+    function InitRuleButtons()
+    {
+        var exp = $('#ConditionsExpression').val();
+        if (exp.length <= 0)
+        {
+            $('a.add-rule').show();
+            $('a.edit-rule').hide();
+            $('a.del-rule').hide();
+        } else {
+            $('a.add-rule').hide();
+            $('a.edit-rule').show();
+            $('a.del-rule').show();
+        }
+    }
+    function EditRule() {
+        ConditionsEditor.open({
+            expression: $('#ConditionsExpression').val()
+        });
+    }
+
+    function DeleteRule() {
+        $('#ConditionsExpression').val(null);
+        $('div.conditions-expression>span.container').empty();
+        InitRuleButtons();
+    }
+
+    function Highlight(expression, func) {
+        var commerceName = '@(Request["commerceName"])';
+        return $.post('@Url.Action("HighlightConditionsExpression")', { commerceName: commerceName, expression: expression })
+        .then(function (data) {
+            $('div.conditions-expression>span.container').html(data.conditionsExpression);
+            if (typeof (func) == "function") { func(); }
+        });
+    }
+</script>
 
