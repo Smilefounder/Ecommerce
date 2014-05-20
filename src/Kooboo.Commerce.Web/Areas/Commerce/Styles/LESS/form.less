@@ -595,6 +595,106 @@ div.checkbox {
 	}
 }
 
+/* Thumbnail list
+----------------------------------------------------------*/
+.thumbnail-list {
+	li {
+		float: left;
+		margin: 0 20px 20px 0;
+		width: 104px;
+
+		> span {
+			background: #CCC;
+			display: block;
+			height: 100px;
+			overflow: hidden;
+			padding: 2px;
+			position: relative;
+			width: 100px;
+		}
+
+		span {
+			img {
+				display: block;
+				width: 100%;
+			}
+
+			label {
+				background: #000;
+				bottom: 0;
+				cursor: pointer;
+				left: 0;
+				position: absolute;
+				right: 0;
+				top: 0;
+				z-index: 2;
+				.opacity(0);
+			}
+		}
+
+		input[type="radio"] {
+			position: absolute;
+			.opacity(0);
+		}
+
+		input[type="checkbox"] {
+			border: 1px solid #CCC;
+			display: none;
+			margin: 0;
+			position: absolute;
+			right: 2px;
+			top: 2px;
+			z-index: 2;
+		}
+
+			&:hover input[type="checkbox"],
+			input[type="checkbox"]:checked {
+				display: block;
+			}
+
+		input:checked ~ label {
+			background: none;
+			border: 2px solid #0078B1;
+			.opacity(1);
+		}
+
+		input:checked ~ .corner {
+			border-left: 32px solid transparent;
+			border-top: 32px solid #0078B1;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		.name {
+			display: block;
+			font-size: 12px;
+			line-height: 1.4;
+			text-align: center;
+		}
+
+		&.extend {
+			width: 20px;
+
+			a {
+				background: #0078B1;
+				display: block;
+				height: 104px;
+				overflow: hidden;
+				width: 100%;
+			}
+
+			.sprite {
+				margin: 47px 0 0 7px;
+				.sprite(@chevron-right-white);
+			}
+
+			&.active .sprite {
+				.sprite(@chevron-left-white);
+			}
+		}
+	}
+}
 
 /* TODO: Below are all old styles, need to be rewrite
 ================================================================================================================================================================================*/
@@ -887,105 +987,6 @@ body.in-dialog .in-warning-dialog .buttons {
 		margin-top: 6px;
 	}
 
-/* Site list */
-.site-list li {
-	float: left;
-	margin: 0 20px 20px 0;
-	width: 104px;
-}
-
-	.site-list li > span {
-		background: #CCC;
-		display: block;
-		height: 100px;
-		overflow: hidden;
-		padding: 2px;
-		position: relative;
-		width: 100px;
-	}
-
-	.site-list li span img {
-		display: block;
-		width: 100%;
-	}
-
-	.site-list li span label {
-		background: #000;
-		bottom: 0;
-		cursor: pointer;
-		filter: alpha(opacity=0);
-		left: 0;
-		opacity: 0;
-		position: absolute;
-		right: 0;
-		top: 0;
-		z-index: 2;
-	}
-
-	.site-list li input:checked ~ label {
-		background: none;
-		border: 2px solid #0078B1;
-		filter: alpha(opacity=100);
-		opacity: 1;
-	}
-
-	.site-list li input[type="radio"] {
-		filter: alpha(opacity=0);
-		opacity: 0;
-		position: absolute;
-	}
-
-	.site-list li input[type="checkbox"] {
-		border: 1px solid #CCC;
-		display: none;
-		position: absolute;
-		right: 2px;
-		top: 2px;
-		z-index: 2;
-	}
-
-		.site-list li:hover input[type="checkbox"],
-		.site-list li input[type="checkbox"]:checked {
-			display: block;
-		}
-
-	.site-list li input:checked ~ .corner {
-		border-left: 32px solid transparent;
-		border-top: 32px solid #0078B1;
-		position: absolute;
-		right: 0;
-		top: 0;
-	}
-
-	.site-list li .name {
-		display: block;
-		font-size: 12px;
-		line-height: 1.4;
-		text-align: center;
-	}
-
-	.site-list li.extend {
-		width: 20px;
-	}
-
-		.site-list li.extend a {
-			background: #0078B1;
-			display: block;
-			height: 104px;
-			overflow: hidden;
-			width: 100%;
-		}
-
-		.site-list li.extend .arrow {
-			background-position: -6px -16px;
-			height: 8px;
-			margin: 47px 0 0 7px;
-			width: 6px;
-		}
-
-		.site-list li.extend.active .arrow {
-			background-position: 0 -16px;
-		}
 
 /* Filter list */
 .filter-list li span {
