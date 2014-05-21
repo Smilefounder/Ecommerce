@@ -17,7 +17,7 @@ using PayPalRest = PayPal.Api.Payments;
 
 namespace Kooboo.Commerce.Payments.PayPal
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.PayPal.PayPalPaymentProcessor")]
+    [Dependency(typeof(IPaymentProcessor), Key = "PayPal")]
     public class PayPalPaymentProcessor : IPaymentProcessor
     {
         private IOrderService _orderService;
@@ -30,15 +30,7 @@ namespace Kooboo.Commerce.Payments.PayPal
         {
             get
             {
-                return Strings.PaymentProcessorName;
-            }
-        }
-
-        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
-        {
-            get
-            {
-                return PayPalConstants.ParameterDescriptors;
+                return Strings.ProcessorName;
             }
         }
 
@@ -52,7 +44,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             _paymentMethodService = paymentMethodService;
         }
 
-        public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
+        public ProcessPaymentResult Process(ProcessPaymentRequest request)
         {
             if (String.IsNullOrEmpty(request.CurrencyCode))
             {
@@ -61,7 +53,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             }
 
             var paymentMethod = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
-            var settings = PayPalSettings.Deserialize(paymentMethod.PaymentProcessorData);
+            var settings = PayPalConfig.Deserialize(paymentMethod.PaymentProcessorData);
 
             var result = CreatePayPalPayment(request, settings);
             var paymentStatus = PaymentStatus.Failed;
@@ -86,7 +78,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             };
         }
 
-        private PayPalRest.Payment CreatePayPalPayment(ProcessPaymentRequest request, PayPalSettings settings)
+        private PayPalRest.Payment CreatePayPalPayment(ProcessPaymentRequest request, PayPalConfig settings)
         {
             var config = new Dictionary<string, string>();
             config.Add("mode", settings.SandboxMode ? "sandbox" : "live");
@@ -154,6 +146,11 @@ namespace Kooboo.Commerce.Payments.PayPal
             }
 
             return card;
+        }
+
+        public PaymentProcessorEditor GetEditor()
+        {
+            return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

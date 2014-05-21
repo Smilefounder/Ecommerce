@@ -9,6 +9,6 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
     {
         public static readonly string AreaName = typeof(Strings).Namespace;
 
-        public static readonly string PaymentGatewayName = "AuthorizeNet";
+        public static readonly string ProcessorName = "AuthorizeNet";
     }
 }

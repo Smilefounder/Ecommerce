@@ -13,12 +13,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     public class LocalPaymentMethodQuery : LocalCommerceQuery<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod>, IPaymentMethodQuery
     {
         private IPaymentMethodService _paymentMethodService;
-        private Kooboo.Commerce.Payments.IPaymentProcessorFactory _processorFactory;
+        private Kooboo.Commerce.Payments.IPaymentProcessorProvider _processorFactory;
 
         public LocalPaymentMethodQuery(
             IHalWrapper halWrapper,
             IPaymentMethodService paymentMethodService, 
-            Kooboo.Commerce.Payments.IPaymentProcessorFactory processorFactory,
+            Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory,
             IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
             : base(halWrapper, mapper)
         {
@@ -59,23 +59,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         /// <returns>object</returns>
         protected override PaymentMethod Map(Commerce.Payments.PaymentMethod obj)
         {
-            var method = _mapper.MapTo(obj);
-
-            var processor = _processorFactory.Find(obj.PaymentProcessorName);
-            if (processor == null)
-                throw new InvalidOperationException("Cannot find payment processor '" + obj.PaymentProcessorName + "' for payment method '" + obj.DisplayName + "'.");
-
-            method.PaymentProcessorParameterDescriptors = processor.ParameterDescriptors.Select(x => 
-                new PaymentProcessorParameterDescriptor
-                {
-                    ParameterName = x.ParameterName,
-                    IsRequired = x.IsRequired,
-                    Description = x.Description
-                }
-            )
-            .ToList();
-
-            return method;
+            return _mapper.MapTo(obj);
         }
     }
 }

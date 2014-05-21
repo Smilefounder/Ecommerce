@@ -22,18 +22,10 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
         public string Name
         {
-            get { return Strings.PaymentProcessorName; }
+            get { return Strings.ProcessorName; }
         }
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
-
-        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
-        {
-            get
-            {
-                return BuckarooConstants.Parameters.Descriptors;
-            }
-        }
 
         public BuckarooPaymentProcessor(
             IPaymentMethodService paymentMethodService,
@@ -43,10 +35,10 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             _commerceInstanceContext = commerceInstanceContext;
         }
 
-        public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
+        public ProcessPaymentResult Process(ProcessPaymentRequest request)
         {
             var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
-            var settings = BuckarooSettings.Deserialize(method.PaymentProcessorData);
+            var settings = BuckarooConfig.Deserialize(method.PaymentProcessorData);
 
             var serviceId = request.Parameters[BuckarooConstants.Parameters.ServiceId];
 
@@ -92,6 +84,11 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             }
 
             return url.ToFullUrl(HttpContextAccessor());
+        }
+
+        public PaymentProcessorEditor GetEditor()
+        {
+            return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

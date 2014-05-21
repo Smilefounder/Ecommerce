@@ -1,16 +1,17 @@
-﻿@model Promotion
+﻿@model PaymentMethod
 
 <script>
 
     (function ($) {
-        var promotionId = @Model.Id;
 
-        function PromotionPolicyEditor() {
+        var paymentMethodId = @Model.Id;
+
+        function PaymentProcessorEditor() {
             var _this = this;
             var _events = new kb.Events();
 
-            this.promotionId = function () {
-                return promotionId;
+            this.paymentMethodId = function () {
+                return paymentMethodId;
             }
 
             this.on = function (eventName, handler) {
@@ -18,35 +19,33 @@
             }
 
             this.load = function () {
-                _events.fire('load', _this, { promotionId: _this.promotionId() });
+                _events.fire('load', _this, { paymentMethodId: _this.paymentMethodId() });
             }
 
             this.next = function () {
                 window.loading.show();
-                _events.fire('saving', _this, { promotionId: _this.promotionId() })
+                _events.fire('saving', _this, { paymentMethodId: _this.paymentMethodId() })
                        .done(function () {
+                           window.loading.hide();
                            window.leaveConfirm.pass();
                            location.href = '@Html.Raw(Url.Action("Complete", RouteValues.From(Request.QueryString)))';
                        });
             }
         }
 
-        var editor = new PromotionPolicyEditor();
+        var editor = new PaymentProcessorEditor();
 
-        PromotionPolicyEditor.current = function () {
+        PaymentProcessorEditor.current = function () {
             return editor;
-        };
+        }
 
-        window.PromotionPolicyEditor = PromotionPolicyEditor;
+        window.PaymentProcessorEditor = PaymentProcessorEditor;
 
         $(function () {
-            // init
-            $('.btn-next').on('click', function () {
-                editor.next();
-            });
+            $('.btn-next').on('click', editor.next);
 
             // Give some delay so add-in views have enough time to register handlers
-            setTimeout(function () {
+            setTimeout(function() {
                 editor.load();
             }, 100);
         });

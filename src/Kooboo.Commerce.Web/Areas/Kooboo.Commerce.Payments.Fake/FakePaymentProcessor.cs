@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Payments.Fake
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.Fake.FakePaymentProcessor")]
+    [Dependency(typeof(IPaymentProcessor), Key = "Fake")]
     public class FakePaymentProcessor : IPaymentProcessor
     {
         private CommerceInstanceContext _commerceInstanceContext;
@@ -24,14 +24,6 @@ namespace Kooboo.Commerce.Payments.Fake
             }
         }
 
-        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
-        {
-            get
-            {
-                return Enumerable.Empty<PaymentProcessorParameterDescriptor>();
-            }
-        }
-
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
         public FakePaymentProcessor(CommerceInstanceContext commerceInstanceContext)
@@ -39,7 +31,7 @@ namespace Kooboo.Commerce.Payments.Fake
             _commerceInstanceContext = commerceInstanceContext;
         }
 
-        public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
+        public ProcessPaymentResult Process(ProcessPaymentRequest request)
         {
             var commerceName = _commerceInstanceContext.CurrentInstance.Name;
             var redirectUrl = Strings.AreaName 
@@ -60,6 +52,11 @@ namespace Kooboo.Commerce.Payments.Fake
             }
 
             return ProcessPaymentResult.Pending(redirectUrl, Guid.NewGuid().ToString("N"));
+        }
+
+        public PaymentProcessorEditor GetEditor()
+        {
+            return null;
         }
     }
 }

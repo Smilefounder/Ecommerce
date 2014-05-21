@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Payments.iDeal
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.iDeal.IDealPaymentProcessor")]
+    [Dependency(typeof(IPaymentProcessor), Key = "iDeal")]
     public class IDealPaymentProcessor : IPaymentProcessor
     {
         private IPaymentMethodService _paymentMethodService;
@@ -25,33 +25,23 @@ namespace Kooboo.Commerce.Payments.iDeal
         {
             get
             {
-                return Strings.PaymentProcessorName;
+                return "iDeal";
             }
         }
 
-        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
-        {
-            get
-            {
-                return Enumerable.Empty<PaymentProcessorParameterDescriptor>();
-            }
-        }
-
-        public IDealPaymentProcessor(
-            IPaymentMethodService paymentMethodService,
-            CommerceInstanceContext commerceInstanceContext)
+        public IDealPaymentProcessor(IPaymentMethodService paymentMethodService, CommerceInstanceContext commerceInstanceContext)
         {
             _paymentMethodService = paymentMethodService;
             _commerceInstanceContext = commerceInstanceContext;
         }
 
-        public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
+        public ProcessPaymentResult Process(ProcessPaymentRequest request)
         {
             if (request.Amount < (decimal)1.19)
                 throw new FormatException("Amount cannot be less than € 1,19");
 
             var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
-            var settings = IDealSettings.Deserialize(method.PaymentProcessorData);
+            var settings = IDealConfig.Deserialize(method.PaymentProcessorData);
 
             var commerceName = _commerceInstanceContext.CurrentInstance.Name;
             var httpContext = HttpContextAccessor();
@@ -74,6 +64,11 @@ namespace Kooboo.Commerce.Payments.iDeal
                 throw new PaymentProcessorException(idealFetch.ErrorMessage);
 
             return ProcessPaymentResult.Pending(idealFetch.Url, idealFetch.TransactionId);
+        }
+
+        public PaymentProcessorEditor GetEditor()
+        {
+            return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

@@ -264,7 +264,6 @@
     <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\OrderController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PaymentMethodController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\PaymentProcessorSettingsControllerBase.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PromotionController.cs" />
@@ -3448,6 +3447,8 @@
     <Content Include="Areas\Commerce\Views\Promotion\Policy.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\BasicInfo.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\Policy.Scripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\PaymentMethod\Processor.cshtml" />
+    <Content Include="Areas\Commerce\Views\PaymentMethod\Processor.Scripts.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -3750,9 +3751,6 @@
     <Content Include="Areas\Commerce\Views\Order\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Views\PaymentMethod\EditorTemplates\PaymentMethodEditorModel.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Commerce\Views\Customer\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -3760,9 +3758,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Customer\EditorTemplates\CustomerEditorModel.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Shared\AddIns\_PaymentProcessorSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Category\Index.cshtml" />

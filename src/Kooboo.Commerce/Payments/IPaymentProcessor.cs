@@ -9,8 +9,8 @@ namespace Kooboo.Commerce.Payments
     {
         string Name { get; }
 
-        IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors { get; }
+        ProcessPaymentResult Process(ProcessPaymentRequest request);
 
-        ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request);
+        PaymentProcessorEditor GetEditor();
     }
 }

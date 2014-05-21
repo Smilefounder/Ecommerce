@@ -43,15 +43,6 @@ namespace Kooboo.Commerce.Payments
             };
         }
 
-        public static ProcessPaymentResult Reserved(string thirdPartyTransactionId)
-        {
-            return new ProcessPaymentResult
-            {
-                PaymentStatus = PaymentStatus.Reserved,
-                ThirdPartyTransactionId = thirdPartyTransactionId
-            };
-        }
-
         public static ProcessPaymentResult Pending(string redirectUrl, string thirdPartyTransactionId = null)
         {
             return new ProcessPaymentResult

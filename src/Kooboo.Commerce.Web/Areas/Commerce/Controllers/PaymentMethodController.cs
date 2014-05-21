@@ -21,17 +21,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class PaymentMethodController : CommerceControllerBase
     {
-        private IPaymentProcessorFactory _processorFactory;
-        private IPaymentProcessorViewsFactory _processorViewsFactory;
+        private IPaymentProcessorProvider _processorProvider;
         private IPaymentMethodService _paymentMethodService;
 
-        public PaymentMethodController(
-            IPaymentProcessorFactory processorFactory,
-            IPaymentProcessorViewsFactory processorViewFactory,
-            IPaymentMethodService paymentMethodService)
+        public PaymentMethodController(IPaymentProcessorProvider processorProvider, IPaymentMethodService paymentMethodService)
         {
-            _processorFactory = processorFactory;
-            _processorViewsFactory = processorViewFactory;
+            _processorProvider = processorProvider;
             _paymentMethodService = paymentMethodService;
         }
 
@@ -40,14 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var methods = _paymentMethodService.Query()
                                  .OrderByDescending(x => x.Id)
                                  .ToPagedList(page, pageSize)
-                                 .Transform(x =>
-                                 {
-                                     var model = new PaymentMethodRowModel(x);
-                                     var views = _processorViewsFactory.FindByPaymentProcessor(model.PaymentProcessorName);
-                                     model.IsConfigurable = views != null;
-
-                                     return model;
-                                 });
+                                 .Transform(x => new PaymentMethodRowModel(x));
             return View(methods);
         }
 
@@ -87,22 +75,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         private IList<PaymentProcessorModel> GetAvailablePaymentProcessors()
         {
-            return _processorFactory.All().Select(x => new PaymentProcessorModel
+            return _processorProvider.All().Select(x => new PaymentProcessorModel
             {
                 Name = x.Name
             })
             .ToList();
-        }
-
-
-        [HttpPost, HandleAjaxFormError]
-        public ActionResult Settings(PaymentMethodRowModel[] model)
-        {
-            var method = _paymentMethodService.GetById(model[0].Id);
-            var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);
-            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", method.Id));
-
-            return AjaxForm().RedirectTo(url);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
@@ -148,6 +125,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
+        public ActionResult Processor(int id)
+        {
+            var method = _paymentMethodService.GetById(id);
+            var processor = _processorProvider.FindByName(method.PaymentProcessorName);
+            ViewBag.Processor = processor;
+            return View(method);
+        }
+
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(PaymentMethodEditorModel model, string @return)
         {
@@ -165,15 +150,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 _paymentMethodService.Create(method);
             }
 
-            var views = _processorViewsFactory.FindByPaymentProcessor(method.PaymentProcessorName);
+            var processor = _processorProvider.FindByName(method.PaymentProcessorName);
+            var editor = processor.GetEditor();
 
-            if (views != null)
+            string redirectUrl = null;
+
+            if (editor != null)
             {
-                var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", method.Id));
-                return AjaxForm().RedirectTo(url);
+                redirectUrl = Url.Action("Processor", RouteValues.From(Request.QueryString).Merge("id", method.Id));
+            }
+            else
+            {
+                redirectUrl = Url.Action("Complete", RouteValues.From(Request.QueryString).Merge("id", method.Id));
             }
 
-            return AjaxForm().RedirectTo(Url.Action("Complete", RouteValues.From(Request.QueryString).Merge("id", method.Id)));
+            return AjaxForm().RedirectTo(redirectUrl);
         }
     }
 }

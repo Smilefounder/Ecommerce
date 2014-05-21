@@ -9,6 +9,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo
     {
         public static readonly string AreaName = "Kooboo.Commerce.Payments.Buckaroo";
 
-        public static readonly string PaymentProcessorName = "Buckaroo";
+        public static readonly string ProcessorName = "Buckaroo";
     }
 }

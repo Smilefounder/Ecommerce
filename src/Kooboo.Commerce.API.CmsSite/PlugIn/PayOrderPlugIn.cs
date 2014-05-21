@@ -54,13 +54,9 @@ namespace Kooboo.Commerce.API.CmsSite.PlugIn
                     ReturnUrl = returnUrl
                 };
 
-                foreach (var each in paymentMethod.PaymentProcessorParameterDescriptors)
+                foreach (var key in controllerContext.HttpContext.Request.Form.AllKeys)
                 {
-                    var paramValue = controllerContext.HttpContext.Request.Form[each.ParameterName];
-                    if (paramValue != null)
-                    {
-                        request.Parameters.Add(each.ParameterName, paramValue);
-                    }
+                    request.Parameters.Add(key, controllerContext.HttpContext.Request.Form[key]);
                 }
 
                 var result = commerceService.Payments.Pay(request);

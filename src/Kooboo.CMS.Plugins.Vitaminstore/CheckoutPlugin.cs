@@ -41,13 +41,9 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                     ReturnUrl = returnUrl
                 };
 
-                foreach (var each in paymentMethod.PaymentProcessorParameterDescriptors)
+                foreach (var key in controllerContext.HttpContext.Request.Form.AllKeys)
                 {
-                    var paramValue = controllerContext.HttpContext.Request.Form[each.ParameterName];
-                    if (paramValue != null)
-                    {
-                        payment.Parameters.Add(each.ParameterName, paramValue);
-                    }
+                    payment.Parameters.Add(key, controllerContext.HttpContext.Request.Form[key]);
                 }
 
                 var result = api.Payments.Pay(payment);

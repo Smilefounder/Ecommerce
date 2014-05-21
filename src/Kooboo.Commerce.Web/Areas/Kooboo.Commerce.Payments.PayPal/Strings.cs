@@ -9,6 +9,6 @@ namespace Kooboo.Commerce.Payments.PayPal
     {
         public static readonly string AreaName = "Kooboo.Commerce.Payments.PayPal";
 
-        public static readonly string PaymentProcessorName = "PayPal";
+        public static readonly string ProcessorName = "PayPal";
     }
 }

@@ -22,14 +22,6 @@ namespace Kooboo.Commerce.API.Payments
 
         public string PaymentProcessorName { get; set; }
 
-        [NotSupportOptionalInclude]
-        public IList<PaymentProcessorParameterDescriptor> PaymentProcessorParameterDescriptors { get; set; }
-
-        public PaymentMethod()
-        {
-            PaymentProcessorParameterDescriptors = new List<PaymentProcessorParameterDescriptor>();
-        }
-
         public decimal GetPaymentMethodFee(decimal total)
         {
             if (AdditionalFeeChargeMode == PriceChangeMode.ByAmount)

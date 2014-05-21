@@ -152,17 +152,16 @@
     <Compile Include="Orders\Pricing\Stages\ShippingPricingStage.cs" />
     <Compile Include="Orders\Pricing\Stages\TaxPricingStage.cs" />
     <Compile Include="Payments\Extensions\PaymentsExtensions.cs" />
-    <Compile Include="Payments\IPaymentProcessorFactory.cs" />
+    <Compile Include="Payments\IPaymentProcessorProvider.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
     <Compile Include="Payments\PaymentMethodReference.cs" />
+    <Compile Include="Payments\PaymentProcessorEditor.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />
     <Compile Include="Payments\Payment.cs" />
-    <Compile Include="Payments\PaymentProcessorParameterDescriptor.cs" />
     <Compile Include="Payments\PaymentTarget.cs" />
     <Compile Include="Payments\ProcessPaymentResult.cs" />
     <Compile Include="Payments\Services\IPaymentService.cs" />
     <Compile Include="Orders\Services\IOrderService.cs" />
-    <Compile Include="Payments\IPaymentProcessorViewsFactory.cs" />
     <Compile Include="Products\ProductCategory.cs" />
     <Compile Include="Products\ProductCustomFieldValue.cs" />
     <Compile Include="Products\ProductPrice.cs" />
@@ -193,7 +192,6 @@
     <Compile Include="Customers\Services\ICustomerService.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Orders\Services\OrderService.cs" />
-    <Compile Include="Payments\IPaymentProcessorViews.cs" />
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\ProcessPaymentRequest.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />

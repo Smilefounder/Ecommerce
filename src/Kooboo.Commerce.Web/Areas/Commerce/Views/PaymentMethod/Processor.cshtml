@@ -1,0 +1,30 @@
+﻿@model PaymentMethod
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
+
+    ViewBag.Title = "Payment method".Localize();
+
+    var methodId = Model.Id;
+    var processor = ViewBag.Processor as IPaymentProcessor;
+    var editor = processor.GetEditor();
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddCancelButton();
+    })
+}
+
+@Html.Partial("Processor.Scripts")
+
+<div class="block">
+    @Html.Action("Steps", "PaymentMethod", new { area = "Commerce", step = 2 })
+    
+    @Html.Partial(editor.VirtualPath)
+
+    <div class="wizard-buttons">
+        <a class="button gray" href="@Url.Action("BasicInfo", "PaymentMethod", RouteValues.From(Request.QueryString).Merge("id", methodId))">&laquo; @("Back".Localize())</a>
+        <a class="button btn-next">@("Next".Localize()) &raquo;</a>
+    </div>
+</div>

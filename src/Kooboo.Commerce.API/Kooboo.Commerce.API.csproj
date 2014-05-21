@@ -128,7 +128,6 @@
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\PaymentMethodReference.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
-    <Compile Include="Payments\PaymentProcessorParameterDescriptor.cs" />
     <Compile Include="PriceChangeMode.cs" />
     <Compile Include="Pricing\IPriceAPI.cs" />
     <Compile Include="Products\IProductAccess.cs" />

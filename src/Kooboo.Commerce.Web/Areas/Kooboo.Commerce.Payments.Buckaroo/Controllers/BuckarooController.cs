@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
             var payment = _paymentService.GetById(paymentId);
             var method = _paymentMethodService.GetById(payment.PaymentMethod.Id);
-            var result = ProcessResponse(payment, BuckarooSettings.Deserialize(method.PaymentProcessorData));
+            var result = ProcessResponse(payment, BuckarooConfig.Deserialize(method.PaymentProcessorData));
             _paymentService.HandlePaymentResult(payment, result);
 
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
@@ -43,11 +43,11 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
             var payment = _paymentService.GetById(paymentId);
             var method = _paymentMethodService.GetById(payment.PaymentMethod.Id);
-            var result = ProcessResponse(payment, BuckarooSettings.Deserialize(method.PaymentProcessorData));
+            var result = ProcessResponse(payment, BuckarooConfig.Deserialize(method.PaymentProcessorData));
             _paymentService.HandlePaymentResult(payment, result);
         }
 
-        private ProcessPaymentResult ProcessResponse(Payment payment, BuckarooSettings settings)
+        private ProcessPaymentResult ProcessResponse(Payment payment, BuckarooConfig settings)
         {
             var signature = BuckarooUtil.GetSignature(Request.Form, settings.SecretKey);
             if (signature != Request["brq_signature"])
@@ -86,7 +86,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
                 // Reserved
                 if (transactionType == "C501")
                 {
-                    return ProcessPaymentResult.Reserved(transactionId);
+                    return ProcessPaymentResult.Pending(transactionId);
                 }
 
                 return ProcessPaymentResult.Pending(null);

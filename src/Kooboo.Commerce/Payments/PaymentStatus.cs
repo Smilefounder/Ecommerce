@@ -13,11 +13,6 @@ namespace Kooboo.Commerce.Payments
 
         Failed = 2,
 
-        Cancelled = 3,
-
-        /// <summary>
-        /// Indicates a reserval credit debit transaction was created.
-        /// </summary>
-        Reserved = 4
+        Cancelled = 3
     }
 }

@@ -9,22 +9,14 @@ using System.Web;
 
 namespace Kooboo.Commerce.Payments.AuthorizeNet
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.AuthorizeNetPaymentProcessor")]
+    [Dependency(typeof(IPaymentProcessor), Key = "AuthorizeNet")]
     public class AuthorizeNetPaymentProcessor : IPaymentProcessor
     {
         private IPaymentMethodService _paymentMethodService;
 
         public string Name
         {
-            get { return Strings.PaymentGatewayName; }
-        }
-
-        public IEnumerable<PaymentProcessorParameterDescriptor> ParameterDescriptors
-        {
-            get
-            {
-                return AuthorizeNetConstants.ParameterDescriptors;
-            }
+            get { return Strings.ProcessorName; }
         }
 
         public AuthorizeNetPaymentProcessor(IPaymentMethodService paymentMethodService)
@@ -32,10 +24,10 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             _paymentMethodService = paymentMethodService;
         }
 
-        public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest request)
+        public ProcessPaymentResult Process(ProcessPaymentRequest request)
         {
             var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
-            var settings = AuthorizeNetSettings.Deserialize(method.PaymentProcessorData);
+            var settings = AuthorizeNetConfig.Deserialize(method.PaymentProcessorData);
 
             var authRequest = CreateGatewayRequest(settings, request);
             var gateway = new Gateway(settings.LoginId, settings.TransactionKey, settings.SandboxMode);
@@ -58,7 +50,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             return result;
         }
 
-        private GatewayRequest CreateGatewayRequest(AuthorizeNetSettings settings, ProcessPaymentRequest paymentRequest)
+        private GatewayRequest CreateGatewayRequest(AuthorizeNetConfig settings, ProcessPaymentRequest paymentRequest)
         {
             var request = new CardPresentAuthorizeAndCaptureRequest(
                     paymentRequest.Amount,
@@ -70,6 +62,11 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             request.AddCardCode(paymentRequest.Parameters[AuthorizeNetConstants.CreditCardCvv2]);
 
             return request;
+        }
+
+        public PaymentProcessorEditor GetEditor()
+        {
+            return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

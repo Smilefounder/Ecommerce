@@ -1,0 +1,51 @@
+﻿<div class="common-form">
+    <form id="ideal-form">
+        <table>
+            <tbody>
+                <tr>
+                    <th>@("Parter ID".Localize())</th>
+                    <td>
+                        <input type="text" name="ParterId" data-bind="value: ParterId" />
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <input type="checkbox" id="TestMode" name="TestMode" value="true" data-bind="checked: TestMode" />
+                        <label for="TestMode" class="inline">@("Test Mode".Localize())</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<script>
+    (function ($) {
+        var viewModel = null;
+        var editor = PaymentProcessorEditor.current();
+
+        editor.on('load', function (sender, args) {
+            var methodId = args.paymentMethodId;
+            $.get('@Url.Action("Load", "Config", new { area = Strings.AreaName })', { methodId: methodId })
+             .done(function (data) {
+                 viewModel = ko.mapping.fromJS(data);
+                 ko.applyBindings(viewModel, document.getElementById('ideal-form'));
+             });
+        });
+
+        editor.on('saving', function (sender, args) {
+            var methodId = args.paymentMethodId;
+
+            return $.ajax({
+                url: '@Url.Action("Save", "Config", new { area = Strings.AreaName })?methodId=' + methodId,
+                type: 'POST',
+                data: $('#ideal-form').serializeArray()
+            })
+            .fail(function (data) {
+                window.loading.hide();
+                info.show(data.Message, false);
+            });
+        });
+    })(jQuery);
+</script>

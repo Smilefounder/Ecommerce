@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     {
         public LocalPaymentMethodAPI(IHalWrapper halWrapper, 
             IPaymentMethodService paymentMethodService, 
-            Kooboo.Commerce.Payments.IPaymentProcessorFactory processorFactory,
+            Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory,
             IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
             : base(halWrapper, paymentMethodService, processorFactory, mapper)
         {

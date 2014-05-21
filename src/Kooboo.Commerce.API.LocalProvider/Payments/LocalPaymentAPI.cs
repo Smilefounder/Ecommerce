@@ -14,12 +14,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     public class LocalPaymentAPI : LocalPaymentQuery, IPaymentAccess, IPaymentAPI
     {
         private IPaymentMethodService _paymentMethodService;
-        private IPaymentProcessorFactory _processorFactory;
+        private IPaymentProcessorProvider _processorFactory;
 
         public LocalPaymentAPI(IHalWrapper halWrapper, 
             IPaymentMethodService paymentMethodService,
             IPaymentService paymentService,
-            IPaymentProcessorFactory processorFactory,
+            IPaymentProcessorProvider processorFactory,
             IMapper<PaymentDto, Payment> mapper)
             : base(halWrapper, paymentService, mapper)
         {
@@ -32,8 +32,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             var paymentMethod = _paymentMethodService.GetById(request.PaymentMethodId);
             var payment = PaymentService.Create(new Kooboo.Commerce.Payments.PaymentTarget(request.TargetId, request.TargetType), request.Amount, paymentMethod, request.Description);
 
-            var processor = _processorFactory.Find(paymentMethod.PaymentProcessorName);
-            var processResult = processor.ProcessPayment(new ProcessPaymentRequest(payment)
+            var processor = _processorFactory.FindByName(paymentMethod.PaymentProcessorName);
+            var processResult = processor.Process(new ProcessPaymentRequest(payment)
             {
                 CurrencyCode = request.CurrencyCode,
                 ReturnUrl = request.ReturnUrl,
