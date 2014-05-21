@@ -11,12 +11,12 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
     public class PromotionPricingStage : IPricingStage
     {
         private IPromotionService _promotionService;
-        private IPromotionPolicyFactory _policyFactory;
+        private IPromotionPolicyProvider _policyFactory;
         private RuleEngine _ruleEngine;
 
         public PromotionPricingStage(
             IPromotionService promotionService,
-            IPromotionPolicyFactory policyFactory,
+            IPromotionPolicyProvider policyFactory,
             RuleEngine ruleEngine)
         {
             Require.NotNull(promotionService, "promotionService");
@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
 
             foreach (var match in matches)
             {
-                var policy = _policyFactory.Find(match.Promotion.PromotionPolicyName);
+                var policy = _policyFactory.FindByName(match.Promotion.PromotionPolicyName);
                 if (policy == null)
                     throw new InvalidOperationException("Cannot load promotion policy with name '" + match.Promotion.PromotionPolicyName + "'. Ensure corresponding add-in has been installed.");
 

@@ -3445,6 +3445,9 @@
     <Content Include="Areas\Sites\Views\DataSource\Index.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\_Designers.cshtml" />
     <Content Include="Areas\Commerce\Views\Order\ProductList.cshtml" />
+    <Content Include="Areas\Commerce\Views\Promotion\Policy.cshtml" />
+    <Content Include="Areas\Commerce\Views\Promotion\BasicInfo.Scripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\Promotion\Policy.Scripts.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -3735,12 +3738,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Loading_Info.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Shared\AddIns\_PromotionPolicySettings.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Promotion\EditorTemplates\PromotionEditorModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Promotion\_SelectOverlappablePromotions.cshtml" />

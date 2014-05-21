@@ -6,18 +6,10 @@ using System.Web;
 
 namespace Kooboo.Commerce.Promotions.Policies.Default
 {
-    [Dependency(typeof(IPromotionPolicy), Key = "Kooboo.Commerce.Promotions.Policies.Default")]
+    [Dependency(typeof(IPromotionPolicy), Key = "Discount Promotion")]
     public class DefaultPromotionPolicy : IPromotionPolicy
     {
         public string Name
-        {
-            get
-            {
-                return Strings.PolicyName;
-            }
-        }
-
-        public string DisplayName
         {
             get
             {
@@ -79,6 +71,11 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             }
 
             return discount;
+        }
+
+        public PromotionPolicyEditor GetEditor()
+        {
+            return new PromotionPolicyEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

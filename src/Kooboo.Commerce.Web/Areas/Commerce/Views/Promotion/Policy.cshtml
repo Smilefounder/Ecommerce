@@ -1,0 +1,30 @@
+﻿@model Promotion
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
+
+    if ((ViewBag.Title as string) == null)
+    {
+        ViewBag.Title = "Promotion".Localize();
+    }
+
+    var promotionId = ViewContext.RouteData.Values["id"];
+    var policy = ViewBag.Policy as IPromotionPolicy;
+    var editor = policy.GetEditor();
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons => buttons.AddCancelButton())
+}
+
+@Html.Partial("Policy.Scripts")
+
+<div class="block">
+    @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 2 })
+
+    @Html.Partial(editor.VirtualPath)
+
+    <div class="wizard-buttons">
+        <a class="button gray" href="@Url.Action("BasicInfo", "Promotion", RouteValues.From(Request.QueryString).Merge("id", promotionId))">&laquo; @("Back".Localize())</a>
+        <a class="button btn-next">@("Next".Localize()) &raquo;</a>
+    </div>
+</div>

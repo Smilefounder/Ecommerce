@@ -22,22 +22,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     public class PromotionController : CommerceControllerBase
     {
         private IPromotionService _promotionService;
-        private IPromotionPolicyFactory _policyFactory;
-        private IPromotionPolicyViewsFactory _policyViewsFactory;
+        private IPromotionPolicyProvider _policyProvider;
 
-        public PromotionController(
-            IPromotionService promotionService,
-            IPromotionPolicyFactory policyFactory,
-            IPromotionPolicyViewsFactory policyViewsFactory)
+        public PromotionController(IPromotionService promotionService, IPromotionPolicyProvider policyProvider)
         {
             _promotionService = promotionService;
-            _policyFactory = policyFactory;
-            _policyViewsFactory = policyViewsFactory;
+            _policyProvider = policyProvider;
         }
 
         public ActionResult Index(int? page, int? pageSize)
         {
-            ViewBag.AllPolicies = _policyFactory.All().ToSelectList().ToList();
+            ViewBag.AllPolicies = _policyProvider.All().ToSelectList().ToList();
 
             var promotions = _promotionService.Query()
                                              .OrderByDescending(x => x.Id)
@@ -153,15 +148,30 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 promotion.OverlappablePromotions.Add(_promotionService.GetById(other.Id));
             }
 
-            return AjaxForm().RedirectTo(Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("id", promotion.Id)));
+            var policy = _policyProvider.FindByName(model.PromotionPolicy);
+            var editor = policy.GetEditor();
+
+            string redirectUrl = null;
+
+            if (editor == null)
+            {
+                redirectUrl = Url.Action("Complete", new { id = promotion.Id });
+            }
+            else
+            {
+                redirectUrl = Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("id", promotion.Id));
+            }
+
+            return AjaxForm().RedirectTo(redirectUrl);
         }
 
         public ActionResult Policy(int id)
         {
             var promotion = _promotionService.GetById(id);
-            var views = _policyViewsFactory.FindByPolicyName(promotion.PromotionPolicyName);
-            var url = Url.RouteUrl(views.Settings(promotion, ControllerContext), RouteValues.From(Request.QueryString));
-            return Redirect(url);
+            var policy = _policyProvider.FindByName(promotion.PromotionPolicyName);
+            ViewBag.Policy = policy;
+
+            return View(promotion);
         }
 
         public ActionResult Complete(int id)

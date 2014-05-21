@@ -121,11 +121,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddInAreaRegistration.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\DiscountPolicyController.cs" />
     <Compile Include="DefaultPromotionPolicy.cs" />
-    <Compile Include="DefaultPromotionPolicyViews.cs" />
     <Compile Include="DiscountAppliedTo.cs" />
-    <Compile Include="Models\DefaultPolicySettingsModel.cs" />
+    <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultPromotionPolicyData.cs" />
     <Compile Include="Strings.cs" />
@@ -139,9 +138,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -165,6 +161,9 @@
       <SubType>
       </SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Config.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

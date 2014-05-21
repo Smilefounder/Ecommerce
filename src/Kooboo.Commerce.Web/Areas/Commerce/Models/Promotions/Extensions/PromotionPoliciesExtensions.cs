@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
         {
             return policies.Select(x => new SelectListItem
             {
-                Text = x.DisplayName,
+                Text = x.Name,
                 Value = x.Name
             });
         }

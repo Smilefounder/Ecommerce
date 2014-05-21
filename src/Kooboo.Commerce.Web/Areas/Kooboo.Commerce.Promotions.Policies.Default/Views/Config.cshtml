@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Config";
+}
+
+<div class="common-form">
+    <form id="discount-promotion-form">
+        <table>
+            <tbody>
+                <tr>
+                    <th>@("Discount Appliect To".Localize())</th>
+                    <td>
+                        <select class="medium" name="DiscountAppliedTo" data-bind="options: AvailableDiscountAppliedTos, optionsText: 'Text', optionsValue: 'Value', value: DiscountAppliedTo"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Discount Mode".Localize())</th>
+                    <td>
+                        <select class="medium" name="DiscountMode" data-bind="options: AvailableDiscountModes, optionsText: 'Text', optionsValue: 'Value', value: DiscountMode"></select>
+                    </td>
+                </tr>
+                <tr style="display:none" data-bind="visible: DiscountMode() == 'ByAmount'">
+                    <th>@("Discount Amount".Localize())</th>
+                    <td>
+                        <input type="text" name="DiscountAmount" data-bind="value: DiscountAmount" class="medium" />
+                    </td>
+                </tr>
+                <tr style="display:none" data-bind="visible: DiscountMode() == 'ByPercent'">
+                    <th>@("Discount Percent".Localize())</th>
+                    <td>
+                        <input type="text" name="DiscountPercent" data-bind="value: DiscountPercent" class="mini" /> %
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<script>
+    (function ($) {
+
+        var viewModel = null;
+        var editor = PromotionPolicyEditor.current();
+
+        editor.on('load', function (sender, args) {
+            var promotionId = args.promotionId;
+            return $.get('@Url.Action("Load", "DiscountPolicy", new { area = Strings.AreaName })?promotionId=' + promotionId)
+                    .then(function (data) {
+                        viewModel = ko.mapping.fromJS(data);
+                        ko.applyBindings(viewModel, document.getElementById('discount-promotion-form'));
+                    });
+        });
+
+        editor.on('saving', function (sender, args) {
+            var promotionId = args.promotionId;
+
+            return $.ajax({
+                url: '@Url.Action("Save", "DiscountPolicy", new { area = Strings.AreaName })?promotionId=' + promotionId,
+                type: 'POST',
+                data: JSON.stringify(ko.mapping.toJS(viewModel)),
+                contentType: 'application/json'
+            })
+            .fail(function (result) {
+                window.loading.hide();
+                info.show(result.Message, false);
+            });
+
+        });
+    })(jQuery);
+</script>

@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.Activities
 {
     public interface IActivityProvider
     {
-        IEnumerable<IActivity> AllActivities();
+        IEnumerable<IActivity> All();
 
         IActivity FindByName(string name);
 
@@ -19,19 +19,19 @@ namespace Kooboo.Commerce.Activities
     [Dependency(typeof(IActivityProvider), ComponentLifeStyle.Singleton)]
     public class DefaultActivityProvider : IActivityProvider
     {
-        public IEnumerable<IActivity> AllActivities()
+        public IEnumerable<IActivity> All()
         {
             return EngineContext.Current.ResolveAll<IActivity>();
         }
 
         public IActivity FindByName(string name)
         {
-            return AllActivities().FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            return All().FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         public IEnumerable<IActivity> FindBindableTo(Type eventType)
         {
-            return AllActivities().Where(x => x.CanBindTo(eventType));
+            return All().Where(x => x.CanBindTo(eventType));
         }
     }
 }

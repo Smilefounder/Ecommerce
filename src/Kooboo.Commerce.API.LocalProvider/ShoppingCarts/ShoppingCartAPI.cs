@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private ICustomerAPI _customerApi;
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
-        private IPromotionPolicyFactory _promotionPolicyFactory;
+        private IPromotionPolicyProvider _promotionPolicyFactory;
         private IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> _cartItemMapper;
 
         public ShoppingCartAPI(
@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             IShoppingCartService shoppingCartService, 
             ICustomerService customerService,
             IPromotionService promotionService,
-            IPromotionPolicyFactory promotionPolicyFactory,
+            IPromotionPolicyProvider promotionPolicyFactory,
             IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
             IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper)
             : base(halWrapper, mapper)

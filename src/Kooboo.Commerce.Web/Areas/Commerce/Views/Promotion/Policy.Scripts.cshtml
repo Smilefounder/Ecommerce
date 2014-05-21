@@ -1,0 +1,53 @@
+﻿@model Promotion
+
+<script>
+
+    (function ($) {
+        var promotionId = @Model.Id;
+
+        function PromotionPolicyEditor() {
+            var _this = this;
+            var _events = new kb.Events();
+
+            this.promotionId = function () {
+                return promotionId;
+            }
+
+            this.on = function (eventName, handler) {
+                _events.on(eventName, handler);
+            }
+
+            this.load = function () {
+                _events.fire('load', _this, { promotionId: _this.promotionId() });
+            }
+
+            this.next = function () {
+                window.loading.show();
+                _events.fire('saving', _this, { promotionId: _this.promotionId() })
+                       .done(function () {
+                           window.leaveConfirm.pass();
+                           location.href = '@Html.Raw(Url.Action("Complete", RouteValues.From(Request.QueryString)))';
+                       });
+            }
+        }
+
+        var editor = new PromotionPolicyEditor();
+
+        PromotionPolicyEditor.current = function () {
+            return editor;
+        };
+
+        window.PromotionPolicyEditor = PromotionPolicyEditor;
+
+        $(function () {
+            // init
+            $('.btn-next').on('click', function () {
+                editor.next();
+            });
+
+            editor.load();
+        });
+
+    })(jQuery);
+
+</script>

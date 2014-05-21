@@ -8,10 +8,10 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Promotions.Policies.Default.Models
 {
-    public class DefaultPolicySettingsModel
+    public class ConfigModel
     {
         [Display(Name = "Discount mode")]
-        public PriceChangeMode DiscountMode { get; set; }
+        public string DiscountMode { get; set; }
 
         public IList<SelectListItem> AvailableDiscountModes { get; set; }
 
@@ -22,11 +22,11 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Models
         public decimal DiscountAmount { get; set; }
 
         [Display(Name = "Discount applied to")]
-        public DiscountAppliedTo DiscountAppliedTo { get; set; }
+        public string DiscountAppliedTo { get; set; }
 
         public IList<SelectListItem> AvailableDiscountAppliedTos { get; set; }
 
-        public DefaultPolicySettingsModel()
+        public ConfigModel()
         {
             AvailableDiscountModes = EnumUtil.ToSelectList<PriceChangeMode>();
             AvailableDiscountAppliedTos = EnumUtil.ToSelectList<DiscountAppliedTo>();
