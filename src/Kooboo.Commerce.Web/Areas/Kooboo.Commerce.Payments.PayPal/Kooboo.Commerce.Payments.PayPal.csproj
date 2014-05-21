@@ -204,12 +204,7 @@
     <PostBuildEvent>xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
 xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
 xcopy /y "$(TargetDir)PayPalCoreSDK.dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
-xcopy /y "$(TargetDir)RestApiSDK.dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
-
-xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"
-xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"
-xcopy /y "$(TargetDir)PayPalCoreSDK.dll" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"
-xcopy /y "$(TargetDir)RestApiSDK.dll" "$(SolutionDir)Kooboo.Commerce.WebAPI\Bin\"</PostBuildEvent>
+xcopy /y "$(TargetDir)RestApiSDK.dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
