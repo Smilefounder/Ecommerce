@@ -104,3 +104,25 @@ Kooboo Commerce中的事件由普通CLR对象定义，事件对象即事件消�
 	}
 
 ```
+
+## 特殊事件 ##
+
+实体的创建、删除以及更新是非常常见的事件，因此这三类事件在Kooboo Commerce中有特殊处理，如果一个实体需要创建事件，除了用标准的方法触发相应事件外，还可以实现`Kooboo.Commerce.ComponentModel.INotifyCreated`接口，例如:
+
+public class Order : INotifyCreated 
+{
+	void INotifyCreated.NotifyCreated()
+	{
+		Event.Raise(new OrderCreated(this));
+	}
+}
+
+若实体实现了`INotifyCreated`，则在保存到Repository时其`NotifyCreated`方法会被自动调用，进而触发`OrderCreated`事件。
+
+不使用通用的`EntityCreated`事件是因为`EntityCreated`太过于技术化，命名没有业务价值，也不方便Activity的绑定。
+
+为了不污染实体，建议在实体中显式实现`INotifyCreated`。
+
+类似的，实体还可以实现`INotifyUpdated`, `INotifyDeleting` 以及 `INotifyDeleted`。
+
+不建议过多使用后三者，尤其`INotifyUpdated`，应该尽量使用更具业务含义的操作，用更具业务含义的操作也会使其它模块的开发变得更加简单，例如，如果Activity订阅到了`OrderUpdated`事件，那它仍然无法下手，因为Update有太多可能，例如Update可能是因为地址变更，也可能是因为订单状态变更，等。而如果Activity订阅到的是`BillingAddressChanged`，或`OrderStatusChanged`，则Activity的开发会相对更容易一些。
