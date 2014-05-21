@@ -53,7 +53,7 @@ PaymentProcessor用于处理支付请求，添加PaymentMethod时需要指定对
 
 `GetEditor`返回用于配置该PaymentProcessor的自定义数据的View的信息，和Activity, Promotion等类似。在该View中，通过JS API与主系统界面进行交互。例如:
 
-```csharp
+```html
 
 	<script>
 	    (function ($) {
