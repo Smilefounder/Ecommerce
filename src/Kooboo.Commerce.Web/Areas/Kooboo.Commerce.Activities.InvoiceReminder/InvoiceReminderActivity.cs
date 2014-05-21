@@ -15,7 +15,7 @@ using Kooboo.Commerce.Events.Brands;
 
 namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
-    [Dependency(typeof(IActivity))]
+    [Dependency(typeof(IActivity), Key = "Invoice Reminder")]
     public class InvoiceReminderActivity : IActivity
     {
         public string Name
