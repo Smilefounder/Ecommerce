@@ -8,6 +8,8 @@ PromotionPolicy的扩展同样分为两部分，业务逻辑执行部分，以�
 
 实现一个新的PromotionPolicy应实现`Kooboo.Commerce.Promotions.IPromotionPolicy`接口，接口定义如下:
 
+```csharp
+
     /// <summary>
     /// 定义一种促销策略。
     /// </summary>
@@ -29,6 +31,8 @@ PromotionPolicy的扩展同样分为两部分，业务逻辑执行部分，以�
         /// </summary>
         PromotionPolicyEditor GetEditor();
     }
+
+```
 
 其中`GetEditor`方法应返回`PromotionPolicyEditor`或`null`，当返回`null`时表示该PromotionPolicy不需要配置自定义数据。
 
