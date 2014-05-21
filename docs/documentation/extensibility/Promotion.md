@@ -38,6 +38,8 @@ PromotionPolicy的扩展同样分为两部分，业务逻辑执行部分，以�
 
 `Execute`方法中应执行促销逻辑，例如，我们可以在总价格上添加折扣:
 
+```csharp
+
 	public class MyPromotionPolicy : IPromotionPolicy
 	{
 		public void Execute(PromotionContext context)
@@ -47,9 +49,13 @@ PromotionPolicy的扩展同样分为两部分，业务逻辑执行部分，以�
 		}
 	}
 
+```
+
 当PromotionPolicy需要自定义数据配置时，应在`GetEditor`方法中返回`PromotionPolicyEditor`实例，并将`VirtualPath`设置为对应的配置View。
 
 实现配置View时，可通过JS API和主系统页面进行交互，例如:
+
+```html
 
 	<script>
 	    (function ($) {
@@ -70,6 +76,7 @@ PromotionPolicy的扩展同样分为两部分，业务逻辑执行部分，以�
 	        });
 	    })(jQuery);
 	</script>
+```
 
 和Activity类似，Promotion中的JS事件处理函数可以返回`promise`，当返回`promise`时，主系统页面会等待其完成后才会进行下一步操作。例如`saving`事件中，我们需要用ajax保存自定义数据到服务端，保存操作会有一定延迟，且有可能保存失败，因此我们可以在对应的事件处理函数中返回`promise`，这样主系统界面会一直等其完成后才会跳转到下一个页面。
 
@@ -77,8 +84,12 @@ PromotionPolicy的扩展同样分为两部分，业务逻辑执行部分，以�
 
 可使用`Kooboo.CMS.Common.Runtime.Dependency.DependencyAttribute`注册自定义的PromotionPolicy，例如:
 
+```csharp
+
 	[Dependency(typeof(IPromotionPolicy), Key = "MyPromotionPolicy")]
 	public class MyPromotionPolicy : IPromotionPolicy
 	{
 		// ...
 	}
+
+```
