@@ -11,12 +11,12 @@ using Kooboo.Commerce.Rules;
 
 namespace Kooboo.Commerce.Activities
 {
-    class EventToActivityBridge : IHandle<IEvent>
+    class ActivityEventHook : IHandle<IEvent>
     {
         private IActivityProvider _provider;
         private CommerceInstanceContext _instanceContext;
 
-        public EventToActivityBridge(CommerceInstanceContext instanceContext, IActivityProvider provider)
+        public ActivityEventHook(CommerceInstanceContext instanceContext, IActivityProvider provider)
         {
             Require.NotNull(instanceContext, "instanceContext");
             Require.NotNull(provider, "provider");
@@ -69,28 +69,22 @@ namespace Kooboo.Commerce.Activities
         {
             foreach (var setting in settings.OrderByExecutionOrder())
             {
-                var descriptor = _provider.GetDescriptor(setting.ActivityName);
-                if (descriptor == null)
+                var activity = _provider.FindByName(setting.ActivityName);
+                if (activity == null)
                     throw new InvalidOperationException("Cannot find activity with name \"" + setting.ActivityName + "\".");
 
                 // It's possible that the first version of the activity allows async execution, 
                 // and admin configured it to "execute async", 
                 // but the second version of the activity doesn't allow async execution.
                 // In this case, we need to ignore admin settings, that is, execute it right now
-                if (setting.IsAsyncExeuctionEnabled && descriptor.AllowAsyncExecution)
+                if (setting.IsAsyncExeuctionEnabled && activity.AllowAsyncExecution)
                 {
                     var queueItem = new ActivityQueueItem(setting, @event);
                     activityQueue.Insert(queueItem);
                 }
                 else
                 {
-                    var activity = (IActivity)EngineContext.Current.Resolve(descriptor.ActivityType);
-                    var response = activity.Execute(@event, new ActivityContext(rule, setting, false));
-                    // TODO: Consider Quartz.NET's JobExecutionException design
-                    if (response == ActivityResult.AbortTransaction)
-                    {
-                        throw new TransactionAbortException("Activity requested to abort transaction.");
-                    }
+                    activity.Execute(@event, new ActivityContext(rule, setting, false));
                 }
             }
         }

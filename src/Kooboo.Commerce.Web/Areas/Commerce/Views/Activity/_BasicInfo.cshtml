@@ -8,7 +8,7 @@
                     <tr>
                         <th>@("Activity".Localize())</th>
                         <td>
-                            <span data-bind="text: activityDescriptor.name"></span>
+                            <span data-bind="text: activity.name"></span>
                         </td>
                     </tr>
                     <tr>
@@ -27,10 +27,10 @@
                         <th></th>
                         <td>
                             <div class="clearfix">
-                                <input type="checkbox" id="EnableAsyncExecution" data-bind="checked: enableAsyncExecution, enable: activityDescriptor.allowAsyncExecution" />
+                                <input type="checkbox" id="EnableAsyncExecution" data-bind="checked: enableAsyncExecution, enable: activity.allowAsyncExecution" />
                                 <label class="inline" for="EnableAsyncExecution">@("Enable Async Execution".Localize())</label>
                             </div>
-                            <div class="block message warning" style="margin-top:5px" data-bind="visible: !activityDescriptor.allowAsyncExecution()">
+                            <div class="block message warning" style="margin-top:5px" data-bind="visible: !activity.allowAsyncExecution()">
                                 @("This activity does not allow async execution".Localize())
                             </div>
                         </td>

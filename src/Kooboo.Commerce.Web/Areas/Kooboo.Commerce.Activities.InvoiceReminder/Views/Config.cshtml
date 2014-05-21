@@ -20,7 +20,7 @@
 <script>
     $(function () {
 
-        var editor = window.ActivityEditor;
+        var editor = ActivityEditor.current();
         var model = new InvoiceReminderConfigModel();
         var ruleId = editor.model().ruleId();
 

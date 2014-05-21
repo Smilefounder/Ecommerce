@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Activities.Jobs
 
             var engine = EngineContext.Current;
             var instanceManager = engine.Resolve<ICommerceInstanceManager>();
-            var activityFactory = engine.Resolve<IActivityProvider>();
+            var activityProvider = engine.Resolve<IActivityProvider>();
             var now = DateTime.UtcNow;
 
             foreach (var metadata in instanceManager.GetAllInstanceMetadatas())
@@ -63,8 +63,7 @@ namespace Kooboo.Commerce.Activities.Jobs
                                 var @event = queueItem.LoadEvent();
                                 var rule = ruleRepository.Get(queueItem.RuleId);
                                 var attachedActivityInfo = rule.AttachedActivityInfos.Find(queueItem.AttachedActivityInfoId);
-                                var descriptor = activityFactory.GetDescriptor(attachedActivityInfo.ActivityName);
-                                var activity = EngineContext.Current.Resolve(descriptor.ActivityType) as IActivity;
+                                var activity = activityProvider.FindByName(attachedActivityInfo.ActivityName);
                                 if (activity != null)
                                 {
                                     activity.Execute(@event, new ActivityContext(rule, attachedActivityInfo, true));

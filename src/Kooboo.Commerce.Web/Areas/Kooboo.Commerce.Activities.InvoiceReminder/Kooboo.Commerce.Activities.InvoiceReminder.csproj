@@ -122,7 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InvoiceReminderActivityConfig.cs" />
-    <Compile Include="InvoiceReminderActivityDescriptor.cs" />
     <Compile Include="Controllers\InvoiceReminderController.cs" />
     <Compile Include="InvoiceReminderActivity.cs" />
     <Compile Include="AddInAreaRegistration.cs" />

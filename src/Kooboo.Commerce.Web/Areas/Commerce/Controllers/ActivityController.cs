@@ -40,26 +40,26 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Create(int ruleId, RuleBranch branch, string activityName)
         {
-            var descriptor = _activityProvider.GetDescriptor(activityName);
+            var activity = _activityProvider.FindByName(activityName);
 
             return View(new ActivityEditorModel
             {
                 RuleId = ruleId,
                 RuleBranch = branch,
-                ActivityDescriptor = new ActivityDescriptorModel(descriptor)
+                Activity = new ActivityModel(activity)
             });
         }
         public ActionResult Edit(int ruleId, int attachedActivityInfoId)
         {
             var rule = _ruleRepository.Get(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            var descriptor = _activityProvider.GetDescriptor(attachedActivityInfo.ActivityName);
+            var activity = _activityProvider.FindByName(attachedActivityInfo.ActivityName);
 
             return View(new ActivityEditorModel
             {
                 RuleId = ruleId,
                 AttachedActivityInfoId = attachedActivityInfoId,
-                ActivityDescriptor = new ActivityDescriptorModel(descriptor)
+                Activity = new ActivityModel(activity)
             });
         }
 
@@ -71,8 +71,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             model.RuleId = rule.Id;
             model.RuleBranch = branch;
 
-            var descriptor = _activityProvider.GetDescriptor(activityName);
-            model.ActivityDescriptor = new ActivityDescriptorModel(descriptor);
+            var activity = _activityProvider.FindByName(activityName);
+            model.Activity = new ActivityModel(activity);
 
             if (attachedActivityInfoId > 0)
             {
@@ -104,7 +104,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
             else
             {
-                activityInfo = rule.AttachActivity(model.RuleBranch, model.Description, model.ActivityDescriptor.Name, null);
+                activityInfo = rule.AttachActivity(model.RuleBranch, model.Description, model.Activity.Name, null);
             }
 
             activityInfo.Description = model.Description;
@@ -188,8 +188,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult GetAvailableActivities(string eventType)
         {
-            var result = _activityProvider.GetAllDescriptors()
-                                          .BindableTo(Type.GetType(eventType, true))
+            var result = _activityProvider.FindBindableTo(Type.GetType(eventType, true))
                                           .Select(x => new
                                           {
                                               Name = x.Name,

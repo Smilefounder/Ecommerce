@@ -8,11 +8,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 {
     public class ActivityEditorModel
     {
+        public ActivityModel Activity { get; set; }
+
         public int AttachedActivityInfoId { get; set; }
 
         public string Description { get; set; }
-
-        public ActivityDescriptorModel ActivityDescriptor { get; set; }
 
         public bool IsEnabled { get; set; }
 

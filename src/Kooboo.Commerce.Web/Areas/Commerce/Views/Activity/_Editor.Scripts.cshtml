@@ -7,7 +7,7 @@
         var commerceName = '@Request["commerceName"]';
         var ruleId = @Model.RuleId;
         var branch = '@Model.RuleBranch';
-        var activityName = '@Model.ActivityDescriptor.Name';
+        var activityName = '@Model.Activity.Name';
         var activityInfoId = @Model.AttachedActivityInfoId;
         var editor = new ActivityEditor();
 
@@ -105,7 +105,11 @@
             }
         }
 
-        window.ActivityEditor = editor;
+        ActivityEditor.current = function () {
+            return editor;
+        };
+
+        window.ActivityEditor = ActivityEditor;
 
         $(function () {
             editor.load();

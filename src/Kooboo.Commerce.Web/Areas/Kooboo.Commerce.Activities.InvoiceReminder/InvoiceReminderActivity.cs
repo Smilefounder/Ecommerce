@@ -15,33 +15,37 @@ using Kooboo.Commerce.Events.Brands;
 
 namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
+    [Dependency(typeof(IActivity))]
     public class InvoiceReminderActivity : IActivity
     {
-        public ActivityResult Execute(IEvent evnt, ActivityContext context)
+        public string Name
         {
-            var brand = (IBrandEvent)evnt;
-            //var order = ((IOrderEvent)evnt).Order;
-
-            //var settings = JsonConvert.DeserializeObject<InvoiceReminderSettings>(context.AttachedActivity.ActivityData);
-
-            //var subject = settings.SubjectTemplate;
-            //var body = settings.BodyTemplate;
-            
-            //// Send mail
-            //var message =  "[" + DateTime.Now + "] #" + order.Id + ", " + subject + Environment.NewLine;
-            //var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\InvoiceReminder.txt");
-            var message = "[" + DateTime.Now + "] Event: " + evnt.GetType().Name + ", #" + brand.BrandId + ", Event time: " + evnt.TimestampUtc.ToLocalTime() + Environment.NewLine;
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\InvoiceReminder.txt");
-            if (!File.Exists(filePath))
+            get
             {
-                File.WriteAllText(filePath, message, Encoding.UTF8);
+                return "Invoice Reminder";
             }
-            else
-            {
-                File.AppendAllText(filePath, message, Encoding.UTF8);
-            }
+        }
 
-            return ActivityResult.Continue;
+        public bool AllowAsyncExecution
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public bool CanBindTo(Type eventType)
+        {
+            return typeof(IOrderEvent).IsAssignableFrom(eventType);
+        }
+
+        public void Execute(IEvent evnt, ActivityContext context)
+        {
+        }
+
+        public ActivityEditor GetEditor()
+        {
+            return new ActivityEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

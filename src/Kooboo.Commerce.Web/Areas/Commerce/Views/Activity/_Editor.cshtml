@@ -4,7 +4,7 @@
     <div id="activity-editor-tabs">
         <ul>
             <li><a href="#basicinfo">@("Basic Info".Localize())</a></li>
-            @if (Model.ActivityDescriptor.Configurable)
+            @if (!string.IsNullOrEmpty(Model.Activity.EditorVirtualPath))
             {
                 <li><a href="#config">@("Activity Configuration".Localize())</a></li>
             }
@@ -12,10 +12,10 @@
         <div id="basicinfo">
             @Html.Partial("_BasicInfo")
         </div>
-        @if (Model.ActivityDescriptor.Configurable)
+        @if (!string.IsNullOrEmpty(Model.Activity.EditorVirtualPath))
         {
             <div id="config">
-                @Html.Partial(Model.ActivityDescriptor.ConfigViewVirtualPath)
+                @Html.Partial(Model.Activity.EditorVirtualPath)
             </div>
         }
     </div>

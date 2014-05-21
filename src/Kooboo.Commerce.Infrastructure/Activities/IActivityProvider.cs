@@ -9,43 +9,29 @@ namespace Kooboo.Commerce.Activities
 {
     public interface IActivityProvider
     {
-        IEnumerable<IActivityDescriptor> GetAllDescriptors();
+        IEnumerable<IActivity> AllActivities();
 
-        IActivityDescriptor GetDescriptor(string activityName);
+        IActivity FindByName(string name);
+
+        IEnumerable<IActivity> FindBindableTo(Type eventType);
     }
 
     [Dependency(typeof(IActivityProvider), ComponentLifeStyle.Singleton)]
     public class DefaultActivityProvider : IActivityProvider
     {
-        private Lazy<Dictionary<string, IActivityDescriptor>> _descriptorsByNames;
-
-        public DefaultActivityProvider()
+        public IEnumerable<IActivity> AllActivities()
         {
-            _descriptorsByNames = new Lazy<Dictionary<string, IActivityDescriptor>>(LoadDescriptorsByNames);
+            return EngineContext.Current.ResolveAll<IActivity>();
         }
 
-        public IEnumerable<IActivityDescriptor> GetAllDescriptors()
+        public IActivity FindByName(string name)
         {
-            return _descriptorsByNames.Value.Values.ToList();
+            return AllActivities().FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
-        public IActivityDescriptor GetDescriptor(string activityName)
+        public IEnumerable<IActivity> FindBindableTo(Type eventType)
         {
-            IActivityDescriptor descriptor;
-
-            if (_descriptorsByNames.Value.TryGetValue(activityName, out descriptor))
-            {
-                return descriptor;
-            }
-
-            return null;
-        }
-
-        private Dictionary<string, IActivityDescriptor> LoadDescriptorsByNames()
-        {
-            return EngineContext.Current
-                                .ResolveAll<IActivityDescriptor>()
-                                .ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase);
+            return AllActivities().Where(x => x.CanBindTo(eventType));
         }
     }
 }
