@@ -14,12 +14,16 @@ namespace Kooboo.Commerce.Data
 
         IQueryable<T> Query();
 
-        bool Insert(T obj);
-        bool Update(T obj, Func<T, object[]> getKeys);
-        bool Delete(T obj);
+        bool Insert(T entity);
 
-        bool InsertBatch(IEnumerable<T> objs);
+        bool Update(T entity, Func<T, object[]> getKeys);
+
+        bool Delete(T entity);
+
+        bool InsertBatch(IEnumerable<T> entities);
+
         bool UpdateBatch(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> setter);
+
         bool DeleteBatch(Expression<Func<T, bool>> predicate);
     }
 

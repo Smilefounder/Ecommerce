@@ -50,19 +50,18 @@ namespace Kooboo.Commerce.Data
             return DbContext.Set<T>().Find(id);
         }
 
-        public virtual bool Insert(T obj)
+        public virtual bool Insert(T entity)
         {
-            if (obj == null)
-                return false;
+            Require.NotNull(entity, "entity");
 
-            var tbl = DbContext.Set<T>();
-            obj = tbl.Add(obj);
+            var table = DbContext.Set<T>();
+            table.Add(entity);
 
             int ret = DbContext.SaveChanges();
 
-            if (obj is INotifyCreated)
+            if (entity is INotifyCreated)
             {
-                ((INotifyCreated)obj).NotifyCreated();
+                ((INotifyCreated)entity).NotifyCreated();
             }
 
             return ret > 0;
@@ -97,44 +96,41 @@ namespace Kooboo.Commerce.Data
             return ret > 0;
         }
 
-        public virtual bool Delete(T obj)
+        public virtual bool Delete(T entity)
         {
-            if (obj == null)
-                return false;
-            var tbl = DbContext.Set<T>();
-            if (!tbl.Local.Contains(obj))
+            Require.NotNull(entity, "entity");
+
+            var table = DbContext.Set<T>();
+            if (!table.Local.Contains(entity))
             {
-                DbContext.Entry(obj).State = EntityState.Deleted;
+                DbContext.Entry(entity).State = EntityState.Deleted;
             }
             else
             {
-                DbContext.Set<T>().Remove(obj);
+                DbContext.Set<T>().Remove(entity);
             }
 
-            if (obj is INotifyDeleting)
+            if (entity is INotifyDeleting)
             {
-                ((INotifyDeleting)obj).NotifyDeleting();
+                ((INotifyDeleting)entity).NotifyDeleting();
             }
 
             int ret = DbContext.SaveChanges();
 
-            if (obj is INotifyDeleted)
+            if (entity is INotifyDeleted)
             {
-                ((INotifyDeleted)obj).NotifyDeleted();
+                ((INotifyDeleted)entity).NotifyDeleted();
             }
 
             return ret > 0;
         }
 
-        public virtual bool InsertBatch(IEnumerable<T> objs)
+        public virtual bool InsertBatch(IEnumerable<T> entities)
         {
-            if (objs == null || objs.Count() <= 0)
-                return false;
-            var tbl = DbContext.Set<T>();
-            foreach (var obj in objs)
-            {
-                tbl.Add(obj);
-            }
+            Require.NotNull(entities, "entities");
+
+            var table = DbContext.Set<T>();
+            table.AddRange(entities);
 
             int totals = DbContext.SaveChanges();
 

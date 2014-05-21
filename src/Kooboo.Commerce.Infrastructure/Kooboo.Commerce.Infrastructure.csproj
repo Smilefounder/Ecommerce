@@ -173,7 +173,6 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\LinqDynamicExtension.cs" />
     <Compile Include="Data\QueryableExtensions.cs" />
-    <Compile Include="Data\TransactionAbortException.cs" />
     <Compile Include="Dependencies\EventDependencyRegistrar.cs" />
     <Compile Include="Dependencies\PersistenceDependencyRegistrar.cs" />
     <Compile Include="Events\AwaitDbCommitAttribute.cs" />
