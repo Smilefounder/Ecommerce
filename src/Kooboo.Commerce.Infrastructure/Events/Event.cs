@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Events
     {
         public DateTime TimestampUtc { get; set; }
 
-        public Event()
+        protected Event()
         {
             TimestampUtc = DateTime.UtcNow;
         }

@@ -9,8 +9,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.ShoppingCarts
 {
-    [ActivityVisible("Shopping Cart Events")]
-    public interface IShoppingCartEvent : IEvent
+    [Category("Shopping Cart Events")]
+    public interface IShoppingCartEvent : IDomainEvent
     {
         int CartId { get; }
     }

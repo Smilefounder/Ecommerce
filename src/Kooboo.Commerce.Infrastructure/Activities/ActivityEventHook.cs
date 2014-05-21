@@ -27,6 +27,12 @@ namespace Kooboo.Commerce.Activities
 
         public void Handle(IEvent @event)
         {
+            // Activities can only bind to domain events
+            if (!(@event is DomainEvent))
+            {
+                return;
+            }
+
             var commerceInstance = _instanceContext.CurrentInstance;
 
             // Activities must be executed within commerce instance context

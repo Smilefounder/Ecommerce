@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events.Registry;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 using Kooboo.Commerce.Web.Mvc;
@@ -14,13 +15,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ActivityController : CommerceControllerBase
     {
-        private IActivityEventRegistry _eventRegistry;
         private IActivityProvider _activityProvider;
         private IRepository<ActivityRule> _ruleRepository;
 
-        public ActivityController(IActivityEventRegistry eventRegistry, IActivityProvider activityProvider, IRepository<ActivityRule> ruleRepository)
+        public ActivityController(IActivityProvider activityProvider, IRepository<ActivityRule> ruleRepository)
         {
-            _eventRegistry = eventRegistry;
             _activityProvider = activityProvider;
             _ruleRepository = ruleRepository;
         }

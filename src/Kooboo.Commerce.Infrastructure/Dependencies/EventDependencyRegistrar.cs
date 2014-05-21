@@ -30,17 +30,18 @@ namespace Kooboo.Commerce.Infrastructure.Dependencies
                                        .Where(x => !IsIgnoredAssembly(x))
                                        .ToList();
 
-            // Event Registry
-            var eventRegistry = new DefaultEventHandlerRegistry();
-            eventRegistry.RegisterAssemblies(assemblies);
-            containerManager.AddComponentInstance<IEventHandlerRegistry>(eventRegistry);
+            // Handler Registry
+            var handlerRegistry = new DefaultEventHandlerRegistry();
+            handlerRegistry.RegisterAssemblies(assemblies);
+            containerManager.AddComponentInstance<IEventHandlerRegistry>(handlerRegistry);
 
-            var activityEventRegistry = new DefaultActivityEventRegistry();
-            activityEventRegistry.RegisterAssemblies(assemblies);
-            containerManager.AddComponentInstance<IActivityEventRegistry>(activityEventRegistry);
+            // Event Registry
+            var eventRegistry = new DefaultEventRegistry();
+            eventRegistry.RegisterAssemblies(assemblies);
+            containerManager.AddComponentInstance<IEventRegistry>(eventRegistry);
 
             // Event Dispatcher
-            var eventDispatcher = new DefaultEventDispatcher(eventRegistry);
+            var eventDispatcher = new DefaultEventDispatcher(handlerRegistry);
             containerManager.AddComponentInstance<IEventDispatcher>(eventDispatcher);
         }
 

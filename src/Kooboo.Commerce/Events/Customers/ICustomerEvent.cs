@@ -9,8 +9,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Customers
 {
-    [ActivityVisible("Customer Events")]
-    public interface ICustomerEvent : IEvent
+    [Category("Customer Events")]
+    public interface ICustomerEvent : IDomainEvent
     {
         int CustomerId { get; }
     }

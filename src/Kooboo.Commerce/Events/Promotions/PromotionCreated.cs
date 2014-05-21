@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Promotions
 {
     [Serializable]
-    public class PromotionCreated : Event, IPromotionEvent
+    public class PromotionCreated : DomainEvent, IPromotionEvent
     {
         [ConditionParameter]
         public int PromotionId { get; set; }

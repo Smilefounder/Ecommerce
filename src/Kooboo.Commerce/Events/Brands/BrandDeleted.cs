@@ -9,7 +9,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Brands
 {
     [Serializable]
-    public class BrandDeleted : Event, IBrandEvent
+    public class BrandDeleted : DomainEvent, IBrandEvent
     {
         [ConditionParameter]
         public int BrandId { get; set; }

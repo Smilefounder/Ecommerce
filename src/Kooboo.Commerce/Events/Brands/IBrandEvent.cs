@@ -7,8 +7,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Brands
 {
-    [ActivityVisible("Brand Events")]
-    public interface IBrandEvent : IEvent
+    [Category("Brand Events")]
+    public interface IBrandEvent : IDomainEvent
     {
         int BrandId { get; }
     }

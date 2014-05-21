@@ -32,14 +32,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
     public class EventMenuItems : IMenuItemContainer
     {
-        private IActivityEventRegistry _eventRegistry;
+        private IEventRegistry _eventRegistry;
 
         public EventMenuItems()
-            : this(EngineContext.Current.Resolve<IActivityEventRegistry>())
+            : this(EngineContext.Current.Resolve<IEventRegistry>())
         {
         }
 
-        public EventMenuItems(IActivityEventRegistry eventRegistry)
+        public EventMenuItems(IEventRegistry eventRegistry)
         {
             Require.NotNull(eventRegistry, "eventRegistry");
             _eventRegistry = eventRegistry;
@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
         {
             var menuItems = new List<MenuItem>();
 
-            foreach (var category in _eventRegistry.GetCategories())
+            foreach (var category in _eventRegistry.AllCategories())
             {
                 var categoryMenuItem = new MenuItem
                 {
@@ -60,7 +60,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
                 menuItems.Add(categoryMenuItem);
 
-                var eventTypes = _eventRegistry.GetEventTypesByCategory(category);
+                var eventTypes = _eventRegistry.FindEventTypesByCategory(category)
+                                               .WhereIsDomainEvent();
 
                 foreach (var eventType in eventTypes)
                 {

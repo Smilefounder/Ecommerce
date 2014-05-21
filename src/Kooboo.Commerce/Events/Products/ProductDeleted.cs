@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Products
 {
     [Serializable]
-    public class ProductDeleted : Event, IProductEvent
+    public class ProductDeleted : DomainEvent, IProductEvent
     {
         [ConditionParameter]
         public int ProductId { get; set; }

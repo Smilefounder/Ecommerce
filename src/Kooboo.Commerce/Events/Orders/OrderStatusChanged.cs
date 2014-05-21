@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Orders
 {
     [Serializable]
-    public class OrderStatusChanged : Event, IOrderEvent
+    public class OrderStatusChanged : DomainEvent, IOrderEvent
     {
         [ConditionParameter]
         public int OrderId { get; set; }

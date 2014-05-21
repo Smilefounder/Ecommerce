@@ -9,7 +9,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Customers
 {
     [Serializable]
-    public class CustomerCreated : Event, ICustomerEvent
+    public class CustomerCreated : DomainEvent, ICustomerEvent
     {
         [ConditionParameter]
         public int CustomerId { get; set; }

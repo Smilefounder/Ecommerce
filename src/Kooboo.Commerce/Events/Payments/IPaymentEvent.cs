@@ -6,8 +6,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Payments
 {
-    [ActivityVisible("Payment Events")]
-    public interface IPaymentEvent
+    [Category("Payment Events")]
+    public interface IPaymentEvent : IDomainEvent
     {
         int PaymentId { get; }
     }
