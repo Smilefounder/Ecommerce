@@ -138,6 +138,48 @@ div.checkbox {
 	}
 }
 
+div.radio {
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+
+	label {
+		display: block;
+		position: relative;
+		z-index: 2;
+
+		.sprite {
+			cursor: pointer;
+			display: block;
+			.sprite(@radio);
+		}
+	}
+
+	input {
+		position: absolute;
+		.opacity(0);
+
+		&:checked ~ label {
+			.sprite {
+				.sprite(@radio-checked);
+			}
+		}
+
+		&:disabled ~ label {
+			.sprite {
+				cursor: default;
+				.sprite(@radio-disabled);
+			}
+		}
+
+		&:disabled:checked ~ label {
+			.sprite {
+				.sprite(@radio-checked-disabled);
+			}
+		}
+	}
+}
+
 /* Form list(For checkbox & Radio button)
 ----------------------------------------------------------*/
 .form-list {
@@ -655,7 +697,7 @@ div.checkbox {
 		input:checked ~ label {
 			background: none;
 			border: 2px solid #0078B1;
-			.opacity(1);
+			.opacity(100);
 		}
 
 		input:checked ~ .corner {

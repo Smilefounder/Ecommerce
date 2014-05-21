@@ -10,7 +10,7 @@
 }
 
 @section Panel {
-    @(Html.HeaderPanel().Buttons(buttons => 
+    @(Html.HeaderPanel().Buttons(buttons =>
     {
         buttons.Add("Create", "add").Dropdown(items =>
         {
@@ -32,59 +32,59 @@
     <h1 class="title">@ViewBag.Title</h1>
     <div class="search-panel">
         @Html.Partial("_Search")
-        <a class="more">@Html.IconImage("arrow small black-down")</a>
+        <a class="more">@Html.IconImage("sprite")</a>
         @Html.Partial("_ExtendedQueryParameter", extendedQueries, extendedQueryViewModel)
     </div>
 }
 
 <div class="common-table">
-@using (Html.BeginForm("Delete", "Product", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class = "no-stop" }))
-{
-    <table>
-        <thead>
-            <tr>
-                <th class="checkbox">
-                    <input type="checkbox" class="select-all">
-                </th>
-                <th>
-                    @("Name".Localize())
-                </th>
-                <th>
-                    @("Product Type".Localize())
-                </th>
-                <th>
-                    @("Published".Localize())
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model == null || Model.Count() <= 0)
-            {
-                <tr class="empty"><td colspan="100">@("Empty".Localize())</td></tr>
-            }
-            else
-            { 
-                foreach (var p in Model)
+    @using (Html.BeginForm("Delete", "Product", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class = "no-stop" }))
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th class="checkbox">
+                        <input type="checkbox" class="select-all">
+                    </th>
+                    <th>
+                        @("Name".Localize())
+                    </th>
+                    <th>
+                        @("Product Type".Localize())
+                    </th>
+                    <th>
+                        @("Published".Localize())
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null || Model.Count() <= 0)
                 {
-                    <tr>
-                        <td class="checkbox ">
-                            <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
-                        </td>
-                        <td>
-                            <a href="/Commerce/Product/Edit?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&productTypeId=@(p.ProductTypeId)&return=@Html.Raw(Server.UrlEncode(Request.RawUrl))">@p.Name</a>
-                        </td>
-                        <td>
-                            @p.Type.Name
-                        </td>
-                        <td>
-                            @(p.IsPublished ? "YES" : "-")
-                        </td>
-                    </tr>
+                    <tr class="empty"><td colspan="100">@("Empty".Localize())</td></tr>
                 }
-            }
-        </tbody>
-    </table>
-}
+                else
+                {
+                    foreach (var p in Model)
+                    {
+                        <tr>
+                            <td class="checkbox ">
+                                <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
+                            </td>
+                            <td>
+                                <a href="/Commerce/Product/Edit?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commercename"]&Id=@(p.Id)&productTypeId=@(p.ProductTypeId)&return=@Html.Raw(Server.UrlEncode(Request.RawUrl))">@p.Name</a>
+                            </td>
+                            <td>
+                                @p.Type.Name
+                            </td>
+                            <td>
+                                @(p.IsPublished ? "YES" : "-")
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
     <script type="text/javascript">
         $(function () {
             var table = $('.common-table table');
