@@ -271,7 +271,6 @@
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShipmentTrackerController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\ShippingRateProviderSettingsControllerBase.cs" />
     <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
     <Compile Include="Areas\Commerce\EntityUtil.cs" />
     <Compile Include="Areas\Commerce\Extensions\PagedListExtensions.cs" />
@@ -3238,9 +3237,7 @@
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\StringCustom.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\BooleanCustom.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Index.cshtml" />
-    <Content Include="Areas\Commerce\Views\ShippingMethod\EditorTemplates\ShippingMethodEditorModel.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\BasicInfo.cshtml" />
-    <Content Include="Areas\Commerce\Views\Shared\AddIns\_ShippingRateProviderSettings.cshtml" />
     <Content Include="Areas\Commerce\Views\ShipmentTracker\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\AddIns\_ShipmentTrackerSettings.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Index.cshtml" />
@@ -3449,6 +3446,8 @@
     <Content Include="Areas\Commerce\Views\Promotion\Policy.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\PaymentMethod\Processor.cshtml" />
     <Content Include="Areas\Commerce\Views\PaymentMethod\Processor.Scripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\ShippingMethod\ShippingRateProvider.cshtml" />
+    <Content Include="Areas\Commerce\Views\ShippingMethod\ShippingRateProvider.Scripts.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

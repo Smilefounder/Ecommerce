@@ -1,0 +1,52 @@
+﻿@model ShippingMethod
+
+<script>
+    (function ($) {
+
+        var shippingMethodId = @Model.Id;
+
+        function ShippingRateProviderEditor() {
+            var _this = this;
+            var _events = new kb.Events();
+
+            this.shippingMethodId = function () {
+                return shippingMethodId;
+            }
+
+            this.on = function (eventName, handler) {
+                _events.on(eventName, handler);
+            }
+
+            this.load = function () {
+                _events.fire('load', _this, { shippingMethodId: _this.shippingMethodId() });
+            }
+
+            this.next = function () {
+                window.loading.show();
+                _events.fire('saving', _this, { shippingMethodId: _this.shippingMethodId() })
+                       .done(function () {
+                           window.loading.hide();
+                           location.href = '@Html.Raw(Url.Action("Complete", RouteValues.From(Request.QueryString)))';
+                       });
+            }
+        }
+
+        var editor = new ShippingRateProviderEditor();
+
+        ShippingRateProviderEditor.current = function () {
+            return editor;
+        };
+
+        window.ShippingRateProviderEditor = ShippingRateProviderEditor;
+
+        $(function () {
+            $('.btn-next').on('click', editor.next);
+
+            // Give some delay so addin view has enough time to subscribe events
+            setTimeout(function () {
+                editor.load();
+            }, 100);
+        });
+
+    })(jQuery);
+</script>

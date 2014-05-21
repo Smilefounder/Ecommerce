@@ -14,16 +14,16 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
 {
-    public class HomeController : ShippingRateProviderSettingsControllerBase
+    public class ConfigController : CommerceControllerBase
     {
         private IShippingMethodService _service;
 
-        public HomeController(IShippingMethodService service)
+        public ConfigController(IShippingMethodService service)
         {
             _service = service;
         }
 
-        public ActionResult Index(int methodId)
+        public ActionResult Load(int methodId)
         {
             var method = _service.GetById(methodId);
             var rules = new List<ByWeightShippingRuleModel>();
@@ -39,16 +39,14 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
                 Rules = rules
             };
 
-            return View(model);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Index(ByWeightShippingRulesModel model, string @return)
+        [HttpPost, HandleAjaxError, Transactional]
+        public void Save(ByWeightShippingRulesModel model)
         {
             var method = _service.GetById(model.ShippingMethodId);
             method.ShippingRateProviderData = JsonConvert.SerializeObject(model.Rules);
-
-            return AjaxForm().RedirectTo(NextStepUrl(method.Id));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ShippingMethod
+@{
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
 
     if (String.IsNullOrEmpty(ViewBag.Title as string))
@@ -6,28 +7,27 @@
         ViewBag.Title = "Shipping method".Localize();
     }
 
-    var methodId = ViewContext.RouteData.Values["id"];
+    var methodId = Model.Id;
+    var shippingRateProvider = ViewBag.ShippingRateProvider as IShippingRateProvider;
+    var editor = shippingRateProvider.GetEditor();
 }
 
 @section Panel {
-    @if (IsSectionDefined("Panel"))
+    @Html.HeaderPanel().Buttons(buttons =>
     {
-        @RenderSection("Panel")
-    }
-    else
-    {
-        @Html.HeaderPanel().Buttons(buttons =>
-       {
-           buttons.AddCancelButton();
-       })
-    }
+        buttons.AddCancelButton();
+    })
 }
+
+@Html.Partial("ShippingRateProvider.Scripts")
 
 <div class="block">
     @Html.Action("Steps", "ShippingMethod", new { area = "Commerce", step = 2 })
-    @RenderBody()
+
+    @Html.Partial(editor.VirtualPath)
+
     <div class="wizard-buttons">
         <a class="button gray" href="@Url.Action("BasicInfo", "ShippingMethod", RouteValues.From(Request.QueryString).Merge("area", "Commerce").Merge("id", methodId))">&laquo; @("Back".Localize())</a>
-        <a data-ajaxform="" class="button">@("Next".Localize()) &raquo;</a>
+        <a class="button btn-next">@("Next".Localize()) &raquo;</a>
     </div>
 </div>

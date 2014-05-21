@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods
             {
                 yield return new SelectListItem
                 {
-                    Text = provider.DisplayName,
+                    Text = provider.Name,
                     Value = provider.Name
                 };
             }

@@ -13,7 +13,32 @@
 
 <div class="block">
     @Html.Action("Steps", "ShippingMethod", new { area = "Commerce", step = 1 })
-    @Html.EditorForModel()
+
+    @using (Html.BeginForm("BasicInfo", "ShippingMethod", RouteValues.From(Request.QueryString)))
+    {
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.ShippingRateProviderName)
+        <div class="common-form">
+            <table>
+                @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Description)</th>
+                    <td>
+                        @Html.TextAreaFor(m => m.Description, new { @class = "medium" })
+                        @Html.ValidationMessageFor(m => m.Description)
+                    </td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.ShippingRateProviderName)</th>
+                    <td>
+                        @Html.DropDownListFor(m => m.ShippingRateProviderName, Model.AvailableShippingRateProviders, new { @class = "medium" })
+                        @Html.ValidationMessageFor(m => m.ShippingRateProviderName)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+
     <div class="wizard-buttons">
         <a data-ajaxform="" class="button">@("Next".Localize()) &raquo;</a>
     </div>

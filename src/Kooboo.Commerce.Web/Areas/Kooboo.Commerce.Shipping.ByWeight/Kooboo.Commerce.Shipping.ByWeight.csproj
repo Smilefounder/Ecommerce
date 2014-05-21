@@ -117,8 +117,7 @@
   <ItemGroup>
     <Compile Include="AddInAreaRegistration.cs" />
     <Compile Include="ByWeightShippingRateProvider.cs" />
-    <Compile Include="ByWeightShippingRateProviderViews.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Domain\ByWeightShippingRule.cs" />
     <Compile Include="Domain\ShippingPriceUnit.cs" />
     <Compile Include="Models\ByWeightShippingRuleModel.cs" />
@@ -136,7 +135,9 @@
     </Content>
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Config.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -158,7 +159,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Config.Scripts.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

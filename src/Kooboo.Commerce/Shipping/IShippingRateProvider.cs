@@ -8,12 +8,21 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Shipping
 {
+    /// <summary>
+    /// 定义运费计算接口。
+    /// </summary>
     public interface IShippingRateProvider
     {
         string Name { get; }
 
-        string DisplayName { get; }
+        /// <summary>
+        /// 计算运费。
+        /// </summary>
+        decimal GetShippingRate(ShippingMethod method, ShippingRateCalculationContext context);
 
-        decimal CalculateShippingCost(ShippingMethod method, ShippingCostCalculationContext context);
+        /// <summary>
+        /// 获取自定义配置的编辑器信息。
+        /// </summary>
+        ShippingRateProviderEditor GetEditor();
     }
 }

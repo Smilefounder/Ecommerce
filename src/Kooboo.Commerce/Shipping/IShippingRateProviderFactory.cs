@@ -15,26 +15,16 @@ namespace Kooboo.Commerce.Shipping
     }
 
     [Dependency(typeof(IShippingRateProviderFactory))]
-    public class ShippingRateProviderFactory : IShippingRateProviderFactory
+    public class DefaultShippingRateProviderFactory : IShippingRateProviderFactory
     {
-        private IEngine _engine;
-
-        public ShippingRateProviderFactory()
-            : this(EngineContext.Current) { }
-
-        public ShippingRateProviderFactory(IEngine engine)
-        {
-            _engine = engine;
-        }
-
         public IEnumerable<IShippingRateProvider> All()
         {
-            return _engine.ResolveAll<IShippingRateProvider>();
+            return EngineContext.Current.ResolveAll<IShippingRateProvider>();
         }
 
         public IShippingRateProvider FindByName(string name)
         {
-            return All().FirstOrDefault(x => x.Name == name);
+            return All().FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

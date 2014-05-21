@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Shipping.ByWeight
 {
-    [Dependency(typeof(IShippingRateProvider), Key = "Kooboo.Commerce.Shipping.ByWeightShippingRateProvider")]
+    [Dependency(typeof(IShippingRateProvider), Key = "ByWeight")]
     public class ByWeightShippingRateProvider : IShippingRateProvider
     {
         public string Name
@@ -17,17 +17,14 @@ namespace Kooboo.Commerce.Shipping.ByWeight
             }
         }
 
-        public string DisplayName
-        {
-            get
-            {
-                return "Shipping rate by weight";
-            }
-        }
-
-        public decimal CalculateShippingCost(ShippingMethod method, ShippingCostCalculationContext context)
+        public decimal GetShippingRate(ShippingMethod method, ShippingRateCalculationContext context)
         {
             throw new NotImplementedException();
+        }
+
+        public ShippingRateProviderEditor GetEditor()
+        {
+            return new ShippingRateProviderEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

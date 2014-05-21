@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Shipping
 {
-    public class ShippingCostCalculationContext
+    public class ShippingRateCalculationContext
     {
         public Customer Customer { get; set; }
 

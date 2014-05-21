@@ -1,0 +1,116 @@
+﻿<script>
+    (function ($) {
+
+        var RulesViewModel = function () {
+            var _this = this;
+
+            this.PriceUnitDisplayName = function (name) {
+                var unit = _.find(_this.AvailablePriceUnits(), function (x) {
+                    return x.Value() == name;
+                });
+
+                if (unit) {
+                    return unit.Text();
+                }
+
+                return name;
+            }
+
+            this.AddRule = function () {
+                var rule = new RuleViewModel();
+                rule.IsEditing(true);
+                _this.Rules.push(rule);
+            }
+
+            this.EditRule = function (rule) {
+                createRuleMemo(rule);
+                rule.IsEditing(true);
+            }
+
+            this.RemoveRule = function (rule) {
+                _this.Rules.remove(rule);
+            }
+
+            this.CommitRuleEditing = function (rule) {
+                destroyRuleMemo(rule);
+                rule.IsEditing(false);
+            }
+
+            this.cancelRuleEditing = function (rule) {
+                if (rule.memo) {
+                    recoverRuleFromMemo(rule);
+                    rule.IsEditing(false);
+                } else { // is creating rule
+                    _this.Rules.remove(rule);
+                }
+            }
+
+            function createRuleMemo(rule) {
+                rule.memo = ko.mapping.toJS(rule);
+            }
+
+            function recoverRuleFromMemo(rule) {
+                if (rule.memo) {
+                    ko.mapping.fromJS(rule.memo, {}, rule);
+                    delete rule.memo;
+                }
+            }
+
+            function destroyRuleMemo(rule) {
+                delete rule.memo;
+            }
+        };
+
+        var RuleViewModel = function () {
+
+            this.IsEditing = ko.observable(false);
+
+            this.Id = ko.observable(0);
+
+            this.FromWeight = ko.observable();
+
+            this.ToWeight = ko.observable();
+
+            this.ShippingPrice = ko.observable();
+
+            this.PriceUnit = ko.observable();
+        };
+
+        var viewModel = new RulesViewModel();
+        var mappingOptions = {
+            Rules: {
+                create: function (args) {
+                    var data = args.data;
+                    var vm = new RuleViewModel();
+                    ko.mapping.fromJS(data, {}, vm);
+                    return vm;
+                }
+            }
+        };
+
+        var editor = ShippingRateProviderEditor.current();
+
+        editor.on('load', function (sender, args) {
+            var shippingMethodId = args.shippingMethodId;
+            $.get('@Url.Action("Load", "Config", new { area = Strings.AreaName })', { methodId: shippingMethodId })
+             .done(function (data) {
+                 ko.mapping.fromJS(data, mappingOptions, viewModel);
+                 ko.applyBindings(viewModel, document.getElementById('#byweight-shipping-rules-form'));
+             });
+        });
+
+        editor.on('saving', function (sender, args) {
+            return $.ajax({
+                url: '@Url.Action("Save", "Config", new { area = Strings.AreaName })',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(ko.mapping.toJS(viewModel))
+            })
+            .fail(function (result) {
+                window.loading.hide();
+                window.info.show(result.Message, false);
+            });
+        });
+
+    })(jQuery);
+</script>

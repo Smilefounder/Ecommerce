@@ -19,16 +19,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     {
         private IShippingMethodService _shippingMethodService;
         private IShippingRateProviderFactory _shippingRateProviderFactory;
-        private IShippingRateProviderViewsFactory _shippingRateProviderViewsFactory;
 
         public ShippingMethodController(
             IShippingMethodService shippingMethodService,
-            IShippingRateProviderFactory shippingRateProviderFactory,
-            IShippingRateProviderViewsFactory shippingRateProviderViewsFactory)
+            IShippingRateProviderFactory shippingRateProviderFactory)
         {
             _shippingMethodService = shippingMethodService;
             _shippingRateProviderFactory = shippingRateProviderFactory;
-            _shippingRateProviderViewsFactory = shippingRateProviderViewsFactory;
         }
 
         public ActionResult Index(int page = 1, int pageSize = 50)
@@ -41,7 +38,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                                                    Id = x.Id,
                                                    Name = x.Name,
                                                    IsEnabled = x.IsEnabled,
-                                                   ShippingRateProviderName = GetShippingRateProviderDisplayName(x.ShippingRateProviderName)
+                                                   ShippingRateProviderName = x.ShippingRateProviderName
                                                });
 
             return View(methods);
@@ -93,14 +90,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        [HttpPost, HandleAjaxFormError]
-        public ActionResult Settings(ShippingMethodRowModel[] model)
+        public ActionResult ShippingRateProvider(int id)
         {
-            var method = _shippingMethodService.GetById(model[0].Id);
-            var views = _shippingRateProviderViewsFactory.FindByProviderName(method.ShippingRateProviderName);
-            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", method.Id));
-
-            return AjaxForm().RedirectTo(url);
+            var method = _shippingMethodService.GetById(id);
+            var shippingRateProvider = _shippingRateProviderFactory.FindByName(method.ShippingRateProviderName);
+            ViewBag.ShippingRateProvider = shippingRateProvider;
+            return View(method);
         }
 
         [ChildActionOnly]
@@ -128,15 +123,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 model.Name = method.Name;
                 model.Description = method.Description;
                 model.ShippingRateProviderName = method.ShippingRateProviderName;
-
-                foreach (var field in method.CustomFields)
-                {
-                    model.CustomFields.Add(new NameValue
-                    {
-                        Name = field.Name,
-                        Value = field.Value
-                    });
-                }
             }
 
             return View(model);
@@ -156,34 +142,27 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 _shippingMethodService.Create(method);
             }
 
-            method.CustomFields.Clear();
+            var shippingRateProvider = _shippingRateProviderFactory.FindByName(method.ShippingRateProviderName);
+            var editor = shippingRateProvider.GetEditor();
 
-            foreach (var field in model.CustomFields)
+            string redirectUrl = null;
+
+            if (editor != null)
             {
-                method.CustomFields.Add(new ShippingMethodCustomField
-                {
-                    ShippingMethodId = method.Id,
-                    Name = field.Name,
-                    Value = field.Value
-                });
+                redirectUrl = Url.Action("ShippingRateProvider", RouteValues.From(Request.QueryString).Merge("id", method.Id));
+            }
+            else
+            {
+                redirectUrl = Url.Action("Complete", RouteValues.From(Request.QueryString).Merge("id", method.Id));
             }
 
-            var views = _shippingRateProviderViewsFactory.FindByProviderName(method.ShippingRateProviderName);
-            var url = Url.RouteUrl(views.Settings(method, ControllerContext), RouteValues.From(Request.QueryString).Merge("id", method.Id));
-
-            return AjaxForm().RedirectTo(url);
+            return AjaxForm().RedirectTo(redirectUrl);
         }
 
         public ActionResult Complete(int id)
         {
             var method = _shippingMethodService.GetById(id);
             return View(method);
-        }
-
-        private string GetShippingRateProviderDisplayName(string name)
-        {
-            var provider = _shippingRateProviderFactory.FindByName(name);
-            return provider == null ? null : provider.DisplayName;
         }
     }
 }
