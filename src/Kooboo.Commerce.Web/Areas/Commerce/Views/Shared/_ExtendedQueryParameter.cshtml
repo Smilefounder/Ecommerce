@@ -5,7 +5,32 @@
     var executeurl = ViewData["ExecuteQueryUrl"];
 }
 
-<div class="more-search common-form" style="display:none;">
+<div class="more-search common-form hide">
+    <h6>@("Filter".Localize())</h6>
+    <p class="field">
+        <select>
+            @foreach (var q in Model)
+            {
+                <option>@(q.Name)</option>
+            }
+        </select>
+    </p>
+    <div id="extendedQueryParameterDiv" class="addition hide" data-bind="with: data">
+        <p data-bind="text: Description"></p>
+        <table>
+            <tr data-bind="foreach: Parameters">
+                <th data-bind="text: Name"></th>
+                <td>
+                    <input type="text" data-bind="value: Value" />
+                    <em class="tip" data-bind="text: Description"></em>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="buttons">
+        <a class="button blue">Apply</a>
+        <a class="button gray">Cancel</a>
+    </div>
     <ul>
         @foreach (var q in Model)
         {
@@ -17,7 +42,7 @@
     </ul>
 </div>
 
-<div id="extendedQueryParameterDiv" class="common-form" style="display:none;" data-bind="with: data">
+<div id="extendedQueryParameterDiv" class="common-form hide" data-bind="with: data">
     <div class="clearfix" data-bind="with: Query">
         <h3>Extended Query: <span data-bind="text: Name"></span></h3>
         <p data-bind="text: Description"></p>
@@ -36,52 +61,52 @@
         </table>
     </div>
 </div>
-    <script type="text/javascript">
-        utils.showMessage = function (title, message, level, funcClose) {
-            info.show(message, (level || 'info') == 'info');
-        };
-        var vmEQP;
-        $(function () {
-            (function () {
-                var searchPanel = $('div.search-panel');
-                panel = searchPanel.find('div.more-search');
-                moreLink = searchPanel.find('a.more').click(function () {
-                    if (panel.is(':visible')) {
-                        $(this).removeClass('active');
-                        panel.slideUp();
-                    } else {
-                        $(this).addClass('active');
-                        panel.slideDown();
-                    }
-                });
-                searchPanel.find('.cancel').click(function () {
-                    searchPanel.find('a.more').click();
-                });
-            })();
-
-            vmEQP = new ObjectModel({
-                getQueryUrl: function (self) {
-                    return '@(getUrl)?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
-                },
-                getSaveUrl: function (self) {
-                    return '@(saveurl)?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
-                },
-                onInit: function (self) {
-                    self.Name = ko.observable(null);
-                },
-                beforeSave: function (self, data) {
-                    return data.Parameters;
+<script type="text/javascript">
+    utils.showMessage = function (title, message, level, funcClose) {
+        info.show(message, (level || 'info') == 'info');
+    };
+    var vmEQP;
+    $(function () {
+        (function () {
+            var searchPanel = $('div.search-panel');
+            panel = searchPanel.find('div.more-search');
+            moreLink = searchPanel.find('a.more').click(function () {
+                if (panel.is(':visible')) {
+                    $(this).removeClass('active');
+                    panel.slideUp();
+                } else {
+                    $(this).addClass('active');
+                    panel.slideDown();
                 }
             });
+            searchPanel.find('.cancel').click(function () {
+                searchPanel.find('a.more').click();
+            });
+        })();
 
-            ko.applyBindings(vmEQP, document.getElementById('extendedQueryParameterDiv'));
+        vmEQP = new ObjectModel({
+            getQueryUrl: function (self) {
+                return '@(getUrl)?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
+            },
+            getSaveUrl: function (self) {
+                return '@(saveurl)?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
+            },
+            onInit: function (self) {
+                self.Name = ko.observable(null);
+            },
+            beforeSave: function (self, data) {
+                return data.Parameters;
+            }
         });
 
-        function EditParameters(name) {
-            vmEQP.Name(name);
-            vmEQP.getData();
-            utils.showDialog('#extendedQueryParameterDiv', 'Edit Extended Query Parameters', function () {
-                vmEQP.saveData();
-            });
-        }
-    </script>
+        ko.applyBindings(vmEQP, document.getElementById('extendedQueryParameterDiv'));
+    });
+
+    function EditParameters(name) {
+        vmEQP.Name(name);
+        vmEQP.getData();
+        utils.showDialog('#extendedQueryParameterDiv', 'Edit Extended Query Parameters', function () {
+            vmEQP.saveData();
+        });
+    }
+</script>
