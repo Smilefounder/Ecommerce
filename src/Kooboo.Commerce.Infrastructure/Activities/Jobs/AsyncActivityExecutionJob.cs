@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Activities.Jobs
 
                     var ruleRepository = instance.Database.GetRepository<ActivityRule>();
 
-                    foreach (var queueItem in query.Stream(batchSize))
+                    foreach (var queueItem in query.Batched(batchSize))
                     {
                         // Change status
                         queueItem.MarkStarted();

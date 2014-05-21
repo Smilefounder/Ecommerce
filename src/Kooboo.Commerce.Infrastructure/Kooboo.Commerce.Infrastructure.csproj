@@ -145,6 +145,7 @@
     <Compile Include="ComponentModel\INotifyDeleted.cs" />
     <Compile Include="ComponentModel\INotifyDeleting.cs" />
     <Compile Include="ComponentModel\INotifyUpdated.cs" />
+    <Compile Include="Data\BatchedQuery.cs" />
     <Compile Include="Data\CommerceDatabaseExtensions.cs" />
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
@@ -172,7 +173,6 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\LinqDynamicExtension.cs" />
     <Compile Include="Data\QueryableExtensions.cs" />
-    <Compile Include="Data\QueryStream.cs" />
     <Compile Include="Data\TransactionAbortException.cs" />
     <Compile Include="Dependencies\EventDependencyRegistrar.cs" />
     <Compile Include="Dependencies\PersistenceDependencyRegistrar.cs" />
