@@ -269,7 +269,6 @@
     <Compile Include="Areas\Commerce\Controllers\PromotionController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ConditionController.cs" />
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\ShipmentTrackerController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
     <Compile Include="Areas\Commerce\EntityUtil.cs" />
@@ -3238,7 +3237,6 @@
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\BooleanCustom.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\BasicInfo.cshtml" />
-    <Content Include="Areas\Commerce\Views\ShipmentTracker\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\AddIns\_ShipmentTrackerSettings.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldEditor.cshtml" />

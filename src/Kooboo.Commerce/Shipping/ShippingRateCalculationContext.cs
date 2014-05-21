@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,11 @@ namespace Kooboo.Commerce.Shipping
 {
     public class ShippingRateCalculationContext
     {
-        public Customer Customer { get; set; }
+        public PricingContext PricingContext { get; private set; }
 
-        public ICollection<ShoppingCartItem> Items { get; set; }
-
-        public Address ShippingAddress { get; set; }
+        public ShippingRateCalculationContext(PricingContext pricingContext)
+        {
+            PricingContext = pricingContext;
+        }
     }
 }
