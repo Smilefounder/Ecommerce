@@ -51,7 +51,7 @@
 
 ### 处理直接/间接对象引用 ###
 
-因为事件要保证方便序列化，因此事件中不会嵌套完整的业务对象，如果只通过`ParamAttribute`来定义可用参数显得不太方便。在这种情况下，可以考虑使用`Kooboo.Commerce.Rules.ReferenceAttribute`，这个Attribute定义一个对象属性为对象间的**间接引用**，例如，`OrderCreated`通过`OrderId`来关联`Order`即为间接引用，而`Product`通过`Brand`来关联`Brand`为**直接引用**。
+因为事件要保证方便序列化，因此事件中不会嵌套完整的业务对象，如果只通过`ParamAttribute`来定义可用参数显得不太方便。在这种情况下，可以考虑使用`Kooboo.Commerce.Rules.ReferenceAttribute`，这个Attribute定义一个对象属性为对象间的间接引用（`OrderCreated`通过`OrderId`来关联`Order`即为**间接引用**，而`Product`通过`Brand`来关联`Brand`为**直接引用**）。
 
 因此，上面的`OrderCreated`可以改造为:
 
@@ -128,7 +128,7 @@
 
 ## 动态构建可用参数 ##
 
-除了使用Attribute，还可以使用代码的方式来动态构建指定上下文的可用参数，这在扩展主系统中现有上下文类型的可用时比较有用。实现者应实现`Kooboo.Commerce.Rules.IParameterProvider`接口，例如:
+除了使用Attribute，还可以使用代码的方式来动态构建上下文的可用参数，这在为开发者无法修改的上下文类型(如主系统中定义的上下文类型)中添加参数时比较有用。实现者应实现`Kooboo.Commerce.Rules.IParameterProvider`接口，例如:
 
 ```csharp
 
