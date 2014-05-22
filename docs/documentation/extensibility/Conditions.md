@@ -47,11 +47,11 @@
 	}
 ```
 
-在`OrderId`上使用`ParamAttribute`标记后，`OrderCreated`上下文中的条件表达式就拥有了`OrderId`这一个可用参数，因此可以在该上下文中使用例如这样的表达式: `OrderId == 500`。而使用`OrderId == 500 AND BrandId == 5`将会报错，因为当前上下文中`BrandId`参数不可用。
+在`OrderId`上使用`ParamAttribute`标记后，`OrderCreated`上下文中的条件表达式就可以使用`OrderId`这个参数，因此可以在该上下文中使用例如这样的表达式: `OrderId == 500`。而使用`OrderId == 500 AND BrandId == 5`将会报错，因为当前上下文中`BrandId`参数不可用。
 
 ### 处理直接/间接对象引用 ###
 
-因为事件要保证方便序列化，因此事件中不会嵌套完整的业务对象，如果只通过`ParamAttribute`来定义可用参数显得不太方便。在这种情况下，可以考虑使用`Kooboo.Commerce.Rules.ReferenceAttribute`，这个Attribute定义一个对象属性为对象间的间接引用（`OrderCreated`通过`OrderId`来关联`Order`即为**间接引用**，而`Product`通过`Brand`来关联`Brand`为**直接引用**）。
+因为事件要保证方便序列化，因此不会嵌套完整的业务对象，如果只通过`ParamAttribute`来定义可用参数显得不太方便。在这种情况下，可考虑使用`Kooboo.Commerce.Rules.ReferenceAttribute`定义对象间的间接引用（`OrderCreated`通过`OrderId`来关联`Order`即为**间接引用**，而`Product`通过`Brand`来关联`Brand`为**直接引用**）。
 
 因此，上面的`OrderCreated`可以改造为:
 
@@ -124,11 +124,11 @@
 
 ### 自定义参数可选值列表 ###
 
-默认情况下参数值在UI中会显示会TextBox输入框，如果参数只有固定只个值，则可以通过`Kooboo.Commerce.Rules.IParameterValueSource`来定义参数可用值（枚举类型已默认处理，无需对其再自定义），实现者应在其`GetValues`中返回可用的参数值，然后在`ParamAttribute`中设置`ValueSource`为`IParameterValueSource`的类型。这样在UI中该参数值就会变成DropDownList。
+默认情况下参数值在UI中会显示TextBox输入框，如果参数只有固定几个值，可以通过`Kooboo.Commerce.Rules.IParameterValueSource`来定义参数可用值列表（枚举类型已默认处理，无需对其再自定义），实现者应在其`GetValues`中返回可用的参数值，然后在`ParamAttribute`中设置`ValueSource`为`IParameterValueSource`的类型。这样在UI中该参数值就会变成DropDownList。
 
 ## 动态构建可用参数 ##
 
-除了使用Attribute，还可以使用代码的方式来动态构建上下文的可用参数，这在为开发者无法修改的上下文类型(如主系统中定义的上下文类型)中添加参数时比较有用。实现者应实现`Kooboo.Commerce.Rules.IParameterProvider`接口，例如:
+除了使用Attribute，还可以使用代码的方式来动态构建上下文的可用参数，这在为开发者无法修改的上下文类型(如主系统中定义的上下文类型)添加参数时比较有用。实现者应实现`Kooboo.Commerce.Rules.IParameterProvider`接口，例如:
 
 ```csharp
 
@@ -143,4 +143,4 @@
 	}
 ```
 
-需要注意的是，要使用Kooboo CMS的`DependencyAttribute`对自定义的`IParameterProvider`实现进行注册。
+注意使用Kooboo CMS的`DependencyAttribute`对自定义的`IParameterProvider`实现进行注册。
