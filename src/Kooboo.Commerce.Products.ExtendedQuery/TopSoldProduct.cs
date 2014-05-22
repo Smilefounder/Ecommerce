@@ -9,22 +9,22 @@ using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Products.ExtendedQuery
 {
-    [Dependency(typeof(IExtendedQuery<Product, Product>), ComponentLifeStyle.Transient, Key = "TopSaledProduct")]
-    public class TopSaledProduct : IExtendedQuery<Product, Product>
+    [Dependency(typeof(IExtendedQuery<Product, Product>), ComponentLifeStyle.Transient, Key = "TopSoldProduct")]
+    public class TopSoldProduct : IExtendedQuery<Product, Product>
     {
         public string Name
         {
-            get { return "TopSaledProduct"; }
+            get { return "TopSoldProduct"; }
         }
 
         public string Title
         {
-            get { return "Top Saled Products"; }
+            get { return "Top Sold Products"; }
         }
 
         public string Description
         {
-            get { return "Top saled products in the last days"; }
+            get { return "Top sold products in the last days"; }
         }
 
         public ExtendedQueryParameter[] Parameters

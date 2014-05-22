@@ -6,17 +6,17 @@
 }
 
 <div class="more-search common-form hide">
-    <h6>@("Filter".Localize())</h6>
+    <h6>@("Extended Query".Localize())</h6>
     <p class="field">
-        <select>
+        <select onchange="ChangeQuery(this);">
             @foreach (var q in Model)
             {
-                <option>@(q.Name)</option>
+                <option value="@q.Name">@(q.Title)</option>
             }
         </select>
     </p>
-    <div id="extendedQueryParameterDiv" class="addition hide" data-bind="with: data">
-        <p data-bind="text: Description"></p>
+    <div id="extendedQueryParameterDiv" class="addition" data-bind="with: data">
+        <p data-bind="text: Query().Description"></p>
         <table>
             <tr data-bind="foreach: Parameters">
                 <th data-bind="text: Name"></th>
@@ -28,39 +28,11 @@
         </table>
     </div>
     <div class="buttons">
-        <a class="button blue">Apply</a>
-        <a class="button gray">Cancel</a>
+        <a class="button blue" onclick="ApplyQuery();">Apply</a>
+        <a class="button gray" onclick="$('div.search-panel').find('div.more-search').slideUp();">Cancel</a>
     </div>
-    <ul>
-        @foreach (var q in Model)
-        {
-            <li>
-                <a href="@(executeurl)?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&name=@(q.Name)">@(q.Name)</a>
-                <a href="javascript:EditParameters('@(q.Name)');">Parameters</a>
-            </li>
-        }
-    </ul>
 </div>
 
-<div id="extendedQueryParameterDiv" class="common-form hide" data-bind="with: data">
-    <div class="clearfix" data-bind="with: Query">
-        <h3>Extended Query: <span data-bind="text: Name"></span></h3>
-        <p data-bind="text: Description"></p>
-    </div>
-    <div class="clearfix">
-        <table>
-            <tbody data-bind="foreach: Parameters">
-                <tr>
-                    <td data-bind="text: Name"></td>
-                    <td>
-                        <input type="text" data-bind="value: Value" />
-                        <em class="tooltip" data-bind="text: Description"></em>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 <script type="text/javascript">
     utils.showMessage = function (title, message, level, funcClose) {
         info.show(message, (level || 'info') == 'info');
@@ -91,6 +63,11 @@
             getSaveUrl: function (self) {
                 return '@(saveurl)?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
             },
+            onSaveSuccess: function (self, info) {
+                var name = self.Name();
+                var url = '@(executeurl)?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&name=' + name;
+                window.location.href = url;
+            },
             onInit: function (self) {
                 self.Name = ko.observable(null);
             },
@@ -100,13 +77,16 @@
         });
 
         ko.applyBindings(vmEQP, document.getElementById('extendedQueryParameterDiv'));
+        $('.more-search p.field select').trigger('change');
     });
 
-    function EditParameters(name) {
+    function ChangeQuery(ele) {
+        var name = $(ele).find('option:selected').val();
         vmEQP.Name(name);
         vmEQP.getData();
-        utils.showDialog('#extendedQueryParameterDiv', 'Edit Extended Query Parameters', function () {
-            vmEQP.saveData();
-        });
+    }
+
+    function ApplyQuery() {
+        vmEQP.saveData();
     }
 </script>
