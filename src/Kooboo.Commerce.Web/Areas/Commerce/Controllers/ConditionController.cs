@@ -13,9 +13,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ConditionController : CommerceControllerBase
     {
-        private IEnumerable<IConditionParameterProvider> _parameterProviders;
+        private IEnumerable<IParameterProvider> _parameterProviders;
 
-        public ConditionController(IEnumerable<IConditionParameterProvider> parameterProviders)
+        public ConditionController(IEnumerable<IParameterProvider> parameterProviders)
         {
             _parameterProviders = parameterProviders;
         }

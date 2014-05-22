@@ -10,10 +10,9 @@ namespace Kooboo.Commerce.Events.Promotions
     [Serializable]
     public class PromotionDisabled : DomainEvent, IPromotionEvent
     {
-        [ConditionParameter]
+        [Reference(typeof(Promotion))]
         public int PromotionId { get; set; }
 
-        [ConditionParameter]
         public string PromotionName { get; set; }
 
         public PromotionDisabled() { }

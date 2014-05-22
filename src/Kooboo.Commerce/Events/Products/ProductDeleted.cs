@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Events.Products
     [Serializable]
     public class ProductDeleted : DomainEvent, IProductEvent
     {
-        [ConditionParameter]
+        [Param]
         public int ProductId { get; set; }
 
         public ProductDeleted() { }

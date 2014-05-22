@@ -10,13 +10,13 @@ namespace Kooboo.Commerce.Events.Orders
     [Serializable]
     public class OrderStatusChanged : DomainEvent, IOrderEvent
     {
-        [ConditionParameter]
+        [Reference(typeof(Order), Prefix = "")]
         public int OrderId { get; set; }
 
-        [ConditionParameter]
+        [Param]
         public OrderStatus OldStatus { get; set; }
 
-        [ConditionParameter]
+        [Param]
         public OrderStatus NewStatus { get; set; }
 
         public OrderStatusChanged() { }

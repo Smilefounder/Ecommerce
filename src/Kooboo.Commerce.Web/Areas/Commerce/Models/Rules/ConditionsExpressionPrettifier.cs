@@ -13,17 +13,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
     {
         private StringBuilder _html;
         private IComparisonOperatorProvider _operatorProvider;
-        private IEnumerable<IConditionParameterProvider> _parameterProviders;
-        private List<IConditionParameter> _parameters;
+        private IEnumerable<IParameterProvider> _parameterProviders;
+        private List<ConditionParameter> _parameters;
 
         public ConditionsExpressionPrettifier()
-            : this(EngineContext.Current.Resolve<IComparisonOperatorProvider>(), EngineContext.Current.ResolveAll<IConditionParameterProvider>())
+            : this(EngineContext.Current.Resolve<IComparisonOperatorProvider>(), EngineContext.Current.ResolveAll<IParameterProvider>())
         {
         }
 
         public ConditionsExpressionPrettifier(
             IComparisonOperatorProvider operatorProvider,
-            IEnumerable<IConditionParameterProvider> parameerProviders)
+            IEnumerable<IParameterProvider> parameerProviders)
         {
             _operatorProvider = operatorProvider;
             _parameterProviders = parameerProviders;
@@ -101,7 +101,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             var param = _parameters.FirstOrDefault(x => x.Name.Equals(exp.ParamName, StringComparison.OrdinalIgnoreCase));
             if (param != null)
             {
-                paramDisplayName = param.DisplayName;
+                paramDisplayName = param.Name;
             }
 
             _html.AppendFormat("<span class=\"param\">{0}</span>", paramDisplayName);

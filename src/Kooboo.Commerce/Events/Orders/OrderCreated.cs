@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Events.Orders
     [Serializable]
     public class OrderCreated : DomainEvent, IOrderEvent
     {
-        [ConditionParameter]
+        [Reference(typeof(Order), Prefix = "")]
         public int OrderId { get; set; }
 
         public OrderCreated() { }

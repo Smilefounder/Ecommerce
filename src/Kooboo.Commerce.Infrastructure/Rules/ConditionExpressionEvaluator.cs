@@ -9,42 +9,42 @@ using System.Text;
 namespace Kooboo.Commerce.Rules
 {
     /// <summary>
-    /// Class to evaluate the result of a condition expression.
+    /// Represents a evaluator to evaluate the result of a condition expression.
     /// </summary>
     public class ConditionExpressionEvaluator : ExpressionVisitor
     {
-        private object _contextModel;
+        private object _dataContext;
         private Stack<bool> _results = new Stack<bool>();
-        private List<IConditionParameter> _availableParameters;
-        private IEnumerable<IConditionParameterProvider> _modelParameterProviders;
+        private List<ConditionParameter> _availableParameters;
+        private IEnumerable<IParameterProvider> _modelParameterProviders;
         private IComparisonOperatorProvider _comparisonOperatorProvider;
 
         public ConditionExpressionEvaluator(
-            IEnumerable<IConditionParameterProvider> modelParameterProviders,
+            IEnumerable<IParameterProvider> parameterProviders,
             IComparisonOperatorProvider comparisonOperatorProvider)
         {
-            Require.NotNull(modelParameterProviders, "modelParameterProviders");
+            Require.NotNull(parameterProviders, "parameterProviders");
             Require.NotNull(comparisonOperatorProvider, "comparisonOperatorProvider");
 
-            _modelParameterProviders = modelParameterProviders;
+            _modelParameterProviders = parameterProviders;
             _comparisonOperatorProvider = comparisonOperatorProvider;
         }
 
         /// <summary>
-        /// Evaludates the result of the condition expression.
+        /// Evalute the value of the specified condition expression.
         /// </summary>
-        /// <param name="expression">The expression to evaluate.</param>
-        /// <param name="contextModel">The context model.</param>
-        /// <returns>True if the condition expression passes, false otherwise.</returns>
-        public bool Evaluate(Expression expression, object contextModel)
+        /// <param name="expression">The condition expression to evaluate.</param>
+        /// <param name="dataContext">The context object.</param>
+        /// <returns>True if the the condition passed, false otherwise.</returns>
+        public bool Evaluate(Expression expression, object dataContext)
         {
             Require.NotNull(expression, "expression");
-            Require.NotNull(contextModel, "contextModel");
+            Require.NotNull(dataContext, "dataContext");
 
-            _contextModel = contextModel;
+            _dataContext = dataContext;
 
-            var contextModelType = contextModel.GetType();
-            _availableParameters = _modelParameterProviders.SelectMany(x => x.GetParameters(contextModelType))
+            var dataContextType = dataContext.GetType();
+            _availableParameters = _modelParameterProviders.SelectMany(x => x.GetParameters(dataContextType))
                                                            .DistinctBy(x => x.Name)
                                                            .ToList();
 
@@ -72,8 +72,8 @@ namespace Kooboo.Commerce.Rules
             if (@operator == null)
                 throw new InvalidOperationException("Unrecognized comparison operator \"" + exp.Operator + "\".");
 
-            var paramValue = param.GetValue(_contextModel);
-            var conditionValue = GetConditionValue(exp.Value, param);
+            var paramValue = param.ValueResolver.ResolveValue(param, _dataContext);
+            var conditionValue = Convert.ChangeType(exp.Value.Value, param.ValueType);
             var result = @operator.Apply(param, paramValue, conditionValue);
 
             _results.Push(result);
@@ -108,11 +108,6 @@ namespace Kooboo.Commerce.Rules
             // A and B, if A is true, then final result = B
             // A or B, if A is false, then final result = B
             Visit(exp.Right);
-        }
-
-        private object GetConditionValue(ConditionValueExpression exp, IConditionParameter param)
-        {
-            return param.ParseValue(exp.Value);
         }
     }
 }

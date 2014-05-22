@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Events.Products
     [Serializable]
     public class ProductCreated : DomainEvent, IProductEvent
     {
-        [ConditionParameter]
+        [Reference(typeof(Product))]
         public int ProductId { get; set; }
 
         public ProductCreated() { }
