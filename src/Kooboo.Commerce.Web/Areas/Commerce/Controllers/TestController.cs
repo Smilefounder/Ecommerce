@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Params()
         {
-            var provider = new DeclaringConditionParameterProvider();
+            var provider = new DeclaringParameterProvider();
             var parameters = provider.GetParameters(typeof(TestContext)).ToList();
 
             var context = new TestContext
@@ -64,7 +64,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             foreach (var param in parameters)
             {
-                var value = param.ValueResolver.GetValue(param, context);
+                var value = param.ValueResolver.ResolveValue(param, context);
                 Response.Write(param.Name + " = " + value);
                 Response.Write("<br/>");
             }

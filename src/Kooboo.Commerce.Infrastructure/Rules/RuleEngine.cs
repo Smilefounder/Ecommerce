@@ -14,30 +14,35 @@ namespace Kooboo.Commerce.Rules
     [Dependency(typeof(RuleEngine))]
     public class RuleEngine
     {
-        private IEnumerable<IConditionParameterProvider> _modelParameterProviders;
+        private IEnumerable<IParameterProvider> _modelParameterProviders;
         private IComparisonOperatorProvider _comparisonOperatorProvider;
 
-        public RuleEngine(IEnumerable<IConditionParameterProvider> modelParameterProviders, IComparisonOperatorProvider operatorProvider)
+        public RuleEngine()
+            : this(EngineContext.Current.ResolveAll<IParameterProvider>(), EngineContext.Current.Resolve<IComparisonOperatorProvider>())
         {
-            Require.NotNull(modelParameterProviders, "modelParameterProviders");
+        }
+
+        public RuleEngine(IEnumerable<IParameterProvider> parameterProviders, IComparisonOperatorProvider operatorProvider)
+        {
+            Require.NotNull(parameterProviders, "modelParameterProviders");
             Require.NotNull(operatorProvider, "operatorProvider");
 
-            _modelParameterProviders = modelParameterProviders;
+            _modelParameterProviders = parameterProviders;
             _comparisonOperatorProvider = operatorProvider;
         }
 
         /// <summary>
         /// Check if the specified condition can be fullfilled by the context.
         /// </summary>
-        /// <param name="conditionExpression">The condition expression. e.g., Param1 > 18 AND Param2 == "Value"</param>
-        /// <param name="contextModel">The contextual model.</param>
+        /// <param name="expression">The condition expression. e.g., Param1 > 18 AND Param2 == "Value"</param>
+        /// <param name="dataContext">The contextual object.</param>
         /// <returns>True if the condtion can pass, otherwise false.</returns>
-        public bool CheckCondition(string conditionExpression, object contextModel)
+        public bool CheckCondition(string expression, object dataContext)
         {
-            Require.NotNullOrEmpty(conditionExpression, "conditionExpression");
-            Require.NotNull(contextModel, "contextModel");
+            Require.NotNullOrEmpty(expression, "expression");
+            Require.NotNull(dataContext, "dataContext");
 
-            return CheckCondition(Expression.Parse(conditionExpression), contextModel);
+            return CheckCondition(Expression.Parse(expression), dataContext);
         }
 
         public bool CheckCondition(Expression expression, object contextModel)

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
+    /// <summary>
+    /// 表示支持链状求值的参数值求解器，链中的每个求解器依次执行，并将求得结果作为下一个求解器的输出，最终返回最后一个求解器的结果。
+    /// </summary>
     public class ChainedParameterValueResolver : IParameterValueResolver
     {
         private List<IParameterValueResolver> _resolvers;
@@ -19,23 +22,21 @@ namespace Kooboo.Commerce.Rules
             _resolvers = resolvers.ToList();
         }
 
+        /// <summary>
+        /// Add an instance of <see cref="Kooboo.Commerce.Rules.IParameterValueResolver"/> to the resolver chain.
+        /// </summary>
         public ChainedParameterValueResolver Chain(IParameterValueResolver resolver)
         {
             _resolvers.Add(resolver);
             return this;
         }
 
-        public ChainedParameterValueResolver Clone()
-        {
-            return new ChainedParameterValueResolver(_resolvers);
-        }
-
-        public object GetValue(ConditionParameter param, object dataContext)
+        public object ResolveValue(ConditionParameter param, object dataContext)
         {
             var value = dataContext;
             foreach (var resolver in _resolvers)
             {
-                value = resolver.GetValue(param, value);
+                value = resolver.ResolveValue(param, value);
                 if (value == null)
                 {
                     break;

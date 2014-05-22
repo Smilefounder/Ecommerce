@@ -213,12 +213,12 @@
     <Compile Include="Rules\IReferenceResolver.cs" />
     <Compile Include="Rules\ParamAttribute.cs" />
     <Compile Include="Rules\ConditionParameter.cs" />
-    <Compile Include="Rules\DeclaringConditionParameterProvider.cs" />
+    <Compile Include="Rules\DeclaringParameterProvider.cs" />
     <Compile Include="Rules\Expressions\ExpressionVisitor.cs" />
     <Compile Include="Rules\IComparisonOperator.cs" />
     <Compile Include="Rules\IComparisonOperatorProvider.cs" />
-    <Compile Include="Rules\IConditionParameterProvider.cs" />
-    <Compile Include="Rules\IndirectReferenceParameterValueResolverAdapter.cs" />
+    <Compile Include="Rules\IParameterProvider.cs" />
+    <Compile Include="Rules\IndirectReferenceAdapter.cs" />
     <Compile Include="Rules\ReferenceAttribute.cs" />
     <Compile Include="Rules\IParameterValueResolver.cs" />
     <Compile Include="Rules\IParameterValueSource.cs" />

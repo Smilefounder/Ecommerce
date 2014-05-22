@@ -5,12 +5,16 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
+    /// <summary>
+    /// 表示静态参数值数据源，可用参数时在创建时就指定并保持不变。
+    /// </summary>
     public class StaticParameterValueSource : IParameterValueSource
     {
         public List<ParameterValueItem> _values;
 
         public StaticParameterValueSource(IEnumerable<ParameterValueItem> values)
         {
+            Require.NotNull(values, "values");
             _values = values.ToList();
         }
 

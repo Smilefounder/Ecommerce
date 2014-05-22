@@ -10,12 +10,12 @@ using System.Text;
 namespace Kooboo.Commerce.Rules
 {
     /// <summary>
-    /// Provides available condition expression parameters for a model type.
+    /// Defines methods to get the available parameters for a data context type.
     /// </summary>
-    public interface IConditionParameterProvider
+    public interface IParameterProvider
     {
         /// <summary>
-        /// Get the available condition expression parameters for the specified model type.
+        /// Gets the available parameters of the specified data context type.
         /// </summary>
         IEnumerable<ConditionParameter> GetParameters(Type dataContextType);
     }

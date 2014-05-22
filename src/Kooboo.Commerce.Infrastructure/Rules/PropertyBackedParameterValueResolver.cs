@@ -6,16 +6,20 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
+    /// <summary>
+    /// Represents a resolver to resolve the value of a class property backed parameter.
+    /// </summary>
     public class PropertyBackedParameterValueResolver : IParameterValueResolver
     {
         private PropertyInfo _property;
 
         public PropertyBackedParameterValueResolver(PropertyInfo property)
         {
+            Require.NotNull(property, "property");
             _property = property;
         }
 
-        public object GetValue(ConditionParameter param, object dataContext)
+        public object ResolveValue(ConditionParameter param, object dataContext)
         {
             if (dataContext == null)
             {

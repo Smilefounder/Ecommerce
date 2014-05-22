@@ -8,8 +8,11 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    [Dependency(typeof(IConditionParameterProvider), Key = "DeclaringConditionParameterProvider")]
-    public class DeclaringConditionParameterProvider : IConditionParameterProvider
+    /// <summary>
+    /// A provider providing parameters by checking the declared <see cref="Kooboo.Commerce.Rules.ParamAttribute"/> in the class properties.
+    /// </summary>
+    [Dependency(typeof(IParameterProvider), Key = "DeclaringConditionParameterProvider")]
+    public class DeclaringParameterProvider : IParameterProvider
     {
         public IEnumerable<ConditionParameter> GetParameters(Type dataContextType)
         {
@@ -35,7 +38,7 @@ namespace Kooboo.Commerce.Rules
                         if (refAttr.ReferenceResolver == null)
                             throw new InvalidOperationException("Indirect reference must speicify a reference resolver. Property: " + property.ReflectedType.FullName + "." + property.Name + ".");
 
-                        resolver.Chain(new IndirectReferenceParameterValueResolverAdapter(referencingType, refAttr.ReferenceResolver));
+                        resolver.Chain(new IndirectReferenceAdapter(referencingType, refAttr.ReferenceResolver));
                     }
 
                     var newPrefix = prefix;
