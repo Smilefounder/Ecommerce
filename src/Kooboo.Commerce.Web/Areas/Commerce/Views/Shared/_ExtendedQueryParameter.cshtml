@@ -16,15 +16,17 @@
         </select>
     </p>
     <div id="extendedQueryParameterDiv" class="addition" data-bind="with: data">
-        <p data-bind="text: Query().Description"></p>
+        <p class="description" data-bind="text: Query().Description"></p>
         <table>
-            <tr data-bind="foreach: Parameters">
-                <th data-bind="text: Name"></th>
-                <td>
-                    <input type="text" data-bind="value: Value" />
-                    <em class="tip" data-bind="text: Description"></em>
-                </td>
-            </tr>
+            <tbody data-bind="foreach: Parameters">
+                <tr>
+                    <th data-bind="text: Name"></th>
+                    <td>
+                        <input type="text" data-bind="value: Value" />
+                        <em class="tip" data-bind="text: Description"></em>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
     <div class="buttons">
