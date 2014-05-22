@@ -1,13 +1,9 @@
 ﻿Entended Query
 ==============
 
-- [What's Extended Query][]
-- [How to extend a query][]
-- [What queries are extendable][]
-- [Sample codes][]
 
-
-## What's Extended Query
+What's Extended Query
+------------------------
 
 User can query data by some filters. However, some filter conditions are often used and some filters are complicate and can’t just simply by setting a value. In this case, we can use `Extended Query`. Extended queries are fully open to developers. By implementing specified extended query interfaces, developer can easily carry out complicated customized queries, such as most valuable customers, top sale products etc. These queries can be complex query which may join other tables with grouping statistics. The extended queries, usually are implemented as an add-in, will be probed automatically and be added to corresponding query pages at the more search section. The admin/user then can click the extended query and list the results.
 
