@@ -12,10 +12,10 @@ namespace Kooboo.Commerce.Brands
 {
     public class Brand : INotifyCreated, INotifyUpdated, INotifyDeleted
     {
-        [ConditionParameter(Name = "BrandId", DisplayName = "Brand ID")]
+        [Param]
         public int Id { get; set; }
 
-        [ConditionParameter(Name = "BrandName", DisplayName = "Brand Name")]
+        [Param]
         public string Name { get; set; }
 
         public string Description { get; set; }

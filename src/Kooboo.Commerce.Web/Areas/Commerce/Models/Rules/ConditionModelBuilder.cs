@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
     public class ConditionModelBuilder : ExpressionVisitor
     {
         private IEnumerable<IConditionParameterProvider> _parameterProviders;
-        private List<IConditionParameter> _parameters;
+        private List<ConditionParameter> _parameters;
         private Stack<List<ConditionModel>> _conditionTrees = new Stack<List<ConditionModel>>();
 
         public ConditionModelBuilder(IEnumerable<IConditionParameterProvider> parameterProviders)

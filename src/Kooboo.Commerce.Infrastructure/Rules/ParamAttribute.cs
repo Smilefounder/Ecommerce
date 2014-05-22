@@ -9,10 +9,12 @@ namespace Kooboo.Commerce.Rules
     /// Declare a model property to be used as a condition expression parameter.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class ConditionParameterAttribute : Attribute
+    public class ParamAttribute : Attribute
     {
         public string Name { get; set; }
 
-        public string DisplayName { get; set; }
+        public Type ValueSource { get; set; }
+
+        public string Prefix { get; set; }
     }
 }

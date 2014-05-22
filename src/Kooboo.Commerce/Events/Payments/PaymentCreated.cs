@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Events.Payments
     [Serializable]
     public class PaymentCreated : DomainEvent, IPaymentEvent
     {
-        [ConditionParameter]
+        [Param]
         public int PaymentId { get; set; }
 
         public PaymentCreated() { }

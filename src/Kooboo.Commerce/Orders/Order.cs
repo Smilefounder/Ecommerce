@@ -21,6 +21,7 @@ namespace Kooboo.Commerce.Orders
             OrderItems = new List<OrderItem>();
         }
 
+        [Param]
         public int Id { get; set; }
 
         public int CustomerId { get; set; }
@@ -49,7 +50,7 @@ namespace Kooboo.Commerce.Orders
         /// </summary>
         public decimal PaymentMethodCost { get; set; }
 
-        [ConditionParameter(Name = "OrderTotal", DisplayName = "Order Total")]
+        [Param]
         public decimal Total { get; set; }
 
         /// <summary>
@@ -63,8 +64,6 @@ namespace Kooboo.Commerce.Orders
         /// </summary>
         public string ShippingName { get; set; }
 
-        //string ShippingTrackingCode  { get;  set; }
-
         /// <summary>
         /// Remark from users who ordered it.
         /// </summary>
@@ -73,11 +72,18 @@ namespace Kooboo.Commerce.Orders
         public decimal TotalWeight { get; set; }
 
         public virtual ICollection<OrderItem> OrderItems { get; set; }
+        
+        [Reference]
         public virtual Customer Customer { get; set; }
+
         public virtual ShoppingCart ShoppingCart { get; set; }
 
+        [Reference]
         public virtual OrderAddress ShippingAddress { get; set; }
+
+        [Reference]
         public virtual OrderAddress BillingAddress { get; set; }
+
         public virtual ICollection<OrderCustomField> CustomFields { get; set; }
 
         /// <summary>

@@ -10,13 +10,13 @@ namespace Kooboo.Commerce.API.HAL
     public class HalContext
     {
         public HttpContext WebContext { get; set; }
-        [ConditionParameter(Name = "CommerceInstance", DisplayName = "Commerce Instance")]
+        [Param]
         public string CommerceInstance { get; set; }
-        [ConditionParameter(Name = "Language", DisplayName = "Language")]
+        [Param]
         public string Language { get; set; }
-        [ConditionParameter(Name = "Currency", DisplayName = "Currency")]
+        [Param]
         public string Currency { get; set; }
-        [ConditionParameter(Name = "ResourceName", DisplayName = "Resource Name")]
+        [Param]
         public string ResourceName { get; set; }
         public object Data { get; set; }
     }

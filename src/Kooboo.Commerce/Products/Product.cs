@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Categories;
+using Kooboo.Commerce.Rules;
 
 namespace Kooboo.Commerce.Products
 {
@@ -26,8 +27,10 @@ namespace Kooboo.Commerce.Products
             PriceList = new List<ProductPrice>();
         }
 
+        [Param]
         public int Id { get; set; }
 
+        [Param]
         public string Name { get; set; }
 
         public int? BrandId { get; set; }

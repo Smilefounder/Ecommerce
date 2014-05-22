@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Kooboo.Commerce.Orders
     public class OrderAddress
     {
         public int Id { get; set; }
+
         public int CustomerId { get; set; }
 
         public int CountryId { get; set; }
@@ -17,22 +19,22 @@ namespace Kooboo.Commerce.Orders
 
         public string LastName { get; set; }
 
+        [Param]
         public string Address1 { get; set; }
 
-        /// <summary>
-        /// optional
-        /// </summary>
+        [Param]
         public string Address2 { get; set; }
 
+        [Param]
         public string Postcode { get; set; }
 
+        [Param]
         public string City { get; set; }
 
-        /// <summary>
-        /// optional
-        /// </summary>
+        [Param]
         public string State { get; set; }
 
+        [Reference]
         public Country Country { get; set; }
 
         /// <summary>

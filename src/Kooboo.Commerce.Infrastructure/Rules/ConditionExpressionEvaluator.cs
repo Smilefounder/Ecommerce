@@ -15,18 +15,18 @@ namespace Kooboo.Commerce.Rules
     {
         private object _contextModel;
         private Stack<bool> _results = new Stack<bool>();
-        private List<IConditionParameter> _availableParameters;
+        private List<ConditionParameter> _availableParameters;
         private IEnumerable<IConditionParameterProvider> _modelParameterProviders;
         private IComparisonOperatorProvider _comparisonOperatorProvider;
 
         public ConditionExpressionEvaluator(
-            IEnumerable<IConditionParameterProvider> modelParameterProviders,
+            IEnumerable<IConditionParameterProvider> parameterProviders,
             IComparisonOperatorProvider comparisonOperatorProvider)
         {
-            Require.NotNull(modelParameterProviders, "modelParameterProviders");
+            Require.NotNull(parameterProviders, "parameterProviders");
             Require.NotNull(comparisonOperatorProvider, "comparisonOperatorProvider");
 
-            _modelParameterProviders = modelParameterProviders;
+            _modelParameterProviders = parameterProviders;
             _comparisonOperatorProvider = comparisonOperatorProvider;
         }
 
@@ -72,8 +72,8 @@ namespace Kooboo.Commerce.Rules
             if (@operator == null)
                 throw new InvalidOperationException("Unrecognized comparison operator \"" + exp.Operator + "\".");
 
-            var paramValue = param.GetValue(_contextModel);
-            var conditionValue = GetConditionValue(exp.Value, param);
+            var paramValue = param.ValueResolver.GetValue(param, _contextModel);
+            var conditionValue = Convert.ChangeType(exp.Value.Value, param.ValueType);
             var result = @operator.Apply(param, paramValue, conditionValue);
 
             _results.Push(result);
@@ -108,11 +108,6 @@ namespace Kooboo.Commerce.Rules
             // A and B, if A is true, then final result = B
             // A or B, if A is false, then final result = B
             Visit(exp.Right);
-        }
-
-        private object GetConditionValue(ConditionValueExpression exp, IConditionParameter param)
-        {
-            return param.ParseValue(exp.Value);
         }
     }
 }

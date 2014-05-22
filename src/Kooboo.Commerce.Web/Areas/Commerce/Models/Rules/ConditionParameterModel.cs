@@ -19,18 +19,18 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public IList<ComparisonOperatorModel> SupportedOperators { get; set; }
 
-        public IList<ParameterValue> Values { get; set; }
+        public IList<ParameterValueItem> Values { get; set; }
 
         public ConditionParameterModel()
         {
-            Values = new List<ParameterValue>();
+            Values = new List<ParameterValueItem>();
             SupportedOperators = new List<ComparisonOperatorModel>();
         }
 
-        public ConditionParameterModel(IConditionParameter param) : this()
+        public ConditionParameterModel(ConditionParameter param) : this()
         {
             Name = param.Name;
-            DisplayName = param.DisplayName;
+            DisplayName = param.Name;
             ValueType = param.ValueType.FullName;
             IsNumberValue = param.ValueType.IsNumber();
 
@@ -39,12 +39,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
                 SupportedOperators.Add(new ComparisonOperatorModel(@operator));
             }
 
-            var valueSourceFactory = EngineContext.Current.Resolve<IParameterValueDataSourceProvider>();
-            var valueSources = valueSourceFactory.GetDataSources(param.Name).ToList();
-
-            if (valueSources.Count > 0)
+            if (param.ValueSource != null)
             {
-                Values = valueSources.SelectMany(x => x.GetValues(param)).ToList();
+                Values = param.ValueSource.GetValues(param).ToList();
             }
         }
     }

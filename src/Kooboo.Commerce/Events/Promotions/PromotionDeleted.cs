@@ -10,10 +10,10 @@ namespace Kooboo.Commerce.Events.Promotions
     [Serializable]
     public class PromotionDeleted : DomainEvent, IPromotionEvent
     {
-        [ConditionParameter]
+        [Param]
         public int PromotionId { get; set; }
 
-        [ConditionParameter]
+        [Param]
         public string PromotionName { get; set; }
 
         public PromotionDeleted() { }

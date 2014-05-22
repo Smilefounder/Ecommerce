@@ -50,81 +50,44 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View();
         }
 
-        public void Hal()
+        public ActionResult Params()
         {
-            using (var client = new System.Net.WebClient())
+            var provider = new DeclaringConditionParameterProvider();
+            var parameters = provider.GetParameters(typeof(TestContext)).ToList();
+
+            var context = new TestContext
             {
-                client.Encoding = Encoding.UTF8;
-                client.Headers["Content-Type"] = "application/hal+json";
+                BrandId = 2465,
+                Type = "Normal",
+                Ref = new SomeObject {  Prop = 5 }
+            };
 
-                var result = client.DownloadString("http://localhost:63739/api/jd/category/list?pageIndex=0&pageSize=3");
-                Console.WriteLine(result);
-
-                var settings = new JsonSerializerSettings();
-                settings.Converters.Add(new ResourceConverter());
-
-                var category = JsonConvert.DeserializeObject<IListResource<Kooboo.Commerce.API.Categories.Category>>(result, settings);
-
-                var a = 0;
+            foreach (var param in parameters)
+            {
+                var value = param.ValueResolver.GetValue(param, context);
+                Response.Write(param.Name + " = " + value);
+                Response.Write("<br/>");
             }
+
+            return Content("OK");
         }
 
-        public void UriResolver()
+        public class TestContext
         {
-            var resolver = EngineContext.Current.Resolve<IUriResolver>();
-            var resource = resolver.FindResource("/jd/brand/5");
-            var test = resource;
+            [Reference(typeof(Brand))]
+            public int BrandId { get; set; }
+
+            [Param]
+            public string Type { get; set; }
+
+            [Reference]
+            public SomeObject Ref { get; set; }
         }
 
-        public void Transaction()
+        public class SomeObject
         {
-            var db = CommerceInstanceContext.CurrentInstance.Database;
-
-            using (var tx = db.BeginTransaction())
-            {
-                var brand = new Brand
-                {
-                    Name = "MyBrand 2"
-                };
-
-                db.GetRepository<Brand>().Insert(brand);
-
-                tx.Commit();
-            }
-        }
-
-        public string Tokenizer()
-        {
-            var tokenizer = new Tokenizer("CustomerName == ds:customers:\"Mouhong\" and orTotalAmount >= 3.14 or param3 < 25");
-            var output = new StringBuilder();
-            Token token = null;
-
-            do
-            {
-                token = tokenizer.NextToken();
-                if (token != null)
-                {
-                    output.Append(token.Kind == TokenKind.StringLiteral ? "\"" + token.Value + "\"" : token.Value).Append("<br/>");
-                }
-
-            } while (token != null);
-
-            return output.ToString();
-        }
-
-        public string Parser()
-        {
-            var parser = new Parser();
-
-            try
-            {
-                var exp = parser.Parse("(CustomerName == ds:customers:\"Mouhong\" or (Age >= 18 or Gender == \"Male\")) and TotalAmount < 59.98");
-                return exp.ToString();
-            }
-            catch (ParserException ex)
-            {
-                return ex.Message.Replace(Environment.NewLine, "<br/>");
-            }
+            [Param]
+            public int Prop { get; set; }
         }
     }
 }

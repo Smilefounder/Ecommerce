@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.ComponentModel;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Promotions;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,8 +12,10 @@ namespace Kooboo.Commerce.Promotions
 {
     public class Promotion : INotifyCreated, INotifyDeleted
     {
+        [Param]
         public int Id { get; set; }
 
+        [Param]
         [Required]
         [StringLength(100)]
         public string Name { get; set; }

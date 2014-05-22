@@ -10,13 +10,13 @@ namespace Kooboo.Commerce.Events.Payments
     [Serializable]
     public class PaymentStatusChanged : DomainEvent, IPaymentEvent
     {
-        [ConditionParameter]
+        [Param]
         public int PaymentId { get; set; }
 
-        [ConditionParameter]
+        [Param]
         public PaymentStatus OldStatus { get; set; }
 
-        [ConditionParameter]
+        [Param]
         public PaymentStatus NewStatus { get; set; }
 
         public PaymentStatusChanged() { }

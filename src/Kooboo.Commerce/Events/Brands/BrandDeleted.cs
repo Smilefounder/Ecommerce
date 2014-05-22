@@ -11,13 +11,13 @@ namespace Kooboo.Commerce.Events.Brands
     [Serializable]
     public class BrandDeleted : DomainEvent, IBrandEvent
     {
-        [ConditionParameter]
+        [Param]
         public int BrandId { get; set; }
 
-        [ConditionParameter]
+        [Param]
         public string BrandName { get; set; }
 
-        [ConditionParameter]
+        [Param]
         public string BrandDescription { get; set; }
 
         public BrandDeleted() { }

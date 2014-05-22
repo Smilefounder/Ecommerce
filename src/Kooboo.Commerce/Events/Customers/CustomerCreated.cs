@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Events.Customers
     [Serializable]
     public class CustomerCreated : DomainEvent, ICustomerEvent
     {
-        [ConditionParameter]
+        [Reference(typeof(Customer))]
         public int CustomerId { get; set; }
 
         public CustomerCreated() { }
