@@ -100,6 +100,6 @@ You can find the extended queries in the menu items of:
 * /Commerce/Orders
 * /Commerce/Catalog/Products
 
-**Click** the corresponding menu item to enter the list page, and click the downside arrow on the search section at the right of the page. Then you can see your extended queries. **Click** the query name to execute the query, and the parameters link to set your query parameters.
+**Click** the corresponding menu item to enter the list page, and click the downside arrow on the search section at the right of the page. Then you can see your extended queries. **Select** the query name and change the parameters if you want, **Click** `Apply` to execute the query with parameters.
 
 
