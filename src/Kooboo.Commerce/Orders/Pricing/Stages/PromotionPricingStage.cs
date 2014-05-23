@@ -1,4 +1,6 @@
-﻿using Kooboo.Commerce.Promotions;
+﻿using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Pricing;
+using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Rules;
 using System;
@@ -13,6 +15,14 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
         private IPromotionService _promotionService;
         private IPromotionPolicyProvider _policyFactory;
         private RuleEngine _ruleEngine;
+
+        public string Name
+        {
+            get
+            {
+                return "PromotionPricingStage";
+            }
+        }
 
         public PromotionPricingStage(
             IPromotionService promotionService,

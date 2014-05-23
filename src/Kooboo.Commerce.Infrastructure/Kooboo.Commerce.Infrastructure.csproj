@@ -176,7 +176,7 @@
     <Compile Include="Dependencies\EventDependencyRegistrar.cs" />
     <Compile Include="Dependencies\PersistenceDependencyRegistrar.cs" />
     <Compile Include="Events\AwaitDbCommitAttribute.cs" />
-    <Compile Include="Events\CategoryAttribute.cs" />
+    <Compile Include="Events\EventAttribute.cs" />
     <Compile Include="Events\Dispatching\DefaultEventDispatcher.cs" />
     <Compile Include="Events\Dispatching\EventHandlerUtil.cs" />
     <Compile Include="Events\DomainEvent.cs" />
@@ -188,6 +188,7 @@
     <Compile Include="Events\Dispatching\EventHandlerException.cs" />
     <Compile Include="Events\Dispatching\IEventDispatcher.cs" />
     <Compile Include="Events\Registry\DefaultEventRegistry.cs" />
+    <Compile Include="Events\Registry\EventRegistrationEntry.cs" />
     <Compile Include="Events\Registry\IEventHandlerRegistry.cs" />
     <Compile Include="Events\Dispatching\IHandlerActivator.cs" />
     <Compile Include="Events\Dispatching\IHandlerInvoker.cs" />

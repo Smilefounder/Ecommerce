@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.Rules;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,9 +9,11 @@ namespace Kooboo.Commerce.Shipping
 {
     public class ShippingMethod
     {
+        [Param]
         public int Id { get; set; }
 
         [Required, StringLength(50)]
+        [Param]
         public string Name { get; set; }
 
         [StringLength(1000)]

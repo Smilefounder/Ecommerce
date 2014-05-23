@@ -7,6 +7,14 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
 {
     public class PaymentMethodPricingStage : IPricingStage
     {
+        public string Name
+        {
+            get
+            {
+                return "PaymentMethodPricingStage";
+            }
+        }
+
         public void Execute(PricingContext context)
         {
             if (context.PaymentMethod != null)

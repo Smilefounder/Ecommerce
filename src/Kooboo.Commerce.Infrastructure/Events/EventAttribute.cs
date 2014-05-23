@@ -6,13 +6,15 @@ using System.Text;
 namespace Kooboo.Commerce.Events
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
-    public class CategoryAttribute : Attribute
+    public class EventAttribute : Attribute
     {
-        public string Name { get; private set; }
+        public string Category { get; set; }
 
-        public CategoryAttribute(string name)
+        public int Order { get; set; }
+
+        public EventAttribute()
         {
-            Name = name;
+            Order = 100;
         }
     }
 }

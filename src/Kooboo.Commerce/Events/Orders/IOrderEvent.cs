@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace Kooboo.Commerce.Events.Orders
 {
-    [Category("Order Events")]
+    [Event(Category = "Order Events")]
     public interface IOrderEvent : IDomainEvent
     {
         int OrderId { get; }

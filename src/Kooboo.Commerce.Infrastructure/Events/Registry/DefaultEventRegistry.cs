@@ -9,8 +9,8 @@ namespace Kooboo.Commerce.Events.Registry
     public class DefaultEventRegistry : IEventRegistry
     {
         private readonly object _registerLock = new object();
-        private const string NullCategory = "<null>";
-        private Dictionary<string, HashSet<Type>> _eventsByCategory = new Dictionary<string, HashSet<Type>>();
+        private const string Uncategorized = "Uncategorized";
+        private Dictionary<string, List<EventRegistrationEntry>> _eventsByCategory = new Dictionary<string, List<EventRegistrationEntry>>();
 
         public IEnumerable<string> AllCategories()
         {
@@ -22,9 +22,9 @@ namespace Kooboo.Commerce.Events.Registry
             var types = new HashSet<Type>();
             foreach (var set in _eventsByCategory.Values)
             {
-                foreach (var type in set)
+                foreach (var entry in set)
                 {
-                    types.Add(type);
+                    types.Add(entry.EventType);
                 }
             }
 
@@ -35,15 +35,15 @@ namespace Kooboo.Commerce.Events.Registry
         {
             if (String.IsNullOrEmpty(category))
             {
-                category = NullCategory;
+                category = Uncategorized;
             }
 
             // Writes are done with Copy-on-Write, so no need to add read lock here
-            HashSet<Type> types = null;
+            List<EventRegistrationEntry> types = null;
 
             if (_eventsByCategory.TryGetValue(category, out types))
             {
-                return types;
+                return types.Select(t => t.EventType).ToList();
             }
 
             return Enumerable.Empty<Type>();
@@ -59,27 +59,70 @@ namespace Kooboo.Commerce.Events.Registry
                 {
                     if (candidate.IsClass && !candidate.IsAbstract && typeof(IEvent).IsAssignableFrom(candidate))
                     {
-                        var attr = GetCategoryAttribute(candidate);
-                        var category = attr == null ? NullCategory : attr.Name;
-                        if (!clone.ContainsKey(category))
+                        var order = 0;
+                        string category = null;
+                        var attr = candidate.GetCustomAttribute<EventAttribute>(true);
+                        if (attr != null)
                         {
-                            clone.Add(category, new HashSet<Type>());
+                            order = attr.Order;
+                            category = attr.Category;
                         }
 
-                        clone[category].Add(candidate);
+                        if (attr == null || String.IsNullOrEmpty(attr.Category))
+                        {
+                            EventAttribute baseAttr = null;
+
+                            foreach (var @interface in candidate.GetInterfaces())
+                            {
+                                baseAttr = @interface.GetCustomAttribute<EventAttribute>(true);
+                                if (baseAttr != null)
+                                {
+                                    break;
+                                }
+                            }
+
+                            if (baseAttr != null)
+                            {
+                                if (String.IsNullOrEmpty(category))
+                                {
+                                    category = baseAttr.Category;
+                                }
+                                if (attr == null)
+                                {
+                                    order = baseAttr.Order;
+                                }
+                            }
+                        }
+
+                        if (String.IsNullOrEmpty(category))
+                        {
+                            category = Uncategorized;
+                        }
+
+                        if (!clone.ContainsKey(category))
+                        {
+                            clone.Add(category, new List<EventRegistrationEntry>());
+                        }
+
+                        clone[category].Add(new EventRegistrationEntry(candidate, order));
                     }
+                }
+
+                foreach (var entries in clone.Values)
+                {
+                    entries.Sort();
                 }
 
                 _eventsByCategory = clone;
             }
         }
 
-        private Dictionary<string, HashSet<Type>> CloneInnerDictionary()
+        private Dictionary<string, List<EventRegistrationEntry>> CloneInnerDictionary()
         {
-            var clone = new Dictionary<string, HashSet<Type>>();
+            var clone = new Dictionary<string, List<EventRegistrationEntry>>();
             foreach (var kv in _eventsByCategory)
             {
-                clone.Add(kv.Key, new HashSet<Type>(kv.Value));
+                clone.Add(kv.Key, new List<EventRegistrationEntry>(kv.Value));
             }
 
             return clone;
@@ -106,32 +149,6 @@ namespace Kooboo.Commerce.Events.Registry
                     RegisterEvents(types);
                 }
             }
-        }
-
-        static CategoryAttribute GetCategoryAttribute(Type eventType)
-        {
-            var attribute = eventType.GetCustomAttributes(typeof(CategoryAttribute), true)
-                                     .OfType<CategoryAttribute>()
-                                     .FirstOrDefault();
-
-            if (attribute != null)
-            {
-                return attribute;
-            }
-
-            foreach (var interfaceType in eventType.GetInterfaces())
-            {
-                attribute = interfaceType.GetCustomAttributes(typeof(CategoryAttribute), true)
-                                         .OfType<CategoryAttribute>()
-                                         .FirstOrDefault();
-
-                if (attribute != null)
-                {
-                    return attribute;
-                }
-            }
-
-            return null;
         }
     }
 }

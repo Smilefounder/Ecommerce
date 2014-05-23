@@ -1,4 +1,6 @@
-﻿using Kooboo.Commerce.Orders.Pricing.Stages;
+﻿using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Pricing;
+using Kooboo.Commerce.Orders.Pricing.Stages;
 using Kooboo.Commerce.Runtime;
 using System;
 using System.Collections.Generic;
@@ -48,10 +50,16 @@ namespace Kooboo.Commerce.Orders.Pricing
             Prepare(context);
 
             var stages = _stageTypes.Select(type => (IPricingStage)_typeActivator.Activate(type)).ToList();
+
+            Event.Raise(new PricingPipelineStarted(context, stages));
+
             foreach (var stage in stages)
             {
                 stage.Execute(context);
+                Event.Raise(new PricingStageCompleted(stage.Name, context));
             }
+
+            Event.Raise(new PricingPipelineCompleted(context));
         }
 
         private void Prepare(PricingContext context)

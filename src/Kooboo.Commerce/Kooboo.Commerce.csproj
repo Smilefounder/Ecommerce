@@ -97,6 +97,9 @@
     <Compile Include="Categories\CategoryCustomField.cs" />
     <Compile Include="Categories\Services\CategoryService.cs" />
     <Compile Include="Categories\Services\ICategoryService.cs" />
+    <Compile Include="Events\Pricing\PricingPipelineCompleted.cs" />
+    <Compile Include="Events\Pricing\PricingPipelineStarted.cs" />
+    <Compile Include="Events\Pricing\PricingStageCompleted.cs" />
     <Compile Include="Locations\AddressExtensions.cs" />
     <Compile Include="Customers\CustomerCustomField.cs" />
     <Compile Include="Customers\CustomerQueryModel.cs" />

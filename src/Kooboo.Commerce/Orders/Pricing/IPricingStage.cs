@@ -10,6 +10,8 @@ namespace Kooboo.Commerce.Orders.Pricing
     /// </summary>
     public interface IPricingStage
     {
+        string Name { get; }
+
         void Execute(PricingContext context);
     }
 }

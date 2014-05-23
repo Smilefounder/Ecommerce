@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Shipping.ByWeight
 
         public decimal GetShippingRate(ShippingMethod method, ShippingRateCalculationContext context)
         {
-            throw new NotImplementedException();
+            return 0m;
         }
 
         public ShippingRateProviderEditor GetEditor()

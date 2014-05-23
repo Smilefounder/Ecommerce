@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Promotions;
+using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Shipping;
 using Kooboo.Commerce.ShoppingCarts;
 using System;
@@ -17,14 +18,18 @@ namespace Kooboo.Commerce.Orders.Pricing
     {
         public IList<PricingItem> Items { get; set; }
 
+        [Reference]
         public Customer Customer { get; set; }
 
+        [Reference]
         public string CouponCode { get; set; }
 
+        [Reference]
         public PaymentMethod PaymentMethod { get; set; }
 
         public PriceWithDiscount PaymentMethodCost { get; private set; }
 
+        [Reference]
         public ShippingMethod ShippingMethod { get; set; }
 
         public PriceWithDiscount ShippingCost { get; private set; }
