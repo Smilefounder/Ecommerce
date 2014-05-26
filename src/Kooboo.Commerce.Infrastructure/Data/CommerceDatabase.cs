@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Data
 
         public IEventDispatcher EventDispatcher { get; private set; }
 
-        public EventTrackingContext EventTrackingContext { get; private set; }
+        public EventTrackingScope EventTrackingContext { get; private set; }
 
         public CommerceDbContext DbContext { get; private set; }
 
@@ -43,7 +43,7 @@ namespace Kooboo.Commerce.Data
 
             _commerceInstanceMetadata = commerceInstanceMetadata;
             EventDispatcher = eventDispatcher;
-            EventTrackingContext = EventTrackingContext.Begin();
+            EventTrackingContext = EventTrackingScope.Begin();
             DbContext = CommerceDbContext.Create(commerceInstanceMetadata, dbProvider);
         }
 

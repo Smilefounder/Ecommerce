@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Events
             if (dispatcher == null)
                 throw new InvalidOperationException("Cannot resolve event dispatcher. Ensure event dispatcher is registered.");
 
-            var eventTrackingContext = EventTrackingContext.Current;
+            var eventTrackingContext = EventTrackingScope.Current;
             dispatcher.Dispatch(@event, new EventDispatchingContext(EventDispatchingPhase.OnEventRaised, eventTrackingContext));
 
             if (eventTrackingContext != null)

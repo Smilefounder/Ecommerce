@@ -180,7 +180,7 @@
     <Compile Include="Events\Dispatching\DefaultEventDispatcher.cs" />
     <Compile Include="Events\Dispatching\EventHandlerUtil.cs" />
     <Compile Include="Events\DomainEvent.cs" />
-    <Compile Include="Events\EventTrackingContext.cs" />
+    <Compile Include="Events\EventTrackingScope.cs" />
     <Compile Include="Events\EventTypeExtensions.cs" />
     <Compile Include="Events\Registry\DefaultEventHandlerRegistry.cs" />
     <Compile Include="Events\Dispatching\EventDispatchingContext.cs" />
@@ -254,6 +254,7 @@
     <Compile Include="Rules\TypeExtensions.cs" />
     <Compile Include="Runtime\ITypeActivator.cs" />
     <Compile Include="Scope.cs" />
+    <Compile Include="Scope`.cs" />
     <Compile Include="Web\Http\TransactionalAttribute.cs" />
     <Compile Include="Web\Mvc\HandleAjaxFormErrorAttribute.cs" />
     <Compile Include="Web\Mvc\AjaxFormResult.cs" />

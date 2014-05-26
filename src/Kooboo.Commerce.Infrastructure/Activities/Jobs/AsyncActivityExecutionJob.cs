@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Activities.Jobs
                 var instance = instanceManager.OpenInstance(metadata.Name);
 
                 // Begin a scope so the activities are able to resolve dependencies from the ioc container
-                using (var scope = Scope<CommerceInstance>.Begin(instance))
+                using (var scope = Scope.Begin(instance))
                 {
                     var batchSize = 100;
                     var queue = instance.Database.GetRepository<ActivityQueueItem>();
