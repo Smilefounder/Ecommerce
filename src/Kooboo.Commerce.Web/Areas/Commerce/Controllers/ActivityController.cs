@@ -40,12 +40,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Create(int ruleId, RuleBranch branch, string activityName)
         {
             var activity = _activityProvider.FindByName(activityName);
+            var rule = _ruleRepository.Get(ruleId);
 
             return View(new ActivityEditorModel
             {
                 RuleId = ruleId,
                 RuleBranch = branch,
-                Activity = new ActivityModel(activity)
+                Activity = new ActivityModel(activity, rule, null)
             });
         }
         public ActionResult Edit(int ruleId, int attachedActivityInfoId)
@@ -58,7 +59,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 RuleId = ruleId,
                 AttachedActivityInfoId = attachedActivityInfoId,
-                Activity = new ActivityModel(activity)
+                Activity = new ActivityModel(activity, rule, attachedActivityInfo)
             });
         }
 
@@ -71,11 +72,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             model.RuleBranch = branch;
 
             var activity = _activityProvider.FindByName(activityName);
-            model.Activity = new ActivityModel(activity);
+            AttachedActivityInfo attachedActivityInfo = null;
+            if (attachedActivityInfoId > 0)
+            {
+                attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
+            }
+
+            model.Activity = new ActivityModel(activity, rule, attachedActivityInfo);
 
             if (attachedActivityInfoId > 0)
             {
-                var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
                 model.AttachedActivityInfoId = attachedActivityInfo.Id;
                 model.Description = attachedActivityInfo.Description;
                 model.Priority = attachedActivityInfo.Priority;

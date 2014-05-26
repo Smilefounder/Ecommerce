@@ -8,6 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Payments
 {
     [Serializable]
+    [Event(Order = 200)]
     public class PaymentStatusChanged : DomainEvent, IPaymentEvent
     {
         [Param]

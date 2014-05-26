@@ -31,7 +31,7 @@
         /// <summary>
         /// 获取Activity的配置编辑器。
         /// </summary>
-        ActivityEditor GetEditor();
+        ActivityEditor GetEditor(ActivityRule rule, AttachedActivityInfo info);
     }
 
 ```
@@ -48,7 +48,7 @@ Activity配置页面会以Tab的形式加载到Activity设置页面中，实现�
 
 	public class MyActivity : IActivity
 	{
-		public ActivityEditor GetEditor()
+		public ActivityEditor GetEditor(ActivityRule rule, AttachedActivityInfo info)
         {
             return new ActivityEditor("~/Areas/MyActivity/Views/Config.cshtml");
         }

@@ -66,7 +66,7 @@ namespace Kooboo.Commerce.Payments.iDeal
             return ProcessPaymentResult.Pending(idealFetch.Url, idealFetch.TransactionId);
         }
 
-        public PaymentProcessorEditor GetEditor()
+        public PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod)
         {
             return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }

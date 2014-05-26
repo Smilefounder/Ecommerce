@@ -9,7 +9,7 @@
 
     var methodId = Model.Id;
     var shippingRateProvider = ViewBag.ShippingRateProvider as IShippingRateProvider;
-    var editor = shippingRateProvider.GetEditor();
+    var editor = shippingRateProvider.GetEditor(Model);
 }
 
 @section Panel {

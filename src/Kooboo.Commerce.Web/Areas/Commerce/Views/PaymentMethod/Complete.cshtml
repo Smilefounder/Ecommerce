@@ -33,7 +33,7 @@
             window.loading.show();
             $.post('@Url.Action("EnablePaymentMethod")', { id: $(this).data('id'), commerceName: commerceName }, function () {
                 window.loading.hide();
-                location.href = '@(ViewContext.RequestContext.GetRequestValue("return"))';
+                location.href = '@Html.Raw(ViewContext.RequestContext.GetRequestValue("return"))';
             });
 
             return false;

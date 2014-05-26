@@ -54,7 +54,7 @@ namespace Kooboo.Commerce.Payments.Fake
             return ProcessPaymentResult.Pending(redirectUrl, Guid.NewGuid().ToString("N"));
         }
 
-        public PaymentProcessorEditor GetEditor()
+        public PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod)
         {
             return null;
         }

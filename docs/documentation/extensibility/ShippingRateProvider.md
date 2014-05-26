@@ -19,7 +19,7 @@
         /// <summary>
         /// 获取自定义配置的编辑器信息。
         /// </summary>
-        ShippingRateProviderEditor GetEditor();
+        ShippingRateProviderEditor GetEditor(ShippingMethod method);
     }
 
 ```

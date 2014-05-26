@@ -43,7 +43,7 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
         {
         }
 
-        public ActivityEditor GetEditor()
+        public ActivityEditor GetEditor(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
         {
             return new ActivityEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }

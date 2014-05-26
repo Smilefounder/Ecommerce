@@ -28,7 +28,7 @@ PaymentProcessor用于处理支付请求，添加PaymentMethod时需要指定对
         /// <summary>
         /// 获取自定义配置数据的编辑器信息。
         /// </summary>
-        PaymentProcessorEditor GetEditor();
+        PaymentProcessorEditor GetEditor(PaymentMethod method);
     }
 
 ```

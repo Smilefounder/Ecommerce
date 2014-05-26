@@ -7,9 +7,9 @@
         ViewBag.Title = "Promotion".Localize();
     }
 
-    var promotionId = ViewContext.RouteData.Values["id"];
+    var promotionId = Model.Id;
     var policy = ViewBag.Policy as IPromotionPolicy;
-    var editor = policy.GetEditor();
+    var editor = policy.GetEditor(Model);
 }
 
 @section Panel {

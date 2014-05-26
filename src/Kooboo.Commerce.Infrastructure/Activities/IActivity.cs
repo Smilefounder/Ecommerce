@@ -43,6 +43,6 @@ namespace Kooboo.Commerce.Activities
         /// <summary>
         /// 获取Activity的配置编辑器。
         /// </summary>
-        ActivityEditor GetEditor();
+        ActivityEditor GetEditor(ActivityRule rule, AttachedActivityInfo attachedActivityInfo);
     }
 }

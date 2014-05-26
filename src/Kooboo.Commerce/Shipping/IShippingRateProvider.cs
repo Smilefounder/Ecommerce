@@ -18,11 +18,11 @@ namespace Kooboo.Commerce.Shipping
         /// <summary>
         /// 计算运费。
         /// </summary>
-        decimal GetShippingRate(ShippingMethod method, ShippingRateCalculationContext context);
+        decimal GetShippingRate(ShippingMethod shippingMethod, ShippingRateCalculationContext context);
 
         /// <summary>
         /// 获取自定义配置的编辑器信息。
         /// </summary>
-        ShippingRateProviderEditor GetEditor();
+        ShippingRateProviderEditor GetEditor(ShippingMethod shippingMethod);
     }
 }

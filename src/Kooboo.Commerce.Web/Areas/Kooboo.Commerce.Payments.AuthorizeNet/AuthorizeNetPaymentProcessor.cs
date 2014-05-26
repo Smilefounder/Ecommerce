@@ -64,7 +64,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             return request;
         }
 
-        public PaymentProcessorEditor GetEditor()
+        public PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod)
         {
             return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }

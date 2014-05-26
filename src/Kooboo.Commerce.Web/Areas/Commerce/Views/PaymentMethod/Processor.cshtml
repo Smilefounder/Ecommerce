@@ -6,7 +6,7 @@
 
     var methodId = Model.Id;
     var processor = ViewBag.Processor as IPaymentProcessor;
-    var editor = processor.GetEditor();
+    var editor = processor.GetEditor(Model);
 }
 
 @section Panel {

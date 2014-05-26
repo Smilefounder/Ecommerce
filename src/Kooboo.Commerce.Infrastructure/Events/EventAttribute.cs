@@ -10,6 +10,8 @@ namespace Kooboo.Commerce.Events
     {
         public string Category { get; set; }
 
+        public string DisplayName { get; set; }
+
         public int Order { get; set; }
 
         public EventAttribute()

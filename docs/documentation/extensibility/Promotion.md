@@ -29,7 +29,7 @@ PromotionPolicy的扩展同样分为两部分，业务逻辑执行部分，以�
         /// <summary>
         /// 获取促销策略配置的编辑器。
         /// </summary>
-        PromotionPolicyEditor GetEditor();
+        PromotionPolicyEditor GetEditor(Promotion promotion);
     }
 
 ```

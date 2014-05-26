@@ -16,12 +16,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public ActivityModel() { }
 
-        public ActivityModel(IActivity activity)
+        public ActivityModel(IActivity activity, ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
         {
             Name = activity.Name;
             AllowAsyncExecution = activity.AllowAsyncExecution;
-
-            var editor = activity.GetEditor();
+            var editor = activity.GetEditor(rule, attachedActivityInfo);
             if (editor != null)
             {
                 EditorVirtualPath = editor.VirtualPath;

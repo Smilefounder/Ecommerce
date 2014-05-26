@@ -8,6 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Products
 {
     [Serializable]
+    [Event(Order = 100)]
     public class ProductCreated : DomainEvent, IProductEvent
     {
         [Reference(typeof(Product))]

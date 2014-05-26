@@ -151,7 +151,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             var processor = _processorProvider.FindByName(method.PaymentProcessorName);
-            var editor = processor.GetEditor();
+            var editor = processor.GetEditor(method);
 
             string redirectUrl = null;
 

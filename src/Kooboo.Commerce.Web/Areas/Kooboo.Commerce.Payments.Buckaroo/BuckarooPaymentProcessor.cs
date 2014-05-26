@@ -86,7 +86,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             return url.ToFullUrl(HttpContextAccessor());
         }
 
-        public PaymentProcessorEditor GetEditor()
+        public PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod)
         {
             return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }

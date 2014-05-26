@@ -73,7 +73,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             return discount;
         }
 
-        public PromotionPolicyEditor GetEditor()
+        public PromotionPolicyEditor GetEditor(Promotion promotion)
         {
             return new PromotionPolicyEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }

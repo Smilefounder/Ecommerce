@@ -149,7 +149,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             var policy = _policyProvider.FindByName(model.PromotionPolicy);
-            var editor = policy.GetEditor();
+            var editor = policy.GetEditor(promotion);
 
             string redirectUrl = null;
 

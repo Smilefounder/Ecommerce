@@ -25,6 +25,6 @@ namespace Kooboo.Commerce.Payments
         /// <summary>
         /// 获取自定义配置数据的编辑器信息。
         /// </summary>
-        PaymentProcessorEditor GetEditor();
+        PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod);
     }
 }

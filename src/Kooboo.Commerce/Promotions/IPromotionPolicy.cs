@@ -28,6 +28,6 @@ namespace Kooboo.Commerce.Promotions
         /// <summary>
         /// 获取促销策略配置的编辑器。
         /// </summary>
-        PromotionPolicyEditor GetEditor();
+        PromotionPolicyEditor GetEditor(Promotion promotion);
     }
 }

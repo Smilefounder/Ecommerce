@@ -90,6 +90,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
+        [HttpPost, HandleAjaxFormError]
+        public ActionResult Settings(ShippingMethodRowModel[] model)
+        {
+            return AjaxForm().RedirectTo(Url.Action("ShippingRateProvider", RouteValues.From(Request.QueryString).Merge("id", model[0].Id)));
+        }
+
         public ActionResult ShippingRateProvider(int id)
         {
             var method = _shippingMethodService.GetById(id);
@@ -143,7 +149,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             var shippingRateProvider = _shippingRateProviderFactory.FindByName(method.ShippingRateProviderName);
-            var editor = shippingRateProvider.GetEditor();
+            var editor = shippingRateProvider.GetEditor(method);
 
             string redirectUrl = null;
 

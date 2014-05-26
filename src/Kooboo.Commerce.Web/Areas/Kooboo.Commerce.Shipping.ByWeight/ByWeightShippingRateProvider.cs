@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Shipping.ByWeight
             return 0m;
         }
 
-        public ShippingRateProviderEditor GetEditor()
+        public ShippingRateProviderEditor GetEditor(ShippingMethod shippingMethod)
         {
             return new ShippingRateProviderEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
