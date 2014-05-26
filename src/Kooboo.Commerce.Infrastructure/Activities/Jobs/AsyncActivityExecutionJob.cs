@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Activities.Jobs
                     {
                         // Change status
                         queueItem.MarkStarted();
-                        instance.Database.Commit();
+                        instance.Database.SaveChanges();
 
                         // Execute activity
                         using (var tx = instance.Database.BeginTransaction())

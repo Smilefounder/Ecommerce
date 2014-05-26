@@ -78,22 +78,24 @@ namespace Kooboo.Commerce.Data
             return _currentTransaction;
         }
 
-        public void Commit()
+        public int SaveChanges()
         {
+            var result = 0;
             var transaction = Transaction;
             if (transaction == null)
             {
                 using (transaction = BeginTransaction())
                 {
-                    DbContext.SaveChanges();
+                    result = DbContext.SaveChanges();
                     transaction.Commit();
                 }
             }
             else
             {
-                DbContext.SaveChanges();
-                transaction.Commit();
+                result = DbContext.SaveChanges();
             }
+
+            return result;
         }
 
         private void AssertNoCurrentTransaction()

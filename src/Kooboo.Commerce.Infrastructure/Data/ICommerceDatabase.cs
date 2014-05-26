@@ -30,6 +30,6 @@ namespace Kooboo.Commerce.Data
 
         ICommerceDbTransaction BeginTransaction(IsolationLevel isolationLevel);
 
-        void Commit();
+        int SaveChanges();
     }
 }

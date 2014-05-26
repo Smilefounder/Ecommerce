@@ -50,6 +50,27 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View();
         }
 
+        public void Save()
+        {
+            var instance = CommerceInstanceContext.CurrentInstance;
+            var db = instance.Database;
+            //using (var tx = db.BeginTransaction())
+            //{
+                var brand = db.GetRepository<Brand>().Get(2466);
+                brand.Name += " (Hello)";
+
+                db.SaveChanges();
+
+                var brand2 = db.GetRepository<Brand>().Get(2466);
+                if (brand2.Name == brand.Name)
+                {
+                    Response.Write("OK. Can get name " + brand2.Name);
+                }
+
+            //    tx.Commit();
+            //}
+        }
+
         public ActionResult Params()
         {
             var provider = new DeclaringParameterProvider();
