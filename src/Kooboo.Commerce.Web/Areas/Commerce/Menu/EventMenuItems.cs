@@ -71,16 +71,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
             }
 
             // add resource rules menu item
-            menuItems.Add(new MenuItem()
-            {
-                Name = "ResourceRules",
-                Text = "Resource Rules",
-                Area = "Commerce",
-                Controller = "HAL",
-                Action = "ResourceRules",
-                RouteValues = new System.Web.Routing.RouteValueDictionary(),
-                Initializer = new CommerceMenuItemInitializer()
-            });
+            //menuItems.Add(new MenuItem()
+            //{
+            //    Name = "ResourceRules",
+            //    Text = "Resource Rules",
+            //    Area = "Commerce",
+            //    Controller = "HAL",
+            //    Action = "ResourceRules",
+            //    RouteValues = new System.Web.Routing.RouteValueDictionary(),
+            //    Initializer = new CommerceMenuItemInitializer()
+            //});
 
             return menuItems;
         }
