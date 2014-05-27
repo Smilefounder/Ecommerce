@@ -1,18 +1,27 @@
-/* Link button
+/* Buttons
 ------------------------------------------------------*/
-a.button {
+.button {
 	background: @blue;
 	color: #FFF;
+	cursor: pointer;
 	display: inline-block;
 	font-size: 14px;
 	height: 28px;
 	line-height: 28px;
-	min-width: 80px;
+	min-width: 100px;
 	padding: 0 10px;
 	text-align: center;
+	.box-sizing(border-box);
+	.transition(0.2s);
 
 	&:hover {
 		background: darken(@blue, 5%);
+	}
+
+	&.disabled {
+		background: @blue;
+		color: #FFF;
+		cursor: not-allowed;
 	}
 
 	&.gray {
@@ -25,6 +34,7 @@ a.button {
 
 		&.disabled {
 			background: lighten(@gray, 5%);
+			color: #000;
 		}
 	}
 
@@ -38,6 +48,7 @@ a.button {
 
 		&.disabled {
 			background: #FFF;
+			color: #333;
 		}
 	}
 
@@ -69,9 +80,59 @@ a.button {
 		}
 	}
 
-	&.disabled {
-		background: @blue;
-		cursor: not-allowed;
+	&.dropdown {
+		padding: 0 30px 0 10px;
+		position: relative;
+
+		span {
+			display: block;
+		}
+
+		.sprite {
+			position: absolute;
+			right: 11px;
+			top: 11px;
+			.sprite(@chevron-down-white);
+		}
+
+		&.active .sprite {
+			.sprite(@chevron-up-white);
+		}
+
+		ul {
+			background: #FFF;
+			border: 1px solid #DDD;
+			cursor: default;
+			display: none;
+			font-size: 12px;
+			left: 0;
+			min-width: 100%;
+			position: absolute;
+			top: 32px;
+			.box-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+			.box-sizing(border-box);
+
+			li {
+				color: #999;
+				cursor: not-allowed;
+				font-style: italic;
+				line-height: 30px;
+				padding: 0 10px;
+				text-align: left;
+
+				a {
+					color: #000;
+					display: block;
+					font-style: normal;
+					margin: 0 -10px;
+					padding: 0 10px;
+
+					&:hover {
+						background: #DDD;
+					}
+				}
+			}
+		}
 	}
 }
 /* Form button
@@ -80,53 +141,10 @@ button,
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
-	background: #0078B1;
 	border: none;
-	color: #FFF;
-	cursor: pointer;
-	font-size: 14px;
-	height: 28px;
-	line-height: 28px;
-	min-width: 100px;
-	padding: 0 10px;
-	.transition(0.2s);
-
-	&:hover {
-		background: darken(@blue, 5%);
-	}
-
-	&.gray {
-		background: @gray;
-		color: #000;
-
-		&:hover {
-			background: darken(@gray, 5%);
-		}
-
-		&.disabled {
-			background: lighten(@gray, 5%);
-		}
-	}
-
-	&.white {
-		background: #FFF;
-		color: #333;
-
-		&:hover {
-			background: darken(#FFF, 5%);
-		}
-
-		&.disabled {
-			background: #FFF;
-		}
-	}
-
-	&.disabled {
-		background: @blue;
-		color: #FFF;
-		cursor: not-allowed;
-	}
+	.button();
 }
+
 /* Switcher button
 ------------------------------------------------------*/
 .button-switcher {

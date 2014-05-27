@@ -9,9 +9,20 @@
 }
 <div class="simple-table">
     <div class="toolbar">
-        <a class="button" data-bind="click:addField">@createButtonText</a>
-        @if (fieldType == 0) { 
-        <a class="button" data-bind="click:addSystemField">@("Add System Fields".Localize())</a>
+        @if (fieldType == 0)
+        {
+            <div class="button dropdown">
+                <span>@("Add a field".Localize())</span>
+                @Html.IconImage("sprite")
+                <ul>
+                    <li><a data-bind="click:addField">@("New field".Localize())</a></li>
+                    <li><a data-bind="click:addSystemField">@("Predefined field".Localize())</a></li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <a class="button" data-bind="click:addField">@("Add a field".Localize())</a>
         }
     </div>
     <div id="grid-field">

@@ -17,11 +17,11 @@
     <form>
         <div id="J_ProductTabs">
             <ul>
-                <li><a href="#basicInfo">@("Product Info".Localize())</a></li>
-                <li><a href="#categories">@("Product Categories".Localize())</a></li>
-                <li><a href="#images">@("Product Images".Localize())</a></li>
-                <li data-bind="visible: ProductTypeId"><a href="#variants">@("Product Variants".Localize())</a></li>
+                <li><a href="#basicInfo">@("Basic info".Localize())</a></li>
                 <li data-bind="visible: ProductTypeId"><a href="#customFields">@("Custom Fields".Localize())</a></li>
+                <li><a href="#images">@("Images".Localize())</a></li>
+                <li><a href="#categories">@("Categories".Localize())</a></li>
+                <li data-bind="visible: ProductTypeId"><a href="#variants">@("Variants & Prices".Localize())</a></li>
                 @foreach (var tab in customTabs)
                 {
                     <li>
@@ -90,6 +90,21 @@
                     <table>
                         <thead>
                             <tr>
+                                <th class="checkbox mutiple">
+                                    <div>
+                                        <input type="checkbox">
+                                        @Html.IconImage("caret-down-black")
+                                        <div class="dropdown">
+                                            <span class="title">@("Select:".Localize())</span>
+                                            <ul>
+                                                <li><a href="#">All</a></li>
+                                                <li><a href="#">None</a></li>
+                                                <li><a href="#">Color</a></li>
+                                                <li><a href="#">Size</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </th>
                                 <th>@("Sku".Localize())</th>
                                 <!-- ko foreach: $root.ProductType().VariationFields() -->
                                 <th data-bind="with: CustomField"><span data-bind="text: Name"></span></th>
@@ -106,6 +121,7 @@
                         <tbody data-bind="foreach: $root.data().PriceList">
                             <!-- ko if: !$root.IsEditingPrice($data) -->
                             <tr>
+                                <td class="checkbox"><input type="checkbox"></td>
                                 <td data-bind="text:Sku"></td>
                                 <!-- ko foreach: $root.ProductType().VariationFields() -->
                                 <td data-bind="text: $root.GetPriceVaiantText($data, $parents[0])"></td>

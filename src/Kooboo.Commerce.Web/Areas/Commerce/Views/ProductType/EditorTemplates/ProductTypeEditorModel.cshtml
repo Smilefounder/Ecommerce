@@ -22,10 +22,7 @@
                 </div>*@
         </div>
         <div id="CustomFields">
-            @{var customGridViewData = new ViewDataDictionary();
-            customGridViewData.Add("CreateButtonText", "Create custom field".Localize());
-}
-            @Html.Partial("_CustomFieldsGrid", Model.CustomFields, customGridViewData)
+            @Html.Partial("_CustomFieldsGrid", Model.CustomFields)
             @*<br />
                 <div class="block command">
                     <a href="#BasicInfo" class="button">@("« Previous".Localize())</a>
@@ -33,10 +30,7 @@
                 </div>*@
         </div>
         <div id="VariationFields">
-            @{var variationGridViewData = new ViewDataDictionary();
-            variationGridViewData.Add("CreateButtonText", "Create variation field".Localize());
-            }
-            @Html.Partial("_CustomFieldsGrid", Model.VariationFields, variationGridViewData)
+            @Html.Partial("_CustomFieldsGrid", Model.VariationFields)
             @*<br />
                 <div class="block command">
                     <a href="#CustomFields" class="button">@("« Previous".Localize())</a>

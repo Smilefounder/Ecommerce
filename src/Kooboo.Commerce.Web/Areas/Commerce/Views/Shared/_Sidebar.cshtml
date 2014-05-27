@@ -27,7 +27,7 @@ else
         @Html.Partial("_SidebarTopSearch")
     </div>
     <div class="wrap">
-        <nav class="container block menu">
+        <nav class="block menu">
             @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
         </nav>
     </div>

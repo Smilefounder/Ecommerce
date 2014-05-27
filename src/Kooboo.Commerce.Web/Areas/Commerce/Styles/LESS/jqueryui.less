@@ -67,6 +67,31 @@
 	.ui-tabs-panel {
 		padding: 0;
 	}
+
+	&.tabs-bottom {
+		.ui-tabs-nav {
+			border-bottom: none;
+			border-top: 1px solid #CCC;
+			margin-bottom: 0;
+
+			a {
+				border-bottom: 1px solid transparent;
+				border-top: none;
+				.rounded(0 0 3px 3px);
+			}
+
+			.ui-tabs-active a {
+				margin-bottom: 0;
+				margin-top: -1px;
+				padding-bottom: 0;
+				padding-top: 1px;
+			}
+		}
+
+		.ui-tabs-panel {
+			margin-bottom: 10px;
+		}
+	}
 }
 
 /* Dialog

@@ -416,6 +416,68 @@
 		border-bottom: 2px solid #DDD;
 		color: #666;
 		padding: 5px 10px;
+		/* Checkbox */
+		&.checkbox {
+			vertical-align: middle;
+			width: 13px;
+
+			&.mutiple {
+				cursor: pointer;
+				padding: 0;
+
+				> div {
+					padding: 10px 15px 10px 10px;
+					position: relative;
+				}
+
+				.icon {
+					position: absolute;
+					right: 4px;
+					top: 14px;
+				}
+
+				.dropdown {
+					background: #FFF;
+					border: 1px solid #CCC;
+					display: none;
+					left: 10px;
+					position: absolute;
+					top: 25px;
+					white-space: nowrap;
+					z-index: 999;
+					.box-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+
+					.title {
+						display: block;
+						line-height: 24px;
+						padding: 0 10px;
+					}
+				}
+
+				li {
+					font-weight: 400;
+					padding: 0 10px;
+
+					a {
+						color: @blue;
+						display: block;
+						line-height: 20px;
+						margin: 0 -10px;
+						padding: 0 10px;
+
+						&:hover {
+							background: #F1F1F1;
+						}
+					}
+				}
+			}
+
+			input {
+				display: block;
+				float: none;
+				margin: 0;
+			}
+		}
 
 		&.sort {
 			padding: 0;

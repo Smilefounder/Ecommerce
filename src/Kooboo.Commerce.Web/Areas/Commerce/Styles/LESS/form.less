@@ -66,6 +66,10 @@ textarea {
 	min-height: 100px;
 	min-width: 200px;
 	resize: vertical;
+
+	&.autoresize {
+		min-height: 0;
+	}
 }
 
 	input[readonly],
@@ -199,6 +203,14 @@ div.radio {
 		li {
 			float: none;
 			margin: 0 0 10px 0;
+		}
+	}
+
+	&.vertical {
+		li {
+			float: none;
+			margin: 0 0 10px 0;
+			.clearfix();
 		}
 	}
 }
@@ -634,6 +646,7 @@ div.radio {
 
 	.action {
 		display: block;
+		float: left;
 	}
 }
 
@@ -751,16 +764,6 @@ div.radio {
 		margin-left: 16px;
 	}
 
-.common-form textarea.autoresize.medium,
-.autoresizeMedium {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	height: 20px;
-	line-height: 20px;
-	padding: 2px 9px;
-	width: 280px;
-}
 /* Error */
 .validation-summary-errors {
 	color: #F00;
@@ -1000,9 +1003,7 @@ body.in-dialog .in-warning-dialog .buttons {
 
 .common-form .key-value textarea,
 .autoresize {
-	height: 24px;
-	line-height: 24px;
-	padding: 0 9px;
+	min-height: 0;
 	width: 400px;
 }
 
