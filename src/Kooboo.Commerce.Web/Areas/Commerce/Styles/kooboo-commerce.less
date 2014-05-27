@@ -151,3 +151,46 @@
 		}
 	}
 }
+
+/* Activity table
+----------------------------------------------------------*/
+.common-table.activity {
+	tr:hover td {
+		background: none;
+	}
+
+	tbody {
+		border-bottom: 1px solid #F5F5F5;
+
+		&:last-child {
+			border: none;
+		}
+
+		th {
+			font-weight: 600;
+			padding: 10px 10px 10px 20px;
+			white-space: nowrap;
+		}
+
+		td {
+			border-bottom: 1px dashed #D9D9D9;
+			padding: 10px 5px;
+
+			&.always {
+				border: none;
+			}
+
+			&:first-child {
+				padding-left: 5px;
+			}
+		}
+
+		tr:last-child td {
+			border: none;
+		}
+
+		&:hover {
+			background: #FBFBFB;
+		}
+	}
+}
