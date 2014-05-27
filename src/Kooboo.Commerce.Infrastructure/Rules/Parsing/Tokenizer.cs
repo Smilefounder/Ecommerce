@@ -163,7 +163,7 @@ namespace Kooboo.Commerce.Rules.Parsing
             }
 
             Token token = null;
-                var state = NumberParseState.InPrimaryPart;
+            var state = NumberParseState.InPrimaryPart;
 
             using (var lookahead = _source.BeginLookahead())
             {
@@ -185,7 +185,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                         _buffer.Append(ch);
                         _source.MoveNext();
 
-                        if (_source.IsEndOfFile && ( state == NumberParseState.InPrimaryPart || state == NumberParseState.InFractionalPart))
+                        if (_source.IsEndOfFile && (state == NumberParseState.InPrimaryPart || state == NumberParseState.InFractionalPart))
                         {
                             lookahead.Accept();
                             token = new Token(_buffer.ToString(), TokenKind.Number, new SourceLocation(startPosition));

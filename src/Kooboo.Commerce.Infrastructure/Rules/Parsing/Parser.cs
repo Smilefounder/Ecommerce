@@ -14,14 +14,23 @@ namespace Kooboo.Commerce.Rules.Parsing
     /// 
     ///      expression : term [ OR term ]...
     ///            term : factor [ AND factor ]
-    ///          factor : falt_condition | ( expression )
-    ///  flat_condition : identifier comparison_op param_value
+    ///          factor : leaf_condition | ( expression )
+    ///  leaf_condition : identifier comparison_op param_value
     ///   comparison_op : identifier in the available comparison operator list
     ///     param_value : string_literal | number
     ///     
     /// Notes:
-    /// - falt_condition means the condition expression without nesting expressions;
-    /// - term and factor are temp non-terminals used to handle logical opoerator (AND, OR) precedence;
+    /// - leaf_condition means the condition expression without nesting expressions;
+    /// - term and factor are temp non-terminals used to handle operator (AND, OR) precedence.
+    ///   
+    ///   Expressions could be simply expressed as: condition OR/AND condition, 
+    ///   but with this grammer, we are not able to handle operator precendence.
+    ///   We have to split each operator:
+    ///   - Lower precedence operator first, and the operands should be the production rule of a higher precedence operator.
+    ///   - Because precedence(OR) is smaller than precendence(AND), so OR first and we write:
+    ///      expression: term [ OR term]
+    ///   - Then write the 'term' production rule with the higher precedence operator, that is, 'AND', so then we write:
+    ///      term: factor [ AND factor]
     /// </remarks>
     public class Parser
     {
@@ -161,11 +170,11 @@ namespace Kooboo.Commerce.Rules.Parsing
                 }
             }
 
-            return FlatCondition();
+            return LeafCondition();
         }
 
-        // flat_condition : identifier comparison_op param_value
-        private Expression FlatCondition()
+        // leaf_condition : identifier comparison_op param_value
+        private Expression LeafCondition()
         {
             using (var lookahead = _tokenzier.BeginLookahead())
             {
