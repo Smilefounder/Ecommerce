@@ -5,170 +5,122 @@
 
     var formatter = new HtmlExpressionFormatter();
 }
-<div class="common-table">
-    <table>
-        <thead>
-            <tr>
-                <th>WHEN</th>
-                <th>IF</th>
-                <th>THEN</th>
-                <th>ELSE</th>
-                <th>ALWAYS</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th rowspan="2">BrandCreated</th>
-                <td>
-                    <span class="conditions-expression">
-                        <span class="flat-condition"><span class="param">Id</span> <span class="keyword">equals</span> <span class="value">2</span></span>
-                    </span>
-                </td>
-                <td>
-                    <ul>
-                        <li>do something</li>
-                        <li>do something</li>
-                        <li>do something</li>
-                    </ul>
-                </td>
-                <td>do something</td>
-                <td rowspan="2">do something</td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="conditions-expression">
-                        <span class="flat-condition"><span class="param">Id</span> <span class="keyword">equals</span> <span class="value">2</span></span>
-                    </span>
-                </td>
-                <td>
-                    <ul>
-                        <li>do something</li>
-                        <li>do something</li>
-                        <li>do something</li>
-                    </ul>
-                </td>
-                <td>do something</td>
-            </tr>
-        </tbody>
-        <tbody>
-            <tr>
-                <th rowspan="2">BrandUpdated</th>
-                <td>
-                    <span class="conditions-expression">
-                        <span class="flat-condition"><span class="param">Id</span> <span class="keyword">equals</span> <span class="value">2</span></span>
-                    </span>
-                </td>
-                <td>
-                    <ul>
-                        <li>do something</li>
-                        <li>do something</li>
-                        <li>do something</li>
-                    </ul>
-                </td>
-                <td>do something</td>
-                <td rowspan="2">do something</td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="conditions-expression">
-                        <span class="flat-condition"><span class="param">Id</span> <span class="keyword">equals</span> <span class="value">2</span></span>
-                    </span>
-                </td>
-                <td>
-                    <ul>
-                        <li>do something</li>
-                        <li>do something</li>
-                        <li>do something</li>
-                    </ul>
-                </td>
-                <td>do something</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+
+@helper RenderActivity(AttachedActivityInfo activity) { 
+    @activity.Description
+    if (activity.IsAsyncExeuctionEnabled)
+    {
+        if (activity.AsyncExecutionDelay > 0) { 
+            var delay = TimeSpan.FromSeconds(activity.AsyncExecutionDelay);
+            var parts = new List<string>();
+            if (delay.Days > 0)
+            {
+                parts.Add(delay.Days + "day" + (delay.Days > 1 ? "s" : ""));
+            }
+            if (delay.Hours > 0)
+            {
+                parts.Add(delay.Hours + "hour" + (delay.Hours > 1 ? "s" : ""));
+            }
+            if (delay.Minutes > 0)
+            {
+                parts.Add(delay.Minutes + "minute" + (delay.Minutes > 1 ? "s" : ""));
+            }
+            if (delay.Seconds > 0)
+            {
+                parts.Add(delay.Seconds + "second" + (delay.Seconds > 1 ? "s" : ""));
+            }
+        
+            var delayText = String.Join(" and ", parts);
+        
+            <span title="@String.Format("Will execute in {0} when the event occurs".Localize(), delayText)">
+                <!-- TODO: Change to clock-like icon -->
+                @Html.IconImage("plus-small")
+            </span>
+        }
+        else
+        {
+            <span title="@("Will execute asynchronously".Localize())">
+               <!-- TODO: Change to clock-like icon -->
+               @Html.IconImage("plus-small")
+            </span>
+        }
+    }
+}
+
 @foreach (var category in Model)
 {
-    foreach (var evnt in category.Events)
-    {
-        var normlaRules = evnt.Rules.Where(r => r.Type == RuleType.Normal).ToList();
-        var alwaysRule = evnt.Rules.Find(r => r.Type == RuleType.Always);
-
-        <div class="block rules">
-            <div class="head light-gray">
-                <h6 class="title"><span style="color:green">@("WHEN".Localize()) </span>@evnt.EventDisplayName</h6>
-            </div>
-            <div class="box">
-                @foreach (var rule in normlaRules)
+    <div class="head light-gray clearfix">
+        <h6 class="title">@category.Name</h6>
+    </div>
+    <div class="box" style="padding-top:20px">
+        <div class="common-table activity">
+            <table>
+                <thead>
+                    <tr>
+                        <th>WHEN</th>
+                        <th>IF</th>
+                        <th>THEN</th>
+                        <th>ELSE</th>
+                        <th>ALWAYS</th>
+                    </tr>
+                </thead>
+                @foreach (var evnt in category.Events)
                 {
-                    var thenActivities = rule.ThenActivityInfos;
-                    var elseActivities = rule.ElseActivityInfos;
-                    <div class="rule">
-                        <div class="wrap">
-                            <div class="columns">
-                                <div class="span1">
-                                    <span class="rule-label">@("IF".Localize()) </span>
-                                </div>
-                                <div class="span11">
+                    var normlaRules = evnt.Rules.Where(r => r.Type == RuleType.Normal).ToList();
+                    var alwaysRule = evnt.Rules.Find(r => r.Type == RuleType.Always);
+
+                    <tbody>
+                        @for (var i = 0; i < normlaRules.Count; i++)
+                        {
+                            var rule = normlaRules[i];
+
+                            <tr>
+                                @if (i == 0)
+                                {
+                                    <th rowspan="@normlaRules.Count">
+                                        <a href="@Url.Action("List", RouteValues.From(Request.QueryString).Merge("eventType", rule.EventType))">@evnt.EventDisplayName</a>
+                                    </th>
+                                }
+                                <td>
                                     <span class="conditions-expression">
                                         @Html.Raw(formatter.Format(rule.ConditionsExpression, evnt.EventType))
                                     </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="wrap">
-                            <div class="columns">
-                                <div class="span1">
-                                    <span class="rule-label">@("THEN".Localize())</span>
-                                </div>
-                                <div class="span11">
-                                    <ul class="attached-activities">
-                                        @foreach (var activity in thenActivities)
+                                </td>
+                                <td>
+                                    <ul>
+                                        @foreach (var activity in rule.ThenActivityInfos)
                                         {
-                                            <li>@activity.Description</li>
+                                            <li>@RenderActivity(activity)</li>
                                         }
                                     </ul>
-                                </div>
-                            </div>
-                        </div>
-                        @if (rule.ElseActivityInfos.Count > 0)
-                        {
-                            <div class="wrap">
-                                <div class="columns">
-                                    <div class="span1">
-                                        <span class="rule-label">@("ELSE".Localize())</span>
-                                    </div>
-                                    <div class="span11">
-                                        <ul class="attached-activities">
-                                            @foreach (var activity in elseActivities)
-                                            {
-                                                <li>@activity.Description</li>
-                                            }
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                                </td>
+                                <td>
+                                    <ul>
+                                        @foreach (var activity in rule.ElseActivityInfos)
+                                        {
+                                            <li>@RenderActivity(activity)</li>
+                                        }
+                                    </ul>
+                                </td>
+                                @if (i == 0)
+                                {
+                                    <td rowspan="@normlaRules.Count">
+                                        @if (alwaysRule != null)
+                                        {
+                                            <ul>
+                                                @foreach (var activity in alwaysRule.AttachedActivityInfos)
+                                                {
+                                                    <li>@RenderActivity(activity)</li>
+                                                }
+                                            </ul>
+                                        }
+                                    </td>
+                                }
+                            </tr>
                         }
-                    </div>
+                    </tbody>
                 }
-                @if (alwaysRule != null && alwaysRule.AttachedActivityInfos.Count > 0)
-                {
-                    <div class="rule">
-                        <div class="columns">
-                            <div class="span1">
-                                <span class="rule-label">@("ALWAYS".Localize())</span>
-                            </div>
-                            <div class="span11">
-                                <ul class="attached-activities">
-                                    @foreach (var activity in alwaysRule.AttachedActivityInfos)
-                                    {
-                                        <li>@activity.ActivityName</li>
-                                    }
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
+            </table>
         </div>
-    }
+    </div>
 }

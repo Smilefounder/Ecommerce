@@ -24,6 +24,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public Type EventType { get; set; }
 
+        public int Order { get; set; }
+
         public List<ActivityRule> Rules { get; set; }
 
         public EventRules()

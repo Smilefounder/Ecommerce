@@ -57,13 +57,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     events = new EventRules
                     {
                         EventDisplayName = entry.DisplayName,
-                        EventType = eventType
+                        EventType = eventType,
+                        Order = entry.Order
                     };
                     category.Events.Add(events);
                 }
 
                 events.Rules.Add(rule);
             }
+
+            foreach (var category in categories)
+            {
+                category.Events = category.Events.OrderBy(e => e.Order).ThenBy(e => e.EventDisplayName).ToList();
+            }
+
+            categories = categories.OrderBy(c => c.Name).ToList();
 
             return View(categories);
         }

@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Events.Registry
         public EventRegistrationEntry(Type eventType)
         {
             EventType = eventType;
-            DisplayName = eventType.Name;
+            DisplayName = eventType.Name.Humanize();
 
             var eventAttr = eventType.GetCustomAttribute<EventAttribute>(true);
             if (eventAttr != null)
