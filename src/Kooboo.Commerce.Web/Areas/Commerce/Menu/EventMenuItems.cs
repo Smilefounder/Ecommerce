@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
             Name = eventType.Name;
             Text = eventType.GetDescription() ?? Name.Humanize();
 
-            Controller = "Activity";
+            Controller = "ActivityRule";
             Action = "List";
             Area = "Commerce";
 

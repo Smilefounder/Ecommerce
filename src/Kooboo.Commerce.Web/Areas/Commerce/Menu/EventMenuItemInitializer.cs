@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
             var controller = controllerContext.RouteData.Values["controller"] as string;
             var action = controllerContext.RouteData.Values["action"] as string;
 
-            if (!controller.Equals("Activity", StringComparison.OrdinalIgnoreCase))
+            if (!controller.Equals("ActivityRule", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }

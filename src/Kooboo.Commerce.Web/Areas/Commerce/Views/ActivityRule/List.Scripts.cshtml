@@ -142,7 +142,7 @@
             this.openAttachActivityDialog = function () {
                 $.pop({
                     height: 500,
-                    url: '@Url.Action("Create")'
+                    url: '@Url.Action("CreateActivity")'
                         + '?commerceName=' + commerceName
                         + '&ruleId=' + _this.ruleId()
                         + '&branch=' + _this.branch()
@@ -154,7 +154,7 @@
                 vm.beginActivityContext(_rule, _this, attachedActivity);
                 $.pop({
                     height: 500,
-                    url: '@Url.Action("Edit")' + '?commerceName=' + commerceName + '&ruleId=' + _this.ruleId() + '&attachedActivityInfoId=' + attachedActivity.id()
+                    url: '@Url.Action("EditActivity")' + '?commerceName=' + commerceName + '&ruleId=' + _this.ruleId() + '&attachedActivityInfoId=' + attachedActivity.id()
                 });
             }
 
@@ -237,7 +237,7 @@
 
             this.createRule = function (expression) {
                 return $.post('@Url.Action("CreateRule")', { expression: expression, eventType: eventType })
-                        .success(function (data) {
+                        .done(function (data) {
                             _this.rules.splice(_this.rules().length - 1, 0, ko.mapping.fromJS(data, mappingOptions));
                         });
             }

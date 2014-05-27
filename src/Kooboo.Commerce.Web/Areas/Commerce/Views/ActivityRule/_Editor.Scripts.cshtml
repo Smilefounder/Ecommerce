@@ -43,7 +43,7 @@
             }
 
             this.load = function () {
-                $.get('@Url.Action("EditorModel")', {
+                $.get('@Url.Action("GetActivityEditorModel")', {
                     commerceName: commerceName,
                     ruleId: ruleId,
                     branch: branch,
@@ -92,7 +92,7 @@
                 _events.fire('saving', _this, context)
                        .done(function () {
                            if (!context.cancel) {
-                               kb.http.safePost('@Url.Action("Save", RouteValues.From(Request.QueryString))', data)
+                               kb.http.safePost('@Url.Action("SaveActivity", RouteValues.From(Request.QueryString))', data)
                                       .done(function (data) {
                                           _model.attachedActivityInfoId(data.attachedActivityInfoId);
                                           _events.fire('saved').done(function () {

@@ -33,7 +33,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Kooboo.Commerce.Web.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -252,7 +253,7 @@
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
-    <Compile Include="Areas\Commerce\Controllers\ActivityController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\ActivityRuleController.cs" />
     <Compile Include="Areas\Commerce\Controllers\AddInManagementController.cs" />
     <Compile Include="Areas\Commerce\Controllers\BrandController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CategoryController.cs" />
@@ -3227,9 +3228,9 @@
     <Content Include="Areas\Commerce\Views\Shared\_Sidebar.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\Decimal.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\List.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\Create.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\Edit.cshtml" />
+    <Content Include="Areas\Commerce\Views\ActivityRule\List.cshtml" />
+    <Content Include="Areas\Commerce\Views\ActivityRule\CreateActivity.cshtml" />
+    <Content Include="Areas\Commerce\Views\ActivityRule\EditActivity.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\_SettingEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\ImageSizeEditorModel.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\Steps.cshtml" />
@@ -3314,7 +3315,7 @@
     <Content Include="Areas\Commerce\Views\AddInManagement\_ModuleNode.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_InstancesDropdown.cshtml" />
     <Content Include="Areas\Commerce\GlobalMenu.config" />
-    <Content Include="Areas\Commerce\Views\Activity\List.Scripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\ActivityRule\List.Scripts.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\template.cshtml" />
     <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
@@ -3428,9 +3429,9 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-thankyou\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-thankyou\template.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomSystemFiledEditor.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\_BasicInfo.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\_Editor.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\_Editor.Scripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\ActivityRule\_BasicInfo.cshtml" />
+    <Content Include="Areas\Commerce\Views\ActivityRule\_Editor.cshtml" />
+    <Content Include="Areas\Commerce\Views\ActivityRule\_Editor.Scripts.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_ChooseFolder.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_Index.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_Scripts.cshtml" />
