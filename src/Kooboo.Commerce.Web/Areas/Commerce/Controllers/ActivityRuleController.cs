@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events.Registry;
+using Kooboo.Commerce.Rules.Expressions.Formatting;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 using Kooboo.Commerce.Web.Mvc;
@@ -223,7 +224,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return JsonNet(new
             {
                 ConditionsExpression = expression,
-                HighlightedConditionsExpression = new ConditionsExpressionPrettifier().Prettify(expression, Type.GetType(rule.EventType, true))
+                HighlightedConditionsExpression = new HtmlExpressionFormatter().Format(expression, Type.GetType(rule.EventType, true))
             })
             .UsingClientConvention();
         }

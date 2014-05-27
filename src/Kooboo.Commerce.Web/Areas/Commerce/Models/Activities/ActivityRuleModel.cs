@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Activities;
+using Kooboo.Commerce.Rules.Expressions.Formatting;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             Type = rule.Type;
             EventType = rule.EventType;
             ConditionsExpression = rule.ConditionsExpression;
-            HighlightedConditionsExpression = new ConditionsExpressionPrettifier().Prettify(rule.ConditionsExpression, System.Type.GetType(rule.EventType, true));
+            HighlightedConditionsExpression = new HtmlExpressionFormatter().Format(rule.ConditionsExpression, System.Type.GetType(rule.EventType, true));
             CreatedAtUtc = rule.CreatedAtUtc;
 
             Branches.Add(new ActivityRuleBranchModel

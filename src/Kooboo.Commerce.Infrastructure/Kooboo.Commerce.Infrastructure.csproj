@@ -210,6 +210,8 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Rules\ChainedParameterValueResolver.cs" />
     <Compile Include="Rules\ConditionExpressionEvaluator.cs" />
+    <Compile Include="Rules\Expressions\Formatting\ExpressionFormatter.cs" />
+    <Compile Include="Rules\Expressions\Formatting\HtmlExpressionFormatter.cs" />
     <Compile Include="Rules\IndirectReferenceResolver.cs" />
     <Compile Include="Rules\IReferenceResolver.cs" />
     <Compile Include="Rules\ParamAttribute.cs" />

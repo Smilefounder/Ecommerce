@@ -339,7 +339,6 @@
     <Compile Include="Areas\Commerce\Models\Rules\ConditionModelBuilder.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConditionModelCollectionExtensions.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConditionParameterModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Rules\ConditionsExpressionPrettifier.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConditionsModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSetting.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ImageSettingEditorModel.cs" />

@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Expressions;
+using Kooboo.Commerce.Rules.Expressions.Formatting;
 using Kooboo.Commerce.Rules.Parsing;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 using Kooboo.Commerce.Web.Mvc.Controllers;
@@ -47,7 +48,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public string PrettifyConditionsExpression(string expression, string contextModelType)
         {
-            return new ConditionsExpressionPrettifier().Prettify(expression, System.Type.GetType(contextModelType, true));
+            return new HtmlExpressionFormatter().Format(expression, System.Type.GetType(contextModelType, true));
         }
 
         public ActionResult GetConditionModels(string expression, string contextModelType)

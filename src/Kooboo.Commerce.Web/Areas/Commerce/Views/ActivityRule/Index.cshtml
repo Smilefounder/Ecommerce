@@ -1,13 +1,16 @@
 ﻿@model IEnumerable<EventCategory>
+@using Kooboo.Commerce.Rules.Expressions.Formatting;
 @{
     ViewBag.Title = "Overview".Localize();
+
+    var formatter = new HtmlExpressionFormatter();
 }
 
 <div class="block">
     @foreach (var category in Model)
     {
         <fieldset>
-            <legend style="font-weight:bold;font-size:16px">@category.Name</legend>
+            <legend style="font-weight:bold;font-size:18px;border-bottom:#ddd 1px solid;margin-bottom:10px">@category.Name</legend>
             <div>
                 @foreach (var evnt in category.Events)
                 {
@@ -17,7 +20,7 @@
                     <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:#ddd 1px dashed;">
                         <div>
                             <span style="font-weight:bold;color:green">@("WHEN".Localize()) </span>
-                            <span style="font-weight:bold;color:green">
+                            <span style="font-weight:bold;">
                                 @evnt.EventDisplayName
                             </span>
                         </div>
@@ -30,7 +33,9 @@
                                 <div>
                                     <div>
                                         <span style="font-weight:bold;color:blue">@("IF".Localize()) </span>
-                                        @rule.ConditionsExpression
+                                        <span class="conditions-expression">
+                                            @Html.Raw(formatter.Format(rule.ConditionsExpression, evnt.EventType))
+                                        </span>
                                     </div>
                                     <div>
                                         <span style="font-weight:bold;color:blue">@("THEN".Localize())</span>

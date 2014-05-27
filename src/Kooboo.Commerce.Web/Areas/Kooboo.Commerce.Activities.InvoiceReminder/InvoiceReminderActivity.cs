@@ -36,7 +36,8 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
 
         public bool CanBindTo(Type eventType)
         {
-            return typeof(IOrderEvent).IsAssignableFrom(eventType);
+            return true;
+            //return typeof(IOrderEvent).IsAssignableFrom(eventType);
         }
 
         public void Execute(IEvent evnt, ActivityContext context)

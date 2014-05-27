@@ -12,6 +12,7 @@ using Kooboo.Globalization;
 using Kooboo.Commerce.API.HAL.Services;
 using Kooboo.Extensions;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+using Kooboo.Commerce.Rules.Expressions.Formatting;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -90,7 +91,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return JsonNet(new
             {
                 ConditionsExpression = expression,
-                HighlightedConditionsExpression = new ConditionsExpressionPrettifier().Prettify(expression, typeof(HalContext))
+                HighlightedConditionsExpression = new HtmlExpressionFormatter().Format(expression, typeof(HalContext))
             }).UsingClientConvention();
         }
     }
