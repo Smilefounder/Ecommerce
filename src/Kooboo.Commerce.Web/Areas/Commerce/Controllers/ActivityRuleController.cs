@@ -15,13 +15,56 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ActivityRuleController : CommerceControllerBase
     {
+        private IEventRegistry _eventRegistry;
         private IActivityProvider _activityProvider;
         private IRepository<ActivityRule> _ruleRepository;
 
-        public ActivityRuleController(IActivityProvider activityProvider, IRepository<ActivityRule> ruleRepository)
+        public ActivityRuleController(IEventRegistry eventRegistry, IActivityProvider activityProvider, IRepository<ActivityRule> ruleRepository)
         {
+            _eventRegistry = eventRegistry;
             _activityProvider = activityProvider;
             _ruleRepository = ruleRepository;
+        }
+
+        public ActionResult Index()
+        {
+            var rules = _ruleRepository.Query().ToList();
+            var categories = new List<EventCategory>();
+
+            foreach (var rule in rules)
+            {
+                if (rule.AttachedActivityInfos.Count == 0)
+                {
+                    continue;
+                }
+
+                var eventType = Type.GetType(rule.EventType, true);
+                var entry = _eventRegistry.FindByType(eventType);
+                var category = categories.Find(c => c.Name == entry.Category);
+                if (category == null)
+                {
+                    category = new EventCategory
+                    {
+                        Name = entry.Category
+                    };
+                    categories.Add(category);
+                }
+
+                var events = category.Events.Find(e => e.EventType == entry.EventType);
+                if (events == null)
+                {
+                    events = new EventRules
+                    {
+                        EventDisplayName = entry.DisplayName,
+                        EventType = eventType
+                    };
+                    category.Events.Add(events);
+                }
+
+                events.Rules.Add(rule);
+            }
+
+            return View(categories);
         }
 
         [Transactional]

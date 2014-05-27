@@ -97,6 +97,7 @@
     <Compile Include="Categories\CategoryCustomField.cs" />
     <Compile Include="Categories\Services\CategoryService.cs" />
     <Compile Include="Categories\Services\ICategoryService.cs" />
+    <Compile Include="Events\EventCategories.cs" />
     <Compile Include="Events\Pricing\PricingPipelineCompleted.cs" />
     <Compile Include="Events\Pricing\PricingPipelineStarted.cs" />
     <Compile Include="Events\Pricing\PricingStageCompleted.cs" />

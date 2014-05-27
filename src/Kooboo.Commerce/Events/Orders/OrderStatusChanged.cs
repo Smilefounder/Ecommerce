@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Orders
 {
     [Serializable]
-    [Event(Order = 200)]
+    [Event(Category = EventCategories.Orders, Order = 200)]
     public class OrderStatusChanged : DomainEvent, IOrderEvent
     {
         [Reference(typeof(Order), Prefix = "")]

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Pricing
 {
-    [Event(Category = "Pricing Events", Order = 200)]
+    [Event(Category = EventCategories.Pricing, Order = 200)]
     public class PricingStageCompleted : DomainEvent
     {
         [JsonIgnore]

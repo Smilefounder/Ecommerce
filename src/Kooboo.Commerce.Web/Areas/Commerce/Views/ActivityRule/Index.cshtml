@@ -1,0 +1,76 @@
+﻿@model IEnumerable<EventCategory>
+@{
+    ViewBag.Title = "Overview".Localize();
+}
+
+<div class="block">
+    @foreach (var category in Model)
+    {
+        <fieldset>
+            <legend style="font-weight:bold;font-size:16px">@category.Name</legend>
+            <div>
+                @foreach (var evnt in category.Events)
+                {
+                    var normlaRules = evnt.Rules.Where(r => r.Type == RuleType.Normal).ToList();
+                    var alwaysRule = evnt.Rules.Find(r => r.Type == RuleType.Always);
+
+                    <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:#ddd 1px dashed;">
+                        <div>
+                            <span style="font-weight:bold;color:green">@("WHEN".Localize()) </span>
+                            <span style="font-weight:bold;color:green">
+                                @evnt.EventDisplayName
+                            </span>
+                        </div>
+                        <div style="padding-left:20px">
+                            @foreach (var rule in normlaRules)
+                            {
+                                var thenActivities = rule.ThenActivityInfos;
+                                var elseActivities = rule.ElseActivityInfos;
+
+                                <div>
+                                    <div>
+                                        <span style="font-weight:bold;color:blue">@("IF".Localize()) </span>
+                                        @rule.ConditionsExpression
+                                    </div>
+                                    <div>
+                                        <span style="font-weight:bold;color:blue">@("THEN".Localize())</span>
+                                    </div>
+                                    <ul style="padding-left:20px">
+                                        @foreach (var activity in thenActivities)
+                                        {
+                                            <li>@activity.Description</li>
+                                        }
+                                    </ul>
+                                    @if (rule.ElseActivityInfos.Count > 0)
+                                    {
+                                        <div>
+                                            <span style="font-weight:bold;color:blue">@("ELSE".Localize())</span>
+                                        </div>
+                                        <ul style="padding-left:20px">
+                                            @foreach (var activity in elseActivities)
+                                            {
+                                                <li>@activity.Description</li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        @if (alwaysRule != null && alwaysRule.AttachedActivityInfos.Count > 0)
+                        {
+                        <div>
+                            @("ALWAYS".Localize())
+                        </div>
+                        <ul>
+                            @foreach (var activity in alwaysRule.AttachedActivityInfos)
+                            {
+                                <li>@activity.ActivityName</li>
+                            }
+                        </ul>
+                        }
+                    </div>
+                }
+            </div>
+        </fieldset>
+    }
+</div>

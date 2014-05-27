@@ -7,7 +7,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Promotions
 {
-    [Event(Category = "Promotion Events")]
     public interface IPromotionEvent : IDomainEvent
     {
         int PromotionId { get; }

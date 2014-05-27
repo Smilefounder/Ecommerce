@@ -10,9 +10,11 @@ namespace Kooboo.Commerce.Events.Registry
     {
         IEnumerable<string> AllCategories();
 
-        IEnumerable<Type> AllEventTypes();
+        IEnumerable<EventRegistrationEntry> AllEvents();
 
-        IEnumerable<Type> FindEventTypesByCategory(string category);
+        IEnumerable<EventRegistrationEntry> FindByCategory(string category);
+
+        EventRegistrationEntry FindByType(Type eventType);
 
         void RegisterEvents(IEnumerable<Type> eventTypes);
 

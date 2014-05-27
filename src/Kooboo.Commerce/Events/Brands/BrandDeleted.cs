@@ -9,7 +9,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Brands
 {
     [Serializable]
-    [Event(Order = 300)]
+    [Event(Category = EventCategories.Brands, Order = 300)]
     public class BrandDeleted : DomainEvent, IBrandEvent
     {
         [Param]

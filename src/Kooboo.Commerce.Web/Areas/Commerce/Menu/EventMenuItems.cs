@@ -49,6 +49,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
         {
             var menuItems = new List<MenuItem>();
 
+            menuItems.Add(new MenuItem
+            {
+                Text = "Overview",
+                Name = "Overview",
+                RouteValues = new RouteValueDictionary(),
+                Controller = "ActivityRule",
+                Area = "Commerce",
+                Action = "Index",
+                Initializer = new CommerceMenuItemInitializer(),
+                ReadOnlyProperties = new System.Collections.Specialized.NameValueCollection
+                {
+                    { "activeByAction", "true" }
+                }
+            });
+
             foreach (var category in _eventRegistry.AllCategories())
             {
                 var categoryMenuItem = new MenuItem
@@ -60,12 +75,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
                 menuItems.Add(categoryMenuItem);
 
-                var eventTypes = _eventRegistry.FindEventTypesByCategory(category)
-                                               .WhereIsDomainEvent();
+                var eventEntries = _eventRegistry.FindByCategory(category)
+                                                 .Where(e => e.EventType.IsDomainEvent());
 
-                foreach (var eventType in eventTypes)
+                foreach (var eventType in eventEntries)
                 {
-                    var eventMenuItem = new EventMenuItem(eventType);
+                    var eventMenuItem = new EventMenuItem(eventType.EventType);
                     categoryMenuItem.Items.Add(eventMenuItem);
                 }
             }

@@ -3,35 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace Kooboo.Commerce.Events.Registry
 {
     public class DefaultEventRegistry : IEventRegistry
     {
-        private readonly object _registerLock = new object();
+        private readonly ReaderWriterLockSlim _readWriteLock = new ReaderWriterLockSlim();
         private const string Uncategorized = "Uncategorized";
-        private Dictionary<string, List<EventRegistrationEntry>> _eventsByCategory = new Dictionary<string, List<EventRegistrationEntry>>();
+        private Dictionary<Type, EventRegistrationEntry> _entriesByType = new Dictionary<Type, EventRegistrationEntry>();
+        private Dictionary<string, List<EventRegistrationEntry>> _entriesByCategory = new Dictionary<string, List<EventRegistrationEntry>>();
 
         public IEnumerable<string> AllCategories()
         {
-            return _eventsByCategory.Keys.ToList();
-        }
+            _readWriteLock.EnterReadLock();
 
-        public IEnumerable<Type> AllEventTypes()
-        {
-            var types = new HashSet<Type>();
-            foreach (var set in _eventsByCategory.Values)
+            try
             {
-                foreach (var entry in set)
-                {
-                    types.Add(entry.EventType);
-                }
+                return _entriesByCategory.Keys.ToList();
             }
-
-            return types;
+            finally
+            {
+                _readWriteLock.ExitReadLock();
+            }
         }
 
-        public IEnumerable<Type> FindEventTypesByCategory(string category)
+        public IEnumerable<EventRegistrationEntry> AllEvents()
+        {
+            _readWriteLock.EnterReadLock();
+
+            try
+            {
+                return _entriesByType.Values;
+            }
+            finally
+            {
+                _readWriteLock.ExitReadLock();
+            }
+        }
+
+        public EventRegistrationEntry FindByType(Type eventType)
+        {
+            _readWriteLock.EnterReadLock();
+
+            try
+            {
+                EventRegistrationEntry entry = null;
+                _entriesByType.TryGetValue(eventType, out entry);
+
+                return entry;
+            }
+            finally
+            {
+                _readWriteLock.ExitReadLock();
+            }
+        }
+
+        public IEnumerable<EventRegistrationEntry> FindByCategory(string category)
         {
             if (String.IsNullOrEmpty(category))
             {
@@ -41,91 +69,66 @@ namespace Kooboo.Commerce.Events.Registry
             // Writes are done with Copy-on-Write, so no need to add read lock here
             List<EventRegistrationEntry> types = null;
 
-            if (_eventsByCategory.TryGetValue(category, out types))
+            _readWriteLock.EnterReadLock();
+
+            try
             {
-                return types.Select(t => t.EventType).ToList();
+                if (!_entriesByCategory.TryGetValue(category, out types))
+                {
+                    types = new List<EventRegistrationEntry>();
+                }
+            }
+            finally
+            {
+                _readWriteLock.ExitReadLock();
             }
 
-            return Enumerable.Empty<Type>();
+            return types;
         }
 
         public void RegisterEvents(IEnumerable<Type> eventTypes)
         {
-            lock (_registerLock)
+            _readWriteLock.EnterWriteLock();
+
+            try
             {
-                var clone = CloneInnerDictionary();
+                var entriesByCategory = _entriesByCategory;
+                var entriesByType = _entriesByType;
 
                 foreach (var candidate in eventTypes)
                 {
                     if (candidate.IsClass && !candidate.IsAbstract && typeof(IEvent).IsAssignableFrom(candidate))
                     {
-                        var order = 0;
-                        string category = null;
-                        var attr = candidate.GetCustomAttribute<EventAttribute>(true);
-                        if (attr != null)
+                        if (entriesByType.ContainsKey(candidate))
                         {
-                            order = attr.Order;
-                            category = attr.Category;
+                            continue;
                         }
 
-                        if (attr == null || String.IsNullOrEmpty(attr.Category))
+                        var entry = new EventRegistrationEntry(candidate);
+                        entriesByType.Add(candidate, entry);
+
+                        var category = String.IsNullOrEmpty(entry.Category) ? Uncategorized : entry.Category;
+
+                        if (!entriesByCategory.ContainsKey(category))
                         {
-                            EventAttribute baseAttr = null;
-
-                            foreach (var @interface in candidate.GetInterfaces())
-                            {
-                                baseAttr = @interface.GetCustomAttribute<EventAttribute>(true);
-                                if (baseAttr != null)
-                                {
-                                    break;
-                                }
-                            }
-
-                            if (baseAttr != null)
-                            {
-                                if (String.IsNullOrEmpty(category))
-                                {
-                                    category = baseAttr.Category;
-                                }
-                                if (attr == null)
-                                {
-                                    order = baseAttr.Order;
-                                }
-                            }
+                            entriesByCategory.Add(category, new List<EventRegistrationEntry>());
                         }
 
-                        if (String.IsNullOrEmpty(category))
-                        {
-                            category = Uncategorized;
-                        }
-
-                        if (!clone.ContainsKey(category))
-                        {
-                            clone.Add(category, new List<EventRegistrationEntry>());
-                        }
-
-                        clone[category].Add(new EventRegistrationEntry(candidate, order));
+                        entriesByCategory[category].Add(entry);
                     }
                 }
 
-                foreach (var entries in clone.Values)
+                foreach (var entries in entriesByCategory.Values)
                 {
                     entries.Sort();
                 }
 
-                _eventsByCategory = clone;
+                _entriesByCategory = entriesByCategory;
             }
-        }
-
-        private Dictionary<string, List<EventRegistrationEntry>> CloneInnerDictionary()
-        {
-            var clone = new Dictionary<string, List<EventRegistrationEntry>>();
-            foreach (var kv in _eventsByCategory)
+            finally
             {
-                clone.Add(kv.Key, new List<EventRegistrationEntry>(kv.Value));
+                _readWriteLock.ExitWriteLock();
             }
-
-            return clone;
         }
 
         public void RegisterAssemblies(params System.Reflection.Assembly[] assemblies)
@@ -135,19 +138,16 @@ namespace Kooboo.Commerce.Events.Registry
 
         public void RegisterAssemblies(IEnumerable<System.Reflection.Assembly> assemblies)
         {
-            lock (_registerLock)
+            var types = new List<Type>();
+
+            foreach (var assembly in assemblies)
             {
-                var types = new List<Type>();
+                types.AddRange(assembly.GetTypes().Where(x => x.IsClass && !x.IsAbstract));
+            }
 
-                foreach (var assembly in assemblies)
-                {
-                    types.AddRange(assembly.GetTypes().Where(x => x.IsClass && !x.IsAbstract));
-                }
-
-                if (types.Count > 0)
-                {
-                    RegisterEvents(types);
-                }
+            if (types.Count > 0)
+            {
+                RegisterEvents(types);
             }
         }
     }

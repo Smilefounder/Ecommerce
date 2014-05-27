@@ -9,7 +9,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Customers
 {
-    [Event(Category = "Customer Events")]
     public interface ICustomerEvent : IDomainEvent
     {
         int CustomerId { get; }
