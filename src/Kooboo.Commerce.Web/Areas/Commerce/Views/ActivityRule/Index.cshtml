@@ -6,11 +6,13 @@
     var formatter = new HtmlExpressionFormatter();
 }
 
-@helper RenderActivity(AttachedActivityInfo activity) { 
+@helper RenderActivity(AttachedActivityInfo activity)
+{
     @activity.Description
     if (activity.IsAsyncExeuctionEnabled)
     {
-        if (activity.AsyncExecutionDelay > 0) { 
+        if (activity.AsyncExecutionDelay > 0)
+        {
             var delay = TimeSpan.FromSeconds(activity.AsyncExecutionDelay);
             var parts = new List<string>();
             if (delay.Days > 0)
@@ -29,19 +31,19 @@
             {
                 parts.Add(delay.Seconds + "second" + (delay.Seconds > 1 ? "s" : ""));
             }
-        
+
             var delayText = String.Join(" and ", parts);
-        
+
             <span title="@String.Format("Will execute in {0} when the event occurs".Localize(), delayText)">
                 <!-- TODO: Change to clock-like icon -->
-                @Html.IconImage("plus-small")
+                @Html.IconImage("clock")
             </span>
         }
         else
         {
             <span title="@("Will execute asynchronously".Localize())">
-               <!-- TODO: Change to clock-like icon -->
-               @Html.IconImage("plus-small")
+                <!-- TODO: Change to clock-like icon -->
+                @Html.IconImage("clock")
             </span>
         }
     }
@@ -49,11 +51,11 @@
 
 @foreach (var category in Model)
 {
-    <div class="head light-gray clearfix">
-        <h6 class="title">@category.Name</h6>
-    </div>
-    <div class="box" style="padding-top:20px">
-        <div class="common-table activity">
+    <div class="block">
+        <div class="head light-blue">
+            <h6 class="title">@category.Name</h6>
+        </div>
+        <div class="simple-table activity">
             <table>
                 <thead>
                     <tr>
@@ -86,7 +88,7 @@
                                         @Html.Raw(formatter.Format(rule.ConditionsExpression, evnt.EventType))
                                     </span>
                                 </td>
-                                <td>
+                                <td class="common">
                                     <ul>
                                         @foreach (var activity in rule.ThenActivityInfos)
                                         {
@@ -94,17 +96,24 @@
                                         }
                                     </ul>
                                 </td>
-                                <td>
-                                    <ul>
-                                        @foreach (var activity in rule.ElseActivityInfos)
-                                        {
-                                            <li>@RenderActivity(activity)</li>
-                                        }
-                                    </ul>
+                                <td class="common">
+                                    @if (rule.ElseActivityInfos.Count() != 0)
+                                    {
+                                        <ul>
+                                            @foreach (var activity in rule.ElseActivityInfos)
+                                            {
+                                                <li>@RenderActivity(activity)</li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        @("-")
+                                    }
                                 </td>
                                 @if (i == 0)
                                 {
-                                    <td rowspan="@normlaRules.Count">
+                                    <td rowspan="@normlaRules.Count" class="common always">
                                         @if (alwaysRule != null)
                                         {
                                             <ul>
@@ -113,6 +122,10 @@
                                                     <li>@RenderActivity(activity)</li>
                                                 }
                                             </ul>
+                                        }
+                                        else
+                                        {
+                                            @("-")
                                         }
                                     </td>
                                 }
