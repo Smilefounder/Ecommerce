@@ -128,10 +128,7 @@
     <Compile Include="EAV\Services\FieldValidationRuleService.cs" />
     <Compile Include="EAV\Services\ICustomFieldService.cs" />
     <Compile Include="EAV\Services\IFieldValidationRuleService.cs" />
-    <Compile Include="EAV\Validation\IValidator.cs" />
-    <Compile Include="EAV\Validation\IValidatorFactory.cs" />
-    <Compile Include="EAV\Validation\ValidationType.cs" />
-    <Compile Include="EAV\WebControls\IWebControl.cs" />
+    <Compile Include="EAV\ValidatorType.cs" />
     <Compile Include="Events\Customers\ICustomerEvent.cs" />
     <Compile Include="Events\Products\IProductEvent.cs" />
     <Compile Include="Events\ShoppingCarts\IShoppingCartEvent.cs" />
@@ -234,9 +231,6 @@
     <Compile Include="ShoppingCarts\Services\ShoppingCartService.cs" />
     <Compile Include="ShoppingCarts\ShoppingCart.cs" />
     <Compile Include="ShoppingCarts\ShoppingCartItem.cs" />
-    <Compile Include="EAV\WebControls\IWebControlFactory.cs" />
-    <Compile Include="EAV\Validation\ValidationExtensions.cs" />
-    <Compile Include="EAV\WebControls\WebControlModel.cs" />
     <Compile Include="ShoppingCarts\ShoppingCartExtensions.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -379,7 +379,7 @@ var utils = window.utils = {
             funcSuccess = data;
             data = null;
         }
-        $.ajax({
+        return $.ajax({
             url: url,
             type: 'GET',
             dataType: 'json',

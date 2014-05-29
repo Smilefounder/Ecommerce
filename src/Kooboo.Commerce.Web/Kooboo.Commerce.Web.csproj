@@ -253,6 +253,27 @@
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\CheckBox.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\CheckBoxList.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Date.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\DropDownList.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\File.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\FormControlBase.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\FormControls.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\IFormControl.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\InputControl.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\DropDownListItem.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Password.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\RadioList.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\TextArea.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\TextBox.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Tinymce.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\IValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\RangeValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\RegexValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\RequiredValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\StringLengthValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\ValidationExtensions.cs" />
     <Compile Include="Areas\Commerce\Controllers\ActivityRuleController.cs" />
     <Compile Include="Areas\Commerce\Controllers\AddInManagementController.cs" />
     <Compile Include="Areas\Commerce\Controllers\BrandController.cs" />
@@ -3238,7 +3259,6 @@
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\BooleanCustom.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\BasicInfo.cshtml" />
-    <Content Include="Areas\Commerce\Views\Shared\AddIns\_ShipmentTrackerSettings.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldsGrid.cshtml" />
@@ -3645,14 +3665,6 @@
     <ProjectReference Include="..\Kooboo.Commerce\Kooboo.Commerce.csproj">
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>
-    </ProjectReference>
-    <ProjectReference Include="Areas\Kooboo.Commerce.EAV.Validators\Kooboo.Commerce.EAV.Validators.csproj">
-      <Project>{e24c0148-0a5e-40c4-9111-cf6b872fab15}</Project>
-      <Name>Kooboo.Commerce.EAV.Validators</Name>
-    </ProjectReference>
-    <ProjectReference Include="Areas\Kooboo.Commerce.EAV.WebControls\Kooboo.Commerce.EAV.WebControls.csproj">
-      <Project>{38106ec3-339f-4af9-b1f1-9c9eac8bbc78}</Project>
-      <Name>Kooboo.Commerce.EAV.WebControls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

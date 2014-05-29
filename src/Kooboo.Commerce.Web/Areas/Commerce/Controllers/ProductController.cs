@@ -67,14 +67,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(int productTypeId)
         {
+            ViewBag.ProductType = _productTypeService.GetById(productTypeId);
             return View("Edit");
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
+            var product = _productService.GetById(id);
+            var productType = _productTypeService.GetById(product.ProductTypeId);
+
+            ViewBag.ProductType = productType;
+
             return View("Edit");
         }
 

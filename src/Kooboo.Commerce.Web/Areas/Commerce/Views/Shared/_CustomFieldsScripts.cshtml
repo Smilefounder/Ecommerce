@@ -136,16 +136,16 @@
             //
             var emptyCustomField = $.parseJSON('@Html.Raw(new CustomFieldEditorModel() { ShowInGrid = false, AllowNull = true, Modifiable = true, IsEnabled = true }.ToJson(PropertyNaming.Default))');
             var emptyValidationRules = {};
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.Required'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = Kooboo.Commerce.EAV.Validation.ValidationType.Required.ToString() }.ToJson(PropertyNaming.Default))');
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.Required'].ValidatorData = '@Html.Raw(new { }.ToJson(PropertyNaming.Default))';
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.Unique'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = Kooboo.Commerce.EAV.Validation.ValidationType.Unique.ToString() }.ToJson(PropertyNaming.Default))');
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.Unique'].ValidatorData = '@Html.Raw(new { }.ToJson(PropertyNaming.Default))';
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.StringLength'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = Kooboo.Commerce.EAV.Validation.ValidationType.StringLength.ToString() }.ToJson(PropertyNaming.Default))');
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.StringLength'].ValidatorData = '@Html.Raw(new { Min = 0, Max = 0 }.ToJson(PropertyNaming.Default))';
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.Range'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = Kooboo.Commerce.EAV.Validation.ValidationType.Range.ToString() }.ToJson(PropertyNaming.Default))');
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.Range'].ValidatorData = '@Html.Raw(new { Start = 0, End = 0 }.ToJson(PropertyNaming.Default))';
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.Regex'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = Kooboo.Commerce.EAV.Validation.ValidationType.Regex.ToString() }.ToJson(PropertyNaming.Default))');
-            emptyValidationRules['@Kooboo.Commerce.EAV.Validation.ValidationType.Regex'].ValidatorData = '@Html.Raw(new { Pattern = string.Empty }.ToJson(PropertyNaming.Default))';
+            emptyValidationRules['@ValidatorType.Required'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = ValidationType.Required.ToString() }.ToJson(PropertyNaming.Default))');
+            emptyValidationRules['@ValidatorType.Required'].ValidatorData = '@Html.Raw(new { }.ToJson(PropertyNaming.Default))';
+            emptyValidationRules['@ValidatorType.Unique'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = ValidationType.Unique.ToString() }.ToJson(PropertyNaming.Default))');
+            emptyValidationRules['@ValidatorType.Unique'].ValidatorData = '@Html.Raw(new { }.ToJson(PropertyNaming.Default))';
+            emptyValidationRules['@ValidatorType.StringLength'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = ValidationType.StringLength.ToString() }.ToJson(PropertyNaming.Default))');
+            emptyValidationRules['@ValidatorType.StringLength'].ValidatorData = '@Html.Raw(new { Min = 0, Max = 0 }.ToJson(PropertyNaming.Default))';
+            emptyValidationRules['@ValidatorType.Range'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = ValidationType.Range.ToString() }.ToJson(PropertyNaming.Default))');
+            emptyValidationRules['@ValidatorType.Range'].ValidatorData = '@Html.Raw(new { Start = 0, End = 0 }.ToJson(PropertyNaming.Default))';
+            emptyValidationRules['@ValidatorType.Regex'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = ValidationType.Regex.ToString() }.ToJson(PropertyNaming.Default))');
+            emptyValidationRules['@ValidatorType.Regex'].ValidatorData = '@Html.Raw(new { Pattern = string.Empty }.ToJson(PropertyNaming.Default))';
 
             //
             var fieldsGridModel = function (set) {

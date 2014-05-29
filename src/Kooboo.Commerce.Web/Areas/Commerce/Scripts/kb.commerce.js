@@ -113,4 +113,40 @@
         }
     });
 
+    // Unobtrusive control initializations
+    kb.registerNamespace('kb.ui.unobtrusive');
+
+    kb.ui.unobtrusive.initialize = function (container) {
+
+        // DatePicker
+        $(container).find(':text[data-toggle="datepicker"]').datepicker();
+
+        // Tinymce
+        $(container).find('textarea[data-toggle="tinymce"]').each(function () {
+            var textarea = $(this);
+            if (!textarea.attr('id')) {
+                textarea.attr('id', 'Tinymce_' + new Date().getTime());
+            }
+
+            var tinyMCEConfig = $.extend({}, tinymce.getKoobooConfig(), {
+                '$textarea': textarea,
+                'elements': textarea.attr('id'),
+                setup: function (ed) {
+                    ed.on('change', function (ed, l) {
+                        window.leaveConfirm.stop();
+                    });
+                    ed.on('FullscreenStateChanged', function (e) {
+                        $(window.parent.document).find('iframe').toggleClass('fullscreen');
+                    });
+                    ed.on('BeforeSetContent', function (e) {
+                        e.format = 'raw';
+                    });
+                }
+            });
+
+            tinyMCE.init(tinyMCEConfig);
+        });
+
+    };
+
 })(jQuery);
