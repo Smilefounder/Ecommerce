@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Form
 {
-    public class DropDownListItem
+    public class SelectionListItem
     {
         public string Key { get; set; }
 

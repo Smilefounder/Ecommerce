@@ -6,14 +6,14 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Form
 {
-    [Dependency(typeof(IFormControl), Key = "Tinymce")]
-    public class Tinymce : TextArea
+    [Dependency(typeof(IFormControl), Key = "RichTextEditor")]
+    public class RichTextEditor : TextArea
     {
         public override string Name
         {
             get
             {
-                return "Tinymce";
+                return "RichTextEditor";
             }
         }
 

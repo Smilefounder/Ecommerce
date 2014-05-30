@@ -3,20 +3,20 @@ using Kooboo.Commerce.EAV;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.Commerce.Web.Form.Validation;
 
 namespace Kooboo.Commerce.Web.Form
 {
-    [Dependency(typeof(IFormControl), Key = "File")]
-    public class File : IFormControl
+    [Dependency(typeof(IFormControl), Key = "Display")]
+    public class Display : IFormControl
     {
         public string Name
         {
             get
             {
-                return "File";
+                return "Display";
             }
         }
 
@@ -31,18 +31,17 @@ namespace Kooboo.Commerce.Web.Form
         public IHtmlString Render(CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
         {
             var input = new TagBuilder("input");
-            input.Attributes.Add("type", "file");
-            input.Attributes.Add("id", field.Name);
+            input.Attributes.Add("type", "hidden");
             input.Attributes.Add("name", field.Name);
 
-            if (htmlAttributes != null)
-            {
-                input.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
-            }
+            var text = new TagBuilder("span");
+            text.InnerHtml = field.DefaultValue;
 
-            input.MergeAttributes(field.GetUnobtrusiveValidationAtributes());
+            var html = new StringBuilder();
+            html.AppendLine(input.ToString(TagRenderMode.SelfClosing));
+            html.AppendLine(text.ToString());
 
-            return new HtmlString(input.ToString(TagRenderMode.SelfClosing));
+            return new HtmlString(html.ToString());
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Web.Form
 
                 html.Append("<option value=\"\"></option>");
 
-                var items = JsonConvert.DeserializeObject<IList<DropDownListItem>>(field.SelectionItems);
+                var items = JsonConvert.DeserializeObject<IList<SelectionListItem>>(field.SelectionItems);
                 foreach (var item in items)
                 {
                     html.AppendFormat("<option value=\"{0}\">{1}</option>", item.Value, item.Key)
