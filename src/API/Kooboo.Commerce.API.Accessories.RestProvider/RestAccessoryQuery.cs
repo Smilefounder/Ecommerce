@@ -8,21 +8,21 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Accessories.RestProvider
 {
-    [Dependency(typeof(IAccessoryAPI))]
-    public class RestAccessoryAPI : RestApiBase, IAccessoryAPI
+    [Dependency(typeof(IAccessoryQuery))]
+    public class RestAccessoryQuery : RestApiQueryBase<Product>, IAccessoryQuery
     {
-        public Product[] ForProduct(int productId)
-        {
-            QueryParameters.Add("productId", productId.ToString());
-            return Get<Product[]>(null);
-        }
-
         protected override string ApiControllerPath
         {
             get
             {
                 return "Accessory";
             }
+        }
+
+        public IAccessoryQuery ByProduct(int productId)
+        {
+            QueryParameters.Add("productId", productId.ToString());
+            return this;
         }
     }
 }

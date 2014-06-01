@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestAccessoryAPI.cs" />
+    <Compile Include="RestAccessoryQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Kooboo.Commerce.API.RestProvider\Kooboo.Commerce.API.RestProvider.csproj">

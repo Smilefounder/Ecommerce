@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Kooboo.Commerce.API.Metadata;
+using Kooboo.Commerce.API.Recommendations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,6 +26,8 @@ namespace Kooboo.Commerce.Recommendations
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "Kooboo.Commerce.Recommendations.Controllers" }
             );
+
+            QueryDescriptors.RegisterAssemblies(typeof(IRecommendationQuery).Assembly);
         }
     }
 }

@@ -9,9 +9,9 @@ namespace Kooboo.Commerce.API
 {
     public static class CommerceAPIExtensions
     {
-        public static IRecommendationAPI Recommendations(this ICommerceAPI api)
+        public static IRecommendationQuery Recommendations(this ICommerceAPI api)
         {
-            return EngineContext.Current.Resolve<IRecommendationAPI>();
+            return EngineContext.Current.Resolve<IRecommendationQuery>();
         }
     }
 }

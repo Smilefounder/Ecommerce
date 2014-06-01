@@ -21,7 +21,10 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Controllers
 
         public ActionResult Queries()
         {
-            var descriptors = QueryDescriptors.Descriptors.Select(x => new QueryDescriptorModel(x)).ToList();
+            var descriptors = QueryDescriptors.Descriptors
+                                              .OrderBy(x => x.Name)
+                                              .Select(x => new QueryDescriptorModel(x))
+                                              .ToList();
             return Json(descriptors, JsonRequestBehavior.AllowGet);
         }
     }
