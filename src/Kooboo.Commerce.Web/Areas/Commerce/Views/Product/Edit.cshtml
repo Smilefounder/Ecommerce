@@ -181,11 +181,6 @@
                                     </td>
                                 </tr>
                             }
-
-                            @*<tr>
-                                <th data-bind="with: CustomField"><span data-bind="text:Name"></span></th>
-                                <td data-bind="template: { name: 'custom_field_template', data: CustomField }"></td>
-                            </tr>*@
                         </tbody>
                     </table>
                 </div>
@@ -225,7 +220,7 @@
                     </div>
                 </li>
             </ul>
-            <a href="javascript:;" class="action J_Upload" data-owner="commerce" data-bind="attr: { 'data-property': Name, 'data-multiple': IsMultiple }">
+            <a href="javascript:;" class="action J_Upload" data-owner="@(Request.QueryString["commerceName"])" data-bind="attr: { 'data-property': 'Products/' + Name(), 'data-multiple': IsMultiple }">
                 @Html.IconImage("plus-small")
             </a>
         </td>
@@ -492,8 +487,11 @@
     function InitUpload() {
         $('.J_Upload').upload({
             on_file_select: function (data) {
+                // TODO: Hack for now
+                var parts = data.property.split('/');
+                var imgType = parts[1];
                 $.each(data.files, function (i, n) {
-                    vm.AddImage(data.property, n.Url);
+                    vm.AddImage(imgType, n.Url);
                     $('.crop_image').cropimage({
                         on_image_croped: function (data) {
                             $(data.element).attr('src', data.url + '?v=' + new Date().getTime())

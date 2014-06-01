@@ -118,7 +118,7 @@
         function CropImage() {
             var src = $('#originalImg').attr('src');
             var tcoords = CalculateTrueCoords();
-            var url = "/Media/Upload/SaveImage?file=" + escape(src) +"&x=" + tcoords.x + '&y=' + tcoords.y + '&width=' + tcoords.w + '&height=' + tcoords.h;
+            var url = "/Commerce/MediaLibrary/SaveImage?file=" + escape(src) +"&x=" + tcoords.x + '&y=' + tcoords.y + '&width=' + tcoords.w + '&height=' + tcoords.h;
             utils.getJson(url, function(data) {
                 InitImage(src);
                 if(typeof window.OnCroppedImage == "function"){

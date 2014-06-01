@@ -1,7 +1,7 @@
 ﻿(function ($) {
     $.widget('media.upload', {
         options: {
-            url: '/Media/Upload',
+            url: '/Commerce/MediaLibrary/Selection',
             owner: '',
             property: '',
             width: 180,
@@ -72,7 +72,7 @@
 (function ($) {
     $.widget('media.cropimage', {
         options: {
-            crop_handler: '/Media/Upload/OpenImage',
+            crop_handler: '/Commerce/MediaLibrary/OpenImage',
             owner: '',
             property: '',
             width: 180,

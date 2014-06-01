@@ -225,7 +225,7 @@ namespace Kooboo.Commerce.Handlers
                 return string.Empty;
             string fileExtension = fileName.Substring(fileName.LastIndexOf('.'));
             //FileType ft = FileType.CommonTypes.GetFileTypeByExtension(fileExtension.ToLower());
-            string subPath = context.Request.QueryString["path"]; //ft == null ? "files" : ft.TypeCode;
+            string subPath = context.Request.Form["path"]; //ft == null ? "files" : ft.TypeCode;
             string owner = context.Request.QueryString["owner"];
             if (string.IsNullOrEmpty(owner))
                 owner = "public";

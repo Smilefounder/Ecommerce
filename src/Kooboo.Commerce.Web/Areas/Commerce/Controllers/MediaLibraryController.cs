@@ -1,29 +1,35 @@
-﻿using System;
+﻿using Kooboo.Commerce.Handlers;
+using Kooboo.Commerce.Web.Mvc.Controllers;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Dynamic;
 using System.Web;
 using System.Web.Mvc;
-using System.IO;
-using System.Drawing;
-using System.Configuration;
-using Kooboo.Commerce.Handlers;
 
-namespace Kooboo.Commerce.Web.Areas.Media.Controllers
+namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class UploadController : Controller
+    public class MediaLibraryController : CommerceControllerBase
     {
         private string uploadFolder = "~/Uploads/";
 
-        public UploadController()
+        public MediaLibraryController()
         {
             uploadFolder = ConfigurationManager.AppSettings["UploadPath"] ?? "~/Uploads/";
             if (!uploadFolder.EndsWith("/"))
+            {
                 uploadFolder += "/";
+            }
         }
 
-        [HttpGet]
-        public ActionResult Index(string owner, string path, int orderBy = 0, int pi = 0, int ps = 50)
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Selection()
         {
             return View();
         }
@@ -31,7 +37,7 @@ namespace Kooboo.Commerce.Web.Areas.Media.Controllers
         [HttpGet]
         public ActionResult OpenFile()
         {
-            Dictionary<string, object> paras = new Dictionary<string,object>();
+            Dictionary<string, object> paras = new Dictionary<string, object>();
             foreach (var k in Request.QueryString.AllKeys)
                 paras.Add(k, Request.QueryString[k]);
             return View("OpenUpload", paras);
@@ -142,7 +148,7 @@ namespace Kooboo.Commerce.Web.Areas.Media.Controllers
             string[] paths = new string[0];
             var dir = GetFolder(owner, path, out paths);
             dir = new DirectoryInfo(Path.Combine(dir.FullName, folder));
-            if(!dir.Exists)
+            if (!dir.Exists)
             {
                 dir.Create();
                 return Json(new { status = 0, message = string.Format("Folder {0} created.", folder) }, JsonRequestBehavior.AllowGet);
@@ -168,7 +174,7 @@ namespace Kooboo.Commerce.Web.Areas.Media.Controllers
                         case "delete":
                             f.Delete();
                             status = 0;
-                            message ="Delete Successfully";
+                            message = "Delete Successfully";
                             break;
                         case "rename":
                             break;
@@ -191,7 +197,7 @@ namespace Kooboo.Commerce.Web.Areas.Media.Controllers
                 paras.Add(k, Request.QueryString[k]);
             return View("ImageCrop", paras);
         }
-        
+
         [HttpGet]
         public ActionResult SaveImage(string file, float x, float y, float width, float height, int? toWidth = null, int? toHeight = null)
         {

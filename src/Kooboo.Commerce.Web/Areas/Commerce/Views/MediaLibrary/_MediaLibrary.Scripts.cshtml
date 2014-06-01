@@ -1,0 +1,205 @@
+﻿<script type="text/javascript">
+    utils.showMessage = function (title, message, level, funcClose) {
+        info.show(message, (level || 'info') == 'info');
+    };
+    var vm;
+    $(function () {
+        vm = new FVM();
+        vm.getData();
+        ko.applyBindings(vm);
+
+        $('[data-toggle="new-folder"]').on('click', function (e) {
+            vm.CreateFolder();
+            e.preventDefault();
+        });
+
+        $('[data-toggle="upload"]').each(function () {
+            $(this).fileupload({
+                formData: function () {
+                    return [{ name: 'path', value: vm.GetCurrentPath() }];
+                },
+                maxFileSize: @(Request.QueryString["max_file_size"] ?? (5 * 1024 * 1024).ToString()),
+                acceptFileTypes: @(Request.QueryString["accept_file_types"] ?? @"/(\.|\/)(gif|jpe?g|png)$/i"),
+                add: function (e, data) {
+                    $(this).fileupload('process', data).done(function () {
+                        data.submit();
+                        $('div.loading').show();
+                    });
+                },
+                done: function (e, data) {
+                    $('div.loading').hide();
+                    var results = eval(data.result);
+                    var file = ($.isArray(results) && results[0]) || { error: 'emptyResult' };
+                    if (file && file.url) {
+                        vm.AddFile(file);
+                    }
+                },
+                progress: function (e, data) {
+                    // var val = parseInt(data.loaded / data.total * 100, 10);
+                    // utils.progress(val, progress_bar);
+                }
+            });
+        });
+
+        $('[data-toggle="insert-file"').on('click', function (e) {
+            vm.InsertFile();
+            e.preventDefault();
+        });
+    });
+
+    function FVM(options) {
+        var self = this;
+        self.options = $.extend({}, {
+        }, options);
+        self.data = ko.observable(null);
+        self.SelectedFiles = ko.observableArray([]);
+        self.SearchWord = ko.observable(null);
+        self.ListStyle = ko.observable('list');
+        self.CurrentPathIndex = ko.observable(0);
+        self.PageIndex = ko.observable(@(Request.QueryString["pi"] ?? "0"));
+        self.PageSize = ko.observable(@(Request.QueryString["ps"] ?? "50"));
+        self.Pages = ko.computed(function () {
+            var pgs = []
+            if(this.data() && this.data().Pager && this.data().Pager()) {
+                var idx = 0;
+                var tps = this.data().Pager().TotalPages();
+                while(idx < tps) {
+                    pgs.push(idx);
+                    idx++;
+                }
+            }
+            return pgs;
+        }, self);
+        self.IsEmpty = ko.computed(function () {
+            if (self.data() && self.data().Folders() && self.data().Files()) {
+                if (self.data().Folders().length > 0 || self.data().Files().length > 0) { return false; }
+            }
+            return true;
+        }, self);
+        self.getData = function (path) {
+            if(!path) {
+                path = self.GetCurrentPath();
+            }
+            var url = '/Commerce/MediaLibrary/Files?owner=@Request.QueryString["owner"]&path=' + path + '&search=' + (self.SearchWord() ? self.SearchWord() : '') + '&pi=' + self.PageIndex().toString() + '&ps=' + self.PageSize().toString();
+            utils.getJson(url, null, function (data) {
+                ko.mapping.viewModel(data, vm.data);
+                vm.CurrentPathIndex(data.Paths.length - 1);
+                if(data.Pager) {
+                    vm.PageIndex(data.Pager.PageIndex);
+                    vm.PageSize(data.Pager.PageSize);
+                }
+                var postUrl = '/Areas/Commerce/Handlers/UploadHandler.ashx?owner=@Request.QueryString["owner"]&path=' + path;
+                $('#upload_form').attr('action', postUrl);
+                $('div.loading').hide();
+            })
+        };
+        self.GotoPage = function (num) {
+            if(num <= 0) { num = 0 };
+            if(self.data() && self.data().Pager()) {
+                if(num + 1 >= self.data().Pager().TotalPages()) {
+                    num = self.data().Pager().TotalPages() - 1
+                }
+            }
+            self.PageIndex(num);
+            self.getData();
+        };
+        self.GotoPrevPage = function (data) {
+            var num = data.PageIndex() - 1;
+            self.GotoPage(num);
+        };
+        self.GotoNextPage = function (data) {
+            var num = data.PageIndex() + 1;
+            self.GotoPage(num);
+        };
+        self.GetCurrentPath = function () {
+            var idx = self.CurrentPathIndex();
+            var path = '@Request.QueryString["path"]';
+            if(vm.data()) {
+                var paths = $.grep(vm.data().Paths(), function (n, i) { return i <= idx && i > 0; });
+                if(paths.length > 0) {
+                    path = paths.join('/');
+                } else {
+                    path = '';
+                }
+            }
+            return path;
+        };
+        self.AddFile = function (file) {
+            var f = {
+                FileName: ko.observable(file.name),
+                FileType: ko.observable(file.type),
+                Url: ko.observable(file.url),
+                FileSize: ko.observable(file.friendly_size),
+                CreationDate: ko.observable(new Date().toLocaleDateString()),
+                IsImage: ko.observable(file.is_image)
+            };
+            self.data().Files.push(f);
+        };
+        self.IsNewFolder = function (item) {
+            return item && item.IsNew && item.IsNew();
+        };
+        self.CreateFolder = function () {
+            var folder = {
+                Name: ko.observable(null),
+                IsNew: ko.observable(true)
+            };
+            self.data().Folders.push(folder);
+        };
+        self.CheckFolder = function (item) {
+            var folder = $.grep(vm.data().Folders(), function (n, i) { return n.Name() == item.Name(); })[0];
+            if (folder && !folder.IsNew) {
+                utils.showMessage('info', 'Folder ' + item.Name() + ' already exists.', 'info');
+                return false;
+            }
+            return true;
+        };
+        self.SaveFolder = function (item) {
+            if(vm.CheckFolder(item)) {
+                var url = '/Commerce/MediaLibrary/AddFolder?owner=@Request.QueryString["owner"]&path=' + vm.GetCurrentPath() + '&folder=' + item.Name();
+                utils.getJson(url, null, function(data) {
+                    utils.showMessage('info', data.message, data.status == 0 ? 'info' : 'error');
+                    item.IsNew(false);
+                })
+            }
+        };
+        self.RemoveFolder = function (item) {
+            self.data().Folders.remove(item);
+        };
+        self.GetFolder = function (item) {
+            self.SearchWord('');
+            var path = self.GetCurrentPath() + "/" + item.Name()
+            self.getData(path);
+        };
+        self.GetFolderByIndex = function (idx) {
+            if(idx == vm.CurrentPathIndex()) { return; }
+            self.SearchWord('');
+            vm.CurrentPathIndex(idx);
+            path = vm.GetCurrentPath();
+            vm.getData(path);
+        };
+        self.InsertFile = function () {
+            utils.postMessage("fileselected", { 
+                owner: '@Request.QueryString["owner"]', 
+                property: '@Request.QueryString["path"]', 
+                files: ko.toJS(self.SelectedFiles())
+            }, 
+            window.top);
+
+            utils.closeDialog();
+        };
+        self.SelectFile = function (item, event) {
+            stopEvent(event);
+            var f = $.grep(self.SelectedFiles(), function (n, i) { return n.Url == item.Url; })[0];
+            if (f) {
+                self.SelectedFiles.remove(item);
+            } else {
+                self.SelectedFiles.push(item);
+            }
+
+            $(event.target).closest('tr').siblings().removeClass('active');
+            $(event.target).closest('tr').toggleClass('active').find('input:radio').prop('checked', true);
+            $(event.target).closest('li').siblings().removeClass('active');
+            $(event.target).closest('li').toggleClass('active').find('input:radio').prop('checked', true);
+        };
+    }
+</script>
