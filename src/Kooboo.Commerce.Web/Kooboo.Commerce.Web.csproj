@@ -322,7 +322,7 @@
     <Compile Include="Areas\Commerce\Models\Activities\ActivityModel.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityRuleModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Activities\EventCategory.cs" />
+    <Compile Include="Areas\Commerce\Models\Activities\EventCategoryModel.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceEditorModel.cs" />

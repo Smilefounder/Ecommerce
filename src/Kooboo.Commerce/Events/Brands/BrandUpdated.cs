@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Brands
 {
-    [Serializable]
-    [Event(Category = EventCategories.Brands, Order = 200)]
+    [Event(Order = 200)]
     public class BrandUpdated : DomainEvent, IBrandEvent
     {
         [Reference(typeof(Brand))]

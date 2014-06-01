@@ -8,16 +8,16 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Pricing
 {
-    [Event(Category = EventCategories.Pricing, Order = 300)]
-    public class PricingPipelineCompleted : DomainEvent
+    [Event(Order = 300)]
+    public class PriceCalculationCompleted : DomainEvent, IPricingEvent
     {
         [JsonIgnore]
         [Reference(Prefix = "")]
         public PricingContext Context { get; private set; }
 
-        protected PricingPipelineCompleted() { }
+        protected PriceCalculationCompleted() { }
 
-        public PricingPipelineCompleted(PricingContext context)
+        public PriceCalculationCompleted(PricingContext context)
         {
             Context = context;
         }

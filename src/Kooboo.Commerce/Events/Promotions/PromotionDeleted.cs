@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Promotions
 {
-    [Serializable]
-    [Event(Category = EventCategories.Promotions, Order = 400)]
+    [Event(Order = 500)]
     public class PromotionDeleted : DomainEvent, IPromotionEvent
     {
         [Param]

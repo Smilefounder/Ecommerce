@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Index()
         {
             var rules = _ruleRepository.Query().ToList();
-            var categories = new List<EventCategory>();
+            var categories = new List<EventCategoryModel>();
 
             foreach (var rule in rules)
             {
@@ -41,12 +41,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
                 var eventType = Type.GetType(rule.EventType, true);
                 var entry = _eventRegistry.FindByType(eventType);
-                var category = categories.Find(c => c.Name == entry.Category);
+                var category = categories.Find(c => c.Name == entry.Category.Name);
                 if (category == null)
                 {
-                    category = new EventCategory
+                    category = new EventCategoryModel
                     {
-                        Name = entry.Category
+                        Name = entry.Category.Name
                     };
                     categories.Add(category);
                 }

@@ -6,13 +6,13 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 {
-    public class EventCategory
+    public class EventCategoryModel
     {
         public string Name { get; set; }
 
         public List<EventRules> Events { get; set; }
 
-        public EventCategory()
+        public EventCategoryModel()
         {
             Events = new List<EventRules>();
         }

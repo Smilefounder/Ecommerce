@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.ShoppingCarts
 {
-    [Event(Category = "Shopping Cart Events")]
+    [Category("Shopping Carts", Order = 800)]
     public interface IShoppingCartEvent : IDomainEvent
     {
         int CartId { get; }
