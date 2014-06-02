@@ -54,14 +54,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index(string search, int? page, int? pageSize)
         {
-            var productTypes = _productTypeService.GetAllProductTypes();
+            var productTypes = _productTypeService.Query().ToList();
             var query = _productService.Query();
-            if(!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrEmpty(search))
                 query = query.Where(o => o.Name.Contains(search));
             var model = query
                 .OrderByDescending(x => x.Id)
                 .ToPagedList(page, pageSize);
-            ViewBag.ProductTypes = productTypes.ToList();
+            ViewBag.ProductTypes = productTypes;
             ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<Product, Product>();
             return View(model);
         }
@@ -106,7 +106,93 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             try
             {
-                _productService.Save(obj);
+                Product product = null;
+
+                if (obj.Id > 0)
+                {
+                    product = _productService.GetById(obj.Id);
+                }
+                else
+                {
+                    product = new Product();
+                }
+
+                // Update basic info
+                product.Name = obj.Name;
+
+                if (obj.BrandId != null)
+                {
+                    product.Brand = _brandService.GetById(obj.BrandId.Value);
+                }
+                else
+                {
+                    product.Brand = null;
+                }
+
+                product.UpdateCustomFieldValues(obj.CustomFieldValues);
+                product.UpdateImages(obj.Images);
+                product.UpdateCategories(obj.Categories);
+
+                if (product.Id == 0)
+                {
+                    _productService.Create(product);
+                }
+                else
+                {
+                    _db.SaveChanges();
+                    product.NotifyUpdated();
+                }
+
+                // Update product prices
+                foreach (var price in product.PriceList.ToList())
+                {
+                    if (!obj.PriceList.Any(p => p.Id == price.Id))
+                    {
+                        _productService.RemovePrice(product, price.Id);
+                    }
+                }
+
+                foreach (var price in obj.PriceList)
+                {
+                    var current = product.FindPrice(price.Id);
+                    if (current == null)
+                    {
+                        current = product.CreatePrice(price.Name, price.Sku);
+                        current.PurchasePrice = price.PurchasePrice;
+                        current.RetailPrice = price.RetailPrice;
+
+                        _productService.AddPrice(product, current);
+                    }
+                    else
+                    {
+                        current.Name = price.Name;
+                        current.Sku = price.Sku;
+                        current.PurchasePrice = price.PurchasePrice;
+                        current.RetailPrice = price.RetailPrice;
+
+                        _db.SaveChanges();
+                        current.NotifyUpdated();
+                    }
+
+                    if (price.IsPublished)
+                    {
+                        _productService.PublishPrice(product, price.Id);
+                    }
+                    else
+                    {
+                        _productService.UnpublishPrice(product, price.Id);
+                    }
+                }
+
+                if (obj.IsPublished)
+                {
+                    _productService.Publish(product);
+                }
+                else
+                {
+                    _productService.Unpublish(product);
+                }
+
                 return this.JsonNet(new { status = 0, message = "product succssfully saved." });
             }
             catch (Exception ex)
@@ -114,14 +200,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 return this.JsonNet(new { status = 1, message = ex.Message });
             }
         }
+
         [HttpGet]
         public ActionResult Delete(int id)
         {
             try
             {
-                var product = _productService.GetById(id);
-                if (product != null)
-                    _productService.Delete(product);
+                _productService.Delete(id);
                 return this.JsonNet(new JsonResultData()
                 {
                     ReloadPage = true
@@ -139,9 +224,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 foreach (var item in model)
                 {
-                    var product = _productService.GetById(item.Id);
-                    if (product != null)
-                        _productService.Delete(product);
+                    _productService.Delete(item.Id);
                 }
                 return this.JsonNet(new JsonResultData()
                 {
@@ -183,7 +266,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
 
             var query = _categoryService.Query();
-            if(parentId.HasValue)
+            if (parentId.HasValue)
                 query = query.Where(o => o.Parent.Id == parentId.Value);
             else
                 query = query.Where(o => o.Parent == null);
@@ -194,8 +277,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult ExtendQuery(string name, int? page, int? pageSize)
         {
-            var productTypes = _productTypeService.GetAllProductTypes();
-            ViewBag.ProductTypes = productTypes.ToList();
+            var productTypes = _productTypeService.Query().ToList();
+            ViewBag.ProductTypes = productTypes;
             ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<Product, Product>();
             IPagedList<Product> model = null;
             var query = _extendedQueryManager.GetExtendedQuery<Product, Product>(name);

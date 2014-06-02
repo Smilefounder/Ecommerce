@@ -17,8 +17,7 @@ namespace Kooboo.Commerce.Events
             TimestampUtc = DateTime.UtcNow;
         }
 
-        public static void Raise<TEvent>(TEvent @event)
-            where TEvent : IEvent
+        public static void Raise(IEvent @event)
         {
             Require.NotNull(@event, "event");
 

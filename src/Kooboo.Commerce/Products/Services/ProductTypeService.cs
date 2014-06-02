@@ -7,6 +7,8 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.EAV.Services;
 using Kooboo.Web.Mvc.Paging;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.ProductTypes;
 
 namespace Kooboo.Commerce.Products.Services
 {
@@ -43,23 +45,9 @@ namespace Kooboo.Commerce.Products.Services
             return type.IsDeleted ? null : type;
         }
 
-        public IEnumerable<ProductType> GetAllProductTypes()
+        public IQueryable<ProductType> Query()
         {
-            return _productTypeRepository.Query().Include(o => o.CustomFields.Select(f => f.CustomField)).Include(o => o.VariationFields.Select(f => f.CustomField))
-                .Where(x => !x.IsDeleted).ToArray();
-        }
-
-        public IPagedList<T> GetAllProductTypes<T>(int? pageIndex, int? pageSize, Func<ProductType, T> func)
-        {
-            int pi = pageIndex ?? 1;
-            int ps = pageSize ?? 50;
-            pi = pi < 1 ? 1 : pi;
-            ps = ps < 1 ? 50 : ps;
-            var query = _productTypeRepository.Query().Include(o => o.CustomFields.Select(f => f.CustomField)).Include(o => o.VariationFields)
-                .Where(x => !x.IsDeleted).OrderByDescending(o => o.Id);
-            var total = query.Count();
-            var data = query.Skip(ps * (pi - 1)).Take(ps).ToArray();
-            return new PagedList<T>(data.Select<ProductType, T>(o => func(o)), pi, ps, total);
+            return _productTypeRepository.Query().OrderBy(t => t.Id);
         }
 
         public bool Create(ProductType type)
@@ -116,6 +104,8 @@ namespace Kooboo.Commerce.Products.Services
                         }
                     });
                 _productTypeRepository.Update(type, k => new object[] { k.Id });
+
+                type.NotifyUpdated();
 
                 return true;
             }
@@ -199,26 +189,33 @@ namespace Kooboo.Commerce.Products.Services
         //    }
         //}
 
-        public bool Delete(ProductType type)
+        public bool Delete(int productTypeId)
         {
-            type.IsDeleted = true;
-            if (!type.DeletedAtUtc.HasValue)
+            var productType = _productTypeRepository.Get(productTypeId);
+            if (productType == null)
             {
-                type.DeletedAtUtc = DateTime.UtcNow;
+                return false;
             }
-            return _productTypeRepository.Update(type, k => new object[] { k.Id });
+
+            return _productTypeRepository.Delete(productType);
         }
 
         public void Enable(ProductType type)
         {
-            type.IsEnabled = true;
-            _productTypeRepository.Update(type, k => new object[] { k.Id });
+            if (type.MarkEnabled())
+            {
+                _db.SaveChanges();
+                Event.Raise(new ProductTypeEnabled(type));
+            }
         }
 
         public void Disable(ProductType type)
         {
-            type.IsEnabled = false;
-            _productTypeRepository.Update(type, k => new object[] { k.Id });
+            if (type.MarkDisabled())
+            {
+                _db.SaveChanges();
+                Event.Raise(new ProductTypeDisabled(type));
+            }
         }
     }
 }

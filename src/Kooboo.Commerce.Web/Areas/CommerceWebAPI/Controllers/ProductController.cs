@@ -50,9 +50,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 query = query.ByBrandId(Convert.ToInt32(qs["brandId"]));
             if (!string.IsNullOrEmpty(qs["published"]))
                 query = query.IsPublished(Convert.ToBoolean(qs["published"]));
-            if (!string.IsNullOrEmpty(qs["deleted"]))
-                query = query.IsDeleted(Convert.ToBoolean(qs["deleted"]));
-
             if (!string.IsNullOrEmpty(qs["customField.id"]) && !string.IsNullOrEmpty(qs["customField.value"]))
                 query = query.ByCustomField(Convert.ToInt32(qs["customField.id"]), qs["customField.value"]);
             if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))

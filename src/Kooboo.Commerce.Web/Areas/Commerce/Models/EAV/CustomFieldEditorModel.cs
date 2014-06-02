@@ -8,17 +8,21 @@ using Kooboo.Web.Mvc;
 using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.DataSources;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV {
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
+{
 
-    public class CustomFieldEditorModel {
+    public class CustomFieldEditorModel
+    {
 
-        public CustomFieldEditorModel() {
+        public CustomFieldEditorModel()
+        {
             this.FieldType = CustomFieldType.Custom;
             this.ValidationRules = new List<FieldValidationRuleEditorModel>();
         }
 
         public CustomFieldEditorModel(CustomField field)
-            : this() {
+            : this()
+        {
             this.Id = field.Id;
             this.Name = field.Name;
             this.DataType = field.DataType;
@@ -37,15 +41,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV {
             this.FieldType = field.FieldType;
             this.CustomSettings = field.CustomSettings;
             this.SelectionItems = field.SelectionItems;
-            if (field.ValidationRules != null) {
-                foreach (var item in field.ValidationRules) {
+            if (field.ValidationRules != null)
+            {
+                foreach (var item in field.ValidationRules)
+                {
                     this.ValidationRules.Add(new FieldValidationRuleEditorModel(item));
                 }
             }
         }
 
-        public void UpdateTo(CustomField field) {
-            field.Id = this.Id;
+        public void UpdateTo(CustomField field)
+        {
             field.Name = this.Name;
             field.DataType = this.DataType;
             field.Label = this.Label;
@@ -64,8 +70,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV {
             field.CustomSettings = this.CustomSettings;
             field.SelectionItems = this.SelectionItems;
             field.ValidationRules = new List<FieldValidationRule>();
-            if (this.ValidationRules != null) {
-                foreach (var item in this.ValidationRules) {
+            if (this.ValidationRules != null)
+            {
+                foreach (var item in this.ValidationRules)
+                {
                     var rule = new FieldValidationRule();
                     item.UpdateTo(rule);
                     field.ValidationRules.Add(rule);

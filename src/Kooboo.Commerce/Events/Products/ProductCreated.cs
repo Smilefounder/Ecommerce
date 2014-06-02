@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Events.Products
         [Reference(typeof(Product))]
         public int ProductId { get; set; }
 
-        public ProductCreated() { }
+        protected ProductCreated() { }
 
         public ProductCreated(Product product)
         {

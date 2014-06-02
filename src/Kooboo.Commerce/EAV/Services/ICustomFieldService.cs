@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.EAV.Services {
 
     public interface ICustomFieldService {
 
-        CustomField Load(int id);
+        CustomField GetById(int id);
 
         IQueryable<CustomField> Query();
 

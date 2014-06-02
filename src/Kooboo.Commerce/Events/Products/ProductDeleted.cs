@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Events.Products
         [Param]
         public int ProductId { get; set; }
 
-        public ProductDeleted() { }
+        protected ProductDeleted() { }
 
         public ProductDeleted(Product product)
         {

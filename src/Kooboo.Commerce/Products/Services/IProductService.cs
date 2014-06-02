@@ -11,25 +11,26 @@ namespace Kooboo.Commerce.Products.Services
 
         IQueryable<Product> Query();
 
-        IQueryable<ProductPrice> ProductPriceQuery();
-
-        IQueryable<ProductCategory> ProductCategoryQuery();
-        IQueryable<ProductImage> ProductImageQuery();
-        IQueryable<ProductCustomFieldValue> ProductCustomFieldQuery();
-        IQueryable<ProductPriceVariantValue> ProductPriceVariantQuery();
+        IQueryable<ProductPrice> QueryProductPrices();
 
         ProductPrice GetProductPriceById(int id, bool loadProduct = true, bool loadVariants = true, bool loadCustomFields = true);
 
         bool Create(Product product);
 
-        bool Update(Product product);
+        bool Delete(int productId);
 
-        bool Delete(Product product);
+        bool Publish(Product product);
 
-        bool Save(Product product);
+        bool Unpublish(Product product);
 
-        void Publish(Product product);
+        void AddPrice(Product product, ProductPrice price);
 
-        void Unpublish(Product product);
+        bool RemovePrice(Product product, int priceId);
+
+        bool UpdatePrice(Product product, int priceId, ProductPrice newPrice);
+
+        bool PublishPrice(Product product, int priceId);
+
+        bool UnpublishPrice(Product product, int priceId);
     }
 }

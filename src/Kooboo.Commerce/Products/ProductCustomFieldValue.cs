@@ -19,6 +19,16 @@ namespace Kooboo.Commerce.Products
         public string FieldText { get; set; }
 
         public virtual Product Product { get; set; }
+
         public virtual CustomField CustomField { get; set; }
+
+        public ProductCustomFieldValue() { }
+
+        public ProductCustomFieldValue(Product product, int fieldId, string value)
+        {
+            Product = product;
+            CustomFieldId = fieldId;
+            FieldValue = value;
+        }
     }
 }

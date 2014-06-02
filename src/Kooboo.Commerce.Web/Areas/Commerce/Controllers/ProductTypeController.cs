@@ -35,7 +35,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index(int? page, int? pageSize)
         {
-            var model = _productTypeService.GetAllProductTypes(page, pageSize, o => new ProductTypeRowModel(o));
+            var model = _productTypeService.Query()
+                                           .ToPagedList(page, pageSize)
+                                           .Transform(o => new ProductTypeRowModel(o));
             return View(model);
         }
 
@@ -68,8 +70,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var item in model)
             {
-                var type = _productTypeService.GetById(item.Id);
-                _productTypeService.Delete(type);
+                _productTypeService.Delete(item.Id);
             }
 
             return AjaxForm().ReloadPage();
@@ -93,20 +94,107 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(ProductTypeEditorModel model, string @return)
         {
-            var productType = new ProductType();
-            model.UpdateTo(productType);
-            //
-            var updated = false;
+            // Create new fields
+
+            ProductType productType = null;
+
             if (model.Id > 0)
             {
-                updated = _productTypeService.Update(productType);
+                productType = _productTypeService.GetById(model.Id);
             }
             else
             {
-                updated = _productTypeService.Create(productType);
+                productType = new ProductType(model.Name, model.SkuAlias);
+            }
+
+            productType.Name = model.Name;
+            productType.SkuAlias = model.SkuAlias;
+
+            // Custom Fields
+            foreach (var field in productType.CustomFields.ToList())
+            {
+                if (!model.CustomFields.Any(f => f.Id == field.CustomFieldId))
+                {
+                    productType.RemoveCustomField(field.CustomFieldId);
+                }
+            }
+
+            foreach (var field in model.CustomFields)
+            {
+                var customField = CreateOrUpdateField(field);
+                var current = productType.FindCustomField(customField.Id);
+                if (current == null)
+                {
+                    current = new ProductTypeCustomField(productType, customField);
+                    productType.CustomFields.Add(current);
+                }
+                else
+                {
+                    // Update sequence
+                }
+            }
+
+            // Variant Fields
+            foreach (var field in productType.VariationFields.ToList())
+            {
+                if (!model.VariationFields.Any(f => f.Id == field.CustomFieldId))
+                {
+                    productType.RemoveVariantField(field.CustomFieldId);
+                }
+            }
+
+            foreach (var field in model.VariationFields)
+            {
+                var customField = CreateOrUpdateField(field);
+                var current = productType.FindVariantField(customField.Id);
+                if (current == null)
+                {
+                    current = new ProductTypeVariantField(productType, customField);
+                    productType.VariationFields.Add(current);
+                }
+                else
+                {
+                    // Update sequence
+                }
+            }
+
+            CommerceContext.CurrentInstance.Database.SaveChanges();
+
+            productType.NotifyUpdated();
+
+            if (model.IsEnabled)
+            {
+                _productTypeService.Enable(productType);
+            }
+            else
+            {
+                _productTypeService.Disable(productType);
             }
 
             return AjaxForm().RedirectTo(Url.Action("Edit", RouteValues.From(Request.QueryString).Merge("id", productType.Id)));
+        }
+
+        private CustomField CreateOrUpdateField(CustomFieldEditorModel model)
+        {
+            CustomField field = null;
+
+            if (model.Id > 0)
+            {
+                field = _customFieldService.GetById(model.Id);
+            }
+            else
+            {
+                field = new CustomField();
+            }
+
+            model.UpdateTo(field);
+
+            if (field.Id == 0)
+            {
+                _customFieldService.Create(field);
+            }
+
+            return field;
         }
     }
 }
