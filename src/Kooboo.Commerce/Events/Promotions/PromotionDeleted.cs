@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Events.Promotions
         [Param]
         public string PromotionName { get; set; }
 
-        public PromotionDeleted() { }
+        protected PromotionDeleted() { }
 
         public PromotionDeleted(Promotion promotion)
         {

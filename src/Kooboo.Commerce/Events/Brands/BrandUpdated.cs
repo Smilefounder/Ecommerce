@@ -13,17 +13,11 @@ namespace Kooboo.Commerce.Events.Brands
         [Reference(typeof(Brand))]
         public int BrandId { get; set; }
 
-        public string BrandName { get; set; }
-
-        public string BrandDescription { get; set; }
-
-        public BrandUpdated() { }
+        protected BrandUpdated() { }
 
         public BrandUpdated(Brand brand)
         {
             BrandId = brand.Id;
-            BrandName = brand.Name;
-            BrandDescription = brand.Description;
         }
     }
 }

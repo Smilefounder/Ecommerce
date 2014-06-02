@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Events.Customers
         [Reference(typeof(Customer))]
         public int CustomerId { get; set; }
 
-        public CustomerCreated() { }
+        protected CustomerCreated() { }
 
         public CustomerCreated(Customer customer)
         {

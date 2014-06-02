@@ -13,14 +13,11 @@ namespace Kooboo.Commerce.Events.Promotions
         [Reference(typeof(Promotion))]
         public int PromotionId { get; set; }
 
-        public string PromotionName { get; set; }
-
-        public PromotionCreated() { }
+        protected PromotionCreated() { }
 
         public PromotionCreated(Promotion promotion)
         {
             PromotionId = promotion.Id;
-            PromotionName = promotion.Name;
         }
     }
 }

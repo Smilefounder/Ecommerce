@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Events.Products
     [Event(Order = 1000)]
     public class ProductPriceDeleted : DomainEvent, IProductEvent
     {
-        [Reference(typeof(Product))]
+        [Param]
         public int ProductId { get; set; }
 
         [Param]

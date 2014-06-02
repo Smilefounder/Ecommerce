@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

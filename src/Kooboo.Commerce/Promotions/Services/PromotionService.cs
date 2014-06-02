@@ -1,5 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Promotions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +12,21 @@ namespace Kooboo.Commerce.Promotions.Services
     [Dependency(typeof(IPromotionService))]
     public class PromotionService : IPromotionService
     {
-        private IRepository<Promotion> _repository;
+        private ICommerceDatabase _db;
 
-        public PromotionService(IRepository<Promotion> repository)
+        public PromotionService(ICommerceDatabase db)
         {
-            _repository = repository;
+            _db = db;
         }
 
         public Promotion GetById(int id)
         {
-            return _repository.Get(o => o.Id == id);
+            return _db.GetRepository<Promotion>().Get(o => o.Id == id);
         }
 
         public IQueryable<Promotion> Query()
         {
-            return _repository.Query();
+            return _db.GetRepository<Promotion>().Query();
         }
 
         public bool Create(Promotion promotion)
@@ -34,7 +36,7 @@ namespace Kooboo.Commerce.Promotions.Services
                 throw new InvalidOperationException("Coupon code has been taken.");
             }
 
-            return _repository.Insert(promotion);
+            return _db.GetRepository<Promotion>().Insert(promotion);
         }
 
         public bool Update(Promotion promotion)
@@ -44,22 +46,38 @@ namespace Kooboo.Commerce.Promotions.Services
                 throw new InvalidOperationException("Coupon code has been taken.");
             }
 
-            return _repository.Update(promotion, k => new object[] { k.Id });
+            return _db.GetRepository<Promotion>().Update(promotion, k => new object[] { k.Id });
         }
 
         public void Enable(Promotion promotion)
         {
-            promotion.Enable();
+            if (promotion.MarkEnable())
+            {
+                _db.SaveChanges();
+                Event.Raise(new PromotionEnabled(promotion));
+            }
         }
 
         public void Disable(Promotion promotion)
         {
-            promotion.Disable();
+            if (promotion.MarkDisable())
+            {
+                _db.SaveChanges();
+                Event.Raise(new PromotionDisabled(promotion));
+            }
         }
 
-        public bool Delete(Promotion promotion)
+        public bool Delete(int promotionId)
         {
-            return _repository.Delete(promotion);
+            var promotion = _db.GetRepository<Promotion>().Get(promotionId);
+            if (promotion == null)
+            {
+                return false;
+            }
+
+            _db.GetRepository<Promotion>().Delete(promotion);
+
+            return true;
         }
 
         private bool IsCouponAlreadyTaken(string coupon, int candidatePromotionId)

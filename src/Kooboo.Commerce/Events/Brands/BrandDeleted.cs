@@ -17,16 +17,12 @@ namespace Kooboo.Commerce.Events.Brands
         [Param]
         public string BrandName { get; set; }
 
-        [Param]
-        public string BrandDescription { get; set; }
-
-        public BrandDeleted() { }
+        protected BrandDeleted() { }
 
         public BrandDeleted(Brand brand)
         {
             BrandId = brand.Id;
             BrandName = brand.Name;
-            BrandDescription = brand.Description;
         }
     }
 }

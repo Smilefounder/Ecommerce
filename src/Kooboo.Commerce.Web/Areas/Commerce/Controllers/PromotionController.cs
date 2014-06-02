@@ -82,9 +82,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var each in model)
             {
-                var promotionId = each.Id;
-                var promotion = _promotionService.GetById(promotionId);
-                _promotionService.Delete(promotion);
+                _promotionService.Delete(each.Id);
             }
 
             return AjaxForm().ReloadPage();

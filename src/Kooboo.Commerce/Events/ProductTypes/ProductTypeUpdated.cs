@@ -8,13 +8,16 @@ using System.Text;
 namespace Kooboo.Commerce.Events.ProductTypes
 {
     [Event(Order = 200)]
-    public class ProductTypeUpdated : ProductTypeEventBase
+    public class ProductTypeUpdated : DomainEvent, IProductTypeEvent
     {
+        [Reference(typeof(ProductType))]
+        public int ProductTypeId { get; set; }
+
         protected ProductTypeUpdated() { }
 
         public ProductTypeUpdated(ProductType productType)
-            : base(productType)
         {
+            ProductTypeId = productType.Id;
         }
     }
 }

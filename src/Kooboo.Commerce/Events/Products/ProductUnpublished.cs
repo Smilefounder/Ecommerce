@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Products;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Kooboo.Commerce.Events.Products
     [Event(Order = 400)]
     public class ProductUnpublished : DomainEvent, IProductEvent
     {
+        [Reference(typeof(Product))]
         public int ProductId { get; set; }
 
         protected ProductUnpublished() { }

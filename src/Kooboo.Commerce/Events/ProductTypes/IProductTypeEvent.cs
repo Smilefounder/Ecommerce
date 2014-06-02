@@ -12,17 +12,4 @@ namespace Kooboo.Commerce.Events.ProductTypes
     {
         int ProductTypeId { get; }
     }
-
-    public abstract class ProductTypeEventBase : DomainEvent, IProductTypeEvent
-    {
-        [Reference(typeof(ProductType))]
-        public int ProductTypeId { get; set; }
-
-        protected ProductTypeEventBase() { }
-
-        protected ProductTypeEventBase(ProductType productType)
-        {
-            ProductTypeId = productType.Id;
-        }
-    }
 }

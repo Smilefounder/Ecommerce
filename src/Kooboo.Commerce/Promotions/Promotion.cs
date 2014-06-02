@@ -63,22 +63,26 @@ namespace Kooboo.Commerce.Promotions
             return PromotionSpecifications.AvailableNow(utcNow).Compile()(this);
         }
 
-        public virtual void Enable()
+        public virtual bool MarkEnable()
         {
             if (!IsEnabled)
             {
                 IsEnabled = true;
-                Event.Raise(new PromotionEnabled(this));
+                return true;
             }
+
+            return false;
         }
 
-        public virtual void Disable()
+        public virtual bool MarkDisable()
         {
             if (IsEnabled)
             {
                 IsEnabled = false;
-                Event.Raise(new PromotionDisabled(this));
+                return true;
             }
+
+            return false;
         }
 
         public virtual bool CanBeOverlappedUsedWith(Promotion other)
