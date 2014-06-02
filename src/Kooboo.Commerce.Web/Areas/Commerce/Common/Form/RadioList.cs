@@ -28,6 +28,14 @@ namespace Kooboo.Commerce.Web.Form
             }
         }
 
+        public override string ValueBindingName
+        {
+            get
+            {
+                return "radiolist";
+            }
+        }
+
         protected override void BuildControl(System.Web.Mvc.TagBuilder builder, EAV.CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
         {
             builder.AddCssClass("radio-list");

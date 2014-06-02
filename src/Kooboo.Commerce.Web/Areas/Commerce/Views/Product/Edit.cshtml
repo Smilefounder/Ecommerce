@@ -110,9 +110,8 @@
                                 <th class="action"></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach: $root.data().PriceList">
-                            <!-- ko if: !$root.IsEditingPrice($data) -->
-                            <tr>
+                        <tbody data-bind="foreach: { data: $root.data().PriceList, afterRender: $root.InitVariantFieldControls }">
+                            <tr data-bind="visible: !$root.IsEditingPrice($data)">
                                 <td class="checkbox"><input type="checkbox"></td>
                                 <td data-bind="text:Sku"></td>
                                 @foreach (var customField in productType.VariationFields)
@@ -126,9 +125,7 @@
                                 <td><a href="javascript:;" data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit-small")</a></td>
                                 <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Delete">@Html.IconImage("minus-small")</a></td>
                             </tr>
-                            <!-- /ko -->
-                            <!-- ko if: $root.IsEditingPrice($data) -->
-                            <tr>
+                            <tr data-bind="visible: $root.IsEditingPrice($data)">
                                 <td></td>
                                 <td><input type="text" data-bind="value:Sku"></td>
                                 @foreach (var customField in productType.VariationFields)
@@ -149,7 +146,6 @@
                                 <td><a href="javascript:;" onclick="vm.EditingPrice(null);" title="Save">@Html.IconImage("save-small")</a></td>
                                 <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Cancel">@Html.IconImage("minus-small")</a></td>
                             </tr>
-                            <!-- /ko -->
                         </tbody>
                     </table>
                 </div>
@@ -306,19 +302,57 @@
                         return field.CustomFieldId() == fieldId;
                     });
 
-                    return fieldValue ? fieldValue.FieldValue : null;
+                    // New fields might be created after product creation, so here need to ensure custom field always exists
+                    if (!fieldValue) {
+                        var field = _.find(self.ProductType().CustomFields(), function (f) {
+                            return f.CustomFieldId() == fieldId;
+                        });
+
+                        fieldValue = {
+                            Id: ko.observable(),
+                            ProductId: ko.observable(self.data().Id()),
+                            CustomFieldId: ko.observable(field.CustomFieldId()),
+                            FieldText: ko.observable(),
+                            FieldValue: ko.observable()
+                        };
+
+                        self.data().CustomFieldValues.push(fieldValue);
+                    }
+
+                    return fieldValue.FieldValue;
                 }
 
-                self.GetVariantFieldText  = function (variant, fieldId) {
-                    return self.GetVariantFieldValue(variant, fieldId);
+                self.InitVariantFieldControls = function (elements) {
+                    kb.ui.unobtrusive.initialize(elements);
                 }
 
-                self.GetVariantFieldValue = function (variant, fieldId) {
-                    var fieldValue = _.find(variant.VariantValues(), function (field) {
+                self.GetVariantFieldText = function (price, fieldId) {
+                    return self.GetVariantFieldValue(price, fieldId);
+                }
+
+                self.GetVariantFieldValue = function (price, fieldId) {
+                    var fieldValue = _.find(price.VariantValues(), function (field) {
                         return field.CustomFieldId() == fieldId;
                     });
 
-                    return fieldValue ? fieldValue.FieldValue : null;
+                    // New fields might be created after product creation, so here need to ensure custom field always exists
+                    if (!fieldValue) {
+                        var field = _.find(self.ProductType().VariationFields(), function (f) {
+                            return f.CustomFieldId() == fieldId;
+                        });
+
+                        fieldValue = {
+                            Id: ko.observable(),
+                            ProductId: ko.observable(self.data().Id()),
+                            CustomFieldId: ko.observable(field.CustomFieldId()),
+                            FieldText: ko.observable(),
+                            FieldValue: ko.observable()
+                        };
+
+                        price.VariantValues.push(fieldValue);
+                    }
+
+                    return fieldValue.FieldValue;
                 }
 
                 self.GetFieldSelectOptions = function (item) {
@@ -469,6 +503,7 @@
              .done(function () {
                  window.loading.hide();
                  vm.getData();
+
                  kb.events.fire('Product/Edit/FormDataBinding', vm, {
                      viewModel: vm
                  });

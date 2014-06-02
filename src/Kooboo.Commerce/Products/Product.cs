@@ -31,6 +31,12 @@ namespace Kooboo.Commerce.Products
             PriceList = new List<ProductPrice>();
         }
 
+        public Product(string name, ProductType type) : this()
+        {
+            Name = name;
+            Type = type;
+        }
+
         [Param]
         public int Id { get; set; }
 

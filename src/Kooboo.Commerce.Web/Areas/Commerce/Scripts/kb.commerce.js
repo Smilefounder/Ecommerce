@@ -116,14 +116,32 @@
     // Unobtrusive control initializations
     kb.registerNamespace('kb.ui.unobtrusive');
 
+    kb.ui.unobtrusive.handlers = {};
+
     kb.ui.unobtrusive.initialize = function (container) {
+        $(container).each(function () {
+            $(this).find('[data-toggle]').each(function () {
+                var $element = $(this);
+                var types = $element.data('toggle').split(' ');
+                $.each(types, function () {
+                    var handler = kb.ui.unobtrusive.handlers[this];
+                    if (handler && handler.init) {
+                        handler.init($element);
+                    }
+                });
+            });
+        });
+    };
 
-        // DatePicker
-        $(container).find(':text[data-toggle="datepicker"]').datepicker();
+    kb.ui.unobtrusive.handlers.datepicker = {
+        init: function (element) {
+            $(element).datepicker();
+        }
+    };
 
-        // Tinymce
-        $(container).find('textarea[data-toggle="tinymce"]').each(function () {
-            var textarea = $(this);
+    kb.ui.unobtrusive.handlers.tinymce = {
+        init: function (element) {
+            var textarea = $(element);
             if (!textarea.attr('id')) {
                 textarea.attr('id', 'Tinymce_' + new Date().getTime());
             }
@@ -145,8 +163,7 @@
             });
 
             tinyMCE.init(tinyMCEConfig);
-        });
-
+        }
     };
 
 })(jQuery);

@@ -114,7 +114,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
                 else
                 {
-                    product = new Product();
+                    product = new Product(obj.Name, _productTypeService.GetById(obj.ProductTypeId));
                 }
 
                 // Update basic info
@@ -152,29 +152,23 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     }
                 }
 
-                foreach (var price in obj.PriceList)
+                foreach (var priceModel in obj.PriceList)
                 {
-                    var current = product.FindPrice(price.Id);
-                    if (current == null)
+                    var price = product.FindPrice(priceModel.Id);
+                    if (price == null)
                     {
-                        current = product.CreatePrice(price.Name, price.Sku);
-                        current.PurchasePrice = price.PurchasePrice;
-                        current.RetailPrice = price.RetailPrice;
-
-                        _productService.AddPrice(product, current);
+                        price = product.CreatePrice(priceModel.Name, priceModel.Sku);
+                        price.UpdateFrom(priceModel);
+                        _productService.AddPrice(product, price);
                     }
                     else
                     {
-                        current.Name = price.Name;
-                        current.Sku = price.Sku;
-                        current.PurchasePrice = price.PurchasePrice;
-                        current.RetailPrice = price.RetailPrice;
-
+                        price.UpdateFrom(priceModel);
                         _db.SaveChanges();
-                        current.NotifyUpdated();
+                        price.NotifyUpdated();
                     }
 
-                    if (price.IsPublished)
+                    if (priceModel.IsPublished)
                     {
                         _productService.PublishPrice(product, price.Id);
                     }

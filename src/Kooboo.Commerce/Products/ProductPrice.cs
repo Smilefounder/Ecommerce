@@ -65,6 +65,34 @@ namespace Kooboo.Commerce.Products
             Sku = other.Sku;
             PurchasePrice = other.PurchasePrice;
             RetailPrice = other.RetailPrice;
+            UpdateVariantValues(other.VariantValues);
+        }
+
+        public virtual void UpdateVariantValues(IEnumerable<ProductPriceVariantValue> values)
+        {
+            var newValueList = values.ToList();
+
+            foreach (var value in VariantValues.ToList())
+            {
+                if (!newValueList.Any(f => f.CustomFieldId == value.CustomFieldId))
+                {
+                    VariantValues.Remove(value);
+                }
+            }
+
+            foreach (var fieldValue in newValueList)
+            {
+                var current = VariantValues.FirstOrDefault(f => f.CustomFieldId == fieldValue.CustomFieldId);
+                if (current == null)
+                {
+                    current = new ProductPriceVariantValue(this, fieldValue.CustomFieldId, fieldValue.FieldValue);
+                    VariantValues.Add(current);
+                }
+                else
+                {
+                    current.FieldValue = fieldValue.FieldValue;
+                }
+            }
         }
 
         public virtual void NotifyUpdated()

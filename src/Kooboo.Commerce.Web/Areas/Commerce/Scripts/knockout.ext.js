@@ -1,4 +1,56 @@
-﻿ko.bindingHandlers.time = {
+﻿ko.bindingHandlers.checkboxlist = {
+    init: function (element, valueAccessor) {
+        ko.bindingHandlers.checkboxlist._setValue(element, ko.utils.unwrapObservable(valueAccessor()));
+
+        $(element).on('click', ':checkbox', function () {
+            valueAccessor()(ko.bindingHandlers.checkboxlist._getValue(element));
+        });
+    },
+    update: function (element, valueAccessor) {
+        ko.bindingHandlers.checkboxlist._setValue(element, ko.utils.unwrapObservable(valueAccessor()));
+    },
+    _setValue: function (element, value) {
+        var values = (value || '').split(',');
+        $(element).find(':checkbox').each(function () {
+            var $checkbox = $(this);
+            var checkboxValue = $checkbox.prop('value');
+            if (!checkboxValue) {
+                $checkbox.prop('checked', false);
+            } else {
+                $checkbox.prop('checked', _.contains(values, checkboxValue));
+            }
+        });
+    },
+    _getValue: function (element) {
+        var values = [];
+        $(element).find(':checkbox:checked').each(function () {
+            values.push($(this).prop('value'));
+        });
+        return values.join(',');
+    }
+};
+
+ko.bindingHandlers.radiolist = {
+    init: function (element, valueAccessor) {
+        ko.bindingHandlers.radiolist._setValue(element, ko.utils.unwrapObservable(valueAccessor()));
+        $(element).on('click', ':radio', function () {
+            valueAccessor()(ko.bindingHandlers.radiolist._getValue(element));
+        });
+    },
+    update: function (element, valueAccessor) {
+        ko.bindingHandlers.radiolist._setValue(element, ko.utils.unwrapObservable(valueAccessor()));
+    },
+    _setValue: function (element, value) {
+        $(element).find(':radio').each(function () {
+            $(this).prop('checked', $(this).prop('value') == value);
+        });
+    },
+    _getValue: function (element) {
+        return $(element).find(':radio:checked').val();
+    }
+};
+
+ko.bindingHandlers.time = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         //initialize datepicker with some optional options
         var options = allBindingsAccessor().timeOptions || {};

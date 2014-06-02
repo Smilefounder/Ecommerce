@@ -117,6 +117,7 @@ namespace Kooboo.Commerce.Products.Services
             }
 
             product.PriceList.Remove(price);
+            _db.GetRepository<ProductPrice>().Delete(price);
             _db.SaveChanges();
 
             Event.Raise(new ProductPriceDeleted(product, price));

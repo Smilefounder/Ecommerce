@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Web.Form
         {
             get
             {
-                return "value";
+                return "checkboxlist";
             }
         }
 

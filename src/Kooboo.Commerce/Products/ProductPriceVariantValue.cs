@@ -23,5 +23,14 @@ namespace Kooboo.Commerce.Products
         public virtual ProductPrice ProductPrice { get; set; }
 
         public virtual CustomField CustomField { get; set; }
+
+        public ProductPriceVariantValue() { }
+
+        public ProductPriceVariantValue(ProductPrice price, int fieldId, string value)
+        {
+            ProductPrice = price;
+            CustomFieldId = fieldId;
+            FieldValue = value;
+        }
     }
 }
