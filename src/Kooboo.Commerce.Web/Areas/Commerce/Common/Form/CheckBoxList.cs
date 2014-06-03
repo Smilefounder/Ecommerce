@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Web.Form
 
         protected override void BuildControl(System.Web.Mvc.TagBuilder builder, CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
         {
-            builder.AddCssClass("checkbox-list");
+            builder.AddCssClass("form-list");
 
             if (!String.IsNullOrWhiteSpace(field.SelectionItems))
             {

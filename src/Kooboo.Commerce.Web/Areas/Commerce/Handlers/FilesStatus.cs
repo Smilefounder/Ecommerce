@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
+using Kooboo.Web.Url;
 
 namespace Kooboo.Commerce.Handlers
 {
@@ -49,7 +50,7 @@ namespace Kooboo.Commerce.Handlers
             friendly_size = FileType.GetFriendlyFileSize(fileLength);
             is_image = FileType.IsImage(fileName);
             progress = "1.0";
-            url = uploadPath + fileName; // handlerPath + "UploadHandler.ashx?f=" + fileName;
+            url = UrlUtility.Combine(uploadPath, fileName); // handlerPath + "UploadHandler.ashx?f=" + fileName;
             delete_url = handlerPath + "UploadHandler.ashx?f=" + url;
             delete_type = "DELETE";
 

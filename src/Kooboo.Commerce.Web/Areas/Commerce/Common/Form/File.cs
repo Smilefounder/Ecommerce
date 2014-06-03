@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kooboo.Commerce.Web.Form.Validation;
+using System.Web.Routing;
 
 namespace Kooboo.Commerce.Web.Form
 {
@@ -30,19 +31,47 @@ namespace Kooboo.Commerce.Web.Form
 
         public IHtmlString Render(CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
         {
-            var input = new TagBuilder("input");
-            input.Attributes.Add("type", "file");
-            input.Attributes.Add("id", field.Name);
-            input.Attributes.Add("name", field.Name);
+            var container = new TagBuilder("div");
+            container.AddCssClass("custom-file");
+            container.Attributes.Add("data-toggle", "fileupload");
+
+            var textbox = new TagBuilder("input");
+            textbox.Attributes.Add("type", "text");
+            textbox.Attributes.Add("name", field.Name);
+            textbox.MergeAttributes(field.GetUnobtrusiveValidationAtributes());
+
+            RouteValueDictionary additionHtmlAttributes = null;
 
             if (htmlAttributes != null)
             {
-                input.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+                additionHtmlAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+
+                var databind = additionHtmlAttributes["data-bind"];
+                if (databind != null)
+                {
+                    additionHtmlAttributes.Remove("data-bind");
+                    textbox.MergeAttribute("data-bind", databind.ToString());
+                }
+
+                container.MergeAttributes(additionHtmlAttributes);
             }
 
-            input.MergeAttributes(field.GetUnobtrusiveValidationAtributes());
+            var button = new TagBuilder("a");
+            button.AddCssClass("button");
 
-            return new HtmlString(input.ToString(TagRenderMode.SelfClosing));
+            var span = new TagBuilder("span");
+
+            var fileInput = new TagBuilder("input");
+            fileInput.Attributes.Add("type", "file");
+            fileInput.Attributes.Add("id", field.Name);
+            fileInput.Attributes.Add("name", field.Name);
+
+            span.InnerHtml = fileInput.ToString(TagRenderMode.SelfClosing);
+            button.InnerHtml = "Browse..." + span.ToString();
+
+            container.InnerHtml = String.Concat(textbox.ToString(TagRenderMode.SelfClosing), button.ToString());
+
+            return new HtmlString(container.ToString());
         }
     }
 }

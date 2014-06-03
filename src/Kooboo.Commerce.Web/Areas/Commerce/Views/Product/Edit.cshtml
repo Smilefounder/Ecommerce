@@ -168,6 +168,7 @@
                                         @control.Render(field, null, new
                                         {
                                            @class = "medium",
+                                           style = "width:35%",
                                            data_bind = control.ValueBindingName + ": $root.GetCustomFieldValue(" + field.Id + ")"
                                         }, ViewContext)
                                         @if (!String.IsNullOrEmpty(field.Tooltip))

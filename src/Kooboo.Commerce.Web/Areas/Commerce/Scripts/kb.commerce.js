@@ -79,13 +79,8 @@
         }
     };
 
-    function showError(error) {
-        window.loading.hide();
-        info.show(error.message, false);
-    }
-
-    $.ajaxSetup({
-        beforeSend: function (xhr) {
+    kb.utils = {
+        currentInstanceName: function () {
             var query = window.location.search;
             if (query) {
                 if (query[0] === '?') {
@@ -106,9 +101,23 @@
                     }
                 }
 
-                if (instance) {
-                    xhr.setRequestHeader('X-Kooboo-Commerce-Instance', instance);
-                }
+                return instance;
+            }
+
+            return null;
+        }
+    };
+
+    function showError(error) {
+        window.loading.hide();
+        info.show(error.message, false);
+    }
+
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            var instance = kb.utils.currentInstanceName();
+            if (instance) {
+                xhr.setRequestHeader('X-Kooboo-Commerce-Instance', instance);
             }
         }
     });
@@ -163,6 +172,50 @@
             });
 
             tinyMCE.init(tinyMCEConfig);
+        }
+    };
+
+    kb.ui.unobtrusive.handlers.fileupload = {
+        init: function (element) {
+            var $file = $(element);
+            if ($file.attr('type') != 'file') {
+                $file = $file.find('[type="file"]');
+            }
+
+            if ($file.length === 0) {
+                throw 'Cannot find file input.';
+            }
+
+            var instance = kb.utils.currentInstanceName();
+            var handlerUrl = '/Areas/Commerce/Handlers/UploadHandler.ashx?owner=' + instance + '&path=';
+            
+            $file.attr('data-url', handlerUrl);
+            $file.fileupload({
+                add: function (e, data) {
+                    data.submit();
+                },
+                start: function (e, data) {
+                    window.loading.show();
+                },
+                done: function (e, data) {
+                    var results = eval(data.result);
+                    var file = ($.isArray(results) && results[0]) || { error: 'emptyResult' };
+                    if (file && file.url) {
+                        var $text = $(element).closest('[data-toggle="fileupload"]').find(':text');
+                        $text.val(file.url);
+                        $text.trigger('change');
+                    } else {
+                        alert('Upload failed');
+                    }
+                },
+                fail: function (e, data) {
+                    console.log(arguments);
+                    alert('Upload failed');
+                },
+                stop: function (e, data) {
+                    window.loading.hide();
+                }
+            });
         }
     };
 

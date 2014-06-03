@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Configuration;
+using Kooboo.Web.Url;
 
 namespace Kooboo.Commerce.Handlers
 {
@@ -229,7 +230,7 @@ namespace Kooboo.Commerce.Handlers
             string owner = context.Request.QueryString["owner"];
             if (string.IsNullOrEmpty(owner))
                 owner = "public";
-            return string.Concat(UploadPath, owner, "/", subPath, "/");
+            return UrlUtility.Combine(UploadPath, owner, subPath);
         }
 
         private static string uploadPath;
