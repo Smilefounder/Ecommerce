@@ -19,7 +19,7 @@ Kooboo Commerce中的事件由普通CLR对象定义，事件对象即事件消�
 
 事件类可能被序列化，因此不能在事件类中直接嵌入复杂对象，尤其有循环引用的对象。
 
-领域事件可以使用`Kooboo.Commerce.Events.EventAttribute`添加一些描述信息，例如分组，以及显示顺序。
+领域事件可以使用`Kooboo.Commerce.Events.EventAttribute`以及`Kooboo.Commerce.Events.CategoryAttribute`添加一些描述信息，例如分组，以及显示顺序。
 
 ## 订阅事件 ##
 

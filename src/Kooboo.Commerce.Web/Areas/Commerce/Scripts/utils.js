@@ -379,18 +379,13 @@ var utils = window.utils = {
             funcSuccess = data;
             data = null;
         }
-        return $.ajax({
+        var options = {
             url: url,
             type: 'GET',
             dataType: 'json',
             data: data,
             traditional: true,
             timeout: utils.ajaxTimeOut,
-            beforeSend: function (xhr) {
-                if (funcBeforeSend) {
-                    funcBeforeSend(xhr);
-                }
-            },
             success: function (data, status, xhr) {
                 if (funcSuccess) {
                     funcSuccess(data);
@@ -401,7 +396,17 @@ var utils = window.utils = {
                     funcError(error, url);
                 }
             }
-        });
+        };
+
+        if (funcBeforeSend) {
+            options.beforeSend = function (xhr) {
+                if (funcBeforeSend) {
+                    funcBeforeSend(xhr);
+                }
+            };
+        }
+
+        return $.ajax(options);
     },
     postJson: function (url, data, funcSuccess, funcError, funcBeforeSend) {
         if (typeof (data) == "function") {

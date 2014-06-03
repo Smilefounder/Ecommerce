@@ -459,28 +459,28 @@
                 };
 
                 self.GetImageTypes = function (func) {
-                    return utils.getJson('/Commerce/Product/GetImageTypes?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                    return utils.getJson('/Commerce/Product/GetImageTypes', null, function (data) {
                         ko.mapping.viewModel(data, self.ImageTypes);
                         if (func) { func(); }
                     })
                 };
 
                 self.GetProductTypes = function (func) {
-                    return utils.getJson('/Commerce/Product/GetProductType?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&id=@(Request.QueryString["productTypeId"])', null, function (data) {
+                    return utils.getJson('/Commerce/Product/GetProductType?id=@(Request.QueryString["productTypeId"])', null, function (data) {
                         ko.mapping.viewModel(data, self.ProductType);
                         if (func) { func(); }
                     })
                 };
 
                 self.GetBrands = function (func) {
-                    return utils.getJson('/Commerce/Product/GetBrands?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                    return utils.getJson('/Commerce/Product/GetBrands', null, function (data) {
                         ko.mapping.viewModel(data, self.Brands);
                         if (func) { func(); }
                     })
                 };
 
                 self.GetCategories = function (func) {
-                    return utils.getJson('/Commerce/Product/GetCategories?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                    return utils.getJson('/Commerce/Product/GetCategories', null, function (data) {
                         ko.mapping.viewModel(data, self.Categories);
                         if (func) { func(); }
                     })
@@ -488,7 +488,7 @@
 
                 self.GetSubCategories = function (item) {
                     if (!item.Children()) {
-                        utils.getJson('/Commerce/Product/GetCategories?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&parentId=' + item.Id(), null, function (data) {
+                        utils.getJson('/Commerce/Product/GetCategories?parentId=' + item.Id(), null, function (data) {
                             item.Children(data);
                             $('#category_tree li.tree-node').treeNode();
                         });
@@ -512,6 +512,7 @@
                  ko.applyBindings(vm);
 
                  setTimeout(function () {
+                     console.log('init controls');
                      kb.ui.unobtrusive.initialize(document.body);
                  }, 100);
              });
