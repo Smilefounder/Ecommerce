@@ -10,17 +10,19 @@ namespace Kooboo.Commerce.Events.Registry
     public class DefaultEventRegistry : IEventRegistry
     {
         private readonly ReaderWriterLockSlim _readWriteLock = new ReaderWriterLockSlim();
-        private const string Uncategorized = "Uncategorized";
         private Dictionary<Type, EventRegistrationEntry> _entriesByType = new Dictionary<Type, EventRegistrationEntry>();
-        private Dictionary<string, List<EventRegistrationEntry>> _entriesByCategory = new Dictionary<string, List<EventRegistrationEntry>>();
+        private Dictionary<EventCategory, List<EventRegistrationEntry>> _entriesByCategory = new Dictionary<EventCategory, List<EventRegistrationEntry>>();
 
-        public IEnumerable<string> AllCategories()
+        public IEnumerable<EventCategory> AllCategories()
         {
             _readWriteLock.EnterReadLock();
 
             try
             {
-                return _entriesByCategory.Keys.ToList();
+                return _entriesByCategory.Keys
+                                         .OrderBy(k => k.Order)
+                                         .ThenBy(k => k.Name)
+                                         .ToList();
             }
             finally
             {
@@ -61,9 +63,11 @@ namespace Kooboo.Commerce.Events.Registry
 
         public IEnumerable<EventRegistrationEntry> FindByCategory(string category)
         {
-            if (String.IsNullOrEmpty(category))
+            var key = EventCategory.Uncategorized;
+
+            if (!String.IsNullOrEmpty(category))
             {
-                category = Uncategorized;
+                key = new EventCategory(category, 0);
             }
 
             // Writes are done with Copy-on-Write, so no need to add read lock here
@@ -73,7 +77,7 @@ namespace Kooboo.Commerce.Events.Registry
 
             try
             {
-                if (!_entriesByCategory.TryGetValue(category, out types))
+                if (!_entriesByCategory.TryGetValue(key, out types))
                 {
                     types = new List<EventRegistrationEntry>();
                 }
@@ -107,14 +111,12 @@ namespace Kooboo.Commerce.Events.Registry
                         var entry = new EventRegistrationEntry(candidate);
                         entriesByType.Add(candidate, entry);
 
-                        var category = String.IsNullOrEmpty(entry.Category) ? Uncategorized : entry.Category;
-
-                        if (!entriesByCategory.ContainsKey(category))
+                        if (!entriesByCategory.ContainsKey(entry.Category))
                         {
-                            entriesByCategory.Add(category, new List<EventRegistrationEntry>());
+                            entriesByCategory.Add(entry.Category, new List<EventRegistrationEntry>());
                         }
 
-                        entriesByCategory[category].Add(entry);
+                        entriesByCategory[entry.Category].Add(entry);
                     }
                 }
 

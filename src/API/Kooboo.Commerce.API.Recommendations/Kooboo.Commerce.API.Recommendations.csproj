@@ -46,8 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommerceAPIExtensions.cs" />
-    <Compile Include="IRecommendationAPI.cs" />
-    <Compile Include="ProductExtensions.cs" />
+    <Compile Include="IRecommendationQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

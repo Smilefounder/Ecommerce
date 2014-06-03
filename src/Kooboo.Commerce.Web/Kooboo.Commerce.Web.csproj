@@ -253,6 +253,30 @@
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\CheckBox.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\CheckBoxList.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Date.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Display.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\DropDownList.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\File.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\FormControlBase.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\FormControls.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\IFormControl.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\InputControl.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Integer.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Number.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\SelectionListItem.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Password.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\RadioList.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\TextArea.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\TextBox.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\RichTextEditor.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\IValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\RangeValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\RegexValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\RequiredValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\StringLengthValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\ValidationExtensions.cs" />
     <Compile Include="Areas\Commerce\Controllers\ActivityRuleController.cs" />
     <Compile Include="Areas\Commerce\Controllers\AddInManagementController.cs" />
     <Compile Include="Areas\Commerce\Controllers\BrandController.cs" />
@@ -263,6 +287,7 @@
     <Compile Include="Areas\Commerce\Controllers\HalResourceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\HomeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\MediaLibraryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\OrderController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PaymentMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ProductController.cs" />
@@ -274,6 +299,15 @@
     <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
     <Compile Include="Areas\Commerce\EntityUtil.cs" />
     <Compile Include="Areas\Commerce\Extensions\PagedListExtensions.cs" />
+    <Compile Include="Areas\Commerce\Handlers\FilesStatus.cs" />
+    <Compile Include="Areas\Commerce\Handlers\FileType.cs" />
+    <Compile Include="Areas\Commerce\Handlers\ImageHandler.ashx.cs">
+      <DependentUpon>ImageHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Commerce\Handlers\ImageHelper.cs" />
+    <Compile Include="Areas\Commerce\Handlers\UploadHandler.ashx.cs">
+      <DependentUpon>UploadHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Commerce\Html\CommandType.cs" />
     <Compile Include="Areas\Commerce\Html\GridChecked.cs" />
     <Compile Include="Areas\Commerce\Html\HeaderPanel.cs" />
@@ -284,10 +318,11 @@
     <Compile Include="Areas\Commerce\Html\IVisibleRule.cs" />
     <Compile Include="Areas\Commerce\Html\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Menu\CommerceMenuItemInitializer.cs" />
+    <Compile Include="Areas\Commerce\Menu\MediaLibraryInitializer.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityModel.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityRuleModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Activities\EventCategory.cs" />
+    <Compile Include="Areas\Commerce\Models\Activities\EventCategoryModel.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceEditorModel.cs" />
@@ -355,17 +390,6 @@
     <Compile Include="Areas\Commerce\CommerceApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\PaymentUrlHelper.cs" />
     <Compile Include="Areas\Commerce\UrlHelperExtensions.cs" />
-    <Compile Include="Areas\Media\Controllers\UploadController.cs" />
-    <Compile Include="Areas\Media\Handlers\FilesStatus.cs" />
-    <Compile Include="Areas\Media\Handlers\FileType.cs" />
-    <Compile Include="Areas\Media\Handlers\ImageHandler.ashx.cs">
-      <DependentUpon>ImageHandler.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Media\Handlers\ImageHelper.cs" />
-    <Compile Include="Areas\Media\Handlers\UploadHandler.ashx.cs">
-      <DependentUpon>UploadHandler.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Media\MediaAreaRegistration.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\HandleAjaxErrorAttribute.cs" />
     <Compile Include="Extensions\ABTest\SampleABRule.cs" />
     <Compile Include="Extensions\ContentEvent\CustomContentEventSubscriber.cs" />
@@ -382,8 +406,13 @@
     <Compile Include="Areas\Commerce\Grid2\LinkedGridItemColumn.cs" />
     <Compile Include="Areas\Commerce\Grid2\LinkedGridColumnAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Areas\Commerce\Scripts\jquery.fileupload-fp.js" />
+    <Content Include="Areas\Commerce\Scripts\jquery.fileupload-locale.js" />
+    <Content Include="Areas\Commerce\Scripts\jquery.fileupload.js" />
+    <Content Include="Areas\Commerce\Scripts\jquery.Jcrop.min.js" />
     <Content Include="Areas\Commerce\Scripts\jquery.validate.unobtrusive.ext.js" />
     <Content Include="Areas\Commerce\Scripts\Kooboo_CMS.js" />
+    <Content Include="Areas\Commerce\Scripts\upload.js" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-bold-webfont.svg" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-extrabold-webfont.svg" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-light-webfont.svg" />
@@ -399,15 +428,6 @@
     <Content Include="Areas\Commerce\Styles\images\media-library.png" />
     <Content Include="Areas\Commerce\Styles\images\stripe.png" />
     <Content Include="Areas\Commerce\Styles\styles.css" />
-    <Content Include="Areas\Media\Scripts\jquery.fileupload-fp.js" />
-    <Content Include="Areas\Media\Scripts\jquery.fileupload-locale.js" />
-    <Content Include="Areas\Media\Scripts\jquery.fileupload.js" />
-    <Content Include="Areas\Media\Scripts\jquery.Jcrop.min.js" />
-    <Content Include="Areas\Media\Scripts\knockout.ext.js" />
-    <Content Include="Areas\Media\Scripts\knockout.vm.js" />
-    <Content Include="Areas\Media\Scripts\Kooboo_CMS.js" />
-    <Content Include="Areas\Media\Scripts\upload.js" />
-    <Content Include="Areas\Media\Scripts\utils.js" />
     <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\app.css" />
     <Content Include="Cms_Data\Sites\Vitaminstore\flash\16_beurs-gezond-leven.jpg" />
     <Content Include="Cms_Data\Sites\Vitaminstore\flash\16_beurs_gezond_leven.jpg" />
@@ -3238,7 +3258,6 @@
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\BooleanCustom.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\BasicInfo.cshtml" />
-    <Content Include="Areas\Commerce\Views\Shared\AddIns\_ShipmentTrackerSettings.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldsGrid.cshtml" />
@@ -3271,12 +3290,6 @@
     <Content Include="Areas\Commerce\Views\Order\_AddressDetail.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ExtendedQueryParameter.cshtml" />
     <Content Include="Areas\Commerce\Views\CommerceInstance\Edit.cshtml" />
-    <Content Include="Areas\Media\Handlers\ImageHandler.ashx" />
-    <Content Include="Areas\Media\Handlers\UploadHandler.ashx" />
-    <Content Include="Areas\Media\Views\Upload\Index.cshtml" />
-    <Content Include="Areas\Media\Views\Web.config" />
-    <Content Include="Areas\Media\WebResources.config" />
-    <Content Include="Areas\Media\Views\Upload\ImageCrop.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Accessories\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Accessories\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Categories\setting.config" />
@@ -3448,6 +3461,13 @@
     <Content Include="Areas\Commerce\Views\ShippingMethod\ShippingRateProvider.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\ShippingRateProvider.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\ActivityRule\Index.cshtml" />
+    <Content Include="Areas\Commerce\Views\MediaLibrary\Index.cshtml" />
+    <Content Include="Areas\Commerce\Handlers\ImageHandler.ashx" />
+    <Content Include="Areas\Commerce\Handlers\UploadHandler.ashx" />
+    <Content Include="Areas\Commerce\Views\MediaLibrary\ImageCrop.cshtml" />
+    <Content Include="Areas\Commerce\Views\MediaLibrary\_MediaLibrary.cshtml" />
+    <Content Include="Areas\Commerce\Views\MediaLibrary\_MediaLibrary.Scripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\MediaLibrary\Selection.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -3530,8 +3550,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Media\Models\" />
-    <Folder Include="Areas\Media\Views\Shared\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Category\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Comment\~contents\" />
@@ -3645,14 +3663,6 @@
     <ProjectReference Include="..\Kooboo.Commerce\Kooboo.Commerce.csproj">
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>
-    </ProjectReference>
-    <ProjectReference Include="Areas\Kooboo.Commerce.EAV.Validators\Kooboo.Commerce.EAV.Validators.csproj">
-      <Project>{e24c0148-0a5e-40c4-9111-cf6b872fab15}</Project>
-      <Name>Kooboo.Commerce.EAV.Validators</Name>
-    </ProjectReference>
-    <ProjectReference Include="Areas\Kooboo.Commerce.EAV.WebControls\Kooboo.Commerce.EAV.WebControls.csproj">
-      <Project>{38106ec3-339f-4af9-b1f1-9c9eac8bbc78}</Project>
-      <Name>Kooboo.Commerce.EAV.WebControls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

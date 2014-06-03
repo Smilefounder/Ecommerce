@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Payments
 {
-    [Serializable]
-    [Event(Category = EventCategories.Payments, Order = 200)]
+    [Event(Order = 200)]
     public class PaymentStatusChanged : DomainEvent, IPaymentEvent
     {
         [Param]

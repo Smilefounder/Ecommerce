@@ -1,4 +1,7 @@
-﻿using Kooboo.Commerce.Rules;
+﻿using Kooboo.Commerce.ComponentModel;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Products;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +11,6 @@ namespace Kooboo.Commerce.Products
 {
     public class ProductPrice
     {
-        public ProductPrice()
-        {
-            Product = null;
-            VariantValues = new List<ProductPriceVariantValue>();
-        }
-
         [Param]
         public int Id { get; set; }
 
@@ -32,20 +29,99 @@ namespace Kooboo.Commerce.Products
         [Param]
         public decimal RetailPrice { get; set; }
 
-        [Param]
+        [Obsolete]
         public int Stock { get; set; }
 
-        [Param]
+        [Obsolete]
         public int DeliveryDays { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
 
-        public bool IsPublished { get; set; }
+        public bool IsPublished { get; protected set; }
 
-        public DateTime? PublishedAtUtc { get; set; }
+        public DateTime? PublishedAtUtc { get; protected set; }
 
         public virtual Product Product { get; set; }
 
         public virtual ICollection<ProductPriceVariantValue> VariantValues { get; set; }
+
+        public ProductPrice()
+        {
+            VariantValues = new List<ProductPriceVariantValue>();
+            CreatedAtUtc = DateTime.UtcNow;
+        }
+
+        public ProductPrice(Product product, string name, string sku)
+            : this()
+        {
+            Product = product;
+            Name = name;
+            Sku = sku;
+        }
+
+        public virtual void UpdateFrom(ProductPrice other)
+        {
+            Name = other.Name;
+            Sku = other.Sku;
+            PurchasePrice = other.PurchasePrice;
+            RetailPrice = other.RetailPrice;
+            UpdateVariantValues(other.VariantValues);
+        }
+
+        public virtual void UpdateVariantValues(IEnumerable<ProductPriceVariantValue> values)
+        {
+            var newValueList = values.ToList();
+
+            foreach (var value in VariantValues.ToList())
+            {
+                if (!newValueList.Any(f => f.CustomFieldId == value.CustomFieldId))
+                {
+                    VariantValues.Remove(value);
+                }
+            }
+
+            foreach (var fieldValue in newValueList)
+            {
+                var current = VariantValues.FirstOrDefault(f => f.CustomFieldId == fieldValue.CustomFieldId);
+                if (current == null)
+                {
+                    current = new ProductPriceVariantValue(this, fieldValue.CustomFieldId, fieldValue.FieldValue);
+                    VariantValues.Add(current);
+                }
+                else
+                {
+                    current.FieldValue = fieldValue.FieldValue;
+                }
+            }
+        }
+
+        public virtual void NotifyUpdated()
+        {
+            Event.Raise(new ProductPriceUpdated(Product, this));
+        }
+
+        public virtual bool MarkPublish()
+        {
+            if (!IsPublished)
+            {
+                IsPublished = true;
+                PublishedAtUtc = DateTime.UtcNow;
+                return true;
+            }
+
+            return false;
+        }
+
+        public virtual bool MarkUnpublish()
+        {
+            if (IsPublished)
+            {
+                IsPublished = false;
+                PublishedAtUtc = null;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

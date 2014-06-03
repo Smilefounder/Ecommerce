@@ -7,18 +7,21 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Products
 {
-    [Serializable]
-    [Event(Category = EventCategories.Products, Order = 500)]
+    [Event(Order = 500)]
     public class ProductDeleted : DomainEvent, IProductEvent
     {
         [Param]
         public int ProductId { get; set; }
 
-        public ProductDeleted() { }
+        [Param]
+        public string ProductName { get; set; }
+
+        protected ProductDeleted() { }
 
         public ProductDeleted(Product product)
         {
             ProductId = product.Id;
+            ProductName = product.Name;
         }
     }
 }

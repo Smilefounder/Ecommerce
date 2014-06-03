@@ -28,9 +28,19 @@ using Kooboo.Commerce.API;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Events.Brands;
+using Kooboo.Commerce.Events.Products;
+using System.Diagnostics;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
+    public class TestHandler : IHandle<ProductPriceAdded>
+    {
+        public void Handle(ProductPriceAdded @event)
+        {
+            Debug.WriteLine("[" + DateTime.Now + "] " + @event.GetType().Name);
+        }
+    }
+
     public class TestController : Controller
     {
         public CommerceInstanceContext CommerceInstanceContext { get; private set; }

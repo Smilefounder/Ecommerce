@@ -23,7 +23,6 @@ namespace Kooboo.Commerce.API.HAL
         private RuleEngine _ruleEngine;
         private IEnumerable<HalRule> _halRules;
         private IHalRuleService _halRuleService;
-        private IEnumerable<HalRule> _currentContextRules;
 
         public HalWrapper(
             IResourceDescriptorProvider resourceDescriptorProvider,

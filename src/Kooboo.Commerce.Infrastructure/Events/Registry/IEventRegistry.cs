@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.Events.Registry
 {
     public interface IEventRegistry
     {
-        IEnumerable<string> AllCategories();
+        IEnumerable<EventCategory> AllCategories();
 
         IEnumerable<EventRegistrationEntry> AllEvents();
 

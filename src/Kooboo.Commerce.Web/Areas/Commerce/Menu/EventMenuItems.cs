@@ -68,14 +68,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
             {
                 var categoryMenuItem = new MenuItem
                 {
-                    Text = category,
-                    Name = category,
+                    Text = category.Name,
+                    Name = category.Name,
                     RouteValues = new RouteValueDictionary()
                 };
 
                 menuItems.Add(categoryMenuItem);
 
-                var eventEntries = _eventRegistry.FindByCategory(category)
+                var eventEntries = _eventRegistry.FindByCategory(category.Name)
                                                  .Where(e => e.EventType.IsDomainEvent());
 
                 foreach (var eventType in eventEntries)

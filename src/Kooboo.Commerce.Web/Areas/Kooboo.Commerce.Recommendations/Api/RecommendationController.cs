@@ -12,9 +12,9 @@ namespace Kooboo.Commerce.Recommendations.Api
 {
     public class RecommendationController : CommerceAPIControllerBase
     {
-        public ProductDto[] Get(int productId)
+        public IListResource<ProductDto> Get(int productId)
         {
-            return Commerce().Recommendations().ForProduct(productId);
+            return Commerce().Recommendations().ByProduct(productId).ToArray();
         }
     }
 }

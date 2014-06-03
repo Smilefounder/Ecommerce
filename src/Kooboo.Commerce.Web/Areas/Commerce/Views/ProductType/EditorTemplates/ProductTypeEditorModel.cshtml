@@ -17,24 +17,12 @@
         </ul>
         <div id="BasicInfo">
             @Html.Partial("_BasicInfo", Model)
-            @*<div class="block command">
-                    <a href="#CustomFields" class="button">@("Next »".Localize())</a>
-                </div>*@
         </div>
         <div id="CustomFields">
             @Html.Partial("_CustomFieldsGrid", Model.CustomFields)
-            @*<br />
-                <div class="block command">
-                    <a href="#BasicInfo" class="button">@("« Previous".Localize())</a>
-                    <a href="#VariationFields" class="button">@("Next »".Localize())</a>
-                </div>*@
         </div>
         <div id="VariationFields">
             @Html.Partial("_CustomFieldsGrid", Model.VariationFields)
-            @*<br />
-                <div class="block command">
-                    <a href="#CustomFields" class="button">@("« Previous".Localize())</a>
-                </div>*@
         </div>
     </div>
     <script type="text/javascript">

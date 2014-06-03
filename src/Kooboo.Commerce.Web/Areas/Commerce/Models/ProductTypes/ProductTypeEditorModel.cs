@@ -9,31 +9,37 @@ using Kooboo.Commerce.EAV.Services;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.EAV;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes {
-
-    public class ProductTypeEditorModel {
-
-        public ProductTypeEditorModel() {
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
+{
+    public class ProductTypeEditorModel
+    {
+        public ProductTypeEditorModel()
+        {
             this.CustomFields = new List<CustomFieldEditorModel>();
             this.VariationFields = new List<CustomFieldEditorModel>();
             this.SystemFields = new List<CustomField>();
         }
 
         public ProductTypeEditorModel(ProductType type)
-            : this() {
+            : this()
+        {
             this.Id = type.Id;
             this.Name = type.Name;
             this.SkuAlias = type.SkuAlias;
             this.IsEnabled = type.IsEnabled;
             //
-            if (type.CustomFields != null) {
-                foreach (var item in type.CustomFields) {
+            if (type.CustomFields != null)
+            {
+                foreach (var item in type.CustomFields)
+                {
                     this.CustomFields.Add(new CustomFieldEditorModel(item.CustomField));
                 }
             }
             //
-            if (type.VariationFields != null) {
-                foreach (var item in type.VariationFields) {
+            if (type.VariationFields != null)
+            {
+                foreach (var item in type.VariationFields)
+                {
                     this.VariationFields.Add(new CustomFieldEditorModel(item.CustomField));
                 }
             }
@@ -44,7 +50,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes {
             type.Id = this.Id;
             type.Name = (this.Name ?? string.Empty).Trim();
             type.SkuAlias = (this.SkuAlias ?? string.Empty).Trim();
-            type.IsEnabled = this.IsEnabled;
+
             //
             if (this.CustomFields != null)
             {

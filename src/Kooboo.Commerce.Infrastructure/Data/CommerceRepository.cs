@@ -100,19 +100,20 @@ namespace Kooboo.Commerce.Data
         {
             Require.NotNull(entity, "entity");
 
-            var table = DbContext.Set<T>();
-            if (!table.Local.Contains(entity))
+            if (entity is INotifyDeleting)
             {
-                DbContext.Entry(entity).State = EntityState.Deleted;
+                ((INotifyDeleting)entity).NotifyDeleting();
+            }
+
+            var softDeletable = entity as ISoftDeletable;
+            if (softDeletable != null)
+            {
+                softDeletable.IsDeleted = true;
+                softDeletable.DeletedAtUtc = DateTime.UtcNow;
             }
             else
             {
                 DbContext.Set<T>().Remove(entity);
-            }
-
-            if (entity is INotifyDeleting)
-            {
-                ((INotifyDeleting)entity).NotifyDeleting();
             }
 
             int ret = DbContext.SaveChanges();

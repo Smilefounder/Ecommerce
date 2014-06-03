@@ -113,4 +113,57 @@
         }
     });
 
+    // Unobtrusive control initializations
+    kb.registerNamespace('kb.ui.unobtrusive');
+
+    kb.ui.unobtrusive.handlers = {};
+
+    kb.ui.unobtrusive.initialize = function (container) {
+        $(container).each(function () {
+            $(this).find('[data-toggle]').each(function () {
+                var $element = $(this);
+                var types = $element.data('toggle').split(' ');
+                $.each(types, function () {
+                    var handler = kb.ui.unobtrusive.handlers[this];
+                    if (handler && handler.init) {
+                        handler.init($element);
+                    }
+                });
+            });
+        });
+    };
+
+    kb.ui.unobtrusive.handlers.datepicker = {
+        init: function (element) {
+            $(element).datepicker();
+        }
+    };
+
+    kb.ui.unobtrusive.handlers.tinymce = {
+        init: function (element) {
+            var textarea = $(element);
+            if (!textarea.attr('id')) {
+                textarea.attr('id', 'Tinymce_' + new Date().getTime());
+            }
+
+            var tinyMCEConfig = $.extend({}, tinymce.getKoobooConfig(), {
+                '$textarea': textarea,
+                'elements': textarea.attr('id'),
+                setup: function (ed) {
+                    ed.on('change', function (ed, l) {
+                        window.leaveConfirm.stop();
+                    });
+                    ed.on('FullscreenStateChanged', function (e) {
+                        $(window.parent.document).find('iframe').toggleClass('fullscreen');
+                    });
+                    ed.on('BeforeSetContent', function (e) {
+                        e.format = 'raw';
+                    });
+                }
+            });
+
+            tinyMCE.init(tinyMCEConfig);
+        }
+    };
+
 })(jQuery);

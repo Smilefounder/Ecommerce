@@ -56,12 +56,6 @@ namespace Kooboo.Commerce.API.Products
         /// <param name="published">product published</param>
         /// <returns>product query</returns>
         IProductQuery IsPublished(bool published);
-        /// <summary>
-        /// add deleted filter to query
-        /// </summary>
-        /// <param name="deleted">product deleted</param>
-        /// <returns>product query</returns>
-        IProductQuery IsDeleted(bool deleted);
 
         /// <summary>
         /// filter the product by custom field value

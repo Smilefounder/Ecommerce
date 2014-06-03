@@ -8,12 +8,12 @@ namespace Kooboo.Commerce.Events.Registry
     public class EventRegistrationEntry : IComparable<EventRegistrationEntry>
     {
         public Type EventType { get; private set; }
-
-        public string Category { get; private set; }
-
+        
         public string DisplayName { get; private set; }
 
         public int Order { get; private set; }
+
+        public EventCategory Category { get; private set; }
 
         public EventRegistrationEntry(Type eventType)
         {
@@ -28,19 +28,9 @@ namespace Kooboo.Commerce.Events.Registry
                 {
                     DisplayName = eventAttr.DisplayName;
                 }
-                if (!String.IsNullOrEmpty(eventAttr.Category))
-                {
-                    Category = eventAttr.Category;
-                }
             }
-        }
 
-        public EventRegistrationEntry(Type eventType, string displayName, string category, int order)
-        {
-            EventType = eventType;
-            DisplayName = displayName;
-            Category = category;
-            Order = order;
+            Category = EventCategory.From(eventType);
         }
 
         public int CompareTo(EventRegistrationEntry other)

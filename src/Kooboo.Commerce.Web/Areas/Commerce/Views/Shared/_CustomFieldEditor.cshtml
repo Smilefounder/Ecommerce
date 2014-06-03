@@ -19,8 +19,6 @@
                     @Html.EditorFor(it => it.ControlType, new { NotSelect2 = true, HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.ControlType" } } })
                     @Html.EditorFor(it => it.DataType, new { NotSelect2 = true, HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.DataType" } } })
                     @Html.EditorFor(it => it.DefaultValue, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.DefaultValue" } } })
-                    @Html.EditorFor(it => it.Summarize, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.Summarize" } } })
-                    @Html.EditorFor(it => it.ShowInGrid, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.ShowInGrid" } } })
                 </table>
             </div>
             <div class="tab-content" id="tabMoreOption">

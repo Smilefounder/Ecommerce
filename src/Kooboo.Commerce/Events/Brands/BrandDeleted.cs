@@ -8,8 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Brands
 {
-    [Serializable]
-    [Event(Category = EventCategories.Brands, Order = 300)]
+    [Event(Order = 300)]
     public class BrandDeleted : DomainEvent, IBrandEvent
     {
         [Param]
@@ -18,16 +17,12 @@ namespace Kooboo.Commerce.Events.Brands
         [Param]
         public string BrandName { get; set; }
 
-        [Param]
-        public string BrandDescription { get; set; }
-
-        public BrandDeleted() { }
+        protected BrandDeleted() { }
 
         public BrandDeleted(Brand brand)
         {
             BrandId = brand.Id;
             BrandName = brand.Name;
-            BrandDescription = brand.Description;
         }
     }
 }

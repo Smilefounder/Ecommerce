@@ -9,14 +9,9 @@ namespace Kooboo.Commerce.API
 {
     public static class CommerceAPIExtensions
     {
-        // TODO: Need this extension method?
-        //       If yes, then change all properties in ICommerceAPI to method calls to keep consistent?
-        //       Because now it's like this:
-        //          var products = api.Products.ById...
-        //          var accessories = api.Accessories().ForProduct(...) 
-        public static IAccessoryAPI Accessories(this ICommerceAPI api)
+        public static IAccessoryQuery Accessories(this ICommerceAPI api)
         {
-            return EngineContext.Current.Resolve<IAccessoryAPI>();
+            return EngineContext.Current.Resolve<IAccessoryQuery>();
         }
     }
 }

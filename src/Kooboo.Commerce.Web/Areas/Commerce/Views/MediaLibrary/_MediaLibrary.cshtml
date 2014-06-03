@@ -1,0 +1,146 @@
+﻿@{
+    string selector = Request.QueryString["multiple"] == "true" ? "checkbox" : "radio";
+}
+
+<div class="common-table" data-bind="visible: vm.ListStyle() == 'list'">
+    <div data-bind="template: { name: 'table_list', data: data }">
+    </div>
+</div>
+<div data-bind="visible: vm.ListStyle() == 'grid', template: { name: 'thumb_list', data: data }">
+</div>
+<div class="pagination" data-bind="with: data">
+    <div data-bind="with: Pager, visible: Pager().TotalPages() > 1">
+        <span><strong data-bind="text: StartIndex"></strong>-<strong data-bind="text: EndIndex"></strong> of <strong data-bind="text: TotalRecords"></strong></span>
+        <a data-bind="attr2: { name: 'disabled', value: 'disabled', on: $data.PageIndex() <= 0 }, css: { disabled: $data.PageIndex() <= 0 }, click: $root.GotoPrevPage">&lt;</a>&nbsp;&nbsp;
+        <!-- ko foreach: $root.Pages -->
+        <!-- ko if: $data == $root.PageIndex() -->
+        <span class="active" data-bind="text: $data+1"></span>&nbsp;&nbsp;
+        <!-- /ko -->
+        <!-- ko if: $data != $root.PageIndex() -->
+        <a href="javascript:;" data-bind="click: $root.GotoPage, text: $data+1"></a>&nbsp;&nbsp;
+        <!-- /ko -->
+        <!-- /ko -->
+        <a data-bind="attr2: { name: 'disabled', value: 'disabled', on: $data.PageIndex() >= $data.TotalPages() - 1 }, css: { disabled: $data.PageIndex() >= $data.TotalPages() - 1 }, click: $root.GotoNextPage">&gt;</a>
+    </div>
+</div>
+
+<script id="breadcrumb" type="text/html">
+    <!-- ko if: $index() > 0 -->
+    @Html.IconImage("chevron-right-gray")
+    <!-- /ko -->
+    <a href="javascript:;" data-bind="text: $data, click: function (data, event) { vm.GetFolderByIndex($index()); }"></a>
+</script>
+
+<script id="table_list" type="text/html">
+    <table>
+        <thead>
+            <tr>
+                <th class="checkbox optional-selector">
+                </th>
+                <th>
+                    @Html.Raw("Title".Localize())
+                </th>
+                <th class="type">
+                    @Html.Raw("Type".Localize())
+                </th>
+                <th class="date">
+                    @Html.Raw("Date".Localize())
+                </th>
+                <th class="size">
+                    @Html.Raw("Size".Localize())
+                </th>
+            </tr>
+        </thead>
+        <tbody data-bind="with: $data">
+            <!-- ko if: $root.IsEmpty() -->
+            <tr class="empty">
+                <td colspan="6">
+                    @("Empty".Localize())
+                </td>
+            </tr>
+            <!-- /ko -->
+            <!-- ko if: !$root.IsEmpty() -->
+            <!-- ko foreach: Folders -->
+            <tr class="foldertr">
+                <td class="checkbox">
+                    <input type="@selector" disabled="disabled" />
+                </td>
+                <td>
+                    <!-- ko if: $root.IsNewFolder($data) -->
+                    <input class="editor" type="text" name="Name" data-bind="value: Name" />
+                    <a href="javascript:;" class="action" data-bind="click: $root.SaveFolder">@Html.IconImage("save-small")</a>
+                    <a href="javascript:;" class="action" data-bind="click: $root.RemoveFolder">@Html.IconImage("minus-small")</a>
+                    <!-- /ko -->
+                    <!-- ko if: !$root.IsNewFolder($data) -->
+                    <a href="javascript:;">
+                        <img class="icon folder" src="/Images/invis.gif">
+                        <span data-bind="click: $root.GetFolder, text: Name"></span>
+                    </a>
+                    <!-- /ko -->
+                </td>
+                <td class="type">
+                    @Html.Raw("Folder".Localize())
+                </td>
+                <td class="date"></td>
+                <td class="size"></td>
+            </tr>
+            <!-- /ko -->
+            <!-- ko foreach: Files -->
+            <tr class="doctr">
+                <td class="checkbox">
+                    <input type="@selector" name="select" data-bind="event: { change: $root.SelectFile }" />
+                </td>
+                <td data-bind="event: { click: $root.SelectFile }">
+                    <a href="javascript:;">
+                        <img class="icon file file-image" src="/Images/invis.gif">
+                        <span data-bind="text: FileName"></span>
+                    </a>
+                </td>
+                <td class="short" data-bind="event: { click: $root.SelectFile }">
+                    <span data-bind="text: FileType"></span>
+                </td>
+                <td class="short" data-bind="event: { click: $root.SelectFile }">
+                    <span data-bind="text: CreationDate"></span>
+                </td>
+                <td class="short" data-bind="event: { click: $root.SelectFile }">
+                    <span data-bind="text: FileSize"></span>
+                </td>
+            </tr>
+            <!-- /ko -->
+            <!-- /ko -->
+        </tbody>
+    </table>
+</script>
+
+<script id="thumb_list" type="text/html">
+    <div class="common-grid" data-bind="with: $data">
+        <!-- ko if: $root.IsEmpty() -->
+        <p>@("This folder is empty.".Localize())</p>
+        <!-- /ko -->
+        <!-- ko if: !$root.IsEmpty() -->
+        <ul class="folder" data-bind="visible:Folders > 0, foreach: Folders">
+            <li>
+                <a href="javascript:;" data-bind="click: $root.GetFolder">
+                    <span class="info" data-bind="text: Name"></span>
+                </a>
+            </li>
+        </ul>
+        <ul class="file image" data-bind="foreach: Files">
+            <li>
+                <a class="select">
+                    <input type="@selector" name="select" class="select doc" data-bind="event: { change: $root.SelectFile }" />
+                    <span class="checked"></span>
+                    <!-- ko if: $data.IsImage() -->
+                    <img data-bind="attr: { src: Url, alt: FileName }, event: { click: $root.SelectFile }" />
+                    <!-- /ko -->
+                    <!-- ko if: !$data.IsImage() -->
+                    <span class="info">@Html.IconImage("file")<span data-bind="text: FileName"></span></span>
+                    <!-- /ko -->
+                </a>
+            </li>
+        </ul>
+        <!-- /ko -->
+    </div>
+</script>
+
+@Html.Partial("_MediaLibrary.Scripts")

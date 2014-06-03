@@ -2,6 +2,8 @@
     ViewBag.Title = (string.IsNullOrEmpty(Request.QueryString["Id"]) ? "Create Product" : "Edit Product").Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 
+    var productType = (ProductType)ViewBag.ProductType;
+    var controls = FormControls.Controls().ToList();
     var customTabs = Kooboo.CMS.Sites.Extension.UI.Tabs.CustomTabs.GetTabs(ViewContext.RequestContext).ToArray();
 }
 @section Panel {
@@ -43,27 +45,19 @@
                             </tr>
                             <tr>
                                 <th>@("Product Type".Localize())</th>
-                                <td data-bind="with: $root.ProductType"><span data-bind="text: Name"></span></td>
-                            </tr>
-                            @*<tr>
-                                    <th>@("Is Deleted".Localize())</th>
-                                    <td><input type="checkbox" data-bind="checked: IsDeleted" /></td>
-                                </tr>*@
-                            <tr>
-                                <th>@("Is Published".Localize())</th>
-                                <td><input type="checkbox" data-bind="checked: IsPublished" /></td>
+                                <td>@productType.Name</td>
                             </tr>
                             <tr>
                                 <th>@("Created At".Localize())</th>
                                 <td><span data-bind="format:CreatedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
                             </tr>
                             <tr>
-                                <th>@("Published At".Localize())</th>
-                                <td><span data-bind="format:PublishedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
+                                <th>@("Is Published".Localize())</th>
+                                <td><input type="checkbox" data-bind="checked: IsPublished" /></td>
                             </tr>
                             <tr>
-                                <th>@("Deleted At".Localize())</th>
-                                <td><span data-bind="format:DeletedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
+                                <th>@("Published At".Localize())</th>
+                                <td><span data-bind="format:PublishedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -85,7 +79,6 @@
                 <div class="simple-table">
                     <div class="toolbar">
                         <a class="button" href="javascript:;" data-bind="click: $root.AddPrice">Add</a>
-                        @*<a class="button gray" href="javascript:;" onclick="vm.data().PriceList.removeAll();">Remove all</a>*@
                     </div>
                     <table>
                         <thead>
@@ -106,63 +99,84 @@
                                     </div>
                                 </th>
                                 <th>@("Sku".Localize())</th>
-                                <!-- ko foreach: $root.ProductType().VariationFields() -->
-                                <th data-bind="with: CustomField"><span data-bind="text: Name"></span></th>
-                                <!-- /ko -->
+                                @foreach (var field in productType.VariationFields)
+                                {
+                                    <th>@field.CustomField.Label</th>
+                                }
                                 <th class="mini">@("PurchasePrice".Localize())</th>
                                 <th class="mini">@("RetailPrice".Localize())</th>
-                                <th class="mini">@("Stock".Localize())</th>
-                                <th class="mini">@("DeliveryDays".Localize())</th>
                                 <th class="mini">@("Publish".Localize())</th>
                                 <th class="action"></th>
                                 <th class="action"></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach: $root.data().PriceList">
-                            <!-- ko if: !$root.IsEditingPrice($data) -->
-                            <tr>
+                        <tbody data-bind="foreach: { data: $root.data().PriceList, afterRender: $root.InitVariantFieldControls }">
+                            <tr data-bind="visible: !$root.IsEditingPrice($data)">
                                 <td class="checkbox"><input type="checkbox"></td>
                                 <td data-bind="text:Sku"></td>
-                                <!-- ko foreach: $root.ProductType().VariationFields() -->
-                                <td data-bind="text: $root.GetPriceVaiantText($data, $parents[0])"></td>
-                                <!-- /ko -->
+                                @foreach (var customField in productType.VariationFields)
+                                {
+                                    var field = customField.CustomField;
+                                    <td data-bind="text: $root.GetVariantFieldText($data, @field.Id)"></td>
+                                }
                                 <td class="mini" data-bind="text:PurchasePrice"></td>
                                 <td class="mini" data-bind="text:RetailPrice"></td>
-                                <td class="mini" data-bind="text:Stock"></td>
-                                <td class="mini" data-bind="text:DeliveryDays"></td>
                                 <td class="mini" data-bind="text:IsPublished() ? 'YES' : '-' "></td>
                                 <td><a href="javascript:;" data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit-small")</a></td>
                                 <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Delete">@Html.IconImage("minus-small")</a></td>
                             </tr>
-                            <!-- /ko -->
-                            <!-- ko if: $root.IsEditingPrice($data) -->
-                            <tr>
-                                @*<td><input type="text" data-bind="value:Name" class="mini"></td>*@
+                            <tr data-bind="visible: $root.IsEditingPrice($data)">
+                                <td></td>
                                 <td><input type="text" data-bind="value:Sku"></td>
-                                <!-- ko foreach: $root.ProductType().VariationFields() -->
-                                <td data-bind="template: { name: 'variant_field_template', data: CustomField }"></td>
-                                <!-- /ko -->
+                                @foreach (var customField in productType.VariationFields)
+                                {
+                                    var field = customField.CustomField;
+                                    var control = controls.FirstOrDefault(c => c.Name == field.ControlType) ?? controls.First();
+                                    
+                                    <td>
+                                        @control.Render(field, null, new
+                                       {
+                                           data_bind = control.ValueBindingName + ": $root.GetVariantFieldValue($data, " + field.Id + ")"
+                                       }, ViewContext)
+                                    </td>
+                                }
                                 <td class="mini"><input type="text" data-bind="value:PurchasePrice" class="mini"></td>
                                 <td class="mini"><input type="text" data-bind="value:RetailPrice" class="mini"></td>
-                                <td class="mini"><input type="text" data-bind="value:Stock" class="mini"></td>
-                                <td class="mini"><input type="text" data-bind="value:DeliveryDays" class="mini"></td>
                                 <td class="mini"><input type="checkbox" data-bind="checked:IsPublished"></td>
                                 <td><a href="javascript:;" onclick="vm.EditingPrice(null);" title="Save">@Html.IconImage("save-small")</a></td>
                                 <td><a href="javascript:;" data-bind="click: $root.DeletePrice" title="Cancel">@Html.IconImage("minus-small")</a></td>
                             </tr>
-                            <!-- /ko -->
                         </tbody>
                     </table>
                 </div>
             </div>
             <div id="customFields">
                 <div class="common-form">
-                    <table data-bind="with: $root.ProductType">
-                        <tbody data-bind="foreach: CustomFields">
-                            <tr>
-                                <th data-bind="with: CustomField"><span data-bind="text:Name"></span></th>
-                                <td data-bind="template: { name: 'custom_field_template', data: CustomField }"></td>
-                            </tr>
+                    <table>
+                        <tbody>
+                            @foreach (var customField in productType.CustomFields)
+                            {
+                                var field = customField.CustomField;
+                                var control = controls.FirstOrDefault(c => c.Name == field.ControlType);
+                                if (control == null)
+                                {
+                                    control = controls.First();
+                                }
+                                <tr>
+                                    <th>@field.Label</th>
+                                    <td>
+                                        @control.Render(field, null, new
+                                        {
+                                           @class = "medium",
+                                           data_bind = control.ValueBindingName + ": $root.GetCustomFieldValue(" + field.Id + ")"
+                                        }, ViewContext)
+                                        @if (!String.IsNullOrEmpty(field.Tooltip))
+                                        {
+                                            <em class="form-tip">@field.Tooltip</em>
+                                        }
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -202,51 +216,11 @@
                     </div>
                 </li>
             </ul>
-            <a href="javascript:;" class="action J_Upload" data-owner="commerce" data-bind="attr: { 'data-property': Name, 'data-multiple': IsMultiple }">
+            <a href="javascript:;" class="action J_Upload" data-owner="@(Request.QueryString["commerceName"])" data-bind="attr: { 'data-property': 'Products/' + Name(), 'data-multiple': IsMultiple }">
                 @Html.IconImage("plus-small")
             </a>
         </td>
     </tr>
-</script>
-<script id="variant_field_template" type="text/html">
-    <!-- ko if: ControlType().toLowerCase() == "textbox" -->
-    <input type="text" data-bind="value: vm.BindCustomFieldValue($data, $parents)">
-    <!-- /ko -->
-    <!-- ko if: ControlType().toLowerCase() == "checkbox" -->
-    <input type="checkbox" data-bind="checked: vm.BindCustomFieldValue($data, $parents)">
-    <!-- /ko -->
-    <!-- ko if: ControlType().toLowerCase() == "radio" -->
-    <input type="radio" data-bind="checked: vm.BindCustomFieldValue($data, $parents)">
-    <!-- /ko -->
-    <!-- ko if: ControlType().toLowerCase() == "dropdownlist" -->
-    <select data-bind="options: $root.GetFieldSelectOptions($data), optionsText: 'Key', optionsValue: 'Value', optionsCaption: ' ', value: vm.BindCustomFieldValue($data, $parents)"></select>
-    <!-- /ko -->
-    <!-- ko if: ControlType().toLowerCase() == "password" -->
-    <input type="password" data-bind="value: vm.BindCustomFieldValue($data, $parents)">
-    <!-- /ko -->
-    @* todo: add validation rules *@
-</script>
-<script id="custom_field_template" type="text/html">
-    <!-- ko if: ControlType().toLowerCase() == "textbox" -->
-    <input type="text" data-bind="value: vm.BindCustomFieldValue($data, $parents)" class="medium">
-    <!-- /ko -->
-    <!-- ko if: ControlType().toLowerCase() == "checkbox" -->
-    <input type="checkbox" data-bind="checked: vm.BindCustomFieldValue($data, $parents)">
-    <!-- /ko -->
-    <!-- ko if: ControlType().toLowerCase() == "radio" -->
-    <input type="radio" data-bind="checked: vm.BindCustomFieldValue($data, $parents)">
-    <!-- /ko -->
-    <!-- ko if: ControlType().toLowerCase() == "dropdownlist" -->
-    <select data-bind="options: $root.GetFieldSelectOptions($data), optionsText: 'Key', optionsValue: 'Value', optionsCaption: ' ', value: vm.BindCustomFieldValue($data, $parents)" class="medium"></select>
-    <!-- /ko -->
-    <!-- ko if: ControlType().toLowerCase() == "password" -->
-    <input type="password" data-bind="value: vm.BindCustomFieldValue($data, $parents)" class="medium">
-    <!-- /ko -->
-    @* todo: add validation rules *@
-    @* add tooltip *@
-    <!-- ko if: Tooltip() -->
-    <em class="form-tip" data-bind="text: Tooltip"></em>
-    <!-- /ko -->
 </script>
 <script type="text/javascript">
     utils.showMessage = function (title, message, level, funcClose) {
@@ -323,25 +297,63 @@
                     })
                 }
 
-                self.BindCustomFieldValue = function (item, parents) {
-                    var isPriceVariant = parents[1].VariantValues;
-                    var fields = isPriceVariant ? (self.EditingPrice() ? self.EditingPrice().VariantValues : null) : self.data().CustomFieldValues;
-                    if (fields) {
-                        var cf = $.grep(fields(), function (n, i) { return n.CustomFieldId() == item.Id(); })[0];
-                        if (!cf) {
-                            cf = {
-                                Id: ko.observable(parseInt(new Date().getTime())),
-                                ProductId: ko.observable(self.data().Id()),
-                                CustomFieldId: ko.observable(item.Id()),
-                                FieldValue: ko.observable(null),
-                                FieldText: ko.observable(null)
-                            };
-                            fields.push(cf);
-                        }
+                self.GetCustomFieldValue = function (fieldId) {
+                    var fieldValue = _.find(self.data().CustomFieldValues(), function (field) {
+                        return field.CustomFieldId() == fieldId;
+                    });
 
-                        return cf.FieldValue;
+                    // New fields might be created after product creation, so here need to ensure custom field always exists
+                    if (!fieldValue) {
+                        var field = _.find(self.ProductType().CustomFields(), function (f) {
+                            return f.CustomFieldId() == fieldId;
+                        });
+
+                        fieldValue = {
+                            Id: ko.observable(),
+                            ProductId: ko.observable(self.data().Id()),
+                            CustomFieldId: ko.observable(field.CustomFieldId()),
+                            FieldText: ko.observable(),
+                            FieldValue: ko.observable()
+                        };
+
+                        self.data().CustomFieldValues.push(fieldValue);
                     }
-                };
+
+                    return fieldValue.FieldValue;
+                }
+
+                self.InitVariantFieldControls = function (elements) {
+                    kb.ui.unobtrusive.initialize(elements);
+                }
+
+                self.GetVariantFieldText = function (price, fieldId) {
+                    return self.GetVariantFieldValue(price, fieldId);
+                }
+
+                self.GetVariantFieldValue = function (price, fieldId) {
+                    var fieldValue = _.find(price.VariantValues(), function (field) {
+                        return field.CustomFieldId() == fieldId;
+                    });
+
+                    // New fields might be created after product creation, so here need to ensure custom field always exists
+                    if (!fieldValue) {
+                        var field = _.find(self.ProductType().VariationFields(), function (f) {
+                            return f.CustomFieldId() == fieldId;
+                        });
+
+                        fieldValue = {
+                            Id: ko.observable(),
+                            ProductId: ko.observable(self.data().Id()),
+                            CustomFieldId: ko.observable(field.CustomFieldId()),
+                            FieldText: ko.observable(),
+                            FieldValue: ko.observable()
+                        };
+
+                        price.VariantValues.push(fieldValue);
+                    }
+
+                    return fieldValue.FieldValue;
+                }
 
                 self.GetFieldSelectOptions = function (item) {
                     if (item && item.SelectionItems()) {
@@ -369,6 +381,17 @@
                         PublishedAtUtc: ko.observable(new Date()),
                         VariantValues: ko.observableArray([])
                     };
+
+                    $.each(self.ProductType().VariationFields(), function (i, field) {
+                        price.VariantValues.push({
+                            Id: ko.observable(new Date().getTime()),
+                            ProductId: ko.observable(self.data().Id()),
+                            CustomFieldId: ko.observable(field.CustomFieldId()),
+                            FieldText: ko.observable(),
+                            FieldValue: ko.observable()
+                        });
+                    });
+
                     return price;
                 };
                 self.AddPrice = function () {
@@ -435,28 +458,28 @@
                 };
 
                 self.GetImageTypes = function (func) {
-                    utils.getJson('/Commerce/Product/GetImageTypes?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                    return utils.getJson('/Commerce/Product/GetImageTypes?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
                         ko.mapping.viewModel(data, self.ImageTypes);
                         if (func) { func(); }
                     })
                 };
 
                 self.GetProductTypes = function (func) {
-                    utils.getJson('/Commerce/Product/GetProductType?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&id=@(Request.QueryString["productTypeId"])', null, function (data) {
+                    return utils.getJson('/Commerce/Product/GetProductType?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&id=@(Request.QueryString["productTypeId"])', null, function (data) {
                         ko.mapping.viewModel(data, self.ProductType);
                         if (func) { func(); }
                     })
                 };
 
                 self.GetBrands = function (func) {
-                    utils.getJson('/Commerce/Product/GetBrands?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                    return utils.getJson('/Commerce/Product/GetBrands?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
                         ko.mapping.viewModel(data, self.Brands);
                         if (func) { func(); }
                     })
                 };
 
                 self.GetCategories = function (func) {
-                    utils.getJson('/Commerce/Product/GetCategories?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
+                    return utils.getJson('/Commerce/Product/GetCategories?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])', null, function (data) {
                         ko.mapping.viewModel(data, self.Categories);
                         if (func) { func(); }
                     })
@@ -473,27 +496,37 @@
             }
         });
 
-        ko.applyBindings(vm);
-        vm.GetImageTypes(function () {
-            vm.GetProductTypes(function () {
-                vm.GetBrands(function () {
-                    vm.GetCategories(function () {
-                        vm.getData();
-                        kb.events.fire('Product/Edit/FormDataBinding', vm, {
-                            viewModel: vm
-                        });
-                    });
-                });
-            });
-        });
+        setTimeout(function () {
+            window.loading.show();
+
+            $.when(vm.GetImageTypes(), vm.GetProductTypes(), vm.GetBrands(), vm.GetCategories())
+             .done(function () {
+                 window.loading.hide();
+                 vm.getData();
+
+                 kb.events.fire('Product/Edit/FormDataBinding', vm, {
+                     viewModel: vm
+                 });
+
+                 ko.applyBindings(vm);
+
+                 setTimeout(function () {
+                     kb.ui.unobtrusive.initialize(document.body);
+                 }, 100);
+             });
+        }, 20);
+
         $('#J_ProductTabs').tabs();
     });
 
     function InitUpload() {
         $('.J_Upload').upload({
             on_file_select: function (data) {
+                // TODO: Hack for now
+                var parts = data.property.split('/');
+                var imgType = parts[1];
                 $.each(data.files, function (i, n) {
-                    vm.AddImage(data.property, n.Url);
+                    vm.AddImage(imgType, n.Url);
                     $('.crop_image').cropimage({
                         on_image_croped: function (data) {
                             $(data.element).attr('src', data.url + '?v=' + new Date().getTime())

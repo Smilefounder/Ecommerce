@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.ComponentModel;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Customers;
 
 namespace Kooboo.Commerce.Customers
 {
-    public class Customer
+    public class Customer : INotifyCreated, INotifyUpdated, INotifyDeleted
     {
         public Customer()
         {
@@ -83,6 +86,21 @@ namespace Kooboo.Commerce.Customers
         public string FullName
         {
             get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); }
+        }
+
+        void INotifyCreated.NotifyCreated()
+        {
+            Event.Raise(new CustomerCreated(this));
+        }
+
+        void INotifyUpdated.NotifyUpdated()
+        {
+            Event.Raise(new CustomerUpdated(this));
+        }
+
+        void INotifyDeleted.NotifyDeleted()
+        {
+            Event.Raise(new CustomerDeleted(this));
         }
     }
 }

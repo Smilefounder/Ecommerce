@@ -51,15 +51,15 @@ namespace Kooboo.Commerce.Orders.Pricing
 
             var stages = _stageTypes.Select(type => (IPricingStage)_typeActivator.Activate(type)).ToList();
 
-            Event.Raise(new PricingPipelineStarted(context, stages));
+            Event.Raise(new PriceCalculationStarted(context, stages));
 
             foreach (var stage in stages)
             {
                 stage.Execute(context);
-                Event.Raise(new PricingStageCompleted(stage.Name, context));
+                Event.Raise(new PriceCalculationStageCompleted(stage.Name, context));
             }
 
-            Event.Raise(new PricingPipelineCompleted(context));
+            Event.Raise(new PriceCalculationCompleted(context));
         }
 
         private void Prepare(PricingContext context)

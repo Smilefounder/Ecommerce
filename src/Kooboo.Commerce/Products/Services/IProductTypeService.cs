@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Products.Services {
-
-    public interface IProductTypeService {
-
+namespace Kooboo.Commerce.Products.Services
+{
+    public interface IProductTypeService
+    {
         ProductType GetById(int id);
 
-        IEnumerable<ProductType> GetAllProductTypes();
-
-        IPagedList<T> GetAllProductTypes<T>(int? pageIndex, int? pageSize, Func<ProductType, T> func);
+        IQueryable<ProductType> Query();
 
         bool Create(ProductType type);
 
         bool Update(ProductType type);
 
-        bool Delete(ProductType type);
+        bool Delete(int productTypeId);
 
         void Enable(ProductType type);
 

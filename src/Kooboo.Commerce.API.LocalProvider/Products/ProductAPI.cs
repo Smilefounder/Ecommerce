@@ -78,11 +78,13 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <returns>true if successfully, else false</returns>
         public override bool Update(Product obj)
         {
-            if (obj != null)
-            {
-                return _productService.Update(_mapper.MapFrom(obj));
-            }
-            return false;
+            // TODO: Product的关联属性本身是可能没有Include进来的，一次性Update那也许只有EF的Attach可以做，但这样就无法触发详细的事件了
+            throw new NotImplementedException();
+            //if (obj != null)
+            //{
+            //    return _productService.Update(_mapper.MapFrom(obj));
+            //}
+            //return false;
         }
 
         /// <summary>
@@ -92,11 +94,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <returns>true if successfully, else false</returns>
         public override bool Save(Product obj)
         {
-            if (obj != null)
-            {
-                return _productService.Save(_mapper.MapFrom(obj));
-            }
-            return false;
+            throw new NotImplementedException();
+            //if (obj != null)
+            //{
+            //    return _productService.Save(_mapper.MapFrom(obj));
+            //}
+            //return false;
         }
 
         /// <summary>
@@ -108,7 +111,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         {
             if (obj != null)
             {
-                return _productService.Delete(_mapper.MapFrom(obj));
+                return _productService.Delete(obj.Id);
             }
             return false;
         }
@@ -200,18 +203,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         }
 
         /// <summary>
-        /// add deleted filter to query
-        /// </summary>
-        /// <param name="deleted">product deleted</param>
-        /// <returns>product query</returns>
-        public IProductQuery IsDeleted(bool deleted)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.IsDeleted == deleted);
-            return this;
-        }
-
-        /// <summary>
         /// filter the product by custom field value
         /// </summary>
         /// <param name="customFieldId">custom field id</param>
@@ -233,9 +224,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         public IProductQuery ByCustomField(string customFieldName, string fieldValue)
         {
             EnsureQuery();
-            var customFieldQuery = _customFieldService.Query().Where(o => o.Name == customFieldName);
-            var customFieldValueQuery = _productService.ProductCustomFieldQuery().Where(o => customFieldQuery.Any(c => c.Id == o.CustomFieldId));
-            _query = _query.Where(o => customFieldValueQuery.Any(c => c.ProductId == o.Id));
+            _query = _query.Where(o => o.CustomFieldValues.Any(f => f.CustomField.Name == customFieldName && f.FieldValue == fieldValue));
             return this;
         }
 
@@ -261,10 +250,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         public IProductQuery ByPriceVariant(string variantName, string variantValue)
         {
             EnsureQuery();
-            var customFieldQuery = _customFieldService.Query().Where(o => o.Name == variantName);
-            var customFieldValueQuery = _productService.ProductPriceVariantQuery().Where(o => customFieldQuery.Any(c => c.Id == o.CustomFieldId));
-            var priceQuery = _productService.ProductPriceQuery().Where(o => o.VariantValues.Any(c => c.ProductPriceId == o.Id));
-            _query = _query.Where(o => priceQuery.Any(c => c.ProductId == o.Id));
+            _query = _query.Where(o => o.PriceList.Any(p => p.VariantValues.Any(v => v.CustomField.Name == variantName && v.FieldValue == variantValue)));
             return this;
         }
 

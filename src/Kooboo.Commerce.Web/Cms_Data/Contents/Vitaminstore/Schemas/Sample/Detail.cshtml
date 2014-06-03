@@ -1,0 +1,12 @@
+﻿@if (Model != null)
+{ 
+<div>
+	<h3 class="title" @ViewHelper.Edit(Model,"Display")>@Html.Raw(Model.Display ?? "")</h3>
+	<div class="content">
+		<div @ViewHelper.Edit(Model,"Empty")>@Html.Raw(Model.Empty ?? "")</div>
+		<div @ViewHelper.Edit(Model,"Int32")>@Html.Raw(Model.Int32 ?? "")</div>
+		<div @ViewHelper.Edit(Model,"File")>@Html.Raw(Model.File ?? "")</div>
+		<div @ViewHelper.Edit(Model,"Editor")>@Html.Raw(Model.Editor ?? "")</div>
+	</div>
+</div>
+}

@@ -7,14 +7,15 @@ using System.Net.Http;
 using System.Web.Http;
 using Kooboo.Commerce.API;
 using ProductDto = Kooboo.Commerce.API.Products.Product;
+using Kooboo.Commerce.API.Accessories;
 
 namespace Kooboo.Commerce.Accessories.Api
 {
     public class AccessoryController : CommerceAPIControllerBase
     {
-        public ProductDto[] Get(int productId)
+        public IListResource<ProductDto> Get(int productId)
         {
-            return Commerce().Accessories().ForProduct(productId);
+            return Commerce().Accessories().ByProduct(productId).ToArray();
         }
     }
 }
