@@ -35,14 +35,6 @@ namespace Kooboo.Commerce.API.Products
         /// </summary>
         public decimal RetailPrice { get; set; }
         /// <summary>
-        /// stock count
-        /// </summary>
-        public int Stock { get; set; }
-        /// <summary>
-        /// average delivery days
-        /// </summary>
-        public int DeliveryDays { get; set; }
-        /// <summary>
         /// create time at utc
         /// </summary>
         public DateTime CreatedAtUtc { get; set; }

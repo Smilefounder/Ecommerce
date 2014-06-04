@@ -13,23 +13,30 @@ namespace Kooboo.Commerce.Orders.Pricing
     /// </summary>
     public class PricingItem
     {
-        public int Id { get; private set; }
+        public int ItemId { get; private set; }
 
-        public ProductPrice ProductPrice { get; private set; }
+        [Param]
+        public int ProductId { get; private set; }
+
+        [Param]
+        public int ProductPriceId { get; private set; }
+
+        [Param]
+        public decimal RetailPrice { get; private set; }
 
         [Param]
         public int Quantity { get; private set; }
 
         public PriceWithDiscount Subtotal { get; set; }
 
-        public PricingItem(int id, ProductPrice price, int quantity)
+        public PricingItem(int itemId, int productId, int productPriceId, decimal retailPrice, int quantity)
         {
-            Require.NotNull(price, "price");
-
-            Id = id;
-            ProductPrice = price;
+            ItemId = itemId;
+            ProductId = productId;
+            ProductPriceId = productPriceId;
+            RetailPrice = retailPrice;
             Quantity = quantity;
-            Subtotal = new PriceWithDiscount(price.RetailPrice * quantity);
+            Subtotal = new PriceWithDiscount(RetailPrice * quantity);
         }
     }
 }

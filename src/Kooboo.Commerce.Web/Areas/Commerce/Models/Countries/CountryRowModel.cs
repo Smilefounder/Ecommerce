@@ -32,9 +32,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries
         {
             Id = country.Id;
             Name = country.Name;
-            ThreeLetterISOCode = country.ThreeLetterISOCode;
-            TwoLetterISOCode = country.TwoLetterISOCode;
-            NumericISOCode = country.NumericISOCode;
+            ThreeLetterISOCode = country.ThreeLetterIsoCode;
+            TwoLetterISOCode = country.TwoLetterIsoCode;
+            NumericISOCode = country.NumericIsoCode;
         }
     }
 }

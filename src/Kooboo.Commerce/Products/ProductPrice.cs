@@ -29,12 +29,6 @@ namespace Kooboo.Commerce.Products
         [Param]
         public decimal RetailPrice { get; set; }
 
-        [Obsolete]
-        public int Stock { get; set; }
-
-        [Obsolete]
-        public int DeliveryDays { get; set; }
-
         public DateTime CreatedAtUtc { get; set; }
 
         public bool IsPublished { get; protected set; }

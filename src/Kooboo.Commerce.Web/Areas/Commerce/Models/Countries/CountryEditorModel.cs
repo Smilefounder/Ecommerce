@@ -30,18 +30,18 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries
         {
             Id = country.Id;
             Name = country.Name;
-            ThreeLetterISOCode = country.ThreeLetterISOCode;
-            TwoLetterISOCode = country.TwoLetterISOCode;
-            NumericISOCode = country.NumericISOCode;
+            ThreeLetterISOCode = country.ThreeLetterIsoCode;
+            TwoLetterISOCode = country.TwoLetterIsoCode;
+            NumericISOCode = country.NumericIsoCode;
         }
 
         public void UpdateTo(Country country)
         {
             country.Id = Id;
             country.Name = Name.Trim();
-            country.ThreeLetterISOCode = ThreeLetterISOCode;
-            country.TwoLetterISOCode = TwoLetterISOCode;
-            country.NumericISOCode = NumericISOCode;
+            country.ThreeLetterIsoCode = ThreeLetterISOCode;
+            country.TwoLetterIsoCode = TwoLetterISOCode;
+            country.NumericIsoCode = NumericISOCode;
         }
     }
 }

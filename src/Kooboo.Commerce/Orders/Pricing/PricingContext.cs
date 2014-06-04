@@ -1,5 +1,8 @@
 ﻿using Kooboo.Commerce.Customers;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Payments;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Shipping;
@@ -16,12 +19,26 @@ namespace Kooboo.Commerce.Orders.Pricing
     /// </summary>
     public class PricingContext
     {
-        public IList<PricingItem> Items { get; set; }
+        private List<PricingItem> _items = new List<PricingItem>();
+
+        public IEnumerable<PricingItem> Items
+        {
+            get
+            {
+                return _items;
+            }
+        }
 
         [Reference]
         public Customer Customer { get; set; }
 
-        [Reference]
+        [Param]
+        public string Culture { get; set; }
+
+        [Param]
+        public string Currency { get; set; }
+
+        [Param]
         public string CouponCode { get; set; }
 
         [Reference]
@@ -46,7 +63,7 @@ namespace Kooboo.Commerce.Orders.Pricing
             {
                 var total = Subtotal.FinalValue;
 
-                var itemDiscounts = Items.Sum(x => x.Subtotal.Discount);
+                var itemDiscounts = _items.Sum(x => x.Subtotal.Discount);
                 if (itemDiscounts > total)
                 {
                     itemDiscounts = total;
@@ -64,13 +81,40 @@ namespace Kooboo.Commerce.Orders.Pricing
 
         public PricingContext()
         {
-            Items = new List<PricingItem>();
+            _items = new List<PricingItem>();
             ShippingCost = new PriceWithDiscount();
             PaymentMethodCost = new PriceWithDiscount();
             Tax = new PriceWithDiscount();
             Subtotal = new PriceWithDiscount();
             AppliedPromotions = new List<Promotion>();
         }
+
+        public PricingItem AddPricingItem(int itemId, ProductPrice productPrice, int quantity)
+        {
+            var retailPrice = GetFinalRetialPrice(productPrice.ProductId, productPrice.Id, productPrice.RetailPrice);
+            var item = new PricingItem(itemId, productPrice.ProductId, productPrice.Id, retailPrice, quantity);
+            _items.Add(item);
+            return item;
+        }
+
+        public decimal GetFinalRetialPrice(int productId, int productPriceId, decimal originalPrice)
+        {
+            var customerId = Customer == null ? null : (int?)Customer.Id;
+            var shoppingContext = new ShoppingContext(customerId, Culture, Currency);
+            return PricingContext.GetFinalRetailPrice(productId, productPriceId, originalPrice, shoppingContext);
+        }
+
+        /// <summary>
+        /// Gets the final price of the specified product price in the current shopping context.
+        /// </summary>
+        public static decimal GetFinalRetailPrice(int productId, int productPriceId, decimal originalPrice, ShoppingContext shoppingContext)
+        {
+            var @event = new GetPrice(productId, productPriceId, originalPrice, shoppingContext);
+            Event.Raise(@event);
+            return @event.FinalPrice;
+        }
+
+        #region Scope
 
         public static PricingContext GetCurrent()
         {
@@ -86,6 +130,8 @@ namespace Kooboo.Commerce.Orders.Pricing
             return Scope.Begin<PricingContext>(context);
         }
 
+        #endregion
+
         public static PricingContext CreateFrom(ShoppingCart cart)
         {
             var context = new PricingContext
@@ -96,7 +142,7 @@ namespace Kooboo.Commerce.Orders.Pricing
 
             foreach (var item in cart.Items)
             {
-                context.Items.Add(new PricingItem(item.Id, item.ProductPrice, item.Quantity));
+                context.AddPricingItem(item.Id, item.ProductPrice, item.Quantity);
             }
 
             return context;
@@ -112,7 +158,7 @@ namespace Kooboo.Commerce.Orders.Pricing
 
             foreach (var item in order.OrderItems)
             {
-                context.Items.Add(new PricingItem(item.Id, item.ProductPrice, item.Quantity));
+                context.AddPricingItem(item.Id, item.ProductPrice, item.Quantity);
             }
 
             return context;

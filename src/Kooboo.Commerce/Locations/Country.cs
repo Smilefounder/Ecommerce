@@ -16,12 +16,12 @@ namespace Kooboo.Commerce.Locations
         public string Name { get; set; }
 
         [Param]
-        public string ThreeLetterISOCode { get; set; }
+        public string TwoLetterIsoCode { get; set; }
 
         [Param]
-        public string TwoLetterISOCode { get; set; }
+        public string ThreeLetterIsoCode { get; set; }
 
         [Param]
-        public string NumericISOCode { get; set; }
+        public string NumericIsoCode { get; set; }
     }
 }

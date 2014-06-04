@@ -64,7 +64,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Pricing
             {
                 result.Items.Add(new CalculateItemPriceResult
                 {
-                    Id = item.Id,
+                    Id = item.ItemId,
                     Subtotal = item.Subtotal.ToDto()
                 });
             }

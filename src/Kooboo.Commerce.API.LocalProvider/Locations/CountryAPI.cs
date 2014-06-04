@@ -85,7 +85,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         public ICountryQuery ByThreeLetterISOCode(string threeLetterISOCode)
         {
             EnsureQuery();
-            _query = _query.Where(o => o.ThreeLetterISOCode == threeLetterISOCode);
+            _query = _query.Where(o => o.ThreeLetterIsoCode == threeLetterISOCode);
             return this;
         }
 
@@ -97,7 +97,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         public ICountryQuery ByTwoLetterISOCode(string twoLetterISOCode)
         {
             EnsureQuery();
-            _query = _query.Where(o => o.TwoLetterISOCode == twoLetterISOCode);
+            _query = _query.Where(o => o.TwoLetterIsoCode == twoLetterISOCode);
             return this;
         }
 
@@ -109,7 +109,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         public ICountryQuery ByNumericISOCode(string numericISOCode)
         {
             EnsureQuery();
-            _query = _query.Where(o => o.NumericISOCode == numericISOCode);
+            _query = _query.Where(o => o.NumericIsoCode == numericISOCode);
             return this;
         }
 

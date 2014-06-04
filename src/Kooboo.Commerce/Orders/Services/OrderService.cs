@@ -166,7 +166,7 @@ namespace Kooboo.Commerce.Orders.Services
 
             foreach (var item in order.OrderItems)
             {
-                var pricingItem = context.Items.FirstOrDefault(x => x.Id == item.Id);
+                var pricingItem = context.Items.FirstOrDefault(x => x.ItemId == item.Id);
                 item.Discount = pricingItem.Subtotal.Discount;
                 item.SubTotal = pricingItem.Subtotal.OriginalValue;
                 item.Total = pricingItem.Subtotal.FinalValue;
