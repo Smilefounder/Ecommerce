@@ -28,8 +28,8 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Models
 
         public ConfigModel()
         {
-            AvailableDiscountModes = EnumUtil.ToSelectList<PriceChangeMode>();
-            AvailableDiscountAppliedTos = EnumUtil.ToSelectList<DiscountAppliedTo>();
+            AvailableDiscountModes = SelectListItems.FromEnum<PriceChangeMode>();
+            AvailableDiscountAppliedTos = SelectListItems.FromEnum<DiscountAppliedTo>();
         }
     }
 }

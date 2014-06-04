@@ -11,25 +11,6 @@ namespace Kooboo.Commerce
 {
     public static class ObjectExtensions
     {
-        public static string ToJson(this object data, PropertyNaming propertyNaming = PropertyNaming.Default)
-        {
-            if (data == null)
-            {
-                return null;
-            }
-
-            var settings = new JsonSerializerSettings();
-
-            if (propertyNaming == PropertyNaming.CamelCase)
-            {
-                settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            }
-
-            settings.Converters.Add(new StringEnumConverter());
-
-            return JsonConvert.SerializeObject(data, settings);
-        }
-
         public static T ConvertTo<T>(this object obj, T defaultValule)
         {
             return (T)ConvertTo(obj, typeof(T), defaultValule);

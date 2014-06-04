@@ -8,26 +8,26 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Mvc
 {
-    public static class EnumUtil
+    public static class SelectListItems
     {
-        public static IList<SelectListItem> ToSelectList<TEnum>()
+        public static IList<SelectListItem> FromEnum<TEnum>()
         {
             Type enumType = typeof (TEnum);
-            return ToSelectList(enumType);
+            return FromEnum(enumType);
         }
 
-        public static IList<SelectListItem> ToSelectList<TEnum>(TEnum selectedValue)
+        public static IList<SelectListItem> FromEnum<TEnum>(TEnum selectedValue)
         {
             Type enumType = typeof (TEnum);
-            return ToSelectList(enumType, selectedValue.ToString());
+            return FromEnum(enumType, selectedValue.ToString());
         }
 
-        public static IList<SelectListItem> ToSelectList(Type enumType)
+        public static IList<SelectListItem> FromEnum(Type enumType)
         {
-            return ToSelectList(enumType, null);
+            return FromEnum(enumType, null);
         }
 
-        public static IList<SelectListItem> ToSelectList(Type enumType, string selectedValue)
+        public static IList<SelectListItem> FromEnum(Type enumType, object selectedValue)
         {
             IList<SelectListItem> list = new List<SelectListItem>();
 
@@ -37,9 +37,9 @@ namespace Kooboo.Commerce.Web.Mvc
                                     .OfType<DescriptionAttribute>()
                                     .FirstOrDefault();
 
-                string text = descAttr == null ? field.Name : descAttr.Description;
-                string value = field.Name;
-                bool selected = (value == selectedValue);
+                var text = descAttr == null ? field.Name : descAttr.Description;
+                var value = field.Name;
+                var selected = selectedValue != null && (value == selectedValue.ToString());
 
                 list.Add(new SelectListItem {Text = text, Value = value, Selected = selected});
             }

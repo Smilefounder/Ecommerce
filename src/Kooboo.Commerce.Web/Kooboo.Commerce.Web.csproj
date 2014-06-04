@@ -253,6 +253,7 @@
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
+    <Compile Include="Areas\Commerce\Common\Extensions\JsonExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Form\CheckBox.cs" />
     <Compile Include="Areas\Commerce\Common\Form\CheckBoxList.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Date.cs" />
@@ -277,6 +278,7 @@
     <Compile Include="Areas\Commerce\Common\Form\Validation\RequiredValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\StringLengthValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\ValidationExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
     <Compile Include="Areas\Commerce\Controllers\ActivityRuleController.cs" />
     <Compile Include="Areas\Commerce\Controllers\AddInManagementController.cs" />
     <Compile Include="Areas\Commerce\Controllers\BrandController.cs" />

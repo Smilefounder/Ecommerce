@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce
+namespace Kooboo.Commerce.Web
 {
     public enum PropertyNaming
     {

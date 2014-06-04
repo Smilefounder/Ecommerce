@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Models
         public ByWeightShippingRulesModel()
         {
             Rules = new List<ByWeightShippingRuleModel>();
-            AvailablePriceUnits = EnumUtil.ToSelectList<ShippingPriceUnit>();
+            AvailablePriceUnits = SelectListItems.FromEnum<ShippingPriceUnit>();
         }
 
         public bool HasRule(int ruleId)

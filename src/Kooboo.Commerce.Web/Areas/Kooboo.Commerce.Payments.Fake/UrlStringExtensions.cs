@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace Kooboo.Commerce.Web
+namespace Kooboo.Commerce.Payments.Fake
 {
     public static class UrlStringExtensions
     {

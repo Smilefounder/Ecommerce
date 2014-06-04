@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         public PaymentMethodEditorModel()
         {
             AvailablePaymentProcessors = new List<PaymentProcessorModel>();
-            AllFeeChargeModes = EnumUtil.ToSelectList(typeof(PriceChangeMode));
+            AllFeeChargeModes = SelectListItems.FromEnum(typeof(PriceChangeMode));
         }
 
         public void UpdateTo(PaymentMethod method)

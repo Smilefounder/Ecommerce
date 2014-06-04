@@ -54,7 +54,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
         {
             CustomFields = new List<NameValue>();
             OtherPromotions = new List<PromotionRowModel>();
-            AvailableOverlappingUsages = Kooboo.Commerce.Web.Mvc.EnumUtil.ToSelectList(typeof(PromotionOverlappingUsage));
+            AvailableOverlappingUsages = Kooboo.Commerce.Web.Mvc.SelectListItems.FromEnum(typeof(PromotionOverlappingUsage));
         }
 
         public void UpdateFrom(Promotion promotion)
