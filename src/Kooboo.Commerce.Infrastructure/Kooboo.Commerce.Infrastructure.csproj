@@ -226,7 +226,7 @@
     <Compile Include="Rules\IParameterProvider.cs" />
     <Compile Include="Rules\IndirectReferenceAdapter.cs" />
     <Compile Include="Rules\ReferenceAttribute.cs" />
-    <Compile Include="Rules\IParameterValueResolver.cs" />
+    <Compile Include="Rules\ParameterValueResolver.cs" />
     <Compile Include="Rules\IParameterValueSource.cs" />
     <Compile Include="Rules\Operators\ContainsOperator.cs" />
     <Compile Include="Rules\Operators\EqualsOperator.cs" />

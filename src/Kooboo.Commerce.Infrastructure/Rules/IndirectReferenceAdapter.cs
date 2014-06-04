@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Rules
     /// 本类可以提供一个适配，将<see cref="Kooboo.Commerce.Rules.IReferenceResolver"/>适配为一个参数值求解器，
     /// 进而可以在参数求值链将对间接引用的对象进行衔接。
     /// </summary>
-    public class IndirectReferenceAdapter : IParameterValueResolver
+    public class IndirectReferenceAdapter : ParameterValueResolver
     {
         private Type _referencingType;
         private Type _referenceResolverType;
@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Rules
             _referenceResolverType = referenceResolverType;
         }
 
-        public object ResolveValue(ConditionParameter param, object dataContext)
+        public override object ResolveValue(ConditionParameter param, object dataContext)
         {
             var referenceResolver = EngineContext.Current.Resolve(_referenceResolverType) as IReferenceResolver;
             return referenceResolver.Resolve(_referencingType, dataContext);

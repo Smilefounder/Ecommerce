@@ -11,15 +11,5 @@ namespace Kooboo.Commerce.Events.Pricing
     [Event(Order = 300)]
     public class PriceCalculationCompleted : DomainEvent, IPricingEvent
     {
-        [JsonIgnore]
-        [Reference(Prefix = "")]
-        public PricingContext Context { get; private set; }
-
-        protected PriceCalculationCompleted() { }
-
-        public PriceCalculationCompleted(PricingContext context)
-        {
-            Context = context;
-        }
     }
 }

@@ -47,19 +47,22 @@ namespace Kooboo.Commerce.Orders.Pricing
 
         public void Execute(PricingContext context)
         {
-            Prepare(context);
-
-            var stages = _stageTypes.Select(type => (IPricingStage)_typeActivator.Activate(type)).ToList();
-
-            Event.Raise(new PriceCalculationStarted(context, stages));
-
-            foreach (var stage in stages)
+            using (var scope = PricingContext.Begin(context))
             {
-                stage.Execute(context);
-                Event.Raise(new PriceCalculationStageCompleted(stage.Name, context));
-            }
+                Prepare(context);
 
-            Event.Raise(new PriceCalculationCompleted(context));
+                var stages = _stageTypes.Select(type => (IPricingStage)_typeActivator.Activate(type)).ToList();
+
+                Event.Raise(new PriceCalculationStarted(stages));
+
+                foreach (var stage in stages)
+                {
+                    stage.Execute(context);
+                    Event.Raise(new PriceCalculationStageCompleted(stage.Name));
+                }
+
+                Event.Raise(new PriceCalculationCompleted());
+            }
         }
 
         private void Prepare(PricingContext context)

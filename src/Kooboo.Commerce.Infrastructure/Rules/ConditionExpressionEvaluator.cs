@@ -62,7 +62,6 @@ namespace Kooboo.Commerce.Rules
             if (param == null)
                 throw new InvalidOperationException("Unrecognized parameter \"" + paramName + "\" or it's not accessable in currect context.");
 
-
             var @operator = _comparisonOperatorProvider.GetOperatorByName(exp.Operator);
             if (@operator == null)
             {

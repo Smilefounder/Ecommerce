@@ -118,6 +118,7 @@
     <Compile Include="Events\Pricing\PriceCalculationCompleted.cs" />
     <Compile Include="Events\Pricing\PriceCalculationStarted.cs" />
     <Compile Include="Events\Pricing\PriceCalculationStageCompleted.cs" />
+    <Compile Include="Events\Pricing\PricingEventAdditionalParametersProviders.cs" />
     <Compile Include="Events\Products\ProductPriceAdded.cs" />
     <Compile Include="Events\Products\ProductPriceDeleted.cs" />
     <Compile Include="Events\Products\ProductPricePublished.cs" />

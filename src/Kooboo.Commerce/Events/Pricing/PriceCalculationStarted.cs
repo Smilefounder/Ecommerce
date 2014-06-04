@@ -12,17 +12,12 @@ namespace Kooboo.Commerce.Events.Pricing
     public class PriceCalculationStarted : DomainEvent, IPricingEvent
     {
         [JsonIgnore]
-        [Reference(Prefix = "")]
-        public PricingContext Context { get; private set; }
-
-        [JsonIgnore]
         public IList<IPricingStage> Stages { get; private set; }
 
         protected PriceCalculationStarted() { }
 
-        public PriceCalculationStarted(PricingContext context, IList<IPricingStage> stages)
+        public PriceCalculationStarted(IList<IPricingStage> stages)
         {
-            Context = context;
             Stages = stages;
         }
     }

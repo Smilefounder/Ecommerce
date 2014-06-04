@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.Rules
     /// <summary>
     /// Represents a resolver to resolve the value of a class property backed parameter.
     /// </summary>
-    public class PropertyBackedParameterValueResolver : IParameterValueResolver
+    public class PropertyBackedParameterValueResolver : ParameterValueResolver
     {
         private PropertyInfo _property;
 
@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Rules
             _property = property;
         }
 
-        public object ResolveValue(ConditionParameter param, object dataContext)
+        public override object ResolveValue(ConditionParameter param, object dataContext)
         {
             if (dataContext == null)
             {

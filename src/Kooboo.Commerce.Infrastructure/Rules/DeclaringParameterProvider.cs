@@ -16,10 +16,32 @@ namespace Kooboo.Commerce.Rules
     {
         public IEnumerable<ConditionParameter> GetParameters(Type dataContextType)
         {
-            return FindConditionParameters(dataContextType, DumbParameterValueResolver.Instance, null);
+            Require.NotNull(dataContextType, "dataContextType");
+            return FindConditionParameters(dataContextType, ParameterValueResolver.Dumb(), null);
         }
 
-        private List<ConditionParameter> FindConditionParameters(Type containerType, IParameterValueResolver containerResolver, string prefix)
+        /// <summary>
+        /// Gets the available parameters for the specified data context type, 
+        /// with a specific data context adapter to adapt original data context to the final data context to which the parameters is applicable.
+        /// </summary>
+        /// <param name="dataContextType">The data context type.</param>
+        /// <param name="dataContextAdapter">The adapter to adapt original data context to the final data context.</param>
+        /// <returns>Available parameters.</returns>
+        public IEnumerable<ConditionParameter> GetParameters(Type dataContextType, Func<object, object> dataContextAdapter)
+        {
+            Require.NotNull(dataContextType, "dataContextType");
+
+            var containerResolver = ParameterValueResolver.Dumb();
+            if (dataContextAdapter != null)
+            {
+                Func<ConditionParameter, object, object> resolver = (param, dataContext) => dataContextAdapter(dataContext);
+                containerResolver = ParameterValueResolver.FromDelegate(resolver);
+            }
+
+            return FindConditionParameters(dataContextType, containerResolver, null);
+        }
+
+        private List<ConditionParameter> FindConditionParameters(Type containerType, ParameterValueResolver containerResolver, string prefix)
         {
             var parameters = new List<ConditionParameter>();
 
@@ -78,7 +100,7 @@ namespace Kooboo.Commerce.Rules
         }
 
         private ConditionParameter CreateConditionParameter(
-            Type containerType, IParameterValueResolver containerResolver, string prefix, PropertyInfo property, ParamAttribute paramAttr)
+            Type containerType, ParameterValueResolver containerResolver, string prefix, PropertyInfo property, ParamAttribute paramAttr)
         {
             var valueType = property.PropertyType;
             var valueResolver = new ChainedParameterValueResolver().Chain(containerResolver)

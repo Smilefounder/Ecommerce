@@ -8,30 +8,30 @@ namespace Kooboo.Commerce.Rules
     /// <summary>
     /// 表示支持链状求值的参数值求解器，链中的每个求解器依次执行，并将求得结果作为下一个求解器的输出，最终返回最后一个求解器的结果。
     /// </summary>
-    public class ChainedParameterValueResolver : IParameterValueResolver
+    public class ChainedParameterValueResolver : ParameterValueResolver
     {
-        private List<IParameterValueResolver> _resolvers;
+        private List<ParameterValueResolver> _resolvers;
 
         public ChainedParameterValueResolver()
         {
-            _resolvers = new List<IParameterValueResolver>();
+            _resolvers = new List<ParameterValueResolver>();
         }
 
-        public ChainedParameterValueResolver(IEnumerable<IParameterValueResolver> resolvers)
+        public ChainedParameterValueResolver(IEnumerable<ParameterValueResolver> resolvers)
         {
             _resolvers = resolvers.ToList();
         }
 
         /// <summary>
-        /// Add an instance of <see cref="Kooboo.Commerce.Rules.IParameterValueResolver"/> to the resolver chain.
+        /// Add an instance of <see cref="Kooboo.Commerce.Rules.ParameterValueResolver"/> to the resolver chain.
         /// </summary>
-        public ChainedParameterValueResolver Chain(IParameterValueResolver resolver)
+        public ChainedParameterValueResolver Chain(ParameterValueResolver resolver)
         {
             _resolvers.Add(resolver);
             return this;
         }
 
-        public object ResolveValue(ConditionParameter param, object dataContext)
+        public override object ResolveValue(ConditionParameter param, object dataContext)
         {
             var value = dataContext;
             foreach (var resolver in _resolvers)

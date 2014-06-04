@@ -72,6 +72,20 @@ namespace Kooboo.Commerce.Orders.Pricing
             AppliedPromotions = new List<Promotion>();
         }
 
+        public static PricingContext GetCurrent()
+        {
+            return Scope.Current<PricingContext>();
+        }
+
+        /// <summary>
+        /// Begin a scope for PricingContext, so current PricingContext can be accessed via PricingContext.GetCurrent() within the scope in the same thread.
+        /// </summary>
+        public static Scope<PricingContext> Begin(PricingContext context)
+        {
+            Require.NotNull(context, "context");
+            return Scope.Begin<PricingContext>(context);
+        }
+
         public static PricingContext CreateFrom(ShoppingCart cart)
         {
             var context = new PricingContext

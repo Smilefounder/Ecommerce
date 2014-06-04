@@ -21,6 +21,10 @@ Kooboo Commerce中的事件由普通CLR对象定义，事件对象即事件消�
 
 领域事件可以使用`Kooboo.Commerce.Events.EventAttribute`以及`Kooboo.Commerce.Events.CategoryAttribute`添加一些描述信息，例如分组，以及显示顺序。
 
+**事件序列化**
+
+很多Activity要求可以做到延后定时执行，为此，需要在事件触发时序列化事件对象并临时保存在数据库中。像价格计算之类的事件，需要引用临时存在的`PricingContext`，`PricingContext`不方便序列化，因此Event Handler要通过`PricingContext.GetCurrent()`的方式来获取当前的价格计算上下文，而不能从事件对象中获取。虽然我们可以通过某种其它方式来区别对象可序列化和不可序列化的事件，但这样显得有点复杂，对基础层的处理来说，把所有事件都默认当成可序列化的是最简单的(详情见Design Notes)。
+
 ## 订阅事件 ##
 
 要订阅一个事件，需要添加一个实现了 `Kooboo.Commerce.Events.IHandle<YourEventType>` 接口的类。例如

@@ -38,7 +38,7 @@
 
 其中`Execute`方法用于执行`Activity`的核心逻辑。`GetEditor`方法应返回`ActivityEditor`实例，Kooboo Commerce通过`ActivityEditor`的信息来加载`Activity`配置页面。如果`Activity`不需要配置，则返回`null`。
 
-如果 Activity 在执行过程中发现业务规则不符合要求，应抛出`Kooboo.Commerce.BusinessRuleViolationException`异常，该异常抛出后，后续的逻辑将不再执行，该异常将会在UI中被特殊处理，其它的异常被当作普通的服务器执行异常。
+如果 Activity 在执行过程中发现业务规则不符合要求，应抛出`Kooboo.Commerce.BusinessRuleViolationException`异常(详见Design Notes)，该异常抛出后，后续的逻辑将不再执行，该异常将会在UI中被特殊处理，其它的异常被当作普通的服务器执行异常。
 
 ## 实现Activity配置页面 ##
 

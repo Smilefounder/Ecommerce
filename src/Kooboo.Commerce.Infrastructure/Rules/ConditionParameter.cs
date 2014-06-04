@@ -24,9 +24,9 @@ namespace Kooboo.Commerce.Rules
         public Type ValueType { get; private set; }
 
         /// <summary>
-        /// 用于从上下文中计算参数值的<see cref="Kooboo.Commerce.Rules.IParameterValueResolver"/>。
+        /// 用于从上下文中计算参数值的<see cref="Kooboo.Commerce.Rules.ParameterValueResolver"/>。
         /// </summary>
-        public IParameterValueResolver ValueResolver { get; private set; }
+        public ParameterValueResolver ValueResolver { get; private set; }
 
         /// <summary>
         /// 参数值数据源，若设置，则表示该参数只有固定的几个值可选。
@@ -38,12 +38,12 @@ namespace Kooboo.Commerce.Rules
         /// </summary>
         public IList<IComparisonOperator> SupportedOperators { get; private set; }
 
-        public ConditionParameter(string name, Type valueType, IParameterValueResolver valueResolver, IEnumerable<IComparisonOperator> supportedOperators)
+        public ConditionParameter(string name, Type valueType, ParameterValueResolver valueResolver, IEnumerable<IComparisonOperator> supportedOperators)
             : this(name, valueType, valueResolver, null, supportedOperators)
         {
         }
 
-        public ConditionParameter(string name, Type valueType, IParameterValueResolver valueResolver, IParameterValueSource valueSource, IEnumerable<IComparisonOperator> supportedOperators)
+        public ConditionParameter(string name, Type valueType, ParameterValueResolver valueResolver, IParameterValueSource valueSource, IEnumerable<IComparisonOperator> supportedOperators)
         {
             Require.NotNullOrEmpty(name, "name");
             Require.NotNull(valueType, "valueType");
