@@ -102,14 +102,12 @@
                                 <input data-bind="value:City" type="text" class="medium">
                             </td>
                         </tr>
-                        <!-- ko with: Loyalty -->
                         <tr>
                             <th>@("Saving Points".Localize())</th>
                             <td>
                                 <input data-bind="value:SavingPoints" type="text" class="medium">
                             </td>
                         </tr>
-                        <!-- /ko -->
                         <tr>
                             <th>@("Email".Localize())</th>
                             <td>
@@ -131,37 +129,6 @@
                     </tbody>
                 </table>
             </div>
-            @*<div id="changePassword" class="common-form">
-                    <table data-bind="with: data">
-                        <tbody data-bind="with: Account">
-                            <tr>
-                                <th>@("Password".Localize())</th>
-                                <td>
-                                    <input id="oldPassword" name="oldPassword" type="password" onblur="vm.data().Account().Password($(this).val());">
-                                </td>
-                            </tr>
-                            <!-- ko if: Id() > 0 -->
-                            <tr>
-                                <th>@("New Password".Localize())</th>
-                                <td>
-                                    <input id="newPassword" name="newPassword" type="password">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>@("Confirm Password".Localize())</th>
-                                <td>
-                                    <input id="confirmPassword" name="confirmPassword" type="password" onblur="CheckConfirmPassword();">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="javascript:;" onclick="ChangePassword();">@Html.IconImage("save")Change Password</a>
-                                </td>
-                            </tr>
-                            <!-- /ko -->
-                        </tbody>
-                    </table>
-                </div>*@
             <div id="address">
                 <div class="simple-table">
                     <div class="toolbar">
@@ -420,7 +387,7 @@
                     self.data().CustomFields.push(item);
                 };
                 self.RemoveCustomField = function (item) {
-                    vm.data().remove(item);
+                    vm.data().CustomFields.remove(item);
                 };
                 self.OrderPageIndex = ko.observable(1);
                 self.OrderPageIndex.subscribe(function (newVal) {

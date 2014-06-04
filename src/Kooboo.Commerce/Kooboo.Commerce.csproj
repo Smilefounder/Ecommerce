@@ -233,7 +233,6 @@
     <Compile Include="Payments\Services\PaymentMethodService.cs" />
     <Compile Include="PriceChangeMode.cs" />
     <Compile Include="Events\Customers\CustomerCreated.cs" />
-    <Compile Include="Customers\CustomerLoyalty.cs" />
     <Compile Include="Customers\Services\CustomerService.cs" />
     <Compile Include="Customers\Services\ICustomerService.cs" />
     <Compile Include="Gender.cs" />

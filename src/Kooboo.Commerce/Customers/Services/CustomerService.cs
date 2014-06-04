@@ -18,32 +18,16 @@ namespace Kooboo.Commerce.Customers.Services
     {
         private readonly ICommerceDatabase _db;
         private readonly IRepository<Customer> _customerRepository;
-        private readonly IRepository<CustomerLoyalty> _customerLoyaltyRepository;
         private readonly IRepository<CustomerCustomField> _customerCustomFieldRepository;
-        //private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<Address> _addressRepository;
-        //private readonly IRepository<Country> _countryRepository;
 
-        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Address> addressRepository, IRepository<CustomerLoyalty> customerLoyaltyRepository, IRepository<CustomerCustomField> customerCustomFieldRepository)
+        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Address> addressRepository, IRepository<CustomerCustomField> customerCustomFieldRepository)
         {
             _db = db;
             _customerRepository = customerRepository;
-            //_orderRepository = orderRepository;
             _addressRepository = addressRepository;
-            _customerLoyaltyRepository = customerLoyaltyRepository;
             _customerCustomFieldRepository = customerCustomFieldRepository;
-            //_countryRepository = countryRepository;
         }
-
-        //private Customer LoadAllInfo(Customer customer)
-        //{
-        //    if (customer != null)
-        //    {
-        //        customer.Addresses = _addressRepository.Query(o => o.CustomerId == customer.Id).ToList();
-        //        customer.Country = _countryRepository.Query(o => o.Id == customer.CountryId).FirstOrDefault();
-        //    }
-        //    return customer;
-        //}
 
         public Customer GetById(int id)
         {
@@ -61,57 +45,10 @@ namespace Kooboo.Commerce.Customers.Services
             return _addressRepository.Query();
         }
 
-        public IQueryable<CustomerLoyalty> QueryCustomerLoyalty()
-        {
-            return _customerLoyaltyRepository.Query();
-        }
         public IQueryable<CustomerCustomField> CustomFieldsQuery()
         {
             return _customerCustomFieldRepository.Query();
         }
-
-        //public Customer GetByAccountId(string accountId, bool loadAllInfo = true)
-        //{
-        //    var customer = _customerRepository.Get(o => o.AccountId == accountId);
-
-        //    if (loadAllInfo && customer != null)
-        //    {
-        //        LoadAllInfo(customer);
-        //    }
-
-        //    return customer;
-        //}
-
-        //public IPagedList<Customer> GetAllCustomers(string search, int? pageIndex, int? pageSize)
-        //{
-        //    var query = _customerRepository.Query();
-        //    if (!string.IsNullOrEmpty(search))
-        //        query = query.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
-        //    query = query.OrderByDescending(o => o.Id);
-        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
-        //}
-
-        //public IPagedList<T> GetAllCustomersWithOrderCount<T>(string search, int? pageIndex, int? pageSize, Func<Customer, int, T> func)
-        //{
-        //    var orderQuery = _orderRepository.Query();
-        //    var customerQuery = _customerRepository.Query();
-        //    if (!string.IsNullOrEmpty(search))
-        //        customerQuery = customerQuery.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
-        //    IQueryable<dynamic> query = customerQuery
-        //        .GroupJoin(orderQuery,
-        //                   customer => customer.Id,
-        //                   order => order.CustomerId,
-        //                   (customer, orders) => new { Customer = customer, Orders = orders.Count() })
-        //        .OrderByDescending(groupedItem => groupedItem.Customer.Id);
-
-        //    return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Customer, o.Orders), pageIndex ?? 1, pageSize ?? 50);
-        //}
-
-        //public IPagedList<Order> GetCustomerOrders(int customerId, int? pageIndex, int? pageSize)
-        //{
-        //    var orderQuery = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
-        //    return PageLinqExtensions.ToPagedList(orderQuery, pageIndex ?? 1, pageSize ?? 50);
-        //}
 
         public Customer CreateByAccount(MembershipUser user)
         {
@@ -133,10 +70,6 @@ namespace Kooboo.Commerce.Customers.Services
         {
             try
             {
-                if (customer.Loyalty != null)
-                {
-                    _customerLoyaltyRepository.Save(o => o.CustomerId == customer.Loyalty.CustomerId, customer.Loyalty, o => new object[] { o.CustomerId });
-                }
                 if (customer.Addresses != null)
                 {
                     foreach (var address in customer.Addresses)
@@ -183,7 +116,6 @@ namespace Kooboo.Commerce.Customers.Services
         {
             try
             {
-                _customerLoyaltyRepository.DeleteBatch(o => o.CustomerId == customer.Id);
                 _addressRepository.DeleteBatch(o => o.CustomerId == customer.Id);
                 _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
                 _customerRepository.Delete(customer);

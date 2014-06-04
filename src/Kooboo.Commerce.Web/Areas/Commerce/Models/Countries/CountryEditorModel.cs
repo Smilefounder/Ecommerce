@@ -16,11 +16,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries
         [Required(ErrorMessage = "Required")]
         public string Name { get; set; }
 
-        public string ThreeLetterISOCode { get; set; }
+        [Display(Name = "Three letter ISO code")]
+        public string ThreeLetterIsoCode { get; set; }
 
-        public string TwoLetterISOCode { get; set; }
+        [Display(Name = "Two letter ISO code")]
+        public string TwoLetterIsoCode { get; set; }
 
-        public string NumericISOCode { get; set; }
+        [Display(Name = "Numeric ISO code")]
+        public string NumericIsoCode { get; set; }
 
         public CountryEditorModel()
         {
@@ -30,18 +33,18 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries
         {
             Id = country.Id;
             Name = country.Name;
-            ThreeLetterISOCode = country.ThreeLetterIsoCode;
-            TwoLetterISOCode = country.TwoLetterIsoCode;
-            NumericISOCode = country.NumericIsoCode;
+            ThreeLetterIsoCode = country.ThreeLetterIsoCode;
+            TwoLetterIsoCode = country.TwoLetterIsoCode;
+            NumericIsoCode = country.NumericIsoCode;
         }
 
         public void UpdateTo(Country country)
         {
             country.Id = Id;
             country.Name = Name.Trim();
-            country.ThreeLetterIsoCode = ThreeLetterISOCode;
-            country.TwoLetterIsoCode = TwoLetterISOCode;
-            country.NumericIsoCode = NumericISOCode;
+            country.ThreeLetterIsoCode = ThreeLetterIsoCode;
+            country.TwoLetterIsoCode = TwoLetterIsoCode;
+            country.NumericIsoCode = NumericIsoCode;
         }
     }
 }

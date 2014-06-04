@@ -64,11 +64,9 @@ namespace Kooboo.Commerce.API.Customers
         /// a customer may has many addresses, and my be same/different to the order addresses.
         /// </summary>
         public IList<Address> Addresses { get; set; }
-        /// <summary>
-        /// customer loyalty 
-        /// customer points system.
-        /// </summary>
-        public CustomerLoyalty Loyalty { get; set; }
+
+        public int SavingPoints { get; set; }
+
         /// <summary>
         /// fullname = first name + middle name + last name
         /// </summary>

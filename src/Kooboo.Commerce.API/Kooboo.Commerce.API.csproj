@@ -75,7 +75,6 @@
     <Compile Include="CommerceAPIBase.cs" />
     <Compile Include="Customers\Customer.cs" />
     <Compile Include="Customers\CustomerCustomField.cs" />
-    <Compile Include="Customers\CustomerLoyalty.cs" />
     <Compile Include="Customers\ICustomerAccess.cs" />
     <Compile Include="Customers\ICustomerAPI.cs" />
     <Compile Include="Customers\ICustomerQuery.cs" />

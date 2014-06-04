@@ -16,16 +16,7 @@ namespace Kooboo.Commerce.Customers.Services
 
         IQueryable<Address> QueryAddress();
 
-        IQueryable<CustomerLoyalty> QueryCustomerLoyalty();
         IQueryable<CustomerCustomField> CustomFieldsQuery();
-
-        //Customer GetByAccountId(string accountId, bool loadAllInfo = true);
-
-        //IPagedList<Customer> GetAllCustomers(string search, int? pageIndex, int? pageSize);
-
-        //IPagedList<T> GetAllCustomersWithOrderCount<T>(string search, int? pageIndex, int? pageSize, Func<Customer, int, T> func);
-
-        //IPagedList<Order> GetCustomerOrders(int customerId, int? pageIndex, int? pageSize);
 
         Customer CreateByAccount(MembershipUser user);
 

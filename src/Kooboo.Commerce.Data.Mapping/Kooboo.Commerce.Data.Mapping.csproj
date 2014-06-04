@@ -55,7 +55,6 @@
     <Compile Include="BrandMap.cs" />
     <Compile Include="CategoryMap.cs" />
     <Compile Include="CountryMap.cs" />
-    <Compile Include="CustomerLoyaltyMap.cs" />
     <Compile Include="CustomerMap.cs" />
     <Compile Include="CustomFieldMap.cs" />
     <Compile Include="FieldValidationRuleMap.cs" />

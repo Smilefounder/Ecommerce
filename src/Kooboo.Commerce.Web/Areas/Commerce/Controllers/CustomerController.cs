@@ -87,7 +87,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             if (obj == null)
             {
                 obj = new Customer();
-                obj.Loyalty = new CustomerLoyalty();
             }
             return JsonNet(obj);
         }

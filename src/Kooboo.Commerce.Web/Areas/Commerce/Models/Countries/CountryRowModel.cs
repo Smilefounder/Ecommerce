@@ -15,14 +15,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries
 
         [GridColumn(GridItemColumnType = typeof (LinkedGridItemColumn))]
         public string Name { get; set; }
-        [GridColumn()]
-        public string ThreeLetterISOCode { get; set; }
 
-        [GridColumn()]
-        public string TwoLetterISOCode { get; set; }
+        [GridColumn(HeaderText = "Three letter ISO code")]
+        public string ThreeLetterIsoCode { get; set; }
 
-        [GridColumn()]
-        public string NumericISOCode { get; set; }
+        [GridColumn(HeaderText = "Two letter ISO code")]
+        public string TwoLetterIsoCode { get; set; }
+
+        [GridColumn(HeaderText = "Numeric ISO code")]
+        public string NumericIsoCode { get; set; }
 
         public CountryRowModel()
         {
@@ -32,9 +33,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries
         {
             Id = country.Id;
             Name = country.Name;
-            ThreeLetterISOCode = country.ThreeLetterIsoCode;
-            TwoLetterISOCode = country.TwoLetterIsoCode;
-            NumericISOCode = country.NumericIsoCode;
+            ThreeLetterIsoCode = country.ThreeLetterIsoCode;
+            TwoLetterIsoCode = country.TwoLetterIsoCode;
+            NumericIsoCode = country.NumericIsoCode;
         }
     }
 }

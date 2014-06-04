@@ -23,11 +23,26 @@ namespace Kooboo.Commerce.Customers
 
         public string AccountId { get; set; }
 
+        [Param]
+        public int SavingPoints { get; set; }
+
+        [Param]
         public string FirstName { get; set; }
 
+        [Param]
         public string MiddleName { get; set; }
 
+        [Param]
         public string LastName { get; set; }
+
+        [Param]
+        public string FullName
+        {
+            get
+            {
+                return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName);
+            }
+        }
 
         [Param]
         public string Email { get; set; }
@@ -35,6 +50,7 @@ namespace Kooboo.Commerce.Customers
         [Param]
         public Gender Gender { get; set; }
 
+        [Param]
         public string Phone { get; set; }
 
         public int? CountryId { get; set; }
@@ -43,23 +59,19 @@ namespace Kooboo.Commerce.Customers
 
         public int? BillingAddressId { get; set; }
 
-        /// <summary>
-        /// Redundant field for easy query only.  The detail address information should be in the Addresses field.
-        /// </summary>
+        [Param]
         public string City { get; set; }
 
+        [Reference]
         public virtual Country Country { get; set; }
 
-        /// <summary>
-        /// The list of addressed used by this user.
-        /// </summary>
         public virtual List<Address> Addresses { get; set; }
 
-        public virtual Address ShippingAddress 
-        { 
+        public virtual Address ShippingAddress
+        {
             get
             {
-                if(Addresses != null && ShippingAddressId.HasValue)
+                if (Addresses != null && ShippingAddressId.HasValue)
                 {
                     return Addresses.FirstOrDefault(o => o.Id == ShippingAddressId.Value);
                 }
@@ -79,14 +91,7 @@ namespace Kooboo.Commerce.Customers
             }
         }
 
-        public virtual CustomerLoyalty Loyalty { get; set; }
         public virtual ICollection<CustomerCustomField> CustomFields { get; set; }
-
-        [Param]
-        public string FullName
-        {
-            get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); }
-        }
 
         void INotifyCreated.NotifyCreated()
         {

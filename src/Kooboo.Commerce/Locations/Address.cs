@@ -14,37 +14,31 @@ namespace Kooboo.Commerce.Locations
 
         public int CountryId { get; set; }
 
-        /// <summary>
-        /// Default address for the customer.
-        /// </summary>
-        public bool IsDefault { get; set; }
-
+        [Param]
         public string FirstName { get; set; }
 
+        [Param]
         public string LastName { get; set; }
 
-        public string Address1 { get; set; }
-
-        /// <summary>
-        /// optional
-        /// </summary>
-        public string Address2 { get; set; }
-
-        public string Postcode { get; set; }
+        [Param]
+        public string Phone { get; set; }
 
         [Param]
-        public string City { get; set; }
+        public string Address1 { get; set; }
+
+        [Param]
+        public string Address2 { get; set; }
+
+        [Param]
+        public string Postcode { get; set; }
 
         [Param]
         public string State { get; set; }
 
+        [Param]
+        public string City { get; set; }
+
         [Reference]
         public virtual Country Country { get; set; }
-
-        /// <summary>
-        /// optional
-        /// </summary>
-        public string Phone { get; set; }
-
     }
 }
