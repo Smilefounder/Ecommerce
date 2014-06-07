@@ -35,6 +35,11 @@ namespace Kooboo.Commerce.Web.Form.Validation
             foreach (var rule in field.GetClientValidationRules())
             {
                 var prefix = "data-val-" + rule.ValidationType;
+                if (result.ContainsKey(prefix))
+                {
+                    continue;
+                }
+
                 result.Add(prefix, rule.ErrorMessage ?? String.Empty);
 
                 foreach (var kvp in rule.ValidationParameters)

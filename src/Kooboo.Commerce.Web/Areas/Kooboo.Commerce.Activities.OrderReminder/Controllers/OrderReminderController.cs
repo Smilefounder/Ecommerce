@@ -12,11 +12,11 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Activities.InvoiceReminder.Controllers
 {
-    public class InvoiceReminderController : CommerceControllerBase
+    public class OrderReminderController : CommerceControllerBase
     {
         private IRepository<ActivityRule> _ruleRepository;
 
-        public InvoiceReminderController(IRepository<ActivityRule> ruleRepository)
+        public OrderReminderController(IRepository<ActivityRule> ruleRepository)
         {
             _ruleRepository = ruleRepository;
         }
@@ -25,12 +25,12 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder.Controllers
         {
             var rule = _ruleRepository.Get(ruleId);
             var attachedActivity = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            var config = attachedActivity.GetActivityConfig<InvoiceReminderActivityConfig>();
+            var config = attachedActivity.GetActivityConfig<OrderReminderActivityConfig>();
             return JsonNet(config).UsingClientConvention();
         }
 
         [HttpPost, Transactional, HandleAjaxError]
-        public void SaveConfig(int ruleId, int attachedActivityInfoId, InvoiceReminderActivityConfig config)
+        public void SaveConfig(int ruleId, int attachedActivityInfoId, OrderReminderActivityConfig config)
         {
             var rule = _ruleRepository.Get(ruleId);
             var attachedActivity = rule.AttachedActivityInfos.Find(attachedActivityInfoId);

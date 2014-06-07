@@ -2,6 +2,15 @@
     <table>
         <tbody>
             <tr>
+                <th>@("Receivers".Localize())</th>
+                <td>
+                    <input type="text" data-bind="value: receivers" />
+                    <em class="tip">
+                        Comma separated email list. Use <code>{Customer}</code> as the placeholder for customer email
+                    </em>
+                </td>
+            </tr>
+            <tr>
                 <th>@("Subject Template".Localize())</th>
                 <td>
                     <input type="text" data-bind="value: subjectTemplate" />
@@ -29,7 +38,7 @@
 
             var attachedActivityInfoId = editor.model().attachedActivityInfoId();
             if (attachedActivityInfoId) {
-                var url = '@Url.Action("GetConfig", "InvoiceReminder", new { area = Strings.AreaName })';
+                var url = '@Url.Action("GetConfig", "OrderReminder", new { area = Strings.AreaName })';
                 return $.get(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityInfoId)
                         .then(function (data) {
                             ko.mapping.fromJS(data, {}, model);
@@ -42,11 +51,13 @@
 
         editor.on('saved', function (sender, args) {
             var attachedActivityId = editor.model().attachedActivityInfoId();
-            var url = '@Url.Action("SaveConfig", "InvoiceReminder", new { area = Strings.AreaName })';
+            var url = '@Url.Action("SaveConfig", "OrderReminder", new { area = Strings.AreaName })';
             return kb.http.safePost(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityId, ko.mapping.toJS(model));
         });
 
         function InvoiceReminderConfigModel() {
+
+            this.receivers = ko.observable();
             
             this.subjectTemplate = ko.observable();
 

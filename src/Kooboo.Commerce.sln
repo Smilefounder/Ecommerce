@@ -52,7 +52,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Payments.Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API", "Kooboo.Commerce.API\Kooboo.Commerce.API.csproj", "{CD168C81-AA6F-480A-94EC-87E3BA0A5871}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Activities.InvoiceReminder", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Activities.InvoiceReminder\Kooboo.Commerce.Activities.InvoiceReminder.csproj", "{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Activities.OrderReminder", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Activities.OrderReminder\Kooboo.Commerce.Activities.OrderReminder.csproj", "{6FF34F9C-B9D4-4943-B47C-645BA0995DAE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.LocalProvider", "Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj", "{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}"
 EndProject

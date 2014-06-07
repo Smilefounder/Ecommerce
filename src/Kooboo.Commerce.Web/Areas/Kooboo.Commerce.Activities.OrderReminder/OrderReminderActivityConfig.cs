@@ -5,10 +5,12 @@ using System.Web;
 
 namespace Kooboo.Commerce.Activities.InvoiceReminder
 {
-    public class InvoiceReminderActivityConfig
+    public class OrderReminderActivityConfig
     {
         public string SubjectTemplate { get; set; }
 
         public string BodyTemplate { get; set; }
+
+        public string Receivers { get; set; }
     }
 }
