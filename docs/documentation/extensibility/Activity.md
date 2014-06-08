@@ -14,6 +14,11 @@
         string Name { get; }
 
         /// <summary>
+        /// Activity显示名称。
+        /// </summary>
+        string DisplayName { get; }
+
+        /// <summary>
         /// 是否允许异步执行。
         /// </summary>
         bool AllowAsyncExecution { get; }

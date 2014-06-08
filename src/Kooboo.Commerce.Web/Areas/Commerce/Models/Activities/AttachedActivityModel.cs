@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Kooboo.Globalization;
+using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 {
@@ -48,20 +49,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             IsEnabled = true;
         }
 
-        public AttachedActivityModel(AttachedActivityInfo activity)
+        public AttachedActivityModel(AttachedActivityInfo attachedActivityInfo)
         {
-            Id = activity.Id;
-            RuleId = activity.Rule.Id;
-            Description = activity.Description;
-            ActivityName = activity.ActivityName;
-            IsEnabled = activity.IsEnabled;
-            Priority = activity.Priority;
-            RuleBranch = activity.RuleBranch;
-            IsAsyncExecutionEnabled = activity.IsAsyncExeuctionEnabled;
+            Id = attachedActivityInfo.Id;
+            RuleId = attachedActivityInfo.Rule.Id;
+            Description = attachedActivityInfo.Description;
+            ActivityName = attachedActivityInfo.ActivityName;
+            ActivityDisplayName = EngineContext.Current.Resolve<IActivityProvider>().FindByName(attachedActivityInfo.ActivityName).DisplayName;
+            IsEnabled = attachedActivityInfo.IsEnabled;
+            Priority = attachedActivityInfo.Priority;
+            RuleBranch = attachedActivityInfo.RuleBranch;
+            IsAsyncExecutionEnabled = attachedActivityInfo.IsAsyncExeuctionEnabled;
 
-            if (activity.AsyncExecutionDelay > 0)
+            if (attachedActivityInfo.AsyncExecutionDelay > 0)
             {
-                var delay = TimeSpan.FromSeconds(activity.AsyncExecutionDelay);
+                var delay = TimeSpan.FromSeconds(attachedActivityInfo.AsyncExecutionDelay);
                 DelayDays = delay.Days;
                 DelayHours = delay.Hours;
                 DelayMinutes = delay.Minutes;
@@ -70,9 +72,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
             if (IsAsyncExecutionEnabled)
             {
-                if (activity.AsyncExecutionDelay > 0)
+                if (attachedActivityInfo.AsyncExecutionDelay > 0)
                 {
-                    DelayHint = String.Format("Will execute in {0} when the event occurs".Localize(), TimeSpan.FromSeconds(activity.AsyncExecutionDelay).Humanize());
+                    DelayHint = String.Format("Will execute in {0} when the event occurs".Localize(), TimeSpan.FromSeconds(attachedActivityInfo.AsyncExecutionDelay).Humanize());
                 }
                 else
                 {

@@ -10,6 +10,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
     {
         public string Name { get; set; }
 
+        public string DisplayName { get; set; }
+
         public bool AllowAsyncExecution { get; set; }
 
         public string EditorVirtualPath { get; set; }
@@ -19,6 +21,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
         public ActivityModel(IActivity activity, ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
         {
             Name = activity.Name;
+            DisplayName = activity.DisplayName;
             AllowAsyncExecution = activity.AllowAsyncExecution;
             var editor = activity.GetEditor(rule, attachedActivityInfo);
             if (editor != null)

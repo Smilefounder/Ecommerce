@@ -250,7 +250,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                                           .Select(x => new
                                           {
                                               Name = x.Name,
-                                              DisplayName = x.Name
+                                              DisplayName = x.DisplayName
                                           });
 
             return JsonNet(result).UsingClientConvention();

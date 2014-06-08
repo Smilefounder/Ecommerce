@@ -16,10 +16,18 @@ using Kooboo.Commerce.Orders.Services;
 
 namespace Kooboo.Commerce.Activities.OrderReminder
 {
-    [Dependency(typeof(IActivity), Key = "Order Reminder")]
+    [Dependency(typeof(IActivity), Key = "OrderReminder")]
     public class OrderReminderActivity : IActivity
     {
         public string Name
+        {
+            get
+            {
+                return "OrderReminder";
+            }
+        }
+
+        public string DisplayName
         {
             get
             {
