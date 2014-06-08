@@ -140,15 +140,16 @@
                 ko.mapping.fromJS(data, {}, _this);
             }
 
-            _this.Quantity.subscribe(function (quantity) {
-                _cart.UpdateQuantity(_this, quantity);
-            });
+            // TODO: Will cause infinite loop?
+            //_this.Quantity.subscribe(function (quantity) {
+            //    _cart.UpdateQuantity(_this, quantity);
+            //});
 
-            _this.ProductPriceId.subscribe(function (priceId) {
-                if (priceId) {
-                    _cart.ChangeProductPrice(_this, priceId);
-                }
-            });
+            //_this.ProductPriceId.subscribe(function (priceId) {
+            //    if (priceId) {
+            //        _cart.ChangeProductPrice(_this, priceId);
+            //    }
+            //});
         }
 
         function ShoppingCartModel() {

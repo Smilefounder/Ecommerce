@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}</ProjectGuid>
+    <ProjectGuid>{00783F71-FBCA-4275-BA64-5F419BB8D43F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.Commerce.API.LocalProvider</RootNamespace>
-    <AssemblyName>Kooboo.Commerce.API.LocalProvider</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Kooboo.Commerce.API.BestSellers</RootNamespace>
+    <AssemblyName>Kooboo.Commerce.API.BestSellers</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -33,25 +33,11 @@
     <Reference Include="Kooboo">
       <HintPath>..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.CMS.Common, Version=4.4.0.307, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Kooboo.CMS.Common">
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.CMS.Membership, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Membership.dll</HintPath>
-    </Reference>
-    <Reference Include="Kooboo.CMS.Sites">
-      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Sites.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Mvc\4.0\System.Web.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,32 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brands\BrandAPI.cs" />
-    <Compile Include="Categories\CategoryAPI.cs" />
-    <Compile Include="Customers\CustomerAPI.cs" />
-    <Compile Include="IHalContextAware.cs" />
-    <Compile Include="IMapper.cs" />
-    <Compile Include="LocalCommerceAPI.cs" />
-    <Compile Include="LocalCommerceQuery.cs" />
-    <Compile Include="LocalCommerceQueryAccess.cs" />
-    <Compile Include="Locations\CountryAPI.cs" />
-    <Compile Include="Payments\LocalPaymentAPI.cs" />
-    <Compile Include="Payments\LocalPaymentMethodAPI.cs" />
-    <Compile Include="Payments\LocalPaymentMethodQuery.cs" />
-    <Compile Include="Payments\LocalPaymentQuery.cs" />
-    <Compile Include="Orders\OrderAPI.cs" />
-    <Compile Include="Pricing\LocalPriceAPI.cs" />
-    <Compile Include="Pricing\PriceWithDiscountExtensions.cs" />
-    <Compile Include="Products\ProductAPI.cs" />
+    <Compile Include="BestSellersQuery.cs" />
+    <Compile Include="IBestSellersQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionMapper.cs" />
-    <Compile Include="ShoppingCarts\ShoppingCartAPI.cs" />
-    <Compile Include="Utils\IncludeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo.Commerce.API.HAL\Kooboo.Commerce.API.HAL.csproj">
-      <Project>{28e5672f-9bea-467a-86eb-3db6dc514f13}</Project>
-      <Name>Kooboo.Commerce.API.HAL</Name>
+    <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
+      <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
+      <Name>Kooboo.Commerce.API.LocalProvider</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
@@ -94,13 +62,20 @@
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
       <Name>Kooboo.Commerce.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.Products.ExtendedQuery\Kooboo.Commerce.Products.ExtendedQuery.csproj">
+      <Project>{78e5afa1-8282-4d0f-b380-b4a2b46b55d2}</Project>
+      <Name>Kooboo.Commerce.Products.ExtendedQuery</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce\Kooboo.Commerce.csproj">
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
+xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

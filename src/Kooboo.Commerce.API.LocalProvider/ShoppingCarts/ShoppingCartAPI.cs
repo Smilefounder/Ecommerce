@@ -115,6 +115,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
                 var cartItem = cart.Items.FirstOrDefault(x => x.Id == item.Id);
                 cartItem.Subtotal = item.Subtotal.OriginalValue;
                 cartItem.Discount = item.Subtotal.Discount;
+                cartItem.Total = item.Subtotal.FinalValue;
             }
 
             cart.Subtotal = prices.Subtotal.FinalValue;

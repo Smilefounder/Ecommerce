@@ -4324,12 +4324,13 @@
                                         @(product.GetCustomFieldValue("Measure"))
                                     </span><br>
                                     <span class="price" onclick="AddCart(1265,1)" itemprop="price">
-                                        € @(price.RetailPrice)
+                                        @if (price.RetailPrice != price.FinalRetailPrice) {
+                                            <del style="color:orange">€ @(price.RetailPrice)</del><br/>
+                                        }
+                                        € @(price.FinalRetailPrice)
                                     </span>
 
                                     <span class="addSKU" onclick="AddCart(1265,1)"></span>
-                                    <meta itemprop="availability" content="InStock">
-                                    <meta itemprop="priceCurrency" content="EUR">
                                 </div>
                             }
 

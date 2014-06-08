@@ -129,6 +129,7 @@
     <Compile Include="CommerceDataSource.cs" />
     <Compile Include="CommerceDataSourceDesigner.cs" />
     <Compile Include="Controllers\CommerceDataSourceController.cs" />
+    <Compile Include="DependencyRegistrar.cs" />
     <Compile Include="Models\QueryDescriptorModel.cs" />
     <Compile Include="Models\QueryFilterModel.cs" />
     <Compile Include="ModuleAreaRegistration.cs" />

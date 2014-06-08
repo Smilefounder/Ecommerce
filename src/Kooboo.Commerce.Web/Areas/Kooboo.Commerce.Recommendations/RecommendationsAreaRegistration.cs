@@ -26,8 +26,6 @@ namespace Kooboo.Commerce.Recommendations
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "Kooboo.Commerce.Recommendations.Controllers" }
             );
-
-            QueryDescriptors.RegisterAssemblies(typeof(IRecommendationQuery).Assembly);
         }
     }
 }

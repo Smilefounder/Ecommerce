@@ -71,9 +71,14 @@ namespace Kooboo.Commerce.Rules
             if (@operator == null)
                 throw new InvalidOperationException("Unrecognized comparison operator \"" + exp.Operator + "\".");
 
+            var result = false;
+
             var paramValue = param.ValueResolver.ResolveValue(param, _dataContext);
-            var conditionValue = Convert.ChangeType(exp.Value.Value, param.ValueType);
-            var result = @operator.Apply(param, paramValue, conditionValue);
+            if (paramValue != null)
+            {
+                var conditionValue = Convert.ChangeType(exp.Value.Value, param.ValueType);
+                result = @operator.Apply(param, paramValue, conditionValue);
+            }
 
             _results.Push(result);
         }

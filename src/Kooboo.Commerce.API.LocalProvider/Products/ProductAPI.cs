@@ -1,15 +1,22 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Membership;
+using Kooboo.CMS.Membership;
 using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.EAV.Services;
+using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Products.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
+using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.API.Customers;
 
 namespace Kooboo.Commerce.API.LocalProvider.Products
 {
@@ -55,6 +62,42 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         protected override IQueryable<Commerce.Products.Product> OrderByDefault(IQueryable<Commerce.Products.Product> query)
         {
             return query.OrderByDescending(o => o.Id);
+        }
+
+        protected override Product Map(Commerce.Products.Product obj)
+        {
+            var product = base.Map(obj);
+
+            if (product.PriceList != null)
+            {
+                foreach (var price in product.PriceList)
+                {
+                    int? customerId = null;
+
+                    // TODO: Ugly!
+                    var member = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
+                    if (member != null)
+                    {
+                        var customer = EngineContext.Current.Resolve<ICustomerAPI>()
+                                                    .ByAccountId(member.UUID)
+                                                    .FirstOrDefault();
+                        if (customer != null)
+                        {
+                            customerId = customer.Id;
+                        }
+                    }
+
+                    price.FinalRetailPrice = PricingContext.GetFinalRetailPrice(product.Id, price.Id, price.RetailPrice, new ShoppingContext
+                    {
+                        // TODO: We don't need Hal anymore, this need to be changed
+                        Culture = HalContext.Language,
+                        Currency = HalContext.Currency,
+                        CustomerId = customerId
+                    });
+                }
+            }
+
+            return product;
         }
 
         /// <summary>

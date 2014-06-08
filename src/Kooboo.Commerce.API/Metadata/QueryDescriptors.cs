@@ -29,11 +29,6 @@ namespace Kooboo.Commerce.API.Metadata
             }
         }
 
-        static QueryDescriptors()
-        {
-            RegisterAssemblies(typeof(QueryDescriptors).Assembly);
-        }
-
         public static void RegisterAssemblies(params Assembly[] assemblies)
         {
             var types = assemblies.SelectMany(asm => asm.GetExportedTypes()).ToList();
@@ -47,10 +42,10 @@ namespace Kooboo.Commerce.API.Metadata
                     QueryDescriptor descriptor;
                     if (QueryDescriptor.TryDescribe(type, out descriptor))
                     {
-                        if (_descriptorsByNames.ContainsKey(descriptor.Name))
-                            throw new InvalidOperationException("A query with name '" + descriptor.Name + "' has already been registered. Ensure each query have a unique name. Checking type: " + type + ".");
-
-                        _descriptorsByNames.Add(descriptor.Name, descriptor);
+                        if (!_descriptorsByNames.ContainsKey(descriptor.Name))
+                        {
+                            _descriptorsByNames.Add(descriptor.Name, descriptor);
+                        }
                     }
                 }
             }

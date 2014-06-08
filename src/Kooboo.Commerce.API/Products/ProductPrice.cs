@@ -34,6 +34,8 @@ namespace Kooboo.Commerce.API.Products
         /// sale price in retail
         /// </summary>
         public decimal RetailPrice { get; set; }
+
+        public decimal FinalRetailPrice { get; set; }
         /// <summary>
         /// create time at utc
         /// </summary>

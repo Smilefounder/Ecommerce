@@ -26,8 +26,6 @@ namespace Kooboo.Commerce.Accessories
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "Kooboo.Commerce.Accessories.Controllers" }
             );
-
-            QueryDescriptors.RegisterAssemblies(typeof(IAccessoryQuery).Assembly);
         }
     }
 }

@@ -72,9 +72,12 @@ namespace Kooboo.Commerce.API.LocalProvider
 
         protected void AppendHalContextParameters(IDictionary<string, object> parameters)
         {
-            parameters.Add("instance", HalContext.CommerceInstance);
-            parameters.Add("language", HalContext.Language);
-            parameters.Add("currency", HalContext.Currency);
+            if (HalContext != null)
+            {
+                parameters.Add("instance", HalContext.CommerceInstance);
+                parameters.Add("language", HalContext.Language);
+                parameters.Add("currency", HalContext.Currency);
+            }
         }
 
         protected virtual IDictionary<string, object> BuildListHalParameters(IListResource<T> data)

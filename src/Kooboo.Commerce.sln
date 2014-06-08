@@ -110,6 +110,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Activities.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.CMSIntegration.Plugins", "Kooboo.Commerce.CMSIntegration.Plugins\Kooboo.Commerce.CMSIntegration.Plugins.csproj", "{100ED022-EEF9-4F39-8A92-C4D7CEADE258}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.BestSellers", "Kooboo.Commerce.API.BestSellers\Kooboo.Commerce.API.BestSellers.csproj", "{00783F71-FBCA-4275-BA64-5F419BB8D43F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api Extensions", "Api Extensions", "{AF5B4096-5547-47F3-BE5C-A777FBD8B1A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -256,6 +260,10 @@ Global
 		{100ED022-EEF9-4F39-8A92-C4D7CEADE258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{100ED022-EEF9-4F39-8A92-C4D7CEADE258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{100ED022-EEF9-4F39-8A92-C4D7CEADE258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00783F71-FBCA-4275-BA64-5F419BB8D43F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00783F71-FBCA-4275-BA64-5F419BB8D43F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00783F71-FBCA-4275-BA64-5F419BB8D43F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00783F71-FBCA-4275-BA64-5F419BB8D43F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -305,5 +313,7 @@ Global
 		{E2A85603-2C66-4F33-9C5A-ED885C73026D} = {B9E2689E-7802-4F2D-82FC-29B6650A3950}
 		{74E1E6F8-9A39-4567-8026-2C8EF4ED04A6} = {B9E2689E-7802-4F2D-82FC-29B6650A3950}
 		{100ED022-EEF9-4F39-8A92-C4D7CEADE258} = {6466DDD2-36B2-4CDD-9830-4322B89284FB}
+		{00783F71-FBCA-4275-BA64-5F419BB8D43F} = {AF5B4096-5547-47F3-BE5C-A777FBD8B1A6}
+		{AF5B4096-5547-47F3-BE5C-A777FBD8B1A6} = {BF64373D-7134-4408-8749-1B6A954BEFF8}
 	EndGlobalSection
 EndGlobal

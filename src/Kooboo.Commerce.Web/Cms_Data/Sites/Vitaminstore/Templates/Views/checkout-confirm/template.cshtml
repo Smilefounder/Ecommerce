@@ -3,8 +3,12 @@
     var api = Site.Current.Commerce();
     var member = ViewContext.HttpContext.Membership().GetMembershipUser();
     var cart = api.ShoppingCarts.ByAccountId(member.UUID)
-                                .LoadWithProductImages()
-                                .LoadWithBrands()
+                                .Include("Items.ProductPrice")
+                                .Include("Items.ProductPrice.Product")
+                                .Include("Items.ProductPrice.Product.Images")
+                                .Include("Items.ProductPrice.Product.Brand")
+                                .Include("ShippingAddress")
+                                .Include("ShippingAddress.Country")
                                 .FirstOrDefault();
 
     var prices = api.Prices.CartPrice(cart.Id);
@@ -34,7 +38,6 @@
                         {
                             var priceInfo = prices.Items.First(x => x.Id == item.Id);
                             var image = item.ProductPrice.Product.Images.FirstOrDefault();
-                            
                             <tr>
                                 <td rowspan="3" class="pic top">
                                     @if (image != null) { 
