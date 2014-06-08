@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
 {
     public class SubmitOrderPlugin : SubmissionPluginBase
     {
-        protected override object Execute()
+        protected override object Execute(SubmissionModel model)
         {
             var api = Site.Commerce();
 

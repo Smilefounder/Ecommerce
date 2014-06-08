@@ -56,14 +56,24 @@
   <ItemGroup>
     <Compile Include="Carts\ApplyCouponPlugin.cs" />
     <Compile Include="Carts\AddCartItemPlugin.cs" />
+    <Compile Include="Carts\ChangeBillingAddressPlugin.cs" />
     <Compile Include="Carts\ChangeCartItemQuantityPlugin.cs" />
+    <Compile Include="Carts\ChangeShippingAddressPlugin.cs" />
+    <Compile Include="Carts\Models\ChangeBillingAddressModel.cs" />
+    <Compile Include="Carts\Models\ChangeShippingAddressModel.cs" />
     <Compile Include="Carts\RemoveCartItemPlugin.cs" />
     <Compile Include="Carts\Models\AddItemModel.cs" />
     <Compile Include="Carts\Models\ApplyCouponModel.cs" />
     <Compile Include="Carts\Models\ChangeItemQuantityModel.cs" />
     <Compile Include="Carts\Models\RemoveItemModel.cs" />
     <Compile Include="Carts\SiteCartExtensions.cs" />
-    <Compile Include="InvalidModelStateException.cs" />
+    <Compile Include="Customers\AddAddressPlugin.cs" />
+    <Compile Include="Customers\AddAddressResult.cs" />
+    <Compile Include="Customers\Models\AddAddressModel.cs" />
+    <Compile Include="Customers\Models\RegisterCustomerModel.cs" />
+    <Compile Include="Customers\RegisterCustomerPlugin.cs" />
+    <Compile Include="Customers\RegisterCustomerResult.cs" />
+    <Compile Include="SubmissionModel.cs" />
     <Compile Include="Orders\Models\PayOrderModel.cs" />
     <Compile Include="Orders\PayOrderPlugin.cs" />
     <Compile Include="Orders\PayOrderResult.cs" />
@@ -72,7 +82,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SiteExtensions.cs" />
     <Compile Include="SubmissionPluginBase.cs" />
-    <Compile Include="SubmissionPluginBase`.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">

@@ -13,7 +13,8 @@ using System.Web;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins
 {
-    public abstract class SubmissionPluginBase : ISubmissionPlugin
+    public abstract class SubmissionPluginBase<TModel> : ISubmissionPlugin
+        where TModel : SubmissionModel, new()
     {
         private Dictionary<string, object> _parameters = new Dictionary<string, object>();
 
@@ -48,16 +49,26 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
         public System.Web.Mvc.ActionResult Submit(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
         {
             // Setup temp fields
-
             Site = site;
             ControllerContext = controllerContext;
             SubmissionSetting = submissionSetting;
 
-            var resultData = new JsonResultData();
+            var model = new TModel();
+
+            if (!ModelBindHelper.BindModel<TModel>(model, "", ControllerContext, SubmissionSetting))
+            {
+                var resultData = new JsonResultData();
+                resultData.Success = false;
+                resultData.AddModelState(ControllerContext.Controller.ViewData.ModelState);
+
+                ClearTempFields();
+
+                return new JsonResult { Data = resultData };
+            }
 
             try
             {
-                var result = Execute();
+                var result = Execute(model);
                 var redirectUrl = ResolveUrl(controllerContext.HttpContext.Request["SuccessUrl"], controllerContext);
 
                 if (!String.IsNullOrEmpty(redirectUrl))
@@ -66,37 +77,45 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
                 }
                 else
                 {
-                    resultData.Success = true;
-                    resultData.Model = result;
+                    return new JsonResult
+                    {
+                        Data = new JsonResultData
+                        {
+                            Success = true,
+                            Model = result
+                        }
+                    };
                 }
             }
             catch (Exception ex)
             {
                 Kooboo.HealthMonitoring.Log.LogException(ex);
 
-                var redirectUrl = ResolveUrl(HttpContext.Request["FailedUrl"], ControllerContext);
+                var redirectUrl = ResolveUrl(model.FailedUrl, ControllerContext);
                 if (!String.IsNullOrEmpty(redirectUrl))
                 {
                     return new RedirectResult(redirectUrl);
                 }
                 else
                 {
+                    var resultData = new JsonResultData();
                     resultData.Success = false;
                     resultData.AddException(ex);
+
+                    return new JsonResult { Data = resultData };
                 }
             }
             finally
             {
-                // Cleanup temp fields
-                Site = null;
-                ControllerContext = null;
-                SubmissionSetting = null;
+                ClearTempFields();
             }
+        }
 
-            return new JsonResult
-            {
-                Data = resultData
-            };
+        private void ClearTempFields()
+        {
+            Site = null;
+            ControllerContext = null;
+            SubmissionSetting = null;
         }
 
         protected string ResolveUrl(string url, ControllerContext controllerContext)
@@ -111,6 +130,10 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
             return controllerContext.RequestContext.UrlHelper().FrontUrl().WrapperUrl(url).ToString();
         }
 
-        protected abstract object Execute();
+        protected abstract object Execute(TModel model);
+    }
+
+    public abstract class SubmissionPluginBase : SubmissionPluginBase<SubmissionModel>
+    {
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders.Models
 {
-    public class PayOrderModel
+    public class PayOrderModel : SubmissionModel
     {
         public int OrderId { get; set; }
 

@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
             var order = Site.Commerce().Orders.ById(model.OrderId).FirstOrDefault();
             var paymentMethod = Site.Commerce().PaymentMethods.ById(model.PaymentMethodId).FirstOrDefault();
 
-            var returnUrl = ResolveUrl(HttpContext.Request["SuccessUrl"], ControllerContext);
+            var returnUrl = ResolveUrl(model.SuccessUrl, ControllerContext);
 
             var payment = new PaymentRequest
             {
