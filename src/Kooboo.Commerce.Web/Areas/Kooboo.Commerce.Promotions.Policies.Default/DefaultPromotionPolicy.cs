@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             }
             else
             {
-                discount = oldPrice * (decimal)policyData.DiscountPercent;
+                discount = oldPrice * ((decimal)policyData.DiscountPercent / 100);
             }
 
             if (discount < 0)

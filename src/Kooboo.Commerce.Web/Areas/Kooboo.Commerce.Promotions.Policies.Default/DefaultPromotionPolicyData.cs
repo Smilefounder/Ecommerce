@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
 
         public decimal DiscountAmount { get; set; }
 
-        public float DiscountPercent { get; set; }
+        public int DiscountPercent { get; set; }
 
         public string Serialize()
         {

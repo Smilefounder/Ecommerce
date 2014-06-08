@@ -6,7 +6,7 @@
             <li><a href="#basicinfo">@("Basic Info".Localize())</a></li>
             @if (!string.IsNullOrEmpty(Model.Activity.EditorVirtualPath))
             {
-                <li><a href="#config">@Model.Activity.Name @(" Configuration".Localize())</a></li>
+                <li><a href="#config">@("Activity Configuration".Localize())</a></li>
             }
         </ul>
         <div id="basicinfo">

@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Models
         public IList<SelectListItem> AvailableDiscountModes { get; set; }
 
         [Display(Name = "Discount percent")]
-        public float DiscountPercent { get; set; }
+        public int DiscountPercent { get; set; }
 
         [Display(Name = "Discount amount")]
         public decimal DiscountAmount { get; set; }

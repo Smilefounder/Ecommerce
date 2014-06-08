@@ -1,0 +1,77 @@
+﻿<form class="common-form" id="retailprice-discount-form">
+    <table>
+        <tbody>
+            <tr>
+                <th>@("Discount mode".Localize())</th>
+                <td>
+                    <select name="DiscountMode" class="medium" data-bind="value: discountMode">
+                        <option value="ByAmount">@("ByAmount".Localize())</option>
+                        <option value="ByPercent">@("ByPercent".Localize())</option>
+                    </select>
+                </td>
+            </tr>
+            <tr data-bind="visible: discountMode() === 'ByAmount'">
+                <th>@("Discount amount".Localize())</th>
+                <td>
+                    <input type="text" name="DiscountAmount" class="medium" data-bind="value: discountAmount"
+                           data-val="true"
+                           data-val-required="*"
+                           data-val-number="@("Please enter a number".Localize())" />
+                    <span data-valmsg-for="DiscountAmount" data-valmsg-replace="true"></span>
+                </td>
+            </tr>
+            <tr data-bind="visible: discountMode() === 'ByPercent'">
+                <th>@("Discount percent".Localize())</th>
+                <td>
+                    <input type="text" name="DiscountPercent" class="medium" data-bind="value: discountPercentOff"
+                           data-val="true"
+                           data-val-required="*"
+                           data-val-digits="@("Please entery an integer".Localize())" />
+                    % @("OFF".Localize())
+                    <span data-valmsg-for="DiscountPercent" data-valmsg-replace="true"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+<script>
+
+    $(function () {
+
+        var editor = ActivityEditor.current();
+        var model = new ViewModel();
+        var ruleId = editor.model().ruleId();
+
+        editor.on('databound', function (sender, args) {
+            ko.applyBindings(model, document.getElementById('retailprice-discount-form'));
+
+            var attachedActivityInfoId = editor.model().attachedActivityInfoId();
+            if (attachedActivityInfoId) {
+                var url = '/@(Strings.AreaName)/Config/Load';
+                return $.get(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityInfoId)
+                        .then(function (data) {
+                            ko.mapping.fromJS(data, {}, model);
+                        });
+            }
+        });
+
+        editor.on('saved', function (sender, args) {
+            var activityInfoId = args.attachedActivityInfoId;
+            var url = '/@(Strings.AreaName)/Config/Save';
+            return kb.http.safePost(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + activityInfoId, ko.mapping.toJS(model));
+        });
+
+        function ViewModel() {
+            var self = this;
+
+            self.discountMode = ko.observable('ByAmount');
+
+            self.discountAmount = ko.observable();
+
+            self.discountPercentOff = ko.observable();
+        }
+
+    });
+
+</script>
