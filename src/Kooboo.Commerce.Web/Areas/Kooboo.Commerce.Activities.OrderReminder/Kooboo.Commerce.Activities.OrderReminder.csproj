@@ -52,6 +52,10 @@
     <Reference Include="Kooboo.CMS.Common.Runtime.Dependency.Ninject">
       <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.CMS.Web, Version=4.4.0.425, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -121,6 +125,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CancelConditionModel.cs" />
     <Compile Include="MailClient.cs" />
     <Compile Include="MailInfo.cs" />
     <Compile Include="OrderReminderActivityConfig.cs" />

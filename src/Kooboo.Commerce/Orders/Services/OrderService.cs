@@ -119,7 +119,7 @@ namespace Kooboo.Commerce.Orders.Services
                 order.CustomerId = customer.Id;
                 order.IsCompleted = false;
                 order.Coupon = shoppingCart.CouponCode;
-                order.ChangeStatus(OrderStatus.Created);
+                order.ChangeStatus(OrderStatus.Submitted);
 
                 if (shoppingCart.Items.Count > 0)
                 {

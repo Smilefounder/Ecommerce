@@ -2,7 +2,7 @@
     <table>
         <tbody>
             <tr>
-                <th>@("Receivers".Localize())</th>
+                <th>@("To".Localize())</th>
                 <td>
                     <input type="text" data-bind="value: receivers" />
                     <em class="tip">
@@ -11,26 +11,46 @@
                 </td>
             </tr>
             <tr>
-                <th>@("Subject Template".Localize())</th>
+                <th>@("Subject".Localize())</th>
                 <td>
-                    <input type="text" data-bind="value: subjectTemplate" />
+                    <input type="text" data-bind="value: subject" />
+                    <em class="tip">Use <code>{param}</code> as the placeholder for parameter 'param'.</em>
                 </td>
             </tr>
             <tr>
-                <th>@("Body Template".Localize())</th>
+                <th>@("Body".Localize())</th>
                 <td>
-                    <textarea data-bind="value: bodyTemplate"></textarea>
+                    <textarea data-bind="value: body"></textarea>
+                    <em class="tip">Use <code>{param}</code> as the placeholder for parameter 'param'.</em>
+                </td>
+            </tr>
+            <tr>
+                <th>@("Cancel if".Localize())</th>
+                <td>
+                    <span class="conditions-expression" data-bind="html: highlightedCancelCondition"></span>
+                    <a href="#" data-bind="click: editCancelCondition">
+                        @Html.IconImage("edit-small")
+                    </a>
+                    <div>
+                        <em class="tip">
+                            @("If the activity is executed asynchrously, it'll be cancelled if cancel condition is met.")
+                        </em>
+                    </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </form>
 
+@Html.Partial("~/Areas/Commerce/Views/Shared/_ConditionsEditor.cshtml")
+
 <script>
     $(function () {
 
+        var cancelConditionModelType = '@(typeof(CancelConditionModel).AssemblyQualifiedNameWithoutVersion())';
+
         var editor = ActivityEditor.current();
-        var model = new InvoiceReminderConfigModel();
+        var model = new OrderReminderViewModel();
         var ruleId = editor.model().ruleId();
 
         editor.on('databound', function (sender, args) {
@@ -55,13 +75,48 @@
             return kb.http.safePost(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityId, ko.mapping.toJS(model));
         });
 
-        function InvoiceReminderConfigModel() {
+        ConditionsEditor.init({
+            contextModelTypeName: cancelConditionModelType,
+            save: function (exp) {
+                model.cancelCondition(exp);
+            }
+        });
 
-            this.receivers = ko.observable();
+        function OrderReminderViewModel() {
+            var _this = this;
+
+            this.receivers = ko.observable('{Customer}');
             
-            this.subjectTemplate = ko.observable();
+            this.subject = ko.observable();
 
-            this.bodyTemplate = ko.observable();
+            this.body = ko.observable();
+
+            this.showCancelCondition = ko.observable();
+
+            this.cancelCondition = ko.observable();
+
+            this.highlightedCancelCondition = ko.observable();
+
+            this.editCancelCondition = function () {
+                ConditionsEditor.open({
+                    title: '@("Cancel Condition".Localize())',
+                    expression: _this.cancelCondition()
+                });
+            }
+
+            _this.cancelCondition.subscribe(function (exp) {
+                if (exp === null || exp === undefined || exp === '') {
+                    _this.highlightedCancelCondition(null);
+                } else {
+                    $.get('/Commerce/Condition/PrettifyConditionsExpression', {
+                        expression: exp,
+                        contextModelType: cancelConditionModelType
+                    })
+                    .done(function (html) {
+                        _this.highlightedCancelCondition(html);
+                    });
+                }
+            });
         }
     });
 </script>

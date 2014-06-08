@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public int Priority { get; set; }
 
-        public bool EnableAsyncExecution { get; set; }
+        public bool IsAsyncExecutionEnabled { get; set; }
 
         public int DelayDays { get; set; }
 

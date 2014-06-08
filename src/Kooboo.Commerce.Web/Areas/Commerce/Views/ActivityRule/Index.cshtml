@@ -14,35 +14,14 @@
         if (activity.AsyncExecutionDelay > 0)
         {
             var delay = TimeSpan.FromSeconds(activity.AsyncExecutionDelay);
-            var parts = new List<string>();
-            if (delay.Days > 0)
-            {
-                parts.Add(delay.Days + "day" + (delay.Days > 1 ? "s" : ""));
-            }
-            if (delay.Hours > 0)
-            {
-                parts.Add(delay.Hours + "hour" + (delay.Hours > 1 ? "s" : ""));
-            }
-            if (delay.Minutes > 0)
-            {
-                parts.Add(delay.Minutes + "minute" + (delay.Minutes > 1 ? "s" : ""));
-            }
-            if (delay.Seconds > 0)
-            {
-                parts.Add(delay.Seconds + "second" + (delay.Seconds > 1 ? "s" : ""));
-            }
-
-            var delayText = String.Join(" and ", parts);
-
-            <span title="@String.Format("Will execute in {0} when the event occurs".Localize(), delayText)">
-                <!-- TODO: Change to clock-like icon -->
+            
+            <span title="@String.Format("Will execute in {0} when the event occurs".Localize(), delay.Humanize())">
                 @Html.IconImage("clock")
             </span>
         }
         else
         {
             <span title="@("Will execute asynchronously".Localize())">
-                <!-- TODO: Change to clock-like icon -->
                 @Html.IconImage("clock")
             </span>
         }

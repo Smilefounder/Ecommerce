@@ -1,7 +1,7 @@
 ﻿
 <div id="conditions-editor" style="display:none">
     <div class="topbar">
-        <h1 class="title">@("Rule Conditions".Localize())</h1>
+        <h1 class="title" data-bind="text: dialogTitle">@("Rule Conditions".Localize())</h1>
     </div>
     <div class="wrap">
         <div class="condition-result">
@@ -45,15 +45,13 @@
         </form>
     </div>
     <div class="buttons">
-        <a href="#" class="button gray right J_Cancel">@("Cancel".Localize())</a>
-        <a href="#" class="button right J_Save">@("Save".Localize())</a>
+        <a href="#" class="button gray right btn-cancel-condition-editor">@("Cancel".Localize())</a>
+        <a href="#" class="button right btn-submit-condition-editor">@("Save".Localize())</a>
     </div>
 </div>
 
 <script>
     (function () {
-        var commerceName = '@Request["commerceName"]';
-
         function ConditionViewModel(root) {
             var _this = this;
             var _root = root;
@@ -145,7 +143,7 @@
                 var contextModelTypeName = _this.contextModelTypeName();
 
                 if (contextModelTypeName) {
-                    $.get('@Url.Action("AvailableParameters", "Condition")', { commerceName: commerceName, contextModelTypeName: contextModelTypeName })
+                    $.get('@Url.Action("AvailableParameters", "Condition")', { contextModelTypeName: contextModelTypeName })
                      .then(function (data) {
                          $.each(data, function () {
                              viewModel.availableParameters.push(ko.mapping.fromJS(this));
@@ -168,6 +166,8 @@
 
                 return deferred.promise();
             }
+
+            this.dialogTitle = ko.observable('@("Rule Conditions".Localize())');
 
             this.isChanged = ko.observable(false).extend({ throttle: 500 });
 
@@ -253,7 +253,7 @@
                 };
 
                 $.ajax({
-                    url: '@Url.Action("GetExpression", "Condition")' + '?commerceName=' + commerceName + '&contextModelType=' + _this.contextModelTypeName() + '&prettify=' + (prettify || false),
+                    url: '@Url.Action("GetExpression", "Condition")' + '?contextModelType=' + _this.contextModelTypeName() + '&prettify=' + (prettify || false),
                     type: 'POST',
                     data: JSON.stringify(model),
                     contentType: 'application/json; charset=utf-8'
@@ -270,8 +270,7 @@
 
                 $.get('@Url.Action("GetConditionModels", "Condition")', {
                     expression: exp,
-                    contextModelType: _this.contextModelTypeName(),
-                    commerceName: commerceName
+                    contextModelType: _this.contextModelTypeName()
                 })
                  .done(function (result) {
                      $.each(result.models, function (i) {
@@ -304,12 +303,12 @@
                         modal: true
                     });
 
-                    self.$dialog.find('.J_Cancel')
+                    self.$dialog.find('.btn-cancel-condition-editor')
                                 .on('click', function (e) {
                                     self.close();
                                     e.preventDefault();
                                 });
-                    self.$dialog.find('.J_Save')
+                    self.$dialog.find('.btn-submit-condition-editor')
                                 .on('click', function (e) {
                                     if (options.save) {
                                         // unfocus the inputs so the changes can be updated to view model before save
@@ -344,12 +343,18 @@
                 return deferred.promise();
             },
             open: function (options) {
+                options = options || {};
+
                 this.model.setExpression(null);
 
-                if (options && options.expression) {
+                if (options.expression) {
                     this.model.setExpression(options.expression);
                 } else {
                     this.model.addCondition();
+                }
+
+                if (options.title) {
+                    this.model.dialogTitle(options.title);
                 }
 
                 var self = this;

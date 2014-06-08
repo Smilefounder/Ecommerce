@@ -14,7 +14,7 @@ using System.Text;
 using Kooboo.Commerce.Events.Brands;
 using Kooboo.Commerce.Orders.Services;
 
-namespace Kooboo.Commerce.Activities.InvoiceReminder
+namespace Kooboo.Commerce.Activities.OrderReminder
 {
     [Dependency(typeof(IActivity), Key = "Order Reminder")]
     public class OrderReminderActivity : IActivity
@@ -62,8 +62,8 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
                 var receivers = config.Receivers.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 var mailInfo = new MailInfo
                 {
-                    Subject = Template.Render(config.SubjectTemplate, order),
-                    Body = Template.Render(config.BodyTemplate, order)
+                    Subject = Template.Render(config.Subject, order),
+                    Body = Template.Render(config.Body, order)
                 };
 
                 foreach (var receiver in receivers)

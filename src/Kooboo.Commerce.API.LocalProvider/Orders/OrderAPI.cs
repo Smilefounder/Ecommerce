@@ -263,7 +263,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
                 var customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
                 if (customer != null)
                 {
-                    order = _orderService.Query().Where(o => o.CustomerId == customer.Id && o.OrderStatus == Commerce.Orders.OrderStatus.Created).OrderByDescending(o => o.CreatedAtUtc).FirstOrDefault();
+                    order = _orderService.Query().Where(o => o.CustomerId == customer.Id && o.OrderStatus == Commerce.Orders.OrderStatus.Submitted).OrderByDescending(o => o.CreatedAtUtc).FirstOrDefault();
                 }
             }
             if (order != null)

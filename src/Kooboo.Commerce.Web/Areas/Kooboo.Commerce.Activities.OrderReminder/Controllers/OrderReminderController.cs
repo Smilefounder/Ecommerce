@@ -10,7 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Activities.InvoiceReminder.Controllers
+namespace Kooboo.Commerce.Activities.OrderReminder.Controllers
 {
     public class OrderReminderController : CommerceControllerBase
     {

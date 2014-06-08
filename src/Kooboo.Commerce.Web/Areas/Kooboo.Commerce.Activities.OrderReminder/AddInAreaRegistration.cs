@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Activities.InvoiceReminder
+namespace Kooboo.Commerce.Activities.OrderReminder
 {
     public class AddInAreaRegistration : AreaRegistration
     {
@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Activities.InvoiceReminder
                 name: AreaName + "_default",
                 url: AreaName + "/{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "Kooboo.Commerce.Activities.InvoiceReminder.Controllers", "Kooboo.Web.Mvc" }
+                namespaces: new[] { "Kooboo.Commerce.Activities.OrderReminder.Controllers", "Kooboo.Web.Mvc" }
             );
         }
     }

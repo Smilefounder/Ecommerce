@@ -116,7 +116,7 @@ namespace Kooboo.Commerce.Orders
 
         void INotifyCreated.NotifyCreated()
         {
-            Event.Raise(new OrderCreated(this));
+            Event.Raise(new OrderSubmitted(this));
         }
     }
 }

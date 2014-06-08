@@ -27,7 +27,7 @@
                         <th></th>
                         <td>
                             <div class="clearfix">
-                                <input type="checkbox" id="EnableAsyncExecution" data-bind="checked: enableAsyncExecution, enable: activity.allowAsyncExecution" />
+                                <input type="checkbox" id="EnableAsyncExecution" data-bind="checked: isAsyncExecutionEnabled, enable: activity.allowAsyncExecution" />
                                 <label class="inline" for="EnableAsyncExecution">@("Enable Async Execution".Localize())</label>
                             </div>
                             <div class="block message warning" style="margin-top:5px" data-bind="visible: !activity.allowAsyncExecution()">
@@ -35,7 +35,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr style="display:none" data-bind="visible: enableAsyncExecution">
+                    <tr style="display:none" data-bind="visible: isAsyncExecutionEnabled">
                         <th>@("Delay".Localize())</th>
                         <td>
                             <div class="columns">

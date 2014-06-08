@@ -8,14 +8,14 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Orders
 {
     [Event(Order = 100)]
-    public class OrderCreated : DomainEvent, IOrderEvent
+    public class OrderSubmitted : DomainEvent, IOrderEvent
     {
         [Reference(typeof(Order), Prefix = "")]
         public int OrderId { get; set; }
 
-        public OrderCreated() { }
+        public OrderSubmitted() { }
 
-        public OrderCreated(Order order)
+        public OrderSubmitted(Order order)
         {
             OrderId = order.Id;
         }

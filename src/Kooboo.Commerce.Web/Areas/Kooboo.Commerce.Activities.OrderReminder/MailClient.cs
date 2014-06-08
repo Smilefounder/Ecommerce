@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Web;
 
-namespace Kooboo.Commerce.Activities.InvoiceReminder
+namespace Kooboo.Commerce.Activities.OrderReminder
 {
     public static class MailClient
     {

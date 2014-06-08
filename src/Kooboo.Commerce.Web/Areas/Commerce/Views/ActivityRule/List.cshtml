@@ -33,7 +33,12 @@
                             <div data-bind="visible: attachedActivities().length > 0" style="display:none">
                                 <ul data-bind="foreach: attachedActivities" class="attached-activities">
                                     <li>
-                                        <span class="desc" data-bind="html: description"></span>
+                                        <span class="desc">
+                                            <span data-bind="html: description"></span>
+                                            <span data-bind="visible: isAsyncExecutionEnabled, attr: { title: delayHint }">
+                                                @Html.IconImage("clock")
+                                            </span>
+                                        </span>
                                         <a class="action" href="#" data-bind="click: $parent.editAttachedActivity" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a>
                                         <a class="action" href="#" data-bind="click: $parent.detachActivity" title="@("Detach".Localize())">@Html.IconImage("minus-small")</a>
                                     </li>

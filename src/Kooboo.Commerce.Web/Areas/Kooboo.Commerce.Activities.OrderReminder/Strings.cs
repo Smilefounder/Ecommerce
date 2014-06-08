@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Activities.InvoiceReminder
+namespace Kooboo.Commerce.Activities.OrderReminder
 {
     public static class Strings
     {

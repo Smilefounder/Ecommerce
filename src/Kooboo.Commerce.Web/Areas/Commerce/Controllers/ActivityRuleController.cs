@@ -137,7 +137,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 model.AttachedActivityInfoId = attachedActivityInfo.Id;
                 model.Description = attachedActivityInfo.Description;
                 model.Priority = attachedActivityInfo.Priority;
-                model.EnableAsyncExecution = attachedActivityInfo.IsAsyncExeuctionEnabled;
+                model.IsAsyncExecutionEnabled = attachedActivityInfo.IsAsyncExeuctionEnabled;
 
                 var delay = TimeSpan.FromSeconds(attachedActivityInfo.AsyncExecutionDelay);
                 model.DelayDays = delay.Days;
@@ -167,7 +167,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             activityInfo.Description = model.Description;
             activityInfo.IsEnabled = model.IsEnabled;
 
-            if (model.EnableAsyncExecution)
+            if (model.IsAsyncExecutionEnabled)
             {
                 var delay = new TimeSpan(model.DelayDays, model.DelayHours, model.DelayMinutes, model.DelaySeconds);
 

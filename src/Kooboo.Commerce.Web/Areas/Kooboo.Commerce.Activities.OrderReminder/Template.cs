@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace Kooboo.Commerce.Activities.InvoiceReminder
+namespace Kooboo.Commerce.Activities.OrderReminder
 {
     public static class Template
     {
