@@ -104,6 +104,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Integration", "5. Integr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.CMSIntegration.DataSources", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.CMSIntegration.DataSources\Kooboo.Commerce.CMSIntegration.DataSources.csproj", "{75AE6D76-90C0-4977-8FDD-E97E2E64A6F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Activities.ChangeSavingPoints", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Activities.ChangeSavingPoints\Kooboo.Commerce.Activities.ChangeSavingPoints.csproj", "{E2A85603-2C66-4F33-9C5A-ED885C73026D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -238,6 +240,10 @@ Global
 		{75AE6D76-90C0-4977-8FDD-E97E2E64A6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75AE6D76-90C0-4977-8FDD-E97E2E64A6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75AE6D76-90C0-4977-8FDD-E97E2E64A6F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2A85603-2C66-4F33-9C5A-ED885C73026D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2A85603-2C66-4F33-9C5A-ED885C73026D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2A85603-2C66-4F33-9C5A-ED885C73026D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2A85603-2C66-4F33-9C5A-ED885C73026D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -284,5 +290,6 @@ Global
 		{EFE5D7FE-7A24-403B-AB6A-E35A3C58B4CE} = {17B20482-2E9E-437B-BAC9-5997B238CC82}
 		{78E5AFA1-8282-4D0F-B380-B4A2B46B55D2} = {17B20482-2E9E-437B-BAC9-5997B238CC82}
 		{75AE6D76-90C0-4977-8FDD-E97E2E64A6F4} = {6466DDD2-36B2-4CDD-9830-4322B89284FB}
+		{E2A85603-2C66-4F33-9C5A-ED885C73026D} = {B9E2689E-7802-4F2D-82FC-29B6650A3950}
 	EndGlobalSection
 EndGlobal

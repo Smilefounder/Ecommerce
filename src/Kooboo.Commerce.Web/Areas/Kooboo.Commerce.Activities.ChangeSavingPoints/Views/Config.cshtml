@@ -1,0 +1,61 @@
+﻿<form class="common-form" id="change-saving-points-config-form">
+    <table>
+        <tbody>
+            <tr>
+                <th>@("Action".Localize())</th>
+                <td>
+                    <select name="Action" data-bind="value: action">
+                        <option value="Increase">@("Increase".Localize())</option>
+                        <option value="Decrease">@("Decrease".Localize())</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>@("Amount".Localize())</th>
+                <td>
+                    <input type="text" name="Amount" data-bind="value: amount"
+                           data-val="true"
+                           data-val-required="*"
+                           data-val-digits="@("Please enter an integer".Localize())" />
+                    <span data-valmsg-for="Amount" data-valmsg-replace="true"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+<script>
+    $(function () {
+
+        var editor = ActivityEditor.current();
+        var model = new ViewModel();
+        var ruleId = editor.model().ruleId();
+
+        editor.on('databound', function (sender, args) {
+            ko.applyBindings(model, document.getElementById('change-saving-points-config-form'));
+
+            var attachedActivityInfoId = editor.model().attachedActivityInfoId();
+            if (attachedActivityInfoId) {
+                var url = '@Url.Action("Load", "Config", new { area = Strings.AreaName })';
+                return $.get(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityInfoId)
+                        .then(function (data) {
+                            ko.mapping.fromJS(data, {}, model);
+                        });
+            }
+        });
+
+        editor.on('saved', function (sender, args) {
+            var activityInfoId = args.attachedActivityInfoId;
+            var url = '@Url.Action("Save", "Config", new { area = Strings.AreaName })';
+            return kb.http.safePost(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + activityInfoId, ko.mapping.toJS(model));
+        });
+
+        function ViewModel() {
+            var self = this;
+
+            self.action = ko.observable('Increase');
+
+            self.amount = ko.observable();
+        }
+    });
+</script>

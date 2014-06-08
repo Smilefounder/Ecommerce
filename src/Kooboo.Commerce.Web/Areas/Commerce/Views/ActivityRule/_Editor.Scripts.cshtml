@@ -95,7 +95,10 @@
                                kb.http.safePost('@Url.Action("SaveActivity", RouteValues.From(Request.QueryString))', data)
                                       .done(function (data) {
                                           _model.attachedActivityInfoId(data.attachedActivityInfoId);
-                                          _events.fire('saved').done(function () {
+                                          _events.fire('saved', _this, {
+                                             attachedActivityInfoId: data.attachedActivityInfoId
+                                          })
+                                          .done(function () {
                                               window.leaveConfirm.pass();
                                               window.parent.ViewModel.activityContext().accept(data.attachedActivityInfoId);
                                           });
