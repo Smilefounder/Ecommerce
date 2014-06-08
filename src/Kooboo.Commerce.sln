@@ -108,6 +108,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Activities.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Activities.RetailPriceDiscount", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Activities.RetailPriceDiscount\Kooboo.Commerce.Activities.RetailPriceDiscount.csproj", "{74E1E6F8-9A39-4567-8026-2C8EF4ED04A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.CMSIntegration.Plugins", "Kooboo.Commerce.CMSIntegration.Plugins\Kooboo.Commerce.CMSIntegration.Plugins.csproj", "{100ED022-EEF9-4F39-8A92-C4D7CEADE258}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -250,6 +252,10 @@ Global
 		{74E1E6F8-9A39-4567-8026-2C8EF4ED04A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74E1E6F8-9A39-4567-8026-2C8EF4ED04A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74E1E6F8-9A39-4567-8026-2C8EF4ED04A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{100ED022-EEF9-4F39-8A92-C4D7CEADE258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{100ED022-EEF9-4F39-8A92-C4D7CEADE258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{100ED022-EEF9-4F39-8A92-C4D7CEADE258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{100ED022-EEF9-4F39-8A92-C4D7CEADE258}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -298,5 +304,6 @@ Global
 		{75AE6D76-90C0-4977-8FDD-E97E2E64A6F4} = {6466DDD2-36B2-4CDD-9830-4322B89284FB}
 		{E2A85603-2C66-4F33-9C5A-ED885C73026D} = {B9E2689E-7802-4F2D-82FC-29B6650A3950}
 		{74E1E6F8-9A39-4567-8026-2C8EF4ED04A6} = {B9E2689E-7802-4F2D-82FC-29B6650A3950}
+		{100ED022-EEF9-4F39-8A92-C4D7CEADE258} = {6466DDD2-36B2-4CDD-9830-4322B89284FB}
 	EndGlobalSection
 EndGlobal

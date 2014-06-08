@@ -140,7 +140,6 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
 
         private ShoppingCart RemoveItem(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
         {
-            var sessionId = controllerContext.HttpContext.Session.SessionID;
             var cart = GetShoppingCart(site, controllerContext);
             if (cart != null) {
                 var itemId = Convert.ToInt32(controllerContext.HttpContext.Request["itemId"]);
