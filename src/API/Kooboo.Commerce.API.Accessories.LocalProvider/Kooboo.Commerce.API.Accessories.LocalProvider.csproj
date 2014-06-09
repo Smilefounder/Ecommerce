@@ -62,6 +62,10 @@
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
+      <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
+      <Name>Kooboo.Commerce.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Accessories\Kooboo.Commerce.Accessories.csproj">
       <Project>{6d52179d-b30f-4567-8d6b-25cf223e2f8a}</Project>
       <Name>Kooboo.Commerce.Accessories</Name>

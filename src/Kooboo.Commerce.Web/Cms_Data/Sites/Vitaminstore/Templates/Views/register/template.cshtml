@@ -33,21 +33,25 @@
                         <tr>
                             <td class="lbl">Heeft u al een Vitaminclubkaart?</td>
                             <td class="clubcard-options">
-                                <span class="vertical_middle clubcard-yes"><input type="radio" id="ClubCardYes" name="ClubCard" value="true"><label for="ClubCardYes">Ja</label></span>
-                                <span class="vertical_middle clubcard-no"><input type="radio" id="ClubCardNo" name="ClubCard" value="false"><label for="ClubCardNo">Nee</label></span>
+                                <span class="vertical_middle clubcard-yes">
+                                    <input type="radio" id="ClubCardYes" name="CustomFields[ClubCard]" value="true"><label for="ClubCardYes">Ja</label>
+                                </span>
+                                <span class="vertical_middle clubcard-no">
+                                    <input type="radio" id="ClubCardNo" name="CustomFields[ClubCard]" value="false"><label for="ClubCardNo">Nee</label>
+                                </span>
                             </td>
                         </tr>
                         <tr class="clubcard" style="display: table-row;">
                             <td class="lbl">Vitaminclub nummer *</td>
                             <td>
-                                <input name="ClubCardNumber" type="text" id="ClubCardNumber" class="input clubcard-number" data-val="true" data-val-required="*" data-val-clubcardnumber="*" />
+                                <input name="CustomFields[ClubCardNumber]" type="text" id="ClubCardNumber" class="input clubcard-number" data-val="true" data-val-required="*" data-val-clubcardnumber="*" />
                             </td>
                         </tr>
                         <tr class="clubcard" style="display: table-row;">
                             <td class="lbl" valign="top">Postcode *</td>
                             <td>
-                                <input name="ClubCardPostcode" type="text" id="ClubCardPostcode" class="input clubcard-postcode" data-val="true" data-val-required="*" data-val-regex="*" data-val-regex-pattern="^[1-9]{1}[0-9]{3} ?[A-Za-z]{2}$">
-                                <span class="error-msg clubcard-number-invalid" data-valmsg-for="ClubCardNumber" data-valmsg-replace="false">
+                                <input name="CustomFields[ClubCardPostcode]" type="text" id="ClubCardPostcode" class="input clubcard-postcode" data-val="true" data-val-required="*" data-val-regex="*" data-val-regex-pattern="^[1-9]{1}[0-9]{3} ?[A-Za-z]{2}$">
+                                <span class="error-msg clubcard-number-invalid" data-valmsg-for="CustomFields[ClubCardNumber]" data-valmsg-replace="false">
                                     <br>
                                     Dit nummer is helaas niet bij ons bekend. Controleer het nummer alstublieft.
                                 </span>
@@ -106,26 +110,26 @@
                                 <tr>
                                     <td class="lbl">Geboortedatum *</td>
                                     <td>
-                                        <input name="Birthday" type="text" maxlength="50" id="Birthday" class="input birthdate" placeholder="DD-MM-YYYY" data-val="true" data-val-required="*" data-val-birthdate="DD-MM-YYYY">
-                                        <span class="error-msg" data-valmsg-for="Birthdate" data-valmsg-replace="false">DD-MM-YYYY</span>
+                                        <input name="CustomFields[Birthday]" type="text" maxlength="50" id="Birthday" class="input birthdate" placeholder="DD-MM-YYYY" data-val="true" data-val-required="*" data-val-birthdate="DD-MM-YYYY">
+                                        <span class="error-msg" data-valmsg-for="CustomFields[Birthdate]" data-valmsg-replace="false">DD-MM-YYYY</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="lbl">Telefoonnummer</td>
                                     <td>
-                                        <input name="Tel" type="text" maxlength="50" id="Tel" class="input tel">
+                                        <input name="CustomFields[Tel]" type="text" maxlength="50" id="Tel" class="input tel">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="lbl">Mobiel Telefoonnummer</td>
                                     <td>
-                                        <input name="Mobile" type="text" maxlength="50" id="Mobile" class="input mobile">
+                                        <input name="Phone" type="text" maxlength="50" id="Mobile" class="input mobile">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="lbl">Banknummer</td>
                                     <td>
-                                        <input name="BankNumber" type="text" maxlength="50" id="BankNumber" class="input">
+                                        <input name="CustomFields[BankNumber]" type="text" maxlength="50" id="BankNumber" class="input">
                                     </td>
                                 </tr>
                                 <tr class="sub-title">
@@ -155,7 +159,7 @@
                                 <tr>
                                     <td class="lbl">Straat *</td>
                                     <td>
-                                        <input name="Street" type="text" maxlength="200" id="Street" class="input street" data-val="true" data-val-required="*">
+                                        <input name="Address1" type="text" maxlength="200" id="Street" class="input street" data-val="true" data-val-required="*">
                                     </td>
                                 </tr>
                                 <tr>
@@ -167,7 +171,7 @@
                                 <tr>
                                     <td class="lbl">Land *</td>
                                     <td>
-                                        <select name="Country" id="Country" class="input country valid">
+                                        <select name="CountryId" id="Country" class="input country valid">
                                             @foreach (var country in countries)
                                             {
                                                 <option value="@country.Id">@country.Name</option>
@@ -222,7 +226,7 @@
                                 <tr>
                                     <td class="lbl">Waar kent u ons van?</td>
                                     <td>
-                                        <select name="WhereKnowUsFrom" id="WhereKnowUsFrom" class="input valid">
+                                        <select name="CustomFields[WhereKnowUsFrom]" id="WhereKnowUsFrom" class="input valid">
                                             <option value=""></option>
                                             <option value="Ik ben klant in van jullie winkels;">Ik ben klant in van jullie winkels;</option>
                                             <option value="Ik ken jullie winkels, maar ben nog geen klant;">Ik ken jullie winkels, maar ben nog geen klant;</option>
@@ -241,14 +245,14 @@
                                             <li class="favorite-cat-sports"><a href="#" data-value="sports" class="selected">Sports</a></li>
                                             <li class="favorite-cat-beauty"><a href="#" data-value="beauty" class="selected">Beauty</a></li>
                                         </ul>
-                                        <input type="hidden" name="FavoriteCategories" id="FavoriteCategories" value="#health#sports#beauty">
+                                        <input type="hidden" name="CustomFields[FavoriteCategories]" id="FavoriteCategories" value="#health#sports#beauty">
                                     </td>
                                 </tr>
                                 <tr class="more-space">
                                     <td class="lbl">Wilt u op de hoogte gehouden worden van acties en aanbiedingen?</td>
                                     <td>
-                                        <span class="vertical_middle"><input id="NewsletterYes" type="radio" name="AcceptNewsletter" value="true" checked="checked"><label for="NewsletterYes">Ja, stuur mij de email nieuwsbrief</label></span><br>
-                                        <span class="vertical_middle"><input id="NewsletterNo" type="radio" name="AcceptNewsletter" value="false"><label for="NewsletterNo">Nee, liever niet.</label></span>
+                                        <span class="vertical_middle"><input id="NewsletterYes" type="radio" name="CustomFields[AcceptNewsletter]" value="true" checked="checked"><label for="NewsletterYes">Ja, stuur mij de email nieuwsbrief</label></span><br>
+                                        <span class="vertical_middle"><input id="NewsletterNo" type="radio" name="CustomFields[AcceptNewsletter]" value="false"><label for="NewsletterNo">Nee, liever niet.</label></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -309,7 +313,7 @@
     $(function () {
         $('#register-form').submit(function () {
             $.ajax({
-                url: '@Url.FrontUrl().SubmissionUrl("Register")',
+                url: '@Url.FrontUrl().SubmissionUrl("RegisterCustomer")',
                 type: 'POST',
                 data: $(this).serializeArray()
             })

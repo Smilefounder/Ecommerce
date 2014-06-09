@@ -14,9 +14,6 @@
         <li class="split"><a></a></li>
         <li class="checkout-nav-item"><a>Bestelling afronden en betalen</a></li>
     </ul>
-
-    @Html.AntiForgeryToken()
-
     <div class="checkout-content cart">
         <table>
             <tbody>
@@ -188,16 +185,16 @@
             }
 
             this.RemoveItem = function (item) {
-                http.post(serviceUrl + '?action=remove-item', {
-                    itemId: item.Id()
+                http.post('/Kooboo-Submit/RemoveCartItem', {
+                    ItemId: item.Id()
                 })
                 .done(updateModelIfAjaxSuccess);
             }
 
             this.UpdateQuantity = function (item, quantity) {
-                http.post(serviceUrl + '?action=update-quantity', {
-                    productPriceId: item.ProductPrice.Id(),
-                    quantity: quantity
+                http.post('/Kooboo-Submit/ChangeCartItemQuantity', {
+                    ProductPriceId: item.ProductPrice.Id(),
+                    Quantity: quantity
                 })
                 .done(updateModelIfAjaxSuccess);
             }
@@ -212,8 +209,8 @@
 
             this.ApplyCoupon = function () {
                 var coupon = _this.CouponCode();
-                http.post(serviceUrl + '?action=apply-coupon', {
-                    coupon: coupon
+                http.post('/Kooboo-Submit/ApplyCoupon', {
+                    Coupon: coupon
                 })
                 .done(function (result) {
                     _this.IsCouponCodeValid(result.Success);
@@ -239,9 +236,9 @@
         });
 
         function AddItem() {
-            http.post('@Url.FrontUrl().SubmissionUrl("Cart")?action=add-item', {
-                productPriceId: 44,
-                quantity: 1
+            http.post('@Url.FrontUrl().SubmissionUrl("AddCartItem")', {
+                ProductPriceId: 44,
+                Quantity: 1
             });
         }
 

@@ -17,6 +17,7 @@
     @Html.FrontHtml().RegisterScripts()
 </head>
 <body>
+    @Html.AntiForgeryToken()
     <div id="page">
         <div id="left">
             @Html.FrontHtml().RenderView("header")

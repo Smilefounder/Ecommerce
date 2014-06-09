@@ -23,6 +23,11 @@ namespace Kooboo.Commerce.API.BestSellers
         private IMapper<Product, Kooboo.Commerce.Products.Product> _mapper;
         private HashSet<string> _includes = new HashSet<string>();
 
+        public BestSellersQuery(IMapper<Product, Kooboo.Commerce.Products.Product> mapper)
+        {
+            _mapper = mapper;
+        }
+
         public ICommerceQuery<Product> Include(string property)
         {
             _includes.Add(property);
