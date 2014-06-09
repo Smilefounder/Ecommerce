@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
             EndSpan();
         }
 
-        protected override void WriteLeafCondition(ConditionExpression exp)
+        protected override void WriteLeafCondition(ComparisonExpression exp)
         {
             BeginSpan("flat-condition");
             base.WriteLeafCondition(exp);

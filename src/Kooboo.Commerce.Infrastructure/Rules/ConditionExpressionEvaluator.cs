@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Rules
             return _results.Pop();
         }
 
-        protected override void Visit(ConditionExpression exp)
+        protected override void Visit(ComparisonExpression exp)
         {
             var paramName = exp.Param.ParamName;
             var param = _availableParameters.FirstOrDefault(x => x.Name == paramName);

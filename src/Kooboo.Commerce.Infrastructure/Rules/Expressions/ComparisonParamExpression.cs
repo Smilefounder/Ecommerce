@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Expressions
 {
-    public class ConditionParamExpression : Expression
+    public class ComparisonParamExpression : Expression
     {
         public string ParamName { get; private set; }
 
-        public ConditionParamExpression(string paramName)
+        public ComparisonParamExpression(string paramName)
         {
             Require.NotNullOrEmpty(paramName, "paramName");
             ParamName = paramName;

@@ -12,15 +12,15 @@ namespace Kooboo.Commerce.Rules.Expressions
             exp.Accept(this);
         }
 
-        protected virtual void Visit(ConditionExpression exp)
+        protected virtual void Visit(ComparisonExpression exp)
         {
         }
 
-        protected virtual void Visit(ConditionParamExpression exp)
+        protected virtual void Visit(ComparisonParamExpression exp)
         {
         }
 
-        protected virtual void Visit(ConditionValueExpression exp)
+        protected virtual void Visit(ComparisonValueExpression exp)
         {
         }
 
@@ -37,17 +37,17 @@ namespace Kooboo.Commerce.Rules.Expressions
             Visit(exp);
         }
 
-        void IExpressionVisitor.Visit(ConditionExpression exp)
+        void IExpressionVisitor.Visit(ComparisonExpression exp)
         {
             Visit(exp);
         }
 
-        void IExpressionVisitor.Visit(ConditionParamExpression exp)
+        void IExpressionVisitor.Visit(ComparisonParamExpression exp)
         {
             Visit(exp);
         }
 
-        void IExpressionVisitor.Visit(ConditionValueExpression exp)
+        void IExpressionVisitor.Visit(ComparisonValueExpression exp)
         {
             Visit(exp);
         }

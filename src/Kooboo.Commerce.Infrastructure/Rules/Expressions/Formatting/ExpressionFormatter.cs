@@ -77,7 +77,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
             Write(value);
         }
 
-        protected virtual void WriteLeafCondition(ConditionExpression exp)
+        protected virtual void WriteLeafCondition(ComparisonExpression exp)
         {
             Visit(exp.Param);
 
@@ -142,12 +142,12 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
             }
         }
 
-        protected sealed override void Visit(ConditionExpression exp)
+        protected sealed override void Visit(ComparisonExpression exp)
         {
             WriteLeafCondition(exp);
         }
 
-        protected sealed override void Visit(ConditionParamExpression exp)
+        protected sealed override void Visit(ComparisonParamExpression exp)
         {
             var paramDisplayName = exp.ParamName;
             var param = _parameters.FirstOrDefault(x => x.Name.Equals(exp.ParamName, StringComparison.OrdinalIgnoreCase));
@@ -159,7 +159,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
             WriteParamName(paramDisplayName);
         }
 
-        protected sealed override void Visit(ConditionValueExpression exp)
+        protected sealed override void Visit(ComparisonValueExpression exp)
         {
             WriteParamValue(exp.Value, exp.ValueType);
         }

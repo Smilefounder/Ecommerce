@@ -211,9 +211,9 @@
     <Compile Include="Rules\Parsing\ParserException.cs" />
     <Compile Include="Rules\Parsing\Lookahead.cs" />
     <Compile Include="Rules\Parsing\Parser.cs" />
-    <Compile Include="Rules\Expressions\ConditionExpression.cs" />
-    <Compile Include="Rules\Expressions\ConditionParamExpression.cs" />
-    <Compile Include="Rules\Expressions\ConditionValueExpression.cs" />
+    <Compile Include="Rules\Expressions\ComparisonExpression.cs" />
+    <Compile Include="Rules\Expressions\ComparisonParamExpression.cs" />
+    <Compile Include="Rules\Expressions\ComparisonValueExpression.cs" />
     <Compile Include="Rules\Expressions\LogicalBindaryExpression.cs" />
     <Compile Include="Rules\Expressions\Expression.cs" />
     <Compile Include="Rules\Expressions\IExpressionVisitor.cs" />

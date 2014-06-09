@@ -12,12 +12,12 @@ namespace Kooboo.Commerce.Rules.Parsing
     /// <remarks>
     /// Grammer:
     /// 
-    ///      expression : term [ OR term ]...
-    ///            term : factor [ AND factor ]
-    ///          factor : leaf_condition | ( expression )
-    ///  leaf_condition : identifier comparison_op param_value
-    ///   comparison_op : identifier in the available comparison operator list
-    ///     param_value : string_literal | number
+    ///       expression : term [ OR term ]...
+    ///             term : factor [ AND factor ]
+    ///           factor : leaf_condition | ( expression )
+    ///       comparison : identifier comparison_op comparison_value
+    ///    comparison_op : identifier in the available comparison operator list
+    /// comparison_value : string_literal | number
     ///     
     /// Notes:
     /// - leaf_condition means the condition expression without nesting expressions;
@@ -170,11 +170,11 @@ namespace Kooboo.Commerce.Rules.Parsing
                 }
             }
 
-            return LeafCondition();
+            return Comparison();
         }
 
-        // leaf_condition : identifier comparison_op param_value
-        private Expression LeafCondition()
+        // comparison : identifier comparison_op param_value
+        private Expression Comparison()
         {
             using (var lookahead = _tokenzier.BeginLookahead())
             {
@@ -203,7 +203,7 @@ namespace Kooboo.Commerce.Rules.Parsing
 
                 sourceLocation = _tokenzier.CurrentLocation;
 
-                var value = ParamValue();
+                var value = ComparisonValue();
 
                 if (value == null)
                 {
@@ -213,14 +213,14 @@ namespace Kooboo.Commerce.Rules.Parsing
 
                 lookahead.Accept();
 
-                var param = new ConditionParamExpression(paramName.Value);
+                var param = new ComparisonParamExpression(paramName.Value);
 
-                return new ConditionExpression(param, value, op.Value);
+                return new ComparisonExpression(param, value, op.Value);
             }
         }
 
-        // param_value : string_literal | number
-        private ConditionValueExpression ParamValue()
+        // comparison_value : string_literal | number
+        private ComparisonValueExpression ComparisonValue()
         {
             using (var lookahead = _tokenzier.BeginLookahead())
             {
@@ -254,7 +254,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                     valueType = typeof(double);
                 }
 
-                return new ConditionValueExpression(valueToken.Value, valueType);
+                return new ComparisonValueExpression(valueToken.Value, valueType);
             }
         }
 

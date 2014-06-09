@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Expressions
 {
-    public class ConditionExpression : Expression
+    public class ComparisonExpression : Expression
     {
-        public ConditionParamExpression Param { get; private set; }
+        public ComparisonParamExpression Param { get; private set; }
 
-        public ConditionValueExpression Value { get; private set; }
+        public ComparisonValueExpression Value { get; private set; }
 
         public string Operator { get; private set; }
 
-        public ConditionExpression(ConditionParamExpression param, ConditionValueExpression value, string @operator)
+        public ComparisonExpression(ComparisonParamExpression param, ComparisonValueExpression value, string @operator)
         {
             Require.NotNull(param, "param");
             Require.NotNull(value, "value");

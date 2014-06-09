@@ -82,7 +82,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             return ConditionLogicalOperator.OR;
         }
 
-        protected override void Visit(ConditionExpression exp)
+        protected override void Visit(ComparisonExpression exp)
         {
             var model = new ConditionModel
             {
