@@ -76,7 +76,18 @@ namespace Kooboo.Commerce.Rules
             var paramValue = param.ValueResolver.ResolveValue(param, _dataContext);
             if (paramValue != null)
             {
-                var conditionValue = Convert.ChangeType(exp.Value.Value, param.ValueType);
+                var paramType = paramValue.GetType();
+                object conditionValue = null;
+
+                if (paramType.IsEnum)
+                {
+                    conditionValue = Enum.Parse(paramType, exp.Value.Value);
+                }
+                else
+                {
+                    conditionValue = Convert.ChangeType(exp.Value.Value, paramType);
+                }
+
                 result = @operator.Apply(param, paramValue, conditionValue);
             }
 

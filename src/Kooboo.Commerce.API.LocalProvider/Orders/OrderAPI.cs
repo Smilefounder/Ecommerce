@@ -63,7 +63,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         public Order CreateFromShoppingCart(int cartId, MembershipUser user, bool deleteShoppingCart)
         {
             var cart = _shoppingCartService.Query().ById(cartId);
-            var order =_orderService.CreateOrderFromShoppingCart(cart, user, deleteShoppingCart);
+            var order =_orderService.CreateFromCart(cart, user, deleteShoppingCart);
             return _mapper.MapTo(order);
         }
 
@@ -256,14 +256,14 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             {
                 order = _orderService.Query().Where(o => o.ShoppingCartId == shoppingCart.Id).FirstOrDefault();
                 if (order == null)
-                    order = _orderService.CreateOrderFromShoppingCart(shoppingCart, user, deleteShoppingCart);
+                    order = _orderService.CreateFromCart(shoppingCart, user, deleteShoppingCart);
             }
             else
             {
                 var customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
                 if (customer != null)
                 {
-                    order = _orderService.Query().Where(o => o.CustomerId == customer.Id && o.OrderStatus == Commerce.Orders.OrderStatus.Submitted).OrderByDescending(o => o.CreatedAtUtc).FirstOrDefault();
+                    order = _orderService.Query().Where(o => o.CustomerId == customer.Id && o.OrderStatus == Commerce.Orders.OrderStatus.Created).OrderByDescending(o => o.CreatedAtUtc).FirstOrDefault();
                 }
             }
             if (order != null)

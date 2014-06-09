@@ -5,6 +5,7 @@ using System.Text;
 using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.ShoppingCarts;
 using Kooboo.CMS.Membership.Models;
+using Kooboo.Commerce.Payments;
 
 namespace Kooboo.Commerce.Orders.Services
 {
@@ -16,19 +17,13 @@ namespace Kooboo.Commerce.Orders.Services
 
         IQueryable<OrderCustomField> CustomFieldsQuery();
 
-        //Order GetByShoppingCartId(int shoppingCartId);
-
-        Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool deleteShoppingCart);
-
-        //IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize);
-
-        //IPagedList<T> GetAllOrdersWithCustomer<T>(string search, int? pageIndex, int? pageSize, Func<Order, Customer, T> func);
-
-        //IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize);
-
-        void CalculatePrice(Order order);
+        Order CreateFromCart(ShoppingCart shoppingCart, MembershipUser user, bool deleteShoppingCart);
 
         bool Create(Order order);
+
+        void AcceptPayment(Order order, Payment payment);
+
+        void ChangeStatus(Order order, OrderStatus newStatus);
 
         bool Update(Order order);
 

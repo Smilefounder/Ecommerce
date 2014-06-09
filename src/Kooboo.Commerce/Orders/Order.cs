@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Orders
 
         public DateTime CreatedAtUtc { get; set; }
 
-        public OrderStatus OrderStatus { get; protected set; }
+        public OrderStatus OrderStatus { get; set; }
 
         public bool IsCompleted { get; set; }
 
@@ -56,7 +56,7 @@ namespace Kooboo.Commerce.Orders
         /// <summary>
         /// Amount already paid by the customer. An order is marked as Paid when TotalPaid equals Total.
         /// </summary>
-        public decimal TotalPaid { get; protected set; }
+        public decimal TotalPaid { get; set; }
 
         /// <summary>
         /// The namer of choosen shipping method. For example, UPS, TNT, DHL, PostMail, etc. 
@@ -86,37 +86,9 @@ namespace Kooboo.Commerce.Orders
 
         public virtual ICollection<OrderCustomField> CustomFields { get; set; }
 
-        /// <summary>
-        /// Accept a succeeded payment.
-        /// </summary>
-        public virtual void AcceptPayment(Payment payment)
-        {
-            Require.NotNull(payment, "payment");
-            Require.That(payment.Status == PaymentStatus.Success, "payment", "Can only accept succeed payment.");
-            Require.That(payment.PaymentTarget.Type == PaymentTargetTypes.Order && payment.PaymentTarget.Id == Id.ToString(), "payment", "Payment is not targeting this order.");
-
-            TotalPaid += payment.Amount;
-            PaymentMethodCost += payment.PaymentMethodCost;
-
-            if (TotalPaid >= Total)
-            {
-                ChangeStatus(OrderStatus.Paid);
-            }
-        }
-
-        public virtual void ChangeStatus(OrderStatus newStatus)
-        {
-            if (OrderStatus != newStatus)
-            {
-                var oldStatus = OrderStatus;
-                OrderStatus = newStatus;
-                Event.Raise(new OrderStatusChanged(this, oldStatus, newStatus));
-            }
-        }
-
         void INotifyCreated.NotifyCreated()
         {
-            Event.Raise(new OrderSubmitted(this));
+            Event.Raise(new OrderCreated(this));
         }
     }
 }

@@ -92,13 +92,8 @@ namespace Kooboo.Commerce.Orders.Services
         {
             return _orderCustomFieldRepository.Query();
         }
-        //public Order GetByShoppingCartId(int shoppingCartId)
-        //{
-        //    var order = _orderRepository.Query(o => o.ShoppingCartId == shoppingCartId).FirstOrDefault();
-        //    return order;
-        //}
 
-        public Order CreateOrderFromShoppingCart(ShoppingCart shoppingCart, MembershipUser user, bool deleteShoppingCart)
+        public Order CreateFromCart(ShoppingCart shoppingCart, MembershipUser user, bool deleteShoppingCart)
         {
             if (shoppingCart != null)
             {
@@ -114,12 +109,11 @@ namespace Kooboo.Commerce.Orders.Services
                     _shoppingCartService.Update(shoppingCart);
                 }
 
-                Order order = new Order();
+                var order = new Order();
                 order.ShoppingCartId = shoppingCart.Id;
                 order.CustomerId = customer.Id;
                 order.IsCompleted = false;
                 order.Coupon = shoppingCart.CouponCode;
-                order.ChangeStatus(OrderStatus.Submitted);
 
                 if (shoppingCart.Items.Count > 0)
                 {
@@ -159,7 +153,7 @@ namespace Kooboo.Commerce.Orders.Services
             return null;
         }
 
-        public void CalculatePrice(Order order)
+        private void CalculatePrice(Order order)
         {
             var context = PricingContext.CreateFrom(order);
             new PricingPipeline().Execute(context);
@@ -181,52 +175,38 @@ namespace Kooboo.Commerce.Orders.Services
             order.Total = context.Total;
         }
 
-        //public IPagedList<Order> GetAllOrders(string search, int? pageIndex, int? pageSize)
-        //{
-        //    var query = _orderRepository.Query();
-        //    if(!string.IsNullOrEmpty(search))
-        //    {
-        //        int sid = 0;
-        //        if (int.TryParse(search, out sid))
-        //            query = query.Where(o => o.Id == sid);
-        //        else
-        //            query = query.Where(o => o.Customer.FirstName.StartsWith(search) || o.Customer.MiddleName.StartsWith(search) || o.Customer.LastName.StartsWith(search));
-        //    }
-        //    query = query.OrderByDescending(o => o.Id);
-        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
-        //}
-
-        //public IPagedList<T> GetAllOrdersWithCustomer<T>(string search, int? pageIndex, int? pageSize, Func<Order, Customer, T> func)
-        //{
-        //    var customerQuery = _customerRepository.Query();
-        //    var orderQuery = _orderRepository.Query();
-        //    if (!string.IsNullOrEmpty(search))
-        //    {
-        //        int sid = 0;
-        //        if (int.TryParse(search, out sid))
-        //            orderQuery = orderQuery.Where(o => o.Id == sid);
-        //        else
-        //            customerQuery = customerQuery.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
-        //    }
-
-        //    IQueryable<dynamic> query = orderQuery
-        //        .Join(customerQuery,
-        //                   order => order.CustomerId,
-        //                   customer => customer.Id,
-        //                   (order, customer) => new { Order = order, Customer = customer })
-        //        .OrderByDescending(groupedItem => groupedItem.Order.Id);
-        //    return PageLinqExtensions.ToPagedList<dynamic, T>(query, o => func(o.Order, o.Customer), pageIndex ?? 1, pageSize ?? 50);
-        //}
-
-        //public IPagedList<Order> GetAllCustomerOrders(int customerId, int? pageIndex, int? pageSize)
-        //{
-        //    var query = _orderRepository.Query(o => o.CustomerId == customerId).OrderByDescending(o => o.Id);
-        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
-        //}
-
         public bool Create(Order order)
         {
             return _orderRepository.Insert(order);
+        }
+
+        public void ChangeStatus(Order order, OrderStatus newStatus)
+        {
+            if (order.OrderStatus != newStatus)
+            {
+                var oldStatus = order.OrderStatus;
+                order.OrderStatus = newStatus;
+
+                _db.SaveChanges();
+
+                Event.Raise(new OrderStatusChanged(order, oldStatus, newStatus));
+            }
+        }
+
+        public void AcceptPayment(Order order, Payment payment)
+        {
+            Require.NotNull(payment, "payment");
+            Require.That(payment.Status == PaymentStatus.Success, "payment", "Can only accept succeeded payment.");
+
+            order.TotalPaid += payment.Amount;
+            order.PaymentMethodCost += payment.PaymentMethodCost;
+
+            _db.SaveChanges();
+
+            if (order.TotalPaid >= order.Total)
+            {
+                ChangeStatus(order, OrderStatus.Paid);
+            }
         }
 
         public bool Update(Order order)

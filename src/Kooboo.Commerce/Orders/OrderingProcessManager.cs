@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Orders
 
             var orderId = Convert.ToInt32(payment.PaymentTarget.Id);
             var order = _orderService.GetById(orderId);
-            order.AcceptPayment(payment);
+            _orderService.AcceptPayment(order, payment);
         }
     }
 }

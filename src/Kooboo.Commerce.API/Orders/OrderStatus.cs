@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.API.Orders
         /// <summary>
         /// order just created
         /// </summary>
-        Submitted = 0,
+        Created = 0,
         /// <summary>
         /// user has paid the order
         /// </summary>

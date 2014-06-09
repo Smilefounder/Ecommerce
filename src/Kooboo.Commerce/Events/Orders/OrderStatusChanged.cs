@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Events.Orders
         [Param]
         public OrderStatus NewStatus { get; set; }
 
-        public OrderStatusChanged() { }
+        private OrderStatusChanged() { }
 
         public OrderStatusChanged(Order order, OrderStatus oldStatus, OrderStatus newStatus)
         {

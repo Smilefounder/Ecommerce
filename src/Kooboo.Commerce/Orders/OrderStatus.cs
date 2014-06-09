@@ -7,7 +7,7 @@ namespace Kooboo.Commerce.Orders
 {
     public enum OrderStatus
     {
-        Submitted = 0,
+        Created = 0,
         Paid = 1,
         Processing = 2,
         Cancelled = 3
