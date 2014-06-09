@@ -20,53 +20,57 @@
             <h2>
                 Welkom, <span class="orange">@ViewContext.HttpContext.Membership().GetMembershipUser().UserName</span>
             </h2>
-            <p>Selecteer uw verzendmethode</p>
-            <div class="shipping-options">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td class="shipping-cost shipping-cost-title">Verzendkosten</td>
-                        </tr>
-                        <tr>
-                            <td class="option">
-                                <span class="vertical_middle" data-option="0">
-                                    <input id="DeliverToDefaultAddress" name="DeliveryAddressOption" type="radio" checked="checked" data-bind="click: DeliverToDefaultAddress">
-                                    <label for="DeliverToDefaultAddress">Bezorgen op uw adres</label>
-                                </span>
-                            </td>
-                            <td class="detail">PostNL Levert uw bestelling bij uw voorkeursadres af</td>
-                            <td class="shipping-cost" data-bind="visible: !IsAlternativeAddressesVisible()">
-                                &euro; <span data-bind="text: PriceInfo.ShippingCost.FinalValue"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="option">
-                                <span class="vertical_middle" data-option="1">
-                                    <input id="DeliverToAnotherAddress" name="DeliveryAddressOption" type="radio" data-bind="click: DeliverToAlternativeAddress">
-                                    <label for="DeliverToAnotherAddress">Bezorgen op een alternatief adres</label>
-                                </span>
-                            </td>
-                            <td class="detail">PostNL levert uw bestelling op een ander adres af</td>
-                            <td class="shipping-cost" data-bind="visible: IsAlternativeAddressesVisible">
-                                &euro; <span data-bind="text: PriceInfo.ShippingCost.FinalValue"></span>
-                            </td>
-                        </tr>
+            <div data-bind="if: Addresses.Default">
+                <p>Selecteer uw verzendmethode</p>
+                <div class="shipping-options">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="shipping-cost shipping-cost-title">Verzendkosten</td>
+                            </tr>
+                            <tr>
+                                <td class="option">
+                                    <span class="vertical_middle" data-option="0">
+                                        <input id="DeliverToDefaultAddress" name="DeliveryAddressOption" type="radio" checked="checked" data-bind="click: DeliverToDefaultAddress">
+                                        <label for="DeliverToDefaultAddress">Bezorgen op uw adres</label>
+                                    </span>
+                                </td>
+                                <td class="detail">PostNL Levert uw bestelling bij uw voorkeursadres af</td>
+                                <td class="shipping-cost" data-bind="visible: !IsAlternativeAddressesVisible()">
+                                    &euro; <span data-bind="text: PriceInfo.ShippingCost.FinalValue"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="option">
+                                    <span class="vertical_middle" data-option="1">
+                                        <input id="DeliverToAnotherAddress" name="DeliveryAddressOption" type="radio" data-bind="click: DeliverToAlternativeAddress">
+                                        <label for="DeliverToAnotherAddress">Bezorgen op een alternatief adres</label>
+                                    </span>
+                                </td>
+                                <td class="detail">PostNL levert uw bestelling op een ander adres af</td>
+                                <td class="shipping-cost" data-bind="visible: IsAlternativeAddressesVisible">
+                                    &euro; <span data-bind="text: PriceInfo.ShippingCost.FinalValue"></span>
+                                </td>
+                            </tr>
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="shipping-content" data-bind="visible: !IsAlternativeAddressesVisible()">
                 <div class="deliver-to-address">
-                    Uw bestelling zal worden bezorgd op
-                    <strong>
-                        <span data-bind="text: Addresses.Default.Address1"></span>,
-                        <span data-bind="text: Addresses.Default.Postcode"></span>,
-                        <span data-bind="text: Addresses.Default.City"></span>,
-                        <span data-bind="text: Addresses.Default.Country.Name"></span>
-                    </strong>
-                    <br />
+                    <span data-bind="if: Addresses.Default">
+                        Uw bestelling zal worden bezorgd op
+                        <strong>
+                            <span data-bind="text: Addresses.Default.Address1"></span>,
+                            <span data-bind="text: Addresses.Default.Postcode"></span>,
+                            <span data-bind="text: Addresses.Default.City"></span>,
+                            <span data-bind="text: Addresses.Default.Country.Name"></span>
+                        </strong>
+                        <br />
+                    </span>
                     <a href="#">Toch een ander adres opgeven?</a>
                 </div>
             </div>
@@ -116,7 +120,7 @@
                                                     <tr>
                                                         <td class="lbl">Straat</td>
                                                         <td>
-                                                            <input name="Street" type="text" maxlength="200" class="street" data-val="true" data-val-required="*" />
+                                                            <input name="Address1" type="text" maxlength="200" class="street" data-val="true" data-val-required="*" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -128,7 +132,7 @@
                                                     <tr>
                                                         <td class="lbl">Land</td>
                                                         <td>
-                                                            <select name="Country" class="country">
+                                                            <select name="CountryId" class="country">
                                                                 @foreach (var country in countries.OrderBy(c => c.Name))
                                                                 {
                                                                     <option value="@country.Id">@country.Name</option>
@@ -209,7 +213,10 @@
         function ViewModel() {
             var _this = this;
 
-            this.Addresses = {};
+            this.Addresses = {
+                Alternatives: ko.observableArray(),
+                Default: null
+            };
 
             this.CartInfo = {};
 
@@ -236,18 +243,12 @@
             
             this.SelectAddress = function (address, callback) {
                 if (address) {
-                    http.post('@Url.FrontUrl().SubmissionUrl("Shipping")?action=select-address&addressId=' + address.Id())
-                        .then(function (result) {
-                            if (result.Success) {
-                                ko.mapping.fromJS(result.Model, {}, _this.PriceInfo);
-                                _this.ShippingAddressId(address.Id());
-                                if (callback && typeof (callback) === 'function') {
-                                    callback();
-                                }
-                            } else {
-                                showErrors(result.Messages);
-                            }
-                        });
+                    $.when(_this.ChangeShippingAddress(address, callback), _this.ChangeBillingAddress(address))
+                     .then(function () {
+                         if (callback && typeof (callback) === 'function') {
+                             callback();
+                         }
+                     });
                 } else {
                     _this.ShippingAddressId(null);
                     if (callback && typeof (callback) === 'function') {
@@ -256,6 +257,26 @@
                 }
 
                 return true;
+            }
+
+            this.ChangeShippingAddress = function (address, callback) {
+                return http.post('@Url.FrontUrl().SubmissionUrl("ChangeShippingAddress")', {
+                    NewShippingAddressId: address.Id()
+                })
+                .then(function (result) {
+                    if (result.Success) {
+                        ko.mapping.fromJS(result.Model, {}, _this.PriceInfo);
+                        _this.ShippingAddressId(address.Id());
+                    } else {
+                        showErrors(result.Messages);
+                    }
+                });
+            }
+
+            this.ChangeBillingAddress = function (address) {
+                return http.post('@Url.FrontUrl().SubmissionUrl("ChangeBillingAddress")', {
+                    NewBillingAddressId: address.Id()
+                });
             }
 
             this.Init = function () {
@@ -283,13 +304,13 @@
             this.SaveNewAddress = function (callback) {
                 if ($('#new-address-form').valid()) {
                     $.ajax({
-                        url: '@Url.FrontUrl().SubmissionUrl("Shipping")?action=new-address',
+                        url: '@Url.FrontUrl().SubmissionUrl("AddAddress")',
                         type: 'POST',
                         data: $('#new-address-form').serializeArray()
                     })
                     .then(function (result) {
                         if (result.Success) {
-                            var addressId = result.Model;
+                            var addressId = result.Model.AddressId;
                             _this.SelectAddress({ Id: ko.observable(addressId) }, callback);
                         } else {
                             showErrors(result.Messages);
@@ -297,21 +318,41 @@
                     });
                 }
             }
+
+            this.RefreshPriceInfo = function () {
+                return http.post('@Url.FrontUrl().SubmissionUrl("Cart")?action=priceinfo')
+                           .then(function (result) {
+                                if (result.Success) {
+                                    ko.mapping.fromJS(result.Model, {}, _this.PriceInfo);
+                                }
+                           });
+            }
         }
 
         $.when(loadAddresses(), loadCartInfo())
          .then(function () {
              viewModel.Init();
-             viewModel.DeliverToDefaultAddress(function () {
-                          ko.applyBindings(viewModel, document.getElementById('checkout-shipping-main'));
-                      });
+             viewModel.RefreshPriceInfo().then(function () {
+                 if (viewModel.Addresses.Default) {
+                     viewModel.DeliverToDefaultAddress(databind);
+                 } else {
+                     viewModel.DeliverToAlternativeAddress(databind);
+                 }
+             });
          });
+
+        function databind() {
+            ko.applyBindings(viewModel, document.getElementById('checkout-shipping-main'));
+        }
 
         function loadAddresses() {
             return http.post('@Url.FrontUrl().SubmissionUrl("Shipping")?action=get-addresses')
                        .then(function (result) {
                            if (result.Success) {
-                               ko.mapping.fromJS(result.Model, {}, viewModel.Addresses);
+                               if (result.Model.Default != null) {
+                                   viewModel.Addresses.Default = ko.mapping.fromJS(result.Model.Default);
+                               }
+                               ko.mapping.fromJS(result.Model.Alternatives, {}, result.Model.Alternatives);
                            } else {
                                showErrors(result.Messages);
                            }
@@ -330,7 +371,7 @@
         }
 
         function showErrors(messages) {
-            alert(messages.join('\n'));
+            alert((messages || ['error']).join('\n'));
         }
     });
 </script>

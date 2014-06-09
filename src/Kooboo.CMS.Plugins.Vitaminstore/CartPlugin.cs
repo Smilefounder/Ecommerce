@@ -47,6 +47,10 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 {
                     result = ChangePrice(site, controllerContext, submissionSetting);
                 }
+                else if (action == "priceinfo")
+                {
+                    result = PriceInfo(site, controllerContext);
+                }
 
                 jsonResultData.Success = true;
                 jsonResultData.Model = result;
@@ -104,6 +108,14 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 TotalQuantity = count,
                 Subtotal = price.Subtotal.FinalValue
             };
+        }
+
+        private CalculatePriceResult PriceInfo(Site site, ControllerContext controllerContext)
+        {
+            var member = controllerContext.HttpContext.Membership().GetMembershipUser();
+            var cart = site.Commerce().ShoppingCarts.ByAccountId(member.UUID).FirstOrDefault();
+
+            return site.Commerce().Prices.CartPrice(cart.Id);
         }
 
         private ShoppingCart ChangePrice(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)

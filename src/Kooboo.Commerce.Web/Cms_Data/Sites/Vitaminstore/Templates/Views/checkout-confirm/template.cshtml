@@ -147,6 +147,7 @@
                 <div class="payment-detail section-detail">
                     <form id="checkout-form">
                         @Html.AntiForgeryToken()
+                        <input type="hidden" name="OrderId" />
                         <div class="payment-list">
                             <table>
                                 <tbody>
@@ -221,15 +222,30 @@
     $(function () {
         var cartTotal = @(prices.Total.ToString("f2"));
 
-        function Checkout() {
+        function SubmitOrder() {
+            return http.post('@Url.FrontUrl().SubmissionUrl("SubmitOrder")')
+                       .done(function (result) {
+                           if (result.Success) {
+                               $('input[name="OrderId"]').val(result.Model.OrderId);
+                           } else {
+                               alert(result.Messages[0]);
+                           }
+                       });
+        }
+
+        function PayOrder() {
             $.ajax({
-                url: '@Url.FrontUrl().SubmissionUrl("Checkout")',
+                url: '@Url.FrontUrl().SubmissionUrl("PayOrder")',
                 type: 'POST',
                 data: $('#checkout-form').serializeArray()
             })
             .done(function (result) {
                 if (result.Success) {
-                    location.href = result.Model.RedirectUrl;
+                    if (result.Model.RedirectUrl) {
+                        location.href = result.Model.RedirectUrl;
+                    } else {
+                        location.href = '/Checkout-Thankyou';
+                    }
                 } else {
                     alert(result.Messages.join('\n'));
                 }
@@ -250,7 +266,7 @@
         });
 
         $('.pay-btn').on('click', function () {
-            Checkout();
+            SubmitOrder().then(PayOrder);
             return false;
         });
 

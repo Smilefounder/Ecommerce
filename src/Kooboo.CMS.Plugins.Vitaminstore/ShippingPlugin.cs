@@ -34,14 +34,6 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 {
                     result = GetAddresses(site, controllerContext);
                 }
-                else if (action == "new-address")
-                {
-                    result = NewAddress(site, controllerContext);
-                }
-                else if (action == "select-address")
-                {
-                    result = SelectAddress(site, controllerContext);
-                }
 
                 jsonResultData.Success = true;
                 jsonResultData.Model = result;
@@ -80,42 +72,6 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             model.Alternatives = customer.Addresses.Where(x => x.Id != defaultAddr.Id).ToList();
 
             return model;
-        }
-
-        private int NewAddress(Site site, ControllerContext controllerContext)
-        {
-            var model = new NewAddressModel();
-            ModelBindHelper.BindModel(model, controllerContext);
-
-            var member = controllerContext.HttpContext.Membership().GetMembershipUser();
-            var customer = site.Commerce().Customers.ByAccountId(member.UUID).FirstOrDefault();
-
-            var address = new Address
-            {
-                FirstName = customer.FirstName,
-                LastName = customer.LastName,
-                Postcode = model.Postcode,
-                City = model.City,
-                CountryId = model.Country,
-                Address1 = model.Street + " " + model.HouseNumber + " " + model.HouseNumberAddition,
-                Phone = customer.Phone
-            };
-
-            site.Commerce().Customers.AddAddress(customer.Id, address);
-
-            return address.Id;
-        }
-
-        private CalculatePriceResult SelectAddress(Site site, ControllerContext controllerContext)
-        {
-            var addressId = Convert.ToInt32(controllerContext.HttpContext.Request["addressId"]);
-            var member = controllerContext.HttpContext.Membership().GetMembershipUser();
-            var cart = site.Commerce().ShoppingCarts.ByAccountId(member.UUID).FirstOrDefault();
-            
-            site.Commerce().ShoppingCarts.ChangeShippingAddress(cart.Id, new Address { Id = addressId });
-            site.Commerce().ShoppingCarts.ChangeBillingAddress(cart.Id, new Address { Id = addressId });
-
-            return site.Commerce().Prices.CartPrice(cart.Id);
         }
     }
 }
