@@ -103,6 +103,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.CurrentEventType = eventClrType.AssemblyQualifiedNameWithoutVersion();
             ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name.Humanize();
 
+            _ruleRepository.EnsureAlwaysRule(eventClrType);
+
             return View();
         }
 

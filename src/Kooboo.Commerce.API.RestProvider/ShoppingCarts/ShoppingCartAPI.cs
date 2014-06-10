@@ -43,17 +43,16 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
             return Post<int>(null);
         }
 
-        public int EnsureCustomerCart(string email, string sessionId)
+        public int CustomerCartId(string accountId)
         {
-            QueryParameters.Add("email", email);
-            QueryParameters.Add("sessionId", sessionId);
-            return Get<int>("EnsureCustomerCart");
+            QueryParameters.Add("accountId", accountId);
+            return Get<int>("CustomerCartId");
         }
 
-        public int EnsureSessionCart(string sessionId)
+        public int SessionCartId(string sessionId)
         {
             QueryParameters.Add("sessionId", sessionId);
-            return Get<int>("EnsureSessionCart");
+            return Get<int>("SessionCartId");
         }
 
         public bool ApplyCoupon(int cartId, string coupon)
@@ -63,16 +62,16 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
             return Post<bool>("ApplyCoupon");
         }
 
-        public bool ChangeShippingAddress(int cartId, Address address)
+        public void ChangeShippingAddress(int cartId, Address address)
         {
             QueryParameters.Add("cartId", cartId.ToString());
-            return Post<bool>("ChangeShippingAddress", address);
+            Post<bool>("ChangeShippingAddress", address);
         }
 
-        public bool ChangeBillingAddress(int cartId, Address address)
+        public void ChangeBillingAddress(int cartId, Address address)
         {
             QueryParameters.Add("cartId", cartId.ToString());
-            return Post<bool>("ChangeBillingAddress", address);
+            Post<bool>("ChangeBillingAddress", address);
         }
 
         public void MigrateCart(int customerId, string sessionId)

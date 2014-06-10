@@ -33,6 +33,22 @@ namespace Kooboo.Commerce.ShoppingCarts
             Items = new List<ShoppingCartItem>();
         }
 
+        public static ShoppingCart Create(string sessionId)
+        {
+            return new ShoppingCart
+            {
+                SessionId = sessionId
+            };
+        }
+
+        public static ShoppingCart Create(Customer customer)
+        {
+            return new ShoppingCart
+            {
+                Customer = customer
+            };
+        }
+
         public static ShoppingCart Create(Customer customer, string sessionId)
         {
             return new ShoppingCart

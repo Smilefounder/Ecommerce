@@ -5,26 +5,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Kooboo.CMS.Sites.Membership;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins
 {
     static class HttpContextExtensions
     {
-        public static string CurrentCartSessionId(this HttpContextBase context)
+        public static string CurrentSessionId(this HttpContextBase context)
         {
             return context.Session.SessionID;
         }
 
-        // TODO: Add an encrypted cart id in the cookie like User.Identity.Name is way more easier
-        public static int EnsureCart(this HttpContextBase context)
+        public static string CurrentCustomerAccountId(this HttpContextBase context)
+        {
+            var member = context.Membership().GetMembershipUser();
+            return member == null ? null : member.UUID;
+        }
+
+        public static int CurrentCartId(this HttpContextBase context)
         {
             var identity = context.User.Identity;
             if (identity.IsAuthenticated)
             {
-                return Site.Current.Commerce().ShoppingCarts.EnsureCustomerCart(identity.Name, context.CurrentCartSessionId());
+                return Site.Current.Commerce().ShoppingCarts.CustomerCartId(context.CurrentCustomerAccountId());
             }
 
-            return Site.Current.Commerce().ShoppingCarts.EnsureSessionCart(context.CurrentCartSessionId());
+            return Site.Current.Commerce().ShoppingCarts.SessionCartId(context.CurrentSessionId());
         }
     }
 }

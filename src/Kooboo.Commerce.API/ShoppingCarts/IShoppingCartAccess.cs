@@ -12,9 +12,9 @@ namespace Kooboo.Commerce.API.ShoppingCarts
     /// </summary>
     public interface IShoppingCartAccess
     {
-        int EnsureCustomerCart(string email, string sessionId);
+        int CustomerCartId(string accountId);
 
-        int EnsureSessionCart(string sessionId);
+        int SessionCartId(string sessionId);
 
         /// <summary>
         /// Apply coupon to the shopping cart. 
@@ -22,9 +22,9 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// </summary>
         bool ApplyCoupon(int cartId, string coupon);
 
-        bool ChangeShippingAddress(int cartId, Address address);
+        void ChangeShippingAddress(int cartId, Address address);
 
-        bool ChangeBillingAddress(int cartId, Address address);
+        void ChangeBillingAddress(int cartId, Address address);
 
         void MigrateCart(int customerId, string sessionId);
 

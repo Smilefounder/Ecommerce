@@ -11,7 +11,7 @@ using Kooboo.Commerce.API.Locations;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
-    public class CustomerController : CommerceAPIControllerAccessBase<Customer>
+    public class CustomerController : CommerceAPIControllerQueryBase<Customer>
     {
         /// <summary>
         /// build the commerce query filters from query string.
@@ -67,11 +67,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         {
             Commerce().Customers.AddAddress(customerId, address);
             return address.Id;
-        }
-
-        protected override ICommerceAccess<Customer> GetAccesser()
-        {
-            return Commerce().Customers;
         }
     }
 }

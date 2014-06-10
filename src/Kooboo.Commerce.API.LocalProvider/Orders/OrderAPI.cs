@@ -60,7 +60,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             base.OnQueryExecuted();
         }
 
-        public Order CreateFromShoppingCart(int cartId, MembershipUser user, bool deleteShoppingCart)
+        public Order CreateFromCart(int cartId, MembershipUser user, bool deleteShoppingCart)
         {
             var cart = _shoppingCartService.Query().ById(cartId);
             var order =_orderService.CreateFromCart(cart, user, deleteShoppingCart);

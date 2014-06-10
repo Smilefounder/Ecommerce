@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.API.RestProvider.Customers
     /// </summary>
     [Dependency(typeof(ICustomerAPI))]
     [Dependency(typeof(ICustomerQuery))]
-    public class CustomerAPI : RestApiAccessBase<Customer>, ICustomerAPI
+    public class CustomerAPI : RestApiQueryBase<Customer>, ICustomerAPI
     {
         /// <summary>
         /// add id filter to query
@@ -138,11 +138,20 @@ namespace Kooboo.Commerce.API.RestProvider.Customers
             return this;
         }
 
-        public bool AddAddress(int customerId, Address address)
+        public void AddAddress(int customerId, Address address)
         {
             var addressId = Post<int>("Address", address);
             address.Id = addressId;
-            return true;
+        }
+
+        public void Create(Customer customer)
+        {
+            Post<bool>(null, customer);
+        }
+
+        public void Update(Customer customer)
+        {
+            Put<bool>(null, customer);
         }
 
         /// <summary>

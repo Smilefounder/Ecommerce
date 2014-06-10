@@ -9,8 +9,8 @@ namespace Kooboo.Commerce.API.Orders
     /// <summary>
     /// order address
     /// </summary>
-    public interface IOrderAccess : ICommerceAccess<Order>
+    public interface IOrderAccess
     {
-        Order CreateFromShoppingCart(int cartId, MembershipUser user, bool deleteShoppingCart);
+        Order CreateFromCart(int cartId, MembershipUser user, bool deleteShoppingCart);
     }
 }

@@ -40,6 +40,22 @@ namespace Kooboo.Commerce.Customers.Services
             return _customerRepository.Get(o => o.Email == email);
         }
 
+        public Customer GetByAccountId(string accountId)
+        {
+            if (String.IsNullOrWhiteSpace(accountId))
+            {
+                return null;
+            }
+
+            return _customerRepository.Get(o => o.AccountId == accountId);
+        }
+
+        public void AddAddress(Customer customer, Address address)
+        {
+            customer.Addresses.Add(address);
+            _customerRepository.Database.SaveChanges();
+        }
+
         public IQueryable<Customer> Query()
         {
             return _customerRepository.Query();

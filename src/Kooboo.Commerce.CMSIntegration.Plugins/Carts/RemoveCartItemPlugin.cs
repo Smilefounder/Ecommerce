@@ -11,8 +11,8 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
     {
         protected override SubmissionExecuteResult Execute(RemoveItemModel model)
         {
-            var cartId = HttpContext.EnsureCart();
-            Site.Commerce().ShoppingCarts.RemoveItem(cartId, model.ItemId);
+            var cartId = HttpContext.CurrentCartId();
+            Api.ShoppingCarts.RemoveItem(cartId, model.ItemId);
 
             return null;
         }

@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
     /// </summary>
     [Dependency(typeof(ICustomerAPI), ComponentLifeStyle.Transient)]
     [Dependency(typeof(ICustomerQuery), ComponentLifeStyle.Transient)]
-    public class CustomerAPI : LocalCommerceQueryAccess<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerAPI
+    public class CustomerAPI : LocalCommerceQuery<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerAPI
     {
         private ICommerceDatabase _db;
         private ICustomerService _customerService;
@@ -26,8 +26,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
 
         public CustomerAPI(
             ICommerceDatabase db,
-            IHalWrapper halWrapper, ICustomerService customerService, ICountryService countryService, 
-            IMapper<Customer, Kooboo.Commerce.Customers.Customer> mapper, 
+            IHalWrapper halWrapper, ICustomerService customerService, ICountryService countryService,
+            IMapper<Customer, Kooboo.Commerce.Customers.Customer> mapper,
             IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper)
             : base(halWrapper, mapper)
         {
@@ -190,7 +190,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
-        public bool AddAddress(int customerId, Address address)
+        public void AddAddress(int customerId, Address address)
         {
             var customer = _customerService.GetById(customerId);
             var addr = _addressMapper.MapFrom(address);
@@ -201,73 +201,36 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
                 addr.LastName = customer.LastName;
             }
 
-            using (var tx = _db.BeginTransaction())
-            {
-                customer.Addresses.Add(addr);
-                tx.Commit();
+            _customerService.AddAddress(customer, addr);
 
-                address.Id = addr.Id;
-            }
-
-            return true;
+            address.Id = addr.Id;
         }
 
         /// <summary>
         /// create the commerce object
         /// </summary>
-        /// <param name="obj">commerce object</param>
+        /// <param name="customer">commerce object</param>
         /// <returns>true if successfully created, else false</returns>
-        public override bool Create(Customer obj)
+        public void Create(Customer customer)
         {
-            if (obj != null)
+            var mapped = _mapper.MapFrom(customer);
+
+            foreach (var address in customer.Addresses)
             {
-                var customer = _mapper.MapFrom(obj);
-
-                foreach (var address in obj.Addresses)
-                {
-                    customer.Addresses.Add(_addressMapper.MapFrom(address));
-                }
-
-                return _customerService.Create(customer);
+                mapped.Addresses.Add(_addressMapper.MapFrom(address));
             }
 
-            return false;
+            _customerService.Create(mapped);
         }
 
         /// <summary>
         /// update the commerce object
         /// </summary>
-        /// <param name="obj">commerce object</param>
+        /// <param name="customer">commerce object</param>
         /// <returns>true if successfully created, else false</returns>
-        public override bool Update(Customer obj)
+        public void Update(Customer customer)
         {
-            if (obj != null)
-                return _customerService.Update(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        /// <summary>
-        /// create/update the commerce object
-        /// </summary>
-        /// <param name="obj">commerce object</param>
-        /// <returns>true if successfully created, else false</returns>
-        public override bool Save(Customer obj)
-        {
-            if (obj != null)
-                return _customerService.Save(_mapper.MapFrom(obj));
-            return false;
-        }
-
-        /// <summary>
-        /// delete the commerce object
-        /// </summary>
-        /// <param name="obj">commerce object</param>
-        /// <returns>true if successfully created, else false</returns>
-        public override bool Delete(Customer obj)
-        {
-            if (obj != null)
-                return _customerService.Delete(_mapper.MapFrom(obj));
-            return false;
+            _customerService.Update(_mapper.MapFrom(customer));
         }
 
         /// <summary>

@@ -5,6 +5,7 @@ using System.Text;
 using Kooboo.Commerce.Customers;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Products;
+using Kooboo.Commerce.Locations;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
@@ -40,6 +41,10 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         bool RemoveProduct(ShoppingCart cart, int productPriceId);
 
         void ChangeItemQuantity(ShoppingCart cart, ShoppingCartItem item, int newQuantity);
+
+        void ChangeShippingAddress(ShoppingCart cart, Address address);
+
+        void ChangeBillingAddress(ShoppingCart cart, Address address);
 
         /// <summary>
         /// 把一个购物车中的产品合并到另一个购物车中。

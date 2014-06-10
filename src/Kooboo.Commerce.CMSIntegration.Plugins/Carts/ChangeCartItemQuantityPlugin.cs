@@ -11,8 +11,8 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
     {
         protected override SubmissionExecuteResult Execute(ChangeItemQuantityModel model)
         {
-            var cartId = HttpContext.EnsureCart();
-            Site.Commerce().ShoppingCarts.ChangeItemQuantity(cartId, model.ItemId, model.NewQuantity);
+            var cartId = HttpContext.CurrentCartId();
+            Api.ShoppingCarts.ChangeItemQuantity(cartId, model.ItemId, model.NewQuantity);
 
             return null;
         }

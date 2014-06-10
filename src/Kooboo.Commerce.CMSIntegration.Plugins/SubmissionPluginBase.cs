@@ -11,6 +11,7 @@ using System.Web.Mvc.Ajax;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Sites.View;
 using System.Web;
+using Kooboo.Commerce.API;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins
 {
@@ -40,6 +41,14 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
         protected Site Site { get; private set; }
 
         protected SubmissionSetting SubmissionSetting { get; private set; }
+
+        protected ICommerceAPI Api
+        {
+            get
+            {
+                return Site.Commerce();
+            }
+        }
 
         protected SubmissionPluginBase()
         {

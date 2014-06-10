@@ -129,28 +129,25 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             return cart;
         }
 
-        public int EnsureCustomerCart(string email, string sessionId)
+        public int CustomerCartId(string accountId)
         {
-            var cart = _cartService.GetByCustomer(email);
+            var cart = _cartService.GetByAccountId(accountId);
             if (cart == null)
             {
-                var customer = _customerService.GetByEmail(email);
-                cart = Kooboo.Commerce.ShoppingCarts.ShoppingCart.Create(customer, sessionId);
+                var customer = _customerService.GetByAccountId(accountId);
+                cart = Kooboo.Commerce.ShoppingCarts.ShoppingCart.Create(customer);
                 _cartService.Create(cart);
             }
 
             return cart.Id;
         }
 
-        public int EnsureSessionCart(string sessionId)
+        public int SessionCartId(string sessionId)
         {
             var cart = _cartService.GetBySessionId(sessionId);
             if (cart == null)
             {
-                cart = new Commerce.ShoppingCarts.ShoppingCart
-                {
-                    SessionId = sessionId
-                };
+                cart = Kooboo.Commerce.ShoppingCarts.ShoppingCart.Create(sessionId);
                 _cartService.Create(cart);
             }
 
@@ -186,42 +183,36 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             });
         }
 
-        public bool ChangeShippingAddress(int cartId, Address address)
+        public void ChangeShippingAddress(int cartId, Address address)
         {
             var cart = _cartService.Query().ById(cartId);
-            var addr = GetOrCreateAddress(cart.Customer.Id, address);
 
-            if (address.Id == 0)
+            _db.WithTransaction(() =>
             {
-                address.Id = addr.Id;
-            }
+                var addr = GetOrCreateAddress(cart.Customer.Id, address);
+                if (address.Id == 0)
+                {
+                    address.Id = addr.Id;
+                }
 
-            using (var tx = _db.BeginTransaction())
-            {
-                cart.ShippingAddress = addr;
-                tx.Commit();
-            }
-
-            return true;
+                _cartService.ChangeShippingAddress(cart, addr);
+            });
         }
 
-        public bool ChangeBillingAddress(int cartId, Address address)
+        public void ChangeBillingAddress(int cartId, Address address)
         {
             var cart = _cartService.Query().ById(cartId);
-            var addr = GetOrCreateAddress(cart.Customer.Id, address);
 
-            if (address.Id == 0)
+            _db.WithTransaction(() =>
             {
-                address.Id = addr.Id;
-            }
+                var addr = GetOrCreateAddress(cart.Customer.Id, address);
+                if (address.Id == 0)
+                {
+                    address.Id = addr.Id;
+                }
 
-            using (var tx = _db.BeginTransaction())
-            {
-                cart.BillingAddress = addr;
-                tx.Commit();
-            }
-
-            return true;
+                _cartService.ChangeBillingAddress(cart, addr);
+            });
         }
 
         private Kooboo.Commerce.Locations.Address GetOrCreateAddress(int customerId, Address address)

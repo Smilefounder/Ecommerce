@@ -61,9 +61,11 @@ namespace Kooboo.Commerce.Data
         public ICommerceDbTransaction BeginTransaction()
         {
             ThrowIfDisposed();
-            AssertNoCurrentTransaction();
 
-            _currentTransaction = new CommerceDbTransaction(DbContext.Database.BeginTransaction(), this);
+            if (_currentTransaction == null)
+            {
+                _currentTransaction = new CommerceDbTransaction(DbContext.Database.BeginTransaction(), this);
+            }
 
             return _currentTransaction;
         }
@@ -71,9 +73,11 @@ namespace Kooboo.Commerce.Data
         public ICommerceDbTransaction BeginTransaction(System.Data.IsolationLevel isolationLevel)
         {
             ThrowIfDisposed();
-            AssertNoCurrentTransaction();
 
-            _currentTransaction = new CommerceDbTransaction(DbContext.Database.BeginTransaction(isolationLevel), this);
+            if (_currentTransaction == null)
+            {
+                _currentTransaction = new CommerceDbTransaction(DbContext.Database.BeginTransaction(isolationLevel), this);
+            }
 
             return _currentTransaction;
         }
@@ -96,12 +100,6 @@ namespace Kooboo.Commerce.Data
             }
 
             return result;
-        }
-
-        private void AssertNoCurrentTransaction()
-        {
-            if (_currentTransaction != null)
-                throw new InvalidOperationException("Nesting transaction is not allowed. Ensure current transaction is disposed before starting new transaction.");
         }
 
         internal void DispatchPendingEvents()

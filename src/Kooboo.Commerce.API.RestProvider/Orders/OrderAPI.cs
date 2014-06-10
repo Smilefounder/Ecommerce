@@ -124,7 +124,7 @@ namespace Kooboo.Commerce.API.RestProvider.Orders
             return this;
         }
 
-        public Order CreateFromShoppingCart(int cartId, MembershipUser user, bool deleteShoppingCart = true)
+        public Order CreateFromCart(int cartId, MembershipUser user, bool deleteShoppingCart = true)
         {
             QueryParameters.Add("cartId", cartId.ToString());
             QueryParameters.Add("deleteShoppingCart", deleteShoppingCart.ToString());

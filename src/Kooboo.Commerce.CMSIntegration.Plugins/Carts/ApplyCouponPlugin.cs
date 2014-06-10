@@ -11,8 +11,8 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
     {
         protected override SubmissionExecuteResult Execute(ApplyCouponModel model)
         {
-            var cartId = HttpContext.EnsureCart();
-            var success = Site.Commerce().ShoppingCarts.ApplyCoupon(cartId, model.Coupon);
+            var cartId = HttpContext.CurrentCartId();
+            var success = Api.ShoppingCarts.ApplyCoupon(cartId, model.Coupon);
 
             return new SubmissionExecuteResult
             {

@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
 
             var member = HttpContext.Membership().GetMembershipUser();
             var cart = api.ShoppingCarts.ByAccountId(member.UUID).FirstOrDefault();
-            var order = api.Orders.CreateFromShoppingCart(cart.Id, member, true);
+            var order = api.Orders.CreateFromCart(cart.Id, member, true);
 
             api.ShoppingCarts.ExpireCart(cart.Id);
 

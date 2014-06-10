@@ -13,6 +13,8 @@ using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.ShoppingCarts;
+using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Events.Checkout;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
@@ -163,6 +165,28 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             _repository.Database.SaveChanges();
 
             Event.Raise(new CartItemQuantityChanged(cart, item, oldQuantity));
+        }
+
+        public void ChangeShippingAddress(ShoppingCart cart, Address address)
+        {
+            if (cart.ShippingAddress == null || cart.ShippingAddress.Id != address.Id)
+            {
+                cart.ShippingAddress = address;
+                _repository.Database.SaveChanges();
+
+                Event.Raise(new ShippingAddressChanged(cart, address));
+            }
+        }
+
+        public void ChangeBillingAddress(ShoppingCart cart, Address address)
+        {
+            if (cart.BillingAddress == null || cart.BillingAddress.Id != address.Id)
+            {
+                cart.BillingAddress = address;
+                _repository.Database.SaveChanges();
+
+                Event.Raise(new BillingAddressChanged(cart, address));
+            }
         }
 
         public void MigrateCart(ShoppingCart from, ShoppingCart to)

@@ -11,7 +11,7 @@ using Kooboo.Commerce.API.HAL;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
-    public class OrderController : CommerceAPIControllerAccessBase<Order>
+    public class OrderController : CommerceAPIControllerQueryBase<Order>
     {
         /// <summary>
         /// build the commerce query filters from query string.
@@ -82,14 +82,9 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 
         [HttpPost]
         [Resource("create_from_cart")]
-        public Order CreateFromShoppingCart(int cartId, bool deleteShoppingCart, [FromBody]MembershipUser user)
+        public Order CreateFromCart(int cartId, bool deleteShoppingCart, [FromBody]MembershipUser user)
         {
-            return Commerce().Orders.CreateFromShoppingCart(cartId, user, deleteShoppingCart);
-        }
-
-        protected override ICommerceAccess<Order> GetAccesser()
-        {
-            return Commerce().Orders;
+            return Commerce().Orders.CreateFromCart(cartId, user, deleteShoppingCart);
         }
     }
 }
