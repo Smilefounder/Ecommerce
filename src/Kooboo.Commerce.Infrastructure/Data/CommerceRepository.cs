@@ -42,28 +42,12 @@ namespace Kooboo.Commerce.Data
 
         public IQueryable<T> Query()
         {
-            var query = DbContext.Set<T>();
-            if (typeof(ISoftDeletable).IsAssignableFrom(typeof(T)))
-            {
-                return query.Where("!IsDeleted") as IQueryable<T>;
-            }
-
-            return query;
+            return DbContext.Set<T>();
         }
 
         public virtual T Get(params object[] id)
         {
-            var entity = DbContext.Set<T>().Find(id);
-            if (typeof(ISoftDeletable).IsAssignableFrom(typeof(T)))
-            {
-                var softDeletable = entity as ISoftDeletable;
-                if (softDeletable.IsDeleted)
-                {
-                    entity = null;
-                }
-            }
-
-            return entity;
+            return DbContext.Set<T>().Find(id);
         }
 
         public virtual bool Insert(T entity)
@@ -121,16 +105,7 @@ namespace Kooboo.Commerce.Data
                 ((INotifyDeleting)entity).NotifyDeleting();
             }
 
-            var softDeletable = entity as ISoftDeletable;
-            if (softDeletable != null)
-            {
-                softDeletable.IsDeleted = true;
-                softDeletable.DeletedAtUtc = DateTime.UtcNow;
-            }
-            else
-            {
-                DbContext.Set<T>().Remove(entity);
-            }
+            DbContext.Set<T>().Remove(entity);
 
             int ret = DbContext.SaveChanges();
 

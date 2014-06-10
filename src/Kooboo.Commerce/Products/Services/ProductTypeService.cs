@@ -41,8 +41,7 @@ namespace Kooboo.Commerce.Products.Services
 
         public ProductType GetById(int id)
         {
-            ProductType type = _productTypeRepository.Get(o => o.Id == id);
-            return type.IsDeleted ? null : type;
+            return _productTypeRepository.Get(o => o.Id == id);
         }
 
         public IQueryable<ProductType> Query()

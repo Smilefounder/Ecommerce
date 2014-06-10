@@ -502,7 +502,6 @@
 
             $.when(vm.GetImageTypes(), vm.GetProductTypes(), vm.GetBrands(), vm.GetCategories())
              .done(function () {
-                 window.loading.hide();
                  vm.getData();
 
                  kb.events.fire('Product/Edit/FormDataBinding', vm, {
@@ -512,8 +511,8 @@
                  ko.applyBindings(vm);
 
                  setTimeout(function () {
-                     console.log('init controls');
                      kb.ui.unobtrusive.initialize(document.body);
+                     window.loading.hide();
                  }, 100);
              });
         }, 20);

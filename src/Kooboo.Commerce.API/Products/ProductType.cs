@@ -28,14 +28,6 @@ namespace Kooboo.Commerce.API.Products
         /// </summary>
         public bool IsEnabled { get; set; }
         /// <summary>
-        /// is deleted
-        /// </summary>
-        public bool IsDeleted { get; set; }
-        /// <summary>
-        /// deleted at utc
-        /// </summary>
-        public DateTime? DeletedAtUtc { get; set; }
-        /// <summary>
         /// custom fields of this product type
         /// custom field is an extended property to a product, for customize product properties.
         /// the custom field can be selected by user, but it won't affect the product's price.

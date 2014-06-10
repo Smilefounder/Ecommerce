@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Products
     /// <summary>
     /// Define the type of a product, the type defines all the custom properties and variations. 
     /// </summary>
-    public class ProductType : ISoftDeletable, INotifyCreated, INotifyDeleted
+    public class ProductType : INotifyCreated, INotifyDeleted
     {
         [Key, Param]
         public int Id { get; set; }
@@ -30,10 +30,6 @@ namespace Kooboo.Commerce.Products
 
         [Param]
         public bool IsEnabled { get; protected set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedAtUtc { get; set; }
 
         public virtual ICollection<ProductTypeCustomField> CustomFields { get; set; }
 

@@ -68,7 +68,7 @@ namespace Kooboo.Commerce.Accessories.Controllers
         public ActionResult SearchProducts(string term)
         {
             var products = _productService.Query()
-                                          .Where(x => !x.IsDeleted && x.Name.Contains(term))
+                                          .Where(x => x.Name.Contains(term))
                                           .Take(10)
                                           .Select(x => new
                                           {

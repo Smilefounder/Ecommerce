@@ -31,12 +31,6 @@ namespace Kooboo.Commerce.Data
             {
                 if (entry.State.HasFlag(EntityState.Modified))
                 {
-                    var softDeletable = entry.Entity as ISoftDeletable;
-                    if (softDeletable != null && softDeletable.IsDeleted)
-                    {
-                        continue;
-                    }
-
                     var observer = entry.Entity as INotifyUpdated;
                     if (observer != null)
                     {

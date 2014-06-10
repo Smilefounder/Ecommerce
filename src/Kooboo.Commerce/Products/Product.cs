@@ -16,12 +16,11 @@ namespace Kooboo.Commerce.Products
     /// This class store the product information, but the sale items. The items to be sold stored in the ProductVariant. 
     /// One product can have multiple variants, each variant contains some field values and some price, stock, etc. 
     /// </summary>
-    public class Product : ISoftDeletable, INotifyCreated, INotifyDeleted
+    public class Product : INotifyCreated, INotifyDeleted
     {
         public Product()
         {
             CreatedAtUtc = DateTime.UtcNow;
-            IsDeleted = false;
             IsPublished = false;
             Type = null;
             Brand = null;
@@ -46,10 +45,6 @@ namespace Kooboo.Commerce.Products
         public int ProductTypeId { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedAtUtc { get; set; }
 
         [Param]
         public bool IsPublished { get; protected set; }

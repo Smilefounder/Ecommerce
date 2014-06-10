@@ -30,8 +30,7 @@ namespace Kooboo.Commerce.Products.Services
 
         public Product GetById(int id)
         {
-            Product product = _repoProduct.Get(o => o.Id == id);
-            return product.IsDeleted ? null : product;
+            return _repoProduct.Get(o => o.Id == id);
         }
 
         public IQueryable<Product> Query()

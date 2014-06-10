@@ -7,13 +7,12 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Mapping
 {
-    public class ProductTypeMap : EntityTypeConfiguration<ProductType> {
-
-        public ProductTypeMap() {
-
-            this.HasMany(o => o.CustomFields).WithRequired(o => o.ProductType);
-
-            this.HasMany(o => o.VariationFields).WithRequired(o => o.ProductType);
+    public class ProductTypeMap : EntityTypeConfiguration<ProductType>
+    {
+        public ProductTypeMap()
+        {
+            HasMany(o => o.CustomFields).WithRequired(o => o.ProductType);
+            HasMany(o => o.VariationFields).WithRequired(o => o.ProductType);
         }
     }
 }
