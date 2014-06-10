@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Parsing
 {
-    // Identifier                 : [a-z]\w* -> Custom operator should be in the form of identifier
+    // Identifier                 : [a-z]\w*\. -> Dots is allowed in parameter names. Custom operator should be in the form of identifier
     // Number                     : [0-9]+(.[0-9]+)?
     // String                     : "[^"]*" -> escape double quote char by using two double quotes
     // Parenthsis                 : ( | )
@@ -105,8 +105,8 @@ namespace Kooboo.Commerce.Rules.Parsing
             {
                 var startPosition = _source.Position;
                 var ch = _source.Read();
-                // identifier must start with a letter
-                if (ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z' || ch == '_')
+                // identifier must start with a letter or _
+                if (char.IsLetter(ch) || ch == '_')
                 {
                     _buffer.Append(ch);
 
@@ -114,7 +114,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                     {
                         ch = _source.Peek();
 
-                        if (char.IsDigit(ch) || char.IsLetter(ch) || ch == '_')
+                        if (char.IsDigit(ch) || char.IsLetter(ch) || ch == '_' || ch == '.')
                         {
                             _buffer.Append(ch);
                             _source.MoveNext();

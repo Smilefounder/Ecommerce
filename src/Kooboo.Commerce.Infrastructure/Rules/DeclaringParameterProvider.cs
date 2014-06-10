@@ -64,9 +64,16 @@ namespace Kooboo.Commerce.Rules
                     }
 
                     var newPrefix = prefix;
+
+                    // refAttr.Prefix == null: Generate a default prefix
+                    // refAttr.Prefix == String.Empty: Do not use prefix
+                    // otherwise, use the specified prefix
                     if (refAttr.Prefix != null)
                     {
-                        newPrefix = prefix + refAttr.Prefix;
+                        if (refAttr.Prefix.Length > 0)
+                        {
+                            newPrefix = prefix + (refAttr.Prefix.EndsWith(".") ? refAttr.Prefix : refAttr.Prefix + ".");
+                        }
                     }
                     else
                     {
@@ -82,6 +89,8 @@ namespace Kooboo.Commerce.Rules
                         {
                             newPrefix = prefix + property.Name;
                         }
+
+                        newPrefix = newPrefix + ".";
                     }
 
                     parameters.AddRange(FindConditionParameters(referencingType, resolver, newPrefix));
