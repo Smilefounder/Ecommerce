@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Events.ShoppingCarts
 
         public int NewQuantity { get; set; }
 
-        public CartItemQuantityChanged() { }
+        protected CartItemQuantityChanged() { }
 
         public CartItemQuantityChanged(ShoppingCart cart, ShoppingCartItem item, int oldQuantity)
         {

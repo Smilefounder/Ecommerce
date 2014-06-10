@@ -55,8 +55,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Carts\AddCartItemResult.cs" />
     <Compile Include="Carts\ApplyCouponPlugin.cs" />
     <Compile Include="Carts\AddCartItemPlugin.cs" />
+    <Compile Include="Carts\ApplyCouponResult.cs" />
     <Compile Include="Carts\ChangeBillingAddressPlugin.cs" />
     <Compile Include="Carts\ChangeCartItemQuantityPlugin.cs" />
     <Compile Include="Carts\ChangeShippingAddressPlugin.cs" />
@@ -68,7 +70,6 @@
     <Compile Include="Carts\Models\ApplyCouponModel.cs" />
     <Compile Include="Carts\Models\ChangeItemQuantityModel.cs" />
     <Compile Include="Carts\Models\RemoveItemModel.cs" />
-    <Compile Include="Carts\SiteCartExtensions.cs" />
     <Compile Include="Customers\AddAddressPlugin.cs" />
     <Compile Include="Customers\AddAddressResult.cs" />
     <Compile Include="Customers\CustomerLoginPlugin.cs" />

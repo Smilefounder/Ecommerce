@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models
+namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 {
-    public class ChangeItemQuantityModel : SubmissionModel
+    public class AddCartItemResult
     {
         public int ItemId { get; set; }
-
-        public int NewQuantity { get; set; }
     }
 }

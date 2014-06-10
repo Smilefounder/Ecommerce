@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Payments
 {
-    public class Payment : INotifyCreated
+    public class Payment
     {
         public int Id { get; set; }
 
@@ -46,11 +46,6 @@ namespace Kooboo.Commerce.Payments
         public static Payment CreateOrderPayment(int orderId, decimal amount, PaymentMethod paymentMethod, string description)
         {
             return new Payment(new PaymentTarget(orderId.ToString(), PaymentTargetTypes.Order), amount, paymentMethod, description);
-        }
-
-        void INotifyCreated.NotifyCreated()
-        {
-            Event.Raise(new PaymentCreated(this));
         }
     }
 

@@ -56,17 +56,16 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             return address.Id;
         }
 
-        /// <summary>
-        /// add item to shopping cart
-        /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
         [HttpPost]
-        [Resource("add_cart_item")]
-        public bool AddCartItem(int cartId, [FromBody]ShoppingCartItem item)
+        public int AddItem(int cartId, int productPriceId, int quantity)
         {
-            return Commerce().ShoppingCarts.AddCartItem(cartId, item);
+            return Commerce().ShoppingCarts.AddItem(cartId, productPriceId, quantity);
+        }
+
+        [HttpDelete]
+        public bool RemoveItem(int cartId, int itemId)
+        {
+            return Commerce().ShoppingCarts.RemoveItem(cartId, itemId);
         }
 
         /// <summary>
@@ -76,67 +75,11 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="item">shopping cart item</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
-        [Resource("update_cart_item")]
-        public bool UpdateCartItem(int cartId, [FromBody]ShoppingCartItem item)
+        [Resource("change_item_quantity")]
+        public bool ChangeItemQuantity(int cartId, int itemId, int newQuantity)
         {
-            return Commerce().ShoppingCarts.UpdateCartItem(cartId, item);
-        }
-        /// <summary>
-        /// remove shopping cart item
-        /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        [HttpDelete]
-        [Resource("remove_cart_item")]
-        public bool RemoveCartItem(int cartId, int cartItemId)
-        {
-            return Commerce().ShoppingCarts.RemoveCartItem(cartId, cartItemId);
-        }
-
-        /// <summary>
-        /// add the specified product to current user's shopping cart
-        /// add up the amount if the product already in the shopping item
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="accountId">current user's account id</param>
-        /// <param name="productPriceId">specified product price</param>
-        /// <param name="quantity">quantity</param>
-        /// <returns>true if successfully, else false</returns>
-        [HttpPost]
-        [Resource("add_to_cart")]
-        public bool AddToCart(string sessionId, string accountId, int productPriceId, int quantity)
-        {
-            return Commerce().ShoppingCarts.AddToCart(sessionId, accountId, productPriceId, quantity);
-        }
-
-        /// <summary>
-        /// update the specified product's quantity
-        /// update the amount if the product already in the shopping item
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="accountId">current user's account id</param>
-        /// <param name="productPriceId">specified product price</param>
-        /// <param name="quantity">quantity</param>
-        /// <returns>true if successfully, else false</returns>
-        [HttpPost]
-        [Resource("update_cart")]
-        public bool UpdateCart(string sessionId, string accountId, int productPriceId, int quantity)
-        {
-            return Commerce().ShoppingCarts.UpdateCart(sessionId, accountId, productPriceId, quantity);
-        }
-
-        /// <summary>
-        /// fill with customer info by current user's account
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="user">current user's info</param>
-        /// <returns>true if successfully, else false</returns>
-        [HttpPost]
-        [Resource("fill_cart_customer")]
-        public bool FillCustomerByAccount(string sessionId, [FromBody]Kooboo.CMS.Membership.Models.MembershipUser user)
-        {
-            return Commerce().ShoppingCarts.FillCustomerByAccount(sessionId, user);
+            Commerce().ShoppingCarts.ChangeItemQuantity(cartId, itemId, newQuantity);
+            return true;
         }
 
         /// <summary>
@@ -148,8 +91,16 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         [Resource("expire_cart")]
         public bool ExpireShppingCart(int shoppingCartId)
         {
-            return Commerce().ShoppingCarts.ExpireShppingCart(shoppingCartId);
+            Commerce().ShoppingCarts.ExpireCart(shoppingCartId);
+            return true;
         }
 
+        [HttpPost]
+        [Resource("migrate_cart")]
+        public bool MigrateCart(int customerId, string sessionId)
+        {
+            Commerce().ShoppingCarts.MigrateCart(customerId, sessionId);
+            return true;
+        }
     }
 }

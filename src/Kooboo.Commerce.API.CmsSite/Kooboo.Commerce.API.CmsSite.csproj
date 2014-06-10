@@ -58,10 +58,6 @@
   <ItemGroup>
     <Compile Include="CmsSiteUrlResolver.cs" />
     <Compile Include="KoobooSiteExtensions.cs" />
-    <Compile Include="PlugIn\AddToCartPlugIn.cs" />
-    <Compile Include="PlugIn\CalculatePricePlugin.cs" />
-    <Compile Include="PlugIn\PayOrderPlugIn.cs" />
-    <Compile Include="PlugIn\SaveOrderPlugIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

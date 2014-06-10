@@ -11,52 +11,68 @@ using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Orders.Pricing;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.ShoppingCarts;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
     [Dependency(typeof(IShoppingCartService))]
     public class ShoppingCartService : IShoppingCartService
     {
-        private readonly IRepository<ShoppingCart> _shoppingCartRepository;
-        private readonly IRepository<ShoppingCartItem> _shoppingCartItemRepository;
-        private readonly ICustomerService _customerService;
-        private readonly IPromotionService _promotionService;
-        private readonly IRepository<ProductPrice> _productPriceRepository;
+        private IRepository<ShoppingCart> _repository;
+        private ICustomerService _customerService;
 
-        public ShoppingCartService(
-            IRepository<ShoppingCart> shoppingCartRepository, 
-            IRepository<ShoppingCartItem> shoppingCartItemRepository, 
-            ICustomerService customerService, 
-            IRepository<ProductPrice> productPriceRepository,
-            IPromotionService promotionService)
+        public ShoppingCartService(IRepository<ShoppingCart> repository, ICustomerService customerService)
         {
-            _shoppingCartRepository = shoppingCartRepository;
-            _shoppingCartItemRepository = shoppingCartItemRepository;
+            _repository = repository;
             _customerService = customerService;
-            _productPriceRepository = productPriceRepository;
-            _promotionService = promotionService;
         }
 
-        #region IShoppingCartService Members
+        public ShoppingCart GetById(int id)
+        {
+            return _repository.Get(id);
+        }
+
+        public ShoppingCart GetBySessionId(string sessionId)
+        {
+            return _repository.Query().FirstOrDefault(c => c.SessionId == sessionId);
+        }
+
+        public ShoppingCart GetByAccountId(string accountId)
+        {
+            return _repository.Query().FirstOrDefault(c => c.Customer != null && c.Customer.AccountId == accountId);
+        }
+
+        public ShoppingCart GetByCustomer(int customerId)
+        {
+            return _repository.Query().FirstOrDefault(c => c.Customer != null && c.Customer.Id == customerId);
+        }
+
+        public ShoppingCart GetByCustomer(string customerEmail)
+        {
+            return _repository.Query().FirstOrDefault(c => c.Customer != null && c.Customer.Email == customerEmail);
+        }
 
         public IQueryable<ShoppingCart> Query()
         {
-            return _shoppingCartRepository.Query();
+            return _repository.Query();
         }
 
-        public IQueryable<ShoppingCartItem> ShoppingCartItemQuery()
+        public void Create(ShoppingCart cart)
         {
-            return _shoppingCartItemRepository.Query();
+            Require.NotNull(cart, "cart");
+
+            _repository.Insert(cart);
+            Event.Raise(new CartCreated(cart));
         }
 
-        public bool ApplyCoupon(int cartId, string coupon)
+        public bool ApplyCoupon(ShoppingCart cart, string coupon)
         {
             if (String.IsNullOrWhiteSpace(coupon))
             {
                 return false;
             }
 
-            var cart = _shoppingCartRepository.Get(cartId);
             var oldCoupon = cart.CouponCode;
 
             cart.CouponCode = coupon;
@@ -71,185 +87,118 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
 
             cart.CouponCode = oldCoupon;
 
+            _repository.Database.SaveChanges();
+
             return false;
         }
 
-        public bool Create(ShoppingCart shoppingCart)
+        public void AddItem(ShoppingCart cart, ShoppingCartItem item)
         {
-            return _shoppingCartRepository.Insert(shoppingCart);
+            Require.NotNull(cart, "cart");
+            Require.NotNull(item, "item");
+
+            cart.Items.Add(item);
+            _repository.Database.SaveChanges();
+
+            Event.Raise(new CartItemAdded(cart, item));
         }
 
-        public bool Update(ShoppingCart shoppingCart)
+        public ShoppingCartItem AddItem(ShoppingCart cart, Product product, ProductPrice productPrice, int quantity)
         {
-            return _shoppingCartRepository.Update(shoppingCart, k => new object[] { k.Id });
-        }
+            Require.NotNull(cart, "cart");
+            Require.NotNull(product, "product");
+            Require.NotNull(productPrice, "productPrice");
+            Require.That(quantity > 0, "quantity", "Quantity should be greater than zero.");
 
-        public bool Save(ShoppingCart shoppingCart)
-        {
-            if (shoppingCart.Id > 0)
+            var item = cart.Items.FirstOrDefault(i => i.ProductPrice.Id == productPrice.Id);
+            if (item == null)
             {
-                bool exists = _shoppingCartRepository.Query(o => o.Id == shoppingCart.Id).Any();
-                if (exists)
-                    return Update(shoppingCart);
-                else
-                    return Create(shoppingCart);
+                item = new ShoppingCartItem(productPrice, quantity, cart);
+                AddItem(cart, item);
             }
             else
             {
-                return Create(shoppingCart);
+                ChangeItemQuantity(cart, item, item.Quantity + quantity);
             }
+
+            return item;
         }
 
-        public bool Delete(ShoppingCart shoppingCart)
+        public bool RemoveItem(ShoppingCart cart, int itemId)
         {
-            return _shoppingCartRepository.Delete(shoppingCart);
-        }
-
-        /// <summary>
-        /// add to cart
-        /// quantity should greater than 0.
-        /// </summary>
-        /// <param name="sessionId">session id</param>
-        /// <param name="customerId">customer id</param>
-        /// <param name="productPriceId">product price id</param>
-        /// <param name="quantity">quantity</param>
-        public bool AddToCart(string sessionId, int? customerId, int productPriceId, int quantity)
-        {
-            Require.That((sessionId != null || customerId != null), "sessionId, customerId");
-            Require.That(quantity > 0, "quantity");
-
-            var query = _shoppingCartRepository.Query();
-            // always get cart from session id
-            if (!string.IsNullOrEmpty(sessionId))
-                query = query.Where(o => o.SessionId == sessionId);
-
-            var cart = query.FirstOrDefault();
-            if (cart == null)
+            var item = cart.Items.FirstOrDefault(i => i.Id == itemId);
+            if (item == null)
             {
-                Require.NotNull(sessionId, "sessionId");
-                cart = new ShoppingCart();
-                cart.SessionId = sessionId;
-                cart.Customer = customerId.HasValue ? _customerService.GetById(customerId.Value) : null;
-                cart.Items = new List<ShoppingCartItem>();
-                var productPrice = _productPriceRepository.Query(o => o.Id == productPriceId).First();
-                var cartItem = new ShoppingCartItem(productPrice, quantity, cart);
-                cart.Items.Add(cartItem);
-                return _shoppingCartRepository.Insert(cart);
+                return false;
             }
-            else
-            {
-                if (cart.Customer == null && customerId.HasValue)
-                    cart.Customer = _customerService.GetById(customerId.Value);
-                var cartItem = cart.Items.FirstOrDefault(o => o.ProductPrice.Id == productPriceId);
-                if (cartItem == null)
-                {
-                    var productPrice = _productPriceRepository.Query(o => o.Id == productPriceId).First();
-                    cartItem = new ShoppingCartItem(productPrice, quantity, cart);
-                    cart.Items.Add(cartItem);
-                }
-                else
-                {
-                    cartItem.Quantity += quantity;
-                }
-                return _shoppingCartRepository.Update(cart, k => new object[] { k.Id });
-            }
+
+            cart.Items.Remove(item);
+            _repository.Database.SaveChanges();
+
+            Event.Raise(new CartItemRemoved(cart, item));
+
+            return true;
         }
 
-        /// <summary>
-        /// update cart
-        /// if quantity <= 0 then remove the corresponding product else update the quantity in cart
-        /// </summary>
-        /// <param name="sessionId">session id</param>
-        /// <param name="customerId">customer id</param>
-        /// <param name="productPriceId">product price id</param>
-        /// <param name="quantity">quantity</param>
-        public bool UpdateCart(string sessionId, int? customerId, int productPriceId, int quantity)
+        public bool RemoveProduct(ShoppingCart cart, int productPriceId)
         {
-            Require.That((sessionId != null || customerId != null), "sessionId, customerId");
-
-            var query = _shoppingCartRepository.Query();
-            if (customerId.HasValue)
-                query = query.Where(o => o.Customer.Id == customerId);
-            else if (!string.IsNullOrEmpty(sessionId))
-                query = query.Where(o => o.SessionId == sessionId);
-
-            var cart = query.FirstOrDefault();
-            if (cart != null)
+            var item = cart.FindItemByProductPrice(productPriceId);
+            if (item == null)
             {
-                var cartItem = cart.Items.FirstOrDefault(o => o.ProductPrice.Id == productPriceId);
-                if (cartItem != null)
-                {
-                    if (quantity > 0)
-                    {
-                        cartItem.Quantity = quantity;
-                    }
-                    else
-                    {
-                        cart.Items.Remove(cartItem);
-                    }
-                }
-                return _shoppingCartRepository.Update(cart, k => new object[] { k.Id });
+                return false;
             }
-            return AddToCart(sessionId, customerId, productPriceId, quantity);
+
+            return RemoveItem(cart, item.Id);
         }
 
-        public bool FillCustomerByAccount(string sessionId, MembershipUser user)
+        public void ChangeItemQuantity(ShoppingCart cart, ShoppingCartItem item, int newQuantity)
         {
-            Require.NotNull(sessionId, "sessionId");
-            var cart = _shoppingCartRepository.Query(o => o.SessionId == sessionId).FirstOrDefault();
-            if(cart != null)
-            {
-                var customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
-                if(customer == null)
-                {
-                    customer = _customerService.CreateByAccount(user);
-                }
-                if(customer != null)
-                {
-                    cart.Customer = customer;
-                    return _shoppingCartRepository.Update(cart, k => new object[] { k.Id });
-                }
-            }
-            return false;
+            Require.NotNull(cart, "cart");
+            Require.NotNull(item, "item");
+            Require.That(newQuantity > 0, "newQuantity", "Quantity should be greater than zero.");
+
+            var oldQuantity = item.Quantity;
+            item.Quantity = newQuantity;
+
+            _repository.Database.SaveChanges();
+
+            Event.Raise(new CartItemQuantityChanged(cart, item, oldQuantity));
         }
 
-        public bool ExpireShppingCart(ShoppingCart shoppingCart)
+        public void MigrateCart(ShoppingCart from, ShoppingCart to)
         {
-            if (shoppingCart != null)
+            Require.NotNull(from, "from");
+            Require.NotNull(to, "to");
+
+            if (from.Id == to.Id)
             {
-                shoppingCart.SessionId = string.Format("EXPIRED_{0}_{1}", shoppingCart.SessionId, DateTime.UtcNow.Ticks.ToString());
-                return _shoppingCartRepository.Update(shoppingCart, k => new object[] { k.Id });
+                return;
             }
-            return false;
+
+            foreach (var item in from.Items)
+            {
+                AddItem(to, item.ProductPrice.Product, item.ProductPrice, item.Quantity);
+            }
+
+            from.Items.Clear();
+            _repository.Delete(from);
         }
 
-        #endregion
-
-
-        public bool AddCartItem(int cartId, ShoppingCartItem item)
+        public void Delete(ShoppingCart cart)
         {
-            var cart = _shoppingCartRepository.Query(o => o.Id == cartId).FirstOrDefault();
-            if(cart != null)
-            {
-                item.ShoppingCart = cart;
-                return _shoppingCartItemRepository.Insert(item);
-            }
-            return false;
+            Require.NotNull(cart, "cart");
+
+            _repository.Delete(cart);
         }
 
-        public bool UpdateCartItem(int cartId, ShoppingCartItem item)
+        public void ExpireCart(ShoppingCart cart)
         {
-            return _shoppingCartItemRepository.Update(item, k => new object[] { k.Id });
-        }
+            Require.NotNull(cart, "cart");
 
-        public bool RemoveCartItem(int cartId, int cartItemId)
-        {
-            var cartItem = _shoppingCartItemRepository.Query(o => o.Id == cartItemId && o.ShoppingCart.Id == cartId).FirstOrDefault();
-            if (cartItem != null)
-            {
-                return _shoppingCartItemRepository.Delete(cartItem);
-            }
-            return false;
+            cart.SessionId = string.Format("EXPIRED_{0}_{1}", cart.SessionId, DateTime.UtcNow.Ticks.ToString());
+            _repository.Database.SaveChanges();
+
+            Event.Raise(new CartExpired(cart));
         }
     }
 }

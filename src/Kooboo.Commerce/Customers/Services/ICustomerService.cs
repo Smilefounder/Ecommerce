@@ -12,6 +12,8 @@ namespace Kooboo.Commerce.Customers.Services
     {
         Customer GetById(int id);
 
+        Customer GetByEmail(string email);
+
         IQueryable<Customer> Query();
 
         IQueryable<Address> QueryAddress();

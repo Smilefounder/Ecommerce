@@ -12,65 +12,52 @@ namespace Kooboo.Commerce.API.ShoppingCarts
     /// </summary>
     public interface IShoppingCartAccess
     {
+        int EnsureCustomerCart(string email, string sessionId);
+
+        int EnsureSessionCart(string sessionId);
+
+        /// <summary>
+        /// Apply coupon to the shopping cart. 
+        /// If the visitor is an authenticated customer, pass his email, else pass the sessionId.
+        /// </summary>
         bool ApplyCoupon(int cartId, string coupon);
 
         bool ChangeShippingAddress(int cartId, Address address);
 
         bool ChangeBillingAddress(int cartId, Address address);
 
+        void MigrateCart(int customerId, string sessionId);
+
         /// <summary>
-        /// add item to shopping cart
+        /// Add a product to the shopping cart.
         /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        bool AddCartItem(int cartId, ShoppingCartItem item);
+        /// <param name="cartId">The cart id.</param>
+        /// <param name="productPriceId">The product price id.</param>
+        /// <param name="quantity">The quantity.</param>
+        /// <returns>The created cart item id.</returns>
+        int AddItem(int cartId, int productPriceId, int quantity);
+
         /// <summary>
-        /// update shopping cart item
+        /// Remove the specified cart item from the shopping cart.
         /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        bool UpdateCartItem(int cartId, ShoppingCartItem item);
+        /// <param name="cartId">The cart id.</param>
+        /// <param name="itemId">The item id.</param>
+        /// <returns>True if the item is in the cart, else false.</returns>
+        bool RemoveItem(int cartId, int itemId);
+
         /// <summary>
-        /// remove shopping cart item
+        /// Change the quantity of the specified item.
         /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        bool RemoveCartItem(int cartId, int cartItemId);
-        /// <summary>
-        /// add the specified product to current user's shopping cart
-        /// add up the amount if the product already in the shopping item
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="accountId">current user's account id</param>
-        /// <param name="productPriceId">specified product price</param>
-        /// <param name="quantity">quantity</param>
-        /// <returns>true if successfully, else false</returns>
-        bool AddToCart(string sessionId, string accountId, int productPriceId, int quantity);
-        /// <summary>
-        /// update the specified product's quantity
-        /// update the amount if the product already in the shopping item
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="accountId">current user's account id</param>
-        /// <param name="productPriceId">specified product price</param>
-        /// <param name="quantity">quantity</param>
-        /// <returns>true if successfully, else false</returns>
-        bool UpdateCart(string sessionId, string accountId, int productPriceId, int quantity);
-        /// <summary>
-        /// fill with customer info by current user's account
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="user">current user's info</param>
-        /// <returns>true if successfully, else false</returns>
-        bool FillCustomerByAccount(string sessionId, MembershipUser user);
+        /// <param name="cartId">The cart id.</param>
+        /// <param name="itemId">The item id.</param>
+        /// <param name="newQuantity">New quantity.</param>
+        void ChangeItemQuantity(int cartId, int itemId, int newQuantity);
+
         /// <summary>
         /// expire the shopping cart, so that user can create another new shopping cart by current session id
         /// </summary>
-        /// <param name="shoppingCartId">shopping cart id</param>
+        /// <param name="cartId">shopping cart id</param>
         /// <returns>true if successfully, else false</returns>
-        bool ExpireShppingCart(int shoppingCartId);
+        void ExpireCart(int cartId);
     }
 }

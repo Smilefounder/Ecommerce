@@ -93,64 +93,63 @@ namespace Kooboo.Commerce.Orders.Services
             return _orderCustomFieldRepository.Query();
         }
 
-        public Order CreateFromCart(ShoppingCart shoppingCart, MembershipUser user, bool deleteShoppingCart)
+        public Order CreateFromCart(ShoppingCart cart, MembershipUser user, bool deleteShoppingCart)
         {
-            if (shoppingCart != null)
+            Require.NotNull(cart, "cart");
+
+            var customer = cart.Customer;
+            if (customer == null)
             {
-                var customer = shoppingCart.Customer;
+                customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
                 if (customer == null)
                 {
-                    customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
-                    if (customer == null)
-                    {
-                        customer = _customerService.CreateByAccount(user);
-                    }
-                    shoppingCart.Customer = customer;
-                    _shoppingCartService.Update(shoppingCart);
+                    customer = _customerService.CreateByAccount(user);
                 }
+                cart.Customer = customer;
 
-                var order = new Order();
-                order.ShoppingCartId = shoppingCart.Id;
-                order.CustomerId = customer.Id;
-                order.IsCompleted = false;
-                order.Coupon = shoppingCart.CouponCode;
-
-                if (shoppingCart.Items.Count > 0)
-                {
-                    foreach (var item in shoppingCart.Items)
-                    {
-                        var orderItem = new OrderItem();
-                        orderItem.Order = order;
-                        orderItem.ProductPriceId = item.ProductPrice.Id;
-                        orderItem.ProductPrice = item.ProductPrice;
-                        orderItem.ProductName = item.ProductPrice.Name;
-                        orderItem.SKU = item.ProductPrice.Sku;
-                        orderItem.UnitPrice = item.ProductPrice.RetailPrice;
-                        orderItem.Quantity = item.Quantity;
-                        order.OrderItems.Add(orderItem);
-                    }
-                }
-
-                if (shoppingCart.ShippingAddress != null)
-                {
-                    OrderAddress address = new OrderAddress();
-                    address.FromAddress(shoppingCart.ShippingAddress);
-                    order.ShippingAddress = address;
-                }
-
-                if (shoppingCart.BillingAddress != null)
-                {
-                    OrderAddress address = new OrderAddress();
-                    address.FromAddress(shoppingCart.ShippingAddress);
-                    order.BillingAddress = address;
-                }
-
-                CalculatePrice(order);
-
-                _orderRepository.Insert(order);
-                return order;
+                _db.SaveChanges();
             }
-            return null;
+
+            var order = new Order();
+            order.ShoppingCartId = cart.Id;
+            order.CustomerId = customer.Id;
+            order.IsCompleted = false;
+            order.Coupon = cart.CouponCode;
+
+            if (cart.Items.Count > 0)
+            {
+                foreach (var item in cart.Items)
+                {
+                    var orderItem = new OrderItem();
+                    orderItem.Order = order;
+                    orderItem.ProductPriceId = item.ProductPrice.Id;
+                    orderItem.ProductPrice = item.ProductPrice;
+                    orderItem.ProductName = item.ProductPrice.Name;
+                    orderItem.SKU = item.ProductPrice.Sku;
+                    orderItem.UnitPrice = item.ProductPrice.RetailPrice;
+                    orderItem.Quantity = item.Quantity;
+                    order.OrderItems.Add(orderItem);
+                }
+            }
+
+            if (cart.ShippingAddress != null)
+            {
+                OrderAddress address = new OrderAddress();
+                address.FromAddress(cart.ShippingAddress);
+                order.ShippingAddress = address;
+            }
+
+            if (cart.BillingAddress != null)
+            {
+                OrderAddress address = new OrderAddress();
+                address.FromAddress(cart.ShippingAddress);
+                order.BillingAddress = address;
+            }
+
+            CalculatePrice(order);
+
+            _orderRepository.Insert(order);
+            return order;
         }
 
         private void CalculatePrice(Order order)

@@ -120,6 +120,7 @@
     <Compile Include="Events\ShippingMethods\ShippingMethodDisabled.cs" />
     <Compile Include="Events\ShippingMethods\ShippingMethodEnabled.cs" />
     <Compile Include="Events\ShippingMethods\ShippingMethodUpdated.cs" />
+    <Compile Include="Events\ShoppingCarts\CartExpired.cs" />
     <Compile Include="Events\ShoppingCarts\CartItemAdded.cs" />
     <Compile Include="Events\ShoppingCarts\CartItemQuantityChanged.cs" />
     <Compile Include="Events\ShoppingCarts\CartItemRemoved.cs" />

@@ -13,12 +13,21 @@ namespace Kooboo.Commerce.Events.ShoppingCarts
 
         public int ItemId { get; set; }
 
-        public CartItemAdded() { }
+        public int ProductId { get; set; }
+
+        public int ProductPriceId { get; set; }
+
+        public int Quantity { get; set; }
+
+        protected CartItemAdded() { }
 
         public CartItemAdded(ShoppingCart cart, ShoppingCartItem item)
         {
             CartId = cart.Id;
             ItemId = item.Id;
+            ProductId = item.ProductPrice.ProductId;
+            ProductPriceId = item.ProductPrice.Id;
+            Quantity = item.Quantity;
         }
     }
 }

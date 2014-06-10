@@ -43,10 +43,6 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 {
                     result = MiniCartInfo(site, controllerContext);
                 }
-                else if (action == "change-price")
-                {
-                    result = ChangePrice(site, controllerContext, submissionSetting);
-                }
                 else if (action == "priceinfo")
                 {
                     result = PriceInfo(site, controllerContext);
@@ -116,31 +112,6 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             var cart = site.Commerce().ShoppingCarts.ByAccountId(member.UUID).FirstOrDefault();
 
             return site.Commerce().Prices.CartPrice(cart.Id);
-        }
-
-        private ShoppingCart ChangePrice(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
-        {
-            var request = controllerContext.HttpContext.Request;
-            var itemId = Convert.ToInt32(request["itemId"]);
-            var newProductPriceId = Convert.ToInt32(request["newProductPriceId"]);
-            var sessionId = controllerContext.HttpContext.Session.SessionID;
-            var member = controllerContext.HttpContext.Membership().GetMembershipUser();
-            var cart = GetShoppingCart(site, controllerContext);
-            if (cart != null)
-            {
-                var item = cart.Items.FirstOrDefault(x => x.Id == itemId);
-                if (item != null)
-                {
-                    var quantity = item.Quantity;
-
-                    site.Commerce().ShoppingCarts.RemoveCartItem(cart.Id, itemId);
-                    site.Commerce().ShoppingCarts.AddToCart(sessionId, member == null ? null : member.UUID, newProductPriceId, quantity);
-                }
-
-                return CartInfo(site, controllerContext, submissionSetting);
-            }
-
-            return null;
         }
 
         private ShoppingCart GetShoppingCart(Site site, ControllerContext controllerContext)

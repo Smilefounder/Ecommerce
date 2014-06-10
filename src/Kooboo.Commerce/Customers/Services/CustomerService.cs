@@ -35,6 +35,11 @@ namespace Kooboo.Commerce.Customers.Services
             return customer;
         }
 
+        public Customer GetByEmail(string email)
+        {
+            return _customerRepository.Get(o => o.Email == email);
+        }
+
         public IQueryable<Customer> Query()
         {
             return _customerRepository.Query();

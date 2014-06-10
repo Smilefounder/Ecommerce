@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Products;
+using Kooboo.Commerce.ComponentModel;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.ShoppingCarts;
 
 namespace Kooboo.Commerce.ShoppingCarts
 {
@@ -30,19 +33,23 @@ namespace Kooboo.Commerce.ShoppingCarts
             Items = new List<ShoppingCartItem>();
         }
 
-        public virtual void AddItem(ProductPrice productPrice, int quantity)
+        public static ShoppingCart Create(Customer customer, string sessionId)
         {
-            var item = Items.Where(x => x.ProductPrice.Id == productPrice.Id).FirstOrDefault();
+            return new ShoppingCart
+            {
+                Customer = customer,
+                SessionId = sessionId
+            };
+        }
 
-            if (item == null)
-            {
-                item = new ShoppingCartItem(productPrice, quantity, this);
-                Items.Add(item);
-            }
-            else
-            {
-                item.Quantity += quantity;
-            }
+        public ShoppingCartItem FindItemById(int itemId)
+        {
+            return Items.FirstOrDefault(i => i.Id == itemId);
+        }
+
+        public ShoppingCartItem FindItemByProductPrice(int productPriceId)
+        {
+            return Items.FirstOrDefault(i => i.ProductPrice.Id == productPriceId);
         }
     }
 }

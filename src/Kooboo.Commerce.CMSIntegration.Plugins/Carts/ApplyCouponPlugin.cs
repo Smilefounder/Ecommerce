@@ -11,16 +11,16 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
     {
         protected override SubmissionExecuteResult Execute(ApplyCouponModel model)
         {
-            var cart = Site.GetCurrentCart(ControllerContext);
-            if (cart != null)
-            {
-                if (!Site.Commerce().ShoppingCarts.ApplyCoupon(cart.Id, model.Coupon))
-                {
-                    throw new Exception("Invalid coupon code.");
-                }
-            }
+            var cartId = HttpContext.EnsureCart();
+            var success = Site.Commerce().ShoppingCarts.ApplyCoupon(cartId, model.Coupon);
 
-            return null;
+            return new SubmissionExecuteResult
+            {
+                Data = new ApplyCouponResult
+                {
+                    Applied = success
+                }
+            };
         }
     }
 }

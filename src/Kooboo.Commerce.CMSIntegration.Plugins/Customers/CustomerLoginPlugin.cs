@@ -44,6 +44,12 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 
             HttpContext.Membership().SetAuthCookie(model.Email, model.RememberMe);
 
+            var cartSessionId = HttpContext.CurrentCartSessionId();
+            if (!String.IsNullOrWhiteSpace(cartSessionId))
+            {
+                Site.Commerce().ShoppingCarts.MigrateCart(customer.Id, cartSessionId);
+            }
+
             var returnUrl = MemberPluginHelper.GetReturnUrl(ControllerContext);
 
             return new SubmissionExecuteResult

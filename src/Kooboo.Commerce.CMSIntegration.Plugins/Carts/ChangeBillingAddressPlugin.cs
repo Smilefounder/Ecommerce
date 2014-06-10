@@ -12,8 +12,8 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
     {
         protected override SubmissionExecuteResult Execute(ChangeBillingAddressModel model)
         {
-            var cart = Site.GetCurrentCart(ControllerContext);
-            Site.Commerce().ShoppingCarts.ChangeBillingAddress(cart.Id, new Address { Id = model.NewBillingAddressId });
+            var cartId = HttpContext.EnsureCart();
+            Site.Commerce().ShoppingCarts.ChangeBillingAddress(cartId, new Address { Id = model.NewBillingAddressId });
 
             return null;
         }

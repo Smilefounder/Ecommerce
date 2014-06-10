@@ -4,35 +4,51 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Customers;
 using Kooboo.CMS.Membership.Models;
+using Kooboo.Commerce.Products;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
     public interface IShoppingCartService
     {
+        ShoppingCart GetById(int id);
+
+        ShoppingCart GetBySessionId(string sessionId);
+
+        /// <summary>
+        /// 根据CMS中关联的Membership用户ID获取购物车实例。
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
+        ShoppingCart GetByAccountId(string accountId);
+
+        ShoppingCart GetByCustomer(int customerId);
+
+        ShoppingCart GetByCustomer(string customerEmail);
+
         IQueryable<ShoppingCart> Query();
 
-        IQueryable<ShoppingCartItem> ShoppingCartItemQuery();
+        void Create(ShoppingCart cart);
 
-        bool ApplyCoupon(int cartId, string coupon);
+        bool ApplyCoupon(ShoppingCart cart, string coupon);
 
-        bool Create(ShoppingCart shoppingCart);
+        void AddItem(ShoppingCart cart, ShoppingCartItem item);
 
-        bool Update(ShoppingCart shoppingCart);
-        bool Save(ShoppingCart shoppingCart);
+        ShoppingCartItem AddItem(ShoppingCart cart, Product product, ProductPrice price, int quantity);
 
-        bool Delete(ShoppingCart shoppingCart);
+        bool RemoveItem(ShoppingCart cart, int itemId);
 
-        bool AddCartItem(int cartId, ShoppingCartItem item);
-        bool UpdateCartItem(int cartId, ShoppingCartItem item);
+        bool RemoveProduct(ShoppingCart cart, int productPriceId);
 
-        bool RemoveCartItem(int cartId, int cartItemId);
+        void ChangeItemQuantity(ShoppingCart cart, ShoppingCartItem item, int newQuantity);
 
-        bool AddToCart(string sessionId, int? customerId, int productPriceId, int quantity);
+        /// <summary>
+        /// 把一个购物车中的产品合并到另一个购物车中。
+        /// 如果用户在未登录的状态下添加产品到购物车，然后登录，此时需要将未登录时添加的产品合并到该客户的购物车中。(参考Nop)
+        /// </summary>
+        void MigrateCart(ShoppingCart from, ShoppingCart to);
 
-        bool UpdateCart(string sessionId, int? customerId, int productPriceId, int quantity);
+        void Delete(ShoppingCart cart);
 
-        bool FillCustomerByAccount(string sessionId, MembershipUser user);
-
-        bool ExpireShppingCart(ShoppingCart shoppingCart);
+        void ExpireCart(ShoppingCart cart);
     }
 }

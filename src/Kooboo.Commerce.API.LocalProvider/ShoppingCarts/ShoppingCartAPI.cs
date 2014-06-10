@@ -8,6 +8,7 @@ using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Pricing;
+using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.ShoppingCarts.Services;
@@ -26,8 +27,9 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
     public class ShoppingCartAPI : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartAPI
     {
         private ICommerceDatabase _db;
+        private IProductService _productService;
         private IPriceAPI _priceApi;
-        private IShoppingCartService _shoppingCartService;
+        private IShoppingCartService _cartService;
         private ICustomerAPI _customerApi;
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
@@ -37,9 +39,10 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public ShoppingCartAPI(
             IHalWrapper halWrapper,
             ICommerceDatabase db,
+            IProductService productService,
             IPriceAPI priceApi,
             ICustomerAPI customerApi,
-            IShoppingCartService shoppingCartService, 
+            IShoppingCartService shoppingCartService,
             ICustomerService customerService,
             IPromotionService promotionService,
             IPromotionPolicyProvider promotionPolicyFactory,
@@ -49,8 +52,9 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         {
             _db = db;
             _priceApi = priceApi;
+            _productService = productService;
             _customerApi = customerApi;
-            _shoppingCartService = shoppingCartService;
+            _cartService = shoppingCartService;
             _customerService = customerService;
             _promotionService = promotionService;
             _promotionPolicyFactory = promotionPolicyFactory;
@@ -65,7 +69,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         /// <returns>queryable object</returns>
         protected override IQueryable<Commerce.ShoppingCarts.ShoppingCart> CreateQuery()
         {
-            return _shoppingCartService.Query();
+            return _cartService.Query();
         }
 
         /// <summary>
@@ -106,7 +110,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         {
             Include(o => o.Items);
             Include(o => o.Items.Select(i => i.ProductPrice));
-            var cart = base.Map(obj);            
+            var cart = base.Map(obj);
             // calculate prices
             var prices = _priceApi.CartPrice(cart.Id);
 
@@ -125,23 +129,66 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             return cart;
         }
 
+        public int EnsureCustomerCart(string email, string sessionId)
+        {
+            var cart = _cartService.GetByCustomer(email);
+            if (cart == null)
+            {
+                var customer = _customerService.GetByEmail(email);
+                cart = Kooboo.Commerce.ShoppingCarts.ShoppingCart.Create(customer, sessionId);
+                _cartService.Create(cart);
+            }
+
+            return cart.Id;
+        }
+
+        public int EnsureSessionCart(string sessionId)
+        {
+            var cart = _cartService.GetBySessionId(sessionId);
+            if (cart == null)
+            {
+                cart = new Commerce.ShoppingCarts.ShoppingCart
+                {
+                    SessionId = sessionId
+                };
+                _cartService.Create(cart);
+            }
+
+            return cart.Id;
+        }
+
         public bool ApplyCoupon(int cartId, string coupon)
         {
-            using (var tx = _db.BeginTransaction())
+            return _db.WithTransaction(() =>
             {
-                if (_shoppingCartService.ApplyCoupon(cartId, coupon))
-                {
-                    tx.Commit();
-                    return true;
-                }
+                var cart = _cartService.GetById(cartId);
+                return _cartService.ApplyCoupon(cart, coupon);
+            });
+        }
 
-                return false;
-            }
+        public int AddItem(int cartId, int productPriceId, int quantity)
+        {
+            var cart = _cartService.GetById(cartId);
+            var productPrice = _productService.GetProductPriceById(productPriceId);
+
+            return _db.WithTransaction(() =>
+            {
+                return _cartService.AddItem(cart, productPrice.Product, productPrice, quantity).Id;
+            });
+        }
+
+        public bool RemoveItem(int cartId, int itemId)
+        {
+            var cart = _cartService.GetById(cartId);
+            return _db.WithTransaction(() =>
+            {
+                return _cartService.RemoveItem(cart, itemId);
+            });
         }
 
         public bool ChangeShippingAddress(int cartId, Address address)
         {
-            var cart = _shoppingCartService.Query().ById(cartId);
+            var cart = _cartService.Query().ById(cartId);
             var addr = GetOrCreateAddress(cart.Customer.Id, address);
 
             if (address.Id == 0)
@@ -160,7 +207,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 
         public bool ChangeBillingAddress(int cartId, Address address)
         {
-            var cart = _shoppingCartService.Query().ById(cartId);
+            var cart = _cartService.Query().ById(cartId);
             var addr = GetOrCreateAddress(cart.Customer.Id, address);
 
             if (address.Id == 0)
@@ -194,119 +241,50 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             return addr;
         }
 
-        /// <summary>
-        /// add item to shopping cart
-        /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool AddCartItem(int cartId, ShoppingCartItem item)
+        public void MigrateCart(int customerId, string session)
         {
+            var sessionCart = _cartService.GetBySessionId(session);
+            if (sessionCart == null)
+            {
+                return;
+            }
+
+            var customerCart = _cartService.GetByCustomer(customerId);
+            if (customerCart == null)
+            {
+                var customer = _customerService.GetById(customerId);
+                customerCart = Kooboo.Commerce.ShoppingCarts.ShoppingCart.Create(customer, session);
+                _cartService.Create(customerCart);
+            }
+
+            _cartService.MigrateCart(sessionCart, customerCart);
+        }
+
+        public void ChangeItemQuantity(int cartId, int itemId, int newQuantity)
+        {
+            var cart = _cartService.GetById(cartId);
+            var item = cart.Items.FirstOrDefault(i => i.Id == itemId);
             if (item != null)
             {
-                return _shoppingCartService.AddCartItem(cartId, _cartItemMapper.MapFrom(item));
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// update shopping cart item
-        /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool UpdateCartItem(int cartId, ShoppingCartItem item)
-        {
-            if (item != null)
-            {
-                return _shoppingCartService.UpdateCartItem(cartId, _cartItemMapper.MapFrom(item));
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// remove shopping cart item
-        /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool RemoveCartItem(int cartId, int cartItemId)
-        {
-            return _shoppingCartService.RemoveCartItem(cartId, cartItemId);
-        }
-
-        /// <summary>
-        /// add the specified product to current user's shopping cart
-        /// add up the amount if the product already in the shopping item
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="accountId">current user's account id</param>
-        /// <param name="productPriceId">specified product price</param>
-        /// <param name="quantity">quantity</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool AddToCart(string sessionId, string accountId, int productPriceId, int quantity)
-        {
-            int? customerId = null;
-            if (!string.IsNullOrEmpty(accountId))
-            {
-                var customer = _customerService.Query().Where(o => o.AccountId == accountId).FirstOrDefault();
-
-                if (customer != null)
+                _db.WithTransaction(() =>
                 {
-                    customerId = customer.Id;
-                }
+                    _cartService.ChangeItemQuantity(cart, item, newQuantity);
+                });
             }
-            return _shoppingCartService.AddToCart(sessionId, customerId, productPriceId, quantity);
-        }
-
-        /// <summary>
-        /// update the specified product's quantity
-        /// update the amount if the product already in the shopping item
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="accountId">current user's account id</param>
-        /// <param name="productPriceId">specified product price</param>
-        /// <param name="quantity">quantity</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool UpdateCart(string sessionId, string accountId, int productPriceId, int quantity)
-        {
-            int? customerId = null;
-            if (!string.IsNullOrEmpty(accountId))
-            {
-                var customer = _customerService.Query().Where(o => o.AccountId == accountId).FirstOrDefault();
-
-                if (customer != null)
-                {
-                    customerId = customer.Id;
-                }
-            }
-            return _shoppingCartService.UpdateCart(sessionId, customerId, productPriceId, quantity);
-        }
-
-        /// <summary>
-        /// fill with customer info by current user's account
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="user">current user's info</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool FillCustomerByAccount(string sessionId, Kooboo.CMS.Membership.Models.MembershipUser user)
-        {
-            return _shoppingCartService.FillCustomerByAccount(sessionId, user);
         }
 
         /// <summary>
         /// expire the shopping cart, so that user can create another new shopping cart by current session id
         /// </summary>
-        /// <param name="shoppingCartId">shopping cart id</param>
+        /// <param name="cartId">shopping cart id</param>
         /// <returns>true if successfully, else false</returns>
-        public bool ExpireShppingCart(int shoppingCartId)
+        public void ExpireCart(int cartId)
         {
-            var shoppingCart = _shoppingCartService.Query().Where(o => o.Id == shoppingCartId).FirstOrDefault();
-            if(shoppingCart != null)
+            var shoppingCart = _cartService.Query().Where(o => o.Id == cartId).FirstOrDefault();
+            if (shoppingCart != null)
             {
-                return _shoppingCartService.ExpireShppingCart(shoppingCart);
+                _cartService.ExpireCart(shoppingCart);
             }
-            return false;
         }
 
         /// <summary>

@@ -43,6 +43,19 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
             return Post<int>(null);
         }
 
+        public int EnsureCustomerCart(string email, string sessionId)
+        {
+            QueryParameters.Add("email", email);
+            QueryParameters.Add("sessionId", sessionId);
+            return Get<int>("EnsureCustomerCart");
+        }
+
+        public int EnsureSessionCart(string sessionId)
+        {
+            QueryParameters.Add("sessionId", sessionId);
+            return Get<int>("EnsureSessionCart");
+        }
+
         public bool ApplyCoupon(int cartId, string coupon)
         {
             QueryParameters.Add("cartId", cartId.ToString());
@@ -62,109 +75,31 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
             return Post<bool>("ChangeBillingAddress", address);
         }
 
-        /// <summary>
-        /// add item to shopping cart
-        /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool AddCartItem(int cartId, ShoppingCartItem item)
+        public void MigrateCart(int customerId, string sessionId)
         {
-            if (item != null)
-            {
-                QueryParameters.Add("cartId", cartId.ToString());
-                return Post<bool>("AddCartItem", item);
-            }
-            return false;
+            QueryParameters.Add("customerId", customerId.ToString());
+            QueryParameters.Add("sessionId", sessionId);
+            Post<bool>("MigrateCart");
         }
 
-        /// <summary>
-        /// update shopping cart item
-        /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool UpdateCartItem(int cartId, ShoppingCartItem item)
-        {
-            if (item != null)
-            {
-                QueryParameters.Add("cartId", cartId.ToString());
-                return Post<bool>("UpdateCartItem", item);
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// remove shopping cart item
-        /// </summary>
-        /// <param name="cartId">cart id</param>
-        /// <param name="item">shopping cart item</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool RemoveCartItem(int cartId, int cartItemId)
+        public void ChangeItemQuantity(int cartId, int itemId, int newQuantity)
         {
             QueryParameters.Add("cartId", cartId.ToString());
-            QueryParameters.Add("cartItemId", cartItemId.ToString());
-            return Delete<bool>("RemoveCartItem");
+            QueryParameters.Add("itemId", itemId.ToString());
+            QueryParameters.Add("newQuantity", newQuantity.ToString());
+
+            Post<bool>("ChangeItemQuantity");
         }
-
-        /// <summary>
-        /// add the specified product to current user's shopping cart
-        /// add up the amount if the product already in the shopping item
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="accountId">current user's account id</param>
-        /// <param name="productPriceId">specified product price</param>
-        /// <param name="quantity">quantity</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool AddToCart(string sessionId, string accountId, int productPriceId, int quantity)
-        {
-            QueryParameters.Add("sessionId", sessionId);
-            QueryParameters.Add("accountId", accountId);
-            QueryParameters.Add("productPriceId", productPriceId.ToString());
-            QueryParameters.Add("quantity", quantity.ToString());
-            return Post<bool>("AddToCart");
-        }
-
-        /// <summary>
-        /// update the specified product's quantity
-        /// update the amount if the product already in the shopping item
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="accountId">current user's account id</param>
-        /// <param name="productPriceId">specified product price</param>
-        /// <param name="quantity">quantity</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool UpdateCart(string sessionId, string accountId, int productPriceId, int quantity)
-        {
-            QueryParameters.Add("sessionId", sessionId);
-            QueryParameters.Add("accountId", accountId);
-            QueryParameters.Add("productPriceId", productPriceId.ToString());
-            QueryParameters.Add("quantity", quantity.ToString());
-            return Post<bool>("UpdateCart");
-        }
-
-        /// <summary>
-        /// fill with customer info by current user's account
-        /// </summary>
-        /// <param name="sessionId">current session id</param>
-        /// <param name="user">current user's info</param>
-        /// <returns>true if successfully, else false</returns>
-        public bool FillCustomerByAccount(string sessionId, Kooboo.CMS.Membership.Models.MembershipUser user)
-        {
-            QueryParameters.Add("sessionId", sessionId);
-            return Post<bool>("FillCustomerByAccount", user);
-        }
-
-
+        
         /// <summary>
         /// expire the shopping cart, so that user can create another new shopping cart by current session id
         /// </summary>
         /// <param name="shoppingCartId">shopping cart id</param>
         /// <returns>true if successfully, else false</returns>
-        public bool ExpireShppingCart(int shoppingCartId)
+        public void ExpireCart(int shoppingCartId)
         {
             QueryParameters.Add("shoppingCartId", shoppingCartId.ToString());
-            return Post<bool>("ExpireShppingCart");
+            Post<bool>("ExpireShppingCart");
         }
 
         /// <summary>
@@ -183,6 +118,24 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
         public IShoppingCartAccess Access()
         {
             return this;
+        }
+
+
+        public int AddItem(int cartId, int productPriceId, int quantity)
+        {
+            QueryParameters.Add("cartId", cartId.ToString());
+            QueryParameters.Add("productPriceId", productPriceId.ToString());
+            QueryParameters.Add("quantity", quantity.ToString());
+
+            return Post<int>("AddItem");
+        }
+
+        public bool RemoveItem(int cartId, int itemId)
+        {
+            QueryParameters.Add("cartId", cartId.ToString());
+            QueryParameters.Add("itemId", itemId.ToString());
+
+            return Delete<bool>("RemoveItem");
         }
     }
 }

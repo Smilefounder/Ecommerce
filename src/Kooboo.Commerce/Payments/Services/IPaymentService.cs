@@ -25,26 +25,27 @@ namespace Kooboo.Commerce.Payments.Services
     [Dependency(typeof(IPaymentService))]
     public class PaymentService : IPaymentService
     {
-        private ICommerceDatabase _db;
+        private IRepository<Payment> _repository;
 
-        public PaymentService(ICommerceDatabase db)
+        public PaymentService(IRepository<Payment> repository)
         {
-            _db = db;
+            _repository = repository;
         }
 
         public Payment GetById(int id)
         {
-            return _db.GetRepository<Payment>().Get(id);
+            return _repository.Get(id);
         }
 
         public IQueryable<Payment> Query()
         {
-            return _db.GetRepository<Payment>().Query();
+            return _repository.Query();
         }
 
         public void Create(Payment payment)
         {
-            _db.GetRepository<Payment>().Insert(payment);
+            _repository.Insert(payment);
+            Event.Raise(new PaymentCreated(payment));
         }
 
         public void AcceptProcessResult(Payment payment, ProcessPaymentResult result)
@@ -62,7 +63,7 @@ namespace Kooboo.Commerce.Payments.Services
                 var oldStatus = payment.Status;
                 payment.Status = newStatus;
 
-                _db.SaveChanges();
+                _repository.Database.SaveChanges();
 
                 Event.Raise(new PaymentStatusChanged(payment, oldStatus, newStatus));
             }

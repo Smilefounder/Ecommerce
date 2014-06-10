@@ -6,14 +6,14 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.ShoppingCarts
 {
-    [Event(Order = 100)]
-    public class CartCreated : DomainEvent, IShoppingCartEvent
+    [Event(Order = 400)]
+    public class CartExpired : DomainEvent, IShoppingCartEvent
     {
         public int CartId { get; set; }
 
-        protected CartCreated() { }
+        protected CartExpired() { }
 
-        public CartCreated(ShoppingCart cart)
+        public CartExpired(ShoppingCart cart)
         {
             CartId = cart.Id;
         }
