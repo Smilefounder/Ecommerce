@@ -10,7 +10,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
     {
         public string Name { get; set; }
 
+        public int Order { get; set; }
+
         public List<EventRules> Events { get; set; }
+
+        public bool HasEventRules
+        {
+            get
+            {
+                return Events.Count > 0;
+            }
+        }
 
         public EventCategoryModel()
         {

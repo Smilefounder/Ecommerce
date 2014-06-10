@@ -13,6 +13,8 @@ namespace Kooboo.Commerce.Activities
 
         IActivity FindByName(string name);
 
+        bool AnyBindableTo(Type eventType);
+
         IEnumerable<IActivity> FindBindableTo(Type eventType);
     }
 
@@ -27,6 +29,11 @@ namespace Kooboo.Commerce.Activities
         public IActivity FindByName(string name)
         {
             return All().FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public bool AnyBindableTo(Type eventType)
+        {
+            return All().Any(x => x.CanBindTo(eventType));
         }
 
         public IEnumerable<IActivity> FindBindableTo(Type eventType)

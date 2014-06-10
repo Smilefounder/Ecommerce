@@ -3,18 +3,27 @@
 @{
     ViewBag.Title = "Overview".Localize();
 
+    var hasRules = Model.Any(c => c.HasEventRules);
     var formatter = new HtmlExpressionFormatter();
 }
 
 @helper RenderActivity(AttachedActivityInfo activity)
 {
-    @activity.Description
+    <span>
+        @activity.Description
+        @if (ViewBag.MissingActivities.Contains(activity.ActivityName))
+        {
+            <span style="color:red;display:block">
+                (@(String.Format("Cannot load activity '{0}'. Please check if it's uninstalled.".Localize(), activity.ActivityName)))
+            </span>
+        }
+    </span>
     if (activity.IsAsyncExeuctionEnabled)
     {
         if (activity.AsyncExecutionDelay > 0)
         {
             var delay = TimeSpan.FromSeconds(activity.AsyncExecutionDelay);
-            
+
             <span title="@String.Format("Will execute in {0} when the event occurs".Localize(), delay.Humanize())">
                 @Html.IconImage("clock")
             </span>
@@ -28,24 +37,31 @@
     }
 }
 
-@foreach (var category in Model)
-{
-    <div class="block">
-        <div class="head light-blue">
-            <h6 class="title">@category.Name</h6>
-        </div>
-        <div class="simple-table activity">
-            <table>
-                <thead>
-                    <tr>
-                        <th>WHEN</th>
-                        <th>IF</th>
-                        <th>THEN</th>
-                        <th>ELSE</th>
-                        <th>ALWAYS</th>
+<div class="block">
+    <div class="simple-table activity">
+        <table>
+            <thead>
+                <tr>
+                    <th>WHEN</th>
+                    <th>IF</th>
+                    <th>THEN</th>
+                    <th>ELSE</th>
+                    <th>ALWAYS</th>
+                </tr>
+            </thead>
+            @if (!hasRules)
+            {
+                <tbody>
+                    <tr class="empty">
+                        <td colspan="5">
+                            @("Empty".Localize())
+                        </td>
                     </tr>
-                </thead>
-                @foreach (var evnt in category.Events)
+                </tbody>
+            }
+            @foreach (var category in Model)
+            {
+                foreach (var evnt in category.Events)
                 {
                     var normlaRules = evnt.Rules.Where(r => r.Type == RuleType.Normal).ToList();
                     var alwaysRule = evnt.Rules.Find(r => r.Type == RuleType.Always);
@@ -66,46 +82,61 @@
                                     </th>
                                 }
                                 <td>
-                                    @if (currentNormalRule != null) { 
-                                    <span class="conditions-expression">
-                                        @Html.Raw(formatter.Format(currentNormalRule.ConditionsExpression, evnt.EventType))
-                                    </span>
-                                    } else {
+                                    @if (currentNormalRule != null)
+                                    {
+                                        <span class="conditions-expression">
+                                            @Html.Raw(formatter.Format(currentNormalRule.ConditionsExpression, evnt.EventType))
+                                        </span>
+                                    }
+                                    else
+                                    {
                                         @("-")
                                     }
                                 </td>
                                 <td class="common">
-                                    @if (currentNormalRule != null && currentNormalRule.ThenActivityInfos.Count > 0) { 
-                                    <ul>
-                                        @foreach (var activity in currentNormalRule.ThenActivityInfos)
-                                        {
-                                            <li>@RenderActivity(activity)</li>
-                                        }
-                                    </ul>
-                                    } else {
-                                        @("-")
-                                    }
-                                </td>
-                                <td class="common">
-                                    @if (currentNormalRule != null && currentNormalRule.ElseActivityInfos.Count > 0) {
+                                    @if (currentNormalRule != null && currentNormalRule.ThenActivityInfos.Count > 0)
+                                    {
                                         <ul>
-                                            @foreach (var activity in currentNormalRule.ElseActivityInfos) {
+                                            @foreach (var activity in currentNormalRule.ThenActivityInfos)
+                                            {
                                                 <li>@RenderActivity(activity)</li>
                                             }
                                         </ul>
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         @("-")
                                     }
                                 </td>
-                                @if (i == 0) {
+                                <td class="common">
+                                    @if (currentNormalRule != null && currentNormalRule.ElseActivityInfos.Count > 0)
+                                    {
+                                        <ul>
+                                            @foreach (var activity in currentNormalRule.ElseActivityInfos)
+                                            {
+                                                <li>@RenderActivity(activity)</li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        @("-")
+                                    }
+                                </td>
+                                @if (i == 0)
+                                {
                                     <td rowspan="@rowCount" class="common always">
-                                        @if (alwaysRule != null) {
+                                        @if (alwaysRule != null)
+                                        {
                                             <ul>
-                                                @foreach (var activity in alwaysRule.AttachedActivityInfos) {
+                                                @foreach (var activity in alwaysRule.AttachedActivityInfos)
+                                                {
                                                     <li>@RenderActivity(activity)</li>
                                                 }
                                             </ul>
-                                        } else {
+                                        }
+                                        else
+                                        {
                                             @("-")
                                         }
                                     </td>
@@ -114,7 +145,7 @@
                         }
                     </tbody>
                 }
-            </table>
-        </div>
+            }
+        </table>
     </div>
-}
+</div>

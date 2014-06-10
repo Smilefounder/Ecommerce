@@ -183,6 +183,32 @@
 
             this.availableActivities = ko.observableArray();
 
+            this.hasAvailableActivities = ko.computed(function () {
+                return _this.availableActivities().length > 0;
+            });
+
+            this.hasAttachedActivities = ko.computed(function () {
+                var result = false;
+
+                $.each(_this.rules(), function () {
+                    $.each(this.branches(), function () {
+                        if (this.attachedActivities().length > 0) {
+                            result = true;
+                        }
+
+                        if (result) {
+                            return false;
+                        }
+                    });
+
+                    if (result) {
+                        return false;
+                    }
+                });
+
+                return result;
+            });
+
             this.ruleContext = function () {
                 return _ruleContext;
             }
@@ -260,8 +286,6 @@
             }
         }
 
-        window.loading.show();
-
         var loadAvailableActivitiesAsync = kb.http.safeGet('@Url.Action("GetAvailableActivities")', { eventType: eventType })
                                                   .then(function (data) {
                                                       $.each(data, function () {
@@ -276,13 +300,13 @@
                                         });
                                     });
 
-        setTimeout(function () {
-            $.when(loadAvailableActivitiesAsync, loadRulesAsync)
-             .done(function () {
-                 ko.applyBindings(vm, document.getElementById('rules-container'));
-                 window.loading.hide();
-             });
-        }, 100);
+        window.loading.show();
+
+        $.when(loadAvailableActivitiesAsync, loadRulesAsync)
+            .done(function () {
+                ko.applyBindings(vm, document.getElementById('rules-container'));
+                window.loading.hide();
+            });
 
         window.ViewModel = vm;
     });

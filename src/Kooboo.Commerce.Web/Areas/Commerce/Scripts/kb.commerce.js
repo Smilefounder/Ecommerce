@@ -1,4 +1,15 @@
-﻿(function ($) {
+﻿// CMS register this loading function when document ready, but i want to use it before document ready
+(function loading() {
+    var show = function () {
+        $(document.body).addClass('loading');
+    }
+    var hide = function () {
+        $(document.body).removeClass('loading');
+    }
+    window.loading = { show: show, hide: hide };
+})();
+
+(function ($) {
 
     var kb = window.kb = window.kb || {};
 

@@ -29,6 +29,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index()
         {
+            var missingActivities = new HashSet<string>();
             var rules = _ruleRepository.Query().ToList();
             var categories = new List<EventCategoryModel>();
 
@@ -46,7 +47,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 {
                     category = new EventCategoryModel
                     {
-                        Name = entry.Category.Name
+                        Name = entry.Category.Name,
+                        Order = entry.Category.Order
                     };
                     categories.Add(category);
                 }
@@ -64,6 +66,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
 
                 events.Rules.Add(rule);
+
+                // Check missing activities
+                foreach (var name in rule.AttachedActivityInfos.Select(x => x.ActivityName).Distinct())
+                {
+                    if (!missingActivities.Contains(name))
+                    {
+                        var activity = _activityProvider.FindByName(name);
+                        if (activity == null)
+                        {
+                            missingActivities.Add(name);
+                        }
+                    }
+                }
             }
 
             foreach (var category in categories)
@@ -71,7 +86,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 category.Events = category.Events.OrderBy(e => e.Order).ThenBy(e => e.EventDisplayName).ToList();
             }
 
-            categories = categories.OrderBy(c => c.Name).ToList();
+            categories = categories.OrderBy(c => c.Order)
+                                   .ThenBy(c => c.Name)
+                                   .ToList();
+
+            ViewBag.MissingActivities = missingActivities;
 
             return View(categories);
         }
@@ -83,8 +102,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             ViewBag.CurrentEventType = eventClrType.AssemblyQualifiedNameWithoutVersion();
             ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name.Humanize();
-
-            _ruleRepository.EnsureAlwaysRule(eventClrType);
 
             return View();
         }

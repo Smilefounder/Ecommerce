@@ -23,6 +23,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public bool IsEnabled { get; set; }
 
+        public bool IsActivityMissing { get; set; }
+
         public int Priority { get; set; }
 
         [Display(Name = "Enable Async Execution")]
@@ -55,7 +57,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             RuleId = attachedActivityInfo.Rule.Id;
             Description = attachedActivityInfo.Description;
             ActivityName = attachedActivityInfo.ActivityName;
-            ActivityDisplayName = EngineContext.Current.Resolve<IActivityProvider>().FindByName(attachedActivityInfo.ActivityName).DisplayName;
+
+            var activity = EngineContext.Current.Resolve<IActivityProvider>().FindByName(attachedActivityInfo.ActivityName);
+            if (activity != null)
+            {
+                ActivityDisplayName = activity.DisplayName;
+            }
+            else
+            {
+                IsActivityMissing = true;
+            }
+
             IsEnabled = attachedActivityInfo.IsEnabled;
             Priority = attachedActivityInfo.Priority;
             RuleBranch = attachedActivityInfo.RuleBranch;
