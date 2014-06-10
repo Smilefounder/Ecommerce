@@ -16,6 +16,12 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
     [Dependency(typeof(IShoppingCartQuery))]
     public class ShoppingCartAPI : RestApiQueryBase<ShoppingCart>, IShoppingCartAPI
     {
+        public IShoppingCartQuery ById(int id)
+        {
+            QueryParameters.Add("id", id.ToString());
+            return this;
+        }
+
         /// <summary>
         /// add session id filter to query
         /// </summary>

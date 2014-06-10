@@ -76,8 +76,11 @@ namespace Kooboo.Commerce.Activities
             foreach (var setting in settings.OrderByExecutionOrder())
             {
                 var activity = _provider.FindByName(setting.ActivityName);
+                // If the activity is missing, then ignore it
                 if (activity == null)
-                    throw new InvalidOperationException("Cannot find activity with name \"" + setting.ActivityName + "\".");
+                {
+                    continue;
+                }
 
                 // It's possible that the first version of the activity allows async execution, 
                 // and admin configured it to "execute async", 

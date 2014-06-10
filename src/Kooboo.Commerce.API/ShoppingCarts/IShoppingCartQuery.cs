@@ -14,12 +14,15 @@ namespace Kooboo.Commerce.API.ShoppingCarts
     [Query]
     public interface IShoppingCartQuery : ICommerceQuery<ShoppingCart>
     {
+        IShoppingCartQuery ById(int id);
+
         /// <summary>
         /// add session id filter to query
         /// </summary>
         /// <param name="sessionId">session id</param>
         /// <returns>shopping cart query</returns>
         IShoppingCartQuery BySessionId(string sessionId);
+
         /// <summary>
         /// add account id filter to query
         /// </summary>

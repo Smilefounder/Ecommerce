@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Pricing
 
         public CalculatePriceResult CartPrice(int cartId)
         {
-            var cart = _cartService.Query().ById(cartId);
+            var cart = _cartService.GetById(cartId);
             var context = PricingContext.CreateFrom(cart);
 
             new PricingPipeline().Execute(context);

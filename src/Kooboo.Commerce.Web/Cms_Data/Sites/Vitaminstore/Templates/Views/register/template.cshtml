@@ -22,53 +22,6 @@
 
             <form id="register-form">
                 @Html.AntiForgeryToken()
-                <table>
-                    <tbody>
-                        <tr class="sub-title">
-                            <td>
-                                <h3>Vitaminclub</h3>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="lbl">Heeft u al een Vitaminclubkaart?</td>
-                            <td class="clubcard-options">
-                                <span class="vertical_middle clubcard-yes">
-                                    <input type="radio" id="ClubCardYes" name="CustomFields[ClubCard]" value="true"><label for="ClubCardYes">Ja</label>
-                                </span>
-                                <span class="vertical_middle clubcard-no">
-                                    <input type="radio" id="ClubCardNo" name="CustomFields[ClubCard]" value="false"><label for="ClubCardNo">Nee</label>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr class="clubcard" style="display: table-row;">
-                            <td class="lbl">Vitaminclub nummer *</td>
-                            <td>
-                                <input name="CustomFields[ClubCardNumber]" type="text" id="ClubCardNumber" class="input clubcard-number" data-val="true" data-val-required="*" data-val-clubcardnumber="*" />
-                            </td>
-                        </tr>
-                        <tr class="clubcard" style="display: table-row;">
-                            <td class="lbl" valign="top">Postcode *</td>
-                            <td>
-                                <input name="CustomFields[ClubCardPostcode]" type="text" id="ClubCardPostcode" class="input clubcard-postcode" data-val="true" data-val-required="*" data-val-regex="*" data-val-regex-pattern="^[1-9]{1}[0-9]{3} ?[A-Za-z]{2}$">
-                                <span class="error-msg clubcard-number-invalid" data-valmsg-for="CustomFields[ClubCardNumber]" data-valmsg-replace="false">
-                                    <br>
-                                    Dit nummer is helaas niet bij ons bekend. Controleer het nummer alstublieft.
-                                </span>
-                                <span class="error-msg clubcard-invalid" style="display: none;">
-                                    <br>
-                                    Dit nummer is helaas niet bij ons bekend. Controleer het nummer alstublieft.
-                                </span>
-                            </td>
-                        </tr>
-                        <tr class="no-clubcard" style="display: none;">
-                            <td></td>
-                            <td>
-                                Indien u nog geen clubnummer hebt zullen wij deze voor u aanmaken, zodat u kunt profiteren van de vele voordelen en kortingen.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
                 <div class="new-account-inputs">
                     <div class="new-account-left">
                         <table>
@@ -263,43 +216,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-                <span class="icon-question-sign clubcard-question"></span>
-                <div class="clubcard-tip-diamond" style="display: none;">
-                </div>
-                <div class="clubcard-tip" style="display: none;">
-                    <h2><span class="gray">vitamin</span><span class="orange">club</span></h2>
-                    <p>
-                        Met een Vitaminstore account spaart u
-                        automatisch punten: u ontvangt 1 spaarpunt
-                        voor iedere euro die u bij ons besteedt.
-                        Heeft u 250 spaarpunten, dan krijgt u 10 euro
-                        korting op de volgende besteding, of kunt u
-                        een keuze maken uit een aantal gratis
-                        producten. Bij 'Mijn Vitaminstore' kunt u zien
-                        hoeveel punten u al heeft gespaard.
-                    </p>
-                    <h3>Heeft u al een Vitaminclub kaart?</h3>
-                    <p class="already-have-card">
-                        Vul dan hier uw clubkaartnummer in. U vindt
-                        deze aan de achterkant van uw kaart, onder de
-                        barcode.
-                    </p>
-                </div>
-                <div class="clubcard-loading">
-                    <div class="clubcard-loading-left">
-
-                        <div class="bubblingG">
-                            <span id="bubblingG_1"></span>
-                            <span id="bubblingG_2"></span>
-                            <span id="bubblingG_3"></span>
-                        </div>
-
-                    </div>
-                    <div class="clubcard-loading-right">
-                        <h3>een moment alstublieft.</h3>
-                        <p>Wij pakken uw gegevens er even bij.</p>
                     </div>
                 </div>
             </form>

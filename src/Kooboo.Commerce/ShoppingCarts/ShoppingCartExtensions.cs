@@ -8,9 +8,9 @@ namespace Kooboo.Commerce
 {
     public static class ShoppingCartExtensions
     {
-        public static ShoppingCart ById(this IQueryable<ShoppingCart> query, int cartId)
+        public static IQueryable<ShoppingCart> NotExpired(this IQueryable<ShoppingCart> query)
         {
-            return query.FirstOrDefault(c => c.Id == cartId);
+            return query.Where(x => x.SessionId == null || !x.SessionId.StartsWith("EXPIRED_"));
         }
     }
 }

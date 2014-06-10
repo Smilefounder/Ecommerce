@@ -62,7 +62,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
 
         public Order CreateFromCart(int cartId, MembershipUser user, bool deleteShoppingCart)
         {
-            var cart = _shoppingCartService.Query().ById(cartId);
+            var cart = _shoppingCartService.GetById(cartId);
             var order =_orderService.CreateFromCart(cart, user, deleteShoppingCart);
             return _mapper.MapTo(order);
         }

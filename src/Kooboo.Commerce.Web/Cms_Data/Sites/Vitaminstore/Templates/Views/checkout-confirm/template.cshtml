@@ -1,8 +1,11 @@
 ﻿@using Kooboo.Commerce.API.CmsSite;
+@using Kooboo.CMS.Plugins.Vitaminstore;
 @{
     var api = Site.Current.Commerce();
     var member = ViewContext.HttpContext.Membership().GetMembershipUser();
-    var cart = api.ShoppingCarts.ByAccountId(member.UUID)
+    var cartId = ViewContext.HttpContext.CurrentCartId();
+    
+    var cart = api.ShoppingCarts.ById(cartId)
                                 .Include("Items.ProductPrice")
                                 .Include("Items.ProductPrice.Product")
                                 .Include("Items.ProductPrice.Product.Images")
@@ -10,6 +13,11 @@
                                 .Include("ShippingAddress")
                                 .Include("ShippingAddress.Country")
                                 .FirstOrDefault();
+
+    if (cart.Items.Count == 0)
+    {
+        Response.Redirect("~/Cart");
+    }
 
     var prices = api.Prices.CartPrice(cart.Id);
 
@@ -25,7 +33,7 @@
         <li class="checkout-nav-item selected"><a>Bestelling afronden en betalen</a></li>
     </ul>
 
-    <div id="ctl00_cpContent_UpdatePanel1">
+    <div>
         <div class="checkout-content checkout-confirm">
             <div class="cart">
                 <div class="section-title">
@@ -149,6 +157,7 @@
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="OrderId" />
                         <div class="payment-list">
+                            @if (paymentMethods.Count > 0) { 
                             <table>
                                 <tbody>
                                     @foreach (var method in paymentMethods)
@@ -184,6 +193,13 @@
                                     }
                                 </tbody>
                             </table>
+                            }
+                            else
+                            {
+                                <div style="color:red;padding:10px 0;">
+                                    No available payment method.<br />Please contact the site master to install one.
+                                </div>
+                            }
                         </div>
                         <div class="payment-right">
                         </div>
@@ -191,6 +207,7 @@
                     <div class="clear">&nbsp;</div>
                 </div>
             </div>
+            @if (paymentMethods.Count > 0) { 
             <div class="summary section">
                 <ul>
                     <li><strong>Totaal voor deze bestelling:</strong></li>
@@ -214,6 +231,7 @@
                     <li class="terms">van Vitaminstore Online B.V.</li>
                 </ul>
             </div>
+            }
         </div>
     </div>
 </div>
@@ -227,6 +245,7 @@
                        .done(function (result) {
                            if (result.Success) {
                                $('input[name="OrderId"]').val(result.Model.OrderId);
+                               PayOrder();
                            } else {
                                alert(result.Messages[0]);
                            }
@@ -241,7 +260,7 @@
             })
             .done(function (result) {
                 if (result.Success) {
-                    if (result.Model.RedirectUrl) {
+                    if (result.RedirectUrl) {
                         location.href = result.Model.RedirectUrl;
                     } else {
                         location.href = '/Checkout-Thankyou';
@@ -266,7 +285,7 @@
         });
 
         $('.pay-btn').on('click', function () {
-            SubmitOrder().then(PayOrder);
+            SubmitOrder();
             return false;
         });
 

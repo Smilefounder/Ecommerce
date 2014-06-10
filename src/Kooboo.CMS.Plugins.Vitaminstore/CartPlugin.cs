@@ -64,16 +64,9 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
         {
             var api = site.Commerce();
             var query = api.ShoppingCarts.Query();
-            var sessionId = controllerContext.HttpContext.Session.SessionID;
-            var user = controllerContext.HttpContext.Membership().GetMembershipUser();
-            if (user == null)
-            {
-                query = query.BySessionId(sessionId);
-            }
-            else
-            {
-                query = query.ByAccountId(user.UUID);
-            }
+            var cartId = controllerContext.HttpContext.CurrentCartId();
+
+            query = query.ById(cartId);
 
             query.Include("Items.ProductPrice");
             query.Include("Items.ProductPrice.Product");
@@ -83,7 +76,7 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
 
             return query.FirstOrDefault() ?? new ShoppingCart
             {
-                SessionId = sessionId
+                SessionId = controllerContext.HttpContext.CurrentSessionId()
             };
         }
         private object MiniCartInfo(Site site, ControllerContext controllerContext)
@@ -108,21 +101,13 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
 
         private CalculatePriceResult PriceInfo(Site site, ControllerContext controllerContext)
         {
-            var member = controllerContext.HttpContext.Membership().GetMembershipUser();
-            var cart = site.Commerce().ShoppingCarts.ByAccountId(member.UUID).FirstOrDefault();
-
-            return site.Commerce().Prices.CartPrice(cart.Id);
+            return site.Commerce().Prices.CartPrice(controllerContext.HttpContext.CurrentCartId());
         }
 
         private ShoppingCart GetShoppingCart(Site site, ControllerContext controllerContext)
         {
-            var member = controllerContext.HttpContext.Membership().GetMembershipUser();
-            if (member != null)
-            {
-                return site.Commerce().ShoppingCarts.ByAccountId(member.UUID).FirstOrDefault();
-            }
-
-            return site.Commerce().ShoppingCarts.BySessionId(controllerContext.HttpContext.Session.SessionID).FirstOrDefault();
+            var cartId = controllerContext.HttpContext.CurrentCartId();
+            return site.Commerce().ShoppingCarts.ById(cartId).FirstOrDefault();
         }
     }
 }

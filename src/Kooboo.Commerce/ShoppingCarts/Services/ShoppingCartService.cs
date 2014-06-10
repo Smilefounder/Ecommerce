@@ -32,32 +32,38 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
 
         public ShoppingCart GetById(int id)
         {
-            return _repository.Get(id);
+            var cart = _repository.Get(id);
+            if (cart.SessionId != null && cart.SessionId.StartsWith("EXPIRED_"))
+            {
+                cart = null;
+            }
+
+            return cart;
         }
 
         public ShoppingCart GetBySessionId(string sessionId)
         {
-            return _repository.Query().FirstOrDefault(c => c.SessionId == sessionId);
+            return Query().FirstOrDefault(c => c.SessionId == sessionId);
         }
 
         public ShoppingCart GetByAccountId(string accountId)
         {
-            return _repository.Query().FirstOrDefault(c => c.Customer != null && c.Customer.AccountId == accountId);
+            return Query().FirstOrDefault(c => c.Customer != null && c.Customer.AccountId == accountId);
         }
 
         public ShoppingCart GetByCustomer(int customerId)
         {
-            return _repository.Query().FirstOrDefault(c => c.Customer != null && c.Customer.Id == customerId);
+            return Query().FirstOrDefault(c => c.Customer != null && c.Customer.Id == customerId);
         }
 
         public ShoppingCart GetByCustomer(string customerEmail)
         {
-            return _repository.Query().FirstOrDefault(c => c.Customer != null && c.Customer.Email == customerEmail);
+            return Query().FirstOrDefault(c => c.Customer != null && c.Customer.Email == customerEmail);
         }
 
         public IQueryable<ShoppingCart> Query()
         {
-            return _repository.Query();
+            return _repository.Query().NotExpired();
         }
 
         public void Create(ShoppingCart cart)
@@ -159,12 +165,15 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             Require.NotNull(item, "item");
             Require.That(newQuantity > 0, "newQuantity", "Quantity should be greater than zero.");
 
-            var oldQuantity = item.Quantity;
-            item.Quantity = newQuantity;
+            if (item.Quantity != newQuantity)
+            {
+                var oldQuantity = item.Quantity;
+                item.Quantity = newQuantity;
 
-            _repository.Database.SaveChanges();
+                _repository.Database.SaveChanges();
 
-            Event.Raise(new CartItemQuantityChanged(cart, item, oldQuantity));
+                Event.Raise(new CartItemQuantityChanged(cart, item, oldQuantity));
+            }
         }
 
         public void ChangeShippingAddress(ShoppingCart cart, Address address)

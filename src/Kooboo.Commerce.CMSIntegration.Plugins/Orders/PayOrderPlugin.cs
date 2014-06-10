@@ -36,15 +36,17 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
             }
 
             var result = Site.Commerce().Payments.Pay(payment);
+            var data = new PayOrderResult
+            {
+                PaymentStatus = result.PaymentStatus.ToString(),
+                Message = result.Message,
+                RedirectUrl = String.IsNullOrEmpty(result.RedirectUrl) ? returnUrl : result.RedirectUrl
+            };
 
             return new SubmissionExecuteResult
             {
-                Data = new PayOrderResult
-                {
-                    PaymentStatus = result.PaymentStatus.ToString(),
-                    Message = result.Message,
-                    RedirectUrl = String.IsNullOrEmpty(result.RedirectUrl) ? returnUrl : result.RedirectUrl
-                }
+                RedirectUrl = data.RedirectUrl,
+                Data = data
             };
         }
     }

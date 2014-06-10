@@ -24,51 +24,49 @@
                     <td colspan="6" class="separator"></td>
                 </tr>
                 <!-- ko foreach: Items -->
-                    <tr>
-                        <td rowspan="3" class="pic top">
-                            <a href="/Health/Speciaal/nacht/1002-SLAAPCOMPLEX-AOV/P215474">
-                                <img style="width:115px;height:115px;" data-bind="attr: { src: $root.GetDefaultImageUrl(ProductPrice.Product) }">
-                            </a>
-                        </td>
-                        <td colspan="3" class="name top">
-                            <strong data-bind="text: ProductPrice.Name"></strong> van <em data-bind="text: ProductPrice.Product.Brand.Name"></em>
-                        </td>
-                        <td colspan="2" class="subtotal top remove">
-                            <a href="#" data-bind="click: $root.RemoveItem">Product verwijderen</a>
-                            <i class="icon-remove"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="content field-title">Inhoud</td>
-                        <td class="quantity field-title">Aantal</td>
-                        <td class="price field-title"><em>Prijs per stuk</em></td>
-                        <td class="discount field-title" data-bind="visible: Discount"><em>Uw voordeel</em></td>
-                        <td class="subtotal field-title"><strong>Totale Prijs</strong></td>
-                    </tr>
-                    <tr>
-                        <td class="value">
-                            <select data-bind="options: ProductPrice.Product.PriceList, optionsText: 'Name', optionsValue: 'Id', value: ProductPriceId">
-                            </select>
-                        </td>
-                        <td class="value">
-                            <select data-bind="options: $root.QuantityRange, value: Quantity">
-                            </select>
-                        </td>
-                        <td class="value">
-                            € <span data-bind="text: ProductPrice.RetailPrice"></span>
-                        </td>
-                        <td class="discount value" data-bind="visible: Discount">
-                            € <span data-bind="text: Discount"></span>
-                        </td>
-                        <td class="subtotal subtotal-value value">
-                            <strong>
-                                € <span data-bind="text: Total"></span>
-                            </strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="6" class="separator"></td>
-                    </tr>
+                <tr>
+                    <td rowspan="3" class="pic top">
+                        <a href="/Health/Speciaal/nacht/1002-SLAAPCOMPLEX-AOV/P215474">
+                            <img style="width:115px;height:115px;" data-bind="attr: { src: $root.GetDefaultImageUrl(ProductPrice.Product) }">
+                        </a>
+                    </td>
+                    <td colspan="3" class="name top">
+                        <strong data-bind="text: ProductPrice.Name"></strong> van <em data-bind="text: ProductPrice.Product.Brand.Name"></em>
+                    </td>
+                    <td colspan="2" class="subtotal top remove">
+                        <a href="#" data-bind="click: $root.RemoveItem">Product verwijderen</a>
+                        <i class="icon-remove"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content field-title">Inhoud</td>
+                    <td class="quantity field-title">Aantal</td>
+                    <td class="price field-title"><em>Prijs per stuk</em></td>
+                    <td class="discount field-title" data-bind="visible: Discount"><em>Uw voordeel</em></td>
+                    <td class="subtotal field-title"><strong>Totale Prijs</strong></td>
+                </tr>
+                <tr>
+                    <td class="value">
+                        <select data-bind="options: ProductPrice.Product.PriceList, optionsText: 'Name', optionsValue: 'Id', value: ProductPriceId"></select>
+                    </td>
+                    <td class="value">
+                        <select data-bind="options: $root.QuantityRange, value: Quantity" class="item-quantity-dropdown"></select>
+                    </td>
+                    <td class="value">
+                        € <span data-bind="text: ProductPrice.RetailPrice"></span>
+                    </td>
+                    <td class="discount value" data-bind="visible: Discount">
+                        € <span data-bind="text: Discount"></span>
+                    </td>
+                    <td class="subtotal subtotal-value value">
+                        <strong>
+                            € <span data-bind="text: Total"></span>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="separator"></td>
+                </tr>
                 <!-- /ko -->
 
                 <tr class="summary">
@@ -100,7 +98,7 @@
                 <tr>
                     <td colspan="6" class="subtotal buttons">
                         <a href="@Url.FrontUrl().PageUrl("/Home")" class="btn continue-shopping">verder winkelen</a>
-                        <a class="btn orange-btn next-step" href="@nextStepUrl">naar stap 2 <i class="icon-chevron-right"></i></a>
+                        <a class="btn orange-btn next-step" href="#" data-bind="click: Next">naar stap 2 <i class="icon-chevron-right"></i></a>
                     </td>
                 </tr>
             </tbody>
@@ -108,11 +106,12 @@
     </div>
 </div>
 
-<button type="button" id="btn-add-test-item">Add Test Item</button>
+<button type="button" id="btn-add-test-item">Add A Test Product</button>
 
 <script>
     $(function () {
         var viewModel = new ShoppingCartModel();
+        var nextUrl = '@Html.Raw(nextStepUrl)';
         var serviceUrl = '@Url.FrontUrl().SubmissionUrl("Cart")';
         var mappingOptions = {
             Items: {
@@ -138,9 +137,10 @@
             }
 
             // TODO: Will cause infinite loop?
-            //_this.Quantity.subscribe(function (quantity) {
-            //    _cart.UpdateQuantity(_this, quantity);
-            //});
+            _this.Quantity.subscribe(function (quantity) {
+                console.log('quantity changed to ' + quantity);
+                _cart.UpdateQuantity(_this, quantity);
+            });
 
             //_this.ProductPriceId.subscribe(function (priceId) {
             //    if (priceId) {
@@ -188,23 +188,32 @@
                 http.post('/Kooboo-Submit/RemoveCartItem', {
                     ItemId: item.Id()
                 })
-                .done(updateModelIfAjaxSuccess);
+                .done(HandleAjaxResult);
             }
 
             this.UpdateQuantity = function (item, quantity) {
                 http.post('/Kooboo-Submit/ChangeCartItemQuantity', {
-                    ProductPriceId: item.ProductPrice.Id(),
-                    Quantity: quantity
+                    ItemId: item.Id(),
+                    NewQuantity: quantity
                 })
-                .done(updateModelIfAjaxSuccess);
+                .done(HandleAjaxResult);
             }
 
             this.ChangeProductPrice = function (item, newProductPriceId) {
-                http.post(serviceUrl + '?action=change-price', {
-                    itemId: item.Id(),
-                    newProductPriceId: newProductPriceId
+                var quantity = item.Quantity();
+
+                http.post('/Kooboo-Submit/RemoveCartItem', {
+                    ItemId: item.Id()
                 })
-                .done(updateModelIfAjaxSuccess);
+                .done(function (result) {
+                    HandleAjaxResult(result, function () {
+                        http.post('/Kooboo-Submit/AddCartItem', {
+                            ProductPriceId: newProductPriceId,
+                            Quantity: quantity
+                        })
+                        .done(HandleAjaxResult);
+                    });
+                });
             }
 
             this.ApplyCoupon = function () {
@@ -213,11 +222,42 @@
                     Coupon: coupon
                 })
                 .done(function (result) {
-                    _this.IsCouponCodeValid(result.Success);
-                    if (result.Success) {
-                        updateModelIfAjaxSuccess(result);
-                    }
+                    HandleAjaxResult(result, function () {
+                        _this.IsCouponCodeValid(result.Model.Applied);
+                        if (_this.IsCouponCodeValid()) {
+                            _this.Refresh();
+                        }
+                    });
                 });
+            }
+
+            this.Refresh = function () {
+                return http.post(serviceUrl + '?action=cartinfo')
+                           .done(function (result) {
+                               HandleAjaxResult(result, function () {
+                                   ko.mapping.fromJS(result.Model, mappingOptions, _this);
+                               });
+                           });
+            }
+
+            this.Next = function () {
+                if (_this.Items().length === 0) {
+                    alert('Cart is empty.');
+                } else {
+                    location.href = nextUrl;
+                }
+            }
+
+            function HandleAjaxResult(result, successHandler) {
+                if (result.Success) {
+                    if (successHandler && typeof (successHandler) === 'function') {
+                        successHandler();
+                    } else {
+                        _this.Refresh();
+                    }
+                } else {
+                    alert(result.Messages.join('\n'));
+                }
             }
 
             function updateModelIfAjaxSuccess(result) {
@@ -242,12 +282,8 @@
             });
         }
 
-        http.post(serviceUrl + '?action=cartinfo')
-            .done(function (result) {
-                 if (result.Success) {
-                     ko.mapping.fromJS(result.Model, mappingOptions, viewModel);
-                     ko.applyBindings(viewModel, document.getElementById('cart-main'));
-                 }
-             });
+        viewModel.Refresh().done(function (result) {
+            ko.applyBindings(viewModel, document.getElementById('cart-main'));
+        });
     });
 </script>

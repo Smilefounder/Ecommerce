@@ -35,6 +35,8 @@ namespace Kooboo.Commerce.ShoppingCarts
 
         public static ShoppingCart Create(string sessionId)
         {
+            Require.NotNullOrEmpty(sessionId, "sessionId");
+
             return new ShoppingCart
             {
                 SessionId = sessionId
@@ -43,6 +45,8 @@ namespace Kooboo.Commerce.ShoppingCarts
 
         public static ShoppingCart Create(Customer customer)
         {
+            Require.NotNull(customer, "customer");
+
             return new ShoppingCart
             {
                 Customer = customer

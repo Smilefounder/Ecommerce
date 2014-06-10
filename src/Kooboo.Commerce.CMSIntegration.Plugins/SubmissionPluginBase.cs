@@ -94,7 +94,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
 
                 if (!String.IsNullOrEmpty(redirectUrl))
                 {
-                    return RedirectTo(redirectUrl);
+                    return RedirectTo(redirectUrl, result == null ? null : result.Data);
                 }
                 else
                 {
@@ -123,7 +123,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
                 var redirectUrl = ResolveUrl(model.FailedUrl, ControllerContext);
                 if (!String.IsNullOrEmpty(redirectUrl))
                 {
-                    return RedirectTo(redirectUrl);
+                    return RedirectTo(redirectUrl, null);
                 }
                 else
                 {
@@ -140,7 +140,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
             }
         }
 
-        private ActionResult RedirectTo(string redirectUrl)
+        private ActionResult RedirectTo(string redirectUrl, object data)
         {
             if (HttpContext.Request.IsAjaxRequest())
             {
@@ -148,7 +148,8 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
                 {
                     Data = new JsonResultData
                     {
-                        RedirectUrl = redirectUrl
+                        RedirectUrl = redirectUrl,
+                        Model = data
                     }
                 };
             }

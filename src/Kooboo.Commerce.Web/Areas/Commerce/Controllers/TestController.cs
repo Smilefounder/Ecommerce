@@ -30,6 +30,7 @@ using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Events.Brands;
 using Kooboo.Commerce.Events.Products;
 using System.Diagnostics;
+using Kooboo.Commerce.ShoppingCarts;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -58,6 +59,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public void Query()
+        {
+            var cart = CommerceInstanceContext.CurrentInstance.Database
+                            .GetRepository<ShoppingCart>()
+                            .Query()
+                            .Where(c => c.Customer.AccountId == "mouhong@kooboo.com")
+                            .FirstOrDefault();
+
+            Response.Write(cart == null ? "NULL" : cart.Id.ToString());
         }
 
         public void Save()

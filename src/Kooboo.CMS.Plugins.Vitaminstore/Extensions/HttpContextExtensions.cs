@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Web;
 using Kooboo.CMS.Sites.Membership;
 
-namespace Kooboo.Commerce.CMSIntegration.Plugins
+namespace Kooboo.CMS.Plugins.Vitaminstore
 {
-    static class HttpContextExtensions
+    public static class HttpContextExtensions
     {
         public static string CurrentSessionId(this HttpContextBase context)
         {

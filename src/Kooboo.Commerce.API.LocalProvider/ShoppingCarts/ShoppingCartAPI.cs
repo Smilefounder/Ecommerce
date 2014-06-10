@@ -82,6 +82,13 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             return query.OrderByDescending(o => o.Id);
         }
 
+        public IShoppingCartQuery ById(int id)
+        {
+            EnsureQuery();
+            _query = _query.Where(o => o.Id == id);
+            return this;
+        }
+
         /// <summary>
         /// add session id filter to query
         /// </summary>
@@ -102,7 +109,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public IShoppingCartQuery ByAccountId(string accountId)
         {
             EnsureQuery();
-            _query = _query.Where(o => o.Customer.AccountId == accountId && !o.SessionId.StartsWith("EXPIRED_"));
+            _query = _query.Where(o => o.Customer.AccountId == accountId);
             return this;
         }
 
@@ -185,7 +192,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 
         public void ChangeShippingAddress(int cartId, Address address)
         {
-            var cart = _cartService.Query().ById(cartId);
+            var cart = _cartService.GetById(cartId);
 
             _db.WithTransaction(() =>
             {
@@ -201,7 +208,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 
         public void ChangeBillingAddress(int cartId, Address address)
         {
-            var cart = _cartService.Query().ById(cartId);
+            var cart = _cartService.GetById(cartId);
 
             _db.WithTransaction(() =>
             {
