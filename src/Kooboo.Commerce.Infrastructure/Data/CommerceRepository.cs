@@ -42,12 +42,28 @@ namespace Kooboo.Commerce.Data
 
         public IQueryable<T> Query()
         {
-            return DbContext.Set<T>();
+            var query = DbContext.Set<T>();
+            if (typeof(ISoftDeletable).IsAssignableFrom(typeof(T)))
+            {
+                return query.Where("!IsDeleted") as IQueryable<T>;
+            }
+
+            return query;
         }
 
         public virtual T Get(params object[] id)
         {
-            return DbContext.Set<T>().Find(id);
+            var entity = DbContext.Set<T>().Find(id);
+            if (typeof(ISoftDeletable).IsAssignableFrom(typeof(T)))
+            {
+                var softDeletable = entity as ISoftDeletable;
+                if (softDeletable.IsDeleted)
+                {
+                    entity = null;
+                }
+            }
+
+            return entity;
         }
 
         public virtual bool Insert(T entity)

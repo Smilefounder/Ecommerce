@@ -158,6 +158,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
             }
 
+            if (productType.Id == 0)
+            {
+                _productTypeService.Create(productType);
+            }
+
             CommerceContext.CurrentInstance.Database.SaveChanges();
 
             productType.NotifyUpdated();

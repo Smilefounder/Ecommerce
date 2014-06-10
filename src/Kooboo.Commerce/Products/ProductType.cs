@@ -39,9 +39,14 @@ namespace Kooboo.Commerce.Products
 
         public virtual ICollection<ProductTypeVariantField> VariationFields { get; set; }
 
-        public ProductType() { }
+        public ProductType()
+        {
+            CustomFields = new List<ProductTypeCustomField>();
+            VariationFields = new List<ProductTypeVariantField>();
+        }
 
         public ProductType(string name, string skuAlias = "SKU")
+            : this()
         {
             Name = name;
             SkuAlias = skuAlias;
