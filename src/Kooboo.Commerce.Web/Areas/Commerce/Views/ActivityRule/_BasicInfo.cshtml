@@ -14,13 +14,20 @@
                     <tr>
                         <th>@("Description".Localize())</th>
                         <td>
-                            <input type="text" data-bind="value: description" />
+                            <input type="text" name="Description" data-bind="value: description"
+                                   data-val="true"
+                                   data-val-required="@("Required".Localize())" />
+                            <span data-valmsg-for="Description" data-valmsg-replace="true"></span>
                         </td>
                     </tr>
                     <tr>
                         <th>@("Priority".Localize())</th>
                         <td>
-                            <input type="text" data-bind="value: priority" />
+                            <input type="text" name="Priority" data-bind="value: priority"
+                                   data-val="true"
+                                   data-val-required="@("Required".Localize())"
+                                   data-val-digits="@("Please enter an integer")" />
+                            <span data-valmsg-for="Priority" data-valmsg-replace="true"></span>
                         </td>
                     </tr>
                     <tr>
@@ -93,27 +100,3 @@
         </div>
     </div>
 </form>
-<script>
-    (function () {
-
-
-        window.ajaxFormParam = {
-            success: function (result) {
-                if (result.Model) {
-                    var context = window.parent.ViewModel.activityContext();
-
-                    if (result.Model.ConfigUrl) {
-                        context.refresh(result.Model.AttachedActivityId);
-                        location.href = result.Model.ConfigUrl;
-                    } else {
-                        context.accept();
-                    }
-                }
-            }
-        };
-
-        $('.J_Cancel').on('click', function () {
-            window.parent.ViewModel.activityContext().cancel();
-        });
-    })();
-</script>

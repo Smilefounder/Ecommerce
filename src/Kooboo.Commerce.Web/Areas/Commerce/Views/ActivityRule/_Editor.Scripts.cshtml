@@ -4,7 +4,6 @@
 
     (function ($) {
 
-        var commerceName = '@Request["commerceName"]';
         var ruleId = @Model.RuleId;
         var branch = '@Model.RuleBranch';
         var activityName = '@Model.Activity.Name';
@@ -44,14 +43,13 @@
 
             this.load = function () {
                 $.get('@Url.Action("GetActivityEditorModel")', {
-                    commerceName: commerceName,
                     ruleId: ruleId,
                     branch: branch,
                     activityName: activityName,
                     attachedActivityInfoId: activityInfoId
                 })
                 .done(function (data) {
-                    _this.databind(data).done(_this.initValidation());
+                    _this.databind(data).done(_this.initValidation);
                 });
             }
 
@@ -70,7 +68,7 @@
             }
 
             this.validate = function () {
-                return _this.$form().validate();
+                return _this.$form().valid();
             }
 
             this.cancel = function () {

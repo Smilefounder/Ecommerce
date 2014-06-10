@@ -1,4 +1,4 @@
-﻿<form class="common-form" id="change-saving-points-config-form">
+﻿<form class="common-form" id="change-saving-points-activity-form">
     <table>
         <tbody>
             <tr>
@@ -15,7 +15,7 @@
                 <td>
                     <input type="text" name="Amount" data-bind="value: amount"
                            data-val="true"
-                           data-val-required="*"
+                           data-val-required="@("Required".Localize())"
                            data-val-digits="@("Please enter an integer".Localize())" />
                     <span data-valmsg-for="Amount" data-valmsg-replace="true"></span>
                 </td>
@@ -32,7 +32,10 @@
         var ruleId = editor.model().ruleId();
 
         editor.on('databound', function (sender, args) {
-            ko.applyBindings(model, document.getElementById('change-saving-points-config-form'));
+            var $form = $('#change-saving-points-activity-form');
+            ko.applyBindings(model, $form[0]);
+
+            $.validator.unobtrusive.reparse($form);
 
             var attachedActivityInfoId = editor.model().attachedActivityInfoId();
             if (attachedActivityInfoId) {
@@ -41,6 +44,12 @@
                         .then(function (data) {
                             ko.mapping.fromJS(data, {}, model);
                         });
+            }
+        });
+
+        editor.on('saving', function (sender, args) {
+            if (!$('#change-saving-points-activity-form').valid()) {
+                args.cancel = true;
             }
         });
 
