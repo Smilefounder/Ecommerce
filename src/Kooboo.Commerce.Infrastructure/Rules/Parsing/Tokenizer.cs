@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.Rules.Parsing
     // Number                     : [0-9]+(.[0-9]+)?
     // String                     : "[^"]*" -> escape double quote char by using two double quotes
     // Parenthsis                 : ( | )
-    // Builtin comparison operator: > | >= | < | <= | != | ==
+    // Comparison operator        : All registered comparison operators (e.g., ==, !=, >=)
     public class Tokenizer
     {
         private SourceReader _source;
@@ -40,18 +40,8 @@ namespace Kooboo.Commerce.Rules.Parsing
             }
         }
 
-        public Tokenizer(string source)
-            : this(source, new ParsingContext())
-        {
-        }
-
         public Tokenizer(string source, ParsingContext context)
             : this(new SourceReader(source), context)
-        {
-        }
-
-        public Tokenizer(SourceReader source)
-            : this(source, new ParsingContext())
         {
         }
 
@@ -71,7 +61,7 @@ namespace Kooboo.Commerce.Rules.Parsing
 
         public Token NextToken()
         {
-            return Parse(Identifier, StringLiteral, Parenthsis, BuiltinComparisonOperator, Number);
+            return Parse(ComparisonOperator, Identifier, StringLiteral, Parenthsis, Number);
         }
 
         private Token Parse(params Func<Token>[] parsers)
@@ -114,6 +104,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                     {
                         ch = _source.Peek();
 
+                        // We will allow '.' char, because we want to allow this parameter syntax: Order.BillingAddress.Country
                         if (char.IsDigit(ch) || char.IsLetter(ch) || ch == '_' || ch == '.')
                         {
                             _buffer.Append(ch);
@@ -288,35 +279,18 @@ namespace Kooboo.Commerce.Rules.Parsing
             return null;
         }
 
-        private Token BuiltinComparisonOperator()
+        private Token ComparisonOperator()
         {
+            SkipWhitespaces();
+
             var sourceLocation = CurrentLocation;
 
-            if (_source.Read(">="))
+            foreach (var op in Context.RegisteredComparisonOperators.OrderByDescending(o => o.Length))
             {
-                return new Token(">=", TokenKind.GreaterThanOrEqual, sourceLocation);
-            }
-            if (_source.Read(">"))
-            {
-                return new Token(">", TokenKind.GreaterThan, sourceLocation);
-            }
-
-            if (_source.Read("<="))
-            {
-                return new Token("<=", TokenKind.LessThanOrEqual, sourceLocation);
-            }
-            if (_source.Read("<"))
-            {
-                return new Token("<", TokenKind.LessThan, sourceLocation);
-            }
-
-            if (_source.Read("!="))
-            {
-                return new Token("!=", TokenKind.NotEqual, sourceLocation);
-            }
-            if (_source.Read("=="))
-            {
-                return new Token("==", TokenKind.Equal, sourceLocation);
+                if (_source.Read(op))
+                {
+                    return new Token(op, TokenKind.ComparisonOperator, sourceLocation);
+                }
             }
 
             return null;

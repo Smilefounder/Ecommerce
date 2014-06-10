@@ -10,13 +10,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
     public class ConditionModelBuilder : ExpressionVisitor
     {
         private IEnumerable<IParameterProvider> _parameterProviders;
+        private IComparisonOperatorProvider _comparisonOperatorProvider;
         private List<ConditionParameter> _parameters;
         private Stack<List<ConditionModel>> _conditionTrees = new Stack<List<ConditionModel>>();
 
-        public ConditionModelBuilder(IEnumerable<IParameterProvider> parameterProviders)
+        public ConditionModelBuilder(IEnumerable<IParameterProvider> parameterProviders, IComparisonOperatorProvider comparisonOperatorProvider)
         {
-            Require.NotNull(parameterProviders, "parameterProviders");
             _parameterProviders = parameterProviders;
+            _comparisonOperatorProvider = comparisonOperatorProvider;
         }
 
         public IList<ConditionModel> BuildFrom(string expression, Type contextModelType)
@@ -33,7 +34,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
                                              .DistinctBy(x => x.Name)
                                              .ToList();
 
-            Visit(Expression.Parse(expression));
+            Visit(Expression.Parse(expression, _comparisonOperatorProvider.GetAllOperators().Select(o => o.Name).ToList()));
 
             return _conditionTrees.Pop();
         }

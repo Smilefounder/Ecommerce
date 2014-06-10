@@ -9,9 +9,12 @@ namespace Kooboo.Commerce.Rules.Parsing
     {
         public IList<Error> Errors { get; private set; }
 
-        public ParsingContext()
+        public ISet<string> RegisteredComparisonOperators { get; private set; }
+
+        public ParsingContext(IEnumerable<string> registeredComparisonOperators)
         {
             Errors = new List<Error>();
+            RegisteredComparisonOperators = new HashSet<string>(registeredComparisonOperators);
         }
 
         public void AddError(string message, SourceLocation location)

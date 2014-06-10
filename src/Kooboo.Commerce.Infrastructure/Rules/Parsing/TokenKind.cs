@@ -13,11 +13,6 @@ namespace Kooboo.Commerce.Rules.Parsing
         AND,
         OR,
         Parenthesis,
-        Equal,
-        NotEqual,
-        GreaterThan,
-        GreaterThanOrEqual,
-        LessThan,
-        LessThanOrEqual
+        ComparisonOperator
     }
 }

@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
                 return String.Empty;
             }
 
-            return Format(Expression.Parse(expression), dataContextType);
+            return Format(Expression.Parse(expression, _operatorProvider.GetAllOperators().Select(o => o.Name).ToList()), dataContextType);
         }
 
         public string Format(Expression expression, Type dataContextType)

@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Rules.Operators
     {
         public string Name
         {
-            get { return "greater_than"; }
+            get { return "greater than"; }
         }
 
         public string DisplayName

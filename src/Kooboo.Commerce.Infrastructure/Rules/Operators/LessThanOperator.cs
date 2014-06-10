@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Rules.Operators
         {
             get
             {
-                return "less_than";
+                return "less than";
             }
         }
 

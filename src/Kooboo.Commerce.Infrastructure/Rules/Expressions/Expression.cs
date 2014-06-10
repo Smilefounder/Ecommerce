@@ -13,9 +13,9 @@ namespace Kooboo.Commerce.Rules.Expressions
     {
         public abstract void Accept(IExpressionVisitor visitor);
 
-        public static Expression Parse(string source)
+        public static Expression Parse(string source, IEnumerable<string> registeredComparisonOperators)
         {
-            return new Parser().Parse(source);
+            return new Parser().Parse(source, registeredComparisonOperators);
         }
     }
 }

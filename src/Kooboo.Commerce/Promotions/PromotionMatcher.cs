@@ -14,10 +14,12 @@ namespace Kooboo.Commerce.Promotions
     public class PromotionMatcher
     {
         private RuleEngine _ruleEngine;
+        private IComparisonOperatorProvider _comparisonOperatorProvider;
 
-        public PromotionMatcher(RuleEngine ruleEngine)
+        public PromotionMatcher(RuleEngine ruleEngine, IComparisonOperatorProvider comparisonOperatorProvider)
         {
             _ruleEngine = ruleEngine;
+            _comparisonOperatorProvider = comparisonOperatorProvider;
         }
 
         public IEnumerable<PromotionMatch> MatchApplicablePromotions(PricingContext context, IEnumerable<Promotion> candidatePromotions)
@@ -76,7 +78,7 @@ namespace Kooboo.Commerce.Promotions
             }
             else
             {
-                var conditionChecker = new PromotionConditionChecker(_ruleEngine);
+                var conditionChecker = new PromotionConditionChecker(_ruleEngine, _comparisonOperatorProvider);
                 var result = conditionChecker.CheckConditions(promotion, context);
                 if (result.Success)
                 {

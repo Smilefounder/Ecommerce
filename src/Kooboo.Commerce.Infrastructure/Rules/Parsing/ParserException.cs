@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Rules.Parsing
 
                 foreach (var error in Errors)
                 {
-                    message.AppendLine(("Char " + (error.Location.CharIndex + 1) + ": " + error.Message + ";"));
+                    message.AppendLine(("Char " + (error.Location.CharIndex + 1) + ": " + error.Message));
                 }
 
                 return message.ToString();

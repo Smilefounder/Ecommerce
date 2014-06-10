@@ -37,11 +37,11 @@ namespace Kooboo.Commerce.Rules.Parsing
         private Tokenizer _tokenzier;
         private ParsingContext _context;
 
-        public Expression Parse(string source)
+        public Expression Parse(string source, IEnumerable<string> registeredComparisonOperators)
         {
             Require.NotNullOrEmpty(source, "source");
 
-            _context = new ParsingContext();
+            _context = new ParsingContext(registeredComparisonOperators);
             _tokenzier = new Tokenizer(source, _context);
 
             var exp = Expression();
@@ -195,7 +195,7 @@ namespace Kooboo.Commerce.Rules.Parsing
                 sourceLocation = _tokenzier.CurrentLocation;
 
                 var op = _tokenzier.NextToken();
-                if (op == null || !MaybeComparisonOperator(op))
+                if (op == null || (op.Kind != TokenKind.ComparisonOperator && op.Kind != TokenKind.Identifier) || !_context.RegisteredComparisonOperators.Contains(op.Value))
                 {
                     _context.AddError("Missing comparison operator after the parameter name.", sourceLocation);
                     return null;
@@ -256,17 +256,6 @@ namespace Kooboo.Commerce.Rules.Parsing
 
                 return new ComparisonValueExpression(valueToken.Value, valueType);
             }
-        }
-
-        private bool MaybeComparisonOperator(Token token)
-        {
-            return token.Kind == TokenKind.Identifier
-                || token.Kind == TokenKind.Equal
-                || token.Kind == TokenKind.NotEqual
-                || token.Kind == TokenKind.GreaterThan
-                || token.Kind == TokenKind.GreaterThanOrEqual
-                || token.Kind == TokenKind.LessThan
-                || token.Kind == TokenKind.LessThanOrEqual;
         }
     }
 }
