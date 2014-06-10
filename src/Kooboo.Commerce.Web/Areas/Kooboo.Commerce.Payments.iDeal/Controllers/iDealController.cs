@@ -59,7 +59,7 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 
             if (result != null)
             {
-                _paymentService.HandlePaymentResult(payment, result);
+                _paymentService.AcceptProcessResult(payment, result);
             }
         }
     }

@@ -30,7 +30,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         public PaymentResult Pay(PaymentRequest request)
         {
             var paymentMethod = _paymentMethodService.GetById(request.PaymentMethodId);
-            var payment = PaymentService.Create(new Kooboo.Commerce.Payments.PaymentTarget(request.TargetId, request.TargetType), request.Amount, paymentMethod, request.Description);
+            var payment = new Payment(new Kooboo.Commerce.Payments.PaymentTarget(request.TargetId, request.TargetType), request.Amount, paymentMethod, request.Description);
+
+            PaymentService.Create(payment);
 
             var processor = _processorFactory.FindByName(paymentMethod.PaymentProcessorName);
             var processResult = processor.Process(new ProcessPaymentRequest(payment)
@@ -40,7 +42,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
                 Parameters = request.Parameters
             });
 
-            PaymentService.HandlePaymentResult(payment, processResult);
+            PaymentService.AcceptProcessResult(payment, processResult);
 
             return new PaymentResult
             {

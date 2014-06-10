@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             var payment = _paymentService.GetById(paymentId);
             var method = _paymentMethodService.GetById(payment.PaymentMethod.Id);
             var result = ProcessResponse(payment, BuckarooConfig.Deserialize(method.PaymentProcessorData));
-            _paymentService.HandlePaymentResult(payment, result);
+            _paymentService.AcceptProcessResult(payment, result);
 
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             var payment = _paymentService.GetById(paymentId);
             var method = _paymentMethodService.GetById(payment.PaymentMethod.Id);
             var result = ProcessResponse(payment, BuckarooConfig.Deserialize(method.PaymentProcessorData));
-            _paymentService.HandlePaymentResult(payment, result);
+            _paymentService.AcceptProcessResult(payment, result);
         }
 
         private ProcessPaymentResult ProcessResponse(Payment payment, BuckarooConfig settings)

@@ -43,14 +43,9 @@ namespace Kooboo.Commerce.Payments
             CreatedAtUtc = DateTime.UtcNow;
         }
 
-        public void ChangeStatus(PaymentStatus newStatus)
+        public static Payment CreateOrderPayment(int orderId, decimal amount, PaymentMethod paymentMethod, string description)
         {
-            var oldStatus = Status;
-            if (oldStatus != newStatus)
-            {
-                Status = newStatus;
-                Event.Raise(new PaymentStatusChanged(this, oldStatus, Status));
-            }
+            return new Payment(new PaymentTarget(orderId.ToString(), PaymentTargetTypes.Order), amount, paymentMethod, description);
         }
 
         void INotifyCreated.NotifyCreated()

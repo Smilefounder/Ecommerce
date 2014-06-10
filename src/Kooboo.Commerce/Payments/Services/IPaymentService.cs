@@ -1,5 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Payments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,43 +15,56 @@ namespace Kooboo.Commerce.Payments.Services
 
         IQueryable<Payment> Query();
 
-        Payment Create(PaymentTarget target, decimal amount, PaymentMethod method, string description);
+        void Create(Payment payment);
 
-        void HandlePaymentResult(Payment payment, ProcessPaymentResult result);
+        void AcceptProcessResult(Payment payment, ProcessPaymentResult result);
+
+        void ChangeStatus(Payment payment, PaymentStatus newStatus);
     }
 
     [Dependency(typeof(IPaymentService))]
     public class PaymentService : IPaymentService
     {
-        private IRepository<Payment> _payments;
+        private ICommerceDatabase _db;
 
-        public PaymentService(IRepository<Payment> payments)
+        public PaymentService(ICommerceDatabase db)
         {
-            _payments = payments;
+            _db = db;
         }
 
         public Payment GetById(int id)
         {
-            return _payments.Get(id);
+            return _db.GetRepository<Payment>().Get(id);
         }
 
         public IQueryable<Payment> Query()
         {
-            return _payments.Query();
+            return _db.GetRepository<Payment>().Query();
         }
 
-        public Payment Create(PaymentTarget target, decimal amount, PaymentMethod method, string description)
+        public void Create(Payment payment)
         {
-            var payment = new Payment(target, amount, method, description);
-            _payments.Insert(payment);
-            return payment;
+            _db.GetRepository<Payment>().Insert(payment);
         }
 
-        public void HandlePaymentResult(Payment payment, ProcessPaymentResult result)
+        public void AcceptProcessResult(Payment payment, ProcessPaymentResult result)
         {
-            if (payment.Status != PaymentStatus.Success)
+            if (result.PaymentStatus == PaymentStatus.Success)
             {
-                payment.ChangeStatus(result.PaymentStatus);
+                ChangeStatus(payment, PaymentStatus.Success);
+            }
+        }
+
+        public void ChangeStatus(Payment payment, PaymentStatus newStatus)
+        {
+            if (payment.Status != newStatus)
+            {
+                var oldStatus = payment.Status;
+                payment.Status = newStatus;
+
+                _db.SaveChanges();
+
+                Event.Raise(new PaymentStatusChanged(payment, oldStatus, newStatus));
             }
         }
     }
