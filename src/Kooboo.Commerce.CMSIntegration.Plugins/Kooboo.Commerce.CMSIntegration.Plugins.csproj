@@ -43,6 +43,7 @@
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Sites.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -69,10 +70,16 @@
     <Compile Include="Carts\SiteCartExtensions.cs" />
     <Compile Include="Customers\AddAddressPlugin.cs" />
     <Compile Include="Customers\AddAddressResult.cs" />
+    <Compile Include="Customers\CustomerLoginPlugin.cs" />
+    <Compile Include="Customers\CustomerLoginResult.cs" />
+    <Compile Include="Customers\CustomerLogoutPlugin.cs" />
     <Compile Include="Customers\Models\AddAddressModel.cs" />
+    <Compile Include="Customers\Models\CustomerLoginModel.cs" />
     <Compile Include="Customers\Models\RegisterCustomerModel.cs" />
     <Compile Include="Customers\RegisterCustomerPlugin.cs" />
     <Compile Include="Customers\RegisterCustomerResult.cs" />
+    <Compile Include="InvalidModelStateException.cs" />
+    <Compile Include="SubmissionExecuteResult.cs" />
     <Compile Include="SubmissionModel.cs" />
     <Compile Include="Orders\Models\PayOrderModel.cs" />
     <Compile Include="Orders\PayOrderPlugin.cs" />

@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
 {
     public class PayOrderPlugin : SubmissionPluginBase<PayOrderModel>
     {
-        protected override object Execute(PayOrderModel model)
+        protected override SubmissionExecuteResult Execute(PayOrderModel model)
         {
             var order = Site.Commerce().Orders.ById(model.OrderId).FirstOrDefault();
             var paymentMethod = Site.Commerce().PaymentMethods.ById(model.PaymentMethodId).FirstOrDefault();
@@ -37,11 +37,14 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
 
             var result = Site.Commerce().Payments.Pay(payment);
 
-            return new PayOrderResult
+            return new SubmissionExecuteResult
             {
-                PaymentStatus = result.PaymentStatus.ToString(),
-                Message = result.Message,
-                RedirectUrl = String.IsNullOrEmpty(result.RedirectUrl) ? returnUrl : result.RedirectUrl
+                Data = new PayOrderResult
+                {
+                    PaymentStatus = result.PaymentStatus.ToString(),
+                    Message = result.Message,
+                    RedirectUrl = String.IsNullOrEmpty(result.RedirectUrl) ? returnUrl : result.RedirectUrl
+                }
             };
         }
     }

@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
             Parameters.Add("SetAuthCookie", true);
         }
 
-        protected override object Execute(RegisterCustomerModel model)
+        protected override SubmissionExecuteResult Execute(RegisterCustomerModel model)
         {
             var membership = MemberPluginHelper.GetMembership();
             var user = _userManager.Create(membership, model.Email, model.Email, model.Password, true, "en-US", null);
@@ -55,9 +55,12 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 auth.SetAuthCookie(customer.Email, false);
             }
 
-            return new RegisterCustomerResult
+            return new SubmissionExecuteResult
             {
-                CustomerId = customer.Id
+                Data = new RegisterCustomerResult
+                {
+                    CustomerId = customer.Id
+                }
             };
         }
     }

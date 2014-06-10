@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Sites.View;
 using System.Web;
@@ -69,11 +70,22 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
             try
             {
                 var result = Execute(model);
-                var redirectUrl = ResolveUrl(controllerContext.HttpContext.Request["SuccessUrl"], controllerContext);
+
+                string redirectUrl = null;
+
+                if (result != null)
+                {
+                    redirectUrl = result.RedirectUrl;
+                }
+
+                if (String.IsNullOrEmpty(redirectUrl))
+                {
+                    redirectUrl = ResolveUrl(model.SuccessUrl, controllerContext);
+                }
 
                 if (!String.IsNullOrEmpty(redirectUrl))
                 {
-                    return new RedirectResult(redirectUrl);
+                    return RedirectTo(redirectUrl);
                 }
                 else
                 {
@@ -82,10 +94,18 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
                         Data = new JsonResultData
                         {
                             Success = true,
-                            Model = result
+                            Model = result == null ? null : result.Data
                         }
                     };
                 }
+            }
+            catch (InvalidModelStateException ex)
+            {
+                var resultData = new JsonResultData();
+                resultData.Success = false;
+                resultData.AddModelState(ex.ModelState);
+
+                return new JsonResult { Data = resultData };
             }
             catch (Exception ex)
             {
@@ -94,7 +114,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
                 var redirectUrl = ResolveUrl(model.FailedUrl, ControllerContext);
                 if (!String.IsNullOrEmpty(redirectUrl))
                 {
-                    return new RedirectResult(redirectUrl);
+                    return RedirectTo(redirectUrl);
                 }
                 else
                 {
@@ -109,6 +129,22 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
             {
                 ClearTempFields();
             }
+        }
+
+        private ActionResult RedirectTo(string redirectUrl)
+        {
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                return new JsonResult
+                {
+                    Data = new JsonResultData
+                    {
+                        RedirectUrl = redirectUrl
+                    }
+                };
+            }
+
+            return new RedirectResult(redirectUrl);
         }
 
         private void ClearTempFields()
@@ -130,7 +166,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
             return controllerContext.RequestContext.UrlHelper().FrontUrl().WrapperUrl(url).ToString();
         }
 
-        protected abstract object Execute(TModel model);
+        protected abstract SubmissionExecuteResult Execute(TModel model);
     }
 
     public abstract class SubmissionPluginBase : SubmissionPluginBase<SubmissionModel>

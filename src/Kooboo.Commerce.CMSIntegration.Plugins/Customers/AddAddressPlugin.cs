@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 {
     public class AddAddressPlugin : SubmissionPluginBase<AddAddressModel>
     {
-        protected override object Execute(AddAddressModel model)
+        protected override SubmissionExecuteResult Execute(AddAddressModel model)
         {
             var member = HttpContext.Membership().GetMembershipUser();
             var customer = Site.Commerce().Customers.ByAccountId(member.UUID).FirstOrDefault();
@@ -35,9 +35,12 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 
             Site.Commerce().Customers.AddAddress(customer.Id, address);
 
-            return new AddAddressResult
+            return new SubmissionExecuteResult
             {
-                AddressId = address.Id
+                Data = new AddAddressResult
+                {
+                    AddressId = address.Id
+                }
             };
         }
     }

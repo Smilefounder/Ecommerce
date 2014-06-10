@@ -11,16 +11,16 @@
         <div class="checkout-login">
             <h2>Inloggen bij mijn <span class="gray">vitamin</span><span class="orange">store</span></h2>
             <p>Login met uw email adres en uw wachtwoord.</p>
-            <form class="ajaxForm" action="@Url.FrontUrl().SubmissionUrl("ValidateMember", new { returnUrl = ViewContext.RequestContext.GetRequestValue("returnUrl") })" method="post">
+            <form class="ajaxForm" action="@Url.FrontUrl().SubmissionUrl("CustomerLogin", new { returnUrl = ViewContext.RequestContext.GetRequestValue("returnUrl") })" method="post">
                 @Html.AntiForgeryToken()
                 <table>
                     <tbody>
                         <tr>
                             <td class="login-title">Uw Email Adres:</td>
                             <td>
-                                <input class="" data-val="true" data-val-required="*" id="UserName" name="UserName" placeholder="Email"
+                                <input class="" data-val="true" data-val-required="*" id="Email" name="Email" placeholder="Email"
                                        type="text" value="" autocomplete="off">
-                                @Html.ValidationMessage("UserName")
+                                @Html.ValidationMessage("Email")
                             </td>
                         </tr>
                         <tr>
@@ -54,57 +54,6 @@
                 <a href="@Url.FrontUrl().PageUrl("Register")" class="btn orange-btn">ga verder <i class="icon-chevron-right"></i></a>
             </p>
         </div>
-
-
-
-        <dl class="right-box order-overview">
-            <dt>
-                Uw Bestelling
-            </dt>
-
-            <dd class="item">
-                <strong>Omnium®</strong> van <em>Solgar Vitamins</em>
-            </dd>
-            <dd>
-                1x 30 tabletten <span class="price">€ 34,30</span>
-            </dd>
-
-            <dd class="item">
-                <strong>Cooking Cream geurloos</strong> van <em>Royal Green</em>
-            </dd>
-            <dd>
-                1x 250 ml <span class="price">€ 3,35</span>
-            </dd>
-
-            <dd class="item">
-                <strong>Vitaminstore Lippenbalm</strong> van <em>Acties</em>
-            </dd>
-            <dd>
-                1x 1 exemplaar <span class="price">€ 2,50</span>
-            </dd>
-
-            <dd class="item">
-                <strong>VitaminMagazine</strong> van <em>Vitaminstore</em>
-            </dd>
-            <dd>
-                1x 1 x 68 pag. <span class="price">€ 0,00</span>
-            </dd>
-
-            <dd class="item summary">
-                <em>
-                    Indicatie Verzendkosten:<br>
-                    € 0,00
-                </em>
-            </dd>
-
-            <dd class="item summary">
-                Totaal voor deze bestelling:<br>
-                <span id="ctl00_cpContent_OrderOverview_lblTotal" class="total orange">€ 40,15</span>
-            </dd>
-
-
-        </dl>
-
 
         <div class="clear">&nbsp;</div>
     </div>

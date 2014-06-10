@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 {
     public class RemoveCartItemPlugin : SubmissionPluginBase<RemoveItemModel>
     {
-        protected override object Execute(RemoveItemModel model)
+        protected override SubmissionExecuteResult Execute(RemoveItemModel model)
         {
             var cart = Site.GetCurrentCart(ControllerContext);
             if (cart != null)

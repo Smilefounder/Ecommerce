@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 {
     public class ChangeCartItemQuantityPlugin : SubmissionPluginBase<ChangeItemQuantityModel>
     {
-        protected override object Execute(ChangeItemQuantityModel model)
+        protected override SubmissionExecuteResult Execute(ChangeItemQuantityModel model)
         {
             var sessionId = HttpContext.Session.SessionID;
             var member = HttpContext.Membership().GetMembershipUser();

@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
 {
     public class SubmitOrderPlugin : SubmissionPluginBase
     {
-        protected override object Execute(SubmissionModel model)
+        protected override SubmissionExecuteResult Execute(SubmissionModel model)
         {
             var api = Site.Commerce();
 
@@ -19,9 +19,12 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
 
             api.ShoppingCarts.ExpireShppingCart(cart.Id);
 
-            return new SubmitOrderResult
+            return new SubmissionExecuteResult
             {
-                OrderId = order.Id
+                Data = new SubmitOrderResult
+                {
+                    OrderId = order.Id
+                }
             };
         }
     }

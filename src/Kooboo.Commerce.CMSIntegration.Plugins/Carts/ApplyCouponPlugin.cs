@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 {
     public class ApplyCouponPlugin : SubmissionPluginBase<ApplyCouponModel>
     {
-        protected override object Execute(ApplyCouponModel model)
+        protected override SubmissionExecuteResult Execute(ApplyCouponModel model)
         {
             var cart = Site.GetCurrentCart(ControllerContext);
             if (cart != null)
