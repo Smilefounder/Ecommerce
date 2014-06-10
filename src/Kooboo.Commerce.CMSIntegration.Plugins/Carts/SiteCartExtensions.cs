@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
                 return site.Commerce().ShoppingCarts.ByAccountId(member.UUID).FirstOrDefault();
             }
 
-            return site.Commerce().ShoppingCarts.BySessionId(controllerContext.HttpContext.Session.SessionID).FirstOrDefault();
+            return site.Commerce().ShoppingCarts.BySessionId(controllerContext.HttpContext.CurrentCartSessionId()).FirstOrDefault();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
     {
         protected override SubmissionExecuteResult Execute(ChangeItemQuantityModel model)
         {
-            var sessionId = HttpContext.Session.SessionID;
+            var sessionId = HttpContext.CurrentCartSessionId();
             var member = HttpContext.Membership().GetMembershipUser();
             Site.Commerce().ShoppingCarts.UpdateCart(sessionId, member == null ? null : member.UUID, model.ProductPriceId, model.NewQuantity);
 

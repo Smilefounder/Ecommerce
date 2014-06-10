@@ -60,6 +60,7 @@
     <Compile Include="Carts\ChangeBillingAddressPlugin.cs" />
     <Compile Include="Carts\ChangeCartItemQuantityPlugin.cs" />
     <Compile Include="Carts\ChangeShippingAddressPlugin.cs" />
+    <Compile Include="Extensions\HttpContextExtensions.cs" />
     <Compile Include="Carts\Models\ChangeBillingAddressModel.cs" />
     <Compile Include="Carts\Models\ChangeShippingAddressModel.cs" />
     <Compile Include="Carts\RemoveCartItemPlugin.cs" />
