@@ -11,13 +11,16 @@ namespace Kooboo.Commerce.Orders
     {
         public int Id { get; set; }
 
-        public int CustomerId { get; set; }
-
         public int CountryId { get; set; }
 
+        [Param]
         public string FirstName { get; set; }
 
+        [Param]
         public string LastName { get; set; }
+
+        [Param]
+        public string Phone { get; set; }
 
         [Param]
         public string Address1 { get; set; }
@@ -37,23 +40,20 @@ namespace Kooboo.Commerce.Orders
         [Reference]
         public Country Country { get; set; }
 
-        /// <summary>
-        /// optional
-        /// </summary>
-        public string Phone { get; set; }
-
-        public void FromAddress(Address address)
+        public static OrderAddress CreateFrom(Address address)
         {
-            this.CustomerId = address.CustomerId;
-            this.CountryId = address.CountryId;
-            this.FirstName = address.FirstName;
-            this.LastName = address.LastName;
-            this.Address1 = address.Address1;
-            this.Address2 = address.Address2;
-            this.Postcode = address.Postcode;
-            this.City = address.City;
-            this.State = address.State;
-            this.Phone = address.Phone;
+            return new OrderAddress
+            {
+                CountryId = address.CountryId,
+                FirstName = address.FirstName,
+                LastName = address.LastName,
+                Address1 = address.Address1,
+                Address2 = address.Address2,
+                Postcode = address.Postcode,
+                City = address.City,
+                State = address.State,
+                Phone = address.Phone
+            };
         }
     }
 }

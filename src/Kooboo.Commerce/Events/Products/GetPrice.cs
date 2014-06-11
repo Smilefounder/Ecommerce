@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

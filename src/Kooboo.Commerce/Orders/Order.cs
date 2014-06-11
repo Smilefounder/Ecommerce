@@ -10,10 +10,11 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kooboo.Commerce.Orders
 {
-    public class Order : INotifyCreated
+    public class Order
     {
         public Order()
         {
@@ -25,25 +26,31 @@ namespace Kooboo.Commerce.Orders
         public int Id { get; set; }
 
         public int CustomerId { get; set; }
+
         public int? ShoppingCartId { get; set; }
+
         public int? ShippingAddressId { get; set; }
+
         public int? BillingAddressId { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
 
         public OrderStatus OrderStatus { get; set; }
 
-        public bool IsCompleted { get; set; }
-
         public string Coupon { get; set; }
 
-        public decimal SubTotal { get; set; }
+        public decimal Subtotal { get; set; }
 
         public decimal Discount { get; set; }
 
-        public decimal TotalTax { get; set; }
+        public decimal Tax { get; set; }
 
         public decimal ShippingCost { get; set; }
+
+        public int? ShippingMethodId { get; set; }
+
+        [StringLength(50)]
+        public string ShippingMethodName { get; set; }
 
         /// <summary>
         /// Shop can charge fee for different payment methods. 
@@ -59,24 +66,17 @@ namespace Kooboo.Commerce.Orders
         public decimal TotalPaid { get; set; }
 
         /// <summary>
-        /// The namer of choosen shipping method. For example, UPS, TNT, DHL, PostMail, etc. 
-        /// redundant column
-        /// </summary>
-        public string ShippingName { get; set; }
-
-        /// <summary>
         /// Remark from users who ordered it.
         /// </summary>
         public string Remark { get; set; }
 
+        // TODO: How to calculate?
         public decimal TotalWeight { get; set; }
 
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         
         [Reference]
         public virtual Customer Customer { get; set; }
-
-        public virtual ShoppingCart ShoppingCart { get; set; }
 
         [Reference]
         public virtual OrderAddress ShippingAddress { get; set; }
@@ -85,10 +85,5 @@ namespace Kooboo.Commerce.Orders
         public virtual OrderAddress BillingAddress { get; set; }
 
         public virtual ICollection<OrderCustomField> CustomFields { get; set; }
-
-        void INotifyCreated.NotifyCreated()
-        {
-            Event.Raise(new OrderCreated(this));
-        }
     }
 }

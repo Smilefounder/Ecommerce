@@ -1,5 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.PaymentMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,14 +29,40 @@ namespace Kooboo.Commerce.Payments.Services
             return _repository.Query();
         }
 
-        public bool Create(PaymentMethod method)
+        public void Create(PaymentMethod method)
         {
-            return _repository.Insert(method);
+            _repository.Insert(method);
+            Event.Raise(new PaymentMethodCreated(method));
         }
 
-        public bool Delete(PaymentMethod method)
+        public void Delete(PaymentMethod method)
         {
-            return _repository.Delete(method);
+            _repository.Delete(method);
+            Event.Raise(new PaymentMethodDeleted(method));
+        }
+
+        public bool Enable(PaymentMethod method)
+        {
+            if (method.MarkEnabled())
+            {
+                _repository.Database.SaveChanges();
+                Event.Raise(new PaymentMethodEnabled(method));
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool Disable(PaymentMethod method)
+        {
+            if (method.MarkDisabled())
+            {
+                _repository.Database.SaveChanges();
+                Event.Raise(new PaymentMethodDisabled(method));
+                return true;
+            }
+
+            return false;
         }
     }
 }

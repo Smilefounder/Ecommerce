@@ -24,9 +24,7 @@ namespace Kooboo.Commerce.Customers.Services
 
         IQueryable<CustomerCustomField> CustomFieldsQuery();
 
-        Customer CreateByAccount(MembershipUser user);
-
-        bool Create(Customer customer);
+        void Create(Customer customer);
 
         bool Update(Customer customer);
 

@@ -14,7 +14,7 @@
     @Html.Action("Steps", "PaymentMethod", new { area = "Commerce", step = 3 })
     <div class="block message success">
         <p>
-            @(String.Format("Payment method \"{0}\" is successfully created/updated".Localize(), Model.DisplayName))
+            @(String.Format("Payment method \"{0}\" is successfully created/updated".Localize(), Model.Name))
         </p>
     </div>
     @if (!Model.IsEnabled)

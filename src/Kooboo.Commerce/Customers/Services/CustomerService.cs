@@ -71,20 +71,10 @@ namespace Kooboo.Commerce.Customers.Services
             return _customerCustomFieldRepository.Query();
         }
 
-        public Customer CreateByAccount(MembershipUser user)
+        public void Create(Customer customer)
         {
-            var customer = new Customer();
-            customer.AccountId = user.UUID;
-            customer.Email = user.Email;
-            Create(customer);
-            return customer;
-        }
-
-        public bool Create(Customer customer)
-        {
-            bool result = _customerRepository.Insert(customer);
+            _customerRepository.Insert(customer);
             Event.Raise(new CustomerCreated(customer));
-            return result;
         }
 
         public bool Update(Customer customer)
@@ -125,11 +115,15 @@ namespace Kooboo.Commerce.Customers.Services
                 if (exists)
                     return Update(customer);
                 else
-                    return Create(customer);
+                {
+                    Create(customer);
+                    return true;
+                }
             }
             else
             {
-                return Create(customer);
+                Create(customer);
+                return true;
             }
         }
 

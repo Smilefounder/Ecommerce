@@ -190,7 +190,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             return this;
         }
 
-        public void AddAddress(int customerId, Address address)
+        /// <summary>
+        /// Add an address to the customer.
+        /// </summary>
+        /// <returns>Id of the new address.</returns>
+        public int AddAddress(int customerId, Address address)
         {
             var customer = _customerService.GetById(customerId);
             var addr = _addressMapper.MapFrom(address);
@@ -204,14 +208,16 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             _customerService.AddAddress(customer, addr);
 
             address.Id = addr.Id;
+
+            return addr.Id;
         }
 
         /// <summary>
         /// create the commerce object
         /// </summary>
         /// <param name="customer">commerce object</param>
-        /// <returns>true if successfully created, else false</returns>
-        public void Create(Customer customer)
+        /// <returns>Id of the new created customer.</returns>
+        public int Create(Customer customer)
         {
             var mapped = _mapper.MapFrom(customer);
 
@@ -221,16 +227,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
             }
 
             _customerService.Create(mapped);
-        }
+            customer.Id = mapped.Id;
 
-        /// <summary>
-        /// update the commerce object
-        /// </summary>
-        /// <param name="customer">commerce object</param>
-        /// <returns>true if successfully created, else false</returns>
-        public void Update(Customer customer)
-        {
-            _customerService.Update(_mapper.MapFrom(customer));
+            return mapped.Id;
         }
 
         /// <summary>

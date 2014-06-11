@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Kooboo.Commerce.API.HAL;
+using Kooboo.Commerce.API.ShoppingCarts;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -50,8 +51,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             query = query.ByCreateDate(fromCreateDate, toCreateDate);
             if (!string.IsNullOrEmpty(qs["status"]))
                 query = query.ByOrderStatus((OrderStatus)(Convert.ToInt32(qs["status"])));
-            if (!string.IsNullOrEmpty(qs["isCompleted"]))
-                query = query.IsCompleted(Convert.ToBoolean(qs["isCompleted"]));
             if (!string.IsNullOrEmpty(qs["coupon"]))
                 query = query.ByCoupon(qs["coupon"]);
             decimal? fromTotal = null, toTotal = null;
@@ -66,25 +65,11 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             return BuildLoadWithFromQueryStrings(query, qs);
         }
 
-        /// <summary>
-        /// get current logon user's last active order
-        /// </summary>
-        /// <param name="sessionId">current user's session id</param>
-        /// <param name="deleteShoppingCart">whether to delete the shopping cart when order created</param>
-        /// <param name="user">current logon user info</param>
-        /// <returns>order</returns>
-        [HttpPost]
-        [Resource("myorder", uri: "/{instance}/{controller}/{action}?sessionId={sessionId}&deleteShoppingCart={deleteShoppingCart}")]
-        public Order GetMyOrder(string sessionId, bool deleteShoppingCart, [FromBody]MembershipUser user)
-        {
-            return Commerce().Orders.GetMyOrder(sessionId, user, deleteShoppingCart);
-        }
-
         [HttpPost]
         [Resource("create_from_cart")]
-        public Order CreateFromCart(int cartId, bool deleteShoppingCart, [FromBody]MembershipUser user)
+        public int CreateFromCart(int cartId, [FromBody]ShoppingContext context)
         {
-            return Commerce().Orders.CreateFromCart(cartId, user, deleteShoppingCart);
+            return Commerce().Orders.CreateFromCart(cartId, context);
         }
     }
 }

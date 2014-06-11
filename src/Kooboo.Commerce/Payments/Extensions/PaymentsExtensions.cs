@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Payments
 
         public static Payment ByThirdPartyTransactionId(this IQueryable<Payment> query, string transactionId, string paymentProcessorName)
         {
-            return query.FirstOrDefault(x => x.ThirdPartyTransactionId == transactionId && x.PaymentMethod.PaymentProcessorName == paymentProcessorName);
+            return query.FirstOrDefault(x => x.ThirdPartyTransactionId == transactionId && x.PaymentMethod.ProcessorName == paymentProcessorName);
         }
     }
 }

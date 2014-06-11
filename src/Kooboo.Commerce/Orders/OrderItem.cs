@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Products;
+using Kooboo.Commerce.ShoppingCarts;
 
 namespace Kooboo.Commerce.Orders
 {
@@ -42,5 +43,18 @@ namespace Kooboo.Commerce.Orders
         public virtual Order Order { get; set; }
 
         public virtual ProductPrice ProductPrice { get; set; }
+
+        public static OrderItem CreateFromCartItem(ShoppingCartItem cartItem, decimal finalUnitPrice)
+        {
+            return new OrderItem
+            {
+                ProductPriceId = cartItem.ProductPrice.Id,
+                ProductPrice = cartItem.ProductPrice,
+                ProductName = cartItem.ProductPrice.Name,
+                SKU = cartItem.ProductPrice.Sku,
+                UnitPrice = finalUnitPrice,
+                Quantity = cartItem.Quantity
+            };
+        }
     }
 }

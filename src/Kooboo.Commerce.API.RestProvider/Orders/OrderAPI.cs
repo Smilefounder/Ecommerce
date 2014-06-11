@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.API.Orders;
+using Kooboo.Commerce.API.ShoppingCarts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Kooboo.Commerce.API.RestProvider.Orders
     /// </summary>
     [Dependency(typeof(IOrderAPI))]
     [Dependency(typeof(IOrderQuery))]
-    public class OrderAPI : RestApiAccessBase<Order>, IOrderAPI
+    public class OrderAPI : RestApiQueryBase<Order>, IOrderAPI
     {
         /// <summary>
         /// add id filter to query
@@ -75,17 +76,6 @@ namespace Kooboo.Commerce.API.RestProvider.Orders
         }
 
         /// <summary>
-        /// add is completed filter to query
-        /// </summary>
-        /// <param name="isCompleted">order is completed</param>
-        /// <returns>order query</returns>
-        public IOrderQuery IsCompleted(bool isCompleted)
-        {
-            QueryParameters.Add("isCompleted", isCompleted.ToString());
-            return this;
-        }
-
-        /// <summary>
         /// add coupon filter to query
         /// </summary>
         /// <param name="coupon">order coupon</param>
@@ -124,25 +114,10 @@ namespace Kooboo.Commerce.API.RestProvider.Orders
             return this;
         }
 
-        public Order CreateFromCart(int cartId, MembershipUser user, bool deleteShoppingCart = true)
+        public int CreateFromCart(int cartId, ShoppingContext context)
         {
             QueryParameters.Add("cartId", cartId.ToString());
-            QueryParameters.Add("deleteShoppingCart", deleteShoppingCart.ToString());
-            return Post<Order>("CreateFromShoppingCart", user);
-        }
-
-        /// <summary>
-        /// get current logon user's last active order
-        /// </summary>
-        /// <param name="sessionId">current user's session id</param>
-        /// <param name="user">current logon user info</param>
-        /// <param name="deleteShoppingCart">whether to delete the shopping cart when order created</param>
-        /// <returns>order</returns>
-        public Order GetMyOrder(string sessionId, MembershipUser user, bool deleteShoppingCart = true)
-        {
-            QueryParameters.Add("sessionId", sessionId);
-            QueryParameters.Add("deleteShoppingCart", deleteShoppingCart.ToString());
-            return Post<Order>("GetMyOrder", user);
+            return Post<int>("CreateFromCart", context);
         }
 
         /// <summary>

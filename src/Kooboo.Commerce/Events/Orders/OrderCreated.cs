@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Events.Orders
         [Reference(typeof(Order), Prefix = "")]
         public int OrderId { get; set; }
 
-        public OrderCreated() { }
+        protected OrderCreated() { }
 
         public OrderCreated(Order order)
         {

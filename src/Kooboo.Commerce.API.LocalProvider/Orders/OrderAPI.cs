@@ -2,7 +2,9 @@
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Orders;
+using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.Customers.Services;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.ShoppingCarts.Services;
 using System;
@@ -18,16 +20,18 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
     /// </summary>
     [Dependency(typeof(IOrderAPI), ComponentLifeStyle.Transient)]
     [Dependency(typeof(IOrderQuery), ComponentLifeStyle.Transient)]
-    public class OrderAPI : LocalCommerceQueryAccess<Order, Kooboo.Commerce.Orders.Order>, IOrderAPI
+    public class OrderAPI : LocalCommerceQuery<Order, Kooboo.Commerce.Orders.Order>, IOrderAPI
     {
+        private ICommerceDatabase _db;
         private IOrderService _orderService;
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
 
-        public OrderAPI(IHalWrapper halWrapper, IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
+        public OrderAPI(IHalWrapper halWrapper, ICommerceDatabase db, IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
             IMapper<Order, Kooboo.Commerce.Orders.Order> mapper)
             : base(halWrapper, mapper)
         {
+            _db = db;
             _orderService = orderService;
             _shoppingCartService = shoppingCartService;
             _customerService = customerService;
@@ -60,67 +64,21 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             base.OnQueryExecuted();
         }
 
-        public Order CreateFromCart(int cartId, MembershipUser user, bool deleteShoppingCart)
+        public int CreateFromCart(int cartId, ShoppingContext context)
         {
             var cart = _shoppingCartService.GetById(cartId);
-            var order =_orderService.CreateFromCart(cart, user, deleteShoppingCart);
-            return _mapper.MapTo(order);
-        }
 
-        /// <summary>
-        /// create object
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>true if successfully, else false</returns>
-        public override bool Create(Order obj)
-        {
-            if(obj != null)
+            return _db.WithTransaction(() =>
             {
-                return _orderService.Create(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
+                var order = _orderService.CreateFromCart(cart, new Kooboo.Commerce.ShoppingCarts.ShoppingContext
+                {
+                    Culture = context.Culture,
+                    Currency = context.Currency,
+                    CustomerId = context.CustomerId
+                });
 
-        /// <summary>
-        /// update object
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>true if successfully, else false</returns>
-        public override bool Update(Order obj)
-        {
-            if (obj != null)
-            {
-                return _orderService.Update(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// create/update object
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>true if successfully, else false</returns>
-        public override bool Save(Order obj)
-        {
-            if (obj != null)
-            {
-                return _orderService.Save(_mapper.MapFrom(obj));
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// delete object
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>true if successfully, else false</returns>
-        public override bool Delete(Order obj)
-        {
-            if (obj != null)
-            {
-                return _orderService.Delete(_mapper.MapFrom(obj));
-            }
-            return false;
+                return order.Id;
+            });
         }
 
         /// <summary>
@@ -188,18 +146,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         }
 
         /// <summary>
-        /// add is completed filter to query
-        /// </summary>
-        /// <param name="isCompleted">order is completed</param>
-        /// <returns>order query</returns>
-        public IOrderQuery IsCompleted(bool isCompleted)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.IsCompleted == isCompleted);
-            return this;
-        }
-
-        /// <summary>
         /// add coupon filter to query
         /// </summary>
         /// <param name="coupon">order coupon</param>
@@ -239,41 +185,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             var customFieldQuery = _orderService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
             _query = _query.Where(o => customFieldQuery.Any(c => c.OrderId == o.Id));
             return this;
-        }
-
-        /// <summary>
-        /// get current logon user's last active order
-        /// </summary>
-        /// <param name="sessionId">current user's session id</param>
-        /// <param name="user">current logon user info</param>
-        /// <param name="deleteShoppingCart">whether to delete the shopping cart when order created</param>
-        /// <returns>order</returns>
-        public Order GetMyOrder(string sessionId, MembershipUser user, bool deleteShoppingCart = true)
-        {
-            var shoppingCart = string.IsNullOrEmpty(sessionId) ? null : _shoppingCartService.Query().Where(o => o.SessionId == sessionId).FirstOrDefault();
-            Kooboo.Commerce.Orders.Order order = null;
-            if (shoppingCart != null)
-            {
-                order = _orderService.Query().Where(o => o.ShoppingCartId == shoppingCart.Id).FirstOrDefault();
-                if (order == null)
-                    order = _orderService.CreateFromCart(shoppingCart, user, deleteShoppingCart);
-            }
-            else
-            {
-                var customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
-                if (customer != null)
-                {
-                    order = _orderService.Query().Where(o => o.CustomerId == customer.Id && o.OrderStatus == Commerce.Orders.OrderStatus.Created).OrderByDescending(o => o.CreatedAtUtc).FirstOrDefault();
-                }
-            }
-            if (order != null)
-            {
-                this.Include(o => o.Customer);
-                var morder = Map(order);
-                OnQueryExecuted();
-                return morder;
-            }
-            return null;
         }
 
         protected override IDictionary<string, object> BuildItemHalParameters(Order data)

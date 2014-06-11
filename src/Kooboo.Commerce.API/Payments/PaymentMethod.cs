@@ -10,9 +10,9 @@ namespace Kooboo.Commerce.API.Payments
     {
         public int Id { get; set; }
 
-        public string DisplayName { get; set; }
+        public string Name { get; set; }
 
-        public string UniqueId { get; set; }
+        public string UserKey { get; set; }
 
         public PriceChangeMode AdditionalFeeChargeMode { get; set; }
 

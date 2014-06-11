@@ -1,7 +1,9 @@
 ﻿using Kooboo.Commerce.ComponentModel;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
+using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +53,11 @@ namespace Kooboo.Commerce.Products
             Product = product;
             Name = name;
             Sku = sku;
+        }
+
+        public decimal GetFinalRetialPrice(ShoppingContext context)
+        {
+            return PricingContext.GetFinalRetailPrice(ProductId, Id, RetailPrice, context);
         }
 
         public virtual void UpdateFrom(ProductPrice other)

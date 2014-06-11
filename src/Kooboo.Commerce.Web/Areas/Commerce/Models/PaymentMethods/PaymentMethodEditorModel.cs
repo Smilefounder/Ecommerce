@@ -20,16 +20,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         public int Id { get; set; }
 
         [Required]
-        [Display(Name = "Display name")]
-        public string DisplayName { get; set; }
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Payment processor")]
+        [Display(Name = "Payment Processor")]
         public string PaymentProcessorName { get; set; }
 
-        [Display(Name = "Unique ID")]
+        [Display(Name = "User Key")]
         [Description("Optional user defined unique id for referencing in cms frontend websites")]
-        public string UniqueId { get; set; }
+        public string UserKey { get; set; }
 
         [Display(Name = "Additional fee charge mode")]
         public PriceChangeMode AdditionalFeeChargeMode { get; set; }
@@ -53,8 +53,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
 
         public void UpdateTo(PaymentMethod method)
         {
-            method.DisplayName = DisplayName;
-            method.UniqueId = UniqueId;
+            method.Name = Name;
+            method.UserKey = UserKey;
             method.PaymentProcessorName = PaymentProcessorName;
             method.AdditionalFeeChargeMode = AdditionalFeeChargeMode;
             method.AdditionalFeeAmount = AdditionalFeeAmount;

@@ -16,6 +16,18 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
             return this;
         }
 
+        public IPaymentMethodQuery ByUserKey(string userKey)
+        {
+            QueryParameters.Add("userKey", userKey);
+            return this;
+        }
+
+        public IPaymentMethodQuery ByName(string name)
+        {
+            QueryParameters.Add("name", name);
+            return this;
+        }
+
         protected override string ApiControllerPath
         {
             get { return "PaymentMethod"; }

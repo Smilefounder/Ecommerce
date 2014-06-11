@@ -147,21 +147,5 @@ namespace Kooboo.Commerce.Orders.Pricing
 
             return context;
         }
-
-        public static PricingContext CreateFrom(Order order)
-        {
-            var context = new PricingContext
-            {
-                Customer = order.Customer,
-                CouponCode = order.Coupon
-            };
-
-            foreach (var item in order.OrderItems)
-            {
-                context.AddPricingItem(item.Id, item.ProductPrice, item.Quantity);
-            }
-
-            return context;
-        }
     }
 }

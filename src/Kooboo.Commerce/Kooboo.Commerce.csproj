@@ -179,7 +179,7 @@
     <Compile Include="Payments\Extensions\PaymentsExtensions.cs" />
     <Compile Include="Payments\IPaymentProcessorProvider.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
-    <Compile Include="Payments\PaymentMethodReference.cs" />
+    <Compile Include="Payments\PaymentMethodInfo.cs" />
     <Compile Include="Payments\PaymentProcessorEditor.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />
     <Compile Include="Payments\Payment.cs" />
@@ -255,7 +255,7 @@
     <Compile Include="ShoppingCarts\ShoppingCart.cs" />
     <Compile Include="ShoppingCarts\ShoppingCartItem.cs" />
     <Compile Include="ShoppingCarts\ShoppingCartExtensions.cs" />
-    <Compile Include="ShoppingContext.cs" />
+    <Compile Include="ShoppingCarts\ShoppingContext.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

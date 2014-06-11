@@ -10,6 +10,7 @@ namespace Kooboo.Commerce.Orders
         Created = 0,
         Paid = 1,
         Processing = 2,
-        Cancelled = 3
+        Cancelled = 3,
+        Completed = 4
     }
 }

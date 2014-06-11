@@ -33,6 +33,20 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             return this;
         }
 
+        public IPaymentMethodQuery ByUserKey(string userKey)
+        {
+            EnsureQuery();
+            _query = _query.Where(x => x.UserKey == userKey);
+            return this;
+        }
+
+        public IPaymentMethodQuery ByName(string name)
+        {
+            EnsureQuery();
+            _query = _query.Where(x => x.Name == name);
+            return this;
+        }
+
         /// <summary>
         /// create entity query
         /// </summary>
@@ -49,7 +63,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         /// <returns>ordered query</returns>
         protected override IQueryable<Commerce.Payments.PaymentMethod> OrderByDefault(IQueryable<Commerce.Payments.PaymentMethod> query)
         {
-            return query.OrderBy(x => x.DisplayName);
+            return query.OrderBy(x => x.Name);
         }
 
         /// <summary>

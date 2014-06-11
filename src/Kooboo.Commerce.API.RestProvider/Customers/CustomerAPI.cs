@@ -138,20 +138,18 @@ namespace Kooboo.Commerce.API.RestProvider.Customers
             return this;
         }
 
-        public void AddAddress(int customerId, Address address)
+        public int AddAddress(int customerId, Address address)
         {
             var addressId = Post<int>("Address", address);
             address.Id = addressId;
+            return addressId;
         }
 
-        public void Create(Customer customer)
+        public int Create(Customer customer)
         {
-            Post<bool>(null, customer);
-        }
-
-        public void Update(Customer customer)
-        {
-            Put<bool>(null, customer);
+            var customerId = Post<int>(null, customer);
+            customer.Id = customerId;
+            return customerId;
         }
 
         /// <summary>

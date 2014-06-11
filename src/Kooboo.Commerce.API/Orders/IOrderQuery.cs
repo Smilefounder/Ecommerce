@@ -47,12 +47,6 @@ namespace Kooboo.Commerce.API.Orders
         /// <returns>order query</returns>
         IOrderQuery ByOrderStatus(OrderStatus status);
         /// <summary>
-        /// add is completed filter to query
-        /// </summary>
-        /// <param name="isCompleted">order is completed</param>
-        /// <returns>order query</returns>
-        IOrderQuery IsCompleted(bool isCompleted);
-        /// <summary>
         /// add coupon filter to query
         /// </summary>
         /// <param name="coupon">order coupon</param>
@@ -71,14 +65,6 @@ namespace Kooboo.Commerce.API.Orders
         /// <param name="customFieldName">custom field name</param>
         /// <param name="fieldValue">custom field valule</param>
         /// <returns>order query</returns>
-        IOrderQuery ByCustomField(string customFieldName, string fieldValue);       
-        /// <summary>
-        /// get current logon user's last active order
-        /// </summary>
-        /// <param name="sessionId">current user's session id</param>
-        /// <param name="user">current logon user info</param>
-        /// <param name="deleteShoppingCart">whether to delete the shopping cart when order created</param>
-        /// <returns>order</returns>
-        Order GetMyOrder(string sessionId, MembershipUser user, bool deleteShoppingCart = true);
+        IOrderQuery ByCustomField(string customFieldName, string fieldValue);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.ComponentModel;
 using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.PaymentMethods;
 using Kooboo.Commerce.Events.Payments;
 using Kooboo.Commerce.Rules;
 using System;
@@ -16,14 +17,15 @@ namespace Kooboo.Commerce.Payments
         public int Id { get; set; }
 
         /// <summary>
-        /// User specified unique id for this payment method.
+        /// User specified key for this payment method.
         /// This is useful when refering a payment method in frontend cms websites.
         /// </summary>
         [Param]
-        public string UniqueId { get; set; }
+        public string UserKey { get; set; }
 
+        [Param]
         [Required, StringLength(100)]
-        public string DisplayName { get; set; }
+        public string Name { get; set; }
 
         public string PaymentProcessorName { get; set; }
 
@@ -54,20 +56,31 @@ namespace Kooboo.Commerce.Payments
             return amountToPay * (decimal)AdditionalFeePercent;
         }
 
-        public virtual void Enable()
+        public virtual void NotifyUpdated()
+        {
+            Event.Raise(new PaymentMethodUpdated(this));
+        }
+
+        public virtual bool MarkEnabled()
         {
             if (!IsEnabled)
             {
                 IsEnabled = true;
+                return true;
             }
+
+            return false;
         }
 
-        public virtual void Disable()
+        public virtual bool MarkDisabled()
         {
             if (IsEnabled)
             {
                 IsEnabled = false;
+                return true;
             }
+
+            return false;
         }
     }
 }

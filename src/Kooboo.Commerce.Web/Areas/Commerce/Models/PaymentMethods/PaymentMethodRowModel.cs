@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         public PaymentMethodRowModel(PaymentMethod method)
         {
             Id = method.Id;
-            DisplayName = method.DisplayName;
+            DisplayName = method.Name;
             PaymentProcessorName = method.PaymentProcessorName;
             IsEnabled = method.IsEnabled;
             CreatedAt = method.CreatedAtUtc.ToLocalTime();

@@ -13,5 +13,9 @@ namespace Kooboo.Commerce.API.Payments
         /// Filter the payment methods by id.
         /// </summary>
         IPaymentMethodQuery ById(int id);
+
+        IPaymentMethodQuery ByUserKey(string userKey);
+
+        IPaymentMethodQuery ByName(string name);
     }
 }

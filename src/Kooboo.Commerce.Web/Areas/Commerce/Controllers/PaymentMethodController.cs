@@ -56,8 +56,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 var method = _paymentMethodService.GetById(id.Value);
                 model.Id = method.Id;
-                model.DisplayName = method.DisplayName;
-                model.UniqueId = method.UniqueId;
+                model.Name = method.Name;
+                model.UserKey = method.UserKey;
                 model.PaymentProcessorName = method.PaymentProcessorName;
                 model.AdditionalFeeChargeMode = method.AdditionalFeeChargeMode;
                 model.AdditionalFeeAmount = method.AdditionalFeeAmount;
@@ -88,7 +88,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var each in model)
             {
                 var method = _paymentMethodService.GetById(each.Id);
-                method.Enable();
+                _paymentMethodService.Enable(method);
             }
 
             return AjaxForm().ReloadPage();
@@ -98,7 +98,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public void EnablePaymentMethod(int id)
         {
             var method = _paymentMethodService.GetById(id);
-            method.Enable();
+            _paymentMethodService.Enable(method);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
@@ -107,7 +107,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var each in model)
             {
                 var method = _paymentMethodService.GetById(each.Id);
-                method.Disable();
+                _paymentMethodService.Disable(method);
             }
 
             return AjaxForm().ReloadPage();
@@ -148,6 +148,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 method = new PaymentMethod();
                 model.UpdateTo(method);
                 _paymentMethodService.Create(method);
+            }
+
+            if (model.Id > 0)
+            {
+                CommerceContext.CurrentInstance.Database.SaveChanges();
+                method.NotifyUpdated();
             }
 
             var processor = _processorProvider.FindByName(method.PaymentProcessorName);

@@ -32,20 +32,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Pricing
             _productService = productService;
         }
 
-        public CalculatePriceResult OrderPrice(CalculateOrderPriceRequest request)
-        {
-            var order = _orderService.GetById(request.OrderId);
-            var ctx = PricingContext.CreateFrom(order);
-            if (request.PaymentMethodId != null)
-            {
-                ctx.PaymentMethod = _paymentMethodService.GetById(request.PaymentMethodId.Value);
-            }
-
-            new PricingPipeline().Execute(ctx);
-
-            return GetResult(ctx);
-        }
-
         public CalculatePriceResult CartPrice(int cartId)
         {
             var cart = _cartService.GetById(cartId);

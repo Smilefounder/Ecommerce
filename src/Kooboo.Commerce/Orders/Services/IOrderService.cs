@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.ShoppingCarts;
-using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Payments;
 
 namespace Kooboo.Commerce.Orders.Services
@@ -17,7 +16,7 @@ namespace Kooboo.Commerce.Orders.Services
 
         IQueryable<OrderCustomField> CustomFieldsQuery();
 
-        Order CreateFromCart(ShoppingCart cart, MembershipUser user, bool deleteShoppingCart);
+        Order CreateFromCart(ShoppingCart cart, ShoppingContext context);
 
         bool Create(Order order);
 

@@ -158,13 +158,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     tax += item.TaxCost;
                 }
 
-                order.SubTotal = subtotal;
+                order.Subtotal = subtotal;
                 order.Discount = discount;
-                order.TotalTax = tax;
+                order.Tax = tax;
                 order.ShippingCost = 0.0m;
                 order.PaymentMethodCost = 0.0m;
                 order.TotalWeight = 0.0m;
-                order.Total = order.SubTotal - order.Discount + order.TotalTax + order.ShippingCost + order.PaymentMethodCost;
+                order.Total = order.Subtotal - order.Discount + order.Tax + order.ShippingCost + order.PaymentMethodCost;
             }
 
             var customer = _customerService.GetById(order.CustomerId);
@@ -176,13 +176,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             { 
                 order.ShippingAddress = new OrderAddress();
                 if (customer.ShippingAddress != null)
-                    order.ShippingAddress.FromAddress(customer.ShippingAddress);
+                {
+                    order.ShippingAddress = OrderAddress.CreateFrom(customer.ShippingAddress);
+                }
             }
             if (order.BillingAddress == null)
             {
                 order.BillingAddress = new OrderAddress();
                 if (customer.BillingAddress != null)
-                    order.BillingAddress.FromAddress(customer.BillingAddress);
+                {
+                    order.BillingAddress = OrderAddress.CreateFrom(customer.BillingAddress);
+                }
             }
 
             Session["TempOrder"] = order;
@@ -279,9 +283,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             order.Coupon = form["Coupon"];
             //order.ChangeStatus((OrderStatus)Enum.Parse(typeof(OrderStatus), form["OrderStatus"]));
-            order.SubTotal = string.IsNullOrEmpty(form["SubTotal"]) ? 0 : Convert.ToDecimal(form["SubTotal"]);
+            order.Subtotal = string.IsNullOrEmpty(form["SubTotal"]) ? 0 : Convert.ToDecimal(form["SubTotal"]);
             order.Discount = string.IsNullOrEmpty(form["Discount"]) ? 0 : Convert.ToDecimal(form["Discount"]);
-            order.TotalTax = string.IsNullOrEmpty(form["TotalTax"]) ? 0 : Convert.ToDecimal(form["TotalTax"]);
+            order.Tax = string.IsNullOrEmpty(form["TotalTax"]) ? 0 : Convert.ToDecimal(form["TotalTax"]);
             order.TotalWeight = string.IsNullOrEmpty(form["TotalWeight"]) ? 0 : Convert.ToDecimal(form["TotalWeight"]);
             order.ShippingCost = string.IsNullOrEmpty(form["ShippingCost"]) ? 0 : Convert.ToDecimal(form["ShippingCost"]);
             //if (!string.IsNullOrEmpty(form["PaymentMethodId"]))
@@ -292,13 +296,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             order.ShippingAddress = FormHelper.BindToModel<OrderAddress>(form, "ShippingAddress");
             if (order.ShippingAddress != null)
             {
-                order.ShippingAddress.CustomerId = order.CustomerId;
                 order.ShippingAddress.Id = order.ShippingAddressId.HasValue ? order.ShippingAddressId.Value : 0;
             }
             order.BillingAddress = FormHelper.BindToModel<OrderAddress>(form, "BillingAddress");
             if (order.BillingAddress != null)
             {
-                order.BillingAddress.CustomerId = order.CustomerId;
                 order.BillingAddress.Id = order.BillingAddressId.HasValue ? order.BillingAddressId.Value : 0;
             }
 

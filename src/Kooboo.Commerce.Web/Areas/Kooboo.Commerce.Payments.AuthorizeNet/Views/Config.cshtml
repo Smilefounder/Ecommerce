@@ -48,7 +48,7 @@
             return $.ajax({
                 url: '@Url.Action("Save", "Config", new { area = Strings.AreaName })?methodId=' + methodId,
                 type: 'POST',
-                data: $('#ideal-form').serializeArray()
+                data: $('#authorize-net-form').serializeArray()
             })
             .fail(function (data) {
                 window.loading.hide();

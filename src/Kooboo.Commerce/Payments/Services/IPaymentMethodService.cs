@@ -11,8 +11,12 @@ namespace Kooboo.Commerce.Payments.Services
 
         IQueryable<PaymentMethod> Query();
 
-        bool Create(PaymentMethod method);
+        void Create(PaymentMethod method);
 
-        bool Delete(PaymentMethod method);
+        void Delete(PaymentMethod method);
+
+        bool Enable(PaymentMethod method);
+
+        bool Disable(PaymentMethod method);
     }
 }

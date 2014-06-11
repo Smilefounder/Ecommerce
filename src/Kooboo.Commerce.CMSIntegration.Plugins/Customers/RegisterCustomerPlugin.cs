@@ -47,12 +47,18 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 }
             }
 
-            Site.Commerce().Customers.Create(customer);
+            var customerId = Site.Commerce().Customers.Create(customer);
 
             if (model.SetAuthCookie)
             {
                 var auth = new MembershipAuthentication(Site, membership, HttpContext);
                 auth.SetAuthCookie(customer.Email, false);
+
+                var sessionId = HttpContext.CurrentSessionId();
+                if (!String.IsNullOrWhiteSpace(sessionId))
+                {
+                    Site.Commerce().ShoppingCarts.MigrateCart(customerId, sessionId);
+                }
             }
 
             return new SubmissionExecuteResult

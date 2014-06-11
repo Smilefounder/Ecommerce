@@ -8,27 +8,27 @@ using System.Text;
 namespace Kooboo.Commerce.Payments
 {
     [ComplexType]
-    public class PaymentMethodReference
+    public class PaymentMethodInfo
     {
         public int Id { get; set; }
 
         [StringLength(100)]
-        public string DisplayName { get; set; }
+        public string Name { get; set; }
 
-        public string PaymentProcessorName { get; set; }
+        public string ProcessorName { get; set; }
 
-        public PaymentMethodReference() { }
+        public PaymentMethodInfo() { }
 
-        public PaymentMethodReference(PaymentMethod method)
+        public PaymentMethodInfo(PaymentMethod method)
         {
             Id = method.Id;
-            DisplayName = method.DisplayName;
-            PaymentProcessorName = method.PaymentProcessorName;
+            Name = method.Name;
+            ProcessorName = method.PaymentProcessorName;
         }
 
         public override string ToString()
         {
-            return DisplayName;
+            return Name;
         }
     }
 }

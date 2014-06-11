@@ -81,6 +81,7 @@
     <Compile Include="Customers\RegisterCustomerPlugin.cs" />
     <Compile Include="Customers\RegisterCustomerResult.cs" />
     <Compile Include="InvalidModelStateException.cs" />
+    <Compile Include="Orders\Models\SubmitOrderModel.cs" />
     <Compile Include="SubmissionExecuteResult.cs" />
     <Compile Include="SubmissionModel.cs" />
     <Compile Include="Orders\Models\PayOrderModel.cs" />

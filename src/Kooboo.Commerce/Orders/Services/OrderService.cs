@@ -93,90 +93,77 @@ namespace Kooboo.Commerce.Orders.Services
             return _orderCustomFieldRepository.Query();
         }
 
-        public Order CreateFromCart(ShoppingCart cart, MembershipUser user, bool deleteShoppingCart)
+        public Order CreateFromCart(ShoppingCart cart, ShoppingContext context)
         {
             Require.NotNull(cart, "cart");
-
-            var customer = cart.Customer;
-            if (customer == null)
-            {
-                customer = _customerService.Query().Where(o => o.AccountId == user.UUID).FirstOrDefault();
-                if (customer == null)
-                {
-                    customer = _customerService.CreateByAccount(user);
-                }
-                cart.Customer = customer;
-
-                _db.SaveChanges();
-            }
+            Require.NotNull(cart.Customer, "cart.Customer", "Cannot create order from guest cart. Login is required.");
+            Require.NotNull(cart.ShippingAddress, "cart.ShippingAddress", "Shipping address is required.");
+            Require.That(cart.Items.Count > 0, "cart.Items", "Cannot create order from an empty cart.");
 
             var order = new Order();
             order.ShoppingCartId = cart.Id;
-            order.CustomerId = customer.Id;
-            order.IsCompleted = false;
+            order.CustomerId = cart.Customer.Id;
             order.Coupon = cart.CouponCode;
 
-            if (cart.Items.Count > 0)
+            var shoppingContext = context.Clone();
+            shoppingContext.CustomerId = cart.Customer.Id;
+
+            foreach (var item in cart.Items)
             {
-                foreach (var item in cart.Items)
-                {
-                    var orderItem = new OrderItem();
-                    orderItem.Order = order;
-                    orderItem.ProductPriceId = item.ProductPrice.Id;
-                    orderItem.ProductPrice = item.ProductPrice;
-                    orderItem.ProductName = item.ProductPrice.Name;
-                    orderItem.SKU = item.ProductPrice.Sku;
-                    orderItem.UnitPrice = item.ProductPrice.RetailPrice;
-                    orderItem.Quantity = item.Quantity;
-                    order.OrderItems.Add(orderItem);
-                }
+                var orderItem = OrderItem.CreateFromCartItem(item, item.ProductPrice.RetailPrice);
+                order.OrderItems.Add(orderItem);
             }
 
-            if (cart.ShippingAddress != null)
-            {
-                OrderAddress address = new OrderAddress();
-                address.FromAddress(cart.ShippingAddress);
-                order.ShippingAddress = address;
-            }
+            order.ShippingAddress = OrderAddress.CreateFrom(cart.ShippingAddress);
 
             if (cart.BillingAddress != null)
             {
-                OrderAddress address = new OrderAddress();
-                address.FromAddress(cart.ShippingAddress);
-                order.BillingAddress = address;
+                order.BillingAddress = OrderAddress.CreateFrom(cart.BillingAddress);
             }
 
-            CalculatePrice(order);
-
-            _orderRepository.Insert(order);
-            return order;
-        }
-
-        private void CalculatePrice(Order order)
-        {
-            var context = PricingContext.CreateFrom(order);
-            new PricingPipeline().Execute(context);
+            // Recalculate price
+            var pricingContext = new PricingContext
+            {
+                Currency = shoppingContext.Currency,
+                CouponCode = order.Coupon,
+                Culture = shoppingContext.Culture,
+                Customer = cart.Customer
+            };
 
             foreach (var item in order.OrderItems)
             {
-                var pricingItem = context.Items.FirstOrDefault(x => x.ItemId == item.Id);
+                pricingContext.AddPricingItem(item.Id, item.ProductPrice, item.Quantity);
+            }
+
+            new PricingPipeline().Execute(pricingContext);
+
+            foreach (var item in order.OrderItems)
+            {
+                var pricingItem = pricingContext.Items.FirstOrDefault(x => x.ItemId == item.Id);
+                item.UnitPrice = pricingItem.RetailPrice;
                 item.Discount = pricingItem.Subtotal.Discount;
                 item.SubTotal = pricingItem.Subtotal.OriginalValue;
                 item.Total = pricingItem.Subtotal.FinalValue;
             }
 
-            order.SubTotal = context.Subtotal.FinalValue;
-            order.ShippingCost = context.ShippingCost.FinalValue;
-            order.PaymentMethodCost = context.PaymentMethodCost.FinalValue;
-            order.TotalTax = context.Tax.FinalValue;
-            order.Discount = context.Subtotal.Discount + context.Items.Sum(x => x.Subtotal.Discount);
+            order.ShippingCost = pricingContext.ShippingCost.FinalValue;
+            order.PaymentMethodCost = pricingContext.PaymentMethodCost.FinalValue;
+            order.Tax = pricingContext.Tax.FinalValue;
+            order.Discount = pricingContext.Subtotal.Discount + pricingContext.Items.Sum(x => x.Subtotal.Discount);
 
-            order.Total = context.Total;
+            order.Subtotal = pricingContext.Subtotal.FinalValue;
+            order.Total = pricingContext.Total;
+
+            Create(order);
+
+            return order;
         }
 
         public bool Create(Order order)
         {
-            return _orderRepository.Insert(order);
+            _orderRepository.Insert(order);
+            Event.Raise(new OrderCreated(order));
+            return true;
         }
 
         public void ChangeStatus(Order order, OrderStatus newStatus)

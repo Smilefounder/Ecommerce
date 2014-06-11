@@ -303,10 +303,10 @@
     $(function () {
         vm = new ObjectModel({
             getQueryUrl: function (self) {
-                return '/Commerce/Customer/Get?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&id=@(Request.QueryString["Id"])';
+                return '/Commerce/Customer/Get?id=@(Request.QueryString["Id"])';
             },
             getSaveUrl: function (self) {
-                return '/Commerce/Customer/Save?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]';
+                return '/Commerce/Customer/Save';
             },
             onQuerySuccess: function (self) {
                 $('#J_CustomerTabs').tabs();
@@ -314,6 +314,7 @@
             },
             onSaveSuccess: function (self, info) {
                 utils.showMessage('Notice', info.message, 'info');
+                window.leaveConfirm.pass();
                 window.location.href = '/Commerce/Customer/Index?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]';
                 //$('#J_CustomerTabs').tabs();
             },
@@ -394,7 +395,7 @@
                     self.GetOrders();
                 });
                 self.GetOrders = function () {
-                    var url = '/Commerce/Customer/GetOrders?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&customerId=' + self.data().Id();
+                    var url = '/Commerce/Customer/GetOrders?siteName=@Request.QueryString["siteName"]&customerId=' + self.data().Id();
                     url += '&page=' + self.OrderPageIndex() + '&pageSize=50';
                     utils.getJson(url, null, function (orders) {
                         ko.mapping.viewModel(orders, vm.Orders);
@@ -404,7 +405,7 @@
         });
 
         ko.applyBindings(vm);
-        utils.getJson('/Commerce/Customer/GetCountries?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]', null, function (dc) {
+        utils.getJson('/Commerce/Customer/GetCountries?siteName=@Request.QueryString["siteName"]', null, function (dc) {
             ko.mapping.viewModel(dc, vm.Countries);
             vm.getData();
         });

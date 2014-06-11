@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Membership.Models;
+using Kooboo.Commerce.API.ShoppingCarts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace Kooboo.Commerce.API.Orders
     /// </summary>
     public interface IOrderAccess
     {
-        Order CreateFromCart(int cartId, MembershipUser user, bool deleteShoppingCart);
+        int CreateFromCart(int cartId, ShoppingContext context);
     }
 }

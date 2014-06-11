@@ -3783,12 +3783,6 @@
     <Content Include="Areas\Commerce\Views\Customer\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Customer\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Customer\EditorTemplates\CustomerEditorModel.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Commerce\Views\Category\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

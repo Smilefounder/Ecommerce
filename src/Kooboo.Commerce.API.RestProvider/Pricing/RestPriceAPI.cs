@@ -15,11 +15,6 @@ namespace Kooboo.Commerce.API.RestProvider.Pricing
             get { return "Price"; }
         }
 
-        public CalculatePriceResult OrderPrice(CalculateOrderPriceRequest request)
-        {
-            return Post<CalculatePriceResult>("OrderPrice", request);
-        }
-
         public CalculatePriceResult CartPrice(int cartId)
         {
             QueryParameters.Add("cartId", cartId.ToString());

@@ -11,10 +11,8 @@ namespace Kooboo.Commerce.API.Customers
     /// </summary>
     public interface ICustomerAccess
     {
-        void AddAddress(int customerId, Address address);
+        int Create(Customer customer);
 
-        void Create(Customer customer);
-
-        void Update(Customer customer);
+        int AddAddress(int customerId, Address address);    
     }
 }

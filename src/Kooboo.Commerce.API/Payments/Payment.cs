@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.API.Payments
 
         public decimal Amount { get; set; }
 
-        public PaymentMethodReference PaymentMethod { get; set; }
+        public PaymentMethodInfo PaymentMethod { get; set; }
 
         public PaymentStatus Status { get; set; }
 

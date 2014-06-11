@@ -37,13 +37,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>@Html.DisplayNameFor(m => m.DisplayName)</th>
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>
                         <td>
-                            @Html.TextBoxFor(m => m.DisplayName, new { data_bind = "value: displayName", @class = "medium" })
-                            @Html.ValidationMessageFor(m => m.DisplayName)
+                            @Html.TextBoxFor(m => m.Name, new { data_bind = "value: name", @class = "medium" })
+                            @Html.ValidationMessageFor(m => m.Name)
                         </td>
                     </tr>
-                    @Html.EditorFor(m => m.UniqueId, inputAdditionViewData)
+                    @Html.EditorFor(m => m.UserKey, inputAdditionViewData)
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.AdditionalFeeChargeMode)</th>
                         <td>
@@ -84,7 +84,7 @@
         var viewModel = ko.mapping.fromJS(jsModel);
 
         viewModel.paymentProcessorName.subscribe(function (value) {
-            viewModel.displayName(value);
+            viewModel.name(value);
         });
 
         ko.applyBindings(viewModel);

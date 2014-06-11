@@ -33,13 +33,13 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 address.LastName = customer.LastName;
             }
 
-            Site.Commerce().Customers.AddAddress(customer.Id, address);
+            var addressId = Site.Commerce().Customers.AddAddress(customer.Id, address);
 
             return new SubmissionExecuteResult
             {
                 Data = new AddAddressResult
                 {
-                    AddressId = address.Id
+                    AddressId = addressId
                 }
             };
         }
