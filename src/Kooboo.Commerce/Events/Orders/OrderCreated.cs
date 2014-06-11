@@ -7,15 +7,14 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Orders
 {
+    // TODO: Not fired status changed?
     [Event(Order = 100)]
-    public class OrderCreated : DomainEvent, IOrderEvent
+    public class OrderCreated : OrderStatusChanged
     {
-        [Reference(typeof(Order), Prefix = "")]
-        public int OrderId { get; set; }
-
         protected OrderCreated() { }
 
         public OrderCreated(Order order)
+            : base(order, null, OrderStatus.Created)
         {
             OrderId = order.Id;
         }

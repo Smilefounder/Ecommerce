@@ -41,13 +41,26 @@ namespace Kooboo.Commerce.Activities
                 return;
             }
 
+            Execute(@event, @event.GetType(), commerceInstance);
+
+            // Execute activities bound to base event types
+            var baseType = @event.GetType().BaseType;
+            while (baseType != null && typeof(IDomainEvent).IsAssignableFrom(baseType))
+            {
+                Execute(@event, baseType, commerceInstance);
+                baseType = baseType.GetType().BaseType;
+            }
+        }
+
+        private void Execute(IEvent @event, Type eventType, CommerceInstance commerceInstance)
+        {
             var database = commerceInstance.Database;
             var ruleEngine = EngineContext.Current.Resolve<RuleEngine>();
 
             var activityQueue = database.GetRepository<ActivityQueueItem>();
             var rules = database.GetRepository<ActivityRule>()
                                 .Query()
-                                .ByEvent(@event.GetType())
+                                .ByEvent(eventType)
                                 .OrderBy(x => x.Id)
                                 .ToList();
 

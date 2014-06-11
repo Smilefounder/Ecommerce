@@ -19,3 +19,4 @@ TestResults
 /src/Kooboo.Commerce.Web/Cms_Data/Sites/Vitaminstore/Assemblies/Kooboo.CMS.Plugins.Vitaminstore.dll
 /src/Kooboo.Commerce.Web/Cms_Data/Sites/Vitaminstore/Assemblies/Kooboo.Commerce.API.CmsSite.dll
 /src/Kooboo.Commerce.Web/Cms_Data/Sites/Vitaminstore/Assemblies/Kooboo.Commerce.CMSIntegration.Plugins.dll
+/src/Kooboo.Commerce.Web/App_Data/MailBox
