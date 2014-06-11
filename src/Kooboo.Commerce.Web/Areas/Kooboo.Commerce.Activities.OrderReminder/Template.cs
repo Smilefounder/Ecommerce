@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder
 {
     public static class Template
     {
-        static readonly Regex _paramPattern = new Regex(@"\{[\w_]+\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex _paramPattern = new Regex(@"\{(?<param>[\w_]+)\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public static string Render(string template, object model)
         {
@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder
 
             return _paramPattern.Replace(template, match =>
             {
-                var param = match.Value;
+                var param = match.Groups["param"].Value;
                 var prop = modelType.GetProperty(param, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
                 if (prop != null)
                 {
