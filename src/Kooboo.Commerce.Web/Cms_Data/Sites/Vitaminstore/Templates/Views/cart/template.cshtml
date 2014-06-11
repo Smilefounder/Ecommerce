@@ -26,7 +26,7 @@
                 <!-- ko foreach: Items -->
                 <tr>
                     <td rowspan="3" class="pic top">
-                        <a href="/Health/Speciaal/nacht/1002-SLAAPCOMPLEX-AOV/P215474">
+                        <a data-bind="attr: { href: '/product/' + ProductPrice.ProductId() }">
                             <img style="width:115px;height:115px;" data-bind="attr: { src: $root.GetDefaultImageUrl(ProductPrice.Product) }">
                         </a>
                     </td>
@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <td class="value">
-                        <select data-bind="options: ProductPrice.Product.PriceList, optionsText: 'Name', optionsValue: 'Id', value: ProductPriceId"></select>
+                        <span data-bind="text: ProductPrice.Name"></span>
                     </td>
                     <td class="value">
                         <select data-bind="options: $root.QuantityRange, value: Quantity" class="item-quantity-dropdown"></select>
@@ -136,17 +136,10 @@
                 ko.mapping.fromJS(data, {}, _this);
             }
 
-            // TODO: Will cause infinite loop?
             _this.Quantity.subscribe(function (quantity) {
                 console.log('quantity changed to ' + quantity);
                 _cart.UpdateQuantity(_this, quantity);
             });
-
-            //_this.ProductPriceId.subscribe(function (priceId) {
-            //    if (priceId) {
-            //        _cart.ChangeProductPrice(_this, priceId);
-            //    }
-            //});
         }
 
         function ShoppingCartModel() {
