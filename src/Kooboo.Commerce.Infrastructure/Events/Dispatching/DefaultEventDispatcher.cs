@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Data;
+﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events.Registry;
 using System;
 using System.Reflection;
@@ -8,82 +9,49 @@ namespace Kooboo.Commerce.Events.Dispatching
 {
     public class DefaultEventDispatcher : IEventDispatcher
     {
-        private IEventHandlerRegistry _eventRegistry;
-        private IHandlerActivator _handlerActivator = new DefaultHandlerActivator();
-        private IHandlerInvoker _handlerInvoker = new DefaultHandlerInvoker();
+        public IEventHandlerRegistry HandlerRegistry { get; private set; }
 
-        public IEventHandlerRegistry EventRegistry
-        {
-            get
-            {
-                return _eventRegistry;
-            }
-        }
-
-        public IHandlerActivator HandlerActivator
-        {
-            get
-            {
-                return _handlerActivator;
-            }
-            set
-            {
-                _handlerActivator = value;
-            }
-        }
-
-        public IHandlerInvoker HandlerInvoker
-        {
-            get
-            {
-                return _handlerInvoker;
-            }
-            set
-            {
-                _handlerInvoker = value;
-            }
-        }
+        public Func<Type, object> ActivateEventHandler = type => EngineContext.Current.Resolve(type);
 
         public DefaultEventDispatcher(IEventHandlerRegistry handlerRegistry)
         {
             Require.NotNull(handlerRegistry, "handlerRegistry");
 
-            _eventRegistry = handlerRegistry;
+            HandlerRegistry = handlerRegistry;
         }
 
-        public void Dispatch(IEvent evnt, EventDispatchingContext context)
+        public void Dispatch(IEvent evnt)
         {
             Require.NotNull(evnt, "evnt");
-            Require.NotNull(context, "context");
 
-            foreach (var method in _eventRegistry.FindHandlers(evnt.GetType()))
+            foreach (var method in HandlerRegistry.FindHandlers(evnt.GetType()))
             {
-                var awaitAttribute = EventHandlerUtil.GetHandlerAttribute<AwaitDbCommitAttribute>(method);
-
-                if (EventHandlerUtil.IsTimeToExecute(awaitAttribute, context))
-                {
-                    ExecuteHandler(method, evnt, context);
-                }
+                ExecuteHandler(method, evnt);
             }
         }
 
-        private void ExecuteHandler(MethodInfo handlerMethod, IEvent evnt, EventDispatchingContext context)
+        private void ExecuteHandler(MethodInfo handlerMethod, IEvent evnt)
         {
             var handlerType = handlerMethod.ReflectedType;
             object handler = null;
 
             try
             {
-                handler = _handlerActivator.CreateHandlerInstance(handlerType, context);
+                handler = ActivateEventHandler(handlerType);
             }
             catch (Exception ex)
             {
-                throw new EventHandlerException("Faile to create handler instance, see inner exception for detail. Handler type: " + handlerType + ".", ex);
+                throw new EventHandlerException("Failed to create handler instance, see inner exception for detail. Handler type: " + handlerType + ".", ex);
+            }
+
+            if (handler == null)
+            {
+                throw new EventHandlerException("Failed to create handler instance.");
             }
 
             try
             {
-                _handlerInvoker.Invoke(handler, handlerMethod, evnt);
+                handlerMethod.Invoke(handler, new[] { evnt });
             }
             catch (Exception ex)
             {

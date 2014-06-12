@@ -6,7 +6,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Pricing
 {
     [Event(Order = 500)]
-    public class ShippingCostCalculated : DomainEvent, IPricingEvent
+    public class ShippingCostCalculated : BusinessEvent, IPricingEvent
     {
     }
 }

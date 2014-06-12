@@ -6,7 +6,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.ShippingMethods
 {
     [Event(Order = 500)]
-    public class ShippingMethodDeleted : DomainEvent, IShippingMethodEvent
+    public class ShippingMethodDeleted : BusinessEvent, IShippingMethodEvent
     {
     }
 }

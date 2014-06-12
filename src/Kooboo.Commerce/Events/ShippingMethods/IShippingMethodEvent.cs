@@ -6,7 +6,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.ShippingMethods
 {
     [Category("Shipping Methods", Order = 700)]
-    public interface IShippingMethodEvent : IDomainEvent
+    public interface IShippingMethodEvent : IBusinessEvent
     {
     }
 }

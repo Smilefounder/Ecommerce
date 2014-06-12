@@ -6,7 +6,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Checkout
 {
     [Category("Checkout", Order = 1000)]
-    public interface ICheckoutEvent : IDomainEvent
+    public interface ICheckoutEvent : IBusinessEvent
     {
     }
 }

@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.PaymentMethods
 {
     [Event(Order = 100)]
-    public class PaymentMethodCreated : DomainEvent, IPaymentMethodEvent
+    public class PaymentMethodCreated : BusinessEvent, IPaymentMethodEvent
     {
         [Reference(typeof(PaymentMethod))]
         public int PaymentMethodId { get; set; }

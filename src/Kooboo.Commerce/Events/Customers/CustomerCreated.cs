@@ -9,7 +9,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Customers
 {
     [Event(Order = 100)]
-    public class CustomerCreated : DomainEvent, ICustomerEvent
+    public class CustomerCreated : BusinessEvent, ICustomerEvent
     {
         [Reference(typeof(Customer))]
         public int CustomerId { get; set; }

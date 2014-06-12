@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Checkout
 {
     [Event(Order = 100)]
-    public class ShippingAddressChanged : DomainEvent, ICheckoutEvent
+    public class ShippingAddressChanged : BusinessEvent, ICheckoutEvent
     {
         public int CartId { get; set; }
 

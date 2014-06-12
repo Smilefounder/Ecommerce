@@ -76,7 +76,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                 menuItems.Add(categoryMenuItem);
 
                 var eventEntries = _eventRegistry.FindByCategory(category.Name)
-                                                 .Where(e => e.EventType.IsDomainEvent());
+                                                 .Where(e => e.EventType.IsBusinessEvent());
 
                 foreach (var eventType in eventEntries)
                 {

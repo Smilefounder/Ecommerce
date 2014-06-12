@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Payments
 {
     [Event(Order = 200)]
-    public class PaymentStatusChanged : DomainEvent, IPaymentEvent
+    public class PaymentStatusChanged : BusinessEvent, IPaymentEvent
     {
         [Param]
         public int PaymentId { get; set; }

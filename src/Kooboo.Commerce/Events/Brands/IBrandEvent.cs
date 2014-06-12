@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Brands
 {
     [Category("Brands", Order = 100)]
-    public interface IBrandEvent : IDomainEvent
+    public interface IBrandEvent : IBusinessEvent
     {
         int BrandId { get; }
     }

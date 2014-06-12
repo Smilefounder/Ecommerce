@@ -7,7 +7,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.ShoppingCarts
 {
     [Event(Order = 100)]
-    public class CartCreated : DomainEvent, IShoppingCartEvent
+    public class CartCreated : BusinessEvent, IShoppingCartEvent
     {
         public int CartId { get; set; }
 

@@ -41,15 +41,12 @@ namespace Kooboo.Commerce.Data
             UnderlyingTransaction.Commit();
 
             IsCommitted = true;
-
-            Database.DispatchPendingEvents();
         }
 
         public void Rollback()
         {
             ThrowIfDisposed();
             UnderlyingTransaction.Rollback();
-            Database.EventTrackingContext.Clear();
         }
 
         public void Dispose()

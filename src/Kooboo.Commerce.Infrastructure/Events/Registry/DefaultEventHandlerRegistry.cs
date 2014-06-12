@@ -102,7 +102,7 @@ namespace Kooboo.Commerce.Events.Registry
                 return false;
             }
 
-            var eventTypes = EventHandlerUtil.GetHandledEventTypes(handlerType).ToList();
+            var eventTypes = HandlerUtil.GetHandledEventTypes(handlerType).ToList();
 
             if (eventTypes.Count == 0)
             {

@@ -6,7 +6,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.PaymentMethods
 {
     [Category("Payment Methods", Order = 600)]
-    public interface IPaymentMethodEvent : IDomainEvent
+    public interface IPaymentMethodEvent : IBusinessEvent
     {
     }
 }

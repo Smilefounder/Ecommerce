@@ -9,7 +9,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Pricing
 {
     [Event(Order = 100)]
-    public class PriceCalculationStarted : DomainEvent, IPricingEvent
+    public class PriceCalculationStarted : BusinessEvent, IPricingEvent
     {
         [JsonIgnore]
         public IList<IPricingStage> Stages { get; private set; }

@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Events.Brands
 {
     [Serializable]
     [Event(Order = 100)]
-    public class BrandCreated : DomainEvent, IBrandEvent
+    public class BrandCreated : BusinessEvent, IBrandEvent
     {
         [Reference(typeof(Brand))]
         public int BrandId { get; set; }

@@ -8,7 +8,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Promotions
 {
     [Event(Order = 100)]
-    public class PromotionCreated : DomainEvent, IPromotionEvent
+    public class PromotionCreated : BusinessEvent, IPromotionEvent
     {
         [Reference(typeof(Promotion))]
         public int PromotionId { get; set; }

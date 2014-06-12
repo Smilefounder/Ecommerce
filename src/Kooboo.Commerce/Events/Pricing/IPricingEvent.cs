@@ -6,7 +6,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Pricing
 {
     [Category("Pricing", Order = 900)]
-    public interface IPricingEvent : IDomainEvent
+    public interface IPricingEvent : IBusinessEvent
     {
     }
 }

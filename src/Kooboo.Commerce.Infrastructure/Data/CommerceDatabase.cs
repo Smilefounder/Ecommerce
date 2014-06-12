@@ -29,27 +29,15 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public IEventDispatcher EventDispatcher { get; private set; }
-
-        public EventTrackingScope EventTrackingContext { get; private set; }
-
         public CommerceDbContext DbContext { get; private set; }
 
-        public CommerceDatabase(CommerceInstanceMetadata commerceInstanceMetadata, ICommerceDbProvider dbProvider, IEventDispatcher eventDispatcher)
+        public CommerceDatabase(CommerceInstanceMetadata commerceInstanceMetadata, ICommerceDbProvider dbProvider)
         {
             Require.NotNull(commerceInstanceMetadata, "commerceInstanceMetadata");
             Require.NotNull(dbProvider, "dbProvider");
-            Require.NotNull(eventDispatcher, "eventDispatcher");
 
             _commerceInstanceMetadata = commerceInstanceMetadata;
-            EventDispatcher = eventDispatcher;
-            EventTrackingContext = EventTrackingScope.Begin();
             DbContext = CommerceDbContext.Create(commerceInstanceMetadata, dbProvider);
-        }
-
-        ~CommerceDatabase()
-        {
-            Dispose(false);
         }
 
         public IRepository<T> GetRepository<T>() where T : class
@@ -102,17 +90,6 @@ namespace Kooboo.Commerce.Data
             return result;
         }
 
-        internal void DispatchPendingEvents()
-        {
-            var events = EventTrackingContext.PendingEvents.ToList();
-            EventTrackingContext.Clear();
-
-            foreach (var @event in events)
-            {
-                EventDispatcher.Dispatch(@event, new EventDispatchingContext(EventDispatchingPhase.OnTransactionCommitted, EventTrackingContext));
-            }
-        }
-
         public void Dispose()
         {
             if (!_isDisposed)
@@ -138,8 +115,6 @@ namespace Kooboo.Commerce.Data
                 {
                     _currentTransaction.Dispose();
                 }
-
-                EventTrackingContext.Dispose();
             }
         }
 

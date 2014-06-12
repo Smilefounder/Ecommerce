@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Products
 {
-    public class GetPrice : DomainEvent, IProductEvent
+    public class GetPrice : BusinessEvent, IProductEvent
     {
         [Reference(typeof(Product))]
         public int ProductId { get; private set; }

@@ -11,7 +11,7 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Customers
 {
     [Category("Customers", Order = 400)]
-    public interface ICustomerEvent : IDomainEvent
+    public interface ICustomerEvent : IBusinessEvent
     {
         int CustomerId { get; }
     }

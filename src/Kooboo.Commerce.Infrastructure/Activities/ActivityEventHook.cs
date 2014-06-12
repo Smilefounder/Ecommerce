@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Activities
         public void Handle(IEvent @event)
         {
             // Activities can only bind to domain events
-            if (!(@event is DomainEvent))
+            if (!(@event is BusinessEvent))
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Activities
 
             // Execute activities bound to base event types
             var baseType = @event.GetType().BaseType;
-            while (baseType != null && typeof(IDomainEvent).IsAssignableFrom(baseType))
+            while (baseType != null && typeof(IBusinessEvent).IsAssignableFrom(baseType))
             {
                 Execute(@event, baseType, commerceInstance);
                 baseType = baseType.GetType().BaseType;

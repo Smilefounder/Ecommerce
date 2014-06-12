@@ -13,22 +13,18 @@ namespace Kooboo.Commerce.Data
     [Dependency(typeof(ICommerceInstanceManager), ComponentLifeStyle.InRequestScope)]
     public class CommerceInstanceManager : ICommerceInstanceManager
     {
-        private IEventDispatcher _eventDispatcher;
         private ICommerceInstanceMetadataStore _metadataStore;
         private ICommerceDbProviderFactory _dbProviderFactory;
 
         public CommerceInstanceManager(
             ICommerceInstanceMetadataStore metadataStore,
-            ICommerceDbProviderFactory dbProviderFactory,
-            IEventDispatcher eventDispatcher)
+            ICommerceDbProviderFactory dbProviderFactory)
         {
             Require.NotNull(metadataStore, "metadataStore");
             Require.NotNull(dbProviderFactory, "dbProviderFactory");
-            Require.NotNull(eventDispatcher, "eventDispatcher");
 
             _metadataStore = metadataStore;
             _dbProviderFactory = dbProviderFactory;
-            _eventDispatcher = eventDispatcher;
         }
 
         public void CreateInstance(CommerceInstanceMetadata metadata)
@@ -48,7 +44,7 @@ namespace Kooboo.Commerce.Data
             {
                 CreatePhysicalDatabaseIfNotExists(connectionString);
 
-                using (var database = new CommerceDatabase(metadata, dbProvider, _eventDispatcher))
+                using (var database = new CommerceDatabase(metadata, dbProvider))
                 {
                     dbProvider.DatabaseOperations.CreateDatabase(database);
                 }
@@ -83,7 +79,7 @@ namespace Kooboo.Commerce.Data
             try
             {
                 var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
-                using (var database = new CommerceDatabase(metadata, dbProvider, _eventDispatcher))
+                using (var database = new CommerceDatabase(metadata, dbProvider))
                 {
                     if (database.DbContext.Database.Exists())
                     {
@@ -120,7 +116,7 @@ namespace Kooboo.Commerce.Data
                 throw new InvalidOperationException("Commerce instance \"" + name + "\" not exists.");
 
             var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
-            var database = new CommerceDatabase(metadata, dbProvider, _eventDispatcher);
+            var database = new CommerceDatabase(metadata, dbProvider);
 
             return new CommerceInstance(database);
         }
