@@ -1,7 +1,7 @@
-﻿using Kooboo.Commerce.Events;
+﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Pricing;
 using Kooboo.Commerce.Orders.Pricing.Stages;
-using Kooboo.Commerce.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +15,6 @@ namespace Kooboo.Commerce.Orders.Pricing
     public class PricingPipeline
     {
         private List<Type> _stageTypes;
-        private ITypeActivator _typeActivator = new DefaultTypeActivator();
-
-        public ITypeActivator TypeActivator
-        {
-            get
-            {
-                return _typeActivator;
-            }
-            set
-            {
-                _typeActivator = value;
-            }
-        }
 
         public PricingPipeline()
         {
@@ -51,7 +38,7 @@ namespace Kooboo.Commerce.Orders.Pricing
             {
                 Prepare(context);
 
-                var stages = _stageTypes.Select(type => (IPricingStage)_typeActivator.Activate(type)).ToList();
+                var stages = _stageTypes.Select(type => CreatePricingStage(type)).ToList();
 
                 Event.Raise(new PriceCalculationStarted(stages));
 
@@ -63,6 +50,11 @@ namespace Kooboo.Commerce.Orders.Pricing
 
                 Event.Raise(new PriceCalculationCompleted());
             }
+        }
+
+        private IPricingStage CreatePricingStage(Type stageType)
+        {
+            return (IPricingStage)EngineContext.Current.Resolve(stageType);
         }
 
         private void Prepare(PricingContext context)

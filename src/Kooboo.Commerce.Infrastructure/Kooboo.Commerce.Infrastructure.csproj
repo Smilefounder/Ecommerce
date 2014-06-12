@@ -222,7 +222,6 @@
     <Compile Include="Rules\RuleEngine.cs" />
     <Compile Include="Rules\StaticParameterValueSource.cs" />
     <Compile Include="Rules\TypeExtensions.cs" />
-    <Compile Include="Runtime\ITypeActivator.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Scope`.cs" />
     <Compile Include="Web\Http\TransactionalAttribute.cs" />
