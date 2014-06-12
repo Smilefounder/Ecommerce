@@ -1,0 +1,85 @@
+﻿@{
+    var productType = (ProductType)ViewBag.ProductType;
+    var controls = FormControls.Controls().ToList();
+}
+
+<div class="simple-table">
+    <div class="toolbar">
+        <a class="button" href="javascript:;" data-bind="click: $root.AddPrice">Add</a>
+        <span data-bind="visible: $root.AnyPriceSelected">
+            <a href="#" class="button" data-action="bulk-change-price">@("Change prices".Localize())</a>
+            <a href="#" class="button" data-bind="visible: $root.AnyUnpublishedPriceSelected, click: $root.PublishSelectedPrices">@("Publish".Localize())</a>
+            <a href="#" class="button" data-bind="visible: $root.AnyPublishedPriceSelected, click: $root.UnpublishSelectedPrices">@("Unpublish".Localize())</a>
+            <a href="#" class="button" data-bind="click: $root.DeleteSelectedPrices">@("Delete".Localize())</a>
+        </span>
+    </div>
+    <table class="variants-table">
+        <thead>
+            <tr>
+                <th class="checkbox mutiple">
+                    <div data-toggle="dropdown">
+                        <input type="checkbox" class="select-all-prices">
+                        @Html.IconImage("caret-down-black")
+                        <ul class="dropdown hide">
+                            <!-- ko foreach: $root.DistinctVariantValuesByFields -->
+                            <!-- ko foreach: Values -->
+                            <li>
+                                <a data-bind="text: $data, click: $root.SelectPricesByFieldValue.bind($data, $parent.Name)"></a>
+                            </li>
+                            <!-- /ko -->
+                            <!-- /ko -->
+                        </ul>
+                    </div>
+                </th>
+                <th>@("Sku".Localize())</th>
+                @foreach (var field in productType.VariationFields)
+                {
+                    <th>@field.CustomField.Label</th>
+                }
+                <th class="mini">@("Price".Localize())</th>
+                <th class="mini">@("Publish".Localize())</th>
+                <th class="action"></th>
+                <th class="action"></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: { data: $root.data().PriceList, afterRender: $root.InitVariantFieldControls }">
+            <tr data-bind="visible: !$root.IsEditingPrice($data), css: { active: Selected }">
+                <td class="checkbox">
+                    <input type="checkbox" class="select" data-bind="checked: Selected" />
+                </td>
+                <td data-bind="text:Sku"></td>
+                @foreach (var customField in productType.VariationFields)
+                {
+                    var field = customField.CustomField;
+                    <td data-bind="text: $root.GetVariantFieldText($data, @field.Id)"></td>
+                }
+                <td class="mini" data-bind="text:RetailPrice"></td>
+                <td class="mini" data-bind="text:IsPublished() ? 'YES' : '-' "></td>
+                <td><a data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit-small")</a></td>
+                <td><a data-bind="click: $root.DeletePrice" title="Delete">@Html.IconImage("minus-small")</a></td>
+            </tr>
+            <tr data-bind="visible: $root.IsEditingPrice($data)">
+                <td>
+                    <input type="checkbox" class="select" data-bind="checked: Selected" />
+                </td>
+                <td><input type="text" data-bind="value:Sku"></td>
+                @foreach (var customField in productType.VariationFields)
+                {
+                    var field = customField.CustomField;
+                    var control = controls.FirstOrDefault(c => c.Name == field.ControlType) ?? controls.First();
+
+                    <td>
+                        @control.Render(field, null, new
+                                       {
+                                           data_bind = control.ValueBindingName + ": $root.GetVariantFieldValue($data, " + field.Id + ")"
+                                       }, ViewContext)
+                    </td>
+                }
+                <td class="mini"><input type="text" data-bind="value:RetailPrice" class="mini"></td>
+                <td class="mini"><input type="checkbox" data-bind="checked:IsPublished"></td>
+                <td><a onclick="vm.EditingPrice(null);" title="Save">@Html.IconImage("save-small")</a></td>
+                <td><a data-bind="click: $root.DeletePrice" title="Cancel">@Html.IconImage("minus-small")</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

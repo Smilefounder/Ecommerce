@@ -230,4 +230,14 @@
         }
     };
 
+    kb.ui.unobtrusive.handlers.dropdown = {
+        init: function (element) {
+            $(element).on('click', function () {
+                var dropdown = $(this).data('dropdown');
+                var $dropdown = dropdown ? $(dropdown) : $(this).find('.dropdown');
+                $dropdown.toggle('fast');
+            });
+        }
+    };
+
 })(jQuery);

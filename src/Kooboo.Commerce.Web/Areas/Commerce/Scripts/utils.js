@@ -414,18 +414,14 @@ var utils = window.utils = {
             funcSuccess = data;
             data = null;
         }
-        $.ajax({
+        
+        var options = {
             url: url,
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(data),
             timeout: utils.ajaxTimeOut,
             contentType: 'application/json; charset=utf-8',
-            beforeSend: function (xhr) {
-                if (funcBeforeSend) {
-                    funcBeforeSend(xhr);
-                }
-            },
             success: function (data, status, xhr) {
                 if (funcSuccess) {
                     funcSuccess(data);
@@ -436,7 +432,17 @@ var utils = window.utils = {
                     funcError(error, url);
                 }
             }
-        });
+        };
+
+        if (funcBeforeSend) {
+            options.beforeSend = function (xhr) {
+                if (funcBeforeSend) {
+                    funcBeforeSend(xhr);
+                }
+            };
+        }
+
+        return $.ajax(options);
     },
     showMessage: function (title, msg, funcClose) {
         utils.postMessage("showmessage", { title: title, msg: msg }, window.top);

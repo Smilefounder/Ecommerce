@@ -331,7 +331,7 @@
 
                 //
                 this.showSelectionValueContents = ko.computed(function () {
-                    return 'DropDownList,CheckBoxList,RadioList'.indexOf(self.dataMap.ControlType()) > -1;
+                    return 'DropDownList,CheckBoxList,RadioList,'.indexOf(self.dataMap.ControlType() + ',') > -1;
                 });
             };
             var customFieldModel = new customFieldEditorModel();

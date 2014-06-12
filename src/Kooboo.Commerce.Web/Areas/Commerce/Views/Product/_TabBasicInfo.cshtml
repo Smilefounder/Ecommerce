@@ -1,0 +1,33 @@
+﻿@{
+    var productType = (ProductType)ViewBag.ProductType;
+}
+<div class="common-form">
+    <table>
+        <tbody>
+            <tr>
+                <th>@("Name".Localize())</th>
+                <td><input type="text" data-bind="value:Name" class="medium"></td>
+            </tr>
+            <tr>
+                <th>@("Brand".Localize())</th>
+                <td><select data-bind="options: $root.Brands, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: BrandId" class="medium"></select></td>
+            </tr>
+            <tr>
+                <th>@("Product Type".Localize())</th>
+                <td>@productType.Name</td>
+            </tr>
+            <tr>
+                <th>@("Created At".Localize())</th>
+                <td><span data-bind="format:CreatedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
+            </tr>
+            <tr>
+                <th>@("Is Published".Localize())</th>
+                <td><input type="checkbox" data-bind="checked: IsPublished" /></td>
+            </tr>
+            <tr>
+                <th>@("Published At".Localize())</th>
+                <td><span data-bind="format:PublishedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

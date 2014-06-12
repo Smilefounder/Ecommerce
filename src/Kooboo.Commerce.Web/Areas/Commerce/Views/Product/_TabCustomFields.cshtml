@@ -1,0 +1,35 @@
+﻿@{
+    var productType = (ProductType)ViewBag.ProductType;
+    var controls = FormControls.Controls().ToList();
+}
+
+<div class="common-form">
+    <table>
+        <tbody>
+            @foreach (var customField in productType.CustomFields)
+            {
+                var field = customField.CustomField;
+                var control = controls.FirstOrDefault(c => c.Name == field.ControlType);
+                if (control == null)
+                {
+                    control = controls.First();
+                }
+                <tr>
+                    <th>@field.Label</th>
+                    <td>
+                        @control.Render(field, null, new
+                                        {
+                                            @class = "medium",
+                                            style = "width:35%",
+                                            data_bind = control.ValueBindingName + ": $root.GetCustomFieldValue(" + field.Id + ")"
+                                        }, ViewContext)
+                        @if (!String.IsNullOrEmpty(field.Tooltip))
+                        {
+                            <em class="form-tip">@field.Tooltip</em>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

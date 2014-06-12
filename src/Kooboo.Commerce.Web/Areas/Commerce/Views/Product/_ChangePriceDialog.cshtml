@@ -1,0 +1,86 @@
+﻿<div id="change-price-dialog" style="display:none">
+    <div class="topbar">
+        <h1 class="title">@("Change Price".Localize())</h1>
+    </div>
+    <div class="wrap">
+        <form>
+            <label>@("New price".Localize())</label>
+            <p>
+                <input type="text" name="NewPrice"
+                       data-val="true"
+                       data-val-required="@("Required".Localize())"
+                       data-val-number="@("Please enter a number")" />
+            </p>
+            <span data-valmsg-for="NewPrice" data-valmsg-replace="true"></span>
+        </form>
+        <div class="buttons">
+            <a href="#" class="button" data-action="save">@("Save".Localize())</a>
+            <a href="#" class="button gray" data-action="cancel">@("Cancel".Localize())</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+
+        window.ChangePriceDialog = function () {
+
+            var self = this;
+            var $dialog = null;
+
+            self.onSave = function (newPrice) { };
+            
+            self.init = function () {
+                $dialog = $('#change-price-dialog').dialog({
+                    modal: true,
+                    autoOpen: false
+                });
+
+                $.validator.unobtrusive.reparse($dialog.find('form'));
+
+                $dialog.find('[data-action="save"]').click(self.save);
+                $dialog.find('[data-action="cancel"]').click(self.close);
+            }
+
+            self.newPrice = function (value) {
+                var $input = $dialog.find(':input[name="NewPrice"]');
+
+                if (arguments.length === 0) {
+                    return $input.val();
+                }
+
+                $input.val(value);
+            }
+
+            self.open = function () {
+                self.newPrice(null);
+                $dialog.dialog('open');
+            }
+
+            self.validate = function () {
+                return $dialog.find('form').valid();
+            }
+
+            self.save = function () {
+                if (!self.validate()) {
+                    return false;
+                }
+
+                self.onSave(self.newPrice());
+                self.close();
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+            }
+        }
+
+        var instacne = new ChangePriceDialog();
+        instacne.init();
+
+        window.ChangePriceDialog.instance = function () {
+            return instacne;
+        };
+
+    })(jQuery);
+</script>
