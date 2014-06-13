@@ -72,9 +72,101 @@
 		top: 0;
 		width: 400px;
 
-		.block {
-			margin: 20px 0;
+		.code-viewer {
+			.title {
+				font-size: 12px;
+				font-weight: 600;
+			}
 
+			.container {
+				background: #FFF;
+				border: 1px solid #CCC;
+				border-bottom: none;
+				padding: 10px;
+			}
+
+			li ul {
+				margin-left: 30px;
+			}
+
+			.code {
+				cursor: pointer;
+
+				&.active {
+					background: #39F;
+					color: #FFF;
+					.rounded(3px);
+				}
+			}
+
+			.bottom {
+				background: #F5F5F5;
+				border: 1px solid #CCC;
+
+				a {
+					display: inline-block;
+					line-height: 20px;
+					margin: 0 5px;
+					padding: 0 5px;
+
+					&:hover {
+						background: #DDD;
+					}
+
+					&.active {
+						background: #39F;
+						color: #FFF;
+					}
+				}
+			}
+		}
+
+		.settings {
+			background: #F6F6F6;
+			border-bottom: 1px solid #CCC;
+			border-top: 1px solid #CCC;
+			margin-bottom: 20px;
+			padding: 10px;
+
+			.item {
+				border-top: 1px solid #DDD;
+				margin-top: 10px;
+				padding-top: 10px;
+
+				&.convert {
+					p {
+						font-weight: 600;
+					}
+
+					.form-list.vertical li {
+						margin-bottom: 5px;
+
+						&:last-child {
+							margin: 0;
+						}
+					}
+				}
+			}
+
+			.buttons {
+				border-top: 1px solid #DDD;
+				margin-top: 10px;
+				overflow: hidden;
+				padding-top: 10px;
+
+				.button {
+					color: #FFF;
+					float: left;
+					margin-right: 20px;
+
+					&.gray {
+						color: #000;
+					}
+				}
+			}
+		}
+
+		.block {
 			.title {
 				cursor: pointer;
 				font-size: 18px;
@@ -89,6 +181,10 @@
 					left: 7px;
 					top: 10px;
 					.sprite(@chevron-right-black);
+				}
+
+				&:hover {
+					background: #F9F9F9;
 				}
 			}
 
@@ -115,160 +211,60 @@
 				}
 			}
 
-			&.text-setting {
-				.item {
-					background: #F9F9F9;
-					border-bottom: 1px solid #EEE;
-					border-top: 1px solid #EEE;
-					margin-bottom: 20px;
-					padding: 10px 20px;
-					position: relative;
-
-					> .action {
-						position: absolute;
-						right: 20px;
-						top: 10px;
-					}
-
-					.text {
-						cursor: pointer;
-						font-size: 14px;
-						font-weight: 600;
-						line-height: 16px;
-						margin: 0 30px 0 -20px;
-						overflow: hidden;
-						padding-left: 20px;
-						position: relative;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-
-						.sprite {
-							left: 6px;
-							position: absolute;
-							top: 7px;
-							.sprite(@chevron-down-gray);
-						}
-					}
-
-					&.minimized .text .sprite {
-						left: 7px;
-						top: 6px;
-						.sprite(@chevron-right-gray);
-					}
-				}
-
-				.type-selector {
-					border-bottom: 1px solid #DDD;
-					margin-bottom: 15px;
-				}
-
-				.label-editor {
-					border-bottom: 1px solid #DDD;
-					margin-bottom: 15px;
-					padding-bottom: 15px;
-
-					textarea {
-						min-height: 30px;
-					}
-				}
-
-				.data-editor {
-					border-bottom: 1px solid #DDD;
-					margin-bottom: 15px;
-					padding-bottom: 15px;
-
-					table {
-						width: 100%;
-
-						td {
-							padding: 0 5px 5px 0;
-
-							&.action {
-								padding: 0;
-								width: 16px;
-							}
-						}
-					}
-				}
-
-				.link-editor {
-
-					.form-row {
-						padding: 0;
-
-						> div {
-							margin-bottom: 5px;
-						}
-					}
-
-					label {
-						font-weight: 600;
-					}
-
-					.external-link {
-						margin-top: 5px;
-					}
-				}
-			}
-
-			&.text-list {
-				table {
-					width: 100%;
-
-					th {
-						font-weight: 600;
-						padding-bottom: 5px;
-					}
-
-					.mini {
-						padding-left: 5px;
-						text-align: center;
-						width: 10px;
-					}
-
-					td.action {
-						padding-left: 10px;
-						width: 10px;
-					}
-
-					input {
-						float: none;
-						margin: 0;
-					}
-				}
-			}
-
-			&.label-list {
+			&.list {
 				li {
-					margin-bottom: 10px;
-					padding-right: 38px;
-					position: relative;
-
-					.editable-field {
-						display: block;
-					}
-
-					.action {
-						position: absolute;
-						right: 0;
-						top: 0;
-					}
-				}
-			}
-
-			&.source-list {
-				.container {
-					background: #F9F9F9;
-					padding: 10px 20px;
-				}
-
-				li {
-					margin-bottom: 5px;
 					overflow: hidden;
+					padding: 5px 20px;
 
 					.action {
 						float: right;
 						margin-left: 5px;
+					}
+
+					span {
+						display: block;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+
+					&:hover {
+						background: #F5F5F5;
+					}
+				}
+			}
+
+			&.thumbnail {
+				.container {
+					padding: 20px;
+				}
+
+				li {
+					border: 2px solid transparent;
+					float: left;
+					height: 100px;
+					margin: 0 15px 15px 0;
+					overflow: hidden;
+					position: relative;
+					width: 100px;
+
+					&:nth-child(3n) {
+						margin-right: 0;
+					}
+
+					&:hover {
+						border-color: #DDD;
+					}
+
+					img {
+						display: block;
+					}
+
+					.action {
+						cursor: default;
+						position: absolute;
+						right: 0;
+						top: 0;
 					}
 				}
 			}
