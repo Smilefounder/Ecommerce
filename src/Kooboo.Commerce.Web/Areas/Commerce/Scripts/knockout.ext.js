@@ -50,6 +50,27 @@ ko.bindingHandlers.radiolist = {
     }
 };
 
+ko.bindingHandlers.tagbox = {
+    init: function (element, valueAccessor) {
+        var initValue = ko.utils.unwrapObservable(valueAccessor());
+        if (initValue && initValue.join) {
+            $(element).val(initValue.join(','));
+        } else {
+            $(element).val(initValue);
+        }
+
+        $(element).tagbox({
+            lowercase: false,
+            onAdd: function (tag, tags) {
+                valueAccessor()(tags);
+            },
+            onRemove: function (tag, tags) {
+                valueAccessor()(tags);
+            }
+        });
+    }
+};
+
 ko.bindingHandlers.time = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         //initialize datepicker with some optional options

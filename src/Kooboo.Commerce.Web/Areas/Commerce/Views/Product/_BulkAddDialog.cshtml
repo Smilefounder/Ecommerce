@@ -1,0 +1,102 @@
+﻿<div id="bulk-add-variant-dialog" style="display:none">
+    <div class="topbar">
+        <h1 class="title">@("Set Variant Values".Localize())</h1>
+    </div>
+    <div class="wrap">
+        <form class="common-form">
+            <div data-bind="foreach: fields">
+                <div class="form-row">
+                    <div class="span2">
+                        <span data-bind="text: name"></span>
+                    </div>
+                    <div class="span10">
+                        <input type="text"
+                               class="always-validate"
+                               data-bind="tagbox: values, attr: { name: 'BulkVariantFieldValues_' + $index() }"
+                               data-val="true"
+                               data-val-required="@("Required".Localize())" />
+                        <em class="tip">
+                            @("Enter any number of values separated by a tab".Localize())
+                        </em>
+                        <div>
+                            <span data-bind="attr: { 'data-valmsg-for': 'BulkVariantFieldValues_' + $index() }" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="buttons">
+            <a href="#" class="button" data-action="save">@("Save".Localize())</a>
+            <a href="#" class="button gray" data-action="cancel">@("Cancel".Localize())</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+
+        window.BulkAddDialog = function () {
+
+            var self = this;
+            var $dialog = null;
+
+            self.onSave = function () { };
+
+            self.model = {
+                fields: ko.observableArray()
+            };
+
+            self.init = function () {
+                $dialog = $('#bulk-add-variant-dialog').dialog({
+                    modal: true,
+                    autoOpen: false
+                });
+
+                $dialog.find('[data-action="save"]').click(self.save);
+                $dialog.find('[data-action="cancel"]').click(self.close);
+
+                ko.applyBindings(self.model, $dialog[0]);
+            }
+
+            self.open = function (fields) {
+                self.model.fields.removeAll();
+
+                $.each(fields, function () {
+                    self.model.fields.push({
+                        name: this.toString(),
+                        values: ko.observable()
+                    });
+                });
+
+                $.validator.unobtrusive.reparse($dialog.find('form'));
+
+                $dialog.dialog('open');
+            }
+
+            self.validate = function () {
+                return $dialog.find('form').valid();
+            }
+
+            self.save = function () {
+                if (!self.validate()) {
+                    return false;
+                }
+
+                self.onSave.apply(self, [ko.toJS(self.model.fields)]);
+                self.close();
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+            }
+        }
+
+        var instance = new BulkAddDialog();
+        instance.init();
+
+        BulkAddDialog.instance = function () {
+            return instance;
+        };
+
+    })(jQuery);
+</script>

@@ -432,6 +432,7 @@
     <Content Include="Areas\Commerce\Scripts\jquery.Jcrop.min.js" />
     <Content Include="Areas\Commerce\Scripts\jquery.validate.unobtrusive.ext.js" />
     <Content Include="Areas\Commerce\Scripts\Kooboo_CMS.js" />
+    <Content Include="Areas\Commerce\Scripts\tags.js" />
     <Content Include="Areas\Commerce\Scripts\upload.js" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-bold-webfont.svg" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-extrabold-webfont.svg" />
@@ -3493,6 +3494,7 @@
     <Content Include="Areas\Commerce\Views\Product\_TabPrices.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_TabCustomFields.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_TabBasicInfo.cshtml" />
+    <Content Include="Areas\Commerce\Views\Product\_BulkAddDialog.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

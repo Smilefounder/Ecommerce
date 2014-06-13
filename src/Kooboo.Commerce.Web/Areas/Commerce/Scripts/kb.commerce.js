@@ -119,6 +119,57 @@
         }
     };
 
+    var math = kb.registerNamespace('kb.math');
+
+    math.descartes = function (arrays) {
+        if (arrays.length === 0) {
+            return [];
+        }
+
+        if (arrays.length === 1) {
+            var result = [];
+            for (var i = 0, len = arrays[0].length; i < len; i++) {
+                result.push([arrays[0][i]]);
+            }
+
+            return result;
+        }
+
+        return computeDescartes(arrays, 0);
+    }
+
+    function computeDescartes(arrays, start) {
+        var result = [];
+
+        var array1 = arrays[start];
+        var array2 = null;
+
+        if (start === arrays.length - 2) {
+            array2 = arrays[start + 1];
+        } else {
+            array2 = computeDescartes(arrays, start + 1);
+        }
+
+        for (var i = 0, len1 = array1.length; i < len1; i++) {
+            for (var j = 0, len2 = array2.length; j < len2; j++) {
+                var array = [array1[i]];
+
+                // check if array2[j] is an array
+                if (array2[j].splice) {
+                    for (var k = 0, lenk = array2[j].length; k < lenk; k++) {
+                        array.push(array2[j][k]);
+                    }
+                } else {
+                    array.push(array2[j]);
+                }
+
+                result.push(array);
+            }
+        }
+
+        return result;
+    }
+
     function showError(error) {
         window.loading.hide();
         info.show(error.message, false);
@@ -199,7 +250,7 @@
 
             var instance = kb.utils.currentInstanceName();
             var handlerUrl = '/Areas/Commerce/Handlers/UploadHandler.ashx?owner=' + instance + '&path=';
-            
+
             $file.attr('data-url', handlerUrl);
             $file.fileupload({
                 add: function (e, data) {

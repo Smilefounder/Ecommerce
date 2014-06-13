@@ -1,4 +1,6 @@
-﻿$.validator.unobtrusive.reparse = function (selector) {
+﻿$.validator.defaults.ignore = ':hidden:not(.always-validate)';
+
+$.validator.unobtrusive.reparse = function (selector) {
     var $container = $(selector);
     if ($container.is('form')) {
         removeFormValidation($container);

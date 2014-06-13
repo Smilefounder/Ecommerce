@@ -1,5 +1,6 @@
 ﻿
 @Html.Partial("_ChangePriceDialog")
+@Html.Partial("_BulkAddDialog")
 
 <script type="text/javascript">
     utils.showMessage = function (title, message, level, funcClose) {
@@ -226,6 +227,15 @@
                     kb.ui.unobtrusive.initialize(elements);
                 }
 
+                self.GetAllVariantFieldNames = function () {
+                    var fields = [];
+                    $.each(self.ProductType().VariationFields(), function () {
+                        fields.push(this.CustomField().Name());
+                    });
+                    
+                    return fields;
+                }
+
                 self.GetVariantFieldText = function (price, fieldId) {
                     return self.GetVariantFieldValue(price, fieldId);
                 }
@@ -289,7 +299,10 @@
                             ProductId: ko.observable(self.data().Id()),
                             CustomFieldId: ko.observable(field.CustomFieldId()),
                             FieldText: ko.observable(),
-                            FieldValue: ko.observable()
+                            FieldValue: ko.observable(),
+                            CustomField: ko.observable({
+                                Name: ko.observable(field.CustomField().Name())
+                            })
                         });
                     });
 
@@ -301,8 +314,83 @@
                     self.data().PriceList.push(price);
                 };
 
+                // fieldValues format:
+                //     {
+                //         name: 'FieldName',
+                //         value: [Value1, Value2, Value3]
+                //     },
+                //     {
+                //          ...
+                //     }
+                self.AddPricesByPredefinedVariantFieldValues = function (fieldValues) {
+                    var arrays = [];
+
+                    $.each(fieldValues, function (i) {
+                        arrays.push([]);
+
+                        var name = this.name;
+                        $.each(this.values, function () {
+                            arrays[i].push({
+                                name: name,
+                                value: this.toString()
+                            });
+                        });
+                    });
+
+                    // compute all combinations
+                    var combinations = kb.math.descartes(arrays);
+                    var newPriceList = [];
+
+                    for (var i = 0, len = combinations.length; i < len; i++) {
+                        var combination = combinations[i];
+                        var price = findPrice(combination);
+                        if (!price) {
+                            price = self.NewPrice();
+                            // setup field values
+                            $.each(combination, function () {
+                                var fieldName = this.name;
+                                var fieldValue = this.value;
+                                var field = _.find(price.VariantValues(), function (f) {
+                                    return f.CustomField().Name() == fieldName;
+                                });
+                                field.FieldValue(fieldValue);
+                            });
+                        }
+
+                        newPriceList.push(price);
+                    }
+
+                    self.data().PriceList.removeAll();
+                    self.data().PriceList(newPriceList);
+
+                    self.ComputeDistinctVariantValuesByFields();
+
+                    function findPrice(combination) {
+                        return _.find(self.data().PriceList(), function (price) {
+                            var matched = true;
+
+                            $.each(combination, function () {
+                                var fieldName = this.name;
+                                var fieldValue = this.value;
+
+                                var hasThisField = _.any(price.VariantValues(), function (f) {
+                                    return f.CustomField().Name() == fieldName && f.FieldValue() == fieldValue;
+                                });
+
+                                if (!hasThisField) {
+                                    matched = false;
+                                    return false;
+                                }
+                            });
+
+                            return matched;
+                        });
+                    }
+                }
+
                 self.DeletePrice = function (item) {
                     self.data().PriceList.remove(item);
+                    self.ComputeDistinctVariantValuesByFields();
                 };
 
                 self.IsEditingPrice = function (item) {
@@ -408,7 +496,7 @@
                      viewModel: vm
                  });
 
-                 ko.applyBindings(vm);
+                 ko.applyBindings(vm, document.getElementById('product-edit-main'));
 
                  setTimeout(function () {
                      kb.ui.unobtrusive.initialize(document.body);
@@ -422,6 +510,8 @@
                          e.stopPropagation();
                      });
 
+                     // Bulk change prices dialog
+
                      ChangePriceDialog.instance().onSave = function (price) {
                          $.each(vm.data().PriceList(), function () {
                              if (this.Selected()) {
@@ -432,6 +522,17 @@
 
                      $('[data-action="bulk-change-price"]').on('click', function () {
                          ChangePriceDialog.instance().open();
+                         return false;
+                     });
+
+                     // Bulk set variant values dialog
+
+                     BulkAddDialog.instance().onSave = function (fields) {
+                         vm.AddPricesByPredefinedVariantFieldValues(fields);
+                     };
+
+                     $('[data-action="set-variant-values"]').on('click', function () {
+                         BulkAddDialog.instance().open(vm.GetAllVariantFieldNames());
                          return false;
                      });
 
