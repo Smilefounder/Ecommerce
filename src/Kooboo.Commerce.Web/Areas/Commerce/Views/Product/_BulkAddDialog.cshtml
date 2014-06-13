@@ -4,12 +4,12 @@
     </div>
     <div class="wrap">
         <form class="common-form">
-            <div data-bind="foreach: fields">
-                <div class="form-row">
-                    <div class="span2">
+            <table data-bind="foreach: fields">
+                <tr>
+                    <th>
                         <span data-bind="text: name"></span>
-                    </div>
-                    <div class="span10">
+                    </th>
+                    <td>
                         <input type="text"
                                class="always-validate"
                                data-bind="tagbox: values, attr: { name: 'BulkVariantFieldValues_' + $index() }"
@@ -21,13 +21,13 @@
                         <div>
                             <span data-bind="attr: { 'data-valmsg-for': 'BulkVariantFieldValues_' + $index() }" data-valmsg-replace="true"></span>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </td>
+                </tr>
+            </table>
         </form>
         <div class="buttons">
-            <a href="#" class="button" data-action="save">@("Save".Localize())</a>
-            <a href="#" class="button gray" data-action="cancel">@("Cancel".Localize())</a>
+            <a href="#" class="button gray right" data-action="cancel">@("Cancel".Localize())</a>
+            <a href="#" class="button right" data-action="save">@("Save".Localize())</a>
         </div>
     </div>
 </div>

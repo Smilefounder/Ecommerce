@@ -3,20 +3,26 @@
         <h1 class="title">@("Change Price".Localize())</h1>
     </div>
     <div class="wrap">
-        <form>
-            <label>@("New price".Localize())</label>
-            <p>
-                <input type="text" name="NewPrice"
-                       data-val="true"
-                       data-val-required="@("Required".Localize())"
-                       data-val-number="@("Please enter a number")" />
-            </p>
-            <span data-valmsg-for="NewPrice" data-valmsg-replace="true"></span>
-        </form>
-        <div class="buttons">
-            <a href="#" class="button" data-action="save">@("Save".Localize())</a>
-            <a href="#" class="button gray" data-action="cancel">@("Cancel".Localize())</a>
+        <div class="common-form">
+            <form>
+                <table>
+                    <tr>
+                        <th><label>@("New price:".Localize())</label></th>
+                        <td>
+                            <input type="text" name="NewPrice"
+                                   data-val="true"
+                                   data-val-required="@("Required".Localize())"
+                                   data-val-number="@("Please enter a number")" />
+                            <span data-valmsg-for="NewPrice" data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
+    </div>
+    <div class="buttons">
+        <a href="#" class="button gray right" data-action="cancel">@("Cancel".Localize())</a>
+        <a href="#" class="button right" data-action="save">@("Save".Localize())</a>
     </div>
 </div>
 
@@ -29,7 +35,7 @@
             var $dialog = null;
 
             self.onSave = function (newPrice) { };
-            
+
             self.init = function () {
                 $dialog = $('#change-price-dialog').dialog({
                     modal: true,

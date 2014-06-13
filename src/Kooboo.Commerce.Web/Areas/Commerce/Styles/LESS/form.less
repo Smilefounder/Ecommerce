@@ -68,6 +68,7 @@ textarea {
 	resize: vertical;
 
 	&.autoresize {
+		line-height: 16px;
 		min-height: 0;
 	}
 }
@@ -90,6 +91,15 @@ label {
 		cursor: pointer;
 		float: left;
 		line-height: 13px;
+	}
+}
+
+/* CodeMirror
+----------------------------------------------------------*/
+.CodeMirror {
+	.common-code-mirror & {
+		border: 1px solid #CCC;
+		height: 480px;
 	}
 }
 
@@ -311,36 +321,7 @@ div.radio {
 
 /* Select2
 ----------------------------------------------------------*/
-.select2 {
-	&.select2-container {
-		.select2-choice {
-			background: #FFF;
-			border-color: #CCC;
-			height: 28px;
-			line-height: 28px;
-			.rounded(0);
-
-			> .select2-chosen {
-				margin-right: 48px;
-			}
-
-			abbr {
-				right: 32px;
-			}
-
-			.select2-arrow {
-				background: #EEE;
-				border-left: 1px solid #CCC;
-				width: 28px;
-				.rounded(0);
-
-				b {
-					margin: 0 5px;
-					width: 18px;
-				}
-			}
-		}
-	}
+body .select2-container {
 
 	&.select2-container-multi {
 		.select2-choices {
@@ -391,9 +372,61 @@ div.radio {
 			}
 		}
 	}
+	/* Length */
+	&.small {
+		width: 20%;
+	}
+
+	&.medium {
+		width: 35%;
+	}
+
+	&.large {
+		width: 50%;
+	}
+
+	&.xlarge {
+		width: 65%;
+	}
+
+	&.xxlarge {
+		width: 80%;
+	}
+
+	&.huge {
+		width: 95%;
+	}
+
+	.select2-choice {
+		background: #FFF;
+		border-color: #CCC;
+		height: 28px;
+		line-height: 28px;
+		.rounded(0);
+
+		> .select2-chosen {
+			margin-right: 48px;
+		}
+
+		abbr {
+			right: 32px;
+		}
+
+		.select2-arrow {
+			background: #EEE;
+			border-left: 1px solid #CCC;
+			width: 28px;
+			.rounded(0);
+
+			b {
+				margin: 0 5px;
+				width: 18px;
+			}
+		}
+	}
 }
 
-.select2-drop-active {
+body .select2-drop-active {
 	border-color: #AAA;
 	margin: 0;
 	.rounded(0);
@@ -439,6 +472,11 @@ div.radio {
 				background: @blue;
 			}
 		}
+	}
+
+	input {
+		float: none !important;
+		margin: 0 !important;
 	}
 }
 
@@ -637,6 +675,152 @@ div.radio {
 		float: left;
 		margin-right: 10px;
 	}
+	/* Common form panel */
+	&.with-panel {
+		.CodeMirror {
+			bottom: 0;
+			height: auto !important;
+			left: 0;
+			overflow: hidden;
+			position: absolute;
+			right: 301px;
+			top: 0;
+		}
+
+		.panel {
+			border-left: 1px solid #CCC;
+			bottom: 0;
+			overflow-x: hidden;
+			overflow-y: scroll;
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 300px;
+
+			.block {
+				font-size: 12px;
+				margin: 20px 0;
+
+				&.plugins {
+					.actions {
+						padding: 5px 53px 5px 20px;
+						position: relative;
+
+						.action {
+							position: absolute;
+							right: 20px;
+							top: 5px;
+						}
+					}
+				}
+			}
+
+			.title {
+				cursor: pointer;
+				font-size: 18px;
+				font-weight: 300;
+				margin-bottom: 5px;
+				padding: 0 20px;
+				position: relative;
+
+				.sprite {
+					left: 7px;
+					position: absolute;
+					top: 11px;
+					.sprite(@chevron-right-gray);
+				}
+
+				&.active .sprite {
+					left: 6px;
+					top: 12px;
+					.sprite(@chevron-down-gray);
+				}
+			}
+
+			.container {
+				li {
+					line-height: 14px;
+					overflow: hidden;
+					padding: 5px 20px;
+
+					&:hover {
+						background: #F6F6F6;
+					}
+				}
+
+				.plugins {
+					li {
+						cursor: move;
+					}
+				}
+
+				.actions {
+					background: #F6F6F6;
+					padding: 5px 20px;
+					.clearfix();
+				}
+
+				.action {
+					float: right;
+					margin-left: 5px;
+				}
+
+				&.list {
+					li.has-sub {
+						background: none;
+						padding: 0;
+						position: relative;
+					}
+
+					span {
+						cursor: default;
+						display: block;
+						padding: 5px 20px;
+						position: relative;
+
+						.sprite {
+							left: 8px;
+							position: absolute;
+							top: 9px;
+							.sprite(@caret-hollow-right-gray);
+						}
+					}
+
+					.active > span .sprite {
+						.sprite(@caret-rightbottom-gray);
+					}
+
+					li ul {
+						display: none;
+					}
+					/* Level 2 */
+					ul ul li {
+						padding-left: 30px;
+					}
+
+					ul ul span {
+						padding-left: 30px;
+					}
+
+					ul ul .icon.arrow {
+						left: 18px;
+					}
+					/* Level 3 */
+					ul ul ul li {
+						padding-left: 40px;
+					}
+				}
+			}
+
+			input.editor {
+				padding: 0;
+			}
+
+			.icon.minus {
+				cursor: pointer;
+			}
+		}
+	}
 }
 
 /* Key value
@@ -802,118 +986,6 @@ div.radio {
 .input-validation-error {
 	color: #F00;
 	border-color: #F00 !important;
-}
-/* Panel */
-.common-form .panel .block {
-	font-size: 12px;
-	margin: 20px 0;
-}
-
-.common-form .panel .title {
-	cursor: pointer;
-	font-family: "Segoe UI Light", "Helvetica Neue", openSansLight, Arial, Helvetica, sans-serif;
-	font-size: 18px;
-	font-weight: normal;
-	margin-bottom: 5px !important;
-	padding: 0 20px;
-	position: relative;
-}
-
-	.common-form .panel .title .icon {
-		background-position: -18px -16px;
-		height: 8px;
-		left: 7px;
-		position: absolute;
-		top: 11px;
-		width: 6px;
-	}
-
-	.common-form .panel .title.active .icon {
-		background-position: -16px 0;
-		height: 6px;
-		left: 6px;
-		top: 12px;
-		width: 8px;
-	}
-
-.common-form .panel .container li {
-	line-height: 14px;
-	overflow: hidden;
-	padding: 5px 20px;
-}
-
-.common-form .panel .container .plugins li {
-	cursor: move;
-}
-
-.common-form .panel .container li:hover {
-	background: #F6F6F6;
-}
-
-.common-form .panel .container .actions {
-	background: #F6F6F6;
-	padding: 5px 20px;
-}
-
-.common-form .panel .container .action {
-	float: right;
-	margin-left: 5px;
-}
-
-.common-form .panel .container.list li.has-sub {
-	background: none;
-	padding: 0;
-	position: relative;
-}
-
-.common-form .panel .container.list span {
-	cursor: default;
-	display: block;
-	padding: 5px 20px;
-	position: relative;
-}
-
-.common-form .panel .container.list .icon.arrow {
-	background-position: -7px -6px;
-	height: 10px;
-	left: 8px;
-	position: absolute;
-	top: 9px;
-	width: 5px;
-}
-
-.common-form .panel .container.list .active > span .icon.arrow {
-	background-position: -19px -6px;
-	height: 6px;
-	width: 6px;
-}
-
-.common-form .panel .container.list li ul {
-	display: none;
-}
-
-.common-form .panel input.editor {
-	padding: 0;
-}
-
-.common-form .panel .icon.minus {
-	cursor: pointer;
-}
-/* Level 2 */
-.common-form .panel .container.list ul ul li {
-	padding-left: 30px;
-}
-
-.common-form .panel .container.list ul ul span {
-	padding-left: 30px;
-}
-
-.common-form .panel .container.list ul ul .icon.arrow {
-	left: 18px;
-}
-/* Level 3 */
-.common-form .panel .container.list ul ul ul li {
-	padding-left: 40px;
 }
 /* Designer */
 .common-form .designer .actions li {

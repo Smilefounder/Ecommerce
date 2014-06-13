@@ -4,7 +4,7 @@
 {
     @Html.ValidationSummary(true)
 
-    <div id="setting_tabs">
+    <div id="J_SettingTabs">
         <ul>
             <li>
                 <a href="#General">@("General".Localize())</a>
@@ -13,7 +13,7 @@
                 <a href="#Image">@("Image".Localize())</a>
             </li>
             <li>
-                <a href="#Product">@("Product".Localize())</a>
+                <a href="#PredefinedField">@("Predefined field".Localize())</a>
             </li>
         </ul>
         <div id="General">
@@ -136,7 +136,7 @@
                 </script>
             </div>
         </div>
-        <div id="Product">
+        <div id="PredefinedField">
             @{var gridViewData = new ViewDataDictionary();
             gridViewData.Add("CreateButtonText", "Create system field".Localize());
             gridViewData.Add("FieldType", 1);
@@ -146,8 +146,8 @@
     </div>
     <script type="text/javascript">
         $(function () {
-            $('#setting_tabs').tabs();
-            $('#Product').customFields({ data: @Html.Raw(Model.ProductSetting.SystemFields.ToJson(PropertyNaming.Default)), nameFmt: 'ProductSetting.SystemFields[{0}].{1}' });
+            $('#J_SettingTabs').tabs();
+            $('#PredefinedField').customFields({ data: @Html.Raw(Model.ProductSetting.SystemFields.ToJson(PropertyNaming.Default)), nameFmt: 'ProductSetting.SystemFields[{0}].{1}' });
         });
     </script>
 }
