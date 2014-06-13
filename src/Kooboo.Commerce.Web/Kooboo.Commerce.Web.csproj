@@ -294,6 +294,7 @@
     <Compile Include="Areas\Commerce\Common\Form\Validation\RequiredValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\StringLengthValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\ValidationExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\Initialization\CommerceInstanceInitializer.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
     <Compile Include="Areas\Commerce\Controllers\ActivityRuleController.cs" />
     <Compile Include="Areas\Commerce\Controllers\AddInManagementController.cs" />
@@ -395,10 +396,6 @@
     <Compile Include="Areas\Commerce\Models\Rules\ConditionModelCollectionExtensions.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConditionParameterModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConditionsModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Settings\ImageSetting.cs" />
-    <Compile Include="Areas\Commerce\Models\Settings\ImageSettingEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Settings\ImageSettingsHelper.cs" />
-    <Compile Include="Areas\Commerce\Models\Settings\ImageSizeEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ProductSettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\SettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\StoreSettingEditorModel.cs" />

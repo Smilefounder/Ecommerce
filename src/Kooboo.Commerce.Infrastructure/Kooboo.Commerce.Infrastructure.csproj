@@ -144,6 +144,7 @@
     <Compile Include="Data\ICommerceDbProvider.cs" />
     <Compile Include="Data\CommerceInstance.cs" />
     <Compile Include="Data\ICommerceInstanceMetadataStore.cs" />
+    <Compile Include="Data\Initialization\ICommerceInstanceInitializer.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\LinqDynamicExtension.cs" />
     <Compile Include="Data\QueryableExtensions.cs" />

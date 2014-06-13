@@ -28,126 +28,112 @@
             </div>
         </div>
         <div id="Image">
-            <div class="common-form">
-                <table id="image_setting_editor">
-                    <!--ko foreach:definedSizes-->
-                    <!--ko template: { name: 'image_size_editor_template' }--><!--/ko-->
-                    <!--/ko-->
-                    <!--ko foreach:customSizes-->
-                    <!--ko template: { name: 'image_size_editor_template' }--><!--/ko-->
-                    <!--/ko-->
-                    <tr>
-                        <th>
-                            <a class="action" data-bind="click:addRow">@Html.IconImage("plus")</a>
-                        </th>
-                        <td></td>
-                    </tr>
-                </table>
-                <div class="none">
-                    <script type="text/html" id="image_size_editor_template">
-                        <tr>
-                            <th>
-                                <input type="hidden" data-bind="attr:{name:$parent.attName($data,'IsSystemDefault')}, value:(IsSystemDefault()+'')" />
-                                <!--ko if:IsSystemDefault-->
-                                <input type="hidden" data-bind="attr:{name:$parent.attName($data,'Name')}, value:Name" />
-                                <label data-bind="text:Name"></label>
-                                <!--/ko-->
-                                <!--ko ifnot:IsSystemDefault-->
-                                <input type="text" data-val="true" data-val-required="The Name field is required." data-val-distinctname="The Name value is duplicated."
-                                       data-bind="attr:{name:$parent.attName($data,'Name'),'data-index':index}, value:Name">
-                                <!--/ko-->
-                            </th>
-                            <td>
-                                <div class="form-row">
-                                    <div class="span2">
-                                        <input type="text" defaultvalue="0" data-val="true" data-val-number="The field Width must be a number." data-val-required="The Width field is required."
-                                               data-bind="attr:{name:$parent.attName($data,'Width')}, value:Width" class="mini">
-                                        <span class="text">x</span>
-                                        <input type="text" defaultvalue="0" data-val="true" data-val-number="The field Height must be a number." data-val-required="The Height field is required."
-                                               data-bind="attr:{name:$parent.attName($data,'Height')}, value:Height" class="mini">
-                                    </div>
-                                    <div class="span2">
-                                        <div class="checkbox-field">
-                                            <input type="checkbox" value="true" data-bind="attr:{name:$parent.attName($data,'IsMultiple'),id:$parent.attId($data,'IsMultiple')}, checked:IsMultiple" />
-                                            <label class="inline" data-bind="attr:{'for':$parent.attId($data,'IsMultiple')}">@("IsMultiple".Localize())</label>
-                                        </div>
-                                    </div>
-                                    <div class="span2">
-                                        <div class="checkbox-field">
-                                            <input type="checkbox" value="true" data-bind="attr:{name:$parent.attName($data,'IsEnabled'),id:$parent.attId($data,'IsEnabled')}, checked:IsEnabled" />
-                                            <label class="inline" data-bind="attr:{'for':$parent.attId($data,'IsEnabled')}">@("IsEnabled".Localize())</label>
-                                        </div>
-                                    </div>
-                                    <div class="span6">
-                                        <!--ko ifnot:IsSystemDefault-->
-                                        <a class="action" data-bind="click:$parent.delRow">@Html.IconImage("minus")</a>
-                                        <!--/ko-->
-                                        <span class="field-validation-valid" data-valmsg-for="{ko}" data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for':$parent.attName($data,'Name')}"></span>
-                                        <span class="field-validation-valid" data-valmsg-for="{ko}" data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for':$parent.attName($data,'Width')}"></span>
-                                        <span class="field-validation-valid" data-valmsg-for="{ko}" data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for':$parent.attName($data,'Height')}"></span>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </script>
-                    <script type="text/javascript">
-                        var emptyImageSize = @Html.Raw(new ImageSizeEditorModel() { IsSystemDefault = false, IsEnabled = true }.ToJson(PropertyNaming.Default));
-                        var imageSettData = @Html.Raw(Model.ImageSetting.ToJson(PropertyNaming.Default));
-                        var updateSettingValidation = function(){
-                            var form = $('#setting_tabs').parents('form');
-                            form.removeData('validator').removeData('unobtrusiveValidation');
-                            $.validator.unobtrusive.parse(form);
-                        };
-                        // ko model
-                        var imageSettModel = function () {
-                            var self = this;
-                            $.each(imageSettData.CustomSizes, function (i) { this.index = i; });
-                            var mapped = ko.mapping.fromJS(imageSettData);
-                            //
-                            this.definedSizes = ko.observableArray([mapped.Thumbnail, mapped.Detail, mapped.List, mapped.Cart]);
-                            this.customSizes = mapped.CustomSizes;
-                            this.addRow = function () {
-                                var rawObj = emptyImageSize;
-                                rawObj.index = self.customSizes().length;
-                                self.customSizes.push(ko.mapping.fromJS(rawObj));
-                                //
-                                window.leaveConfirm.stop();
-                                updateSettingValidation();
-                            };
-                            this.delRow = function () {
-                                self.customSizes.remove(this);
-                                var sizes = self.customSizes();
-                                $.each(sizes, function (i) { this.index(i); });
-                                self.customSizes([]); self.customSizes(sizes);
-                                window.leaveConfirm.stop();
-                            };
-                            this.attId = function (item, field) {
-                                return self.attName(item, field).replace(/\.|\[|\]/ig, '_');
-                            };
-                            this.attName = function (item, field) {
-                                var txt = item.Name();
-                                if (item.index) { txt = 'CustomSizes[' + item.index() + ']'; }
-                                return 'ImageSetting.' + txt + '.' + field;
-                            };
-                        };
-                        var model = new imageSettModel();
-                        // validate
-                        $.validator.addMethod('distinctSizeName', function (value, element, param) {
-                            var index = $(element).data('index');
-                            var exist = false, equal = function (s1, s2) { if (s1 && s2) { return s1.toLowerCase() === s2.toLowerCase(); } };
-                            $.each(model.definedSizes(), function () { if (equal(value, this.Name())) { exist = true; } });
-                            $.each(model.customSizes(), function () { if (index != this.index() && equal(value, this.Name())) { exist = true; } });
-                            return !exist;
-                        });
-                        $.validator.unobtrusive.adapters.add('distinctName', ['value'], function (options) {
-                            options.rules['distinctSizeName'] = options.params;
-                            options.messages['distinctSizeName'] = options.message;
-                        });
-                        // apply
-                        ko.applyBindings(model, document.getElementById('image_setting_editor'));
-                        updateSettingValidation();
-                    </script>
+            <div class="common-form" id="image-settings">
+                <div data-bind="foreach: { data: Sizes, afterRender: UpdateValidation }">
+                    <div class="form-row">
+                        <div class="span2">
+                            <input type="text"
+                                   data-val="true"
+                                   data-val-required="@("Name is required".Localize())"
+                                   data-val-distinctsizename="@("Name is duplicated".Localize())"
+                                   data-bind="attr:{ name: 'ImageSettings.Sizes[' + $index() + '].Name' }, value: Name">
+                        </div>
+                        <div class="span2">
+                            <input type="text" defaultvalue="0"
+                                    data-val="true"
+                                    data-val-required="@("Width is required".Localize())"
+                                    data-val-digits="@("Width should be an integer".Localize())"
+                                    data-bind="attr:{ name: 'ImageSettings.Sizes[' + $index() + '].Width' }, value:Width" class="mini">
+                            <span class="text">x</span>
+                            <input type="text" defaultvalue="0"
+                                    data-val="true"
+                                    data-val-required="@("Height is required".Localize())"
+                                    data-val-digits="@("Height should be an integer".Localize())"
+                                    data-bind="attr:{ name: 'ImageSettings.Sizes[' + $index() + '].Height' }, value:Height" class="mini">
+                        </div>
+                        <div class="span2">
+                            <div class="checkbox-field">
+                                <input type="checkbox" value="true"
+                                        data-bind="attr:{ name: 'ImageSettings.Sizes[' + $index() + '].IsMultiple', id: 'ImageSettings_Sizes_' + $index() + '_IsMultiple' }, checked:IsMultiple" />
+                                <label class="inline" data-bind="attr:{'for': 'ImageSettings_Sizes_' + $index() + '_IsMultiple' }">@("IsMultiple".Localize())</label>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="checkbox-field">
+                                <input type="checkbox" value="true" data-bind="attr:{name: 'ImageSettings.Sizes[' + $index() + '].IsEnabled', id: 'ImageSettings.Sizes_' + $index() + '_IsEnabled' }, checked:IsEnabled" />
+                                <label class="inline" data-bind="attr:{'for': 'ImageSettings.Sizes_' + $index() + '_IsEnabled' }">@("IsEnabled".Localize())</label>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <a class="action" data-bind="click:$parent.RemoveImageSize">@Html.IconImage("minus")</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for': 'ImageSettings.Sizes[' + $index() + '].Name' }"></div>
+                        <div data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for': 'ImageSettings.Sizes[' + $index() + '].Width' }"></div>
+                        <div data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for': 'ImageSettings.Sizes[' + $index() + '].Height' }"></div>
+                    </div>
                 </div>
+                <div>
+                    <a class="action" data-bind="click: AddImageSize">@Html.IconImage("plus")</a>
+                </div>
+                <script>
+                    (function ($) {
+
+                        var data = @Html.Raw(Model.ImageSettings.ToJson(PropertyNaming.Default));
+
+                        var ImageSettingsModel = function () {
+                            var self = this;
+
+                            this.AddImageSize = function () {
+                                var size = {
+                                    Name: ko.observable(),
+                                    Width: ko.observable(),
+                                    Height: ko.observable(),
+                                    IsEnabled: ko.observable(true),
+                                    IsMultiple: ko.observable(false)
+                                };
+                                self.Sizes.push(size);
+                            };
+
+                            this.RemoveImageSize = function (size) {
+                                self.Sizes.remove(size);
+                            };
+
+                            this.UpdateValidation = function () {
+                                var $form = $('#image-settings').parents('form');
+                                $.validator.unobtrusive.reparse($form);
+                            }
+                        };
+
+                        // validate
+                        $.validator.addMethod('distinctsizename', function (value, element, param) {
+                            var set = {};
+                            var duplicate = false;
+
+                            $.each(model.Sizes(), function () {
+                                var name = (this.Name() || '').toLowerCase();
+                                if (set[name]) {
+                                    duplicate = true;
+                                    return false;
+                                } else {
+                                    set[name] = true;
+                                }
+                            });
+
+                            return !duplicate;
+                        });
+                        $.validator.unobtrusive.adapters.add('distinctsizename', ['value'], function (options) {
+                            options.rules['distinctsizename'] = options.params;
+                            options.messages['distinctsizename'] = options.message;
+                        });
+
+                        var model = ko.mapping.fromJS(data, {}, new ImageSettingsModel());
+                        // apply
+                        ko.applyBindings(model, document.getElementById('image-settings'));
+
+                    })(jQuery);
+                </script>
             </div>
         </div>
         <div id="Product">

@@ -12,7 +12,6 @@ using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.EAV.Services;
 using Kooboo.Commerce.EAV;
-using Kooboo.Commerce.ImageSizes.Services;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -20,16 +19,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     {
         private readonly ISettingService _settings;
         private readonly ICustomFieldService _customFieldService;
-        private readonly IImageSizeService _imageSizeService;
 
         public SettingController(
             ISettingService settings,
-            ICustomFieldService customFieldService,
-            IImageSizeService imageSizeService)
+            ICustomFieldService customFieldService)
         {
             _settings = settings;
             _customFieldService = customFieldService;
-            _imageSizeService = imageSizeService;
         }
 
         public ActionResult Index()
@@ -38,10 +34,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             var storeSettings = _settings.Get<StoreSettings>(StoreSettings.Key) ?? new StoreSettings();
             model.StoreSetting = new StoreSettingEditorModel(storeSettings);
-
-            var imageSettings = new ImageSettingsHelper(_imageSizeService).GetImageSetting();
-            model.ImageSetting = new ImageSettingEditorModel(imageSettings);
-
+            model.ImageSettings = _settings.Get<ImageSettings>(ImageSettings.Key) ?? new ImageSettings();
             model.ProductSetting = new ProductSettingEditorModel(_customFieldService.GetSystemFields());
 
             return View(model);
@@ -57,14 +50,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             _settings.Set(StoreSettings.Key, storeSettings);
-
-            var imageSettings = new ImageSetting();
-            if (model.ImageSetting != null)
-            {
-                model.ImageSetting.UpdateTo(imageSettings);
-            }
-
-            new ImageSettingsHelper(_imageSizeService).SetImageSetting(imageSettings);
+            _settings.Set(ImageSettings.Key, model.ImageSettings);
 
             if (model.ProductSetting != null)
             {

@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data.Events;
+using Kooboo.Commerce.Data.Initialization;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Dispatching;
 using System;
@@ -15,6 +16,9 @@ namespace Kooboo.Commerce.Data
     {
         private ICommerceInstanceMetadataStore _metadataStore;
         private ICommerceDbProviderFactory _dbProviderFactory;
+
+        [Inject]
+        public IEnumerable<ICommerceInstanceInitializer> InstanceInitializers { get; set; }
 
         public CommerceInstanceManager(
             ICommerceInstanceMetadataStore metadataStore,
@@ -57,6 +61,15 @@ namespace Kooboo.Commerce.Data
             _metadataStore.Create(metadata);
 
             Event.Raise(new CommerceInstanceCreated(metadata));
+
+            if (InstanceInitializers != null)
+            {
+                var instance = OpenInstance(metadata.Name);
+                foreach (var initializer in InstanceInitializers)
+                {
+                    initializer.Initialize(instance);
+                }
+            }
         }
 
         static void CreatePhysicalDatabaseIfNotExists(string connectionString)

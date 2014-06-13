@@ -18,34 +18,33 @@ using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.CMS.Common;
-using Kooboo.Commerce.ImageSizes.Services;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Settings;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-
     public class ProductController : CommerceControllerBase
     {
+        private ICommerceDatabase _db;
+        private ISettingService _settingService;
+        private IProductService _productService;
+        private IProductTypeService _productTypeService;
+        private IBrandService _brandService;
+        private ICategoryService _categoryService;
+        private IExtendedQueryManager _extendedQueryManager;
 
-        private readonly ICommerceDatabase _db;
-        private readonly IProductService _productService;
-        private readonly IImageSizeService _imageSizeService;
-        private readonly IProductTypeService _productTypeService;
-        private readonly IBrandService _brandService;
-        private readonly ICategoryService _categoryService;
-        private readonly IExtendedQueryManager _extendedQueryManager;
-
-        public ProductController(ICommerceDatabase db,
+        public ProductController(
+                ICommerceDatabase db,
+                ISettingService settingService,
                 IProductService productService,
-                IImageSizeService imageSizeService,
                 IProductTypeService productTypeService,
                 IBrandService brandService,
                 ICategoryService categoryService,
                 IExtendedQueryManager extendedQueryManager)
         {
             _db = db;
+            _settingService = settingService;
             _productService = productService;
-            _imageSizeService = imageSizeService;
             _productTypeService = productTypeService;
             _brandService = brandService;
             _categoryService = categoryService;
@@ -234,9 +233,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult GetImageTypes()
         {
-            var sizes = _imageSizeService.Query()
-                                         .Where(x => x.IsEnabled)
-                                         .ToList();
+            var settings = _settingService.Get<ImageSettings>(ImageSettings.Key) ?? new ImageSettings();
+            var sizes = settings.Sizes.Where(x => x.IsEnabled).ToList();
             return JsonNet(sizes);
         }
 

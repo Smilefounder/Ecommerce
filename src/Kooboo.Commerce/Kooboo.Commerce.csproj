@@ -158,8 +158,6 @@
     <Compile Include="Events\ShoppingCarts\IShoppingCartEvent.cs" />
     <Compile Include="Events\Orders\IOrderEvent.cs" />
     <Compile Include="IExtendedQueryManager.cs" />
-    <Compile Include="ImageSizes\Services\IImageSizeService.cs" />
-    <Compile Include="ImageSizes\Services\ImageSizeService.cs" />
     <Compile Include="Locations\Services\CountryService.cs" />
     <Compile Include="Locations\Services\ICountryService.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
@@ -202,6 +200,7 @@
     <Compile Include="Promotions\PromotionMatch.cs" />
     <Compile Include="Promotions\PromotionContext.cs" />
     <Compile Include="Promotions\PromotionSpecifications.cs" />
+    <Compile Include="Settings\ImageSettings.cs" />
     <Compile Include="Settings\Services\ISettingService.cs" />
     <Compile Include="Settings\Services\SettingService.cs" />
     <Compile Include="Products\Services\IProductService.cs" />
@@ -227,7 +226,7 @@
     <Compile Include="Locations\Country.cs" />
     <Compile Include="Customers\Customer.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
-    <Compile Include="ImageSizes\ImageSize.cs" />
+    <Compile Include="Settings\ImageSize.cs" />
     <Compile Include="Settings\KeyValueSetting.cs" />
     <Compile Include="Orders\Order.cs" />
     <Compile Include="Orders\OrderItem.cs" />

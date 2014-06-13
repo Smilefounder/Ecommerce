@@ -60,7 +60,6 @@
     <Compile Include="FieldValidationRuleMap.cs" />
     <Compile Include="HalRuleMap.cs" />
     <Compile Include="HalRuleResourceMap.cs" />
-    <Compile Include="ImageSizeMap.cs" />
     <Compile Include="KeyValueSettingMap.cs" />
     <Compile Include="OrderMap.cs" />
     <Compile Include="PaymentMap.cs" />

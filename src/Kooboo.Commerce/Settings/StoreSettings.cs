@@ -21,8 +21,6 @@ namespace Kooboo.Commerce.Settings
         /// <summary>
         /// The culture shown on your website. This is used to display currency, date, number and other culture related content.
         /// </summary>
-        /// // only value is stored in database. The culture should be generated from .NET list.
-        //public  IEnumerable<SelectListItem> Culture { get; set; }
         public string Culture { get; set; }
 
         /// <summary>

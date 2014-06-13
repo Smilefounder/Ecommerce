@@ -30,68 +30,44 @@ namespace Kooboo.Commerce.Settings.Services
                 category = DefaultCategory;
             }
 
-            string strValue = null;
-
-            if (value != null)
-            {
-                var valueType = value.GetType();
-                if (valueType.IsValueType || valueType == typeof(String))
-                {
-                    strValue = value.ToString();
-                }
-                else
-                {
-                    strValue = JsonConvert.SerializeObject(value);
-                }
-            }
-
             var entry = _repository.Get(key, category);
             if (entry != null)
             {
-                entry.Value = strValue;
+                entry.SetValue(value);
             }
             else
             {
-                entry = new KeyValueSetting(key, category)
-                {
-                    Value = strValue
-                };
+                entry = new KeyValueSetting(key, category);
+                entry.SetValue(value);
                 _repository.Insert(entry);
             }
         }
 
         public string Get(string key, string category = null)
         {
+            var item = FindEntry(key, category);
+            return item == null ? null : item.Value;
+        }
+
+        private KeyValueSetting FindEntry(string key, string category = null)
+        {
             if (String.IsNullOrEmpty(category))
             {
                 category = DefaultCategory;
             }
 
-            var item = _repository.Get(key, category);
-            return item == null ? null : item.Value;
+            return _repository.Get(key, category);
         }
 
         public T Get<T>(string key, string category = null)
         {
-            var value = Get(key, category);
-            var resultType = typeof(T);
-
-            if (resultType == typeof(string))
-            {
-                return (T)(object)value;
-            } 
-            
-            if (String.IsNullOrEmpty(value))
+            var entry = FindEntry(key, category);
+            if (entry == null)
             {
                 return default(T);
             }
 
-            if (resultType.IsValueType)
-            {
-                return (T)Convert.ChangeType(value, resultType);
-            }
-
-            return JsonConvert.DeserializeObject<T>(value);
+            return entry.GetValue<T>();
         }
 
         public IEnumerable<KeyValueSetting> GetByCategory(string category)
