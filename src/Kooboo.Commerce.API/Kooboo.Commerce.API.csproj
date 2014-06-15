@@ -93,14 +93,6 @@
     <Compile Include="Locations\Country.cs" />
     <Compile Include="Locations\ICountryAPI.cs" />
     <Compile Include="Locations\ICountryQuery.cs" />
-    <Compile Include="Metadata\FilterAttribute.cs" />
-    <Compile Include="Metadata\NotSupportOptionalIncludeAttribute.cs" />
-    <Compile Include="Metadata\Inflector.cs" />
-    <Compile Include="Metadata\NonFilterAttribute.cs" />
-    <Compile Include="Metadata\QueryAttribute.cs" />
-    <Compile Include="Metadata\QueryDescriptor.cs" />
-    <Compile Include="Metadata\QueryDescriptors.cs" />
-    <Compile Include="Metadata\QueryFilter.cs" />
     <Compile Include="Orders\IOrderAccess.cs" />
     <Compile Include="Orders\IOrderAPI.cs" />
     <Compile Include="Orders\IOrderQuery.cs" />

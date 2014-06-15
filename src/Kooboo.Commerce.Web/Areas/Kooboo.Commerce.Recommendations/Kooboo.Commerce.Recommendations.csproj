@@ -88,7 +88,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\RecommendationController.cs" />
     <Compile Include="Controllers\RecommendationController.cs" />
     <Compile Include="IProductRecommendationService.cs" />
     <Compile Include="Models\ProductRecommendationModel.cs" />
@@ -107,10 +106,6 @@
     <Content Include="Views\Recommendations.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\API\Kooboo.Commerce.API.Recommendations\Kooboo.Commerce.API.Recommendations.csproj">
-      <Project>{309480bb-84e8-4ad6-ad66-38a2d4cc6459}</Project>
-      <Name>Kooboo.Commerce.API.Recommendations</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>

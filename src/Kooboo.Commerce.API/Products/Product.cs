@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.API.Brands;
-using Kooboo.Commerce.API.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;

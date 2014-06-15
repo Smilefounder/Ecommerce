@@ -1,6 +1,6 @@
-﻿using Kooboo.Commerce.API.HAL;
-using Kooboo.Commerce.API.Metadata;
+﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.CMSIntegration.DataSources.Models;
+using Kooboo.Commerce.CMSIntegration.DataSources.Sources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +12,21 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Controllers
     [Authorize]
     public class CommerceDataSourceController : Controller
     {
-        private IResourceDescriptorProvider _descriptorProvider;
+        private IEnumerable<ICommerceSource> _sources;
 
-        public CommerceDataSourceController(IResourceDescriptorProvider descriptorProvider)
+        public CommerceDataSourceController(IEnumerable<ICommerceSource> sources)
         {
-            _descriptorProvider = descriptorProvider;
+            if (sources == null)
+                throw new ArgumentNullException("sources");
+
+            _sources = sources;
         }
 
-        public ActionResult Queries()
+        public ActionResult List()
         {
-            var descriptors = QueryDescriptors.Descriptors
-                                              .OrderBy(x => x.Name)
-                                              .Select(x => new QueryDescriptorModel(x))
-                                              .ToList();
+            var descriptors = _sources.OrderBy(x => x.Name)
+                                      .Select(x => new CommerceSourceModel(x))
+                                      .ToList();
             return Json(descriptors, JsonRequestBehavior.AllowGet);
         }
     }

@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.API.Metadata;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +9,6 @@ namespace Kooboo.Commerce.API.Categories
     /// category query
     /// all query filter should return self(this) to support fluent api.
     /// </summary>
-    [Query]
     public interface ICategoryQuery : ICommerceQuery<Category>
     {
         /// <summary>

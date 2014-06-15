@@ -1,6 +1,4 @@
-﻿using Kooboo.Commerce.API.Metadata;
-using Kooboo.Commerce.API.Recommendations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;

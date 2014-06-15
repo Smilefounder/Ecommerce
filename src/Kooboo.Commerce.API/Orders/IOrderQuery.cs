@@ -1,5 +1,4 @@
 ﻿using Kooboo.CMS.Membership.Models;
-using Kooboo.Commerce.API.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,6 @@ namespace Kooboo.Commerce.API.Orders
     /// order query
     /// all query filter should return self(this) to support fluent api.
     /// </summary>
-    [Query]
     public interface IOrderQuery : ICommerceQuery<Order>
     {
         /// <summary>

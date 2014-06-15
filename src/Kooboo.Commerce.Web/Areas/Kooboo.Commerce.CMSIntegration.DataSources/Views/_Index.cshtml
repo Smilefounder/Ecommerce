@@ -18,15 +18,15 @@
                     @("Source".Localize())
                 </th>
                 <td>
-                    <select name="DataSource.QueryName" data-bind="options: Queries, optionsText: 'Name', optionsValue: 'Name', value: DataSourceSetting.DataSource.QueryName"></select>
+                    <select name="DataSource.QueryName" data-bind="options: Sources, optionsText: 'Name', optionsValue: 'Name', value: DataSourceSetting.DataSource.QueryName"></select>
                 </td>
             </tr>
-            <tr data-bind="visible: SelectedQuery() && SelectedQuery().Filters().length > 0" style="display:none">
+            <tr data-bind="visible: SelectedSource() && SelectedSource().Filters().length > 0" style="display:none">
                 <th>
                     @("Filters".Localize())
                 </th>
                 <td>
-                    <div data-bind="foreach: DataSourceSetting.DataSource.QueryFilters" style="margin-bottom:10px">
+                    <div data-bind="foreach: DataSourceSetting.DataSource.Filters" style="margin-bottom:10px">
                         <div data-bind="visible: !IsEditing()">
                             <span data-bind="text: Name"></span>
                             <span style="color:#888;">
@@ -37,10 +37,10 @@
                                 <a href="#" data-bind="click: $root.RemoveFilter" style="display:inline-block">@Html.IconImage("minus small")</a>
                             </span>
 
-                            <input type="hidden" data-bind="attr: { name: 'DataSource.QueryFilters[' + $index() + '].Name' }, value: Name" />
+                            <input type="hidden" data-bind="attr: { name: 'DataSource.Filters[' + $index() + '].Name' }, value: Name" />
                             <!-- ko foreach: ParameterValues -->
-                            <input type="hidden" data-bind="attr: { name: 'DataSource.QueryFilters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterName' }, value: ParameterName" />
-                            <input type="hidden" data-bind="attr: { name: 'DataSource.QueryFilters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterValue' }, value: ParameterValue" />
+                            <input type="hidden" data-bind="attr: { name: 'DataSource.Filters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterName' }, value: ParameterName" />
+                            <input type="hidden" data-bind="attr: { name: 'DataSource.Filters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterValue' }, value: ParameterValue" />
                             <!-- /ko -->
                         </div>
                         <div data-bind="visible: IsEditing" style="margin-top:10px;padding:10px;background:#eee;">
@@ -131,7 +131,7 @@
                 </table>
             </div>
         </fieldset>
-        <fieldset data-bind="visible: SelectedQuery() && SelectedQuery().OptionalIncludablePaths().length > 0" style="display:none">
+        <fieldset data-bind="visible: SelectedSource() && SelectedSource().IncludablePaths().length > 0" style="display:none">
             <legend class="clickable">@Html.IconImage("arrow") @("Includes".Localize())</legend>
             <div style="padding-top:10px">
                 <table class="common-form">
@@ -143,7 +143,7 @@
                                     <input id="IncludeAll" name="IncludeAll" type="checkbox" data-bind="checked: $root.AllPathsIncluded, click: $root.ToggleIncludeAll" />
                                     <label class="inline" for="IncludeAll">@("All".Localize())</label>
                                 </div>
-                                <div data-bind="foreach: SelectedQuery().OptionalIncludablePaths">
+                                <div data-bind="foreach: SelectedSource().IncludablePaths">
                                     <div class="clearfix" style="padding-bottom:10px">
                                         <input type="checkbox" name="IncludablePaths" data-bind="attr: { id: 'IncludablePath_' + $index(), value: $data }, checked: $root.IsPathIncluded($data), disable: $root.IsPathDisabled($data), click: $root.TogglePathInclude" />
                                         <label class="inline" data-bind="text: $data, attr: { 'for': 'IncludablePath_' + $index() }"></label>

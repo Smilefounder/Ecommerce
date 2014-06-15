@@ -429,7 +429,7 @@
     <Content Include="Areas\Commerce\Scripts\jquery.Jcrop.min.js" />
     <Content Include="Areas\Commerce\Scripts\jquery.validate.unobtrusive.ext.js" />
     <Content Include="Areas\Commerce\Scripts\Kooboo_CMS.js" />
-    <Content Include="Areas\Commerce\Scripts\tags.js" />
+    <Content Include="Areas\Commerce\Scripts\tags.modified.js" />
     <Content Include="Areas\Commerce\Scripts\upload.js" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-bold-webfont.svg" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-extrabold-webfont.svg" />
