@@ -5,16 +5,18 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Products;
 
-namespace Kooboo.Commerce.EAV {
-
-    public class CustomField {
-
-        public CustomField() {
+namespace Kooboo.Commerce.EAV
+{
+    public class CustomField
+    {
+        public CustomField()
+        {
             FieldType = CustomFieldType.Custom;
             ValidationRules = new List<FieldValidationRule>();
         }
 
-        public void CopyTo(CustomField field) {
+        public void CopyTo(CustomField field)
+        {
             field.Name = this.Name;
             field.FieldType = this.FieldType;
             field.DataType = this.DataType;
@@ -32,10 +34,6 @@ namespace Kooboo.Commerce.EAV {
             field.IsEnabled = this.IsEnabled;
             field.SelectionItems = this.SelectionItems;
             field.CustomSettings = this.CustomSettings;
-        }
-
-        public CustomField DeepClone() {
-            return (CustomField)this.MemberwiseClone();
         }
 
         [Key]

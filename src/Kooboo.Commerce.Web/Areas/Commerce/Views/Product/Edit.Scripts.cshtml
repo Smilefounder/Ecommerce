@@ -1,4 +1,8 @@
-﻿@Html.Partial("_ChangePriceDialog")
+﻿@{
+    var productType = (ProductType)ViewBag.ProductType;
+}
+
+@Html.Partial("_ChangePriceDialog")
 @Html.Partial("_BulkAddDialog")
 
 <script type="text/javascript">
@@ -8,6 +12,14 @@
 
     var vm;
     $(function () {
+
+        var Metadata = {
+            ProductType: {
+                CustomFields: @(Html.Raw(productType.CustomFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson())),
+                VariationFields: @(Html.Raw(productType.VariationFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson()))
+            }
+        };
+
         vm = new ObjectModel({
             getQueryUrl: function (self) {
                 return '/Commerce/Product/Get?id=@(Request.QueryString["Id"])&productTypeId=@(Request.QueryString["productTypeId"])';
@@ -55,7 +67,6 @@
             },
             onInit: function (self) {
                 self.ImageTypes = ko.observableArray([]);
-                self.ProductType = ko.observable(null);
                 self.Brands = ko.observableArray([]);
                 self.Categories = ko.observableArray([]);
                 self.LoadingCategory = true;
@@ -203,14 +214,14 @@
 
                     // New fields might be created after product creation, so here need to ensure custom field always exists
                     if (!fieldValue) {
-                        var field = _.find(self.ProductType().CustomFields(), function (f) {
-                            return f.CustomFieldId() == fieldId;
+                        var field = _.find(Metadata.ProductType.CustomFields, function (f) {
+                            return f.Id == fieldId;
                         });
 
                         fieldValue = {
                             Id: ko.observable(),
                             ProductId: ko.observable(self.data().Id()),
-                            CustomFieldId: ko.observable(field.CustomFieldId()),
+                            CustomFieldId: ko.observable(field.Id),
                             FieldText: ko.observable(),
                             FieldValue: ko.observable()
                         };
@@ -227,8 +238,8 @@
 
                 self.GetAllVariantFieldNames = function () {
                     var fields = [];
-                    $.each(self.ProductType().VariationFields(), function () {
-                        fields.push(this.CustomField().Name());
+                    $.each(Metadata.ProductType.VariationFields, function () {
+                        fields.push(this.Name);
                     });
 
                     return fields;
@@ -245,14 +256,14 @@
 
                     // New fields might be created after product creation, so here need to ensure custom field always exists
                     if (!fieldValue) {
-                        var field = _.find(self.ProductType().VariationFields(), function (f) {
-                            return f.CustomFieldId() == fieldId;
+                        var field = _.find(Metadata.ProductType.VariationFields, function (f) {
+                            return f.Id == fieldId;
                         });
 
                         fieldValue = {
                             Id: ko.observable(),
                             ProductId: ko.observable(self.data().Id()),
-                            CustomFieldId: ko.observable(field.CustomFieldId()),
+                            CustomFieldId: ko.observable(field.Id),
                             FieldText: ko.observable(),
                             FieldValue: ko.observable()
                         };
@@ -291,15 +302,15 @@
                         Selected: ko.observable(false)
                     };
 
-                    $.each(self.ProductType().VariationFields(), function (i, field) {
+                    $.each(Metadata.ProductType.VariationFields, function (i, field) {
                         price.VariantValues.push({
                             Id: ko.observable(new Date().getTime()),
                             ProductId: ko.observable(self.data().Id()),
-                            CustomFieldId: ko.observable(field.CustomFieldId()),
+                            CustomFieldId: ko.observable(field.Id),
                             FieldText: ko.observable(),
                             FieldValue: ko.observable(),
                             CustomField: ko.observable({
-                                Name: ko.observable(field.CustomField().Name())
+                                Name: ko.observable(field.Name)
                             })
                         });
                     });
@@ -451,13 +462,6 @@
                     })
                 };
 
-                self.GetProductTypes = function (func) {
-                    return utils.getJson('/Commerce/Product/GetProductType?id=@(Request.QueryString["productTypeId"])', null, function (data) {
-                        ko.mapping.viewModel(data, self.ProductType);
-                        if (func) { func(); }
-                    })
-                };
-
                 self.GetBrands = function (func) {
                     return utils.getJson('/Commerce/Product/GetBrands', null, function (data) {
                         ko.mapping.viewModel(data, self.Brands);
@@ -488,7 +492,7 @@
 
             var time1 = new Date().getTime();
 
-            $.when(vm.GetImageTypes(), vm.GetProductTypes(), vm.GetBrands(), vm.GetCategories())
+            $.when(vm.GetImageTypes(), vm.GetBrands(), vm.GetCategories())
              .done(function () {
                  var time2 = new Date().getTime();
 
