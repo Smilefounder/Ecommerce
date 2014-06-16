@@ -1,4 +1,5 @@
-﻿using Kooboo.CMS.Common.Runtime;
+﻿using Kooboo.CMS.Common.Formula;
+using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.DataSource;
 using Kooboo.Commerce.CMSIntegration.DataSources.Sources;
@@ -100,27 +101,48 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
             return source.Execute(context);
         }
 
-        public bool HasAnyParameters()
+        public IDictionary<string, object> GetDefinitions(DataSourceContext dataSourceContext)
         {
-            foreach (var filter in Filters)
+            return new Dictionary<string, object>();
+        }
+
+        public IEnumerable<string> GetParameters()
+        {
+            var parser = new FormulaParser();
+            var parameters = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            if (!String.IsNullOrWhiteSpace(PageSize))
             {
-                if (filter.ParameterValues.Any(v => ParameterizedFieldValue.IsParameterizedField(v.ParameterValue)))
+                AddParameters(parameters, parser.GetParameters(PageSize));
+            }
+            if (!String.IsNullOrWhiteSpace(PageNumber))
+            {
+                AddParameters(parameters, parser.GetParameters(PageNumber));
+            }
+
+            if (Filters != null)
+            {
+                foreach (var filter in Filters)
                 {
-                    return true;
+                    foreach (var value in filter.ParameterValues)
+                    {
+                        if (!String.IsNullOrWhiteSpace(value.ParameterValue))
+                        {
+                            AddParameters(parameters, parser.GetParameters(value.ParameterValue));
+                        }
+                    }
                 }
             }
 
-            if (ParameterizedFieldValue.IsParameterizedField(PageSize))
-            {
-                return true;
-            }
+            return parameters;
+        }
 
-            if (ParameterizedFieldValue.IsParameterizedField(PageNumber))
+        private void AddParameters(HashSet<string> set, IEnumerable<string> parameters)
+        {
+            foreach (var param in parameters)
             {
-                return true;
+                set.Add(param);
             }
-
-            return false;
         }
     }
 }

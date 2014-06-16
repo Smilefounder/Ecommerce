@@ -1,0 +1,175 @@
+/* Editor
+----------------------------------------------------------*/
+.block.editor {
+	.tal-editor {
+		bottom: 0;
+		left: 0;
+		overflow: hidden;
+		position: absolute;
+		right: 401px;
+		top: 0;
+
+		.tabs {
+			bottom: 0;
+			left: 0;
+			overflow: hidden;
+			position: absolute;
+			right: 0;
+			top: 0;
+
+			.tab-content {
+				margin: 0;
+				bottom: 36px;
+				left: 0;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+
+			.tab-index {
+				background: #F5F5F5;
+				border-color: #DDD;
+				bottom: 0;
+				left: 0;
+				padding: 0 10px 5px;
+				position: absolute;
+				right: 0;
+
+				a {
+					background: #FFF;
+					height: 30px;
+					line-height: 30px;
+
+					&:hover {
+						background: #DDD;
+						border-color: #DDD;
+					}
+				}
+
+				.active a {
+					background: #5EA8DE;
+				}
+			}
+		}
+
+		iframe {
+			border: none;
+			height: 100%;
+			padding: 10px;
+			width: 100%;
+			.box-sizing(border-box);
+		}
+
+		.CodeMirror-wrap {
+			bottom: 0 !important;
+			position: absolute !important;
+			right: 0 !important;
+			top: 0 !important;
+		}
+	}
+
+	.tal-panel {
+		border-left: 1px solid #DDD;
+		bottom: 0;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		padding-top: 10px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 400px;
+
+		.tab-index {
+			padding: 0 10px;
+		}
+
+		.block {
+			.title {
+				cursor: pointer;
+				font-size: 18px;
+				font-weight: 400;
+				line-height: 28px;
+				margin-bottom: 5px;
+				padding: 0 20px;
+				position: relative;
+
+				.sprite {
+					position: absolute;
+					left: 7px;
+					top: 10px;
+				}
+
+				&:hover {
+					background: #F9F9F9;
+				}
+			}
+
+			.container {
+				display: none;
+
+				.empty {
+					background: #F9F9F9;
+					color: #333;
+					font-style: italic;
+					padding: 5px 20px;
+				}
+			}
+
+			&.active {
+				.title .sprite {
+					left: 6px;
+					top: 11px;
+				}
+
+				.container {
+					display: block;
+				}
+			}
+
+			&.list {
+				li {
+					overflow: hidden;
+					padding: 5px 20px;
+
+					.action {
+						float: right;
+						margin-left: 5px;
+					}
+
+					span {
+						display: block;
+						line-height: 16px;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+
+					li {
+						background: url(images/line.png) no-repeat 6px -35px;
+						padding: 0 0 0 20px;
+
+						&:last-child {
+							background: url(images/line-end.png) no-repeat 6px -11px;
+						}
+
+						span {
+							background: #FFF;
+						}
+					}
+
+					&:hover {
+						background-color: #F5F5F5;
+
+						span {
+							background-color: #F5F5F5;
+						}
+					}
+				}
+
+				.actions {
+					padding: 5px 20px;
+				}
+			}
+		}
+	}
+}
