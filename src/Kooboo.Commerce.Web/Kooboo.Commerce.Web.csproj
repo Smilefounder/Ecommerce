@@ -3509,6 +3509,8 @@
     <Content Include="Areas\Sites\Views\View\_TaskPanel.cshtml" />
     <Content Include="Areas\Sites\Views\View\_ViewDefaultEditor.cshtml" />
     <Content Include="Areas\Sites\Views\View\_ViewEditor.cshtml" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_accessories\setting.config" />
+    <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_accessories\template.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

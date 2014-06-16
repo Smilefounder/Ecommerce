@@ -6,7 +6,7 @@
 <div id="recommendations-holder">
     <div id="alsoBought" style="font-size: 12px;">
         <div class="title">
-            Recommendations
+            Klanten van dit product kochten ook:
         </div>
         <div class="item">
             <div id="pro" style="margin: 0; font-size: 11px;">
@@ -15,7 +15,7 @@
                     foreach (var item in recommendations)
                     {
                         var image = item.GetImage("List");
-                        var price = item.PriceList.Length > 0 ? item.PriceList[0] : null;
+                        var price = item.PriceList.OrderBy(x => x.RetialPrice).FirstOrDefault();
                         
                         <div style="width: 152px;">
                             <div class="productpicture">
@@ -38,7 +38,7 @@
                             <div class="Price">
                                 <a class="GreyLink" href="/product/@item.Id" rel="nofollow">
                                     <span class="Price_normal">
-                                        € @price.FinalRetailPrice
+                                        € @price.FinalRetialPrice
                                     </span>
                                 </a>
                             </div>

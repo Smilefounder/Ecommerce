@@ -119,6 +119,11 @@ namespace Kooboo.Commerce.Products
             }
         }
 
+        public virtual ProductImage GetImage(string size)
+        {
+            return Images.FirstOrDefault(i => i.ImageSizeName == size);
+        }
+
         public virtual void UpdateImages(IEnumerable<ProductImage> images)
         {
             var newImageList = images.ToList();

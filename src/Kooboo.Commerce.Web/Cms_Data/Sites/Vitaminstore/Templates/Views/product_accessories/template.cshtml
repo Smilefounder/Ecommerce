@@ -1,22 +1,22 @@
-﻿@{
-    var product = ViewBag.Product;
-    var recommendations = product == null ? null : product.Recommendations;
-} 
+﻿ @{
+     var product = ViewBag.Product;
+     var accessories = product == null ? null : product.Accessories;
+}
 
 <div id="recommendations-holder">
     <div id="alsoBought" style="font-size: 12px;">
         <div class="title">
-            Recommendations
+            Accessories
         </div>
         <div class="item">
             <div id="pro" style="margin: 0; font-size: 11px;">
-                @if (recommendations != null)
+                @if (accessories != null)
                 {
-                    foreach (var item in recommendations)
+                    foreach (var item in accessories)
                     {
                         var image = item.GetImage("List");
                         var price = item.PriceList.Length > 0 ? item.PriceList[0] : null;
-                        
+
                         <div style="width: 152px;">
                             <div class="productpicture">
                                 <a href="/product/@item.Id">
@@ -34,14 +34,15 @@
                             <div style="float: left; width: 60px;">
                                 <ul class="star-rating"><li class="current-rating" style="width:40px"></li></ul>
                             </div>
-                            @if (price != null) { 
-                            <div class="Price">
-                                <a class="GreyLink" href="/product/@item.Id" rel="nofollow">
-                                    <span class="Price_normal">
-                                        € @price.FinalRetailPrice
-                                    </span>
-                                </a>
-                            </div>
+                            @if (price != null)
+                            {
+                                <div class="Price">
+                                    <a class="GreyLink" href="/product/@item.Id" rel="nofollow">
+                                        <span class="Price_normal">
+                                            € @price.FinalRetailPrice
+                                        </span>
+                                    </a>
+                                </div>
                             }
                         </div>
                     }

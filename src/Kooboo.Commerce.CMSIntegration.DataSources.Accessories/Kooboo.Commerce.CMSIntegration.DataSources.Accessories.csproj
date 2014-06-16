@@ -50,6 +50,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
+      <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
+      <Name>Kooboo.Commerce.API.LocalProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
+      <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
+      <Name>Kooboo.Commerce.API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
       <Name>Kooboo.Commerce.Infrastructure</Name>

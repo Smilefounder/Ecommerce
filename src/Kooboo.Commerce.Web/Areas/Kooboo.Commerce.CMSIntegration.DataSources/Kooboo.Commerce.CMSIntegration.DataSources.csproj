@@ -84,7 +84,7 @@
     <Compile Include="ModuleAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataSourceFilterParameterValue.cs" />
-    <Compile Include="QueryType.cs" />
+    <Compile Include="TakeOperation.cs" />
     <Compile Include="SiteExtensions.cs" />
     <Compile Include="Sources\ApiQueryDescriptor.cs" />
     <Compile Include="Sources\BrandSource.cs" />
@@ -99,7 +99,7 @@
     <Compile Include="Sources\PaymentMethodSource.cs" />
     <Compile Include="Sources\ProductSource.cs" />
     <Compile Include="Sources\ShoppingCartSource.cs" />
-    <Compile Include="Sources\SortDirection.cs" />
+    <Compile Include="SortDirection.cs" />
     <Compile Include="Sources\SourceFilter.cs" />
     <Compile Include="Sources\SourceFilterDefinition.cs" />
     <Compile Include="Strings.cs" />

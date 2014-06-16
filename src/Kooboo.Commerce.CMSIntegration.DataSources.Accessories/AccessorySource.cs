@@ -91,12 +91,41 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
             using (var scope = Scope.Begin(instance))
             {
                 var accessories = ProductAccessoryService().GetAccessories((int)productId);
-                var accessoryIds = accessories.Select(x => x.ProductId).ToArray();
-                var products = ProductService().Query()
-                                               .Where(x => accessoryIds.Contains(x.Id))
-                                               .ToList();
+                if (!String.IsNullOrEmpty(context.SortField) && context.SortField == "Rank")
+                {
+                    if (context.SortDirection == SortDirection.Asc)
+                    {
+                        accessories = accessories.OrderBy(r => r.Rank).ToList();
+                    }
+                    else
+                    {
+                        accessories = accessories.OrderByDescending(r => r.Rank).ToList();
+                    }
+                }
 
-                return products;
+                if (context.Top != null)
+                {
+                    accessories = accessories.Take(context.Top.Value).ToList();
+                } 
+                
+                var accessoryIds = accessories.Select(x => x.ProductId).ToArray();
+
+                var result = new List<Kooboo.Commerce.API.Products.Product>();
+                foreach (var id in accessoryIds)
+                {
+                    var model = EngineContext.Current.Resolve<Kooboo.Commerce.API.Products.IProductAPI>()
+                                           .ById(id)
+                                           .Include("PriceList")
+                                           .Include("Images")
+                                           .Include("Brand")
+                                           .FirstOrDefault();
+                    if (model != null)
+                    {
+                        result.Add(model);
+                    }
+                }
+
+                return result;
             }
         }
     }

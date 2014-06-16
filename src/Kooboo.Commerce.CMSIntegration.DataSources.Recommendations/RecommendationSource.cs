@@ -2,6 +2,7 @@
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.CMSIntegration.DataSources.Sources;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Recommendations;
 using System;
@@ -40,7 +41,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
         {
             get
             {
-                return null;
+                yield return "Rank";
             }
         }
 
@@ -81,7 +82,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
                 return null;
             }
 
-             var instanceName = context.DataSourceContext.Site.CommerceInstanceName();
+            var instanceName = context.DataSourceContext.Site.CommerceInstanceName();
 
             if (String.IsNullOrWhiteSpace(instanceName))
                 throw new InvalidOperationException("Commerce instance name is not configured in CMS.");
@@ -90,12 +91,41 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             using (var scope = Scope.Begin(instance))
             {
                 var recommendations = ProductRecommendationService().GetRecommendations((int)productId);
-                var productIds = recommendations.Select(x => x.ProductId).ToArray();
-                var products = ProductService().Query()
-                                               .Where(x => productIds.Contains(x.Id))
-                                               .ToList();
+                if (!String.IsNullOrEmpty(context.SortField) && context.SortField == "Rank")
+                {
+                    if (context.SortDirection == SortDirection.Asc)
+                    {
+                        recommendations = recommendations.OrderBy(r => r.Rank).ToList();
+                    }
+                    else
+                    {
+                        recommendations = recommendations.OrderByDescending(r => r.Rank).ToList();
+                    }
+                }
 
-                return products;
+                if (context.Top != null)
+                {
+                    recommendations = recommendations.Take(context.Top.Value).ToList();
+                }
+
+                var productIds = recommendations.Select(x => x.ProductId).ToArray();
+
+                var result = new List<Kooboo.Commerce.API.Products.Product>();
+                foreach (var id in productIds)
+                {
+                    var model = EngineContext.Current.Resolve<Kooboo.Commerce.API.Products.IProductAPI>()
+                                           .ById(id)
+                                           .Include("PriceList")
+                                           .Include("Images")
+                                           .Include("Brand")
+                                           .FirstOrDefault();
+                    if (model != null)
+                    {
+                        result.Add(model);
+                    }
+                }
+
+                return result;
             }
         }
     }

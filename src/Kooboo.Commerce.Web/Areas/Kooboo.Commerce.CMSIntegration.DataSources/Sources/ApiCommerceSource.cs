@@ -81,7 +81,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             }
 
             // Executing result
-            if (context.QueryType == Kooboo.Commerce.CMSIntegration.DataSources.QueryType.List)
+            if (context.TakeOperation == Kooboo.Commerce.CMSIntegration.DataSources.TakeOperation.List)
             {
                 if (context.EnablePaging)
                 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
+namespace Kooboo.Commerce.CMSIntegration.DataSources
 {
     public enum SortDirection
     {

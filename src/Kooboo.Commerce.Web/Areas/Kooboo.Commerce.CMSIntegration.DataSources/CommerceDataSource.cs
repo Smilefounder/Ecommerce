@@ -14,17 +14,29 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
     [KnownType(typeof(CommerceDataSource))]
     public class CommerceDataSource : IDataSource
     {
+        /// <summary>
+        /// Name of the commerce source.
+        /// </summary>
         [DataMember]
-        public string QueryName { get; set; }
+        public string SourceName { get; set; }
 
         [DataMember]
-        public QueryType QueryType { get; set; }
+        public TakeOperation TakeOperation { get; set; }
 
         [DataMember]
         public List<DataSourceFilter> Filters { get; set; }
 
         [DataMember]
         public List<string> Includes { get; set; }
+
+        [DataMember]
+        public string Top { get; set; }
+
+        [DataMember]
+        public string SortField { get; set; }
+
+        [DataMember]
+        public SortDirection SortDirection { get; set; }
 
         [DataMember]
         public bool EnablePaging { get; set; }
@@ -43,10 +55,12 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
 
         public object Execute(DataSourceContext dataSourceContext)
         {
-            var source = EngineContext.Current.Resolve<ICommerceSource>(QueryName);
+            var source = EngineContext.Current.Resolve<ICommerceSource>(SourceName);
             var context = new CommerceSourceContext(dataSourceContext)
             {
-                QueryType = QueryType
+                TakeOperation = TakeOperation,
+                SortField = SortField,
+                SortDirection = SortDirection
             };
 
             // Filters
@@ -89,6 +103,16 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
                 if (!String.IsNullOrEmpty(pageNumber))
                 {
                     context.PageNumber = Convert.ToInt32(pageNumber);
+                }
+            }
+
+            // Top
+            if (!String.IsNullOrWhiteSpace(Top))
+            {
+                var top = ParameterizedFieldValue.GetFieldValue(Top, dataSourceContext.ValueProvider);
+                if (!String.IsNullOrWhiteSpace(top))
+                {
+                    context.Top = Convert.ToInt32(top);
                 }
             }
 
