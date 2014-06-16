@@ -4,7 +4,7 @@
 
 Kooboo Commerce中的事件由普通CLR对象定义，事件对象即事件消息裁体，类似于`EventArgs`。
 
-自定义事件可从`Kooboo.Commerce.Events.Event`类继承，如果一个事件和业务逻辑相关，则应从`Kooboo.Commerce.Events.DomainEvent`类继承，以清晰的表示其为领域事件(`Activity`只能绑定到领域事件中)。
+自定义事件可从`Kooboo.Commerce.Events.Event`类继承，如果一个事件和业务逻辑相关，则应从`Kooboo.Commerce.Events.BusinessEvent`类继承，以清晰的表示其为业务事件(`Activity`只能绑定到业务事件中)。
 
 ```csharp
 
@@ -15,7 +15,7 @@ Kooboo Commerce中的事件由普通CLR对象定义，事件对象即事件消�
 
 ```
 
-领域事件类的名称本身是业务语言的一部分，应能表达业务信息。事件名称以过去式命名，因为事件都是表示已经发生的事情。
+业务事件类的名称本身是业务语言的一部分，应能表达业务信息。事件名称以过去式命名，因为事件都是表示已经发生的事情。
 
 事件类可能被序列化，因此不能在事件类中直接嵌入复杂对象，尤其有循环引用的对象。
 
@@ -66,7 +66,7 @@ Kooboo Commerce中的事件由普通CLR对象定义，事件对象即事件消�
 
 ```csharp
 
-    public abstract class OrderEvent : DomainEvent { }
+    public abstract class OrderEvent : BusinessEvent { }
 
 	public class OrderCreated : OrderEvent { }
 
@@ -108,31 +108,3 @@ Kooboo Commerce中的事件由普通CLR对象定义，事件对象即事件消�
 	}
 
 ```
-
-## 特殊事件 ##
-
-实体的创建、删除以及更新是比较常见的事件，因此这三类事件被特殊处理，如果一个实体需要创建事件，除了用标准的方法在实体保存的地方触发相应事件外，还可以实现`Kooboo.Commerce.ComponentModel.INotifyCreated`接口，例如:
-
-```csharp
-
-	public class Order : INotifyCreated 
-	{
-		void INotifyCreated.NotifyCreated()
-		{
-			Event.Raise(new OrderCreated(this));
-		}
-	}
-
-```
-
-若实体实现了`INotifyCreated`，则在保存到Repository时其`NotifyCreated`方法会被自动调用，进而触发`OrderCreated`事件。
-
-不使用通用的`EntityCreated`事件是因为`EntityCreated`太过于技术化，命名没有业务价值，也不方便Activity的绑定。
-
-为了不污染实体，建议在实体中显式实现`INotifyCreated`。
-
-类似的，实体还可以实现`INotifyUpdated`, `INotifyDeleting` 以及 `INotifyDeleted`。
-
-不建议过多使用后三者，尤其`INotifyUpdated`，应该尽量使用更具业务含义的操作，用更具业务含义的操作也会使其它模块的开发变得更加简单，例如，如果Activity订阅到了`OrderUpdated`事件，那它仍然无法下手，因为Update有太多可能，例如Update可能是因为地址变更，也可能是因为订单状态变更，等。而如果Activity订阅到的是`BillingAddressChanged`，或`OrderStatusChanged`，则Activity的开发会相对更容易一些。
-
-需要注意的是，子集成对象添加和删除并不会导致上面所述的这些事件的触发，子集合对象的添加和删除若需要触发事件，应在其父对象中用相应的业务方法进行体现。若对应DDD中的聚合模式，则可以认为，`INotifyXXX`接口仅作用于聚合根。
