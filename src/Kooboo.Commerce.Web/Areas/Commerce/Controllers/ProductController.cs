@@ -248,9 +248,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult GetBrands()
         {
+            var brands = _brandService.Query().Select(b => new
+            {
+                b.Id,
+                b.Name
+            });
 
-            var objs = _brandService.Query();
-            return JsonNet(objs);
+            return JsonNet(brands);
         }
 
         [HttpGet]

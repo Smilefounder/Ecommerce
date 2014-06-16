@@ -21,7 +21,6 @@
                 $.each(self.data().Categories().select(function (o) { return o.CategoryId(); }), function (i, n) { self.SelectedCategories.push(n.toString()); });
                 self.LoadingCategory = false;
                 $('#J_ProductTabs').tabs();
-                $('#category_tree li.tree-node').treeNode();
                 InitUpload();
 
                 self.ComputeDistinctVariantValuesByFields();
@@ -487,16 +486,31 @@
         setTimeout(function () {
             window.loading.show();
 
+            var time1 = new Date().getTime();
+
             $.when(vm.GetImageTypes(), vm.GetProductTypes(), vm.GetBrands(), vm.GetCategories())
              .done(function () {
+                 var time2 = new Date().getTime();
+
+                 console.log('load product types, brands, categories: ' + (time2 - time1));
+
                  vm.getData().done(function () {
+
+                     var time3 = new Date().getTime();
+                     console.log('load product: ' + (time3 - time2));
 
                      kb.events.fire('Product/Edit/FormDataBinding', vm, {
                          viewModel: vm
                      });
 
+                     time3 = new Date().getTime();
+
                      ko.applyBindings(vm, document.getElementById('product-edit-main'));
 
+                     var time4 = new Date().getTime();
+                     console.log('data binding: ' + (time4 - time3));
+
+                     $('#category_tree li.tree-node').treeNode();
                      kb.ui.unobtrusive.initialize(document.body);
 
                      $(':checkbox.select-all-prices').on('click', function (e) {

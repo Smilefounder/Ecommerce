@@ -31,9 +31,7 @@ namespace Kooboo.Commerce.Brands.Services
 
         public IQueryable<Brand> Query()
         {
-            var query = _brandRepository.Query();
-            query = query.Include(o => o.CustomFields);
-            return query;
+            return _brandRepository.Query();
         }
 
         public IQueryable<BrandCustomField> CustomFieldsQuery()
