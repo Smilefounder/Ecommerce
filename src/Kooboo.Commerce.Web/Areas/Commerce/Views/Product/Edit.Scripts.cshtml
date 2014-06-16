@@ -195,6 +195,18 @@
                 });
             });
 
+            self.SelectAllPrices = function () {
+                $.each(self.data().PriceList(), function () {
+                    this.Selected(true);
+                });
+            }
+
+            self.ClearPriceSelection = function () {
+                $.each(self.data().PriceList(), function () {
+                    this.Selected(false);
+                });
+            }
+
             self.SelectPricesByFieldValue = function (fieldName, fieldValue) {
                 $.each(self.data().PriceList(), function () {
                     var price = this;
