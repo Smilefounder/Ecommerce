@@ -10,7 +10,9 @@
             </tr>
             <tr>
                 <th>@("Brand".Localize())</th>
-                <td><select data-bind="options: $root.Brands, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: BrandId" class="medium"></select></td>
+                <td>
+                    <div class="medium" data-bind="select2:BrandId, select2Options: $root.BrandSelect2Options"></div>
+                </td>
             </tr>
             <tr>
                 <th>@("Product Type".Localize())</th>

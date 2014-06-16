@@ -71,6 +71,29 @@ ko.bindingHandlers.tagbox = {
     }
 };
 
+ko.bindingHandlers.select2 = {
+    _updateIsCausedBySelect2: false,
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var options = {};
+        var allBindings = allBindingsAccessor();
+        if (allBindings.select2Options) {
+            $.extend(true, options, ko.utils.unwrapObservable(allBindings.select2Options));
+        }
+
+        $(element).select2(options)
+                  .on('change', function (e) {
+                      ko.bindingHandlers.select2._updateIsCausedBySelect2 = true;
+                      valueAccessor()(e.val);
+                      ko.bindingHandlers.select2._updateIsCausedBySelect2 = false;
+                  });
+    },
+    update: function (element, valueAccessor, allBindings) {
+        if (!ko.bindingHandlers.select2._updateIsCausedBySelect2) {
+            $(element).select2('val', ko.utils.unwrapObservable(valueAccessor()));
+        }
+    }
+};
+
 ko.bindingHandlers.time = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         //initialize datepicker with some optional options

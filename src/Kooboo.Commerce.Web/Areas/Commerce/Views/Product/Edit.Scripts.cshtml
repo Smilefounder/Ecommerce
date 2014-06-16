@@ -91,6 +91,48 @@
                 })
             }
 
+            self.BrandSelect2Options = {
+                minimumInputLength: 0,
+                id: function (brand) {
+                    return brand.Id;
+                },
+                ajax: {
+                    url: '@Url.Action("SearchBrands", "Product")',
+                    dataType: 'json',
+                    quietMillis: 100,
+                    data: function (term, page) { // page is the one-based page number tracked by Select2
+                        return {
+                            term: term, //search term
+                            pageSize: 10, // page size
+                            page: page, // page number
+                        };
+                    },
+                    results: function (data, page) {
+                        var more = data.length === 10; // whether or not there are more results available
+                        return { text: 'Name', results: data, more: more };
+                    }
+                },
+                initSelection: function (element, callback) {
+                    var brandId = self.data().BrandId();
+                    if (!brandId) {
+                        callback(null);
+                    } else {
+                        var data = {
+                            Id: self.data().BrandId(),
+                            Name: self.data().Brand().Name()
+                        };
+
+                        callback(data);
+                    }
+                },
+                formatResult: function (brand) {
+                    return brand.Name;
+                },
+                formatSelection: function (brand) {
+                    return brand.Name;
+                }
+            };
+
             self.DistinctVariantValuesByFields = ko.observableArray();
 
             self.ComputeDistinctVariantValuesByFields = function () {
@@ -493,20 +535,9 @@
                  viewModel: vm
              });
 
-             // Store brandId in a temp variable
-             var brandId = vm.data().BrandId();
-
              ko.applyBindings(vm, document.getElementById('product-edit-main'));
-             kb.ui.unobtrusive.initialize(document.body);
 
-             // We load brands after the data binding to let the user see the UI as soon as possible.
-             // But we have to recover the BrandId previously stored in a temp variable because the BrandId might be bound to a null value when data binding.
-             vm.GetBrands()
-               .done(function () {
-                   if (brandId) {
-                       vm.data().BrandId(brandId);
-                   }
-               });
+             kb.ui.unobtrusive.initialize(document.body);
 
              // Lazy load categories and image types
              vm.GetCategories().done(function() {
