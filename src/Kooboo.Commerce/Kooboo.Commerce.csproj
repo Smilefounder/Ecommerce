@@ -177,6 +177,7 @@
     <Compile Include="Payments\Extensions\PaymentsExtensions.cs" />
     <Compile Include="Payments\IPaymentProcessorProvider.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
+    <Compile Include="Payments\PaymentMethodFeeChargeMode.cs" />
     <Compile Include="Payments\PaymentMethodInfo.cs" />
     <Compile Include="Payments\PaymentProcessorEditor.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />
@@ -207,7 +208,6 @@
     <Compile Include="Promotions\PromotionOverlappingUsage.cs" />
     <Compile Include="Payments\Services\IPaymentMethodService.cs" />
     <Compile Include="Payments\Services\PaymentMethodService.cs" />
-    <Compile Include="PriceChangeMode.cs" />
     <Compile Include="Events\Customers\CustomerCreated.cs" />
     <Compile Include="Customers\Services\CustomerService.cs" />
     <Compile Include="Customers\Services\ICustomerService.cs" />

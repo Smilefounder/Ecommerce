@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Models
         public IList<SelectListItem> AvailableDiscountModes { get; set; }
 
         [Display(Name = "Discount percent")]
-        public int DiscountPercent { get; set; }
+        public decimal DiscountPercent { get; set; }
 
         [Display(Name = "Discount amount")]
         public decimal DiscountAmount { get; set; }
@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Models
 
         public ConfigModel()
         {
-            AvailableDiscountModes = SelectListItems.FromEnum<PriceChangeMode>();
+            AvailableDiscountModes = SelectListItems.FromEnum<DiscountMode>();
             AvailableDiscountAppliedTos = SelectListItems.FromEnum<DiscountAppliedTo>();
         }
     }

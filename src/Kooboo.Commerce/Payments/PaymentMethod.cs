@@ -31,11 +31,11 @@ namespace Kooboo.Commerce.Payments
 
         public string PaymentProcessorData { get; set; }
 
-        public PriceChangeMode AdditionalFeeChargeMode { get; set; }
+        public PaymentMethodFeeChargeMode AdditionalFeeChargeMode { get; set; }
 
         public decimal AdditionalFeeAmount { get; set; }
 
-        public float AdditionalFeePercent { get; set; }
+        public decimal AdditionalFeePercent { get; set; }
 
         public bool IsEnabled { get; protected set; }
 
@@ -48,12 +48,12 @@ namespace Kooboo.Commerce.Payments
 
         public virtual decimal GetPaymentMethodCost(decimal amountToPay)
         {
-            if (AdditionalFeeChargeMode == PriceChangeMode.ByAmount)
+            if (AdditionalFeeChargeMode == PaymentMethodFeeChargeMode.ByAmount)
             {
                 return AdditionalFeeAmount;
             }
 
-            return amountToPay * (decimal)AdditionalFeePercent;
+            return Math.Round(amountToPay * (AdditionalFeePercent / 100), 2);
         }
 
         public virtual void NotifyUpdated()

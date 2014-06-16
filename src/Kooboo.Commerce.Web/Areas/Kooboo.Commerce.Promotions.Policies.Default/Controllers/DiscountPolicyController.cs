@@ -43,7 +43,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Controllers
             var promotion = _promotionService.GetById(promotionId);
             var policyData = new DefaultPromotionPolicyData
             {
-                DiscountMode = (PriceChangeMode)Enum.Parse(typeof(PriceChangeMode), model.DiscountMode),
+                DiscountMode = (DiscountMode)Enum.Parse(typeof(DiscountMode), model.DiscountMode),
                 DiscountAppliedTo = (DiscountAppliedTo)Enum.Parse(typeof(DiscountAppliedTo), model.DiscountAppliedTo),
                 DiscountAmount = model.DiscountAmount,
                 DiscountPercent = model.DiscountPercent

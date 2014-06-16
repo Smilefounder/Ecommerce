@@ -23,10 +23,15 @@
 
             this.next = function () {
                 window.loading.show();
-                _events.fire('saving', _this, { promotionId: _this.promotionId() })
+                var args = { promotionId: _this.promotionId() };
+                _events.fire('saving', _this, args)
                        .done(function () {
-                           window.leaveConfirm.pass();
-                           location.href = '@Html.Raw(Url.Action("Complete", RouteValues.From(Request.QueryString)))';
+                           if (!args.cancel) {
+                               window.leaveConfirm.pass();
+                               location.href = '@Html.Raw(Url.Action("Complete", RouteValues.From(Request.QueryString)))';
+                           } else {
+                               window.loading.hide();
+                           }
                        });
             }
         }

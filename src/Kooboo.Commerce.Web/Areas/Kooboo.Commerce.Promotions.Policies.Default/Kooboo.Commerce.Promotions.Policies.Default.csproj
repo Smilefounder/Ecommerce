@@ -80,6 +80,7 @@
     <Compile Include="Controllers\DiscountPolicyController.cs" />
     <Compile Include="DefaultPromotionPolicy.cs" />
     <Compile Include="DiscountAppliedTo.cs" />
+    <Compile Include="DiscountMode.cs" />
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultPromotionPolicyData.cs" />

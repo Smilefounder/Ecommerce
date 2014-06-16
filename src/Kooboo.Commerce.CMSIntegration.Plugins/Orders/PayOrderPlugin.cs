@@ -17,6 +17,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
 
             var returnUrl = ResolveUrl(model.SuccessUrl, ControllerContext);
 
+            // TODO: Don't calculate payment method cost here, calculate in the commerce side
             var payment = new PaymentRequest
             {
                 TargetType = PaymentTargetTypes.Order,

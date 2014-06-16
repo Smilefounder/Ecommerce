@@ -21,13 +21,21 @@
                 <tr style="display:none" data-bind="visible: DiscountMode() == 'ByAmount'">
                     <th>@("Discount Amount".Localize())</th>
                     <td>
-                        <input type="text" name="DiscountAmount" data-bind="value: DiscountAmount" class="medium" />
+                        <input type="text" name="DiscountAmount" data-bind="value: DiscountAmount" class="medium"
+                               data-val="true"
+                               data-val-required="@("Required".Localize())"
+                               data-val-number="@("Discount amount must be a number")" />
+                        <span data-valmsg-for="DiscountAmount" data-valmsg-replace="true"></span>
                     </td>
                 </tr>
                 <tr style="display:none" data-bind="visible: DiscountMode() == 'ByPercent'">
                     <th>@("Discount Percent".Localize())</th>
                     <td>
-                        <input type="text" name="DiscountPercent" data-bind="value: DiscountPercent" class="mini" /> %
+                        <input type="text" name="DiscountPercent" data-bind="value: DiscountPercent" class="mini"
+                               data-val="true"
+                               data-val-required="@("Required".Localize())"
+                               data-val-number="@("Discount percent must be a number")" /> %
+                        <span data-valmsg-for="DiscountPercent" data-valmsg-replace="true"></span>
                     </td>
                 </tr>
             </tbody>
@@ -51,6 +59,11 @@
         });
 
         editor.on('saving', function (sender, args) {
+            if (!$('#discount-promotion-form').valid()) {
+                args.cancel = true;
+                return;
+            }
+
             var promotionId = args.promotionId;
 
             return $.ajax({

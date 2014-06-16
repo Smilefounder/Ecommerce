@@ -10,11 +10,11 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
     {
         public DiscountAppliedTo DiscountAppliedTo { get; set; }
 
-        public PriceChangeMode DiscountMode { get; set; }
+        public DiscountMode DiscountMode { get; set; }
 
         public decimal DiscountAmount { get; set; }
 
-        public int DiscountPercent { get; set; }
+        public decimal DiscountPercent { get; set; }
 
         public string Serialize()
         {

@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         public string UserKey { get; set; }
 
         [Display(Name = "Additional fee charge mode")]
-        public PriceChangeMode AdditionalFeeChargeMode { get; set; }
+        public PaymentMethodFeeChargeMode AdditionalFeeChargeMode { get; set; }
 
         public IList<SelectListItem> AllFeeChargeModes { get; set; }
 
@@ -41,14 +41,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
 
         [Range(0, 100)]
         [Display(Name = "Additional fee percent")]
-        public float AdditionalFeePercent { get; set; }
+        public decimal AdditionalFeePercent { get; set; }
 
         public IList<PaymentProcessorModel> AvailablePaymentProcessors { get; set; }
 
         public PaymentMethodEditorModel()
         {
             AvailablePaymentProcessors = new List<PaymentProcessorModel>();
-            AllFeeChargeModes = SelectListItems.FromEnum(typeof(PriceChangeMode));
+            AllFeeChargeModes = SelectListItems.FromEnum(typeof(PaymentMethodFeeChargeMode));
         }
 
         public void UpdateTo(PaymentMethod method)

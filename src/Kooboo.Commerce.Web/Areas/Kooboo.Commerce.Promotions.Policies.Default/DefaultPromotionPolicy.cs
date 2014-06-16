@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
         {
             decimal discount = 0;
 
-            if (policyData.DiscountMode == PriceChangeMode.ByAmount)
+            if (policyData.DiscountMode == DiscountMode.ByAmount)
             {
                 discount = policyData.DiscountAmount;
             }

@@ -40,9 +40,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
             IsEnabled = method.IsEnabled;
             CreatedAt = method.CreatedAtUtc.ToLocalTime();
 
-            if (method.AdditionalFeeChargeMode == PriceChangeMode.ByPercent)
+            if (method.AdditionalFeeChargeMode == PaymentMethodFeeChargeMode.ByPercent)
             {
-                AdditionalFee = method.AdditionalFeeAmount.ToString("f2") + "%";
+                AdditionalFee = method.AdditionalFeePercent.ToString("#.##") + "%";
             }
             else
             {

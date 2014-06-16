@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Web;
 
-namespace Kooboo.Commerce
+namespace Kooboo.Commerce.Promotions.Policies.Default
 {
-    public enum PriceChangeMode
+    public enum DiscountMode
     {
         ByAmount = 0,
         ByPercent = 1
