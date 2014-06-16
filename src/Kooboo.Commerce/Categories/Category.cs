@@ -29,6 +29,8 @@ namespace Kooboo.Commerce.Categories
 
         public bool Published { get; set; }
 
+        public int? ParentId { get; set; }
+
         [ScriptIgnore]
         public virtual Category Parent { get; set; }
 

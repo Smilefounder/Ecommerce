@@ -260,14 +260,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult GetCategories(int? parentId = null)
         {
+            var all = _categoryService.Query().Select(c => new CategoryEntry
+            {
+                Id = c.Id,
+                Name = c.Name,
+                ParentId = c.ParentId
+            })
+            .ToList();
 
-            var query = _categoryService.Query();
-            if (parentId.HasValue)
-                query = query.Where(o => o.Parent.Id == parentId.Value);
-            else
-                query = query.Where(o => o.Parent == null);
-            var objs = query.ToArray();
-            return JsonNet(objs);
+            var tree = CategoryEntry.BuildCategoryTree(parentId, all);
+
+            return JsonNet(tree);
         }
 
         [HttpGet]

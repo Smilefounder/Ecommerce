@@ -346,6 +346,7 @@
     <Compile Include="Areas\Commerce\Models\Activities\EventCategoryModel.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryCustomFieldModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Categories\CategoryEntry.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceModel.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\ChangePasswordModel.cs" />
