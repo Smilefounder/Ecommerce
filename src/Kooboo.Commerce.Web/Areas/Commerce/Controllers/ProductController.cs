@@ -86,6 +86,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult Get(int? id = null, int? productTypeId = null)
         {
+            System.Threading.Thread.Sleep(3000);
             Product product = null;
             if (id.HasValue)
             {

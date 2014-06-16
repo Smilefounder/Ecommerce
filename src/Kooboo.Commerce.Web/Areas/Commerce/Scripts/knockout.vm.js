@@ -70,7 +70,7 @@ function ObjectModel(options) {
     };
     self.getData = function (url, jdata, onSuccess, onError, onReceiveData, onSend) {
         if (!url) url = self.options.getQueryUrl(self);
-        utils.getJson(url, jdata, function (odata) {
+        return utils.getJson(url, jdata, function (odata) {
             if (onReceiveData) {
                 odata = onReceiveData(self, odata) || odata;
             }

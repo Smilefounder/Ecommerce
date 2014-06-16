@@ -1,5 +1,4 @@
-﻿
-@Html.Partial("_ChangePriceDialog")
+﻿@Html.Partial("_ChangePriceDialog")
 @Html.Partial("_BulkAddDialog")
 
 <script type="text/javascript">
@@ -232,7 +231,7 @@
                     $.each(self.ProductType().VariationFields(), function () {
                         fields.push(this.CustomField().Name());
                     });
-                    
+
                     return fields;
                 }
 
@@ -490,15 +489,14 @@
 
             $.when(vm.GetImageTypes(), vm.GetProductTypes(), vm.GetBrands(), vm.GetCategories())
              .done(function () {
-                 vm.getData();
+                 vm.getData().done(function () {
 
-                 kb.events.fire('Product/Edit/FormDataBinding', vm, {
-                     viewModel: vm
-                 });
+                     kb.events.fire('Product/Edit/FormDataBinding', vm, {
+                         viewModel: vm
+                     });
 
-                 ko.applyBindings(vm, document.getElementById('product-edit-main'));
+                     ko.applyBindings(vm, document.getElementById('product-edit-main'));
 
-                 setTimeout(function () {
                      kb.ui.unobtrusive.initialize(document.body);
 
                      $(':checkbox.select-all-prices').on('click', function (e) {
@@ -537,7 +535,7 @@
                      });
 
                      window.loading.hide();
-                 }, 100);
+                 });
              });
         }, 20);
 
