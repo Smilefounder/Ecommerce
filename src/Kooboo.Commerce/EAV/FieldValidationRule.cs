@@ -8,10 +8,18 @@ namespace Kooboo.Commerce.EAV
 {
     public class FieldValidationRule
     {
-        public void CopyTo(FieldValidationRule rule) {
-            rule.ErrorMessage = this.ErrorMessage;
-            rule.ValidatorName = this.ValidatorName;
-            rule.ValidatorData = this.ValidatorData;
+        protected FieldValidationRule() { }
+
+        public FieldValidationRule(string validatorName)
+        {
+            ValidatorName = validatorName;
+        }
+
+        public void CopyTo(FieldValidationRule rule)
+        {
+            rule.ErrorMessage = ErrorMessage;
+            rule.ValidatorName = ValidatorName;
+            rule.ValidatorData = ValidatorData;
         }
 
         public int Id { get; set; }

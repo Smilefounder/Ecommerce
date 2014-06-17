@@ -149,9 +149,7 @@
     <Compile Include="EAV\FieldDataType.cs" />
     <Compile Include="EAV\CustomFieldType.cs" />
     <Compile Include="EAV\Services\CustomFieldService.cs" />
-    <Compile Include="EAV\Services\FieldValidationRuleService.cs" />
     <Compile Include="EAV\Services\ICustomFieldService.cs" />
-    <Compile Include="EAV\Services\IFieldValidationRuleService.cs" />
     <Compile Include="EAV\ValidatorType.cs" />
     <Compile Include="Events\Customers\ICustomerEvent.cs" />
     <Compile Include="Events\Products\IProductEvent.cs" />

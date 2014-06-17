@@ -176,7 +176,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 _productTypeService.Disable(productType);
             }
 
-            return AjaxForm().RedirectTo(Url.Action("Edit", RouteValues.From(Request.QueryString).Merge("id", productType.Id)));
+            return AjaxForm().RedirectTo(@return);
         }
 
         private CustomField CreateOrUpdateField(CustomFieldEditorModel model)

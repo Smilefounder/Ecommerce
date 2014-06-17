@@ -58,12 +58,29 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 var systemFields = new List<CustomField>();
                 foreach (var fieldModel in model.ProductSetting.SystemFields)
                 {
-                    var field = new CustomField();
-                    fieldModel.UpdateTo(field);
-                    systemFields.Add(field);
-                }
+                    fieldModel.FieldType = CustomFieldType.System;
 
-                _customFieldService.SetSystemFields(systemFields);
+                    CustomField field = null;
+
+                    if (fieldModel.Id > 0)
+                    {
+                        field = _customFieldService.GetById(fieldModel.Id);
+                    }
+                    else
+                    {
+                        field = new CustomField
+                        {
+                            FieldType = CustomFieldType.System
+                        };
+                    }
+
+                    fieldModel.UpdateTo(field);
+
+                    if (field.Id == 0)
+                    {
+                        _customFieldService.Create(field);
+                    }
+                }
             }
 
             return AjaxForm().ReloadPage();

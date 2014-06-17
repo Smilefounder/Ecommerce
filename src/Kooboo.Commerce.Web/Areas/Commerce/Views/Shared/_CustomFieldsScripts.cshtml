@@ -15,7 +15,6 @@
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Tooltip')}, value:Tooltip" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'ControlType')}, value:ControlType" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'DefaultValue')}, value:DefaultValue" />
-                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Length')}, value:Length" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Sequence')}, value:Sequence" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Modifiable')}, value:(Modifiable()+'')" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'IsEnabled')}, value:(IsEnabled()+'')" />
@@ -31,7 +30,6 @@
             <td><a class="action" data-bind="text:Name, click:$root.editField"></a></td>
             <td data-bind="text:((Label()==''||Label()==null)?'-':Label)"></td>
             <td data-bind="text:ControlType"></td>
-            <td><span data-bind="text:((ShowInGrid()==''||ShowInGrid()==null)?'-':'@("YES".Localize())')"></span></td>
             <td><span data-bind="text: FieldType"></span></td>
             <td data-bind="text:Sequence"></td>
             <td class="action"><a class="action" data-bind="click:$root.removeField">@Html.IconImage("minus-small")</a></td>
@@ -158,7 +156,6 @@
                 this.addField = function () {
                     var count = self.fields().length;
                     var field = ko.mapping.fromJS(emptyCustomField);
-                    if (count === 0) { field.ShowInGrid(true); }
                     field.Sequence(count + 1);
                     field.FieldType(fieldType);
                     utilities.showDialog(self, field, false);
@@ -226,20 +223,12 @@
             var customFieldEditorModel = function () {
                 var self = this;
                 var serializeData = function (data) {
-                    if (data.CustomSettingsObj) { data.CustomSettings(data.CustomSettingsObj.json()); }
                     if (data.SelectionItemsObj) { data.SelectionItems(data.SelectionItemsObj.json()); }
                     $.each(data.ValidationRules(), function () {
                         this.ValidatorData($.toJSON(ko.mapping.toJS(this.ValidatorDataObj)));
                     });
                 };
                 var deserializeData = function (data) {
-                    if (data.CustomSettings) {
-                        if (data.CustomSettingsObj) {
-                            data.CustomSettingsObj.update(data.CustomSettings());
-                        } else {
-                            data.CustomSettingsObj = new keyValuePairArray(data.CustomSettings(), true);
-                        }
-                    }
                     if (data.SelectionItems) {
                         if (data.SelectionItemsObj) {
                             data.SelectionItemsObj.update(data.SelectionItems());

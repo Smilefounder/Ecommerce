@@ -19,6 +19,5 @@ namespace Kooboo.Commerce.EAV.Services {
         bool Delete(CustomField field);
 
         IEnumerable<CustomField> GetSystemFields();
-        void SetSystemFields(IEnumerable<CustomField> fields);
     }
 }

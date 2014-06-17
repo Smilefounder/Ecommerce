@@ -14,31 +14,30 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
     {
         public CustomFieldEditorModel()
         {
-            this.FieldType = CustomFieldType.Custom;
-            this.ValidationRules = new List<FieldValidationRuleEditorModel>();
+            ControlType = "TextBox";
+            FieldType = CustomFieldType.Custom;
+            ValidationRules = new List<FieldValidationRuleEditorModel>();
         }
 
         public CustomFieldEditorModel(CustomField field)
             : this()
         {
-            this.Id = field.Id;
-            this.Name = field.Name;
-            this.DataType = field.DataType;
-            this.Label = field.Label;
-            this.Tooltip = field.Tooltip;
-            this.ControlType = field.ControlType;
-            this.DefaultValue = field.DefaultValue;
-            this.Sequence = field.Sequence;
-            this.Modifiable = field.Modifiable;
-            this.IsEnabled = field.IsEnabled;
-            this.FieldType = field.FieldType;
-            this.SelectionItems = field.SelectionItems;
-            if (field.ValidationRules != null)
+            Id = field.Id;
+            Name = field.Name;
+            DataType = field.DataType;
+            Label = field.Label;
+            Tooltip = field.Tooltip;
+            ControlType = field.ControlType;
+            DefaultValue = field.DefaultValue;
+            Sequence = field.Sequence;
+            Modifiable = field.Modifiable;
+            IsEnabled = field.IsEnabled;
+            FieldType = field.FieldType;
+            SelectionItems = field.SelectionItems;
+
+            foreach (var item in field.ValidationRules)
             {
-                foreach (var item in field.ValidationRules)
-                {
-                    this.ValidationRules.Add(new FieldValidationRuleEditorModel(item));
-                }
+                ValidationRules.Add(new FieldValidationRuleEditorModel(item));
             }
         }
 
@@ -53,16 +52,34 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
             field.Sequence = this.Sequence;
             field.Modifiable = this.Modifiable;
             field.IsEnabled = this.IsEnabled;
-            field.FieldType = this.FieldType;
             field.SelectionItems = this.SelectionItems;
-            field.ValidationRules = new List<FieldValidationRule>();
             if (ValidationRules != null)
             {
-                foreach (var item in ValidationRules)
+                foreach (var rule in field.ValidationRules.ToList())
                 {
-                    var rule = new FieldValidationRule();
-                    item.UpdateTo(rule);
-                    field.ValidationRules.Add(rule);
+                    if (!ValidationRules.Any(r => r.Id == rule.Id))
+                    {
+                        field.ValidationRules.Remove(rule);
+                    }
+                }
+
+                foreach (var ruleModel in ValidationRules)
+                {
+                    FieldValidationRule rule = null;
+
+                    if (ruleModel.Id > 0)
+                    {
+                        rule = field.ValidationRules.FirstOrDefault(r => r.Id == ruleModel.Id);
+                    }
+                    else
+                    {
+                        rule = new FieldValidationRule(ruleModel.ValidatorName);
+                        field.ValidationRules.Add(rule);
+                    }
+
+                    rule.ValidatorName = ruleModel.ValidatorName;
+                    rule.ValidatorData = ruleModel.ValidatorData;
+                    rule.ErrorMessage = ruleModel.ErrorMessage;
                 }
             }
         }
