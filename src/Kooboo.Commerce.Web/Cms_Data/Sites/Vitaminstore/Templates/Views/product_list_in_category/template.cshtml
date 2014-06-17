@@ -1,10 +1,6 @@
-﻿@using Kooboo.Commerce.API;
-@using Kooboo.Commerce.API.CmsSite;
-@using Kooboo.Commerce.API.Categories;
-@{
+﻿@{
     var category = ViewBag.Category;
     var products = category == null ? null : category.ProductsByCategory;
-    var categories = Site.Current.Commerce().Categories.ByParentId(null).Include(o => o.Children).ToArray();
 }
 <form id="__AjaxAntiForgeryForm" action="#" method="post">
     @AntiForgery.GetHtml()

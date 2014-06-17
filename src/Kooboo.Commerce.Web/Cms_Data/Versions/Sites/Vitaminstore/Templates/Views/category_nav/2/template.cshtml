@@ -7,10 +7,10 @@
         foreach(var cate in categories)
         {
             <ul class="@(cate.Name)_Item">
-                <li><a class="leftnav @(cate.Name)" href="/Category/@cate.Id">@cate.Name</a></li>
+                <li><a class="leftnav @(cate.Name)" href="">@cate.Name</a></li>
                 @foreach(var sub in cate.Children)
                 { 
-                <li><a href="/Category/@sub.Id">@sub.Name</a></li>
+                <li><a href="">@sub.Name</a></li>
                 }
             </ul>
         }
