@@ -16,12 +16,10 @@ namespace Kooboo.Commerce.Promotions
     public class PromotionConditionChecker
     {
         private RuleEngine _ruleEngine;
-        private IComparisonOperatorProvider _comparisonOperatorProvider;
 
-        public PromotionConditionChecker(RuleEngine ruleEngine, IComparisonOperatorProvider comparisonOperatorProvider)
+        public PromotionConditionChecker(RuleEngine ruleEngine)
         {
             _ruleEngine = ruleEngine;
-            _comparisonOperatorProvider = comparisonOperatorProvider;
         }
 
         public CheckPromotionConditionResult CheckConditions(Promotion promotion, PricingContext context)
@@ -39,7 +37,7 @@ namespace Kooboo.Commerce.Promotions
                 return result;
             }
 
-            var operators = _comparisonOperatorProvider.GetAllOperators().Select(o => o.Name).ToList();
+            var operators = _ruleEngine.ComparisonOperatorManager.Operators.Select(o => o.Name).ToList();
             var expression = Expression.Parse(promotion.ConditionsExpression, operators);
 
             foreach (var item in context.Items)

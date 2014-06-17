@@ -14,21 +14,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ConditionController : CommerceControllerBase
     {
-        private IEnumerable<IParameterProvider> _parameterProviders;
-        private IComparisonOperatorProvider _comparisonOperatorProvider;
-
-        public ConditionController(IEnumerable<IParameterProvider> parameterProviders, IComparisonOperatorProvider comparisonOperatorProvider)
-        {
-            _parameterProviders = parameterProviders;
-            _comparisonOperatorProvider = comparisonOperatorProvider;
-        }
-
         public ActionResult AvailableParameters(string contextModelTypeName)
         {
             var contextModelType = Type.GetType(contextModelTypeName, true);
             var models = new List<ConditionParameterModel>();
+            var parameters = ParameterProviderManager.Instance.Providers.SelectMany(x => x.GetParameters(contextModelType)).DistinctBy(x => x.Name);
 
-            foreach (var param in _parameterProviders.SelectMany(x => x.GetParameters(contextModelType)).DistinctBy(x => x.Name))
+            foreach (var param in parameters)
             {
                 models.Add(new ConditionParameterModel(param));
             }
@@ -61,7 +53,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
                 if (!String.IsNullOrEmpty(expression))
                 {
-                    var builder = new ConditionModelBuilder(_parameterProviders, _comparisonOperatorProvider);
+                    var builder = new ConditionModelBuilder();
                     models = builder.BuildFrom(Server.UrlDecode(expression), Type.GetType(contextModelType, true));
                 }
 

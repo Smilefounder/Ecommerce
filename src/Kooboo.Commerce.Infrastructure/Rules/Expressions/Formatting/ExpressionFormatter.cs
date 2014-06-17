@@ -9,20 +9,17 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
     public abstract class ExpressionFormatter : ExpressionVisitor
     {
         private StringBuilder _html;
-        private IComparisonOperatorProvider _operatorProvider;
-        private IEnumerable<IParameterProvider> _parameterProviders;
-        private List<ConditionParameter> _parameters;
 
-        // TODO: Bad constructor, don't depend on ioc container here
-        public ExpressionFormatter()
-            : this(EngineContext.Current.Resolve<IComparisonOperatorProvider>(), EngineContext.Current.ResolveAll<IParameterProvider>())
+        protected ComparisonOperatorManager OperatorManager { get; private set; }
+
+        protected ExpressionFormatter()
+            : this(ComparisonOperatorManager.Instance)
         {
         }
 
-        public ExpressionFormatter(IComparisonOperatorProvider operatorProvider, IEnumerable<IParameterProvider> parameterProviders)
+        protected ExpressionFormatter(ComparisonOperatorManager operatorManager)
         {
-            _operatorProvider = operatorProvider;
-            _parameterProviders = parameterProviders;
+            OperatorManager = operatorManager;
         }
 
         public string Format(string expression, Type dataContextType)
@@ -32,16 +29,12 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
                 return String.Empty;
             }
 
-            return Format(Expression.Parse(expression, _operatorProvider.GetAllOperators().Select(o => o.Name).ToList()), dataContextType);
+            return Format(Expression.Parse(expression, OperatorManager.Operators.Select(o => o.Name).ToList()), dataContextType);
         }
 
         public string Format(Expression expression, Type dataContextType)
         {
             _html = new StringBuilder();
-            _parameters = _parameterProviders.SelectMany(x => x.GetParameters(dataContextType))
-                                             .DistinctBy(x => x.Name)
-                                             .ToList();
-
             Visit(expression);
 
             return _html.ToString();
@@ -149,14 +142,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
 
         protected sealed override void Visit(ComparisonParamExpression exp)
         {
-            var paramDisplayName = exp.ParamName;
-            var param = _parameters.FirstOrDefault(x => x.Name.Equals(exp.ParamName, StringComparison.OrdinalIgnoreCase));
-            if (param != null)
-            {
-                paramDisplayName = param.Name;
-            }
-
-            WriteParamName(paramDisplayName);
+            WriteParamName(exp.ParamName);
         }
 
         protected sealed override void Visit(ComparisonValueExpression exp)
@@ -166,7 +152,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
 
         private string GetFriendlyOperator(string @operator)
         {
-            var op = _operatorProvider.GetOperatorByName(@operator);
+            var op = OperatorManager.Find(@operator);
             if (op == null)
             {
                 op = ComparisonOperators.GetOperatorFromShortcut(@operator);

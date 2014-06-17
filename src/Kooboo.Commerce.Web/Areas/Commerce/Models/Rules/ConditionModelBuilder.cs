@@ -9,15 +9,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 {
     public class ConditionModelBuilder : ExpressionVisitor
     {
-        private IEnumerable<IParameterProvider> _parameterProviders;
-        private IComparisonOperatorProvider _comparisonOperatorProvider;
+        private ParameterProviderManager _parameterProviderManager;
+        private ComparisonOperatorManager _comparisonOperatorManager;
         private List<ConditionParameter> _parameters;
         private Stack<List<ConditionModel>> _conditionTrees = new Stack<List<ConditionModel>>();
 
-        public ConditionModelBuilder(IEnumerable<IParameterProvider> parameterProviders, IComparisonOperatorProvider comparisonOperatorProvider)
+        public ConditionModelBuilder()
         {
-            _parameterProviders = parameterProviders;
-            _comparisonOperatorProvider = comparisonOperatorProvider;
+            _parameterProviderManager = ParameterProviderManager.Instance;
+            _comparisonOperatorManager = ComparisonOperatorManager.Instance;
         }
 
         public IList<ConditionModel> BuildFrom(string expression, Type contextModelType)
@@ -30,11 +30,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             if (contextModelType == null)
                 throw new ArgumentNullException("contextModelType");
 
-            _parameters = _parameterProviders.SelectMany(x => x.GetParameters(contextModelType).ToList())
-                                             .DistinctBy(x => x.Name)
-                                             .ToList();
+            _parameters = _parameterProviderManager.Providers
+                                                   .SelectMany(x => x.GetParameters(contextModelType).ToList())
+                                                   .DistinctBy(x => x.Name)
+                                                   .ToList();
 
-            Visit(Expression.Parse(expression, _comparisonOperatorProvider.GetAllOperators().Select(o => o.Name).ToList()));
+            Visit(Expression.Parse(expression, _comparisonOperatorManager.Operators.Select(o => o.Name).ToList()));
 
             return _conditionTrees.Pop();
         }
