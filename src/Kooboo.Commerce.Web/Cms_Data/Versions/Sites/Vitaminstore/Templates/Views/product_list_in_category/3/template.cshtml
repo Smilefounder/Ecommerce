@@ -2,29 +2,66 @@
 @using Kooboo.Commerce.API.CmsSite;
 @using Kooboo.Commerce.API.Categories;
 @{
-    var category = ViewBag.Category;
-    var products = category == null ? null : category.ProductsByCategory;
+    var cateId = Page_Context.Current.PageRequestContext.RouteValues["id"];
+    var products = cateId == null || string.IsNullOrEmpty(cateId.ToString()) ? null : Site.Current.Commerce().Products.ByCategoryId(Convert.ToInt32(cateId)).Include(o => o.Brand).Include(o => o.Images).Include(o => o.PriceList).Include(o => o.CustomFieldValues).Include(o => o.CustomFieldValues.Select(f => f.CustomField)).ToArray();
     var categories = Site.Current.Commerce().Categories.ByParentId(null).Include(o => o.Children).ToArray();
 }
 <form id="__AjaxAntiForgeryForm" action="#" method="post">
     @AntiForgery.GetHtml()
 </form>
+<div class="search_top">
+    <div class="grid_left search_count">
+        Categorie
+        <br>
+        ‘<span class="orange">Health</span>’ leverde
+        <span class="orange products-count">
+            7038
+        </span>
+        <br>
+        resultaten op
+    </div>
+    <div class="grid_right search_options">
 
-@if (category == null)
-{
-    <div>
-        Category not found
+
+        <dl>
+            <dd>
+                <input type="text" value="" placeholder="Zoek binnen deze selectie" class="search_within">
+            </dd>
+            <dd>
+                <ul class="search_sort">
+                    <li>Sorteer:</li>
+                    <li>
+                        <a id="ctl00_cpContent_Options1_hlSort_Name" class="sort_asc GreyLink" href="http://newshoppage.vitaminstore.eu/health/?sort=5">naam</a>
+                    </li>
+                    <li class="divider">|</li>
+                    <li>
+                        <a id="ctl00_cpContent_Options1_hlSort_Price" class="sort_asc GreyLink" href="http://newshoppage.vitaminstore.eu/health/?sort=1">prijs</a>
+                    </li>
+                    <li class="divider">|</li>
+                    <li>
+                        <span class="sort_asc orange">relevantle</span>
+                    </li>
+                    <li class="divider">|</li>
+                    <li>
+                        <a href="http://newshoppage.vitaminstore.eu/health/?sort=7" class="GreyLink">recensies</a>
+                    </li>
+                </ul>
+            </dd>
+            <dd>
+                <ul class="search_viewtype">
+                    <li>Weergave:</li>
+                    <li class="view_list_li">
+                        <span class="view_list_selected orange">Lijst</span>
+                    </li>
+                    <li>
+                        <a href="http://newshoppage.vitaminstore.eu/health/?view=1" class="view_table GreyLink">Tegels</a>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+
     </div>
-}
-else { 
-    <div class="search_top">
-        <div class="grid_left search_count">
-            Categorie
-            <br>
-            ‘<span class="orange">@category.Name</span>’ 
-        </div>
-    </div>
-}
+</div>
 
 <div class="productsContainer">
 
@@ -42,10 +79,8 @@ else {
                 {
                     continue;
                 }
-
-                var detailUrl = "/product/" + product.Id;
-                
-                var img = product.GetImage("List");
+                string detailUrl = CmsSiteUrlResolver.MapUrl(product, "self");
+                var img = product.GetImage("list");
                 string imageUrl = img == null ? "" : img.ImageUrl;
                 <div class="search_proitem">
                     <div class="grid_left search_pic">
@@ -56,7 +91,7 @@ else {
                     <div class="grid_left search_pro">
                         <dl>
                             <dd class="search_pro_name">
-                                <a class="GreyLink" href="@detailUrl">
+                                <a class="GreyLink" onclick="_gaq.push(['_trackEvent', 'list-view', 'Click', 'product']);" href="@detailUrl">
                                     <strong>
                                         @product.Name
                                     </strong> -
