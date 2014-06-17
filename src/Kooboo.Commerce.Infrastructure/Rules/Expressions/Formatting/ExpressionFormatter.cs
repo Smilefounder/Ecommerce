@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
                 return String.Empty;
             }
 
-            return Format(Expression.Parse(expression, OperatorManager.Operators.Select(o => o.Name).ToList()), dataContextType);
+            return Format(Expression.Parse(expression, OperatorManager.AllOperatorNamesAndAlias()), dataContextType);
         }
 
         public string Format(Expression expression, Type dataContextType)
@@ -70,12 +70,21 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
             Write(value);
         }
 
-        protected virtual void WriteLeafCondition(ComparisonExpression exp)
+        protected virtual void WriteComparison(ComparisonExpression exp)
         {
             Visit(exp.Param);
 
             WriteSpace();
-            WriteKeyword(GetFriendlyOperator(exp.Operator));
+
+            var op = OperatorManager.Find(exp.Operator);
+            var opText = exp.Operator;
+
+            if (op != null && !String.IsNullOrWhiteSpace(op.Alias))
+            {
+                opText = op.Alias;
+            }
+
+            WriteKeyword(opText);
             WriteSpace();
 
             Visit(exp.Value);
@@ -137,7 +146,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
 
         protected sealed override void Visit(ComparisonExpression exp)
         {
-            WriteLeafCondition(exp);
+            WriteComparison(exp);
         }
 
         protected sealed override void Visit(ComparisonParamExpression exp)
@@ -148,22 +157,6 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
         protected sealed override void Visit(ComparisonValueExpression exp)
         {
             WriteParamValue(exp.Value, exp.ValueType);
-        }
-
-        private string GetFriendlyOperator(string @operator)
-        {
-            var op = OperatorManager.Find(@operator);
-            if (op == null)
-            {
-                op = ComparisonOperators.GetOperatorFromShortcut(@operator);
-            }
-
-            if (op != null)
-            {
-                return op.Name.Replace('_', ' ');
-            }
-
-            return @operator;
         }
 
         #endregion

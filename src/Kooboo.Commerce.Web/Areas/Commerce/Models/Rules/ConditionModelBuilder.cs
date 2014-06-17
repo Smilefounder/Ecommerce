@@ -93,7 +93,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
                 ComparisonOperator = exp.Operator
             };
 
-            var @operator = ComparisonOperators.GetOperatorFromShortcut(exp.Operator);
+            var @operator = _comparisonOperatorManager.Find(exp.Operator);
             if (@operator != null)
             {
                 model.ComparisonOperator = @operator.Name;

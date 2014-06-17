@@ -13,6 +13,8 @@ namespace Kooboo.Commerce.Rules
     {
         string Name { get; }
 
+        string Alias { get; }
+
         string DisplayName { get; }
 
         /// <summary>
@@ -42,56 +44,5 @@ namespace Kooboo.Commerce.Rules
         public static readonly IComparisonOperator Contains = new ContainsOperator();
 
         public static readonly IComparisonOperator NotContains = new NotContainsOperator();
-
-        public static string TryGetOperatorShortcut(string operatorName)
-        {
-            if (operatorName == Equals.Name)
-            {
-                return "==";
-            }
-            if (operatorName == NotEquals.Name)
-            {
-                return "!=";
-            }
-            if (operatorName == GreaterThan.Name)
-            {
-                return ">";
-            }
-            if (operatorName == GreaterThanOrEqual.Name)
-            {
-                return ">=";
-            }
-            if (operatorName == LessThan.Name)
-            {
-                return "<";
-            }
-            if (operatorName == LessThanOrEqual.Name)
-            {
-                return "<=";
-            }
-
-            return operatorName;
-        }
-
-        public static IComparisonOperator GetOperatorFromShortcut(string shortcut)
-        {
-            switch (shortcut)
-            {
-                case "==":
-                    return ComparisonOperators.Equals;
-                case "!=":
-                    return ComparisonOperators.NotEquals;
-                case ">":
-                    return ComparisonOperators.GreaterThan;
-                case ">=":
-                    return ComparisonOperators.GreaterThanOrEqual;
-                case "<":
-                    return ComparisonOperators.LessThan;
-                case "<=":
-                    return ComparisonOperators.LessThanOrEqual;
-                default:
-                    return null;
-            }
-        }
     }
 }

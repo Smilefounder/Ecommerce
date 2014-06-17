@@ -57,6 +57,11 @@ namespace Kooboo.Commerce.Rules
             SupportedOperators = supportedOperators.ToList();
         }
 
+        public object ResolveValue(object dataContext)
+        {
+            return ValueResolver.ResolveValue(this, dataContext);
+        }
+
         public override string ToString()
         {
             return Name;

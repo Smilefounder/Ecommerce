@@ -60,20 +60,15 @@ namespace Kooboo.Commerce.Rules
             var paramName = exp.Param.ParamName;
             var param = _availableParameters.FirstOrDefault(x => x.Name == paramName);
             if (param == null)
-                throw new InvalidOperationException("Unrecognized parameter \"" + paramName + "\" or it's not accessable in currect context.");
+                throw new UnrecognizedParameterException("Unrecognized parameter \"" + paramName + "\" or it's not accessable in currect context.");
 
             var @operator = _comparisonOperatorManager.Find(exp.Operator);
             if (@operator == null)
-            {
-                @operator = ComparisonOperators.GetOperatorFromShortcut(exp.Operator);
-            }
-
-            if (@operator == null)
-                throw new InvalidOperationException("Unrecognized comparison operator \"" + exp.Operator + "\".");
+                throw new UnrecognizedComparisonOperatorException("Unrecognized comparison operator \"" + exp.Operator + "\".");
 
             var result = false;
 
-            var paramValue = param.ValueResolver.ResolveValue(param, _dataContext);
+            var paramValue = param.ResolveValue(_dataContext);
             if (paramValue != null)
             {
                 var paramType = paramValue.GetType();

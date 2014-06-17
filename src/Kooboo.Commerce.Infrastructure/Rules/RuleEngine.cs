@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Rules
             Require.NotNullOrEmpty(expression, "expression");
             Require.NotNull(dataContext, "dataContext");
 
-            return CheckCondition(Expression.Parse(expression, _comparisonOperatorManager.Operators.Select(o => o.Name).ToList()), dataContext);
+            return CheckCondition(Expression.Parse(expression, _comparisonOperatorManager.AllOperatorNamesAndAlias()), dataContext);
         }
 
         public bool CheckCondition(Expression expression, object contextModel)

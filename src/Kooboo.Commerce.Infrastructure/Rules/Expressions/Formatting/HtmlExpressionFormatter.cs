@@ -28,10 +28,10 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
             EndSpan();
         }
 
-        protected override void WriteLeafCondition(ComparisonExpression exp)
+        protected override void WriteComparison(ComparisonExpression exp)
         {
             BeginSpan("flat-condition");
-            base.WriteLeafCondition(exp);
+            base.WriteComparison(exp);
             EndSpan();
         }
 

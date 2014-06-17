@@ -191,6 +191,8 @@
     <Compile Include="Rules\IComparisonOperator.cs" />
     <Compile Include="Rules\IParameterProvider.cs" />
     <Compile Include="Rules\IndirectReferenceAdapter.cs" />
+    <Compile Include="Rules\UnrecognizedComparisonOperatorException.cs" />
+    <Compile Include="Rules\UnrecognizedParameterException.cs" />
     <Compile Include="Rules\ParameterProviderManager.cs" />
     <Compile Include="Rules\ReferenceAttribute.cs" />
     <Compile Include="Rules\ParameterValueResolver.cs" />

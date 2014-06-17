@@ -19,18 +19,33 @@ namespace Kooboo.Commerce.Rules
             }
         }
 
-        public IComparisonOperator Find(string name)
+        public IComparisonOperator Find(string nameOrAlias)
         {
-            Require.NotNullOrEmpty(name, "name");
+            Require.NotNullOrEmpty(nameOrAlias, "nameOrAlias");
 
             IComparisonOperator @operator;
 
-            if (_operatorsByName.TryGetValue(name, out @operator))
+            if (_operatorsByName.TryGetValue(nameOrAlias, out @operator))
             {
                 return @operator;
             }
 
             return null;
+        }
+
+        public IEnumerable<string> AllOperatorNamesAndAlias()
+        {
+            var names = new List<string>();
+            foreach (var op in Operators)
+            {
+                names.Add(op.Name);
+                if (!String.IsNullOrWhiteSpace(op.Alias))
+                {
+                    names.Add(op.Alias);
+                }
+            }
+
+            return names;
         }
 
         public void Register(IComparisonOperator @operator)
@@ -39,7 +54,20 @@ namespace Kooboo.Commerce.Rules
 
             if (!_operatorsByName.TryAdd(@operator.Name, @operator))
             {
-                throw new InvalidOperationException("An operator with name '" + @operator.Name + "' already exists.");
+                throw new InvalidOperationException("A comparison operator with name '" + @operator.Name + "' already exists.");
+            }
+            else
+            {
+                if (!String.IsNullOrWhiteSpace(@operator.Alias))
+                {
+                    if (!_operatorsByName.TryAdd(@operator.Alias, @operator))
+                    {
+                        IComparisonOperator temp;
+                        _operatorsByName.TryRemove(@operator.Name, out temp);
+
+                        throw new InvalidOperationException("Comparison operator alias '" + @operator.Alias + "' already exists.");
+                    }
+                }
             }
         }
 

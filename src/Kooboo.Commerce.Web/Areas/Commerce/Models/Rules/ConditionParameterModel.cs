@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public string DisplayName { get; set; }
 
-        public string Shortcut { get; set; }
+        public string Alias { get; set; }
 
         public ComparisonOperatorModel() { }
 
@@ -60,7 +60,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
         {
             Name = @operator.Name;
             DisplayName = @operator.DisplayName;
-            Shortcut = ComparisonOperators.TryGetOperatorShortcut(@operator.Name);
+            Alias = @operator.Alias;
         }
     }
 }
