@@ -18,12 +18,7 @@
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Length')}, value:Length" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Sequence')}, value:Sequence" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Modifiable')}, value:(Modifiable()+'')" />
-                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Indexable')}, value:(Indexable()+'')" />
-                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'AllowNull')}, value:(AllowNull()+'')" />
-                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'ShowInGrid')}, value:(ShowInGrid()+'')" />
-                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Summarize')}, value:(Summarize()+'')" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'IsEnabled')}, value:(IsEnabled()+'')" />
-                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'CustomSettings')}, value:CustomSettings" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'SelectionItems')}, value:SelectionItems" />
                 <!--ko foreach:ValidationRules-->
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtRuleName($parentContext.$index,$index,'Id')}, value:Id" />
@@ -134,7 +129,7 @@
             };
 
             //
-            var emptyCustomField = $.parseJSON('@Html.Raw(new CustomFieldEditorModel() { ShowInGrid = false, AllowNull = true, Modifiable = true, IsEnabled = true }.ToJson(PropertyNaming.Default))');
+            var emptyCustomField = $.parseJSON('@Html.Raw(new CustomFieldEditorModel() { Modifiable = true, IsEnabled = true }.ToJson(PropertyNaming.Default))');
             var emptyValidationRules = {};
             emptyValidationRules['@ValidatorType.Required'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = ValidationType.Required.ToString() }.ToJson(PropertyNaming.Default))');
             emptyValidationRules['@ValidatorType.Required'].ValidatorData = '@Html.Raw(new { }.ToJson(PropertyNaming.Default))';

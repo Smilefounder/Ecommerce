@@ -24,16 +24,10 @@ namespace Kooboo.Commerce.EAV
             field.Tooltip = this.Tooltip;
             field.ControlType = this.ControlType;
             field.DefaultValue = this.DefaultValue;
-            field.Length = this.Length;
             field.Sequence = this.Sequence;
             field.Modifiable = this.Modifiable;
-            field.Indexable = this.Indexable;
-            field.AllowNull = this.AllowNull;
-            field.ShowInGrid = this.ShowInGrid;
-            field.Summarize = this.Summarize;
             field.IsEnabled = this.IsEnabled;
             field.SelectionItems = this.SelectionItems;
-            field.CustomSettings = this.CustomSettings;
         }
 
         [Key]
@@ -59,23 +53,11 @@ namespace Kooboo.Commerce.EAV
 
         public string DefaultValue { get; set; }
 
-        public int Length { get; set; }
-
         public int Sequence { get; set; }
 
         public bool Modifiable { get; set; }
-
-        public bool Indexable { get; set; }
-
-        public bool AllowNull { get; set; }
-
-        public bool ShowInGrid { get; set; }
-
-        public bool Summarize { get; set; }
-
+        
         public bool IsEnabled { get; set; }
-
-        public string CustomSettings { get; set; }
 
         public string SelectionItems { get; set; }
 

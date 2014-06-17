@@ -121,7 +121,7 @@ namespace Kooboo.Commerce.Products
 
         public virtual ProductImage GetImage(string size)
         {
-            return Images.FirstOrDefault(i => i.ImageSizeName == size);
+            return Images.FirstOrDefault(i => i.Size == size);
         }
 
         public virtual void UpdateImages(IEnumerable<ProductImage> images)
@@ -143,7 +143,7 @@ namespace Kooboo.Commerce.Products
                 {
                     current = new ProductImage
                     {
-                        ImageSizeName = image.ImageSizeName,
+                        Size = image.Size,
                         ImageUrl = image.ImageUrl,
                         IsVisible = image.IsVisible
                     };
@@ -151,7 +151,7 @@ namespace Kooboo.Commerce.Products
                 }
                 else
                 {
-                    current.ImageSizeName = image.ImageSizeName;
+                    current.Size = image.Size;
                     current.ImageUrl = image.ImageUrl;
                     current.IsVisible = image.IsVisible;
                 }
