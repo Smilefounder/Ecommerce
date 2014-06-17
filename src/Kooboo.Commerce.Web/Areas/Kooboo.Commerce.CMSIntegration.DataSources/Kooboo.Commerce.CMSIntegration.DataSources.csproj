@@ -46,6 +46,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.CMS.Membership, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Membership.dll</HintPath>
+    </Reference>
     <Reference Include="Kooboo.CMS.Sites, Version=4.4.0.425, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Sites.dll</HintPath>

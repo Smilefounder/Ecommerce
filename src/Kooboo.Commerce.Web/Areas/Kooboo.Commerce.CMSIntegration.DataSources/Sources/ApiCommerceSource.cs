@@ -73,11 +73,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
 
             if (context.Filters != null && context.Filters.Count > 0)
             {
-                ApplyFilters(query, context.Filters, dataSourceContext.ValueProvider);
+                ApplyFilters(query, context.Filters, context);
             }
             if (context.Includes != null && context.Includes.Count > 0)
             {
-                ApplyIncludes(query, context.Includes);
+                ApplyIncludes(query, context.Includes, context);
             }
 
             // Executing result
@@ -99,7 +99,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             }
         }
 
-        private void ApplyFilters(object query, IEnumerable<SourceFilter> filters, IValueProvider valueProvider)
+        protected virtual void ApplyFilters(object query, List<SourceFilter> filters, CommerceSourceContext context)
         {
             foreach (var filter in filters)
             {
@@ -124,13 +124,13 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             return site.CustomFields["CommerceInstance"];
         }
 
-        private object CallMethod(object obj, string method, params object[] parameters)
+        protected object CallMethod(object obj, string method, params object[] parameters)
         {
             var methodInfo = obj.GetType().GetMethod(method, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
             return methodInfo.Invoke(obj, parameters);
         }
 
-        private void ApplyIncludes(object query, IEnumerable<string> includes)
+        protected virtual void ApplyIncludes(object query, IEnumerable<string> includes, CommerceSourceContext context)
         {
             var methods = query.GetType()
                                .GetMethods(BindingFlags.Public | BindingFlags.Instance)
