@@ -1,9 +1,10 @@
 ﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events.Registry;
+using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Expressions.Formatting;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using Kooboo.Extensions;
@@ -235,25 +236,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [Transactional]
-        public ActionResult CreateRule(string expression, string eventType)
+        public ActionResult CreateRule(CreateRuleModel model)
         {
-            var rule = new ActivityRule(Type.GetType(eventType, true), expression, RuleType.Normal);
+            var rule = new ActivityRule(Type.GetType(model.EventType, true), RuleType.Normal);
+            rule.Conditions = model.Conditions.Select(c => new Condition(c.Expression, c.Type));
             _ruleRepository.Insert(rule);
             return JsonNet(new ActivityRuleModel(rule)).UsingClientConvention();
         }
 
         [Transactional]
-        public ActionResult UpdateConditions(int ruleId, string expression)
+        public ActionResult UpdateConditions(UpdateConditionsModel model)
         {
-            var rule = _ruleRepository.Get(ruleId);
-            rule.ConditionsExpression = expression;
-
-            return JsonNet(new
-            {
-                ConditionsExpression = expression,
-                HighlightedConditionsExpression = new HtmlExpressionFormatter().Format(expression, Type.GetType(rule.EventType, true))
-            })
-            .UsingClientConvention();
+            var rule = _ruleRepository.Get(model.RuleId);
+            rule.Conditions = model.Conditions.Select(c => new Condition(c.Expression, c.Type));
+            return JsonNet(new ActivityRuleModel(rule)).UsingClientConvention();
         }
 
         [Transactional]

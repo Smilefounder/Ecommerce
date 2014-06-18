@@ -179,6 +179,7 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Rules\ChainedParameterValueResolver.cs" />
     <Compile Include="Rules\ComparisonOperatorManager.cs" />
+    <Compile Include="Rules\Condition.cs" />
     <Compile Include="Rules\ConditionExpressionEvaluator.cs" />
     <Compile Include="Rules\Expressions\Formatting\ExpressionFormatter.cs" />
     <Compile Include="Rules\Expressions\Formatting\HtmlExpressionFormatter.cs" />

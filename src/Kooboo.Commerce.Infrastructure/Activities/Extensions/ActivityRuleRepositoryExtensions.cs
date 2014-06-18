@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Activities
 
             if (!exists)
             {
-                repository.Insert(new ActivityRule(eventType, String.Empty, RuleType.Always));
+                repository.Insert(new ActivityRule(eventType, RuleType.Always));
             }
         }
     }

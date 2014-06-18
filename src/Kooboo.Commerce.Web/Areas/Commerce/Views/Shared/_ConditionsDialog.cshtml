@@ -1,0 +1,69 @@
+﻿
+<div id="conditions-dialog" style="display:none">
+    <div class="topbar">
+        <h1 class="title" data-bind="text: title">@("Rule Conditions".Localize())</h1>
+    </div>
+    <div class="wrap">
+        <div data-bind="foreach: { data: conditions, afterRender: afterRenderCondition }">
+            <div class="block conditions-v2">
+                <div class="item">
+                    <span class="title">@("Condition".Localize()) <span data-bind="text: $index() + 1"></span>:</span>
+                    <div class="button blank dropdown">
+                        <span data-bind="text: type"></span>
+                        @Html.IconImage("sprite")
+                        <ul>
+                            <li><a href="#" data-bind="click: setType.bind($data, 'Include')">Include</a></li>
+                            <li><a href="#" data-bind="click: setType.bind($data, 'Exclude')">Exclude</a></li>
+                        </ul>
+                    </div>
+                    <a class="action right" data-bind="click: $parent.removeCondition" href="#">@Html.IconImage("minus-small")</a>
+
+                    <div data-bind="foreach: groups">
+                        <div class="separator" data-bind="visible: $index() > 0">
+                            <span class="label">AND</span>
+                        </div>
+                        <div data-bind="foreach: { data: comparisons, afterRender: $root.afterRenderComparison }">
+                            <span class="label" data-bind="visible: $index() > 0">OR</span>
+                            <div class="wrap">
+                                <form>
+                                    <div class="columns">
+                                        <div class="span4">
+                                            <select data-bind="options: $root.parameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select>
+                                        </div>
+                                        <div class="span2">
+                                            <select data-bind="options: operators, optionsText: 'displayName', optionsValue: 'name', value: operator"></select>
+                                        </div>
+                                        <div class="span6">
+                                            <span data-bind="if: hasMultipleValues">
+                                                <select data-bind="options: availableValues, optionsText: 'text', optionsValue: 'value', value: value"></select>
+                                            </span>
+                                            <span data-bind="ifnot: hasMultipleValues">
+                                                <input type="text" data-bind="value: value, attr: { name: 'ConditionValueTextBox_' + $index() }"
+                                                       data-val="true"
+                                                       data-val-required="*" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                                <a class="action" href="#" data-bind="click: $parent.removeComparison">@Html.IconImage("minus")</a>
+                            </div>
+                        </div>
+                        <p class="actions">
+                            <a class="button" href="#" data-bind="click: addComparison">+OR</a>
+                            <a class="button" href="#" data-bind="visible: $index() == $parent.groups().length - 1, click: $parent.addGroup">+AND</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a class="action" data-bind="click: addCondition">@Html.IconImage("plus")</a>
+        </div>
+    </div>
+    <div class="buttons">
+        <a href="#" class="button gray right btn-cancel-condition-dialog">@("Cancel".Localize())</a>
+        <a href="#" class="button right btn-submit-condition-dialog">@("Save".Localize())</a>
+    </div>
+</div>
+
+@Html.Partial("_ConditionsDialog.Scripts")

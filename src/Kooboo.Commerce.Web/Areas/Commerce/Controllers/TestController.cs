@@ -18,7 +18,7 @@ using Kooboo.Web.Mvc;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Parsing;
 using System.Text;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
 using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.HAL.Persistence;
 using Newtonsoft.Json;

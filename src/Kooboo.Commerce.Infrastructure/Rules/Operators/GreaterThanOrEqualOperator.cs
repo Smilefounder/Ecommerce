@@ -6,7 +6,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Operators
 {
-    [Dependency(typeof(IComparisonOperator), ComponentLifeStyle.Singleton, Key = "greater_than_or_equal")]
     public class GreaterThanOrEqualOperator : IComparisonOperator
     {
         public string Name
@@ -22,14 +21,6 @@ namespace Kooboo.Commerce.Rules.Operators
             get
             {
                 return ">=";
-            }
-        }
-
-        public string DisplayName
-        {
-            get
-            {
-                return "Greater Than Or Equal";
             }
         }
 

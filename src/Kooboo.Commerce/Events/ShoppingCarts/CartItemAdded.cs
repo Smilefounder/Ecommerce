@@ -1,4 +1,6 @@
-﻿using Kooboo.Commerce.ShoppingCarts;
+﻿using Kooboo.Commerce.Products;
+using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,13 @@ namespace Kooboo.Commerce.Events.ShoppingCarts
 
         public int ItemId { get; set; }
 
+        [Reference(typeof(Product))]
         public int ProductId { get; set; }
 
+        [Reference(typeof(ProductPrice))]
         public int ProductPriceId { get; set; }
 
+        [Param]
         public int Quantity { get; set; }
 
         protected CartItemAdded() { }

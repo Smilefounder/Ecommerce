@@ -73,6 +73,8 @@
                         @for (var i = 0; i < rowCount; i++)
                         {
                             var currentNormalRule = i >= normlaRules.Count ? null : normlaRules[i];
+                            var thenActivities = currentNormalRule.ThenActivityInfos.ToList();
+                            var elseActivities = currentNormalRule.ElseActivityInfos.ToList();
 
                             <tr>
                                 @if (i == 0)
@@ -84,9 +86,27 @@
                                 <td>
                                     @if (currentNormalRule != null)
                                     {
-                                        <span class="conditions-expression">
-                                            @Html.Raw(formatter.Format(currentNormalRule.ConditionsExpression, evnt.EventType))
-                                        </span>
+                                        var conditions = currentNormalRule.Conditions.ToList();
+
+                                        for (var k = 0; k < conditions.Count; k++)
+                                        {
+                                            var condition = conditions[k];
+                                            <div class="conditions-expression">
+                                                @if (k > 0)
+                                                {
+                                                    <span>AND</span>
+                                                }
+                                                @if (condition.Type == ConditionType.Exclude)
+                                                {
+                                                    <span>NOT</span>
+                                                    <span>(</span>@condition.Expression<span>)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@condition.Expression</span>
+                                                }
+                                            </div>
+                                        }
                                     }
                                     else
                                     {
@@ -94,10 +114,10 @@
                                     }
                                 </td>
                                 <td class="common">
-                                    @if (currentNormalRule != null && currentNormalRule.ThenActivityInfos.Count > 0)
+                                    @if (currentNormalRule != null && thenActivities.Count > 0)
                                     {
                                         <ul>
-                                            @foreach (var activity in currentNormalRule.ThenActivityInfos)
+                                            @foreach (var activity in thenActivities)
                                             {
                                                 <li>@RenderActivity(activity)</li>
                                             }
@@ -109,10 +129,10 @@
                                     }
                                 </td>
                                 <td class="common">
-                                    @if (currentNormalRule != null && currentNormalRule.ElseActivityInfos.Count > 0)
+                                    @if (currentNormalRule != null && elseActivities.Count > 0)
                                     {
                                         <ul>
-                                            @foreach (var activity in currentNormalRule.ElseActivityInfos)
+                                            @foreach (var activity in elseActivities)
                                             {
                                                 <li>@RenderActivity(activity)</li>
                                             }

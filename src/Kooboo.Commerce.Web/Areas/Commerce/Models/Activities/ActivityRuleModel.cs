@@ -1,6 +1,8 @@
 ﻿using Kooboo.Commerce.Activities;
+using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Expressions;
 using Kooboo.Commerce.Rules.Expressions.Formatting;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public string EventType { get; set; }
 
-        public string ConditionsExpression { get; set; }
+        public List<ConditionModel> Conditions { get; set; }
 
         public string HighlightedConditionsExpression { get; set; }
 
@@ -27,6 +29,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public ActivityRuleModel()
         {
+            Conditions = new List<ConditionModel>();
             Branches = new List<ActivityRuleBranchModel>();
         }
 
@@ -36,9 +39,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             Id = rule.Id;
             Type = rule.Type;
             EventType = rule.EventType;
-            ConditionsExpression = rule.ConditionsExpression;
-            HighlightedConditionsExpression = new HtmlExpressionFormatter().Format(rule.ConditionsExpression, System.Type.GetType(rule.EventType, true));
             CreatedAtUtc = rule.CreatedAtUtc;
+
+            var eventType = System.Type.GetType(EventType, true);
+
+            foreach (var condition in rule.Conditions)
+            {
+                var conditionModel = new ConditionModelBuilder().Build(condition.Expression, eventType);
+                conditionModel.Type = condition.Type;
+                Conditions.Add(conditionModel);
+            }
 
             Branches.Add(new ActivityRuleBranchModel
             {

@@ -2,7 +2,7 @@
 using Kooboo.Commerce.Rules.Expressions;
 using Kooboo.Commerce.Rules.Expressions.Formatting;
 using Kooboo.Commerce.Rules.Parsing;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
 using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
@@ -14,11 +14,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ConditionController : CommerceControllerBase
     {
-        public ActionResult AvailableParameters(string contextModelTypeName)
+        public ActionResult AvailableParameters(string dataContextType)
         {
-            var contextModelType = Type.GetType(contextModelTypeName, true);
+            var contextType = Type.GetType(dataContextType, true);
             var models = new List<ConditionParameterModel>();
-            var parameters = ParameterProviderManager.Instance.Providers.SelectMany(x => x.GetParameters(contextModelType)).DistinctBy(x => x.Name);
+            var parameters = ParameterProviderManager.Instance.Providers.SelectMany(x => x.GetParameters(contextType)).DistinctBy(x => x.Name);
 
             foreach (var param in parameters)
             {
@@ -26,53 +26,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             return JsonNet(models).UsingClientConvention();
-        }
-
-        [HttpPost]
-        public string GetExpression(ConditionsModel model, string contextModelType, bool prettify)
-        {
-            var expression = model.Conditions.GetExpression();
-            if (prettify)
-            {
-                expression = PrettifyConditionsExpression(expression, contextModelType);
-            }
-
-            return expression;
-        }
-
-        public string PrettifyConditionsExpression(string expression, string contextModelType)
-        {
-            return new HtmlExpressionFormatter().Format(expression, System.Type.GetType(contextModelType, true));
-        }
-
-        public ActionResult GetConditionModels(string expression, string contextModelType)
-        {
-            try
-            {
-                IList<ConditionModel> models = new List<ConditionModel>();
-
-                if (!String.IsNullOrEmpty(expression))
-                {
-                    var builder = new ConditionModelBuilder();
-                    models = builder.BuildFrom(Server.UrlDecode(expression), Type.GetType(contextModelType, true));
-                }
-
-                return JsonNet(new
-                {
-                    Success = true,
-                    Models = models
-                })
-                .UsingClientConvention();
-            }
-            catch (ParserException ex)
-            {
-                return JsonNet(new
-                {
-                    Success = false,
-                    Errors = ex.Errors.Select(x => "Char " + (x.Location.CharIndex + 1) + ": " + x.Message)
-                })
-                .UsingClientConvention();
-            }
         }
     }
 }

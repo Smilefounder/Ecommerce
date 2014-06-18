@@ -6,7 +6,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Operators
 {
-    [Dependency(typeof(IComparisonOperator), ComponentLifeStyle.Singleton, Key = "not_equals")]
     public class NotEqualsOperator : IComparisonOperator
     {
         public string Name
@@ -22,14 +21,6 @@ namespace Kooboo.Commerce.Rules.Operators
             get
             {
                 return "!=";
-            }
-        }
-
-        public string DisplayName
-        {
-            get
-            {
-                return "Not Equals";
             }
         }
 

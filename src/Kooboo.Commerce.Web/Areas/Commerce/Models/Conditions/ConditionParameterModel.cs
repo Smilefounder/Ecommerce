@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
 {
     public class ConditionParameterModel
     {
@@ -27,7 +27,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             SupportedOperators = new List<ComparisonOperatorModel>();
         }
 
-        public ConditionParameterModel(ConditionParameter param) : this()
+        public ConditionParameterModel(ConditionParameter param)
+            : this()
         {
             Name = param.Name;
             DisplayName = param.Name;
@@ -50,17 +51,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
     {
         public string Name { get; set; }
 
-        public string DisplayName { get; set; }
-
         public string Alias { get; set; }
+
+        public string DisplayName { get; set; }
 
         public ComparisonOperatorModel() { }
 
         public ComparisonOperatorModel(IComparisonOperator @operator)
         {
             Name = @operator.Name;
-            DisplayName = @operator.DisplayName;
             Alias = @operator.Alias;
+            DisplayName = String.IsNullOrWhiteSpace(@operator.Alias) ? Name : Alias;
         }
     }
 }

@@ -15,8 +15,6 @@ namespace Kooboo.Commerce.Rules
 
         string Alias { get; }
 
-        string DisplayName { get; }
-
         /// <summary>
         /// 在参数上应用运算符。
         /// </summary>

@@ -44,6 +44,34 @@ namespace Kooboo.Commerce.Rules
             _comparisonOperatorManager = comparisonOperatorManager;
         }
 
+        public bool CheckConditions(IEnumerable<Condition> conditions, object dataContext)
+        {
+            foreach (var condition in conditions)
+            {
+                if (String.IsNullOrWhiteSpace(condition.Expression))
+                {
+                    continue;
+                }
+
+                var success = false;
+                if (condition.Type == ConditionType.Include)
+                {
+                    success = CheckCondition(condition.Expression, dataContext);
+                }
+                else
+                {
+                    success = CheckCondition(condition.Expression, dataContext) == false;
+                }
+
+                if (!success)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Check if the specified condition can be fullfilled by the context.
         /// </summary>
@@ -58,13 +86,13 @@ namespace Kooboo.Commerce.Rules
             return CheckCondition(Expression.Parse(expression, _comparisonOperatorManager.AllOperatorNamesAndAlias()), dataContext);
         }
 
-        public bool CheckCondition(Expression expression, object contextModel)
+        public bool CheckCondition(Expression expression, object dataContext)
         {
             Require.NotNull(expression, "expression");
-            Require.NotNull(contextModel, "contextModel");
+            Require.NotNull(dataContext, "dataContext");
 
             var evaluator = new ConditionExpressionEvaluator(_parameterProviderManager, _comparisonOperatorManager);
-            return evaluator.Evaluate(expression, contextModel);
+            return evaluator.Evaluate(expression, dataContext);
         }
     }
 }

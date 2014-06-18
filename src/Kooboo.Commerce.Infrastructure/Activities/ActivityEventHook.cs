@@ -72,7 +72,7 @@ namespace Kooboo.Commerce.Activities
                 }
                 else
                 {
-                    if (ruleEngine.CheckCondition(rule.ConditionsExpression, @event))
+                    if (ruleEngine.CheckConditions(rule.Conditions, @event))
                     {
                         RunOrEnqueueActivities(rule.ThenActivityInfos, rule, @event, activityQueue);
                     }

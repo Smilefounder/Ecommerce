@@ -139,7 +139,7 @@ namespace Kooboo.Commerce.Rules
                 return new List<IComparisonOperator>
                 {
                     ComparisonOperators.Equals,
-                    ComparisonOperators.NotContains,
+                    ComparisonOperators.NotEquals,
                     ComparisonOperators.Contains,
                     ComparisonOperators.NotContains
                 };

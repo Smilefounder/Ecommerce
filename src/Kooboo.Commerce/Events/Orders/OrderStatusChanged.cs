@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Events.Orders
     [Event(Order = 200)]
     public class OrderStatusChanged : BusinessEvent, IOrderEvent
     {
-        [Reference(typeof(Order), Prefix = "")]
+        [Reference(typeof(Order))]
         public int OrderId { get; set; }
 
         [Param]

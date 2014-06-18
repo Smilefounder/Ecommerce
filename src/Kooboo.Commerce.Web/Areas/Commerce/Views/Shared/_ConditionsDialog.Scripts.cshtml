@@ -1,0 +1,360 @@
+﻿<script>
+
+    (function ($) {
+
+        var mappingOptions = {
+            groups: {
+                create: function (args) {
+                    var group = new ComparisonGroup(args.parent);
+                    ko.mapping.fromJS(args.data, mappingOptions, group);
+                    return group;
+                }
+            },
+            comparisons: {
+                create: function (args) {
+                    var comparison = new ComparisonModel(args.parent);
+                    ko.mapping.fromJS(args.data, mappingOptions, comparison);
+                    return comparison;
+                }
+            }
+        };
+
+        window.ConditionModel = function (root) {
+            var self = this;
+
+            self.root = function () {
+                return root;
+            };
+
+            self.type = ko.observable('Include');
+
+            self.expression = ko.observable();
+
+            self.groups = ko.observableArray();
+
+            self.addGroup = function () {
+                var group = new ComparisonGroup(self);
+                group.addComparison();
+                self.groups.push(group);
+            }
+
+            self.removeGroup = function (group) {
+                self.groups.remove(group);
+                if (self.groups().length === 0) {
+                    self.root().removeCondition(self);
+                }
+            }
+
+            self.buildExpression = function () {
+                var exp = '';
+                var groups = self.groups();
+                if (groups.length > 0) {
+                    if (groups.length === 1) {
+                        exp = groups[0].buildExpression();
+                    } else {
+                        $.each(groups, function (i) {
+                            if (i > 0) {
+                                exp += ' AND ';
+                            }
+                            exp += '(' + this.buildExpression() + ')';
+                        });
+                    }
+                }
+
+                return exp;
+            };
+
+            self.setType = function (type) {
+                self.type(type);
+            }
+        }
+
+        window.ComparisonGroup = function (condition) {
+            var self = this;
+            var condition = condition;
+
+            self.root = function () {
+                return condition.root();
+            };
+
+            self.comparisons = ko.observableArray();
+
+            self.addComparison = function () {
+                var comparison = new ComparisonModel(self);
+                self.comparisons.push(comparison);
+            }
+
+            self.removeComparison = function (comparison) {
+                self.comparisons.remove(comparison);
+                if (self.comparisons().length === 0) {
+                    condition.removeGroup(self);
+                }
+            }
+
+            self.buildExpression = function () {
+                var exp = '';
+                var comparisons = self.comparisons();
+                if (comparisons.length > 0) {
+                    $.each(comparisons, function (i) {
+                        if (i > 0) {
+                            exp += ' OR ';
+                        }
+                        exp += this.buildExpression();
+                    });
+                }
+
+                return exp;
+            };
+        }
+
+        window.ComparisonModel = function (group) {
+            var self = this;
+            var group = group;
+
+            self.root = function () {
+                return group.root();
+            };
+
+            self.paramName = ko.observable();
+            self.operator = ko.observable();
+            self.operatorDisplayName = ko.observable();
+            self.value = ko.observable();
+            self.valueType = ko.observable();
+            self.isNumberValue = ko.observable();
+            self.hasMultipleValues = ko.observable();
+            self.availableValues = ko.observableArray();
+
+            self.operators = ko.computed(function () {
+                var paramName = self.paramName();
+                if (!paramName) {
+                    return [];
+                }
+
+                var param = self.root().findParameter(paramName);
+                return param ? param.supportedOperators() : [];
+            });
+
+            self.buildExpression = function () {
+                var exp = self.paramName() + ' ' + self.operatorDisplayName() + ' ';
+                var value = self.value() || '';
+                if (self.isNumberValue()) {
+                    exp += value;
+                } else {
+                    exp += '"' + value + '"';
+                }
+
+                return exp;
+            };
+
+            self.paramName.subscribe(function (name) {
+                var param = self.root().findParameter(name);
+                if (param) {
+                    self.valueType(param.valueType());
+                    self.isNumberValue(param.isNumberValue());
+                    self.hasMultipleValues(param.values().length > 0);
+                    self.value(null);
+                    self.availableValues(param.values());
+                }
+            });
+
+            self.operator.subscribe(function (name) {
+                self.operatorDisplayName(self.root().operatorDisplayName(name));
+            });
+        }
+
+        window.ConditionsDialogModel = function () {
+            var self = this;
+
+            self.changeDataContextType = function (dataContextType) {
+                var defer = $.Deferred();
+
+                if (dataContextType === self.dataContextType()) {
+                    defer.resolve();
+                } else {
+                    self.dataContextType(dataContextType);
+
+                    $.get('/Commerce/Condition/AvailableParameters', {
+                        dataContextType: dataContextType
+                    })
+                    .done(function (data) {
+                        $.each(data, function () {
+                            self.parameters.push(ko.mapping.fromJS(this));
+                        });
+
+                        defer.resolve();
+                    });
+                }
+
+                return defer.promise();
+            }
+
+            self.title = ko.observable('Conditions');
+
+            self.dataContextType = ko.observable();
+
+            self.buildExpressions = function () {
+                $.each(self.conditions(), function () {
+                    this.expression(this.buildExpression());
+                });
+            }
+
+            self.parameters = ko.observableArray();
+
+            self.findParameter = function (name) {
+                return _.find(self.parameters(), function (p) {
+                    return p.name() === name;
+                });
+            }
+
+            self.operatorDisplayName = function (name) {
+                var displayName = name;
+
+                $.each(self.parameters(), function () {
+                    var op = _.find(this.supportedOperators(), function (o) {
+                        return o.name() === name;
+                    });
+
+                    if (op) {
+                        displayName = op.displayName();
+                        return false;
+                    }
+                });
+
+                return displayName;
+            }
+
+            self.conditions = ko.observableArray();
+
+            self.addCondition = function () {
+                var condition = new ConditionModel(self);
+                condition.addGroup();
+                self.conditions.push(condition);
+            }
+
+            self.removeCondition = function (condition) {
+                self.conditions.remove(condition);
+            }
+
+            self.afterRenderCondition = function (element) {
+                $(element).dropdownButton();
+            }
+
+            self.afterRenderComparison = function (element) {
+                $.validator.unobtrusive.reparse($(element).find('form'));
+            }
+        }
+
+        window.ConditionsDialog = function () {
+            var self = this;
+            var model = new ConditionsDialogModel();
+            var $dialog = null;
+            var inited = false;
+
+            self.onSubmitted = function () { };
+
+            self.init = function () {
+                if (!inited) {
+                    inited = true;
+
+                    $dialog = $('#conditions-dialog').dialog({
+                        autoOpen: false,
+                        modal: true
+                    });
+
+                    ko.applyBindings(model, $dialog[0]);
+
+                    $dialog.find('.btn-cancel-condition-dialog')
+                           .on('click', function (e) {
+                               self.close();
+                               e.preventDefault();
+                           });
+                    $dialog.find('.btn-submit-condition-dialog')
+                           .on('click', function (e) {
+                               self.submit();
+                               e.preventDefault();
+                           });
+                }
+            }
+
+            self.setDataContextType = function (type) {
+                return self.model().changeDataContextType(type);
+            }
+
+            self.setConditions = function (conditions) {
+                $.each(conditions, function () {
+                    var condition = new ConditionModel(model);
+                    ko.mapping.fromJS(this, mappingOptions, condition);
+                    model.conditions.push(condition);
+                });
+            }
+
+            self.model = function () {
+                return model;
+            }
+
+            self.validate = function () {
+                var valid = true;
+
+                $dialog.find('form').each(function () {
+                    if (!$(this).valid()) {
+                        valid = false;
+                    }
+                });
+
+                return valid;
+            }
+
+            self.open = function (options) {
+                options = options || {};
+
+                self.init();
+
+                if (options.title) {
+                    model.title(options.title);
+                }
+
+                model.conditions.removeAll();
+
+                if (options.dataContextType) {
+                    model.changeDataContextType(options.dataContextType)
+                         .done(function () {
+                             if (options.conditions) {
+                                 self.setConditions(options.conditions);
+                             }
+                         });
+                } else if (options.conditions) {
+                    self.setConditions(options.conditions);
+                }
+
+                $dialog.dialog('open');
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+            }
+
+            self.submit = function () {
+                $dialog.find(':focus').blur();
+
+                if (!self.validate()) {
+                    return false;
+                }
+
+                self.model().buildExpressions();
+
+                var conditions = ko.mapping.toJS(self.model().conditions());
+                self.onSubmitted.apply(self, [conditions]);
+
+                self.close();
+            }
+        }
+
+        var instance = new ConditionsDialog();
+
+        ConditionsDialog.instance = function () {
+            return instance;
+        };
+
+    })(jQuery);
+
+</script>

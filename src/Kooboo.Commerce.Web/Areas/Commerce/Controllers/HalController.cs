@@ -11,7 +11,7 @@ using System.Web.Mvc;
 using Kooboo.Globalization;
 using Kooboo.Commerce.API.HAL.Services;
 using Kooboo.Extensions;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
 using Kooboo.Commerce.Rules.Expressions.Formatting;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers

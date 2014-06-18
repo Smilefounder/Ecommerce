@@ -6,7 +6,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Operators
 {
-    [Dependency(typeof(IComparisonOperator), ComponentLifeStyle.Singleton, Key = "contains")]
     public class ContainsOperator : IComparisonOperator
     {
         public string Name
@@ -20,11 +19,6 @@ namespace Kooboo.Commerce.Rules.Operators
             {
                 return null;
             }
-        }
-
-        public string DisplayName
-        {
-            get { return "Contains"; }
         }
 
         public bool Apply(ConditionParameter param, object paramValue, object inputValue)
