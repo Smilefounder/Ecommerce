@@ -7,6 +7,100 @@
         <div class="condition-result">
             <span data-bind="html: expressionPreview" class="conditions-expression"></span>
         </div>
+        <div class="block conditions-v2">
+            <div class="item">
+                <span class="title">Condition 1:</span>
+                <div class="button blank dropdown">
+                    <span>Include</span>
+                    @Html.IconImage("sprite")
+                    <ul>
+                        <li><a href="#">Include</a></li>
+                        <li><a href="#">Exclude</a></li>
+                    </ul>
+                </div>
+                <a class="action right" href="#">@Html.IconImage("minus-small")</a>
+                <div class="wrap">
+                    <div class="columns">
+                        <div class="span4">
+                            <select>
+                                <option>Label 1</option>
+                                <option>Label 2</option>
+                                <option>Label 3</option>
+                                <option>Label 4</option>
+                            </select>
+                        </div>
+                        <div class="span2">
+                            <select>
+                                <option><</option>
+                                <option>></option>
+                                <option>=</option>
+                            </select>
+                        </div>
+                        <div class="span6">
+                            <input type="text">
+                        </div>
+                    </div>
+                    <a class="action" href="#">@Html.IconImage("minus")</a>
+                </div>
+                <span class="label">OR</span>
+                <div class="wrap">
+                    <div class="columns">
+                        <div class="span4">
+                            <select>
+                                <option>Label 1</option>
+                                <option>Label 2</option>
+                                <option>Label 3</option>
+                                <option>Label 4</option>
+                            </select>
+                        </div>
+                        <div class="span2">
+                            <select>
+                                <option><</option>
+                                <option>></option>
+                                <option>=</option>
+                            </select>
+                        </div>
+                        <div class="span6">
+                            <input type="text">
+                        </div>
+                    </div>
+                    <a class="action" href="#">@Html.IconImage("minus")</a>
+                </div>
+                <p class="actions">
+                    <a class="button" href="#">+OR</a>
+                </p>
+                <div class="separator">
+                    <span class="label">AND</span>
+                </div>
+                <div class="wrap">
+                    <div class="columns">
+                        <div class="span4">
+                            <select>
+                                <option>Label 1</option>
+                                <option>Label 2</option>
+                                <option>Label 3</option>
+                                <option>Label 4</option>
+                            </select>
+                        </div>
+                        <div class="span2">
+                            <select>
+                                <option><</option>
+                                <option>></option>
+                                <option>=</option>
+                            </select>
+                        </div>
+                        <div class="span6">
+                            <input type="text">
+                        </div>
+                    </div>
+                    <a class="action" href="#">@Html.IconImage("minus")</a>
+                </div>
+                <p class="actions">
+                    <a class="button" href="#">+OR</a>
+                    <a class="button" href="#">+AND</a>
+                </p>
+            </div>
+        </div>
         <form id="conditions-form">
             <div class="block conditions">
                 <div class="wrap" data-bind="foreach: { data: conditions, afterRender: $root.updateValidation }">

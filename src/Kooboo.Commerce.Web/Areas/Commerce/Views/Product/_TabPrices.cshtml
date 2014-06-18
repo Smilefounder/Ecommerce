@@ -6,8 +6,9 @@
 <div class="simple-table">
     <div class="toolbar">
         <a class="button" href="javascript:;" data-bind="click: $root.AddPrice">Add</a>
-        @if (productType.VariationFields.Count > 0) { 
-        <a href="#" class="button" data-action="set-variant-values">@("Bulk add".Localize())</a>
+        @if (productType.VariationFields.Count > 0)
+        {
+            <a href="#" class="button" data-action="set-variant-values">@("Bulk add".Localize())</a>
         }
         <span data-bind="visible: $root.AnyPriceSelected">
             <a href="#" class="button" data-action="bulk-change-price">@("Change prices".Localize())</a>
