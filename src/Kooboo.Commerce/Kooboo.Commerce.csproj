@@ -73,6 +73,7 @@
     <Compile Include="Categories\CategoryCustomField.cs" />
     <Compile Include="Categories\Services\CategoryService.cs" />
     <Compile Include="Categories\Services\ICategoryService.cs" />
+    <Compile Include="Customers\ExtendedQuery.cs" />
     <Compile Include="EAV\CustomFieldValue.cs" />
     <Compile Include="Events\Categories\CategoryCreated.cs" />
     <Compile Include="Events\Categories\CategoryDeleted.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="IExtendedQueryManager.cs" />
     <Compile Include="Locations\Services\CountryService.cs" />
     <Compile Include="Locations\Services\ICountryService.cs" />
+    <Compile Include="Orders\ExtendedQuery.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderCustomField.cs" />
     <Compile Include="Orders\OrderingProcessManager.cs" />
@@ -184,10 +186,12 @@
     <Compile Include="Payments\ProcessPaymentResult.cs" />
     <Compile Include="Payments\Services\IPaymentService.cs" />
     <Compile Include="Orders\Services\IOrderService.cs" />
+    <Compile Include="Products\ExtendedQuery.cs" />
     <Compile Include="Products\ProductCategory.cs" />
     <Compile Include="Products\ProductCustomFieldValue.cs" />
     <Compile Include="Products\ProductPrice.cs" />
     <Compile Include="Products\ProductPriceVariantValue.cs" />
+    <Compile Include="Products\ProductQueryModel.cs" />
     <Compile Include="Products\ProductTypeCustomField.cs" />
     <Compile Include="Products\ProductTypeVariantField.cs" />
     <Compile Include="Promotions\CheckPromotionConditionResult.cs" />

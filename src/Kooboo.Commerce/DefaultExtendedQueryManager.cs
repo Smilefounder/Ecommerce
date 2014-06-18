@@ -17,30 +17,27 @@ namespace Kooboo.Commerce
             _persistence = persistence;
         }
 
-        public IEnumerable<IExtendedQuery<T, Q>> GetExtendedQueries<T, Q>()
-            where T : class, new()
-            where Q : class, new()
+        public IEnumerable<EQ> GetExtendedQueries<EQ>()
+            where EQ : IExtendedQuery
         {
-            return EngineContext.Current.ResolveAll<IExtendedQuery<T, Q>>();
+            return EngineContext.Current.ResolveAll<EQ>();
         }
 
-        public IExtendedQuery<T, Q> GetExtendedQuery<T, Q>(string name)
-            where T : class, new()
-            where Q : class, new()
+        public EQ GetExtendedQuery<EQ>(string name)
+            where EQ : IExtendedQuery
         {
-            var queries = GetExtendedQueries<T, Q>();
+            var queries = GetExtendedQueries<EQ>();
             return queries.FirstOrDefault(o => o.Name == name);
         }
 
-        public IEnumerable<ExtendedQueryParameter> GetExtendedQueryParameters<T, Q>(string name)
-            where T : class, new()
-            where Q : class, new()
+        public IEnumerable<ExtendedQueryParameter> GetExtendedQueryParameters<EQ>(string name)
+            where EQ : IExtendedQuery
         {
-            var folder = string.Format("{0}/{1}", typeof(T).Name, name);
+            var folder = string.Format("{0}/{1}", typeof(EQ).Name, name);
             IEnumerable<ExtendedQueryParameter> paras = _persistence.GetObject<IEnumerable<ExtendedQueryParameter>>(folder);
             if(paras == null)
             {
-                var query = GetExtendedQuery<T, Q>(name);
+                var query = GetExtendedQuery<EQ>(name);
                 paras = query.Parameters;
             }
             foreach(var para in paras)
@@ -51,11 +48,10 @@ namespace Kooboo.Commerce
             return paras;
         }
 
-        public void SaveExtendedQueryParameters<T, Q>(string name, IEnumerable<ExtendedQueryParameter> parameters)
-            where T : class, new()
-            where Q : class, new()
+        public void SaveExtendedQueryParameters<EQ>(string name, IEnumerable<ExtendedQueryParameter> parameters)
+            where EQ : IExtendedQuery
         {
-            var folder = string.Format("{0}/{1}", typeof(T).Name, name);
+            var folder = string.Format("{0}/{1}", typeof(EQ).Name, name);
             _persistence.SaveObject<IEnumerable<ExtendedQueryParameter>>(folder, parameters);
         }
     }

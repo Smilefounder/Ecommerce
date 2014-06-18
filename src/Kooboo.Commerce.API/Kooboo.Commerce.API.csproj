@@ -51,7 +51,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http">
-      <HintPath>..\lib\Kooboo_CMS\System.Net.Http.dll</HintPath>
+      <HintPath>..\lib\Mvc\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

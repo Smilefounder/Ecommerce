@@ -9,8 +9,8 @@ using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Products.ExtendedQuery
 {
-    [Dependency(typeof(IExtendedQuery<Product, Product>), ComponentLifeStyle.Transient, Key = "TopSoldProduct")]
-    public class TopSoldProduct : IExtendedQuery<Product, Product>
+    [Dependency(typeof(Kooboo.Commerce.ExtendedQuery.ProductQuery), Key = "TopSoldProduct")]
+    public class TopSoldProduct : Kooboo.Commerce.ExtendedQuery.ProductQuery
     {
         public string Name
         {
@@ -39,7 +39,15 @@ namespace Kooboo.Commerce.Products.ExtendedQuery
             }
         }
 
-        public IPagedList<TResult> Query<TResult>(IEnumerable<ExtendedQueryParameter> parameters, ICommerceDatabase db, int pageIndex, int pageSize, Func<Product, TResult> func)
+        class SaledProduct
+        {
+            public int ProductPriceId { get; set; }
+            public int ProductId { get; set; }
+            public int SaledCount { get; set; }
+        }
+
+
+        public IPagedList<ProductQueryModel> Query(IEnumerable<ExtendedQueryParameter> parameters, ICommerceDatabase db, int pageIndex, int pageSize)
         {
             if (pageIndex <= 1)
                 pageIndex = 1;
@@ -68,17 +76,10 @@ namespace Kooboo.Commerce.Products.ExtendedQuery
                            saled => saled.ProductId,
                            product => product.Id,
                            (saled, product) => new { Product = product, SaledCount = saled.SaledCount })
-                .Select(o => o.Product);
+                .Select(o => new ProductQueryModel() { Product = o.Product });
 
             var data = saledProduct.ToArray();
-            return new PagedList<TResult>(data.Select<Product, TResult>(o => func(o)), pageIndex, pageSize, total);
-        }
-
-        class SaledProduct
-        {
-            public int ProductPriceId { get; set; }
-            public int ProductId { get; set; }
-            public int SaledCount { get; set; }
+            return new PagedList<ProductQueryModel>(data, pageIndex, pageSize, total);
         }
     }
 }

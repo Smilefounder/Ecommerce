@@ -9,8 +9,8 @@ using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Orders.ExtendedQuery
 {
-    [Dependency(typeof(IExtendedQuery<Order, OrderQueryModel>), ComponentLifeStyle.Transient, Key = "RecentOrder")]
-    public class RecentOrder : IExtendedQuery<Order, OrderQueryModel>
+    [Dependency(typeof(Kooboo.Commerce.ExtendedQuery.OrderQuery), Key = "RecentOrder")]
+    public class RecentOrder : Kooboo.Commerce.ExtendedQuery.OrderQuery
     {
         public string Name
         {
@@ -37,8 +37,7 @@ namespace Kooboo.Commerce.Orders.ExtendedQuery
                     };
             }
         }
-
-        public IPagedList<TResult> Query<TResult>(IEnumerable<ExtendedQueryParameter> parameters, ICommerceDatabase db, int pageIndex, int pageSize, Func<OrderQueryModel, TResult> func)
+        public IPagedList<OrderQueryModel> Query(IEnumerable<ExtendedQueryParameter> parameters, ICommerceDatabase db, int pageIndex, int pageSize)
         {
             if (pageIndex <= 1)
                 pageIndex = 1;
@@ -60,7 +59,7 @@ namespace Kooboo.Commerce.Orders.ExtendedQuery
                 .OrderByDescending(o => o.Order.Id);
             var total = query.Count();
             var data = query.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToArray();
-            return new PagedList<TResult>(data.Select<OrderQueryModel, TResult>(o => func(o)), pageIndex, pageSize, total);
+            return new PagedList<OrderQueryModel>(data, pageIndex, pageSize, total);
         }
     }
 }
