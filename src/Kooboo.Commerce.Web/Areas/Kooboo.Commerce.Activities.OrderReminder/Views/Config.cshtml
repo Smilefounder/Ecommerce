@@ -27,7 +27,13 @@
             <tr>
                 <th>@("Cancel if".Localize())</th>
                 <td>
-                    <span class="conditions-expression" data-bind="html: highlightedCancelCondition"></span>
+                    <div data-bind="foreach: cancelConditions">
+                        <div class="conditions-expression">
+                            <span data-bind="visible: $index() > 0">AND</span>
+                            <span data-bind="visible: type() == 'Exclude'">NOT</span>
+                            <span data-bind="html: expression"></span>
+                        </div>
+                    </div>
                     <a href="#" data-bind="click: editCancelCondition">
                         @Html.IconImage("edit-small")
                     </a>
@@ -42,7 +48,7 @@
     </table>
 </form>
 
-@Html.Partial("~/Areas/Commerce/Views/Shared/_ConditionsEditor.cshtml")
+@Html.Partial("~/Areas/Commerce/Views/Shared/_ConditionsDialog.cshtml")
 
 <script>
     $(function () {
@@ -75,12 +81,13 @@
             return kb.http.safePost(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityId, ko.mapping.toJS(model));
         });
 
-        ConditionsEditor.init({
-            contextModelTypeName: cancelConditionModelType,
-            save: function (exp) {
-                model.cancelCondition(exp);
-            }
-        });
+        ConditionsDialog.instance().setDataContextType(cancelConditionModelType);
+        ConditionsDialog.instance().onSubmitted = function (conditions) {
+            model.cancelConditions.removeAll();
+            $.each(conditions, function () {
+                model.cancelConditions.push(ko.mapping.fromJS(this));
+            });
+        };
 
         function OrderReminderViewModel() {
             var _this = this;
@@ -91,32 +98,14 @@
 
             this.body = ko.observable();
 
-            this.showCancelCondition = ko.observable();
-
-            this.cancelCondition = ko.observable();
-
-            this.highlightedCancelCondition = ko.observable();
+            this.cancelConditions = ko.observableArray();
 
             this.editCancelCondition = function () {
-                ConditionsEditor.open({
-                    title: '@("Cancel Condition".Localize())',
-                    expression: _this.cancelCondition()
+                ConditionsDialog.instance().open({
+                    title: '@("Cancel Conditions".Localize())',
+                    conditions: ko.mapping.toJS(_this.cancelConditions())
                 });
             }
-
-            _this.cancelCondition.subscribe(function (exp) {
-                if (exp === null || exp === undefined || exp === '') {
-                    _this.highlightedCancelCondition(null);
-                } else {
-                    $.get('/Commerce/Condition/PrettifyConditionsExpression', {
-                        expression: exp,
-                        contextModelType: cancelConditionModelType
-                    })
-                    .done(function (html) {
-                        _this.highlightedCancelCondition(html);
-                    });
-                }
-            });
         }
     });
 </script>

@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
 {
-    public class CreateRuleModel
+    public class BuildConditionModelsRequest
     {
-        public string EventType { get; set; }
+        public string DataContextType { get; set; }
 
         public List<Condition> Conditions { get; set; }
 
-        public CreateRuleModel()
+        public BuildConditionModelsRequest()
         {
             Conditions = new List<Condition>();
         }

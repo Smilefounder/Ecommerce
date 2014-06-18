@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
+﻿using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +10,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
     {
         public int RuleId { get; set; }
 
-        public List<ConditionModel> Conditions { get; set; }
+        public List<Condition> Conditions { get; set; }
 
         public UpdateConditionsModel()
         {
-            Conditions = new List<ConditionModel>();
+            Conditions = new List<Condition>();
         }
     }
 }

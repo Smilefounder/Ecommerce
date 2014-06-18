@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
         private List<ConditionParameter> _parameters;
         private Stack<object> _stack = new Stack<object>();
 
-        public ConditionModel Build(string expression, Type dataContextType)
+        public ConditionModel Build(string expression, Type dataContextType, ConditionType conditionType)
         {
             if (String.IsNullOrWhiteSpace(expression))
             {
@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
                 BuildComparisonGroup();
             }
 
-            BuildConditionModel();
+            BuildConditionModel(conditionType);
 
             var model = (ConditionModel)_stack.Pop();
             model.Expression = expression;
@@ -81,9 +81,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
             }
         }
 
-        private void BuildConditionModel()
+        private void BuildConditionModel(ConditionType conditionType)
         {
-            var model = new ConditionModel();
+            var model = new ConditionModel
+            {
+                Type = conditionType
+            };
+
             while (_stack.Count > 0)
             {
                 model.Groups.Add((ComparisonGroup)_stack.Pop());

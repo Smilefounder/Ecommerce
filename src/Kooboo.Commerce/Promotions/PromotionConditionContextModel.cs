@@ -18,18 +18,20 @@ namespace Kooboo.Commerce.Promotions
     /// </summary>
     public class PromotionConditionContextModel
     {
+        [Reference(Prefix = "")]
         public PricingItem Item { get; set; }
 
+        [Reference]
         public Customer Customer { get; set; }
 
         public PaymentMethod PaymentMethod { get; set; }
 
         public ShippingMethod ShippingMethod { get; set; }
 
-        // TODO: Add ParameterPrefix attribute?
-        //       So that we are able to add multiple properties of the same type for the conditions engine
+        [Reference]
         public Address ShippingAddress { get; set; }
 
+        [Reference]
         public Address BillingAddress { get; set; }
 
         public string CouponCode { get; set; }

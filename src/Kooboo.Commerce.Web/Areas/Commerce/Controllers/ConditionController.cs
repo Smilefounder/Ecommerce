@@ -27,5 +27,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             return JsonNet(models).UsingClientConvention();
         }
+
+        [HttpPost]
+        public ActionResult BuildConditionModels(BuildConditionModelsRequest request)
+        {
+            var type = Type.GetType(request.DataContextType, true);
+            var builder = new ConditionModelBuilder();
+            var models = request.Conditions.Select(c => builder.Build(c.Expression, type, c.Type)).ToList();
+            return JsonNet(models).UsingClientConvention();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.Rules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,11 @@ namespace Kooboo.Commerce.Activities.OrderReminder
 
         public string Receivers { get; set; }
 
-        public string CancelCondition { get; set; }
+        public List<Condition> CancelConditions { get; set; }
+
+        public OrderReminderActivityConfig()
+        {
+            CancelConditions = new List<Condition>();
+        }
     }
 }

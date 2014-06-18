@@ -8,7 +8,7 @@
     @Html.HeaderPanel().Buttons(buttons => buttons.AddCancelButton())
 }
 
-<div class="block">
+<div class="block" id="basic-info">
     @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 1 })
 
     @using (Html.BeginForm("BasicInfo", "Promotion", RouteValues.From(Request.QueryString)))
@@ -18,8 +18,20 @@
         <div class="common-form">
             <table>
                 @Html.EditorFor(m => m.Name)
-                @Html.EditorFor(m => m.StartTime)
-                @Html.EditorFor(m => m.EndTime)
+                <tr>
+                    <th>@("Start time".Localize())</th>
+                    <td>
+                        @Html.TextBoxFor(m => m.StartTime, new { @class = "medium" })
+                        @Html.ValidationMessageFor(m => m.StartTime)
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("End time".Localize())</th>
+                    <td>
+                        @Html.TextBoxFor(m => m.EndTime, new { @class = "medium" })
+                        @Html.ValidationMessageFor(m => m.EndTime)
+                    </td>
+                </tr>
                 @Html.EditorFor(m => m.RequireCouponCode)
                 <tr class="J_CouponcodeHolder hide">
                     <th></th>
@@ -31,10 +43,14 @@
                 <tr>
                     <th>@("Conditions".Localize())</th>
                     <td>
-                        <span class="conditions-expression">
-                            @Html.Raw(Model.ConditionsExpression)
-                        </span>
-                        @Html.HiddenFor(m => m.ConditionsExpression)
+                        <div data-bind="foreach: conditions">
+                            <div class="conditions-expression">
+                                <span data-bind="visible: $index() > 0">AND</span>
+                                <span data-bind="visible: type() == 'Exclude'">NOT</span>
+                                <span data-bind="html: expression"></span>
+                            </div>
+                        </div>
+                        <input type="hidden" name="ConditionsJson" data-bind="value: conditionsJson" />
                         <a href="#" class="btn-edit-conditions">@Html.IconImage("edit-small")</a>
                     </td>
                 </tr>
@@ -52,12 +68,10 @@
         </div>
     }
 
-    @Html.Partial("_ConditionsEditor")
-
     <div class="wizard-buttons">
         <a data-ajaxform="" class="button">@("Next".Localize()) &raquo;</a>
     </div>
 </div>
 
-
+@Html.Partial("_ConditionsDialog")
 @Html.Partial("BasicInfo.Scripts")

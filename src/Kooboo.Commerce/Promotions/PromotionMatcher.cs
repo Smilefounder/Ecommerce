@@ -70,7 +70,7 @@ namespace Kooboo.Commerce.Promotions
             var isMatch = false;
             var conditionMatchedItems = new List<PricingItem>();
 
-            if (String.IsNullOrEmpty(promotion.ConditionsExpression))
+            if (!promotion.Conditions.Any())
             {
                 isMatch = true;
             }

@@ -281,11 +281,32 @@
             }
 
             self.setConditions = function (conditions) {
-                $.each(conditions, function () {
-                    var condition = new ConditionModel(model);
-                    ko.mapping.fromJS(this, mappingOptions, condition);
-                    model.conditions.push(condition);
-                });
+                var defer = $.Deferred();
+
+                if (!conditions) {
+                    defer.resolve();
+                } else {
+                    $.ajax({
+                        url: '/Commerce/Condition/BuildConditionModels',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            DataContextType: self.model().dataContextType(),
+                            Conditions: conditions
+                        }),
+                        contentType: 'application/json'
+                    })
+                    .done(function (data) {
+                        $.each(data, function () {
+                            var condition = new ConditionModel(self.model());
+                            ko.mapping.fromJS(this, mappingOptions, condition);
+                            self.model().conditions.push(condition);
+                        });
+
+                        defer.resolve();
+                    });
+                }
+
+                return defer.promise();
             }
 
             self.model = function () {
@@ -305,6 +326,8 @@
             }
 
             self.open = function (options) {
+                window.loading.show();
+
                 options = options || {};
 
                 self.init();
@@ -318,15 +341,11 @@
                 if (options.dataContextType) {
                     model.changeDataContextType(options.dataContextType)
                          .done(function () {
-                             if (options.conditions) {
-                                 self.setConditions(options.conditions);
-                             }
+                             self.setConditions(options.conditions).then(openDialog);
                          });
-                } else if (options.conditions) {
-                    self.setConditions(options.conditions);
+                } else {
+                    self.setConditions(options.conditions).then(openDialog);
                 }
-
-                $dialog.dialog('open');
             }
 
             self.close = function () {
@@ -342,10 +361,23 @@
 
                 self.model().buildExpressions();
 
-                var conditions = ko.mapping.toJS(self.model().conditions());
+                var conditions = [];
+
+                $.each(self.model().conditions(), function () {
+                    conditions.push({
+                        type: this.type(),
+                        expression: this.expression()
+                    });
+                });
+
                 self.onSubmitted.apply(self, [conditions]);
 
                 self.close();
+            }
+
+            function openDialog() {
+                window.loading.hide();
+                $dialog.dialog('open');
             }
         }
 

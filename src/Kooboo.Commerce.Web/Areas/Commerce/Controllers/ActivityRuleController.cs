@@ -239,7 +239,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult CreateRule(CreateRuleModel model)
         {
             var rule = new ActivityRule(Type.GetType(model.EventType, true), RuleType.Normal);
-            rule.Conditions = model.Conditions.Select(c => new Condition(c.Expression, c.Type));
+            rule.Conditions = model.Conditions;
             _ruleRepository.Insert(rule);
             return JsonNet(new ActivityRuleModel(rule)).UsingClientConvention();
         }
@@ -248,7 +248,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult UpdateConditions(UpdateConditionsModel model)
         {
             var rule = _ruleRepository.Get(model.RuleId);
-            rule.Conditions = model.Conditions.Select(c => new Condition(c.Expression, c.Type));
+            rule.Conditions = model.Conditions;
             return JsonNet(new ActivityRuleModel(rule)).UsingClientConvention();
         }
 

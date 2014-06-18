@@ -1,6 +1,10 @@
 ﻿using Kooboo.Commerce.ComponentModel.DataAnnotations;
 using Kooboo.Commerce.Promotions;
+using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
+using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Web.Mvc.Grid2.Design;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,7 +40,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
 
         public int Priority { get; set; }
 
-        public string ConditionsExpression { get; set; }
+        public List<Condition> Conditions { get; set; }
+
+        public string ConditionsJson { get; set; }
 
         [Required(ErrorMessage = "Required")]
         public string PromotionPolicy { get; set; }
@@ -48,13 +54,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
 
         public IList<PromotionRowModel> OtherPromotions { get; set; }
 
-        public IList<NameValue> CustomFields { get; set; }
-
         public PromotionEditorModel()
         {
-            CustomFields = new List<NameValue>();
+            Conditions = new List<Condition>();
             OtherPromotions = new List<PromotionRowModel>();
-            AvailableOverlappingUsages = Kooboo.Commerce.Web.Mvc.SelectListItems.FromEnum(typeof(PromotionOverlappingUsage));
+            AvailableOverlappingUsages = SelectListItems.FromEnum(typeof(PromotionOverlappingUsage));
         }
 
         public void UpdateFrom(Promotion promotion)
@@ -67,8 +71,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
             CouponCode = promotion.CouponCode;
             Priority = promotion.Priority;
             PromotionPolicy = promotion.PromotionPolicyName;
-            ConditionsExpression = promotion.ConditionsExpression;
             OverlappingUsage = promotion.OverlappingUsage;
+            Conditions = promotion.Conditions.ToList();
+            ConditionsJson = promotion.Conditions.ToJson();
         }
 
         public void UpdateSimplePropertiesTo(Promotion promotion)
@@ -81,7 +86,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
             promotion.Priority = Priority;
             promotion.PromotionPolicyName = PromotionPolicy;
             promotion.OverlappingUsage = OverlappingUsage;
-            promotion.ConditionsExpression = ConditionsExpression;
+
+            if (String.IsNullOrWhiteSpace(ConditionsJson))
+            {
+                promotion.Conditions = null;
+            }
+            else
+            {
+                promotion.Conditions = JsonConvert.DeserializeObject<List<Condition>>(ConditionsJson);
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public string EventType { get; set; }
 
-        public List<ConditionModel> Conditions { get; set; }
+        public List<Condition> Conditions { get; set; }
 
         public string HighlightedConditionsExpression { get; set; }
 
@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public ActivityRuleModel()
         {
-            Conditions = new List<ConditionModel>();
+            Conditions = new List<Condition>();
             Branches = new List<ActivityRuleBranchModel>();
         }
 
@@ -40,15 +40,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             Type = rule.Type;
             EventType = rule.EventType;
             CreatedAtUtc = rule.CreatedAtUtc;
-
-            var eventType = System.Type.GetType(EventType, true);
-
-            foreach (var condition in rule.Conditions)
-            {
-                var conditionModel = new ConditionModelBuilder().Build(condition.Expression, eventType);
-                conditionModel.Type = condition.Type;
-                Conditions.Add(conditionModel);
-            }
+            Conditions = rule.Conditions.ToList();
 
             Branches.Add(new ActivityRuleBranchModel
             {

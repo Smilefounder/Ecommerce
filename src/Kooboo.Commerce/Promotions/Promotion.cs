@@ -2,9 +2,11 @@
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Promotions;
 using Kooboo.Commerce.Rules;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -39,7 +41,43 @@ namespace Kooboo.Commerce.Promotions
 
         public string PromotionPolicyData { get; set; }
 
-        public string ConditionsExpression { get; set; }
+        public string ConditionsJson { get; protected set; }
+
+        private List<Condition> _conditions;
+
+        [NotMapped]
+        public IEnumerable<Condition> Conditions
+        {
+            get
+            {
+                if (_conditions == null)
+                {
+                    if (String.IsNullOrWhiteSpace(ConditionsJson))
+                    {
+                        _conditions = new List<Condition>();
+                    }
+                    else
+                    {
+                        _conditions = JsonConvert.DeserializeObject<List<Condition>>(ConditionsJson);
+                    }
+                }
+
+                return _conditions;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _conditions = null;
+                    ConditionsJson = null;
+                }
+                else
+                {
+                    _conditions = value.ToList();
+                    ConditionsJson = JsonConvert.SerializeObject(value);
+                }
+            }
+        }
 
         public PromotionOverlappingUsage OverlappingUsage { get; set; }
 

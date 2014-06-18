@@ -351,6 +351,7 @@
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEntry.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Conditions\BuildConditionModelsRequest.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\ChangePasswordModel.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\CustomerCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CategoryDataSource.cs" />

@@ -15,10 +15,10 @@ namespace Kooboo.Commerce.Orders.Pricing
     {
         public int ItemId { get; private set; }
 
-        [Param]
+        [Reference(typeof(Product))]
         public int ProductId { get; private set; }
 
-        [Param]
+        [Reference(typeof(ProductPrice))]
         public int ProductPriceId { get; private set; }
 
         [Param]

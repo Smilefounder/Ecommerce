@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Promotions
         {
             var result = new CheckPromotionConditionResult();
 
-            if (String.IsNullOrWhiteSpace(promotion.ConditionsExpression))
+            if (!promotion.Conditions.Any())
             {
                 result.Success = true;
                 foreach (var item in context.Items)
@@ -38,7 +38,6 @@ namespace Kooboo.Commerce.Promotions
             }
 
             var operators = _ruleEngine.ComparisonOperatorManager.Operators.Select(o => o.Name).ToList();
-            var expression = Expression.Parse(promotion.ConditionsExpression, operators);
 
             foreach (var item in context.Items)
             {
@@ -48,7 +47,7 @@ namespace Kooboo.Commerce.Promotions
                     Customer = context.Customer
                 };
 
-                if (_ruleEngine.CheckCondition(expression, contextModel))
+                if (_ruleEngine.CheckConditions(promotion.Conditions, contextModel))
                 {
                     result.Success = true;
                     result.MatchedItems.Add(item);

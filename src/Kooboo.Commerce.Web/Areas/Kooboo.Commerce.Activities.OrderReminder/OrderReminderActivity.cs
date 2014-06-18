@@ -13,6 +13,7 @@ using Kooboo.Commerce.Events.Customers;
 using System.Text;
 using Kooboo.Commerce.Events.Brands;
 using Kooboo.Commerce.Orders.Services;
+using Kooboo.Commerce.Rules;
 
 namespace Kooboo.Commerce.Activities.OrderReminder
 {
@@ -67,6 +68,19 @@ namespace Kooboo.Commerce.Activities.OrderReminder
             var order = _orderService.GetById(orderEvent.OrderId);
             if (order != null)
             {
+                if (config.CancelConditions != null && config.CancelConditions.Count > 0)
+                {
+                    var dataContext = new CancelConditionModel
+                    {
+                        OrderStatus = order.OrderStatus
+                    };
+
+                    if (new RuleEngine().CheckConditions(config.CancelConditions, dataContext))
+                    {
+                        return;
+                    }
+                }
+
                 var receivers = config.Receivers.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 var mailInfo = new MailInfo
                 {
