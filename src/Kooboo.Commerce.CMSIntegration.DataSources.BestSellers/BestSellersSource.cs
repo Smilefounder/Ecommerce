@@ -54,7 +54,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.BestSellers
             var pageIndex = context.PageNumber.GetValueOrDefault(1) - 1;
             var pageSize = context.PageSize.GetValueOrDefault(10);
 
-            return query.Query<Product>(paras, EngineContext.Current.Resolve<ICommerceDatabase>(), pageIndex, pageSize, p => p).ToList(); ;
+            return query.Query(paras, EngineContext.Current.Resolve<ICommerceDatabase>(), pageIndex, pageSize).ToList(); ;
         }
     }
 }
