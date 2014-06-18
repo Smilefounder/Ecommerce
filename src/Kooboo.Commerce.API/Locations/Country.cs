@@ -21,14 +21,14 @@ namespace Kooboo.Commerce.API.Locations
         /// <summary>
         /// three letter iso code
         /// </summary>
-        public string ThreeLetterISOCode { get; set; }
+        public string ThreeLetterIsoCode { get; set; }
         /// <summary>
         /// two letter iso code
         /// </summary>
-        public string TwoLetterISOCode { get; set; }
+        public string TwoLetterIsoCode { get; set; }
         /// <summary>
         /// numeric iso code
         /// </summary>
-        public string NumericISOCode { get; set; }
+        public string NumericIsoCode { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             }
         }
 
-        public QueryType QueryType { get; set; }
+        public TakeOperation TakeOperation { get; set; }
 
         public List<SourceFilter> Filters { get; set; }
 

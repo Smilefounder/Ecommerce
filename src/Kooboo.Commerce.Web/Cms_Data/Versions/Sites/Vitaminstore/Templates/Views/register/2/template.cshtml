@@ -1,0 +1,245 @@
+﻿@using Kooboo.Commerce.API;
+@using Kooboo.Commerce.API.CmsSite;
+
+@{
+    var countries = Site.Current.Commerce().Countries.ToArray();
+}
+
+<script src="/Cms_Data/Sites/Vitaminstore/Javascript/new-account.js"></script>
+
+ <div class="checkout">
+    <ul class="checkout-nav">
+        <li class="checkout-nav-item completed"><a href="ShoppingCart.aspx"><i class="icon-ok"></i>Uw Besteloverzicht</a></li>
+        <li class="split through"><a></a></li>
+        <li class="checkout-nav-item selected"><a>Uw persoonlijke gegevens</a></li>
+        <li class="split"><a></a></li>
+        <li class="checkout-nav-item"><a>Bestelling afronden en betalen</a></li>
+    </ul>
+
+    <div class="new-account">
+        <div class="checkout-content new-account-form">
+            <h2>Nieuw account aanmaken</h2>
+
+            <form id="register-form">
+                @Html.AntiForgeryToken()
+                <div class="new-account-inputs">
+                    <div class="new-account-left">
+                        <table>
+                            <tbody>
+                                <tr class="sub-title">
+                                    <td>
+                                        <h3>Persoonlijke gegevens</h3>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Titel *</td>
+                                    <td>
+                                        <select name="Gender" id="Gender" class="input gender valid">
+                                            <option value="Male">Dhr.</option>
+                                            <option value="Female">Mevr.</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Voornaam *</td>
+                                    <td>
+                                        <input name="FirstName" type="text" maxlength="200" id="FirstName" class="input firstname" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Tussenvoegsel</td>
+                                    <td>
+                                        <input name="MiddleName" type="text" maxlength="200" id="MiddleName" class="input middlename">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Achternaam *</td>
+                                    <td>
+                                        <input name="LastName" type="text" maxlength="200" id="LastName" class="input lastname" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Geboortedatum *</td>
+                                    <td>
+                                        <input name="CustomFields[Birthday]" type="text" maxlength="50" id="Birthday" class="input birthdate" placeholder="DD-MM-YYYY" data-val="true" data-val-required="*" data-val-birthdate="DD-MM-YYYY">
+                                        <span class="error-msg" data-valmsg-for="CustomFields[Birthdate]" data-valmsg-replace="false">DD-MM-YYYY</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Telefoonnummer</td>
+                                    <td>
+                                        <input name="CustomFields[Tel]" type="text" maxlength="50" id="Tel" class="input tel">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Mobiel Telefoonnummer</td>
+                                    <td>
+                                        <input name="Phone" type="text" maxlength="50" id="Mobile" class="input mobile">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Banknummer</td>
+                                    <td>
+                                        <input name="CustomFields[BankNumber]" type="text" maxlength="50" id="BankNumber" class="input">
+                                    </td>
+                                </tr>
+                                <tr class="sub-title">
+                                    <td>
+                                        <h3>Adresgegevens</h3>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Postcode *</td>
+                                    <td>
+                                        <input name="Postcode" type="text" maxlength="100" id="Postcode" class="input postcode" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Huisnummer *</td>
+                                    <td>
+                                        <input name="HouseNumber" type="text" maxlength="100" id="HouseNumber" class="input housenumber" data-val="true" data-val-required="*" data-val-regex="*" data-val-regex-pattern="^\d+$">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Toevoeging</td>
+                                    <td>
+                                        <input name="HouseNumberAddition" type="text" maxlength="100" id="HouseNumberAddition" class="input housenumberExt" autocomplete="off">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Straat *</td>
+                                    <td>
+                                        <input name="Address1" type="text" maxlength="200" id="Street" class="input street" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Plaats *</td>
+                                    <td>
+                                        <input name="City" type="text" maxlength="200" id="City" class="input city" data-val="true" data-val-required="*">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Land *</td>
+                                    <td>
+                                        <select name="CountryId" id="Country" class="input country valid">
+                                            @foreach (var country in countries)
+                                            {
+                                                <option value="@country.Id">@country.Name</option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="new-account-right">
+                        <table>
+                            <tbody>
+                                <tr class="sub-title">
+                                    <td>
+                                        <h3>Inloggegevens</h3>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Email Adres *</td>
+                                    <td>
+                                        <input name="Email" type="text" maxlength="150" id="Email" class="input email" data-val="true" data-val-required="*" data-val-email="*" data-val-remote="*" data-val-remote-type="POST" data-val-remote-url="/Profile/ValidateEmail.ashx">
+                                        <span class="error-msg" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Bevestiging Email Adres *</td>
+                                    <td>
+                                        <input name="EmailConfirm" type="text" maxlength="150" id="EmailConfirm" class="input email" data-val="true" data-val-required="*" data-val-equalto="*" data-val-equalto-other="Email">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Wachtwoord *</td>
+                                    <td>
+                                        <input name="Password" type="password" id="Password" class="input" data-val="true" data-val-required="*" data-val-length="*" data-val-length-min="3" data-val-length-max="20" autocomplete="off">
+                                        <span class="error-msg" data-valmsg-for="Password" data-valmsg-replace="false">Uw wachtwoord dient meer dan 3 leestekens te zijn.</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Bevestiging wachtwoord *</td>
+                                    <td>
+                                        <input name="PasswordConfirm" type="password" id="PasswordConfirm" class="input" data-val="true" data-val-required="*" data-val-equalto="*" data-val-equalto-other="Password" autocomplete="off">
+                                    </td>
+                                </tr>
+                                <tr class="sub-title">
+                                    <td>
+                                        <h3>Uw interesses</h3>
+                                    </td>
+                                    <td><em>(Optioneel)</em></td>
+                                </tr>
+                                <tr>
+                                    <td class="lbl">Waar kent u ons van?</td>
+                                    <td>
+                                        <select name="CustomFields[WhereKnowUsFrom]" id="WhereKnowUsFrom" class="input valid">
+                                            <option value=""></option>
+                                            <option value="Ik ben klant in van jullie winkels;">Ik ben klant in van jullie winkels;</option>
+                                            <option value="Ik ken jullie winkels, maar ben nog geen klant;">Ik ken jullie winkels, maar ben nog geen klant;</option>
+                                            <option value="Via een vriend/kennis;">Via een vriend/kennis;</option>
+                                            <option value="Advies van een specialist">Advies van een specialist</option>
+                                            <option value="Via Google/Bing/Yahoo">Via Google/Bing/Yahoo</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="more-space">
+                                    <td class="lbl">In welke producten bent u het meest geïnteresseerd?</td>
+                                    <td>
+                                        <ul class="favorite-category">
+                                            <li class="favorite-cat-health"><a href="#" data-value="health" class="selected">Health</a></li>
+                                            <li class="favorite-cat-sports"><a href="#" data-value="sports" class="selected">Sports</a></li>
+                                            <li class="favorite-cat-beauty"><a href="#" data-value="beauty" class="selected">Beauty</a></li>
+                                        </ul>
+                                        <input type="hidden" name="CustomFields[FavoriteCategories]" id="FavoriteCategories" value="#health#sports#beauty">
+                                    </td>
+                                </tr>
+                                <tr class="more-space">
+                                    <td class="lbl">Wilt u op de hoogte gehouden worden van acties en aanbiedingen?</td>
+                                    <td>
+                                        <span class="vertical_middle"><input id="NewsletterYes" type="radio" name="CustomFields[AcceptNewsletter]" value="true" checked="checked"><label for="NewsletterYes">Ja, stuur mij de email nieuwsbrief</label></span><br>
+                                        <span class="vertical_middle"><input id="NewsletterNo" type="radio" name="CustomFields[AcceptNewsletter]" value="false"><label for="NewsletterNo">Nee, liever niet.</label></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="btn-create">
+                                        <input type="submit" name="Create" value="account aanmaken" id="Create" class="btn orange-btn" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+
+            <div class="clear">&nbsp;</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#register-form').submit(function () {
+            $.ajax({
+                url: '@Url.FrontUrl().SubmissionUrl("RegisterCustomer")',
+                type: 'POST',
+                data: $(this).serializeArray()
+            })
+            .done(function (result) {
+                if (result.Success) {
+                    location.href = '@Url.FrontUrl().PageUrl("Cart")';
+                } else {
+                    alert(result.Messages.join('\n'));
+                }
+            });
+        });
+    });
+</script>

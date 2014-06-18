@@ -12,13 +12,6 @@ namespace Kooboo.Commerce.Settings
         public static readonly string Key = typeof(StoreSettings).Name;
 
         /// <summary>
-        /// The price index to display all prices. Can be used:
-        /// 1. To increase or descrease price of all items. 
-        /// 2. Use to convert into different currency when used in different shops. 
-        /// </summary>
-        public decimal PriceIndex { get; set; }
-
-        /// <summary>
         /// The culture shown on your website. This is used to display currency, date, number and other culture related content.
         /// </summary>
         public string Culture { get; set; }
@@ -41,7 +34,6 @@ namespace Kooboo.Commerce.Settings
 
         public StoreSettings()
         {
-            PriceIndex = 1.000M;
             Culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
             CurrencyISOCode = "USD";
             WeightUnitName = "KG";

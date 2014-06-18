@@ -12,11 +12,14 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Models
 
         public IList<SourceFilterModel> Filters { get; set; }
 
+        public IList<string> SortableFields { get; set; }
+
         public IList<string> IncludablePaths { get; set; }
 
         public CommerceSourceModel()
         {
             Filters = new List<SourceFilterModel>();
+            SortableFields = new List<string>();
             IncludablePaths = new List<string>();
         }
 
@@ -27,6 +30,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Models
             if (source.Filters != null)
             {
                 Filters = source.Filters.Select(f => new SourceFilterModel(f)).ToList();
+            }
+
+            if (source.SortableFields != null)
+            {
+                SortableFields = source.SortableFields.ToList();
             }
 
             if (source.IncludablePaths != null)

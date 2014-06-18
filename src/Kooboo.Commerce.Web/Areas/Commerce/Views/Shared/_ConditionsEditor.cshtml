@@ -177,7 +177,7 @@
                 });
 
                 if (op) {
-                    return (op.shortcut() || op.displayName());
+                    return (op.alias() || op.displayName());
                 }
 
                 return _this.comparisonOperator() || '';

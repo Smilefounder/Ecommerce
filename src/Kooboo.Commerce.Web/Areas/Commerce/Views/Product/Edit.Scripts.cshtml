@@ -10,554 +10,593 @@
         info.show(message, (level || 'info') == 'info');
     };
 
-    var vm;
-    $(function () {
-
-        var Metadata = {
-            ProductType: {
-                CustomFields: @(Html.Raw(productType.CustomFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson())),
-                VariationFields: @(Html.Raw(productType.VariationFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson()))
+    var Metadata = {
+        ProductType: {
+            CustomFields: @(Html.Raw(productType.CustomFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson())),
+            VariationFields: @(Html.Raw(productType.VariationFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson()))
             }
-        };
+    };
 
-        vm = new ObjectModel({
-            getQueryUrl: function (self) {
-                return '/Commerce/Product/Get?id=@(Request.QueryString["Id"])&productTypeId=@(Request.QueryString["productTypeId"])';
-            },
-            getSaveUrl: function (self) {
-                return '/Commerce/Product/Save';
-            },
-            onQuerySuccess: function (self) {
-                self.SelectedCategories.removeAll();
-                self.LoadingCategory = true;
-                $.each(self.data().Categories().select(function (o) { return o.CategoryId(); }), function (i, n) { self.SelectedCategories.push(n.toString()); });
-                self.LoadingCategory = false;
-                $('#J_ProductTabs').tabs();
-                InitUpload();
+    var vm = new ObjectModel({
+        getQueryUrl: function (self) {
+            return '/Commerce/Product/Get?id=@(Request.QueryString["Id"])&productTypeId=@(Request.QueryString["productTypeId"])';
+        },
+        getSaveUrl: function (self) {
+            return '/Commerce/Product/Save';
+        },
+        onQuerySuccess: function (self) {
+            self.SelectedCategories.removeAll();
+            self.LoadingCategory = true;
+            $.each(self.data().Categories().select(function (o) { return o.CategoryId(); }), function (i, n) { self.SelectedCategories.push(n.toString()); });
+            self.LoadingCategory = false;
+
+            self.ComputeDistinctVariantValuesByFields();
+
+            kb.events.fire('Product/Edit/ViewModelReady', self, {
+                productId: self.data().Id()
+            });
+        },
+        onSaveSuccess: function (self, info) {
+            kb.events.fire('Product/Edit/FormSubmitted', self, {
+                productId: self.data().Id()
+            })
+            .done(function () {
+                utils.showMessage('Notice', info.message, 'info');
+                window.leaveConfirm.pass();
+                setTimeout(function () {
+                    window.location.href = '/Commerce/Product/Index?commerceName=@(Request.QueryString["commerceName"])&siteName=@(Request.QueryString["siteName"])';
+                }, 1000);
+            });
+        },
+        onReceiveData: function (self, data) {
+            if ('Success' in data) { data.status = data.Success ? 0 : 1; }
+            if ('Messages' in data) { data.message = data.Messages[0]; }
+
+            if (data.PriceList !== undefined) {
+                $.each(data.PriceList, function () {
+                    this.Selected = false;
+                });
+            }
+
+            return data;
+        },
+        onInit: function (self) {
+            self.ImageTypes = ko.observableArray([]);
+            self.Brands = ko.observableArray([]);
+            self.Categories = ko.observableArray([]);
+            self.LoadingCategory = true;
+
+            self.SelectedCategories = ko.observableArray([]);
+            self.SelectedCategories.subscribe(function (nval) {
+                if (self.LoadingCategory) return;
+                var cates = [];
+                self.GetCategoriesByIds(nval, cates, null);
+                self.data().Categories.removeAll();
+                $.each(cates, function (i, n) {
+                    self.data().Categories.push({
+                        ProductId: ko.observable(vm.data().Id()),
+                        CategoryId: ko.observable(n.Id())
+                    });
+                });
+            });
+            self.GetCategoriesByIds = function (ids, cates, array) {
+                if (!array) { array = vm.Categories(); }
+                $.each($.grep(array, function (n, i) { return ids.indexOf(n.Id().toString()) >= 0; }), function (i, n) {
+                    cates.push(n);
+                });
+                $.each(array, function (i, n) {
+                    if (n.Children() && n.Children().length > 0) {
+                        vm.GetCategoriesByIds(ids, cates, n.Children());
+                    }
+                })
+            }
+
+            self.BrandSelect2Options = {
+                minimumInputLength: 0,
+                id: function (brand) {
+                    return brand.Id;
+                },
+                ajax: {
+                    url: '@Url.Action("SearchBrands", "Product")',
+                    dataType: 'json',
+                    quietMillis: 100,
+                    data: function (term, page) { // page is the one-based page number tracked by Select2
+                        return {
+                            term: term, //search term
+                            pageSize: 10, // page size
+                            page: page, // page number
+                        };
+                    },
+                    results: function (data, page) {
+                        var more = data.length === 10; // whether or not there are more results available
+                        return { text: 'Name', results: data, more: more };
+                    }
+                },
+                initSelection: function (element, callback) {
+                    var brandId = self.data().BrandId();
+                    if (!brandId) {
+                        callback(null);
+                    } else {
+                        var data = {
+                            Id: self.data().BrandId(),
+                            Name: self.data().Brand().Name()
+                        };
+
+                        callback(data);
+                    }
+                },
+                formatResult: function (brand) {
+                    return brand.Name;
+                },
+                formatSelection: function (brand) {
+                    return brand.Name;
+                }
+            };
+
+            self.DistinctVariantValuesByFields = ko.observableArray();
+
+            self.ComputeDistinctVariantValuesByFields = function () {
+                var fields = [];
+
+                $.each(self.data().PriceList(), function () {
+                    $.each(this.VariantValues(), function () {
+                        var fieldName = this.CustomField().Name();
+                        var fieldValue = this.FieldValue();
+                        if (fieldValue !== null && fieldValue !== undefined && fieldValue !== '') {
+                            var field = _.find(fields, function (f) {
+                                return f.Name == fieldName;
+                            });
+                            if (!field) {
+                                field = {
+                                    Name: fieldName,
+                                    Values: ko.observableArray()
+                                };
+                                fields.push(field);
+                            }
+
+                            if (!_.any(field.Values(), function (val) { return val == fieldValue; })) {
+                                field.Values.push(fieldValue);
+                            }
+                        }
+                    });
+                });
+
+                self.DistinctVariantValuesByFields.removeAll();
+                self.DistinctVariantValuesByFields(fields);
+            }
+
+            self.AnyPriceSelected = ko.computed(function () {
+                if (!self.data() || !self.data().PriceList()) {
+                    return false;
+                }
+
+                return _.any(self.data().PriceList(), function (price) {
+                    return price.Selected();
+                });
+            });
+
+            self.AnyPublishedPriceSelected = ko.computed(function () {
+                if (!self.data() || !self.data().PriceList()) {
+                    return false;
+                }
+
+                return _.any(self.data().PriceList(), function (price) {
+                    return price.Selected() && price.IsPublished();
+                });
+            });
+
+            self.AnyUnpublishedPriceSelected = ko.computed(function () {
+                if (!self.data() || !self.data().PriceList()) {
+                    return false;
+                }
+
+                return _.any(self.data().PriceList(), function (price) {
+                    return price.Selected() && !price.IsPublished();
+                });
+            });
+
+            self.SelectAllPrices = function () {
+                $.each(self.data().PriceList(), function () {
+                    this.Selected(true);
+                });
+            }
+
+            self.ClearPriceSelection = function () {
+                $.each(self.data().PriceList(), function () {
+                    this.Selected(false);
+                });
+            }
+
+            self.SelectPricesByFieldValue = function (fieldName, fieldValue) {
+                $.each(self.data().PriceList(), function () {
+                    var price = this;
+                    var value = _.find(price.VariantValues(), function (val) {
+                        return val.CustomField().Name() == fieldName;
+                    });
+
+                    if (value && value.FieldValue() == fieldValue) {
+                        price.Selected(true);
+                    } else {
+                        price.Selected(false);
+                    }
+                });
+            }
+
+            self.PublishSelectedPrices = function () {
+                $.each(self.GetSelectedPrices(), function () {
+                    this.IsPublished(true);
+                });
+            }
+
+            self.UnpublishSelectedPrices = function () {
+                $.each(self.GetSelectedPrices(), function () {
+                    this.IsPublished(false);
+                });
+            }
+
+            self.DeleteSelectedPrices = function () {
+                if (!confirm('@("Are you sure to delete the selected prices?")')) {
+                    return;
+                }
+
+                $.each(self.GetSelectedPrices(), function () {
+                    self.DeletePrice(this);
+                });
+            }
+
+            self.GetSelectedPrices = function () {
+                var candidates = [];
+
+                $.each(self.data().PriceList(), function () {
+                    if (this.Selected()) {
+                        candidates.push(this);
+                    }
+                });
+
+                return candidates;
+            }
+
+            self.GetCustomFieldValue = function (fieldId) {
+                var fieldValue = _.find(self.data().CustomFieldValues(), function (field) {
+                    return field.CustomFieldId() == fieldId;
+                });
+
+                // New fields might be created after product creation, so here need to ensure custom field always exists
+                if (!fieldValue) {
+                    var field = _.find(Metadata.ProductType.CustomFields, function (f) {
+                        return f.Id == fieldId;
+                    });
+
+                    fieldValue = {
+                        Id: ko.observable(),
+                        ProductId: ko.observable(self.data().Id()),
+                        CustomFieldId: ko.observable(field.Id),
+                        FieldText: ko.observable(),
+                        FieldValue: ko.observable()
+                    };
+
+                    self.data().CustomFieldValues.push(fieldValue);
+                }
+
+                return fieldValue.FieldValue;
+            }
+
+            self.InitVariantFieldControls = function (elements) {
+                kb.ui.unobtrusive.initialize(elements);
+            }
+
+            self.GetAllVariantFieldNames = function () {
+                var fields = [];
+                $.each(Metadata.ProductType.VariationFields, function () {
+                    fields.push(this.Name);
+                });
+
+                return fields;
+            }
+
+            self.GetVariantFieldText = function (price, fieldId) {
+                return self.GetVariantFieldValue(price, fieldId);
+            }
+
+            self.GetVariantFieldValue = function (price, fieldId) {
+                var fieldValue = _.find(price.VariantValues(), function (field) {
+                    return field.CustomFieldId() == fieldId;
+                });
+
+                // New fields might be created after product creation, so here need to ensure custom field always exists
+                if (!fieldValue) {
+                    var field = _.find(Metadata.ProductType.VariationFields, function (f) {
+                        return f.Id == fieldId;
+                    });
+
+                    fieldValue = {
+                        Id: ko.observable(),
+                        ProductId: ko.observable(self.data().Id()),
+                        CustomFieldId: ko.observable(field.Id),
+                        FieldText: ko.observable(),
+                        FieldValue: ko.observable()
+                    };
+
+                    price.VariantValues.push(fieldValue);
+                }
+
+                return fieldValue.FieldValue;
+            }
+
+            self.GetFieldSelectOptions = function (item) {
+                if (item && item.SelectionItems()) {
+                    var json = item.SelectionItems().replace(new RegExp("'", 'g'), '"');
+                    var items = JSON.parse(json);
+                    return items;
+                }
+                return [];
+            }
+
+            self.EditingPrice = ko.observable(null);
+
+            self.NewPrice = function () {
+                var price = {
+                    Id: ko.observable(parseInt(new Date().getTime())),
+                    ProductId: ko.observable(self.data().Id()),
+                    Name: ko.observable(''),
+                    Sku: ko.observable(''),
+                    PurchasePrice: ko.observable(0.0),
+                    RetailPrice: ko.observable(0.0),
+                    Stock: ko.observable(0),
+                    DeliveryDays: ko.observable(0),
+                    CreatedAtUtc: ko.observable(new Date()),
+                    IsPublished: ko.observable(true),
+                    PublishedAtUtc: ko.observable(new Date()),
+                    VariantValues: ko.observableArray([]),
+                    Selected: ko.observable(false)
+                };
+
+                $.each(Metadata.ProductType.VariationFields, function (i, field) {
+                    price.VariantValues.push({
+                        Id: ko.observable(new Date().getTime()),
+                        ProductId: ko.observable(self.data().Id()),
+                        CustomFieldId: ko.observable(field.Id),
+                        FieldText: ko.observable(),
+                        FieldValue: ko.observable(),
+                        CustomField: ko.observable({
+                            Name: ko.observable(field.Name)
+                        })
+                    });
+                });
+
+                return price;
+            };
+            self.AddPrice = function () {
+                var price = self.NewPrice();
+                self.EditingPrice(price);
+                self.data().PriceList.push(price);
+            };
+
+            // fieldValues format:
+            //     {
+            //         name: 'FieldName',
+            //         value: [Value1, Value2, Value3]
+            //     },
+            //     {
+            //          ...
+            //     }
+            self.AddPricesByPredefinedVariantFieldValues = function (fieldValues) {
+                var arrays = [];
+
+                $.each(fieldValues, function (i) {
+                    arrays.push([]);
+
+                    var name = this.name;
+                    $.each(this.values, function () {
+                        arrays[i].push({
+                            name: name,
+                            value: this.toString()
+                        });
+                    });
+                });
+
+                // compute all combinations
+                var combinations = kb.math.descartes(arrays);
+                var newPriceList = [];
+
+                for (var i = 0, len = combinations.length; i < len; i++) {
+                    var combination = combinations[i];
+                    var price = findPrice(combination);
+                    if (!price) {
+                        price = self.NewPrice();
+                        // setup field values
+                        $.each(combination, function () {
+                            var fieldName = this.name;
+                            var fieldValue = this.value;
+                            var field = _.find(price.VariantValues(), function (f) {
+                                return f.CustomField().Name() == fieldName;
+                            });
+                            field.FieldValue(fieldValue);
+                        });
+                    }
+
+                    newPriceList.push(price);
+                }
+
+                self.data().PriceList.removeAll();
+                self.data().PriceList(newPriceList);
 
                 self.ComputeDistinctVariantValuesByFields();
 
-                kb.events.fire('Product/Edit/ViewModelReady', self, {
-                    productId: self.data().Id()
-                });
-            },
-            onSaveSuccess: function (self, info) {
-                kb.events.fire('Product/Edit/FormSubmitted', self, {
-                    productId: self.data().Id()
-                })
-                .done(function () {
-                    utils.showMessage('Notice', info.message, 'info');
-                    window.leaveConfirm.pass();
-                    setTimeout(function () {
-                        window.location.href = '/Commerce/Product/Index?commerceName=@(Request.QueryString["commerceName"])&siteName=@(Request.QueryString["siteName"])';
-                    }, 1000);
-                });
-            },
-            onReceiveData: function (self, data) {
-                if ('Success' in data) { data.status = data.Success ? 0 : 1; }
-                if ('Messages' in data) { data.message = data.Messages[0]; }
+                function findPrice(combination) {
+                    return _.find(self.data().PriceList(), function (price) {
+                        var matched = true;
 
-                if (data.PriceList !== undefined) {
-                    $.each(data.PriceList, function () {
-                        this.Selected = false;
-                    });
-                }
+                        $.each(combination, function () {
+                            var fieldName = this.name;
+                            var fieldValue = this.value;
 
-                return data;
-            },
-            onInit: function (self) {
-                self.ImageTypes = ko.observableArray([]);
-                self.Brands = ko.observableArray([]);
-                self.Categories = ko.observableArray([]);
-                self.LoadingCategory = true;
+                            var hasThisField = _.any(price.VariantValues(), function (f) {
+                                return f.CustomField().Name() == fieldName && f.FieldValue() == fieldValue;
+                            });
 
-                self.SelectedCategories = ko.observableArray([]);
-                self.SelectedCategories.subscribe(function (nval) {
-                    if (self.LoadingCategory) return;
-                    var cates = [];
-                    self.GetCategoriesByIds(nval, cates, null);
-                    self.data().Categories.removeAll();
-                    $.each(cates, function (i, n) {
-                        self.data().Categories.push({
-                            ProductId: ko.observable(vm.data().Id()),
-                            CategoryId: ko.observable(n.Id())
-                        });
-                    });
-                });
-                self.GetCategoriesByIds = function (ids, cates, array) {
-                    if (!array) { array = vm.Categories(); }
-                    $.each($.grep(array, function (n, i) { return ids.indexOf(n.Id().toString()) >= 0; }), function (i, n) {
-                        cates.push(n);
-                    });
-                    $.each(array, function (i, n) {
-                        if (n.Children() && n.Children().length > 0) {
-                            vm.GetCategoriesByIds(ids, cates, n.Children());
-                        }
-                    })
-                }
-
-                self.DistinctVariantValuesByFields = ko.observableArray();
-
-                self.ComputeDistinctVariantValuesByFields = function () {
-                    var fields = [];
-
-                    $.each(self.data().PriceList(), function () {
-                        $.each(this.VariantValues(), function () {
-                            var fieldName = this.CustomField().Name();
-                            var fieldValue = this.FieldValue();
-                            if (fieldValue !== null && fieldValue !== undefined && fieldValue !== '') {
-                                var field = _.find(fields, function (f) {
-                                    return f.Name == fieldName;
-                                });
-                                if (!field) {
-                                    field = {
-                                        Name: fieldName,
-                                        Values: ko.observableArray()
-                                    };
-                                    fields.push(field);
-                                }
-
-                                if (!_.any(field.Values(), function (val) { return val == fieldValue; })) {
-                                    field.Values.push(fieldValue);
-                                }
+                            if (!hasThisField) {
+                                matched = false;
+                                return false;
                             }
                         });
+
+                        return matched;
                     });
-
-                    self.DistinctVariantValuesByFields.removeAll();
-                    self.DistinctVariantValuesByFields(fields);
-                }
-
-                self.AnyPriceSelected = ko.computed(function () {
-                    if (!self.data() || !self.data().PriceList()) {
-                        return false;
-                    }
-
-                    return _.any(self.data().PriceList(), function (price) {
-                        return price.Selected();
-                    });
-                });
-
-                self.AnyPublishedPriceSelected = ko.computed(function () {
-                    if (!self.data() || !self.data().PriceList()) {
-                        return false;
-                    }
-
-                    return _.any(self.data().PriceList(), function (price) {
-                        return price.Selected() && price.IsPublished();
-                    });
-                });
-
-                self.AnyUnpublishedPriceSelected = ko.computed(function () {
-                    if (!self.data() || !self.data().PriceList()) {
-                        return false;
-                    }
-
-                    return _.any(self.data().PriceList(), function (price) {
-                        return price.Selected() && !price.IsPublished();
-                    });
-                });
-
-                self.SelectPricesByFieldValue = function (fieldName, fieldValue) {
-                    $.each(self.data().PriceList(), function () {
-                        var price = this;
-                        var value = _.find(price.VariantValues(), function (val) {
-                            return val.CustomField().Name() == fieldName;
-                        });
-
-                        if (value && value.FieldValue() == fieldValue) {
-                            price.Selected(true);
-                        } else {
-                            price.Selected(false);
-                        }
-                    });
-                }
-
-                self.PublishSelectedPrices = function () {
-                    $.each(self.GetSelectedPrices(), function () {
-                        this.IsPublished(true);
-                    });
-                }
-
-                self.UnpublishSelectedPrices = function () {
-                    $.each(self.GetSelectedPrices(), function () {
-                        this.IsPublished(false);
-                    });
-                }
-
-                self.DeleteSelectedPrices = function () {
-                    if (!confirm('@("Are you sure to delete the selected prices?")')) {
-                        return;
-                    }
-
-                    $.each(self.GetSelectedPrices(), function () {
-                        self.DeletePrice(this);
-                    });
-                }
-
-                self.GetSelectedPrices = function () {
-                    var candidates = [];
-
-                    $.each(self.data().PriceList(), function () {
-                        if (this.Selected()) {
-                            candidates.push(this);
-                        }
-                    });
-
-                    return candidates;
-                }
-
-                self.GetCustomFieldValue = function (fieldId) {
-                    var fieldValue = _.find(self.data().CustomFieldValues(), function (field) {
-                        return field.CustomFieldId() == fieldId;
-                    });
-
-                    // New fields might be created after product creation, so here need to ensure custom field always exists
-                    if (!fieldValue) {
-                        var field = _.find(Metadata.ProductType.CustomFields, function (f) {
-                            return f.Id == fieldId;
-                        });
-
-                        fieldValue = {
-                            Id: ko.observable(),
-                            ProductId: ko.observable(self.data().Id()),
-                            CustomFieldId: ko.observable(field.Id),
-                            FieldText: ko.observable(),
-                            FieldValue: ko.observable()
-                        };
-
-                        self.data().CustomFieldValues.push(fieldValue);
-                    }
-
-                    return fieldValue.FieldValue;
-                }
-
-                self.InitVariantFieldControls = function (elements) {
-                    kb.ui.unobtrusive.initialize(elements);
-                }
-
-                self.GetAllVariantFieldNames = function () {
-                    var fields = [];
-                    $.each(Metadata.ProductType.VariationFields, function () {
-                        fields.push(this.Name);
-                    });
-
-                    return fields;
-                }
-
-                self.GetVariantFieldText = function (price, fieldId) {
-                    return self.GetVariantFieldValue(price, fieldId);
-                }
-
-                self.GetVariantFieldValue = function (price, fieldId) {
-                    var fieldValue = _.find(price.VariantValues(), function (field) {
-                        return field.CustomFieldId() == fieldId;
-                    });
-
-                    // New fields might be created after product creation, so here need to ensure custom field always exists
-                    if (!fieldValue) {
-                        var field = _.find(Metadata.ProductType.VariationFields, function (f) {
-                            return f.Id == fieldId;
-                        });
-
-                        fieldValue = {
-                            Id: ko.observable(),
-                            ProductId: ko.observable(self.data().Id()),
-                            CustomFieldId: ko.observable(field.Id),
-                            FieldText: ko.observable(),
-                            FieldValue: ko.observable()
-                        };
-
-                        price.VariantValues.push(fieldValue);
-                    }
-
-                    return fieldValue.FieldValue;
-                }
-
-                self.GetFieldSelectOptions = function (item) {
-                    if (item && item.SelectionItems()) {
-                        var json = item.SelectionItems().replace(new RegExp("'", 'g'), '"');
-                        var items = JSON.parse(json);
-                        return items;
-                    }
-                    return [];
-                }
-
-                self.EditingPrice = ko.observable(null);
-
-                self.NewPrice = function () {
-                    var price = {
-                        Id: ko.observable(parseInt(new Date().getTime())),
-                        ProductId: ko.observable(self.data().Id()),
-                        Name: ko.observable(''),
-                        Sku: ko.observable(''),
-                        PurchasePrice: ko.observable(0.0),
-                        RetailPrice: ko.observable(0.0),
-                        Stock: ko.observable(0),
-                        DeliveryDays: ko.observable(0),
-                        CreatedAtUtc: ko.observable(new Date()),
-                        IsPublished: ko.observable(true),
-                        PublishedAtUtc: ko.observable(new Date()),
-                        VariantValues: ko.observableArray([]),
-                        Selected: ko.observable(false)
-                    };
-
-                    $.each(Metadata.ProductType.VariationFields, function (i, field) {
-                        price.VariantValues.push({
-                            Id: ko.observable(new Date().getTime()),
-                            ProductId: ko.observable(self.data().Id()),
-                            CustomFieldId: ko.observable(field.Id),
-                            FieldText: ko.observable(),
-                            FieldValue: ko.observable(),
-                            CustomField: ko.observable({
-                                Name: ko.observable(field.Name)
-                            })
-                        });
-                    });
-
-                    return price;
-                };
-                self.AddPrice = function () {
-                    var price = self.NewPrice();
-                    self.EditingPrice(price);
-                    self.data().PriceList.push(price);
-                };
-
-                // fieldValues format:
-                //     {
-                //         name: 'FieldName',
-                //         value: [Value1, Value2, Value3]
-                //     },
-                //     {
-                //          ...
-                //     }
-                self.AddPricesByPredefinedVariantFieldValues = function (fieldValues) {
-                    var arrays = [];
-
-                    $.each(fieldValues, function (i) {
-                        arrays.push([]);
-
-                        var name = this.name;
-                        $.each(this.values, function () {
-                            arrays[i].push({
-                                name: name,
-                                value: this.toString()
-                            });
-                        });
-                    });
-
-                    // compute all combinations
-                    var combinations = kb.math.descartes(arrays);
-                    var newPriceList = [];
-
-                    for (var i = 0, len = combinations.length; i < len; i++) {
-                        var combination = combinations[i];
-                        var price = findPrice(combination);
-                        if (!price) {
-                            price = self.NewPrice();
-                            // setup field values
-                            $.each(combination, function () {
-                                var fieldName = this.name;
-                                var fieldValue = this.value;
-                                var field = _.find(price.VariantValues(), function (f) {
-                                    return f.CustomField().Name() == fieldName;
-                                });
-                                field.FieldValue(fieldValue);
-                            });
-                        }
-
-                        newPriceList.push(price);
-                    }
-
-                    self.data().PriceList.removeAll();
-                    self.data().PriceList(newPriceList);
-
-                    self.ComputeDistinctVariantValuesByFields();
-
-                    function findPrice(combination) {
-                        return _.find(self.data().PriceList(), function (price) {
-                            var matched = true;
-
-                            $.each(combination, function () {
-                                var fieldName = this.name;
-                                var fieldValue = this.value;
-
-                                var hasThisField = _.any(price.VariantValues(), function (f) {
-                                    return f.CustomField().Name() == fieldName && f.FieldValue() == fieldValue;
-                                });
-
-                                if (!hasThisField) {
-                                    matched = false;
-                                    return false;
-                                }
-                            });
-
-                            return matched;
-                        });
-                    }
-                }
-
-                self.DeletePrice = function (item) {
-                    self.data().PriceList.remove(item);
-                    self.ComputeDistinctVariantValuesByFields();
-                };
-
-                self.IsEditingPrice = function (item) {
-                    return self.EditingPrice() && self.EditingPrice().Id() == item.Id();
-                };
-
-                self.GetPriceVaiantText = function (field, price) {
-                    var f = $.grep(price.VariantValues(), function (n, i) { return n.CustomFieldId() == field.CustomFieldId(); })[0];
-                    if (f)
-                        return f.FieldValue();
-                    return '';
-                };
-
-                self.GetImageUrl = function (imgType) {
-                    var imgs = $.grep(self.data().Images(), function (n, i) { return n.ImageSizeName() == imgType.Name(); });
-                    return imgs;
-                };
-
-                self.AddImage = function (imgType, url) {
-                    var t = $.grep(self.ImageTypes(), function (n, i) { return n.Name() == imgType; })[0];
-                    if (t) {
-                        var img = {
-                            Id: ko.observable(0),
-                            ProductId: ko.observable(self.data().Id()),
-                            ImageSizeName: ko.observable(imgType),
-                            ImageUrl: ko.observable(url),
-                            IsVisible: ko.observable(true)
-                        };
-                        if (!t.IsMultiple()) {
-                            self.data().Images.removeAll();
-                        }
-                        self.data().Images.push(img);
-                    }
-                };
-
-                self.RemoveImage = function (item) {
-                    self.data().Images.remove(item);
-                };
-
-                self.GetImageWidth = function (item) {
-                    var it = $.grep(self.ImageTypes(), function (n, i) { return n.Name() == item.ImageSizeName(); })[0];
-                    if (it) {
-                        return it.Width();
-                    }
-                    return 120;
-                };
-
-                self.GetImageHeight = function (item) {
-                    var it = $.grep(self.ImageTypes(), function (n, i) { return n.Name() == item.ImageSizeName(); })[0];
-                    if (it) {
-                        return it.Height();
-                    }
-                    return 120;
-                };
-
-                self.GetImageTypes = function (func) {
-                    return utils.getJson('/Commerce/Product/GetImageTypes', null, function (data) {
-                        ko.mapping.viewModel(data, self.ImageTypes);
-                        if (func) { func(); }
-                    })
-                };
-
-                self.GetBrands = function (func) {
-                    return utils.getJson('/Commerce/Product/GetBrands', null, function (data) {
-                        ko.mapping.viewModel(data, self.Brands);
-                        if (func) { func(); }
-                    })
-                };
-
-                self.GetCategories = function (func) {
-                    return utils.getJson('/Commerce/Product/GetCategories', null, function (data) {
-                        ko.mapping.viewModel(data, self.Categories);
-                        if (func) { func(); }
-                    })
-                };
-
-                self.GetSubCategories = function (item) {
-                    if (!item.Children()) {
-                        utils.getJson('/Commerce/Product/GetCategories?parentId=' + item.Id(), null, function (data) {
-                            item.Children(data);
-                            $('#category_tree li.tree-node').treeNode();
-                        });
-                    }
                 }
             }
-        });
 
-        setTimeout(function () {
-            window.loading.show();
+            self.DeletePrice = function (item) {
+                self.data().PriceList.remove(item);
+                self.ComputeDistinctVariantValuesByFields();
+            };
 
-            var time1 = new Date().getTime();
+            self.IsEditingPrice = function (item) {
+                return self.EditingPrice() && self.EditingPrice().Id() == item.Id();
+            };
 
-            $.when(vm.GetImageTypes(), vm.GetBrands(), vm.GetCategories())
-             .done(function () {
-                 var time2 = new Date().getTime();
+            self.GetPriceVaiantText = function (field, price) {
+                var f = $.grep(price.VariantValues(), function (n, i) { return n.CustomFieldId() == field.CustomFieldId(); })[0];
+                if (f)
+                    return f.FieldValue();
+                return '';
+            };
 
-                 console.log('load product types, brands, categories: ' + (time2 - time1));
+            self.GetImageUrl = function (imgType) {
+                var imgs = $.grep(self.data().Images(), function (n, i) { return n.Size() == imgType.Name(); });
+                return imgs;
+            };
 
-                 vm.getData().done(function () {
+            self.AddImage = function (imgType, url) {
+                var t = $.grep(self.ImageTypes(), function (n, i) { return n.Name() == imgType; })[0];
+                if (t) {
+                    var img = {
+                        Id: ko.observable(0),
+                        ProductId: ko.observable(self.data().Id()),
+                        Size: ko.observable(imgType),
+                        ImageUrl: ko.observable(url),
+                        IsVisible: ko.observable(true)
+                    };
+                    if (!t.IsMultiple()) {
+                        self.data().Images.removeAll();
+                    }
+                    self.data().Images.push(img);
+                }
+            };
 
-                     var time3 = new Date().getTime();
-                     console.log('load product: ' + (time3 - time2));
+            self.RemoveImage = function (item) {
+                self.data().Images.remove(item);
+            };
 
-                     kb.events.fire('Product/Edit/FormDataBinding', vm, {
-                         viewModel: vm
-                     });
+            self.GetImageWidth = function (item) {
+                var it = $.grep(self.ImageTypes(), function (n, i) { return n.Name() == item.Size(); })[0];
+                if (it) {
+                    return it.Width();
+                }
+                return 120;
+            };
 
-                     time3 = new Date().getTime();
+            self.GetImageHeight = function (item) {
+                var it = $.grep(self.ImageTypes(), function (n, i) { return n.Name() == item.Size(); })[0];
+                if (it) {
+                    return it.Height();
+                }
+                return 120;
+            };
 
-                     ko.applyBindings(vm, document.getElementById('product-edit-main'));
+            self.GetImageTypes = function (func) {
+                return utils.getJson('/Commerce/Product/GetImageTypes', null, function (data) {
+                    ko.mapping.viewModel(data, self.ImageTypes);
+                    if (func) { func(); }
+                })
+            };
 
-                     var time4 = new Date().getTime();
-                     console.log('data binding: ' + (time4 - time3));
+            self.GetBrands = function (func) {
+                return utils.getJson('/Commerce/Product/GetBrands', null, function (data) {
+                    ko.mapping.viewModel(data, self.Brands);
+                    if (func) { func(); }
+                })
+            };
 
-                     $('#category_tree li.tree-node').treeNode();
-                     kb.ui.unobtrusive.initialize(document.body);
+            self.GetCategories = function (func) {
+                return utils.getJson('/Commerce/Product/GetCategories', null, function (data) {
+                    ko.mapping.viewModel(data, self.Categories);
+                    if (func) { func(); }
+                })
+            };
 
-                     $(':checkbox.select-all-prices').on('click', function (e) {
-                         var check = $(this).is(':checked');
-                         $('.variants-table').find(':checkbox.select').each(function () {
-                             ko.dataFor(this).Selected(check);
-                         });
+            self.GetSubCategories = function (item) {
+                if (!item.Children()) {
+                    utils.getJson('/Commerce/Product/GetCategories?parentId=' + item.Id(), null, function (data) {
+                        item.Children(data);
+                        $('#category_tree li.tree-node').treeNode();
+                    });
+                }
+            }
+        }
+    });
 
-                         e.stopPropagation();
-                     });
+    window.keepLoading = true;
 
-                     // Bulk change prices dialog
-
-                     ChangePriceDialog.instance().onSave = function (price) {
-                         $.each(vm.data().PriceList(), function () {
-                             if (this.Selected()) {
-                                 this.RetailPrice(price);
-                             }
-                         });
-                     };
-
-                     $('[data-action="bulk-change-price"]').on('click', function () {
-                         ChangePriceDialog.instance().open();
-                         return false;
-                     });
-
-                     // Bulk set variant values dialog
-
-                     BulkAddDialog.instance().onSave = function (fields) {
-                         vm.AddPricesByPredefinedVariantFieldValues(fields);
-                     };
-
-                     $('[data-action="set-variant-values"]').on('click', function () {
-                         BulkAddDialog.instance().open(vm.GetAllVariantFieldNames());
-                         return false;
-                     });
-
-                     window.loading.hide();
-                 });
-             });
-        }, 20);
-
+    $(function () {
         $('#J_ProductTabs').tabs();
+
+        $.when(vm.getData())
+         .done(function () {
+             kb.events.fire('Product/Edit/FormDataBinding', vm, {
+                 viewModel: vm
+             });
+
+             ko.applyBindings(vm, document.getElementById('product-edit-main'));
+
+             kb.ui.unobtrusive.initialize(document.body);
+
+             // Lazy load categories and image types
+             vm.GetCategories().done(function() {
+                 $('#category_tree li.tree-node').treeNode();
+             });
+             vm.GetImageTypes().done(function () {
+                 InitUpload();
+             });
+
+             $(':checkbox.select-all-prices').on('click', function (e) {
+                 var check = $(this).is(':checked');
+                 $('.variants-table').find(':checkbox.select').each(function () {
+                     ko.dataFor(this).Selected(check);
+                 });
+
+                 e.stopPropagation();
+             });
+
+             // Bulk change prices dialog
+
+             ChangePriceDialog.instance().onSave = function (price) {
+                 $.each(vm.data().PriceList(), function () {
+                     if (this.Selected()) {
+                         this.RetailPrice(price);
+                     }
+                 });
+             };
+
+             $('[data-action="bulk-change-price"]').on('click', function () {
+                 ChangePriceDialog.instance().open();
+                 return false;
+             });
+
+             // Bulk set variant values dialog
+
+             BulkAddDialog.instance().onSave = function (fields) {
+                 vm.AddPricesByPredefinedVariantFieldValues(fields);
+             };
+
+             $('[data-action="set-variant-values"]').on('click', function () {
+                 BulkAddDialog.instance().open(vm.GetAllVariantFieldNames());
+                 return false;
+             });
+
+             window.loading.hide();
+         });
+
     });
 
     function InitUpload() {

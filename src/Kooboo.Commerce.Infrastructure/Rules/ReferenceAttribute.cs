@@ -35,19 +35,9 @@ namespace Kooboo.Commerce.Rules
         /// </summary>
         /// <param name="referencingType">引用的对象的实际类型。</param>
         public ReferenceAttribute(Type referencingType)
-            : this(referencingType, typeof(IndirectReferenceResolver))
-        {
-        }
-
-        /// <summary>
-        /// 标记一个对象属性为对另一个对象的间接引用，并设置引用求解器。
-        /// </summary>
-        /// <param name="referencingType">引用的对象的实际类型。</param>
-        /// <param name="referenceResolver">引用对象求解器。</param>
-        public ReferenceAttribute(Type referencingType, Type referenceResolver)
         {
             ReferencingType = referencingType;
-            ReferenceResolver = referenceResolver;
+            ReferenceResolver = typeof(IndirectReferenceResolver);
         }
     }
 }

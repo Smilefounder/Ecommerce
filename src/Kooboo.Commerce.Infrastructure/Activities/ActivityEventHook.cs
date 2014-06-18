@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Activities
         private void Execute(IEvent @event, Type eventType, CommerceInstance commerceInstance)
         {
             var database = commerceInstance.Database;
-            var ruleEngine = EngineContext.Current.Resolve<RuleEngine>();
+            var ruleEngine = new RuleEngine();
 
             var activityQueue = database.GetRepository<ActivityQueueItem>();
             var rules = database.GetRepository<ActivityRule>()

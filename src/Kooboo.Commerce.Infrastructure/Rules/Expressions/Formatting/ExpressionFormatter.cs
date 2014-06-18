@@ -9,20 +9,17 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
     public abstract class ExpressionFormatter : ExpressionVisitor
     {
         private StringBuilder _html;
-        private IComparisonOperatorProvider _operatorProvider;
-        private IEnumerable<IParameterProvider> _parameterProviders;
-        private List<ConditionParameter> _parameters;
 
-        // TODO: Bad constructor, don't depend on ioc container here
-        public ExpressionFormatter()
-            : this(EngineContext.Current.Resolve<IComparisonOperatorProvider>(), EngineContext.Current.ResolveAll<IParameterProvider>())
+        protected ComparisonOperatorManager OperatorManager { get; private set; }
+
+        protected ExpressionFormatter()
+            : this(ComparisonOperatorManager.Instance)
         {
         }
 
-        public ExpressionFormatter(IComparisonOperatorProvider operatorProvider, IEnumerable<IParameterProvider> parameterProviders)
+        protected ExpressionFormatter(ComparisonOperatorManager operatorManager)
         {
-            _operatorProvider = operatorProvider;
-            _parameterProviders = parameterProviders;
+            OperatorManager = operatorManager;
         }
 
         public string Format(string expression, Type dataContextType)
@@ -32,16 +29,12 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
                 return String.Empty;
             }
 
-            return Format(Expression.Parse(expression, _operatorProvider.GetAllOperators().Select(o => o.Name).ToList()), dataContextType);
+            return Format(Expression.Parse(expression, OperatorManager.AllOperatorNamesAndAlias()), dataContextType);
         }
 
         public string Format(Expression expression, Type dataContextType)
         {
             _html = new StringBuilder();
-            _parameters = _parameterProviders.SelectMany(x => x.GetParameters(dataContextType))
-                                             .DistinctBy(x => x.Name)
-                                             .ToList();
-
             Visit(expression);
 
             return _html.ToString();
@@ -77,12 +70,21 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
             Write(value);
         }
 
-        protected virtual void WriteLeafCondition(ComparisonExpression exp)
+        protected virtual void WriteComparison(ComparisonExpression exp)
         {
             Visit(exp.Param);
 
             WriteSpace();
-            WriteKeyword(GetFriendlyOperator(exp.Operator));
+
+            var op = OperatorManager.Find(exp.Operator);
+            var opText = exp.Operator;
+
+            if (op != null && !String.IsNullOrWhiteSpace(op.Alias))
+            {
+                opText = op.Alias;
+            }
+
+            WriteKeyword(opText);
             WriteSpace();
 
             Visit(exp.Value);
@@ -144,40 +146,17 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
 
         protected sealed override void Visit(ComparisonExpression exp)
         {
-            WriteLeafCondition(exp);
+            WriteComparison(exp);
         }
 
         protected sealed override void Visit(ComparisonParamExpression exp)
         {
-            var paramDisplayName = exp.ParamName;
-            var param = _parameters.FirstOrDefault(x => x.Name.Equals(exp.ParamName, StringComparison.OrdinalIgnoreCase));
-            if (param != null)
-            {
-                paramDisplayName = param.Name;
-            }
-
-            WriteParamName(paramDisplayName);
+            WriteParamName(exp.ParamName);
         }
 
         protected sealed override void Visit(ComparisonValueExpression exp)
         {
             WriteParamValue(exp.Value, exp.ValueType);
-        }
-
-        private string GetFriendlyOperator(string @operator)
-        {
-            var op = _operatorProvider.GetOperatorByName(@operator);
-            if (op == null)
-            {
-                op = ComparisonOperators.GetOperatorFromShortcut(@operator);
-            }
-
-            if (op != null)
-            {
-                return op.Name.Replace('_', ' ');
-            }
-
-            return @operator;
         }
 
         #endregion

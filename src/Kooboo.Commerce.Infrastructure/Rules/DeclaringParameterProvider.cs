@@ -1,5 +1,4 @@
 ﻿using Kooboo.CMS.Common.Runtime;
-using Kooboo.CMS.Common.Runtime.Dependency;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +10,10 @@ namespace Kooboo.Commerce.Rules
     /// <summary>
     /// A provider providing parameters by checking the declared <see cref="Kooboo.Commerce.Rules.ParamAttribute"/> in the class properties.
     /// </summary>
-    [Dependency(typeof(IParameterProvider), Key = "DeclaringConditionParameterProvider")]
     public class DeclaringParameterProvider : IParameterProvider
     {
+        public Func<Type, object> ActivateType = type => EngineContext.Current.Resolve(type);
+
         public IEnumerable<ConditionParameter> GetParameters(Type dataContextType)
         {
             Require.NotNull(dataContextType, "dataContextType");
@@ -119,7 +119,7 @@ namespace Kooboo.Commerce.Rules
 
             if (paramAttr.ValueSource != null)
             {
-                valueSource = EngineContext.Current.Resolve(paramAttr.ValueSource) as IParameterValueSource;
+                valueSource = ActivateType(paramAttr.ValueSource) as IParameterValueSource;
             }
             else if (property.PropertyType.IsEnum)
             {

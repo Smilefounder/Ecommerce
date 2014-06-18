@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Products
 
         public int ProductId { get; set; }
 
-        public string ImageSizeName { get; set; }
+        public string Size { get; set; }
 
         public string ImageUrl { get; set; }
 

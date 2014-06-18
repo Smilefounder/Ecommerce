@@ -14,6 +14,14 @@ namespace Kooboo.Commerce.Rules.Operators
             get { return "greater than"; }
         }
 
+        public string Alias
+        {
+            get
+            {
+                return ">";
+            }
+        }
+
         public string DisplayName
         {
             get

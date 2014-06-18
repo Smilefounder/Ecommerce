@@ -3,8 +3,8 @@
 @using Kooboo.Commerce.API.Products;
 @{
     var productId = Page_Context.Current.PageRequestContext.RouteValues["id"];
-    var product = Site.Current.Commerce().Products.ById(Convert.ToInt32(productId)).Include(o => o.Brand).Include(o => o.Type).Include(o => o.PriceList).Include(o => o.Images).FirstOrDefault();
-    var image = product.GetImage("detail");
+    var product = ViewBag.Product;
+    var image = product.GetImage("List");
     if (image == null)
     {
         image = new ProductImage();
@@ -203,47 +203,6 @@
                         <span class="green">Vandaag besteld, morgen in huis!</span>
                     </div>
                 </div>
-                <div class="product-extraitem">
-                    <div class="product-info-left">
-                        <strong>Deel dit product met uw netwerk:</strong>
-                    </div>
-                    <div class="product-info-right" style="padding-top: 5px;">
-                        <table cellpadding="0" cellspacing="0">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span class="st_facebook" st_processed="yes"><span style="text-decoration: none; color: rgb(0, 0, 0); display: inline-block; cursor: pointer; padding-left: 0px; padding-right: 0px; width: 16px;" class="stButton"><span class="chicklets facebook">&nbsp;</span><img src="http://w.sharethis.com/images/check-small.png" style="position: absolute; top: -6px; right: -7px; width: 13px; height: 13px; max-width: 13px; max-height: 13px; display: none;"></span></span>
-                                        <span class="st_twitter" st_processed="yes"><span style="text-decoration: none; color: rgb(0, 0, 0); display: inline-block; cursor: pointer; padding-left: 0px; padding-right: 0px; width: 16px;" class="stButton"><span class="chicklets twitter">&nbsp;</span><img src="http://w.sharethis.com/images/check-small.png" style="position: absolute; top: -6px; right: -7px; width: 13px; height: 13px; max-width: 13px; max-height: 13px; display: none;"></span></span>
-                                        <span class="st_pinterest" st_processed="yes"><span style="text-decoration: none; color: rgb(0, 0, 0); display: inline-block; cursor: pointer; padding-left: 0px; padding-right: 0px; width: 16px;" class="stButton"><span class="chicklets pinterest">&nbsp;</span><img src="http://w.sharethis.com/images/check-small.png" style="position: absolute; top: -6px; right: -7px; width: 13px; height: 13px; max-width: 13px; max-height: 13px; display: none;"></span></span>
-                                        <span class="st_googleplus" st_processed="yes"><span style="text-decoration: none; color: rgb(0, 0, 0); display: inline-block; cursor: pointer; padding-left: 0px; padding-right: 0px; width: 16px;" class="stButton"><span class="chicklets googleplus">&nbsp;</span><img src="http://w.sharethis.com/images/check-small.png" style="position: absolute; top: -6px; right: -7px; width: 13px; height: 13px; max-width: 13px; max-height: 13px; display: none;"></span></span>
-                                        <span class="st_linkedin" st_processed="yes"><span style="text-decoration: none; color: rgb(0, 0, 0); display: inline-block; cursor: pointer; padding-left: 0px; padding-right: 0px; width: 16px;" class="stButton"><span class="chicklets linkedin">&nbsp;</span><img src="http://w.sharethis.com/images/check-small.png" style="position: absolute; top: -6px; right: -7px; width: 13px; height: 13px; max-width: 13px; max-height: 13px; display: none;"></span></span>
-                                        <span class="st_email" st_processed="yes"><span style="text-decoration: none; color: rgb(0, 0, 0); display: inline-block; cursor: pointer; padding-left: 0px; padding-right: 0px; width: 16px;" class="stButton"><span class="chicklets email">&nbsp;</span><img src="http://w.sharethis.com/images/check-small.png" style="position: absolute; top: -6px; right: -7px; width: 13px; height: 13px; max-width: 13px; max-height: 13px; display: none;"></span></span>
-                                    </td>
-                                    <td>
-                                        <span class="p_print"></span>
-                                    </td>
-                                    <td>
-                                        <a href="/ProductPdf.aspx?ProductId=686" target="_blank"><span class="p_pdf"></span></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="product-extraitem">
-                    <div class="product-info-left">
-                        <strong>Laatste review:</strong><br>
-                        <span class="lastreview-star">
-                            <img id="ctl00_cpContent_imLastReviewStar" src="/images/star_5.jpg" style="border-width:0px;">
-                        </span> <span class="lastreview-date">
-                            Op 06 juni '13 door Irene
-                        </span>
-                    </div>
-                    <div class="product-info-right lastreview">
-                        Ik vind dit de beste multivitamine die er is. De pil is groot (enige kleine minpunt). Maar het is een van de weinige multivitamines die ik heb geprobeerd die voor mij alles bevat wat ik nodig heb.
-                    </div>
-                </div>
 
             </div>
             <div class="product-right">
@@ -309,7 +268,7 @@
                     <h5>
                         Voordeel Verpakkingen
                     </h5>
-                    @if (product.PriceList.Count() > 1)
+                    @if (product.PriceList.Length > 1)
                     {
                         <div class="higherprice">
                             <div class="higherprice-top">
@@ -351,14 +310,10 @@
         toegevoegd aan de winkelwagen
     </div>
 
-    <script type="text/javascript">
+    <script>
         $(function () {
             $(".product-top ul").idTabs(function (id) {
                 return SwitchTab(id);
-            });
-
-            $('.p_print').click(function () {
-                window.open("http://newshoppage.vitaminstore.eu/print.aspx?productId=56855", "2a", "top=100,left=100,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,width=580,height=500");
             });
         });
     </script>

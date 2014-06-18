@@ -1,132 +1,51 @@
-﻿ <div id="recommendations-holder">
+﻿@{
+    var product = ViewBag.Product;
+    var recommendations = product == null ? null : product.Recommendations;
+} 
 
+<div id="recommendations-holder">
     <div id="alsoBought" style="font-size: 12px;">
         <div class="title">
-            Klanten van dit product kochten ook:
+            Recommendations
         </div>
         <div class="item">
             <div id="pro" style="margin: 0; font-size: 11px;">
-
-                <div style="width: 152px;">
-                    <div class="productpicture">
-                        <a href="/Health/Speciaal/kind/Animal-Parade-Vitamine-C-Animalparade-Animal-Parade-kind/P56856?channel=Normal">
-                            <img id="imgProduct" border="0" src="http://newshoppage.vitaminstore.eu/product_pictures_overview/n_56856b_Vitamine-C-kauwtabletten.jpg" title="Vitamine C kauwtabletten" alt="Vitamine C kauwtabletten">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <a class="GreyLink" href="/Health/Speciaal/kind/Animal-Parade-Vitamine-C-Animalparade-Animal-Parade-kind/P56856?channel=Normal">
-                            <span>Animal Parade</span> <strong>
-                                Vitamine C kauwtabletten
-                            </strong> <span>
-                                90&nbsp;
-                                kauwtabletten
-                            </span>
-
-
-                        </a>
-                    </div>
-                    <div style="float: left; width: 60px;">
-                        <ul class="star-rating"><li class="current-rating" style="width:40px"></li></ul>
-                    </div>
-                    <div class="Price">
-                        <a class="GreyLink" href="/ShoppingCart.aspx?Quantity=1&amp;PackID=57250&amp;channel=Normal" rel="nofollow">
-                            <span class="Price_normal">
-                                € 12,50
-                            </span>
-                        </a>
-                    </div>
-                </div>
-
-                <div style="width: 152px;">
-                    <div class="productpicture">
-                        <a href="/Health/Speciaal/kind/vitamines-en-mineralen/Animal-Parade-Calcium-voor-Kinderen-animalparade-Animal-Parade-groei/P56860?channel=Normal">
-                            <img id="imgProduct" border="0" src="http://newshoppage.vitaminstore.eu/product_pictures_overview/n_56860b_Calcium-kauwtabletten.jpg" title="Calcium kauwtabletten" alt="Calcium kauwtabletten">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <a class="GreyLink" href="/Health/Speciaal/kind/vitamines-en-mineralen/Animal-Parade-Calcium-voor-Kinderen-animalparade-Animal-Parade-groei/P56860?channel=Normal">
-                            <span>Animal Parade</span> <strong>
-                                Calcium kauwtabletten
-                            </strong> <span>
-                                90&nbsp;
-                                kauwtabletten
-                            </span>
-
-
-                        </a>
-                    </div>
-                    <div style="float: left; width: 60px;">
-                        <ul class="star-rating"><li class="current-rating" style="width:47px"></li></ul>
-                    </div>
-                    <div class="Price">
-                        <a class="GreyLink" href="/ShoppingCart.aspx?Quantity=1&amp;PackID=57255&amp;channel=Normal" rel="nofollow">
-                            <span class="Price_normal">
-                                € 14,00
-                            </span>
-                        </a>
-                    </div>
-                </div>
-
-                <div style="width: 152px;">
-                    <div class="productpicture">
-                        <a href="/Health/Speciaal/kind/Animal-Parade-Acidophi-Kidz-Probiotica-voor-Kinderen-kauwtabletten/P86995?channel=Normal">
-                            <img id="imgProduct" border="0" src="http://newshoppage.vitaminstore.eu/product_pictures_overview/n_86995b_Acidophi-Kidz-kauwtabletten.jpg" title="Acidophi Kidz kauwtabletten" alt="Acidophi Kidz kauwtabletten">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <a class="GreyLink" href="/Health/Speciaal/kind/Animal-Parade-Acidophi-Kidz-Probiotica-voor-Kinderen-kauwtabletten/P86995?channel=Normal">
-                            <span>Animal Parade</span> <strong>
-                                Acidophi Kidz kauwtabletten
-                            </strong> <span>
-                                90&nbsp;
-                                kauwtabletten
-                            </span>
-
-
-                        </a>
-                    </div>
-                    <div style="float: left; width: 60px;">
-                        <ul class="star-rating"><li class="current-rating" style="width:30px"></li></ul>
-                    </div>
-                    <div class="Price">
-                        <a class="GreyLink" href="/ShoppingCart.aspx?Quantity=1&amp;PackID=91949&amp;channel=Normal" rel="nofollow">
-                            <span class="Price_normal">
-                                € 16,90
-                            </span>
-                        </a>
-                    </div>
-                </div>
-
-                <div style="width: 152px;">
-                    <div class="productpicture">
-                        <a href="/sports/spieren/herstel/Amino-Herstel-vitaminsports-voor-snel-herstel-VitaminSports-herstel/P86685?channel=Normal">
-                            <img id="imgProduct" border="0" src="http://newshoppage.vitaminstore.eu/product_pictures_overview/n_86685b_AmiNO-Pomp-voorheen-Amino-Herstel-.jpg" title="AmiNO Pomp (voorheen Amino Herstel)" alt="AmiNO Pomp (voorheen Amino Herstel)">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <a class="GreyLink" href="/sports/spieren/herstel/Amino-Herstel-vitaminsports-voor-snel-herstel-VitaminSports-herstel/P86685?channel=Normal">
-                            <span>Vitaminsports</span> <strong>
-                                AmiNO Pomp (voorheen Amino Herstel)
-                            </strong> <span>
-                                120&nbsp;
-                                capsules
-                            </span>
-
-
-                        </a>
-                    </div>
-                    <div style="float: left; width: 60px;">
-
-                    </div>
-                    <div class="Price">
-                        <a class="GreyLink" href="/ShoppingCart.aspx?Quantity=1&amp;PackID=91578&amp;channel=Normal" rel="nofollow">
-                            <span class="Price_normal">
-                                € 28,50
-                            </span>
-                        </a>
-                    </div>
-                </div>
-
+                @if (recommendations != null)
+                {
+                    foreach (var item in recommendations)
+                    {
+                        var image = item.GetImage("List");
+                        var price = item.PriceList.Length > 0 ? item.PriceList[0] : null;
+                        
+                        <div style="width: 152px;">
+                            <div class="productpicture">
+                                <a href="/product/@item.Id">
+                                    @if (image != null)
+                                    {
+                                        <img id="imgProduct" border="0" src="@image.ImageUrl" title="@item.Name" alt="@item.Name">
+                                    }
+                                </a>
+                            </div>
+                            <div class="content">
+                                <a class="GreyLink" href="/product/@item.Id">
+                                    <span>@item.Name</span>
+                                </a>
+                            </div>
+                            <div style="float: left; width: 60px;">
+                                <ul class="star-rating"><li class="current-rating" style="width:40px"></li></ul>
+                            </div>
+                            @if (price != null) { 
+                            <div class="Price">
+                                <a class="GreyLink" href="/product/@item.Id" rel="nofollow">
+                                    <span class="Price_normal">
+                                        € @price.FinalRetailPrice
+                                    </span>
+                                </a>
+                            </div>
+                            }
+                        </div>
+                    }
+                }
             </div>
         </div>
         <div class="bottom">

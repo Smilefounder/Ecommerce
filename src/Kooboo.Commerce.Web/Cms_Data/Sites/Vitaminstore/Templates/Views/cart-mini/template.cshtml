@@ -1,4 +1,15 @@
-﻿<div class="shoppingcart-title column_header">
+﻿@{
+    var cart = ViewBag.CurrentCart;
+}
+
+@if (cart != null)
+{
+    <div>
+        Cart: Total @cart.Items.Count items
+    </div>
+}
+
+<div class="shoppingcart-title column_header">
     winkelwagen
 </div>
 <div class="shoppingcart" id="mini-cart">

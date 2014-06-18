@@ -18,7 +18,7 @@
                     @("Source".Localize())
                 </th>
                 <td>
-                    <select name="DataSource.QueryName" data-bind="options: Sources, optionsText: 'Name', optionsValue: 'Name', value: DataSourceSetting.DataSource.QueryName"></select>
+                    <select name="DataSource.SourceName" data-bind="options: Sources, optionsText: 'Name', optionsValue: 'Name', value: DataSourceSetting.DataSource.SourceName"></select>
                 </td>
             </tr>
             <tr data-bind="visible: SelectedSource() && SelectedSource().Filters().length > 0" style="display:none">
@@ -30,7 +30,7 @@
                         <div data-bind="visible: !IsEditing()">
                             <span data-bind="text: Name"></span>
                             <span style="color:#888;">
-                                (<span data-bind="text: $root.GetFilterParametersDisplayText($data)"></span>)
+                                <span data-bind="text: $root.GetFilterParametersDisplayText($data)"></span>
                             </span>
                             <span>
                                 <a href="#" data-bind="click: $root.EditFilter" style="display:inline-block">@Html.IconImage("edit small")</a>
@@ -44,7 +44,7 @@
                             <!-- /ko -->
                         </div>
                         <div data-bind="visible: IsEditing" style="margin-top:10px;padding:10px;background:#eee;">
-                            <div class="clearfix">
+                            <div class="clearfix" style="margin-bottom:10px;">
                                 <span data-bind="if: IsNew">
                                     <select data-bind="options: $root.AvailableFilters, optionsText: 'Name', optionsValue: 'Name', value: Name"></select>
                                 </span>
@@ -53,7 +53,7 @@
                                 </span>
                             </div>
 
-                            <fieldset style="margin-top:10px;">
+                            <fieldset data-bind="visible: ParameterValues().length > 0">
                                 <legend>@("Filter Parameters".Localize())</legend>
                                 <div style="padding-top:10px">
                                     <table>
@@ -90,44 +90,71 @@
                 <th>@("Query type".Localize())</th>
                 <td>
                     <div class="clearfix">
-                        <input type="radio" id="QueryType_List" name="DataSource.QueryType" value="0" data-bind="checked: DataSourceSetting.DataSource.QueryType" />
-                        <label for="QueryType_List" class="inline">@("List of contents".Localize())</label>
+                        <input type="radio" id="TakeOperation_List" name="DataSource.TakeOperation" value="0" data-bind="checked: DataSourceSetting.DataSource.TakeOperation" />
+                        <label for="TakeOperation_List" class="inline">@("List of contents".Localize())</label>
                     </div>
                     <div class="clearfix" style="margin-top:10px">
-                        <input type="radio" id="QueryType_FirstOrDefault" name="DataSource.QueryType" value="1" data-bind="checked: DataSourceSetting.DataSource.QueryType" />
-                        <label for="QueryType_FirstOrDefault" class="inline">@("First or default (one content item)".Localize())</label>
+                        <input type="radio" id="TakeOperation_FirstOrDefault" name="DataSource.TakeOperation" value="1" data-bind="checked: DataSourceSetting.DataSource.TakeOperation" />
+                        <label for="TakeOperation_First" class="inline">@("First or default (one content item)".Localize())</label>
                     </div>
                 </td>
             </tr>
         </table>
-        <fieldset data-bind="visible: DataSourceSetting.DataSource.QueryType() == 0">
-            <legend class="clickable">@Html.IconImage("arrow") @("Paignation".Localize())</legend>
+        <fieldset data-bind="visible: DataSourceSetting.DataSource.TakeOperation() == 0 || SelectedSource().SortableFields().length > 0">
+            <legend class="clickable">@Html.IconImage("arrow") @("Advanced".Localize())</legend>
             <div style="padding-top:10px">
                 <table class="common-form">
-                    <tr>
-                        <th>@("Enable paging".Localize())</th>
-                        <td>
-                            <input type="checkbox" name="DataSource.EnablePaging" value="true" data-bind="checked: DataSourceSetting.DataSource.EnablePaging" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>@("Page size".Localize())</th>
-                        <td>
-                            <input type="text" name="DataSource.PageSize" data-bind="enable: DataSourceSetting.DataSource.EnablePaging, value: DataSourceSetting.DataSource.PageSize" />
-                            <em class="tip">
-                                @("A const value OR dynamic value get from query string. eg: 10 OR {PageSize}".Localize())
-                            </em>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>@("Page number".Localize())</th>
-                        <td>
-                            <input type="text" name="DataSource.PageNumber" data-bind="enable: DataSourceSetting.DataSource.EnablePaging, value: DataSourceSetting.DataSource.PageNumber" />
-                            <em class="tip">
-                                @("The page number parameter name. eg:{PageNumber}".Localize())
-                            </em>
-                        </td>
-                    </tr>
+                    <tbody data-bind="visible: DataSourceSetting.DataSource.TakeOperation() == 0">
+                        <tr>
+                            <th>@("Top".Localize())</th>
+                            <td>
+                                <input type="text" name="DataSource.Top" data-bind="value: DataSourceSetting.DataSource.Top" />
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody data-bind="visible: SelectedSource().SortableFields().length > 0">
+                        <tr>
+                            <th>@("Sort field".Localize())</th>
+                            <td>
+                                <select name="DataSource.SortField" data-bind="options: SelectedSource().SortableFields, value: DataSourceSetting.DataSource.SortField"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Sort direction".Localize())</th>
+                            <td>
+                                <select name="DataSource.SortDirection" data-bind="value: DataSourceSetting.DataSource.SortDirection">
+                                    <option value="0">@("ASC".Localize())</option>
+                                    <option value="1">@("DESC".Localize())</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody data-bind="visible: DataSourceSetting.DataSource.TakeOperation() == 0">
+                        <tr>
+                            <th>@("Enable paging".Localize())</th>
+                            <td>
+                                <input type="checkbox" name="DataSource.EnablePaging" value="true" data-bind="checked: DataSourceSetting.DataSource.EnablePaging" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Page size".Localize())</th>
+                            <td>
+                                <input type="text" name="DataSource.PageSize" data-bind="enable: DataSourceSetting.DataSource.EnablePaging, value: DataSourceSetting.DataSource.PageSize" />
+                                <em class="tip">
+                                    @("A const value OR dynamic value get from query string. eg: 10 OR {PageSize}".Localize())
+                                </em>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Page number".Localize())</th>
+                            <td>
+                                <input type="text" name="DataSource.PageNumber" data-bind="enable: DataSourceSetting.DataSource.EnablePaging, value: DataSourceSetting.DataSource.PageNumber" />
+                                <em class="tip">
+                                    @("The page number parameter name. eg:{PageNumber}".Localize())
+                                </em>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </fieldset>

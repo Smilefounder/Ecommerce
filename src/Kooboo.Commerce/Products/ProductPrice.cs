@@ -33,9 +33,9 @@ namespace Kooboo.Commerce.Products
 
         public DateTime CreatedAtUtc { get; set; }
 
-        public bool IsPublished { get; protected set; }
+        public bool IsPublished { get; set; }
 
-        public DateTime? PublishedAtUtc { get; protected set; }
+        public DateTime? PublishedAtUtc { get; set; }
 
         public virtual Product Product { get; set; }
 

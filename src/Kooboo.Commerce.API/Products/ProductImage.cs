@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.API.Products
         /// <summary>
         /// image size name, which is defined in image sizes
         /// </summary>
-        public string ImageSizeName { get; set; }
+        public string Size { get; set; }
         /// <summary>
         /// image url
         /// </summary>

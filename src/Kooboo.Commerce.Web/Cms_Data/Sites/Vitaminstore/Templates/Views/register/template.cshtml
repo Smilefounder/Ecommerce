@@ -1,8 +1,5 @@
-﻿@using Kooboo.Commerce.API;
-@using Kooboo.Commerce.API.CmsSite;
-
-@{
-    var countries = Site.Current.Commerce().Countries.ToArray();
+﻿@{
+    var countries = ViewBag.Countries;
 }
 
 <script src="/Cms_Data/Sites/Vitaminstore/Javascript/new-account.js"></script>
@@ -125,9 +122,11 @@
                                     <td class="lbl">Land *</td>
                                     <td>
                                         <select name="CountryId" id="Country" class="input country valid">
-                                            @foreach (var country in countries)
-                                            {
-                                                <option value="@country.Id">@country.Name</option>
+                                            @if (countries != null) { 
+                                                foreach (var country in countries)
+                                                {
+                                                    <option value="@country.Id">@country.Name</option>
+                                                }
                                             }
                                         </select>
                                     </td>

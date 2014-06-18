@@ -25,12 +25,21 @@
                         <input type="checkbox" class="select-all-prices">
                         @Html.IconImage("caret-down-black")
                         <ul class="dropdown hide">
-                            <!-- ko foreach: $root.DistinctVariantValuesByFields -->
-                            <!-- ko foreach: Values -->
-                            <li>
-                                <a data-bind="text: $data, click: $root.SelectPricesByFieldValue.bind($data, $parent.Name)"></a>
-                            </li>
+                            <!-- ko if: $root.DistinctVariantValuesByFields().length > 0 -->
+                                <li><a href="#" data-bind="click: $root.SelectAllPrices">@("All".Localize())</a></li>
+                                <!-- ko foreach: $root.DistinctVariantValuesByFields -->
+                                <!-- ko foreach: Values -->
+                                <li>
+                                    <a data-bind="text: $data, click: $root.SelectPricesByFieldValue.bind($data, $parent.Name)"></a>
+                                </li>
+                                <!-- /ko -->
+                                <!-- /ko -->
+                                <li><a href="#" data-bind="click: $root.ClearPriceSelection">@("None".Localize())</a></li>
                             <!-- /ko -->
+                            <!-- ko if: $root.DistinctVariantValuesByFields().length === 0 -->
+                            <li>
+                                <a href="javascript:void(0);">@("No available variant values".Localize())</a>
+                            </li>
                             <!-- /ko -->
                         </ul>
                     </div>
@@ -46,6 +55,13 @@
                 <th class="action"></th>
             </tr>
         </thead>
+        <tbody data-bind="if: $root.data().PriceList().length === 0">
+            <tr class="empty">
+                <td colspan="100">
+                    @("Empty".Localize())
+                </td>
+            </tr>
+        </tbody>
         <tbody data-bind="foreach: { data: $root.data().PriceList, afterRender: $root.InitVariantFieldControls }">
             <tr data-bind="visible: !$root.IsEditingPrice($data), css: { active: Selected }">
                 <td class="checkbox">

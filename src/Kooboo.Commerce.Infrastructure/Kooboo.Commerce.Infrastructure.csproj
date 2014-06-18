@@ -178,6 +178,7 @@
     <Compile Include="Require.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Rules\ChainedParameterValueResolver.cs" />
+    <Compile Include="Rules\ComparisonOperatorManager.cs" />
     <Compile Include="Rules\ConditionExpressionEvaluator.cs" />
     <Compile Include="Rules\Expressions\Formatting\ExpressionFormatter.cs" />
     <Compile Include="Rules\Expressions\Formatting\HtmlExpressionFormatter.cs" />
@@ -188,9 +189,11 @@
     <Compile Include="Rules\DeclaringParameterProvider.cs" />
     <Compile Include="Rules\Expressions\ExpressionVisitor.cs" />
     <Compile Include="Rules\IComparisonOperator.cs" />
-    <Compile Include="Rules\IComparisonOperatorProvider.cs" />
     <Compile Include="Rules\IParameterProvider.cs" />
     <Compile Include="Rules\IndirectReferenceAdapter.cs" />
+    <Compile Include="Rules\UnrecognizedComparisonOperatorException.cs" />
+    <Compile Include="Rules\UnrecognizedParameterException.cs" />
+    <Compile Include="Rules\ParameterProviderManager.cs" />
     <Compile Include="Rules\ReferenceAttribute.cs" />
     <Compile Include="Rules\ParameterValueResolver.cs" />
     <Compile Include="Rules\IParameterValueSource.cs" />

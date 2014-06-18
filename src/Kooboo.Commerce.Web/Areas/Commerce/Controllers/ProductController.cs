@@ -246,13 +246,24 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetBrands()
+        public ActionResult SearchBrands(string term, int pageSize, int page)
         {
-            var brands = _brandService.Query().Select(b => new
+            var query = _brandService.Query();
+
+            if (!String.IsNullOrWhiteSpace(term))
             {
-                b.Id,
-                b.Name
-            });
+                query = query.Where(p => p.Name.Contains(term));
+            }
+
+            var brands = query.OrderBy(p => p.Name)
+                              .Skip((page - 1) * pageSize)
+                              .Take(pageSize)
+                              .Select(p => new
+                              {
+                                  p.Id,
+                                  p.Name
+                              })
+                              .ToList();
 
             return JsonNet(brands);
         }

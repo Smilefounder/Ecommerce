@@ -1,0 +1,62 @@
+﻿@{
+    var cart = ViewBag.CurrentCart;
+}
+
+@if (cart != null)
+{
+    <div>
+        Cart: Total @cart.Items.Length items
+    </div>
+}
+
+<div class="shoppingcart-title column_header">
+    winkelwagen
+</div>
+<div class="shoppingcart" id="mini-cart">
+    <div class="shoppingcart-top icons">
+    </div>
+    <div class="shippingcart-item">
+        artikelen:
+        <span class="cartcount">0</span><br />
+        <span style="padding-right: 18px">totaal:</span>€
+        <span class="cartamount">0,00</span>
+    </div>
+    <div class="shippingcart-bottom">
+        <span class="nav_w">
+            <a class="white" href="@Url.FrontUrl().PageUrl("/cart")">
+                naar winkelwagen
+            </a>
+        </span>
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+        function MiniCart(element) {
+            var _this = this;
+            var _$element = $(element);
+
+            _$element.data('minicart', this);
+
+            this.refresh = function () {
+                $.get('@Url.FrontUrl().SubmissionUrl("Cart")?action=mini-cartinfo')
+                 .then(function (result) {
+                     if (result.Success) {
+                         _this.update(result.Model);
+                     }
+                 });
+            }
+
+            this.update = function (data) {
+                if (data) {
+                    _$element.find('.cartcount').text(data.TotalQuantity);
+                    _$element.find('.cartamount').text(data.Subtotal);
+                }
+            }
+        }
+
+        var cart = new MiniCart($('#mini-cart'));
+        cart.refresh();
+    });
+</script>

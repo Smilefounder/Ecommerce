@@ -15,7 +15,6 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
         private IPromotionService _promotionService;
         private IPromotionPolicyProvider _policyFactory;
         private RuleEngine _ruleEngine;
-        private IComparisonOperatorProvider _comparisonOperatorProvider;
 
         public string Name
         {
@@ -28,8 +27,7 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
         public PromotionPricingStage(
             IPromotionService promotionService,
             IPromotionPolicyProvider policyFactory,
-            RuleEngine ruleEngine,
-            IComparisonOperatorProvider comparisonOperatorProvider)
+            RuleEngine ruleEngine)
         {
             Require.NotNull(promotionService, "promotionService");
             Require.NotNull(policyFactory, "policyFactory");
@@ -38,12 +36,11 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
             _promotionService = promotionService;
             _policyFactory = policyFactory;
             _ruleEngine = ruleEngine;
-            _comparisonOperatorProvider = comparisonOperatorProvider;
         }
 
         public void Execute(PricingContext context)
         {
-            var matcher = new PromotionMatcher(_ruleEngine, _comparisonOperatorProvider);
+            var matcher = new PromotionMatcher(_ruleEngine);
             var promotions = _promotionService.Query().WhereAvailableNow().ToList();
 
             var matches = matcher.MatchApplicablePromotions(context, promotions);

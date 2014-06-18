@@ -5,9 +5,9 @@ using System.Web;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources
 {
-    public enum QueryType
+    public enum TakeOperation
     {
         List = 0,
-        FirstOrDefault = 1
+        First = 1
     }
 }

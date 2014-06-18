@@ -1,0 +1,18 @@
+﻿@{
+    var categories = ViewBag.Categories;
+}
+
+ <div class="Category_nav" style="padding-top: 20px;">
+     @if (categories != null) { 
+        foreach(var cate in categories)
+        {
+            <ul class="@(cate.Name)_Item">
+                <li><a class="leftnav @(cate.Name)" href="">@cate.Name</a></li>
+                @foreach(var sub in cate.Children)
+                { 
+                <li><a href="">@sub.Name</a></li>
+                }
+            </ul>
+        }
+     }
+</div>

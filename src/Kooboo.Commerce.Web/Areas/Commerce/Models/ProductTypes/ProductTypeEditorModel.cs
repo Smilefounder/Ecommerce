@@ -15,24 +15,25 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
     {
         public ProductTypeEditorModel()
         {
-            this.CustomFields = new List<CustomFieldEditorModel>();
-            this.VariationFields = new List<CustomFieldEditorModel>();
-            this.SystemFields = new List<CustomField>();
+            SkuAlias = "SKU";
+            CustomFields = new List<CustomFieldEditorModel>();
+            VariationFields = new List<CustomFieldEditorModel>();
+            SystemFields = new List<CustomField>();
         }
 
         public ProductTypeEditorModel(ProductType type)
             : this()
         {
-            this.Id = type.Id;
-            this.Name = type.Name;
-            this.SkuAlias = type.SkuAlias;
-            this.IsEnabled = type.IsEnabled;
+            Id = type.Id;
+            Name = type.Name;
+            SkuAlias = type.SkuAlias;
+            IsEnabled = type.IsEnabled;
             //
             if (type.CustomFields != null)
             {
                 foreach (var item in type.CustomFields)
                 {
-                    this.CustomFields.Add(new CustomFieldEditorModel(item.CustomField));
+                    CustomFields.Add(new CustomFieldEditorModel(item.CustomField));
                 }
             }
             //
@@ -40,7 +41,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
             {
                 foreach (var item in type.VariationFields)
                 {
-                    this.VariationFields.Add(new CustomFieldEditorModel(item.CustomField));
+                    VariationFields.Add(new CustomFieldEditorModel(item.CustomField));
                 }
             }
         }

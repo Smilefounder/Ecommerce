@@ -106,6 +106,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.CMSIntegrat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.CMSIntegration.DataSources.Recommendations", "Kooboo.Commerce.CMSIntegration.DataSources.Recommendations\Kooboo.Commerce.CMSIntegration.DataSources.Recommendations.csproj", "{7BBAEF3E-0F19-4C76-A910-3AB30203A392}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C1262CA3-E7E1-407B-96BF-CFF29D2E61FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Infrastructure.Tests", "Tests\Kooboo.Commerce.Infrastructure.Tests\Kooboo.Commerce.Infrastructure.Tests.csproj", "{40D7BCD9-14D2-493B-B1A7-0F0042D48B08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -240,6 +244,10 @@ Global
 		{7BBAEF3E-0F19-4C76-A910-3AB30203A392}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BBAEF3E-0F19-4C76-A910-3AB30203A392}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BBAEF3E-0F19-4C76-A910-3AB30203A392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40D7BCD9-14D2-493B-B1A7-0F0042D48B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40D7BCD9-14D2-493B-B1A7-0F0042D48B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40D7BCD9-14D2-493B-B1A7-0F0042D48B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40D7BCD9-14D2-493B-B1A7-0F0042D48B08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -287,5 +295,7 @@ Global
 		{00783F71-FBCA-4275-BA64-5F419BB8D43F} = {AF5B4096-5547-47F3-BE5C-A777FBD8B1A6}
 		{3C2C2E41-8DA7-4A2A-9906-4DE0F2E2B451} = {0D43CCD9-50BF-4653-9EE5-4A73175B770B}
 		{7BBAEF3E-0F19-4C76-A910-3AB30203A392} = {11931A08-B935-4F57-952D-900559B9BBDD}
+		{C1262CA3-E7E1-407B-96BF-CFF29D2E61FE} = {815F0052-9314-40A9-BA1B-71572CCD98AD}
+		{40D7BCD9-14D2-493B-B1A7-0F0042D48B08} = {C1262CA3-E7E1-407B-96BF-CFF29D2E61FE}
 	EndGlobalSection
 EndGlobal

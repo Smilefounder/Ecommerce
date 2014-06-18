@@ -24,45 +24,7 @@
             <div class="tab-content" id="tabMoreOption">
                 <table>
                     @Html.EditorFor(it => it.Tooltip, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.Tooltip" } } })
-                    @Html.EditorFor(it => it.Length, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.Length" } } })
-                    @Html.EditorFor(it => it.AllowNull, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.AllowNull" } } })
                     @Html.EditorFor(it => it.Modifiable, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.Modifiable" } } })
-                    <tr>
-                        <th>
-                            <label>
-                                @("Custom settings".Localize())
-                            </label>
-                        </th>
-                        <td>
-                            <table class="key-value" data-bind="with:dataMap.CustomSettingsObj">
-                                <thead>
-                                    <tr data-bind="visible:items().length>0">
-                                        <th>@("Key".Localize())</th>
-                                        <th>@("Value".Localize())</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach:items">
-                                    <tr>
-                                        <td>
-                                            <input type="text" title="key" class="short" data-bind="value:Key" />
-                                        </td>
-                                        <td>
-                                            <input type="text" title="value" class="medium" data-bind="value:Value" />
-                                        </td>
-                                        <td>
-                                            <a href="javascript:;" class="inline-action" data-bind="click:$parent.remove">@Html.IconImage("minus")</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td><a href="javascript:;" class="key-value-add" data-bind="click:add">@Html.IconImage("plus")</a></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                            <em class="tip">@("Enable the modification of this field in the content editing page.".Localize())</em>
-                        </td>
-                    </tr>
                 </table>
             </div>
             <div class="tab-content" id="tabValidation">
