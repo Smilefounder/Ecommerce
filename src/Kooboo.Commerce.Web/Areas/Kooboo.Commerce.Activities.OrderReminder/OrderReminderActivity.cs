@@ -18,9 +18,9 @@ using Kooboo.Commerce.Rules;
 namespace Kooboo.Commerce.Activities.OrderReminder
 {
     [Dependency(typeof(IActivity), Key = "OrderReminder")]
-    public class OrderReminderActivity : IActivity
+    public class OrderReminderActivity : ActivityBase<IOrderEvent>, IHasCustomActivitySettingsEditor
     {
-        public string Name
+        public override string Name
         {
             get
             {
@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder
             }
         }
 
-        public string DisplayName
+        public override string DisplayName
         {
             get
             {
@@ -36,17 +36,12 @@ namespace Kooboo.Commerce.Activities.OrderReminder
             }
         }
 
-        public bool AllowAsyncExecution
+        public override bool AllowAsyncExecution
         {
             get
             {
                 return true;
             }
-        }
-
-        public bool CanBindTo(Type eventType)
-        {
-            return typeof(IOrderEvent).IsAssignableFrom(eventType);
         }
 
         private IOrderService _orderService;
@@ -56,7 +51,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder
             _orderService = orderService;
         }
 
-        public void Execute(IEvent evnt, ActivityContext context)
+        protected override void DoExecute(IOrderEvent @event, ActivityContext context)
         {
             var config = context.GetActivityConfig<OrderReminderActivityConfig>();
             if (config == null || String.IsNullOrWhiteSpace(config.Receivers))
@@ -64,8 +59,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder
                 return;
             }
 
-            var orderEvent = (IOrderEvent)evnt;
-            var order = _orderService.GetById(orderEvent.OrderId);
+            var order = _orderService.GetById(@event.OrderId);
             if (order != null)
             {
                 if (config.CancelConditions != null && config.CancelConditions.Count > 0)
@@ -106,9 +100,9 @@ namespace Kooboo.Commerce.Activities.OrderReminder
             }
         }
 
-        public ActivityEditor GetEditor(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
+        public string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
         {
-            return new ActivityEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
+            return "~/Areas/" + Strings.AreaName + "/Views/Config.cshtml";
         }
     }
 }

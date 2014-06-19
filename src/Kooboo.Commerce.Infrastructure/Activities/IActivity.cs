@@ -44,10 +44,5 @@ namespace Kooboo.Commerce.Activities
         /// <param name="event">当前触发的事件。</param>
         /// <param name="context">其它上下文信息。</param>
         void Execute(IEvent @event, ActivityContext context);
-
-        /// <summary>
-        /// 获取Activity的配置编辑器。
-        /// </summary>
-        ActivityEditor GetEditor(ActivityRule rule, AttachedActivityInfo attachedActivityInfo);
     }
 }
