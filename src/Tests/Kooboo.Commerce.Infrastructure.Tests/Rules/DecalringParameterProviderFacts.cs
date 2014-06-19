@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
 {
     public class DecalringParameterProviderFacts
     {
-        public class Discovering
+        public class EnumParameter
         {
             [Fact]
             public void can_discover_enum()
@@ -46,6 +46,41 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
                 Assert.Equal("Value3", values[2].Text);
             }
 
+            [Fact]
+            public void can_resolve_enum_value()
+            {
+                var provider = new DeclaringParameterProvider();
+                var param = provider.GetParameters(typeof(ContextModel))
+                                    .FirstOrDefault(p => p.Name == "EnumValue");
+
+                Assert.Equal(MyEnum.Value2, param.ResolveValue(new ContextModel
+                {
+                    EnumValue = MyEnum.Value2
+                }));
+
+                Assert.Equal(MyEnum.Value3, param.ResolveValue(new ContextModel
+                {
+                    EnumValue = MyEnum.Value3
+                }));
+            }
+
+            [Fact]
+            public void can_resolve_nullable_enum_value()
+            {
+                var provider = new DeclaringParameterProvider();
+                var param = provider.GetParameters(typeof(ContextModel))
+                                    .FirstOrDefault(p => p.Name == "NullableEnumValue");
+
+                Assert.Equal(MyEnum.Value2, param.ResolveValue(new ContextModel
+                {
+                    NullableEnumValue = MyEnum.Value2
+                }));
+                Assert.Null(param.ResolveValue(new ContextModel
+                {
+                    NullableEnumValue = null
+                }));
+            }
+
             public class ContextModel
             {
                 [Param]
@@ -63,26 +98,8 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             }
         }
 
-        public class ResolvingParameterValue
+        public class ObjectNesting
         {
-            [Fact]
-            public void can_resolve_enum()
-            {
-                var provider = new DeclaringParameterProvider();
-                var param = provider.GetParameters(typeof(ContextObject))
-                                    .FirstOrDefault(p => p.Name == "Enum");
-
-                Assert.Equal(MyEnum.Value2, param.ValueResolver.ResolveValue(param, new ContextObject
-                {
-                    Enum = MyEnum.Value2
-                }));
-
-                Assert.Equal(MyEnum.Value3, param.ValueResolver.ResolveValue(param, new ContextObject
-                {
-                    Enum = MyEnum.Value3
-                }));
-            }
-
             [Fact]
             public void can_resolve_nested_object_param_values()
             {
@@ -143,18 +160,8 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
                 Assert.Null(prop2Value);
             }
 
-            public enum MyEnum
-            {
-                Value1 = 0,
-                Value2 = 1,
-                Value3 = 2
-            }
-
             public class ContextObject
             {
-                [Param]
-                public MyEnum Enum { get; set; }
-
                 [Reference]
                 public NestedContextObject Nested { get; set; }
             }
@@ -169,7 +176,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             }
         }
 
-        public class ResolvingIndirectReferencedParameters
+        public class IndirectReferening
         {
             [Fact]
             public void should_return_null_for_invalid_reference_key()

@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Rules.Operators
             Require.NotNull(paramValue, "paramValue");
             Require.NotNull(inputValue, "inputValue");
 
-            return paramValue.ToString().Contains(inputValue.ToString());
+            return paramValue.ToString().Contains(inputValue.ToString(), StringComparison.OrdinalIgnoreCase);
         }
     }
 }

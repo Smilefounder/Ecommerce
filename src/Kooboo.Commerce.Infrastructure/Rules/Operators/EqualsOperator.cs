@@ -23,6 +23,11 @@ namespace Kooboo.Commerce.Rules.Operators
 
         public bool Apply(ConditionParameter param, object paramValue, object inputValue)
         {
+            if (paramValue is String && inputValue is String)
+            {
+                return (paramValue as String).Equals((inputValue as String), StringComparison.OrdinalIgnoreCase);
+            }
+
             return paramValue.Equals(inputValue);
         }
     }
