@@ -35,6 +35,7 @@ namespace Kooboo.Commerce.Orders
 
         public DateTime CreatedAtUtc { get; set; }
 
+        [Param]
         public OrderStatus OrderStatus { get; set; }
 
         public string Coupon { get; set; }

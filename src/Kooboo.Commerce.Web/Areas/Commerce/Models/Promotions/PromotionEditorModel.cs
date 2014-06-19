@@ -40,10 +40,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
 
         public int Priority { get; set; }
 
-        public List<Condition> Conditions { get; set; }
-
-        public string ConditionsJson { get; set; }
-
         [Required(ErrorMessage = "Required")]
         public string PromotionPolicy { get; set; }
 
@@ -56,7 +52,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
 
         public PromotionEditorModel()
         {
-            Conditions = new List<Condition>();
             OtherPromotions = new List<PromotionRowModel>();
             AvailableOverlappingUsages = SelectListItems.FromEnum(typeof(PromotionOverlappingUsage));
         }
@@ -72,8 +67,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
             Priority = promotion.Priority;
             PromotionPolicy = promotion.PromotionPolicyName;
             OverlappingUsage = promotion.OverlappingUsage;
-            Conditions = promotion.Conditions.ToList();
-            ConditionsJson = promotion.Conditions.ToJson();
         }
 
         public void UpdateSimplePropertiesTo(Promotion promotion)
@@ -86,15 +79,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
             promotion.Priority = Priority;
             promotion.PromotionPolicyName = PromotionPolicy;
             promotion.OverlappingUsage = OverlappingUsage;
-
-            if (String.IsNullOrWhiteSpace(ConditionsJson))
-            {
-                promotion.Conditions = null;
-            }
-            else
-            {
-                promotion.Conditions = JsonConvert.DeserializeObject<List<Condition>>(ConditionsJson);
-            }
         }
     }
 }

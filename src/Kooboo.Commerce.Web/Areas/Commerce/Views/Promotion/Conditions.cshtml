@@ -1,0 +1,61 @@
+﻿@model Promotion
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "Promotion".Localize();
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons => buttons.AddCancelButton())
+}
+
+<div class="block" id="basic-info">
+    @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 2 })
+    <div>
+        @Html.Partial("_ConditionsEditor")
+    </div>
+    <div class="wizard-buttons">
+        <a class="button gray" href="@Url.Action("BasicInfo", "Promotion", RouteValues.From(Request.QueryString).Merge("id", Model.Id))">&laquo; @("Back".Localize())</a>
+        <a class="button btn-next">@("Next".Localize()) &raquo;</a>
+    </div>
+</div>
+
+<script>
+
+    window.keepLoading = true;
+
+    $(function () {
+
+        var dataContextType = '@(Html.Raw(ViewBag.DataContextType))';
+        var promotionId = @(Model.Id);
+        var nextUrl = '@(Html.Raw(ViewBag.NextUrl))';
+        var conditions = @(Html.Raw(Model.Conditions.ToJson(PropertyNaming.CamelCase)));
+
+        var editor = new ConditionsEditor($('.conditions-editor'));
+
+        editor.setDataContextType(dataContextType)
+              .done(function () {
+                  editor.setConditions(conditions)
+                        .done(function () {
+                            editor.init();
+                            window.loading.hide();
+                        });
+              });
+
+        $('.btn-next').on('click', function (e) {
+            if (editor.validate()) {
+                window.loading.show();
+
+                var conditions = editor.conditions();
+
+                kb.http.safePost('/Commerce/Promotion/UpdateConditions?promotionId=' + promotionId, conditions)
+                       .done(function () {
+                           window.leaveConfirm.pass();
+                           location.href = nextUrl;
+                       });
+            }
+
+            e.preventDefault();
+        });
+    });
+
+</script>

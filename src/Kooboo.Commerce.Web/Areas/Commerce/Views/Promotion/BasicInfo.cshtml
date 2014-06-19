@@ -40,20 +40,6 @@
                         @Html.ValidationMessageFor(m => m.CouponCode)
                     </td>
                 </tr>
-                <tr>
-                    <th>@("Conditions".Localize())</th>
-                    <td>
-                        <div data-bind="foreach: conditions">
-                            <div class="conditions-expression">
-                                <span data-bind="visible: $index() > 0">AND</span>
-                                <span data-bind="visible: type() == 'Exclude'">NOT</span>
-                                <span data-bind="html: expression"></span>
-                            </div>
-                        </div>
-                        <input type="hidden" name="ConditionsJson" data-bind="value: conditionsJson" />
-                        <a href="#" class="btn-edit-conditions">@Html.IconImage("edit-small")</a>
-                    </td>
-                </tr>
                 @Html.EditorFor(m => m.Priority, new { HtmlAttributes = new { @class = "medium" } })
                 <tr>
                     <th>@Html.DisplayNameFor(m => m.OverlappingUsage)</th>
@@ -73,5 +59,4 @@
     </div>
 </div>
 
-@Html.Partial("_ConditionsDialog")
 @Html.Partial("BasicInfo.Scripts")

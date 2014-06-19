@@ -13,10 +13,10 @@ namespace Kooboo.Commerce.Events.Orders
         [Reference(typeof(Order))]
         public int OrderId { get; set; }
 
-        [Param]
+        [Param(Name = "Order.OldStatus")]
         public OrderStatus? OldStatus { get; set; }
 
-        [Param]
+        [Param(Name = "Order.NewStatus")]
         public OrderStatus NewStatus { get; set; }
 
         protected OrderStatusChanged() { }

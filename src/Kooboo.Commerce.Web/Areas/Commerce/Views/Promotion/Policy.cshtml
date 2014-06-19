@@ -19,12 +19,12 @@
 @Html.Partial("Policy.Scripts")
 
 <div class="block">
-    @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 2 })
+    @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 3 })
 
     @Html.Partial(editor.VirtualPath)
 
     <div class="wizard-buttons">
-        <a class="button gray" href="@Url.Action("BasicInfo", "Promotion", RouteValues.From(Request.QueryString).Merge("id", promotionId))">&laquo; @("Back".Localize())</a>
+        <a class="button gray" href="@Url.Action("Conditions", "Promotion", RouteValues.From(Request.QueryString).Merge("id", promotionId))">&laquo; @("Back".Localize())</a>
         <a class="button btn-next">@("Next".Localize()) &raquo;</a>
     </div>
 </div>

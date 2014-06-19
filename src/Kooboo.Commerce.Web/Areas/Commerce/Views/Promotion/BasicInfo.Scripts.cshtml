@@ -54,26 +54,5 @@
                 $('#J_OtherPromotions').hide();
             }
         }
-
-        // Conditions Editing
-        var dataContextType = '@Html.Raw(typeof(Kooboo.Commerce.Promotions.PromotionConditionContextModel).AssemblyQualifiedNameWithoutVersion())';
-
-        ConditionsDialog.instance().setDataContextType(dataContextType);
-        ConditionsDialog.instance().onSubmitted = function (conditions) {
-            model.conditionsJson(JSON.stringify(conditions));
-            model.conditions.removeAll();
-            $.each(conditions, function () {
-                model.conditions.push(ko.mapping.fromJS(this));
-            });
-        };
-
-        $('.btn-edit-conditions').on('click', function () {
-            var conditions = ko.mapping.toJS(model.conditions());
-            ConditionsDialog.instance().open({
-                title: '@("Promotion Conditions".Localize())',
-                conditions: conditions
-            });
-            return false;
-        });
     });
 </script>

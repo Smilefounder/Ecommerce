@@ -73,8 +73,6 @@
                         @for (var i = 0; i < rowCount; i++)
                         {
                             var currentNormalRule = i >= normlaRules.Count ? null : normlaRules[i];
-                            var thenActivities = currentNormalRule.ThenActivityInfos.ToList();
-                            var elseActivities = currentNormalRule.ElseActivityInfos.ToList();
 
                             <tr>
                                 @if (i == 0)
@@ -114,14 +112,17 @@
                                     }
                                 </td>
                                 <td class="common">
-                                    @if (currentNormalRule != null && thenActivities.Count > 0)
+                                    @if (currentNormalRule != null)
                                     {
-                                        <ul>
-                                            @foreach (var activity in thenActivities)
-                                            {
-                                                <li>@RenderActivity(activity)</li>
-                                            }
-                                        </ul>
+                                        var thenActivities = currentNormalRule.ThenActivityInfos.ToList();
+                                        if (thenActivities.Count > 0) { 
+                                            <ul>
+                                                @foreach (var activity in thenActivities)
+                                                {
+                                                    <li>@RenderActivity(activity)</li>
+                                                }
+                                            </ul>
+                                        }
                                     }
                                     else
                                     {
@@ -129,14 +130,17 @@
                                     }
                                 </td>
                                 <td class="common">
-                                    @if (currentNormalRule != null && elseActivities.Count > 0)
+                                    @if (currentNormalRule != null)
                                     {
-                                        <ul>
-                                            @foreach (var activity in elseActivities)
-                                            {
-                                                <li>@RenderActivity(activity)</li>
-                                            }
-                                        </ul>
+                                        var elseActivities = currentNormalRule.ElseActivityInfos.ToList();
+                                        if (elseActivities.Count > 0) { 
+                                            <ul>
+                                                @foreach (var activity in elseActivities)
+                                                {
+                                                    <li>@RenderActivity(activity)</li>
+                                                }
+                                            </ul>
+                                        }
                                     }
                                     else
                                     {

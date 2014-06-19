@@ -16,6 +16,8 @@ using System.Web.Routing;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Web.Mvc;
 using Kooboo.Globalization;
+using Kooboo.Extensions;
+using Kooboo.Commerce.Rules;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -146,21 +148,38 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 promotion.OverlappablePromotions.Add(_promotionService.GetById(other.Id));
             }
 
-            var policy = _policyProvider.FindByName(model.PromotionPolicy);
+            return AjaxForm().RedirectTo(Url.Action("Conditions", RouteValues.From(Request.QueryString).Merge("id", promotion.Id)));
+        }
+
+        public ActionResult Conditions(int id)
+        {
+            var promotion = _promotionService.GetById(id);
+            var policy = _policyProvider.FindByName(promotion.PromotionPolicyName);
             var editor = policy.GetEditor(promotion);
 
-            string redirectUrl = null;
+            ViewBag.DataContextType = typeof(PromotionConditionContextModel).AssemblyQualifiedNameWithoutVersion();
+
+            string nextUrl = null;
 
             if (editor == null)
             {
-                redirectUrl = Url.Action("Complete", new { id = promotion.Id });
+                nextUrl = Url.Action("Complete", new { id = promotion.Id });
             }
             else
             {
-                redirectUrl = Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("id", promotion.Id));
+                nextUrl = Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("id", promotion.Id));
             }
 
-            return AjaxForm().RedirectTo(redirectUrl);
+            ViewBag.NextUrl = nextUrl;
+
+            return View(promotion);
+        }
+
+        [HttpPost, Transactional]
+        public void UpdateConditions(int promotionId, IEnumerable<Condition> conditions)
+        {
+            var promotion = _promotionService.GetById(promotionId);
+            promotion.Conditions = conditions;
         }
 
         public ActionResult Policy(int id)
