@@ -121,7 +121,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 RuleId = ruleId,
                 RuleBranch = branch,
-                Activity = new ActivityModel(activity, rule, null)
+                Activity = new ActivityModel(activity, rule, null),
+                Parameters = activity.GetDefaultParameterValues()
             });
         }
         public ActionResult EditActivity(int ruleId, int attachedActivityInfoId)
@@ -132,22 +133,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             ViewBag.Activity = activity;
 
-            var parameters = attachedActivityInfo.ParameterValues.ToDictionary();
-
-            foreach (var each in activity.GetDefaultParameterValues())
-            {
-                if (!parameters.ContainsKey(each.Key))
-                {
-                    parameters.Add(each.Key, each.Value);
-                }
-            }
-
             return View(new ActivityEditorModel
             {
                 RuleId = ruleId,
                 AttachedActivityInfoId = attachedActivityInfoId,
                 Activity = new ActivityModel(activity, rule, attachedActivityInfo),
-                Parameters = parameters
+                Parameters = attachedActivityInfo.ParameterValues.ToDictionary()
             });
         }
 
