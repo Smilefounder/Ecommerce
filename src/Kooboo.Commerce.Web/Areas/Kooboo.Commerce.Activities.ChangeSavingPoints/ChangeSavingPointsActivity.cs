@@ -13,7 +13,7 @@ using System.Web;
 namespace Kooboo.Commerce.Activities.ChangeSavingPoints
 {
     [Dependency(typeof(IActivity), Key = "ChangeSavingPoints")]
-    public class ChangeSavingPointsActivity : ActivityBase<IOrderEvent>, IHasCustomActivitySettingsEditor
+    public class ChangeSavingPointsActivity : ActivityBase<IOrderEvent>, IHasCustomActivityParameterEditor
     {
         public override string Name
         {

@@ -19,6 +19,14 @@ namespace Kooboo.Commerce.Activities
             }
         }
 
+        public virtual IEnumerable<ActivityParameter> Parameters
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public virtual bool AllowAsyncExecution
         {
             get

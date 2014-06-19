@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder.Controllers
         {
             var rule = _ruleRepository.Get(ruleId);
             var attachedActivity = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            var config = attachedActivity.GetActivityConfig<OrderReminderActivityConfig>();
+            var config = attachedActivity.GetParameterValue<OrderReminderActivityConfig>("Config", new OrderReminderActivityConfig());
             return JsonNet(config).UsingClientConvention();
         }
 
@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder.Controllers
         {
             var rule = _ruleRepository.Get(ruleId);
             var attachedActivity = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            attachedActivity.SetActivityConfig(config);
+            attachedActivity.SetParmeterValue("Config", config);
         }
     }
 }

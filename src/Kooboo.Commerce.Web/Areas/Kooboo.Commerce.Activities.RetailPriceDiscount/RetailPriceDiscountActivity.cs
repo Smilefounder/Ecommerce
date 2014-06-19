@@ -8,7 +8,7 @@ using System.Web;
 namespace Kooboo.Commerce.Activities.RetailPriceDiscount
 {
     [Dependency(typeof(IActivity), Key = "RetailPriceDiscount")]
-    public class RetailPriceDiscountActivity : ActivityBase<GetPrice>, IHasCustomActivitySettingsEditor
+    public class RetailPriceDiscountActivity : ActivityBase<GetPrice>, IHasCustomActivityParameterEditor
     {
         public override string Name
         {

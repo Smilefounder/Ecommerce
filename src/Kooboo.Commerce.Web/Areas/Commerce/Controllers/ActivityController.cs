@@ -15,13 +15,13 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class ActivityRuleController : CommerceControllerBase
+    public class ActivityController : CommerceControllerBase
     {
         private IEventRegistry _eventRegistry;
         private IActivityProvider _activityProvider;
         private IRepository<ActivityRule> _ruleRepository;
 
-        public ActivityRuleController(IEventRegistry eventRegistry, IActivityProvider activityProvider, IRepository<ActivityRule> ruleRepository)
+        public ActivityController(IEventRegistry eventRegistry, IActivityProvider activityProvider, IRepository<ActivityRule> ruleRepository)
         {
             _eventRegistry = eventRegistry;
             _activityProvider = activityProvider;
@@ -114,6 +114,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var activity = _activityProvider.FindByName(activityName);
             var rule = _ruleRepository.Get(ruleId);
 
+            ViewBag.Activity = activity;
+
             return View(new ActivityEditorModel
             {
                 RuleId = ruleId,
@@ -127,11 +129,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             var activity = _activityProvider.FindByName(attachedActivityInfo.ActivityName);
 
+            ViewBag.Activity = activity;
+
             return View(new ActivityEditorModel
             {
                 RuleId = ruleId,
                 AttachedActivityInfoId = attachedActivityInfoId,
-                Activity = new ActivityModel(activity, rule, attachedActivityInfo)
+                Activity = new ActivityModel(activity, rule, attachedActivityInfo),
+                Parameters = attachedActivityInfo.GetParameters(activity.GetDefaultParameters())
             });
         }
 
@@ -181,7 +186,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
             else
             {
-                activityInfo = rule.AttachActivity(model.RuleBranch, model.Description, model.Activity.Name, null);
+                activityInfo = rule.AttachActivity(model.RuleBranch, model.Description, model.Activity.Name);
             }
 
             activityInfo.Description = model.Description;
@@ -213,6 +218,22 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 AttachedActivityInfoId = activityInfo.Id
             })
             .UsingClientConvention();
+        }
+
+        public ActionResult LoadActivityParameters(int ruleId, int attachedActivityInfoId)
+        {
+            var rule = _ruleRepository.Get(ruleId);
+            var activityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
+            var activity = _activityProvider.FindByName(activityInfo.ActivityName);
+            return JsonNet(activityInfo.GetParameters(activity.GetDefaultParameters()));
+        }
+
+        [HttpPost, HandleAjaxError, Transactional]
+        public void UpdateActivityParameters(UpdateActivityParametersRequest request)
+        {
+            var rule = _ruleRepository.Get(request.RuleId);
+            var activityInfo = rule.AttachedActivityInfos.Find(request.AttachedActivityInfoId);
+            activityInfo.SetParameters(request.Parameters);
         }
 
         [HandleAjaxError]

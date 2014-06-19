@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Activities\ActivityBase.cs" />
     <Compile Include="Activities\ActivityContext.cs" />
+    <Compile Include="Activities\ActivityParameter.cs" />
     <Compile Include="Activities\ActivityQueueItem.cs" />
     <Compile Include="Activities\ActivityRule.cs" />
     <Compile Include="Activities\AttachedActivityInfo.cs" />
@@ -110,7 +111,7 @@
     <Compile Include="Activities\Handlers\OnActivityDetached.cs" />
     <Compile Include="Activities\IActivity.cs" />
     <Compile Include="Activities\IActivityProvider.cs" />
-    <Compile Include="Activities\IHasCustomActivitySettingsEditor.cs" />
+    <Compile Include="Activities\IHasCustomActivityParameterEditor.cs" />
     <Compile Include="Activities\Jobs\AsyncActivityExecutionJob.cs" />
     <Compile Include="Activities\RuleBranch.cs" />
     <Compile Include="Activities\RuleType.cs" />

@@ -18,7 +18,7 @@ using Kooboo.Commerce.Rules;
 namespace Kooboo.Commerce.Activities.OrderReminder
 {
     [Dependency(typeof(IActivity), Key = "OrderReminder")]
-    public class OrderReminderActivity : ActivityBase<IOrderEvent>, IHasCustomActivitySettingsEditor
+    public class OrderReminderActivity : ActivityBase<IOrderEvent>, IHasCustomActivityParameterEditor
     {
         public override string Name
         {

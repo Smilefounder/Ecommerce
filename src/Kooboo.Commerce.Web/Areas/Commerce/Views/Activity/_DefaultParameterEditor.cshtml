@@ -1,0 +1,59 @@
+﻿@model ActivityEditorModel
+@{
+    var activity = ViewBag.Activity as IActivity;
+}
+
+<form class="common-form" id="default-activity-param-editor">
+    <input type="hidden" name="RuleId" value="@Model.RuleId" />
+    <input type="hidden" name="AttachedActivityInfoId" value="@Model.AttachedActivityInfoId" />
+    <table>
+        <tbody>
+            @foreach (var param in activity.Parameters)
+            {
+                string paramValue = null;
+
+                if (Model.Parameters != null && Model.Parameters.ContainsKey(param.Name))
+                {
+                    paramValue = Model.Parameters[param.Name];
+                }
+                
+                <tr>
+                    <th>@param.Name</th>
+                    <td>
+                        <input type="text" name="Parameters[@param.Name]" value="@paramValue" />
+                        @if (!String.IsNullOrWhiteSpace(param.Description))
+                        {
+                            <em class="tip">@param.Description</em>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<script>
+    $(function () {
+
+        var $form = $('#default-activity-param-editor');
+        var editor = ActivityEditor.current();
+
+        editor.on('saving', function (sender, args) {
+            if (!$form.valid()) {
+                args.cancel = true;
+            }
+        });
+
+        editor.on('saved', function (sender, args) {
+            $form.find(':hidden[name="AttachedActivityInfoId"]').val(editor.model().attachedActivityInfoId());
+
+            return $.post('@Url.Action("UpdateActivityParameters")', $form.serializeArray())
+                    .fail(function (xhr) {
+                        var result = JSON.parse(xhr.responseText);
+                        window.loading.hide();
+                        info.show(result.message, false);
+                    });
+        });
+
+    });
+</script>

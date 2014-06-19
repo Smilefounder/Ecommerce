@@ -92,9 +92,9 @@ namespace Kooboo.Commerce.Activities
 
         public DateTime CreatedAtUtc { get; set; }
 
-        public AttachedActivityInfo AttachActivity(RuleBranch branch, string description, string activityName, object config = null)
+        public AttachedActivityInfo AttachActivity(RuleBranch branch, string description, string activityName)
         {
-            var attachedActivity = new AttachedActivityInfo(this, branch, description, activityName, config);
+            var attachedActivity = new AttachedActivityInfo(this, branch, description, activityName);
             AttachedActivityInfos.Add(attachedActivity);
 
             Event.Raise(new ActivityAttached(this, attachedActivity));
