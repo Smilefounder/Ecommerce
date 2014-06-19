@@ -79,7 +79,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
                             if (paramDefinition != null)
                             {
                                 var strParamValue = ParameterizedFieldValue.GetFieldValue(param.ParameterValue, dataSourceContext.ValueProvider);
-                                var paramValue = strParamValue == null ? null : Convert.ChangeType(strParamValue, paramDefinition.Type);
+                                var paramValue = ResolveParameterValue(strParamValue, paramDefinition.Type);
                                 filter.ParameterValues.Add(param.ParameterName, paramValue);
                             }
                         }
@@ -123,6 +123,23 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
             }
 
             return source.Execute(context);
+        }
+
+        private object ResolveParameterValue(string strValue, Type type)
+        {
+            if (String.IsNullOrWhiteSpace(strValue))
+            {
+                return null;
+            }
+
+            Type targetType = type;
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                targetType = Nullable.GetUnderlyingType(type);
+            }
+
+            return Convert.ChangeType(strValue, targetType);
         }
 
         public IDictionary<string, object> GetDefinitions(DataSourceContext dataSourceContext)

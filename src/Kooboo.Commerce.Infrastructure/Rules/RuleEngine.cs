@@ -53,23 +53,31 @@ namespace Kooboo.Commerce.Rules
                     continue;
                 }
 
-                var success = false;
-                if (condition.Type == ConditionType.Include)
-                {
-                    success = CheckCondition(condition.Expression, dataContext);
-                }
-                else
-                {
-                    success = CheckCondition(condition.Expression, dataContext) == false;
-                }
-
-                if (!success)
+                if (!CheckCondition(condition, dataContext))
                 {
                     return false;
                 }
             }
 
             return true;
+        }
+
+        public bool CheckCondition(Condition condition, object dataContext)
+        {
+            // Empty condition always pass
+            if (String.IsNullOrWhiteSpace(condition.Expression))
+            {
+                return true;
+            }
+
+            if (condition.Type == ConditionType.Include)
+            {
+                return CheckCondition(condition.Expression, dataContext);
+            }
+            else
+            {
+                return CheckCondition(condition.Expression, dataContext) == false;
+            }
         }
 
         /// <summary>
