@@ -5,28 +5,20 @@
         </div>
         <div class="wrap">
             <div class="block conditions-v2">
-                <!-- ko foreach: { data: conditions, afterRender: afterRenderCondition } -->
+                <!-- ko foreach: { data: conditions } -->
                 <span class="label" data-bind="visible: $index() > 0">AND</span>
                 <div class="item">
                     <span class="title">@("Condition".Localize()) <span data-bind="text: $index() + 1"></span>:</span>
                     <ul class="form-list left">
                         <li>
-                            <input type="radio" name="IncludeExclude" id="Include_1" value="Include">
-                            <label class="inline" for="Include_1">Include this condition</label>
+                            <input type="radio" data-bind="attr: { name: 'ConditionType' + $index(), 'id': 'ConditionType_Include_' + $index() }, checked: type" value="Include">
+                            <label class="inline" data-bind="attr: { 'for': 'ConditionType_Include_' + $index() }">@("Include this condition".Localize())</label>
                         </li>
                         <li>
-                            <input type="radio" name="IncludeExclude" id="Exclude_1" value="Exclude">
-                            <label class="inline" for="Exclude_1">Exclude this condition</label>
+                            <input type="radio" data-bind="attr: { name: 'ConditionType' + $index(), 'id': 'ConditionType_Exclude_' + $index() }, checked: type" value="Exclude">
+                            <label class="inline" data-bind="attr: { 'for': 'ConditionType_Exclude_' + $index() }">@("Exclude this condition".Localize())</label>
                         </li>
                     </ul>
-                    <div class="button blank dropdown">
-                        <span data-bind="text: type"></span>
-                        @Html.IconImage("sprite")
-                        <ul>
-                            <li><a href="#" data-bind="click: setType.bind($data, 'Include')">Include</a></li>
-                            <li><a href="#" data-bind="click: setType.bind($data, 'Exclude')">Exclude</a></li>
-                        </ul>
-                    </div>
                     <a class="action right" data-bind="click: $parent.removeCondition" href="#">@Html.IconImage("minus-small")</a>
 
                     <div data-bind="foreach: groups">

@@ -235,10 +235,6 @@
                 self.conditions.remove(condition);
             }
 
-            self.afterRenderCondition = function (element) {
-                $(element).dropdownButton();
-            }
-
             self.afterRenderComparison = function (element) {
                 $.validator.unobtrusive.reparse($(element).find('form'));
             }
