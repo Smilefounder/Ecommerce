@@ -194,25 +194,77 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
                 });
             });
         }
-
-        [Fact]
-        public void should_throw_for_unrecognized_comparison_operators()
-        {
-            var ruleEngine = new RuleEngine();
-
-            Assert.Throws<UnrecognizedComparisonOperatorException>(() =>
-            {
-                ruleEngine.CheckCondition("Age > 10 OR TotalProjects notexistsoperator 5", new Person
-                {
-                    Age = 5
-                });
-            });
-        }
-
+        
         private bool CheckCondition(string condition, object contextModel)
         {
             var ruleEngine = new RuleEngine();
             return ruleEngine.CheckCondition(condition, contextModel);
+        }
+
+        public class IncludeExclude
+        {
+            [Fact]
+            public void can_handle_include()
+            {
+                var condition = new Condition("Age > 10", ConditionType.Include);
+                Assert.True(new RuleEngine().CheckCondition(condition, new Person
+                {
+                    Age = 12
+                }));
+
+                Assert.False(new RuleEngine().CheckCondition(condition, new Person
+                {
+                    Age = 8
+                }));
+            }
+
+            [Fact]
+            public void exclude_should_gave_inverse_result()
+            {
+                var condition = new Condition("Age > 10", ConditionType.Exclude);
+                Assert.True(new RuleEngine().CheckCondition(condition, new Person
+                {
+                    Age = 10
+                }));
+                Assert.True(new RuleEngine().CheckCondition(condition, new Person
+                {
+                    Age = 8
+                }));
+                Assert.False(new RuleEngine().CheckCondition(condition, new Person
+                {
+                    Age = 11
+                }));
+            }
+
+            [Fact]
+            public void multiple_conditions_checking_should_succeed_only_when_all_conditions_succeeded()
+            {
+                var conditions = new List<Condition>
+                {
+                    new Condition("Age > 10", ConditionType.Include),
+                    new Condition("DevYears > 5", ConditionType.Include),
+                    new Condition("TotalProjects > 2", ConditionType.Include)
+                };
+
+                Assert.True(new RuleEngine().CheckConditions(conditions, new Person
+                {
+                    Age = 30,
+                    DevYears = 10,
+                    TotalProjects = 5
+                }));
+                Assert.False(new RuleEngine().CheckConditions(conditions, new Person
+                {
+                    Age = 30,
+                    DevYears = 5,
+                    TotalProjects = 5
+                }));
+                Assert.False(new RuleEngine().CheckConditions(conditions, new Person
+                {
+                    Age = 8,
+                    DevYears = 8,
+                    TotalProjects = 10
+                }));
+            }
         }
 
         public class Person
