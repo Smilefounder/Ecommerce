@@ -2,7 +2,7 @@
 @model PagedList<CustomerRowModel>
 @{
     ViewBag.Title = "Customers".Localize();
-    IEnumerable<IExtendedQuery<Customer, CustomerQueryModel>> extendedQueries = ViewBag.ExtendedQueries as IEnumerable<IExtendedQuery<Customer, CustomerQueryModel>>;
+    var extendedQueries = ViewBag.ExtendedQueries as IEnumerable<ExtendedQuery.CustomerQuery>;
     var extendedQueryViewModel = new ViewDataDictionary();
     extendedQueryViewModel.Add("GetExtendedParametersUrl", "/Commerce/Customer/GetParameters");
     extendedQueryViewModel.Add("SaveExtendedParametersUrl", "/Commerce/Customer/SaveParameters");

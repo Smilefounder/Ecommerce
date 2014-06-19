@@ -2,7 +2,7 @@
 @model PagedList<Kooboo.Commerce.Orders.Order>
 @{
     ViewBag.Title = "Orders";
-    IEnumerable<IExtendedQuery<Order, OrderQueryModel>> extendedQueries = ViewBag.ExtendedQueries as IEnumerable<IExtendedQuery<Order, OrderQueryModel>>;
+    var extendedQueries = ViewBag.ExtendedQueries as IEnumerable<ExtendedQuery.OrderQuery>;
     var extendedQueryViewModel = new ViewDataDictionary();
     extendedQueryViewModel.Add("GetExtendedParametersUrl", "/Commerce/Order/GetParameters");
     extendedQueryViewModel.Add("SaveExtendedParametersUrl", "/Commerce/Order/SaveParameters");

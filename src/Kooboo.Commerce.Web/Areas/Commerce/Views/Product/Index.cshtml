@@ -2,7 +2,7 @@
 @model PagedList<Product>
 @{
     ViewBag.Title = "Products".Localize();
-    IEnumerable<IExtendedQuery<Product, Product>> extendedQueries = ViewBag.ExtendedQueries as IEnumerable<IExtendedQuery<Product, Product>>;
+    var extendedQueries = ViewBag.ExtendedQueries as IEnumerable<ExtendedQuery.ProductQuery>;
     var extendedQueryViewModel = new ViewDataDictionary();
     extendedQueryViewModel.Add("GetExtendedParametersUrl", "/Commerce/Product/GetParameters");
     extendedQueryViewModel.Add("SaveExtendedParametersUrl", "/Commerce/Product/SaveParameters");
