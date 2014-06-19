@@ -3516,6 +3516,8 @@
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsDialog.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsDialog.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Activity\_DefaultParameterEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_ConditionsEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_ConditionsEditor.Scripts.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

@@ -1,65 +1,10 @@
 ﻿<div class="hide">
     <div id="conditions-dialog">
         <div class="topbar">
-            <h1 class="title" data-bind="text: title">@("Rule Conditions".Localize())</h1>
+            <h1 class="title">@("Rule Conditions".Localize())</h1>
         </div>
         <div class="wrap">
-            <div class="block conditions-v2">
-                <!-- ko foreach: { data: conditions } -->
-                <span class="label" data-bind="visible: $index() > 0">AND</span>
-                <div class="item">
-                    <span class="title">@("Condition".Localize()) <span data-bind="text: $index() + 1"></span>:</span>
-                    <ul class="form-list left">
-                        <li>
-                            <input type="radio" data-bind="attr: { name: 'ConditionType' + $index(), 'id': 'ConditionType_Include_' + $index() }, checked: type" value="Include">
-                            <label class="inline" data-bind="attr: { 'for': 'ConditionType_Include_' + $index() }">@("Include this condition".Localize())</label>
-                        </li>
-                        <li>
-                            <input type="radio" data-bind="attr: { name: 'ConditionType' + $index(), 'id': 'ConditionType_Exclude_' + $index() }, checked: type" value="Exclude">
-                            <label class="inline" data-bind="attr: { 'for': 'ConditionType_Exclude_' + $index() }">@("Exclude this condition".Localize())</label>
-                        </li>
-                    </ul>
-                    <a class="action right" data-bind="click: $parent.removeCondition" href="#">@Html.IconImage("minus-small")</a>
-
-                    <div data-bind="foreach: groups">
-                        <div class="separator" data-bind="visible: $index() > 0">
-                            <span class="label">AND</span>
-                        </div>
-                        <div data-bind="foreach: { data: comparisons, afterRender: $root.afterRenderComparison }">
-                            <span class="label" data-bind="visible: $index() > 0">OR</span>
-                            <div class="wrap">
-                                <form>
-                                    <div class="columns">
-                                        <div class="span4">
-                                            <select data-bind="options: $root.parameters, optionsText: 'displayName', optionsValue: 'name', value: paramName"></select>
-                                        </div>
-                                        <div class="span2">
-                                            <select data-bind="options: operators, optionsText: 'displayName', optionsValue: 'name', value: operator"></select>
-                                        </div>
-                                        <div class="span6">
-                                            <span data-bind="if: hasMultipleValues">
-                                                <select data-bind="options: availableValues, optionsText: 'text', optionsValue: 'value', value: value"></select>
-                                            </span>
-                                            <span data-bind="ifnot: hasMultipleValues">
-                                                <input type="text" data-bind="value: value, attr: { name: 'ConditionValueTextBox_' + $index() }"
-                                                       data-val="true"
-                                                       data-val-required="*" />
-                                            </span>
-                                        </div>
-                                    </div>
-                                </form>
-                                <a class="action" href="#" data-bind="click: $parent.removeComparison">@Html.IconImage("minus-black")</a>
-                            </div>
-                        </div>
-                        <p class="actions">
-                            <a class="button light-gray" href="#" data-bind="click: addComparison">+OR</a>
-                            <a class="button light-gray" href="#" data-bind="visible: $index() == $parent.groups().length - 1, click: $parent.addGroup">+AND</a>
-                        </p>
-                    </div>
-                </div>
-                <!-- /ko -->
-                <a class="button light-gray" data-bind="click: addCondition">@("+Add condition".Localize())</a>
-            </div>
+            @Html.Partial("_ConditionsEditor")
         </div>
         <div class="buttons">
             <a href="#" class="button gray right btn-cancel-condition-dialog">@("Cancel".Localize())</a>
@@ -67,4 +12,5 @@
         </div>
     </div>
 </div>
+
 @Html.Partial("_ConditionsDialog.Scripts")
