@@ -13,9 +13,9 @@ using System.Web;
 namespace Kooboo.Commerce.Activities.ChangeSavingPoints
 {
     [Dependency(typeof(IActivity), Key = "ChangeSavingPoints")]
-    public class ChangeSavingPointsActivity : IActivity
+    public class ChangeSavingPointsActivity : ActivityBase<IOrderEvent>, IHasCustomActivitySettingsEditor
     {
-        public string Name
+        public override string Name
         {
             get
             {
@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints
             }
         }
 
-        public string DisplayName
+        public override string DisplayName
         {
             get
             {
@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints
             }
         }
 
-        public bool AllowAsyncExecution
+        public override bool AllowAsyncExecution
         {
             get
             {
@@ -46,17 +46,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints
             _database = database;
         }
 
-        public bool CanBindTo(Type eventType)
-        {
-            if (typeof(IOrderEvent).IsAssignableFrom(eventType))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public void Execute(IEvent @event, ActivityContext context)
+        protected override void DoExecute(IOrderEvent @event, ActivityContext context)
         {
             var config = context.GetActivityConfig<ChangeSavingPointsActivityConfig>();
             if (config == null)
@@ -82,17 +72,15 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints
             _database.SaveChanges();
         }
 
-        private Customer GetCustomer(IEvent @event)
+        private Customer GetCustomer(IOrderEvent @event)
         {
-            var orderEvent = @event as IOrderEvent;
-            var order = _database.GetRepository<Order>().Get(orderEvent.OrderId);
+            var order = _database.GetRepository<Order>().Get(@event.OrderId);
             return order == null ? null : order.Customer;
         }
 
-        public ActivityEditor GetEditor(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
+        public string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
         {
-            var path = String.Format("~/Areas/{0}/Views/Config.cshtml", Strings.AreaName);
-            return new ActivityEditor(path);
+            return String.Format("~/Areas/{0}/Views/Config.cshtml", Strings.AreaName);
         }
     }
 }

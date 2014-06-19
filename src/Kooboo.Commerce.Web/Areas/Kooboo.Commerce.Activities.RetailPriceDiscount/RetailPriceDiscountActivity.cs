@@ -8,9 +8,9 @@ using System.Web;
 namespace Kooboo.Commerce.Activities.RetailPriceDiscount
 {
     [Dependency(typeof(IActivity), Key = "RetailPriceDiscount")]
-    public class RetailPriceDiscountActivity : IActivity
+    public class RetailPriceDiscountActivity : ActivityBase<GetPrice>, IHasCustomActivitySettingsEditor
     {
-        public string Name
+        public override string Name
         {
             get
             {
@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount
             }
         }
 
-        public string DisplayName
+        public override string DisplayName
         {
             get
             {
@@ -26,20 +26,7 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount
             }
         }
 
-        public bool AllowAsyncExecution
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public bool CanBindTo(Type eventType)
-        {
-            return eventType == typeof(GetPrice);
-        }
-
-        public void Execute(Commerce.Events.IEvent @event, ActivityContext context)
+        protected override void DoExecute(GetPrice @event, ActivityContext context)
         {
             var config = context.GetActivityConfig<RetailPriceDiscountActivityConfig>();
             if (config == null)
@@ -47,15 +34,13 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount
                 return;
             }
 
-            var eventInfo = @event as GetPrice;
-            var newPrice = config.ApplyDiscount(eventInfo.FinalPrice);
-
-            eventInfo.FinalPrice = newPrice;
+            var newPrice = config.ApplyDiscount(@event.FinalPrice);
+            @event.FinalPrice = newPrice;
         }
 
-        public ActivityEditor GetEditor(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
+        public string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
         {
-            return new ActivityEditor(String.Format("~/Areas/{0}/Views/Config.cshtml", Strings.AreaName));
+            return String.Format("~/Areas/{0}/Views/Config.cshtml", Strings.AreaName);
         }
     }
 }

@@ -23,10 +23,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             Name = activity.Name;
             DisplayName = activity.DisplayName;
             AllowAsyncExecution = activity.AllowAsyncExecution;
-            var editor = activity.GetEditor(rule, attachedActivityInfo);
-            if (editor != null)
+
+            if (activity is IHasCustomActivitySettingsEditor)
             {
-                EditorVirtualPath = editor.VirtualPath;
+                EditorVirtualPath = ((IHasCustomActivitySettingsEditor)activity).GetEditorVirtualPath(rule, attachedActivityInfo);
             }
         }
     }
