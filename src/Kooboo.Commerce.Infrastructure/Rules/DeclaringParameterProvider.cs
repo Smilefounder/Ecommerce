@@ -111,10 +111,10 @@ namespace Kooboo.Commerce.Rules
         private ConditionParameter CreateConditionParameter(
             Type containerType, ParameterValueResolver containerResolver, string prefix, PropertyInfo property, ParamAttribute paramAttr)
         {
-            var valueType = property.PropertyType;
+            var propertyType = property.PropertyType;
             var valueResolver = new ChainedParameterValueResolver().Chain(containerResolver)
                                                                    .Chain(new PropertyBackedParameterValueResolver(property));
-            var supportedOperators = GetDefaultOperators(valueType);
+            var supportedOperators = GetDefaultOperators(propertyType);
             IParameterValueSource valueSource = null;
 
             if (paramAttr.ValueSource != null)
@@ -123,18 +123,23 @@ namespace Kooboo.Commerce.Rules
             }
             else if (property.PropertyType.IsEnum)
             {
-                valueType = typeof(String);
+                propertyType = typeof(String);
                 valueSource = StaticParameterValueSource.FromEnum(property.PropertyType);
+            }
+            else if (IsNullableEnum(property.PropertyType))
+            {
+                propertyType = typeof(String);
+                valueSource = StaticParameterValueSource.FromEnum(Nullable.GetUnderlyingType(property.PropertyType));
             }
 
             var paramName = prefix + (paramAttr.Name ?? property.Name);
 
-            return new ConditionParameter(paramName, valueType, valueResolver, valueSource, supportedOperators);
+            return new ConditionParameter(paramName, propertyType, valueResolver, valueSource, supportedOperators);
         }
 
-        private List<IComparisonOperator> GetDefaultOperators(Type valueType)
+        private List<IComparisonOperator> GetDefaultOperators(Type propertyType)
         {
-            if (valueType == typeof(String))
+            if (propertyType == typeof(String))
             {
                 return new List<IComparisonOperator>
                 {
@@ -144,7 +149,7 @@ namespace Kooboo.Commerce.Rules
                     ComparisonOperators.NotContains
                 };
             }
-            else if (valueType.IsEnum)
+            else if (propertyType.IsEnum || IsNullableEnum(propertyType))
             {
                 return new List<IComparisonOperator>
                 {
@@ -152,7 +157,7 @@ namespace Kooboo.Commerce.Rules
                     ComparisonOperators.NotEquals
                 };
             }
-            else if (valueType.IsNumber())
+            else if (propertyType.IsNumber())
             {
                 return new List<IComparisonOperator>
                 {
@@ -166,6 +171,14 @@ namespace Kooboo.Commerce.Rules
             }
 
             return new List<IComparisonOperator>();
+        }
+
+        private bool IsNullableEnum(Type type)
+        {
+            return type.IsValueType
+                && type.IsGenericType
+                && type.GetGenericTypeDefinition() == typeof(Nullable<>)
+                && Nullable.GetUnderlyingType(type).IsEnum;
         }
     }
 }

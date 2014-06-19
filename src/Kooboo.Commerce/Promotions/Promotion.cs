@@ -41,6 +41,7 @@ namespace Kooboo.Commerce.Promotions
 
         public string PromotionPolicyData { get; set; }
 
+        // TODO: Make private. But currently the only solution to make it private is to embed mapping class in this class.
         public string ConditionsJson { get; protected set; }
 
         private List<Condition> _conditions;

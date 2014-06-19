@@ -10,6 +10,59 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
 {
     public class DecalringParameterProviderFacts
     {
+        public class Discovering
+        {
+            [Fact]
+            public void can_discover_enum()
+            {
+                var provider = new DeclaringParameterProvider();
+                var parameters = provider.GetParameters(typeof(ContextModel)).ToList();
+
+                var param = parameters.Find(p => p.Name == "EnumValue");
+                Assert.NotNull(param);
+                Assert.NotNull(param.ValueSource);
+
+                var values = param.ValueSource.GetValues(param).ToList();
+                Assert.Equal(3, values.Count());
+                Assert.Equal("Value1", values[0].Text);
+                Assert.Equal("Value2", values[1].Text);
+                Assert.Equal("Value3", values[2].Text);
+            }
+
+            [Fact]
+            public void can_discover_nullable_enum()
+            {
+                var provider = new DeclaringParameterProvider();
+                var parameters = provider.GetParameters(typeof(ContextModel)).ToList();
+
+                var param = parameters.Find(p => p.Name == "NullableEnumValue");
+                Assert.NotNull(param);
+                Assert.NotNull(param.ValueSource);
+
+                var values = param.ValueSource.GetValues(param).ToList();
+                Assert.Equal(3, values.Count());
+                Assert.Equal("Value1", values[0].Text);
+                Assert.Equal("Value2", values[1].Text);
+                Assert.Equal("Value3", values[2].Text);
+            }
+
+            public class ContextModel
+            {
+                [Param]
+                public MyEnum EnumValue { get; set; }
+
+                [Param]
+                public MyEnum? NullableEnumValue { get; set; }
+            }
+
+            public enum MyEnum
+            {
+                Value1 = 0,
+                Value2 = 1,
+                Value3 = 3
+            }
+        }
+
         public class ResolvingParameterValue
         {
             [Fact]
