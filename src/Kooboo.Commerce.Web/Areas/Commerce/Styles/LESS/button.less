@@ -34,7 +34,21 @@
 
 		&.disabled {
 			background: lighten(@gray, 5%);
-			color: #000;
+			color: #666;
+		}
+	}
+
+	&.light-gray {
+		background: @light-gray;
+		color: #000;
+
+		&:hover {
+			background: darken(@light-gray, 5%);
+		}
+
+		&.disabled {
+			background: @light-gray;
+			color: #666;
 		}
 	}
 
@@ -48,7 +62,7 @@
 
 		&.disabled {
 			background: #FFF;
-			color: #333;
+			color: #666;
 		}
 	}
 
@@ -120,6 +134,7 @@
 				line-height: 30px;
 				padding: 0 10px;
 				text-align: left;
+				white-space: nowrap;
 
 				a {
 					color: #000;
@@ -132,6 +147,18 @@
 						background: #DDD;
 					}
 				}
+			}
+		}
+
+		&.only-icon {
+			height: auto;
+			line-height: 0;
+			min-width: 0;
+			padding: 0;
+
+			ul {
+				margin-top: 4px;
+				top: auto;
 			}
 		}
 	}

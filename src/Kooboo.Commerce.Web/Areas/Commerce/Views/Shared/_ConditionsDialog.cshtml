@@ -1,13 +1,24 @@
-﻿
-<div id="conditions-dialog" style="display:none">
-    <div class="topbar">
-        <h1 class="title" data-bind="text: title">@("Rule Conditions".Localize())</h1>
-    </div>
-    <div class="wrap">
-        <div data-bind="foreach: { data: conditions, afterRender: afterRenderCondition }">
+﻿<div class="hide">
+    <div id="conditions-dialog">
+        <div class="topbar">
+            <h1 class="title" data-bind="text: title">@("Rule Conditions".Localize())</h1>
+        </div>
+        <div class="wrap">
             <div class="block conditions-v2">
+                <!-- ko foreach: { data: conditions, afterRender: afterRenderCondition } -->
+                <span class="label" data-bind="visible: $index() > 0">AND</span>
                 <div class="item">
                     <span class="title">@("Condition".Localize()) <span data-bind="text: $index() + 1"></span>:</span>
+                    <ul class="form-list left">
+                        <li>
+                            <input type="radio" name="IncludeExclude" id="Include_1" value="Include">
+                            <label class="inline" for="Include_1">Include this condition</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="IncludeExclude" id="Exclude_1" value="Exclude">
+                            <label class="inline" for="Exclude_1">Exclude this condition</label>
+                        </li>
+                    </ul>
                     <div class="button blank dropdown">
                         <span data-bind="text: type"></span>
                         @Html.IconImage("sprite")
@@ -45,25 +56,23 @@
                                         </div>
                                     </div>
                                 </form>
-                                <a class="action" href="#" data-bind="click: $parent.removeComparison">@Html.IconImage("minus")</a>
+                                <a class="action" href="#" data-bind="click: $parent.removeComparison">@Html.IconImage("minus-black")</a>
                             </div>
                         </div>
                         <p class="actions">
-                            <a class="button" href="#" data-bind="click: addComparison">+OR</a>
-                            <a class="button" href="#" data-bind="visible: $index() == $parent.groups().length - 1, click: $parent.addGroup">+AND</a>
+                            <a class="button light-gray" href="#" data-bind="click: addComparison">+OR</a>
+                            <a class="button light-gray" href="#" data-bind="visible: $index() == $parent.groups().length - 1, click: $parent.addGroup">+AND</a>
                         </p>
                     </div>
                 </div>
+                <!-- /ko -->
+                <a class="button light-gray" data-bind="click: addCondition">@("+Add condition".Localize())</a>
             </div>
         </div>
-        <div>
-            <a class="action" data-bind="click: addCondition">@Html.IconImage("plus")</a>
+        <div class="buttons">
+            <a href="#" class="button gray right btn-cancel-condition-dialog">@("Cancel".Localize())</a>
+            <a href="#" class="button right btn-submit-condition-dialog">@("Save".Localize())</a>
         </div>
     </div>
-    <div class="buttons">
-        <a href="#" class="button gray right btn-cancel-condition-dialog">@("Cancel".Localize())</a>
-        <a href="#" class="button right btn-submit-condition-dialog">@("Save".Localize())</a>
-    </div>
 </div>
-
 @Html.Partial("_ConditionsDialog.Scripts")

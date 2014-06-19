@@ -65,15 +65,19 @@
 
 	.item {
 		border: 1px solid #CCC;
-		margin-bottom: 20px;
+		margin-bottom: 10px;
 		padding: 10px;
 		position: relative;
 
 		.title {
 			float: left;
 			font-weight: 600;
-			margin: 0 10px 20px 0;
-			line-height: 28px;
+			margin: 0 20px 20px 0;
+			line-height: 13px;
+		}
+
+		.form-list.left {
+			margin: 0;
 		}
 
 		.wrap {
@@ -83,10 +87,23 @@
 			position: relative;
 
 			.action {
+				background: @light-gray;
+				padding: 7px;
 				position: absolute;
 				right: 0;
 				top: 0;
 			}
+		}
+
+		.text {
+			display: block;
+			font-weight: 600;
+			line-height: 28px;
+			text-align: center;
+		}
+
+		.form-list {
+			margin-top: 8px;
 		}
 
 		.actions {
@@ -98,23 +115,23 @@
 				margin-left: 10px;
 			}
 		}
+	}
+
+	.label {
+		display: inline-block;
+		line-height: 15px;
+		margin-bottom: 10px;
+	}
+
+	.separator {
+		border-bottom: 1px solid #CCC;
+		height: 10px;
+		margin: 10px 0 20px;
+		position: relative;
 
 		.label {
-			display: inline-block;
-			line-height: 15px;
-			margin-bottom: 10px;
-		}
-
-		.separator {
-			border-bottom: 1px solid #CCC;
-			height: 10px;
-			margin: 10px 0 20px;
-			position: relative;
-
-			.label {
-				top: 1px;
-				position: absolute;
-			}
+			top: 1px;
+			position: absolute;
 		}
 	}
 }
