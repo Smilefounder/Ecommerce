@@ -444,9 +444,7 @@
     <Content Include="Areas\Commerce\Styles\fonts\opensans-light-webfont.svg" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-regular-webfont.svg" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-semibold-webfont.svg" />
-    <Content Include="Areas\Commerce\Styles\images\arrows.png" />
     <Content Include="Areas\Commerce\Styles\images\icon-insert-page.png" />
-    <Content Include="Areas\Commerce\Styles\images\icons.png" />
     <Content Include="Areas\Commerce\Styles\images\line-end.png" />
     <Content Include="Areas\Commerce\Styles\images\line-x.png" />
     <Content Include="Areas\Commerce\Styles\images\line-y.png" />
@@ -3383,16 +3381,6 @@
     <Content Include="Areas\Commerce\Views\Hal\CreateRule.cshtml" />
     <Content Include="Areas\Commerce\Views\Hal\EditRule.cshtml" />
     <Content Include="Areas\Commerce\Views\HalResource\_LinkEditorDialog.cshtml" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\brand\Thumbs.db" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\buttons\Thumbs.db" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\category\Thumbs.db" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\general\Thumbs.db" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\offers\Thumbs.db" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\order\Thumbs.db" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\people\Thumbs.db" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\service\Thumbs.db" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\shop\Thumbs.db" />
-    <Content Include="Cms_Data\Sites\Vitaminstore\images\Thumbs.db" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Pages\Home\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Layouts\main\setting.config" />
