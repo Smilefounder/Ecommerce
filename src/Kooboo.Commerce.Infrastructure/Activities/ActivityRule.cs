@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 
@@ -32,7 +33,7 @@ namespace Kooboo.Commerce.Activities
         public RuleType Type { get; set; }
 
         [StringLength(4000)]
-        public string ConditionsJson { get; protected set; }
+        private string ConditionsJson { get; set; }
 
         private List<Condition> _conditions;
 
@@ -133,5 +134,20 @@ namespace Kooboo.Commerce.Activities
                 DetachActivity(activity);
             }
         }
+
+        #region Entity Configuration
+
+        class ActivityRuleMap : EntityTypeConfiguration<ActivityRule>
+        {
+            public ActivityRuleMap()
+            {
+                Property(c => c.ConditionsJson);
+                HasMany(x => x.AttachedActivityInfos)
+                    .WithRequired(x => x.Rule)
+                    .Map(x => x.MapKey("ActivityRule_Id"));
+            }
+        }
+
+        #endregion
     }
 }

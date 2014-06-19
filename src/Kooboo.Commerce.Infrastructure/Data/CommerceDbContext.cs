@@ -83,7 +83,8 @@ namespace Kooboo.Commerce.Data
             }
 
             builder.Conventions.Remove<PluralizingTableNameConvention>();
-            // TODO: Might need to open mapping assembly loading as an extension point
+
+            builder.Configurations.AddFromAssembly(Assembly.Load("Kooboo.Commerce.Infrastructure"));
             builder.Configurations.AddFromAssembly(Assembly.Load("Kooboo.Commerce.Data.Mapping"));
 
             return builder.Build(dbProviderInfo).Compile();

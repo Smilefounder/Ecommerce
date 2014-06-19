@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder
 
         protected override void DoExecute(IOrderEvent @event, ActivityContext context)
         {
-            var config = context.GetActivityConfig<OrderReminderActivityConfig>();
+            var config = context.ParameterValues.Get<OrderReminderActivityConfig>("Config");
             if (config == null || String.IsNullOrWhiteSpace(config.Receivers))
             {
                 return;

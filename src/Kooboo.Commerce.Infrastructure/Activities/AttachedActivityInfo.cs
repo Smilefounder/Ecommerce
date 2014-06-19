@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using Kooboo.Extensions;
 using Newtonsoft.Json;
+using Kooboo.Commerce.Collections;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Kooboo.Commerce.Activities
 {
@@ -18,129 +21,46 @@ namespace Kooboo.Commerce.Activities
         [Required, StringLength(100)]
         public virtual string ActivityName { get; set; }
 
-        // TODO: Make private
-        public virtual string ParametersJson { get; protected set; }
+        private string ParameterValuesJson { get; set; }
 
-        private Dictionary<string, string> _parameters;
+        private ParameterValueDictionary _parameterValues;
 
-        public virtual string GetParameterValue(string paramName)
+        [NotMapped]
+        public ParameterValueDictionary ParameterValues
         {
-            EnsureParametersLoaded();
-
-            string value = null;
-
-            if (_parameters.TryGetValue(paramName, out value))
+            get
             {
-                return value;
-            }
+                if (_parameterValues == null)
+                {
+                    _parameterValues = ParameterValueDictionary.Deserialize(ParameterValuesJson, StringComparer.OrdinalIgnoreCase);
 
-            return null;
+                    _parameterValues.ValueAdded += OnParameterValueChanged;
+                    _parameterValues.ValueRemoved += OnParameterValueChanged;
+                    _parameterValues.ValueChanged += OnParameterValueChanged;
+                }
+
+                return _parameterValues;
+            }
+            set
+            {
+                Require.NotNull(value, "value");
+
+                if (_parameterValues != null)
+                {
+                    _parameterValues.ValueAdded -= OnParameterValueChanged;
+                    _parameterValues.ValueRemoved -= OnParameterValueChanged;
+                    _parameterValues.ValueChanged -= OnParameterValueChanged;
+
+                    _parameterValues = null;
+                }
+
+                ParameterValuesJson = value.Serialize();
+            }
         }
 
-        public virtual T GetParameterValue<T>(string paramName, T defaultValue = default(T))
+        private void OnParameterValueChanged(object sender, ParameterValueEventArgs args)
         {
-            var strValue = GetParameterValue(paramName);
-            if (strValue == null)
-            {
-                return defaultValue;
-            }
-
-            var resultType = typeof(T);
-
-            if (resultType == typeof(String))
-            {
-                return (T)(object)strValue;
-            }
-
-            if (resultType.IsValueType)
-            {
-                return (T)(object)Convert.ChangeType(strValue, resultType);
-            }
-
-            return JsonConvert.DeserializeObject<T>(strValue);
-        }
-
-        public virtual void SetParmeterValue(string paramName, object value)
-        {
-            EnsureParametersLoaded();
-
-            _parameters.Remove(paramName);
-
-            if (value == null)
-            {
-                _parameters.Add(paramName, null);
-            }
-            else
-            {
-                var valueType = value.GetType();
-                string strValue = null;
-
-                if (valueType == typeof(String))
-                {
-                    strValue = (string)value;
-                }
-                else if (valueType.IsValueType)
-                {
-                    strValue = value.ToString();
-                }
-                else
-                {
-                    strValue = JsonConvert.SerializeObject(value);
-                }
-
-                _parameters.Add(paramName, strValue);
-            }
-
-            ParametersJson = JsonConvert.SerializeObject(_parameters);
-        }
-
-        public virtual IDictionary<string, string> GetParameters(IDictionary<string, string> defaultValues = null)
-        {
-            EnsureParametersLoaded();
-
-            var result = new Dictionary<string, string>(_parameters, StringComparer.OrdinalIgnoreCase);
-
-            if (defaultValues != null)
-            {
-                foreach (var each in defaultValues)
-                {
-                    if (!result.ContainsKey(each.Key))
-                    {
-                        result.Add(each.Key, each.Value);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        public virtual void SetParameters(IDictionary<string, string> parameters)
-        {
-            if (parameters == null)
-            {
-                ParametersJson = null;
-            }
-            else
-            {
-                ParametersJson = JsonConvert.SerializeObject(parameters);
-            }
-
-            _parameters = null;
-        }
-
-        private void EnsureParametersLoaded()
-        {
-            if (_parameters == null)
-            {
-                if (String.IsNullOrWhiteSpace(ParametersJson))
-                {
-                    _parameters = new Dictionary<string, string>();
-                }
-                else
-                {
-                    _parameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(ParametersJson);
-                }
-            }
+            ParameterValuesJson = _parameterValues.Serialize();
         }
 
         public virtual bool IsEnabled { get; set; }
@@ -204,5 +124,17 @@ namespace Kooboo.Commerce.Activities
         {
             IsAsyncExeuctionEnabled = false;
         }
+
+        #region Entity Configuration
+
+        class AttachedActivityMap : EntityTypeConfiguration<AttachedActivityInfo>
+        {
+            public AttachedActivityMap()
+            {
+                Property(c => c.ParameterValuesJson);
+            }
+        }
+
+        #endregion
     }
 }

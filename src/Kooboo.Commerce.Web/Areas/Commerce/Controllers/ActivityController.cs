@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Activities;
+using Kooboo.Commerce.Collections;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events.Registry;
 using Kooboo.Commerce.Rules;
@@ -131,12 +132,22 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             ViewBag.Activity = activity;
 
+            var parameters = attachedActivityInfo.ParameterValues.ToDictionary();
+
+            foreach (var each in activity.GetDefaultParameterValues())
+            {
+                if (!parameters.ContainsKey(each.Key))
+                {
+                    parameters.Add(each.Key, each.Value);
+                }
+            }
+
             return View(new ActivityEditorModel
             {
                 RuleId = ruleId,
                 AttachedActivityInfoId = attachedActivityInfoId,
                 Activity = new ActivityModel(activity, rule, attachedActivityInfo),
-                Parameters = attachedActivityInfo.GetParameters(activity.GetDefaultParameters())
+                Parameters = parameters
             });
         }
 
@@ -220,20 +231,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             .UsingClientConvention();
         }
 
-        public ActionResult LoadActivityParameters(int ruleId, int attachedActivityInfoId)
-        {
-            var rule = _ruleRepository.Get(ruleId);
-            var activityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            var activity = _activityProvider.FindByName(activityInfo.ActivityName);
-            return JsonNet(activityInfo.GetParameters(activity.GetDefaultParameters()));
-        }
-
         [HttpPost, HandleAjaxError, Transactional]
         public void UpdateActivityParameters(UpdateActivityParametersRequest request)
         {
             var rule = _ruleRepository.Get(request.RuleId);
             var activityInfo = rule.AttachedActivityInfos.Find(request.AttachedActivityInfoId);
-            activityInfo.SetParameters(request.Parameters);
+            activityInfo.ParameterValues = new ParameterValueDictionary(request.Parameters);
         }
 
         [HandleAjaxError]

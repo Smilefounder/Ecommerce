@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.Extensions;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Kooboo.Commerce.Activities
 {
@@ -79,5 +80,13 @@ namespace Kooboo.Commerce.Activities
         {
             MarkFailed(exception.Message, exception.Print());
         }
+
+        #region Entity Type Configuration
+
+        class ActivityQueueItemMap : EntityTypeConfiguration<ActivityQueueItem>
+        {
+        }
+
+        #endregion
     }
 }

@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Activities
 
     public static class ActivityExtensions
     {
-        public static IDictionary<string, string> GetDefaultParameters(this IActivity activity)
+        public static IDictionary<string, string> GetDefaultParameterValues(this IActivity activity)
         {
             if (activity.Parameters == null)
             {

@@ -116,6 +116,7 @@
     <Compile Include="Activities\RuleBranch.cs" />
     <Compile Include="Activities\RuleType.cs" />
     <Compile Include="BusinessRuleViolationException.cs" />
+    <Compile Include="Collections\ParameterValueDictionary.cs" />
     <Compile Include="ComponentModel\INotifyCreated.cs" />
     <Compile Include="ComponentModel\INotifyDeleted.cs" />
     <Compile Include="ComponentModel\INotifyDeleting.cs" />

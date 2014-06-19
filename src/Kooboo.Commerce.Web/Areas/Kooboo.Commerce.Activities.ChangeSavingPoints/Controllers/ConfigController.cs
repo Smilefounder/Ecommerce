@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints.Controllers
         {
             var rule = _rules.Get(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            var config = attachedActivityInfo.GetParameterValue<ChangeSavingPointsActivityConfig>("Config", new ChangeSavingPointsActivityConfig());
+            var config = attachedActivityInfo.ParameterValues.Get<ChangeSavingPointsActivityConfig>("Config", new ChangeSavingPointsActivityConfig());
             return JsonNet(config).UsingClientConvention();
         }
 
@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints.Controllers
         {
             var rule = _rules.Get(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            attachedActivityInfo.SetParmeterValue("Config", config);
+            attachedActivityInfo.ParameterValues.Set("Config", config);
         }
     }
 }

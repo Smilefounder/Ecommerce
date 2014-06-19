@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints
 
         protected override void DoExecute(IOrderEvent @event, ActivityContext context)
         {
-            var config = context.GetActivityConfig<ChangeSavingPointsActivityConfig>();
+            var config = context.ParameterValues.Get<ChangeSavingPointsActivityConfig>("Config");
             if (config == null)
             {
                 return;

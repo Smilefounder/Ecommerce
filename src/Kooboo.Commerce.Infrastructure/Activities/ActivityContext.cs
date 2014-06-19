@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kooboo.Commerce.Collections;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,13 @@ namespace Kooboo.Commerce.Activities
 
         public AttachedActivityInfo AttachedActivityInfo { get; private set; }
 
-        public IDictionary<string, string> Parameters { get; private set; }
+        public ParameterValueDictionary ParameterValues
+        {
+            get
+            {
+                return AttachedActivityInfo.ParameterValues;
+            }
+        }
 
         public bool IsAsyncExecution { get; private set; }
 
@@ -21,16 +28,6 @@ namespace Kooboo.Commerce.Activities
             Rule = rule;
             AttachedActivityInfo = attachedActivityInfo;
             IsAsyncExecution = isAsyncExecution;
-        }
-
-        public T GetActivityConfig<T>()
-        {
-            if (String.IsNullOrWhiteSpace(AttachedActivityInfo.ParametersJson))
-            {
-                return default(T);
-            }
-
-            return JsonConvert.DeserializeObject<T>(AttachedActivityInfo.ParametersJson);
         }
     }
 }
