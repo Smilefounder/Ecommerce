@@ -185,6 +185,8 @@ namespace Kooboo.Commerce.Orders.Services
             Require.That(payment.Status == PaymentStatus.Success, "payment", "Can only accept succeeded payment.");
 
             order.TotalPaid += payment.Amount;
+
+            order.Total += payment.PaymentMethodCost;
             order.PaymentMethodCost += payment.PaymentMethodCost;
 
             _db.SaveChanges();
