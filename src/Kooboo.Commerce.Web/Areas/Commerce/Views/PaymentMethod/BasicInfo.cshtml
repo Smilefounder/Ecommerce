@@ -23,17 +23,17 @@
     @Html.Action("Steps", "PaymentMethod", new { area = "Commerce", step = 1 })
 
     <div class="common-form">
-        @using (Html.BeginForm("Save", "PaymentMethod", RouteValues.From(Request.QueryString)))
+        @using (Html.BeginForm("BasicInfo", "PaymentMethod", RouteValues.From(Request.QueryString)))
         {
             @Html.HiddenFor(m => m.Id)
             @Html.ValidationSummary(true)
             <table>
                 <tbody>
                     <tr>
-                        <th>@Html.DisplayNameFor(m => m.PaymentProcessorName)</th>
+                        <th>@Html.DisplayNameFor(m => m.ProcessorName)</th>
                         <td>
-                            <select name="PaymentProcessorName" class="medium" data-bind="options: availablePaymentProcessors, optionsText: 'name', optionsValue: 'name', value: paymentProcessorName"></select>
-                            @Html.ValidationMessageFor(m => m.PaymentProcessorName)
+                            <select name="ProcessorName" class="medium" data-bind="options: availablePaymentProcessors, optionsText: 'name', optionsValue: 'name', value: processorName"></select>
+                            @Html.ValidationMessageFor(m => m.ProcessorName)
                         </td>
                     </tr>
                     <tr>
@@ -83,7 +83,7 @@
         var jsModel = @Html.Raw(Model.ToJson(PropertyNaming.CamelCase));
         var viewModel = ko.mapping.fromJS(jsModel);
 
-        viewModel.paymentProcessorName.subscribe(function (value) {
+        viewModel.processorName.subscribe(function (value) {
             viewModel.name(value);
         });
 

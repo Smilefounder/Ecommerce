@@ -16,7 +16,6 @@ namespace Kooboo.Commerce.Payments.iDeal
     [Dependency(typeof(IPaymentProcessor), Key = "iDeal")]
     public class IDealPaymentProcessor : IPaymentProcessor
     {
-        private IPaymentMethodService _paymentMethodService;
         private CommerceInstanceContext _commerceInstanceContext;
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
@@ -29,46 +28,47 @@ namespace Kooboo.Commerce.Payments.iDeal
             }
         }
 
-        public IDealPaymentProcessor(IPaymentMethodService paymentMethodService, CommerceInstanceContext commerceInstanceContext)
+        public Type ConfigModelType
         {
-            _paymentMethodService = paymentMethodService;
+            get
+            {
+                return typeof(IDealConfig);
+            }
+        }
+
+        public IDealPaymentProcessor(CommerceInstanceContext commerceInstanceContext)
+        {
             _commerceInstanceContext = commerceInstanceContext;
         }
 
-        public ProcessPaymentResult Process(ProcessPaymentRequest request)
+        public ProcessPaymentResult Process(PaymentProcessingContext context)
         {
-            if (request.Amount < (decimal)1.19)
+            if (context.Amount < (decimal)1.19)
                 throw new FormatException("Amount cannot be less than € 1,19");
 
-            var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
-            var settings = IDealConfig.Deserialize(method.PaymentProcessorData);
+            var settings = context.ProcessorConfig as IDealConfig;
 
             var commerceName = _commerceInstanceContext.CurrentInstance.Name;
             var httpContext = HttpContextAccessor();
             var reportUrl = Strings.AreaName + "/iDeal/Callback?commerceName=" + commerceName;
             var returnUrl = Strings.AreaName
                 + "/iDeal/Return?commerceName=" + commerceName
-                + "&paymentId=" + request.Payment.Id
-                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
+                + "&paymentId=" + context.Payment.Id
+                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(context.ReturnUrl);
 
             var idealFetch = new IdealFetch(
                 settings.PartnerId
-                , request.Payment.Description
+                , context.Payment.Description
                 , reportUrl.ToFullUrl(httpContext)
                 , returnUrl.ToFullUrl(httpContext)
                 , ""
-                , request.Amount
+                , context.Amount
             );
 
             if (idealFetch.Error)
                 throw new PaymentProcessorException(idealFetch.ErrorMessage);
 
             return ProcessPaymentResult.Pending(idealFetch.Url, idealFetch.TransactionId);
-        }
-
-        public PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod)
-        {
-            return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

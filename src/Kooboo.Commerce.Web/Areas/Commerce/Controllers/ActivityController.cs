@@ -244,7 +244,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxError, Transactional]
-        public void UpdateActivityParameters(int ruleId, int attachedActivityInfoId, [ModelBinder(typeof(DerivedTypeModelBinder))]object config)
+        public void UpdateActivityConfig(int ruleId, int attachedActivityInfoId, [ModelBinder(typeof(ObjectModelBinder))]object config)
         {
             var rule = _ruleRepository.Get(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);

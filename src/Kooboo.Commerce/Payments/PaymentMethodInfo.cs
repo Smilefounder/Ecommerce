@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Payments
         {
             Id = method.Id;
             Name = method.Name;
-            ProcessorName = method.PaymentProcessorName;
+            ProcessorName = method.ProcessorName;
         }
 
         public override string ToString()

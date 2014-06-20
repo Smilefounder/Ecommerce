@@ -8,7 +8,10 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Mvc.ModelBinding
 {
-    public class DerivedTypeModelBinder : DefaultModelBinder
+    /// <summary>
+    /// A model binder for System.Object type based on BindingType request parameter.
+    /// </summary>
+    public class ObjectModelBinder : DefaultModelBinder
     {
         protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
         {

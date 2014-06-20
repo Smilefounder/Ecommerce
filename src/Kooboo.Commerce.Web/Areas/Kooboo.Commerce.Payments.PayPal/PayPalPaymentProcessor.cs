@@ -22,7 +22,6 @@ namespace Kooboo.Commerce.Payments.PayPal
     {
         private IOrderService _orderService;
         private ISettingService _settingsService;
-        private IPaymentMethodService _paymentMethodService;
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
@@ -34,28 +33,33 @@ namespace Kooboo.Commerce.Payments.PayPal
             }
         }
 
+        public Type ConfigModelType
+        {
+            get
+            {
+                return typeof(PayPalConfig);
+            }
+        }
+
         public PayPalPaymentProcessor(
             IOrderService orderService,
-            ISettingService settingService,
-            IPaymentMethodService paymentMethodService)
+            ISettingService settingService)
         {
             _orderService = orderService;
             _settingsService = settingService;
-            _paymentMethodService = paymentMethodService;
         }
 
-        public ProcessPaymentResult Process(ProcessPaymentRequest request)
+        public ProcessPaymentResult Process(PaymentProcessingContext context)
         {
-            if (String.IsNullOrEmpty(request.CurrencyCode))
+            if (String.IsNullOrEmpty(context.CurrencyCode))
             {
                 var storeSettings = _settingsService.Get<StoreSettings>(StoreSettings.Key) ?? new StoreSettings();
-                request.CurrencyCode = storeSettings.CurrencyISOCode;
+                context.CurrencyCode = storeSettings.CurrencyISOCode;
             }
 
-            var paymentMethod = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
-            var settings = PayPalConfig.Deserialize(paymentMethod.PaymentProcessorData);
+            var settings = context.ProcessorConfig as PayPalConfig;
 
-            var result = CreatePayPalPayment(request, settings);
+            var result = CreatePayPalPayment(context, settings);
             var paymentStatus = PaymentStatus.Failed;
 
             if (result.state == "approved")
@@ -78,7 +82,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             };
         }
 
-        private PayPalRest.Payment CreatePayPalPayment(ProcessPaymentRequest request, PayPalConfig settings)
+        private PayPalRest.Payment CreatePayPalPayment(PaymentProcessingContext request, PayPalConfig settings)
         {
             var config = new Dictionary<string, string>();
             config.Add("mode", settings.SandboxMode ? "sandbox" : "live");
@@ -108,7 +112,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             });
         }
 
-        private Transaction CreateTransaction(ProcessPaymentRequest request)
+        private Transaction CreateTransaction(PaymentProcessingContext request)
         {
             return new Transaction
             {
@@ -121,7 +125,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             };
         }
 
-        private CreditCard CreateCreditCard(ProcessPaymentRequest request)
+        private CreditCard CreateCreditCard(PaymentProcessingContext request)
         {
             var card = new CreditCard
             {
@@ -146,11 +150,6 @@ namespace Kooboo.Commerce.Payments.PayPal
             }
 
             return card;
-        }
-
-        public PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod)
-        {
-            return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

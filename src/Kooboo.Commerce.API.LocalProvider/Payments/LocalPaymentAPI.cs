@@ -34,8 +34,15 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
 
             PaymentService.Create(payment);
 
-            var processor = _processorFactory.FindByName(paymentMethod.PaymentProcessorName);
-            var processResult = processor.Process(new ProcessPaymentRequest(payment)
+            var processor = _processorFactory.FindByName(paymentMethod.ProcessorName);
+            object config = null;
+
+            if (processor.ConfigModelType != null)
+            {
+                config = paymentMethod.LoadProcessorConfig(processor.ConfigModelType);
+            }
+
+            var processResult = processor.Process(new PaymentProcessingContext(payment, config)
             {
                 CurrencyCode = request.CurrencyCode,
                 ReturnUrl = request.ReturnUrl,

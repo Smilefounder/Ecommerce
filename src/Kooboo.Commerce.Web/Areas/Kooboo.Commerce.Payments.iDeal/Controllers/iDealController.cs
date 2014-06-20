@@ -43,7 +43,7 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
                                          .ByThirdPartyTransactionId(iDealTransactionId, "iDeal");
 
             var paymentMethod = _paymentMethodService.GetById(payment.PaymentMethod.Id);
-            var settings = IDealConfig.Deserialize(paymentMethod.PaymentProcessorData);
+            var settings = paymentMethod.LoadProcessorConfig<IDealConfig>();
             var idealCheck = new IdealCheck(settings.PartnerId, settings.TestMode, iDealTransactionId);
 
             ProcessPaymentResult result = null;

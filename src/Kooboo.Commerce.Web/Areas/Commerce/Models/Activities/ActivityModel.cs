@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             }
             else if (activity.ConfigModelType != null)
             {
-                EditorVirtualPath = "~/Areas/Commerce/Views/Activity/_DefaultParameterEditor.cshtml";
+                EditorVirtualPath = "~/Areas/Commerce/Views/Activity/_DefaultConfigEditor.cshtml";
             }
         }
     }

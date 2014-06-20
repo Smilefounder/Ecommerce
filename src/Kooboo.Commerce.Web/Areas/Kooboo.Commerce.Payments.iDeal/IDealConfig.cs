@@ -11,23 +11,10 @@ namespace Kooboo.Commerce.Payments.iDeal
 {
     public class IDealConfig
     {
+        [Display(Name = "Partner ID")]
         public string PartnerId { get; set; }
 
+        [Display(Name = "Test mode")]
         public bool TestMode { get; set; }
-
-        public string Serialize()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
-
-        public static IDealConfig Deserialize(string data)
-        {
-            if (String.IsNullOrEmpty(data))
-            {
-                return new IDealConfig();
-            }
-
-            return JsonConvert.DeserializeObject<IDealConfig>(data);
-        }
     }
 }

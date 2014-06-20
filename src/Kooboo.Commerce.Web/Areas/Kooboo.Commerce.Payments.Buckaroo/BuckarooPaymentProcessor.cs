@@ -17,12 +17,19 @@ namespace Kooboo.Commerce.Payments.Buckaroo
     [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.Buckaroo.BuckarooPaymentProcessor")]
     public class BuckarooPaymentProcessor : IPaymentProcessor
     {
-        private IPaymentMethodService _paymentMethodService;
         private CommerceInstanceContext _commerceInstanceContext;
 
         public string Name
         {
             get { return Strings.ProcessorName; }
+        }
+
+        public Type ConfigModelType
+        {
+            get
+            {
+                return typeof(BuckarooConfig);
+            }
         }
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
@@ -31,39 +38,37 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             IPaymentMethodService paymentMethodService,
             CommerceInstanceContext commerceInstanceContext)
         {
-            _paymentMethodService = paymentMethodService;
             _commerceInstanceContext = commerceInstanceContext;
         }
 
-        public ProcessPaymentResult Process(ProcessPaymentRequest request)
+        public ProcessPaymentResult Process(PaymentProcessingContext context)
         {
-            var method = _paymentMethodService.GetById(request.Payment.PaymentMethod.Id);
-            var settings = BuckarooConfig.Deserialize(method.PaymentProcessorData);
+            var settings = context.ProcessorConfig as BuckarooConfig;
 
-            var serviceId = request.Parameters[BuckarooConstants.Parameters.ServiceId];
+            var serviceId = context.Parameters[BuckarooConstants.Parameters.ServiceId];
 
             var parameters = new NameValueCollection();
 
             parameters.Add("Brq_websitekey", settings.WebsiteKey);
-            parameters.Add("Brq_amount", request.Amount.ToString("f2", CultureInfo.InvariantCulture));
-            parameters.Add("Brq_invoicenumber", request.Payment.Id.ToString());
-            parameters.Add("Brq_currency", request.CurrencyCode);
-            parameters.Add("Brq_description", "#" + request.Payment.Description);
+            parameters.Add("Brq_amount", context.Amount.ToString("f2", CultureInfo.InvariantCulture));
+            parameters.Add("Brq_invoicenumber", context.Payment.Id.ToString());
+            parameters.Add("Brq_currency", context.CurrencyCode);
+            parameters.Add("Brq_description", "#" + context.Payment.Description);
             parameters.Add("brq_culture", "en-US");
 
-            parameters.Add("Brq_return", GetCallbackUrl("Return", request));
-            parameters.Add("Brq_push", GetCallbackUrl("Push", request));
+            parameters.Add("Brq_return", GetCallbackUrl("Return", context));
+            parameters.Add("Brq_push", GetCallbackUrl("Push", context));
 
             parameters.Add("Brq_payment_method", serviceId);
             parameters.Add("Brq_service_" + serviceId + "_action", "Pay");
 
-            parameters.Add("add_paymentId", request.Payment.Id.ToString());
+            parameters.Add("add_paymentId", context.Payment.Id.ToString());
 
             if (serviceId == BuckarooConstants.Services.SimpleSEPADirectDebit)
             {
-                parameters.Add("brq_service_" + serviceId + "_customeraccountname", request.Parameters[BuckarooConstants.Parameters.SEPA_CustomerAccountName]);
-                parameters.Add("brq_service_" + serviceId + "_CustomerBIC", request.Parameters[BuckarooConstants.Parameters.SEPA_CustomerBIC]);
-                parameters.Add("brq_service_" + serviceId + "_CustomerIBAN", request.Parameters[BuckarooConstants.Parameters.SEPA_CustomerIBAN]);
+                parameters.Add("brq_service_" + serviceId + "_customeraccountname", context.Parameters[BuckarooConstants.Parameters.SEPA_CustomerAccountName]);
+                parameters.Add("brq_service_" + serviceId + "_CustomerBIC", context.Parameters[BuckarooConstants.Parameters.SEPA_CustomerBIC]);
+                parameters.Add("brq_service_" + serviceId + "_CustomerIBAN", context.Parameters[BuckarooConstants.Parameters.SEPA_CustomerIBAN]);
                 parameters.Add("brq_service_" + serviceId + "_MandateReference", settings.CreditDebitMandateReference);
                 parameters.Add("brq_service_" + serviceId + "_MandateDate", settings.CreditDebitMandateDate);
             }
@@ -74,7 +79,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             throw new NotImplementedException();
         }
 
-        private string GetCallbackUrl(string action, ProcessPaymentRequest request)
+        private string GetCallbackUrl(string action, PaymentProcessingContext request)
         {
             var commerceName = _commerceInstanceContext.CurrentInstance.Name;
             var url = Strings.AreaName + "/Buckaroo/" + action + "?commerceName=" + commerceName;
@@ -84,11 +89,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             }
 
             return url.ToFullUrl(HttpContextAccessor());
-        }
-
-        public PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod)
-        {
-            return new PaymentProcessorEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
         }
     }
 }

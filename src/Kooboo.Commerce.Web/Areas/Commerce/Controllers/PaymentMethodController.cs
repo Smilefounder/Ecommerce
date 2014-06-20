@@ -16,6 +16,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models;
+using Kooboo.Commerce.Web.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -58,13 +59,76 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 model.Id = method.Id;
                 model.Name = method.Name;
                 model.UserKey = method.UserKey;
-                model.PaymentProcessorName = method.PaymentProcessorName;
+                model.ProcessorName = method.ProcessorName;
                 model.AdditionalFeeChargeMode = method.AdditionalFeeChargeMode;
                 model.AdditionalFeeAmount = method.AdditionalFeeAmount;
                 model.AdditionalFeePercent = method.AdditionalFeePercent;
             }
 
             return View(model);
+        }
+
+        [HttpPost, HandleAjaxFormError, Transactional]
+        public ActionResult BasicInfo(PaymentMethodEditorModel model, string @return)
+        {
+            PaymentMethod method = null;
+
+            if (model.Id > 0)
+            {
+                method = _paymentMethodService.GetById(model.Id);
+                model.UpdateTo(method);
+            }
+            else
+            {
+                method = new PaymentMethod();
+                model.UpdateTo(method);
+                _paymentMethodService.Create(method);
+            }
+
+            if (model.Id > 0)
+            {
+                CommerceContext.CurrentInstance.Database.SaveChanges();
+                method.NotifyUpdated();
+            }
+
+            string redirectUrl = null;
+            var processor = _processorProvider.FindByName(method.ProcessorName);
+
+            var editor = processor as IHasCustomPaymentProcessorConfigEditor;
+            if (editor != null || processor.ConfigModelType != null)
+            {
+                redirectUrl = Url.Action("Processor", RouteValues.From(Request.QueryString).Merge("id", method.Id));
+            }
+            else
+            {
+                redirectUrl = Url.Action("Complete", RouteValues.From(Request.QueryString).Merge("id", method.Id));
+            }
+
+            return AjaxForm().RedirectTo(redirectUrl);
+        }
+
+        public ActionResult Processor(int id)
+        {
+            var method = _paymentMethodService.GetById(id);
+            var processor = _processorProvider.FindByName(method.ProcessorName);
+
+            var editorModel = new PaymentProcessorConfigEditorModel
+            {
+                PaymentMethodId = method.Id,
+                Config = method.LoadProcessorConfig(processor.ConfigModelType) ?? Activator.CreateInstance(processor.ConfigModelType)
+            };
+
+            ViewBag.Processor = processor;
+            ViewBag.ProcessorConfigEditorModel = editorModel;
+
+            return View(method);
+        }
+
+        [HttpPost, HandleAjaxError, Transactional]
+        public void UpdateProcessorConfig(int paymentMethodId, [ModelBinder(typeof(ObjectModelBinder))]object config)
+        {
+            var method = _paymentMethodService.GetById(paymentMethodId);
+            method.UpdateProcessorConfig(config);
         }
 
         public ActionResult Complete(int id)
@@ -123,54 +187,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             return AjaxForm().ReloadPage();
-        }
-
-        public ActionResult Processor(int id)
-        {
-            var method = _paymentMethodService.GetById(id);
-            var processor = _processorProvider.FindByName(method.PaymentProcessorName);
-            ViewBag.Processor = processor;
-            return View(method);
-        }
-
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Save(PaymentMethodEditorModel model, string @return)
-        {
-            PaymentMethod method = null;
-
-            if (model.Id > 0)
-            {
-                method = _paymentMethodService.GetById(model.Id);
-                model.UpdateTo(method);
-            }
-            else
-            {
-                method = new PaymentMethod();
-                model.UpdateTo(method);
-                _paymentMethodService.Create(method);
-            }
-
-            if (model.Id > 0)
-            {
-                CommerceContext.CurrentInstance.Database.SaveChanges();
-                method.NotifyUpdated();
-            }
-
-            var processor = _processorProvider.FindByName(method.PaymentProcessorName);
-            var editor = processor.GetEditor(method);
-
-            string redirectUrl = null;
-
-            if (editor != null)
-            {
-                redirectUrl = Url.Action("Processor", RouteValues.From(Request.QueryString).Merge("id", method.Id));
-            }
-            else
-            {
-                redirectUrl = Url.Action("Complete", RouteValues.From(Request.QueryString).Merge("id", method.Id));
-            }
-
-            return AjaxForm().RedirectTo(redirectUrl);
         }
     }
 }

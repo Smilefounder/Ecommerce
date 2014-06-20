@@ -7,7 +7,7 @@
 <form class="common-form" id="default-activity-param-editor">
     @Html.HiddenFor(m => m.RuleId)
     @Html.HiddenFor(m => m.AttachedActivityInfoId)
-    <input type="hidden" name="Parameters.BindingType" value="@Html.Raw(configModelType.AssemblyQualifiedName)" />
+    <input type="hidden" name="Config.BindingType" value="@Html.Raw(configModelType.AssemblyQualifiedName)" />
     <table>
         <tbody>
             @foreach (var prop in configModelType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
@@ -34,7 +34,7 @@
             $form.find(':hidden[name="RuleId"]').val(editor.model().ruleId());
             $form.find(':hidden[name="AttachedActivityInfoId"]').val(editor.model().attachedActivityInfoId());
 
-            return $.post('@Url.Action("UpdateActivityParameters")', $form.serializeArray())
+            return $.post('@Url.Action("UpdateActivityConfig")', $form.serializeArray())
                     .fail(function (xhr) {
                         var result = JSON.parse(xhr.responseText);
                         window.loading.hide();

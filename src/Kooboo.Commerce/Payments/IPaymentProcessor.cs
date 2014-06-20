@@ -16,15 +16,13 @@ namespace Kooboo.Commerce.Payments
         string Name { get; }
 
         /// <summary>
+        /// 用于存放配置信息的类的类型。
+        /// </summary>
+        Type ConfigModelType { get; }
+
+        /// <summary>
         /// 处理支付请求，并返回结果。
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        ProcessPaymentResult Process(ProcessPaymentRequest request);
-        
-        /// <summary>
-        /// 获取自定义配置数据的编辑器信息。
-        /// </summary>
-        PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod);
+        ProcessPaymentResult Process(PaymentProcessingContext context);
     }
 }

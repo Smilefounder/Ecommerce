@@ -5,8 +5,17 @@
     ViewBag.Title = "Payment method".Localize();
 
     var methodId = Model.Id;
-    var processor = ViewBag.Processor as IPaymentProcessor;
-    var editor = processor.GetEditor(Model);
+    string editorVirtualPath = null;
+    
+    var editor = ViewBag.Processor as IHasCustomPaymentProcessorConfigEditor;
+    if (editor != null)
+    {
+        editorVirtualPath = editor.GetEditorVirtualPath(Model);
+    }
+    else
+    {
+        editorVirtualPath = "~/Areas/Commerce/Views/PaymentMethod/_DefaultConfigEditor.cshtml";
+    }
 }
 
 @section Panel {
@@ -21,7 +30,7 @@
 <div class="block">
     @Html.Action("Steps", "PaymentMethod", new { area = "Commerce", step = 2 })
     
-    @Html.Partial(editor.VirtualPath)
+    @Html.Partial(editorVirtualPath, ViewBag.ProcessorConfigEditorModel as PaymentProcessorConfigEditorModel)
 
     <div class="wizard-buttons">
         <a class="button gray" href="@Url.Action("BasicInfo", "PaymentMethod", RouteValues.From(Request.QueryString).Merge("id", methodId))">&laquo; @("Back".Localize())</a>

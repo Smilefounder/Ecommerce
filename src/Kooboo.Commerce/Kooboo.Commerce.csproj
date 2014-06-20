@@ -175,6 +175,7 @@
     <Compile Include="Orders\Pricing\Stages\ShippingPricingStage.cs" />
     <Compile Include="Orders\Pricing\Stages\TaxPricingStage.cs" />
     <Compile Include="Payments\Extensions\PaymentsExtensions.cs" />
+    <Compile Include="Payments\IHasCustomPaymentProcessorConfigEditor.cs" />
     <Compile Include="Payments\IPaymentProcessorProvider.cs" />
     <Compile Include="Payments\IPaymentProcessor.cs" />
     <Compile Include="Payments\PaymentMethodFeeChargeMode.cs" />
@@ -216,7 +217,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Orders\Services\OrderService.cs" />
     <Compile Include="Payments\PaymentMethod.cs" />
-    <Compile Include="Payments\ProcessPaymentRequest.cs" />
+    <Compile Include="Payments\PaymentProcessingContext.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="EAV\CustomField.cs" />
     <Compile Include="Products\Services\IProductTypeService.cs" />

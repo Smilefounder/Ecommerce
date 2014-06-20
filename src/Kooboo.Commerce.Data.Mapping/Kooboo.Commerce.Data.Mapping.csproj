@@ -61,7 +61,6 @@
     <Compile Include="KeyValueSettingMap.cs" />
     <Compile Include="OrderMap.cs" />
     <Compile Include="PaymentMap.cs" />
-    <Compile Include="PaymentMethodMap.cs" />
     <Compile Include="ProductMap.cs" />
     <Compile Include="ProductTypeVariantFieldMap.cs" />
     <Compile Include="ProductTypeCustomFieldMap.cs" />

@@ -86,6 +86,7 @@ namespace Kooboo.Commerce.Data
 
             builder.Configurations.AddFromAssembly(Assembly.Load("Kooboo.Commerce.Infrastructure"));
             builder.Configurations.AddFromAssembly(Assembly.Load("Kooboo.Commerce.Data.Mapping"));
+            builder.Configurations.AddFromAssembly(Assembly.Load("Kooboo.Commerce"));
 
             return builder.Build(dbProviderInfo).Compile();
         }

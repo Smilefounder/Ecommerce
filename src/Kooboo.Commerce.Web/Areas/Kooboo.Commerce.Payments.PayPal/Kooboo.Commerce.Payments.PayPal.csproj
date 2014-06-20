@@ -82,8 +82,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddInAreaRegistration.cs" />
-    <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="PayPalConstants.cs" />
     <Compile Include="PayPalPaymentProcessor.cs" />
     <Compile Include="PayPalConfig.cs" />
@@ -98,10 +96,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Config.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -119,12 +113,6 @@
       <Project>{dc4664e1-6e95-4062-9ac0-c0574ddab015}</Project>
       <Name>Kooboo.Commerce.Web</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="WebResources.config">
-      <SubType>
-      </SubType>
-    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

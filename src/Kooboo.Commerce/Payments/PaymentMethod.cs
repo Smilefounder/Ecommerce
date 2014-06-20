@@ -3,9 +3,11 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.PaymentMethods;
 using Kooboo.Commerce.Events.Payments;
 using Kooboo.Commerce.Rules;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 
@@ -27,9 +29,38 @@ namespace Kooboo.Commerce.Payments
         [Required, StringLength(100)]
         public string Name { get; set; }
 
-        public string PaymentProcessorName { get; set; }
+        [Required, StringLength(100)]
+        public string ProcessorName { get; set; }
 
-        public string PaymentProcessorData { get; set; }
+        private string ProcessorConfig { get; set; }
+
+        public T LoadProcessorConfig<T>()
+            where T : class
+        {
+            return LoadProcessorConfig(typeof(T)) as T;
+        }
+
+        public object LoadProcessorConfig(Type configModelType)
+        {
+            if (String.IsNullOrWhiteSpace(ProcessorConfig))
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject(ProcessorConfig, configModelType);
+        }
+
+        public void UpdateProcessorConfig(object configModel)
+        {
+            if (configModel == null)
+            {
+                ProcessorConfig = null;
+            }
+            else
+            {
+                ProcessorConfig = JsonConvert.SerializeObject(configModel);
+            }
+        }
 
         public PaymentMethodFeeChargeMode AdditionalFeeChargeMode { get; set; }
 
@@ -82,5 +113,17 @@ namespace Kooboo.Commerce.Payments
 
             return false;
         }
+
+        #region Entity Mapping
+
+        class PaymentMethodMap : EntityTypeConfiguration<PaymentMethod>
+        {
+            public PaymentMethodMap()
+            {
+                Property(c => c.ProcessorConfig);
+            }
+        }
+
+        #endregion
     }
 }

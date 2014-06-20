@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
 
         [Required]
         [Display(Name = "Payment Processor")]
-        public string PaymentProcessorName { get; set; }
+        public string ProcessorName { get; set; }
 
         [Display(Name = "User Key")]
         [Description("Optional user defined unique id for referencing in cms frontend websites")]
@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods
         {
             method.Name = Name;
             method.UserKey = UserKey;
-            method.PaymentProcessorName = PaymentProcessorName;
+            method.ProcessorName = ProcessorName;
             method.AdditionalFeeChargeMode = AdditionalFeeChargeMode;
             method.AdditionalFeeAmount = AdditionalFeeAmount;
             method.AdditionalFeePercent = AdditionalFeePercent;

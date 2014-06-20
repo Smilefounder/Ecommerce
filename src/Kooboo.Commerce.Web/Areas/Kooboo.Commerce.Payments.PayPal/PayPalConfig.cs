@@ -10,25 +10,13 @@ namespace Kooboo.Commerce.Payments.PayPal
 {
     public class PayPalConfig
     {
+        [Display(Name = "Client ID")]
         public string ClientId { get; set; }
 
+        [Display(Name = "Client secret")]
         public string ClientSecret { get; set; }
 
+        [Display(Name = "Sandbox mode")]
         public bool SandboxMode { get; set; }
-
-        public string Serialize()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
-
-        public static PayPalConfig Deserialize(string data)
-        {
-            if (String.IsNullOrEmpty(data))
-            {
-                return new PayPalConfig();
-            }
-
-            return JsonConvert.DeserializeObject<PayPalConfig>(data);
-        }
     }
 }

@@ -24,6 +24,14 @@ namespace Kooboo.Commerce.Payments.Fake
             }
         }
 
+        public Type ConfigModelType
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
         public FakePaymentProcessor(CommerceInstanceContext commerceInstanceContext)
@@ -31,14 +39,14 @@ namespace Kooboo.Commerce.Payments.Fake
             _commerceInstanceContext = commerceInstanceContext;
         }
 
-        public ProcessPaymentResult Process(ProcessPaymentRequest request)
+        public ProcessPaymentResult Process(PaymentProcessingContext context)
         {
             var commerceName = _commerceInstanceContext.CurrentInstance.Name;
             var redirectUrl = Strings.AreaName 
                 + "/Home/Gateway?commerceName=" + commerceName
-                + "&paymentId=" + request.Payment.Id
-                + "&currency=" + request.CurrencyCode
-                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);
+                + "&paymentId=" + context.Payment.Id
+                + "&currency=" + context.CurrencyCode
+                + "&commerceReturnUrl=" + HttpUtility.UrlEncode(context.ReturnUrl);
 
             var commerceUrl = ConfigurationManager.AppSettings["CommerceUrl"];
 
