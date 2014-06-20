@@ -21,46 +21,28 @@ namespace Kooboo.Commerce.Activities
         [Required, StringLength(100)]
         public virtual string ActivityName { get; set; }
 
-        private string ParameterValuesJson { get; set; }
+        private string Parameters { get; set; }
 
-        private ParameterValueDictionary _parameterValues;
-
-        [NotMapped]
-        public ParameterValueDictionary ParameterValues
+        public virtual IDictionary<string, string> GetParameters()
         {
-            get
+            if (String.IsNullOrWhiteSpace(Parameters))
             {
-                if (_parameterValues == null)
-                {
-                    _parameterValues = ParameterValueDictionary.Deserialize(ParameterValuesJson, StringComparer.OrdinalIgnoreCase);
-
-                    _parameterValues.ValueAdded += OnParameterValueChanged;
-                    _parameterValues.ValueRemoved += OnParameterValueChanged;
-                    _parameterValues.ValueChanged += OnParameterValueChanged;
-                }
-
-                return _parameterValues;
+                return new Dictionary<string, string>();
             }
-            set
-            {
-                Require.NotNull(value, "value");
 
-                if (_parameterValues != null)
-                {
-                    _parameterValues.ValueAdded -= OnParameterValueChanged;
-                    _parameterValues.ValueRemoved -= OnParameterValueChanged;
-                    _parameterValues.ValueChanged -= OnParameterValueChanged;
-
-                    _parameterValues = null;
-                }
-
-                ParameterValuesJson = value.Serialize();
-            }
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(Parameters);
         }
 
-        private void OnParameterValueChanged(object sender, ParameterValueEventArgs args)
+        public virtual void SetParameters(IDictionary<string, string> parameters)
         {
-            ParameterValuesJson = _parameterValues.Serialize();
+            if (parameters == null)
+            {
+                Parameters = null;
+            }
+            else
+            {
+                Parameters = JsonConvert.SerializeObject(parameters);
+            }
         }
 
         public virtual bool IsEnabled { get; set; }
@@ -131,7 +113,7 @@ namespace Kooboo.Commerce.Activities
         {
             public AttachedActivityMap()
             {
-                Property(c => c.ParameterValuesJson);
+                Property(c => c.Parameters);
             }
         }
 

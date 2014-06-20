@@ -23,10 +23,7 @@ namespace Kooboo.Commerce.Activities
         /// </summary>
         string DisplayName { get; }
 
-        /// <summary>
-        /// Activity需要用到的参数定义。
-        /// </summary>
-        IEnumerable<ActivityParameter> Parameters { get; }
+        Type ParametersType { get; }
 
         /// <summary>
         /// 是否允许异步执行。
@@ -49,20 +46,5 @@ namespace Kooboo.Commerce.Activities
         /// <param name="event">当前触发的事件。</param>
         /// <param name="context">其它上下文信息。</param>
         void Execute(IEvent @event, ActivityContext context);
-    }
-
-    public static class ActivityExtensions
-    {
-        public static IDictionary<string, string> GetDefaultParameterValues(this IActivity activity)
-        {
-            if (activity.Parameters == null)
-            {
-                return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            }
-
-            return activity.Parameters
-                           .Where(p => p.DefaultValue != null)
-                           .ToDictionary(p => p.Name, p => p.DefaultValue.ToString(), StringComparer.OrdinalIgnoreCase);
-        }
     }
 }

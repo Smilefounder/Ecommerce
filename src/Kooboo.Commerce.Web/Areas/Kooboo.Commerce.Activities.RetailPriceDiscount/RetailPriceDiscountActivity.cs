@@ -28,14 +28,14 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount
 
         protected override void DoExecute(GetPrice @event, ActivityContext context)
         {
-            var config = context.ParameterValues.Get<RetailPriceDiscountActivityConfig>("Config");
-            if (config == null)
-            {
-                return;
-            }
+            //var config = context.ParameterValues.Get<RetailPriceDiscountActivityConfig>("Config");
+            //if (config == null)
+            //{
+            //    return;
+            //}
 
-            var newPrice = config.ApplyDiscount(@event.FinalPrice);
-            @event.FinalPrice = newPrice;
+            //var newPrice = config.ApplyDiscount(@event.FinalPrice);
+            //@event.FinalPrice = newPrice;
         }
 
         public string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)

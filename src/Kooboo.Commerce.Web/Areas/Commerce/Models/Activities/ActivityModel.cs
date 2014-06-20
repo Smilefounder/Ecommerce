@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             {
                 EditorVirtualPath = ((IHasCustomActivityParameterEditor)activity).GetEditorVirtualPath(rule, attachedActivityInfo);
             }
-            else if (activity.Parameters != null && activity.Parameters.Any())
+            else if (activity.ParametersType != null)
             {
                 EditorVirtualPath = "~/Areas/Commerce/Views/Activity/_DefaultParameterEditor.cshtml";
             }

@@ -66,7 +66,13 @@ namespace Kooboo.Commerce.Activities.Jobs
                                 var activity = activityProvider.FindByName(attachedActivityInfo.ActivityName);
                                 if (activity != null)
                                 {
-                                    activity.Execute(@event, new ActivityContext(rule, attachedActivityInfo, true));
+                                    ActivityParameters parameters = null;
+                                    if (activity.ParametersType != null)
+                                    {
+                                        parameters = ActivityParameters.Create(activity.ParametersType, attachedActivityInfo.GetParameters());
+                                    }
+
+                                    activity.Execute(@event, new ActivityContext(parameters, true));
                                     // TODO: Delete queue item when success, but i think some log is needed
                                     queue.Delete(queueItem);
                                 }

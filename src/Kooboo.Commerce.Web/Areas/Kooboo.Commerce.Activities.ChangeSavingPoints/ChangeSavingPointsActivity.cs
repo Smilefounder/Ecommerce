@@ -48,28 +48,28 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints
 
         protected override void DoExecute(IOrderEvent @event, ActivityContext context)
         {
-            var config = context.ParameterValues.Get<ChangeSavingPointsActivityConfig>("Config");
-            if (config == null)
-            {
-                return;
-            }
+            //var config = context.ParameterValues.Get<ChangeSavingPointsActivityConfig>("Config");
+            //if (config == null)
+            //{
+            //    return;
+            //}
 
-            var customer = GetCustomer(@event);
-            if (customer == null)
-            {
-                return;
-            }
+            //var customer = GetCustomer(@event);
+            //if (customer == null)
+            //{
+            //    return;
+            //}
 
-            if (config.Action == SavingPointAction.Increase)
-            {
-                customer.SavingPoints += config.Amount;
-            }
-            else
-            {
-                customer.SavingPoints -= config.Amount;
-            }
+            //if (config.Action == SavingPointAction.Increase)
+            //{
+            //    customer.SavingPoints += config.Amount;
+            //}
+            //else
+            //{
+            //    customer.SavingPoints -= config.Amount;
+            //}
 
-            _database.SaveChanges();
+            //_database.SaveChanges();
         }
 
         private Customer GetCustomer(IOrderEvent @event)

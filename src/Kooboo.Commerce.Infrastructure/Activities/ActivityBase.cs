@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Activities
             }
         }
 
-        public virtual IEnumerable<ActivityParameter> Parameters
+        public virtual Type ParametersType
         {
             get
             {

@@ -1,32 +1,18 @@
-﻿@model ActivityEditorModel
+﻿@model ActivityParametersEditorModel
 @{
     var activity = ViewBag.Activity as IActivity;
+    var parametersType = activity.ParametersType;
 }
 
 <form class="common-form" id="default-activity-param-editor">
-    <input type="hidden" name="RuleId" value="@Model.RuleId" />
-    <input type="hidden" name="AttachedActivityInfoId" value="@Model.AttachedActivityInfoId" />
+    @Html.HiddenFor(m => m.RuleId)
+    @Html.HiddenFor(m => m.AttachedActivityInfoId)
+    <input type="hidden" name="Parameters.BindingType" value="@Html.Raw(parametersType.AssemblyQualifiedName)" />
     <table>
         <tbody>
-            @foreach (var param in activity.Parameters)
+            @foreach (var prop in parametersType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
             {
-                string paramValue = null;
-
-                if (Model.Parameters != null && Model.Parameters.ContainsKey(param.Name))
-                {
-                    paramValue = Model.Parameters[param.Name];
-                }
-                
-                <tr>
-                    <th>@param.Name</th>
-                    <td>
-                        <input type="text" name="Parameters[@param.Name]" value="@paramValue" />
-                        @if (!String.IsNullOrWhiteSpace(param.Description))
-                        {
-                            <em class="tip">@param.Description</em>
-                        }
-                    </td>
-                </tr>
+                @Html.Editor("Parameters." + prop.Name)
             }
         </tbody>
     </table>
@@ -45,6 +31,7 @@
         });
 
         editor.on('saved', function (sender, args) {
+            $form.find(':hidden[name="RuleId"]').val(editor.model().ruleId());
             $form.find(':hidden[name="AttachedActivityInfoId"]').val(editor.model().attachedActivityInfoId());
 
             return $.post('@Url.Action("UpdateActivityParameters")', $form.serializeArray())

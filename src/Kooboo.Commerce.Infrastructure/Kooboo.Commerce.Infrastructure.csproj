@@ -98,7 +98,7 @@
   <ItemGroup>
     <Compile Include="Activities\ActivityBase.cs" />
     <Compile Include="Activities\ActivityContext.cs" />
-    <Compile Include="Activities\ActivityParameter.cs" />
+    <Compile Include="Activities\ActivityParameters.cs" />
     <Compile Include="Activities\ActivityQueueItem.cs" />
     <Compile Include="Activities\ActivityRule.cs" />
     <Compile Include="Activities\AttachedActivityInfo.cs" />

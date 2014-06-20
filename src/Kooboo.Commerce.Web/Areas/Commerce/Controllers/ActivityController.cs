@@ -8,6 +8,7 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.Controllers;
+using Kooboo.Commerce.Web.Mvc.ModelBinding;
 using Kooboo.Extensions;
 using System;
 using System.Collections.Generic;
@@ -115,30 +116,50 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var activity = _activityProvider.FindByName(activityName);
             var rule = _ruleRepository.Get(ruleId);
 
+            var parametersEditorModel = new ActivityParametersEditorModel
+            {
+                RuleId = rule.Id
+            };
+            if (activity.ParametersType != null)
+            {
+                parametersEditorModel.Parameters = ActivityParameters.Create(activity.ParametersType);
+            }
+
             ViewBag.Activity = activity;
+            ViewBag.ParametersEditorModel = parametersEditorModel;
 
             return View(new ActivityEditorModel
             {
                 RuleId = ruleId,
                 RuleBranch = branch,
-                Activity = new ActivityModel(activity, rule, null),
-                Parameters = activity.GetDefaultParameterValues()
+                Activity = new ActivityModel(activity, rule, null)
             });
         }
+
         public ActionResult EditActivity(int ruleId, int attachedActivityInfoId)
         {
             var rule = _ruleRepository.Get(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             var activity = _activityProvider.FindByName(attachedActivityInfo.ActivityName);
 
+            var parametersEditorModel = new ActivityParametersEditorModel
+            {
+                RuleId = rule.Id,
+                AttachedActivityInfoId = attachedActivityInfo.Id
+            };
+            if (activity.ParametersType != null)
+            {
+                parametersEditorModel.Parameters = ActivityParameters.Create(activity.ParametersType, attachedActivityInfo.GetParameters());
+            }
+
             ViewBag.Activity = activity;
+            ViewBag.ParametersEditorModel = parametersEditorModel;
 
             return View(new ActivityEditorModel
             {
                 RuleId = ruleId,
                 AttachedActivityInfoId = attachedActivityInfoId,
-                Activity = new ActivityModel(activity, rule, attachedActivityInfo),
-                Parameters = attachedActivityInfo.ParameterValues.ToDictionary()
+                Activity = new ActivityModel(activity, rule, attachedActivityInfo)
             });
         }
 
@@ -223,11 +244,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxError, Transactional]
-        public void UpdateActivityParameters(UpdateActivityParametersRequest request)
+        public void UpdateActivityParameters(int ruleId, int attachedActivityInfoId, [ModelBinder(typeof(DerivedTypeModelBinder))]ActivityParameters parameters)
         {
-            var rule = _ruleRepository.Get(request.RuleId);
-            var activityInfo = rule.AttachedActivityInfos.Find(request.AttachedActivityInfoId);
-            activityInfo.ParameterValues = new ParameterValueDictionary(request.Parameters);
+            var rule = _ruleRepository.Get(ruleId);
+            var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
+            attachedActivityInfo.SetParameters(parameters == null ? null : parameters.GetValues());
         }
 
         [HandleAjaxError]

@@ -53,51 +53,51 @@ namespace Kooboo.Commerce.Activities.OrderReminder
 
         protected override void DoExecute(IOrderEvent @event, ActivityContext context)
         {
-            var config = context.ParameterValues.Get<OrderReminderActivityConfig>("Config");
-            if (config == null || String.IsNullOrWhiteSpace(config.Receivers))
-            {
-                return;
-            }
+            //var config = context.ParameterValues.Get<OrderReminderActivityConfig>("Config");
+            //if (config == null || String.IsNullOrWhiteSpace(config.Receivers))
+            //{
+            //    return;
+            //}
 
-            var order = _orderService.GetById(@event.OrderId);
-            if (order != null)
-            {
-                if (config.CancelConditions != null && config.CancelConditions.Count > 0)
-                {
-                    var dataContext = new CancelConditionModel
-                    {
-                        OrderStatus = order.OrderStatus
-                    };
+            //var order = _orderService.GetById(@event.OrderId);
+            //if (order != null)
+            //{
+            //    if (config.CancelConditions != null && config.CancelConditions.Count > 0)
+            //    {
+            //        var dataContext = new CancelConditionModel
+            //        {
+            //            OrderStatus = order.OrderStatus
+            //        };
 
-                    if (new RuleEngine().CheckConditions(config.CancelConditions, dataContext))
-                    {
-                        return;
-                    }
-                }
+            //        if (new RuleEngine().CheckConditions(config.CancelConditions, dataContext))
+            //        {
+            //            return;
+            //        }
+            //    }
 
-                var receivers = config.Receivers.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                var mailInfo = new MailInfo
-                {
-                    Subject = Template.Render(config.Subject, order),
-                    Body = Template.Render(config.Body, order)
-                };
+            //    var receivers = config.Receivers.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            //    var mailInfo = new MailInfo
+            //    {
+            //        Subject = Template.Render(config.Subject, order),
+            //        Body = Template.Render(config.Body, order)
+            //    };
 
-                foreach (var receiver in receivers)
-                {
-                    var email = receiver;
-                    if (email.Equals("{Customer}", StringComparison.OrdinalIgnoreCase))
-                    {
-                        email = order.Customer.Email;
-                    }
+            //    foreach (var receiver in receivers)
+            //    {
+            //        var email = receiver;
+            //        if (email.Equals("{Customer}", StringComparison.OrdinalIgnoreCase))
+            //        {
+            //            email = order.Customer.Email;
+            //        }
 
-                    if (!String.IsNullOrWhiteSpace(email))
-                    {
-                        mailInfo.Receivers.Add(email.Trim());
-                    }
-                }
+            //        if (!String.IsNullOrWhiteSpace(email))
+            //        {
+            //            mailInfo.Receivers.Add(email.Trim());
+            //        }
+            //    }
 
-                MailClient.Send(mailInfo);
-            }
+            //    MailClient.Send(mailInfo);
+            //}
         }
 
         public string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)

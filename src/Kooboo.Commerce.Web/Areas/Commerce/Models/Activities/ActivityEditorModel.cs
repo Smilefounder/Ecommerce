@@ -32,8 +32,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public RuleBranch RuleBranch { get; set; }
 
-        public IDictionary<string, string> Parameters { get; set; }
-
         public ActivityEditorModel()
         {
             IsEnabled = true;
