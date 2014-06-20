@@ -69,7 +69,7 @@ namespace Kooboo.Commerce.Activities.Jobs
                                     object parameters = null;
                                     if (activity.ConfigModelType != null)
                                     {
-                                        parameters = attachedActivityInfo.LoadParameters(activity.ConfigModelType);
+                                        parameters = attachedActivityInfo.LoadActivityConfig(activity.ConfigModelType);
                                     }
 
                                     activity.Execute(@event, new ActivityContext(parameters, true));

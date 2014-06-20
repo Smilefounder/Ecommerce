@@ -341,7 +341,7 @@
     <Compile Include="Areas\Commerce\Menu\MediaLibraryInitializer.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityModel.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Activities\ActivityParametersEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Activities\ActivityConfigEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityRuleBranchModel.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\ActivityRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Activities\AttachedActivityModel.cs" />
@@ -3504,7 +3504,7 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_accessories\template.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsDialog.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsDialog.Scripts.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\_DefaultParameterEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Activity\_DefaultConfigEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsEditor.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\Conditions.cshtml" />

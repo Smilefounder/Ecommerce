@@ -116,17 +116,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var activity = _activityProvider.FindByName(activityName);
             var rule = _ruleRepository.Get(ruleId);
 
-            var parametersEditorModel = new ActivityParametersEditorModel
+            var configEditorModel = new ActivityConfigEditorModel
             {
                 RuleId = rule.Id
             };
             if (activity.ConfigModelType != null)
             {
-                parametersEditorModel.Parameters = Activator.CreateInstance(activity.ConfigModelType);
+                configEditorModel.Config = Activator.CreateInstance(activity.ConfigModelType);
             }
 
             ViewBag.Activity = activity;
-            ViewBag.ParametersEditorModel = parametersEditorModel;
+            ViewBag.ConfigEditorModel = configEditorModel;
 
             return View(new ActivityEditorModel
             {
@@ -142,18 +142,18 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             var activity = _activityProvider.FindByName(attachedActivityInfo.ActivityName);
 
-            var parametersEditorModel = new ActivityParametersEditorModel
+            var configEditorModel = new ActivityConfigEditorModel
             {
                 RuleId = rule.Id,
                 AttachedActivityInfoId = attachedActivityInfo.Id
             };
             if (activity.ConfigModelType != null)
             {
-                parametersEditorModel.Parameters = attachedActivityInfo.LoadParameters(activity.ConfigModelType);
+                configEditorModel.Config = attachedActivityInfo.LoadActivityConfig(activity.ConfigModelType);
             }
 
             ViewBag.Activity = activity;
-            ViewBag.ParametersEditorModel = parametersEditorModel;
+            ViewBag.ConfigEditorModel = configEditorModel;
 
             return View(new ActivityEditorModel
             {
@@ -244,11 +244,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxError, Transactional]
-        public void UpdateActivityParameters(int ruleId, int attachedActivityInfoId, [ModelBinder(typeof(DerivedTypeModelBinder))]object parameters)
+        public void UpdateActivityParameters(int ruleId, int attachedActivityInfoId, [ModelBinder(typeof(DerivedTypeModelBinder))]object config)
         {
             var rule = _ruleRepository.Get(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            attachedActivityInfo.UpdateParameters(parameters);
+            attachedActivityInfo.UpdateActivityConfig(config);
         }
 
         [HandleAjaxError]

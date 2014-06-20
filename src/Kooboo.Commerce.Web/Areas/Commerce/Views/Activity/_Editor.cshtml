@@ -15,7 +15,7 @@
         @if (!string.IsNullOrEmpty(Model.Activity.EditorVirtualPath))
         {
             <div id="config">
-                @Html.Partial(Model.Activity.EditorVirtualPath, ViewBag.ParametersEditorModel as ActivityParametersEditorModel)
+                @Html.Partial(Model.Activity.EditorVirtualPath, ViewBag.ConfigEditorModel as ActivityConfigEditorModel)
             </div>
         }
     </div>

@@ -1,18 +1,18 @@
-﻿@model ActivityParametersEditorModel
+﻿@model ActivityConfigEditorModel
 @{
     var activity = ViewBag.Activity as IActivity;
-    var parametersType = activity.ParametersType;
+    var configModelType = activity.ConfigModelType;
 }
 
 <form class="common-form" id="default-activity-param-editor">
     @Html.HiddenFor(m => m.RuleId)
     @Html.HiddenFor(m => m.AttachedActivityInfoId)
-    <input type="hidden" name="Parameters.BindingType" value="@Html.Raw(parametersType.AssemblyQualifiedName)" />
+    <input type="hidden" name="Parameters.BindingType" value="@Html.Raw(configModelType.AssemblyQualifiedName)" />
     <table>
         <tbody>
-            @foreach (var prop in parametersType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+            @foreach (var prop in configModelType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
             {
-                @Html.Editor("Parameters." + prop.Name)
+                @Html.Editor("Config." + prop.Name)
             }
         </tbody>
     </table>

@@ -21,27 +21,33 @@ namespace Kooboo.Commerce.Activities
         [Required, StringLength(100)]
         public virtual string ActivityName { get; set; }
 
-        private string Parameters { get; set; }
+        private string ActivityConfig { get; set; }
 
-        public virtual object LoadParameters(Type parametersType)
+        public virtual T LoadActivityConfig<T>()
+            where T : class
         {
-            if (String.IsNullOrWhiteSpace(Parameters))
+            return LoadActivityConfig(typeof(T)) as T;
+        }
+
+        public virtual object LoadActivityConfig(Type configModelType)
+        {
+            if (String.IsNullOrWhiteSpace(ActivityConfig))
             {
                 return null;
             }
 
-            return JsonConvert.DeserializeObject(Parameters, parametersType);
+            return JsonConvert.DeserializeObject(ActivityConfig, configModelType);
         }
 
-        public virtual void UpdateParameters(object parameters)
+        public virtual void UpdateActivityConfig(object configModel)
         {
-            if (parameters == null)
+            if (configModel == null)
             {
-                Parameters = null;
+                ActivityConfig = null;
             }
             else
             {
-                Parameters = JsonConvert.SerializeObject(parameters);
+                ActivityConfig = JsonConvert.SerializeObject(configModel);
             }
         }
 
@@ -113,7 +119,7 @@ namespace Kooboo.Commerce.Activities
         {
             public AttachedActivityMap()
             {
-                Property(c => c.Parameters);
+                Property(c => c.ActivityConfig);
             }
         }
 

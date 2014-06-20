@@ -6,12 +6,12 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 {
-    public class ActivityParametersEditorModel
+    public class ActivityConfigEditorModel
     {
         public int RuleId { get; set; }
 
         public int AttachedActivityInfoId { get; set; }
 
-        public object Parameters { get; set; }
+        public object Config { get; set; }
     }
 }
