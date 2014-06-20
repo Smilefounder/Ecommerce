@@ -1,0 +1,40 @@
+﻿@model PromotionPolicyConfigEditorModel
+@{
+    var policy = ViewBag.Policy as IPromotionPolicy;
+    var configModelType = policy.ConfigModelType;
+}
+
+<form class="common-form" id="default-promotion-policy-config-editor">
+    @Html.HiddenFor(m => m.PromotionId)
+    <input type="hidden" name="Config.BindingType" value="@Html.Raw(configModelType.AssemblyQualifiedName)" />
+    <table>
+        <tbody>
+            @foreach (var prop in configModelType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+            {
+                @Html.Editor("Config." + prop.Name)
+            }
+        </tbody>
+    </table>
+</form>
+
+<script>
+    (function ($) {
+
+        var $form = $('#default-promotion-policy-config-editor');
+        var editor = PromotionPolicyEditor.current();
+
+        editor.on('saving', function (sender, args) {
+            if (!$form.valid()) {
+                args.cancel = true;
+                return;
+            }
+
+            return $.post('@Url.Action("UpdatePolicyConfig")', $form.serializeArray())
+                    .fail(function (data) {
+                        window.loading.hide();
+                        info.show(data.Message, false);
+                    });
+        });
+
+    })(jQuery);
+</script>

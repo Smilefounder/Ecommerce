@@ -56,22 +56,6 @@ namespace Kooboo.Commerce.Shipping
             }
         }
 
-        public void Enable()
-        {
-            if (!IsEnabled)
-            {
-                IsEnabled = true;
-            }
-        }
-
-        public void Disable()
-        {
-            if (IsEnabled)
-            {
-                IsEnabled = false;
-            }
-        }
-
         #region Entity Mapping
 
         class ShippingMethodMap : EntityTypeConfiguration<ShippingMethod>

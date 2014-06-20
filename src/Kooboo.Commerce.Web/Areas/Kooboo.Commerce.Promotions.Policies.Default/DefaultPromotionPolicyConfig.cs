@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Promotions.Policies.Default
 {
-    public class DefaultPromotionPolicyData
+    public class DefaultPromotionPolicyConfig
     {
         public DiscountAppliedTo DiscountAppliedTo { get; set; }
 
@@ -21,14 +21,14 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             return JsonConvert.SerializeObject(this);
         }
 
-        public static DefaultPromotionPolicyData Deserialize(string data)
+        public static DefaultPromotionPolicyConfig Deserialize(string data)
         {
             if (String.IsNullOrEmpty(data))
             {
-                return new DefaultPromotionPolicyData();
+                return new DefaultPromotionPolicyConfig();
             }
 
-            return JsonConvert.DeserializeObject<DefaultPromotionPolicyData>(data);
+            return JsonConvert.DeserializeObject<DefaultPromotionPolicyConfig>(data);
         }
     }
 }

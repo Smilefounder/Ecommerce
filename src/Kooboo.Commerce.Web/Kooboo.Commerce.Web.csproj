@@ -394,6 +394,7 @@
     <Compile Include="Areas\Commerce\Models\Promotions\Extensions\PromotionPoliciesExtensions.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\Grid2\PromotionRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\PromotionEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Promotions\PromotionPolicyConfigEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\PromotionRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\ControlTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CultureDataSource.cs" />
@@ -3512,6 +3513,7 @@
     <Content Include="Areas\Commerce\Views\Promotion\Conditions.cshtml" />
     <Content Include="Areas\Commerce\Views\PaymentMethod\_DefaultConfigEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\_DefaultShippingRateProviderConfigEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Promotion\_DefaultPolicyConfigEditor.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />

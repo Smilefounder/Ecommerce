@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Controllers
         public ActionResult Load(int promotionId)
         {
             var promotion = _promotionService.GetById(promotionId);
-            var settings = DefaultPromotionPolicyData.Deserialize(promotion.PromotionPolicyData);
+            var settings = promotion.LoadPolicyConfig<DefaultPromotionPolicyConfig>() ?? new DefaultPromotionPolicyConfig();
             var model = new ConfigModel
             {
                 DiscountMode = settings.DiscountMode.ToString(),
@@ -41,7 +41,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Controllers
         public void Save(int promotionId, ConfigModel model)
         {
             var promotion = _promotionService.GetById(promotionId);
-            var policyData = new DefaultPromotionPolicyData
+            var policyData = new DefaultPromotionPolicyConfig
             {
                 DiscountMode = (DiscountMode)Enum.Parse(typeof(DiscountMode), model.DiscountMode),
                 DiscountAppliedTo = (DiscountAppliedTo)Enum.Parse(typeof(DiscountAppliedTo), model.DiscountAppliedTo),
@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Controllers
                 DiscountPercent = model.DiscountPercent
             };
 
-            promotion.PromotionPolicyData = policyData.Serialize();
+            promotion.UpdatePolicyConfig(policyData);
         }
     }
 }

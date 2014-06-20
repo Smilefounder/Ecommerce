@@ -11,6 +11,8 @@ namespace Kooboo.Commerce.Events.Registry
         
         public string DisplayName { get; private set; }
 
+        public string ShortName { get; private set; }
+
         public int Order { get; private set; }
 
         public EventCategory Category { get; private set; }
@@ -28,6 +30,8 @@ namespace Kooboo.Commerce.Events.Registry
                 {
                     DisplayName = eventAttr.DisplayName;
                 }
+
+                ShortName = eventAttr.ShortName;
             }
 
             Category = EventCategory.From(eventType);

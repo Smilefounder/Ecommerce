@@ -20,14 +20,14 @@ namespace Kooboo.Commerce.Promotions
         string Name { get; }
 
         /// <summary>
+        /// 存储配置信息的对象的类型。
+        /// </summary>
+        Type ConfigModelType { get; }
+
+        /// <summary>
         /// 执行促销策略。
         /// </summary>
         /// <param name="context"></param>
         void Execute(PromotionContext context);
-
-        /// <summary>
-        /// 获取促销策略配置的编辑器。
-        /// </summary>
-        PromotionPolicyEditor GetEditor(Promotion promotion);
     }
 }

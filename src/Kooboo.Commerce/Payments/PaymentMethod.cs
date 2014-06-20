@@ -1,7 +1,6 @@
 ﻿using Kooboo.Commerce.ComponentModel;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.PaymentMethods;
-using Kooboo.Commerce.Events.Payments;
 using Kooboo.Commerce.Rules;
 using Newtonsoft.Json;
 using System;
@@ -85,11 +84,6 @@ namespace Kooboo.Commerce.Payments
             }
 
             return Math.Round(amountToPay * (AdditionalFeePercent / 100), 2);
-        }
-
-        public virtual void NotifyUpdated()
-        {
-            Event.Raise(new PaymentMethodUpdated(this));
         }
 
         public virtual bool MarkEnabled()

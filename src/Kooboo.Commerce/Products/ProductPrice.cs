@@ -98,7 +98,7 @@ namespace Kooboo.Commerce.Products
 
         public virtual void NotifyUpdated()
         {
-            Event.Raise(new ProductPriceUpdated(Product, this));
+            Event.Raise(new ProductVariantUpdated(Product, this));
         }
 
         public virtual bool MarkPublish()

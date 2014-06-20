@@ -18,6 +18,7 @@ using Kooboo.Web.Mvc;
 using Kooboo.Globalization;
 using Kooboo.Extensions;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Web.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -84,7 +85,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var each in model)
             {
-                _promotionService.Delete(each.Id);
+                var promotion = _promotionService.GetById(each.Id);
+                _promotionService.Delete(promotion);
             }
 
             return AjaxForm().ReloadPage();
@@ -155,22 +157,21 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var promotion = _promotionService.GetById(id);
             var policy = _policyProvider.FindByName(promotion.PromotionPolicyName);
-            var editor = policy.GetEditor(promotion);
-
-            ViewBag.DataContextType = typeof(PromotionConditionContextModel).AssemblyQualifiedNameWithoutVersion();
+            var editor = policy as IHasCustomPromotionPolicyConfigEditor;
 
             string nextUrl = null;
 
-            if (editor == null)
-            {
-                nextUrl = Url.Action("Complete", new { id = promotion.Id });
-            }
-            else
+            if (editor != null || policy.ConfigModelType != null)
             {
                 nextUrl = Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("id", promotion.Id));
             }
+            else
+            {
+                nextUrl = Url.Action("Complete", new { id = promotion.Id });
+            }
 
             ViewBag.NextUrl = nextUrl;
+            ViewBag.DataContextType = typeof(PromotionConditionContextModel).AssemblyQualifiedNameWithoutVersion();
 
             return View(promotion);
         }
@@ -186,9 +187,24 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var promotion = _promotionService.GetById(id);
             var policy = _policyProvider.FindByName(promotion.PromotionPolicyName);
+
+            var editorModel = new PromotionPolicyConfigEditorModel
+            {
+                PromotionId = promotion.Id,
+                Config = promotion.LoadPolicyConfig(policy.ConfigModelType) ?? Activator.CreateInstance(policy.ConfigModelType)
+            };
+
             ViewBag.Policy = policy;
+            ViewBag.PolicyConfigEditorModel = editorModel;
 
             return View(promotion);
+        }
+
+        [HttpPost, HandleAjaxError, Transactional]
+        public void UpdatePolicyConfig(int promotionId, [ModelBinder(typeof(ObjectModelBinder))]object config)
+        {
+            var promotion = _promotionService.GetById(promotionId);
+            promotion.UpdatePolicyConfig(config);
         }
 
         public ActionResult Complete(int id)

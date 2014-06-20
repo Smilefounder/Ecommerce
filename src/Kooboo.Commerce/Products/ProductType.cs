@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Products
     /// <summary>
     /// Define the type of a product, the type defines all the custom properties and variations. 
     /// </summary>
-    public class ProductType : INotifyCreated, INotifyDeleted
+    public class ProductType
     {
         [Key, Param]
         public int Id { get; set; }
@@ -102,21 +102,6 @@ namespace Kooboo.Commerce.Products
             }
 
             return false;
-        }
-
-        public virtual void NotifyUpdated()
-        {
-            Event.Raise(new ProductTypeUpdated(this));
-        }
-
-        void INotifyCreated.NotifyCreated()
-        {
-            Event.Raise(new ProductTypeUpdated(this));
-        }
-
-        void INotifyDeleted.NotifyDeleted()
-        {
-            Event.Raise(new ProductTypeDeleted(this));
         }
     }
 }

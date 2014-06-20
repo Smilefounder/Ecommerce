@@ -12,19 +12,20 @@ namespace Kooboo.Commerce.Promotions
     {
         public Promotion Promotion { get; private set; }
 
+        public object PolicyConfig { get; private set; }
+
         public PricingContext PricingContext { get; private set; }
 
         public IList<PricingItem> ConditionMatchedItems { get; private set; }
 
         public PromotionContext(
-            Promotion promotion,
-            IEnumerable<PricingItem> conditionMatchedItems,
-            PricingContext pricingContext)
+            Promotion promotion, object policyConfig, IEnumerable<PricingItem> conditionMatchedItems, PricingContext pricingContext)
         {
             Require.NotNull(promotion, "promotion");
             Require.NotNull(pricingContext, "pricingContext");
 
             Promotion = promotion;
+            PolicyConfig = policyConfig;
             ConditionMatchedItems = (conditionMatchedItems ?? Enumerable.Empty<PricingItem>()).ToList();
             PricingContext = pricingContext;
         }

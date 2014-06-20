@@ -165,8 +165,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             CommerceContext.CurrentInstance.Database.SaveChanges();
 
-            productType.NotifyUpdated();
-
             if (model.IsEnabled)
             {
                 _productTypeService.Enable(productType);

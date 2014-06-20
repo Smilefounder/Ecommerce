@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Products
 {
-    [Event(Order = 500)]
+    [Event(Order = 800, ShortName = "Deleted")]
     public class ProductDeleted : BusinessEvent, IProductEvent
     {
         [Param]

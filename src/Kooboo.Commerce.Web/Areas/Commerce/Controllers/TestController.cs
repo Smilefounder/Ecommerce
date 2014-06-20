@@ -34,9 +34,9 @@ using Kooboo.Commerce.ShoppingCarts;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class TestHandler : IHandle<ProductPriceAdded>
+    public class TestHandler : IHandle<ProductVariantAdded>
     {
-        public void Handle(ProductPriceAdded @event)
+        public void Handle(ProductVariantAdded @event)
         {
             Debug.WriteLine("[" + DateTime.Now + "] " + @event.GetType().Name);
         }

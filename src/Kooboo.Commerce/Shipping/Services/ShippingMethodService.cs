@@ -1,5 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.ShippingMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,24 +29,49 @@ namespace Kooboo.Commerce.Shipping.Services
             return _repository.Query();
         }
 
-        public bool Create(ShippingMethod method)
+        public void Create(ShippingMethod method)
         {
-            return _repository.Insert(method);
+            _repository.Insert(method);
         }
 
-        public bool Delete(ShippingMethod method)
+        public void Delete(ShippingMethod method)
         {
-            return _repository.Delete(method);
+            if (method.IsEnabled)
+            {
+                Disable(method);
+            }
+
+            _repository.Delete(method);
         }
 
-        public void Enable(ShippingMethod method)
+        public bool Enable(ShippingMethod method)
         {
-            method.Enable();
+            if (method.IsEnabled)
+            {
+                return false;
+            }
+
+            method.IsEnabled = true;
+            _repository.Database.SaveChanges();
+
+            Event.Raise(new ShippingMethodEnabled(method));
+
+            return true;
         }
 
-        public void Disable(ShippingMethod method)
+        public bool Disable(ShippingMethod method)
         {
-            method.Disable();
+            if (!method.IsEnabled)
+            {
+                return false;
+            }
+
+            method.IsEnabled = false;
+            _repository.Database.SaveChanges();
+
+            Event.Raise(new ShippingMethodDisabled(method));
+
+            return true;
         }
     }
 }

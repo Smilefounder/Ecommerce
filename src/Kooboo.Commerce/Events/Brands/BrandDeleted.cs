@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Brands
 {
-    [Event(Order = 300)]
+    [Event(Order = 300, ShortName = "Deleted")]
     public class BrandDeleted : BusinessEvent, IBrandEvent
     {
         [Param]

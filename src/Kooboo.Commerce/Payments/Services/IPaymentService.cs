@@ -1,7 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Payments;
+using Kooboo.Commerce.Events.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +45,6 @@ namespace Kooboo.Commerce.Payments.Services
         public void Create(Payment payment)
         {
             _repository.Insert(payment);
-            Event.Raise(new PaymentCreated(payment));
         }
 
         public void AcceptProcessResult(Payment payment, ProcessPaymentResult result)

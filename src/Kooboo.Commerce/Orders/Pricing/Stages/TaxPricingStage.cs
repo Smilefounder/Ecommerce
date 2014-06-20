@@ -1,6 +1,4 @@
-﻿using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Pricing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

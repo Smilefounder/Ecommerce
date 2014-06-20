@@ -14,17 +14,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 {
     public class EventMenuItem : MenuItem
     {
-        public EventMenuItem(Type eventType)
+        public EventMenuItem(EventRegistrationEntry entry)
         {
-            Name = eventType.Name;
-            Text = eventType.GetDescription() ?? Name.Humanize();
+            Name = entry.EventType.Name;
+            Text = entry.ShortName ?? entry.DisplayName ?? entry.EventType.Name.Humanize();
 
             Controller = "Activity";
             Action = "List";
             Area = "Commerce";
 
             RouteValues = new System.Web.Routing.RouteValueDictionary();
-            RouteValues.Add("eventType", eventType.AssemblyQualifiedNameWithoutVersion());
+            RouteValues.Add("eventType", entry.EventType.AssemblyQualifiedNameWithoutVersion());
 
             Initializer = new EventMenuItemInitializer();
         }
@@ -78,9 +78,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                 var eventEntries = _eventRegistry.FindByCategory(category.Name)
                                                  .Where(e => e.EventType.IsBusinessEvent());
 
-                foreach (var eventType in eventEntries)
+                foreach (var entry in eventEntries)
                 {
-                    var eventMenuItem = new EventMenuItem(eventType.EventType);
+                    var eventMenuItem = new EventMenuItem(entry);
                     categoryMenuItem.Items.Add(eventMenuItem);
                 }
             }

@@ -104,7 +104,7 @@ namespace Kooboo.Commerce.Products.Services
         {
             product.PriceList.Add(price);
             _db.SaveChanges();
-            Event.Raise(new ProductPriceAdded(product, price));
+            Event.Raise(new ProductVariantAdded(product, price));
         }
 
         public bool RemovePrice(Product product, int priceId)
@@ -119,7 +119,7 @@ namespace Kooboo.Commerce.Products.Services
             _db.GetRepository<ProductPrice>().Delete(price);
             _db.SaveChanges();
 
-            Event.Raise(new ProductPriceDeleted(product, price));
+            Event.Raise(new ProductVariantDeleted(product, price));
 
             return true;
         }
@@ -146,7 +146,6 @@ namespace Kooboo.Commerce.Products.Services
             if (price.MarkPublish())
             {
                 _db.SaveChanges();
-                Event.Raise(new ProductPricePublished(product, price));
                 return true;
             }
 
@@ -159,7 +158,6 @@ namespace Kooboo.Commerce.Products.Services
             if (price.MarkUnpublish())
             {
                 _db.SaveChanges();
-                Event.Raise(new ProductPriceUnpublished(product, price));
                 return true;
             }
 

@@ -14,7 +14,6 @@ using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.ShoppingCarts;
 using Kooboo.Commerce.Locations;
-using Kooboo.Commerce.Events.Checkout;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
@@ -182,8 +181,6 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             {
                 cart.ShippingAddress = address;
                 _repository.Database.SaveChanges();
-
-                Event.Raise(new ShippingAddressChanged(cart, address));
             }
         }
 
@@ -193,8 +190,6 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             {
                 cart.BillingAddress = address;
                 _repository.Database.SaveChanges();
-
-                Event.Raise(new BillingAddressChanged(cart, address));
             }
         }
 

@@ -11,12 +11,12 @@ namespace Kooboo.Commerce.Promotions.Services
 
         IQueryable<Promotion> Query();
 
-        void Enable(Promotion promotion);
+        bool Enable(Promotion promotion);
 
-        void Disable(Promotion promotion);
+        bool Disable(Promotion promotion);
 
-        bool Create(Promotion promotion);
+        void Create(Promotion promotion);
 
-        bool Delete(int promotionId);
+        void Delete(Promotion promotion);
     }
 }

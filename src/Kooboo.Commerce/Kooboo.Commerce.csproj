@@ -79,53 +79,32 @@
     <Compile Include="Events\Categories\CategoryDeleted.cs" />
     <Compile Include="Events\Categories\CategoryUpdated.cs" />
     <Compile Include="Events\Categories\ICategoryEvent.cs" />
-    <Compile Include="Events\Checkout\ICheckoutEvent.cs" />
     <Compile Include="Events\Customers\CustomerDeleted.cs" />
     <Compile Include="Events\Customers\CustomerUpdated.cs" />
-    <Compile Include="Events\Checkout\BillingAddressChanged.cs" />
-    <Compile Include="Events\Checkout\ShippingAddressChanged.cs" />
     <Compile Include="Events\PaymentMethods\IPaymentMethodEvent.cs" />
-    <Compile Include="Events\PaymentMethods\PaymentMethodCreated.cs" />
-    <Compile Include="Events\PaymentMethods\PaymentMethodDeleted.cs" />
     <Compile Include="Events\PaymentMethods\PaymentMethodDisabled.cs" />
     <Compile Include="Events\PaymentMethods\PaymentMethodEnabled.cs" />
-    <Compile Include="Events\PaymentMethods\PaymentMethodUpdated.cs" />
-    <Compile Include="Events\Pricing\IPricingEvent.cs" />
-    <Compile Include="Events\Pricing\PaymentMethodCostCalculated.cs" />
-    <Compile Include="Events\Pricing\PriceCalculationCompleted.cs" />
-    <Compile Include="Events\Pricing\PriceCalculationStarted.cs" />
-    <Compile Include="Events\Pricing\PriceCalculationStageCompleted.cs" />
-    <Compile Include="Events\Pricing\PricingEventAdditionalParametersProviders.cs" />
     <Compile Include="Events\Products\GetPrice.cs" />
-    <Compile Include="Events\Products\ProductPriceAdded.cs" />
-    <Compile Include="Events\Products\ProductPriceDeleted.cs" />
-    <Compile Include="Events\Products\ProductPricePublished.cs" />
-    <Compile Include="Events\Products\ProductPriceUnpublished.cs" />
-    <Compile Include="Events\Products\ProductPriceUpdated.cs" />
+    <Compile Include="Events\Products\ProductVariantAdded.cs" />
+    <Compile Include="Events\Products\ProductVariantDeleted.cs" />
+    <Compile Include="Events\Products\ProductVariantUpdated.cs" />
     <Compile Include="Events\Products\ProductPublished.cs" />
     <Compile Include="Events\Products\ProductUnpublished.cs" />
     <Compile Include="Events\Products\ProductUpdated.cs" />
     <Compile Include="Events\ProductTypes\IProductTypeEvent.cs" />
-    <Compile Include="Events\ProductTypes\ProductTypeCreated.cs" />
-    <Compile Include="Events\ProductTypes\ProductTypeDeleted.cs" />
     <Compile Include="Events\ProductTypes\ProductTypeDisabled.cs" />
     <Compile Include="Events\ProductTypes\ProductTypeEnabled.cs" />
-    <Compile Include="Events\ProductTypes\ProductTypeUpdated.cs" />
-    <Compile Include="Events\Promotions\PromotionApplied.cs" />
-    <Compile Include="Events\Pricing\ShippingCostCalculated.cs" />
-    <Compile Include="Events\Pricing\TaxCalculated.cs" />
-    <Compile Include="Events\Promotions\PromotionUpdated.cs" />
     <Compile Include="Events\ShippingMethods\IShippingMethodEvent.cs" />
-    <Compile Include="Events\ShippingMethods\ShippingMethodCreated.cs" />
-    <Compile Include="Events\ShippingMethods\ShippingMethodDeleted.cs" />
     <Compile Include="Events\ShippingMethods\ShippingMethodDisabled.cs" />
     <Compile Include="Events\ShippingMethods\ShippingMethodEnabled.cs" />
-    <Compile Include="Events\ShippingMethods\ShippingMethodUpdated.cs" />
-    <Compile Include="Events\ShoppingCarts\CartExpired.cs" />
+    <Compile Include="Events\ShoppingCarts\CartExpired.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Events\ShoppingCarts\CartItemAdded.cs" />
     <Compile Include="Events\ShoppingCarts\CartItemQuantityChanged.cs" />
     <Compile Include="Events\ShoppingCarts\CartItemRemoved.cs" />
     <Compile Include="Events\ShoppingCarts\CartCreated.cs" />
+    <Compile Include="Events\ShoppingCarts\CartPriceCalculated.cs" />
     <Compile Include="Locations\AddressExtensions.cs" />
     <Compile Include="Customers\CustomerCustomField.cs" />
     <Compile Include="Customers\CustomerQueryModel.cs" />
@@ -136,13 +115,9 @@
     <Compile Include="Events\Brands\IBrandEvent.cs" />
     <Compile Include="Events\Orders\OrderCreated.cs" />
     <Compile Include="Events\Orders\OrderStatusChanged.cs" />
-    <Compile Include="Events\Payments\IPaymentEvent.cs" />
-    <Compile Include="Events\Payments\PaymentCreated.cs" />
-    <Compile Include="Events\Payments\PaymentStatusChanged.cs" />
+    <Compile Include="Events\Orders\PaymentStatusChanged.cs" />
     <Compile Include="Events\Products\ProductCreated.cs" />
     <Compile Include="Events\Products\ProductDeleted.cs" />
-    <Compile Include="Events\Promotions\PromotionCreated.cs" />
-    <Compile Include="Events\Promotions\PromotionDeleted.cs" />
     <Compile Include="Events\Promotions\PromotionDisabled.cs" />
     <Compile Include="Events\Promotions\IPromotionEvent.cs" />
     <Compile Include="Events\Promotions\PromotionEnabled.cs" />
@@ -187,16 +162,57 @@
     <Compile Include="Payments\ProcessPaymentResult.cs" />
     <Compile Include="Payments\Services\IPaymentService.cs" />
     <Compile Include="Orders\Services\IOrderService.cs" />
-    <Compile Include="Products\ExtendedQuery.cs" />
-    <Compile Include="Products\ProductCategory.cs" />
-    <Compile Include="Products\ProductCustomFieldValue.cs" />
-    <Compile Include="Products\ProductPrice.cs" />
-    <Compile Include="Products\ProductPriceVariantValue.cs" />
-    <Compile Include="Products\ProductQueryModel.cs" />
-    <Compile Include="Products\ProductTypeCustomField.cs" />
-    <Compile Include="Products\ProductTypeVariantField.cs" />
+    <Compile Include="Products\ExtendedQuery.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\Product.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductCategory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductCustomFieldValue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductImage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductPrice.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductPriceVariantValue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductQueryModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductReview.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductTypeCustomField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\ProductTypeVariantField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\Services\IProductService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\Services\IProductTypeService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\Services\ProductService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Products\Services\ProductTypeService.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Promotions\CheckPromotionConditionResult.cs" />
     <Compile Include="Promotions\Extensions\PromotionsExtensions.cs" />
+    <Compile Include="Promotions\IHasCustomPromotionPolicyConfigEditor.cs" />
     <Compile Include="Promotions\PromotionPolicyEditor.cs" />
     <Compile Include="Promotions\PromotionMatcher.cs" />
     <Compile Include="Promotions\PromotionConditionContextModel.cs" />
@@ -207,7 +223,6 @@
     <Compile Include="Settings\ImageSettings.cs" />
     <Compile Include="Settings\Services\ISettingService.cs" />
     <Compile Include="Settings\Services\SettingService.cs" />
-    <Compile Include="Products\Services\IProductService.cs" />
     <Compile Include="Promotions\PromotionOverlappingUsage.cs" />
     <Compile Include="Payments\Services\IPaymentMethodService.cs" />
     <Compile Include="Payments\Services\PaymentMethodService.cs" />
@@ -220,9 +235,6 @@
     <Compile Include="Payments\PaymentProcessingContext.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="EAV\CustomField.cs" />
-    <Compile Include="Products\Services\IProductTypeService.cs" />
-    <Compile Include="Products\Services\ProductService.cs" />
-    <Compile Include="Products\Services\ProductTypeService.cs" />
     <Compile Include="Locations\Address.cs" />
     <Compile Include="Brands\Brand.cs" />
     <Compile Include="Categories\Category.cs" />
@@ -233,10 +245,6 @@
     <Compile Include="Settings\KeyValueSetting.cs" />
     <Compile Include="Orders\Order.cs" />
     <Compile Include="Orders\OrderItem.cs" />
-    <Compile Include="Products\Product.cs" />
-    <Compile Include="Products\ProductImage.cs" />
-    <Compile Include="Products\ProductReview.cs" />
-    <Compile Include="Products\ProductType.cs" />
     <Compile Include="Settings\StoreSettings.cs" />
     <Compile Include="EAV\FieldValidationRule.cs" />
     <Compile Include="Promotions\IPromotionPolicyProvider.cs" />

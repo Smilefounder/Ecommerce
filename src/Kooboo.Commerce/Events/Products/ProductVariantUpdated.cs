@@ -7,8 +7,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Products
 {
-    [Event(Order = 600)]
-    public class ProductPriceAdded : BusinessEvent, IProductEvent
+    [Event(Order = 300, ShortName = "Variant Updated")]
+    public class ProductVariantUpdated : BusinessEvent, IProductEvent
     {
         [Reference(typeof(Product))]
         public int ProductId { get; set; }
@@ -16,9 +16,9 @@ namespace Kooboo.Commerce.Events.Products
         [Reference(typeof(ProductPrice))]
         public int ProductPriceId { get; set; }
 
-        protected ProductPriceAdded() { }
+        protected ProductVariantUpdated() { }
 
-        public ProductPriceAdded(Product product, ProductPrice price)
+        public ProductVariantUpdated(Product product, ProductPrice price)
         {
             ProductId = product.Id;
             ProductPriceId = price.Id;

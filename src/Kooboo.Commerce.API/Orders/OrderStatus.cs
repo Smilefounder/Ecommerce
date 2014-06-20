@@ -21,10 +21,12 @@ namespace Kooboo.Commerce.API.Orders
         /// <summary>
         /// order is in processing
         /// </summary>
-        Processing = 2,
+        InProgress = 2,
         /// <summary>
         /// order is canceled, maybe need to refund.
         /// </summary>
-        Cancelled = 3
+        Cancelled = 3,
+
+        Completed = 4
     }
 }

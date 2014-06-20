@@ -8,8 +8,14 @@
     }
 
     var promotionId = Model.Id;
+    var editorVirtualPath = "~/Areas/Commerce/Views/Promotion/_DefaultPolicyConfigEditor.cshtml";
     var policy = ViewBag.Policy as IPromotionPolicy;
-    var editor = policy.GetEditor(Model);
+    
+    var editor = policy as IHasCustomPromotionPolicyConfigEditor;
+    if (editor != null)
+    {
+        editorVirtualPath = editor.GetEditorVirtualPath(Model);
+    }
 }
 
 @section Panel {
@@ -21,7 +27,7 @@
 <div class="block">
     @Html.Action("Steps", "Promotion", new { area = "Commerce", step = 3 })
 
-    @Html.Partial(editor.VirtualPath)
+    @Html.Partial(editorVirtualPath, ViewBag.PolicyConfigEditorModel as PromotionPolicyConfigEditorModel)
 
     <div class="wizard-buttons">
         <a class="button gray" href="@Url.Action("Conditions", "Promotion", RouteValues.From(Request.QueryString).Merge("id", promotionId))">&laquo; @("Back".Localize())</a>

@@ -7,7 +7,7 @@ using System.Web;
 namespace Kooboo.Commerce.Promotions.Policies.Default
 {
     [Dependency(typeof(IPromotionPolicy), Key = "Discount Promotion")]
-    public class DefaultPromotionPolicy : IPromotionPolicy
+    public class DefaultPromotionPolicy : IPromotionPolicy, IHasCustomPromotionPolicyConfigEditor
     {
         public string Name
         {
@@ -17,16 +17,21 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             }
         }
 
+        public Type ConfigModelType
+        {
+            get
+            {
+                return typeof(DefaultPromotionPolicyConfig);
+            }
+        }
+
         public void Execute(PromotionContext context)
         {
-            var promotion = context.Promotion;
-
-            if (String.IsNullOrEmpty(promotion.PromotionPolicyData))
+            var data = context.PolicyConfig as DefaultPromotionPolicyConfig;
+            if (data == null)
             {
                 return;
             }
-
-            var data = DefaultPromotionPolicyData.Deserialize(promotion.PromotionPolicyData);
 
             if (data.DiscountAppliedTo == DiscountAppliedTo.MatchedProducts)
             {
@@ -48,7 +53,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             }
         }
 
-        private decimal ComputeDiscount(decimal oldPrice, DefaultPromotionPolicyData policyData)
+        private decimal ComputeDiscount(decimal oldPrice, DefaultPromotionPolicyConfig policyData)
         {
             decimal discount = 0;
 
@@ -73,9 +78,9 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             return discount;
         }
 
-        public PromotionPolicyEditor GetEditor(Promotion promotion)
+        public string GetEditorVirtualPath(Promotion promotion)
         {
-            return new PromotionPolicyEditor("~/Areas/" + Strings.AreaName + "/Views/Config.cshtml");
+            return "~/Areas/" + Strings.AreaName + "/Views/Config.cshtml";
         }
     }
 }

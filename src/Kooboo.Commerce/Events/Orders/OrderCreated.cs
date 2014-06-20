@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Orders
 {
-    // TODO: Not fired status changed?
-    [Event(Order = 100)]
+    [Event(Order = 100, ShortName = "Created")]
     public class OrderCreated : OrderStatusChanged
     {
         protected OrderCreated() { }

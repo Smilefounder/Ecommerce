@@ -7,12 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.Commerce.Promotions
 {
-    public class Promotion : INotifyCreated, INotifyDeleted
+    public class Promotion
     {
         [Param]
         public int Id { get; set; }
@@ -31,7 +32,7 @@ namespace Kooboo.Commerce.Promotions
         [StringLength(20)]
         public string CouponCode { get; set; }
 
-        public bool IsEnabled { get; protected set; }
+        public bool IsEnabled { get; set; }
 
         public int Priority { get; set; }
 
@@ -39,10 +40,37 @@ namespace Kooboo.Commerce.Promotions
         [StringLength(50)]
         public string PromotionPolicyName { get; set; }
 
-        public string PromotionPolicyData { get; set; }
+        private string PromotionPolicyConfig { get; set; }
 
-        // TODO: Make private. But currently the only solution to make it private is to embed mapping class in this class.
-        public string ConditionsJson { get; protected set; }
+        public virtual T LoadPolicyConfig<T>()
+            where T : class
+        {
+            return LoadPolicyConfig(typeof(T)) as T;
+        }
+
+        public virtual object LoadPolicyConfig(Type configModelType)
+        {
+            if (String.IsNullOrWhiteSpace(PromotionPolicyConfig))
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject(PromotionPolicyConfig, configModelType);
+        }
+
+        public virtual void UpdatePolicyConfig(object configModel)
+        {
+            if (configModel == null)
+            {
+                PromotionPolicyConfig = null;
+            }
+            else
+            {
+                PromotionPolicyConfig = JsonConvert.SerializeObject(configModel);
+            }
+        }
+
+        private string ConditionsJson { get; set; }
 
         private List<Condition> _conditions;
 
@@ -102,28 +130,6 @@ namespace Kooboo.Commerce.Promotions
             return PromotionSpecifications.AvailableNow(utcNow).Compile()(this);
         }
 
-        public virtual bool MarkEnable()
-        {
-            if (!IsEnabled)
-            {
-                IsEnabled = true;
-                return true;
-            }
-
-            return false;
-        }
-
-        public virtual bool MarkDisable()
-        {
-            if (IsEnabled)
-            {
-                IsEnabled = false;
-                return true;
-            }
-
-            return false;
-        }
-
         public virtual bool CanBeOverlappedUsedWith(Promotion other)
         {
             if (Priority < other.Priority)
@@ -149,14 +155,25 @@ namespace Kooboo.Commerce.Promotions
             }
         }
 
-        void INotifyCreated.NotifyCreated()
+        #region Entity Mapping
+
+        class PromotionMap : EntityTypeConfiguration<Promotion>
         {
-            Event.Raise(new PromotionCreated(this));
+            public PromotionMap()
+            {
+                Property(c => c.ConditionsJson);
+                Property(c => c.PromotionPolicyConfig);
+
+                HasMany(c => c.OverlappablePromotions).WithMany()
+                    .Map(m =>
+                    {
+                        m.MapLeftKey("PromotionId");
+                        m.MapRightKey("OverlappablePromotionId");
+                        m.ToTable("Promotion_OverlappablePromotions");
+                    });
+            }
         }
 
-        void INotifyDeleted.NotifyDeleted()
-        {
-            Event.Raise(new PromotionDeleted(this));
-        }
+        #endregion
     }
 }

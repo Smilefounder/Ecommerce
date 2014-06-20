@@ -104,8 +104,6 @@ namespace Kooboo.Commerce.Products.Services
                     });
                 _productTypeRepository.Update(type, k => new object[] { k.Id });
 
-                type.NotifyUpdated();
-
                 return true;
             }
             catch

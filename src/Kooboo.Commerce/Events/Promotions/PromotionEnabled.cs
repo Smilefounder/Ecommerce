@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Promotions
 {
-    [Event(Order = 300)]
+    [Event(Order = 300, ShortName = "Enabled")]
     public class PromotionEnabled : BusinessEvent, IPromotionEvent
     {
         [Reference(typeof(Promotion))]

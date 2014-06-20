@@ -1,6 +1,5 @@
 ﻿using Kooboo.Commerce.ComponentModel;
 using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Payments;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

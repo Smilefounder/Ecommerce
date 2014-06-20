@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Pricing;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Rules;
@@ -51,7 +50,13 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
                 if (policy == null)
                     throw new InvalidOperationException("Cannot load promotion policy with name '" + match.Promotion.PromotionPolicyName + "'. Ensure corresponding add-in has been installed.");
 
-                policy.Execute(new PromotionContext(match.Promotion, match.ConditionMatchedItems, context));
+                object config = null;
+                if (policy.ConfigModelType != null)
+                {
+                    config = match.Promotion.LoadPolicyConfig(policy.ConfigModelType);
+                }
+
+                policy.Execute(new PromotionContext(match.Promotion, config, match.ConditionMatchedItems, context));
                 context.AppliedPromotions.Add(match.Promotion);
             }
         }

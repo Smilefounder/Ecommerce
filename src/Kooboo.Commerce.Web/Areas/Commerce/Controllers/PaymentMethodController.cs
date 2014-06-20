@@ -88,7 +88,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             if (model.Id > 0)
             {
                 CommerceContext.CurrentInstance.Database.SaveChanges();
-                method.NotifyUpdated();
             }
 
             string redirectUrl = null;
