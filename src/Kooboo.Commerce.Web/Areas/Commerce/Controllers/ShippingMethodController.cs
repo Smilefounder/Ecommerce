@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods;
 using Kooboo.Commerce.Shipping;
 using Kooboo.Commerce.Web.Areas.Commerce.Models;
+using Kooboo.Commerce.Web.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -96,22 +97,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().RedirectTo(Url.Action("ShippingRateProvider", RouteValues.From(Request.QueryString).Merge("id", model[0].Id)));
         }
 
-        public ActionResult ShippingRateProvider(int id)
-        {
-            var method = _shippingMethodService.GetById(id);
-            var shippingRateProvider = _shippingRateProviderFactory.FindByName(method.ShippingRateProviderName);
-            var editorModel = new ShippingRateProviderConfigEditorModel
-            {
-                ShippingMethodId = method.Id,
-                Config = method.LoadShippingRateProviderConfig(shippingRateProvider.ConfigModelType) ?? Activator.CreateInstance(shippingRateProvider.ConfigModelType)
-            };
-
-            ViewBag.ShippingRateProvider = shippingRateProvider;
-            ViewBag.ShippingRateProviderConfigEditorModel = editorModel;
-
-            return View(method);
-        }
-
         [ChildActionOnly]
         public ActionResult Steps(int step)
         {
@@ -170,6 +155,29 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             return AjaxForm().RedirectTo(redirectUrl);
+        }
+
+        public ActionResult ShippingRateProvider(int id)
+        {
+            var method = _shippingMethodService.GetById(id);
+            var shippingRateProvider = _shippingRateProviderFactory.FindByName(method.ShippingRateProviderName);
+            var editorModel = new ShippingRateProviderConfigEditorModel
+            {
+                ShippingMethodId = method.Id,
+                Config = method.LoadShippingRateProviderConfig(shippingRateProvider.ConfigModelType) ?? Activator.CreateInstance(shippingRateProvider.ConfigModelType)
+            };
+
+            ViewBag.ShippingRateProvider = shippingRateProvider;
+            ViewBag.ShippingRateProviderConfigEditorModel = editorModel;
+
+            return View(method);
+        }
+
+        [HttpPost, HandleAjaxError, Transactional]
+        public void UpdateShippingRateProviderConfig(int shippingMethodId, [ModelBinder(typeof(ObjectModelBinder))]object config)
+        {
+            var method = _shippingMethodService.GetById(shippingMethodId);
+            method.UpdateShippingRateProviderConfig(config);
         }
 
         public ActionResult Complete(int id)

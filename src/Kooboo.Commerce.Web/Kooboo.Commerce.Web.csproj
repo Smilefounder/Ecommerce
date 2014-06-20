@@ -3591,6 +3591,7 @@
     <Content Include="Views\Shared\_Toolbar.cshtml" />
     <Content Include="Views\Shared\_ToolbarButton.cshtml" />
     <Content Include="Views\Shared\_ToolbarGroupButtons.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Decimal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

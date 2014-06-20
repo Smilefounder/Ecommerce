@@ -24,11 +24,15 @@
 
             this.next = function () {
                 window.loading.show();
-                _events.fire('saving', _this, { paymentMethodId: _this.paymentMethodId() })
+                var context = { paymentMethodId: _this.paymentMethodId() };
+                _events.fire('saving', _this, context)
                        .done(function () {
-                           window.loading.hide();
-                           window.leaveConfirm.pass();
-                           location.href = '@Html.Raw(Url.Action("Complete", RouteValues.From(Request.QueryString)))';
+                           if (!context.cancel) {
+                               window.leaveConfirm.pass();
+                               location.href = '@Html.Raw(Url.Action("Complete", RouteValues.From(Request.QueryString)))';
+                           } else {
+                               window.loading.hide();
+                           }
                        });
             }
         }

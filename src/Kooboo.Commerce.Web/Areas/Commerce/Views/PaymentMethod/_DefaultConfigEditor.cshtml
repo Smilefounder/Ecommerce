@@ -20,12 +20,18 @@
 <script>
     (function ($) {
 
+        var $form = $('#default-payment-processor-editor');
         var editor = PaymentProcessorEditor.current();
 
         editor.on('saving', function (sender, args) {
+            if (!$form.valid()) {
+                args.cancel = true;
+                return;
+            }
+
             return $.post(
                 '@Url.Action("UpdateProcessorConfig", "PaymentMethod")',
-                $('#default-payment-processor-editor').serializeArray()
+                $form.serializeArray()
             )
             .fail(function (data) {
                 window.loading.hide();
