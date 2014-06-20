@@ -24,11 +24,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
             DisplayName = activity.DisplayName;
             AllowAsyncExecution = activity.AllowAsyncExecution;
 
-            if (activity is IHasCustomActivityParameterEditor)
+            if (activity is IHasCustomActivityConfigEditor)
             {
-                EditorVirtualPath = ((IHasCustomActivityParameterEditor)activity).GetEditorVirtualPath(rule, attachedActivityInfo);
+                EditorVirtualPath = ((IHasCustomActivityConfigEditor)activity).GetEditorVirtualPath(rule, attachedActivityInfo);
             }
-            else if (activity.ParametersType != null)
+            else if (activity.ConfigModelType != null)
             {
                 EditorVirtualPath = "~/Areas/Commerce/Views/Activity/_DefaultParameterEditor.cshtml";
             }

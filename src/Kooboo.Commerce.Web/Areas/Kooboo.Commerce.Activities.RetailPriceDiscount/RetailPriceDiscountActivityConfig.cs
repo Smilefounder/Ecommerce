@@ -5,43 +5,13 @@ using System.Web;
 
 namespace Kooboo.Commerce.Activities.RetailPriceDiscount
 {
-    public class RetailPriceDiscountActivityConfig : ActivityParameters
+    public class RetailPriceDiscountActivityConfig
     {
-        public DiscountMode DiscountMode
-        {
-            get
-            {
-                return GetValue<DiscountMode>("DiscountMode");
-            }
-            set
-            {
-                SetValue("DiscountMode", value);
-            }
-        }
+        public DiscountMode DiscountMode { get; set; }
 
-        public decimal DiscountAmount
-        {
-            get
-            {
-                return GetValue<decimal>("DiscountAmount");
-            }
-            set
-            {
-                SetValue("DiscountAmount", value);
-            }
-        }
+        public decimal DiscountAmount { get; set; }
 
-        public int DiscountPercentOff
-        {
-            get
-            {
-                return GetValue<int>("DiscountPercentOff");
-            }
-            set
-            {
-                SetValue("DiscountPercentOff", value);
-            }
-        }
+        public int DiscountPercentOff { get; set; }
 
         public decimal ApplyDiscount(decimal oldPrice)
         {

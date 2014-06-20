@@ -8,7 +8,7 @@ using System.Web;
 namespace Kooboo.Commerce.Activities.RetailPriceDiscount
 {
     [Dependency(typeof(IActivity), Key = "RetailPriceDiscount")]
-    public class RetailPriceDiscountActivity : ActivityBase<GetPrice>, IHasCustomActivityParameterEditor
+    public class RetailPriceDiscountActivity : ActivityBase<GetPrice>, IHasCustomActivityConfigEditor
     {
         public override string Name
         {
@@ -26,16 +26,24 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount
             }
         }
 
+        public override Type ConfigModelType
+        {
+            get
+            {
+                return typeof(RetailPriceDiscountActivityConfig);
+            }
+        }
+
         protected override void DoExecute(GetPrice @event, ActivityContext context)
         {
-            //var config = context.ParameterValues.Get<RetailPriceDiscountActivityConfig>("Config");
-            //if (config == null)
-            //{
-            //    return;
-            //}
+            var config = context.Config as RetailPriceDiscountActivityConfig;
+            if (config == null)
+            {
+                return;
+            }
 
-            //var newPrice = config.ApplyDiscount(@event.FinalPrice);
-            //@event.FinalPrice = newPrice;
+            var newPrice = config.ApplyDiscount(@event.FinalPrice);
+            @event.FinalPrice = newPrice;
         }
 
         public string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)

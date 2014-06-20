@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.Activities
     /// <summary>
     /// Indicates an activity wants to use a custom activity setting editor.
     /// </summary>
-    public interface IHasCustomActivityParameterEditor
+    public interface IHasCustomActivityConfigEditor
     {
         string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo);
     }

@@ -12,6 +12,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Activities
 
         public int AttachedActivityInfoId { get; set; }
 
-        public ActivityParameters Parameters { get; set; }
+        public object Parameters { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount.Controllers
         {
             var rule = _rules.Get(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            var config = ActivityParameters.Create<RetailPriceDiscountActivityConfig>(attachedActivityInfo.GetParameters());
+            var config = attachedActivityInfo.LoadParameters(typeof(RetailPriceDiscountActivityConfig));
             return JsonNet(config).UsingClientConvention();
         }
 
@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount.Controllers
         {
             var rule = _rules.Get(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            attachedActivityInfo.SetParameters(config.GetValues());
+            attachedActivityInfo.UpdateParameters(config);
         }
     }
 }

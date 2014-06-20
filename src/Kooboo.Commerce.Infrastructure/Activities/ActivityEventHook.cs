@@ -106,10 +106,10 @@ namespace Kooboo.Commerce.Activities
                 }
                 else
                 {
-                    ActivityParameters parameters = null;
-                    if (activity.ParametersType != null)
+                    object parameters = null;
+                    if (activity.ConfigModelType != null)
                     {
-                        parameters = ActivityParameters.Create(activity.ParametersType, setting.GetParameters());
+                        parameters = setting.LoadParameters(activity.ConfigModelType);
                     }
 
                     activity.Execute(@event, new ActivityContext(parameters, false));

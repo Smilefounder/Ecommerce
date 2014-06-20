@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Activities
             }
         }
 
-        public virtual Type ParametersType
+        public virtual Type ConfigModelType
         {
             get
             {

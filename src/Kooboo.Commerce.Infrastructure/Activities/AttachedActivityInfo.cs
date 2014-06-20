@@ -23,17 +23,17 @@ namespace Kooboo.Commerce.Activities
 
         private string Parameters { get; set; }
 
-        public virtual IDictionary<string, string> GetParameters()
+        public virtual object LoadParameters(Type parametersType)
         {
             if (String.IsNullOrWhiteSpace(Parameters))
             {
-                return new Dictionary<string, string>();
+                return null;
             }
 
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(Parameters);
+            return JsonConvert.DeserializeObject(Parameters, parametersType);
         }
 
-        public virtual void SetParameters(IDictionary<string, string> parameters)
+        public virtual void UpdateParameters(object parameters)
         {
             if (parameters == null)
             {

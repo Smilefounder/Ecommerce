@@ -9,13 +9,13 @@ namespace Kooboo.Commerce.Activities
 {
     public class ActivityContext
     {
-        public ActivityParameters Parameters { get; private set; }
+        public object Config { get; private set; }
 
         public bool IsAsyncExecution { get; private set; }
 
-        public ActivityContext(ActivityParameters parameters, bool isAsyncExecution)
+        public ActivityContext(object config, bool isAsyncExecution)
         {
-            Parameters = parameters;
+            Config = config;
             IsAsyncExecution = isAsyncExecution;
         }
     }

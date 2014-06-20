@@ -23,7 +23,10 @@ namespace Kooboo.Commerce.Activities
         /// </summary>
         string DisplayName { get; }
 
-        Type ParametersType { get; }
+        /// <summary>
+        /// Activity配置信息类的类型。
+        /// </summary>
+        Type ConfigModelType { get; }
 
         /// <summary>
         /// 是否允许异步执行。

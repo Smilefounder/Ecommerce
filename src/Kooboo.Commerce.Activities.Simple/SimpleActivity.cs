@@ -20,17 +20,17 @@ namespace Kooboo.Commerce.Activities.Simple
             }
         }
 
-        public override Type ParametersType
+        public override Type ConfigModelType
         {
             get
             {
-                return typeof(SimpleActivityParameters);
+                return typeof(SimpleActivityConfig);
             }
         }
 
         protected override void DoExecute(IOrderEvent @event, ActivityContext context)
         {
-            var param = context.Parameters as SimpleActivityParameters;
+            var param = context.Config as SimpleActivityConfig;
 
             var orderId = @event.OrderId;
 

@@ -120,9 +120,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 RuleId = rule.Id
             };
-            if (activity.ParametersType != null)
+            if (activity.ConfigModelType != null)
             {
-                parametersEditorModel.Parameters = ActivityParameters.Create(activity.ParametersType);
+                parametersEditorModel.Parameters = Activator.CreateInstance(activity.ConfigModelType);
             }
 
             ViewBag.Activity = activity;
@@ -147,9 +147,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 RuleId = rule.Id,
                 AttachedActivityInfoId = attachedActivityInfo.Id
             };
-            if (activity.ParametersType != null)
+            if (activity.ConfigModelType != null)
             {
-                parametersEditorModel.Parameters = ActivityParameters.Create(activity.ParametersType, attachedActivityInfo.GetParameters());
+                parametersEditorModel.Parameters = attachedActivityInfo.LoadParameters(activity.ConfigModelType);
             }
 
             ViewBag.Activity = activity;
@@ -244,11 +244,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxError, Transactional]
-        public void UpdateActivityParameters(int ruleId, int attachedActivityInfoId, [ModelBinder(typeof(DerivedTypeModelBinder))]ActivityParameters parameters)
+        public void UpdateActivityParameters(int ruleId, int attachedActivityInfoId, [ModelBinder(typeof(DerivedTypeModelBinder))]object parameters)
         {
             var rule = _ruleRepository.Get(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
-            attachedActivityInfo.SetParameters(parameters == null ? null : parameters.GetValues());
+            attachedActivityInfo.UpdateParameters(parameters);
         }
 
         [HandleAjaxError]
