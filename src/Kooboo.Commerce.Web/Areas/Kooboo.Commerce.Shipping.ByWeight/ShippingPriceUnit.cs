@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Shipping.ByWeight.Domain
+namespace Kooboo.Commerce.Shipping.ByWeight
 {
     public enum ShippingPriceUnit
     {

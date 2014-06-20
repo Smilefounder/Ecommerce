@@ -30,7 +30,15 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
                 var provider = _factory.FindByName(context.ShippingMethod.ShippingRateProviderName);
                 if (provider != null)
                 {
-                    var shippingCost = provider.GetShippingRate(context.ShippingMethod, new ShippingRateCalculationContext(context));
+                    object shippingRateProviderConfig = null;
+                    if (provider.ConfigModelType != null)
+                    {
+                        shippingRateProviderConfig = context.ShippingMethod.LoadShippingRateProviderConfig(provider.ConfigModelType);
+                    }
+
+                    var shippingCost = provider.GetShippingRate(
+                        new ShippingRateCalculationContext(context.ShippingMethod, shippingRateProviderConfig, context));
+
                     context.ShippingCost.SetOriginalValue(shippingCost);
                 }
             }

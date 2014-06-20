@@ -12,10 +12,19 @@ namespace Kooboo.Commerce.Shipping
 {
     public class ShippingRateCalculationContext
     {
+        public ShippingMethod ShippingMethod { get; private set; }
+
         public PricingContext PricingContext { get; private set; }
 
-        public ShippingRateCalculationContext(PricingContext pricingContext)
+        public object ShippingRateProviderConfig { get; private set; }
+
+        public ShippingRateCalculationContext(ShippingMethod shippingMethod, object shippingRateProviderConfig, PricingContext pricingContext)
         {
+            Require.NotNull(shippingMethod, "shippingMethod");
+            Require.NotNull(pricingContext, "pricingContext");
+
+            ShippingMethod = shippingMethod;
+            ShippingRateProviderConfig = shippingRateProviderConfig;
             PricingContext = pricingContext;
         }
     }

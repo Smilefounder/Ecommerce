@@ -1,5 +1,4 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Shipping.ByWeight.Domain;
 using Kooboo.Commerce.Shipping.ByWeight.Models;
 using Kooboo.Commerce.Shipping.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Controllers;
@@ -26,17 +25,20 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
         public ActionResult Load(int methodId)
         {
             var method = _service.GetById(methodId);
-            var rules = new List<ByWeightShippingRuleModel>();
-
-            if (!String.IsNullOrWhiteSpace(method.ShippingRateProviderData))
+            var config = method.LoadShippingRateProviderConfig<ByWeightShippingRateProviderConfig>() ?? new ByWeightShippingRateProviderConfig();
+            var ruleModels = config.Rules.Select(r => new ByWeightShippingRuleModel
             {
-                rules = JsonConvert.DeserializeObject<List<ByWeightShippingRuleModel>>(method.ShippingRateProviderData);
-            }
+                FromWeight = r.FromWeight.ToString(),
+                ToWeight = r.ToWeight.ToString(),
+                ShippingPrice = r.ShippingPrice.ToString(),
+                PriceUnit = r.PriceUnit.ToString()
+            })
+            .ToList();
 
             var model = new ByWeightShippingRulesModel
             {
                 ShippingMethodId = methodId,
-                Rules = rules
+                Rules = ruleModels
             };
 
             return Json(model, JsonRequestBehavior.AllowGet);
@@ -46,7 +48,19 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
         public void Save(ByWeightShippingRulesModel model)
         {
             var method = _service.GetById(model.ShippingMethodId);
-            method.ShippingRateProviderData = JsonConvert.SerializeObject(model.Rules);
+            var rules = model.Rules.Select(r => new ByWeightShippingRule
+            {
+                FromWeight = Convert.ToDecimal(r.FromWeight),
+                ToWeight = Convert.ToDecimal(r.ToWeight),
+                PriceUnit = (ShippingPriceUnit)Enum.Parse(typeof(ShippingPriceUnit), r.PriceUnit),
+                ShippingPrice = Convert.ToDecimal(r.ShippingPrice)
+            })
+            .ToList();
+
+            method.UpdateShippingRateProviderConfig(new ByWeightShippingRateProviderConfig
+            {
+                Rules = rules
+            });
         }
     }
 }

@@ -4,7 +4,7 @@
     var configModelType = activity.ConfigModelType;
 }
 
-<form class="common-form" id="default-activity-param-editor">
+<form class="common-form" id="default-activity-config-editor">
     @Html.HiddenFor(m => m.RuleId)
     @Html.HiddenFor(m => m.AttachedActivityInfoId)
     <input type="hidden" name="Config.BindingType" value="@Html.Raw(configModelType.AssemblyQualifiedName)" />
@@ -21,7 +21,7 @@
 <script>
     $(function () {
 
-        var $form = $('#default-activity-param-editor');
+        var $form = $('#default-activity-config-editor');
         var editor = ActivityEditor.current();
 
         editor.on('saving', function (sender, args) {

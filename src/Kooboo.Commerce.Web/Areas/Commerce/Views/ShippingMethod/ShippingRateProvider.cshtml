@@ -8,8 +8,15 @@
     }
 
     var methodId = Model.Id;
+    var editorVirtualPath = "~/Areas/Commerce/Views/ShippingMethod/_DefaultShippingRateProviderConfigEditor.cshtml";
+    
     var shippingRateProvider = ViewBag.ShippingRateProvider as IShippingRateProvider;
-    var editor = shippingRateProvider.GetEditor(Model);
+    
+    var editor = shippingRateProvider as IHasCustomShippingRateProviderConfigEditor;
+    if (editor != null)
+    {
+        editorVirtualPath = editor.GetEditorVirtualPath(Model);
+    }
 }
 
 @section Panel {
@@ -24,7 +31,7 @@
 <div class="block">
     @Html.Action("Steps", "ShippingMethod", new { area = "Commerce", step = 2 })
 
-    @Html.Partial(editor.VirtualPath)
+    @Html.Partial(editorVirtualPath, ViewBag.ShippingRateProviderConfigEditorModel as ShippingRateProviderConfigEditorModel)
 
     <div class="wizard-buttons">
         <a class="button gray" href="@Url.Action("BasicInfo", "ShippingMethod", RouteValues.From(Request.QueryString).Merge("area", "Commerce").Merge("id", methodId))">&laquo; @("Back".Localize())</a>

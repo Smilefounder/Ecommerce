@@ -1,0 +1,40 @@
+﻿@model ShippingRateProviderConfigEditorModel
+@{
+    var shippingRateProvider = ViewBag.ShippingRateProvider as IShippingRateProvider;
+    var configModelType = shippingRateProvider.ConfigModelType;
+}
+
+<form class="common-form" id="default-shipping-rate-provider-config-editor">
+    @Html.HiddenFor(m => m.ShippingMethodId)
+    <input type="hidden" name="Config.BindingType" value="@Html.Raw(configModelType.AssemblyQualifiedName)" />
+    <table>
+        <tbody>
+            @foreach (var prop in configModelType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+            {
+                @Html.Editor("Config." + prop.Name)
+            }
+        </tbody>
+    </table>
+</form>
+
+<script>
+    (function ($) {
+
+        var $form = $('#default-shipping-rate-provider-config-editor');
+        var editor = ShippingRateProviderEditor.current();
+
+        editor.on('saving', function (sender, args) {
+            if (!$form.valid()) {
+                args.cancel = true;
+                return;
+            }
+
+            return $.post('@Url.Action("UpdateShippingRateProviderConfig")', $form.serializeArray())
+                    .fail(function (data) {
+                        window.loading.hide();
+                        info.show(data.Message, false);
+                    });
+        });
+
+    })(jQuery);
+</script>

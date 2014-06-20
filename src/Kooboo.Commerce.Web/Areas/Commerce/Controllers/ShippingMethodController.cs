@@ -100,7 +100,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var method = _shippingMethodService.GetById(id);
             var shippingRateProvider = _shippingRateProviderFactory.FindByName(method.ShippingRateProviderName);
+            var editorModel = new ShippingRateProviderConfigEditorModel
+            {
+                ShippingMethodId = method.Id,
+                Config = method.LoadShippingRateProviderConfig(shippingRateProvider.ConfigModelType) ?? Activator.CreateInstance(shippingRateProvider.ConfigModelType)
+            };
+
             ViewBag.ShippingRateProvider = shippingRateProvider;
+            ViewBag.ShippingRateProviderConfigEditorModel = editorModel;
+
             return View(method);
         }
 
@@ -149,11 +157,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             var shippingRateProvider = _shippingRateProviderFactory.FindByName(method.ShippingRateProviderName);
-            var editor = shippingRateProvider.GetEditor(method);
-
             string redirectUrl = null;
 
-            if (editor != null)
+            var editor = shippingRateProvider as IHasCustomShippingRateProviderConfigEditor;
+            if (editor != null || shippingRateProvider.ConfigModelType != null)
             {
                 redirectUrl = Url.Action("ShippingRateProvider", RouteValues.From(Request.QueryString).Merge("id", method.Id));
             }

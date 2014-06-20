@@ -67,7 +67,6 @@
     <Compile Include="ProductTypeMap.cs" />
     <Compile Include="PromotionMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShippingMethodMap.cs" />
     <Compile Include="ShoppingCartMap.cs" />
   </ItemGroup>
   <ItemGroup>

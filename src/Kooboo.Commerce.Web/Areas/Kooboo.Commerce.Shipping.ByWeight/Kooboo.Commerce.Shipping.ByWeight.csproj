@@ -76,9 +76,10 @@
   <ItemGroup>
     <Compile Include="AddInAreaRegistration.cs" />
     <Compile Include="ByWeightShippingRateProvider.cs" />
+    <Compile Include="ByWeightShippingRateProviderConfig.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
-    <Compile Include="Domain\ByWeightShippingRule.cs" />
-    <Compile Include="Domain\ShippingPriceUnit.cs" />
+    <Compile Include="ByWeightShippingRule.cs" />
+    <Compile Include="ShippingPriceUnit.cs" />
     <Compile Include="Models\ByWeightShippingRuleModel.cs" />
     <Compile Include="Models\ByWeightShippingRulesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

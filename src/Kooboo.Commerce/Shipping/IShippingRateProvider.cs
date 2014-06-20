@@ -15,14 +15,11 @@ namespace Kooboo.Commerce.Shipping
     {
         string Name { get; }
 
+        Type ConfigModelType { get; }
+
         /// <summary>
         /// 计算运费。
         /// </summary>
-        decimal GetShippingRate(ShippingMethod shippingMethod, ShippingRateCalculationContext context);
-
-        /// <summary>
-        /// 获取自定义配置的编辑器信息。
-        /// </summary>
-        ShippingRateProviderEditor GetEditor(ShippingMethod shippingMethod);
+        decimal GetShippingRate(ShippingRateCalculationContext context);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Kooboo.Commerce.Rules;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 
@@ -24,7 +26,35 @@ namespace Kooboo.Commerce.Shipping
         [Required, StringLength(100)]
         public string ShippingRateProviderName { get; set; }
 
-        public string ShippingRateProviderData { get; set; }
+        private string ShippingRateProviderConfig { get; set; }
+
+        public T LoadShippingRateProviderConfig<T>()
+            where T : class
+        {
+            return LoadShippingRateProviderConfig(typeof(T)) as T;
+        }
+
+        public object LoadShippingRateProviderConfig(Type configModelType)
+        {
+            if (String.IsNullOrWhiteSpace(ShippingRateProviderConfig))
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject(ShippingRateProviderConfig, configModelType);
+        }
+
+        public void UpdateShippingRateProviderConfig(object configModel)
+        {
+            if (configModel == null)
+            {
+                ShippingRateProviderConfig = null;
+            }
+            else
+            {
+                ShippingRateProviderConfig = JsonConvert.SerializeObject(configModel);
+            }
+        }
 
         public void Enable()
         {
@@ -41,5 +71,17 @@ namespace Kooboo.Commerce.Shipping
                 IsEnabled = false;
             }
         }
+
+        #region Entity Mapping
+
+        class ShippingMethodMap : EntityTypeConfiguration<ShippingMethod>
+        {
+            public ShippingMethodMap()
+            {
+                Property(c => c.ShippingRateProviderConfig);
+            }
+        }
+
+        #endregion
     }
 }

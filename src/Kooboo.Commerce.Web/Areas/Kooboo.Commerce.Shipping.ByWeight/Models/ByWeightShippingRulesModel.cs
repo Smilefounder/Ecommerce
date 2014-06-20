@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.Shipping.ByWeight.Domain;
-using Kooboo.Commerce.Web.Mvc;
+﻿using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +19,6 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Models
         {
             Rules = new List<ByWeightShippingRuleModel>();
             AvailablePriceUnits = SelectListItems.FromEnum<ShippingPriceUnit>();
-        }
-
-        public bool HasRule(int ruleId)
-        {
-            return Rules.Any(x => x.Id == ruleId);
         }
     }
 }

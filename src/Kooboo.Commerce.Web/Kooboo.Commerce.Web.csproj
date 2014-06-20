@@ -411,6 +411,7 @@
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingMethodEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingMethodRowModel.cs" />
     <Compile Include="Areas\Commerce\CommerceApplicationEvents.cs" />
+    <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingRateProviderConfigEditorModel.cs" />
     <Compile Include="Areas\Commerce\PaymentUrlHelper.cs" />
     <Compile Include="Areas\Commerce\UrlHelperExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\HandleAjaxErrorAttribute.cs" />
@@ -3510,6 +3511,7 @@
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsEditor.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\Conditions.cshtml" />
     <Content Include="Areas\Commerce\Views\PaymentMethod\_DefaultConfigEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\ShippingMethod\_DefaultShippingRateProviderConfigEditor.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
