@@ -267,6 +267,7 @@
     <Compile Include="Areas\CommerceWebAPI\ViewModels\ApiInfo.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\ExtendedQueryRegistrar.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
     <Compile Include="Areas\Commerce\Common\Extensions\JsonExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Extensions\TimeSpanExtensions.cs" />
@@ -317,6 +318,10 @@
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\ActivityRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\PaymentProcessorRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\PromotionPolicyRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\ShippingRateProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\EntityUtil.cs" />
     <Compile Include="Areas\Commerce\Extensions\PagedListExtensions.cs" />
     <Compile Include="Areas\Commerce\Handlers\FilesStatus.cs" />

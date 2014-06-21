@@ -9,7 +9,6 @@ using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Customers.ExtendedQuery
 {
-    [Dependency(typeof(Kooboo.Commerce.ExtendedQuery.CustomerQuery), Key = "TopOrderedCustomers")]
     public class TopOrderedCustomers : Kooboo.Commerce.ExtendedQuery.CustomerQuery
     {
         public string Name

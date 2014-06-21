@@ -73,6 +73,24 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             Event.Raise(new CartCreated(cart));
         }
 
+        public PricingContext CalculatePrice(ShoppingCart cart, ShoppingContext shoppingContext)
+        {
+            Require.NotNull(cart, "cart");
+
+            var context = PricingContext.CreateFrom(cart);
+            if (shoppingContext != null)
+            {
+                context.Currency = shoppingContext.Currency;
+                context.Culture = shoppingContext.Culture;
+            }
+
+            new PricingPipeline().Execute(context);
+
+            Event.Raise(new CartPriceCalculated(cart, context));
+
+            return context;
+        }
+
         public bool ApplyCoupon(ShoppingCart cart, string coupon)
         {
             if (String.IsNullOrWhiteSpace(coupon))

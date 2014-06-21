@@ -8,7 +8,6 @@ using Kooboo.CMS.Sites.Membership;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
 {
-    [Dependency(typeof(ICommerceSource), Key = "ShoppingCarts")]
     public class ShoppingCartSource : ApiCommerceSource
     {
         public ShoppingCartSource()

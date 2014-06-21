@@ -17,7 +17,6 @@ using PayPalRest = PayPal.Api.Payments;
 
 namespace Kooboo.Commerce.Payments.PayPal
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "PayPal")]
     public class PayPalPaymentProcessor : IPaymentProcessor
     {
         private IOrderService _orderService;

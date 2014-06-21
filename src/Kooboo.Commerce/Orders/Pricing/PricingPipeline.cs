@@ -33,16 +33,13 @@ namespace Kooboo.Commerce.Orders.Pricing
 
         public void Execute(PricingContext context)
         {
-            using (var scope = PricingContext.Begin(context))
+            Prepare(context);
+
+            var stages = _stageTypes.Select(type => CreatePricingStage(type)).ToList();
+
+            foreach (var stage in stages)
             {
-                Prepare(context);
-
-                var stages = _stageTypes.Select(type => CreatePricingStage(type)).ToList();
-
-                foreach (var stage in stages)
-                {
-                    stage.Execute(context);
-                }
+                stage.Execute(context);
             }
         }
 

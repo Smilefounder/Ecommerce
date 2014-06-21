@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.Shipping.FixedRate
 {
-    [Dependency(typeof(IShippingRateProvider), Key = "FixedRate")]
     public class FixedShippingRateProvider : IShippingRateProvider
     {
         public string Name

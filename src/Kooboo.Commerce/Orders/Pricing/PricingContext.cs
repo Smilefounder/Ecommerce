@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
+using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Promotions;
@@ -31,6 +32,12 @@ namespace Kooboo.Commerce.Orders.Pricing
 
         [Reference]
         public Customer Customer { get; set; }
+
+        [Reference]
+        public Address BillingAddress { get; set; }
+
+        [Reference]
+        public Address ShippingAddress { get; set; }
 
         [Param]
         public string Culture { get; set; }
@@ -114,30 +121,14 @@ namespace Kooboo.Commerce.Orders.Pricing
             return @event.FinalPrice;
         }
 
-        #region Scope
-
-        public static PricingContext GetCurrent()
-        {
-            return Scope.Current<PricingContext>();
-        }
-
-        /// <summary>
-        /// Begin a scope for PricingContext, so current PricingContext can be accessed via PricingContext.GetCurrent() within the scope in the same thread.
-        /// </summary>
-        public static Scope<PricingContext> Begin(PricingContext context)
-        {
-            Require.NotNull(context, "context");
-            return Scope.Begin<PricingContext>(context);
-        }
-
-        #endregion
-
         public static PricingContext CreateFrom(ShoppingCart cart)
         {
             var context = new PricingContext
             {
                 Customer = cart.Customer,
-                CouponCode = cart.CouponCode
+                CouponCode = cart.CouponCode,
+                BillingAddress = cart.BillingAddress,
+                ShippingAddress = cart.ShippingAddress
             };
 
             foreach (var item in cart.Items)

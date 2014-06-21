@@ -6,6 +6,7 @@ using Kooboo.Commerce.Customers;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Orders.Pricing;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
@@ -29,6 +30,8 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         IQueryable<ShoppingCart> Query();
 
         void Create(ShoppingCart cart);
+
+        PricingContext CalculatePrice(ShoppingCart cart, ShoppingContext shoppingContext);
 
         bool ApplyCoupon(ShoppingCart cart, string coupon);
 

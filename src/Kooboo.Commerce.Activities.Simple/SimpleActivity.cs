@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.Activities.Simple
 {
-    [Dependency(typeof(IActivity), Key = "SimpleActivity")]
     public class SimpleActivity : ActivityBase<IOrderEvent>
     {
         public override string Name

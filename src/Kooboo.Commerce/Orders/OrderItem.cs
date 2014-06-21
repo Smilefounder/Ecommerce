@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.ShoppingCarts;
+using Kooboo.Commerce.Orders.Pricing;
 
 namespace Kooboo.Commerce.Orders
 {
@@ -44,7 +45,7 @@ namespace Kooboo.Commerce.Orders
 
         public virtual ProductPrice ProductPrice { get; set; }
 
-        public static OrderItem CreateFromCartItem(ShoppingCartItem cartItem, decimal finalUnitPrice)
+        public static OrderItem CreateFrom(ShoppingCartItem cartItem, decimal finalUnitPrice)
         {
             return new OrderItem
             {

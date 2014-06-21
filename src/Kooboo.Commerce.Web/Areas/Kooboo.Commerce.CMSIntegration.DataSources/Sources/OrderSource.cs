@@ -7,7 +7,6 @@ using System.Web;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
 {
-    [Dependency(typeof(ICommerceSource), Key = "Orders")]
     public class OrderSource : ApiCommerceSource
     {
         public OrderSource()

@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.BestSellers
 {
-    [Dependency(typeof(ICommerceSource), Key = "BestSellers")]
     public class BestSellersSource : ICommerceSource
     {
         public string Name

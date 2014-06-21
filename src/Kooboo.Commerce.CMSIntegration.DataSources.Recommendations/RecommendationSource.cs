@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
 {
-    [Dependency(typeof(ICommerceSource), Key = "Recommendations")]
     public class RecommendationSource : ICommerceSource
     {
         public string Name

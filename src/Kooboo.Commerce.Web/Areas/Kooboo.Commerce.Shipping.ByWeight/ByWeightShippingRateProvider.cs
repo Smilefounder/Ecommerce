@@ -6,7 +6,6 @@ using System.Web;
 
 namespace Kooboo.Commerce.Shipping.ByWeight
 {
-    [Dependency(typeof(IShippingRateProvider), Key = "ByWeight")]
     public class ByWeightShippingRateProvider : IShippingRateProvider, IHasCustomShippingRateProviderConfigEditor
     {
         public string Name

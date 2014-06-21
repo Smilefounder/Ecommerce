@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
 {
-    [Dependency(typeof(ICommerceSource), Key = "Accessories")]
     public class AccessorySource : ICommerceSource
     {
         public string Name

@@ -6,7 +6,6 @@ using System.Web;
 
 namespace Kooboo.Commerce.Promotions.Policies.Default
 {
-    [Dependency(typeof(IPromotionPolicy), Key = "Discount Promotion")]
     public class DefaultPromotionPolicy : IPromotionPolicy, IHasCustomPromotionPolicyConfigEditor
     {
         public string Name

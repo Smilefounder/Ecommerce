@@ -13,7 +13,6 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Payments.iDeal
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "iDeal")]
     public class IDealPaymentProcessor : IPaymentProcessor
     {
         private CommerceInstanceContext _commerceInstanceContext;

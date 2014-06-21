@@ -7,7 +7,6 @@ using System.Web;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
 {
-    [Dependency(typeof(ICommerceSource), Key = "PaymentMethods")]
     public class PaymentMethodSource : ApiCommerceSource
     {
         public PaymentMethodSource()

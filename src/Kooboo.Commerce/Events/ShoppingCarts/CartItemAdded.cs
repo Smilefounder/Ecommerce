@@ -11,18 +11,18 @@ namespace Kooboo.Commerce.Events.ShoppingCarts
     [Event(Order = 200, ShortName = "Item Added")]
     public class CartItemAdded : BusinessEvent, IShoppingCartEvent
     {
-        public int CartId { get; set; }
+        public int CartId { get; protected set; }
 
-        public int ItemId { get; set; }
+        public int ItemId { get; protected set; }
 
         [Reference(typeof(Product))]
-        public int ProductId { get; set; }
+        public int ProductId { get; protected set; }
 
         [Reference(typeof(ProductPrice))]
-        public int ProductPriceId { get; set; }
+        public int ProductPriceId { get; protected set; }
 
         [Param]
-        public int Quantity { get; set; }
+        public int Quantity { get; protected set; }
 
         protected CartItemAdded() { }
 

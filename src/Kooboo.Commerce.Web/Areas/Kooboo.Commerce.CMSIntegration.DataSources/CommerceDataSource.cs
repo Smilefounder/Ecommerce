@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
 
         public object Execute(DataSourceContext dataSourceContext)
         {
-            var source = EngineContext.Current.Resolve<ICommerceSource>(SourceName);
+            var source = ResolveCommerceSource();
             var context = new CommerceSourceContext(dataSourceContext)
             {
                 TakeOperation = TakeOperation,
@@ -123,6 +123,13 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
             }
 
             return source.Execute(context);
+        }
+
+        private ICommerceSource ResolveCommerceSource()
+        {
+            return EngineContext.Current
+                                .ResolveAll<ICommerceSource>()
+                                .FirstOrDefault(s => s.Name == SourceName);
         }
 
         private object ResolveParameterValue(string strValue, Type type)

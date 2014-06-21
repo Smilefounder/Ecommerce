@@ -11,7 +11,6 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Payments.Fake
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "Fake")]
     public class FakePaymentProcessor : IPaymentProcessor
     {
         private CommerceInstanceContext _commerceInstanceContext;

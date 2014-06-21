@@ -14,7 +14,6 @@ using System.Web;
 
 namespace Kooboo.Commerce.Payments.Buckaroo
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "Kooboo.Commerce.Payments.Buckaroo.BuckarooPaymentProcessor")]
     public class BuckarooPaymentProcessor : IPaymentProcessor
     {
         private CommerceInstanceContext _commerceInstanceContext;

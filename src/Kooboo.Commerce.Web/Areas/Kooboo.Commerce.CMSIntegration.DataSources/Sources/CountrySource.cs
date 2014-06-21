@@ -7,7 +7,6 @@ using System.Web;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
 {
-    [Dependency(typeof(ICommerceSource), Key = "Countries")]
     public class CountrySource : ApiCommerceSource
     {
         public CountrySource()

@@ -9,7 +9,6 @@ using System.Web;
 
 namespace Kooboo.Commerce.Payments.AuthorizeNet
 {
-    [Dependency(typeof(IPaymentProcessor), Key = "AuthorizeNet")]
     public class AuthorizeNetPaymentProcessor : IPaymentProcessor
     {
         public string Name

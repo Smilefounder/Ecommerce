@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Orders.Services
         private readonly IRepository<OrderCustomField> _orderCustomFieldRepository;
         private readonly IRepository<PaymentMethod> _paymentMethodRepository;
         private readonly IRepository<Country> _countryRepository;
-        private readonly IShoppingCartService _shoppingCartService;
+        private readonly IShoppingCartService _cartService;
         private readonly IProductService _productService;
 
         public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<OrderCustomField> orderCustomFieldRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService)
@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Orders.Services
             _orderCustomFieldRepository = orderCustomFieldRepository;
             _paymentMethodRepository = paymentMethodRepository;
             _countryRepository = countryRepository;
-            _shoppingCartService = shoppingCartService;
+            _cartService = shoppingCartService;
             _productService = productService;
         }
 
@@ -100,17 +100,24 @@ namespace Kooboo.Commerce.Orders.Services
             Require.NotNull(cart.ShippingAddress, "cart.ShippingAddress", "Shipping address is required.");
             Require.That(cart.Items.Count > 0, "cart.Items", "Cannot create order from an empty cart.");
 
+            // Recalculate price
+            var pricingContext = _cartService.CalculatePrice(cart, context);
+
             var order = new Order();
             order.ShoppingCartId = cart.Id;
             order.CustomerId = cart.Customer.Id;
             order.Coupon = cart.CouponCode;
 
-            var shoppingContext = context.Clone();
-            shoppingContext.CustomerId = cart.Customer.Id;
-
-            foreach (var item in cart.Items)
+            foreach (var item in pricingContext.Items)
             {
-                var orderItem = OrderItem.CreateFromCartItem(item, item.ProductPrice.RetailPrice);
+                var cartItem = cart.Items.FirstOrDefault(i => i.Id == item.ItemId);
+                
+                var orderItem = OrderItem.CreateFrom(cartItem, item.RetailPrice);
+                orderItem.UnitPrice = item.RetailPrice;
+                orderItem.Discount = item.Subtotal.Discount;
+                orderItem.SubTotal = item.Subtotal.OriginalValue;
+                orderItem.Total = item.Subtotal.FinalValue;
+
                 order.OrderItems.Add(orderItem);
             }
 
@@ -119,31 +126,6 @@ namespace Kooboo.Commerce.Orders.Services
             if (cart.BillingAddress != null)
             {
                 order.BillingAddress = OrderAddress.CreateFrom(cart.BillingAddress);
-            }
-
-            // Recalculate price
-            var pricingContext = new PricingContext
-            {
-                Currency = shoppingContext.Currency,
-                CouponCode = order.Coupon,
-                Culture = shoppingContext.Culture,
-                Customer = cart.Customer
-            };
-
-            foreach (var item in order.OrderItems)
-            {
-                pricingContext.AddPricingItem(item.Id, item.ProductPrice, item.Quantity);
-            }
-
-            new PricingPipeline().Execute(pricingContext);
-
-            foreach (var item in order.OrderItems)
-            {
-                var pricingItem = pricingContext.Items.FirstOrDefault(x => x.ItemId == item.Id);
-                item.UnitPrice = pricingItem.RetailPrice;
-                item.Discount = pricingItem.Subtotal.Discount;
-                item.SubTotal = pricingItem.Subtotal.OriginalValue;
-                item.Total = pricingItem.Subtotal.FinalValue;
             }
 
             order.ShippingCost = pricingContext.ShippingCost.FinalValue;
