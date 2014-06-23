@@ -37,6 +37,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 
             return new SubmissionExecuteResult
             {
+                RedirectUrl = ResolveUrl(model.SuccessUrl, ControllerContext),
                 Data = new AddAddressResult
                 {
                     AddressId = addressId

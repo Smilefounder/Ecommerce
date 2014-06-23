@@ -14,7 +14,10 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
             var cartId = HttpContext.CurrentCartId();
             Api.ShoppingCarts.ChangeItemQuantity(cartId, model.ItemId, model.NewQuantity);
 
-            return null;
+            return new SubmissionExecuteResult
+            {
+                RedirectUrl = ResolveUrl(model.SuccessUrl, ControllerContext)
+            };
         }
     }
 }

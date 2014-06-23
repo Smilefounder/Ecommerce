@@ -62,6 +62,7 @@
     <Compile Include="Carts\ChangeBillingAddressPlugin.cs" />
     <Compile Include="Carts\ChangeCartItemQuantityPlugin.cs" />
     <Compile Include="Carts\ChangeShippingAddressPlugin.cs" />
+    <Compile Include="Customers\Models\CustomerLogoutModel.cs" />
     <Compile Include="Extensions\HttpContextExtensions.cs" />
     <Compile Include="Carts\Models\ChangeBillingAddressModel.cs" />
     <Compile Include="Carts\Models\ChangeShippingAddressModel.cs" />
@@ -81,11 +82,12 @@
     <Compile Include="Customers\RegisterCustomerPlugin.cs" />
     <Compile Include="Customers\RegisterCustomerResult.cs" />
     <Compile Include="InvalidModelStateException.cs" />
+    <Compile Include="Orders\DefaultPaymentPlugin.cs" />
+    <Compile Include="Orders\Models\PaymentModelBase.cs" />
     <Compile Include="Orders\Models\SubmitOrderModel.cs" />
+    <Compile Include="PluginParametersBuilder.cs" />
     <Compile Include="SubmissionExecuteResult.cs" />
-    <Compile Include="SubmissionModel.cs" />
-    <Compile Include="Orders\Models\PayOrderModel.cs" />
-    <Compile Include="Orders\PayOrderPlugin.cs" />
+    <Compile Include="Orders\PaymentPluginBase.cs" />
     <Compile Include="Orders\PayOrderResult.cs" />
     <Compile Include="Orders\SubmitOrderPlugin.cs" />
     <Compile Include="Orders\SubmitOrderResult.cs" />

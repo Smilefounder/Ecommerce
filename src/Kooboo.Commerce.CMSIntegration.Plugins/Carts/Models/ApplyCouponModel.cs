@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models
 {
-    public class ApplyCouponModel : SubmissionModel
+    public class ApplyCouponModel
     {
         public string Coupon { get; set; }
+
+        public string SuccessUrl { get; set; }
     }
 }

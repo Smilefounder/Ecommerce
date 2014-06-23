@@ -16,6 +16,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 
             return new SubmissionExecuteResult
             {
+                RedirectUrl = ResolveUrl(model.SuccessUrl, ControllerContext),
                 Data = new ApplyCouponResult
                 {
                     Applied = success

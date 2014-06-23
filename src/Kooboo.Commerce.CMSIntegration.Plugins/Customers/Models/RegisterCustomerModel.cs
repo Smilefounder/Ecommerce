@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
 {
-    public class RegisterCustomerModel : SubmissionModel
+    public class RegisterCustomerModel
     {
         public string FirstName { get; set; }
 
@@ -33,5 +33,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
         public IDictionary<string, string> CustomFields { get; set; }
 
         public bool SetAuthCookie { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

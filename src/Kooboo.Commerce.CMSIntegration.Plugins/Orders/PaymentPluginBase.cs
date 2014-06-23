@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
 {
-    public class PayOrderPlugin : SubmissionPluginBase<PayOrderModel>
+    public abstract class PaymentPluginBase<TModel> : SubmissionPluginBase<TModel>
+        where TModel : PaymentModelBase, new()
     {
-        protected override SubmissionExecuteResult Execute(PayOrderModel model)
+        protected override SubmissionExecuteResult Execute(TModel model)
         {
             var order = Site.Commerce().Orders.ById(model.OrderId).FirstOrDefault();
             var paymentMethod = Site.Commerce().PaymentMethods.ById(model.PaymentMethodId).FirstOrDefault();
 
-            var returnUrl = ResolveUrl(model.SuccessUrl, ControllerContext);
+            var returnUrl = ResolveUrl(model.ReturnUrl, ControllerContext);
 
             // TODO: Don't calculate payment method cost here, calculate in the commerce side
             var payment = new PaymentRequest
@@ -28,9 +29,11 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
                 ReturnUrl = returnUrl
             };
 
-            if (model.PaymentParameters != null && model.PaymentParameters.Count > 0)
+            var parameters = model.GetPaymentParameters();
+
+            if (parameters != null && parameters.Count > 0)
             {
-                foreach (var each in model.PaymentParameters)
+                foreach (var each in parameters)
                 {
                     payment.Parameters.Add(each.Key, each.Value);
                 }

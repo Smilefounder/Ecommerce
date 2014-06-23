@@ -20,6 +20,11 @@ namespace Kooboo.Commerce.Web
 
         public string DecorateReturn(string returnUrl, Payment payment)
         {
+            if (String.IsNullOrEmpty(returnUrl))
+            {
+                return null;
+            }
+
             var parameters = new NameValueCollection();
             parameters.Add("paymentId", payment.Id.ToString());
             parameters.Add("status", payment.Status.ToString());

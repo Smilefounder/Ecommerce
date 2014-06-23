@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 Site.Commerce().ShoppingCarts.MigrateCart(customer.Id, sessionId);
             }
 
-            var returnUrl = MemberPluginHelper.GetReturnUrl(ControllerContext);
+            var returnUrl = ResolveUrl(model.ReturnUrl, ControllerContext);
 
             return new SubmissionExecuteResult
             {

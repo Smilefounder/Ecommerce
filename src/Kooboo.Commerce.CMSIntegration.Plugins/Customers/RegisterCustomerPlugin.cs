@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
         {
             _userManager = userManager;
 
-            Parameters.Add("SetAuthCookie", true);
+            Parameters["SetAuthCookie"] = true;
         }
 
         protected override SubmissionExecuteResult Execute(RegisterCustomerModel model)
@@ -63,6 +63,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 
             return new SubmissionExecuteResult
             {
+                RedirectUrl = ResolveUrl(model.ReturnUrl, ControllerContext),
                 Data = new RegisterCustomerResult
                 {
                     CustomerId = customer.Id

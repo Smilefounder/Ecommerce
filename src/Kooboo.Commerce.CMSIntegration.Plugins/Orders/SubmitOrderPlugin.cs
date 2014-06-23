@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
     {
         public SubmitOrderPlugin()
         {
-            Parameters.Add("ExpireCart", false);
+            Parameters["ExpireCart"] = "true";
         }
 
         protected override SubmissionExecuteResult Execute(SubmitOrderModel model)
@@ -35,6 +35,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
 
             return new SubmissionExecuteResult
             {
+                RedirectUrl = ResolveUrl(model.ReturnUrl, ControllerContext),
                 Data = new SubmitOrderResult
                 {
                     OrderId = orderId

@@ -19,6 +19,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 
             return new SubmissionExecuteResult
             {
+                RedirectUrl = ResolveUrl(model.SuccessUrl, ControllerContext),
                 Data = new AddCartItemResult
                 {
                     ItemId = itemId

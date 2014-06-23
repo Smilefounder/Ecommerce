@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
 {
-    public class AddAddressModel : SubmissionModel
+    public class AddAddressModel
     {
         public string FirstName { get; set; }
 
@@ -25,5 +25,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
         public string Address1 { get; set; }
 
         public string Address2 { get; set; }
+
+        public string SuccessUrl { get; set; }
     }
 }

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models
 {
-    public class AddItemModel : SubmissionModel
+    public class AddItemModel
     {
         public int ProductPriceId { get; set; }
 
         public int Quantity { get; set; }
+
+        public string SuccessUrl { get; set; }
     }
 }

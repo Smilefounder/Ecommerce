@@ -15,7 +15,10 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
             var cartId = HttpContext.CurrentCartId();
             Api.ShoppingCarts.ChangeBillingAddress(cartId, new Address { Id = model.NewBillingAddressId });
 
-            return null;
+            return new SubmissionExecuteResult
+            {
+                RedirectUrl = ResolveUrl(model.SuccessUrl, ControllerContext)
+            };
         }
     }
 }

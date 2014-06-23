@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders.Models
 {
-    public class SubmitOrderModel : SubmissionModel
+    public class SubmitOrderModel
     {
         public bool ExpireCart { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

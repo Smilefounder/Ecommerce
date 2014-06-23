@@ -41,29 +41,15 @@ namespace Kooboo.Commerce.Payments.Fake
         public ProcessPaymentResult Process(PaymentProcessingContext context)
         {
             var commerceName = _commerceInstanceContext.CurrentInstance.Name;
-            var redirectUrl = Strings.AreaName 
+            var redirectUrl = Strings.AreaName
                 + "/Home/Gateway?commerceName=" + commerceName
                 + "&paymentId=" + context.Payment.Id
                 + "&currency=" + context.CurrencyCode
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(context.ReturnUrl);
 
-            var commerceUrl = ConfigurationManager.AppSettings["CommerceUrl"];
-
-            if (!String.IsNullOrEmpty(commerceUrl))
-            {
-                redirectUrl = UrlUtility.Combine(commerceUrl, redirectUrl);
-            }
-            else
-            {
-                redirectUrl = redirectUrl.ToFullUrl(HttpContextAccessor());
-            }
+            redirectUrl = redirectUrl.ToFullUrl(HttpContextAccessor());
 
             return ProcessPaymentResult.Pending(redirectUrl, Guid.NewGuid().ToString("N"));
-        }
-
-        public PaymentProcessorEditor GetEditor(PaymentMethod paymentMethod)
-        {
-            return null;
         }
     }
 }

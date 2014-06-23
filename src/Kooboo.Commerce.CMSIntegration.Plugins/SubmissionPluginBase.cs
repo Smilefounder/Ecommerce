@@ -12,11 +12,12 @@ using Kooboo.Web.Mvc;
 using Kooboo.CMS.Sites.View;
 using System.Web;
 using Kooboo.Commerce.API;
+using System.ComponentModel;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins
 {
     public abstract class SubmissionPluginBase<TModel> : ISubmissionPlugin
-        where TModel : SubmissionModel, new()
+        where TModel : new()
     {
         private Dictionary<string, object> _parameters = new Dictionary<string, object>();
 
@@ -52,8 +53,11 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
 
         protected SubmissionPluginBase()
         {
-            _parameters.Add("SuccessUrl", "");
-            _parameters.Add("FailedUrl", "");
+            var parameters = PluginParametersBuilder.Build(typeof(TModel));
+            foreach (var each in parameters)
+            {
+                Parameters.Add(each.Key, each.Value);
+            }
         }
 
         public System.Web.Mvc.ActionResult Submit(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
@@ -87,11 +91,6 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
                     redirectUrl = result.RedirectUrl;
                 }
 
-                if (String.IsNullOrEmpty(redirectUrl))
-                {
-                    redirectUrl = ResolveUrl(model.SuccessUrl, controllerContext);
-                }
-
                 if (!String.IsNullOrEmpty(redirectUrl))
                 {
                     return RedirectTo(redirectUrl, result == null ? null : result.Data);
@@ -120,19 +119,11 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
             {
                 Kooboo.HealthMonitoring.Log.LogException(ex);
 
-                var redirectUrl = ResolveUrl(model.FailedUrl, ControllerContext);
-                if (!String.IsNullOrEmpty(redirectUrl))
-                {
-                    return RedirectTo(redirectUrl, null);
-                }
-                else
-                {
-                    var resultData = new JsonResultData();
-                    resultData.Success = false;
-                    resultData.AddException(ex);
+                var resultData = new JsonResultData();
+                resultData.Success = false;
+                resultData.AddException(ex);
 
-                    return new JsonResult { Data = resultData };
-                }
+                return new JsonResult { Data = resultData };
             }
             finally
             {
@@ -177,9 +168,5 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
         }
 
         protected abstract SubmissionExecuteResult Execute(TModel model);
-    }
-
-    public abstract class SubmissionPluginBase : SubmissionPluginBase<SubmissionModel>
-    {
     }
 }

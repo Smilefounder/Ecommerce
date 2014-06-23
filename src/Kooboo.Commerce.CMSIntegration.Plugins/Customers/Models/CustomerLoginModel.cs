@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
 {
-    public class CustomerLoginModel : SubmissionModel
+    public class CustomerLoginModel
     {
         [Required, EmailAddress]
         public string Email { get; set; }
@@ -16,5 +16,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

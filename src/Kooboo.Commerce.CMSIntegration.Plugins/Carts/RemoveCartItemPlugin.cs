@@ -14,7 +14,10 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
             var cartId = HttpContext.CurrentCartId();
             Api.ShoppingCarts.RemoveItem(cartId, model.ItemId);
 
-            return null;
+            return new SubmissionExecuteResult
+            {
+                RedirectUrl = ResolveUrl(model.SuccessUrl, ControllerContext)
+            };
         }
     }
 }

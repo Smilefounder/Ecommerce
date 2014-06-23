@@ -156,6 +156,7 @@
                     <form id="checkout-form">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="OrderId" />
+                        <input type="hidden" name="ReturnUrl" value="/Checkout-Thankyou" />
                         <div class="payment-list">
                             @if (paymentMethods.Count > 0) { 
                             <table>
@@ -254,7 +255,7 @@
 
         function PayOrder() {
             $.ajax({
-                url: '@Url.FrontUrl().SubmissionUrl("PayOrder")',
+                url: '@Url.FrontUrl().SubmissionUrl("FakePayment")',
                 type: 'POST',
                 data: $('#checkout-form').serializeArray()
             })

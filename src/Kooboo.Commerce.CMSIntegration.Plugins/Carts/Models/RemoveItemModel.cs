@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models
 {
-    public class RemoveItemModel : SubmissionModel
+    public class RemoveItemModel
     {
         public int ItemId { get; set; }
+
+        public string SuccessUrl { get; set; }
     }
 }
