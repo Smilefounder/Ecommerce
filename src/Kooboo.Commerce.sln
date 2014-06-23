@@ -60,13 +60,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.RestPro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.CmsSite", "Kooboo.Commerce.API.CmsSite\Kooboo.Commerce.API.CmsSite.csproj", "{5BA65D94-5968-4861-907A-460C252433CD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tab Plugins", "Tab Plugins", "{0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Accessories", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Accessories\Kooboo.Commerce.Accessories.csproj", "{6D52179D-B30F-4567-8D6B-25CF223E2F8A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accessories", "Accessories", "{0D43CCD9-50BF-4653-9EE5-4A73175B770B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Product Accessories", "Product Accessories", "{0D43CCD9-50BF-4653-9EE5-4A73175B770B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Recommendations", "Recommendations", "{11931A08-B935-4F57-952D-900559B9BBDD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Product Recommendations", "Product Recommendations", "{11931A08-B935-4F57-952D-900559B9BBDD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Recommendations", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Recommendations\Kooboo.Commerce.Recommendations.csproj", "{5FD329F3-F2EF-4BC3-82B9-C72676D85B68}"
 EndProject
@@ -135,6 +135,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Payments.Fake.CMSIntegration", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Payments.Fake.CMSIntegration\Kooboo.Commerce.Payments.Fake.CMSIntegration.csproj", "{8B439121-8AED-44F7-A16E-29A5E44ACB5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Web.Framework", "Kooboo.Commerce.Web.Framework\Kooboo.Commerce.Web.Framework.csproj", "{FADA65D6-57B3-4049-9961-5AEAB7806297}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Tabs.Products.Sample", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Tabs.Products.Sample\Kooboo.Commerce.Tabs.Products.Sample.csproj", "{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -306,6 +308,10 @@ Global
 		{FADA65D6-57B3-4049-9961-5AEAB7806297}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FADA65D6-57B3-4049-9961-5AEAB7806297}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FADA65D6-57B3-4049-9961-5AEAB7806297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -368,5 +374,6 @@ Global
 		{C08A9C01-1ED5-4799-AF70-AE35119BA711} = {D5668F6F-3D7F-405B-BED9-BC85508CECB1}
 		{8B439121-8AED-44F7-A16E-29A5E44ACB5D} = {A8C762D0-2D04-4404-BAF9-94081BE5FDD2}
 		{FADA65D6-57B3-4049-9961-5AEAB7806297} = {815F0052-9314-40A9-BA1B-71572CCD98AD}
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92} = {0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}
 	EndGlobalSection
 EndGlobal
