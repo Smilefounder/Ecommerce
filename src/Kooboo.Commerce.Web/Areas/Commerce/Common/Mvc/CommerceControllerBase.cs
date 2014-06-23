@@ -1,14 +1,14 @@
 ﻿using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Web.Framework.Tabs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.Commerce.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Mvc.Controllers
+namespace Kooboo.Commerce.Web.Mvc
 {
     public class CommerceControllerBase : Controller
     {
@@ -23,6 +23,12 @@ namespace Kooboo.Commerce.Web.Mvc.Controllers
         protected JsonNetResult JsonNet(object data)
         {
             return new JsonNetResult() { Data = data };
+        }
+
+        protected void LoadTabPlugins()
+        {
+            var plugins = TabPlugins.LoadTabPlugins(ControllerContext);
+            ViewData["LoadedTabPlugins"] = plugins;
         }
     }
 }

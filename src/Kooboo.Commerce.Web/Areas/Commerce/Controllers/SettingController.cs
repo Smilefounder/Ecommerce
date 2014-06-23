@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Settings;
 using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Settings.Services;

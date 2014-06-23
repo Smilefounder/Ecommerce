@@ -4,63 +4,60 @@
 
     var productType = (ProductType)ViewBag.ProductType;
     var controls = FormControls.Controls().ToList();
-    var customTabs = Kooboo.CMS.Sites.Extension.UI.Tabs.CustomTabs.GetTabs(ViewContext.RequestContext).ToArray();
 }
 @section Panel {
     @Html.HeaderPanel().Buttons(buttons =>
-{
-    buttons.Add("Save", "save").WithUrl("javascript:vm.saveData();");
-    buttons.AddCancelButton();
-})
+    {
+        buttons.Add("Save", "save").WithUrl("javascript:vm.saveData();");
+        buttons.AddCancelButton();
+    })
 }
 
 <div id="product-edit-main">
     <div class="block" data-bind="with:data">
         <h1 class="title"><span>@ViewBag.Title:</span><span data-bind="text: Name"></span></h1>
-        <form>
-            <div id="J_ProductTabs">
-                <ul>
-                    <li><a href="#basicInfo">@("Basic info".Localize())</a></li>
-                    <li data-bind="visible: ProductTypeId"><a href="#customFields">@("Custom Fields".Localize())</a></li>
-                    <li><a href="#images">@("Images".Localize())</a></li>
-                    <li><a href="#categories">@("Categories".Localize())</a></li>
-                    <li data-bind="visible: ProductTypeId"><a href="#variants">@("Variants & Prices".Localize())</a></li>
-                    @foreach (var tab in customTabs)
-                {
-                        <li>
-                            <a href="#@tab.Name">@tab.DisplayText.Localize()</a>
-                        </li>
-                }
-                </ul>
-                <div id="basicInfo">
+        <div id="J_ProductTabs">
+            <ul>
+                <li><a href="#basicInfo">@("Basic info".Localize())</a></li>
+                <li data-bind="visible: ProductTypeId"><a href="#customFields">@("Custom Fields".Localize())</a></li>
+                <li><a href="#images">@("Images".Localize())</a></li>
+                <li><a href="#categories">@("Categories".Localize())</a></li>
+                <li data-bind="visible: ProductTypeId"><a href="#variants">@("Variants & Prices".Localize())</a></li>
+                @Html.Partial("_TabPluginHeaders")
+            </ul>
+            <div id="basicInfo">
+                <form>
                     @Html.Partial("_TabBasicInfo")
-                </div>
-                <div id="categories">
+                </form>
+            </div>
+            <div id="categories">
+                <form>
                     <div class="block treeview">
                         <ul id="category_tree" data-bind="template: { name: 'category_template', foreach: $root.Categories }"></ul>
                     </div>
-                </div>
-                <div id="images">
+                </form>
+            </div>
+            <div id="images">
+                <form>
                     <div class="common-form">
                         <table>
                             <tbody data-bind="template: { name: 'image_type_template', foreach: $root.ImageTypes }"></tbody>
                         </table>
                     </div>
-                </div>
-                <div id="variants">
-                    @Html.Partial("_TabPrices")
-                </div>
-                <div id="customFields">
-                    @Html.Partial("_TabCustomFields")
-                </div>
-                @foreach (var tab in customTabs)
-            {
-                    <div class="tab-content" id="@tab.Name">
-                        @Html.Partial(tab.VirtualPath)
-                    </div>
-            }
+                </form>
             </div>
-        </form>
+            <div id="variants">
+                <form>
+                    @Html.Partial("_TabPrices")
+                </form>
+            </div>
+            <div id="customFields">
+                <form>
+                    @Html.Partial("_TabCustomFields")
+                </form>
+            </div>
+            @Html.Partial("_TabPluginContents")
+        </div>
     </div>
 </div>
 

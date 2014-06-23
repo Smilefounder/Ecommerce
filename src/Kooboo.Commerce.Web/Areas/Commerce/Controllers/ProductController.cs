@@ -8,7 +8,7 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
-using Kooboo.Commerce.Web.Mvc.Controllers;
+using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.ImageSizes;
 using Kooboo.Commerce.Brands;
@@ -62,6 +62,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 .ToPagedList(page, pageSize);
             ViewBag.ProductTypes = productTypes;
             ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<ExtendedQuery.ProductQuery>();
+
             return View(model);
         }
 
@@ -69,6 +70,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Create(int productTypeId)
         {
             ViewBag.ProductType = _productTypeService.GetById(productTypeId);
+
+            LoadTabPlugins();
+
             return View("Edit");
         }
 
@@ -79,6 +83,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var productType = _productTypeService.GetById(product.ProductTypeId);
 
             ViewBag.ProductType = productType;
+
+            LoadTabPlugins();
 
             return View("Edit");
         }

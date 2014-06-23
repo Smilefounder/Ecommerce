@@ -1,0 +1,13 @@
+﻿@{
+    var plugins = ViewData["LoadedTabPlugins"] as IEnumerable<LoadedTabPlugin>;
+}
+
+@if (plugins != null)
+{
+    foreach (var each in plugins)
+    {
+        <li>
+            <a href="#@each.TabPlugin.Name">@each.TabPlugin.DisplayName.Localize()</a>
+        </li>
+    }
+}

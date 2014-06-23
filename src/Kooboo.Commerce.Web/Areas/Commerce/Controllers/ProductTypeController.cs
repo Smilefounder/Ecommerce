@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.EAV.Services;

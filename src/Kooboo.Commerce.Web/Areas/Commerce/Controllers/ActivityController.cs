@@ -7,7 +7,6 @@ using Kooboo.Commerce.Rules.Expressions.Formatting;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using Kooboo.Commerce.Web.Mvc.ModelBinding;
 using Kooboo.Extensions;
 using System;

@@ -14,7 +14,7 @@
         ProductType: {
             CustomFields: @(Html.Raw(productType.CustomFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson())),
             VariationFields: @(Html.Raw(productType.VariationFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson()))
-            }
+        }
     };
 
     var vm = new ObjectModel({
@@ -31,16 +31,18 @@
             self.LoadingCategory = false;
 
             self.ComputeDistinctVariantValuesByFields();
-
-            kb.events.fire('Product/Edit/ViewModelReady', self, {
-                productId: self.data().Id()
-            });
         },
         onSaveSuccess: function (self, info) {
-            kb.events.fire('Product/Edit/FormSubmitted', self, {
-                productId: self.data().Id()
-            })
-            .done(function () {
+
+            var $tabs = $('.tab-plugin');
+            var tasks = [];
+
+            $.each($tabs, function () {
+                var $form = $(this).find('form');
+                tasks.push($.post('/Commerce/TabPlugin/Submit', $form.serializeArray()));
+            });
+
+            $.when.apply(this, tasks).done(function () {
                 utils.showMessage('Notice', info.message, 'info');
                 window.leaveConfirm.pass();
                 setTimeout(function () {
@@ -543,10 +545,6 @@
 
         $.when(vm.getData())
          .done(function () {
-             kb.events.fire('Product/Edit/FormDataBinding', vm, {
-                 viewModel: vm
-             });
-
              ko.applyBindings(vm, document.getElementById('product-edit-main'));
 
              kb.ui.unobtrusive.initialize(document.body);

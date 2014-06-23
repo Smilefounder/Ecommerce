@@ -7,7 +7,6 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

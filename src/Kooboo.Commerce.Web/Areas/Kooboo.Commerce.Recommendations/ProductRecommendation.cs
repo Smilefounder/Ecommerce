@@ -9,6 +9,10 @@ namespace Kooboo.Commerce.Recommendations
     {
         public int ProductId { get; set; }
 
+        public string ProductName { get; set; }
+
+        public string BrandName { get; set; }
+
         public int Rank { get; set; }
     }
 }

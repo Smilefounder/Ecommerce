@@ -2,7 +2,6 @@
 using Kooboo.Commerce.API.HAL.Persistence;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.HAL;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

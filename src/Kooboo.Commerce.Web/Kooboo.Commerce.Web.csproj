@@ -268,6 +268,7 @@
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ExtendedQueryRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\TabPluginRegistrar.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
     <Compile Include="Areas\Commerce\Common\Extensions\JsonExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Extensions\TimeSpanExtensions.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Areas\Commerce\Common\Form\Validation\StringLengthValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\ValidationExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Initialization\CommerceInstanceInitializer.cs" />
+    <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\ObjectModelBinder.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
     <Compile Include="Areas\Commerce\Controllers\ActivityController.cs" />
@@ -317,6 +319,7 @@
     <Compile Include="Areas\Commerce\Controllers\ConditionController.cs" />
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\TabPluginController.cs" />
     <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ActivityRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\PaymentProcessorRegistrar.cs" />
@@ -3519,6 +3522,8 @@
     <Content Include="Areas\Commerce\Views\PaymentMethod\_DefaultConfigEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\_DefaultShippingRateProviderConfigEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\_DefaultPolicyConfigEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_TabPluginHeaders.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_TabPluginContents.cshtml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
@@ -3711,6 +3716,10 @@
     <ProjectReference Include="..\Kooboo.Commerce.Products.ExtendedQuery\Kooboo.Commerce.Products.ExtendedQuery.csproj">
       <Project>{78e5afa1-8282-4d0f-b380-b4a2b46b55d2}</Project>
       <Name>Kooboo.Commerce.Products.ExtendedQuery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.Web.Framework\Kooboo.Commerce.Web.Framework.csproj">
+      <Project>{fada65d6-57b3-4049-9961-5aeab7806297}</Project>
+      <Name>Kooboo.Commerce.Web.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce\Kooboo.Commerce.csproj">
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>

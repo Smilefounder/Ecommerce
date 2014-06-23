@@ -11,7 +11,6 @@ using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Customers;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Locations.Services;
 

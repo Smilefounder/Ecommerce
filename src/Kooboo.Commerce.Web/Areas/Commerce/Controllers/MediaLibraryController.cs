@@ -1,5 +1,5 @@
 ﻿using Kooboo.Commerce.Handlers;
-using Kooboo.Commerce.Web.Mvc.Controllers;
+using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

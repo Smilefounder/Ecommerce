@@ -26,10 +26,15 @@ namespace Kooboo.Commerce.Web.Mvc.ModelBinding
 
         static Type GetModelType(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
         {
-            if (bindingContext.ValueProvider.ContainsPrefix(bindingContext.ModelName + ".BindingType"))
+            var key = "BindingType";
+            if (!String.IsNullOrEmpty(bindingContext.ModelName))
             {
-                modelType = System.Type.GetType(((string[])bindingContext.ValueProvider.GetValue
-                (bindingContext.ModelName + ".BindingType").RawValue)[0]);
+                key = bindingContext.ModelName + "." + key;
+            }
+
+            if (bindingContext.ValueProvider.ContainsPrefix(key))
+            {
+                modelType = System.Type.GetType(((string[])bindingContext.ValueProvider.GetValue(key).RawValue)[0]);
             }
 
             return modelType;

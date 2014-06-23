@@ -3,7 +3,7 @@ using Kooboo.Commerce.Rules.Expressions;
 using Kooboo.Commerce.Rules.Expressions.Formatting;
 using Kooboo.Commerce.Rules.Parsing;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
-using Kooboo.Commerce.Web.Mvc.Controllers;
+using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Orders;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Customers;

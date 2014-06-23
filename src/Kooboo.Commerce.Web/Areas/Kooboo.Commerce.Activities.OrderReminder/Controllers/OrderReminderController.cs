@@ -2,7 +2,6 @@
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

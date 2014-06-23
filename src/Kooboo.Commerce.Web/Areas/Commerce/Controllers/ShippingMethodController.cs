@@ -3,7 +3,6 @@ using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.Commerce.Shipping.Services;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,6 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Promotions.Policies.Default.Models;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Web.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

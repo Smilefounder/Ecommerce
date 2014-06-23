@@ -1,0 +1,26 @@
+﻿@{
+    var plugins = ViewData["LoadedTabPlugins"] as IEnumerable<LoadedTabPlugin>;
+}
+
+@if (plugins != null)
+{
+    foreach (var each in plugins)
+    {
+        var submittable = each.TabPlugin as ISubmittable;
+        
+        <div class="tab-content tab-plugin" data-name="@each.TabPlugin.Name" id="@each.TabPlugin.Name">
+            @if (submittable == null)
+            {
+                @Html.Partial(each.TabPlugin.VirtualPath, each.Context.Model, each.Context.ViewData)
+            }
+            else
+            {
+                <form>
+                    <input type="hidden" name="PluginType" value="@each.TabPlugin.GetType().AssemblyQualifiedName" />
+                    <input type="hidden" name="BindingType" value="@submittable.ModelType.AssemblyQualifiedName" />
+                    @Html.Partial(each.TabPlugin.VirtualPath, each.Context.Model, each.Context.ViewData)
+                </form>
+            }
+        </div>
+    }
+}

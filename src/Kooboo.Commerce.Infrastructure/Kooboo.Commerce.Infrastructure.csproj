@@ -234,7 +234,6 @@
     <Compile Include="Web\Http\TransactionalAttribute.cs" />
     <Compile Include="Web\Mvc\HandleAjaxFormErrorAttribute.cs" />
     <Compile Include="Web\Mvc\AjaxFormResult.cs" />
-    <Compile Include="Web\Mvc\CommerceControllerBase.cs" />
     <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
     <Compile Include="Web\Mvc\ExternalPostResult.cs" />
     <Compile Include="Web\Mvc\TransactionalAttribute.cs" />

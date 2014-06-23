@@ -34,6 +34,7 @@ namespace Kooboo.Commerce.Settings.Services
             if (entry != null)
             {
                 entry.SetValue(value);
+                _repository.Database.SaveChanges();
             }
             else
             {

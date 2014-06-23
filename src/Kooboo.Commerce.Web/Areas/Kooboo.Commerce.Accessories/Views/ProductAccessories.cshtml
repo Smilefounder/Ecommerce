@@ -1,8 +1,11 @@
-﻿<div class="simple-table">
+﻿@model AccessoriesTabModel
+
+@Html.HiddenFor(m => m.ProductId)
+<div class="simple-table">
     <div>
         <input type="text" id="accessory-searchbox" class="large" placeholder="@("Type keyword to search product")" />
     </div>
-    <table style="margin-top:10px">
+    <table style="margin-top:10px" id="accessory-list-table">
         <thead>
             <tr>
                 <th>@("Accessory Product Name".Localize())</th>
@@ -11,88 +14,109 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: $root.accessories">
-            <tr>
-                <td data-bind="text: productName"></td>
-                <td data-bind="text: brandName"></td>
-                <td>
-                    <input type="text" class="mini" data-bind="value: rank" />
-                </td>
-                <td>
-                    <a href="#" data-bind="click: $root.removeAccessory">
-                        @Html.IconImage("minus small")
-                    </a>
+        <tbody>
+            <tr class="empty">
+                <td colspan="100">
+                    @("Empty".Localize())
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 
+<script type="text/html" id="AccessoryListItemTemplate">
+    <tr>
+        <td>
+            ${ProductName}
+            <input type="hidden" name="Accessories[${Index}].ProductId" value="${ProductId}" />
+            <input type="hidden" name="Accessories[${Index}].ProductName" value="${ProductName}" />
+        </td>
+        <td>
+            ${BrandName}
+            <input type="hidden" name="Accessories[${Index}].BrandName" value="${BrandName}" />
+        </td>
+        <td>
+            <input type="text" name="Accessories[${Index}].Rank" class="mini" value="${Rank}" />
+        </td>
+        <td>
+            <a href="#" data-toggle="remove-product-accessory">@Html.IconImage("minus small")</a>
+        </td>
+    </tr>
+</script>
+
 <script>
     (function ($) {
-        var commerceName = '@(ViewContext.RequestContext.GetRequestValue("commerceName"))';
-        var vm = null;
 
-        kb.events.on('Product/Edit/FormDataBinding', function (sender, args) {
-            vm = args.viewModel;
-            vm.accessories = ko.observableArray();
-            vm.removeAccessory = function (accessory) {
-                vm.accessories.remove(accessory);
-            }
-        });
+        var model = @Html.Raw(Model.ToJson());
+        var $table = $('#accessory-list-table');
 
-        kb.events.on('Product/Edit/ViewModelReady', function (sender, args) {
-            loadAccessories(args.productId).done(function (data) {
-                $.each(data, function () {
-                    vm.accessories.push(ko.mapping.fromJS(this));
-                });
+        $(function () {
+
+            $.each(model.Accessories, function (i, item) {
+                appendItem(item, i);
+            });
+
+            $table.on('click', '[data-toggle="remove-product-accessory"]', function (e) {
+                var $item = $(this).closest('tr');
+                removeItem($item);
+                e.preventDefault();
             });
 
             initSearchBox();
         });
 
-        kb.events.on('Product/Edit/FormSubmitted', function (sender, args) {
-            var defer = $.Deferred();
-            var data = {
-                productId: vm.data().Id(),
-                accessories: ko.mapping.toJS(vm.accessories())
-            };
-            $.ajax({
-                url: '/Kooboo.Commerce.Accessories/Accessory/Save?commerceName=' + commerceName,
-                type: 'POST',
-                data: JSON.stringify(data),
-                contentType: 'application/json'
-            })
-            .done(function (result) {
-                if (result.Success) {
-                    defer.resolve();
-                } else {
-                    info.show(result.Messages.join('<br/>'), false);
-                    defer.reject();
-                }
-            });
+        function appendItem(item, index) {
+            var html = renderItem(item, index);           
+            $table.find('.empty').hide();
+            $table.find('tbody').append(html);
+        }
 
-            return defer.promise();
-        });
+        function removeItem($item) {
+            $item.remove();
+            adjustItemIndics();
+            if (totalItems() === 0) {
+                $table.find('.empty').show();
+            }
+        }
 
-        function loadAccessories(productId) {
-            return $.get('/Kooboo.Commerce.Accessories/Accessory/List', {
-                commerceName: commerceName,
-                productId: productId
+        function totalItems() {
+            return $table.find('tbody').find('tr:not(.empty)').length;
+        }
+
+        function renderItem(item, index) {
+            var template = $('#AccessoryListItemTemplate').html();
+            return template.replace(/\$\{ProductId\}/ig, item.ProductId)
+                           .replace(/\$\{ProductName\}/ig, item.ProductName)
+                           .replace(/\$\{BrandName\}/ig, item.BrandName)
+                           .replace(/\$\{Rank\}/ig, item.Rank)
+                           .replace(/\$\{Index\}/ig, index);
+        }
+
+        function adjustItemIndics() {
+            $table.find('tbody').find('tr:not(.empty)').each(function (i, row) {
+                changeItemIndex($(row), i);
             });
+        }
+
+        function changeItemIndex($item, index) {
+            var html = $item.html();
+            html = html.replace(/\[\d+\]/ig, '[' + index + ']');
+            $item.html(html);
         }
 
         function initSearchBox() {
             $('#accessory-searchbox').autocomplete({
-                source: '/Kooboo.Commerce.Accessories/Accessory/SearchProducts?commerceName=' + commerceName,
+                source: '/Kooboo.Commerce.Accessories/Accessory/SearchProducts',
                 minLength: 2,
                 select: function (event, ui) {
-                    vm.accessories.push({
-                        productId: ko.observable(ui.item.id),
-                        productName: ko.observable(ui.item.name),
-                        brandName: ko.observable(ui.item.brandName),
-                        rank: ko.observable(0)
-                    });
+                    var item = {
+                        ProductId: ui.item.id,
+                        ProductName: ui.item.name,
+                        BrandName: ui.item.brandName,
+                        Rank: 0
+                    };
+
+                    appendItem(item, $table.find('tbody').find('tr:not(.empty)').length);
                 }
             })
             .data('ui-autocomplete')._renderItem = function (ul, item) {

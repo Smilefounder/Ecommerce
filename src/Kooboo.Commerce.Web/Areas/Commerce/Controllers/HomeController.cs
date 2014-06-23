@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.Web.Mvc.Controllers;
+﻿using Kooboo.Commerce.Web.Mvc;
 using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
