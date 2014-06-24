@@ -177,26 +177,6 @@
                 });
             });
 
-            self.AnyPublishedPriceSelected = ko.computed(function () {
-                if (!self.data() || !self.data().PriceList()) {
-                    return false;
-                }
-
-                return _.any(self.data().PriceList(), function (price) {
-                    return price.Selected() && price.IsPublished();
-                });
-            });
-
-            self.AnyUnpublishedPriceSelected = ko.computed(function () {
-                if (!self.data() || !self.data().PriceList()) {
-                    return false;
-                }
-
-                return _.any(self.data().PriceList(), function (price) {
-                    return price.Selected() && !price.IsPublished();
-                });
-            });
-
             self.SelectAllPrices = function () {
                 $.each(self.data().PriceList(), function () {
                     this.Selected(true);
@@ -221,18 +201,6 @@
                     } else {
                         price.Selected(false);
                     }
-                });
-            }
-
-            self.PublishSelectedPrices = function () {
-                $.each(self.GetSelectedPrices(), function () {
-                    this.IsPublished(true);
-                });
-            }
-
-            self.UnpublishSelectedPrices = function () {
-                $.each(self.GetSelectedPrices(), function () {
-                    this.IsPublished(false);
                 });
             }
 
@@ -335,6 +303,11 @@
             }
 
             self.EditingPrice = ko.observable(null);
+
+            self.CommitPriceEditing = function () {
+                self.EditingPrice(null);
+                self.ComputeDistinctVariantValuesByFields();
+            }
 
             self.NewPrice = function () {
                 var price = {

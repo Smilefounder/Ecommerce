@@ -100,29 +100,5 @@ namespace Kooboo.Commerce.Products
         {
             Event.Raise(new ProductVariantUpdated(Product, this));
         }
-
-        public virtual bool MarkPublish()
-        {
-            if (!IsPublished)
-            {
-                IsPublished = true;
-                PublishedAtUtc = DateTime.UtcNow;
-                return true;
-            }
-
-            return false;
-        }
-
-        public virtual bool MarkUnpublish()
-        {
-            if (IsPublished)
-            {
-                IsPublished = false;
-                PublishedAtUtc = null;
-                return true;
-            }
-
-            return false;
-        }
     }
 }

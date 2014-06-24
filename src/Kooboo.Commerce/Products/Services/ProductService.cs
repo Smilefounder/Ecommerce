@@ -139,29 +139,5 @@ namespace Kooboo.Commerce.Products.Services
 
             return true;
         }
-
-        public bool PublishPrice(Product product, int priceId)
-        {
-            var price = product.FindPrice(priceId);
-            if (price.MarkPublish())
-            {
-                _db.SaveChanges();
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool UnpublishPrice(Product product, int priceId)
-        {
-            var price = product.FindPrice(priceId);
-            if (price.MarkUnpublish())
-            {
-                _db.SaveChanges();
-                return true;
-            }
-
-            return false;
-        }
     }
 }

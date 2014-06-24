@@ -28,9 +28,5 @@ namespace Kooboo.Commerce.Products.Services
         bool RemovePrice(Product product, int priceId);
 
         bool UpdatePrice(Product product, int priceId, ProductPrice newPrice);
-
-        bool PublishPrice(Product product, int priceId);
-
-        bool UnpublishPrice(Product product, int priceId);
     }
 }

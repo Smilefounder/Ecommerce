@@ -172,15 +172,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                         _db.SaveChanges();
                         price.NotifyUpdated();
                     }
-
-                    if (priceModel.IsPublished)
-                    {
-                        _productService.PublishPrice(product, price.Id);
-                    }
-                    else
-                    {
-                        _productService.UnpublishPrice(product, price.Id);
-                    }
                 }
 
                 if (obj.IsPublished)
