@@ -4,6 +4,7 @@
 }
 
 <div class="simple-table">
+    <input type="hidden" name="FieldType" value="VariantField" />
     <div class="toolbar">
         <a class="button" href="javascript:;" data-bind="click: $root.AddPrice">Add</a>
         @if (productType.VariationFields.Count > 0)
@@ -87,6 +88,7 @@
                     <td>
                         @control.Render(field, null, new
                                        {
+                                           data_field_type = "VariantField",
                                            data_bind = control.ValueBindingName + ": $root.GetVariantFieldValue($data, " + field.Id + ")"
                                        }, ViewContext)
                     </td>

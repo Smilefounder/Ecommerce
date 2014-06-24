@@ -50,6 +50,15 @@
             @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Editor"], null)
             
             </td>          
+            </tr><tr>
+            <th>
+            <label for="Unique">Unique</label>
+            </th>
+            <td>
+            <input class='long' id="Unique" name="Unique" type="text" value="@(Model.Unique ?? "")"  data-val-required="This field need to be unique" data-val="true"/>            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Unique"], null)
+            
+            </td>          
             </tr>
             @if (allowedEdit) {
                 <tr>

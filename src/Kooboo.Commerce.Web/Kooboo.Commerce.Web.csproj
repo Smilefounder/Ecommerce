@@ -296,6 +296,7 @@
     <Compile Include="Areas\Commerce\Common\Form\Validation\RegexValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\RequiredValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\StringLengthValidator.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\Validation\UniqueValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\ValidationExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Initialization\CommerceInstanceInitializer.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />

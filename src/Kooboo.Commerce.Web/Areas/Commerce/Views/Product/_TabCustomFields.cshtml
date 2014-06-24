@@ -4,6 +4,8 @@
 }
 
 <div class="common-form">
+    <input type="hidden" name="ProductId" data-bind="value: Id" />
+    <input type="hidden" name="FieldType" value="CustomField" />
     <table>
         <tbody>
             @foreach (var customField in productType.CustomFields)
@@ -21,12 +23,14 @@
                                         {
                                             @class = "medium",
                                             style = "width:35%",
+                                            data_field_type = "CustomField",
                                             data_bind = control.ValueBindingName + ": $root.GetCustomFieldValue(" + field.Id + ")"
                                         }, ViewContext)
                         @if (!String.IsNullOrEmpty(field.Tooltip))
                         {
                             <em class="form-tip">@field.Tooltip</em>
                         }
+                        <span data-valmsg-for="@field.Name" data-valmsg-replace="true"></span>
                     </td>
                 </tr>
             }

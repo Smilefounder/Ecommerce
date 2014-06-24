@@ -192,6 +192,24 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpGet]
+        public ActionResult ValidateFieldUniqueness(int productId, string fieldName, string fieldValue, string fieldType)
+        {
+            // Uniqueness is useless for variant fields
+            if (fieldValue.Equals("VariantField", StringComparison.OrdinalIgnoreCase))
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+            var query = _productService.Query()
+                                       .Where(p => p.Id != productId)
+                                       .Where(p => p.CustomFieldValues.Any(f => f.CustomField.Name == fieldName && f.FieldValue == fieldValue));
+
+            var valid = !query.Any();
+
+            return Json(valid, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public ActionResult Delete(int id)
         {
             try

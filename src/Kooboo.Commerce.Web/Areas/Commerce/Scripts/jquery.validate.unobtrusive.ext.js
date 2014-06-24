@@ -15,3 +15,27 @@
         $(form).removeData('unobtrusiveValidation');
     }
 };
+
+$.validator.unobtrusive.adapters.add('uniquefield', [], function (options) {
+    var value = {
+        url: '/Commerce/Product/ValidateFieldUniqueness',
+        type: 'GET',
+        data: {
+            fieldName: options.element.name,
+            fieldValue: function () {
+                return $(options.element).val();
+            },
+            fieldType: function () {
+                return $(options.element).data('field-type');
+            },
+            productId: function () {
+                return $(options.form).find(':input[name="ProductId"]').val()
+            }
+        }
+    };
+
+    options.rules['remote'] = value;
+    if (options.message) {
+        options.messages['remote'] = options.message;
+    }
+});
