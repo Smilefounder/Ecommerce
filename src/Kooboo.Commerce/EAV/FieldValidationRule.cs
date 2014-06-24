@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.EAV
 {
     public class FieldValidationRule
     {
-        protected FieldValidationRule() { }
+        public FieldValidationRule() { }
 
         public FieldValidationRule(string validatorName)
         {
