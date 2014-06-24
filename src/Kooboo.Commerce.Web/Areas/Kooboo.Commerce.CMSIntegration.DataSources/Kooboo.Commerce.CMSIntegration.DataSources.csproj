@@ -89,6 +89,7 @@
     <Compile Include="ModuleAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataSourceFilterParameterValue.cs" />
+    <Compile Include="Sources\ShippingMethodSource.cs" />
     <Compile Include="TakeOperation.cs" />
     <Compile Include="SiteExtensions.cs" />
     <Compile Include="Sources\ApiQueryDescriptor.cs" />

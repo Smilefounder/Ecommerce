@@ -6,6 +6,7 @@ using Kooboo.Commerce.API.Orders;
 using Kooboo.Commerce.API.Payments;
 using Kooboo.Commerce.API.Pricing;
 using Kooboo.Commerce.API.Products;
+using Kooboo.Commerce.API.Shipping;
 using Kooboo.Commerce.API.ShoppingCarts;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,8 @@ namespace Kooboo.Commerce.API
         /// payment method api
         /// </summary>
         IPaymentMethodAPI PaymentMethods { get; }
+
+        IShippingMethodAPI ShippingMethods { get; }
         /// <summary>
         /// Api for calculating order prices.
         /// </summary>
