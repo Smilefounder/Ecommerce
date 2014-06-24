@@ -76,6 +76,18 @@ namespace Kooboo.Commerce.Promotions.Services
                 Disable(promotion);
             }
 
+            promotion.OverlappablePromotions.Clear();
+
+            var referencingPromotions = _db.GetRepository<Promotion>()
+                                           .Query()
+                                           .Where(p => p.OverlappablePromotions.Any(x => x.Id == promotion.Id))
+                                           .ToList();
+
+            foreach (var each in referencingPromotions)
+            {
+                each.RemoveOverlappablePromotion(promotion.Id);
+            }
+
             _db.GetRepository<Promotion>().Delete(promotion);
         }
 

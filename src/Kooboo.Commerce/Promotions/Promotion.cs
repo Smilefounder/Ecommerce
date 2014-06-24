@@ -130,6 +130,18 @@ namespace Kooboo.Commerce.Promotions
             return PromotionSpecifications.AvailableNow(utcNow).Compile()(this);
         }
 
+        public virtual bool RemoveOverlappablePromotion(int promotionId)
+        {
+            var promotion = OverlappablePromotions.FirstOrDefault(p => p.Id == promotionId);
+            if (promotion != null)
+            {
+                OverlappablePromotions.Remove(promotion);
+                return true;
+            }
+
+            return false;
+        }
+
         public virtual bool CanBeOverlappedUsedWith(Promotion other)
         {
             if (Priority < other.Priority)
