@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
     public class ShoppingCartSource : ApiCommerceSource
     {
         public ShoppingCartSource()
-            : base("ShoppingCarts", typeof(IShoppingCartQuery))
+            : base("ShoppingCarts", typeof(IShoppingCartQuery), typeof(ShoppingCart))
         {
             InternalIncludablePaths.Remove("AppliedPromotions");
             InternalFilters.Add(new SourceFilterDefinition("ByCurrentCustomer"));

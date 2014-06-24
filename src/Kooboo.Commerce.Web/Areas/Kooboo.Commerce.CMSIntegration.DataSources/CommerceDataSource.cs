@@ -151,7 +151,8 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
 
         public IDictionary<string, object> GetDefinitions(DataSourceContext dataSourceContext)
         {
-            return new Dictionary<string, object>();
+            var source = ResolveCommerceSource();
+            return source.GetDefinitions();
         }
 
         public IEnumerable<string> GetParameters()

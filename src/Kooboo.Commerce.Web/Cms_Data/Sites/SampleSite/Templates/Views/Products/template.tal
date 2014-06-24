@@ -1,0 +1,9 @@
+﻿<div style="padding:10px" tal:repeat="ProductsItem ViewBag.Products">
+  <ul>
+    <li>
+    	<span tal:content="structure ProductsItem.Name">Product Name</span>
+      	<span>|</span>
+      	<em tal:content="structure ProductsItem.Brand.Name">Brand</em>
+    </li>
+  </ul>
+</div> 

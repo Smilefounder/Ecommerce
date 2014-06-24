@@ -127,5 +127,10 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
                 return result;
             }
         }
+
+        public IDictionary<string, object> GetDefinitions()
+        {
+            return DataSourceDefinitionHelper.GetDefinitions(typeof(Kooboo.Commerce.API.Products.Product));
+        }
     }
 }

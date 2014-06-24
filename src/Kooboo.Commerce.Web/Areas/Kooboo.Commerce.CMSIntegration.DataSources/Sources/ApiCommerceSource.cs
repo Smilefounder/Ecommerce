@@ -21,6 +21,8 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
 
         protected Type QueryType { get; private set; }
 
+        protected Type ItemType { get; private set; }
+
         public string Name { get; protected set; }
 
         public IEnumerable<SourceFilterDefinition> Filters
@@ -47,10 +49,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             }
         }
 
-        protected ApiCommerceSource(string name, Type queryType)
+        protected ApiCommerceSource(string name, Type queryType, Type itemType)
         {
             Name = name;
             QueryType = queryType;
+            ItemType = itemType;
 
             var descriptor = ApiQueryDescriptor.GetDescriptor(queryType);
 
@@ -97,6 +100,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             {
                 return CallMethod(query, "FirstOrDefault");
             }
+        }
+
+        public virtual IDictionary<string, object> GetDefinitions()
+        {
+            return DataSourceDefinitionHelper.GetDefinitions(ItemType);
         }
 
         protected virtual void ApplyFilters(object query, List<SourceFilter> filters, CommerceSourceContext context)

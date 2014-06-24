@@ -18,5 +18,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
         IEnumerable<string> IncludablePaths { get; }
 
         object Execute(CommerceSourceContext context);
+
+        IDictionary<string, object> GetDefinitions();
     }
 }

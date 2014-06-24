@@ -55,5 +55,10 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.BestSellers
 
             return query.Query(paras, EngineContext.Current.Resolve<ICommerceDatabase>(), pageIndex, pageSize).ToList(); ;
         }
+
+        public IDictionary<string, object> GetDefinitions()
+        {
+            return DataSourceDefinitionHelper.GetDefinitions(typeof(ProductQueryModel));
+        }
     }
 }

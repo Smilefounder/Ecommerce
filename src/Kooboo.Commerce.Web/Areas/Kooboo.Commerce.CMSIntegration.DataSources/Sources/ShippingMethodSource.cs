@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
     public class ShippingMethodSource : ApiCommerceSource
     {
         public ShippingMethodSource()
-            : base("ShippingMethods", typeof(IShippingMethodQuery))
+            : base("ShippingMethods", typeof(IShippingMethodQuery), typeof(ShippingMethod))
         {
         }
     }

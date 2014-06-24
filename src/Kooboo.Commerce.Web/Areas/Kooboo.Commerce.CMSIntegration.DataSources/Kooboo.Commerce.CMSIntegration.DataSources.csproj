@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapping\CommerceSourceRegistrar.cs" />
+    <Compile Include="DataSourceDefinitionHelper.cs" />
     <Compile Include="DataSourceFilter.cs" />
     <Compile Include="CommerceDataSource.cs" />
     <Compile Include="CommerceDataSourceDesigner.cs" />

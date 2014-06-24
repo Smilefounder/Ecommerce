@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
     public class BrandSource : ApiCommerceSource
     {
         public BrandSource()
-            : base("Brands", typeof(IBrandQuery))
+            : base("Brands", typeof(IBrandQuery), typeof(Brand))
         {
         }
     }

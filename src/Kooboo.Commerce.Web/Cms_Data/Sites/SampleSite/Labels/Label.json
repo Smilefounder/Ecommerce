@@ -106,5 +106,23 @@
     "UtcCreationDate": "2014-06-24T09:32:36.0739861Z",
     "UtcLastestModificationDate": null,
     "LastestEditor": "admin"
+  },
+  {
+    "UUID": "XRUHEWZLTF",
+    "Name": "DesignPage",
+    "Value": "DesignPage",
+    "Category": "",
+    "UtcCreationDate": "2014-06-24T12:18:08.7185071Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": "admin"
+  },
+  {
+    "UUID": "JS5EMUZTB6",
+    "Name": "Products",
+    "Value": "Products",
+    "Category": "",
+    "UtcCreationDate": "2014-06-24T12:18:33.137815Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": "admin"
   }
 ]

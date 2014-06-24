@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
     public class CountrySource : ApiCommerceSource
     {
         public CountrySource()
-            : base("Countries", typeof(ICountryQuery))
+            : base("Countries", typeof(ICountryQuery), typeof(Country))
         {
         }
     }

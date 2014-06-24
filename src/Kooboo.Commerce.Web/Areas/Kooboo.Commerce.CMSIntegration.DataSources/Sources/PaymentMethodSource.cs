@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
     public class PaymentMethodSource : ApiCommerceSource
     {
         public PaymentMethodSource()
-            : base("PaymentMethods", typeof(IPaymentMethodQuery))
+            : base("PaymentMethods", typeof(IPaymentMethodQuery), typeof(PaymentMethod))
         {
         }
     }

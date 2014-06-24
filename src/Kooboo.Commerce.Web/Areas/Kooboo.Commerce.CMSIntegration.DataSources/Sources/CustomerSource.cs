@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
     public class CustomerSource : ApiCommerceSource
     {
         public CustomerSource()
-            : base("Customers", typeof(ICustomerQuery))
+            : base("Customers", typeof(ICustomerQuery), typeof(Customer))
         {
         }
     }
