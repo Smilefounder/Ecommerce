@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints
             _database = database;
         }
 
-        protected override void DoExecute(IOrderEvent @event, ActivityContext context)
+        protected override void Execute(IOrderEvent @event, ActivityContext context)
         {
             var config = context.Config as ChangeSavingPointsActivityConfig;
             if (config == null)

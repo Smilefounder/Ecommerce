@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Activities.Simple
             }
         }
 
-        protected override void DoExecute(IOrderEvent @event, ActivityContext context)
+        protected override void Execute(IOrderEvent @event, ActivityContext context)
         {
             var param = context.Config as SimpleActivityConfig;
 

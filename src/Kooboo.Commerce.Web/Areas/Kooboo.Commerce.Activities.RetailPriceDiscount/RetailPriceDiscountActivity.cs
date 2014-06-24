@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount
             }
         }
 
-        protected override void DoExecute(GetPrice @event, ActivityContext context)
+        protected override void Execute(GetPrice @event, ActivityContext context)
         {
             var config = context.Config as RetailPriceDiscountActivityConfig;
             if (config == null)

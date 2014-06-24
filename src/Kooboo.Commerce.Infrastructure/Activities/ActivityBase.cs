@@ -42,9 +42,9 @@ namespace Kooboo.Commerce.Activities
 
         public void Execute(Commerce.Events.IEvent @event, ActivityContext context)
         {
-            DoExecute((TEvent)@event, context);
+            Execute((TEvent)@event, context);
         }
 
-        protected abstract void DoExecute(TEvent @event, ActivityContext context);
+        protected abstract void Execute(TEvent @event, ActivityContext context);
     }
 }
