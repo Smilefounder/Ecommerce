@@ -88,14 +88,21 @@ namespace Kooboo.Commerce.Customers.Services
                         _addressRepository.Save(o => o.Id == address.Id, address, o => new object[] { o.Id });
                     }
                 }
+
                 _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
                 if (customer.CustomFields != null && customer.CustomFields.Count > 0)
                 {
                     foreach (var cf in customer.CustomFields)
                     {
-                        _customerCustomFieldRepository.Insert(cf);
+                        _customerCustomFieldRepository.Insert(new CustomerCustomField
+                        {
+                            CustomerId = customer.Id,
+                            Name = cf.Name,
+                            Value = cf.Value
+                        });
                     }
                 }
+
                 _customerRepository.Update(customer, k => new object[] { k.Id });
 
                 return true;

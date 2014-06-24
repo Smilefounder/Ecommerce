@@ -7,7 +7,7 @@
 @section Panel{
     <ul class="header-panel">
         <li>
-            <a href="javascript:vm.saveData();">
+            <a href="javascript:submitForm();">
                 @Html.IconImage("save") @("Save".Localize())
             </a>
         </li>
@@ -141,7 +141,6 @@
                                 <th>@("Last name".Localize())</th>
                                 <th>@("Phone".Localize())</th>
                                 <th>@("Address".Localize())</th>
-                                <th>@("Default".Localize())</th>
                                 <th class="action"></th>
                                 <th class="action"></th>
                             </tr>
@@ -152,7 +151,6 @@
                                 <td data-bind="text:LastName"></td>
                                 <td data-bind="text:Phone"></td>
                                 <td data-bind="text:Address1"></td>
-                                <td data-bind="text:IsDefault() ? 'YES':'-'"></td>
                                 <td class="action"><a href="javascript:;" data-bind="click: $root.EditAddress" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a></td>
                                 <td class="action"><a href="javascript:;" data-bind="click: $root.RemoveAddress" title="@("Delete".Localize())">@Html.IconImage("minus-small")</a></td>
                             </tr>
@@ -193,7 +191,6 @@
                                 <th>@("Total price".Localize())</th>
                                 <th>@("Total weight".Localize())</th>
                                 <th>@("Order status".Localize())</th>
-                                <th>@("Completed".Localize())</th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach: $root.Orders">
@@ -203,7 +200,6 @@
                                 <td data-bind="text:Total"></td>
                                 <td data-bind="text:TotalWeight"></td>
                                 <td data-bind="text:OrderStatus"></td>
-                                <td data-bind="text:IsCompleted"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -411,6 +407,11 @@
         });
         $('#J_CustomerTabs').tabs();
     });
+
+    window.submitForm = function () {
+        $(':focus').blur();
+        vm.saveData();
+    }
 
     @*function CheckConfirmPassword() {
         var val1 = $('#newPassword').val();

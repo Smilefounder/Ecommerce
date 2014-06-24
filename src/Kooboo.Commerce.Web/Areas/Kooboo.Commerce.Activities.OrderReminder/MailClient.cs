@@ -24,6 +24,11 @@ namespace Kooboo.Commerce.Activities.OrderReminder
 
         static string SubjectToFileName(string subject)
         {
+            if (String.IsNullOrEmpty(subject))
+            {
+                return "No suject";
+            }
+
             foreach (var ch in Path.GetInvalidFileNameChars())
             {
                 subject = subject.Replace(ch, '_');

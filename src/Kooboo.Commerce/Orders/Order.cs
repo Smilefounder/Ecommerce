@@ -20,6 +20,7 @@ namespace Kooboo.Commerce.Orders
         {
             CreatedAtUtc = DateTime.UtcNow;
             OrderItems = new List<OrderItem>();
+            CustomFields = new List<OrderCustomField>();
         }
 
         [Param]

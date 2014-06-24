@@ -90,7 +90,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return JsonNet(obj);
         }
 
-        [HttpPost]
+        [HttpPost, Transactional]
         public ActionResult Save(Customer obj)
         {
             try

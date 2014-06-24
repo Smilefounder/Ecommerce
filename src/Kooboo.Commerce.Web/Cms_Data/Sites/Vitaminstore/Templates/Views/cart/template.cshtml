@@ -106,8 +106,6 @@
     </div>
 </div>
 
-<button type="button" id="btn-add-test-item">Add A Test Product</button>
-
 <script>
     $(function () {
         var viewModel = new ShoppingCartModel();
@@ -260,19 +258,6 @@
                     alert(result.Messages.join('\n'));
                 }
             }
-        }
-
-        // TODO: Add item test
-
-        $('#btn-add-test-item').on('click', function () {
-            AddItem();
-        });
-
-        function AddItem() {
-            http.post('@Url.FrontUrl().SubmissionUrl("AddCartItem")', {
-                ProductPriceId: 44,
-                Quantity: 1
-            });
         }
 
         viewModel.Refresh().done(function (result) {

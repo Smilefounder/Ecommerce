@@ -267,6 +267,7 @@
     <Compile Include="Areas\CommerceWebAPI\ViewModels\ApiInfo.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\ConditionParameterProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ExtendedQueryRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\TabPluginRegistrar.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
