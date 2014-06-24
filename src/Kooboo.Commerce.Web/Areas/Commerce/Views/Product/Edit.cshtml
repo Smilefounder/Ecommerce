@@ -8,7 +8,7 @@
 @section Panel {
     @Html.HeaderPanel().Buttons(buttons =>
     {
-        buttons.Add("Save", "save").WithUrl("javascript:vm.saveData();");
+        buttons.Add("Save", "save").WithUrl("javascript:saveProduct();");
         buttons.AddCancelButton();
     })
 }

@@ -32,5 +32,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
             // Async Activity
             Kooboo.Job.Jobs.Instance.AttachJob(typeof(AsyncActivityExecutionJob).FullName, new AsyncActivityExecutionJob(), 30 * 1000, null);
         }
+
+        public override void Application_End(object sender, EventArgs e)
+        {
+            base.Application_End(sender, e);
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.Tabs.Products.Sample
 
         private SampleModel LoadModelFromFile()
         {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\sample.txt");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\sample.txt");
             if (File.Exists(path))
             {
                 var json = File.ReadAllText(path, Encoding.UTF8);
@@ -61,7 +61,7 @@ namespace Kooboo.Commerce.Tabs.Products.Sample
 
         private void SaveModelToFile(SampleModel model)
         {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin\\sample.txt");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\sample.txt");
             File.WriteAllText(path, JsonConvert.SerializeObject(model), Encoding.UTF8);
         }
     }

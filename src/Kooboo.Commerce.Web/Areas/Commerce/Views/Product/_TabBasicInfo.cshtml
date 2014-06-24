@@ -6,7 +6,12 @@
         <tbody>
             <tr>
                 <th>@("Name".Localize())</th>
-                <td><input type="text" data-bind="value:Name" class="medium"></td>
+                <td>
+                    <input type="text" name="Name" data-bind="value:Name" class="medium" 
+                           data-val="true"
+                           data-val-required="@("Required".Localize())" />
+                    <span data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                </td>
             </tr>
             <tr>
                 <th>@("Brand".Localize())</th>

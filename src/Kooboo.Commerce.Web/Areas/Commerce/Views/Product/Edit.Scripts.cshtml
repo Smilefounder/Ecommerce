@@ -14,7 +14,7 @@
         ProductType: {
             CustomFields: @(Html.Raw(productType.CustomFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson())),
             VariationFields: @(Html.Raw(productType.VariationFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson()))
-        }
+            }
     };
 
     var vm = new ObjectModel({
@@ -521,13 +521,30 @@
     window.keepLoading = true;
 
     $(function () {
-        $('#J_ProductTabs').tabs();
+        $('#J_ProductTabs').tabs({
+            beforeActivate: function (event, ui) {
+                if (ui.oldPanel) {
+                    var valid = true;
+                    ui.oldPanel.find('form').each(function () {
+                        if (!$(this).valid()) {
+                            valid = false;
+                        }
+                    });
+
+                    return valid;
+                }
+            }
+        });
 
         $.when(vm.getData())
          .done(function () {
              ko.applyBindings(vm, document.getElementById('product-edit-main'));
 
              kb.ui.unobtrusive.initialize(document.body);
+
+             $('#product-edit-main').find('form').each(function () {
+                 $.validator.unobtrusive.reparse(this);
+             });
 
              // Lazy load categories and image types
              vm.GetCategories().done(function() {
@@ -576,6 +593,19 @@
          });
 
     });
+
+    function saveProduct() {
+        var valid = true;
+        $('#product-edit-main').find('form').each(function () {
+            if (!$(this).valid()) {
+                valid = false;
+            }
+        });
+
+        if (valid) {
+            vm.saveData();
+        }
+    }
 
     function InitUpload() {
         $('.J_Upload').upload({

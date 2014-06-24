@@ -3525,6 +3525,7 @@
     <Content Include="Areas\Commerce\Views\Promotion\_DefaultPolicyConfigEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_TabPluginHeaders.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_TabPluginContents.cshtml" />
+    <Content Include="Areas\Commerce\Scripts\jquery.validate.defaults.js" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
