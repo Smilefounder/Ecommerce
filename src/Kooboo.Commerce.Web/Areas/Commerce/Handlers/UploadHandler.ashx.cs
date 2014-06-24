@@ -139,7 +139,7 @@ namespace Kooboo.Commerce.Handlers
                 var file = context.Request.Files[i];
 
                 string uploadPath = GetUploadPath(file.FileName, context);
-                var sfile = GetRenamedFileIfExists(uploadPath + file.FileName, context);
+                var sfile = GetRenamedFileIfExists(UrlUtility.Combine(uploadPath, file.FileName), context);
                 if (!sfile.Directory.Exists)
                     sfile.Directory.Create();
                 file.SaveAs(sfile.FullName);

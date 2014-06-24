@@ -81,7 +81,7 @@
             <ul class="form-list images" data-bind="foreach: $root.GetImageUrl($data)">
                 <li>
                     <div class="file-thumbnail">
-                        <img class="crop_image" data-bind="attr:{src:ImageUrl, width: $root.GetImageWidth($data), height: $root.GetImageHeight($data), 'data-width': $root.GetImageWidth($data), 'data-height': $root.GetImageHeight($data) }" />
+                        <img class="crop_image" style="max-height:100px" data-bind="attr:{src:ImageUrl, 'data-width': $root.GetImageWidth($data), 'data-height': $root.GetImageHeight($data) }" />
                         <a href="javascript:;" class="action" data-bind="click: $root.RemoveImage">@Html.IconImage("minus-small")</a>
                     </div>
                 </li>

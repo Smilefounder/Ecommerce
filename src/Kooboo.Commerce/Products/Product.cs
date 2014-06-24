@@ -9,6 +9,8 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.ComponentModel;
+using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Products
 {
@@ -133,6 +135,10 @@ namespace Kooboo.Commerce.Products
                 if (!newImageList.Any(i => i.Id == image.Id))
                 {
                     Images.Remove(image);
+
+                    // TODO: Quick fix for now, shouldn't do it like this. Need to refactor in future
+                    var repository = EngineContext.Current.Resolve<IRepository<ProductImage>>();
+                    repository.Delete(image);
                 }
             }
 

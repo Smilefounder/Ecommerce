@@ -480,8 +480,15 @@
                         IsVisible: ko.observable(true)
                     };
                     if (!t.IsMultiple()) {
-                        self.data().Images.removeAll();
+                        var current = _.find(self.data().Images(), function (i) {
+                            return i.Size() == imgType;
+                        });
+
+                        if (current) {
+                            self.data().Images.remove(current);
+                        }
                     }
+
                     self.data().Images.push(img);
                 }
             };
