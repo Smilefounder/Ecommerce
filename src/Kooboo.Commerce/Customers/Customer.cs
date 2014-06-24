@@ -24,6 +24,9 @@ namespace Kooboo.Commerce.Customers
         public string AccountId { get; set; }
 
         [Param]
+        public string Group { get; set; }
+
+        [Param]
         public int SavingPoints { get; set; }
 
         [Param]

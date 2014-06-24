@@ -54,6 +54,12 @@
                 <table>
                     <tbody data-bind="with:data">
                         <tr>
+                            <th>@("Group".Localize())</th>
+                            <td>
+                                <input data-bind="value:Group" type="text" class="medium" maxlength="50" />
+                            </td>
+                        </tr>
+                        <tr>
                             <th>@("First name".Localize())</th>
                             <td>
                                 <input data-bind="value:FirstName" type="text" class="medium">
