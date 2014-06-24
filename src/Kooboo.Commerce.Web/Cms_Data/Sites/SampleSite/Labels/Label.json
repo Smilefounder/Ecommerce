@@ -1,100 +1,109 @@
 ﻿[
   {
-    "UUID": "APEG77S4TB",
+    "UUID": "VPK6AWZYB9",
     "Name": "Sample site",
     "Value": "Sample site",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:28.3826138Z",
+    "UtcCreationDate": "2014-06-24T09:29:34.1190187Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "RMPVKN5WKG",
+    "UUID": "P2XX6AZSEL",
     "Name": "Member Login",
     "Value": "Member Login",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:31.8860584Z",
+    "UtcCreationDate": "2014-06-24T09:29:35.38709Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "8AXWH5THCG",
+    "UUID": "JZXQN4PG3K",
     "Name": "Register",
     "Value": "Register",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:32.041079Z",
+    "UtcCreationDate": "2014-06-24T09:29:35.3990908Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "AKHE5AN4H3",
+    "UUID": "LNDLH7XEQ6",
     "Name": "Articles",
     "Value": "Articles",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:32.1770969Z",
+    "UtcCreationDate": "2014-06-24T09:29:35.4080913Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "7HWE29ZRBE",
+    "UUID": "URY4Z3PKEM",
     "Name": "Copyright &copy; 2009 - 2013 Kooboo team",
     "Value": "Copyright &copy; 2009 - 2013 Kooboo team",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:39.1619854Z",
+    "UtcCreationDate": "2014-06-24T09:29:37.160193Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "EQ3QV8QUNS",
+    "UUID": "4XWA2C7ABJ",
     "Name": "Admin Login",
     "Value": "Admin Login",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:39.3160035Z",
+    "UtcCreationDate": "2014-06-24T09:29:37.1701932Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "FABUU5RQDC",
+    "UUID": "YMH8AW7RZ2",
     "Name": "Login",
     "Value": "Login",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:41.9413467Z",
+    "UtcCreationDate": "2014-06-24T09:29:37.6892227Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "9BMNCPGP6A",
+    "UUID": "T48SA5KVE5",
     "Name": "Username",
     "Value": "Username",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:42.0993582Z",
+    "UtcCreationDate": "2014-06-24T09:29:37.6992224Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "U8KKYASVAT",
+    "UUID": "45F77ABW2K",
     "Name": "Required",
     "Value": "Required",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:42.2553782Z",
+    "UtcCreationDate": "2014-06-24T09:29:37.7092231Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "9BF5RLMJPN",
+    "UUID": "59SA2A5P43",
     "Name": "Password",
     "Value": "Password",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:42.4033961Z",
+    "UtcCreationDate": "2014-06-24T09:29:37.7182235Z",
     "UtcLastestModificationDate": null,
-    "LastestEditor": "admin"
+    "LastestEditor": ""
   },
   {
-    "UUID": "Y4CHGJQJMN",
+    "UUID": "CS6WSUTKEV",
     "Name": "Remember me",
     "Value": "Remember me",
     "Category": "",
-    "UtcCreationDate": "2014-04-30T08:29:42.5534158Z",
+    "UtcCreationDate": "2014-06-24T09:29:37.729225Z",
+    "UtcLastestModificationDate": null,
+    "LastestEditor": ""
+  },
+  {
+    "UUID": "FKSHL23LAK",
+    "Name": "TALEditor_Preview",
+    "Value": "TALEditor_Preview",
+    "Category": "",
+    "UtcCreationDate": "2014-06-24T09:32:36.0739861Z",
     "UtcLastestModificationDate": null,
     "LastestEditor": "admin"
   }

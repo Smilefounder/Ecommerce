@@ -53,8 +53,4 @@
         });
     })
 
-    function requestVerificationToken() {
-        return $(':hidden[name="__RequestVerificationToken"]').val();
-    }
-
 })

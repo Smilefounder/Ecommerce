@@ -192,5 +192,15 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
                 set.Add(param);
             }
         }
+
+        public bool IsEnumerable()
+        {
+            if (TakeOperation == TakeOperation.First)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -1,0 +1,9 @@
+﻿ <div class="block list">
+  
+  <div class="item" >
+      <h6 class="title"><a >Title</a></h6>
+      <span class="date">Date</span>
+      <p>Summary</p>
+  </div>
+
+</div>

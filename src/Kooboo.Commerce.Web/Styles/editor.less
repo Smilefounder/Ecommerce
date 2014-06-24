@@ -83,20 +83,155 @@
 			padding: 0 10px;
 		}
 
+		.code-viewer {
+			.title {
+				font-size: 12px;
+				font-weight: 600;
+			}
+
+			.container {
+				background: #FFF;
+				border: 1px solid #CCC;
+				border-bottom: none;
+				line-height: 1.3;
+				padding: 10px;
+			}
+
+			li ul {
+				margin-left: 30px;
+			}
+
+			.code {
+				cursor: pointer;
+
+				&.active,
+				&.hover {
+					background: #39F;
+					color: #FFF;
+					.rounded(3px);
+				}
+			}
+
+			.bottom {
+				background: #F5F5F5;
+				border: 1px solid #CCC;
+				line-height: 20px;
+
+				a {
+					display: inline-block;
+					margin: 0 5px;
+					padding: 0 5px;
+
+					&:hover {
+						background: #DDD;
+					}
+
+					&.active,
+					&.hover {
+						background: #39F;
+						color: #FFF;
+					}
+				}
+			}
+		}
+
+		.settings {
+			background: #F6F6F6;
+			border-bottom: 1px solid #CCC;
+			border-top: 1px solid #CCC;
+			margin-bottom: 20px;
+			padding: 10px;
+
+			.item {
+				border-top: 1px solid #DDD;
+				margin-top: 10px;
+				padding-top: 10px;
+				.clearfix();
+
+				&.convert {
+					p {
+						font-weight: 600;
+					}
+
+					.form-list.vertical li {
+						margin-bottom: 5px;
+
+						&:last-child {
+							margin: 0;
+						}
+					}
+				}
+			}
+
+			.form-row {
+				padding: 5px 0;
+				.clearfix();
+
+				> div {
+					float: left;
+				}
+
+				.span4 {
+					width: 35%;
+				}
+
+				.span8 {
+					width: 65%;
+				}
+			}
+
+			input[type="text"],
+			select,
+			textarea {
+				margin: 0;
+				width: 100%;
+				.box-sizing(border-box);
+			}
+
+			input[type="text"] {
+				height: 28px;
+			}
+
+			.autoresize {
+				height: 28px;
+				padding: 0 9px;
+			}
+
+			.buttons {
+				border-top: 1px solid #DDD;
+				margin-top: 10px;
+				overflow: hidden;
+				padding-top: 10px;
+
+				.button {
+					color: #FFF;
+					float: left;
+					margin: 0 20px 0 0;
+
+					&.gray {
+						color: #000;
+					}
+				}
+			}
+		}
+
 		.block {
 			.title {
 				cursor: pointer;
 				font-size: 18px;
 				font-weight: 400;
 				line-height: 28px;
-				margin-bottom: 5px;
+				margin-bottom: 5px !important;
 				padding: 0 20px;
 				position: relative;
 
-				.sprite {
+				.arrow {
+					background-position: -18px -16px;
+					height: 8px;
 					position: absolute;
 					left: 7px;
 					top: 10px;
+					width: 6px;
 				}
 
 				&:hover {
@@ -116,9 +251,12 @@
 			}
 
 			&.active {
-				.title .sprite {
+				.title .arrow {
+					background-position: -16px 0;
+					height: 6px;
 					left: 6px;
 					top: 11px;
+					width: 8px;
 				}
 
 				.container {
@@ -127,7 +265,10 @@
 			}
 
 			&.list {
+				margin-top: 20px;
+
 				li {
+					line-height: 16px;
 					overflow: hidden;
 					padding: 5px 20px;
 
@@ -138,7 +279,6 @@
 
 					span {
 						display: block;
-						line-height: 16px;
 						overflow: hidden;
 						text-overflow: ellipsis;
 						white-space: nowrap;
@@ -146,7 +286,7 @@
 
 					li {
 						background: url(images/line.png) no-repeat 6px -35px;
-						padding: 0 0 0 20px;
+						padding: 0 0 0 16px;
 
 						&:last-child {
 							background: url(images/line-end.png) no-repeat 6px -11px;
@@ -154,11 +294,12 @@
 
 						span {
 							background: #FFF;
+							padding-left: 4px;
 						}
 					}
 
 					&:hover {
-						background-color: #F5F5F5;
+						background: #F5F5F5;
 
 						span {
 							background-color: #F5F5F5;
@@ -167,7 +308,43 @@
 				}
 
 				.actions {
+					background: #F5F5F5;
 					padding: 5px 20px;
+				}
+			}
+
+			&.thumbnail {
+				.container {
+					padding: 20px;
+				}
+
+				li {
+					border: 2px solid transparent;
+					float: left;
+					height: 100px;
+					margin: 0 15px 15px 0;
+					overflow: hidden;
+					position: relative;
+					width: 100px;
+
+					&:nth-child(3n) {
+						margin-right: 0;
+					}
+
+					&:hover {
+						border-color: #DDD;
+					}
+
+					img {
+						display: block;
+					}
+
+					.action {
+						cursor: default;
+						position: absolute;
+						right: 0;
+						top: 0;
+					}
 				}
 			}
 		}

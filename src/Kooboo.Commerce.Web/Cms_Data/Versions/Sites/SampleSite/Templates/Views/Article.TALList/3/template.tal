@@ -1,0 +1,9 @@
+﻿ <div class="block list">
+  
+  <div class="item" tal:repeat="ArticlesItem ViewBag.Articles">
+      <h6 class="title"><a tal:attributes="href Url.FrontUrl().PageUrl(&quot;Articles~Detail&quot;,new {UserKey=ArticlesItem.UserKey})" tal:content="structure ArticlesItem.Title">Title</a></h6>
+      <span class="date" tal:content="structure ArticlesItem.UtcCreationDate">Date</span>
+      <p tal:content="structure ArticlesItem.Summary">Summary</p>
+  </div>
+
+</div>
