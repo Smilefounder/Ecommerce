@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Mapping
 {
-    public class FieldValidationRuleMap : EntityTypeConfiguration<FieldValidationRule>
+    class FieldValidationRuleMap : EntityTypeConfiguration<FieldValidationRule>
     {
     }
 }

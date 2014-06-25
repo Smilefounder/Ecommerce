@@ -7,7 +7,7 @@ using Kooboo.Commerce.Categories;
 
 namespace Kooboo.Commerce.Data.Mapping
 {
-    public class CategoryMap : EntityTypeConfiguration<Category>
+    class CategoryMap : EntityTypeConfiguration<Category>
     {
         public CategoryMap()
         {

@@ -3724,10 +3724,6 @@
       <Project>{e0fecbcd-68c8-4c2d-8bd5-7bb03054b5c8}</Project>
       <Name>Kooboo.Commerce.Customers.ExtendedQuery</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce.Data.Mapping\Kooboo.Commerce.Data.Mapping.csproj">
-      <Project>{26517dc5-30b5-4eb3-a3e7-a1ade568d8bc}</Project>
-      <Name>Kooboo.Commerce.Data.Mapping</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Data.SqlServer\Kooboo.Commerce.Data.SqlServer.csproj">
       <Project>{5b8b6f8c-f82f-425f-b521-40b2949383e4}</Project>
       <Name>Kooboo.Commerce.Data.SqlServer</Name>

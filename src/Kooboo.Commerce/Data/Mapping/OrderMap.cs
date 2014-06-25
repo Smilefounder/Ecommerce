@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
-using Kooboo.Commerce.Products;
+using Kooboo.Commerce.Orders;
 
 namespace Kooboo.Commerce.Data.Mapping
 {
-    public class ProductMap : EntityTypeConfiguration<Product>
+    class OrderMap : EntityTypeConfiguration<Order>
     {
     }
 }

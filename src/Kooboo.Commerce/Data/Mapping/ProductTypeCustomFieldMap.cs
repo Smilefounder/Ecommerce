@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Mapping
 {
-    public class ProductTypeCustomFieldMap: EntityTypeConfiguration<ProductTypeCustomField> 
+    class ProductTypeCustomFieldMap: EntityTypeConfiguration<ProductTypeCustomField> 
     {
 
         public ProductTypeCustomFieldMap()

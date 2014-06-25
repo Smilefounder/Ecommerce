@@ -7,7 +7,7 @@ using Kooboo.Commerce.Settings;
 
 namespace Kooboo.Commerce.Data.Mapping
 {
-    public class KeyValueSettingMap : EntityTypeConfiguration<KeyValueSetting>
+    class KeyValueSettingMap : EntityTypeConfiguration<KeyValueSetting>
     {
         public KeyValueSettingMap()
         {

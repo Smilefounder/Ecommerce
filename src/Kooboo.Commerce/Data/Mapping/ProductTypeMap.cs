@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Mapping
 {
-    public class ProductTypeMap : EntityTypeConfiguration<ProductType>
+    class ProductTypeMap : EntityTypeConfiguration<ProductType>
     {
         public ProductTypeMap()
         {
