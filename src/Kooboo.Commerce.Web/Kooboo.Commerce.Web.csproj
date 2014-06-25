@@ -290,7 +290,7 @@
     <Compile Include="Areas\Commerce\Bootstrapping\ConditionParameterProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\EventRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ExtendedQueryRegistrar.cs" />
-    <Compile Include="Areas\Commerce\Bootstrapping\DataAccessRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\CommerceInstanceRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\TabPluginRegistrar.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
     <Compile Include="Areas\Commerce\Common\Extensions\JsonExtensions.cs" />

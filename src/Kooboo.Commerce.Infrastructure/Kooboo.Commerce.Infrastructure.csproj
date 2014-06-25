@@ -112,7 +112,9 @@
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
     <Compile Include="Data\CommerceDbTransaction.cs" />
-    <Compile Include="Data\CommerceInstanceContext.cs" />
+    <Compile Include="Data\Context\HttpCurrentInstanceProvider.cs" />
+    <Compile Include="Data\Context\ICurrentInstanceProvider.cs" />
+    <Compile Include="Data\Context\ThreadScopeCurrentInstanceProvider.cs" />
     <Compile Include="Data\Events\DbContextSavingChanges.cs" />
     <Compile Include="Data\Extensions\CommerceDatabaseExtensions.cs" />
     <Compile Include="Data\ICommerceDbTransaction.cs" />
@@ -128,7 +130,6 @@
     <Compile Include="Data\CommerceDbContext.cs" />
     <Compile Include="Data\CommerceInstanceMetadata.cs" />
     <Compile Include="Data\CommerceRepository.cs" />
-    <Compile Include="Data\ICommerceInstanceNameResolver.cs" />
     <Compile Include="Data\ICommerceDatabase.cs" />
     <Compile Include="Data\ICommerceInstanceManager.cs" />
     <Compile Include="Data\ICommerceDbProvider.cs" />

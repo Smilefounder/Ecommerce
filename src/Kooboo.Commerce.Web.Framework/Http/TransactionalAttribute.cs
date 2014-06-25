@@ -18,12 +18,11 @@ namespace Kooboo.Commerce.Web.Framework.Http
         {
             base.OnActionExecuting(actionContext);
 
-            var commerceContext = EngineContext.Current.Resolve<CommerceInstanceContext>();
-            var currentInstance = commerceContext.CurrentInstance;
-            if (currentInstance == null)
+            var instance = CommerceInstance.Current;
+            if (instance == null)
                 throw new InvalidOperationException(typeof(TransactionalAttribute).Name + " can only be applied to an action within commerce instance context.");
 
-            _transaction = currentInstance.Database.BeginTransaction();
+            _transaction = instance.Database.BeginTransaction();
         }
 
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)

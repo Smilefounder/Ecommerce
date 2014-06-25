@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.API.LocalProvider
         {
             if (HttpContext.Current != null)
             {
-                HttpContext.Current.Items[HttpCommerceInstanceNameResolverBase.DefaultParamName] = instance;
+                HttpContext.Current.Items["instance"] = instance;
                 HttpContext.Current.Items["language"] = language;
             }
         }

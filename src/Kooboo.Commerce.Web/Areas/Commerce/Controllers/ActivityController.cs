@@ -232,7 +232,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 activityInfo.DisableAsyncExecution();
             }
 
-            CommerceContext.CurrentInstance.Database.SaveChanges();
+            CurrentInstance.Database.SaveChanges();
 
             return JsonNet(new
             {

@@ -17,8 +17,13 @@ namespace Kooboo.Commerce.Web.Mvc
 {
     public class CommerceControllerBase : Controller
     {
-        [Inject]
-        public CommerceInstanceContext CommerceContext { get; set; }
+        public CommerceInstance CurrentInstance
+        {
+            get
+            {
+                return CommerceInstance.Current;
+            }
+        }
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {

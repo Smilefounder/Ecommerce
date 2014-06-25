@@ -15,8 +15,6 @@ namespace Kooboo.Commerce.Payments.iDeal
 {
     public class IDealPaymentProcessor : IPaymentProcessor
     {
-        private CommerceInstanceContext _commerceInstanceContext;
-
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
         public string Name
@@ -35,11 +33,6 @@ namespace Kooboo.Commerce.Payments.iDeal
             }
         }
 
-        public IDealPaymentProcessor(CommerceInstanceContext commerceInstanceContext)
-        {
-            _commerceInstanceContext = commerceInstanceContext;
-        }
-
         public ProcessPaymentResult Process(PaymentProcessingContext context)
         {
             if (context.Amount < (decimal)1.19)
@@ -47,7 +40,7 @@ namespace Kooboo.Commerce.Payments.iDeal
 
             var settings = context.ProcessorConfig as IDealConfig;
 
-            var commerceName = _commerceInstanceContext.CurrentInstance.Name;
+            var commerceName = CommerceInstance.Current.Name;
             var httpContext = HttpContextAccessor();
             var reportUrl = Strings.AreaName + "/iDeal/Callback?commerceName=" + commerceName;
             var returnUrl = Strings.AreaName

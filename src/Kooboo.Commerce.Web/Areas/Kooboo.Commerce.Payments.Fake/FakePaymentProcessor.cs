@@ -13,8 +13,6 @@ namespace Kooboo.Commerce.Payments.Fake
 {
     public class FakePaymentProcessor : IPaymentProcessor
     {
-        private CommerceInstanceContext _commerceInstanceContext;
-
         public string Name
         {
             get
@@ -33,14 +31,9 @@ namespace Kooboo.Commerce.Payments.Fake
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
-        public FakePaymentProcessor(CommerceInstanceContext commerceInstanceContext)
-        {
-            _commerceInstanceContext = commerceInstanceContext;
-        }
-
         public ProcessPaymentResult Process(PaymentProcessingContext context)
         {
-            var commerceName = _commerceInstanceContext.CurrentInstance.Name;
+            var commerceName = CommerceInstance.Current.Name;
             var redirectUrl = Strings.AreaName
                 + "/Home/Gateway?commerceName=" + commerceName
                 + "&paymentId=" + context.Payment.Id

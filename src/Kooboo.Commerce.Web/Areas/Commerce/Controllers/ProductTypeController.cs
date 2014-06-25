@@ -163,7 +163,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 _productTypeService.Create(productType);
             }
 
-            CommerceContext.CurrentInstance.Database.SaveChanges();
+            CurrentInstance.Database.SaveChanges();
 
             if (model.IsEnabled)
             {

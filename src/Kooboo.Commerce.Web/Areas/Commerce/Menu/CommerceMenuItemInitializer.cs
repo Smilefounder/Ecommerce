@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
         protected string GetCommerceInstanceName(ControllerContext controllerContext)
         {
-            var instance = controllerContext.RequestContext.GetRequestValue(HttpCommerceInstanceNameResolverBase.DefaultParamName);
+            var instance = controllerContext.RequestContext.GetRequestValue("commerceName");
             if (!String.IsNullOrWhiteSpace(instance))
             {
                 return instance;

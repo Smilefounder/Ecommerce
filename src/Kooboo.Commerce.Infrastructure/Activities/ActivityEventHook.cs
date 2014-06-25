@@ -14,14 +14,10 @@ namespace Kooboo.Commerce.Activities
     class ActivityEventHook : IHandle<IEvent>
     {
         private IActivityProvider _provider;
-        private CommerceInstanceContext _instanceContext;
 
-        public ActivityEventHook(CommerceInstanceContext instanceContext, IActivityProvider provider)
+        public ActivityEventHook(IActivityProvider provider)
         {
-            Require.NotNull(instanceContext, "instanceContext");
             Require.NotNull(provider, "provider");
-
-            _instanceContext = instanceContext;
             _provider = provider;
         }
 
@@ -33,21 +29,21 @@ namespace Kooboo.Commerce.Activities
                 return;
             }
 
-            var commerceInstance = _instanceContext.CurrentInstance;
+            var instance = CommerceInstance.Current;
 
             // Activities must be executed within commerce instance context
-            if (commerceInstance == null)
+            if (instance == null)
             {
                 return;
             }
 
-            Execute(@event, @event.GetType(), commerceInstance);
+            Execute(@event, @event.GetType(), instance);
 
             // Execute activities bound to base event types
             var baseType = @event.GetType().BaseType;
             while (baseType != null && typeof(IBusinessEvent).IsAssignableFrom(baseType))
             {
-                Execute(@event, baseType, commerceInstance);
+                Execute(@event, baseType, instance);
                 baseType = baseType.GetType().BaseType;
             }
         }

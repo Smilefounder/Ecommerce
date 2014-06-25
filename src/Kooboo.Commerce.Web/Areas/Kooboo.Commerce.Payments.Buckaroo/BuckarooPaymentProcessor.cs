@@ -16,8 +16,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 {
     public class BuckarooPaymentProcessor : IPaymentProcessor
     {
-        private CommerceInstanceContext _commerceInstanceContext;
-
         public string Name
         {
             get { return Strings.ProcessorName; }
@@ -32,13 +30,6 @@ namespace Kooboo.Commerce.Payments.Buckaroo
         }
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
-
-        public BuckarooPaymentProcessor(
-            IPaymentMethodService paymentMethodService,
-            CommerceInstanceContext commerceInstanceContext)
-        {
-            _commerceInstanceContext = commerceInstanceContext;
-        }
 
         public ProcessPaymentResult Process(PaymentProcessingContext context)
         {
@@ -80,7 +71,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
         private string GetCallbackUrl(string action, PaymentProcessingContext request)
         {
-            var commerceName = _commerceInstanceContext.CurrentInstance.Name;
+            var commerceName = CommerceInstance.Current.Name;
             var url = Strings.AreaName + "/Buckaroo/" + action + "?commerceName=" + commerceName;
             if (action.StartsWith("return", StringComparison.OrdinalIgnoreCase))
             {

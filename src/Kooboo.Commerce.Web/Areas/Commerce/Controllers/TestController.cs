@@ -41,14 +41,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
     public class TestController : Controller
     {
-        public CommerceInstanceContext CommerceInstanceContext { get; private set; }
-
         private IBrandService _brandService;
         private IRepository<ActivityQueueItem> _queue;
 
-        public TestController(CommerceInstanceContext context, IBrandService brandService, IRepository<ActivityQueueItem> queue)
+        public TestController(IBrandService brandService, IRepository<ActivityQueueItem> queue)
         {
-            CommerceInstanceContext = context;
             _brandService = brandService;
             _queue = queue;
         }
@@ -56,38 +53,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Index()
         {
             return View();
-        }
-
-        public void Query()
-        {
-            var cart = CommerceInstanceContext.CurrentInstance.Database
-                            .GetRepository<ShoppingCart>()
-                            .Query()
-                            .Where(c => c.Customer.AccountId == "mouhong@kooboo.com")
-                            .FirstOrDefault();
-
-            Response.Write(cart == null ? "NULL" : cart.Id.ToString());
-        }
-
-        public void Save()
-        {
-            var instance = CommerceInstanceContext.CurrentInstance;
-            var db = instance.Database;
-            //using (var tx = db.BeginTransaction())
-            //{
-                var brand = db.GetRepository<Brand>().Get(2466);
-                brand.Name += " (Hello)";
-
-                db.SaveChanges();
-
-                var brand2 = db.GetRepository<Brand>().Get(2466);
-                if (brand2.Name == brand.Name)
-                {
-                    Response.Write("OK. Can get name " + brand2.Name);
-                }
-
-            //    tx.Commit();
-            //}
         }
 
         public ActionResult Params()
