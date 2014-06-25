@@ -1,6 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Membership.Models;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Orders;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.Customers.Services;
@@ -27,9 +26,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
 
-        public OrderAPI(IHalWrapper halWrapper, ICommerceDatabase db, IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
+        public OrderAPI(ICommerceDatabase db, IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
             IMapper<Order, Kooboo.Commerce.Orders.Order> mapper)
-            : base(halWrapper, mapper)
+            : base(mapper)
         {
             _db = db;
             _orderService = orderService;
@@ -185,15 +184,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             var customFieldQuery = _orderService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
             _query = _query.Where(o => customFieldQuery.Any(c => c.OrderId == o.Id));
             return this;
-        }
-
-        protected override IDictionary<string, object> BuildItemHalParameters(Order data)
-        {
-            var paras = base.BuildItemHalParameters(data);
-            var request = HttpContext.Current.Request;
-            paras.Add("sessionId", request.QueryString["sessionId"]);
-            paras.Add("deleteShoppingCart", request.QueryString["deleteShoppingCart"]);
-            return paras;
         }
 
         /// <summary>

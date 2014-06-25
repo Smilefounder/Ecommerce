@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Payments;
 using Kooboo.Commerce.Web.Framework.Http;
 using System;
@@ -19,11 +18,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             return Commerce().Payments.Pay(request);
         }
 
-        [HalParameterProvider()]
-        [HalParameter(Name = "id", ParameterType = typeof(int))]
-        [HalParameter(Name = "targetType", ParameterType = typeof(string))]
-        [HalParameter(Name = "targetId", ParameterType = typeof(string))]
-        [HalParameter(Name = "status", ParameterType = typeof(int))]
         protected override ICommerceQuery<Payment> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();

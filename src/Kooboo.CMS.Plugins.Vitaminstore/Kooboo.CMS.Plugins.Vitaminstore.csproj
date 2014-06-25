@@ -71,10 +71,6 @@
     <Compile Include="SiteExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo.Commerce.API.CmsSite\Kooboo.Commerce.API.CmsSite.csproj">
-      <Project>{5ba65d94-5968-4861-907a-460c252433cd}</Project>
-      <Name>Kooboo.Commerce.API.CmsSite</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>

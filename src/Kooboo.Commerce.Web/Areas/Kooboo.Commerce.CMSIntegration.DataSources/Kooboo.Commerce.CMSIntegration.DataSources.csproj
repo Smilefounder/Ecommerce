@@ -130,10 +130,6 @@
     <Content Include="module.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Kooboo.Commerce.API.HAL\Kooboo.Commerce.API.HAL.csproj">
-      <Project>{28e5672f-9bea-467a-86eb-3db6dc514f13}</Project>
-      <Name>Kooboo.Commerce.API.HAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>

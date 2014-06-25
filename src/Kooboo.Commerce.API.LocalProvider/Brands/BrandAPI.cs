@@ -5,7 +5,6 @@ using System.Text;
 using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.HAL;
 
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
@@ -18,8 +17,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
     {
         private IBrandService _brandService;
 
-        public BrandAPI(IHalWrapper halWrapper, IBrandService brandService, IMapper<Brand, Kooboo.Commerce.Brands.Brand> mapper)
-            : base(halWrapper, mapper)
+        public BrandAPI(IBrandService brandService, IMapper<Brand, Kooboo.Commerce.Brands.Brand> mapper)
+            : base(mapper)
         {
             _brandService = brandService;
         }

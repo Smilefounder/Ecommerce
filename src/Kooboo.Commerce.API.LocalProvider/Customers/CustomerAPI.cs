@@ -1,6 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Customers;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
@@ -26,10 +25,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
 
         public CustomerAPI(
             ICommerceDatabase db,
-            IHalWrapper halWrapper, ICustomerService customerService, ICountryService countryService,
+            ICustomerService customerService, ICountryService countryService,
             IMapper<Customer, Kooboo.Commerce.Customers.Customer> mapper,
             IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper)
-            : base(halWrapper, mapper)
+            : base(mapper)
         {
             _db = db;
             _customerService = customerService;

@@ -3,7 +3,6 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.CMS.Membership;
 using Kooboo.Commerce.API.Brands;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
@@ -33,10 +32,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private ICategoryService _categoryService;
         private ICustomFieldService _customFieldService;
 
-        public ProductAPI(IHalWrapper halWrapper, IProductService productService, IBrandService brandService, IProductTypeService productTypeService, ICustomFieldService customFieldService,
+        public ProductAPI(IProductService productService, IBrandService brandService, IProductTypeService productTypeService, ICustomFieldService customFieldService,
             ICategoryService categoryService,
             IMapper<Product, Kooboo.Commerce.Products.Product> mapper)
-            : base(halWrapper, mapper)
+            : base(mapper)
         {
             _productService = productService;
             _brandService = brandService;
@@ -90,8 +89,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
                     price.FinalRetailPrice = PricingContext.GetFinalRetailPrice(product.Id, price.Id, price.RetailPrice, new Kooboo.Commerce.ShoppingCarts.ShoppingContext
                     {
                         // TODO: We don't need Hal anymore, this need to be changed
-                        Culture = HalContext == null ? null : HalContext.Language,
-                        Currency = HalContext == null ? null : HalContext.Currency,
                         CustomerId = customerId
                     });
                 }

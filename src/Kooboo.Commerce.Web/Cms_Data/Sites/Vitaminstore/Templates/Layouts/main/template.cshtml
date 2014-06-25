@@ -1,11 +1,4 @@
-﻿@using Kooboo.Commerce.API;
-@using Kooboo.Commerce.API.CmsSite;
-@using Kooboo.Commerce.API.Categories;
-@{
-    var categories = Site.Current.Commerce().Categories.ByParentId(null).Include(o => o.Children).ToArray();
-}
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     @Html.FrontHtml().HtmlTitle()
@@ -96,7 +89,7 @@
                 <div class="navigation">
                     <ul>
                         <li class="nav-top-item home"><a href="/" class="selected"></a></li>
-                        @foreach (var cate in categories)
+                        @*@foreach (var cate in categories)
                         {
                             <li class="nav-top-item @(cate.Name)">
                                 <a href="@CmsSiteUrlResolver.MapUrl(cate, "products")" class="nav-top-main">
@@ -127,7 +120,7 @@
                                 </div>
 
                             </li>
-                        }
+                        }*@
                     </ul>
                 </div>
 

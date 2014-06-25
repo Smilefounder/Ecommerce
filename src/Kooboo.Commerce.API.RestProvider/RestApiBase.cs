@@ -6,7 +6,6 @@ using System.Text;
 using System.Web;
 using System.Configuration;
 using Newtonsoft.Json;
-using Kooboo.Commerce.API.HAL.Serialization;
 
 namespace Kooboo.Commerce.API.RestProvider
 {
@@ -114,11 +113,6 @@ namespace Kooboo.Commerce.API.RestProvider
                 }
             }
             var json = HttpHelper.Request(method, url, jsonData, accept: Accept, contentType: ContentType);
-
-            if (ContentType == "application/hal+json")
-            {
-                return JsonConvert.DeserializeObject<T>(json, new ResourceConverter());
-            }
 
             return JsonConvert.DeserializeObject<T>(json);
         }

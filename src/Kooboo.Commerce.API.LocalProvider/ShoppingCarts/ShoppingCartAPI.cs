@@ -1,6 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Customers;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.API.Pricing;
 using Kooboo.Commerce.API.ShoppingCarts;
@@ -37,7 +36,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> _cartItemMapper;
 
         public ShoppingCartAPI(
-            IHalWrapper halWrapper,
             ICommerceDatabase db,
             IProductService productService,
             IPriceAPI priceApi,
@@ -48,7 +46,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             IPromotionPolicyProvider promotionPolicyFactory,
             IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
             IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper)
-            : base(halWrapper, mapper)
+            : base(mapper)
         {
             _db = db;
             _priceApi = priceApi;

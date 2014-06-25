@@ -1,14 +1,27 @@
-﻿@using System.Linq;
+﻿@using Kooboo.Commerce.API.CmsSite;
 @using Kooboo.CMS.Plugins.Vitaminstore;
 @{
-    var cart = ViewBag.CurrentCart;
+    var api = Site.Current.Commerce();
+    var member = ViewContext.HttpContext.Membership().GetMembershipUser();
+    var cartId = ViewContext.HttpContext.CurrentCartId();
+    
+    var cart = api.ShoppingCarts.ById(cartId)
+                                .Include("Items.ProductPrice")
+                                .Include("Items.ProductPrice.Product")
+                                .Include("Items.ProductPrice.Product.Images")
+                                .Include("Items.ProductPrice.Product.Brand")
+                                .Include("ShippingAddress")
+                                .Include("ShippingAddress.Country")
+                                .FirstOrDefault();
 
     if (cart.Items.Count == 0)
     {
         Response.Redirect("~/Cart");
     }
 
-    var paymentMethods = ViewBag.PaymentMethods;
+    var prices = api.Prices.CartPrice(cart.Id);
+
+    var paymentMethods = api.PaymentMethods.ToArray();
 } 
 
 <div class="checkout">
@@ -31,8 +44,13 @@
                     <tbody>
                         @foreach (var item in cart.Items)
                         {
+                            var priceInfo = prices.Items.First(x => x.Id == item.Id);
+                            var image = item.ProductPrice.Product.Images.FirstOrDefault();
                             <tr>
                                 <td rowspan="3" class="pic top">
+                                    @if (image != null) { 
+                                        <img src="@image.ImageUrl" style="width:115px;height:115px;" alt="Male Nitro">
+                                    }
                                 </td>
                                 <td colspan="3" class="name top">
                                     <strong>@item.ProductPrice.Name</strong> 
@@ -46,9 +64,9 @@
                                 <td class="content field-title">Inhoud</td>
                                 <td class="quantity field-title">Aantal</td>
                                 <td class="price field-title"><em>Prijs per stuk</em></td>
-                                @*@if (priceInfo.Subtotal.Discount > 0) { 
+                                @if (priceInfo.Subtotal.Discount > 0) { 
                                 <td class="discount field-title"><em>Uw voordeel</em></td>
-                                }*@
+                                }
                                 <td class="subtotal field-title"><strong>Totale Prijs</strong></td>
                             </tr>
                             <tr>
@@ -61,7 +79,7 @@
                                 <td class="value">
                                     € @item.ProductPrice.RetailPrice.ToString("f2")
                                 </td>
-                                @*@if (priceInfo.Subtotal.Discount > 0) { 
+                                @if (priceInfo.Subtotal.Discount > 0) { 
                                 <td class="discount value">
                                     € @priceInfo.Subtotal.Discount.ToString("f2")
                                 </td>
@@ -70,8 +88,7 @@
                                     <strong>
                                         € @priceInfo.Subtotal.FinalValue.ToString("f2")
                                     </strong>
-                                </td>*@
-                                <td></td>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="6" class="separator"></td>
@@ -85,7 +102,7 @@
                             <td colspan="3" class="subtotal">
                                 <span class="total-title">Totaal voor deze bestelling:</span><br>
                                 <span class="total-value">
-                                    @*€ @prices.Subtotal.FinalValue.ToString("f2")*@
+                                    € @prices.Subtotal.FinalValue.ToString("f2")
                                 </span>
                             </td>
                         </tr>
@@ -123,7 +140,7 @@
                                     Verzendkosten
                                 </td>
                                 <td class="shippingcost">
-                                    @*€ @prices.ShippingCost.FinalValue.ToString("f2")*@
+                                    € @prices.ShippingCost.FinalValue.ToString("f2")
                                 </td>
                             </tr>
                         </tbody>
@@ -153,7 +170,7 @@
                                         }
                                         else
                                         {
-                                            //paymentMethodFee = Math.Round((decimal)method.AdditionalFeePercent * prices.Total, 2);
+                                            paymentMethodFee = Math.Round((decimal)method.AdditionalFeePercent * prices.Total, 2);
                                         }
 
                                         <tr>
@@ -196,12 +213,12 @@
                 <ul>
                     <li><strong>Totaal voor deze bestelling:</strong></li>
                     <li class="total-amount">
-                        @*€ <span class="value">@prices.Total.ToString("f2")</span>*@
+                        € <span class="value">@prices.Total.ToString("f2")</span>
                     </li>
                     <li>
                         <em>
-                            @*BTW: &euro; @prices.Tax.FinalValue.ToString("f2"),
-                            Verzendkosten: &euro; @prices.ShippingCost.FinalValue.ToString("f2")*@
+                            BTW: &euro; @prices.Tax.FinalValue.ToString("f2"),
+                            Verzendkosten: &euro; @prices.ShippingCost.FinalValue.ToString("f2")
                         </em>
                     </li>
                     <li><em>Inclusief BTW, Verzend- &amp; Transactiekosten</em></li>
@@ -222,6 +239,8 @@
 
 <script>
     $(function () {
+        var cartTotal = @(prices.Total.ToString("f2"));
+
         function SubmitOrder() {
             return http.post('@Url.FrontUrl().SubmissionUrl("SubmitOrder")')
                        .done(function (result) {
@@ -256,7 +275,10 @@
         function SelectPaymentMethod(methodId) {
             var $method = $('.payment-list .payment-method-item[value=' + methodId + ']');
             var fee = parseFloat($method.data('method-fee'));
+            var newTotal = cartTotal + fee;
+
             $method.prop('checked', true);
+            $('.total-amount .value').text(newTotal.toFixed(2));
         }
 
         $('.payment-list .payment-method-item').click(function () {

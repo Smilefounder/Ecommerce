@@ -2,7 +2,6 @@
 using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Membership;
-using Kooboo.Commerce.API.CmsSite;
 using System;
 using System.Collections.Generic;
 using System.Linq;

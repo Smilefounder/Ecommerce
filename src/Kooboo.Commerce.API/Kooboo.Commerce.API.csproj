@@ -87,8 +87,6 @@
     <Compile Include="ICommerceQuery.cs" />
     <Compile Include="Brands\IBrandQuery.cs" />
     <Compile Include="ICommerceAPI.cs" />
-    <Compile Include="Link.cs" />
-    <Compile Include="IListResource.cs" />
     <Compile Include="Locations\Address.cs" />
     <Compile Include="Locations\Country.cs" />
     <Compile Include="Locations\ICountryAPI.cs" />
@@ -134,7 +132,6 @@
     <Compile Include="Products\ProductType.cs" />
     <Compile Include="Promotions\Promotion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IResource.cs" />
     <Compile Include="Shipping\IShippingMethodAPI.cs" />
     <Compile Include="Shipping\IShippingMethodQuery.cs" />
     <Compile Include="Shipping\ShippingMethod.cs" />

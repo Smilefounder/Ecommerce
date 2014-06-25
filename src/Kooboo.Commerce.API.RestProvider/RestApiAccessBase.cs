@@ -10,7 +10,6 @@ namespace Kooboo.Commerce.API.RestProvider
     /// </summary>
     /// <typeparam name="T">api object type</typeparam>
     public class RestApiAccessBase<T> : RestApiQueryBase<T>, ICommerceAccess<T>
-        where T : IItemResource
     {
         /// <summary>
         /// create object

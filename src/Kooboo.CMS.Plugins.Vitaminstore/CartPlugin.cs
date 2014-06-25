@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using Kooboo.Commerce.API.CmsSite;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.API.Pricing;

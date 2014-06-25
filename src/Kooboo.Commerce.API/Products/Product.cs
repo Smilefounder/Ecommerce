@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.API.Products
     /// <summary>
     /// product
     /// </summary>
-    public class Product : ItemResource
+    public class Product
     {
         /// <summary>
         /// product id

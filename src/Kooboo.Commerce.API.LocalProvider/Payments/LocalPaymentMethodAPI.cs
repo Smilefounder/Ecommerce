@@ -1,5 +1,4 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Payments;
 using Kooboo.Commerce.Payments.Services;
 using System;
@@ -12,11 +11,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     [Dependency(typeof(IPaymentMethodAPI))]
     public class LocalPaymentMethodAPI : LocalPaymentMethodQuery, IPaymentMethodAPI
     {
-        public LocalPaymentMethodAPI(IHalWrapper halWrapper, 
+        public LocalPaymentMethodAPI(
             IPaymentMethodService paymentMethodService, 
             Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory,
             IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
-            : base(halWrapper, paymentMethodService, processorFactory, mapper)
+            : base(paymentMethodService, processorFactory, mapper)
         {
         }
 

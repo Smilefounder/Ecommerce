@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.API.HAL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +11,11 @@ namespace Kooboo.Commerce.API.LocalProvider
     /// <typeparam name="T">api object type</typeparam>
     /// <typeparam name="Model">entity type</typeparam>
     public abstract class LocalCommerceQueryAccess<T, Model> : LocalCommerceQuery<T, Model>, ICommerceAccess<T>
-        where T : class, IItemResource, new()
+        where T : class, new()
         where Model : class, new()
     {
-        public LocalCommerceQueryAccess(IHalWrapper halWrapper, IMapper<T, Model> mapper)
-            : base(halWrapper, mapper)
+        public LocalCommerceQueryAccess(IMapper<T, Model> mapper)
+            : base(mapper)
         {
         }
 

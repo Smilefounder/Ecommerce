@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Products;
 using Kooboo.Web.Mvc.Paging;
 using System;
@@ -17,19 +16,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// build the commerce query filters from query string.
         /// </summary>
         /// <returns>commerce query</returns>
-        [HalParameterProvider()]
-        [HalParameter(Name = "id", ParameterType = typeof(int))]
-        [HalParameter(Name = "categoryId", ParameterType = typeof(int))]
-        [HalParameter(Name = "name", ParameterType = typeof(string))]
-        [HalParameter(Name = "containsName", ParameterType = typeof(string))]
-        [HalParameter(Name = "productTypeId", ParameterType = typeof(int))]
-        [HalParameter(Name = "brandId", ParameterType = typeof(int))]
-        [HalParameter(Name = "published", ParameterType = typeof(bool))]
-        [HalParameter(Name = "deleted", ParameterType = typeof(bool))]
-        [HalParameter(Name = "customField.id", ParameterType = typeof(int))]
-        [HalParameter(Name = "customField.name", ParameterType = typeof(string))]
-        [HalParameter(Name = "priceVariant.id", ParameterType = typeof(int))]
-        [HalParameter(Name = "priceVariant.name", ParameterType = typeof(string))]
         protected override ICommerceQuery<Product> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();

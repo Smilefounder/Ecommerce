@@ -7,7 +7,6 @@ using System.Web.Http;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Locations;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
@@ -18,9 +17,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// build the commerce query filters from query string.
         /// </summary>
         /// <returns>commerce query</returns>
-        [HalParameterProvider()]
-        [HalParameter(Name = "sessionId", ParameterType = typeof(string))]
-        [HalParameter(Name = "accountId", ParameterType = typeof(string))]
         protected override ICommerceQuery<ShoppingCart> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();
@@ -34,14 +30,12 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         }
 
         [HttpPost]
-        [Resource("apply_coupon")]
         public bool ApplyCoupon(int cartId, string coupon)
         {
             return Commerce().ShoppingCarts.ApplyCoupon(cartId, coupon);
         }
 
         [HttpPost]
-        [Resource("change_shipping_address")]
         public int ChangeShippingAddress(int cartId, Address address)
         {
             Commerce().ShoppingCarts.ChangeShippingAddress(cartId, address);
@@ -49,7 +43,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         }
 
         [HttpPost]
-        [Resource("change_billing_address")]
         public int ChangeBillingAddress(int cartId, Address address)
         {
             Commerce().ShoppingCarts.ChangeBillingAddress(cartId, address);
@@ -75,7 +68,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="item">shopping cart item</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
-        [Resource("change_item_quantity")]
         public bool ChangeItemQuantity(int cartId, int itemId, int newQuantity)
         {
             Commerce().ShoppingCarts.ChangeItemQuantity(cartId, itemId, newQuantity);
@@ -88,7 +80,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <param name="shoppingCartId">shopping cart id</param>
         /// <returns>true if successfully, else false</returns>
         [HttpPost]
-        [Resource("expire_cart")]
         public bool ExpireShppingCart(int shoppingCartId)
         {
             Commerce().ShoppingCarts.ExpireCart(shoppingCartId);
@@ -96,7 +87,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         }
 
         [HttpPost]
-        [Resource("migrate_cart")]
         public bool MigrateCart(int customerId, string sessionId)
         {
             Commerce().ShoppingCarts.MigrateCart(customerId, sessionId);

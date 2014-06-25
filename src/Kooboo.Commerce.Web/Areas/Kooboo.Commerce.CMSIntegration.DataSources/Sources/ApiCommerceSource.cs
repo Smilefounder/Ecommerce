@@ -71,9 +71,6 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
 
             var query = EngineContext.Current.Resolve(QueryType);
 
-            // TODO: Exclude hal links for now
-            CallMethod(query, "WithoutHalLinks");
-
             if (context.Filters != null && context.Filters.Count > 0)
             {
                 ApplyFilters(query, context.Filters, context);

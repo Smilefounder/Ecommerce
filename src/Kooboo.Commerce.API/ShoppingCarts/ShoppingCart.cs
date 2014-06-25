@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.API.ShoppingCarts
     /// <summary>
     /// shopping cart
     /// </summary>
-    public class ShoppingCart : ItemResource
+    public class ShoppingCart
     {
         /// <summary>
         /// shopping cart id
@@ -21,10 +21,6 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// session id
         /// </summary>
         public string SessionId { get; set; }
-        /// <summary>
-        /// customer info
-        /// </summary>
-        public Customer Customer { get; set; }
         /// <summary>
         /// shopping cart items
         /// </summary>
@@ -39,6 +35,10 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// billing address
         /// will copy to order's billing address when create order from shopping cart
         public Address BillingAddress { get; set; }
+        /// <summary>
+        /// customer info
+        /// </summary>
+        public Customer Customer { get; set; }
         /// <summary>
         /// use coupon code
         /// </summary>

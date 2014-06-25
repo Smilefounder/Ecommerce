@@ -92,10 +92,6 @@
     <Compile Include="ShoppingCarts\ShoppingCartAPI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo.Commerce.API.HAL\Kooboo.Commerce.API.HAL.csproj">
-      <Project>{28e5672f-9bea-467a-86eb-3db6dc514f13}</Project>
-      <Name>Kooboo.Commerce.API.HAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
       <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
       <Name>Kooboo.Commerce.API.LocalProvider</Name>

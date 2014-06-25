@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.API
     /// var products = query.Pagination(1, 50);
     /// </summary>
     /// <typeparam name="T">commerce object</typeparam>
-    public interface ICommerceQuery<T> where T : IItemResource
+    public interface ICommerceQuery<T>
     {
         ICommerceQuery<T> Include(string property);
 
@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.API
         /// <param name="pageIndex">current page index</param>
         /// <param name="pageSize">page size</param>
         /// <returns>paged query result</returns>
-        IListResource<T> Pagination(int pageIndex, int pageSize);
+        IList<T> Pagination(int pageIndex, int pageSize);
         /// <summary>
         /// get the first commerce object of the query. returns null if the query result is empty.
         /// </summary>
@@ -41,21 +41,11 @@ namespace Kooboo.Commerce.API
         /// get all commerce objects of the query
         /// </summary>
         /// <returns>commerce objects</returns>
-        IListResource<T> ToArray();
+        IList<T> ToArray();
         /// <summary>
         /// get total count of the query
         /// </summary>
         /// <returns>count of commerce objects</returns>
         int Count();
-        /// <summary>
-        /// query data without requesting hal links to save time
-        /// </summary>
-        ICommerceQuery<T> WithoutHalLinks();
-        /// <summary>
-        /// set hal parameter value
-        /// </summary>
-        /// <param name="name">hal parameter name</param>
-        /// <param name="value">hal parameter value</param>
-        ICommerceQuery<T> SetHalParameter(string name, object value);
     }
 }

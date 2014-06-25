@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.API.Products
     /// <summary>
     /// Define the type of a product, the type defines all the custom properties and variations. 
     /// </summary>
-    public class ProductType : ItemResource
+    public class ProductType
     {
         /// <summary>
         /// product type id

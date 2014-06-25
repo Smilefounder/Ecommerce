@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.ShoppingCarts;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
@@ -18,19 +17,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// build the commerce query filters from query string.
         /// </summary>
         /// <returns>commerce query</returns>
-        [HalParameterProvider()]
-        [HalParameter(Name = "id", ParameterType = typeof(int))]
-        [HalParameter(Name = "customerId", ParameterType = typeof(int))]
-        [HalParameter(Name = "accountId", ParameterType = typeof(int))]
-        [HalParameter(Name = "fromCreateDate", ParameterType = typeof(DateTime))]
-        [HalParameter(Name = "toCreateDate", ParameterType = typeof(DateTime))]
-        [HalParameter(Name = "status", ParameterType = typeof(int))]
-        [HalParameter(Name = "isCompleted", ParameterType = typeof(bool))]
-        [HalParameter(Name = "coupon", ParameterType = typeof(string))]
-        [HalParameter(Name = "fromTotal", ParameterType = typeof(int))]
-        [HalParameter(Name = "toTotal", ParameterType = typeof(int))]
-        [HalParameter(Name = "customField.name", ParameterType = typeof(string))]
-        [HalParameter(Name = "customField.value", ParameterType = typeof(string))]
         protected override ICommerceQuery<Order> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();
@@ -66,7 +52,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         }
 
         [HttpPost]
-        [Resource("create_from_cart")]
         public int CreateFromCart(int cartId, [FromBody]ShoppingContext context)
         {
             return Commerce().Orders.CreateFromCart(cartId, context);

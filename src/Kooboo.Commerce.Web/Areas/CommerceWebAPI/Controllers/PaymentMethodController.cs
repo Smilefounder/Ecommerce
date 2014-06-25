@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Payments;
 using System;
 using System.Collections.Generic;
@@ -12,8 +11,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
     public class PaymentMethodController : CommerceAPIControllerQueryBase<PaymentMethod>
     {
-        [HalParameterProvider()]
-        [HalParameter(Name = "id", ParameterType = typeof(int))]
         protected override ICommerceQuery<PaymentMethod> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();

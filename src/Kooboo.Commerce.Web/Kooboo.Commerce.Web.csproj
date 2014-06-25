@@ -334,8 +334,6 @@
     <Compile Include="Areas\Commerce\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CountryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CustomerController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\HalController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\HalResourceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\HomeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\MediaLibraryController.cs" />
@@ -407,14 +405,6 @@
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\CustomFieldEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\FieldValidationRuleEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\HAL\HalParameterModel.cs" />
-    <Compile Include="Areas\Commerce\Models\HAL\HalRuleEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\HAL\HalRuleResourceModel.cs" />
-    <Compile Include="Areas\Commerce\Models\HAL\ImplicitLinkProviderModel.cs" />
-    <Compile Include="Areas\Commerce\Models\HAL\ResourceLinkModel.cs" />
-    <Compile Include="Areas\Commerce\Models\HAL\ResourceLinkParameterModel.cs" />
-    <Compile Include="Areas\Commerce\Models\HAL\ResourceModel.cs" />
-    <Compile Include="Areas\Commerce\Models\HAL\HalRuleRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\NameValue.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderRowModel.cs" />
@@ -3411,14 +3401,7 @@
     <Content Include="Areas\Commerce\Views\ShippingMethod\Steps.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Complete.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_SimpleCustomFields.cshtml" />
-    <Content Include="Areas\Commerce\Views\HalResource\List.cshtml" />
-    <Content Include="Areas\Commerce\Views\HalResource\Detail.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_SitesNavTree.cshtml" />
-    <Content Include="Areas\Commerce\Views\Hal\ResourceRules.cshtml" />
-    <Content Include="Areas\Commerce\Views\Hal\_RuleEditor.cshtml" />
-    <Content Include="Areas\Commerce\Views\Hal\CreateRule.cshtml" />
-    <Content Include="Areas\Commerce\Views\Hal\EditRule.cshtml" />
-    <Content Include="Areas\Commerce\Views\HalResource\_LinkEditorDialog.cshtml" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Pages\Home\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Layouts\main\setting.config" />
@@ -3714,10 +3697,6 @@
     <Content Include="Areas\Commerce\Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo.Commerce.API.CmsSite\Kooboo.Commerce.API.CmsSite.csproj">
-      <Project>{5ba65d94-5968-4861-907a-460c252433cd}</Project>
-      <Name>Kooboo.Commerce.API.CmsSite</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
       <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
       <Name>Kooboo.Commerce.API.LocalProvider</Name>
@@ -3733,10 +3712,6 @@
     <ProjectReference Include="..\Kooboo.Commerce.Data.SqlServer\Kooboo.Commerce.Data.SqlServer.csproj">
       <Project>{5b8b6f8c-f82f-425f-b521-40b2949383e4}</Project>
       <Name>Kooboo.Commerce.Data.SqlServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce.API.HAL\Kooboo.Commerce.API.HAL.csproj">
-      <Project>{28e5672f-9bea-467a-86eb-3db6dc514f13}</Project>
-      <Name>Kooboo.Commerce.API.HAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>

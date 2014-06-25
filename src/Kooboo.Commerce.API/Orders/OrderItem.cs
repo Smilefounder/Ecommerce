@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.API.Orders
     /// <summary>
     /// order item
     /// </summary>
-    public class OrderItem : ItemResource
+    public class OrderItem
     {
         /// <summary>
         /// order item id

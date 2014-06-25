@@ -11,7 +11,6 @@ namespace Kooboo.Commerce.API.RestProvider
     /// </summary>
     /// <typeparam name="T">api object type</typeparam>
     public class RestApiQueryBase<T> : RestApiBase, ICommerceQuery<T>
-        where T : IItemResource
     {
         public RestApiQueryBase()
         {
@@ -54,11 +53,11 @@ namespace Kooboo.Commerce.API.RestProvider
         /// <param name="pageIndex">current page index</param>
         /// <param name="pageSize">page size</param>
         /// <returns>paginated data</returns>
-        public virtual IListResource<T> Pagination(int pageIndex, int pageSize)
+        public virtual IList<T> Pagination(int pageIndex, int pageSize)
         {
             QueryParameters.Add("pageIndex", pageIndex.ToString());
             QueryParameters.Add("pageSize", pageSize.ToString());
-            return Get<ListResource<T>>("List");
+            return Get<List<T>>("List");
         }
 
         /// <summary>
@@ -74,9 +73,9 @@ namespace Kooboo.Commerce.API.RestProvider
         /// get all objects that matches the query
         /// </summary>
         /// <returns>objects</returns>
-        public virtual IListResource<T> ToArray()
+        public virtual IList<T> ToArray()
         {
-            return Get<ListResource<T>>(null);
+            return Get<List<T>>(null);
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.API.Brands
     /// <summary>
     /// the brand api object
     /// </summary>
-    public class Brand : ItemResource
+    public class Brand
     {
         /// <summary>
         /// brand id

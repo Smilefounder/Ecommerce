@@ -1,6 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Categories;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.Locations.Services;
 using System;
@@ -19,8 +18,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
     {
         private ICountryService _countryService;
 
-        public CountryAPI(IHalWrapper halWrapper, ICountryService countryService, IMapper<Country, Kooboo.Commerce.Locations.Country> mapper)
-            : base(halWrapper, mapper)
+        public CountryAPI(ICountryService countryService, IMapper<Country, Kooboo.Commerce.Locations.Country> mapper)
+            : base(mapper)
         {
             _countryService = countryService;
         }

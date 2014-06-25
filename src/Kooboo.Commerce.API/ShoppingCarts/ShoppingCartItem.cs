@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.API.ShoppingCarts
     /// <summary>
     /// shopping cart item
     /// </summary>
-    public class ShoppingCartItem : ItemResource
+    public class ShoppingCartItem
     {
         /// <summary>
         /// shopping cart item id

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.API.Shipping
 {
-    public class ShippingMethod : ItemResource
+    public class ShippingMethod
     {
         public int Id { get; set; }
 

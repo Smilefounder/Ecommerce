@@ -1,5 +1,4 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.HAL;
 using Kooboo.Commerce.API.Shipping;
 using Kooboo.Commerce.Shipping.Services;
 using System;
@@ -15,10 +14,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Shipping
         private IShippingMethodService _shippingMethodService;
 
         public LocalShippingMethodQuery(
-            IHalWrapper halWrapper, 
             IShippingMethodService shippingMethodService,
             IMapper<ShippingMethod, Kooboo.Commerce.Shipping.ShippingMethod> mapper)
-            : base(halWrapper, mapper)
+            : base(mapper)
         {
             _shippingMethodService = shippingMethodService;
         }
