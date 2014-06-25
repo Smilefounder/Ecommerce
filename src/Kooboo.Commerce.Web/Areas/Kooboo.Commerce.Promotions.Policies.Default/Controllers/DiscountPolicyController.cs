@@ -3,6 +3,7 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Promotions.Policies.Default.Models;
 using Kooboo.Commerce.Promotions.Services;
+using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;

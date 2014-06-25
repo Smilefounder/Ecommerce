@@ -101,6 +101,10 @@
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
       <Name>Kooboo.Commerce.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Kooboo.Commerce.Web.Framework\Kooboo.Commerce.Web.Framework.csproj">
+      <Project>{fada65d6-57b3-4049-9961-5aeab7806297}</Project>
+      <Name>Kooboo.Commerce.Web.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Kooboo.Commerce\Kooboo.Commerce.csproj">
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>

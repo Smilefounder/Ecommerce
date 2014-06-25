@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Kooboo.Globalization;
 using Kooboo.Commerce.Web.Mvc;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Kooboo.Extensions;
 using Newtonsoft.Json;
-using Kooboo.Commerce.Collections;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 

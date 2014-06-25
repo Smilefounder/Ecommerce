@@ -12,6 +12,7 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.Commerce.Categories;
 using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.Web.Mvc;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {

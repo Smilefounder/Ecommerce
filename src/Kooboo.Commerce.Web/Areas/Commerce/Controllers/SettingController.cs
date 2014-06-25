@@ -11,6 +11,7 @@ using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.EAV.Services;
 using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {

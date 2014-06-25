@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.Tabs;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Mvc.ModelBinding;

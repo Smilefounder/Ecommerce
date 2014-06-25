@@ -18,6 +18,7 @@ using Kooboo.Globalization;
 using Kooboo.Extensions;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Web.Mvc.ModelBinding;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {

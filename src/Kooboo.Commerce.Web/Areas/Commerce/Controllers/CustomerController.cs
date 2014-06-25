@@ -13,6 +13,7 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Customers;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Locations.Services;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {

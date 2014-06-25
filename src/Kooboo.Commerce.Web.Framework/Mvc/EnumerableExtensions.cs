@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Mvc
+namespace Kooboo.Commerce.Web.Framework.Mvc
 {
     public static class EnumerableExtensions
     {

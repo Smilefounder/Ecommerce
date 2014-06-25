@@ -7,7 +7,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Mvc
+namespace Kooboo.Commerce.Web
 {
     public class FormHelper
     {

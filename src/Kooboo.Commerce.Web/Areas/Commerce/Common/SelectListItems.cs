@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Mvc
+namespace Kooboo.Commerce.Web
 {
     public static class SelectListItems
     {

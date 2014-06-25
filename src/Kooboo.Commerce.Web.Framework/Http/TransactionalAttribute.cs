@@ -6,10 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Transactions;
 using System.Web.Http.Filters;
 
-namespace Kooboo.Commerce.Web.Http
+namespace Kooboo.Commerce.Web.Framework.Http
 {
     public class TransactionalAttribute : ActionFilterAttribute
     {

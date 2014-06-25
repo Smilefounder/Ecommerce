@@ -5,11 +5,10 @@ using Kooboo.Commerce.Events.Registry;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web.Compilation;
 
 namespace Kooboo.Commerce.Infrastructure.Dependencies
 {
-    public class EventDependencyRegistrar : IDependencyRegistrar
+    public class EventRegistrar : IDependencyRegistrar
     {
         public int Order
         {

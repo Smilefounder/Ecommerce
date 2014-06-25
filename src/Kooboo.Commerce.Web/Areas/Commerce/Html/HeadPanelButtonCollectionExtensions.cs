@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Kooboo.Web.Mvc;
 using System.Web.Routing;
+using Kooboo.Commerce.Web.Framework;
 
 namespace Kooboo.Commerce.Web.Html
 {

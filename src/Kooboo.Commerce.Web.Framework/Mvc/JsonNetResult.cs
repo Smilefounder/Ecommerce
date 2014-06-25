@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
 
-namespace Kooboo.Commerce.Web.Mvc
+namespace Kooboo.Commerce.Web.Framework.Mvc
 {
     public class JsonNetResult : JsonResult
     {

@@ -78,18 +78,6 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\MVC\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\MVC\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\MVC\System.Web.Razor.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -115,7 +103,6 @@
     <Compile Include="Activities\RuleBranch.cs" />
     <Compile Include="Activities\RuleType.cs" />
     <Compile Include="BusinessRuleViolationException.cs" />
-    <Compile Include="Collections\ParameterValueDictionary.cs" />
     <Compile Include="ComponentModel\INotifyCreated.cs" />
     <Compile Include="ComponentModel\INotifyDeleted.cs" />
     <Compile Include="ComponentModel\INotifyDeleting.cs" />
@@ -151,8 +138,6 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\LinqDynamicExtension.cs" />
     <Compile Include="Data\QueryableExtensions.cs" />
-    <Compile Include="Dependencies\EventDependencyRegistrar.cs" />
-    <Compile Include="Dependencies\PersistenceDependencyRegistrar.cs" />
     <Compile Include="Events\CategoryAttribute.cs" />
     <Compile Include="Events\EventAttribute.cs" />
     <Compile Include="Events\Dispatching\DefaultEventDispatcher.cs" />
@@ -232,19 +217,6 @@
     <Compile Include="Rules\TypeExtensions.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Scope`.cs" />
-    <Compile Include="Web\Http\TransactionalAttribute.cs" />
-    <Compile Include="Web\Mvc\HandleAjaxFormErrorAttribute.cs" />
-    <Compile Include="Web\Mvc\AjaxFormResult.cs" />
-    <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
-    <Compile Include="Web\Mvc\ExternalPostResult.cs" />
-    <Compile Include="Web\Mvc\TransactionalAttribute.cs" />
-    <Compile Include="Web\Mvc\EFContractResolver.cs" />
-    <Compile Include="Web\Mvc\EnumerableExtensions.cs" />
-    <Compile Include="Web\Mvc\SelectListItems.cs" />
-    <Compile Include="Web\Mvc\FormHelper.cs" />
-    <Compile Include="Web\Mvc\JsonNetResult.cs" />
-    <Compile Include="Web\Mvc\SelectListExtensions.cs" />
-    <Compile Include="Web\RouteValues.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

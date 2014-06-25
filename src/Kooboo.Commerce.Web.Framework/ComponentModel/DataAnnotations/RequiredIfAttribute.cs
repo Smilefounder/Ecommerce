@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.ComponentModel.DataAnnotations
+namespace Kooboo.Commerce.Web.Framework.ComponentModel.DataAnnotations
 {
     public class RequiredIfAttribute : RequiredAttribute
     {

@@ -2,6 +2,7 @@
 using Kooboo.Commerce.Shipping.ByWeight.Models;
 using Kooboo.Commerce.Shipping.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Controllers;
+using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Mvc;
 using Newtonsoft.Json;
 using System;

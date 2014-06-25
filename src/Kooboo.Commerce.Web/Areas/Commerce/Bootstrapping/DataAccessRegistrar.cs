@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Infrastructure.Dependencies
 {
-    public class PersistenceDependencyRegistrar : IDependencyRegistrar
+    public class DataAccessRegistrar : IDependencyRegistrar
     {
         public int Order
         {

@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;

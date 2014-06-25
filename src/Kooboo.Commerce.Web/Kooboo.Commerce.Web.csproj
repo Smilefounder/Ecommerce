@@ -288,11 +288,14 @@
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ConditionParameterProviderRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\EventRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ExtendedQueryRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\DataAccessRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\TabPluginRegistrar.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
     <Compile Include="Areas\Commerce\Common\Extensions\JsonExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Extensions\TimeSpanExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\FormHelper.cs" />
     <Compile Include="Areas\Commerce\Common\Form\CheckBox.cs" />
     <Compile Include="Areas\Commerce\Common\Form\CheckBoxList.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Date.cs" />
@@ -322,6 +325,9 @@
     <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\ObjectModelBinder.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
+    <Compile Include="Areas\Commerce\Common\RouteValues.cs" />
+    <Compile Include="Areas\Commerce\Common\SelectListExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\SelectListItems.cs" />
     <Compile Include="Areas\Commerce\Controllers\ActivityController.cs" />
     <Compile Include="Areas\Commerce\Controllers\AddInManagementController.cs" />
     <Compile Include="Areas\Commerce\Controllers\BrandController.cs" />

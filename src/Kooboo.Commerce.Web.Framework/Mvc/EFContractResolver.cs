@@ -5,7 +5,7 @@ using System.Text;
 using System.Reflection;
 using Newtonsoft.Json.Serialization;
 
-namespace Kooboo.Commerce.Web.Mvc
+namespace Kooboo.Commerce.Web.Framework.Mvc
 {
     public class EFContractResolver : DefaultContractResolver
     {
