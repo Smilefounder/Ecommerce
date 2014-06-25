@@ -317,7 +317,7 @@
             onSaveSuccess: function (self, info) {
                 utils.showMessage('Notice', info.message, 'info');
                 window.leaveConfirm.pass();
-                window.location.href = '/Commerce/Customer/Index?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]';
+                window.location.href = '/Commerce/Customer/Index?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]';
                 //$('#J_CustomerTabs').tabs();
             },
             onInit: function (self) {
@@ -418,30 +418,4 @@
         $(':focus').blur();
         vm.saveData();
     }
-
-    @*function CheckConfirmPassword() {
-        var val1 = $('#newPassword').val();
-        var val2 = $('#confirmPassword').val();
-        if (val1 || val2) {
-            if (val1 != val2) {
-                utils.showMessage('warning', 'Confirm Password should be the same as new password.', 'warn');
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function ChangePassword() {
-        if (CheckConfirmPassword()) {
-            var data = {
-                AccountId: vm.data().Account().Id(),
-                OldPassword: $('#oldPassword').val(),
-                NewPassword: $('#newPassword').val(),
-                ConfirmPassword: $('#confirmPassword').val()
-            };
-            utils.postJson('/Commerce/Customer/ChangePassword?commerceName=@Request.QueryString["commerceName"]', data, function (info) {
-                utils.showMessage(info.title, info.message, info.status == 0 ? 'info' : 'error');
-            });
-        }
-    }*@
 </script>

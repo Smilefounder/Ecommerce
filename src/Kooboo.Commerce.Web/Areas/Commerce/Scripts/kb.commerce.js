@@ -92,7 +92,7 @@
 
                 for (var i = 0, len = parts.length; i < len; i++) {
                     var part = parts[i];
-                    if (part.indexOf('commerceName') === 0 || part.indexOf('instance') === 0) {
+                    if (part.indexOf('instance') === 0) {
                         var indexOfAssign = parts[i].indexOf('=');
                         if (indexOfAssign > 0) {
                             instance = part.substr(indexOfAssign + 1);

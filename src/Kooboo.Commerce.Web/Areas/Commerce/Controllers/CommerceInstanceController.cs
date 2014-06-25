@@ -159,7 +159,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return AjaxForm().ReloadPage();
         }
 
-        public ActionResult Start(string commerceName)
+        public ActionResult Start(string instance)
         {
             return View();
         }

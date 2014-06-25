@@ -16,8 +16,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
     {
         protected override bool GetIsVisible(MenuItem menuItem, ControllerContext controllerContext)
         {
-            var commerceName = GetCommerceInstanceName(controllerContext);
-            return !String.IsNullOrWhiteSpace(commerceName);
+            var instanceName = GetCommerceInstanceName(controllerContext);
+            return !String.IsNullOrWhiteSpace(instanceName);
         }
 
         public override MenuItem Initialize(MenuItem menuItem, ControllerContext controllerContext)
@@ -26,10 +26,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
             {
                 menuItem.RouteValues = new System.Web.Routing.RouteValueDictionary();
             }
-            var commerceName = GetCommerceInstanceName(controllerContext);
-            if (!String.IsNullOrWhiteSpace(commerceName))
+            var instanceName = GetCommerceInstanceName(controllerContext);
+            if (!String.IsNullOrWhiteSpace(instanceName))
             {
-                menuItem.RouteValues["commerceName"] = commerceName;
+                menuItem.RouteValues["instance"] = instanceName;
             }
 
             return base.Initialize(menuItem, controllerContext);
@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
         protected string GetCommerceInstanceName(ControllerContext controllerContext)
         {
-            var instance = controllerContext.RequestContext.GetRequestValue("commerceName");
+            var instance = controllerContext.RequestContext.GetRequestValue("instance");
             if (!String.IsNullOrWhiteSpace(instance))
             {
                 return instance;

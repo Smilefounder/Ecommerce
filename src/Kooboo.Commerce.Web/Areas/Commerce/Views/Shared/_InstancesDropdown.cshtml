@@ -3,7 +3,7 @@
     var engine = Kooboo.CMS.Common.Runtime.EngineContext.Current;
     var manager = engine.Resolve<ICommerceInstanceManager>();
     var allInstanceMetas = manager.GetAllInstanceMetadatas().ToList();
-    var currentInstanceName = ViewContext.RequestContext.GetRequestValue("commerceName");
+    var currentInstanceName = ViewContext.RequestContext.GetRequestValue("instance");
     var currentInstanceMeta = manager.GetInstanceMetadata(currentInstanceName);
 }
 
@@ -16,7 +16,7 @@
         {
             if (instance.Name != currentInstanceMeta.Name)
             {
-                <li><a href="@Url.Action("Start", "CommerceInstance", new { commerceName = instance.Name })">@instance.DisplayName</a></li>
+                <li><a href="@Url.Action("Start", "CommerceInstance", new { instance = instance.Name })">@instance.DisplayName</a></li>
             }
         }
     </ul>

@@ -15,7 +15,7 @@
             </a>
         </li>
         <li>
-            <a href="/Commerce/Order?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]">
+            <a href="/Commerce/Order?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]">
                 @Html.IconImage("back") @("Cancel".Localize())
             </a>
         </li>
@@ -65,7 +65,7 @@
                                     }
                                     else
                                     {
-                                        <a href="/Commerce/ShoppingCart/@(Model.ShoppingCart.Id)?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]">@(Model.ShoppingCart.Id)</a>
+                                        <a href="/Commerce/ShoppingCart/@(Model.ShoppingCart.Id)?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]">@(Model.ShoppingCart.Id)</a>
                                     }
                                 </td>
                             </tr>

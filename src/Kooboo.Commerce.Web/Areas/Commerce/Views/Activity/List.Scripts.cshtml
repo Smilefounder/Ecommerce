@@ -3,7 +3,7 @@
 
         window.keepLoading = true;
 
-        var commerceName = '@(Request["commerceName"])';
+        var instance = '@(Request["instance"])';
         var eventType = '@Html.Raw(ViewBag.CurrentEventType)';
 
         var vm = new ViewModel();
@@ -141,7 +141,7 @@
                 $.pop({
                     height: 500,
                     url: '@Url.Action("CreateActivity")'
-                        + '?commerceName=' + commerceName
+                        + '?instance=' + instance
                         + '&ruleId=' + _this.ruleId()
                         + '&branch=' + _this.branch()
                         + '&activityName=' + _this.selectedActivityName()
@@ -152,7 +152,7 @@
                 vm.beginActivityContext(_rule, _this, attachedActivity);
                 $.pop({
                     height: 500,
-                    url: '@Url.Action("EditActivity")' + '?commerceName=' + commerceName + '&ruleId=' + _this.ruleId() + '&attachedActivityInfoId=' + attachedActivity.id()
+                    url: '@Url.Action("EditActivity")' + '?instance=' + instance + '&ruleId=' + _this.ruleId() + '&attachedActivityInfoId=' + attachedActivity.id()
                 });
             }
 

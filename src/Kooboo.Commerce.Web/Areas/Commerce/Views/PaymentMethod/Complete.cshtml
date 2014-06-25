@@ -27,11 +27,9 @@
 
 <script>
     $(function () {
-        var commerceName = '@(ViewContext.RequestContext.GetRequestValue("commerceName"))';
-
         $('.J_EnablePaymentMethod').click(function () {
             window.loading.show();
-            $.post('@Url.Action("EnablePaymentMethod")', { id: $(this).data('id'), commerceName: commerceName }, function () {
+            $.post('@Url.Action("EnablePaymentMethod")', { id: $(this).data('id') }, function () {
                 window.loading.hide();
                 location.href = '@Html.Raw(ViewContext.RequestContext.GetRequestValue("return"))';
             });

@@ -46,7 +46,7 @@
                 utils.showMessage('Notice', info.message, 'info');
                 window.leaveConfirm.pass();
                 setTimeout(function () {
-                    window.location.href = '/Commerce/Product/Index?commerceName=@(Request.QueryString["commerceName"])&siteName=@(Request.QueryString["siteName"])';
+                    window.location.href = '/Commerce/Product/Index?instance=@(Request.QueryString["instance"])&siteName=@(Request.QueryString["siteName"])';
                 }, 1000);
             });
         },

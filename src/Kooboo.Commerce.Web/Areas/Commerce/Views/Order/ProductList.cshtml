@@ -23,7 +23,7 @@
 
     <div class="topbar" style="z-index: 1203;">
         <h1 class="title">Select products</h1>
-        <form id="search-product" action="/Commerce/Order/ProductList?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]" method="POST" class="no-stop" novalidate="novalidate" style="float: right">
+        <form id="search-product" action="/Commerce/Order/ProductList?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]" method="POST" class="no-stop" novalidate="novalidate" style="float: right">
             <input type="text" name="search" value="@ViewBag.Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" style="width:200px;">
             <button type="button" onclick="$('#search-product').submit();" style="background: none; min-width: 10px;">
                 @Html.IconImage("search")

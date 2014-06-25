@@ -34,7 +34,7 @@ else
         {
             <div class="content-block commerce-instance database">
                 <div class="content-block-header">
-                    <a href="@Url.Action("Start", new { commerceName = instance.Name })">@instance.DisplayName</a>
+                    <a href="@Url.Action("Start", new { instance = instance.Name })">@instance.DisplayName</a>
                     <input type="radio" name="select" class="select" value="@instance.Name" id="@instance.Name" data-id-property="Name"><label for="@instance.Name"></label><span class="corner"></span>
                 </div>
                 <ul>

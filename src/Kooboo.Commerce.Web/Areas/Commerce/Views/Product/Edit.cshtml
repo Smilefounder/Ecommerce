@@ -86,7 +86,7 @@
                     </div>
                 </li>
             </ul>
-            <a href="javascript:;" class="action J_Upload" data-owner="@(Request.QueryString["commerceName"])" data-bind="attr: { 'data-property': 'Products/' + Name(), 'data-multiple': IsMultiple }">
+            <a href="javascript:;" class="action J_Upload" data-owner="@(Request.QueryString["instance"])" data-bind="attr: { 'data-property': 'Products/' + Name(), 'data-multiple': IsMultiple }">
                 @Html.IconImage("plus-small")
             </a>
         </td>

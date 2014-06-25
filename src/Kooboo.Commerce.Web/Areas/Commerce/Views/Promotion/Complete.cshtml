@@ -30,11 +30,9 @@
 
 <script>
     $(function () {
-        var commerceName = '@(ViewContext.RequestContext.GetRequestValue("commerceName"))';
-
         $('.J_EnablePromotion').click(function () {
             window.loading.show();
-            $.post('@Url.Action("EnablePromotion")', { id: $(this).data('id'), commerceName: commerceName }, function () {
+            $.post('@Url.Action("EnablePromotion")', { id: $(this).data('id') }, function () {
                 window.loading.hide();
                 location.href = '@Html.Raw(ViewContext.RequestContext.GetRequestValue("return"))';
             });

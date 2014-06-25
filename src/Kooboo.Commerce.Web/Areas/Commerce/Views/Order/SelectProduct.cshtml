@@ -24,7 +24,7 @@
 @section Panel{
     <ul class="header-panel">
         <li>
-            <a href="/Commerce/Order?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]">
+            <a href="/Commerce/Order?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]">
                 @Html.IconImage("back") @("Cancel".Localize())
             </a>
         </li>
@@ -108,7 +108,7 @@
                                     @p.SubTotal
                                 </td>
                                 <td>
-                                    <a href="/Commerce/Order/RemoveProduct?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&id=@p.ProductPriceId" title="@("Remove".Localize())">@Html.IconImage("minus")</a>
+                                    <a href="/Commerce/Order/RemoveProduct?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]&id=@p.ProductPriceId" title="@("Remove".Localize())">@Html.IconImage("minus")</a>
                                 </td>
                             </tr>
                         }
@@ -119,13 +119,11 @@
     }
     <div class="wizard-buttons">
         <a href="@ViewBag.Return" class="button gray">&laquo; @("Back".Localize())</a>
-        <a href="/Commerce/Order/FillOrderInfo?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]" class="button">@("Next".Localize()) &raquo;</a>
+        <a href="/Commerce/Order/FillOrderInfo?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]" class="button">@("Next".Localize()) &raquo;</a>
     </div>
 </div>
 <div id="productPriceList" class="hide">
-    <iframe src="/Commerce/Order/ProductList?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]" style="width: 840px; height: 490px;" frameborder="0">
-
-    </iframe>
+    <iframe src="/Commerce/Order/ProductList?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]" style="width: 840px; height: 490px;" frameborder="0"></iframe>
 </div>
 <script type="text/javascript">
     $(function () {

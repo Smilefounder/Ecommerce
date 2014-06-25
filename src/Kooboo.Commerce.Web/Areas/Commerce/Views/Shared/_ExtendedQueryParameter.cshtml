@@ -60,14 +60,14 @@
 
         vmEQP = new ObjectModel({
             getQueryUrl: function (self) {
-                return '@(getUrl)?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
+                return '@(getUrl)?siteName=@Request.QueryString["siteName"]&name=' + self.Name();
             },
             getSaveUrl: function (self) {
-                return '@(saveurl)?siteName=@Request.QueryString["siteName"]&commerceName=@(Request.QueryString["commerceName"])&name=' + self.Name();
+                return '@(saveurl)?siteName=@Request.QueryString["siteName"]&name=' + self.Name();
             },
             onSaveSuccess: function (self, info) {
                 var name = self.Name();
-                var url = '@(executeurl)?siteName=@Request.QueryString["siteName"]&commerceName=@Request.QueryString["commerceName"]&name=' + name;
+                var url = '@(executeurl)?siteName=@Request.QueryString["siteName"]&name=' + name;
                 window.location.href = url;
             },
             onInit: function (self) {
