@@ -1,6 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Activities;
-using Kooboo.Commerce.Events.Dispatching;
+using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Registry;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,18 +30,12 @@ namespace Kooboo.Commerce.Infrastructure.Dependencies
                                        .ToList();
 
             // Handler Registry
-            var handlerRegistry = new DefaultEventHandlerRegistry();
-            handlerRegistry.RegisterAssemblies(assemblies);
-            containerManager.AddComponentInstance<IEventHandlerRegistry>(handlerRegistry);
+            EventHandlerManager.Instance.RegisterAssemblies(assemblies);
 
             // Event Registry
             var eventRegistry = new DefaultEventRegistry();
             eventRegistry.RegisterAssemblies(assemblies);
             containerManager.AddComponentInstance<IEventRegistry>(eventRegistry);
-
-            // Event Dispatcher
-            var eventDispatcher = new DefaultEventDispatcher(handlerRegistry);
-            containerManager.AddComponentInstance<IEventDispatcher>(eventDispatcher);
         }
 
         private bool IsIgnoredAssembly(Assembly assembly)

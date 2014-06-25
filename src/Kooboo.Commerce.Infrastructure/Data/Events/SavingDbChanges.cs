@@ -6,11 +6,11 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Events
 {
-    public class DbContextSavingChanges : Event
+    public class SavingDbChanges : Event
     {
         public CommerceDbContext DbContext { get; private set; }
 
-        public DbContextSavingChanges(CommerceDbContext dbContext)
+        public SavingDbChanges(CommerceDbContext dbContext)
         {
             DbContext = dbContext;
         }

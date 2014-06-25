@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Data
                 }
             }
 
-            Event.Raise(new DbContextSavingChanges(this));
+            Event.Raise(new SavingDbChanges(this));
 
             var result = base.SaveChanges();
 

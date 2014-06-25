@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.Events.Dispatching;
 using Kooboo.Commerce.Rules;
 
 namespace Kooboo.Commerce.Activities

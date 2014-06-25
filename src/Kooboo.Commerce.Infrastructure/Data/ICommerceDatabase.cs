@@ -1,5 +1,4 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Events.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Data;

@@ -23,9 +23,9 @@ namespace Kooboo.Commerce.Products
 
         #region Delete Orphan Product Images Handler
 
-        class DeleteOrphanProductImageHandler : IHandle<DbContextSavingChanges>
+        class DeleteOrphanProductImageHandler : IHandle<SavingDbChanges>
         {
-            public void Handle(DbContextSavingChanges @event)
+            public void Handle(SavingDbChanges @event)
             {
                 var images = @event.DbContext.Set<ProductImage>();
 

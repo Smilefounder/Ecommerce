@@ -2,7 +2,6 @@
 using Kooboo.Commerce.Data.Events;
 using Kooboo.Commerce.Data.Initialization;
 using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -42,8 +41,6 @@ namespace Kooboo.Commerce.Data
             var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
             var connectionString = dbProvider.GetConnectionString(metadata);
 
-            Event.Raise(new CommerceInstanceCreating(metadata));
-
             try
             {
                 CreatePhysicalDatabaseIfNotExists(connectionString);
@@ -59,8 +56,6 @@ namespace Kooboo.Commerce.Data
             }
 
             _metadataStore.Create(metadata);
-
-            Event.Raise(new CommerceInstanceCreated(metadata));
 
             if (InstanceInitializers != null)
             {
@@ -87,8 +82,6 @@ namespace Kooboo.Commerce.Data
             if (metadata == null)
                 throw new InvalidOperationException("Cannot find metadata for commerce instance: " + name + ".");
 
-            Event.Raise(new CommerceInstanceDeleting(metadata));
-
             try
             {
                 var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
@@ -106,8 +99,6 @@ namespace Kooboo.Commerce.Data
             }
 
             _metadataStore.Delete(name);
-
-            Event.Raise(new CommerceInstanceDeleted(metadata));
         }
 
         public CommerceInstanceMetadata GetInstanceMetadata(string instanceName)

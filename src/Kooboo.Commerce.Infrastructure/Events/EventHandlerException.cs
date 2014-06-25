@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kooboo.Commerce.Events.Dispatching
+namespace Kooboo.Commerce.Events
 {
     [Serializable]
     public class EventHandlerException : Exception

@@ -4,7 +4,6 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime.Mvc;
 using Kooboo.Commerce.Activities.Jobs;
 using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Dispatching;
 using Kooboo.Commerce.Web.Framework.ComponentModel.DataAnnotations;
 using Kooboo.Commerce.Web.Mvc;
 using System;

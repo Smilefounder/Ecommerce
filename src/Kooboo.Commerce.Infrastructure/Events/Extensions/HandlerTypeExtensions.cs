@@ -4,11 +4,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.Events.Dispatching
+namespace Kooboo.Commerce.Events
 {
-    static class HandlerUtil
+    static class HandlerTypeExtensions
     {
-        public static IEnumerable<Type> GetHandledEventTypes(Type handlerType)
+        public static IEnumerable<Type> GetHandledEventTypes(this Type handlerType)
         {
             foreach (var @interface in handlerType.GetInterfaces())
             {
