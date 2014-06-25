@@ -126,6 +126,7 @@
     <Compile Include="Data\CommerceDbProviderInfo.cs" />
     <Compile Include="Data\CommerceDbTransaction.cs" />
     <Compile Include="Data\CommerceInstanceContext.cs" />
+    <Compile Include="Data\Events\DbContextSavingChanges.cs" />
     <Compile Include="Data\Extensions\CommerceDatabaseExtensions.cs" />
     <Compile Include="Data\ICommerceDbTransaction.cs" />
     <Compile Include="Data\CommerceInstanceMetadataFileStore.cs" />

@@ -186,9 +186,6 @@
     <Compile Include="Products\ProductQueryModel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\ProductReview.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Products\ProductType.cs">
       <SubType>Code</SubType>
     </Compile>

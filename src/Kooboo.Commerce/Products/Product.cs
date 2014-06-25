@@ -135,10 +135,6 @@ namespace Kooboo.Commerce.Products
                 if (!newImageList.Any(i => i.Id == image.Id))
                 {
                     Images.Remove(image);
-
-                    // TODO: Quick fix for now, shouldn't do it like this. Need to refactor in future
-                    var repository = EngineContext.Current.Resolve<IRepository<ProductImage>>();
-                    repository.Delete(image);
                 }
             }
 
@@ -150,8 +146,7 @@ namespace Kooboo.Commerce.Products
                     current = new ProductImage
                     {
                         Size = image.Size,
-                        ImageUrl = image.ImageUrl,
-                        IsVisible = image.IsVisible
+                        ImageUrl = image.ImageUrl
                     };
                     Images.Add(current);
                 }
@@ -159,7 +154,6 @@ namespace Kooboo.Commerce.Products
                 {
                     current.Size = image.Size;
                     current.ImageUrl = image.ImageUrl;
-                    current.IsVisible = image.IsVisible;
                 }
             }
         }

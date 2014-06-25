@@ -39,6 +39,8 @@ namespace Kooboo.Commerce.Data
                 }
             }
 
+            Event.Raise(new DbContextSavingChanges(this));
+
             var result = base.SaveChanges();
 
             // We must call update notifications after SaveChanges() call, otherwise it's easy to cause infinite loop.
