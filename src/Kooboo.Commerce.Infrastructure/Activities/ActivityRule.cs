@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.Activities.Events;
+﻿using Kooboo.Commerce.Data.Events;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Rules;
 using Kooboo.Extensions;
@@ -9,7 +9,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
-using System.Text;
 
 namespace Kooboo.Commerce.Activities
 {
@@ -97,9 +96,6 @@ namespace Kooboo.Commerce.Activities
         {
             var attachedActivity = new AttachedActivityInfo(this, branch, description, activityName);
             AttachedActivityInfos.Add(attachedActivity);
-
-            Event.Raise(new ActivityAttached(this, attachedActivity));
-
             return attachedActivity;
         }
 
@@ -118,13 +114,7 @@ namespace Kooboo.Commerce.Activities
         {
             Require.NotNull(attachedActivityInfo, "attachedActivityInfo");
 
-            var detached = AttachedActivityInfos.Remove(attachedActivityInfo);
-            if (detached)
-            {
-                Event.Raise(new ActivityDetached(this, attachedActivityInfo));
-            }
-
-            return detached;
+            return AttachedActivityInfos.Remove(attachedActivityInfo);
         }
 
         public void DetachAllActivities()
@@ -145,6 +135,22 @@ namespace Kooboo.Commerce.Activities
                 HasMany(x => x.AttachedActivityInfos)
                     .WithRequired(x => x.Rule)
                     .Map(x => x.MapKey("ActivityRule_Id"));
+            }
+        }
+
+        #endregion
+
+        #region Orphan-Delete Handler
+
+        class OrphanDeleteHandler : IHandle<SavingDbChanges>
+        {
+            public void Handle(SavingDbChanges @event)
+            {
+                var attachedActivityInfos = @event.DbContext.Set<AttachedActivityInfo>();
+
+                attachedActivityInfos.Local.Where(x => x.Rule == null)
+                                           .ToList()
+                                           .ForEach(x => attachedActivityInfos.Remove(x));
             }
         }
 

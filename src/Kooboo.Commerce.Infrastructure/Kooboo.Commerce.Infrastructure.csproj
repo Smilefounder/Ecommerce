@@ -91,12 +91,9 @@
     <Compile Include="Activities\ActivityRule.cs" />
     <Compile Include="Activities\AttachedActivityInfo.cs" />
     <Compile Include="Activities\ActivityEventHook.cs" />
-    <Compile Include="Activities\Events\ActivityAttached.cs" />
-    <Compile Include="Activities\Events\ActivityDetached.cs" />
     <Compile Include="Activities\Extensions\ActivityRuleRepositoryExtensions.cs" />
     <Compile Include="Activities\Extensions\ActivityRuleExtensions.cs" />
     <Compile Include="Activities\Extensions\AttachedActivitieInfoExtensions.cs" />
-    <Compile Include="Activities\Handlers\OnActivityDetached.cs" />
     <Compile Include="Activities\IActivity.cs" />
     <Compile Include="Activities\IActivityProvider.cs" />
     <Compile Include="Activities\IHasCustomActivityConfigEditor.cs" />
