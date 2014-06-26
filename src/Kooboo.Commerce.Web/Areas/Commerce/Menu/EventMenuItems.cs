@@ -1,7 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Registry;
 using Kooboo.Web.Mvc.Menu;
 using Kooboo.Extensions;
 using System;
@@ -14,10 +13,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 {
     public class EventMenuItem : MenuItem
     {
-        public EventMenuItem(EventRegistrationEntry entry)
+        public EventMenuItem(EventEntry entry)
         {
             Name = entry.EventType.Name;
-            Text = entry.ShortName ?? entry.DisplayName ?? entry.EventType.Name.Humanize();
+            Text = entry.ShortName ?? entry.DisplayName ?? entry.EventType.Name;
 
             Controller = "Activity";
             Action = "List";
@@ -32,19 +31,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 
     public class EventMenuItems : IMenuItemContainer
     {
-        private IEventRegistry _eventRegistry;
-
-        public EventMenuItems()
-            : this(EngineContext.Current.Resolve<IEventRegistry>())
-        {
-        }
-
-        public EventMenuItems(IEventRegistry eventRegistry)
-        {
-            Require.NotNull(eventRegistry, "eventRegistry");
-            _eventRegistry = eventRegistry;
-        }
-
         public IEnumerable<MenuItem> GetItems(string areaName, System.Web.Mvc.ControllerContext controllerContext)
         {
             var menuItems = new List<MenuItem>();
@@ -64,38 +50,27 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                 }
             });
 
-            foreach (var category in _eventRegistry.AllCategories())
+            var manager = ActivityEventManager.Instance;
+
+            foreach (var category in manager.Categories)
             {
                 var categoryMenuItem = new MenuItem
                 {
-                    Text = category.Name,
-                    Name = category.Name,
+                    Text = category,
+                    Name = category,
                     RouteValues = new RouteValueDictionary()
                 };
 
                 menuItems.Add(categoryMenuItem);
 
-                var eventEntries = _eventRegistry.FindByCategory(category.Name)
-                                                 .Where(e => e.EventType.IsBusinessEvent());
+                var events = manager.FindEvents(category).ToList();
 
-                foreach (var entry in eventEntries)
+                foreach (var each in events)
                 {
-                    var eventMenuItem = new EventMenuItem(entry);
+                    var eventMenuItem = new EventMenuItem(each);
                     categoryMenuItem.Items.Add(eventMenuItem);
                 }
             }
-
-            // add resource rules menu item
-            //menuItems.Add(new MenuItem()
-            //{
-            //    Name = "ResourceRules",
-            //    Text = "Resource Rules",
-            //    Area = "Commerce",
-            //    Controller = "HAL",
-            //    Action = "ResourceRules",
-            //    RouteValues = new System.Web.Routing.RouteValueDictionary(),
-            //    Initializer = new CommerceMenuItemInitializer()
-            //});
 
             return menuItems;
         }

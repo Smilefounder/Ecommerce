@@ -7,7 +7,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Orders
 {
-    [Event(Order = 100, ShortName = "Created")]
     public class OrderCreated : OrderStatusChanged
     {
         protected OrderCreated() { }

@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Activities\ActivityBase.cs" />
     <Compile Include="Activities\ActivityContext.cs" />
+    <Compile Include="Activities\ActivityEventManager.cs" />
     <Compile Include="Activities\ActivityQueueItem.cs" />
     <Compile Include="Activities\ActivityRule.cs" />
     <Compile Include="Activities\AttachedActivityInfo.cs" />
@@ -134,25 +135,15 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\LinqDynamicExtension.cs" />
     <Compile Include="Data\QueryableExtensions.cs" />
-    <Compile Include="Events\CategoryAttribute.cs" />
-    <Compile Include="Events\EventAttribute.cs" />
     <Compile Include="Events\Extensions\HandlerTypeExtensions.cs" />
-    <Compile Include="Events\IBusinessEvent.cs" />
-    <Compile Include="Events\Extensions\EventTypeExtensions.cs" />
-    <Compile Include="Events\Registry\EventCategory.cs" />
     <Compile Include="Events\EventHandlerManager.cs" />
     <Compile Include="Events\EventHandlerException.cs" />
-    <Compile Include="Events\Registry\DefaultEventRegistry.cs" />
-    <Compile Include="Events\Registry\EventRegistrationEntry.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\IHandle.cs" />
-    <Compile Include="Events\Registry\IEventRegistry.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\MemberInfoExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IObjectPersistence.cs" />
     <Compile Include="JsonObjectPersistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

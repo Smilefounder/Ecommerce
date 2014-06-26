@@ -8,8 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Customers
 {
-    [Event(Order = 100, ShortName = "Created")]
-    public class CustomerCreated : BusinessEvent, ICustomerEvent
+    public class CustomerCreated : Event, ICustomerEvent
     {
         [Reference(typeof(Customer))]
         public int CustomerId { get; set; }

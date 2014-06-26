@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.ShippingMethods
 {
-    [Category("Shipping Methods", Order = 700)]
-    public interface IShippingMethodEvent : IBusinessEvent
+    public interface IShippingMethodEvent : IEvent
     {
         int ShippingMethodId { get; }
     }

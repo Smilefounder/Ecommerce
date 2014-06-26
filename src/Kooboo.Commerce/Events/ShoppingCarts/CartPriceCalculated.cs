@@ -8,8 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.ShoppingCarts
 {
-    [Event(Order = 500, ShortName = "Price Calculated")]
-    public class CartPriceCalculated : BusinessEvent, IShoppingCartEvent
+    public class CartPriceCalculated : Event, IShoppingCartEvent
     {
         public int CartId { get; private set; }
 

@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Categories
 {
-    [Event(Order = 200, ShortName = "Updated")]
-    public class CategoryUpdated : BusinessEvent, ICategoryEvent
+    public class CategoryUpdated : Event, ICategoryEvent
     {
         [Reference(typeof(Category))]
         public int CategoryId { get; set; }

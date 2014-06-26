@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.ShippingMethods
 {
-    [Event(Order = 300, ShortName = "Enabled")]
-    public class ShippingMethodEnabled : BusinessEvent, IShippingMethodEvent
+    public class ShippingMethodEnabled : Event, IShippingMethodEvent
     {
         [Reference(typeof(ShippingMethod))]
         public int ShippingMethodId { get; protected set; }

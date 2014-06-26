@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Orders
 {
-    [Event(Order = 200, ShortName = "Payment Status Changed")]
-    public class PaymentStatusChanged : BusinessEvent, IOrderEvent
+    public class PaymentStatusChanged : Event, IOrderEvent
     {
         [Param]
         public int OrderId { get; set; }

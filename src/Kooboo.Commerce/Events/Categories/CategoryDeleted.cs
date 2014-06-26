@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Categories
 {
-    [Event(Order = 300, ShortName = "Deleted")]
-    public class CategoryDeleted : BusinessEvent, ICategoryEvent
+    public class CategoryDeleted : Event, ICategoryEvent
     {
         [Param]
         public int CategoryId { get; set; }

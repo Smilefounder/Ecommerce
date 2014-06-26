@@ -1,14 +1,13 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Registry;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace Kooboo.Commerce.Infrastructure.Dependencies
 {
-    public class EventRegistrar : IDependencyRegistrar
+    public class EventHandlerRegistrar : IDependencyRegistrar
     {
         public int Order
         {
@@ -31,11 +30,6 @@ namespace Kooboo.Commerce.Infrastructure.Dependencies
 
             // Handler Registry
             EventHandlerManager.Instance.RegisterAssemblies(assemblies);
-
-            // Event Registry
-            var eventRegistry = new DefaultEventRegistry();
-            eventRegistry.RegisterAssemblies(assemblies);
-            containerManager.AddComponentInstance<IEventRegistry>(eventRegistry);
         }
 
         private bool IsIgnoredAssembly(Assembly assembly)

@@ -1,6 +1,5 @@
 ﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Events.Registry;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Expressions.Formatting;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Activities;
@@ -18,13 +17,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ActivityController : CommerceControllerBase
     {
-        private IEventRegistry _eventRegistry;
         private IActivityProvider _activityProvider;
         private IRepository<ActivityRule> _ruleRepository;
 
-        public ActivityController(IEventRegistry eventRegistry, IActivityProvider activityProvider, IRepository<ActivityRule> ruleRepository)
+        public ActivityController(IActivityProvider activityProvider, IRepository<ActivityRule> ruleRepository)
         {
-            _eventRegistry = eventRegistry;
             _activityProvider = activityProvider;
             _ruleRepository = ruleRepository;
         }
@@ -34,6 +31,26 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var missingActivities = new HashSet<string>();
             var rules = _ruleRepository.Query().ToList();
             var categories = new List<EventCategoryModel>();
+            var eventManager = ActivityEventManager.Instance;
+
+            foreach (var category in eventManager.Categories)
+            {
+                var categoryModel = new EventCategoryModel
+                {
+                    Name = category
+                };
+
+                foreach (var entry in eventManager.FindEvents(category))
+                {
+                    categoryModel.Events.Add(new EventRules
+                    {
+                        EventType = entry.EventType,
+                        EventDisplayName = entry.DisplayName
+                    });
+                }
+
+                categories.Add(categoryModel);
+            }
 
             foreach (var rule in rules)
             {
@@ -43,31 +60,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
 
                 var eventType = Type.GetType(rule.EventType, true);
-                var entry = _eventRegistry.FindByType(eventType);
-                var category = categories.Find(c => c.Name == entry.Category.Name);
-                if (category == null)
-                {
-                    category = new EventCategoryModel
-                    {
-                        Name = entry.Category.Name,
-                        Order = entry.Category.Order
-                    };
-                    categories.Add(category);
-                }
+                var entry = ActivityEventManager.Instance.FindEvent(eventType);
+                var category = categories.Find(c => c.Name == entry.Category);
 
-                var events = category.Events.Find(e => e.EventType == entry.EventType);
-                if (events == null)
-                {
-                    events = new EventRules
-                    {
-                        EventDisplayName = entry.DisplayName,
-                        EventType = eventType,
-                        Order = entry.Order
-                    };
-                    category.Events.Add(events);
-                }
-
-                events.Rules.Add(rule);
+                var @event = category.Events.Find(e => e.EventType == entry.EventType);
+                @event.Rules.Add(rule);
 
                 // Check missing activities
                 foreach (var name in rule.AttachedActivityInfos.Select(x => x.ActivityName).Distinct())
@@ -83,14 +80,22 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
             }
 
-            foreach (var category in categories)
+            // Clear empty entries
+            foreach (var category in categories.ToList())
             {
-                category.Events = category.Events.OrderBy(e => e.Order).ThenBy(e => e.EventDisplayName).ToList();
-            }
+                foreach (var @event in category.Events.ToList())
+                {
+                    if (@event.Rules.Count == 0)
+                    {
+                        category.Events.Remove(@event);
+                    }
+                }
 
-            categories = categories.OrderBy(c => c.Order)
-                                   .ThenBy(c => c.Name)
-                                   .ToList();
+                if (category.Events.Count == 0)
+                {
+                    categories.Remove(category);
+                }
+            }
 
             ViewBag.MissingActivities = missingActivities;
 
@@ -100,12 +105,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [Transactional]
         public ActionResult List(string eventType)
         {
-            var eventClrType = Type.GetType(eventType, true);
+            var clrType = Type.GetType(eventType, true);
+            var eventEntry = ActivityEventManager.Instance.FindEvent(clrType);
 
-            ViewBag.CurrentEventType = eventClrType.AssemblyQualifiedNameWithoutVersion();
-            ViewBag.CurrentEventDisplayName = eventClrType.GetDescription() ?? eventClrType.Name.Humanize();
+            ViewBag.CurrentEventType = clrType.AssemblyQualifiedNameWithoutVersion();
+            ViewBag.CurrentEventDisplayName = eventEntry.DisplayName ?? clrType.Name;
 
-            _ruleRepository.EnsureAlwaysRule(eventClrType);
+            _ruleRepository.EnsureAlwaysRule(clrType);
 
             return View();
         }

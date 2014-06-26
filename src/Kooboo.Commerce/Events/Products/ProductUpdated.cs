@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Products
 {
-    [Event(Order = 500, ShortName = "Updated")]
-    public class ProductUpdated : BusinessEvent, IProductEvent
+    public class ProductUpdated : Event, IProductEvent
     {
         [Reference(typeof(Product))]
         public int ProductId { get; set; }
