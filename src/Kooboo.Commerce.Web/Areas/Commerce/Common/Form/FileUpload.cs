@@ -11,7 +11,7 @@ using System.Web.Routing;
 namespace Kooboo.Commerce.Web.Form
 {
     [Dependency(typeof(IFormControl), Key = "File")]
-    public class File : IFormControl
+    public class FileUpload : IFormControl
     {
         public string Name
         {

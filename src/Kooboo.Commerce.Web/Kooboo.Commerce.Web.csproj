@@ -302,7 +302,7 @@
     <Compile Include="Areas\Commerce\Common\Form\Date.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Display.cs" />
     <Compile Include="Areas\Commerce\Common\Form\DropDownList.cs" />
-    <Compile Include="Areas\Commerce\Common\Form\File.cs" />
+    <Compile Include="Areas\Commerce\Common\Form\FileUpload.cs" />
     <Compile Include="Areas\Commerce\Common\Form\FormControlBase.cs" />
     <Compile Include="Areas\Commerce\Common\Form\FormControls.cs" />
     <Compile Include="Areas\Commerce\Common\Form\IFormControl.cs" />
