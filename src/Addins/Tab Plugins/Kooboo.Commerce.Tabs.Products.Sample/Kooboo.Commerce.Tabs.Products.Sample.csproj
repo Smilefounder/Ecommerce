@@ -114,6 +114,10 @@
     <Compile Include="SampleTabPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="7z\7-zip.dll" />
+    <Content Include="7z\7z.dll" />
+    <Content Include="7z\7z.exe" />
+    <Content Include="7z\ignores.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -133,6 +137,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\SampleTab.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="module.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PackModule.bat" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -163,8 +173,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
-xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

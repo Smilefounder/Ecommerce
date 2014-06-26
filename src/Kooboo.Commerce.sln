@@ -130,11 +130,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Payments.Fa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Web.Framework", "Kooboo.Commerce.Web.Framework\Kooboo.Commerce.Web.Framework.csproj", "{FADA65D6-57B3-4049-9961-5AEAB7806297}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Tabs.Products.Sample", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Tabs.Products.Sample\Kooboo.Commerce.Tabs.Products.Sample.csproj", "{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Condition Parameter Extensions", "Condition Parameter Extensions", "{895826E9-220C-4519-B654-55DCD26C5224}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Rules.CustomParameters", "Kooboo.Commerce.Rules.CustomParameters\Kooboo.Commerce.Rules.CustomParameters.csproj", "{81470308-F096-48A7-8322-E74871D38681}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Tabs.Products.Sample", "Addins\Tab Plugins\Kooboo.Commerce.Tabs.Products.Sample\Kooboo.Commerce.Tabs.Products.Sample.csproj", "{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -294,14 +294,14 @@ Global
 		{FADA65D6-57B3-4049-9961-5AEAB7806297}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FADA65D6-57B3-4049-9961-5AEAB7806297}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FADA65D6-57B3-4049-9961-5AEAB7806297}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81470308-F096-48A7-8322-E74871D38681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81470308-F096-48A7-8322-E74871D38681}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81470308-F096-48A7-8322-E74871D38681}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81470308-F096-48A7-8322-E74871D38681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -361,8 +361,8 @@ Global
 		{C08A9C01-1ED5-4799-AF70-AE35119BA711} = {D5668F6F-3D7F-405B-BED9-BC85508CECB1}
 		{8B439121-8AED-44F7-A16E-29A5E44ACB5D} = {A8C762D0-2D04-4404-BAF9-94081BE5FDD2}
 		{FADA65D6-57B3-4049-9961-5AEAB7806297} = {815F0052-9314-40A9-BA1B-71572CCD98AD}
-		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92} = {0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}
 		{895826E9-220C-4519-B654-55DCD26C5224} = {BF64373D-7134-4408-8749-1B6A954BEFF8}
 		{81470308-F096-48A7-8322-E74871D38681} = {895826E9-220C-4519-B654-55DCD26C5224}
+		{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92} = {0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}
 	EndGlobalSection
 EndGlobal

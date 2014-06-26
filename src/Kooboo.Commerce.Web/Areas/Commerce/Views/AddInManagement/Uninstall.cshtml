@@ -6,7 +6,7 @@
     if (uninstallingTemplate != null && !uninstallingTemplate.StartsWith("~/"))
     {
         var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(uninstallingTemplate);
-        if (File.Exists(viewPath.PhysicalPath))
+        if (System.IO.File.Exists(viewPath.PhysicalPath))
         {
             uninstallingTemplate = viewPath.VirtualPath;
         }

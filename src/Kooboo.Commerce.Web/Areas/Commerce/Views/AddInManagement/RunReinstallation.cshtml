@@ -6,7 +6,7 @@
     if (!string.IsNullOrEmpty(reinstallingTemplate) && !reinstallingTemplate.StartsWith("~/"))
     {
         var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(reinstallingTemplate);
-        if (File.Exists(viewPath.PhysicalPath))
+        if (System.IO.File.Exists(viewPath.PhysicalPath))
         {
             reinstallingTemplate = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(reinstallingTemplate).VirtualPath;
         }

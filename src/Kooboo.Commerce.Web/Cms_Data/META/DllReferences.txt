@@ -318,5 +318,21 @@
     "UserList": [
       "site:samplesite"
     ]
+  },
+  {
+    "AssemblyName": "Kooboo.Commerce.Tabs.Products.Sample.dll",
+    "Version": "1.0.0.0",
+    "IsSystemAssembly": false,
+    "UserList": [
+      "Kooboo.Commerce.Tabs.Products.Sample"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.Commerce.Tabs.Products.Sample.dll.config",
+    "Version": "unknown",
+    "IsSystemAssembly": false,
+    "UserList": [
+      "Kooboo.Commerce.Tabs.Products.Sample"
+    ]
   }
 ]
