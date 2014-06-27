@@ -71,7 +71,7 @@
                                         foreach (var cf in Model.CustomFields)
                                         {
                                             <tr>
-                                                <td>@Html.TextBox("CustomFields.Name")</td>
+                                                <td>@Html.TextBox("CustomFields.Name", cf.Name)</td>
                                                 <td>@Html.TextBox("CustomFields.Value", cf.Value)</td>
                                                 <td><a href="javascript:;" onclick="RemoveCustomField(this);">@Html.IconImage("minus")</a></td>
                                             </tr>

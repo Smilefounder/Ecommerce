@@ -11,10 +11,10 @@ namespace Kooboo.Commerce.Brands
     {
         [Key, Column(Order=0)]
         public int BrandId { get; set; }
+
         [Key, Column(Order = 1)]
         public string Name { get; set; }
-        public string Value { get; set; }
 
-        public virtual Brand Brand { get; set; }
+        public string Value { get; set; }
     }
 }

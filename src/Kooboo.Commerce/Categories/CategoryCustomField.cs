@@ -11,10 +11,10 @@ namespace Kooboo.Commerce.Categories
     {
         [Key, Column(Order = 0)]
         public int CategoryId { get; set; }
+
         [Key, Column(Order = 1)]
         public string Name { get; set; }
-        public string Value { get; set; }
 
-        public virtual Category Category { get; set; }
+        public string Value { get; set; }
     }
 }

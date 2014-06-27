@@ -11,10 +11,10 @@ namespace Kooboo.Commerce.Orders
     {
         [Key, Column(Order = 0)]
         public int OrderId { get; set; }
+
         [Key, Column(Order = 1)]
         public string Name { get; set; }
-        public string Value { get; set; }
 
-        public virtual Order Order { get; set; }
+        public string Value { get; set; }
     }
 }

@@ -38,19 +38,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     ChildrenCount = x.Children.Count
                 })
                 .ToPagedList(page, pageSize);
-                //.Transform(x => new CategoryRowModel(x, true));
 
-            //foreach (var item in categories)
-            //{
-            //    var category = item;
-            //    while (category.Parent != null)
-            //    {
-            //        item.Name = string.Format("{0} >> {1}", category.Parent.Name, item.Name);
-            //        category = category.Parent;
-            //    }
-            //}
-
-            // ret
             return View(categories);
         }
 
