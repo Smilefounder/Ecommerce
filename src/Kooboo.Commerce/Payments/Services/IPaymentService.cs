@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Payments.Services
 
         public Payment GetById(int id)
         {
-            return _repository.Get(id);
+            return _repository.Find(id);
         }
 
         public IQueryable<Payment> Query()

@@ -51,44 +51,17 @@ namespace Kooboo.Commerce.Orders.Services
             _productService = productService;
         }
 
-        public Order GetById(int id, bool loadAllInfo = true)
+        public Order GetById(int id)
         {
-            var order = _orderRepository.Get(o => o.Id == id);
-            if (loadAllInfo && order != null)
-            {
-                if (order.ShippingAddressId.HasValue)
-                {
-                    order.ShippingAddress = _orderAddressRepository.Query(o => o.Id == order.ShippingAddressId.Value).First();
-                    order.ShippingAddress.Country = _countryRepository.Query(o => o.Id == order.ShippingAddress.CountryId).FirstOrDefault();
-                }
-                if (order.BillingAddressId.HasValue)
-                {
-                    order.BillingAddress = _orderAddressRepository.Query(o => o.Id == order.BillingAddressId.Value).First();
-                    order.BillingAddress.Country = _countryRepository.Query(o => o.Id == order.BillingAddress.CountryId).FirstOrDefault();
-                }
-                order.OrderItems = _orderItemRepository.Query(o => o.OrderId == order.Id).ToArray();
-                if (order.OrderItems != null && order.OrderItems.Count > 0)
-                {
-                    foreach (var item in order.OrderItems)
-                    {
-                        item.ProductPrice = _productService.GetProductPriceById(item.ProductPriceId, true, true);
-                    }
-                }
-                order.Customer = _customerService.GetById(order.CustomerId);
-                if (order.Customer != null)
-                {
-                    order.Customer.Country = _countryRepository.Query(o => o.Id == order.Customer.CountryId).FirstOrDefault();
-                }
-                //order.PaymentMethod = _paymentMethodRepository.Query(o => o.Id == order.PaymentMethodId).FirstOrDefault();
-            }
-            return order;
+            return _orderRepository.Find(id);
         }
 
         public IQueryable<Order> Query()
         {
             return _orderRepository.Query();
         }
-        public IQueryable<OrderCustomField> CustomFieldsQuery()
+
+        public IQueryable<OrderCustomField> CustomFields()
         {
             return _orderCustomFieldRepository.Query();
         }
@@ -111,7 +84,7 @@ namespace Kooboo.Commerce.Orders.Services
             foreach (var item in pricingContext.Items)
             {
                 var cartItem = cart.Items.FirstOrDefault(i => i.Id == item.ItemId);
-                
+
                 var orderItem = OrderItem.CreateFrom(cartItem, item.RetailPrice);
                 orderItem.UnitPrice = item.RetailPrice;
                 orderItem.Discount = item.Subtotal.Discount;
@@ -176,65 +149,6 @@ namespace Kooboo.Commerce.Orders.Services
             if (order.TotalPaid >= order.Total)
             {
                 ChangeStatus(order, OrderStatus.Paid);
-            }
-        }
-
-        public bool Update(Order order)
-        {
-            try
-            {
-                var dbOrderItems = _orderItemRepository.Query(o => o.OrderId == order.Id).ToArray();
-                _orderItemRepository.SaveAll(_db, dbOrderItems, order.OrderItems, (o, n) => o.Id == n.Id);
-
-                _orderAddressRepository.Save(o => o.Id == order.ShippingAddressId, order.ShippingAddress);
-                _orderAddressRepository.Save(o => o.Id == order.BillingAddressId, order.BillingAddress);
-                _orderCustomFieldRepository.DeleteBatch(o => o.OrderId == order.Id);
-                if (order.CustomFields != null && order.CustomFields.Count > 0)
-                {
-                    foreach (var cf in order.CustomFields)
-                    {
-                        _orderCustomFieldRepository.Insert(cf);
-                    }
-                }
-                _orderRepository.Update(order, order);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool Save(Order order)
-        {
-            if (order.Id > 0)
-            {
-                bool exists = _orderRepository.Query(o => o.Id == order.Id).Any();
-                if (exists)
-                    return Update(order);
-                else
-                    return Create(order);
-            }
-            else
-            {
-                return Create(order);
-            }
-        }
-
-        public bool Delete(Order order)
-        {
-            try
-            {
-                _orderItemRepository.DeleteBatch(o => o.OrderId == order.Id);
-                _orderAddressRepository.DeleteBatch(o => o.Id == order.ShippingAddressId);
-                _orderAddressRepository.DeleteBatch(o => o.Id == order.BillingAddressId);
-                _orderCustomFieldRepository.DeleteBatch(o => o.OrderId == order.Id);
-                _orderRepository.Delete(order);
-                return true;
-            }
-            catch
-            {
-                return false;
             }
         }
     }

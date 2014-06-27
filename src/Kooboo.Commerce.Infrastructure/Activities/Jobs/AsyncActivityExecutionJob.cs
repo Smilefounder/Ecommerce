@@ -61,7 +61,7 @@ namespace Kooboo.Commerce.Activities.Jobs
                             try
                             {
                                 var @event = queueItem.LoadEvent();
-                                var rule = ruleRepository.Get(queueItem.RuleId);
+                                var rule = ruleRepository.Find(queueItem.RuleId);
                                 var attachedActivityInfo = rule.AttachedActivityInfos.Find(queueItem.AttachedActivityInfoId);
                                 var activity = activityProvider.FindByName(attachedActivityInfo.ActivityName);
                                 if (activity != null)

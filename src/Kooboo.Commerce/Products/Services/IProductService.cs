@@ -11,11 +11,13 @@ namespace Kooboo.Commerce.Products.Services
 
         IQueryable<Product> Query();
 
-        IQueryable<ProductPrice> QueryProductPrices();
+        IQueryable<ProductPrice> ProductPrices();
 
-        ProductPrice GetProductPriceById(int id, bool loadProduct = true, bool loadVariants = true, bool loadCustomFields = true);
+        ProductPrice GetProductPriceById(int id);
 
-        void Create(Product product);
+        Product Create(Product product);
+
+        Product Update(Product product);
 
         void Delete(Product product);
 

@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Settings.Services
                 category = DefaultCategory;
             }
 
-            var entry = _repository.Get(key, category);
+            var entry = _repository.Find(key, category);
             if (entry != null)
             {
                 entry.SetValue(value);
@@ -57,7 +57,7 @@ namespace Kooboo.Commerce.Settings.Services
                 category = DefaultCategory;
             }
 
-            return _repository.Get(key, category);
+            return _repository.Find(key, category);
         }
 
         public T Get<T>(string key, string category = null)

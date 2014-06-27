@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Payments.Services
 
         public PaymentMethod GetById(int id)
         {
-            return _repository.Get(o => o.Id == id);
+            return _repository.Find(id);
         }
 
         public IQueryable<PaymentMethod> Query()

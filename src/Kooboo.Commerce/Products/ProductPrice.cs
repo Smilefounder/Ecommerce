@@ -89,10 +89,5 @@ namespace Kooboo.Commerce.Products
                 }
             }
         }
-
-        public virtual void NotifyUpdated()
-        {
-            Event.Raise(new ProductVariantUpdated(Product, this));
-        }
     }
 }

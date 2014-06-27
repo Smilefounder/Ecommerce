@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var storeSettings = _settings.Get<StoreSettings>(StoreSettings.Key) ?? new StoreSettings();
             model.StoreSetting = new StoreSettingEditorModel(storeSettings);
             model.ImageSettings = _settings.Get<ImageSettings>(ImageSettings.Key) ?? new ImageSettings();
-            model.ProductSetting = new ProductSettingEditorModel(_customFieldService.GetSystemFields());
+            model.ProductSetting = new ProductSettingEditorModel(_customFieldService.PredefinedFields());
 
             return View(model);
         }

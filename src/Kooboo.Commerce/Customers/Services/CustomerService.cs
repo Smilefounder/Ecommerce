@@ -31,13 +31,13 @@ namespace Kooboo.Commerce.Customers.Services
 
         public Customer GetById(int id)
         {
-            var customer = _customerRepository.Get(o => o.Id == id);
+            var customer = _customerRepository.Find(id);
             return customer;
         }
 
         public Customer GetByEmail(string email)
         {
-            return _customerRepository.Get(o => o.Email == email);
+            return _customerRepository.Find(o => o.Email == email);
         }
 
         public Customer GetByAccountId(string accountId)
@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Customers.Services
                 return null;
             }
 
-            return _customerRepository.Get(o => o.AccountId == accountId);
+            return _customerRepository.Find(o => o.AccountId == accountId);
         }
 
         public void AddAddress(Customer customer, Address address)
@@ -79,7 +79,7 @@ namespace Kooboo.Commerce.Customers.Services
 
         public void Update(Customer customer)
         {
-            var dbCustomer = _customerRepository.Get(customer.Id);
+            var dbCustomer = _customerRepository.Find(customer.Id);
 
             if (customer.Addresses != null)
             {

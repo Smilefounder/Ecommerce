@@ -115,63 +115,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
                 if (obj.Id > 0)
                 {
-                    product = _productService.GetById(obj.Id);
+                    product = _productService.Update(obj);
                 }
                 else
                 {
-                    product = new Product(obj.Name, _productTypeService.GetById(obj.ProductTypeId));
-                }
-
-                // Update basic info
-                product.Name = obj.Name;
-
-                if (obj.BrandId != null)
-                {
-                    product.Brand = _brandService.GetById(obj.BrandId.Value);
-                }
-                else
-                {
-                    product.Brand = null;
-                }
-
-                product.UpdateCustomFieldValues(obj.CustomFieldValues);
-                product.UpdateImages(obj.Images);
-                product.UpdateCategories(obj.Categories);
-
-                if (product.Id == 0)
-                {
-                    _productService.Create(product);
-                }
-                else
-                {
-                    _db.SaveChanges();
-                    product.NotifyUpdated();
-                }
-
-                // Update product prices
-                foreach (var price in product.PriceList.ToList())
-                {
-                    if (!obj.PriceList.Any(p => p.Id == price.Id))
-                    {
-                        _productService.RemovePrice(product, price.Id);
-                    }
-                }
-
-                foreach (var priceModel in obj.PriceList)
-                {
-                    var price = product.FindPrice(priceModel.Id);
-                    if (price == null)
-                    {
-                        price = product.CreatePrice(priceModel.Name, priceModel.Sku);
-                        price.UpdateFrom(priceModel);
-                        _productService.AddPrice(product, price);
-                    }
-                    else
-                    {
-                        price.UpdateFrom(priceModel);
-                        _db.SaveChanges();
-                        price.NotifyUpdated();
-                    }
+                    product = _productService.Create(obj);
                 }
 
                 if (obj.IsPublished)

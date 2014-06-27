@@ -11,14 +11,14 @@ namespace Kooboo.Commerce.Products.Services
 
         IQueryable<ProductType> Query();
 
-        bool Create(ProductType type);
+        void Create(ProductType type);
 
-        bool Update(ProductType type);
+        void Update(ProductType type);
 
-        bool Delete(int productTypeId);
+        void Delete(ProductType type);
 
-        void Enable(ProductType type);
+        bool Enable(ProductType type);
 
-        void Disable(ProductType type);
+        bool Disable(ProductType type);
     }
 }

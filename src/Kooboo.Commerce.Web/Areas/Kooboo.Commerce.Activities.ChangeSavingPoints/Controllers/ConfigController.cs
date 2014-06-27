@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints.Controllers
 
         public ActionResult Load(int ruleId, int attachedActivityInfoId)
         {
-            var rule = _rules.Get(ruleId);
+            var rule = _rules.Find(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             var config = attachedActivityInfo.LoadActivityConfig<ChangeSavingPointsActivityConfig>();
             return JsonNet(config).UsingClientConvention();
@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints.Controllers
         [HttpPost, Transactional]
         public void Save(int ruleId, int attachedActivityInfoId, ChangeSavingPointsActivityConfig config)
         {
-            var rule = _rules.Get(ruleId);
+            var rule = _rules.Find(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             attachedActivityInfo.UpdateActivityConfig(config);
         }

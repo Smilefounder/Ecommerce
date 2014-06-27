@@ -28,35 +28,19 @@ namespace Kooboo.Commerce.Locations.Services
             return _countryRepository.Query();
         }
 
-        public bool Create(Country country)
+        public void Create(Country country)
         {
-            return _countryRepository.Insert(country);
+            _countryRepository.Insert(country);
         }
 
-        public bool Update(Country country)
+        public void Update(Country country)
         {
-            return _countryRepository.Update(country, country);
+            _countryRepository.Update(country);
         }
 
-        public bool Save(Country country)
+        public void Delete(Country country)
         {
-            if (country.Id > 0)
-            {
-                bool exists = _countryRepository.Query(o => o.Id == country.Id).Any();
-                if (exists)
-                    return Update(country);
-                else
-                    return Create(country);
-            }
-            else
-            {
-                return Create(country);
-            }
-        }
-
-        public bool Delete(Country country)
-        {
-            return _countryRepository.Delete(country);
+            _countryRepository.Delete(country);
         }
     }
 }

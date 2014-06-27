@@ -185,34 +185,5 @@ namespace Kooboo.Commerce.Products
 
             return true;
         }
-
-        public virtual bool MarkPublish()
-        {
-            if (!IsPublished)
-            {
-                IsPublished = true;
-                PublishedAtUtc = DateTime.UtcNow;
-                return true;
-            }
-
-            return false;
-        }
-
-        public virtual bool MarkUnpublish()
-        {
-            if (IsPublished)
-            {
-                IsPublished = false;
-                PublishedAtUtc = null;
-                return true;
-            }
-
-            return false;
-        }
-
-        public virtual void NotifyUpdated()
-        {
-            Event.Raise(new ProductUpdated(this));
-        }
     }
 }

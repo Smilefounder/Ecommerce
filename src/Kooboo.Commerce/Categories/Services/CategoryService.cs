@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Categories.Services
 
         public Category GetById(int id)
         {
-            return _categoryRepository.Get(o => o.Id == id);
+            return _categoryRepository.Find(id);
         }
 
         public IQueryable<Category> Query()
@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Categories.Services
 
         public void Update(Category category)
         {
-            var dbCategory = _categoryRepository.Get(category.Id);
+            var dbCategory = _categoryRepository.Find(category.Id);
 
             dbCategory.CustomFields.Clear();
 

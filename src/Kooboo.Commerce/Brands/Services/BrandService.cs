@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Brands.Services
 
         public void Update(Brand brand)
         {
-            var dbBrand = _brandRepository.Get(brand.Id);
+            var dbBrand = _brandRepository.Find(brand.Id);
 
             dbBrand.CustomFields.Clear();
 

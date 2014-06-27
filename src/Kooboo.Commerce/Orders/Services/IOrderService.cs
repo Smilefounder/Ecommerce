@@ -10,11 +10,11 @@ namespace Kooboo.Commerce.Orders.Services
 {
     public interface IOrderService
     {
-        Order GetById(int id, bool loadAllInfo = true);
+        Order GetById(int id);
 
         IQueryable<Order> Query();
 
-        IQueryable<OrderCustomField> CustomFieldsQuery();
+        IQueryable<OrderCustomField> CustomFields();
 
         Order CreateFromCart(ShoppingCart cart, ShoppingContext context);
 
@@ -23,11 +23,5 @@ namespace Kooboo.Commerce.Orders.Services
         void AcceptPayment(Order order, Payment payment);
 
         void ChangeStatus(Order order, OrderStatus newStatus);
-
-        bool Update(Order order);
-
-        bool Save(Order order);
-
-        bool Delete(Order order);
     }
 }

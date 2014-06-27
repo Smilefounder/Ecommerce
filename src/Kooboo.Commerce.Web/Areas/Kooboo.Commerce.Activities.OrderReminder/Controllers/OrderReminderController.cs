@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder.Controllers
 
         public ActionResult GetConfig(int ruleId, int attachedActivityInfoId)
         {
-            var rule = _ruleRepository.Get(ruleId);
+            var rule = _ruleRepository.Find(ruleId);
             var attachedActivity = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             var config = attachedActivity.LoadActivityConfig<OrderReminderActivityConfig>();
             return JsonNet(config).UsingClientConvention();
@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder.Controllers
         [HttpPost, Transactional, HandleAjaxError]
         public void SaveConfig(int ruleId, int attachedActivityInfoId, OrderReminderActivityConfig config)
         {
-            var rule = _ruleRepository.Get(ruleId);
+            var rule = _ruleRepository.Find(ruleId);
             var attachedActivity = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             attachedActivity.UpdateActivityConfig(config);
         }

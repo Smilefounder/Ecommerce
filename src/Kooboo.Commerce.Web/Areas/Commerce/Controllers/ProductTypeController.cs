@@ -70,7 +70,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var item in model)
             {
-                _productTypeService.Delete(item.Id);
+                var productType = _productTypeService.GetById(item.Id);
+                _productTypeService.Delete(productType);
             }
 
             return AjaxForm().ReloadPage();
@@ -79,7 +80,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Create()
         {
             var model = new ProductTypeEditorModel();
-            model.SystemFields = _customFieldService.GetSystemFields().ToArray();
+            model.SystemFields = _customFieldService.PredefinedFields().ToArray();
             return View(model);
         }
 
@@ -87,83 +88,47 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var productType = _productTypeService.GetById(id);
             var model = new ProductTypeEditorModel(productType);
-            model.SystemFields = _customFieldService.GetSystemFields().ToArray();
+            model.SystemFields = _customFieldService.PredefinedFields().ToArray();
             return View(model);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(ProductTypeEditorModel model, string @return)
         {
-            // Create new fields
-
-            ProductType productType = null;
-
-            if (model.Id > 0)
+            var productType = new ProductType(model.Name, model.SkuAlias)
             {
-                productType = _productTypeService.GetById(model.Id);
-            }
-            else
-            {
-                productType = new ProductType(model.Name, model.SkuAlias);
-            }
+                Id = model.Id
+            };
 
-            productType.Name = model.Name;
-            productType.SkuAlias = model.SkuAlias;
-
-            // Custom Fields
-            foreach (var field in productType.CustomFields.ToList())
-            {
-                if (!model.CustomFields.Any(f => f.Id == field.CustomFieldId))
-                {
-                    productType.RemoveCustomField(field.CustomFieldId);
-                }
-            }
-
+            // Create or update fields
             foreach (var field in model.CustomFields)
             {
                 var customField = CreateOrUpdateField(field);
-                var current = productType.FindCustomField(customField.Id);
-                if (current == null)
+                productType.CustomFields.Add(new ProductTypeCustomField
                 {
-                    current = new ProductTypeCustomField(productType, customField);
-                    productType.CustomFields.Add(current);
-                }
-                else
-                {
-                    // Update sequence
-                }
-            }
-
-            // Variant Fields
-            foreach (var field in productType.VariationFields.ToList())
-            {
-                if (!model.VariationFields.Any(f => f.Id == field.CustomFieldId))
-                {
-                    productType.RemoveVariantField(field.CustomFieldId);
-                }
+                    CustomField = customField,
+                    CustomFieldId = customField.Id
+                });
             }
 
             foreach (var field in model.VariationFields)
             {
-                var customField = CreateOrUpdateField(field);
-                var current = productType.FindVariantField(customField.Id);
-                if (current == null)
+                var variantField = CreateOrUpdateField(field);
+                productType.VariationFields.Add(new ProductTypeVariantField
                 {
-                    current = new ProductTypeVariantField(productType, customField);
-                    productType.VariationFields.Add(current);
-                }
-                else
-                {
-                    // Update sequence
-                }
+                    CustomField = variantField,
+                    CustomFieldId = variantField.Id
+                });
             }
 
             if (productType.Id == 0)
             {
                 _productTypeService.Create(productType);
             }
-
-            CurrentInstance.Database.SaveChanges();
+            else
+            {
+                _productTypeService.Update(productType);
+            }
 
             if (model.IsEnabled)
             {
@@ -179,22 +144,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         private CustomField CreateOrUpdateField(CustomFieldEditorModel model)
         {
-            CustomField field = null;
-
-            if (model.Id > 0)
+            var field = new CustomField
             {
-                field = _customFieldService.GetById(model.Id);
-            }
-            else
-            {
-                field = new CustomField();
-            }
+                Id = model.Id
+            };
 
             model.UpdateTo(field);
 
             if (field.Id == 0)
             {
                 _customFieldService.Create(field);
+            }
+            else
+            {
+                _customFieldService.Update(field);
             }
 
             return field;

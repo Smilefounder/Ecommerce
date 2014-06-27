@@ -13,91 +13,129 @@ namespace Kooboo.Commerce.Products.Services
     [Dependency(typeof(IProductService))]
     public class ProductService : IProductService
     {
-        private readonly ICommerceDatabase _db;
-        private readonly IRepository<Product> _repoProduct;
-        private readonly IRepository<ProductPrice> _repoProductPrice;
-        private readonly IRepository<ProductPriceVariantValue> _repoProductPriceVariants;
-        private readonly IRepository<CustomField> _repoCustomField;
+        private readonly IRepository<Product> _productRepository;
+        private readonly IRepository<ProductPrice> _variantRepository;
 
-        public ProductService(ICommerceDatabase db, IRepository<Product> repoProduct, IRepository<ProductPrice> repoProductPrice, IRepository<ProductPriceVariantValue> repoProductPriceVariants, IRepository<CustomField> repoCustomField)
+        public ProductService(IRepository<Product> productRepository, IRepository<ProductPrice> variantRepository)
         {
-            _db = db;
-            _repoProduct = repoProduct;
-            _repoProductPrice = repoProductPrice;
-            _repoProductPriceVariants = repoProductPriceVariants;
-            _repoCustomField = repoCustomField;
+            _productRepository = productRepository;
+            _variantRepository = variantRepository;
         }
 
         public Product GetById(int id)
         {
-            return _repoProduct.Get(o => o.Id == id);
+            return _productRepository.Find(id);
         }
 
         public IQueryable<Product> Query()
         {
-            return _repoProduct.Query();
+            return _productRepository.Query();
         }
 
-        public IQueryable<ProductPrice> QueryProductPrices()
+        public IQueryable<ProductPrice> ProductPrices()
         {
-            return _repoProductPrice.Query();
+            return _variantRepository.Query();
         }
 
-        public ProductPrice GetProductPriceById(int id, bool loadProduct = true, bool loadVariants = true, bool loadCustomFields = true)
+        public ProductPrice GetProductPriceById(int id)
         {
-            var price = _repoProductPrice.Query(o => o.Id == id).FirstOrDefault();
-            if (price != null)
+            return _variantRepository.Find(id);
+        }
+
+        public Product Create(Product product)
+        {
+            _productRepository.Insert(product);
+            Event.Raise(new ProductCreated(product));
+
+            return product;
+        }
+
+        public Product Update(Product product)
+        {
+            var dbProduct = _productRepository.Find(product.Id);
+
+            // Basic info
+            dbProduct.Name = product.Name;
+            dbProduct.Brand = product.Brand;
+
+            dbProduct.UpdateCustomFieldValues(product.CustomFieldValues);
+            dbProduct.UpdateImages(product.Images);
+            dbProduct.UpdateCategories(product.Categories);
+
+            _productRepository.Database.SaveChanges();
+
+            // Product variants
+            foreach (var variant in dbProduct.PriceList.ToList())
             {
-                price.Product = _repoProduct.Query(o => o.Id == price.ProductId).First();
-                price.VariantValues = _repoProductPriceVariants.Query(o => o.ProductPriceId == price.Id).ToList();
-                foreach (var v in price.VariantValues)
+                if (!product.PriceList.Any(p => p.Id == variant.Id))
                 {
-                    v.CustomField = _repoCustomField.Query(o => o.Id == v.CustomFieldId).First();
+                    RemovePrice(dbProduct, variant.Id);
                 }
             }
-            return price;
-        }
 
-        public void Create(Product product)
-        {
-            _repoProduct.Insert(product);
-            Event.Raise(new ProductCreated(product));
+            foreach (var variantModel in product.PriceList)
+            {
+                var current = dbProduct.FindPrice(variantModel.Id);
+                if (current == null)
+                {
+                    var variant = dbProduct.CreatePrice(variantModel.Name, variantModel.Sku);
+                    variant.UpdateFrom(variantModel);
+                    AddPrice(dbProduct, variant);
+                }
+                else
+                {
+                    UpdatePrice(dbProduct, current.Id, variantModel);
+                }
+            }
+
+            Event.Raise(new ProductUpdated(dbProduct));
+
+            return dbProduct;
         }
 
         public void Delete(Product product)
         {
-            _db.GetRepository<Product>().Delete(product);
+            _productRepository.Delete(product);
             Event.Raise(new ProductDeleted(product));
         }
 
         public bool Publish(Product product)
         {
-            if (product.MarkPublish())
+            if (product.IsPublished)
             {
-                _db.SaveChanges();
-                Event.Raise(new ProductPublished(product));
-                return true;
+                return false;
             }
 
-            return false;
+            product.IsPublished = true;
+
+            _productRepository.Database.SaveChanges();
+
+            Event.Raise(new ProductPublished(product));
+
+            return true;
         }
 
         public bool Unpublish(Product product)
         {
-            if (product.MarkUnpublish())
+            if (!product.IsPublished)
             {
-                _db.SaveChanges();
-                Event.Raise(new ProductUnpublished(product));
-                return true;
+                return false;
             }
 
-            return false;
+            product.IsPublished = false;
+
+            _productRepository.Database.SaveChanges();
+
+            Event.Raise(new ProductUnpublished(product));
+
+            return true;
         }
 
         public void AddPrice(Product product, ProductPrice price)
         {
             product.PriceList.Add(price);
-            _db.SaveChanges();
+            _productRepository.Database.SaveChanges();
+
             Event.Raise(new ProductVariantAdded(product, price));
         }
 
@@ -110,8 +148,9 @@ namespace Kooboo.Commerce.Products.Services
             }
 
             product.PriceList.Remove(price);
-            _db.GetRepository<ProductPrice>().Delete(price);
-            _db.SaveChanges();
+            _variantRepository.Delete(price);
+
+            _productRepository.Database.SaveChanges();
 
             Event.Raise(new ProductVariantDeleted(product, price));
 
@@ -127,9 +166,9 @@ namespace Kooboo.Commerce.Products.Services
             }
 
             price.UpdateFrom(newPrice);
-            _db.SaveChanges();
+            _productRepository.Database.SaveChanges();
 
-            price.NotifyUpdated();
+            Event.Raise(new ProductVariantUpdated(product, price));
 
             return true;
         }

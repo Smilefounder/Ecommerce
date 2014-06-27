@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Products
         public string SkuAlias { get; set; }
 
         [Param]
-        public bool IsEnabled { get; protected set; }
+        public bool IsEnabled { get; set; }
 
         public virtual ICollection<ProductTypeCustomField> CustomFields { get; set; }
 
@@ -70,28 +70,6 @@ namespace Kooboo.Commerce.Products
             if (field != null)
             {
                 VariationFields.Remove(field);
-                return true;
-            }
-
-            return false;
-        }
-
-        public virtual bool MarkEnabled()
-        {
-            if (!IsEnabled)
-            {
-                IsEnabled = true;
-                return true;
-            }
-
-            return false;
-        }
-
-        public virtual bool MarkDisabled()
-        {
-            if (IsEnabled)
-            {
-                IsEnabled = false;
                 return true;
             }
 

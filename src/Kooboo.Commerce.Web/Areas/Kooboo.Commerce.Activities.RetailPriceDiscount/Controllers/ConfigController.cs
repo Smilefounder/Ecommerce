@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount.Controllers
 
         public ActionResult Load(int ruleId, int attachedActivityInfoId)
         {
-            var rule = _rules.Get(ruleId);
+            var rule = _rules.Find(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             var config = attachedActivityInfo.LoadActivityConfig<RetailPriceDiscountActivityConfig>();
             return JsonNet(config).UsingClientConvention();
@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount.Controllers
         [HttpPost, Transactional]
         public void Save(int ruleId, int attachedActivityInfoId, RetailPriceDiscountActivityConfig config)
         {
-            var rule = _rules.Get(ruleId);
+            var rule = _rules.Find(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             attachedActivityInfo.UpdateActivityConfig(config);
         }

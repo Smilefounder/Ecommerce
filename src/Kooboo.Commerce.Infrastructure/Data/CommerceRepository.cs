@@ -42,100 +42,59 @@ namespace Kooboo.Commerce.Data
             return DbContext.Set<T>();
         }
 
-        public virtual T Get(params object[] id)
+        public IQueryable<T> Query(Expression<Func<T, bool>> predicate)
+        {
+            return Query().Where(predicate);
+        }
+
+        public virtual T Find(params object[] id)
         {
             return DbContext.Set<T>().Find(id);
         }
 
-        public virtual bool Insert(T entity)
+        public virtual T Find(Expression<Func<T, bool>> predicate)
+        {
+            return Query(predicate).FirstOrDefault();
+        }
+
+        public virtual void Insert(T entity)
         {
             Require.NotNull(entity, "entity");
 
             var table = DbContext.Set<T>();
             table.Add(entity);
 
-            int ret = DbContext.SaveChanges();
-
-            return ret > 0;
+            DbContext.SaveChanges();
         }
 
         public virtual void Update(T entity)
         {
-            var keys = DbContext.GetKeys<T>(entity);
-            var dbEntity = DbContext.Set<T>().Find(keys);
-            Update(dbEntity, entity);
+            var entry = DbContext.Entry(entity);
+            if (entry.State == EntityState.Detached)
+            {
+                var keys = DbContext.GetKeys<T>(entity);
+                var dbEntity = DbContext.Set<T>().Find(keys);
+                Update(dbEntity, entry);
+            }
+            else
+            {
+                DbContext.SaveChanges();
+            }
         }
 
-        public virtual bool Update(T entity, object values)
+        public virtual void Update(T entity, object values)
         {
             var entry = DbContext.Entry(entity);
             entry.CurrentValues.SetValues(values);
-
-            int ret = DbContext.SaveChanges();
-
-            return ret > 0;
+            DbContext.SaveChanges();
         }
 
-        public virtual bool Delete(T entity)
+        public virtual void Delete(T entity)
         {
             Require.NotNull(entity, "entity");
 
             DbContext.Set<T>().Remove(entity);
-
-            int ret = DbContext.SaveChanges();
-
-            return ret > 0;
-        }
-
-        public virtual bool InsertBatch(IEnumerable<T> entities)
-        {
-            Require.NotNull(entities, "entities");
-
-            var table = DbContext.Set<T>();
-            table.AddRange(entities);
-
-            int totals = DbContext.SaveChanges();
-
-            return totals > 0;
-        }
-
-        public virtual bool UpdateBatch(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> setter)
-        {
-            IQueryable<T> query = DbContext.Set<T>();
-            if (predicate != null)
-                query = query.Where(predicate);
-            IEnumerable<T> objs = query.ToArray();
-
-            if (objs == null || objs.Count() <= 0)
-                return false;
-            var func = setter.Compile();
-            foreach (var obj in objs)
-            {
-                func(obj);
-            }
-
-            int totals = DbContext.SaveChanges();
-
-            return totals > 0;
-        }
-
-        public virtual bool DeleteBatch(Expression<Func<T, bool>> predicate)
-        {
-            var tbl = DbContext.Set<T>();
-            IQueryable<T> query = tbl;
-            if (predicate != null)
-                query = query.Where(predicate);
-            IEnumerable<T> objs = query.ToArray();
-            if (objs == null || objs.Count() <= 0)
-                return false;
-
-            foreach (var entity in objs)
-                tbl.Remove(entity);
-
-            int ret = DbContext.SaveChanges();
-
-            return ret > 0;
+            DbContext.SaveChanges();
         }
     }
-
 }

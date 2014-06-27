@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
 
         public ShoppingCart GetById(int id)
         {
-            var cart = _repository.Get(id);
+            var cart = _repository.Find(id);
             if (cart.SessionId != null && cart.SessionId.StartsWith("EXPIRED_"))
             {
                 cart = null;

@@ -16,203 +16,113 @@ namespace Kooboo.Commerce.Products.Services
     [Dependency(typeof(IProductTypeService))]
     public class ProductTypeService : IProductTypeService
     {
+        private readonly IRepository<ProductType> _repository;
 
-        private readonly ICommerceDatabase _db;
-        private readonly IRepository<ProductType> _productTypeRepository;
-        private readonly IRepository<CustomField> _customFieldRepository;
-        private readonly IRepository<ProductTypeCustomField> _productTypeCustomFieldRepository;
-        private readonly IRepository<ProductTypeVariantField> _productTypeVariantFieldRepository;
-        private readonly IRepository<FieldValidationRule> _fieldValidationRuleRepository;
-
-        public ProductTypeService(ICommerceDatabase db,
-            IRepository<ProductType> productTypeRepository,
-            IRepository<CustomField> customFieldRepository,
-            IRepository<ProductTypeCustomField> productTypeCustomFieldRepository,
-            IRepository<ProductTypeVariantField> productTypeVariantFieldRepository,
-            IRepository<FieldValidationRule> fieldValidationRuleRepository)
+        public ProductTypeService(IRepository<ProductType> repository)
         {
-            _db = db;
-            _productTypeRepository = productTypeRepository;
-            _customFieldRepository = customFieldRepository;
-            _productTypeCustomFieldRepository = productTypeCustomFieldRepository;
-            _productTypeVariantFieldRepository = productTypeVariantFieldRepository;
-            _fieldValidationRuleRepository = fieldValidationRuleRepository;
+            _repository = repository;
         }
 
         public ProductType GetById(int id)
         {
-            return _productTypeRepository.Get(o => o.Id == id);
+            return _repository.Find(id);
         }
 
         public IQueryable<ProductType> Query()
         {
-            return _productTypeRepository.Query().OrderBy(t => t.Id);
+            return _repository.Query().OrderBy(p => p.Id);
         }
 
-        public bool Create(ProductType type)
+        public void Create(ProductType type)
         {
-            return _productTypeRepository.Insert(type);
+            _repository.Insert(type);
         }
 
-        public bool Update(ProductType type)
+        public void Update(ProductType type)
         {
-            try
+            var dbType = _repository.Find(type.Id);
+
+            // Basic info
+            dbType.Name = type.Name;
+            dbType.SkuAlias = type.SkuAlias;
+
+            // Custom fields
+            foreach (var field in dbType.CustomFields.ToList())
             {
-                var productTypeCustomFields = _productTypeCustomFieldRepository.Query(o => o.ProductTypeId == type.Id).ToArray();
-                _productTypeCustomFieldRepository.SaveAll(_db, productTypeCustomFields, type.CustomFields, (o, n) => o.ProductTypeId == n.ProductTypeId && o.CustomFieldId == n.CustomFieldId,
-                    (repo, f) =>
-                    {
-                        if (f.CustomField != null)
-                        {
-                            if (f.CustomField.FieldType == CustomFieldType.Custom)
-                                _customFieldRepository.Insert(f.CustomField);
-                        }
-                        repo.Insert(f);
-                    },
-                    (repo, of, nf) =>
-                    {
-                    },
-                    (repo, f) =>
-                    {
-                        if (f.CustomFieldId > 0)
-                        {
-                            _customFieldRepository.DeleteBatch(o => o.Id == f.CustomFieldId && o.FieldType == CustomFieldType.Custom);
-                            repo.DeleteBatch(o => o.ProductTypeId == type.Id && o.CustomFieldId == f.CustomFieldId);
-                        }
-                    });
-                var productTypeVariantFields = _productTypeVariantFieldRepository.Query(o => o.ProductTypeId == type.Id).ToArray();
-                _productTypeVariantFieldRepository.SaveAll(_db, productTypeVariantFields, type.VariationFields, (o, n) => o.ProductTypeId == n.ProductTypeId && o.CustomFieldId == n.CustomFieldId,
-                    (repo, f) =>
-                    {
-                        if (f.CustomField != null)
-                        {
-                            if (f.CustomField.FieldType == CustomFieldType.Custom)
-                                _customFieldRepository.Insert(f.CustomField);
-                        }
-                        repo.Insert(f);
-                    },
-                    (repo, of, nf) =>
-                    {
-                    },
-                    (repo, f) =>
-                    {
-                        if (f.CustomFieldId > 0)
-                        {
-                            _customFieldRepository.DeleteBatch(o => o.Id == f.CustomFieldId && o.FieldType == CustomFieldType.Custom);
-                            repo.DeleteBatch(o => o.ProductTypeId == type.Id && o.CustomFieldId == f.CustomFieldId);
-                        }
-                    });
-                _productTypeRepository.Update(type, type);
+                if (!type.CustomFields.Any(f => f.CustomFieldId == field.CustomFieldId))
+                {
+                    dbType.CustomFields.Remove(field);
+                }
+            }
 
-                return true;
-            }
-            catch
+            foreach (var field in type.CustomFields)
             {
-                return false;
+                if (!dbType.CustomFields.Any(f => f.CustomFieldId == field.CustomFieldId))
+                {
+                    dbType.CustomFields.Add(new ProductTypeCustomField
+                    {
+                        CustomFieldId = field.CustomFieldId
+                    });
+                }
             }
+
+            // Variant fields
+            foreach (var field in dbType.VariationFields.ToList())
+            {
+                if (!type.VariationFields.Any(f => f.CustomFieldId == field.CustomFieldId))
+                {
+                    dbType.VariationFields.Remove(field);
+                }
+            }
+
+            foreach (var field in type.VariationFields)
+            {
+                if (!dbType.VariationFields.Any(f => f.CustomFieldId == field.CustomFieldId))
+                {
+                    dbType.VariationFields.Add(new ProductTypeVariantField
+                    {
+                        CustomFieldId = field.CustomFieldId
+                    });
+                }
+            }
+
+            _repository.Database.SaveChanges();
         }
 
-        //public bool Update(ProductType oldType, ProductType newType)
-        //{
-        //    oldType.Name = newType.Name;
-        //    oldType.SkuAlias = newType.SkuAlias;
-        //    oldType.IsEnabled = newType.IsEnabled;
-        //    //
-        //    if (newType.CustomFields != null)
-        //    {
-        //        if (oldType.CustomFields == null) { oldType.CustomFields = new List<ProductTypeField>(); }
-        //        UpdateCustomFields(oldType.CustomFields, newType.CustomFields);
-        //    }
-        //    //
-        //    if (newType.VariationFields != null)
-        //    {
-        //        if (oldType.VariationFields == null) { oldType.VariationFields = new List<ProductTypeField>(); }
-        //        UpdateCustomFields(oldType.VariationFields, newType.VariationFields);
-        //    }
-        //    return true;
-        //}
-
-        //private void UpdateCustomFields(ICollection<ProductTypeField> oldFields, ICollection<ProductTypeField> newFields)
-        //{
-        //    var removes = new List<ProductTypeField>(oldFields);
-        //    foreach (var item in newFields) {
-        //        ProductTypeField field = null;
-        //        if (item.CustomFieldId > 0) {
-        //            removes = removes.Where(o => o.ProductTypeId == item.ProductTypeId && o.CustomFieldId != item.CustomFieldId).ToList();
-        //            field = oldFields.Where(o => o.CustomFieldId == item.CustomFieldId).FirstOrDefault();
-        //            if (field != null) {
-        //                field
-        //                _customFieldRepository.Update(item, k => new object[] { k.Id });
-        //                UpdateValidationRules(field.ValidationRules, item.ValidationRules);
-        //                continue;
-        //            }
-        //        }
-        //        oldFields.Add(item);
-        //        _customFieldRepository.Insert(item);
-        //        foreach (var rule in item.ValidationRules) {
-        //            _fieldValidationRuleRepository.Insert(rule);
-        //        }
-        //    }
-        //    foreach (var item in removes) {
-        //        _customFieldRepository.Delete(item);
-        //        foreach (var rule in item.ValidationRules) {
-        //            _fieldValidationRuleRepository.Delete(rule);
-        //        }
-        //    }
-        //}
-
-        //private void UpdateValidationRules(ICollection<FieldValidationRule> oldRules, ICollection<FieldValidationRule> newRules)
-        //{
-        //    var removes = new List<FieldValidationRule>(oldRules);
-        //    foreach (var item in newRules)
-        //    {
-        //        FieldValidationRule rule = null;
-        //        if (item.Id > 0)
-        //        {
-        //            removes = removes.Where(o => o.Id != item.Id).ToList();
-        //            rule = oldRules.Where(o => o.Id == item.Id).FirstOrDefault();
-        //            if (rule != null)
-        //            {
-        //                item.CopyTo(rule);
-        //                continue;
-        //            }
-        //        }
-        //        _fieldValidationRuleRepository.Insert(item);
-        //        oldRules.Add(item);
-        //    }
-        //    foreach (var item in removes)
-        //    {
-        //        _fieldValidationRuleRepository.Delete(item);
-        //    }
-        //}
-
-        public bool Delete(int productTypeId)
+        public void Delete(ProductType type)
         {
-            var productType = _productTypeRepository.Get(productTypeId);
-            if (productType == null)
+            Disable(type);
+            _repository.Delete(type);
+        }
+
+        public bool Enable(ProductType type)
+        {
+            if (type.IsEnabled)
             {
                 return false;
             }
 
-            return _productTypeRepository.Delete(productType);
+            type.IsEnabled = true;
+            _repository.Database.SaveChanges();
+
+            Event.Raise(new ProductTypeEnabled(type));
+
+            return true;
         }
 
-        public void Enable(ProductType type)
+        public bool Disable(ProductType type)
         {
-            if (type.MarkEnabled())
+            if (!type.IsEnabled)
             {
-                _db.SaveChanges();
-                Event.Raise(new ProductTypeEnabled(type));
+                return false;
             }
-        }
 
-        public void Disable(ProductType type)
-        {
-            if (type.MarkDisabled())
-            {
-                _db.SaveChanges();
-                Event.Raise(new ProductTypeDisabled(type));
-            }
+            type.IsEnabled = false;
+            _repository.Database.SaveChanges();
+
+            Event.Raise(new ProductTypeDisabled(type));
+
+            return true;
         }
     }
 }

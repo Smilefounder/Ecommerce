@@ -11,12 +11,10 @@ namespace Kooboo.Commerce.Locations.Services
 
         IQueryable<Country> Query();
 
-        bool Create(Country country);
+        void Create(Country country);
 
-        bool Update(Country country);
+        void Update(Country country);
 
-        bool Save(Country country);
-
-        bool Delete(Country country);
+        void Delete(Country country);
     }
 }

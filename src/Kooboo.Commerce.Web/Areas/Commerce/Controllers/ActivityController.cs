@@ -119,7 +119,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult CreateActivity(int ruleId, RuleBranch branch, string activityName)
         {
             var activity = _activityProvider.FindByName(activityName);
-            var rule = _ruleRepository.Get(ruleId);
+            var rule = _ruleRepository.Find(ruleId);
 
             var configEditorModel = new ActivityConfigEditorModel
             {
@@ -143,7 +143,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult EditActivity(int ruleId, int attachedActivityInfoId)
         {
-            var rule = _ruleRepository.Get(ruleId);
+            var rule = _ruleRepository.Find(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             var activity = _activityProvider.FindByName(attachedActivityInfo.ActivityName);
 
@@ -171,7 +171,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetActivityEditorModel(int ruleId, RuleBranch branch, string activityName, int attachedActivityInfoId)
         {
             var model = new ActivityEditorModel();
-            var rule = _ruleRepository.Get(ruleId);
+            var rule = _ruleRepository.Find(ruleId);
 
             model.RuleId = rule.Id;
             model.RuleBranch = branch;
@@ -205,7 +205,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxError, Transactional]
         public ActionResult SaveActivity(ActivityEditorModel model)
         {
-            var rule = _ruleRepository.Get(model.RuleId);
+            var rule = _ruleRepository.Find(model.RuleId);
             AttachedActivityInfo activityInfo = null;
 
             if (model.AttachedActivityInfoId > 0)
@@ -251,7 +251,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxError, Transactional]
         public void UpdateActivityConfig(int ruleId, int attachedActivityInfoId, [ModelBinder(typeof(ObjectModelBinder))]object config)
         {
-            var rule = _ruleRepository.Get(ruleId);
+            var rule = _ruleRepository.Find(ruleId);
             var attachedActivityInfo = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             attachedActivityInfo.UpdateActivityConfig(config);
         }
@@ -288,7 +288,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [Transactional]
         public ActionResult UpdateConditions(UpdateConditionsModel model)
         {
-            var rule = _ruleRepository.Get(model.RuleId);
+            var rule = _ruleRepository.Find(model.RuleId);
             rule.Conditions = model.Conditions;
             return JsonNet(new ActivityRuleModel(rule)).UsingClientConvention();
         }
@@ -296,7 +296,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [Transactional]
         public void DeleteRule(int ruleId)
         {
-            var rule = _ruleRepository.Get(ruleId);
+            var rule = _ruleRepository.Find(ruleId);
             _ruleRepository.Delete(rule);
         }
 
@@ -314,7 +314,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult GetAttachedActivityInfo(int ruleId, int attachedActivityInfoId)
         {
-            var rule = _ruleRepository.Get(ruleId);
+            var rule = _ruleRepository.Find(ruleId);
             var attachedActivity = rule.AttachedActivityInfos.Find(attachedActivityInfoId);
             return JsonNet(new AttachedActivityModel(attachedActivity)).UsingClientConvention();
         }
@@ -322,7 +322,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HandleAjaxFormError, Transactional]
         public ActionResult DetachActivity(int ruleId, int attachedActivityInfoId)
         {
-            var rule = _ruleRepository.Get(ruleId);
+            var rule = _ruleRepository.Find(ruleId);
             rule.DetachActivity(attachedActivityInfoId);
             return AjaxForm();
         }

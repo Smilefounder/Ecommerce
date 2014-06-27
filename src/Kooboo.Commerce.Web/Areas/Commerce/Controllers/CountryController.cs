@@ -9,6 +9,7 @@ using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Countries;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Locations.Services;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -46,38 +47,34 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(CountryEditorModel model, string @return)
         {
-            var data = new JsonResultData();
+            var country = new Country();
+            model.UpdateTo(country);
 
-            data.RunWithTry(_ =>
+            if (country.Id > 0)
             {
-                var country = new Country();
-                model.UpdateTo(country);
-                _countryService.Save(country);
-                data.RedirectUrl = @return;
-            });
+                _countryService.Update(country);
+            }
+            else
+            {
+                _countryService.Create(country);
+            }
 
-            return Json(data);
+            return AjaxForm().RedirectTo(@return);
         }
 
-        [HttpPost]
+        [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Delete(CountryRowModel[] model)
         {
-            var data = new JsonResultData(ModelState);
-
-            data.RunWithTry(_ =>
+            foreach (var item in model)
             {
-                foreach (var item in model)
-                {
-                    var obj = _countryService.GetById(item.Id);
-                    _countryService.Delete(obj);
-                }
-                data.ReloadPage = true;
-            });
+                var obj = _countryService.GetById(item.Id);
+                _countryService.Delete(obj);
+            }
 
-            return Json(data);
+            return AjaxForm().ReloadPage();
         }
     }
 }

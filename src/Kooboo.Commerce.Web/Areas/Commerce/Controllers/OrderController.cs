@@ -243,7 +243,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     {
                         item.SubTotal = item.Quantity * item.UnitPrice;
                         item.Total = item.SubTotal;
-                        item.ProductPrice = _productService.GetProductPriceById(item.ProductPriceId, true, true);
+                        item.ProductPrice = _productService.GetProductPriceById(item.ProductPriceId);
                         order.OrderItems.Add(item);
                     }
                     else
@@ -258,23 +258,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             Session["TempOrder"] = order;
             ViewBag.Return = "/Commerce/Order/SelectProduct?siteName=" + Request.QueryString["siteName"] + "&instance=" + Request.QueryString["instance"];
             return RedirectToAction("SelectProduct", RouteValues.From(Request.QueryString));
-        }
-        [HttpPost]
-        public ActionResult Delete(Order[] model)
-        {
-            var data = new JsonResultData(ModelState);
-
-            data.RunWithTry(_ =>
-            {
-                foreach (var obj in model)
-                {
-                    var order = _orderService.GetById(obj.Id, false);
-                    _orderService.Delete(order);
-                }
-                data.ReloadPage = true;
-            });
-
-            return Json(data);
         }
 
         [HttpPost]
@@ -312,7 +295,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             // set customer to null to avoid ef automatically insert customer as new record.
             order.Customer = null;
 
-            _orderService.Save(order);
+            _orderService.Create(order);
 
             return RedirectToAction("Index", RouteValues.From(Request.QueryString));
         }

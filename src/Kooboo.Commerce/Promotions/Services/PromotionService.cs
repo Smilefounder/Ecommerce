@@ -12,21 +12,21 @@ namespace Kooboo.Commerce.Promotions.Services
     [Dependency(typeof(IPromotionService))]
     public class PromotionService : IPromotionService
     {
-        private ICommerceDatabase _db;
+        private IRepository<Promotion> _repository;
 
-        public PromotionService(ICommerceDatabase db)
+        public PromotionService(IRepository<Promotion> repository)
         {
-            _db = db;
+            _repository = repository;
         }
 
         public Promotion GetById(int id)
         {
-            return _db.GetRepository<Promotion>().Get(o => o.Id == id);
+            return _repository.Find(id);
         }
 
         public IQueryable<Promotion> Query()
         {
-            return _db.GetRepository<Promotion>().Query();
+            return _repository.Query();
         }
 
         public void Create(Promotion promotion)
@@ -36,7 +36,7 @@ namespace Kooboo.Commerce.Promotions.Services
                 throw new InvalidOperationException("Coupon code has been taken.");
             }
 
-            _db.GetRepository<Promotion>().Insert(promotion);
+            _repository.Insert(promotion);
         }
 
         public bool Enable(Promotion promotion)
@@ -47,7 +47,8 @@ namespace Kooboo.Commerce.Promotions.Services
             }
 
             promotion.IsEnabled = true;
-            _db.SaveChanges();
+
+            _repository.Database.SaveChanges();
 
             Event.Raise(new PromotionEnabled(promotion));
 
@@ -62,7 +63,8 @@ namespace Kooboo.Commerce.Promotions.Services
             }
 
             promotion.IsEnabled = false;
-            _db.SaveChanges();
+
+            _repository.Database.SaveChanges();
 
             Event.Raise(new PromotionDisabled(promotion));
 
@@ -78,17 +80,14 @@ namespace Kooboo.Commerce.Promotions.Services
 
             promotion.OverlappablePromotions.Clear();
 
-            var referencingPromotions = _db.GetRepository<Promotion>()
-                                           .Query()
-                                           .Where(p => p.OverlappablePromotions.Any(x => x.Id == promotion.Id))
-                                           .ToList();
+            var referencingPromotions = Query().Where(p => p.OverlappablePromotions.Any(x => x.Id == promotion.Id)).ToList();
 
             foreach (var each in referencingPromotions)
             {
                 each.RemoveOverlappablePromotion(promotion.Id);
             }
 
-            _db.GetRepository<Promotion>().Delete(promotion);
+            _repository.Delete(promotion);
         }
 
         private bool IsCouponAlreadyTaken(string coupon, int candidatePromotionId)
