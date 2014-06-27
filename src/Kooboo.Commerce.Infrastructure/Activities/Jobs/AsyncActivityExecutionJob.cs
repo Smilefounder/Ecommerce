@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Activities.Jobs
             InProgress = true;
 
             var engine = EngineContext.Current;
-            var instanceManager = engine.Resolve<ICommerceInstanceManager>();
+            var instanceManager = engine.Resolve<IInstanceManager>();
             var activityProvider = engine.Resolve<IActivityProvider>();
             var now = DateTime.UtcNow;
 

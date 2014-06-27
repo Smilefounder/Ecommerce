@@ -12,8 +12,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Initialization
 {
-    [Dependency(typeof(ICommerceInstanceInitializer), Key = "CommerceInstanceInitializer")]
-    public class CommerceInstanceInitializer : ICommerceInstanceInitializer
+    public class DefaultCommerceInstanceInitializer : IInstanceInitializer
     {
         public void Initialize(CommerceInstance instance)
         {

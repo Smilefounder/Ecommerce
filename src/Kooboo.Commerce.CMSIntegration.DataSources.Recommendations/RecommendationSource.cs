@@ -60,9 +60,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
 
         public Func<IProductRecommendationService> ProductRecommendationService = () => EngineContext.Current.Resolve<IProductRecommendationService>();
 
-        private ICommerceInstanceManager _instanceManager;
+        private IInstanceManager _instanceManager;
 
-        public RecommendationSource(ICommerceInstanceManager instanceManager)
+        public RecommendationSource(IInstanceManager instanceManager)
         {
             _instanceManager = instanceManager;
         }

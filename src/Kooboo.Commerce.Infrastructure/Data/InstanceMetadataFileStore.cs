@@ -8,27 +8,27 @@ using System.Threading;
 
 namespace Kooboo.Commerce.Data
 {
-    [Dependency(typeof(ICommerceInstanceMetadataStore), ComponentLifeStyle.Singleton)]
-    public class CommerceInstanceMetadataFileStore : ICommerceInstanceMetadataStore
+    [Dependency(typeof(IInstanceMetadataStore), ComponentLifeStyle.Singleton)]
+    public class InstanceMetadataFileStore : IInstanceMetadataStore
     {
         private readonly ReaderWriterLockSlim _readWriteLock = new ReaderWriterLockSlim();
         private readonly object _cacheLock = new object();
-        private Dictionary<string, CommerceInstanceMetadata> _cache;
+        private Dictionary<string, InstanceMetadata> _cache;
 
         public string FilePath { get; private set; }
 
-        public CommerceInstanceMetadataFileStore()
+        public InstanceMetadataFileStore()
             : this(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\Commerce\\Instances.xml"))
         {
         }
 
-        public CommerceInstanceMetadataFileStore(string filePath)
+        public InstanceMetadataFileStore(string filePath)
         {
             Require.NotNullOrEmpty(filePath, "filePath");
             FilePath = filePath;
         }
 
-        public IEnumerable<CommerceInstanceMetadata> All()
+        public IEnumerable<InstanceMetadata> All()
         {
             _readWriteLock.EnterReadLock();
 
@@ -43,7 +43,7 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public CommerceInstanceMetadata GetByName(string name)
+        public InstanceMetadata GetByName(string name)
         {
             _readWriteLock.EnterReadLock();
 
@@ -51,7 +51,7 @@ namespace Kooboo.Commerce.Data
             {
                 EnsureCacheLoaded();
 
-                CommerceInstanceMetadata metadata;
+                InstanceMetadata metadata;
 
                 if (_cache.TryGetValue(name, out metadata))
                 {
@@ -66,7 +66,7 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public void Create(CommerceInstanceMetadata metadata)
+        public void Create(InstanceMetadata metadata)
         {
             _readWriteLock.EnterWriteLock();
 
@@ -85,7 +85,7 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public void Update(string name, CommerceInstanceMetadata newMetadata)
+        public void Update(string name, InstanceMetadata newMetadata)
         {
             _readWriteLock.EnterWriteLock();
 
@@ -145,16 +145,16 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        private Dictionary<string, CommerceInstanceMetadata> Reload()
+        private Dictionary<string, InstanceMetadata> Reload()
         {
-            var metadatas = new Dictionary<string, CommerceInstanceMetadata>(StringComparer.OrdinalIgnoreCase);
+            var metadatas = new Dictionary<string, InstanceMetadata>(StringComparer.OrdinalIgnoreCase);
 
             if (!File.Exists(FilePath))
             {
                 return metadatas;
             }
 
-            var list = Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize<List<CommerceInstanceMetadata>>(FilePath);
+            var list = Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize<List<InstanceMetadata>>(FilePath);
 
             foreach (var metadata in list)
             {
@@ -164,7 +164,7 @@ namespace Kooboo.Commerce.Data
             return metadatas;
         }
 
-        private void WriteToFile(Dictionary<string, CommerceInstanceMetadata> data)
+        private void WriteToFile(Dictionary<string, InstanceMetadata> data)
         {
             var directory = Path.GetDirectoryName(FilePath);
             if (!Directory.Exists(directory))
@@ -175,11 +175,11 @@ namespace Kooboo.Commerce.Data
             Kooboo.Runtime.Serialization.DataContractSerializationHelper.Serialize(data.Values.ToList(), FilePath);
         }
 
-        private Dictionary<string, CommerceInstanceMetadata> GetCacheCopy()
+        private Dictionary<string, InstanceMetadata> GetCacheCopy()
         {
             EnsureCacheLoaded();
 
-            var copy = new Dictionary<string, CommerceInstanceMetadata>(_cache.Comparer);
+            var copy = new Dictionary<string, InstanceMetadata>(_cache.Comparer);
 
             foreach (var kv in _cache)
             {

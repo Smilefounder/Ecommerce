@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Initialization
 {
-    public interface ICommerceInstanceInitializer
+    public interface IInstanceInitializer
     {
         void Initialize(CommerceInstance instance);
     }

@@ -8,7 +8,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.SqlServer
 {
-    [Dependency(typeof(ICommerceDbProvider), ComponentLifeStyle.Singleton, Key = "Kooboo.Commerce.Data.SqlServerCommerceDbProvider")]
     public class SqlServerCommerceDbProvider : ICommerceDbProvider
     {
         public string InvariantName

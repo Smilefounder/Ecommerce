@@ -288,6 +288,7 @@
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ActivityRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\CommerceDbProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ConditionParameterProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\EventHandlerRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ExtendedQueryRegistrar.cs" />
@@ -322,7 +323,7 @@
     <Compile Include="Areas\Commerce\Common\Form\Validation\StringLengthValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\UniqueValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\ValidationExtensions.cs" />
-    <Compile Include="Areas\Commerce\Common\Initialization\CommerceInstanceInitializer.cs" />
+    <Compile Include="Areas\Commerce\Common\Initialization\DefaultCommerceInstanceInitializer.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\ObjectModelBinder.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />

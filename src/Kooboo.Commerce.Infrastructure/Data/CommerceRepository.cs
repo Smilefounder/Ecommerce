@@ -1,9 +1,7 @@
-﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Linq.Expressions;
 using Kooboo.Commerce.ComponentModel;
 

@@ -11,18 +11,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class CommerceInstanceController : CommerceControllerBase
     {
-        private ICommerceInstanceMetadataStore _metadataStore;
-        private ICommerceInstanceManager _instanceManager;
-        private ICommerceDbProviderFactory _dbProviderFactory;
+        private IInstanceMetadataStore _metadataStore;
+        private IInstanceManager _instanceManager;
 
         public CommerceInstanceController(
-            ICommerceInstanceMetadataStore metadataStore,
-            ICommerceInstanceManager instanceManager,
-            ICommerceDbProviderFactory dbProviderFactory)
+            IInstanceMetadataStore metadataStore,
+            IInstanceManager instanceManager)
         {
             _metadataStore = metadataStore;
             _instanceManager = instanceManager;
-            _dbProviderFactory = dbProviderFactory;
         }
 
         public ActionResult Index()
@@ -41,7 +38,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     DisplayName = metadata.DisplayName
                 };
 
-                var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
+                var dbProvider = CommerceDbProviders.Providers.Find(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
                 model.DbProvider = dbProvider.DisplayName;
 
                 models.Add(model);
@@ -54,7 +51,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var model = new CommerceInstanceEditorModel();
 
-            foreach (var provider in _dbProviderFactory.Providers)
+            foreach (var provider in CommerceDbProviders.Providers)
             {
                 model.AddDbProvider(provider);
             }
@@ -65,7 +62,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError]
         public ActionResult Create(CommerceInstanceEditorModel model, string @return)
         {
-            var metadata = new CommerceInstanceMetadata
+            var metadata = new InstanceMetadata
             {
                 Name = model.Name,
                 DisplayName = model.DisplayName,
@@ -97,7 +94,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Edit(string name)
         {
             var metadata = _instanceManager.GetInstanceMetadata(name);
-            var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
+            var dbProvider = CommerceDbProviders.Providers.Find(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
 
             var model = new CommerceInstanceEditorModel
             {
@@ -118,7 +115,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             model.AdvancedMode = !String.IsNullOrEmpty(model.ConnectionString);
 
-            foreach (var provider in _dbProviderFactory.Providers)
+            foreach (var provider in CommerceDbProviders.Providers)
             {
                 model.AddDbProvider(provider);
             }

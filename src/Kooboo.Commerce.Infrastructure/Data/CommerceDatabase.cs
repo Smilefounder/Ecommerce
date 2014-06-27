@@ -13,11 +13,11 @@ namespace Kooboo.Commerce.Data
     {
         private bool _isDisposed;
         private CommerceDbTransaction _currentTransaction;
-        private CommerceInstanceMetadata _commerceInstanceMetadata;
+        private InstanceMetadata _instanceMetadata;
 
-        public CommerceInstanceMetadata CommerceInstanceMetadata
+        public InstanceMetadata InstanceMetadata
         {
-            get { return _commerceInstanceMetadata; }
+            get { return _instanceMetadata; }
         }
 
         public ICommerceDbTransaction Transaction
@@ -30,12 +30,12 @@ namespace Kooboo.Commerce.Data
 
         public CommerceDbContext DbContext { get; private set; }
 
-        public CommerceDatabase(CommerceInstanceMetadata commerceInstanceMetadata, ICommerceDbProvider dbProvider)
+        public CommerceDatabase(InstanceMetadata commerceInstanceMetadata, ICommerceDbProvider dbProvider)
         {
             Require.NotNull(commerceInstanceMetadata, "commerceInstanceMetadata");
             Require.NotNull(dbProvider, "dbProvider");
 
-            _commerceInstanceMetadata = commerceInstanceMetadata;
+            _instanceMetadata = commerceInstanceMetadata;
             DbContext = CommerceDbContext.Create(commerceInstanceMetadata, dbProvider);
         }
 
@@ -69,24 +69,21 @@ namespace Kooboo.Commerce.Data
             return _currentTransaction;
         }
 
-        public int SaveChanges()
+        public void SaveChanges()
         {
-            var result = 0;
             var transaction = Transaction;
             if (transaction == null)
             {
                 using (transaction = BeginTransaction())
                 {
-                    result = DbContext.SaveChanges();
+                    DbContext.SaveChanges();
                     transaction.Commit();
                 }
             }
             else
             {
-                result = DbContext.SaveChanges();
+                DbContext.SaveChanges();
             }
-
-            return result;
         }
 
         public void Dispose()

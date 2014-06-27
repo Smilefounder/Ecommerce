@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Data
     /// </remarks>
     public interface ICommerceDatabase : IDisposable
     {
-        CommerceInstanceMetadata CommerceInstanceMetadata { get; }
+        InstanceMetadata InstanceMetadata { get; }
 
         IRepository<T> GetRepository<T>() where T : class;
 
@@ -29,6 +29,6 @@ namespace Kooboo.Commerce.Data
 
         ICommerceDbTransaction BeginTransaction(IsolationLevel isolationLevel);
 
-        int SaveChanges();
+        void SaveChanges();
     }
 }

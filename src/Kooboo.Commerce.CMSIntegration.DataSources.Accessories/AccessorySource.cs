@@ -60,9 +60,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
 
         public Func<IProductAccessoryService> ProductAccessoryService = () => EngineContext.Current.Resolve<IProductAccessoryService>();
 
-        private ICommerceInstanceManager _instanceManager;
+        private IInstanceManager _instanceManager;
 
-        public AccessorySource(ICommerceInstanceManager instanceManager)
+        public AccessorySource(IInstanceManager instanceManager)
         {
             _instanceManager = instanceManager;
         }

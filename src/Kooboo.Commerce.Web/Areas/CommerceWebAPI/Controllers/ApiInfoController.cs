@@ -16,9 +16,9 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
     public class ApiInfoController : Controller
     {
         private ITypeFinder _typeFinder;
-        private ICommerceInstanceManager _instanceMgr;
+        private IInstanceManager _instanceMgr;
 
-        public ApiInfoController(ICommerceInstanceManager instanceMgr)
+        public ApiInfoController(IInstanceManager instanceMgr)
         {
             _instanceMgr = instanceMgr;
             _typeFinder = new AppDomainTypeFinder();

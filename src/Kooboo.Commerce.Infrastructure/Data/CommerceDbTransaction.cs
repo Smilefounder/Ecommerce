@@ -25,11 +25,6 @@ namespace Kooboo.Commerce.Data
             Database = database;
         }
 
-        ~CommerceDbTransaction()
-        {
-            Dispose(false);
-        }
-
         public void Commit()
         {
             ThrowIfDisposed();

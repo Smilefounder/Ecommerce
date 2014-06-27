@@ -17,11 +17,11 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public CommerceInstanceMetadata Metadata
+        public InstanceMetadata Metadata
         {
             get
             {
-                return Database.CommerceInstanceMetadata;
+                return Database.InstanceMetadata;
             }
         }
 

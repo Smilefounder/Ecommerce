@@ -10,27 +10,22 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data
 {
-    [Dependency(typeof(ICommerceInstanceManager), ComponentLifeStyle.InRequestScope)]
-    public class CommerceInstanceManager : ICommerceInstanceManager
+    [Dependency(typeof(IInstanceManager), ComponentLifeStyle.InRequestScope)]
+    public class InstanceManager : IInstanceManager
     {
-        private ICommerceInstanceMetadataStore _metadataStore;
-        private ICommerceDbProviderFactory _dbProviderFactory;
+        private IInstanceMetadataStore _metadataStore;
+        private CommerceDbProviderCollection _dbProviders = CommerceDbProviders.Providers;
 
         [Inject]
-        public IEnumerable<ICommerceInstanceInitializer> InstanceInitializers { get; set; }
+        public IEnumerable<IInstanceInitializer> InstanceInitializers { get; set; }
 
-        public CommerceInstanceManager(
-            ICommerceInstanceMetadataStore metadataStore,
-            ICommerceDbProviderFactory dbProviderFactory)
+        public InstanceManager(IInstanceMetadataStore metadataStore)
         {
             Require.NotNull(metadataStore, "metadataStore");
-            Require.NotNull(dbProviderFactory, "dbProviderFactory");
-
             _metadataStore = metadataStore;
-            _dbProviderFactory = dbProviderFactory;
         }
 
-        public void CreateInstance(CommerceInstanceMetadata metadata)
+        public void CreateInstance(InstanceMetadata metadata)
         {
             Require.NotNull(metadata, "metadata");
 
@@ -38,7 +33,7 @@ namespace Kooboo.Commerce.Data
             if (current != null)
                 throw new InvalidOperationException("Commerce instance \"" + metadata.Name + "\" already exists.");
 
-            var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
+            var dbProvider = _dbProviders.Find(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
             var connectionString = dbProvider.GetConnectionString(metadata);
 
             try
@@ -84,7 +79,7 @@ namespace Kooboo.Commerce.Data
 
             try
             {
-                var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
+                var dbProvider = _dbProviders.Find(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
                 using (var database = new CommerceDatabase(metadata, dbProvider))
                 {
                     if (database.DbContext.Database.Exists())
@@ -101,12 +96,12 @@ namespace Kooboo.Commerce.Data
             _metadataStore.Delete(name);
         }
 
-        public CommerceInstanceMetadata GetInstanceMetadata(string instanceName)
+        public InstanceMetadata GetInstanceMetadata(string instanceName)
         {
             return _metadataStore.GetByName(instanceName);
         }
 
-        public IEnumerable<CommerceInstanceMetadata> GetAllInstanceMetadatas()
+        public IEnumerable<InstanceMetadata> GetAllInstanceMetadatas()
         {
             return _metadataStore.All().ToList();
         }
@@ -119,7 +114,7 @@ namespace Kooboo.Commerce.Data
             if (metadata == null)
                 throw new InvalidOperationException("Commerce instance \"" + name + "\" not exists.");
 
-            var dbProvider = _dbProviderFactory.GetDbProvider(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
+            var dbProvider = _dbProviders.Find(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
             var database = new CommerceDatabase(metadata, dbProvider);
 
             return new CommerceInstance(database);
