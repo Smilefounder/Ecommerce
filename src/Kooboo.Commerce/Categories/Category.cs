@@ -1,17 +1,10 @@
-﻿using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.Commerce.ComponentModel;
-using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Categories;
-using Kooboo.Commerce.Rules;
-using System;
+﻿using Kooboo.Commerce.Rules;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Script.Serialization;
 
 namespace Kooboo.Commerce.Categories
 {
-    public class Category : INotifyCreated, INotifyUpdated, INotifyDeleted
+    public class Category
     { 
         [Param]
         public int Id { get; set; } 
@@ -37,20 +30,5 @@ namespace Kooboo.Commerce.Categories
         public virtual ICollection<Category> Children { get; set; }
 
         public virtual ICollection<CategoryCustomField> CustomFields { get; set; }
-
-        void INotifyCreated.NotifyCreated()
-        {
-            Event.Raise(new CategoryCreated(this));
-        }
-
-        void INotifyUpdated.NotifyUpdated()
-        {
-            Event.Raise(new CategoryUpdated(this));
-        }
-
-        void INotifyDeleted.NotifyDeleted()
-        {
-            Event.Raise(new CategoryDeleted(this));
-        }
     }
 }

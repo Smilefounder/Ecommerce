@@ -9,7 +9,6 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Data.Events;
-using Kooboo.Commerce.ComponentModel;
 
 namespace Kooboo.Commerce.Data
 {
@@ -25,35 +24,9 @@ namespace Kooboo.Commerce.Data
 
         public override int SaveChanges()
         {
-            var updateObservers = new List<INotifyUpdated>();
-
-            foreach (var entry in ChangeTracker.Entries())
-            {
-                if (entry.State.HasFlag(EntityState.Modified))
-                {
-                    var observer = entry.Entity as INotifyUpdated;
-                    if (observer != null)
-                    {
-                        updateObservers.Add(observer);
-                    }
-                }
-            }
-
             Event.Raise(new SavingDbChanges(this));
 
-            var result = base.SaveChanges();
-
-            // We must call update notifications after SaveChanges() call, otherwise it's easy to cause infinite loop.
-            // Because in current design, each call to Insert, Delete will call SaveChanges(), 
-            // and we will always wrap these calls in a tansaction.
-            // In this case, SaveChanges will not accept changes, 
-            // so if later some other entity are updated, these notifications will still get fired! Causing infinite loop.
-            foreach (var observer in updateObservers)
-            {
-                observer.NotifyUpdated();
-            }
-
-            return result;
+            return base.SaveChanges();
         }
 
         static CommerceDbContext()

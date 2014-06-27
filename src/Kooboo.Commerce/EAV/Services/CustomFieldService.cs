@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.EAV.Services
 
         public bool Update(CustomField field)
         {
-            return repoCustomField.Update(field, k => new object[] { k.Id });
+            return repoCustomField.Update(field, field);
         }
 
         public bool Delete(CustomField field)

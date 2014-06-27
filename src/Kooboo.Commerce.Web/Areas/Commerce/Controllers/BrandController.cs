@@ -51,9 +51,18 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Save(BrandEditorModel model, string @return)
         {
             model.CustomFields = FormHelper.BindToModels<BrandCustomFieldModel>(Request.Form, "CustomFields.");
-            Brand brand = new Brand();
+
+            var brand = new Brand();
             model.UpdateTo(brand);
-            _brandService.Save(brand);
+
+            if (model.Id > 0)
+            {
+                _brandService.Update(brand);
+            }
+            else
+            {
+                _brandService.Create(brand);
+            }
 
             return AjaxForm().RedirectTo(@return);
         }

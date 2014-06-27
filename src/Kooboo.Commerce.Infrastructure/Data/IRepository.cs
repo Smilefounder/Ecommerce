@@ -16,7 +16,9 @@ namespace Kooboo.Commerce.Data
 
         bool Insert(T entity);
 
-        bool Update(T entity, Func<T, object[]> getKeys);
+        void Update(T entity);
+
+        bool Update(T entity, object values);
 
         bool Delete(T entity);
 
@@ -39,11 +41,11 @@ namespace Kooboo.Commerce.Data
             return repository.Query().Where(predicate);
         }
 
-        public static bool Save<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate, T obj, Func<T, object[]> getKeys) where T : class
+        public static bool Save<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate, T obj) where T : class
         {
             if (repository.Query(predicate).Any())
             {
-                return repository.Update(obj, getKeys);
+                return repository.Update(obj, obj);
             }
             else
             {
@@ -51,7 +53,7 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public static bool SaveAll<T>(this IRepository<T> repository, ICommerceDatabase db, IEnumerable<T> original, IEnumerable<T> current, Func<T, object[]> getKeys, Func<T, T, bool> exists
+        public static bool SaveAll<T>(this IRepository<T> repository, ICommerceDatabase db, IEnumerable<T> original, IEnumerable<T> current, Func<T, T, bool> exists
             , bool deleteIfNoFound = true, bool notUpdateIfFound = false)
             where T : class
         {
@@ -68,7 +70,7 @@ namespace Kooboo.Commerce.Data
                 {
                     return SaveAll(repository, db, original, current, exists,
                         (repo, o) => { repo.Insert(o); },
-                        (repo, o, c) => { repo.Update(c, getKeys); },
+                        (repo, o, c) => { repo.Update(c, c); },
                         (repo, o) => { repo.Delete(o); });
                 }
             }
@@ -85,7 +87,7 @@ namespace Kooboo.Commerce.Data
                 {
                     return SaveAll(repository, db, original, current, exists,
                         (repo, o) => { repo.Insert(o); },
-                        (repo, o, c) => { repo.Update(c, getKeys); },
+                        (repo, o, c) => { repo.Update(c, c); },
                         null);
                 }
             }

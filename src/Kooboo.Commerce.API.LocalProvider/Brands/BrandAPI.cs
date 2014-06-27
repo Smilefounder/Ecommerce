@@ -84,7 +84,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
         public IBrandQuery ByCustomField(string customFieldName, string fieldValue)
         {
             EnsureQuery();
-            var customFieldQuery = _brandService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
+            var customFieldQuery = _brandService.CustomFields().Where(o => o.Name == customFieldName && o.Value == fieldValue);
             _query = _query.Where(o => customFieldQuery.Any(c => c.BrandId == o.Id));
             return this;
         }

@@ -58,22 +58,16 @@ namespace Kooboo.Commerce.Products.Services
             return price;
         }
 
-        public bool Create(Product product)
+        public void Create(Product product)
         {
-            return _repoProduct.Insert(product);
+            _repoProduct.Insert(product);
+            Event.Raise(new ProductCreated(product));
         }
 
-        public bool Delete(int productId)
+        public void Delete(Product product)
         {
-            var product = _db.GetRepository<Product>().Get(productId);
-            if (product == null)
-            {
-                return false;
-            }
-
             _db.GetRepository<Product>().Delete(product);
-
-            return true;
+            Event.Raise(new ProductDeleted(product));
         }
 
         public bool Publish(Product product)

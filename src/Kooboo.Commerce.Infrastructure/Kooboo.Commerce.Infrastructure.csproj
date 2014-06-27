@@ -101,10 +101,6 @@
     <Compile Include="Activities\RuleBranch.cs" />
     <Compile Include="Activities\RuleType.cs" />
     <Compile Include="BusinessRuleViolationException.cs" />
-    <Compile Include="ComponentModel\INotifyCreated.cs" />
-    <Compile Include="ComponentModel\INotifyDeleted.cs" />
-    <Compile Include="ComponentModel\INotifyDeleting.cs" />
-    <Compile Include="ComponentModel\INotifyUpdated.cs" />
     <Compile Include="Data\BatchedQuery.cs" />
     <Compile Include="Data\CommerceDbException.cs" />
     <Compile Include="Data\CommerceDbProviderCollection.cs" />
@@ -116,6 +112,7 @@
     <Compile Include="Data\Context\ThreadScopeCurrentInstanceProvider.cs" />
     <Compile Include="Data\Events\SavingDbChanges.cs" />
     <Compile Include="Data\Extensions\CommerceDatabaseExtensions.cs" />
+    <Compile Include="Data\Extensions\DbContextExtensions.cs" />
     <Compile Include="Data\ICommerceDbTransaction.cs" />
     <Compile Include="Data\InstanceMetadataFileStore.cs" />
     <Compile Include="Data\ICommerceDatabaseOperations.cs" />

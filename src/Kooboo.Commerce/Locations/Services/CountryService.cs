@@ -28,12 +28,6 @@ namespace Kooboo.Commerce.Locations.Services
             return _countryRepository.Query();
         }
 
-        //public IPagedList<Country> GetAllCountries(int? page, int? pageSize)
-        //{
-        //    var query = _countryRepository.Query().OrderBy(o => o.Id);
-        //    return PageLinqExtensions.ToPagedList(query, page ?? 1, pageSize ?? 50);
-        //}
-
         public bool Create(Country country)
         {
             return _countryRepository.Insert(country);
@@ -41,7 +35,7 @@ namespace Kooboo.Commerce.Locations.Services
 
         public bool Update(Country country)
         {
-            return _countryRepository.Update(country, k => new object[] { k.Id });
+            return _countryRepository.Update(country, country);
         }
 
         public bool Save(Country country)

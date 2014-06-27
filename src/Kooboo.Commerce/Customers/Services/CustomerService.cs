@@ -61,12 +61,12 @@ namespace Kooboo.Commerce.Customers.Services
             return _customerRepository.Query();
         }
 
-        public IQueryable<Address> QueryAddress()
+        public IQueryable<Address> Addresses()
         {
             return _addressRepository.Query();
         }
 
-        public IQueryable<CustomerCustomField> CustomFieldsQuery()
+        public IQueryable<CustomerCustomField> CustomFields()
         {
             return _customerCustomFieldRepository.Query();
         }
@@ -77,77 +77,58 @@ namespace Kooboo.Commerce.Customers.Services
             Event.Raise(new CustomerCreated(customer));
         }
 
-        public bool Update(Customer customer)
+        public void Update(Customer customer)
         {
-            try
+            var dbCustomer = _customerRepository.Get(customer.Id);
+
+            if (customer.Addresses != null)
             {
-                if (customer.Addresses != null)
+                foreach (var address in customer.Addresses)
                 {
-                    foreach (var address in customer.Addresses)
+                    var dbAddress = dbCustomer.Addresses.Find(a => a.Id == address.Id);
+                    if (dbAddress == null)
                     {
-                        _addressRepository.Save(o => o.Id == address.Id, address, o => new object[] { o.Id });
+                        dbAddress = new Address();
+                    }
+
+                    dbAddress.FirstName = address.FirstName;
+                    dbAddress.LastName = address.LastName;
+                    dbAddress.Phone = address.Phone;
+                    dbAddress.Postcode = address.Postcode;
+                    dbAddress.Address1 = address.Address1;
+                    dbAddress.Address2 = address.Address2;
+                    dbAddress.City = address.City;
+                    dbAddress.State = address.State;
+                    dbAddress.CountryId = address.CountryId;
+
+                    if (dbAddress.Id == 0)
+                    {
+                        dbCustomer.Addresses.Add(dbAddress);
                     }
                 }
+            }
 
-                _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
-                if (customer.CustomFields != null && customer.CustomFields.Count > 0)
+            if (customer.CustomFields != null && customer.CustomFields.Count > 0)
+            {
+                foreach (var field in customer.CustomFields)
                 {
-                    foreach (var cf in customer.CustomFields)
+                    dbCustomer.CustomFields.Add(new CustomerCustomField
                     {
-                        _customerCustomFieldRepository.Insert(new CustomerCustomField
-                        {
-                            CustomerId = customer.Id,
-                            Name = cf.Name,
-                            Value = cf.Value
-                        });
-                    }
-                }
-
-                _customerRepository.Update(customer, k => new object[] { k.Id });
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool Save(Customer customer)
-        {
-
-            if (customer.Id > 0)
-            {
-                bool exists = _customerRepository.Query(o => o.Id == customer.Id).Any();
-                if (exists)
-                    return Update(customer);
-                else
-                {
-                    Create(customer);
-                    return true;
+                        Name = field.Name,
+                        Value = field.Value
+                    });
                 }
             }
-            else
-            {
-                Create(customer);
-                return true;
-            }
+
+            _customerRepository.Update(dbCustomer, customer);
+
+            Event.Raise(new CustomerUpdated(dbCustomer));
         }
 
-        public bool Delete(Customer customer)
+        public void Delete(Customer customer)
         {
-            try
-            {
-                _addressRepository.DeleteBatch(o => o.CustomerId == customer.Id);
-                _customerCustomFieldRepository.DeleteBatch(o => o.CustomerId == customer.Id);
-                _customerRepository.Delete(customer);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            _customerRepository.Delete(customer);
+            Event.Raise(new CustomerDeleted(customer));
         }
-
     }
 }

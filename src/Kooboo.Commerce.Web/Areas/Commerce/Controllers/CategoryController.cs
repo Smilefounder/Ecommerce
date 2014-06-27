@@ -91,14 +91,24 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Save(CategoryEditorModel model, string @return)
         {
             model.CustomFields = FormHelper.BindToModels<CategoryCustomFieldModel>(Request.Form, "CustomFields.");
-            Category obj = new Category();
+
+            var category = new Category();
             var parentId = Request.RequestContext.GetRequestValue("ParentId");
             if (!string.IsNullOrEmpty(parentId))
             {
-                obj.Parent = _categoryService.GetById(int.Parse(parentId));
+                category.Parent = _categoryService.GetById(int.Parse(parentId));
             }
-            model.UpdateTo(obj);
-            _categoryService.Save(obj);
+
+            model.UpdateTo(category);
+
+            if (model.Id > 0)
+            {
+                _categoryService.Update(category);
+            }
+            else
+            {
+                _categoryService.Create(category);
+            }
 
             return AjaxForm().RedirectTo(@return);
         }

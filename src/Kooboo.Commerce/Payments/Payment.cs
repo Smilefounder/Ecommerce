@@ -1,11 +1,5 @@
-﻿using Kooboo.Commerce.ComponentModel;
-using Kooboo.Commerce.Events;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
 
 namespace Kooboo.Commerce.Payments
 {

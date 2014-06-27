@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.ComponentModel;
-using Kooboo.Commerce.Events;
+﻿using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Rules;
@@ -7,7 +6,6 @@ using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Kooboo.Commerce.Products
 {

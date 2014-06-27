@@ -16,20 +16,18 @@ namespace Kooboo.Commerce.Customers.Services
 
         Customer GetByAccountId(string accountId);
 
-        void AddAddress(Customer customer, Address address);
-
         IQueryable<Customer> Query();
 
-        IQueryable<Address> QueryAddress();
+        IQueryable<Address> Addresses();
 
-        IQueryable<CustomerCustomField> CustomFieldsQuery();
+        void AddAddress(Customer customer, Address address);
+
+        IQueryable<CustomerCustomField> CustomFields();
 
         void Create(Customer customer);
 
-        bool Update(Customer customer);
+        void Update(Customer customer);
 
-        bool Save(Customer customer);
-
-        bool Delete(Customer customer);
+        void Delete(Customer customer);
     }
 }

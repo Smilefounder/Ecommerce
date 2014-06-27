@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Categories;
 
 namespace Kooboo.Commerce.Categories.Services
 {
@@ -21,8 +23,6 @@ namespace Kooboo.Commerce.Categories.Services
             _categoryCustomFieldRepository = categoryCustomFieldRepository;
         }
 
-        #region ICategoryService Members
-
         public Category GetById(int id)
         {
             return _categoryRepository.Get(o => o.Id == id);
@@ -32,85 +32,44 @@ namespace Kooboo.Commerce.Categories.Services
         {
             return _categoryRepository.Query();
         }
-        public IQueryable<CategoryCustomField> CustomFieldsQuery()
+        public IQueryable<CategoryCustomField> CustomFields()
         {
             return _categoryCustomFieldRepository.Query();
         }
 
-        //public IEnumerable<Category> GetRootCategories()
-        //{
-        //    return _categoryRepository.Query(o => o.Parent == null).ToArray();
-        //}
-
-        //public IPagedList<Category> GetRootCategories(int? pageIndex, int? pageSize)
-        //{
-        //    var query = _categoryRepository.Query(o => o.Parent == null);
-        //    query = query.OrderByDescending(o => o.Id);
-        //    return PageLinqExtensions.ToPagedList(query, pageIndex ?? 1, pageSize ?? 50);
-        //}
-
-        //public IEnumerable<Category> GetChildCategories(int parentId)
-        //{
-        //    var query = _categoryRepository.Query(o => o.Parent.Id == parentId);
-        //    return query.ToArray();
-        //}
-
-        public bool Create(Category category)
+        public void Create(Category category)
         {
-            return _categoryRepository.Insert(category);
+            _categoryRepository.Insert(category);
+            Event.Raise(new CategoryCreated(category));
         }
 
-        public bool Update(Category category)
+        public void Update(Category category)
         {
-            try
+            var dbCategory = _categoryRepository.Get(category.Id);
+
+            dbCategory.CustomFields.Clear();
+
+            if (category.CustomFields != null && category.CustomFields.Count > 0)
             {
-                _categoryRepository.Update(category, k => new object[] { k.Id });
-                _categoryCustomFieldRepository.DeleteBatch(o => o.CategoryId == category.Id);
-                if (category.CustomFields != null && category.CustomFields.Count > 0)
+                foreach (var field in category.CustomFields)
                 {
-                    foreach (var cf in category.CustomFields)
+                    dbCategory.CustomFields.Add(new CategoryCustomField
                     {
-                        _categoryCustomFieldRepository.Insert(cf);
-                    }
+                        Name = field.Name,
+                        Value = field.Value
+                    });
                 }
-                return true;
             }
-            catch
-            {
-                return false;
-            }
+
+            _categoryRepository.Update(dbCategory, category);
+
+            Event.Raise(new CategoryUpdated(dbCategory));
         }
 
-        public bool Save(Category category)
+        public void Delete(Category category)
         {
-            if (category.Id > 0)
-            {
-                bool exists = _categoryRepository.Query(o => o.Id == category.Id).Any();
-                if (exists)
-                    return Update(category);
-                else
-                    return Create(category);
-            }
-            else
-            {
-                return Create(category);
-            }
+            _categoryRepository.Delete(category);
+            Event.Raise(new CategoryDeleted(category));
         }
-
-        public bool Delete(Category category)
-        {
-            try
-            {
-                _categoryCustomFieldRepository.DeleteBatch(o => o.CategoryId == category.Id);
-                _categoryRepository.Delete(category);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        #endregion
     }
 }

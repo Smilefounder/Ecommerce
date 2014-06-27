@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Rules;
-using Kooboo.Commerce.ComponentModel;
-using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Customers;
 
 namespace Kooboo.Commerce.Customers
 {
-    public class Customer : INotifyCreated, INotifyUpdated, INotifyDeleted
+    public class Customer
     {
         public Customer()
         {
@@ -95,20 +90,5 @@ namespace Kooboo.Commerce.Customers
         }
 
         public virtual ICollection<CustomerCustomField> CustomFields { get; set; }
-
-        void INotifyCreated.NotifyCreated()
-        {
-            Event.Raise(new CustomerCreated(this));
-        }
-
-        void INotifyUpdated.NotifyUpdated()
-        {
-            Event.Raise(new CustomerUpdated(this));
-        }
-
-        void INotifyDeleted.NotifyDeleted()
-        {
-            Event.Raise(new CustomerDeleted(this));
-        }
     }
 }

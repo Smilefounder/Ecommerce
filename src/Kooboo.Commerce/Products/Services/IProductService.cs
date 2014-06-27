@@ -15,9 +15,9 @@ namespace Kooboo.Commerce.Products.Services
 
         ProductPrice GetProductPriceById(int id, bool loadProduct = true, bool loadVariants = true, bool loadCustomFields = true);
 
-        bool Create(Product product);
+        void Create(Product product);
 
-        bool Delete(int productId);
+        void Delete(Product product);
 
         bool Publish(Product product);
 

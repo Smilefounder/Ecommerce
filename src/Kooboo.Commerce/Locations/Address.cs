@@ -40,5 +40,6 @@ namespace Kooboo.Commerce.Locations
 
         [Reference]
         public virtual Country Country { get; set; }
+
     }
 }

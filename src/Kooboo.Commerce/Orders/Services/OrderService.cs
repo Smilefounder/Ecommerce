@@ -184,10 +184,10 @@ namespace Kooboo.Commerce.Orders.Services
             try
             {
                 var dbOrderItems = _orderItemRepository.Query(o => o.OrderId == order.Id).ToArray();
-                _orderItemRepository.SaveAll(_db, dbOrderItems, order.OrderItems, k => new object[] { k.Id }, (o, n) => o.Id == n.Id);
+                _orderItemRepository.SaveAll(_db, dbOrderItems, order.OrderItems, (o, n) => o.Id == n.Id);
 
-                _orderAddressRepository.Save(o => o.Id == order.ShippingAddressId, order.ShippingAddress, k => new object[] { k.Id });
-                _orderAddressRepository.Save(o => o.Id == order.BillingAddressId, order.BillingAddress, k => new object[] { k.Id });
+                _orderAddressRepository.Save(o => o.Id == order.ShippingAddressId, order.ShippingAddress);
+                _orderAddressRepository.Save(o => o.Id == order.BillingAddressId, order.BillingAddress);
                 _orderCustomFieldRepository.DeleteBatch(o => o.OrderId == order.Id);
                 if (order.CustomFields != null && order.CustomFields.Count > 0)
                 {
@@ -196,7 +196,7 @@ namespace Kooboo.Commerce.Orders.Services
                         _orderCustomFieldRepository.Insert(cf);
                     }
                 }
-                _orderRepository.Update(order, k => new object[] { k.Id });
+                _orderRepository.Update(order, order);
                 return true;
             }
             catch

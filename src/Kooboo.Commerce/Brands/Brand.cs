@@ -1,16 +1,9 @@
-﻿using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.Commerce.ComponentModel;
-using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Brands;
-using Kooboo.Commerce.Rules;
-using System;
+﻿using Kooboo.Commerce.Rules;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Kooboo.Commerce.Brands
 {
-    public class Brand : INotifyCreated, INotifyUpdated, INotifyDeleted
+    public class Brand
     {
         [Param]
         public int Id { get; set; }
@@ -27,24 +20,14 @@ namespace Kooboo.Commerce.Brands
 
         public virtual ICollection<BrandCustomField> CustomFields { get; set; }
 
+        public Brand()
+        {
+            CustomFields = new List<BrandCustomField>();
+        }
+
         public override string ToString()
         {
             return Name;
-        }
-
-        void INotifyCreated.NotifyCreated()
-        {
-            Event.Raise(new BrandCreated(this));
-        }
-
-        void INotifyUpdated.NotifyUpdated()
-        {
-            Event.Raise(new BrandUpdated(this));
-        }
-
-        void INotifyDeleted.NotifyDeleted()
-        {
-            Event.Raise(new BrandDeleted(this));
         }
     }
 }

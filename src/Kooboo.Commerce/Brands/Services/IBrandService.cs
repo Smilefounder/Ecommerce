@@ -11,13 +11,12 @@ namespace Kooboo.Commerce.Brands.Services
 
         IQueryable<Brand> Query();
 
-        IQueryable<BrandCustomField> CustomFieldsQuery();
+        IQueryable<BrandCustomField> CustomFields();
 
-        bool Create(Brand brand);
+        void Create(Brand brand);
 
-        bool Update(Brand brand);
-        bool Save(Brand brand);
+        void Update(Brand brand);
 
-        bool Delete(Brand brand);
+        void Delete(Brand brand);
     }
 }

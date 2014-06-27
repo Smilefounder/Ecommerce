@@ -226,12 +226,12 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 
             if (address.Id > 0)
             {
-                addr = _customerService.QueryAddress().ById(address.Id);
+                addr = _customerService.Addresses().ById(address.Id);
             }
             else
             {
                 _customerApi.AddAddress(customerId, address);
-                addr = _customerService.QueryAddress().ById(address.Id);
+                addr = _customerService.Addresses().ById(address.Id);
             }
 
             return addr;

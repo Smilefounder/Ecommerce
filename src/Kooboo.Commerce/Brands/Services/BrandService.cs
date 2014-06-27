@@ -4,24 +4,22 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Events.Brands;
 
 namespace Kooboo.Commerce.Brands.Services
 {
     [Dependency(typeof(IBrandService))]
     public class BrandService : IBrandService
     {
-        private readonly ICommerceDatabase _db;
         private readonly IRepository<Brand> _brandRepository;
-        private readonly IRepository<BrandCustomField> _brandCustomFieldRepository;
+        private readonly IRepository<BrandCustomField> _customFieldRepository;
 
-        public BrandService(ICommerceDatabase db, IRepository<Brand> brandRepository, IRepository<BrandCustomField> brandCustomFieldRepository)
+        public BrandService(IRepository<Brand> brandRepository, IRepository<BrandCustomField> customFieldRepository)
         {
-            _db = db;
             _brandRepository = brandRepository;
-            _brandCustomFieldRepository = brandCustomFieldRepository;
+            _customFieldRepository = customFieldRepository;
         }
-
-        #region IBrandService Members
 
         public Brand GetById(int id)
         {
@@ -34,67 +32,41 @@ namespace Kooboo.Commerce.Brands.Services
             return _brandRepository.Query();
         }
 
-        public IQueryable<BrandCustomField> CustomFieldsQuery()
+        public IQueryable<BrandCustomField> CustomFields()
         {
-            return _brandCustomFieldRepository.Query();
+            return _customFieldRepository.Query();
         }
 
-        public bool Create(Brand brand)
+        public void Create(Brand brand)
         {
-            return _brandRepository.Insert(brand);
+            _brandRepository.Insert(brand);
+            Event.Raise(new BrandCreated(brand));
         }
 
-        public bool Update(Brand brand)
+        public void Update(Brand brand)
         {
-            try
+            var dbBrand = _brandRepository.Get(brand.Id);
+
+            dbBrand.CustomFields.Clear();
+
+            foreach (var field in brand.CustomFields)
             {
-                _brandRepository.Update(brand, k => new object[] { k.Id });
-                _brandCustomFieldRepository.DeleteBatch(o => o.BrandId == brand.Id);
-                if (brand.CustomFields != null && brand.CustomFields.Count > 0)
+                dbBrand.CustomFields.Add(new BrandCustomField
                 {
-                    foreach (var cf in brand.CustomFields)
-                    {
-                        _brandCustomFieldRepository.Insert(cf);
-                    }
-                }
-                return true;
+                    Name = field.Name,
+                    Value = field.Value
+                });
             }
-            catch
-            {
-                return false;
-            }
+
+            _brandRepository.Update(dbBrand, brand);
+
+            Event.Raise(new BrandUpdated(dbBrand));
         }
 
-        public bool Save(Brand brand)
+        public void Delete(Brand brand)
         {
-            if (brand.Id > 0)
-            {
-                bool exists = _brandRepository.Query(o => o.Id == brand.Id).Any();
-                if (exists)
-                    return Update(brand);
-                else
-                    return Create(brand);
-            }
-            else
-            {
-                return Create(brand);
-            }
+            _brandRepository.Delete(brand);
+            Event.Raise(new BrandDeleted(brand));
         }
-
-        public bool Delete(Brand brand)
-        {
-            try
-            {
-                _brandCustomFieldRepository.DeleteBatch(o => o.BrandId == brand.Id);
-                _brandRepository.Delete(brand);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        #endregion
     }
 }

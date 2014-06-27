@@ -106,7 +106,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         {
             if (obj != null)
             {
-                return _productService.Create(_mapper.MapFrom(obj));
+                _productService.Create(_mapper.MapFrom(obj));
+                return true;
             }
             return false;
         }
@@ -151,7 +152,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         {
             if (obj != null)
             {
-                return _productService.Delete(obj.Id);
+                var product = _productService.GetById(obj.Id);
+                _productService.Delete(product);
+                return true;
             }
             return false;
         }

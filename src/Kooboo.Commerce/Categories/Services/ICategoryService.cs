@@ -10,19 +10,13 @@ namespace Kooboo.Commerce.Categories.Services
         Category GetById(int id);
 
         IQueryable<Category> Query();
-        IQueryable<CategoryCustomField> CustomFieldsQuery();
 
-        //IEnumerable<Category> GetRootCategories();
+        IQueryable<CategoryCustomField> CustomFields();
 
-        //IPagedList<Category> GetRootCategories(int? pageIndex, int? pageSize);
+        void Create(Category category);
 
-        //IEnumerable<Category> GetChildCategories(int parentId);
+        void Update(Category category);
 
-        bool Create(Category category);
-
-        bool Update(Category category);
-        bool Save(Category category);
-
-        bool Delete(Category category);
+        void Delete(Category category);
     }
 }

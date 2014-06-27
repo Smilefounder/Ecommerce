@@ -1,15 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Kooboo.Commerce.Locations;
-using Kooboo.Commerce.Payments;
-using Kooboo.Commerce.ShoppingCarts;
 using Kooboo.Commerce.Customers;
-using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Rules;
-using Kooboo.Commerce.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Kooboo.Commerce.Orders

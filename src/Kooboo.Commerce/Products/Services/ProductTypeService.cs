@@ -102,7 +102,7 @@ namespace Kooboo.Commerce.Products.Services
                             repo.DeleteBatch(o => o.ProductTypeId == type.Id && o.CustomFieldId == f.CustomFieldId);
                         }
                     });
-                _productTypeRepository.Update(type, k => new object[] { k.Id });
+                _productTypeRepository.Update(type, type);
 
                 return true;
             }

@@ -184,7 +184,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         public ICustomerQuery ByCustomField(string customFieldName, string fieldValue)
         {
             EnsureQuery();
-            var customFieldQuery = _customerService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
+            var customFieldQuery = _customerService.CustomFields().Where(o => o.Name == customFieldName && o.Value == fieldValue);
             _query = _query.Where(o => customFieldQuery.Any(c => c.CustomerId == o.Id));
             return this;
         }

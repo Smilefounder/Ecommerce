@@ -59,24 +59,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Create()
         {
-            //var model = new CustomerEditorModel();
-            //model.GenderList = EnumUtil.ToSelectList<Gender>();
-            //model.CountryList = _countryService.GetAllCountries()
-            //    .ToSelectList(country => country.Name, country => country.Id.ToString(), "", "");
-
-            //return View("Edit", model);
             return View("Edit");
         }
 
         public ActionResult Edit(int id)
         {
-            //var obj = _customerService.GetById(id);
-            //var model = new CustomerEditorModel(obj);
-            //model.GenderList = EnumUtil.ToSelectList<Gender>();
-            //model.CountryList = _countryService.GetAllCountries()
-            //    .ToSelectList(country => country.Name, country => country.Id.ToString(), "", "");
-
-            //return View(model);
             return View("Edit");
         }
 
@@ -96,7 +83,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             try
             {
-                _customerService.Save(obj);
+                if (obj.Id > 0)
+                {
+                    _customerService.Update(obj);
+                }
+                else
+                {
+                    _customerService.Create(obj);
+                }
+
                 return this.JsonNet(new { status = 0, message = "customer succssfully saved." });
             }
             catch (Exception ex)
@@ -104,42 +99,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 return this.JsonNet(new { status = 1, message = ex.Message });
             }
         }
-
-        //[HttpPost]
-        //public ActionResult Save(CustomerEditorModel model, string @return)
-        //{
-        //    return RunWithTry(data =>
-        //    {
-        //        var obj = new Customer();
-        //        model.UpdateTo(obj);
-        //        _customerService.Save(obj);
-        //        data.RedirectUrl = @return;
-        //    });
-        //}
-
-        //[HttpPost]
-        //public ActionResult ChangePassword(ChangePasswordModel obj)
-        //{
-        //    try
-        //    {
-        //        int status = 1;
-        //        string message = null;
-        //        if (obj.NewPassword != obj.ConfirmPassword)
-        //        {
-        //            message = "Confirm password should be the same to new password.";
-        //        }
-        //        else
-        //        {
-        //            status = _accountService.ChangePassword(obj.AccountId, obj.OldPassword, obj.NewPassword, out message) ? 0 : 1;
-        //        }
-
-        //        return this.JsonNet(new { status = status, message = message });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return this.JsonNet(new { status = 1, message = ex.Message });
-        //    }
-        //}
 
         [HttpPost]
         public ActionResult Delete(CustomerRowModel[] model)

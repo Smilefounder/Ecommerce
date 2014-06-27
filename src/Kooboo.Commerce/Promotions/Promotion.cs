@@ -1,7 +1,4 @@
-﻿using Kooboo.Commerce.ComponentModel;
-using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Promotions;
-using Kooboo.Commerce.Rules;
+﻿using Kooboo.Commerce.Rules;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,7 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
-using System.Text;
 
 namespace Kooboo.Commerce.Promotions
 {

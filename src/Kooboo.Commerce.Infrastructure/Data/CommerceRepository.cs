@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using Kooboo.Commerce.ComponentModel;
 
 namespace Kooboo.Commerce.Data
 {
@@ -57,37 +56,20 @@ namespace Kooboo.Commerce.Data
 
             int ret = DbContext.SaveChanges();
 
-            if (entity is INotifyCreated)
-            {
-                ((INotifyCreated)entity).NotifyCreated();
-            }
-
             return ret > 0;
         }
 
-        public virtual bool Update(T obj, Func<T, object[]> getKeys)
+        public virtual void Update(T entity)
         {
-            if (obj == null)
-                return false;
-            var entry = DbContext.Entry(obj);
+            var keys = DbContext.GetKeys<T>(entity);
+            var dbEntity = DbContext.Set<T>().Find(keys);
+            Update(dbEntity, entity);
+        }
 
-            if (entry.State == EntityState.Detached)
-            {
-                var tbl = DbContext.Set<T>();
-                var keys = getKeys(obj);
-                var currentEntry = tbl.Find(keys);
-                if (currentEntry != null)
-                {
-                    var attachedEntry = DbContext.Entry(currentEntry);
-                    attachedEntry.CurrentValues.SetValues(obj);
-                    attachedEntry.State = EntityState.Modified;
-                }
-                else
-                {
-                    tbl.Attach(obj);
-                    entry.State = EntityState.Modified;
-                }
-            }
+        public virtual bool Update(T entity, object values)
+        {
+            var entry = DbContext.Entry(entity);
+            entry.CurrentValues.SetValues(values);
 
             int ret = DbContext.SaveChanges();
 
@@ -98,19 +80,9 @@ namespace Kooboo.Commerce.Data
         {
             Require.NotNull(entity, "entity");
 
-            if (entity is INotifyDeleting)
-            {
-                ((INotifyDeleting)entity).NotifyDeleting();
-            }
-
             DbContext.Set<T>().Remove(entity);
 
             int ret = DbContext.SaveChanges();
-
-            if (entity is INotifyDeleted)
-            {
-                ((INotifyDeleted)entity).NotifyDeleted();
-            }
 
             return ret > 0;
         }

@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Kooboo.Commerce.Brands;
-using Kooboo.Commerce.Categories;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.EAV;
-using Kooboo.Commerce.ComponentModel;
-using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Products
 {
@@ -18,7 +13,7 @@ namespace Kooboo.Commerce.Products
     /// This class store the product information, but the sale items. The items to be sold stored in the ProductVariant. 
     /// One product can have multiple variants, each variant contains some field values and some price, stock, etc. 
     /// </summary>
-    public class Product : INotifyCreated, INotifyDeleted
+    public class Product
     {
         public Product()
         {
@@ -218,16 +213,6 @@ namespace Kooboo.Commerce.Products
         public virtual void NotifyUpdated()
         {
             Event.Raise(new ProductUpdated(this));
-        }
-
-        void INotifyCreated.NotifyCreated()
-        {
-            Event.Raise(new ProductCreated(this));
-        }
-
-        void INotifyDeleted.NotifyDeleted()
-        {
-            Event.Raise(new ProductDeleted(this));
         }
     }
 }

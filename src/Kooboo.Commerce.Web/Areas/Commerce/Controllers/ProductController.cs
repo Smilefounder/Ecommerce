@@ -214,7 +214,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             try
             {
-                _productService.Delete(id);
+                var product = _productService.GetById(id);
+                _productService.Delete(product);
                 return this.JsonNet(new JsonResultData()
                 {
                     ReloadPage = true
@@ -232,7 +233,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 foreach (var item in model)
                 {
-                    _productService.Delete(item.Id);
+                    var product = _productService.GetById(item.Id);
+                    _productService.Delete(product);
                 }
                 return this.JsonNet(new JsonResultData()
                 {

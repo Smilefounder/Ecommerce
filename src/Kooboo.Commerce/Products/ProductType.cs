@@ -1,13 +1,7 @@
-﻿using Kooboo.Commerce.ComponentModel;
-using Kooboo.Commerce.EAV;
-using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.ProductTypes;
-using Kooboo.Commerce.Rules;
-using System;
+﻿using Kooboo.Commerce.Rules;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 
 namespace Kooboo.Commerce.Products
 {

@@ -109,7 +109,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         public ICategoryQuery ByCustomField(string customFieldName, string fieldValue)
         {
             EnsureQuery();
-            var customFieldQuery = _categoryService.CustomFieldsQuery().Where(o => o.Name == customFieldName && o.Value == fieldValue);
+            var customFieldQuery = _categoryService.CustomFields().Where(o => o.Name == customFieldName && o.Value == fieldValue);
             _query = _query.Where(o => customFieldQuery.Any(c => c.CategoryId == o.Id));
             return this;
         }
