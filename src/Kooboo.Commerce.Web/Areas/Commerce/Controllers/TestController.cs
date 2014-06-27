@@ -28,6 +28,7 @@ using Kooboo.Commerce.Events.Brands;
 using Kooboo.Commerce.Events.Products;
 using System.Diagnostics;
 using Kooboo.Commerce.ShoppingCarts;
+using Kooboo.Commerce.Rules.Parameters;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -57,7 +58,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Params()
         {
-            var provider = new DeclaringParameterProvider();
+            var provider = new DefaultParameterProvider();
             var parameters = provider.GetParameters(typeof(TestContext)).ToList();
 
             var context = new TestContext

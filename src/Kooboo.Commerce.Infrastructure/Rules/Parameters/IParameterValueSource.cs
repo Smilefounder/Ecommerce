@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules
+namespace Kooboo.Commerce.Rules.Parameters
 {
     /// <summary>
     /// Defines the methods to retrieve the available values of a condition parameter.

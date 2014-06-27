@@ -1,4 +1,6 @@
 ﻿using Kooboo.Commerce.Rules.Expressions;
+using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules
+namespace Kooboo.Commerce.Rules.Evaluation
 {
     /// <summary>
     /// Represents a evaluator to evaluate the result of a condition expression.
@@ -16,17 +18,17 @@ namespace Kooboo.Commerce.Rules
         private object _dataContext;
         private Stack<bool> _results = new Stack<bool>();
         private List<ConditionParameter> _availableParameters;
-        private ParameterProviderManager _parameterProviderManager;
-        private ComparisonOperatorManager _comparisonOperatorManager;
+        private ParameterProviderCollection _parameterProviders;
+        private ComparisonOperatorCollection _comparisonOperators;
 
         public ConditionExpressionEvaluator(
-            ParameterProviderManager parameterProviderManager, ComparisonOperatorManager comparisonOperatorManager)
+            ParameterProviderCollection parameterProviders, ComparisonOperatorCollection comparisonOperators)
         {
-            Require.NotNull(parameterProviderManager, "_parameterProviderManager");
-            Require.NotNull(comparisonOperatorManager, "comparisonOperatorManager");
+            Require.NotNull(parameterProviders, "parameterProviders");
+            Require.NotNull(comparisonOperators, "comparisonOperators");
 
-            _parameterProviderManager = parameterProviderManager;
-            _comparisonOperatorManager = comparisonOperatorManager;
+            _parameterProviders = parameterProviders;
+            _comparisonOperators = comparisonOperators;
         }
 
         /// <summary>
@@ -43,10 +45,9 @@ namespace Kooboo.Commerce.Rules
             _dataContext = dataContext;
 
             var dataContextType = dataContext.GetType();
-            _availableParameters = _parameterProviderManager.Providers
-                                                            .SelectMany(x => x.GetParameters(dataContextType))
-                                                            .DistinctBy(x => x.Name)
-                                                            .ToList();
+            _availableParameters = _parameterProviders.SelectMany(x => x.GetParameters(dataContextType))
+                                                      .DistinctBy(x => x.Name)
+                                                      .ToList();
 
             Visit(expression);
 
@@ -62,7 +63,7 @@ namespace Kooboo.Commerce.Rules
             if (param == null)
                 throw new UnrecognizedParameterException("Unrecognized parameter \"" + paramName + "\" or it's not accessable in currect context.");
 
-            var @operator = _comparisonOperatorManager.Find(exp.Operator);
+            var @operator = _comparisonOperators.Find(exp.Operator);
             if (@operator == null)
                 throw new UnrecognizedComparisonOperatorException("Unrecognized comparison operator \"" + exp.Operator + "\".");
 

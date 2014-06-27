@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules
+namespace Kooboo.Commerce.Rules.Parameters
 {
     /// <summary>
     /// 表示静态参数值数据源，可用参数时在创建时就指定并保持不变。

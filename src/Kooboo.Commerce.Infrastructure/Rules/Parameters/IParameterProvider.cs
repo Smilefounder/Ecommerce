@@ -1,16 +1,10 @@
-﻿using Kooboo.CMS.Common.Runtime;
-using Kooboo.CMS.Common.Runtime.Dependency;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 
-namespace Kooboo.Commerce.Rules
+namespace Kooboo.Commerce.Rules.Parameters
 {
     /// <summary>
-    /// Defines methods to get the available parameters for a data context type.
+    /// Defines methods to get the available parameters from a data context type.
     /// </summary>
     public interface IParameterProvider
     {

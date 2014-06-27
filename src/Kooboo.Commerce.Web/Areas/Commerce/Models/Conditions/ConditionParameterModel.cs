@@ -1,5 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;

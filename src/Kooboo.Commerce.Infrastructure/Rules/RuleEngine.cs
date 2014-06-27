@@ -1,4 +1,7 @@
-﻿using Kooboo.Commerce.Rules.Expressions;
+﻿using Kooboo.Commerce.Rules.Evaluation;
+using Kooboo.Commerce.Rules.Expressions;
+using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Parameters;
 using Kooboo.Commerce.Rules.Parsing;
 using System;
 using System.Collections.Generic;
@@ -11,37 +14,44 @@ namespace Kooboo.Commerce.Rules
 {
     public class RuleEngine
     {
-        private ParameterProviderManager _parameterProviderManager;
-        private ComparisonOperatorManager _comparisonOperatorManager;
+        private ParameterProviderCollection _parameterProviders;
+        private ComparisonOperatorCollection _comparisonOperators;
 
-        public ParameterProviderManager ParameterProviderManager
+        public ParameterProviderCollection ParameterProviders
         {
             get
             {
-                return _parameterProviderManager;
+                if (_parameterProviders == null)
+                {
+                    _parameterProviders = Kooboo.Commerce.Rules.Parameters.ParameterProviders.Providers;
+                }
+
+                return _parameterProviders;
+            }
+            set
+            {
+                _parameterProviders = value;
             }
         }
 
-        public ComparisonOperatorManager ComparisonOperatorManager
+        public ComparisonOperatorCollection ComparisonOperators
         {
             get
             {
-                return _comparisonOperatorManager;
+                if (_comparisonOperators == null)
+                {
+                    _comparisonOperators = Kooboo.Commerce.Rules.Operators.ComparisonOperators.Operators;
+                }
+                return _comparisonOperators;
+            }
+            set
+            {
+                _comparisonOperators = value;
             }
         }
 
         public RuleEngine()
-            : this(ParameterProviderManager.Instance, ComparisonOperatorManager.Instance)
         {
-        }
-
-        public RuleEngine(ParameterProviderManager parameterProviderManager, ComparisonOperatorManager comparisonOperatorManager)
-        {
-            Require.NotNull(parameterProviderManager, "parameterProviderManager");
-            Require.NotNull(comparisonOperatorManager, "operatorManager");
-
-            _parameterProviderManager = parameterProviderManager;
-            _comparisonOperatorManager = comparisonOperatorManager;
         }
 
         public bool CheckConditions(IEnumerable<Condition> conditions, object dataContext)
@@ -91,7 +101,7 @@ namespace Kooboo.Commerce.Rules
             Require.NotNullOrEmpty(expression, "expression");
             Require.NotNull(dataContext, "dataContext");
 
-            return CheckCondition(Expression.Parse(expression, _comparisonOperatorManager.AllOperatorNamesAndAlias()), dataContext);
+            return CheckCondition(Expression.Parse(expression, ComparisonOperators.NamesAndAlias), dataContext);
         }
 
         public bool CheckCondition(Expression expression, object dataContext)
@@ -99,7 +109,7 @@ namespace Kooboo.Commerce.Rules
             Require.NotNull(expression, "expression");
             Require.NotNull(dataContext, "dataContext");
 
-            var evaluator = new ConditionExpressionEvaluator(_parameterProviderManager, _comparisonOperatorManager);
+            var evaluator = new ConditionExpressionEvaluator(ParameterProviders, ComparisonOperators);
             return evaluator.Evaluate(expression, dataContext);
         }
     }

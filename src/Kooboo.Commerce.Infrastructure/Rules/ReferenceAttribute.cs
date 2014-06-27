@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.Rules.Parameters;
+using System;
 
 namespace Kooboo.Commerce.Rules
 {

@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Promotions
                 return result;
             }
 
-            var operators = _ruleEngine.ComparisonOperatorManager.Operators.Select(o => o.Name).ToList();
+            var operators = _ruleEngine.ComparisonOperators.Select(o => o.Name).ToList();
 
             foreach (var item in context.Items)
             {

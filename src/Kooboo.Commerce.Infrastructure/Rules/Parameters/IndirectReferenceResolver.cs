@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules
+namespace Kooboo.Commerce.Rules.Parameters
 {
     /// <summary>
     /// 间接引用求解器。当对象之间以对象Id的形式关联时，使用它可以获得该Id关联的实际对象的实例。
@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Rules
         public object Resolve(Type referencingType, object referenceKey)
         {
             var repositoryType = typeof(IRepository<>).MakeGenericType(referencingType);
-            var repository = EngineContext.Current.Resolve(repositoryType);
+            var repository = TypeActivator.CreateInstance(repositoryType);
             var candidateMethods = repository.GetType()
                                              .GetMethods(BindingFlags.Public | BindingFlags.Instance)
                                              .Where(m => m.Name == "Get");

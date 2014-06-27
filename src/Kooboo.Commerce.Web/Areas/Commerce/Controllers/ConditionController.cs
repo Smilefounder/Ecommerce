@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Expressions;
 using Kooboo.Commerce.Rules.Expressions.Formatting;
+using Kooboo.Commerce.Rules.Parameters;
 using Kooboo.Commerce.Rules.Parsing;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
 using Kooboo.Commerce.Web.Mvc;
@@ -18,9 +19,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var contextType = Type.GetType(dataContextType, true);
             var models = new List<ConditionParameterModel>();
-            var parameters = ParameterProviderManager.Instance.Providers.SelectMany(x => x.GetParameters(contextType)).DistinctBy(x => x.Name);
+            var parameters = ParameterProviders.Providers.SelectMany(x => x.GetParameters(contextType)).ToList();
 
-            foreach (var param in parameters)
+            foreach (var param in parameters.OrderBy(p => p.Name))
             {
                 models.Add(new ConditionParameterModel(param));
             }

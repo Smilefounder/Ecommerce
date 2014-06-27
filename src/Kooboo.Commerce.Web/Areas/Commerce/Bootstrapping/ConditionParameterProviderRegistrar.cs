@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
         {
             foreach (var type in typeFinder.FindClassesOfType<IParameterProvider>())
             {
-                if (type != typeof(DeclaringParameterProvider))
+                if (type != typeof(DefaultParameterProvider))
                 {
                     var provider = Activator.CreateInstance(type) as IParameterProvider;
-                    ParameterProviderManager.Instance.Add(provider);
+                    ParameterProviders.Providers.Add(provider);
                 }
             }
         }

@@ -1,5 +1,7 @@
 ﻿using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Expressions;
+using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +27,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
     //      Param5 == Value5
     public class ConditionModelBuilder : ExpressionVisitor
     {
-        private ComparisonOperatorManager _operatorManager = ComparisonOperatorManager.Instance;
-        private ParameterProviderManager _parameterProviderManager = ParameterProviderManager.Instance;
+        private ComparisonOperatorCollection _comparisonOperators = ComparisonOperators.Operators;
         private List<ConditionParameter> _parameters;
         private Stack<object> _stack = new Stack<object>();
 
@@ -38,10 +39,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
             }
 
             _stack = new Stack<object>();
-            _parameters = _parameterProviderManager.Providers
-                                                   .SelectMany(x => x.GetParameters(dataContextType).ToList())
-                                                   .DistinctBy(x => x.Name)
-                                                   .ToList();
+            _parameters = ParameterProviders.Providers.SelectMany(x => x.GetParameters(dataContextType).ToList())
+                                                      .DistinctBy(x => x.Name)
+                                                      .ToList();
 
             var exp = Expression.Parse(expression);
             Visit(exp);
@@ -128,7 +128,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
                 Operator = exp.Operator
             };
 
-            var op = _operatorManager.Find(exp.Operator);
+            var op = _comparisonOperators.Find(exp.Operator);
             if (op != null)
             {
                 model.OperatorDisplayName = op.Name;

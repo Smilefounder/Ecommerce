@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rules\DecalringParameterProviderFacts.cs" />
+    <Compile Include="Rules\Parameters\DefaultParameterProviderFacts.cs" />
     <Compile Include="Rules\Operators\ContainsOperatorFacts.cs" />
     <Compile Include="Rules\Operators\ContextModel.cs" />
     <Compile Include="Rules\Operators\EqualsOperatorFacts.cs" />
@@ -53,6 +53,7 @@
     <Compile Include="Rules\Operators\LessThanOrEqualOperatorFacts.cs" />
     <Compile Include="Rules\Operators\NotContainsOperatorFacts.cs" />
     <Compile Include="Rules\Operators\NotEqualsOperatorFacts.cs" />
+    <Compile Include="Rules\Parameters\ParameterProviderExtensibilityFacts.cs" />
     <Compile Include="Rules\RuleEngineFacts.cs" />
   </ItemGroup>
   <ItemGroup>

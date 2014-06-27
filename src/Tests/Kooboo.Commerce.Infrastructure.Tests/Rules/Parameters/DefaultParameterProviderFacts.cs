@@ -1,4 +1,6 @@
 ﻿using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Kooboo.Commerce.Infrastructure.Tests.Rules
+namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
 {
-    public class DecalringParameterProviderFacts
+    public class DefaultParameterProviderFacts
     {
         public class EnumParameter
         {
             [Fact]
             public void can_discover_enum()
             {
-                var provider = new DeclaringParameterProvider();
+                var provider = new DefaultParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextModel)).ToList();
 
                 var param = parameters.Find(p => p.Name == "EnumValue");
@@ -32,7 +34,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             [Fact]
             public void can_discover_nullable_enum()
             {
-                var provider = new DeclaringParameterProvider();
+                var provider = new DefaultParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextModel)).ToList();
 
                 var param = parameters.Find(p => p.Name == "NullableEnumValue");
@@ -49,7 +51,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             [Fact]
             public void can_resolve_enum_value()
             {
-                var provider = new DeclaringParameterProvider();
+                var provider = new DefaultParameterProvider();
                 var param = provider.GetParameters(typeof(ContextModel))
                                     .FirstOrDefault(p => p.Name == "EnumValue");
 
@@ -67,7 +69,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             [Fact]
             public void can_resolve_nullable_enum_value()
             {
-                var provider = new DeclaringParameterProvider();
+                var provider = new DefaultParameterProvider();
                 var param = provider.GetParameters(typeof(ContextModel))
                                     .FirstOrDefault(p => p.Name == "NullableEnumValue");
 
@@ -103,7 +105,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             [Fact]
             public void can_resolve_nested_object_param_values()
             {
-                var provider = new DeclaringParameterProvider();
+                var provider = new DefaultParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
 
                 var prop1 = parameters.FirstOrDefault(p => p.Name == "Nested.Prop1");
@@ -132,7 +134,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             [Fact]
             public void can_handle_null_nested_object()
             {
-                var provider = new DeclaringParameterProvider();
+                var provider = new DefaultParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
 
                 var prop1 = parameters.FirstOrDefault(p => p.Name == "Nested.Prop1");
@@ -181,7 +183,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             [Fact]
             public void should_return_null_for_invalid_reference_key()
             {
-                var provider = new DeclaringParameterProvider();
+                var provider = new DefaultParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
                 var idParam = parameters.FirstOrDefault(p => p.Name == "RequiredProduct.Id");
                 var nameParam = parameters.FirstOrDefault(p => p.Name == "RequiredProduct.Name");
@@ -204,7 +206,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             [Fact]
             public void can_handle_non_nullable_primitive_reference_key()
             {
-                var provider = new DeclaringParameterProvider();
+                var provider = new DefaultParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
 
                 var productNameParam = parameters.FirstOrDefault(p => p.Name == "RequiredProduct.Name");
@@ -221,7 +223,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             [Fact]
             public void can_handle_nullable_reference_key()
             {
-                var provider = new DeclaringParameterProvider();
+                var provider = new DefaultParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
 
                 var productNameParam = parameters.FirstOrDefault(p => p.Name == "Product.Name");

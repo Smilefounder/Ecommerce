@@ -1,18 +1,37 @@
 ﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Rules.Operators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules
+namespace Kooboo.Commerce.Rules.Parameters
 {
     /// <summary>
     /// A provider providing parameters by checking the declared <see cref="Kooboo.Commerce.Rules.ParamAttribute"/> in the class properties.
     /// </summary>
-    public class DeclaringParameterProvider : IParameterProvider
+    public class DefaultParameterProvider : IParameterProvider
     {
         public Func<Type, object> ActivateType = type => EngineContext.Current.Resolve(type);
+
+        private ParameterProviderCollection _providers;
+
+        protected internal ParameterProviderCollection Providers
+        {
+            get
+            {
+                if (_providers == null)
+                {
+                    _providers = ParameterProviders.Providers;
+                }
+                return _providers;
+            }
+            set
+            {
+                _providers = value;
+            }
+        }
 
         public IEnumerable<ConditionParameter> GetParameters(Type dataContextType)
         {
@@ -50,8 +69,8 @@ namespace Kooboo.Commerce.Rules
                 var refAttr = property.GetCustomAttribute<ReferenceAttribute>(false);
                 if (refAttr != null)
                 {
-                    var resolver = new ChainedParameterValueResolver().Chain(containerResolver)
-                                                                      .Chain(new PropertyBackedParameterValueResolver(property));
+                    var resolver = new ChainedParameterValueResolver().Add(containerResolver)
+                                                                      .Add(new PropertyBackedParameterValueResolver(property));
 
                     var referencingType = refAttr.ReferencingType ?? property.PropertyType;
                     // Indirect reference
@@ -60,7 +79,7 @@ namespace Kooboo.Commerce.Rules
                         if (refAttr.ReferenceResolver == null)
                             throw new InvalidOperationException("Indirect reference must speicify a reference resolver. Property: " + property.ReflectedType.FullName + "." + property.Name + ".");
 
-                        resolver.Chain(new IndirectReferenceAdapter(referencingType, refAttr.ReferenceResolver));
+                        resolver.Add(new IndirectReferenceAdapter(referencingType, refAttr.ReferenceResolver));
                     }
 
                     var newPrefix = prefix;
@@ -94,6 +113,28 @@ namespace Kooboo.Commerce.Rules
                     }
 
                     parameters.AddRange(FindConditionParameters(referencingType, resolver, newPrefix));
+
+                    // Add also extended parameters
+                    foreach (var provider in Providers)
+                    {
+                        if (provider.GetType() != typeof(DefaultParameterProvider))
+                        {
+                            var additionalParams = provider.GetParameters(referencingType);
+                            foreach (var param in additionalParams)
+                            {
+                                var valueResolver = new ChainedParameterValueResolver();
+                                valueResolver.Add(resolver);
+                                valueResolver.Add(param.ValueResolver);
+
+                                var adaptedParam = new ConditionParameter(newPrefix + param.Name, param.ValueType, valueResolver, param.SupportedOperators)
+                                {
+                                    ValueSource = param.ValueSource
+                                };
+
+                                parameters.Add(adaptedParam);
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -112,8 +153,8 @@ namespace Kooboo.Commerce.Rules
             Type containerType, ParameterValueResolver containerResolver, string prefix, PropertyInfo property, ParamAttribute paramAttr)
         {
             var propertyType = property.PropertyType;
-            var valueResolver = new ChainedParameterValueResolver().Chain(containerResolver)
-                                                                   .Chain(new PropertyBackedParameterValueResolver(property));
+            var valueResolver = new ChainedParameterValueResolver().Add(containerResolver)
+                                                                   .Add(new PropertyBackedParameterValueResolver(property));
             var supportedOperators = GetDefaultOperators(propertyType);
             IParameterValueSource valueSource = null;
 
@@ -134,7 +175,10 @@ namespace Kooboo.Commerce.Rules
 
             var paramName = prefix + (paramAttr.Name ?? property.Name);
 
-            return new ConditionParameter(paramName, propertyType, valueResolver, valueSource, supportedOperators);
+            return new ConditionParameter(paramName, propertyType, valueResolver, supportedOperators)
+            {
+                ValueSource = valueSource
+            };
         }
 
         private List<IComparisonOperator> GetDefaultOperators(Type propertyType)

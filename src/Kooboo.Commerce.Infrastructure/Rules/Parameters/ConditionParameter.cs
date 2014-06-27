@@ -1,12 +1,13 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Rules.Operators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules
+namespace Kooboo.Commerce.Rules.Parameters
 {
     /// <summary>
     /// 表示一个可以用在条件表达式里的参数。
@@ -31,7 +32,7 @@ namespace Kooboo.Commerce.Rules
         /// <summary>
         /// 参数值数据源，若设置，则表示该参数只有固定的几个值可选。
         /// </summary>
-        public IParameterValueSource ValueSource { get; private set; }
+        public IParameterValueSource ValueSource { get; set; }
 
         /// <summary>
         /// 该参数支持的运算符。
@@ -39,11 +40,6 @@ namespace Kooboo.Commerce.Rules
         public IList<IComparisonOperator> SupportedOperators { get; private set; }
 
         public ConditionParameter(string name, Type valueType, ParameterValueResolver valueResolver, IEnumerable<IComparisonOperator> supportedOperators)
-            : this(name, valueType, valueResolver, null, supportedOperators)
-        {
-        }
-
-        public ConditionParameter(string name, Type valueType, ParameterValueResolver valueResolver, IParameterValueSource valueSource, IEnumerable<IComparisonOperator> supportedOperators)
         {
             Require.NotNullOrEmpty(name, "name");
             Require.NotNull(valueType, "valueType");
@@ -53,7 +49,6 @@ namespace Kooboo.Commerce.Rules
             Name = name;
             ValueType = valueType;
             ValueResolver = valueResolver;
-            ValueSource = valueSource;
             SupportedOperators = supportedOperators.ToList();
         }
 

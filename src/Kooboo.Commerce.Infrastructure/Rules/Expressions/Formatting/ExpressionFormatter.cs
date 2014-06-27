@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Rules.Operators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,18 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
     public abstract class ExpressionFormatter : ExpressionVisitor
     {
         private StringBuilder _html;
+        private ComparisonOperatorCollection _comparisonOperators = Kooboo.Commerce.Rules.Operators.ComparisonOperators.Operators;
 
-        protected ComparisonOperatorManager OperatorManager { get; private set; }
-
-        protected ExpressionFormatter()
-            : this(ComparisonOperatorManager.Instance)
+        public ComparisonOperatorCollection ComparisonOperators
         {
-        }
-
-        protected ExpressionFormatter(ComparisonOperatorManager operatorManager)
-        {
-            OperatorManager = operatorManager;
+            get
+            {
+                return _comparisonOperators;
+            }
+            set
+            {
+                _comparisonOperators = value;
+            }
         }
 
         public string Format(string expression, Type dataContextType)
@@ -29,7 +31,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
                 return String.Empty;
             }
 
-            return Format(Expression.Parse(expression, OperatorManager.AllOperatorNamesAndAlias()), dataContextType);
+            return Format(Expression.Parse(expression, ComparisonOperators.NamesAndAlias), dataContextType);
         }
 
         public string Format(Expression expression, Type dataContextType)
@@ -76,7 +78,7 @@ namespace Kooboo.Commerce.Rules.Expressions.Formatting
 
             WriteSpace();
 
-            var op = OperatorManager.Find(exp.Operator);
+            var op = ComparisonOperators.Find(exp.Operator);
             var opText = exp.Operator;
 
             if (op != null && !String.IsNullOrWhiteSpace(op.Alias))

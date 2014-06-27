@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Rules.Parsing;
+﻿using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Kooboo.Commerce.Rules.Expressions
 
         public static Expression Parse(string source)
         {
-            return Parse(source, ComparisonOperatorManager.Instance.AllOperatorNamesAndAlias());
+            return Parse(source, ComparisonOperators.Operators.NamesAndAlias);
         }
 
         public static Expression Parse(string source, IEnumerable<string> registeredComparisonOperators)
