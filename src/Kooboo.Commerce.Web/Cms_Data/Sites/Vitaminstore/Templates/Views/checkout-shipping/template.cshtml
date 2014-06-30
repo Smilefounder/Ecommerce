@@ -2,7 +2,6 @@
 @{
     var countries = ViewBag.Countries;
 }
-
 <div class="checkout" id="checkout-shipping-main">
     <ul class="checkout-nav">
         <li class="checkout-nav-item completed"><a href="ShoppingCart.aspx"><i class="icon-ok"></i>Uw Besteloverzicht</a></li>
@@ -11,9 +10,7 @@
         <li class="split"><a></a></li>
         <li class="checkout-nav-item"><a>Bestelling afronden en betalen</a></li>
     </ul>
-
     <div id="ctl00_cpContent_UpdatePanel1">
-
         <div class="checkout-content select-shipping">
             <h2>
                 Welkom, <span class="orange">@ViewContext.HttpContext.Membership().GetMembershipUser().UserName</span>
@@ -37,7 +34,7 @@
                                 </td>
                                 <td class="detail">PostNL Levert uw bestelling bij uw voorkeursadres af</td>
                                 <td class="shipping-cost" data-bind="visible: !IsAlternativeAddressesVisible()">
-                                    &euro; <span data-bind="text: PriceInfo.ShippingCost.FinalValue"></span>
+                                    &euro; <span data-bind="text: CartInfo.ShippingCost"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -49,10 +46,9 @@
                                 </td>
                                 <td class="detail">PostNL levert uw bestelling op een ander adres af</td>
                                 <td class="shipping-cost" data-bind="visible: IsAlternativeAddressesVisible">
-                                    &euro; <span data-bind="text: PriceInfo.ShippingCost.FinalValue"></span>
+                                    &euro; <span data-bind="text: CartInfo.ShippingCost"></span>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -162,7 +158,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -170,12 +165,10 @@
                 <a href="ShoppingCart.aspx" class="btn continue-shopping">verder winkelen</a>
                 <a class="btn orange-btn next-step" href="#" data-bind="click: Next">naar stap 3 <i class="icon-chevron-right"></i></a>
             </div>
-
             <dl class="right-box order-overview">
                 <dt>
                     Uw Bestelling
                 </dt>
-
                 <!-- ko foreach: CartInfo.Items -->
                 <dd class="item">
                     <strong data-bind="text: ProductPrice.Name"></strong> van <em data-bind="text: ProductPrice.Product.Brand.Name"></em>
@@ -184,25 +177,20 @@
                     <span data-bind="text: Quantity"></span>x <span class="price">€ <span data-bind="text: Total"></span></span>
                 </dd>
                 <!-- /ko -->
-
                 <dd class="item summary">
                     <em>
                         Indicatie Verzendkosten:<br>
-                        € <span data-bind="text: PriceInfo.ShippingCost.FinalValue"></span>
+                        € <span data-bind="text: CartInfo.ShippingCost"></span>
                     </em>
                 </dd>
-
                 <dd class="item summary">
                     Totaal voor deze bestelling:<br>
-                    <span class="total orange">€ <span data-bind="text: PriceInfo.Subtotal.FinalValue"></span></span>
+                    <span class="total orange">€ <span data-bind="text: CartInfo.Subtotal"></span></span>
                 </dd>
             </dl>
-
         </div>
-
     </div>
 </div>
-
 <script>
     $(function () {
 
@@ -217,8 +205,6 @@
             };
 
             this.CartInfo = {};
-
-            this.PriceInfo = {};
 
             this.ShippingAddressId = ko.observable();
 
@@ -238,7 +224,7 @@
                 _this.SelectAddress(null, callback);
                 return true;
             }
-            
+
             this.SelectAddress = function (address, callback) {
                 if (address) {
                     $.when(_this.ChangeShippingAddress(address, callback), _this.ChangeBillingAddress(address))
@@ -263,8 +249,8 @@
                 })
                 .then(function (result) {
                     if (result.Success) {
-                        ko.mapping.fromJS(result.Model, {}, _this.PriceInfo);
                         _this.ShippingAddressId(address.Id());
+                        _this.RefreshCartInfo();
                     } else {
                         showErrors(result.Messages);
                     }
@@ -288,8 +274,8 @@
             this.Next = function () {
                 if (!_this.ShippingAddressId()) {
                     _this.SaveNewAddress(function () {
-                             _this.NavigateToNextPage();
-                         });
+                        _this.NavigateToNextPage();
+                    });
                 } else {
                     _this.NavigateToNextPage();
                 }
@@ -317,26 +303,27 @@
                 }
             }
 
-            this.RefreshPriceInfo = function () {
-                return http.post('@Url.FrontUrl().SubmissionUrl("Cart")?action=priceinfo')
-                           .then(function (result) {
-                                if (result.Success) {
-                                    ko.mapping.fromJS(result.Model, {}, _this.PriceInfo);
-                                }
-                           });
+            this.RefreshCartInfo = function () {
+                return http.post('@Url.FrontUrl().SubmissionUrl("Cart")?action=cartinfo')
+                       .then(function (result) {
+                           if (result.Success) {
+                               ko.mapping.fromJS(result.Model, {}, _this.CartInfo);
+                           } else {
+                               showErrors(result.Messages);
+                           }
+                       });
             }
         }
 
-        $.when(loadAddresses(), loadCartInfo())
+        $.when(loadAddresses(), viewModel.RefreshCartInfo())
          .then(function () {
              viewModel.Init();
-             viewModel.RefreshPriceInfo().then(function () {
-                 if (viewModel.Addresses.Default) {
-                     viewModel.DeliverToDefaultAddress(databind);
-                 } else {
-                     viewModel.DeliverToAlternativeAddress(databind);
-                 }
-             });
+
+             if (viewModel.Addresses.Default) {
+                 viewModel.DeliverToDefaultAddress(databind);
+             } else {
+                 viewModel.DeliverToAlternativeAddress(databind);
+             }
          });
 
         function databind() {
@@ -351,17 +338,6 @@
                                    viewModel.Addresses.Default = ko.mapping.fromJS(result.Model.Default);
                                }
                                ko.mapping.fromJS(result.Model.Alternatives, {}, result.Model.Alternatives);
-                           } else {
-                               showErrors(result.Messages);
-                           }
-                       });
-        }
-
-        function loadCartInfo() {
-            return http.post('@Url.FrontUrl().SubmissionUrl("Cart")?action=cartinfo')
-                       .then(function (result) {
-                           if (result.Success) {
-                               ko.mapping.fromJS(result.Model, {}, viewModel.CartInfo);
                            } else {
                                showErrors(result.Messages);
                            }

@@ -4,26 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Orders.Pricing.Stages
+namespace Kooboo.Commerce.Orders.Pricing.Modules
 {
-    public class ShippingPricingStage : IPricingStage
+    public class ShippingCostCalculationModule : IPriceCalculationModule
     {
         private IShippingRateProviderFactory _factory;
-
-        public string Name
-        {
-            get
-            {
-                return "ShippingPricingStage";
-            }
-        }
-
-        public ShippingPricingStage(IShippingRateProviderFactory factory)
+        
+        public ShippingCostCalculationModule(IShippingRateProviderFactory factory)
         {
             _factory = factory;
         }
 
-        public void Execute(PricingContext context)
+        public void Execute(PriceCalculationContext context)
         {
             if (context.ShippingMethod != null)
             {
@@ -39,7 +31,7 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
                     var shippingCost = provider.GetShippingRate(
                         new ShippingRateCalculationContext(context.ShippingMethod, shippingRateProviderConfig, context));
 
-                    context.ShippingCost.SetOriginalValue(shippingCost);
+                    context.ShippingCost = shippingCost;
                 }
             }
         }

@@ -46,9 +46,9 @@
                                 <td class="content field-title">Inhoud</td>
                                 <td class="quantity field-title">Aantal</td>
                                 <td class="price field-title"><em>Prijs per stuk</em></td>
-                                @*@if (priceInfo.Subtotal.Discount > 0) { 
+                                @if (item.Discount > 0) { 
                                 <td class="discount field-title"><em>Uw voordeel</em></td>
-                                }*@
+                                }
                                 <td class="subtotal field-title"><strong>Totale Prijs</strong></td>
                             </tr>
                             <tr>
@@ -61,16 +61,16 @@
                                 <td class="value">
                                     € @item.ProductPrice.RetailPrice.ToString("f2")
                                 </td>
-                                @*@if (priceInfo.Subtotal.Discount > 0) { 
+                                @if (item.Discount > 0) { 
                                 <td class="discount value">
-                                    € @priceInfo.Subtotal.Discount.ToString("f2")
+                                    € @item.Discount.ToString("f2")
                                 </td>
                                 }
                                 <td class="subtotal subtotal-value value">
                                     <strong>
-                                        € @priceInfo.Subtotal.FinalValue.ToString("f2")
+                                        € @item.Total.ToString("f2")
                                     </strong>
-                                </td>*@
+                                </td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -85,7 +85,7 @@
                             <td colspan="3" class="subtotal">
                                 <span class="total-title">Totaal voor deze bestelling:</span><br>
                                 <span class="total-value">
-                                    @*€ @prices.Subtotal.FinalValue.ToString("f2")*@
+                                    € @cart.Total.ToString("f2")
                                 </span>
                             </td>
                         </tr>
@@ -123,7 +123,7 @@
                                     Verzendkosten
                                 </td>
                                 <td class="shippingcost">
-                                    @*€ @prices.ShippingCost.FinalValue.ToString("f2")*@
+                                    € @cart.ShippingCost.ToString("f2")
                                 </td>
                             </tr>
                         </tbody>
@@ -153,7 +153,7 @@
                                         }
                                         else
                                         {
-                                            //paymentMethodFee = Math.Round((decimal)method.AdditionalFeePercent * prices.Total, 2);
+                                            paymentMethodFee = Math.Round((decimal)method.AdditionalFeePercent * cart.Subtotal, 2);
                                         }
 
                                         <tr>
@@ -196,12 +196,12 @@
                 <ul>
                     <li><strong>Totaal voor deze bestelling:</strong></li>
                     <li class="total-amount">
-                        @*€ <span class="value">@prices.Total.ToString("f2")</span>*@
+                        € <span class="value">@cart.Total.ToString("f2")</span>
                     </li>
                     <li>
                         <em>
-                            @*BTW: &euro; @prices.Tax.FinalValue.ToString("f2"),
-                            Verzendkosten: &euro; @prices.ShippingCost.FinalValue.ToString("f2")*@
+                            BTW: &euro; @cart.Tax.ToString("f2")
+                            Verzendkosten: &euro; @cart.ShippingCost.ToString("f2")
                         </em>
                     </li>
                     <li><em>Inclusief BTW, Verzend- &amp; Transactiekosten</em></li>

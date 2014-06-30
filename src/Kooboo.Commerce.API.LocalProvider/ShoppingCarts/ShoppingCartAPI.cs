@@ -1,7 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.API.Pricing;
 using Kooboo.Commerce.API.ShoppingCarts;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
@@ -27,7 +26,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
     {
         private ICommerceDatabase _db;
         private IProductService _productService;
-        private IPriceAPI _priceApi;
         private IShoppingCartService _cartService;
         private ICustomerAPI _customerApi;
         private ICustomerService _customerService;
@@ -38,7 +36,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         public ShoppingCartAPI(
             ICommerceDatabase db,
             IProductService productService,
-            IPriceAPI priceApi,
             ICustomerAPI customerApi,
             IShoppingCartService shoppingCartService,
             ICustomerService customerService,
@@ -49,7 +46,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             : base(mapper)
         {
             _db = db;
-            _priceApi = priceApi;
             _productService = productService;
             _customerApi = customerApi;
             _cartService = shoppingCartService;
@@ -115,21 +111,32 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         {
             Include(o => o.Items);
             Include(o => o.Items.Select(i => i.ProductPrice));
-            var cart = base.Map(obj);
-            // calculate prices
-            var prices = _priceApi.CartPrice(cart.Id);
 
-            foreach (var item in prices.Items)
+            var cart = base.Map(obj);
+
+            // Calculate price
+            var context = _cartService.CalculatePrice(obj, null);
+
+            // Items could not empty because it might be not included
+            if (cart.Items != null && cart.Items.Count > 0)
             {
-                var cartItem = cart.Items.FirstOrDefault(x => x.Id == item.Id);
-                cartItem.Subtotal = item.Subtotal.OriginalValue;
-                cartItem.Discount = item.Subtotal.Discount;
-                cartItem.Total = item.Subtotal.FinalValue;
+                foreach (var item in context.Items)
+                {
+                    var cartItem = cart.Items.FirstOrDefault(x => x.Id == item.ItemId);
+
+                    cartItem.Subtotal = item.Subtotal;
+                    cartItem.Discount = item.Discount;
+                    cartItem.Total = item.Subtotal - item.Discount;
+                }
             }
 
-            cart.Subtotal = prices.Subtotal.FinalValue;
-            cart.TotalDiscount = prices.Subtotal.Discount + cart.Items.Sum(x => x.Discount);
-            cart.Total = prices.Total;
+            cart.ShippingCost = context.ShippingCost;
+            cart.PaymentMethodCost = context.PaymentMethodCost;
+            cart.Tax = context.Tax;
+
+            cart.Subtotal = context.Subtotal;
+            cart.TotalDiscount = context.TotalDiscount;
+            cart.Total = context.Total;
 
             return cart;
         }

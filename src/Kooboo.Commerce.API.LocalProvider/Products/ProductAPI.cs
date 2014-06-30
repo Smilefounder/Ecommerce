@@ -86,7 +86,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
                         }
                     }
 
-                    price.FinalRetailPrice = PricingContext.GetFinalRetailPrice(product.Id, price.Id, price.RetailPrice, new Kooboo.Commerce.ShoppingCarts.ShoppingContext
+                    price.FinalRetailPrice = PriceCalculationContext.GetFinalUnitPrice(product.Id, price.Id, price.RetailPrice, new Kooboo.Commerce.ShoppingCarts.ShoppingContext
                     {
                         // TODO: We don't need Hal anymore, this need to be changed
                         CustomerId = customerId

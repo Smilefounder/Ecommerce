@@ -18,17 +18,9 @@ namespace Kooboo.Commerce.Orders.Pricing
     /// <summary>
     /// Represents the contextual object used in the price calculation pipeline.
     /// </summary>
-    public class PricingContext
+    public class PriceCalculationContext
     {
-        private List<PricingItem> _items = new List<PricingItem>();
-
-        public IEnumerable<PricingItem> Items
-        {
-            get
-            {
-                return _items;
-            }
-        }
+        public List<PriceCalculationItem> Items { get; private set; }
 
         [Reference]
         public Customer Customer { get; set; }
@@ -51,79 +43,90 @@ namespace Kooboo.Commerce.Orders.Pricing
         [Reference]
         public PaymentMethod PaymentMethod { get; set; }
 
-        public PriceWithDiscount PaymentMethodCost { get; private set; }
+        public decimal PaymentMethodCost { get; set; }
 
         [Reference]
         public ShippingMethod ShippingMethod { get; set; }
 
-        public PriceWithDiscount ShippingCost { get; private set; }
+        public decimal ShippingCost { get; set; }
 
         public IList<Promotion> AppliedPromotions { get; private set; }
 
-        public PriceWithDiscount Tax { get; private set; }
+        public decimal Tax { get; set; }
 
-        public PriceWithDiscount Subtotal { get; private set; }
+        public decimal Discount { get; set; }
+
+        public decimal Subtotal
+        {
+            get
+            {
+                return Items.Sum(i => i.Subtotal);
+            }
+        }
+
+        public decimal TotalDiscount
+        {
+            get
+            {
+                return Items.Sum(i => i.Discount) + Discount;
+            }
+        }
 
         public decimal Total
         {
             get
             {
-                var total = Subtotal.FinalValue;
+                var total = Subtotal;
 
-                var itemDiscounts = _items.Sum(x => x.Subtotal.Discount);
-                if (itemDiscounts > total)
+                total -= TotalDiscount;
+
+                if (total < 0)
                 {
-                    itemDiscounts = total;
+                    total = 0;
                 }
 
-                total -= itemDiscounts;
-
-                total += PaymentMethodCost.FinalValue;
-                total += ShippingCost.FinalValue;
-                total += Tax.FinalValue;
+                total += PaymentMethodCost;
+                total += ShippingCost;
+                total += Tax;
 
                 return total;
             }
         }
 
-        public PricingContext()
+        public PriceCalculationContext()
         {
-            _items = new List<PricingItem>();
-            ShippingCost = new PriceWithDiscount();
-            PaymentMethodCost = new PriceWithDiscount();
-            Tax = new PriceWithDiscount();
-            Subtotal = new PriceWithDiscount();
+            Items = new List<PriceCalculationItem>();
             AppliedPromotions = new List<Promotion>();
         }
 
-        public PricingItem AddPricingItem(int itemId, ProductPrice productPrice, int quantity)
+        public PriceCalculationItem AddItem(int itemId, ProductPrice productPrice, int quantity)
         {
-            var retailPrice = GetFinalRetialPrice(productPrice.ProductId, productPrice.Id, productPrice.RetailPrice);
-            var item = new PricingItem(itemId, productPrice.ProductId, productPrice.Id, retailPrice, quantity);
-            _items.Add(item);
+            var retailPrice = GetFinalUnitPrice(productPrice.ProductId, productPrice.Id, productPrice.RetailPrice);
+            var item = new PriceCalculationItem(itemId, productPrice.ProductId, productPrice.Id, retailPrice, quantity);
+            Items.Add(item);
             return item;
         }
 
-        public decimal GetFinalRetialPrice(int productId, int productPriceId, decimal originalPrice)
+        public decimal GetFinalUnitPrice(int productId, int productPriceId, decimal originalPrice)
         {
             var customerId = Customer == null ? null : (int?)Customer.Id;
             var shoppingContext = new ShoppingContext(customerId, Culture, Currency);
-            return PricingContext.GetFinalRetailPrice(productId, productPriceId, originalPrice, shoppingContext);
+            return PriceCalculationContext.GetFinalUnitPrice(productId, productPriceId, originalPrice, shoppingContext);
         }
 
         /// <summary>
         /// Gets the final price of the specified product price in the current shopping context.
         /// </summary>
-        public static decimal GetFinalRetailPrice(int productId, int productPriceId, decimal originalPrice, ShoppingContext shoppingContext)
+        public static decimal GetFinalUnitPrice(int productId, int productPriceId, decimal originalPrice, ShoppingContext shoppingContext)
         {
             var @event = new GetPrice(productId, productPriceId, originalPrice, shoppingContext);
             Event.Raise(@event);
-            return @event.FinalPrice;
+            return @event.FinalUnitPrice;
         }
 
-        public static PricingContext CreateFrom(ShoppingCart cart)
+        public static PriceCalculationContext CreateFrom(ShoppingCart cart)
         {
-            var context = new PricingContext
+            var context = new PriceCalculationContext
             {
                 Customer = cart.Customer,
                 CouponCode = cart.CouponCode,
@@ -133,7 +136,7 @@ namespace Kooboo.Commerce.Orders.Pricing
 
             foreach (var item in cart.Items)
             {
-                context.AddPricingItem(item.Id, item.ProductPrice, item.Quantity);
+                context.AddItem(item.Id, item.ProductPrice, item.Quantity);
             }
 
             return context;

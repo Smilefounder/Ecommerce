@@ -281,7 +281,6 @@
     <Compile Include="Areas\CommerceWebAPI\Controllers\OrderController.cs" />
     <Compile Include="Areas\CommerceWebAPI\Controllers\PaymentController.cs" />
     <Compile Include="Areas\CommerceWebAPI\Controllers\PaymentMethodController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\PriceController.cs" />
     <Compile Include="Areas\CommerceWebAPI\Controllers\ProductController.cs" />
     <Compile Include="Areas\CommerceWebAPI\Controllers\ShoppingCartController.cs" />
     <Compile Include="Areas\CommerceWebAPI\ViewModels\ApiInfo.cs" />

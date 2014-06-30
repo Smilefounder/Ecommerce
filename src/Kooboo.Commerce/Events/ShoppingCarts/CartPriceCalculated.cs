@@ -13,11 +13,11 @@ namespace Kooboo.Commerce.Events.ShoppingCarts
         public int CartId { get; private set; }
 
         [JsonIgnore]
-        public PricingContext Context { get; private set; }
+        public PriceCalculationContext Context { get; private set; }
 
         protected CartPriceCalculated() { }
 
-        public CartPriceCalculated(ShoppingCart cart, PricingContext context)
+        public CartPriceCalculated(ShoppingCart cart, PriceCalculationContext context)
         {
             CartId = cart.Id;
             Context = context;

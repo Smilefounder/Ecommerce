@@ -12,12 +12,12 @@ namespace Kooboo.Commerce.Promotions
     {
         public Promotion Promotion { get; private set; }
 
-        public IList<PricingItem> ConditionMatchedItems { get; private set; }
+        public IList<PriceCalculationItem> ConditionMatchedItems { get; private set; }
 
-        public PromotionMatch(Promotion promotion, IEnumerable<PricingItem> conditionMatchedItems)
+        public PromotionMatch(Promotion promotion, IEnumerable<PriceCalculationItem> conditionMatchedItems)
         {
             Promotion = promotion;
-            ConditionMatchedItems = new List<PricingItem>(conditionMatchedItems);
+            ConditionMatchedItems = new List<PriceCalculationItem>(conditionMatchedItems);
         }
     }
 }

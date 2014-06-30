@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Rules.Parameters
             var repository = TypeActivator.CreateInstance(repositoryType);
             var candidateMethods = repository.GetType()
                                              .GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                                             .Where(m => m.Name == "Get");
+                                             .Where(m => m.Name == "Find");
 
             // 找到 IRepository<T>.Get() 方法并调用
             MethodInfo method = null;
@@ -35,6 +35,9 @@ namespace Kooboo.Commerce.Rules.Parameters
                     break;
                 }
             }
+
+            if (method == null)
+                throw new InvalidOperationException("Cannot find 'Find' method on IRepository.");
 
             return method.Invoke(repository, new object[] { new object[] { referenceKey } });
         }

@@ -5,10 +5,8 @@ using Kooboo.CMS.Sites.Membership;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.API.Pricing;
 
 namespace Kooboo.CMS.Plugins.Vitaminstore
 {

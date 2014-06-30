@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Promotions
     public class PromotionConditionContextModel
     {
         [Reference(Prefix = "")]
-        public PricingItem Item { get; set; }
+        public PriceCalculationItem Item { get; set; }
 
         [Reference]
         public Customer Customer { get; set; }

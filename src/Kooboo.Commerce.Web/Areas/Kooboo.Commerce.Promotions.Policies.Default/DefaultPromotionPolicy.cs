@@ -36,19 +36,16 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             {
                 foreach (var matchedItem in context.ConditionMatchedItems)
                 {
-                    matchedItem.Subtotal.AddDiscount(
-                        ComputeDiscount(matchedItem.Subtotal.OriginalValue, data));
+                    matchedItem.Discount += ComputeDiscount(matchedItem.Subtotal, data);
                 }
             }
             else if (data.DiscountAppliedTo == DiscountAppliedTo.OrderShipping)
             {
-                context.PricingContext.ShippingCost.AddDiscount(
-                    ComputeDiscount(context.PricingContext.ShippingCost.OriginalValue, data));
+                context.PricingContext.ShippingCost -= ComputeDiscount(context.PricingContext.ShippingCost, data);
             }
             else if (data.DiscountAppliedTo == DiscountAppliedTo.OrderSubtotal)
             {
-                context.PricingContext.Subtotal.AddDiscount(
-                    ComputeDiscount(context.PricingContext.Subtotal.OriginalValue, data));
+                context.PricingContext.Discount += ComputeDiscount(context.PricingContext.Subtotal, data);
             }
         }
 

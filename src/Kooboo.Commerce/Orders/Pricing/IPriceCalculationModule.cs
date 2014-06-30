@@ -8,10 +8,8 @@ namespace Kooboo.Commerce.Orders.Pricing
     /// <summary>
     /// Represents a price calculation stage in the price calculation pipeline.
     /// </summary>
-    public interface IPricingStage
+    public interface IPriceCalculationModule
     {
-        string Name { get; }
-
-        void Execute(PricingContext context);
+        void Execute(PriceCalculationContext context);
     }
 }

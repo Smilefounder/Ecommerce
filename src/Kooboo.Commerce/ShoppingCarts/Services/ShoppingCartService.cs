@@ -73,18 +73,18 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             Event.Raise(new CartCreated(cart));
         }
 
-        public PricingContext CalculatePrice(ShoppingCart cart, ShoppingContext shoppingContext)
+        public PriceCalculationContext CalculatePrice(ShoppingCart cart, ShoppingContext shoppingContext)
         {
             Require.NotNull(cart, "cart");
 
-            var context = PricingContext.CreateFrom(cart);
+            var context = PriceCalculationContext.CreateFrom(cart);
             if (shoppingContext != null)
             {
                 context.Currency = shoppingContext.Currency;
                 context.Culture = shoppingContext.Culture;
             }
 
-            new PricingPipeline().Execute(context);
+            new PriceCalculator().Calculate(context);
 
             Event.Raise(new CartPriceCalculated(cart, context));
 
@@ -102,8 +102,8 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
 
             cart.CouponCode = coupon;
 
-            var context = PricingContext.CreateFrom(cart);
-            new PricingPipeline().Execute(context);
+            var context = PriceCalculationContext.CreateFrom(cart);
+            new PriceCalculator().Calculate(context);
 
             if (context.AppliedPromotions.Any(p => p.RequireCouponCode && p.CouponCode == coupon))
             {

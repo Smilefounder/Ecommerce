@@ -12,11 +12,11 @@ namespace Kooboo.Commerce.Promotions
     {
         public bool Success { get; set; }
 
-        public IList<PricingItem> MatchedItems { get; private set; }
+        public IList<PriceCalculationItem> MatchedItems { get; private set; }
 
         public CheckPromotionConditionResult()
         {
-            MatchedItems = new List<PricingItem>();
+            MatchedItems = new List<PriceCalculationItem>();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Promotions
             _ruleEngine = ruleEngine;
         }
 
-        public CheckPromotionConditionResult CheckConditions(Promotion promotion, PricingContext context)
+        public CheckPromotionConditionResult CheckConditions(Promotion promotion, PriceCalculationContext context)
         {
             var result = new CheckPromotionConditionResult();
 

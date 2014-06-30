@@ -49,9 +49,9 @@ namespace Kooboo.Commerce.Products
             Sku = sku;
         }
 
-        public decimal GetFinalRetialPrice(ShoppingContext context)
+        public decimal GetFinalPrice(ShoppingContext context)
         {
-            return PricingContext.GetFinalRetailPrice(ProductId, Id, RetailPrice, context);
+            return PriceCalculationContext.GetFinalUnitPrice(ProductId, Id, RetailPrice, context);
         }
 
         public virtual void UpdateFrom(ProductPrice other)

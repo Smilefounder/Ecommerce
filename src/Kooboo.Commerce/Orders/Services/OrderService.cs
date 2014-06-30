@@ -85,11 +85,11 @@ namespace Kooboo.Commerce.Orders.Services
             {
                 var cartItem = cart.Items.FirstOrDefault(i => i.Id == item.ItemId);
 
-                var orderItem = OrderItem.CreateFrom(cartItem, item.RetailPrice);
-                orderItem.UnitPrice = item.RetailPrice;
-                orderItem.Discount = item.Subtotal.Discount;
-                orderItem.SubTotal = item.Subtotal.OriginalValue;
-                orderItem.Total = item.Subtotal.FinalValue;
+                var orderItem = OrderItem.CreateFrom(cartItem, item.UnitPrice);
+                orderItem.UnitPrice = item.UnitPrice;
+                orderItem.Discount = item.Discount;
+                orderItem.SubTotal = item.Subtotal;
+                orderItem.Total = item.Subtotal - item.Discount;
 
                 order.OrderItems.Add(orderItem);
             }
@@ -101,12 +101,12 @@ namespace Kooboo.Commerce.Orders.Services
                 order.BillingAddress = OrderAddress.CreateFrom(cart.BillingAddress);
             }
 
-            order.ShippingCost = pricingContext.ShippingCost.FinalValue;
-            order.PaymentMethodCost = pricingContext.PaymentMethodCost.FinalValue;
-            order.Tax = pricingContext.Tax.FinalValue;
-            order.Discount = pricingContext.Subtotal.Discount + pricingContext.Items.Sum(x => x.Subtotal.Discount);
+            order.ShippingCost = pricingContext.ShippingCost;
+            order.PaymentMethodCost = pricingContext.PaymentMethodCost;
+            order.Tax = pricingContext.Tax;
+            order.Discount = pricingContext.TotalDiscount;
 
-            order.Subtotal = pricingContext.Subtotal.FinalValue;
+            order.Subtotal = pricingContext.Subtotal;
             order.Total = pricingContext.Total;
 
             Create(order);

@@ -14,11 +14,11 @@ namespace Kooboo.Commerce.Shipping
     {
         public ShippingMethod ShippingMethod { get; private set; }
 
-        public PricingContext PricingContext { get; private set; }
+        public PriceCalculationContext PricingContext { get; private set; }
 
         public object ShippingRateProviderConfig { get; private set; }
 
-        public ShippingRateCalculationContext(ShippingMethod shippingMethod, object shippingRateProviderConfig, PricingContext pricingContext)
+        public ShippingRateCalculationContext(ShippingMethod shippingMethod, object shippingRateProviderConfig, PriceCalculationContext pricingContext)
         {
             Require.NotNull(shippingMethod, "shippingMethod");
             Require.NotNull(pricingContext, "pricingContext");

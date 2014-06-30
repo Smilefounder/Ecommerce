@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
 
         void Create(ShoppingCart cart);
 
-        PricingContext CalculatePrice(ShoppingCart cart, ShoppingContext shoppingContext);
+        PriceCalculationContext CalculatePrice(ShoppingCart cart, ShoppingContext shoppingContext);
 
         bool ApplyCoupon(ShoppingCart cart, string coupon);
 

@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Orders.Pricing
     /// Represents an item in a cart or order.
     /// So the price calculation pipeline is decoupled from the cart or order.
     /// </summary>
-    public class PricingItem
+    public class PriceCalculationItem
     {
         public int ItemId { get; private set; }
 
@@ -22,21 +22,23 @@ namespace Kooboo.Commerce.Orders.Pricing
         public int ProductPriceId { get; private set; }
 
         [Param]
-        public decimal RetailPrice { get; private set; }
+        public decimal UnitPrice { get; private set; }
 
         [Param]
         public int Quantity { get; private set; }
 
-        public PriceWithDiscount Subtotal { get; set; }
+        public decimal Subtotal { get; private set; }
 
-        public PricingItem(int itemId, int productId, int productPriceId, decimal retailPrice, int quantity)
+        public decimal Discount { get; set; }
+
+        public PriceCalculationItem(int itemId, int productId, int productPriceId, decimal unitPrice, int quantity)
         {
             ItemId = itemId;
             ProductId = productId;
             ProductPriceId = productPriceId;
-            RetailPrice = retailPrice;
+            UnitPrice = unitPrice;
             Quantity = quantity;
-            Subtotal = new PriceWithDiscount(RetailPrice * quantity);
+            Subtotal = UnitPrice * quantity;
         }
     }
 }

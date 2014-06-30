@@ -49,6 +49,12 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// </summary>
         public IList<Promotion> AppliedPromotions { get; set; }
 
+        public decimal ShippingCost { get; set; }
+
+        public decimal PaymentMethodCost { get; set; }
+
+        public decimal Tax { get; set; }
+
         public decimal Subtotal { get; set; }
 
         public decimal TotalDiscount { get; set; }

@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Promotions
             _ruleEngine = ruleEngine;
         }
 
-        public IEnumerable<PromotionMatch> MatchApplicablePromotions(PricingContext context, IEnumerable<Promotion> candidatePromotions)
+        public IEnumerable<PromotionMatch> MatchApplicablePromotions(PriceCalculationContext context, IEnumerable<Promotion> candidatePromotions)
         {
             var matches = new List<PromotionMatch>();
 
@@ -60,7 +60,7 @@ namespace Kooboo.Commerce.Promotions
             }
         }
 
-        private PromotionMatch TryMatchPromotion(Promotion promotion, PricingContext context)
+        private PromotionMatch TryMatchPromotion(Promotion promotion, PriceCalculationContext context)
         {
             if (promotion.RequireCouponCode && context.CouponCode != promotion.CouponCode)
             {
@@ -68,7 +68,7 @@ namespace Kooboo.Commerce.Promotions
             }
 
             var isMatch = false;
-            var conditionMatchedItems = new List<PricingItem>();
+            var conditionMatchedItems = new List<PriceCalculationItem>();
 
             if (!promotion.Conditions.Any())
             {

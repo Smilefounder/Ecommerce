@@ -7,23 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Orders.Pricing.Stages
+namespace Kooboo.Commerce.Orders.Pricing.Modules
 {
-    public class PromotionPricingStage : IPricingStage
+    public class PromotionModule : IPriceCalculationModule
     {
         private IPromotionService _promotionService;
         private IPromotionPolicyProvider _policyFactory;
         private RuleEngine _ruleEngine;
 
-        public string Name
-        {
-            get
-            {
-                return "PromotionPricingStage";
-            }
-        }
-
-        public PromotionPricingStage(
+        public PromotionModule(
             IPromotionService promotionService,
             IPromotionPolicyProvider policyFactory,
             RuleEngine ruleEngine)
@@ -37,7 +29,7 @@ namespace Kooboo.Commerce.Orders.Pricing.Stages
             _ruleEngine = ruleEngine;
         }
 
-        public void Execute(PricingContext context)
+        public void Execute(PriceCalculationContext context)
         {
             var matcher = new PromotionMatcher(_ruleEngine);
             var promotions = _promotionService.Query().WhereAvailableNow().ToList();

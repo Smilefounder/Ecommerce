@@ -21,18 +21,18 @@ namespace Kooboo.Commerce.Events.Products
         public ShoppingContext ShoppingContext { get; private set; }
 
         [Param]
-        public decimal OriginalPrice { get; private set; }
+        public decimal OriginalUnitPrice { get; private set; }
 
-        public decimal FinalPrice { get; set; }
+        public decimal FinalUnitPrice { get; set; }
 
         private GetPrice() { }
 
-        public GetPrice(int productId, int productPriceId, decimal originalPrice, ShoppingContext shoppingContext)
+        public GetPrice(int productId, int productPriceId, decimal originalUnitPrice, ShoppingContext shoppingContext)
         {
             ProductId = productId;
             ProductPriceId = productPriceId;
-            OriginalPrice = originalPrice;
-            FinalPrice = originalPrice;
+            OriginalUnitPrice = originalUnitPrice;
+            FinalUnitPrice = originalUnitPrice;
             ShoppingContext = shoppingContext;
         }
     }
