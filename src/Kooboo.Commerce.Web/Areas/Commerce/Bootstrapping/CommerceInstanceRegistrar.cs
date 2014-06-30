@@ -38,12 +38,10 @@ namespace Kooboo.Commerce.Infrastructure.Dependencies
                      .ToMethod(ctx =>
                      {
                          var instance = CommerceInstance.Current;
-                         if (instance != null)
-                         {
-                             return instance.Database;
-                         }
+                         if (instance == null)
+                             throw new InvalidOperationException("Cannot resolve ICommerceDatabase, because there's no commerce instance in the context.");
 
-                         return null;
+                         return instance.Database;
                      });
 
             container.Bind(typeof(IRepository<>)).To(typeof(CommerceRepository<>));

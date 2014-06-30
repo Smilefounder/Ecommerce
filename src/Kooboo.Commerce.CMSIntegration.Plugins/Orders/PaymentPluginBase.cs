@@ -21,8 +21,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
             // TODO: Don't calculate payment method cost here, calculate in the commerce side
             var payment = new PaymentRequest
             {
-                TargetType = PaymentTargetTypes.Order,
-                TargetId = model.OrderId.ToString(),
+                OrderId = model.OrderId,
                 Description = "Order #" + model.OrderId,
                 Amount = order.Total + paymentMethod.GetPaymentMethodFee(order.Total),
                 PaymentMethodId = model.PaymentMethodId,

@@ -71,8 +71,8 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
         private string GetCallbackUrl(string action, PaymentProcessingContext request)
         {
-            var commerceName = CommerceInstance.Current.Name;
-            var url = Strings.AreaName + "/Buckaroo/" + action + "?commerceName=" + commerceName;
+            var instance = CommerceInstance.Current.Name;
+            var url = Strings.AreaName + "/Buckaroo/" + action + "?instance=" + instance;
             if (action.StartsWith("return", StringComparison.OrdinalIgnoreCase))
             {
                 url += "&commerceReturnUrl=" + HttpUtility.UrlEncode(request.ReturnUrl);

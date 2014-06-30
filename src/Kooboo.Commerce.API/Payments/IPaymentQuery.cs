@@ -9,8 +9,6 @@ namespace Kooboo.Commerce.API.Payments
     {
         IPaymentQuery ById(int id);
 
-        IPaymentQuery ByTarget(string targetType, string targetId);
-
         IPaymentQuery ByStatus(PaymentStatus status);
     }
 }

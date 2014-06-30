@@ -99,7 +99,6 @@
     <Compile Include="Orders\OrderCustomField.cs" />
     <Compile Include="Orders\OrderItem.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
-    <Compile Include="Payments\PaymentTarget.cs" />
     <Compile Include="Pricing\CalculateOrderPriceRequest.cs" />
     <Compile Include="Pricing\CalculatePriceResult.cs" />
     <Compile Include="Pricing\CalculateItemPriceResult.cs" />
@@ -115,7 +114,6 @@
     <Compile Include="Payments\Payment.cs" />
     <Compile Include="PagedListWrapper.cs" />
     <Compile Include="Payments\PaymentMethod.cs" />
-    <Compile Include="Payments\PaymentMethodInfo.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="PriceChangeMode.cs" />
     <Compile Include="Pricing\IPriceAPI.cs" />

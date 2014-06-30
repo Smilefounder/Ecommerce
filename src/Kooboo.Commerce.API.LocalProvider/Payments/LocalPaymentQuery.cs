@@ -27,13 +27,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             return this;
         }
 
-        public IPaymentQuery ByTarget(string targetType, string targetId)
-        {
-            EnsureQuery();
-            _query = _query.Where(x => x.PaymentTarget.Type ==  targetType && x.PaymentTarget.Id == targetId);
-            return this;
-        }
-
         public IPaymentQuery ByStatus(Kooboo.Commerce.API.Payments.PaymentStatus status)
         {
             EnsureQuery();

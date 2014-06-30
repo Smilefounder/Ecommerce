@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         public PaymentResult Pay(PaymentRequest request)
         {
             var paymentMethod = _paymentMethodService.GetById(request.PaymentMethodId);
-            var payment = new Payment(new Kooboo.Commerce.Payments.PaymentTarget(request.TargetId, request.TargetType), request.Amount, paymentMethod, request.Description);
+            var payment = new Payment(request.OrderId, request.Amount, paymentMethod, request.Description);
 
             PaymentService.Create(payment);
 

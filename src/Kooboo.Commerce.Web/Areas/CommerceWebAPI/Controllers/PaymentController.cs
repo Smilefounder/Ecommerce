@@ -12,7 +12,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
     public class PaymentController : CommerceAPIControllerQueryBase<Payment>
     {
-        [Transactional]
         public PaymentResult Post(PaymentRequest request)
         {
             return Commerce().Payments.Pay(request);
@@ -28,10 +27,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (!string.IsNullOrEmpty(qs["id"]))
             {
                 query = query.ById(Convert.ToInt32(qs["id"]));
-            }
-            if (!string.IsNullOrEmpty(qs["targetType"]) && !string.IsNullOrEmpty(qs["targetId"]))
-            {
-                query = query.ByTarget(qs["targetType"], qs["targetId"]);
             }
             if (!string.IsNullOrEmpty(qs["status"]))
             {

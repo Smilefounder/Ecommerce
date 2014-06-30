@@ -7,7 +7,7 @@ using System;
 
 namespace Kooboo.Commerce.Orders
 {
-    public class OrderingProcessManager
+    class OrderingProcessManager
         : IHandle<PaymentStatusChanged>
     {
         private IOrderService _orderService;
@@ -23,16 +23,12 @@ namespace Kooboo.Commerce.Orders
         {
             var payment = _paymentService.GetById(@event.PaymentId);
 
-            if (payment.PaymentTarget.Type != PaymentTargetTypes.Order)
-            {
-                return;
-            }
             if (@event.NewStatus != PaymentStatus.Success)
             {
                 return;
             }
 
-            var orderId = Convert.ToInt32(payment.PaymentTarget.Id);
+            var orderId = @payment.OrderId;
             var order = _orderService.GetById(orderId);
             _orderService.AcceptPayment(order, payment);
         }

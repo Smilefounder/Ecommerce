@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
             var payment = _paymentService.GetById(paymentId);
-            var method = _paymentMethodService.GetById(payment.PaymentMethod.Id);
+            var method = _paymentMethodService.GetById(payment.PaymentMethodId);
             var result = ProcessResponse(payment, method.LoadProcessorConfig<BuckarooConfig>());
             _paymentService.AcceptProcessResult(payment, result);
 
@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
             var payment = _paymentService.GetById(paymentId);
-            var method = _paymentMethodService.GetById(payment.PaymentMethod.Id);
+            var method = _paymentMethodService.GetById(payment.PaymentMethodId);
             var result = ProcessResponse(payment, method.LoadProcessorConfig<BuckarooConfig>());
             _paymentService.AcceptProcessResult(payment, result);
         }

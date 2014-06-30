@@ -17,9 +17,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
         private IPaymentService _paymentService;
         private IPaymentMethodService _paymentMethodService;
 
-        public HomeController(
-            IPaymentService paymentService,
-            IPaymentMethodService paymentMethodService)
+        public HomeController(IPaymentService paymentService, IPaymentMethodService paymentMethodService)
         {
             _paymentService = paymentService;
             _paymentMethodService = paymentMethodService;

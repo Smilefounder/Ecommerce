@@ -12,38 +12,37 @@ namespace Kooboo.Commerce.Payments
 
         public decimal Amount { get; set; }
 
-        public PaymentMethodInfo PaymentMethod { get; set; }
+        public int PaymentMethodId { get; set; }
+
+        [Required, StringLength(100)]
+        public string PaymentMethodName { get; set; }
+
+        [Required, StringLength(100)]
+        public string PaymentProcessorName { get; set; }
 
         public decimal PaymentMethodCost { get; set; }
 
         public PaymentStatus Status { get; set; }
 
+        [StringLength(100)]
         public string ThirdPartyTransactionId { get; set; }
 
-        public PaymentTarget PaymentTarget { get; set; }
+        public int OrderId { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
 
         public Payment() { }
 
-        public Payment(PaymentTarget target, decimal amount, PaymentMethod method, string description)
+        public Payment(int orderId, decimal amount, PaymentMethod method, string description)
         {
-            PaymentTarget = target;
+            OrderId = orderId;
             Amount = amount;
-            PaymentMethod = new PaymentMethodInfo(method);
+            PaymentMethodId = method.Id;
+            PaymentMethodName = method.Name;
+            PaymentProcessorName = method.ProcessorName;
             PaymentMethodCost = method.GetPaymentMethodCost(amount);
             Description = description;
             CreatedAtUtc = DateTime.UtcNow;
         }
-
-        public static Payment CreateOrderPayment(int orderId, decimal amount, PaymentMethod paymentMethod, string description)
-        {
-            return new Payment(new PaymentTarget(orderId.ToString(), PaymentTargetTypes.Order), amount, paymentMethod, description);
-        }
-    }
-
-    public static class PaymentTargetTypes
-    {
-        public static readonly string Order = "Order";
     }
 }

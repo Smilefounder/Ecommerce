@@ -9,11 +9,10 @@ namespace Kooboo.Commerce.Events.Orders
 {
     public class PaymentStatusChanged : Event, IOrderEvent
     {
-        [Param]
-        public int OrderId { get; set; }
+        public int PaymentId { get; set; }
 
         [Param]
-        public int PaymentId { get; set; }
+        public int OrderId { get; set; }
 
         [Param]
         public decimal Amount { get; set; }
@@ -31,14 +30,12 @@ namespace Kooboo.Commerce.Events.Orders
 
         public PaymentStatusChanged(Payment payment, PaymentStatus? oldStatus, PaymentStatus newStatus)
         {
-            // TODO: Ugly?
-            OrderId = Convert.ToInt32(payment.PaymentTarget.Id);
-
+            OrderId = payment.OrderId;
             PaymentId = payment.Id;
             Amount = payment.Amount;
             OldStatus = oldStatus;
             NewStatus = newStatus;
-            PaymentMethodId = payment.PaymentMethod.Id;
+            PaymentMethodId = payment.PaymentMethodId;
         }
     }
 }

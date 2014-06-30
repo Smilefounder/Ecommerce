@@ -40,11 +40,11 @@ namespace Kooboo.Commerce.Payments.iDeal
 
             var settings = context.ProcessorConfig as IDealConfig;
 
-            var commerceName = CommerceInstance.Current.Name;
+            var instance = CommerceInstance.Current.Name;
             var httpContext = HttpContextAccessor();
-            var reportUrl = Strings.AreaName + "/iDeal/Callback?commerceName=" + commerceName;
+            var reportUrl = Strings.AreaName + "/iDeal/Callback?instance=" + instance;
             var returnUrl = Strings.AreaName
-                + "/iDeal/Return?commerceName=" + commerceName
+                + "/iDeal/Return?instance=" + instance
                 + "&paymentId=" + context.Payment.Id
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(context.ReturnUrl);
 

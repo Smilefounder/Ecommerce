@@ -33,9 +33,9 @@ namespace Kooboo.Commerce.Payments.Fake
 
         public ProcessPaymentResult Process(PaymentProcessingContext context)
         {
-            var commerceName = CommerceInstance.Current.Name;
+            var instance = CommerceInstance.Current.Name;
             var redirectUrl = Strings.AreaName
-                + "/Home/Gateway?commerceName=" + commerceName
+                + "/Home/Gateway?instance=" + instance
                 + "&paymentId=" + context.Payment.Id
                 + "&currency=" + context.CurrencyCode
                 + "&commerceReturnUrl=" + HttpUtility.UrlEncode(context.ReturnUrl);

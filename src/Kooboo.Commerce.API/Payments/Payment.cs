@@ -13,19 +13,16 @@ namespace Kooboo.Commerce.API.Payments
 
         public decimal Amount { get; set; }
 
-        public PaymentMethodInfo PaymentMethod { get; set; }
+        public int PaymentMethodId { get; set; }
+
+        public string PaymentMethodName { get; set; }
 
         public PaymentStatus Status { get; set; }
 
         public string ThirdPartyTransactionId { get; set; }
 
-        public PaymentTarget PaymentTarget { get; set; }
+        public int OrderId { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
-    }
-
-    public static class PaymentTargetTypes
-    {
-        public static readonly string Order = "Order";
     }
 }

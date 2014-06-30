@@ -10,19 +10,13 @@ namespace Kooboo.Commerce.API.Payments
     /// </summary>
     public class PaymentRequest
     {
+        public int OrderId { get; set; }
+
         /// <summary>
         /// description
         /// </summary>
         public string Description { get; set; }
-        /// <summary>
-        /// the target type
-        /// target is the object that payment concerns. such as: order, ticket etc.
-        /// </summary>
-        public string TargetType { get; set; }
-        /// <summary>
-        /// the target object id
-        /// </summary>
-        public string TargetId { get; set; }
+
         /// <summary>
         /// total amount that need to pay
         /// </summary>

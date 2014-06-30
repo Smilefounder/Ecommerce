@@ -169,13 +169,12 @@
     <Compile Include="Payments\IPaymentProcessor.cs" />
     <Compile Include="Payments\PaymentMethodFeeChargeMode.cs" />
     <Compile Include="Payments\PaymentMethodInfo.cs" />
-    <Compile Include="Payments\PaymentProcessorEditor.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />
     <Compile Include="Payments\Payment.cs" />
-    <Compile Include="Payments\PaymentTarget.cs" />
     <Compile Include="Payments\ProcessPaymentResult.cs" />
     <Compile Include="Payments\Services\IPaymentService.cs" />
     <Compile Include="Orders\Services\IOrderService.cs" />
+    <Compile Include="Payments\Services\PaymentService.cs" />
     <Compile Include="Products\ExtendedQuery.cs">
       <SubType>Code</SubType>
     </Compile>
