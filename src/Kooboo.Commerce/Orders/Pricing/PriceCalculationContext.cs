@@ -131,7 +131,8 @@ namespace Kooboo.Commerce.Orders.Pricing
                 Customer = cart.Customer,
                 CouponCode = cart.CouponCode,
                 BillingAddress = cart.BillingAddress,
-                ShippingAddress = cart.ShippingAddress
+                ShippingAddress = cart.ShippingAddress,
+                ShippingMethod = cart.ShippingMethod
             };
 
             foreach (var item in cart.Items)

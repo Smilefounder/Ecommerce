@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.API.Promotions;
+using Kooboo.Commerce.API.Shipping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace Kooboo.Commerce.API.ShoppingCarts
         /// will copy to order's shipping address when create order from shopping cart
         /// </summary>
         public Address ShippingAddress { get; set; }
+
+        public ShippingMethod ShippingMethod { get; set; }
 
         /// <summary>
         /// billing address

@@ -26,6 +26,8 @@ namespace Kooboo.Commerce.API.ShoppingCarts
 
         void ChangeBillingAddress(int cartId, Address address);
 
+        void ChangeShippingMethod(int cartId, int shippingMethodId);
+
         void MigrateCart(int customerId, string sessionId);
 
         /// <summary>

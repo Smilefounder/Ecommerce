@@ -95,6 +95,14 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
 
             Post<bool>("ChangeItemQuantity");
         }
+
+        public void ChangeShippingMethod(int cartId, int shippingMethodId)
+        {
+            QueryParameters.Add("cartId", cartId.ToString());
+            QueryParameters.Add("shippingMethodId", shippingMethodId.ToString());
+
+            Post<bool>("ChangeShippingMethod");
+        }
         
         /// <summary>
         /// expire the shopping cart, so that user can create another new shopping cart by current session id

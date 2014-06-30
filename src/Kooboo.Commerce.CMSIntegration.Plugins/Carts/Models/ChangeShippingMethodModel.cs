@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models
 {
-    public class ChangeShippingAddressModel
+    public class ChangeShippingMethodModel
     {
-        public int ShippingAddressId { get; set; }
+        public int ShippingMethodId { get; set; }
 
         public string SuccessUrl { get; set; }
     }

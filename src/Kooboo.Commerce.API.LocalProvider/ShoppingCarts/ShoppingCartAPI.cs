@@ -9,6 +9,7 @@ using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
+using Kooboo.Commerce.Shipping.Services;
 using Kooboo.Commerce.ShoppingCarts.Services;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private ICommerceDatabase _db;
         private IProductService _productService;
         private IShoppingCartService _cartService;
+        private IShippingMethodService _shippingMethodService;
         private ICustomerAPI _customerApi;
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
@@ -38,6 +40,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             IProductService productService,
             ICustomerAPI customerApi,
             IShoppingCartService shoppingCartService,
+            IShippingMethodService shippingMethodService,
             ICustomerService customerService,
             IPromotionService promotionService,
             IPromotionPolicyProvider promotionPolicyFactory,
@@ -49,6 +52,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             _productService = productService;
             _customerApi = customerApi;
             _cartService = shoppingCartService;
+            _shippingMethodService = shippingMethodService;
             _customerService = customerService;
             _promotionService = promotionService;
             _promotionPolicyFactory = promotionPolicyFactory;
@@ -224,6 +228,16 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
                 }
 
                 _cartService.ChangeBillingAddress(cart, addr);
+            });
+        }
+
+        public void ChangeShippingMethod(int cartId, int shippingMethodId)
+        {
+            var cart = _cartService.GetById(cartId);
+            var method = _shippingMethodService.GetById(shippingMethodId);
+            _db.WithTransaction(() =>
+            {
+                _cartService.ChangeShippingMethod(cart, method);
             });
         }
 

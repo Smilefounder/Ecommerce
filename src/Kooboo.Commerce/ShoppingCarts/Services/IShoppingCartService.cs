@@ -7,6 +7,7 @@ using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Orders.Pricing;
+using Kooboo.Commerce.Shipping;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
@@ -48,6 +49,8 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
         void ChangeShippingAddress(ShoppingCart cart, Address address);
 
         void ChangeBillingAddress(ShoppingCart cart, Address address);
+
+        void ChangeShippingMethod(ShoppingCart cart, ShippingMethod shippingMethod);
 
         /// <summary>
         /// 把一个购物车中的产品合并到另一个购物车中。

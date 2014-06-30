@@ -14,6 +14,7 @@ using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.ShoppingCarts;
 using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Shipping;
 
 namespace Kooboo.Commerce.ShoppingCarts.Services
 {
@@ -207,6 +208,15 @@ namespace Kooboo.Commerce.ShoppingCarts.Services
             if (cart.BillingAddress == null || cart.BillingAddress.Id != address.Id)
             {
                 cart.BillingAddress = address;
+                _repository.Database.SaveChanges();
+            }
+        }
+
+        public void ChangeShippingMethod(ShoppingCart cart, ShippingMethod shippingMethod)
+        {
+            if (cart.ShippingMethod == null || cart.ShippingMethod.Id != shippingMethod.Id)
+            {
+                cart.ShippingMethod = shippingMethod;
                 _repository.Database.SaveChanges();
             }
         }

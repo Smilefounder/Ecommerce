@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models
 {
     public class ChangeBillingAddressModel
     {
-        public int NewBillingAddressId { get; set; }
+        public int BillingAddressId { get; set; }
 
         public string SuccessUrl { get; set; }
     }

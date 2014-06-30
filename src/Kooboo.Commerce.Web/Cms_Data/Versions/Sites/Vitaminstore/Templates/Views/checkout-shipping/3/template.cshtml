@@ -18,15 +18,6 @@
             </h2>
             <div data-bind="if: Addresses.Default">
                 <p>Selecteer uw verzendmethode</p>
-                <div style="padding-top:20px">
-                    @foreach (var method in shippingMethods)
-                    {
-                        <span class="vertical_middle" style="font-weight:bold">
-                            <input id="ShippingMethod_@method.Id" name="ShippingMethod" type="radio" value="@method.Id" data-bind="checked: $root.SelectedShippingMethodId" />
-                            <label for="ShippingMethod_@method.Id">@method.Name</label>
-                        </span>
-                    }
-                </div>
                 <div class="shipping-options">
                     <table>
                         <tbody>
@@ -42,7 +33,7 @@
                                         <label for="DeliverToDefaultAddress">Bezorgen op uw adres</label>
                                     </span>
                                 </td>
-                                <td class="detail"></td>
+                                <td class="detail">PostNL Levert uw bestelling bij uw voorkeursadres af</td>
                                 <td class="shipping-cost" data-bind="visible: !IsAlternativeAddressesVisible()">
                                     &euro; <span data-bind="text: CartInfo.ShippingCost"></span>
                                 </td>
@@ -54,7 +45,7 @@
                                         <label for="DeliverToAnotherAddress">Bezorgen op een alternatief adres</label>
                                     </span>
                                 </td>
-                                <td class="detail"></td>
+                                <td class="detail">PostNL levert uw bestelling op een ander adres af</td>
                                 <td class="shipping-cost" data-bind="visible: IsAlternativeAddressesVisible">
                                     &euro; <span data-bind="text: CartInfo.ShippingCost"></span>
                                 </td>
@@ -195,7 +186,7 @@
                 </dd>
                 <dd class="item summary">
                     Totaal voor deze bestelling:<br>
-                    <span class="total orange">€ <span data-bind="text: CartInfo.Total"></span></span>
+                    <span class="total orange">€ <span data-bind="text: CartInfo.Subtotal"></span></span>
                 </dd>
             </dl>
         </div>
@@ -217,8 +208,6 @@
             this.CartInfo = {};
 
             this.ShippingAddressId = ko.observable();
-
-            this.SelectedShippingMethodId = ko.observable();
 
             this.SelectedAlternativeAddressId = ko.observable();
 
@@ -255,18 +244,9 @@
                 return true;
             }
 
-            this.SelectShippingMethod = function (methodId) {
-                return http.post('@Url.FrontUrl().SubmissionUrl("ChangeShippingMethod")', {
-                    ShippingMethodId: methodId
-                })
-                .done(function () {
-                    _this.RefreshCartInfo();
-                });
-            }
-
             this.ChangeShippingAddress = function (address, callback) {
                 return http.post('@Url.FrontUrl().SubmissionUrl("ChangeShippingAddress")', {
-                    ShippingAddressId: address.Id()
+                    NewShippingAddressId: address.Id()
                 })
                 .then(function (result) {
                     if (result.Success) {
@@ -280,7 +260,7 @@
 
             this.ChangeBillingAddress = function (address) {
                 return http.post('@Url.FrontUrl().SubmissionUrl("ChangeBillingAddress")', {
-                    BillingAddressId: address.Id()
+                    NewBillingAddressId: address.Id()
                 });
             }
 
@@ -288,12 +268,6 @@
                 _this.SelectedAlternativeAddressId.subscribe(function (addrId) {
                     if (addrId) {
                         _this.SelectAddress({ Id: ko.observable(addrId) });
-                    }
-                });
-
-                _this.SelectedShippingMethodId.subscribe(function (methodId) {
-                    if (methodId) {
-                        _this.SelectShippingMethod(methodId);
                     }
                 });
             }

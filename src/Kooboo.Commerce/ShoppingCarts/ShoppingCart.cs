@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Shipping;
 
 namespace Kooboo.Commerce.ShoppingCarts
 {
@@ -18,6 +19,8 @@ namespace Kooboo.Commerce.ShoppingCarts
         public virtual Address ShippingAddress { get; set; }
 
         public virtual Address BillingAddress { get; set; }
+
+        public virtual ShippingMethod ShippingMethod { get; set; }
 
         public string CouponCode { get; set; }
 

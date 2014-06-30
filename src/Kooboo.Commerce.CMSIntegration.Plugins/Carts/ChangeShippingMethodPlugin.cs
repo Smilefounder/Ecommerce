@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models;
+﻿using Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 {
-    public class ChangeBillingAddressPlugin : SubmissionPluginBase<ChangeBillingAddressModel>
+    public class ChangeShippingMethodPlugin : SubmissionPluginBase<ChangeShippingMethodModel>
     {
-        protected override SubmissionExecuteResult Execute(ChangeBillingAddressModel model)
+        protected override SubmissionExecuteResult Execute(ChangeShippingMethodModel model)
         {
             var cartId = HttpContext.CurrentCartId();
-            Api.ShoppingCarts.ChangeBillingAddress(cartId, new Address { Id = model.BillingAddressId });
+            Api.ShoppingCarts.ChangeShippingMethod(cartId, model.ShippingMethodId);
 
             return new SubmissionExecuteResult
             {
