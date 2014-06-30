@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Framework.Tabs
 {
-    public abstract class TabPlugin<TModel> : ITabPlugin, ISubmittable
+    public abstract class TabPlugin<TModel> : ITabPlugin
     {
         public abstract string Name { get; }
 
@@ -15,7 +15,13 @@ namespace Kooboo.Commerce.Web.Framework.Tabs
             }
         }
 
-        public abstract string VirtualPath { get; }
+        public virtual string VirtualPath
+        {
+            get
+            {
+                return null;
+            }
+        }
 
         public virtual int Order
         {
@@ -39,7 +45,7 @@ namespace Kooboo.Commerce.Web.Framework.Tabs
 
         public abstract void OnSubmit(TabSubmitContext<TModel> context);
 
-        void ISubmittable.OnSubmit(TabSubmitContext context)
+        void ITabPlugin.OnSubmit(TabSubmitContext context)
         {
             OnSubmit(new TabSubmitContext<TModel>(context));
         }

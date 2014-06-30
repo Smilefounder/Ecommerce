@@ -19,14 +19,6 @@ namespace Kooboo.Commerce.Tabs.Products.Sample
             }
         }
 
-        public override string VirtualPath
-        {
-            get
-            {
-                return "~/Areas/Kooboo.Commerce.Tabs.Products.Sample/Views/SampleTab.cshtml";
-            }
-        }
-
         public override bool IsVisible(System.Web.Mvc.ControllerContext controllerContext)
         {
             return controllerContext.AreaName() == "Commerce"

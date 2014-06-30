@@ -134,7 +134,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Condition Parameter Extensi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Rules.CustomParameters", "Kooboo.Commerce.Rules.CustomParameters\Kooboo.Commerce.Rules.CustomParameters.csproj", "{81470308-F096-48A7-8322-E74871D38681}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Tabs.Products.Sample", "Addins\Tab Plugins\Kooboo.Commerce.Tabs.Products.Sample\Kooboo.Commerce.Tabs.Products.Sample.csproj", "{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Tabs.Products.Sample", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Tabs.Products.Sample\Kooboo.Commerce.Tabs.Products.Sample.csproj", "{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

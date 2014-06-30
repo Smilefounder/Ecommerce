@@ -78,7 +78,6 @@
     <Compile Include="Mvc\TransactionalAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tabs\DynamicViewDataDictionary.cs" />
-    <Compile Include="Tabs\ISubmittable.cs" />
     <Compile Include="Tabs\ITabPlugin.cs" />
     <Compile Include="Tabs\LoadedTabPlugin.cs" />
     <Compile Include="Tabs\TabPlugin.cs" />

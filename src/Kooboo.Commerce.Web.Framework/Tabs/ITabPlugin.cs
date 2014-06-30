@@ -12,6 +12,8 @@ namespace Kooboo.Commerce.Web.Framework.Tabs
 
         string DisplayName { get; }
 
+        Type ModelType { get; }
+
         string VirtualPath { get; }
 
         int Order { get; }
@@ -19,5 +21,7 @@ namespace Kooboo.Commerce.Web.Framework.Tabs
         bool IsVisible(ControllerContext controllerContext);
 
         void OnLoad(TabLoadContext context);
+
+        void OnSubmit(TabSubmitContext context);
     }
 }

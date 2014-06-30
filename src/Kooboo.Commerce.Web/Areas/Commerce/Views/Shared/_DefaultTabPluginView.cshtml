@@ -1,0 +1,12 @@
+﻿@{
+    var modelType = ViewBag.ModelType as Type;
+}
+
+<div class="common-form">
+    <table>
+        @foreach (var prop in modelType.GetProperties())
+        {
+            @Html.Editor(prop.Name)
+        }
+    </table>
+</div>

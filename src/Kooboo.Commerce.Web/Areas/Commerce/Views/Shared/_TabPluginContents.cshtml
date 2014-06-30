@@ -6,21 +6,20 @@
 {
     foreach (var each in plugins)
     {
-        var submittable = each.TabPlugin as ISubmittable;
-        
+        each.Context.ViewBag.ModelType = each.TabPlugin.ModelType;
+
+        var viewVirtualPath = "_DefaultTabPluginView";
+        if (!String.IsNullOrEmpty(each.TabPlugin.VirtualPath))
+        {
+            viewVirtualPath = each.TabPlugin.VirtualPath;
+        }
+
         <div class="tab-content tab-plugin" data-name="@each.TabPlugin.Name" id="@each.TabPlugin.Name">
-            @if (submittable == null)
-            {
-                @Html.Partial(each.TabPlugin.VirtualPath, each.Context.Model, each.Context.ViewData)
-            }
-            else
-            {
-                <form>
-                    <input type="hidden" name="PluginType" value="@each.TabPlugin.GetType().AssemblyQualifiedName" />
-                    <input type="hidden" name="BindingType" value="@submittable.ModelType.AssemblyQualifiedName" />
-                    @Html.Partial(each.TabPlugin.VirtualPath, each.Context.Model, each.Context.ViewData)
-                </form>
-            }
+            <form>
+                <input type="hidden" name="PluginType" value="@each.TabPlugin.GetType().AssemblyQualifiedName" />
+                <input type="hidden" name="BindingType" value="@each.TabPlugin.ModelType.AssemblyQualifiedName" />
+                @Html.Partial(viewVirtualPath, each.Context.Model, each.Context.ViewData)
+            </form>
         </div>
     }
 }

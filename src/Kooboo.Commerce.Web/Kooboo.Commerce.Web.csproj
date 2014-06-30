@@ -3544,6 +3544,7 @@
     <Content Include="Cms_Data\Sites\SampleSite\SubmissionSettings\ValidateMember.config" />
     <Content Include="Cms_Data\Sites\SampleSite\CustomErrors.config" />
     <Content Include="Cms_Data\Sites\SampleSite\UrlKeyMaps.config" />
+    <Content Include="Areas\Commerce\Views\Shared\_DefaultTabPluginView.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />

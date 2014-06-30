@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public void Submit(string pluginType, [ModelBinder(typeof(ObjectModelBinder))]object model)
         {
             var type = Type.GetType(pluginType, true);
-            var plugin = (ISubmittable)EngineContext.Current.Resolve(type);
+            var plugin = (ITabPlugin)EngineContext.Current.Resolve(type);
             plugin.OnSubmit(new TabSubmitContext(model, ControllerContext));
         }
     }
