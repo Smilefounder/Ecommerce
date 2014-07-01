@@ -23,26 +23,48 @@ namespace Kooboo.Commerce.Rules.Serialization
             };
         }
 
-        public XElement Serialize(string eventName, IEnumerable<RuleBase> rules)
+        public XElement SerializeSlot(EventSlot slot)
+        {
+            return SerializeSlot(slot.EventName, slot.Rules);
+        }
+
+        public XElement SerializeSlot(string eventName, IEnumerable<RuleBase> rules)
         {
             var element = new XElement("event", new XAttribute("name", eventName));
 
             foreach (var rule in rules)
             {
-                var ruleElement = Serialize(rule);
+                var ruleElement = SerializeRule(rule);
                 element.Add(ruleElement);
             }
 
             return element;
         }
 
-        public XElement Serialize(RuleBase rule)
+        public XElement SerializeRule(RuleBase rule)
         {
             var serializer = _serializers[rule.GetType()];
             return serializer(rule);
         }
 
-        public RuleBase Deserialize(XElement element)
+        public EventSlot DeserializeSlot(string xml)
+        {
+            return DeserializeSlot(XElement.Parse(xml));
+        }
+
+        public EventSlot DeserializeSlot(XElement element)
+        {
+            var slot = new EventSlot(element.Attribute("name").Value);
+
+            foreach (var ruleElement in element.Elements())
+            {
+                slot.Rules.Add(DeserializeRule(ruleElement));
+            }
+
+            return slot;
+        }
+
+        public RuleBase DeserializeRule(XElement element)
         {
             var deserializer = _deserializers[element.Name.LocalName];
             return deserializer(element);
@@ -71,7 +93,7 @@ namespace Kooboo.Commerce.Rules.Serialization
 
                 foreach (var thenRule in ifElseRule.Then)
                 {
-                    thenElement.Add(Serialize(thenRule));
+                    thenElement.Add(SerializeRule(thenRule));
                 }
             }
 
@@ -83,7 +105,7 @@ namespace Kooboo.Commerce.Rules.Serialization
 
                 foreach (var elseRule in ifElseRule.Else)
                 {
-                    elseElement.Add(Serialize(elseRule));
+                    elseElement.Add(SerializeRule(elseRule));
                 }
             }
 
@@ -107,7 +129,7 @@ namespace Kooboo.Commerce.Rules.Serialization
             {
                 foreach (var ruleElement in thenElement.Elements())
                 {
-                    rule.Then.Add(Deserialize(ruleElement));
+                    rule.Then.Add(DeserializeRule(ruleElement));
                 }
             }
 
@@ -116,7 +138,7 @@ namespace Kooboo.Commerce.Rules.Serialization
             {
                 foreach (var ruleElement in elseElement.Elements())
                 {
-                    rule.Else.Add(Deserialize(ruleElement));
+                    rule.Else.Add(DeserializeRule(ruleElement));
                 }
             }
 
