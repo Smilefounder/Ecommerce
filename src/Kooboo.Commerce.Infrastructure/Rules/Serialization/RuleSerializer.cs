@@ -21,6 +21,11 @@ namespace Kooboo.Commerce.Rules.Serialization
                 { typeof(IfElseRule), SerializeIfElse },
                 { typeof(AlwaysRule), SerializeAlways }
             };
+            _deserializers = new Dictionary<string, Func<XElement, RuleBase>>
+            {
+                { "if", DeserializeIfElse },
+                { "always", DeserializeAlways }
+            };
         }
 
         public XElement SerializeSlot(EventSlot slot)

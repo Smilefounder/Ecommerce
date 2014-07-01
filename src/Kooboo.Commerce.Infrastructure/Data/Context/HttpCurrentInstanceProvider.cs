@@ -10,9 +10,9 @@ namespace Kooboo.Commerce.Data.Context
     {
         public Func<HttpContextBase> GetHttpContext = () => new HttpContextWrapper(HttpContext.Current);
 
-        private IInstanceManager _instanceManager;
+        private ICommerceInstanceManager _instanceManager;
 
-        public HttpCurrentInstanceProvider(IInstanceManager instanceManager)
+        public HttpCurrentInstanceProvider(ICommerceInstanceManager instanceManager)
         {
             _instanceManager = instanceManager;
         }
@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Data.Context
                 var instanceName = GetInstanceName(GetHttpContext());
                 if (!String.IsNullOrWhiteSpace(instanceName))
                 {
-                    instance = _instanceManager.OpenInstance(instanceName);
+                    instance = _instanceManager.GetInstance(instanceName);
                     httpContext.Items["Kooboo.Commerce.Data.CommerceInstance.Current"] = instance;
                 }
             }

@@ -47,6 +47,10 @@ namespace Kooboo.Commerce.IO
             return new FileContent<T>(Deserialize(json));
         }
 
+        /// <summary>
+        /// Read content from the cache.
+        /// Note that if the result object is mutable, you might want to return a cloned copy to your api users for safety.
+        /// </summary>
         public T Read()
         {
             return _cache.Value.Data;
@@ -57,6 +61,17 @@ namespace Kooboo.Commerce.IO
             var json = data == null ? String.Empty : Serialize(data);
 
             _file.Write(json);
+            InvalidateCache();
+        }
+
+        public void Delete()
+        {
+            _file.Delete();
+            InvalidateCache();
+        }
+
+        private void InvalidateCache()
+        {
             _cache = new Lazy<FileContent<T>>(Reload, true);
         }
 

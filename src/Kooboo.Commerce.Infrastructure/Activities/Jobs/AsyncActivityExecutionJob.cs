@@ -30,14 +30,12 @@ namespace Kooboo.Commerce.Activities.Jobs
             InProgress = true;
 
             var engine = EngineContext.Current;
-            var instanceManager = engine.Resolve<IInstanceManager>();
+            var instanceManager = engine.Resolve<ICommerceInstanceManager>();
             var activityProvider = engine.Resolve<IActivityProvider>();
             var now = DateTime.UtcNow;
 
-            foreach (var metadata in instanceManager.GetAllInstanceMetadatas())
+            foreach (var instance in instanceManager.GetInstances())
             {
-                var instance = instanceManager.OpenInstance(metadata.Name);
-
                 // Begin a scope so the activities are able to resolve dependencies from the ioc container
                 using (var scope = Scope.Begin(instance))
                 {

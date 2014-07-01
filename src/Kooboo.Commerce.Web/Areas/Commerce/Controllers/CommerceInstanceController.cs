@@ -11,20 +11,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class CommerceInstanceController : CommerceControllerBase
     {
-        private IInstanceMetadataStore _metadataStore;
-        private IInstanceManager _instanceManager;
+        private ICommerceInstanceManager _instanceManager;
 
-        public CommerceInstanceController(
-            IInstanceMetadataStore metadataStore,
-            IInstanceManager instanceManager)
+        public CommerceInstanceController(ICommerceInstanceManager instanceManager)
         {
-            _metadataStore = metadataStore;
             _instanceManager = instanceManager;
         }
 
         public ActionResult Index()
         {
-            var metadatas = _instanceManager.GetAllInstanceMetadatas()
+            var metadatas = _instanceManager.GetInstances()
+                                            .Select(x => x.Metadata)
                                             .OrderBy(x => x.DisplayName)
                                             .ToList();
 
@@ -62,7 +59,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError]
         public ActionResult Create(CommerceInstanceEditorModel model, string @return)
         {
-            var metadata = new InstanceMetadata
+            var metadata = new CommerceInstanceMetadata
             {
                 Name = model.Name,
                 DisplayName = model.DisplayName,
@@ -93,7 +90,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Edit(string name)
         {
-            var metadata = _instanceManager.GetInstanceMetadata(name);
+            var metadata = _instanceManager.GetMetadata(name);
             var dbProvider = CommerceDbProviders.Providers.Find(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
 
             var model = new CommerceInstanceEditorModel
@@ -126,7 +123,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError]
         public ActionResult Edit(CommerceInstanceEditorModel model, string @return)
         {
-            var metadata = _metadataStore.GetByName(model.Name);
+            var metadata = _instanceManager.GetMetadata(model.Name);
             metadata.DisplayName = model.DisplayName;
 
             if (model.AdvancedMode)
@@ -144,7 +141,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
             }
 
-            _metadataStore.Update(model.Name, metadata);
+            CommerceInstanceMetadataManager.Instance.CreateOrUpdate(model.Name, metadata);
 
             return AjaxForm().RedirectTo(@return);
         }

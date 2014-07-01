@@ -60,9 +60,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
 
         public Func<IProductRecommendationService> ProductRecommendationService = () => EngineContext.Current.Resolve<IProductRecommendationService>();
 
-        private IInstanceManager _instanceManager;
+        private ICommerceInstanceManager _instanceManager;
 
-        public RecommendationSource(IInstanceManager instanceManager)
+        public RecommendationSource(ICommerceInstanceManager instanceManager)
         {
             _instanceManager = instanceManager;
         }
@@ -86,7 +86,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             if (String.IsNullOrWhiteSpace(instanceName))
                 throw new InvalidOperationException("Commerce instance name is not configured in CMS.");
 
-            using (var instance = _instanceManager.OpenInstance(instanceName))
+            using (var instance = _instanceManager.GetInstance(instanceName))
             using (var scope = Scope.Begin(instance))
             {
                 var recommendations = ProductRecommendationService().GetRecommendations((int)productId);

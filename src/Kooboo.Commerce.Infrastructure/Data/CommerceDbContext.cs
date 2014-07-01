@@ -14,9 +14,9 @@ namespace Kooboo.Commerce.Data
 {
     public class CommerceDbContext : DbContext
     {
-        public InstanceMetadata CommerceInstanceMetadata { get; private set; }
+        public CommerceInstanceMetadata CommerceInstanceMetadata { get; private set; }
 
-        private CommerceDbContext(InstanceMetadata commerceInstanceMetadata, string connectionString, DbCompiledModel model)
+        private CommerceDbContext(CommerceInstanceMetadata commerceInstanceMetadata, string connectionString, DbCompiledModel model)
             : base(connectionString, model)
         {
             CommerceInstanceMetadata = commerceInstanceMetadata;
@@ -36,7 +36,7 @@ namespace Kooboo.Commerce.Data
 
         static readonly ConcurrentDictionary<ModelCacheKey, DbCompiledModel> _modelCache = new ConcurrentDictionary<ModelCacheKey, DbCompiledModel>();
 
-        internal static CommerceDbContext Create(InstanceMetadata metadata, ICommerceDbProvider dbProvider)
+        internal static CommerceDbContext Create(CommerceInstanceMetadata metadata, ICommerceDbProvider dbProvider)
         {
             var dbProviderInfo = new DbProviderInfo(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
 

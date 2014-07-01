@@ -5,31 +5,39 @@ using Kooboo.Commerce.Events;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.Commerce.Data
 {
-    [Dependency(typeof(IInstanceManager), ComponentLifeStyle.InRequestScope)]
-    public class InstanceManager : IInstanceManager
+    [Dependency(typeof(ICommerceInstanceManager), ComponentLifeStyle.InRequestScope)]
+    public class CommerceInstanceManager : ICommerceInstanceManager
     {
-        private IInstanceMetadataStore _metadataStore;
         private CommerceDbProviderCollection _dbProviders = CommerceDbProviders.Providers;
+        private CommerceInstanceMetadataManager _metadataManager = CommerceInstanceMetadataManager.Instance;
+
+        public CommerceInstanceMetadataManager MetadataManager
+        {
+            get
+            {
+                return _metadataManager;
+            }
+            set
+            {
+                Require.NotNull(value, "value");
+                _metadataManager = value;
+            }
+        }
 
         [Inject]
         public IEnumerable<IInstanceInitializer> InstanceInitializers { get; set; }
 
-        public InstanceManager(IInstanceMetadataStore metadataStore)
-        {
-            Require.NotNull(metadataStore, "metadataStore");
-            _metadataStore = metadataStore;
-        }
-
-        public void CreateInstance(InstanceMetadata metadata)
+        public void CreateInstance(CommerceInstanceMetadata metadata)
         {
             Require.NotNull(metadata, "metadata");
 
-            var current = _metadataStore.GetByName(metadata.Name);
+            var current = _metadataManager.Get(metadata.Name);
             if (current != null)
                 throw new InvalidOperationException("Commerce instance \"" + metadata.Name + "\" already exists.");
 
@@ -40,7 +48,7 @@ namespace Kooboo.Commerce.Data
             {
                 CreatePhysicalDatabaseIfNotExists(connectionString);
 
-                using (var database = new CommerceDatabase(metadata, dbProvider))
+                using (var database = new CommerceDatabase(metadata))
                 {
                     dbProvider.DatabaseOperations.CreateDatabase(database);
                 }
@@ -50,11 +58,11 @@ namespace Kooboo.Commerce.Data
                 throw new CommerceDbException("Commerce instance creation failed: " + ex.Message, ex);
             }
 
-            _metadataStore.Create(metadata);
+            _metadataManager.CreateOrUpdate(metadata.Name, metadata);
 
             if (InstanceInitializers != null)
             {
-                var instance = OpenInstance(metadata.Name);
+                var instance = GetInstance(metadata.Name);
                 foreach (var initializer in InstanceInitializers)
                 {
                     initializer.Initialize(instance);
@@ -73,14 +81,14 @@ namespace Kooboo.Commerce.Data
 
         public void DeleteInstance(string name)
         {
-            var metadata = _metadataStore.GetByName(name);
+            var metadata = _metadataManager.Get(name);
             if (metadata == null)
                 throw new InvalidOperationException("Cannot find metadata for commerce instance: " + name + ".");
 
             try
             {
                 var dbProvider = _dbProviders.Find(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
-                using (var database = new CommerceDatabase(metadata, dbProvider))
+                using (var database = new CommerceDatabase(metadata))
                 {
                     if (database.DbContext.Database.Exists())
                     {
@@ -93,31 +101,47 @@ namespace Kooboo.Commerce.Data
                 throw new CommerceDbException("Commerce instance deletion failed: " + ex.Message, ex);
             }
 
-            _metadataStore.Delete(name);
+            _metadataManager.Delete(name);
         }
 
-        public InstanceMetadata GetInstanceMetadata(string instanceName)
+        public CommerceInstanceMetadata GetMetadata(string instanceName)
         {
-            return _metadataStore.GetByName(instanceName);
+            return _metadataManager.Get(instanceName);
         }
 
-        public IEnumerable<InstanceMetadata> GetAllInstanceMetadatas()
+        public IEnumerable<CommerceInstance> GetInstances()
         {
-            return _metadataStore.All().ToList();
+            var root = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Commerce_Data\\Instances"));
+            if (!root.Exists)
+            {
+                return Enumerable.Empty<CommerceInstance>();
+            }
+
+            var instances = new List<CommerceInstance>();
+
+            foreach (var directory in root.GetDirectories())
+            {
+                var instanceName = directory.Name;
+                var metadata = _metadataManager.Get(instanceName);
+                // If metadata does not exist, then it's not a valid instance folder.
+                if (metadata != null)
+                {
+                    instances.Add(new CommerceInstance(metadata));
+                }
+            }
+
+            return instances;
         }
 
-        public CommerceInstance OpenInstance(string name)
+        public CommerceInstance GetInstance(string name)
         {
             Require.NotNullOrEmpty(name, "name");
 
-            var metadata = _metadataStore.GetByName(name);
+            var metadata = _metadataManager.Get(name);
             if (metadata == null)
                 throw new InvalidOperationException("Commerce instance \"" + name + "\" not exists.");
 
-            var dbProvider = _dbProviders.Find(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
-            var database = new CommerceDatabase(metadata, dbProvider);
-
-            return new CommerceInstance(database);
+            return new CommerceInstance(metadata);
         }
 
         /// <summary>

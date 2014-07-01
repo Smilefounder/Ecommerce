@@ -17,25 +17,35 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public InstanceMetadata Metadata
+        public CommerceInstanceMetadata Metadata { get; private set; }
+
+        private ICommerceDatabase _database;
+
+        public ICommerceDatabase Database
         {
             get
             {
-                return Database.InstanceMetadata;
+                if (_database == null)
+                {
+                    _database = new CommerceDatabase(Metadata);
+                }
+
+                return _database;
             }
         }
 
-        public ICommerceDatabase Database { get; private set; }
-
-        public CommerceInstance(ICommerceDatabase database)
+        public CommerceInstance(CommerceInstanceMetadata metadata)
         {
-            Require.NotNull(database, "database");
-            Database = database;
+            Require.NotNull(metadata, "metadata");
+            Metadata = metadata;
         }
 
         public void Dispose()
         {
-            Database.Dispose();
+            if (_database != null)
+            {
+                _database.Dispose();
+            }
         }
 
         public static CommerceInstance Current

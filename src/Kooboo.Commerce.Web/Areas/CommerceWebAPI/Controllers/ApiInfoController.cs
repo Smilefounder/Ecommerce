@@ -16,9 +16,9 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
     public class ApiInfoController : Controller
     {
         private ITypeFinder _typeFinder;
-        private IInstanceManager _instanceMgr;
+        private ICommerceInstanceManager _instanceMgr;
 
-        public ApiInfoController(IInstanceManager instanceMgr)
+        public ApiInfoController(ICommerceInstanceManager instanceMgr)
         {
             _instanceMgr = instanceMgr;
             _typeFinder = new AppDomainTypeFinder();
@@ -26,8 +26,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 
         public ActionResult Index()
         {
-            var instances = _instanceMgr.GetAllInstanceMetadatas();
-
+            var instances = _instanceMgr.GetInstances().Select(x => x.Metadata).ToList();
             return View(instances);
         }
 

@@ -60,9 +60,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
 
         public Func<IProductAccessoryService> ProductAccessoryService = () => EngineContext.Current.Resolve<IProductAccessoryService>();
 
-        private IInstanceManager _instanceManager;
+        private ICommerceInstanceManager _instanceManager;
 
-        public AccessorySource(IInstanceManager instanceManager)
+        public AccessorySource(ICommerceInstanceManager instanceManager)
         {
             _instanceManager = instanceManager;
         }
@@ -86,7 +86,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
             if (String.IsNullOrWhiteSpace(instanceName))
                 throw new InvalidOperationException("Commerce instance name is not configured in CMS.");
 
-            using (var instance = _instanceManager.OpenInstance(instanceName))
+            using (var instance = _instanceManager.GetInstance(instanceName))
             using (var scope = Scope.Begin(instance))
             {
                 var accessories = ProductAccessoryService().GetAccessories((int)productId);

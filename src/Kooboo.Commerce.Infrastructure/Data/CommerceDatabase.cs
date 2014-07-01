@@ -13,12 +13,8 @@ namespace Kooboo.Commerce.Data
     {
         private bool _isDisposed;
         private CommerceDbTransaction _currentTransaction;
-        private InstanceMetadata _instanceMetadata;
 
-        public InstanceMetadata InstanceMetadata
-        {
-            get { return _instanceMetadata; }
-        }
+        public CommerceInstanceMetadata InstanceMetadata { get; private set; }
 
         public ICommerceDbTransaction Transaction
         {
@@ -30,13 +26,24 @@ namespace Kooboo.Commerce.Data
 
         public CommerceDbContext DbContext { get; private set; }
 
-        public CommerceDatabase(InstanceMetadata commerceInstanceMetadata, ICommerceDbProvider dbProvider)
+        public CommerceDatabase(CommerceInstanceMetadata instanceMetadata)
+            : this(instanceMetadata, null)
         {
-            Require.NotNull(commerceInstanceMetadata, "commerceInstanceMetadata");
-            Require.NotNull(dbProvider, "dbProvider");
+        }
 
-            _instanceMetadata = commerceInstanceMetadata;
-            DbContext = CommerceDbContext.Create(commerceInstanceMetadata, dbProvider);
+        public CommerceDatabase(CommerceInstanceMetadata instanceMetadata, ICommerceDbProvider dbProvider)
+        {
+            Require.NotNull(instanceMetadata, "instanceMetadata");
+
+            if (dbProvider == null)
+            {
+                dbProvider = CommerceDbProviders.Providers.Find(instanceMetadata.DbProviderInvariantName, instanceMetadata.DbProviderManifestToken);
+                if (dbProvider == null)
+                    throw new InvalidOperationException("Cannot find db provider from the provided manifest. Invariant name: " + instanceMetadata.DbProviderInvariantName + ", manifest token: " + instanceMetadata.DbProviderManifestToken + ".");
+            }
+
+            InstanceMetadata = instanceMetadata;
+            DbContext = CommerceDbContext.Create(instanceMetadata, dbProvider);
         }
 
         public IRepository<T> GetRepository<T>() where T : class

@@ -51,6 +51,20 @@ namespace Kooboo.Commerce.IO
             }
         }
 
+        public void Delete()
+        {
+            _lock.EnterWriteLock();
+
+            try
+            {
+                File.Delete(_path);
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
+        }
+
         public void Dispose()
         {
             _lock.Dispose();
