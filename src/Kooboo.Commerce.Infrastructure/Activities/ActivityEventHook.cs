@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Activities
         private void Execute(IEvent @event, Type eventType, CommerceInstance commerceInstance)
         {
             var database = commerceInstance.Database;
-            var ruleEngine = new RuleEngine();
+            var ruleEngine = new ConditionEvaluator();
 
             var activityQueue = database.GetRepository<ActivityQueueItem>();
             var rules = database.GetRepository<ActivityRule>()
@@ -66,7 +66,7 @@ namespace Kooboo.Commerce.Activities
                 }
                 else
                 {
-                    if (ruleEngine.CheckConditions(rule.Conditions, @event))
+                    if (ruleEngine.Evaluate(rule.Conditions, @event))
                     {
                         RunOrEnqueueActivities(rule.ThenActivityInfos, rule, @event, activityQueue);
                     }

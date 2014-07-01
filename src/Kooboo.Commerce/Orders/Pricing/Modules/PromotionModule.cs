@@ -13,12 +13,12 @@ namespace Kooboo.Commerce.Orders.Pricing.Modules
     {
         private IPromotionService _promotionService;
         private IPromotionPolicyProvider _policyFactory;
-        private RuleEngine _ruleEngine;
+        private ConditionEvaluator _ruleEngine;
 
         public PromotionModule(
             IPromotionService promotionService,
             IPromotionPolicyProvider policyFactory,
-            RuleEngine ruleEngine)
+            ConditionEvaluator ruleEngine)
         {
             Require.NotNull(promotionService, "promotionService");
             Require.NotNull(policyFactory, "policyFactory");

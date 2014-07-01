@@ -15,9 +15,9 @@ namespace Kooboo.Commerce.Promotions
     /// </summary>
     public class PromotionConditionChecker
     {
-        private RuleEngine _ruleEngine;
+        private ConditionEvaluator _ruleEngine;
 
-        public PromotionConditionChecker(RuleEngine ruleEngine)
+        public PromotionConditionChecker(ConditionEvaluator ruleEngine)
         {
             _ruleEngine = ruleEngine;
         }
@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Promotions
                     Customer = context.Customer
                 };
 
-                if (_ruleEngine.CheckConditions(promotion.Conditions, contextModel))
+                if (_ruleEngine.Evaluate(promotion.Conditions, contextModel))
                 {
                     result.Success = true;
                     result.MatchedItems.Add(item);

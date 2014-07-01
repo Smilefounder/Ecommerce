@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public class RuleEngine
+    public class ConditionEvaluator
     {
         private ParameterProviderCollection _parameterProviders;
         private ComparisonOperatorCollection _comparisonOperators;
@@ -50,11 +50,7 @@ namespace Kooboo.Commerce.Rules
             }
         }
 
-        public RuleEngine()
-        {
-        }
-
-        public bool CheckConditions(IEnumerable<Condition> conditions, object dataContext)
+        public bool Evaluate(IEnumerable<Condition> conditions, object dataContext)
         {
             foreach (var condition in conditions)
             {
@@ -63,7 +59,7 @@ namespace Kooboo.Commerce.Rules
                     continue;
                 }
 
-                if (!CheckCondition(condition, dataContext))
+                if (!Evaluate(condition, dataContext))
                 {
                     return false;
                 }
@@ -72,7 +68,7 @@ namespace Kooboo.Commerce.Rules
             return true;
         }
 
-        public bool CheckCondition(Condition condition, object dataContext)
+        public bool Evaluate(Condition condition, object dataContext)
         {
             // Empty condition always pass
             if (String.IsNullOrWhiteSpace(condition.Expression))
@@ -82,11 +78,11 @@ namespace Kooboo.Commerce.Rules
 
             if (condition.Type == ConditionType.Include)
             {
-                return CheckCondition(condition.Expression, dataContext);
+                return Evaluate(condition.Expression, dataContext);
             }
             else
             {
-                return CheckCondition(condition.Expression, dataContext) == false;
+                return Evaluate(condition.Expression, dataContext) == false;
             }
         }
 
@@ -96,20 +92,20 @@ namespace Kooboo.Commerce.Rules
         /// <param name="expression">The condition expression. e.g., Param1 > 18 AND Param2 == "Value"</param>
         /// <param name="dataContext">The contextual object.</param>
         /// <returns>True if the condtion can pass, otherwise false.</returns>
-        public bool CheckCondition(string expression, object dataContext)
+        public bool Evaluate(string expression, object dataContext)
         {
             Require.NotNullOrEmpty(expression, "expression");
             Require.NotNull(dataContext, "dataContext");
 
-            return CheckCondition(Expression.Parse(expression, ComparisonOperators.NamesAndAlias), dataContext);
+            return Evaluate(Expression.Parse(expression, ComparisonOperators.NamesAndAlias), dataContext);
         }
 
-        public bool CheckCondition(Expression expression, object dataContext)
+        public bool Evaluate(Expression expression, object dataContext)
         {
             Require.NotNull(expression, "expression");
             Require.NotNull(dataContext, "dataContext");
 
-            var evaluator = new ConditionExpressionEvaluator(ParameterProviders, ComparisonOperators);
+            var evaluator = new ExpressionEvaluator(ParameterProviders, ComparisonOperators);
             return evaluator.Evaluate(expression, dataContext);
         }
     }

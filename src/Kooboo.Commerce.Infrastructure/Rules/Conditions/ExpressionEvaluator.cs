@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Rules.Evaluation
     /// <summary>
     /// Represents a evaluator to evaluate the result of a condition expression.
     /// </summary>
-    public class ConditionExpressionEvaluator : ExpressionVisitor
+    class ExpressionEvaluator : ExpressionVisitor
     {
         private object _dataContext;
         private Stack<bool> _results = new Stack<bool>();
@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Rules.Evaluation
         private ParameterProviderCollection _parameterProviders;
         private ComparisonOperatorCollection _comparisonOperators;
 
-        public ConditionExpressionEvaluator(
+        public ExpressionEvaluator(
             ParameterProviderCollection parameterProviders, ComparisonOperatorCollection comparisonOperators)
         {
             Require.NotNull(parameterProviders, "parameterProviders");

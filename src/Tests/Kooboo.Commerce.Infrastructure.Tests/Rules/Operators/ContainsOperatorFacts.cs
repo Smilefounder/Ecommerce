@@ -13,15 +13,15 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Operators
         [Fact]
         public void can_compare_strings()
         {
-            Assert.True(new RuleEngine().CheckCondition("StringParam contains \"kooboo\"", new ContextModel
+            Assert.True(new ConditionEvaluator().Evaluate("StringParam contains \"kooboo\"", new ContextModel
             {
                 StringParam = "kooboo.com"
             }));
-            Assert.True(new RuleEngine().CheckCondition("StringParam contains \"kooboo\"", new ContextModel
+            Assert.True(new ConditionEvaluator().Evaluate("StringParam contains \"kooboo\"", new ContextModel
             {
                 StringParam = "thekoobooecommerce"
             }));
-            Assert.False(new RuleEngine().CheckCondition("StringParam contains \"kooboo\"", new ContextModel
+            Assert.False(new ConditionEvaluator().Evaluate("StringParam contains \"kooboo\"", new ContextModel
             {
                 StringParam = "koobo cms"
             }));
@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Operators
         [Fact]
         public void should_ignore_case()
         {
-            Assert.True(new RuleEngine().CheckCondition("StringParam contains \"kooboo\"", new ContextModel
+            Assert.True(new ConditionEvaluator().Evaluate("StringParam contains \"kooboo\"", new ContextModel
             {
                 StringParam = "The Kooboo Ecommerce"
             }));

@@ -183,12 +183,12 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
         [Fact]
         public void should_throw_for_unrecognized_params()
         {
-            var ruleEngine = new RuleEngine();
+            var ruleEngine = new ConditionEvaluator();
 
             Assert.Throws<UnrecognizedParameterException>(() =>
             {
                 var condition = "Age > 10 OR NotExistParam == 5";
-                ruleEngine.CheckCondition(condition, new Person
+                ruleEngine.Evaluate(condition, new Person
                 {
                     Age = 10
                 });
@@ -197,8 +197,8 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
         
         private bool CheckCondition(string condition, object contextModel)
         {
-            var ruleEngine = new RuleEngine();
-            return ruleEngine.CheckCondition(condition, contextModel);
+            var ruleEngine = new ConditionEvaluator();
+            return ruleEngine.Evaluate(condition, contextModel);
         }
 
         public class IncludeExclude
@@ -207,12 +207,12 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             public void can_handle_include()
             {
                 var condition = new Condition("Age > 10", ConditionType.Include);
-                Assert.True(new RuleEngine().CheckCondition(condition, new Person
+                Assert.True(new ConditionEvaluator().Evaluate(condition, new Person
                 {
                     Age = 12
                 }));
 
-                Assert.False(new RuleEngine().CheckCondition(condition, new Person
+                Assert.False(new ConditionEvaluator().Evaluate(condition, new Person
                 {
                     Age = 8
                 }));
@@ -222,15 +222,15 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
             public void exclude_should_gave_inverse_result()
             {
                 var condition = new Condition("Age > 10", ConditionType.Exclude);
-                Assert.True(new RuleEngine().CheckCondition(condition, new Person
+                Assert.True(new ConditionEvaluator().Evaluate(condition, new Person
                 {
                     Age = 10
                 }));
-                Assert.True(new RuleEngine().CheckCondition(condition, new Person
+                Assert.True(new ConditionEvaluator().Evaluate(condition, new Person
                 {
                     Age = 8
                 }));
-                Assert.False(new RuleEngine().CheckCondition(condition, new Person
+                Assert.False(new ConditionEvaluator().Evaluate(condition, new Person
                 {
                     Age = 11
                 }));
@@ -246,19 +246,19 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules
                     new Condition("TotalProjects > 2", ConditionType.Include)
                 };
 
-                Assert.True(new RuleEngine().CheckConditions(conditions, new Person
+                Assert.True(new ConditionEvaluator().Evaluate(conditions, new Person
                 {
                     Age = 30,
                     DevYears = 10,
                     TotalProjects = 5
                 }));
-                Assert.False(new RuleEngine().CheckConditions(conditions, new Person
+                Assert.False(new ConditionEvaluator().Evaluate(conditions, new Person
                 {
                     Age = 30,
                     DevYears = 5,
                     TotalProjects = 5
                 }));
-                Assert.False(new RuleEngine().CheckConditions(conditions, new Person
+                Assert.False(new ConditionEvaluator().Evaluate(conditions, new Person
                 {
                     Age = 8,
                     DevYears = 8,

@@ -13,15 +13,15 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Operators
         [Fact]
         public void can_compare_integers()
         {
-            Assert.True(new RuleEngine().CheckCondition("Int32Param <= 5", new ContextModel
+            Assert.True(new ConditionEvaluator().Evaluate("Int32Param <= 5", new ContextModel
             {
                 Int32Param = 5
             }));
-            Assert.True(new RuleEngine().CheckCondition("Int32Param <= 5", new ContextModel
+            Assert.True(new ConditionEvaluator().Evaluate("Int32Param <= 5", new ContextModel
             {
                 Int32Param = 4
             }));
-            Assert.False(new RuleEngine().CheckCondition("Int32Param <= 5", new ContextModel
+            Assert.False(new ConditionEvaluator().Evaluate("Int32Param <= 5", new ContextModel
             {
                 Int32Param = 6
             }));

@@ -76,7 +76,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder
                         OrderStatus = order.OrderStatus
                     };
 
-                    if (new RuleEngine().CheckConditions(config.CancelConditions, dataContext))
+                    if (new ConditionEvaluator().Evaluate(config.CancelConditions, dataContext))
                     {
                         return;
                     }

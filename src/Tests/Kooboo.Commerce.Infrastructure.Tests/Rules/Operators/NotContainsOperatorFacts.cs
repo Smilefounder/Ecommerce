@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Operators
         [Fact]
         public void can_compare_strings()
         {
-            Assert.True(new RuleEngine().CheckCondition("StringParam not contains \"kooboo\"", new ContextModel
+            Assert.True(new ConditionEvaluator().Evaluate("StringParam not contains \"kooboo\"", new ContextModel
             {
                 StringParam = "koobo is incorrect"
             }));
@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Operators
         [Fact]
         public void should_ignore_case()
         {
-            Assert.False(new RuleEngine().CheckCondition("StringParam not contains \"kooboo\"", new ContextModel
+            Assert.False(new ConditionEvaluator().Evaluate("StringParam not contains \"kooboo\"", new ContextModel
             {
                 StringParam = "Kooboo in Xiamen"
             }));

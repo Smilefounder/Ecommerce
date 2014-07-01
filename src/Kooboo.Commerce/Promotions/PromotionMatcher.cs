@@ -13,9 +13,9 @@ namespace Kooboo.Commerce.Promotions
 {
     public class PromotionMatcher
     {
-        private RuleEngine _ruleEngine;
+        private ConditionEvaluator _ruleEngine;
 
-        public PromotionMatcher(RuleEngine ruleEngine)
+        public PromotionMatcher(ConditionEvaluator ruleEngine)
         {
             _ruleEngine = ruleEngine;
         }

@@ -13,11 +13,11 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Operators
         [Fact]
         public void can_compare_strings()
         {
-            Assert.True(new RuleEngine().CheckCondition("StringParam != \"MyValue\"", new ContextModel
+            Assert.True(new ConditionEvaluator().Evaluate("StringParam != \"MyValue\"", new ContextModel
             {
                 StringParam = "MyValue2"
             }));
-            Assert.False(new RuleEngine().CheckCondition("StringParam != \"MyValue\"", new ContextModel
+            Assert.False(new ConditionEvaluator().Evaluate("StringParam != \"MyValue\"", new ContextModel
             {
                 StringParam = "MyValue"
             }));
