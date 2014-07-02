@@ -1,4 +1,7 @@
-﻿using Kooboo.Commerce.IO;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Data.Events;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.IO;
 using Kooboo.Commerce.Rules.Serialization;
 using System;
 using System.Collections.Concurrent;
@@ -14,11 +17,14 @@ namespace Kooboo.Commerce.Rules
         readonly string _folderPath;
         readonly Lazy<ConcurrentDictionary<string, CachedFile<EventSlot>>> _slots;
 
+        public string InstanceName { get; private set; }
+
         public RuleManager(string instanceName)
         {
             Require.NotNullOrEmpty(instanceName, "instanceName");
 
-            _folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Commerce_Data\\Instances\\" + instanceName + "\\Rules");
+            InstanceName = instanceName;
+            _folderPath = CommerceDataFolder.GetInstanceFolderPath(instanceName, "Rules");
             _slots = new Lazy<ConcurrentDictionary<string, CachedFile<EventSlot>>>(Reload, true);
         }
 
@@ -89,6 +95,16 @@ namespace Kooboo.Commerce.Rules
             Require.NotNullOrEmpty(instanceName, "instanceName");
 
             return _managers.GetOrAdd(instanceName, name => new RuleManager(name));
+        }
+
+        // Remove cache when the instance is deleted
+        class RuleManagerCacheUpdateHandler : IHandle<CommerceInstanceDeleted>
+        {
+            public void Handle(CommerceInstanceDeleted @event)
+            {
+                RuleManager manager;
+                _managers.TryRemove(@event.InstanceSettings.Name, out manager);
+            }
         }
 
         #endregion

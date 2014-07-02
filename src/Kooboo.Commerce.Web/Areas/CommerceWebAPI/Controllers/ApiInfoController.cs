@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 
         public ActionResult Index()
         {
-            var instances = _instanceMgr.GetInstances().Select(x => x.Metadata).ToList();
+            var instances = _instanceMgr.GetInstances().Select(x => x.Settings).ToList();
             return View(instances);
         }
 

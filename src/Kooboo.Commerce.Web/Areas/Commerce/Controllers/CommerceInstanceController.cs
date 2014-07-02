@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Data.Providers;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.CommerceInstances;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Mvc;
@@ -21,7 +22,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Index()
         {
             var metadatas = _instanceManager.GetInstances()
-                                            .Select(x => x.Metadata)
+                                            .Select(x => x.Settings)
                                             .OrderBy(x => x.DisplayName)
                                             .ToList();
 
@@ -59,7 +60,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError]
         public ActionResult Create(CommerceInstanceEditorModel model, string @return)
         {
-            var metadata = new CommerceInstanceMetadata
+            var metadata = new CommerceInstanceSettings
             {
                 Name = model.Name,
                 DisplayName = model.DisplayName,
@@ -141,7 +142,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
             }
 
-            CommerceInstanceMetadataManager.Instance.CreateOrUpdate(model.Name, metadata);
+            CommerceInstanceSettingsManager.Instance.Update(model.Name, metadata);
 
             return AjaxForm().RedirectTo(@return);
         }

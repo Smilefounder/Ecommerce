@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Data
     /// </summary>
     public interface ICommerceDatabase : IDisposable
     {
-        CommerceInstanceMetadata InstanceMetadata { get; }
+        CommerceInstanceSettings InstanceSettings { get; }
 
         IRepository<T> GetRepository<T>() where T : class;
 

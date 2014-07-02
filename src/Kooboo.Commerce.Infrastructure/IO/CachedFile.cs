@@ -24,15 +24,14 @@ namespace Kooboo.Commerce.IO
         private ReaderWriterLockedFile _file;
         private Lazy<FileContent<T>> _cache;
 
-        public Func<T, string> Serialize;
-
-        public Func<string, T> Deserialize;
+        private Func<T, string> _serialize;
+        private Func<string, T> _deserialize;
 
         public CachedFile(string path, Func<T, string> serialize, Func<string, T> deserialize)
         {
             _file = new ReaderWriterLockedFile(path);
-            Serialize = serialize;
-            Deserialize = deserialize;
+            _serialize = serialize;
+            _deserialize = deserialize;
             _cache = new Lazy<FileContent<T>>(Reload, true);
         }
 
@@ -44,7 +43,7 @@ namespace Kooboo.Commerce.IO
                 return new FileContent<T>(null);
             }
 
-            return new FileContent<T>(Deserialize(json));
+            return new FileContent<T>(_deserialize(json));
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace Kooboo.Commerce.IO
 
         public void Write(T data)
         {
-            var json = data == null ? String.Empty : Serialize(data);
+            var json = data == null ? String.Empty : _serialize(data);
 
             _file.Write(json);
             InvalidateCache();

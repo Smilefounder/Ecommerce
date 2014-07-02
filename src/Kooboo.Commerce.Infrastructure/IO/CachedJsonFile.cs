@@ -10,8 +10,18 @@ namespace Kooboo.Commerce.IO
         where T : class
     {
         public CachedJsonFile(string path)
-            : base(path, data => JsonConvert.SerializeObject(data), json => JsonConvert.DeserializeObject<T>(json))
+            : base(path, Serialize, Deserialize)
         {
+        }
+
+        static string Serialize(T data)
+        {
+            return JsonConvert.SerializeObject(data, Formatting.Indented);
+        }
+
+        static T Deserialize(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
         }
     }
 }

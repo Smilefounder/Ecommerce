@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data
 {
-    public class CommerceInstanceMetadata
+    public class CommerceInstanceSettings
     {
         public string Name { get; set; }
 
@@ -23,15 +23,15 @@ namespace Kooboo.Commerce.Data
 
         public IDictionary<string, string> ConnectionStringParameters { get; set; }
 
-        public CommerceInstanceMetadata()
+        public CommerceInstanceSettings()
         {
             CreatedAtUtc = DateTime.UtcNow;
             ConnectionStringParameters = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public CommerceInstanceMetadata Clone()
+        public CommerceInstanceSettings Clone()
         {
-            return (CommerceInstanceMetadata)base.MemberwiseClone();
+            return (CommerceInstanceSettings)base.MemberwiseClone();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Data
 
     static class CommerceDbProviderExtensions
     {
-        public static string GetConnectionString(this ICommerceDbProvider dbProvider, CommerceInstanceMetadata metadata)
+        public static string GetConnectionString(this ICommerceDbProvider dbProvider, CommerceInstanceSettings metadata)
         {
             if (String.IsNullOrEmpty(metadata.ConnectionString))
             {

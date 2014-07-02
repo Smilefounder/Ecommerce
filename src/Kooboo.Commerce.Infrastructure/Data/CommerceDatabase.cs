@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Events;
+﻿using Kooboo.Commerce.Data.Providers;
+using Kooboo.Commerce.Events;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,7 +15,7 @@ namespace Kooboo.Commerce.Data
         private bool _isDisposed;
         private CommerceDbTransaction _currentTransaction;
 
-        public CommerceInstanceMetadata InstanceMetadata { get; private set; }
+        public CommerceInstanceSettings InstanceSettings { get; private set; }
 
         public ICommerceDbTransaction Transaction
         {
@@ -26,24 +27,24 @@ namespace Kooboo.Commerce.Data
 
         public CommerceDbContext DbContext { get; private set; }
 
-        public CommerceDatabase(CommerceInstanceMetadata instanceMetadata)
-            : this(instanceMetadata, null)
+        public CommerceDatabase(CommerceInstanceSettings instanceSettings)
+            : this(instanceSettings, null)
         {
         }
 
-        public CommerceDatabase(CommerceInstanceMetadata instanceMetadata, ICommerceDbProvider dbProvider)
+        public CommerceDatabase(CommerceInstanceSettings instanceSettings, ICommerceDbProvider dbProvider)
         {
-            Require.NotNull(instanceMetadata, "instanceMetadata");
+            Require.NotNull(instanceSettings, "instanceSettings");
 
             if (dbProvider == null)
             {
-                dbProvider = CommerceDbProviders.Providers.Find(instanceMetadata.DbProviderInvariantName, instanceMetadata.DbProviderManifestToken);
+                dbProvider = CommerceDbProviders.Providers.Find(instanceSettings.DbProviderInvariantName, instanceSettings.DbProviderManifestToken);
                 if (dbProvider == null)
-                    throw new InvalidOperationException("Cannot find db provider from the provided manifest. Invariant name: " + instanceMetadata.DbProviderInvariantName + ", manifest token: " + instanceMetadata.DbProviderManifestToken + ".");
+                    throw new InvalidOperationException("Cannot find db provider from the provided manifest. Invariant name: " + instanceSettings.DbProviderInvariantName + ", manifest token: " + instanceSettings.DbProviderManifestToken + ".");
             }
 
-            InstanceMetadata = instanceMetadata;
-            DbContext = CommerceDbContext.Create(instanceMetadata, dbProvider);
+            InstanceSettings = instanceSettings;
+            DbContext = CommerceDbContext.Create(instanceSettings, dbProvider);
         }
 
         public IRepository<T> GetRepository<T>() where T : class

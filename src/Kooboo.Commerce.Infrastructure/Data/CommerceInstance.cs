@@ -13,11 +13,11 @@ namespace Kooboo.Commerce.Data
         {
             get
             {
-                return Metadata.Name;
+                return Settings.Name;
             }
         }
 
-        public CommerceInstanceMetadata Metadata { get; private set; }
+        public CommerceInstanceSettings Settings { get; private set; }
 
         private ICommerceDatabase _database;
 
@@ -27,17 +27,17 @@ namespace Kooboo.Commerce.Data
             {
                 if (_database == null)
                 {
-                    _database = new CommerceDatabase(Metadata);
+                    _database = new CommerceDatabase(Settings);
                 }
 
                 return _database;
             }
         }
 
-        public CommerceInstance(CommerceInstanceMetadata metadata)
+        public CommerceInstance(CommerceInstanceSettings settings)
         {
-            Require.NotNull(metadata, "metadata");
-            Metadata = metadata;
+            Require.NotNull(settings, "settings");
+            Settings = settings;
         }
 
         public void Dispose()

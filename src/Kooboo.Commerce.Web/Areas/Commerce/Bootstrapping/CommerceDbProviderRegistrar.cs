@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Data.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
