@@ -110,12 +110,15 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
     };
     $.fn.dropdownButton = function () {
         var dom = $(this);
-        var dropdown = dom.find('.button.dropdown');
+
         $(document).click(function () {
-            dropdown.removeClass('active');
-            dropdown.children('ul').slideUp('fast');
+            $('.button.dropdown.active').each(function () {
+                $(this).removeClass('active');
+                $(this).children('ul').slideUp('fast');
+            });
         });
-        return dropdown.bind('click', function (e) {
+
+        dom.on('click', '.button.dropdown', function (e) {
             e.stopPropagation();
             var o = $(this);
             var menu = o.children('ul');

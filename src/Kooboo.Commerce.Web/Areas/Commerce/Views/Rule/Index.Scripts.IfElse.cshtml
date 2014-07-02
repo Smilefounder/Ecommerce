@@ -1,0 +1,83 @@
+﻿@using Newtonsoft.Json;
+@using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+
+<script type="text/html" id="RuleTemplate-IfElse">
+    <div class="rule">
+        @Html.IconImage("drag")
+        <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+        <div class="wrap">
+            <div class="columns">
+                <div class="span1">
+                    <span class="rule-label">IF</span>
+                </div>
+                <div class="span11">
+                    <div class="condition">
+                        <a class="label label-info">Condition</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wrap">
+            <div class="columns">
+                <div class="span1">
+                    <span class="rule-label">THEN</span>
+                </div>
+                <div class="span11">
+                    <div data-bind="foreach: Then" data-rules-prop="Then">
+                        <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
+                    </div>
+                    <div class="button dropdown only-icon" data-toggle="dropdown">
+                        @Html.IconImage("plus-small")
+                        <ul data-bind="foreach: $root.RuleTypes">
+                            <li>
+                                <a data-bind="click: $root.AddRule.bind($data, $parent.Then), text: DisplayName"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wrap">
+            <div class="columns">
+                <div class="span1">
+                    <span class="rule-label">ELSE</span>
+                </div>
+                <div class="span11">
+                    <div data-bind="foreach: Else" data-rules-prop="Else">
+                        <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
+                    </div>
+                    <div class="button dropdown only-icon">
+                        @Html.IconImage("plus-small")
+                        <ul data-bind="foreach: $root.RuleTypes">
+                            <li>
+                                <a data-bind="click: $root.AddRule.bind($data, $parent.Else), text: DisplayName"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    (function () {
+
+        var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new IfElseRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
+
+        window.RuleTypes['IfElse'] = {
+
+            Name: 'IfElse',
+
+            DisplayName: 'IF-ELSE-THEN',
+
+            CreateModel: function (data) {
+                var model = ko.mapping.fromJS(defaultModel);
+                if (data){
+                    ko.mapping.fromJS(data, {}, model);
+                }
+                return model;
+            }
+        };
+    })();
+</script>

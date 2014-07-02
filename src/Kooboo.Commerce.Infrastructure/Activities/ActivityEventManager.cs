@@ -11,6 +11,14 @@ namespace Kooboo.Commerce.Activities
     {
         public Type EventType { get; private set; }
 
+        public string EventName
+        {
+            get
+            {
+                return EventType.Name;
+            }
+        }
+
         public string Category { get; private set; }
 
         public string DisplayName { get; private set; }
@@ -33,7 +41,7 @@ namespace Kooboo.Commerce.Activities
         public static ActivityEventManager Instance = new ActivityEventManager();
 
         private readonly ReaderWriterLockSlim _readWriteLock = new ReaderWriterLockSlim();
-        private readonly Dictionary<Type, EventEntry> _entriesByType = new Dictionary<Type, EventEntry>();
+        private readonly Dictionary<string, EventEntry> _entriesByName = new Dictionary<string, EventEntry>();
         private readonly Dictionary<string, List<EventEntry>> _entriesByCategory = new Dictionary<string, List<EventEntry>>();
 
         public IEnumerable<string> Categories
@@ -55,11 +63,16 @@ namespace Kooboo.Commerce.Activities
 
         public bool IsEventRegistered(Type eventType)
         {
+            return IsEventRegistered(eventType.Name);
+        }
+
+        public bool IsEventRegistered(string eventName)
+        {
             _readWriteLock.EnterReadLock();
 
             try
             {
-                return _entriesByType.ContainsKey(eventType);
+                return _entriesByName.ContainsKey(eventName);
             }
             finally
             {
@@ -69,13 +82,18 @@ namespace Kooboo.Commerce.Activities
 
         public EventEntry FindEvent(Type eventType)
         {
+            return FindEvent(eventType.Name);
+        }
+
+        public EventEntry FindEvent(string eventName)
+        {
             _readWriteLock.EnterReadLock();
 
             try
             {
                 EventEntry entry;
 
-                if (_entriesByType.TryGetValue(eventType, out entry))
+                if (_entriesByName.TryGetValue(eventName, out entry))
                 {
                     return entry;
                 }
@@ -115,7 +133,7 @@ namespace Kooboo.Commerce.Activities
 
             try
             {
-                if (_entriesByType.ContainsKey(eventType))
+                if (_entriesByName.ContainsKey(eventType.Name))
                 {
                     return false;
                 }
@@ -131,7 +149,7 @@ namespace Kooboo.Commerce.Activities
 
                     var entry = new EventEntry(category, displayName, shortName, eventType);
                     _entriesByCategory[category].Add(entry);
-                    _entriesByType.Add(eventType, entry);
+                    _entriesByName.Add(eventType.Name, entry);
 
                     return true;
                 }

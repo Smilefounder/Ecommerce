@@ -1,0 +1,62 @@
+﻿@using Newtonsoft.Json
+@using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
+
+@model IList<RuleModelBase>
+
+<script>
+    window.RuleTypes = {};
+    window.AvailableActivities = @Html.Raw(JsonConvert.SerializeObject(ViewBag.AvailableActivities));
+</script>
+
+@Html.Partial("Index.Scripts.IfElse")
+@Html.Partial("Index.Scripts.Always")
+
+<script>
+
+    $(function () {
+        var rules = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
+
+        function RulesViewModel() {
+            var self = this;
+
+            self.RuleTypes = []
+
+            self.AvailableActivities = [];
+
+            self.Rules = ko.observableArray();
+
+            self.AddRule = function (rules, type) {
+                rules.push(type.CreateModel());
+            }
+
+            self.RemoveRule = function (rule, e) {
+                var container = $(e.target).parents('[data-rules-prop]')[0];
+                var rules = ko.dataFor(container)[$(container).data('rules-prop')];
+                rules.remove(rule);
+            }
+        }
+
+        var model = new RulesViewModel();
+
+        // Initialize
+        $.each(window.RuleTypes, function () {
+            model.RuleTypes.push(this);
+        });
+        $.each(window.AvailableActivities, function () {
+            model.AvailableActivities.push(this);
+        });
+
+        $.each(rules, function () {
+            model.Rules.push(ko.mapping.fromJS(this));
+        });
+
+        $.each(window.RuleTypes, function () {
+            if (this.OnPageDataBinding) {
+                this.OnPageDataBinding(model);
+            }
+        })
+
+        // Data binding
+        ko.applyBindings(model, document.getElementById('rules-container'));
+    });
+</script>

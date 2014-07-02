@@ -344,6 +344,7 @@
     <Compile Include="Areas\Commerce\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PromotionController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ConditionController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\RuleController.cs" />
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\TabPluginController.cs" />
@@ -429,6 +430,10 @@
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionModel.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionModelBuilder.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionParameterModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\AlwaysRuleModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\ConfiguredActivityModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\IfElseRuleModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\RuleModelBase.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ProductSettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\SettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\StoreSettingEditorModel.cs" />
@@ -3544,6 +3549,10 @@
     <Content Include="Cms_Data\Sites\SampleSite\CustomErrors.config" />
     <Content Include="Cms_Data\Sites\SampleSite\UrlKeyMaps.config" />
     <Content Include="Areas\Commerce\Views\Shared\_DefaultTabPluginView.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\Index.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\Index.Scripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\Index.Scripts.IfElse.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\Index.Scripts.Always.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />

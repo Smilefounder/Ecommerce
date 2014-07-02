@@ -1,0 +1,24 @@
+﻿@using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+@model IList<RuleModelBase>
+@{
+    ViewBag.Title = ViewBag.Event.DisplayName;
+}
+
+<div class="block rules" id="rules-container">
+    <div class="toolbar">
+        <div class="button dropdown">
+            <span>@("Add Rule".Localize())</span>
+            @Html.IconImage("sprite")
+            <ul data-bind="foreach: RuleTypes">
+                <li>
+                    <a href="#" data-bind="text: DisplayName, click: $root.AddRule.bind($data, $root.Rules) "></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div data-bind="foreach: { data: Rules }" data-rules-prop="Rules">
+        <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
+    </div>
+</div>
+
+@Html.Partial("Index.Scripts")

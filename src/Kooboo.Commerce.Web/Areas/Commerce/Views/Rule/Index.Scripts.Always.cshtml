@@ -1,0 +1,70 @@
+﻿@using Newtonsoft.Json
+@using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
+
+<script type="text/html" id="RuleTemplate-Always">
+    <div class="rule">
+        @Html.IconImage("drag")
+        <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+        <div class="wrap">
+            <div class="columns">
+                <div class="span1">
+                    <span class="rule-label">ALWAYS</span>
+                </div>
+                <div class="span11">
+                    <div>
+                        <div>
+                            <ul class="activities" data-bind="foreach: Activities">
+                                <li>
+                                    @Html.IconImage("drag")
+                                    <a class="action" href="#">@Html.IconImage("minus-small")</a>
+                                    <a class="action" href="#">@Html.IconImage("edit-small")</a>
+                                    <span class="text" data-bind="text: Description"></span>
+                                </li>
+                            </ul>
+                            <div class="action button dropdown only-icon">
+                                <span>@Html.IconImage("plus-small")</span>
+                                <ul data-bind="foreach: $root.AvailableActivities">
+                                    <li>
+                                        <a href="#" data-bind="text: DisplayName, click: $root.AddActivity.bind($data, $parent, Name)"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    (function () {
+
+        var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new AlwaysRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
+
+        window.RuleTypes['Always'] = {
+
+            Name: 'Always',
+            
+            DisplayName: 'ALWAYS',
+
+            CreateModel: function (data) {
+                var model = ko.mapping.fromJS(defaultModel);
+                if (data) {
+                    ko.mapping.fromJS(data, {}, model);
+                }
+
+                return model;
+            },
+
+            OnPageDataBinding: function (root) {
+                $.extend(root, {
+                    AddActivity: function (rule, activityName) {
+                        console.log(activityName);
+                    }
+                });
+            }
+        };
+
+    })();
+</script>
