@@ -14,8 +14,6 @@ namespace Kooboo.Commerce.Rules.Activities
 
         public string Config { get; set; }
 
-        public int Priority { get; set; }
-
         public bool Async { get; set; }
 
         public int AsyncDelay { get; set; }

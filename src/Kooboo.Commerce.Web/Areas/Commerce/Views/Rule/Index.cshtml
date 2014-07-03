@@ -4,6 +4,13 @@
     ViewBag.Title = ViewBag.Event.DisplayName;
 }
 
+@section Panel {
+    @(Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.Add("Save", "save").Attributes(new { data_toggle = "save-rules" });
+    }))
+}
+
 <div class="block rules" id="rules-container">
     <div class="toolbar">
         <div class="button dropdown">

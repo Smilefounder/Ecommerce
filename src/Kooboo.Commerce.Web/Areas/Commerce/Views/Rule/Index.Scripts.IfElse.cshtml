@@ -3,56 +3,67 @@
 
 <script type="text/html" id="RuleTemplate-IfElse">
     <div class="rule">
-        @Html.IconImage("drag")
-        <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
-        <div class="wrap">
-            <div class="columns">
-                <div class="span1">
-                    <span class="rule-label">IF</span>
-                </div>
-                <div class="span11">
-                    <div class="condition">
-                        <a class="label label-info" data-bind="html: $root.GetConditionsDescription($data), click: $root.EditCondition"></a>
+        <!-- ko if: $($element).parents('.rule').length === 1 -->
+        <div class="summary">
+            <a href="#">
+                @Html.IconImage("toggle")
+            </a>
+            <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+            <div class="summary-text" data-bind="html: $root.GetRuleSummary($data)"></div>
+        </div>
+        <!-- /ko -->
+        <div class="detail">
+            @Html.IconImage("drag")
+            <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+            <div class="wrap">
+                <div class="columns">
+                    <div class="span1">
+                        <span class="rule-label">IF</span>
+                    </div>
+                    <div class="span11">
+                        <div class="condition">
+                            <a class="label label-info" data-bind="html: $root.GetConditionsDescription($data), click: $root.EditCondition"></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="wrap">
-            <div class="columns">
-                <div class="span1">
-                    <span class="rule-label">THEN</span>
-                </div>
-                <div class="span11">
-                    <div data-bind="foreach: Then" data-rules-prop="Then">
-                        <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
+            <div class="wrap">
+                <div class="columns">
+                    <div class="span1">
+                        <span class="rule-label">THEN</span>
                     </div>
-                    <div class="button dropdown only-icon" data-toggle="dropdown">
-                        @Html.IconImage("plus-small")
-                        <ul data-bind="foreach: $root.RuleTypes">
-                            <li>
-                                <a data-bind="click: $root.AddRule.bind($data, $parent.Then), text: DisplayName"></a>
-                            </li>
-                        </ul>
+                    <div class="span11">
+                        <div data-bind="foreach: Then" data-rules-prop="Then">
+                            <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
+                        </div>
+                        <div class="button dropdown only-icon" data-toggle="dropdown">
+                            @Html.IconImage("plus-small")
+                            <ul data-bind="foreach: $root.RuleTypes">
+                                <li>
+                                    <a data-bind="click: $root.AddRule.bind($data, $parent.Then), text: DisplayName"></a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="wrap">
-            <div class="columns">
-                <div class="span1">
-                    <span class="rule-label">ELSE</span>
-                </div>
-                <div class="span11">
-                    <div data-bind="foreach: Else" data-rules-prop="Else">
-                        <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
+            <div class="wrap">
+                <div class="columns">
+                    <div class="span1">
+                        <span class="rule-label">ELSE</span>
                     </div>
-                    <div class="button dropdown only-icon">
-                        @Html.IconImage("plus-small")
-                        <ul data-bind="foreach: $root.RuleTypes">
-                            <li>
-                                <a data-bind="click: $root.AddRule.bind($data, $parent.Else), text: DisplayName"></a>
-                            </li>
-                        </ul>
+                    <div class="span11">
+                        <div data-bind="foreach: Else" data-rules-prop="Else">
+                            <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
+                        </div>
+                        <div class="button dropdown only-icon">
+                            @Html.IconImage("plus-small")
+                            <ul data-bind="foreach: $root.RuleTypes">
+                                <li>
+                                    <a data-bind="click: $root.AddRule.bind($data, $parent.Else), text: DisplayName"></a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,7 +74,7 @@
 <script>
     (function () {
 
-        var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new IfElseRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
+        var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new IfElseRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects }));
 
         window.RuleTypes['IfElse'] = {
 

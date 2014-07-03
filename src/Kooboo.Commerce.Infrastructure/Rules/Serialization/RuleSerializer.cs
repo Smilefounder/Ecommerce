@@ -184,7 +184,6 @@ namespace Kooboo.Commerce.Rules.Serialization
             var element = new XElement("activity",
                 new XAttribute("name", activity.ActivityName),
                 new XAttribute("description", activity.Description),
-                new XAttribute("priority", activity.Priority),
                 new XAttribute("async", activity.Async)
             );
 
@@ -222,13 +221,7 @@ namespace Kooboo.Commerce.Rules.Serialization
                 ActivityName = element.Attribute("name").Value,
                 Description = element.Attribute("description").Value
             };
-
-            var priorityAttr = element.Attribute("priority");
-            if (priorityAttr != null)
-            {
-                activity.Priority = Convert.ToInt32(priorityAttr.Value);
-            }
-
+            
             var asyncAttr = element.Attribute("async");
             if (asyncAttr != null)
             {

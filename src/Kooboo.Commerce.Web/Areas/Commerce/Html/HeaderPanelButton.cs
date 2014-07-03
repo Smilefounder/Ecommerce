@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Kooboo.Globalization;
+using System.Web.Routing;
 
 namespace Kooboo.Commerce.Web.Html
 {
@@ -20,6 +21,7 @@ namespace Kooboo.Commerce.Web.Html
         private bool _isAjaxFormTrigger;
         private string _ajaxFormId = null;
         private string _customHtml;
+        private RouteValueDictionary _buttonAttributes;
 
         private HeaderPanelButtonCollection _dropdownItems;
 
@@ -92,6 +94,12 @@ namespace Kooboo.Commerce.Web.Html
             return this;
         }
 
+        public HeaderPanelButton Attributes(object attributes)
+        {
+            _buttonAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(attributes);
+            return this;
+        }
+
         public HeaderPanelButton Dropdown(Action<HeaderPanelButtonCollection> dropdownBuilder)
         {
             dropdownBuilder(_dropdownItems);
@@ -135,6 +143,11 @@ namespace Kooboo.Commerce.Web.Html
         private TagBuilder CreateButton()
         {
             var button = new TagBuilder("a");
+
+            if (_buttonAttributes != null)
+            {
+                button.MergeAttributes(_buttonAttributes);
+            }
 
             if (_isAjaxFormTrigger)
             {

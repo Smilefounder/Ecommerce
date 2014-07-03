@@ -41,7 +41,7 @@
     (function () {
 
         var instance = '@CommerceInstance.Current.Name';
-        var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new AlwaysRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
+        var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new AlwaysRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects }));
         var defaultConfiguredActivityModel = @Html.Raw(JsonConvert.SerializeObject(new ConfiguredActivityModel()));
 
         function ActivityEditingContext(rule, configuredActivity, mode) {

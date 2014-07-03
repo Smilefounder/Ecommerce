@@ -44,6 +44,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
         {
             var model = new IfElseRuleModel();
 
+            model.Conditions = rule.Conditions.ToList();
+
             foreach (var thenRule in rule.Then)
             {
                 model.Then.Add(CreateFrom(thenRule));

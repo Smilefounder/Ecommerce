@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.Rules
 {
     public class IfElseRule : RuleBase
     {
-        private List<Condition> _conditions = new List<Condition>();
+        private IList<Condition> _conditions;
         private List<RuleBase> _then = new List<RuleBase>();
         private List<RuleBase> _else = new List<RuleBase>();
 
@@ -16,7 +16,16 @@ namespace Kooboo.Commerce.Rules
         {
             get
             {
+                if (_conditions == null)
+                {
+                    _conditions = new List<Condition>();
+                }
+
                 return _conditions;
+            }
+            set
+            {
+                _conditions = value;
             }
         }
 

@@ -348,7 +348,6 @@
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\TabPluginController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\PaymentProcessorRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\PromotionPolicyRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ShippingRateProviderRegistrar.cs" />

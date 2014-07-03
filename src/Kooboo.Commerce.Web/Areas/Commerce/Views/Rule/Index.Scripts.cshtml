@@ -19,7 +19,9 @@
 <script>
 
     $(function () {
-        var rules = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
+
+        var eventName = '@(ViewBag.Event.EventName)';
+        var originalRules = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
 
         function RulesViewModel() {
             var self = this;
@@ -39,6 +41,28 @@
                 var rules = ko.dataFor(container)[$(container).data('rules-prop')];
                 rules.remove(rule);
             }
+
+            self.GetRuleSummary = function (rule) {
+                return 'Summary';
+            }
+
+            self.Save = function () {
+                window.loading.show();
+
+                var rules = ko.mapping.toJS(self.Rules);
+
+                $.post('@Url.Action("Save")?eventName=' + eventName, { json: JSON.stringify(rules) })
+                 .done(function () {
+                     window.loading.hide();
+                     info.show('@("Rules are successfully saved.".Localize())', true);
+                     originalRules = rules;
+                 })
+                 .fail(function (xhr) {
+                     window.loading.hide();
+                     var result = JSON.parse(xhr.responseText);
+                     info.show(result.message, false);
+                 });
+            }
         }
 
         var model = new RulesViewModel();
@@ -51,7 +75,7 @@
             model.AvailableActivities.push(this);
         });
 
-        $.each(rules, function () {
+        $.each(originalRules, function () {
             model.Rules.push(ko.mapping.fromJS(this));
         });
 
@@ -59,9 +83,26 @@
             if (this.OnPageDataBinding) {
                 this.OnPageDataBinding(model);
             }
-        })
+        });
 
         // Data binding
         ko.applyBindings(model, document.getElementById('rules-container'));
+
+        // Save Action
+        $('[data-toggle="save-rules"]').on('click', function (e) {
+            model.Save();
+            e.preventDefault();
+        });
+
+        // Use custom leave confirm
+        setTimeout(function () {
+            window.leaveConfirm.unbind();
+        }, 100);
+
+        $(window).on('beforeunload', function() {
+            if (JSON.stringify(ko.mapping.toJS(model.Rules)) !== JSON.stringify(originalRules)) {
+                return '@("Rules are modified. Are you sure to leave without saving?".Localize())';
+            }
+        });
     });
 </script>
