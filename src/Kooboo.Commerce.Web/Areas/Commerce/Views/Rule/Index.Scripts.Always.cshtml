@@ -3,36 +3,53 @@
 
 <script type="text/html" id="RuleTemplate-Always">
     <div class="rule">
-        @Html.IconImage("drag")
-        <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
-        <div class="wrap">
-            <div class="columns">
-                <div class="span1">
-                    <span class="rule-label">ALWAYS</span>
-                </div>
-                <div class="span11">
-                    <div>
+        <!-- ko if: $($element).parents('.rule').length === 1 -->
+        <div class="summary">
+            <a href="#" data-toggle="expand-rule">
+                @Html.IconImage("caret-hollow-right-black")
+            </a>
+            <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+            <div class="summary-text" data-bind="html: $root.GetRuleSummary($data)"></div>
+        </div>
+        <!-- /ko -->
+        <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
+            @Html.IconImage("drag")
+            <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+            <div class="wrap">
+                <div class="columns">
+                    <div class="span1">
+                        <span class="rule-label">ALWAYS</span>
+                    </div>
+                    <div class="span11">
                         <div>
-                            <ul class="activities" data-bind="foreach: Activities">
-                                <li>
-                                    @Html.IconImage("drag")
-                                    <a class="action" href="#" data-bind="click: $root.RemoveActivity.bind($data, $parent)">@Html.IconImage("minus-small")</a>
-                                    <a class="action" href="#" data-bind="click: $root.EditActivity.bind($data, $parent)">@Html.IconImage("edit-small")</a>
-                                    <span class="text" data-bind="text: Description"></span>
-                                </li>
-                            </ul>
-                            <div class="action button dropdown only-icon">
-                                <span>@Html.IconImage("plus-small")</span>
-                                <ul data-bind="foreach: $root.AvailableActivities">
+                            <div>
+                                <ul class="activities" data-bind="foreach: Activities">
                                     <li>
-                                        <a href="#" data-bind="text: DisplayName, click: $root.AddActivity.bind($data, $parent, Name)"></a>
+                                        @Html.IconImage("drag")
+                                        <a class="action" href="#" data-bind="click: $root.RemoveActivity.bind($data, $parent)">@Html.IconImage("minus-small")</a>
+                                        <a class="action" href="#" data-bind="click: $root.EditActivity.bind($data, $parent)">@Html.IconImage("edit-small")</a>
+                                        <span class="text" data-bind="text: Description"></span>
                                     </li>
                                 </ul>
+                                <div class="action button dropdown only-icon">
+                                    <span>@Html.IconImage("plus-small")</span>
+                                    <ul data-bind="foreach: $root.AvailableActivities">
+                                        <li>
+                                            <a href="#" data-bind="text: DisplayName, click: $root.AddActivity.bind($data, $parent, Name)"></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- ko if: $($element).parents('.rule').length === 1 -->
+            <div class="buttons">
+                <a href="#" class="button" data-toggle="collapse-rule">@("Collapse".Localize())</a>
+            </div>
+            <!-- /ko -->
         </div>
     </div>
 </script>
@@ -94,6 +111,21 @@
                 }
 
                 return model;
+            },
+
+            GetSummary: function (rule) {
+                var html = '<span class="tag">ALWAYS</span> ';
+                
+                if (rule.Activities().length > 0) {
+                    html += '<span class="label">' + rule.Activities()[0].Description() + '</span>';
+                    if (rule.Activities().length > 1) {
+                        html += '<span>...</span>';
+                    }
+                } else {
+                    html += '<span class="label">[EMPTY]</span>';
+                }
+
+                return html;
             },
 
             OnPageDataBinding: function (root) {

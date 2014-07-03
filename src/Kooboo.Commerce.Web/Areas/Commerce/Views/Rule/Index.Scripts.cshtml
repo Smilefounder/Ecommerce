@@ -34,6 +34,8 @@
 
             self.AddRule = function (rules, type) {
                 rules.push(type.CreateModel());
+                var $rule = $('.top-level-rule-holder:last').find('>.rule');
+                ExpandRule($rule);
             }
 
             self.RemoveRule = function (rule, e) {
@@ -43,7 +45,7 @@
             }
 
             self.GetRuleSummary = function (rule) {
-                return 'Summary';
+                return window.RuleTypes[rule.Type()].GetSummary(rule);
             }
 
             self.Save = function () {
@@ -67,6 +69,8 @@
 
         var model = new RulesViewModel();
 
+        window.RootViewModel = model;
+
         // Initialize
         $.each(window.RuleTypes, function () {
             model.RuleTypes.push(this);
@@ -88,11 +92,32 @@
         // Data binding
         ko.applyBindings(model, document.getElementById('rules-container'));
 
-        // Save Action
+        // Button Actions
         $('[data-toggle="save-rules"]').on('click', function (e) {
             model.Save();
             e.preventDefault();
         });
+
+        // Expand/collpase Rule
+        $(document).on('click', '[data-toggle="expand-rule"]', function (e) {
+            ExpandRule($(this).closest('.rule'));
+            e.preventDefault();
+        });
+
+        $(document).on('click', '[data-toggle="collapse-rule"]', function (e) {
+            CollapseRule($(this).closest('.rule'));
+            e.preventDefault();
+        });
+
+        function ExpandRule($rule) {
+            $rule.find('.summary:first').hide();
+            $rule.find('.detail:first').show();
+        }
+
+        function CollapseRule($rule) {
+            $rule.find('.summary:first').show();
+            $rule.find('.detail:first').hide();
+        }
 
         // Use custom leave confirm
         setTimeout(function () {

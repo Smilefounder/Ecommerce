@@ -5,14 +5,14 @@
     <div class="rule">
         <!-- ko if: $($element).parents('.rule').length === 1 -->
         <div class="summary">
-            <a href="#">
-                @Html.IconImage("toggle")
+            <a href="#" data-toggle="expand-rule">
+                @Html.IconImage("caret-hollow-right-black")
             </a>
             <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
             <div class="summary-text" data-bind="html: $root.GetRuleSummary($data)"></div>
         </div>
         <!-- /ko -->
-        <div class="detail">
+        <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
             @Html.IconImage("drag")
             <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
             <div class="wrap">
@@ -67,6 +67,11 @@
                     </div>
                 </div>
             </div>
+            <!-- ko if: $($element).parents('.rule').length === 1 -->
+            <div class="buttons">
+                <a href="#" class="button" data-toggle="collapse-rule">@("Collapse".Localize())</a>
+            </div>
+            <!-- /ko -->
         </div>
     </div>
 </script>
@@ -88,6 +93,34 @@
                     ko.mapping.fromJS(data, {}, model);
                 }
                 return model;
+            },
+
+            GetSummary: function (rule) {
+                var html = '<span class="tag">IF</span> ';
+                if (rule.Conditions().length > 0) {
+                    html += '<span>(' + window.RootViewModel.GetConditionsDescription(rule) + ')</span>';
+                } else {
+                    html += '<span>()</span>';
+                }
+
+                html += ' <span class="tag">THEN</span> ';
+
+                var alwaysRuleChild = _.find(rule.Then(), function (r) {
+                    return r.Type() === 'Always';
+                });
+
+                if (alwaysRuleChild) {
+                    if (alwaysRuleChild.Activities().length > 0) {
+                        html += '<span class="label">' + alwaysRuleChild.Activities()[0].Description() + '</span>';
+                    }
+                    if (alwaysRuleChild.Activities().length > 1 || rule.Then().length > 1) {
+                        html += '<span>...</span>';
+                    }
+                } else {
+                    html += '<span class="label">...</span>';
+                }
+
+                return html;
             },
 
             OnPageDataBinding: function (root) {
