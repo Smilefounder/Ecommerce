@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "~/Areas/Commerce/Views/Shared/Popup.cshtml";
+    ViewBag.Title = "Edit Activity".Localize();
+}
+
+<div class="topbar">
+    <h1 class="title">@ViewBag.Title</h1>
+</div>
+
+@Html.Partial("_ActivityEditor")

@@ -27,36 +27,28 @@
 <script>
     $(function () {
 
+        var $form = $('#change-saving-points-activity-form');
         var editor = ActivityEditor.current();
         var model = new ViewModel();
-        var ruleId = editor.model().ruleId();
 
         editor.on('databound', function (sender, args) {
-            var $form = $('#change-saving-points-activity-form');
             ko.applyBindings(model, $form[0]);
 
             $.validator.unobtrusive.reparse($form);
 
-            var attachedActivityInfoId = editor.model().attachedActivityInfoId();
-            if (attachedActivityInfoId) {
-                var url = '@Url.Action("Load", "Config", new { area = Strings.AreaName })';
-                return $.get(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityInfoId)
-                        .then(function (data) {
-                            ko.mapping.fromJS(data, {}, model);
-                        });
+            var config = editor.activityConfig();
+            if (config) {
+                ko.mapping.fromJS(config, {}, model);
             }
         });
 
         editor.on('saving', function (sender, args) {
-            if (!$('#change-saving-points-activity-form').valid()) {
+            if (!$form.valid()) {
                 args.cancel = true;
+            } else {
+                var config = ko.mapping.toJS(model);
+                editor.activityConfig(config);
             }
-        });
-
-        editor.on('saved', function (sender, args) {
-            var activityInfoId = args.attachedActivityInfoId;
-            var url = '@Url.Action("Save", "Config", new { area = Strings.AreaName })';
-            return kb.http.safePost(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + activityInfoId, ko.mapping.toJS(model));
         });
 
         function ViewModel() {

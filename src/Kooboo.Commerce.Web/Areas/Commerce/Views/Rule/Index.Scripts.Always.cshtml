@@ -16,8 +16,8 @@
                             <ul class="activities" data-bind="foreach: Activities">
                                 <li>
                                     @Html.IconImage("drag")
-                                    <a class="action" href="#">@Html.IconImage("minus-small")</a>
-                                    <a class="action" href="#">@Html.IconImage("edit-small")</a>
+                                    <a class="action" href="#" data-bind="click: $root.RemoveActivity.bind($data, $parent)">@Html.IconImage("minus-small")</a>
+                                    <a class="action" href="#" data-bind="click: $root.EditActivity.bind($data, $parent)">@Html.IconImage("edit-small")</a>
                                     <span class="text" data-bind="text: Description"></span>
                                 </li>
                             </ul>
@@ -40,7 +40,46 @@
 <script>
     (function () {
 
+        var instance = '@CommerceInstance.Current.Name';
         var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new AlwaysRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
+        var defaultConfiguredActivityModel = @Html.Raw(JsonConvert.SerializeObject(new ConfiguredActivityModel()));
+
+        function ActivityEditingContext(rule, configuredActivity, mode) {
+            var self = this;
+
+            self.model = function () {
+                return ko.mapping.toJS(configuredActivity);
+            }
+
+            self.cancel = function () {
+                ActivityEditingContext.complete();
+                self.closeDialog();
+            }
+
+            self.accept = function (data) {
+                ko.mapping.fromJS(data, {}, configuredActivity);
+                if (mode === 'add') {
+                    rule.Activities.push(configuredActivity);
+                }
+                ActivityEditingContext.complete();
+                self.closeDialog();
+            }
+
+            self.closeDialog = function () {
+                var pop = $.popContext.getCurrent();
+                if (pop) {
+                    pop.close();
+                }
+            }
+        }
+
+        ActivityEditingContext.begin = function (rule, configuredActivity, mode) {
+            window.ActivityEditingContext = new ActivityEditingContext(rule, configuredActivity, mode);
+        };
+
+        ActivityEditingContext.complete = function () {
+            window.ActivityEditingContext = null;
+        }
 
         window.RuleTypes['Always'] = {
 
@@ -59,8 +98,33 @@
 
             OnPageDataBinding: function (root) {
                 $.extend(root, {
+
                     AddActivity: function (rule, activityName) {
-                        console.log(activityName);
+                        var model = ko.mapping.fromJS(defaultConfiguredActivityModel);
+                        model.ActivityName(activityName);
+
+                        ActivityEditingContext.begin(rule, model, 'add');
+
+                        $.pop({
+                            height: 500,
+                            url: '@Url.Action("AddActivity")?instance=' + instance + '&activityName=' + activityName
+                        });
+                    },
+
+                    EditActivity: function (rule, activity) {
+                        ActivityEditingContext.begin(rule, activity, 'edit');
+                        $.pop({
+                            height: 500,
+                            url: '@Url.Action("EditActivity")?instance=' + instance + '&activityName=' + activity.ActivityName()
+                        });
+                    },
+
+                    RemoveActivity: function (rule, activity) {
+                        if (!confirm('@("Are you sure to remove this activity?".Localize())')) {
+                            return false;
+                        }
+
+                        rule.Activities.remove(activity);
                     }
                 });
             }

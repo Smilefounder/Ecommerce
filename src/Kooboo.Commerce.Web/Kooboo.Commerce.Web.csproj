@@ -3553,6 +3553,12 @@
     <Content Include="Areas\Commerce\Views\Rule\Index.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\Index.Scripts.IfElse.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\Index.Scripts.Always.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\AddActivity.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\_ActivityEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\_ActivityEditor.BasicInfo.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\_ActivityEditor.Scripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\_DefaultActivityConfigEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\EditActivity.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />

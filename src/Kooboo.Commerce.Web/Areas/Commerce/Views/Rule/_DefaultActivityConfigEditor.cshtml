@@ -1,0 +1,70 @@
+﻿@{
+    var activity = ViewBag.Activity as IActivity;
+    var configModelType = activity.ConfigModelType;
+}
+
+<form class="common-form" id="default-activity-config-editor">
+    <table>
+        <tbody>
+            @foreach (var prop in configModelType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+            {
+                @Html.Editor(prop.Name)
+            }
+        </tbody>
+    </table>
+</form>
+
+<script>
+    $(function () {
+
+        var $form = $('#default-activity-config-editor');
+        var editor = ActivityEditor.current();
+
+        editor.on('databound', function (sender, args) {
+            var config = editor.activityConfig();
+            if (config) {
+                bindModel(config);
+            }
+        });
+
+        editor.on('saving', function (sender, args) {
+            if (!$form.valid()) {
+                args.cancel = true;
+            } else {
+                editor.activityConfig(buildModel());
+            }
+        });
+
+        function bindModel(data) {
+            for (var name in data) {
+                var value = data[name];
+                var $element = $form.find('[name="' + name + '"]');
+                if ($element.is(':checkbox')) {
+                    $element.prop('checked', value === 'true' || value === 'True' || value == true);
+                } else {
+                    $element.val(value);
+                }
+            }
+        }
+
+        function buildModel() {
+            var model = {};
+            $form.find(':text,textarea,:checkbox').each(function () {
+                var $element = $(this);
+                var name = $element.attr('name');
+                if (name !== null && name !== undefined && name !== '') {
+                    var value = null;
+                    if ($element.is(':checkbox')) {
+                        value = $element.is(':checked');
+                    } else {
+                        value = $element.val();
+                    }
+
+                    model[name] = value;
+                }
+            });
+
+            return model;
+        }
+    });
+</script>

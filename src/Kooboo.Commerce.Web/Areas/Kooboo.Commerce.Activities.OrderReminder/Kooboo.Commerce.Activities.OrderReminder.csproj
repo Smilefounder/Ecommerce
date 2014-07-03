@@ -85,9 +85,7 @@
     <Compile Include="MailClient.cs" />
     <Compile Include="MailInfo.cs" />
     <Compile Include="OrderReminderActivityConfig.cs" />
-    <Compile Include="Controllers\OrderReminderController.cs" />
     <Compile Include="OrderReminderActivity.cs" />
-    <Compile Include="AddInAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.cs" />
     <Compile Include="Template.cs" />

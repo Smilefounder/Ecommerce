@@ -57,28 +57,19 @@
 
         var editor = ActivityEditor.current();
         var model = new OrderReminderViewModel();
-        var ruleId = editor.model().ruleId();
 
         editor.on('databound', function (sender, args) {
             ko.applyBindings(model, document.getElementById('invoice-reminder-config-form'));
 
-            var attachedActivityInfoId = editor.model().attachedActivityInfoId();
-            if (attachedActivityInfoId) {
-                var url = '@Url.Action("GetConfig", "OrderReminder", new { area = Strings.AreaName })';
-                return $.get(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityInfoId)
-                        .then(function (data) {
-                            ko.mapping.fromJS(data, {}, model);
-                        });
+            var config = editor.activityConfig();
+            if (config) {
+                ko.mapping.fromJS(config, {}, model);
             }
         });
 
         editor.on('saving', function (sender, args) {
-        });
-
-        editor.on('saved', function (sender, args) {
-            var attachedActivityId = editor.model().attachedActivityInfoId();
-            var url = '@Url.Action("SaveConfig", "OrderReminder", new { area = Strings.AreaName })';
-            return kb.http.safePost(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityId, ko.mapping.toJS(model));
+            var config = ko.mapping.toJS(model);
+            editor.activityConfig(config);
         });
 
         ConditionsDialog.instance().setDataContextType(cancelConditionModelType);

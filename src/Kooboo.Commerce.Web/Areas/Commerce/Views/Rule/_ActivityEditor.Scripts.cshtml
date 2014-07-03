@@ -1,0 +1,114 @@
+﻿<script>
+
+    (function ($) {
+
+        var activityName = '@ViewBag.Activity.Name';
+        var editor = new ActivityEditor();
+
+        var ActivityEditingContext = window.parent.ActivityEditingContext;
+        var model = ActivityEditingContext.model();
+
+        function ActivityEditor() {
+            var _this = this;
+            var _events = new kb.Events();
+            var _model = null;
+
+            this.$form = function () {
+                return $('#activity-editor-form');
+            }
+
+            this.model = function () {
+                return _model;
+            }
+
+            this.activityConfig = function (value) {
+                if (arguments.length === 0) {
+                    var config = _model.Config ? _model.Config() : null;
+                    if (config) {
+                        return JSON.parse(config);
+                    }
+
+                    return null;
+                } else {
+                    if (!_model.Config) {
+                        _model.Config = ko.observable();
+                    }
+
+                    _model.Config(JSON.stringify(value));
+                }
+            }
+
+            this.on = function (eventName, handler) {
+                _events.on(eventName, handler);
+            }
+
+            this.load = function () {
+                _model = ko.mapping.fromJS(model);
+                _this.databind().done(_this.initValidation);
+            }
+
+            this.initValidation = function () {
+                $.validator.unobtrusive.reparse(_this.$form());
+            }
+
+            this.databind = function () {
+                _events.fire('databinding', _this, { model: _model })
+                       .then(function () {
+                           ko.applyBindings(_model, _this.$form()[0]);
+                       });
+
+                return _events.fire('databound', _this);
+            }
+
+            this.validate = function () {
+                return _this.$form().valid();
+            }
+
+            this.cancel = function () {
+                _events.fire('cancelling', _this)
+                       .done(function () {
+                           window.leaveConfirm.pass();
+                           ActivityEditingContext.cancel();
+                           _events.fire('cancelled', _this);
+                       });
+            }
+
+            this.save = function () {
+                if (!_this.validate()) {
+                    return false;
+                }
+
+                var args = { model: _model, cancel: false };
+
+                _events.fire('saving', _this, args)
+                       .done(function () {
+                           if (!args.cancel) {
+                               window.leaveConfirm.pass();
+                               ActivityEditingContext.accept(ko.mapping.toJS(_model));
+                           }
+                       });
+            }
+        }
+
+        ActivityEditor.current = function () {
+            return editor;
+        };
+
+        window.ActivityEditor = ActivityEditor;
+
+        $(function () {
+            editor.load();
+
+            $('.J_Cancel').on('click', function (e) {
+                editor.cancel();
+                e.preventDefault();
+            });
+            $('.J_Save').on('click', function (e) {
+                editor.save();
+                e.preventDefault();
+            });
+        });
+
+    })(jQuery);
+
+</script>

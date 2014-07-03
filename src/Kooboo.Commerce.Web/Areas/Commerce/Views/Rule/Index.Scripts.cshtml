@@ -11,6 +11,11 @@
 @Html.Partial("Index.Scripts.IfElse")
 @Html.Partial("Index.Scripts.Always")
 
+@Html.Partial("_ConditionsDialog")
+<script>
+    ConditionsDialog.instance().setDataContextType('@Html.Raw(ViewBag.EventTypeName)');
+</script>
+
 <script>
 
     $(function () {

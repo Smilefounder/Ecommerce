@@ -12,7 +12,7 @@
                 </div>
                 <div class="span11">
                     <div class="condition">
-                        <a class="label label-info">Condition</a>
+                        <a class="label label-info" data-bind="html: $root.GetConditionsDescription($data), click: $root.EditCondition"></a>
                     </div>
                 </div>
             </div>
@@ -77,6 +77,52 @@
                     ko.mapping.fromJS(data, {}, model);
                 }
                 return model;
+            },
+
+            OnPageDataBinding: function (root) {
+                $.extend(root, {
+
+                    GetConditionsDescription: function (rule) {
+                        if (rule.Conditions().length === 0) {
+                            return '@("Edit condition".Localize())';
+                        }
+
+                        var desc = '';
+
+                        $.each(rule.Conditions(), function (i) {
+                            if (i > 0) {
+                                desc += ' AND '
+                            }
+
+                            if (this.Type() === 'Exclude') {
+                                desc += ' NOT '
+                            }
+
+                            desc += '(' + this.Expression() + ')';
+                        });
+
+                        return desc;
+                    },
+
+                    EditCondition: function (rule) {
+                        var dialog = ConditionsDialog.instance();
+
+                        dialog.onSubmitted = function (conditions) {
+                            rule.Conditions.removeAll();
+                            $.each(conditions, function () {
+                                rule.Conditions.push({
+                                    Type: ko.observable(this.type),
+                                    Expression: ko.observable(this.expression)
+                                });
+                            });
+                        };
+
+                        dialog.open({
+                            conditions: ko.mapping.toJS(rule.Conditions())
+                        });
+                    }
+
+                });
             }
         };
     })();

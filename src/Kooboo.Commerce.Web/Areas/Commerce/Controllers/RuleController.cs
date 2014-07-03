@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.Extensions;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -31,6 +32,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                                                        .ToList();
 
             ViewBag.Event = eventEntry;
+            ViewBag.EventTypeName = eventEntry.EventType.AssemblyQualifiedNameWithoutVersion();
             ViewBag.AvailableActivities = availableActivities;
 
             var manager = RuleManager.GetManager(CurrentInstance.Name);
@@ -43,6 +45,51 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             return View(models);
+        }
+
+        public ActionResult AddActivity(string activityName)
+        {
+            var activity = _activityProvider.FindByName(activityName);
+
+            ViewBag.Activity = activity;
+            ViewBag.ConfigEditorVirtualPath = GetConfigEditorVirtualPath(activity);
+
+            if (activity.ConfigModelType != null)
+            {
+                ViewBag.ConfigModel = TypeActivator.CreateInstance(activity.ConfigModelType);
+            }
+
+            return View();
+        }
+
+        public ActionResult EditActivity(string activityName)
+        {
+            var activity = _activityProvider.FindByName(activityName);
+
+            ViewBag.Activity = activity;
+            ViewBag.ConfigEditorVirtualPath = GetConfigEditorVirtualPath(activity);
+
+            if (activity.ConfigModelType != null)
+            {
+                ViewBag.ConfigModel = TypeActivator.CreateInstance(activity.ConfigModelType);
+            }
+
+            return View();
+        }
+
+        static string GetConfigEditorVirtualPath(IActivity activity)
+        {
+            string configEditorVirtualPath = null;
+
+            if (activity is IHasCustomActivityConfigEditor)
+            {
+                configEditorVirtualPath = ((IHasCustomActivityConfigEditor)activity).GetEditorVirtualPath(null, null);
+            }
+            else if (activity.ConfigModelType != null)
+            {
+                configEditorVirtualPath = "~/Areas/Commerce/Views/Rule/_DefaultActivityConfigEditor.cshtml";
+            }
+            return configEditorVirtualPath;
         }
     }
 }
