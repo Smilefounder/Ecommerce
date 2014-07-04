@@ -1,6 +1,6 @@
 ﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Data.Providers;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.CommerceInstances;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Instances;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Mvc;
 using System;

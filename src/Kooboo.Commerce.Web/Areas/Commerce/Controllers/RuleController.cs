@@ -43,7 +43,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.Event = eventEntry;
             ViewBag.EventTypeName = eventEntry.EventType.AssemblyQualifiedNameWithoutVersion();
             ViewBag.AvailableActivities = availableActivities;
-            ViewBag.AvailableParameters = ParameterProviders.Providers.GetParameters(eventEntry.EventType).ToList();
+            ViewBag.AvailableParameters = RuleParameterProviders.Providers.GetParameters(eventEntry.EventType).ToList();
 
             var manager = RuleManager.GetManager(CurrentInstance.Name);
             var rules = manager.GetRules(eventName);

@@ -17,41 +17,41 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
             [Fact]
             public void can_discover_enum()
             {
-                var provider = new DefaultParameterProvider();
+                var provider = new DefaultRuleParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextModel)).ToList();
 
                 var param = parameters.Find(p => p.Name == "EnumValue");
                 Assert.NotNull(param);
                 Assert.NotNull(param.ValueSource);
 
-                var values = param.ValueSource.GetValues(param).ToList();
+                var values = param.ValueSource.GetValues(param);
                 Assert.Equal(3, values.Count());
-                Assert.Equal("Value1", values[0].Text);
-                Assert.Equal("Value2", values[1].Text);
-                Assert.Equal("Value3", values[2].Text);
+                Assert.Equal("Value1", values["Value1"]);
+                Assert.Equal("Value2", values["Value2"]);
+                Assert.Equal("Value3", values["Value3"]);
             }
 
             [Fact]
             public void can_discover_nullable_enum()
             {
-                var provider = new DefaultParameterProvider();
+                var provider = new DefaultRuleParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextModel)).ToList();
 
                 var param = parameters.Find(p => p.Name == "NullableEnumValue");
                 Assert.NotNull(param);
                 Assert.NotNull(param.ValueSource);
 
-                var values = param.ValueSource.GetValues(param).ToList();
+                var values = param.ValueSource.GetValues(param);
                 Assert.Equal(3, values.Count());
-                Assert.Equal("Value1", values[0].Text);
-                Assert.Equal("Value2", values[1].Text);
-                Assert.Equal("Value3", values[2].Text);
+                Assert.Equal("Value1", values["Value1"]);
+                Assert.Equal("Value2", values["Value2"]);
+                Assert.Equal("Value3", values["Value3"]);
             }
 
             [Fact]
             public void can_resolve_enum_value()
             {
-                var provider = new DefaultParameterProvider();
+                var provider = new DefaultRuleParameterProvider();
                 var param = provider.GetParameters(typeof(ContextModel))
                                     .FirstOrDefault(p => p.Name == "EnumValue");
 
@@ -69,7 +69,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
             [Fact]
             public void can_resolve_nullable_enum_value()
             {
-                var provider = new DefaultParameterProvider();
+                var provider = new DefaultRuleParameterProvider();
                 var param = provider.GetParameters(typeof(ContextModel))
                                     .FirstOrDefault(p => p.Name == "NullableEnumValue");
 
@@ -105,7 +105,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
             [Fact]
             public void can_resolve_nested_object_param_values()
             {
-                var provider = new DefaultParameterProvider();
+                var provider = new DefaultRuleParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
 
                 var prop1 = parameters.FirstOrDefault(p => p.Name == "Nested.Prop1");
@@ -134,7 +134,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
             [Fact]
             public void can_handle_null_nested_object()
             {
-                var provider = new DefaultParameterProvider();
+                var provider = new DefaultRuleParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
 
                 var prop1 = parameters.FirstOrDefault(p => p.Name == "Nested.Prop1");
@@ -183,7 +183,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
             [Fact]
             public void should_return_null_for_invalid_reference_key()
             {
-                var provider = new DefaultParameterProvider();
+                var provider = new DefaultRuleParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
                 var idParam = parameters.FirstOrDefault(p => p.Name == "RequiredProduct.Id");
                 var nameParam = parameters.FirstOrDefault(p => p.Name == "RequiredProduct.Name");
@@ -206,7 +206,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
             [Fact]
             public void can_handle_non_nullable_primitive_reference_key()
             {
-                var provider = new DefaultParameterProvider();
+                var provider = new DefaultRuleParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
 
                 var productNameParam = parameters.FirstOrDefault(p => p.Name == "RequiredProduct.Name");
@@ -223,7 +223,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
             [Fact]
             public void can_handle_nullable_reference_key()
             {
-                var provider = new DefaultParameterProvider();
+                var provider = new DefaultRuleParameterProvider();
                 var parameters = provider.GetParameters(typeof(ContextObject));
 
                 var productNameParam = parameters.FirstOrDefault(p => p.Name == "Product.Name");

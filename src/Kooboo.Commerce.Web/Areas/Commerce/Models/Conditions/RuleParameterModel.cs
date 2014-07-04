@@ -6,10 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
 {
-    public class ConditionParameterModel
+    public class RuleParameterModel
     {
         public string Name { get; set; }
 
@@ -21,15 +22,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
 
         public IList<ComparisonOperatorModel> SupportedOperators { get; set; }
 
-        public IList<ParameterValueItem> Values { get; set; }
+        public IList<SelectListItem> Values { get; set; }
 
-        public ConditionParameterModel()
+        public RuleParameterModel()
         {
-            Values = new List<ParameterValueItem>();
+            Values = new List<SelectListItem>();
             SupportedOperators = new List<ComparisonOperatorModel>();
         }
 
-        public ConditionParameterModel(ConditionParameter param)
+        public RuleParameterModel(RuleParameter param)
             : this()
         {
             Name = param.Name;
@@ -44,7 +45,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
 
             if (param.ValueSource != null)
             {
-                Values = param.ValueSource.GetValues(param).ToList();
+                Values = param.ValueSource.GetValues(param).Select(x => new SelectListItem
+                {
+                    Text = x.Key,
+                    Value = x.Value
+                })
+                .ToList();
             }
         }
     }

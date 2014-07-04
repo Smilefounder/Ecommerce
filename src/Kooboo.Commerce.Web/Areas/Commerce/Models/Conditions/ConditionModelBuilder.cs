@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
     public class ConditionModelBuilder : ExpressionVisitor
     {
         private ComparisonOperatorCollection _comparisonOperators = ComparisonOperators.Operators;
-        private List<ConditionParameter> _parameters;
+        private List<RuleParameter> _parameters;
         private Stack<object> _stack = new Stack<object>();
 
         public ConditionModel Build(string expression, Type dataContextType, ConditionType conditionType)
@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
             }
 
             _stack = new Stack<object>();
-            _parameters = ParameterProviders.Providers.SelectMany(x => x.GetParameters(dataContextType).ToList())
+            _parameters = RuleParameterProviders.Providers.SelectMany(x => x.GetParameters(dataContextType).ToList())
                                                       .DistinctBy(x => x.Name)
                                                       .ToList();
 

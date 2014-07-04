@@ -12,16 +12,16 @@ namespace Kooboo.Commerce.Rules.Conditions
 {
     public class ConditionEvaluator
     {
-        private ParameterProviderCollection _parameterProviders;
+        private RuleParameterProviderCollection _parameterProviders;
         private ComparisonOperatorCollection _comparisonOperators;
 
-        public ParameterProviderCollection ParameterProviders
+        public RuleParameterProviderCollection ParameterProviders
         {
             get
             {
                 if (_parameterProviders == null)
                 {
-                    _parameterProviders = Kooboo.Commerce.Rules.Parameters.ParameterProviders.Providers;
+                    _parameterProviders = Kooboo.Commerce.Rules.Parameters.RuleParameterProviders.Providers;
                 }
 
                 return _parameterProviders;

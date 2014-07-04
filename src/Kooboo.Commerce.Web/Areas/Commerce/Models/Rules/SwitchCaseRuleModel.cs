@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public override RuleBase ToRule(EventEntry @event)
         {
-            var param = ParameterProviders.Providers.GetParameter(@event.EventType, Parameter);
+            var param = RuleParameterProviders.Providers.GetParameter(@event.EventType, Parameter);
             var rule = new SwitchCaseRule(param);
 
             foreach (var caze in Cases)

@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.Rules.Parameters
     /// <summary>
     /// Defines methods to resolve parameter value from the context object.
     /// </summary>
-    public abstract class ParameterValueResolver
+    public abstract class RuleParameterValueResolver
     {
         /// <summary>
         /// Resolve the parameter value of the specified parameter from the context object.
@@ -16,14 +16,14 @@ namespace Kooboo.Commerce.Rules.Parameters
         /// <param name="param">The parameter to resolve value.</param>
         /// <param name="dataContext">The context object.</param>
         /// <returns>The value of the parameter.</returns>
-        public abstract object ResolveValue(ConditionParameter param, object dataContext);
+        public abstract object ResolveValue(RuleParameter param, object dataContext);
 
-        public static ParameterValueResolver FromDelegate(Func<ConditionParameter, object, object> resolver)
+        public static RuleParameterValueResolver FromDelegate(Func<RuleParameter, object, object> resolver)
         {
             return new FuncParameterValueResolver(resolver);
         }
 
-        public static ParameterValueResolver Dumb()
+        public static RuleParameterValueResolver Dumb()
         {
             return DumbParameterValueResolver.Instance;
         }
@@ -33,26 +33,26 @@ namespace Kooboo.Commerce.Rules.Parameters
     /// Represents a parameter resolve directly returning the data context as the value of the parameter.
     /// It can be used as the Null-Object pattern to eliminate the boring null checks.
     /// </summary>
-    class DumbParameterValueResolver : ParameterValueResolver
+    class DumbParameterValueResolver : RuleParameterValueResolver
     {
         public static readonly DumbParameterValueResolver Instance = new DumbParameterValueResolver();
 
-        public override object ResolveValue(ConditionParameter param, object dataContext)
+        public override object ResolveValue(RuleParameter param, object dataContext)
         {
             return dataContext;
         }
     }
 
-    class FuncParameterValueResolver : ParameterValueResolver
+    class FuncParameterValueResolver : RuleParameterValueResolver
     {
-        private Func<ConditionParameter, object, object> _resolveValue;
+        private Func<RuleParameter, object, object> _resolveValue;
 
-        public FuncParameterValueResolver(Func<ConditionParameter, object, object> resolveValue)
+        public FuncParameterValueResolver(Func<RuleParameter, object, object> resolveValue)
         {
             _resolveValue = resolveValue;
         }
 
-        public override object ResolveValue(ConditionParameter param, object dataContext)
+        public override object ResolveValue(RuleParameter param, object dataContext)
         {
             return _resolveValue(param, dataContext);
         }

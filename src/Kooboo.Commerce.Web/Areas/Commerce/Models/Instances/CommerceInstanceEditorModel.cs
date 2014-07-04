@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.CommerceInstances
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Instances
 {
     public class CommerceInstanceEditorModel
     {

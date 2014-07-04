@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.Rules.CustomParameters
 {
-    public class CustomOrderParameterProvider : IParameterProvider
+    public class CustomOrderParameterProvider : IRuleParameterProvider
     {
-        public IEnumerable<ConditionParameter> GetParameters(Type dataContextType)
+        public IEnumerable<RuleParameter> GetParameters(Type dataContextType)
         {
             if (dataContextType != typeof(Order))
             {
@@ -22,10 +22,10 @@ namespace Kooboo.Commerce.Rules.CustomParameters
             }
 
             // 创建 ConditionParameter 实例并返回
-            yield return new ConditionParameter(
+            yield return new RuleParameter(
                 name: "Customer.Company", // 指定参数名称
                 valueType: typeof(String),  // 指定参数类型为 String
-                valueResolver: ParameterValueResolver.FromDelegate(GetCustomerCompnay), // 指定参数值的获取方法
+                valueResolver: RuleParameterValueResolver.FromDelegate(GetCustomerCompnay), // 指定参数值的获取方法
                 supportedOperators: new List<IComparisonOperator>   // 指定该参数可以应用的比较符
                 {
                     ComparisonOperators.Equals,
@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Rules.CustomParameters
         }
 
         // 此方法用于获取自定义条件参数的值
-        private string GetCustomerCompnay(ConditionParameter parameter, object dataContext)
+        private string GetCustomerCompnay(RuleParameter parameter, object dataContext)
         {
             var order = (Order)dataContext;
 

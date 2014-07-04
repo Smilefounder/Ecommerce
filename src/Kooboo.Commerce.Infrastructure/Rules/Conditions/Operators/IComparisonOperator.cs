@@ -22,6 +22,6 @@ namespace Kooboo.Commerce.Rules.Conditions.Operators
         /// <param name="paramValue">参数值。</param>
         /// <param name="inputValue">用于比较的值。</param>
         /// <returns>比较结果，true表示成功，false表示失败。</returns>
-        bool Apply(ConditionParameter param, object paramValue, object inputValue);
+        bool Apply(RuleParameter param, object paramValue, object inputValue);
     }
 }

@@ -122,7 +122,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Payments.Fa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Web.Framework", "Kooboo.Commerce.Web.Framework\Kooboo.Commerce.Web.Framework.csproj", "{FADA65D6-57B3-4049-9961-5AEAB7806297}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Custom Parameters", "Custom Parameters", "{895826E9-220C-4519-B654-55DCD26C5224}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Custom Rule Parameters", "Custom Rule Parameters", "{895826E9-220C-4519-B654-55DCD26C5224}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Rules.CustomParameters", "Kooboo.Commerce.Rules.CustomParameters\Kooboo.Commerce.Rules.CustomParameters.csproj", "{81470308-F096-48A7-8322-E74871D38681}"
 EndProject

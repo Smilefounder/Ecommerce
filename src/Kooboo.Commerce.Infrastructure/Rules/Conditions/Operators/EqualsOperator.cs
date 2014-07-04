@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Rules.Conditions.Operators
             }
         }
 
-        public bool Apply(ConditionParameter param, object paramValue, object inputValue)
+        public bool Apply(RuleParameter param, object paramValue, object inputValue)
         {
             if (paramValue is String && inputValue is String)
             {

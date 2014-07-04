@@ -11,17 +11,17 @@ namespace Kooboo.Commerce.Rules.Parameters
     /// <summary>
     /// A provider providing parameters by checking the declared <see cref="Kooboo.Commerce.Rules.ParamAttribute"/> in the class properties.
     /// </summary>
-    public class DefaultParameterProvider : IParameterProvider
+    public class DefaultRuleParameterProvider : IRuleParameterProvider
     {
-        private ParameterProviderCollection _providers;
+        private RuleParameterProviderCollection _providers;
 
-        protected internal ParameterProviderCollection Providers
+        protected internal RuleParameterProviderCollection Providers
         {
             get
             {
                 if (_providers == null)
                 {
-                    _providers = ParameterProviders.Providers;
+                    _providers = RuleParameterProviders.Providers;
                 }
                 return _providers;
             }
@@ -31,10 +31,10 @@ namespace Kooboo.Commerce.Rules.Parameters
             }
         }
 
-        public IEnumerable<ConditionParameter> GetParameters(Type dataContextType)
+        public IEnumerable<RuleParameter> GetParameters(Type dataContextType)
         {
             Require.NotNull(dataContextType, "dataContextType");
-            return FindConditionParameters(dataContextType, ParameterValueResolver.Dumb(), null);
+            return FindConditionParameters(dataContextType, RuleParameterValueResolver.Dumb(), null);
         }
 
         /// <summary>
@@ -44,30 +44,30 @@ namespace Kooboo.Commerce.Rules.Parameters
         /// <param name="dataContextType">The data context type.</param>
         /// <param name="dataContextAdapter">The adapter to adapt original data context to the final data context.</param>
         /// <returns>Available parameters.</returns>
-        public IEnumerable<ConditionParameter> GetParameters(Type dataContextType, Func<object, object> dataContextAdapter)
+        public IEnumerable<RuleParameter> GetParameters(Type dataContextType, Func<object, object> dataContextAdapter)
         {
             Require.NotNull(dataContextType, "dataContextType");
 
-            var containerResolver = ParameterValueResolver.Dumb();
+            var containerResolver = RuleParameterValueResolver.Dumb();
             if (dataContextAdapter != null)
             {
-                Func<ConditionParameter, object, object> resolver = (param, dataContext) => dataContextAdapter(dataContext);
-                containerResolver = ParameterValueResolver.FromDelegate(resolver);
+                Func<RuleParameter, object, object> resolver = (param, dataContext) => dataContextAdapter(dataContext);
+                containerResolver = RuleParameterValueResolver.FromDelegate(resolver);
             }
 
             return FindConditionParameters(dataContextType, containerResolver, null);
         }
 
-        private List<ConditionParameter> FindConditionParameters(Type containerType, ParameterValueResolver containerResolver, string prefix)
+        private List<RuleParameter> FindConditionParameters(Type containerType, RuleParameterValueResolver containerResolver, string prefix)
         {
-            var parameters = new List<ConditionParameter>();
+            var parameters = new List<RuleParameter>();
 
             foreach (var property in containerType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 var refAttr = property.GetCustomAttribute<ReferenceAttribute>(false);
                 if (refAttr != null)
                 {
-                    var resolver = new ChainedParameterValueResolver().Chain(containerResolver, new PropertyBackedParameterValueResolver(property));
+                    var resolver = new ChainedRuleParameterValueResolver().Chain(containerResolver, new PropertyBackedRuleParameterValueResolver(property));
 
                     var referencingType = refAttr.ReferencingType ?? property.PropertyType;
                     // Indirect reference
@@ -114,16 +114,16 @@ namespace Kooboo.Commerce.Rules.Parameters
                     // Add also extended parameters
                     foreach (var provider in Providers)
                     {
-                        if (provider.GetType() != typeof(DefaultParameterProvider))
+                        if (provider.GetType() != typeof(DefaultRuleParameterProvider))
                         {
                             var additionalParams = provider.GetParameters(referencingType);
                             foreach (var param in additionalParams)
                             {
-                                var valueResolver = new ChainedParameterValueResolver();
+                                var valueResolver = new ChainedRuleParameterValueResolver();
                                 valueResolver.Chain(resolver);
                                 valueResolver.Chain(param.ValueResolver);
 
-                                var adaptedParam = new ConditionParameter(newPrefix + param.Name, param.ValueType, valueResolver, param.SupportedOperators)
+                                var adaptedParam = new RuleParameter(newPrefix + param.Name, param.ValueType, valueResolver, param.SupportedOperators)
                                 {
                                     ValueSource = param.ValueSource
                                 };
@@ -146,32 +146,32 @@ namespace Kooboo.Commerce.Rules.Parameters
             return parameters;
         }
 
-        private ConditionParameter CreateConditionParameter(
-            Type containerType, ParameterValueResolver containerResolver, string prefix, PropertyInfo property, ParamAttribute paramAttr)
+        private RuleParameter CreateConditionParameter(
+            Type containerType, RuleParameterValueResolver containerResolver, string prefix, PropertyInfo property, ParamAttribute paramAttr)
         {
             var propertyType = property.PropertyType;
-            var valueResolver = new ChainedParameterValueResolver().Chain(containerResolver, new PropertyBackedParameterValueResolver(property));
+            var valueResolver = new ChainedRuleParameterValueResolver().Chain(containerResolver, new PropertyBackedRuleParameterValueResolver(property));
             var supportedOperators = GetDefaultOperators(propertyType);
-            IParameterValueSource valueSource = null;
+            IRuleParameterValueSource valueSource = null;
 
             if (paramAttr.ValueSource != null)
             {
-                valueSource = TypeActivator.CreateInstance(paramAttr.ValueSource) as IParameterValueSource;
+                valueSource = TypeActivator.CreateInstance(paramAttr.ValueSource) as IRuleParameterValueSource;
             }
             else if (property.PropertyType.IsEnum)
             {
                 propertyType = typeof(String);
-                valueSource = StaticParameterValueSource.FromEnum(property.PropertyType);
+                valueSource = StaticRuleParameterValueSource.FromEnum(property.PropertyType);
             }
             else if (IsNullableEnum(property.PropertyType))
             {
                 propertyType = typeof(String);
-                valueSource = StaticParameterValueSource.FromEnum(Nullable.GetUnderlyingType(property.PropertyType));
+                valueSource = StaticRuleParameterValueSource.FromEnum(Nullable.GetUnderlyingType(property.PropertyType));
             }
 
             var paramName = prefix + (paramAttr.Name ?? property.Name);
 
-            return new ConditionParameter(paramName, propertyType, valueResolver, supportedOperators)
+            return new RuleParameter(paramName, propertyType, valueResolver, supportedOperators)
             {
                 ValueSource = valueSource
             };

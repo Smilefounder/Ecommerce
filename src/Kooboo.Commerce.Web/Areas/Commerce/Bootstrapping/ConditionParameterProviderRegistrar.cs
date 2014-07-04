@@ -20,12 +20,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
 
         public void Register(IContainerManager containerManager, CMS.Common.Runtime.ITypeFinder typeFinder)
         {
-            foreach (var type in typeFinder.FindClassesOfType<IParameterProvider>())
+            foreach (var type in typeFinder.FindClassesOfType<IRuleParameterProvider>())
             {
-                if (type != typeof(DefaultParameterProvider))
+                if (type != typeof(DefaultRuleParameterProvider))
                 {
-                    var provider = Activator.CreateInstance(type) as IParameterProvider;
-                    ParameterProviders.Providers.Add(provider);
+                    var provider = Activator.CreateInstance(type) as IRuleParameterProvider;
+                    RuleParameterProviders.Providers.Add(provider);
                 }
             }
         }

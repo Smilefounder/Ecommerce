@@ -3,7 +3,7 @@
 @using Kooboo.Commerce.Rules.Conditions.Operators;
 @using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 @{
-    var parameters = ViewBag.AvailableParameters as IList<ConditionParameter>;
+    var parameters = ViewBag.AvailableParameters as IList<RuleParameter>;
     parameters = parameters.Where(p => p.SupportedOperators.Any(o => o is EqualsOperator)).ToList();   
 }
 

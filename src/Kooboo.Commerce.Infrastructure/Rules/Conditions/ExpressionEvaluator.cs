@@ -17,12 +17,12 @@ namespace Kooboo.Commerce.Rules.Conditions
     {
         private object _dataContext;
         private Stack<bool> _results = new Stack<bool>();
-        private List<ConditionParameter> _availableParameters;
-        private ParameterProviderCollection _parameterProviders;
+        private List<RuleParameter> _availableParameters;
+        private RuleParameterProviderCollection _parameterProviders;
         private ComparisonOperatorCollection _comparisonOperators;
 
         public ExpressionEvaluator(
-            ParameterProviderCollection parameterProviders, ComparisonOperatorCollection comparisonOperators)
+            RuleParameterProviderCollection parameterProviders, ComparisonOperatorCollection comparisonOperators)
         {
             Require.NotNull(parameterProviders, "parameterProviders");
             Require.NotNull(comparisonOperators, "comparisonOperators");

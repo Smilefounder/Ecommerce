@@ -15,11 +15,11 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
         [Fact]
         public void can_directly_extend_parameter_on_data_context_type()
         {
-            ParameterProviders.Providers.Clear();
-            ParameterProviders.Providers.Add(new DefaultParameterProvider());
-            ParameterProviders.Providers.Add(new OrderParameterProvider());
+            RuleParameterProviders.Providers.Clear();
+            RuleParameterProviders.Providers.Add(new DefaultRuleParameterProvider());
+            RuleParameterProviders.Providers.Add(new OrderParameterProvider());
 
-            var parameters = ParameterProviders.Providers.SelectMany(p => p.GetParameters(typeof(Order))).ToList();
+            var parameters = RuleParameterProviders.Providers.SelectMany(p => p.GetParameters(typeof(Order))).ToList();
             var order = new Order
             {
                 Id = 10,
@@ -43,11 +43,11 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
         [Fact]
         public void can_indirectly_extend_parameter_on_nested_object()
         {
-            ParameterProviders.Providers.Clear();
-            ParameterProviders.Providers.Add(new DefaultParameterProvider());
-            ParameterProviders.Providers.Add(new OrderParameterProvider());
+            RuleParameterProviders.Providers.Clear();
+            RuleParameterProviders.Providers.Add(new DefaultRuleParameterProvider());
+            RuleParameterProviders.Providers.Add(new OrderParameterProvider());
 
-            var parameters = ParameterProviders.Providers.SelectMany(p => p.GetParameters(typeof(OrderCreated))).ToList();
+            var parameters = RuleParameterProviders.Providers.SelectMany(p => p.GetParameters(typeof(OrderCreated))).ToList();
 
             var param = parameters.Find(p => p.Name == "Order.Discount");
             Assert.NotNull(param);
@@ -67,11 +67,11 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
         [Fact]
         public void can_indirectly_extend_parameter_on_deeply_nested_object()
         {
-            ParameterProviders.Providers.Clear();
-            ParameterProviders.Providers.Add(new DefaultParameterProvider());
-            ParameterProviders.Providers.Add(new OrderParameterProvider());
+            RuleParameterProviders.Providers.Clear();
+            RuleParameterProviders.Providers.Add(new DefaultRuleParameterProvider());
+            RuleParameterProviders.Providers.Add(new OrderParameterProvider());
 
-            var param = ParameterProviders.Providers
+            var param = RuleParameterProviders.Providers
                                           .SelectMany(p => p.GetParameters(typeof(PaymentCreated)))
                                           .ToList()
                                           .Find(p => p.Name == "Payment.Order.Discount");
@@ -95,19 +95,19 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Rules.Parameters
             Assert.Equal(50m, value);
         }
 
-        public class OrderParameterProvider : IParameterProvider
+        public class OrderParameterProvider : IRuleParameterProvider
         {
-            public IEnumerable<ConditionParameter> GetParameters(Type dataContextType)
+            public IEnumerable<RuleParameter> GetParameters(Type dataContextType)
             {
                 if (dataContextType != typeof(Order))
                 {
                     yield break;
                 }
 
-                yield return new ConditionParameter(
+                yield return new RuleParameter(
                     name: "Discount",
                     valueType: typeof(decimal),
-                    valueResolver: ParameterValueResolver.FromDelegate((p, dataContext) =>
+                    valueResolver: RuleParameterValueResolver.FromDelegate((p, dataContext) =>
                     {
                         var order = (Order)dataContext;
                         return order.Total - order.Subtotal;

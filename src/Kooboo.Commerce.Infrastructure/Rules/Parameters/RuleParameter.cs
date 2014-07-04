@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Rules.Parameters
     /// <summary>
     /// 表示一个可以用在条件表达式里的参数。
     /// </summary>
-    public class ConditionParameter
+    public class RuleParameter
     {
         /// <summary>
         /// 参数名称。
@@ -27,19 +27,19 @@ namespace Kooboo.Commerce.Rules.Parameters
         /// <summary>
         /// 用于从上下文中计算参数值的<see cref="Kooboo.Commerce.Rules.ParameterValueResolver"/>。
         /// </summary>
-        public ParameterValueResolver ValueResolver { get; private set; }
+        public RuleParameterValueResolver ValueResolver { get; private set; }
 
         /// <summary>
         /// 参数值数据源，若设置，则表示该参数只有固定的几个值可选。
         /// </summary>
-        public IParameterValueSource ValueSource { get; set; }
+        public IRuleParameterValueSource ValueSource { get; set; }
 
         /// <summary>
         /// 该参数支持的运算符。
         /// </summary>
         public IList<IComparisonOperator> SupportedOperators { get; private set; }
 
-        public ConditionParameter(string name, Type valueType, ParameterValueResolver valueResolver, IEnumerable<IComparisonOperator> supportedOperators)
+        public RuleParameter(string name, Type valueType, RuleParameterValueResolver valueResolver, IEnumerable<IComparisonOperator> supportedOperators)
         {
             Require.NotNullOrEmpty(name, "name");
             Require.NotNull(valueType, "valueType");

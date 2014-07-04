@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.Rules
 {
     public class SwitchCaseRule : RuleBase
     {
-        public ConditionParameter Parameter { get; set; }
+        public RuleParameter Parameter { get; set; }
 
         private Dictionary<object, IList<RuleBase>> _cases;
         public IDictionary<object, IList<RuleBase>> Cases
@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Rules
             }
         }
 
-        public SwitchCaseRule(ConditionParameter parameter)
+        public SwitchCaseRule(RuleParameter parameter)
         {
             Parameter = parameter;
         }

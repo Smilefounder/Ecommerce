@@ -375,8 +375,8 @@
     <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEntry.cs" />
-    <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\CommerceInstances\CommerceInstanceModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Instances\CommerceInstanceEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Instances\CommerceInstanceModel.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\BuildConditionModelsRequest.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\ChangePasswordModel.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\CustomerCustomFieldModel.cs" />
@@ -416,7 +416,7 @@
     <Compile Include="Areas\Commerce\Models\Conditions\ComparisonModel.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionModel.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionModelBuilder.cs" />
-    <Compile Include="Areas\Commerce\Models\Conditions\ConditionParameterModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Conditions\RuleParameterModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\AlwaysRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\CaseModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConfiguredActivityModel.cs" />

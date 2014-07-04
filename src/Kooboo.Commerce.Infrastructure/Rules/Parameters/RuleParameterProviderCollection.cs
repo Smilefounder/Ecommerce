@@ -6,18 +6,18 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Parameters
 {
-    public class ParameterProviderCollection : Collection<IParameterProvider>
+    public class RuleParameterProviderCollection : Collection<IRuleParameterProvider>
     {
-        public ParameterProviderCollection()
+        public RuleParameterProviderCollection()
         {
         }
 
-        public ParameterProviderCollection(IEnumerable<IParameterProvider> providers)
+        public RuleParameterProviderCollection(IEnumerable<IRuleParameterProvider> providers)
             : base(providers.ToList())
         {
         }
 
-        public IEnumerable<ConditionParameter> GetParameters(Type dataContextType)
+        public IEnumerable<RuleParameter> GetParameters(Type dataContextType)
         {
             foreach (var provider in this)
             {
@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Rules.Parameters
             }
         }
 
-        public ConditionParameter GetParameter(Type dataContextType, string paramName)
+        public RuleParameter GetParameter(Type dataContextType, string paramName)
         {
             return GetParameters(dataContextType).FirstOrDefault(p => p.Name.Equals(paramName, StringComparison.OrdinalIgnoreCase));
         }

@@ -18,12 +18,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult AvailableParameters(string dataContextType)
         {
             var contextType = Type.GetType(dataContextType, true);
-            var models = new List<ConditionParameterModel>();
-            var parameters = ParameterProviders.Providers.SelectMany(x => x.GetParameters(contextType)).ToList();
+            var models = new List<RuleParameterModel>();
+            var parameters = RuleParameterProviders.Providers.SelectMany(x => x.GetParameters(contextType)).ToList();
 
             foreach (var param in parameters.OrderBy(p => p.Name))
             {
-                models.Add(new ConditionParameterModel(param));
+                models.Add(new RuleParameterModel(param));
             }
 
             return JsonNet(models).UsingClientConvention();

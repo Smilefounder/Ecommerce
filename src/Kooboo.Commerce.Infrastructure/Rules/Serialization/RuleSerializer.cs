@@ -30,15 +30,15 @@ namespace Kooboo.Commerce.Rules.Serialization
             }
         }
 
-        private ParameterProviderCollection _parameterProviders;
+        private RuleParameterProviderCollection _parameterProviders;
 
-        public ParameterProviderCollection ParameterProviders
+        public RuleParameterProviderCollection ParameterProviders
         {
             get
             {
                 if (_parameterProviders == null)
                 {
-                    _parameterProviders = Kooboo.Commerce.Rules.Parameters.ParameterProviders.Providers;
+                    _parameterProviders = Kooboo.Commerce.Rules.Parameters.RuleParameterProviders.Providers;
                 }
                 return _parameterProviders;
             }

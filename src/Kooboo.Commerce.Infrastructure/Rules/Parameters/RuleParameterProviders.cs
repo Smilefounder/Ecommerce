@@ -6,14 +6,14 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Parameters
 {
-    public class ParameterProviders
+    public class RuleParameterProviders
     {
-        static readonly ParameterProviderCollection _providers = new ParameterProviderCollection
+        static readonly RuleParameterProviderCollection _providers = new RuleParameterProviderCollection
         {
-            new DefaultParameterProvider()
+            new DefaultRuleParameterProvider()
         };
 
-        public static ParameterProviderCollection Providers
+        public static RuleParameterProviderCollection Providers
         {
             get
             {
