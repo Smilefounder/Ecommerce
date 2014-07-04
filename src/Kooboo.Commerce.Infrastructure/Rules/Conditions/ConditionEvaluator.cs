@@ -1,8 +1,6 @@
-﻿using Kooboo.Commerce.Rules.Evaluation;
-using Kooboo.Commerce.Rules.Expressions;
-using Kooboo.Commerce.Rules.Operators;
+﻿using Kooboo.Commerce.Rules.Conditions.Expressions;
+using Kooboo.Commerce.Rules.Conditions.Operators;
 using Kooboo.Commerce.Rules.Parameters;
-using Kooboo.Commerce.Rules.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules
+namespace Kooboo.Commerce.Rules.Conditions
 {
     public class ConditionEvaluator
     {
@@ -40,7 +38,7 @@ namespace Kooboo.Commerce.Rules
             {
                 if (_comparisonOperators == null)
                 {
-                    _comparisonOperators = Kooboo.Commerce.Rules.Operators.ComparisonOperators.Operators;
+                    _comparisonOperators = Kooboo.Commerce.Rules.Conditions.Operators.ComparisonOperators.Operators;
                 }
                 return _comparisonOperators;
             }

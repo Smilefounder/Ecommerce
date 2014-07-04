@@ -1,10 +1,10 @@
-﻿using Kooboo.Commerce.Rules.Expressions;
+﻿using Kooboo.Commerce.Rules.Conditions.Expressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Parsing
+namespace Kooboo.Commerce.Rules.Conditions.Parsing
 {
     /// <summary>
     /// The parser used to parse the source into expression tree (abstract syntax tree).

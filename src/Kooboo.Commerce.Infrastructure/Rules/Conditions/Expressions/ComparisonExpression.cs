@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Expressions
+namespace Kooboo.Commerce.Rules.Conditions.Expressions
 {
     public class ComparisonExpression : Expression
     {

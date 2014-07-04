@@ -7,17 +7,17 @@ namespace Kooboo.Commerce.Rules
 {
     public static class TypeExtensions
     {
-        static readonly HashSet<Type> _numberTypes = new HashSet<Type>
+        static readonly HashSet<Type> _numericTypes = new HashSet<Type>
         {
             typeof(float), typeof(double), typeof(decimal),
             typeof(short), typeof(int), typeof(long),
             typeof(ushort), typeof(uint), typeof(ulong)
         };
 
-        public static bool IsNumber(this Type type)
+        public static bool IsNumericType(this Type type)
         {
             Require.NotNull(type, "type");
-            return _numberTypes.Contains(type);
+            return _numericTypes.Contains(type);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Rules.Activities;
+using Kooboo.Commerce.Rules.Conditions;
 using Kooboo.Commerce.Rules.Parameters;
 using Newtonsoft.Json;
 using System;

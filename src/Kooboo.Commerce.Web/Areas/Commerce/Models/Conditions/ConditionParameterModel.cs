@@ -1,6 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Rules;
-using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Conditions.Operators;
 using Kooboo.Commerce.Rules.Parameters;
 using System;
 using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
             Name = param.Name;
             DisplayName = param.Name;
             ValueType = param.ValueType.FullName;
-            IsNumberValue = param.ValueType.IsNumber();
+            IsNumberValue = param.ValueType.IsNumericType();
 
             foreach (var @operator in param.SupportedOperators)
             {

@@ -21,10 +21,10 @@ namespace Kooboo.Commerce.Rules.Activities
 
         public object LoadConfigModel(Type configModelType)
         {
-            return DeserializeConfigModel(Config, configModelType);
+            return LoadConfigModel(Config, configModelType);
         }
 
-        public static object DeserializeConfigModel(string config, Type configModelType)
+        public static object LoadConfigModel(string config, Type configModelType)
         {
             if (String.IsNullOrWhiteSpace(config))
             {

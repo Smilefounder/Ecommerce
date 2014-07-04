@@ -2,6 +2,7 @@
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Conditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

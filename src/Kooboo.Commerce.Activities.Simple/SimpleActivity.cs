@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Events.Orders;
+using Kooboo.Commerce.Rules.Activities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

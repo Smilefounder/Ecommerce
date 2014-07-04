@@ -8,8 +8,9 @@ using System.Reflection;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Activities;
+using Kooboo.Commerce.Rules.Activities.Scheduling;
 
-namespace Kooboo.Commerce.Activities
+namespace Kooboo.Commerce.Rules.Activities
 {
     class ActivityEventHook : IHandle<IEvent>
     {
@@ -29,7 +30,6 @@ namespace Kooboo.Commerce.Activities
             }
 
             var instance = CommerceInstance.Current;
-
             // Activities must be executed within commerce instance context
             if (instance == null)
             {
@@ -47,55 +47,50 @@ namespace Kooboo.Commerce.Activities
             }
         }
 
-        private void Execute(IEvent @event, Type eventType, CommerceInstance commerceInstance)
+        private void Execute(IEvent @event, Type eventType, CommerceInstance instance)
         {
-            var database = commerceInstance.Database;
-            var ruleEngine = new ConditionEvaluator();
+            var ruleManager = RuleManager.GetManager(instance.Name);
 
-            var activityQueue = database.GetRepository<ActivityQueueItem>();
-            var ruleManager = RuleManager.GetManager(commerceInstance.Name);
-            var rules = ruleManager.GetRules(eventType.Name);
-
+            // Execute rules and get the activities to execute
             var activities = new List<ConfiguredActivity>();
-
-            foreach (var rule in rules)
+            foreach (var rule in ruleManager.GetRules(eventType.Name))
             {
                 activities.AddRange(rule.Execute(@event));
             }
 
-            RunOrEnqueueActivities(activities, @event, activityQueue);
+            // Schedule or execute activities
+            ScheduleActivities(activities.Where(x => x.Async), @event, instance.Database);
+            ExecuteActivities(activities.Where(x => !x.Async), @event);
         }
 
-        private void RunOrEnqueueActivities(IEnumerable<ConfiguredActivity> settings, IEvent @event, IRepository<ActivityQueueItem> activityQueue)
+        private void ScheduleActivities(IEnumerable<ConfiguredActivity> configuredActivities, IEvent @event, ICommerceDatabase database)
         {
-            foreach (var setting in settings)
+            var repository = database.GetRepository<ScheduledActivity>();
+            foreach (var each in configuredActivities)
             {
-                var activity = _provider.FindByName(setting.ActivityName);
+                repository.Insert(new ScheduledActivity(@event, each));
+            }
+            database.SaveChanges();
+        }
+
+        private void ExecuteActivities(IEnumerable<ConfiguredActivity> configuredActivities, IEvent @event)
+        {
+            foreach (var configuredActivity in configuredActivities)
+            {
+                var activity = _provider.FindByName(configuredActivity.ActivityName);
                 // If the activity is missing, then ignore it
                 if (activity == null)
                 {
                     continue;
                 }
 
-                // It's possible that the first version of the activity allows async execution, 
-                // and admin configured it to "execute async", 
-                // but the second version of the activity doesn't allow async execution.
-                // In this case, we need to ignore admin settings, that is, execute it right now
-                if (setting.Async && activity.AllowAsyncExecution)
+                object config = null;
+                if (activity.ConfigModelType != null)
                 {
-                    var queueItem = new ActivityQueueItem(@event, setting);
-                    activityQueue.Insert(queueItem);
+                    config = configuredActivity.LoadConfigModel(activity.ConfigModelType);
                 }
-                else
-                {
-                    object parameters = null;
-                    if (activity.ConfigModelType != null)
-                    {
-                        parameters = setting.LoadConfigModel(activity.ConfigModelType);
-                    }
 
-                    activity.Execute(@event, new ActivityContext(parameters, false));
-                }
+                activity.Execute(@event, new ActivityContext(config, false));
             }
         }
     }

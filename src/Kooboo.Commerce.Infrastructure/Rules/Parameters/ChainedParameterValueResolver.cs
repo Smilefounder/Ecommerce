@@ -22,12 +22,18 @@ namespace Kooboo.Commerce.Rules.Parameters
             _resolvers = resolvers.ToList();
         }
 
-        /// <summary>
-        /// Add an instance of <see cref="Kooboo.Commerce.Rules.ParameterValueResolver"/> to the resolver chain.
-        /// </summary>
-        public ChainedParameterValueResolver Add(ParameterValueResolver resolver)
+        public ChainedParameterValueResolver Chain(ParameterValueResolver resolver)
         {
             _resolvers.Add(resolver);
+            return this;
+        }
+
+        public ChainedParameterValueResolver Chain(params ParameterValueResolver[] resolvers)
+        {
+            if (resolvers != null)
+            {
+                _resolvers.AddRange(resolvers);
+            }
             return this;
         }
 

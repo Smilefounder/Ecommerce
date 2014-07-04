@@ -1,6 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Conditions.Operators;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Conditions.Operators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +13,6 @@ namespace Kooboo.Commerce.Rules.Parameters
     /// </summary>
     public class DefaultParameterProvider : IParameterProvider
     {
-        public Func<Type, object> ActivateType = type => EngineContext.Current.Resolve(type);
-
         private ParameterProviderCollection _providers;
 
         protected internal ParameterProviderCollection Providers
@@ -69,8 +67,7 @@ namespace Kooboo.Commerce.Rules.Parameters
                 var refAttr = property.GetCustomAttribute<ReferenceAttribute>(false);
                 if (refAttr != null)
                 {
-                    var resolver = new ChainedParameterValueResolver().Add(containerResolver)
-                                                                      .Add(new PropertyBackedParameterValueResolver(property));
+                    var resolver = new ChainedParameterValueResolver().Chain(containerResolver, new PropertyBackedParameterValueResolver(property));
 
                     var referencingType = refAttr.ReferencingType ?? property.PropertyType;
                     // Indirect reference
@@ -79,7 +76,7 @@ namespace Kooboo.Commerce.Rules.Parameters
                         if (refAttr.ReferenceResolver == null)
                             throw new InvalidOperationException("Indirect reference must speicify a reference resolver. Property: " + property.ReflectedType.FullName + "." + property.Name + ".");
 
-                        resolver.Add(new IndirectReferenceAdapter(referencingType, refAttr.ReferenceResolver));
+                        resolver.Chain(new IndirectReferenceAdapter(referencingType, refAttr.ReferenceResolver));
                     }
 
                     var newPrefix = prefix;
@@ -123,8 +120,8 @@ namespace Kooboo.Commerce.Rules.Parameters
                             foreach (var param in additionalParams)
                             {
                                 var valueResolver = new ChainedParameterValueResolver();
-                                valueResolver.Add(resolver);
-                                valueResolver.Add(param.ValueResolver);
+                                valueResolver.Chain(resolver);
+                                valueResolver.Chain(param.ValueResolver);
 
                                 var adaptedParam = new ConditionParameter(newPrefix + param.Name, param.ValueType, valueResolver, param.SupportedOperators)
                                 {
@@ -153,14 +150,13 @@ namespace Kooboo.Commerce.Rules.Parameters
             Type containerType, ParameterValueResolver containerResolver, string prefix, PropertyInfo property, ParamAttribute paramAttr)
         {
             var propertyType = property.PropertyType;
-            var valueResolver = new ChainedParameterValueResolver().Add(containerResolver)
-                                                                   .Add(new PropertyBackedParameterValueResolver(property));
+            var valueResolver = new ChainedParameterValueResolver().Chain(containerResolver, new PropertyBackedParameterValueResolver(property));
             var supportedOperators = GetDefaultOperators(propertyType);
             IParameterValueSource valueSource = null;
 
             if (paramAttr.ValueSource != null)
             {
-                valueSource = ActivateType(paramAttr.ValueSource) as IParameterValueSource;
+                valueSource = TypeActivator.CreateInstance(paramAttr.ValueSource) as IParameterValueSource;
             }
             else if (property.PropertyType.IsEnum)
             {
@@ -201,7 +197,7 @@ namespace Kooboo.Commerce.Rules.Parameters
                     ComparisonOperators.NotEquals
                 };
             }
-            else if (propertyType.IsNumber())
+            else if (propertyType.IsNumericType())
             {
                 return new List<IComparisonOperator>
                 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Expressions.Formatting
+namespace Kooboo.Commerce.Rules.Conditions.Expressions.Formatting
 {
     public class HtmlExpressionFormatter : ExpressionFormatter
     {

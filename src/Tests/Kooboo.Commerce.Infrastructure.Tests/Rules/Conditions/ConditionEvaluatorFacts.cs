@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Conditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using Xunit;
 
 namespace Kooboo.Commerce.Infrastructure.Tests.Rules
 {
-    public class RuleEngineFacts
+    public class ConditionEvaluatorFacts
     {
         [Fact]
         public void work_with_full_comparison_operator_name()

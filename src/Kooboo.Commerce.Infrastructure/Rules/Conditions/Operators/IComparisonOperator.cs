@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Operators
+namespace Kooboo.Commerce.Rules.Conditions.Operators
 {
     /// <summary>
     /// 定义用于条件表达式中的比较运算符接口。

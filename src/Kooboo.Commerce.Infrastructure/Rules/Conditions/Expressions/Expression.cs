@@ -1,11 +1,11 @@
-﻿using Kooboo.Commerce.Rules.Operators;
-using Kooboo.Commerce.Rules.Parsing;
+﻿using Kooboo.Commerce.Rules.Conditions.Operators;
+using Kooboo.Commerce.Rules.Conditions.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Expressions
+namespace Kooboo.Commerce.Rules.Conditions.Expressions
 {
     /// <summary>
     /// Represents a node in the abstract syntax tree.

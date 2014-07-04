@@ -1,16 +1,16 @@
 ﻿using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Conditions.Operators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Expressions.Formatting
+namespace Kooboo.Commerce.Rules.Conditions.Expressions.Formatting
 {
     public abstract class ExpressionFormatter : ExpressionVisitor
     {
         private StringBuilder _html;
-        private ComparisonOperatorCollection _comparisonOperators = Kooboo.Commerce.Rules.Operators.ComparisonOperators.Operators;
+        private ComparisonOperatorCollection _comparisonOperators = Kooboo.Commerce.Rules.Conditions.Operators.ComparisonOperators.Operators;
 
         public ComparisonOperatorCollection ComparisonOperators
         {

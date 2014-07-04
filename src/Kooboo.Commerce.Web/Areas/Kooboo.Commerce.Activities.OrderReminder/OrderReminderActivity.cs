@@ -14,6 +14,8 @@ using System.Text;
 using Kooboo.Commerce.Events.Brands;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Activities;
+using Kooboo.Commerce.Rules.Conditions;
 
 namespace Kooboo.Commerce.Activities.OrderReminder
 {

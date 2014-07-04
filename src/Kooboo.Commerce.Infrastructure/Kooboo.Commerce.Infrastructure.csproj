@@ -84,15 +84,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\ActivityBase.cs" />
-    <Compile Include="Activities\ActivityContext.cs" />
-    <Compile Include="Activities\ActivityEventManager.cs" />
-    <Compile Include="Activities\ActivityQueueItem.cs" />
-    <Compile Include="Activities\ActivityEventHook.cs" />
-    <Compile Include="Activities\IActivity.cs" />
-    <Compile Include="Activities\IActivityProvider.cs" />
-    <Compile Include="Activities\IHasCustomActivityConfigEditor.cs" />
-    <Compile Include="Activities\Jobs\AsyncActivityExecutionJob.cs" />
+    <Compile Include="Rules\Activities\ActivityBase.cs" />
+    <Compile Include="Rules\Activities\ActivityContext.cs" />
+    <Compile Include="Rules\Activities\ActivityEventManager.cs" />
+    <Compile Include="Rules\Activities\EventEntry.cs" />
+    <Compile Include="Rules\Activities\Scheduling\ActivityExecutionStatus.cs" />
+    <Compile Include="Rules\Activities\Scheduling\ScheduledActivity.cs" />
+    <Compile Include="Rules\Activities\ActivityEventHook.cs" />
+    <Compile Include="Rules\Activities\IActivity.cs" />
+    <Compile Include="Rules\Activities\IActivityProvider.cs" />
+    <Compile Include="Rules\Activities\IHasCustomActivityConfigEditor.cs" />
+    <Compile Include="Rules\Activities\Scheduling\AsyncActivityExecutionJob.cs" />
     <Compile Include="BusinessRuleViolationException.cs" />
     <Compile Include="Data\BatchedQuery.cs" />
     <Compile Include="Data\CommerceDbException.cs" />
@@ -155,7 +157,7 @@
     <Compile Include="Rules\Conditions\ExpressionEvaluator.cs" />
     <Compile Include="Rules\Conditions\Expressions\Formatting\ExpressionFormatter.cs" />
     <Compile Include="Rules\Conditions\Expressions\Formatting\HtmlExpressionFormatter.cs" />
-    <Compile Include="Rules\Parameters\IndirectReferenceResolver.cs" />
+    <Compile Include="Rules\Parameters\DefaultIndirectReferenceResolver.cs" />
     <Compile Include="Rules\Parameters\IReferenceResolver.cs" />
     <Compile Include="Rules\ParamAttribute.cs" />
     <Compile Include="Rules\Parameters\ConditionParameter.cs" />

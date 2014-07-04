@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Rules.Parameters
     /// <summary>
     /// 间接引用求解器。当对象之间以对象Id的形式关联时，使用它可以获得该Id关联的实际对象的实例。
     /// </summary>
-    public class IndirectReferenceResolver : IReferenceResolver
+    public class DefaultIndirectReferenceResolver : IReferenceResolver
     {
         public object Resolve(Type referencingType, object referenceKey)
         {
@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Rules.Parameters
                                              .GetMethods(BindingFlags.Public | BindingFlags.Instance)
                                              .Where(m => m.Name == "Find");
 
-            // 找到 IRepository<T>.Get() 方法并调用
+            // 找到 IRepository<T>.Find() 方法并调用
             MethodInfo method = null;
 
             foreach (var candidate in candidateMethods)

@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Conditions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

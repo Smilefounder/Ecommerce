@@ -1,5 +1,7 @@
 ﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Activities;
+using Kooboo.Commerce.Rules.Conditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

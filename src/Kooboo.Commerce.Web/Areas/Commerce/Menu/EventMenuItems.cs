@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
+using Kooboo.Commerce.Rules.Activities;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 {

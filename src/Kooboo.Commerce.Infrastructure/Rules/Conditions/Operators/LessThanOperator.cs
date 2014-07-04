@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Operators
+namespace Kooboo.Commerce.Rules.Conditions.Operators
 {
     public class LessThanOperator : IComparisonOperator
     {

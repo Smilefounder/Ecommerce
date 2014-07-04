@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Activities
+namespace Kooboo.Commerce.Rules.Activities
 {
     /// <summary>
     /// 定义可挂到事件上执行的Activity。

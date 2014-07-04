@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Rules
         public ReferenceAttribute(Type referencingType)
         {
             ReferencingType = referencingType;
-            ReferenceResolver = typeof(IndirectReferenceResolver);
+            ReferenceResolver = typeof(DefaultIndirectReferenceResolver);
         }
     }
 }

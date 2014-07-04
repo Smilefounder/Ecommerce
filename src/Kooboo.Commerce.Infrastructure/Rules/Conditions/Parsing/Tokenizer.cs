@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Parsing
+namespace Kooboo.Commerce.Rules.Conditions.Parsing
 {
     // Identifier                 : [a-z]\w*\. -> Dots is allowed in parameter names. Custom operator should be in the form of identifier
     // Number                     : [0-9]+(.[0-9]+)?

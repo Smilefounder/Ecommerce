@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Rules.Activities;
+using Kooboo.Commerce.Rules.Activities.Scheduling;
 using Kooboo.Job;
 using System;
 using System.Collections.Generic;
@@ -41,9 +42,9 @@ namespace Kooboo.Commerce.Activities.Jobs
                 using (var scope = Scope.Begin(instance))
                 {
                     var batchSize = 100;
-                    var queue = instance.Database.GetRepository<ActivityQueueItem>();
+                    var queue = instance.Database.GetRepository<ScheduledActivity>();
                     var query = queue.Query()
-                                     .Where(x => x.Status == QueueItemStatus.Pending && x.ScheduledExecuteTimeUtc <= now)
+                                     .Where(x => x.Status == ActivityExecutionStatus.Pending && x.ScheduledExecutionTimeUtc <= now)
                                      .OrderBy(x => x.Id);
 
                     foreach (var queueItem in query.Batched(batchSize))
@@ -64,7 +65,7 @@ namespace Kooboo.Commerce.Activities.Jobs
                                     object parameters = null;
                                     if (activity.ConfigModelType != null)
                                     {
-                                        parameters = ConfiguredActivity.DeserializeConfigModel(queueItem.ActivityConfig, activity.ConfigModelType);
+                                        parameters = ConfiguredActivity.LoadConfigModel(queueItem.ActivityConfig, activity.ConfigModelType);
                                     }
 
                                     activity.Execute(@event, new ActivityContext(parameters, true));

@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Rules;
-using Kooboo.Commerce.Rules.Expressions;
-using Kooboo.Commerce.Rules.Operators;
+using Kooboo.Commerce.Rules.Conditions;
+using Kooboo.Commerce.Rules.Conditions.Expressions;
+using Kooboo.Commerce.Rules.Conditions.Operators;
 using Kooboo.Commerce.Rules.Parameters;
 using System;
 using System.Collections.Generic;
@@ -142,7 +143,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions
             if (param != null)
             {
                 model.ValueType = param.ValueType.FullName;
-                model.IsNumberValue = param.ValueType.IsNumber();
+                model.IsNumberValue = param.ValueType.IsNumericType();
             }
 
             _stack.Push(model);

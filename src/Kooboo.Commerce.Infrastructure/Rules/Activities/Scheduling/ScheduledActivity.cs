@@ -6,19 +6,10 @@ using System.Linq;
 using System.Text;
 using Kooboo.Extensions;
 using System.Data.Entity.ModelConfiguration;
-using Kooboo.Commerce.Rules.Activities;
 
-namespace Kooboo.Commerce.Activities
+namespace Kooboo.Commerce.Rules.Activities.Scheduling
 {
-    public enum QueueItemStatus
-    {
-        Pending = 0,
-        InProgress = 1,
-        Failed = 2,
-        Success = 3
-    }
-
-    public class ActivityQueueItem
+    public class ScheduledActivity
     {
         public virtual int Id { get; set; }
 
@@ -36,27 +27,27 @@ namespace Kooboo.Commerce.Activities
 
         public virtual string ActivityConfig { get; set; }
 
-        public virtual DateTime ScheduledExecuteTimeUtc { get; set; }
+        public virtual DateTime ScheduledExecutionTimeUtc { get; set; }
 
         public virtual DateTime? StartedAtUtc { get; set; }
 
         public virtual DateTime? CompletedAtUtc { get; set; }
 
-        public virtual QueueItemStatus Status { get; set; }
+        public virtual ActivityExecutionStatus Status { get; set; }
 
         public virtual string ErrorMessage { get; set; }
 
         public virtual string Exception { get; set; }
 
-        public ActivityQueueItem() { }
+        public ScheduledActivity() { }
 
-        public ActivityQueueItem(IEvent @event, ConfiguredActivity activity)
+        public ScheduledActivity(IEvent @event, ConfiguredActivity activity)
         {
             EventType = @event.GetType().AssemblyQualifiedNameWithoutVersion();
             EventData = JsonConvert.SerializeObject(@event);
             ActivityName = activity.ActivityName;
             ActivityConfig = activity.Config;
-            ScheduledExecuteTimeUtc = DateTime.UtcNow.AddSeconds(activity.AsyncDelay);
+            ScheduledExecutionTimeUtc = DateTime.UtcNow.AddSeconds(activity.AsyncDelay);
         }
 
         public virtual IEvent LoadEvent()
@@ -66,13 +57,13 @@ namespace Kooboo.Commerce.Activities
 
         public virtual void MarkStarted()
         {
-            Status = QueueItemStatus.InProgress;
+            Status = ActivityExecutionStatus.InProgress;
             StartedAtUtc = DateTime.UtcNow;
         }
 
         public virtual void MarkFailed(string errorMessage, string errorDetail = null)
         {
-            Status = QueueItemStatus.Failed;
+            Status = ActivityExecutionStatus.Failed;
             ErrorMessage = errorMessage;
             Exception = errorDetail;
         }
@@ -84,7 +75,7 @@ namespace Kooboo.Commerce.Activities
 
         #region Entity Type Configuration
 
-        class ActivityQueueItemMap : EntityTypeConfiguration<ActivityQueueItem>
+        class ActivityQueueItemMap : EntityTypeConfiguration<ScheduledActivity>
         {
         }
 

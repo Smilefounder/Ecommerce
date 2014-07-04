@@ -10,6 +10,7 @@ using Kooboo.Commerce.Events.ProductTypes;
 using Kooboo.Commerce.Events.Promotions;
 using Kooboo.Commerce.Events.ShippingMethods;
 using Kooboo.Commerce.Events.ShoppingCarts;
+using Kooboo.Commerce.Rules.Activities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
-﻿using Kooboo.Commerce.Rules.Expressions;
-using Kooboo.Commerce.Rules.Operators;
+﻿using Kooboo.Commerce.Rules.Conditions.Expressions;
+using Kooboo.Commerce.Rules.Conditions.Operators;
 using Kooboo.Commerce.Rules.Parameters;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Evaluation
+namespace Kooboo.Commerce.Rules.Conditions
 {
     /// <summary>
     /// Represents a evaluator to evaluate the result of a condition expression.

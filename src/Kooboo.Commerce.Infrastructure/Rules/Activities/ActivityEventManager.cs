@@ -5,37 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Kooboo.Commerce.Activities
+namespace Kooboo.Commerce.Rules.Activities
 {
-    public class EventEntry
-    {
-        public Type EventType { get; private set; }
-
-        public string EventName
-        {
-            get
-            {
-                return EventType.Name;
-            }
-        }
-
-        public string Category { get; private set; }
-
-        public string DisplayName { get; private set; }
-
-        public string ShortName { get; private set; }
-
-        public EventEntry(string category, string displayName, string shortName, Type eventType)
-        {
-            Require.NotNull(eventType, "eventType");
-
-            Category = category;
-            DisplayName = displayName;
-            ShortName = shortName;
-            EventType = eventType;
-        }
-    }
-
     public class ActivityEventManager
     {
         public static ActivityEventManager Instance = new ActivityEventManager();

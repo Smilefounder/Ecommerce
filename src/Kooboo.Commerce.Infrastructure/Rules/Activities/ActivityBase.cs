@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Activities
+namespace Kooboo.Commerce.Rules.Activities
 {
     public abstract class ActivityBase<TEvent> : IActivity
         where TEvent : IEvent

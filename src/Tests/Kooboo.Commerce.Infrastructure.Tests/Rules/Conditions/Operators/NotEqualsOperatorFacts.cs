@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Conditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

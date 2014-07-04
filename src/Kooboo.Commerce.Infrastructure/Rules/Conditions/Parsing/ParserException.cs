@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Rules.Parsing
+namespace Kooboo.Commerce.Rules.Conditions.Parsing
 {
     [Serializable]
     public class ParserException : Exception
