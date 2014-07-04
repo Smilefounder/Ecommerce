@@ -10,11 +10,11 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class CommerceInstanceController : CommerceControllerBase
+    public class InstanceController : CommerceControllerBase
     {
         private ICommerceInstanceManager _instanceManager;
 
-        public CommerceInstanceController(ICommerceInstanceManager instanceManager)
+        public InstanceController(ICommerceInstanceManager instanceManager)
         {
             _instanceManager = instanceManager;
         }

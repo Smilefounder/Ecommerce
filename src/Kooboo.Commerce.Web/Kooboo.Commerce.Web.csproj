@@ -335,7 +335,7 @@
     <Compile Include="Areas\Commerce\Controllers\CountryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Commerce\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\CommerceInstanceController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\InstanceController.cs" />
     <Compile Include="Areas\Commerce\Controllers\MediaLibraryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\OrderController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PaymentMethodController.cs" />
@@ -3306,10 +3306,10 @@
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldsGrid.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldsScripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Edit.cshtml" />
-    <Content Include="Areas\Commerce\Views\CommerceInstance\Index.cshtml" />
-    <Content Include="Areas\Commerce\Views\CommerceInstance\Create.cshtml" />
-    <Content Include="Areas\Commerce\Views\CommerceInstance\EditorTemplates\CommerceInstanceEditorModel.cshtml" />
-    <Content Include="Areas\Commerce\Views\CommerceInstance\Start.cshtml" />
+    <Content Include="Areas\Commerce\Views\Instance\Index.cshtml" />
+    <Content Include="Areas\Commerce\Views\Instance\Create.cshtml" />
+    <Content Include="Areas\Commerce\Views\Instance\_Editor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Instance\Start.cshtml" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-bold-webfont.eot" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-bold-webfont.ttf" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-bold-webfont.woff" />
@@ -3332,7 +3332,7 @@
     <Content Include="Areas\Commerce\Views\Order\_Address.cshtml" />
     <Content Include="Areas\Commerce\Views\Order\_AddressDetail.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ExtendedQueryParameter.cshtml" />
-    <Content Include="Areas\Commerce\Views\CommerceInstance\Edit.cshtml" />
+    <Content Include="Areas\Commerce\Views\Instance\Edit.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Accessories\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Accessories\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Categories\setting.config" />

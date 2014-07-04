@@ -1,7 +1,7 @@
 ﻿@model CommerceInstanceEditorModel
 @{
-    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
-    ViewBag.Title = "New commerce instance".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+    ViewBag.Title = "Edit commerce instance".Localize();
 }
 
 @section Panel{
@@ -14,6 +14,6 @@
 <div class="common-form" id="commerce-instance-form">
     @using (Html.BeginForm())
     {
-        @Html.EditorForModel()
+        @Html.Partial("_Editor")
     }
 </div>

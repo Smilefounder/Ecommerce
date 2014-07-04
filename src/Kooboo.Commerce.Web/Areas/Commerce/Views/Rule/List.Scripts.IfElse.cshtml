@@ -91,21 +91,31 @@
                     html += '<span>()</span>';
                 }
 
-                html += ' <span class="tag">THEN</span> ';
+                html += buildBranchSummary('THEN', rule.Then());
+                html += buildBranchSummary('ELSE', rule.Else());
 
-                var alwaysRuleChild = _.find(rule.Then(), function (r) {
-                    return r.Type() === 'Always';
-                });
+                function buildBranchSummary(branch, rules) {
+                    var html = '';
+                    if (rules.length > 0) {
+                        html += ' <span class="tag">' + branch + '</span>';
 
-                if (alwaysRuleChild) {
-                    if (alwaysRuleChild.Activities().length > 0) {
-                        html += '<span class="label">' + alwaysRuleChild.Activities()[0].Description() + '</span>';
+                        var alwaysRuleChild = _.find(rules, function (r) {
+                            return r.Type() === 'Always';
+                        });
+
+                        if (alwaysRuleChild) {
+                            if (alwaysRuleChild.Activities().length > 0) {
+                                html += '<span class="label">' + alwaysRuleChild.Activities()[0].Description() + '</span>';
+                            }
+                            if (alwaysRuleChild.Activities().length > 1 || rules.length > 1) {
+                                html += '<span>...</span>';
+                            }
+                        } else {
+                            html += '<span class="label">...</span>';
+                        }
                     }
-                    if (alwaysRuleChild.Activities().length > 1 || rule.Then().length > 1) {
-                        html += '<span>...</span>';
-                    }
-                } else {
-                    html += '<span class="label">...</span>';
+
+                    return html;
                 }
 
                 return html;
