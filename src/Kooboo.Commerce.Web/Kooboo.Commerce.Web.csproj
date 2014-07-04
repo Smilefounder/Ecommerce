@@ -3294,9 +3294,6 @@
     <Content Include="Areas\Commerce\Views\Shared\_Sidebar.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\Decimal.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\List.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\CreateActivity.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\EditActivity.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\_SettingEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\ImageSizeEditorModel.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\Steps.cshtml" />
@@ -3373,7 +3370,6 @@
     <Content Include="Areas\Commerce\Views\AddInManagement\_ModuleNode.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_InstancesDropdown.cshtml" />
     <Content Include="Areas\Commerce\GlobalMenu.config" />
-    <Content Include="Areas\Commerce\Views\Activity\List.Scripts.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\template.cshtml" />
     <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
@@ -3470,9 +3466,6 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-thankyou\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-thankyou\template.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomSystemFiledEditor.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\_BasicInfo.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\_Editor.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\_Editor.Scripts.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_ChooseFolder.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_Index.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_Scripts.cshtml" />
@@ -3488,7 +3481,6 @@
     <Content Include="Areas\Commerce\Views\PaymentMethod\Processor.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\ShippingRateProvider.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\ShippingRateProvider.Scripts.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\Index.cshtml" />
     <Content Include="Areas\Commerce\Handlers\ImageHandler.ashx" />
     <Content Include="Areas\Commerce\Handlers\UploadHandler.ashx" />
@@ -3518,7 +3510,6 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\product_accessories\template.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsDialog.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsDialog.Scripts.cshtml" />
-    <Content Include="Areas\Commerce\Views\Activity\_DefaultConfigEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_ConditionsEditor.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\Conditions.cshtml" />

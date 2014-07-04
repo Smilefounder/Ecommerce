@@ -1,29 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
-using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Locations;
-using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.Commerce.Customers.Services
 {
     [Dependency(typeof(ICustomerService))]
     public class CustomerService : ICustomerService
     {
-        private readonly ICommerceDatabase _db;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<CustomerCustomField> _customerCustomFieldRepository;
         private readonly IRepository<Address> _addressRepository;
 
-        public CustomerService(ICommerceDatabase db, IRepository<Customer> customerRepository, IRepository<Address> addressRepository, IRepository<CustomerCustomField> customerCustomFieldRepository)
+        public CustomerService(IRepository<Customer> customerRepository, IRepository<Address> addressRepository, IRepository<CustomerCustomField> customerCustomFieldRepository)
         {
-            _db = db;
             _customerRepository = customerRepository;
             _addressRepository = addressRepository;
             _customerCustomFieldRepository = customerCustomFieldRepository;
@@ -107,6 +100,8 @@ namespace Kooboo.Commerce.Customers.Services
                     }
                 }
             }
+
+            dbCustomer.CustomFields.Clear();
 
             if (customer.CustomFields != null && customer.CustomFields.Count > 0)
             {
