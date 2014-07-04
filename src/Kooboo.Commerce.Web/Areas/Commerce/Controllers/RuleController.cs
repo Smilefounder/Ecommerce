@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using Kooboo.Extensions;
 using Newtonsoft.Json;
 using Kooboo.Commerce.Rules.Activities;
+using Kooboo.Commerce.Rules.Parameters;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -36,6 +38,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.Event = eventEntry;
             ViewBag.EventTypeName = eventEntry.EventType.AssemblyQualifiedNameWithoutVersion();
             ViewBag.AvailableActivities = availableActivities;
+            ViewBag.AvailableParameters = ParameterProviders.Providers.GetParameters(eventEntry.EventType).ToList();
 
             var manager = RuleManager.GetManager(CurrentInstance.Name);
             var rules = manager.GetRules(eventName);
@@ -43,7 +46,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var models = new List<RuleModelBase>();
             foreach (var rule in rules)
             {
-                models.Add(RuleModelBase.CreateFrom(rule));
+                models.Add(RuleModelBase.FromRule(rule));
             }
 
             return View(models);
@@ -52,77 +55,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxError]
         public void Save(string eventName, string json)
         {
-            var models = JsonConvert.DeserializeObject<List<RuleModelBase>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+            var @event = ActivityEventManager.Instance.FindEvent(eventName);
+            var models = JsonConvert.DeserializeObject<List<RuleModelBase>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });         
             var rules = new List<RuleBase>();
 
             foreach (var model in models)
             {
-                rules.Add(CreateRule(model));
+                rules.Add(model.ToRule(@event));
             }
 
             var manager = RuleManager.GetManager(CurrentInstance.Name);
             manager.SaveRules(eventName, rules);
-        }
-
-        private RuleBase CreateRule(RuleModelBase model)
-        {
-            if (model is IfElseRuleModel)
-            {
-                return CreateIfElseRule(model as IfElseRuleModel);
-            }
-            if (model is AlwaysRuleModel)
-            {
-                return CreateAlwaysRule(model as AlwaysRuleModel);
-            }
-
-            throw new NotSupportedException();
-        }
-
-        private IfElseRule CreateIfElseRule(IfElseRuleModel model)
-        {
-            var rule = new IfElseRule();
-            rule.Conditions = model.Conditions.ToList();
-
-            foreach (var thenRuleModel in model.Then)
-            {
-                rule.Then.Add(CreateRule(thenRuleModel));
-            }
-
-            foreach (var elseRuleModel in model.Else)
-            {
-                rule.Else.Add(CreateRule(elseRuleModel));
-            }
-
-            return rule;
-        }
-
-        private AlwaysRule CreateAlwaysRule(AlwaysRuleModel model)
-        {
-            var rule = new AlwaysRule();
-            foreach (var activityModel in model.Activities)
-            {
-                rule.Activities.Add(CreateConfiguredActivity(activityModel));
-            }
-            return rule;
-        }
-
-        private ConfiguredActivity CreateConfiguredActivity(ConfiguredActivityModel model)
-        {
-            var activity = new ConfiguredActivity
-            {
-                ActivityName = model.ActivityName,
-                Description = model.Description,
-                Config = model.Config,
-                Async = model.Async
-            };
-
-            if (activity.Async)
-            {
-                var delay = new TimeSpan(model.AsyncDelayDays, model.AsyncDelayHours, model.AsyncDelayMinutes, model.AsyncDelaySeconds);
-                activity.AsyncDelay = (int)delay.TotalSeconds;
-            }
-
-            return activity;
         }
 
         public ActionResult AddActivity(string activityName)

@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Rules;
+﻿using Kooboo.Commerce.Activities;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,48 +16,24 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             Type = type;
         }
 
-        public static RuleModelBase CreateFrom(RuleBase rule)
+        public static RuleModelBase FromRule(RuleBase rule)
         {
             if (rule is AlwaysRule)
             {
-                return CreateAlways(rule as AlwaysRule);
+                return AlwaysRuleModel.FromRule(rule as AlwaysRule);
             }
             if (rule is IfElseRule)
             {
-                return CreateIfElse(rule as IfElseRule);
+                return IfElseRuleModel.FromRule(rule as IfElseRule);
+            }
+            if (rule is SwitchCaseRule)
+            {
+                return SwitchCaseRuleModel.FromRule(rule as SwitchCaseRule);
             }
 
             throw new NotSupportedException();
         }
 
-        static AlwaysRuleModel CreateAlways(AlwaysRule rule)
-        {
-            var model = new AlwaysRuleModel();
-            foreach (var activity in rule.Activities)
-            {
-                model.Activities.Add(ConfiguredActivityModel.CreateFrom(activity));
-            }
-
-            return model;
-        }
-
-        static IfElseRuleModel CreateIfElse(IfElseRule rule)
-        {
-            var model = new IfElseRuleModel();
-
-            model.Conditions = rule.Conditions.ToList();
-
-            foreach (var thenRule in rule.Then)
-            {
-                model.Then.Add(CreateFrom(thenRule));
-            }
-
-            foreach (var elseRule in rule.Else)
-            {
-                model.Else.Add(CreateFrom(elseRule));
-            }
-
-            return model;
-        }
+        public abstract RuleBase ToRule(EventEntry @event);
     }
 }

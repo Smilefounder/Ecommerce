@@ -16,5 +16,21 @@ namespace Kooboo.Commerce.Rules.Parameters
             : base(providers.ToList())
         {
         }
+
+        public IEnumerable<ConditionParameter> GetParameters(Type dataContextType)
+        {
+            foreach (var provider in this)
+            {
+                foreach (var param in provider.GetParameters(dataContextType))
+                {
+                    yield return param;
+                }
+            }
+        }
+
+        public ConditionParameter GetParameter(Type dataContextType, string paramName)
+        {
+            return GetParameters(dataContextType).FirstOrDefault(p => p.Name.Equals(paramName, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }

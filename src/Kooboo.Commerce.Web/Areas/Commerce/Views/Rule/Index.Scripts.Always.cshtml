@@ -3,15 +3,7 @@
 
 <script type="text/html" id="RuleTemplate-Always">
     <div class="rule">
-        <!-- ko if: $($element).parents('.rule').length === 1 -->
-        <div class="summary">
-            <a href="#" data-toggle="expand-rule">
-                @Html.IconImage("caret-hollow-right-black")
-            </a>
-            <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
-            <div class="summary-text" data-bind="html: $root.GetRuleSummary($data)"></div>
-        </div>
-        <!-- /ko -->
+        @Html.Partial("_RuleHeader")
         <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
             @Html.IconImage("drag")
             <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
@@ -44,12 +36,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- ko if: $($element).parents('.rule').length === 1 -->
-            <div class="buttons">
-                <a href="#" class="button" data-toggle="collapse-rule">@("Collapse".Localize())</a>
-            </div>
-            <!-- /ko -->
+            @Html.Partial("_RuleFooter")
         </div>
     </div>
 </script>

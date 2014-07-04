@@ -405,7 +405,6 @@
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\CustomFieldEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\FieldValidationRuleEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\NameValue.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\Grid2\PaymentMethodRowModelGridItem.cs" />
@@ -430,9 +429,11 @@
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionModelBuilder.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionParameterModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\AlwaysRuleModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\CaseModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConfiguredActivityModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\IfElseRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\RuleModelBase.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\SwitchCaseRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\ProductSettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\SettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\StoreSettingEditorModel.cs" />
@@ -3558,6 +3559,9 @@
     <Content Include="Areas\Commerce\Views\Rule\_ActivityEditor.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\_DefaultActivityConfigEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\EditActivity.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\Index.Scripts.SwitchCase.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\_RuleHeader.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\_RuleFooter.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />

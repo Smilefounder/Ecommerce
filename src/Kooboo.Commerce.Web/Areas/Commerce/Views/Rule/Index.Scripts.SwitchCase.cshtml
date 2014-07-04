@@ -1,0 +1,174 @@
+﻿@using Newtonsoft.Json;
+@using Kooboo.Commerce.Rules.Parameters;
+@using Kooboo.Commerce.Rules.Operators;
+@using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
+@{
+    var parameters = ViewBag.AvailableParameters as IList<ConditionParameter>;
+    parameters = parameters.Where(p => p.SupportedOperators.Any(o => o is EqualsOperator)).ToList();   
+}
+
+<script type="text/html" id="RuleTemplate-SwitchCase">
+    <div class="rule">
+        @Html.Partial("_RuleHeader")
+        <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
+            @Html.IconImage("drag")
+            <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+            <div class="wrap">
+                <div class="columns">
+                    <div class="span1">
+                        <span class="rule-label">SWITCH</span>
+                    </div>
+                    <div class="span11">
+                        <select data-bind="value: Parameter" class="medium">
+                            @foreach (var param in parameters)
+                            {
+                                <option value="@param.Name">@param.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- ko foreach: Cases -->
+            <div class="wrap">
+                <div class="columns">
+                    <div class="span1">
+                        <a class="action left" data-bind="visible: $parent.Cases().length > 1, click: $root.RemoveCase.bind($data, $parent)">@Html.IconImage("minus-small")</a>
+                        <span class="rule-label">CASE</span>
+                    </div>
+                    <div class="span11">
+                        <div>
+                            <input type="text" data-bind="value: Value" class="medium" />
+                        </div>
+                        <div data-bind="foreach: Rules" data-rules-prop="Rules">
+                            <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
+                        </div>
+                        <div class="button dropdown only-icon" data-toggle="dropdown">
+                            @Html.IconImage("plus-small")
+                            <ul data-bind="foreach: $root.RuleTypes">
+                                <li>
+                                    <a data-bind="click: $root.AddRule.bind($data, $parent.Rules), text: DisplayName"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /ko -->
+            <div class="wrap clearfix">
+                <a class="button" data-bind="click: $root.AddCase">+ @("New case".Localize())</a>
+            </div>
+            <div class="wrap">
+                <div class="columns">
+                    <div class="span1">
+                        <span class="rule-label">DEFAULT</span>
+                    </div>
+                    <div class="span11">
+                        <div data-bind="foreach: Default" data-rules-prop="Default">
+                            <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
+                        </div>
+                        <div class="button dropdown only-icon" data-toggle="dropdown">
+                            @Html.IconImage("plus-small")
+                            <ul data-bind="foreach: $root.RuleTypes">
+                                <li>
+                                    <a data-bind="click: $root.AddRule.bind($data, $parent.Default), text: DisplayName"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("_RuleFooter")
+        </div>
+    </div>
+</script>
+
+<script>
+    (function () {
+
+        var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new SwitchCaseRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects }));
+
+        window.RuleTypes['SwitchCase'] = {
+
+            Name: 'SwitchCase',
+
+            DisplayName: 'SWITCH-CASE-DEFAULT',
+
+            CreateModel: function (data) {
+                var model = ko.mapping.fromJS(defaultModel);
+                if (data) {
+                    ko.mapping.fromJS(data, {}, model);
+                } else {
+                    // Add a default case
+                    window.RootViewModel.AddCase(model);
+                }
+
+                return model;
+            },
+
+            GetSummary: function (rule) {
+                var html = '<span class="tag">SWITCH</span> (' + rule.Parameter() + ') ';
+
+                if (rule.Cases().length > 0) {
+                    html += '<span class="tag">CASE</span> ';
+
+                    var caze = rule.Cases()[0];
+                    html += '<span>(' + caze.Value() + ')</span> ';
+
+                    if (caze.Rules().length > 0) {
+                        var alwaysRule = _.find(caze.Rules(), function (r) {
+                            return r.Type() === 'Always';
+                        });
+                        if (alwaysRule && alwaysRule.Activities().length > 0) {
+                            html += '<span class="label">' + alwaysRule.Activities()[0].Description() + '</span>';
+                        }
+
+                        if (alwaysRule.Activities().length > 1) {
+                            html += '<span>...</span>';
+                        }
+                    }
+
+                    if (rule.Cases().length > 1) {
+                        html += ' <span>...</span>';
+                    }
+                }
+
+                if (rule.Default().length > 0) {
+                    html += ' <span class="tag">DEFAULT</span> ';
+                    
+                    var alwaysRule = _.find(rule.Default(), function (r) {
+                        return r.Type() === 'Always';
+                    });
+
+                    if (alwaysRule && alwaysRule.Activities().length > 0) {
+                        html += '<span class="label">' + alwaysRule.Activities()[0].Description() + '</span>';
+                        if (alwaysRule.Activities().length > 1) {
+                            html += '<span>...</span>';
+                        }
+                    } else {
+                        html += '<span class="label">...</span>';
+                    }
+                }
+
+                return html;
+            },
+
+            OnPageDataBinding: function (root) {
+                $.extend(root, {
+
+                    AddCase: function (rule) {
+                        var caze = {
+                            Value: ko.observable(),
+                            Rules: ko.observableArray()
+                        };
+                        rule.Cases.push(caze);
+                    },
+
+                    RemoveCase: function (rule, caze) {
+                        rule.Cases.remove(caze);
+                    }
+                })
+            }
+        };
+
+    })();
+</script>

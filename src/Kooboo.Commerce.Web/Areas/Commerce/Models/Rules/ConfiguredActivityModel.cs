@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public int AsyncDelaySeconds { get; set; }
 
-        public static ConfiguredActivityModel CreateFrom(ConfiguredActivity activity)
+        public static ConfiguredActivityModel FromConfiguredActivity(ConfiguredActivity activity)
         {
             var model = new ConfiguredActivityModel
             {
@@ -47,6 +47,25 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             }
 
             return model;
+        }
+
+        public ConfiguredActivity ToConfiguredActivity()
+        {
+            var activity = new ConfiguredActivity
+            {
+                ActivityName = ActivityName,
+                Description = Description,
+                Config = Config,
+                Async = Async
+            };
+
+            if (activity.Async)
+            {
+                var delay = new TimeSpan(AsyncDelayDays, AsyncDelayHours, AsyncDelayMinutes, AsyncDelaySeconds);
+                activity.AsyncDelay = (int)delay.TotalSeconds;
+            }
+
+            return activity;
         }
     }
 }
