@@ -18,12 +18,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
             Name = entry.EventType.Name;
             Text = entry.ShortName ?? entry.DisplayName ?? entry.EventType.Name;
 
-            Controller = "Activity";
-            Action = "List";
+            Controller = "Rule";
+            Action = "Index";
             Area = "Commerce";
 
             RouteValues = new System.Web.Routing.RouteValueDictionary();
-            RouteValues.Add("eventType", entry.EventType.AssemblyQualifiedNameWithoutVersion());
+            RouteValues.Add("eventName", entry.EventName);
 
             Initializer = new EventMenuItemInitializer();
         }

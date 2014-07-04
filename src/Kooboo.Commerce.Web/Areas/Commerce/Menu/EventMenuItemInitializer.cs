@@ -14,15 +14,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
             var controller = controllerContext.RouteData.Values["controller"] as string;
             var action = controllerContext.RouteData.Values["action"] as string;
 
-            if (!controller.Equals("Activity", StringComparison.OrdinalIgnoreCase))
+            if (!controller.Equals("Rule", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
 
-            if (menuItem is EventMenuItem && action.Equals("List", StringComparison.OrdinalIgnoreCase))
+            if (menuItem is EventMenuItem && action.Equals("Index", StringComparison.OrdinalIgnoreCase))
             {
-                var eventType = controllerContext.RequestContext.GetRequestValue("eventType");
-                return !String.IsNullOrEmpty(eventType) && eventType.Equals(menuItem.RouteValues["eventType"].ToString(), StringComparison.OrdinalIgnoreCase);
+                var eventName = controllerContext.RequestContext.GetRequestValue("eventName");
+                return !String.IsNullOrEmpty(eventName) && eventName.Equals(menuItem.RouteValues["eventName"].ToString(), StringComparison.OrdinalIgnoreCase);
             }
 
             return false;
