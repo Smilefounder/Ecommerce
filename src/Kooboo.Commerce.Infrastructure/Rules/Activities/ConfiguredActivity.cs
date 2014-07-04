@@ -19,6 +19,12 @@ namespace Kooboo.Commerce.Rules.Activities
 
         public int AsyncDelay { get; set; }
 
+        public ConfiguredActivity(string activityName, string description)
+        {
+            ActivityName = activityName;
+            Description = description;
+        }
+
         public object LoadConfigModel(Type configModelType)
         {
             return LoadConfigModel(Config, configModelType);

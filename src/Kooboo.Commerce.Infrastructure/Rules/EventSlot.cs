@@ -14,12 +14,17 @@ namespace Kooboo.Commerce.Rules
 
         public EventSlot(string eventName)
         {
+            Require.NotNullOrEmpty(eventName, "eventName");
+
             EventName = eventName;
             Rules = new List<RuleBase>();
         }
 
         public EventSlot(string eventName, IEnumerable<RuleBase> rules)
         {
+            Require.NotNullOrEmpty(eventName, "eventName");
+            Require.NotNull(rules, "rules");
+
             EventName = eventName;
             Rules = rules.ToList();
         }

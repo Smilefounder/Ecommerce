@@ -135,7 +135,7 @@
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\IHandle.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Rules\Activities\Scheduling\ExceptionExtensions.cs" />
     <Compile Include="Extensions\MemberInfoExtensions.cs" />
     <Compile Include="IObjectPersistence.cs" />
     <Compile Include="IO\CachedFile.cs" />

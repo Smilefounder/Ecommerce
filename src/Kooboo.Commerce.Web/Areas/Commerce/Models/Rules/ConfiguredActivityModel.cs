@@ -51,10 +51,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
 
         public ConfiguredActivity ToConfiguredActivity()
         {
-            var activity = new ConfiguredActivity
+            var activity = new ConfiguredActivity(ActivityName, Description)
             {
-                ActivityName = ActivityName,
-                Description = Description,
                 Config = Config,
                 Async = Async
             };

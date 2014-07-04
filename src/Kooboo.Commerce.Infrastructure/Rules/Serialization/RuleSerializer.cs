@@ -347,11 +347,10 @@ namespace Kooboo.Commerce.Rules.Serialization
 
         private ConfiguredActivity DeserializeActivity(XElement element)
         {
-            var activity = new ConfiguredActivity
-            {
-                ActivityName = element.Attribute("name").Value,
-                Description = element.Attribute("description").Value
-            };
+            var name = element.Attribute("name").Value;
+            var desc = element.Attribute("description").Value;
+
+            var activity = new ConfiguredActivity(name, desc);
 
             var asyncAttr = element.Attribute("async");
             if (asyncAttr != null)

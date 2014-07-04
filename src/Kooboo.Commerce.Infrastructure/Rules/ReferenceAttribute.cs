@@ -3,6 +3,7 @@ using System;
 
 namespace Kooboo.Commerce.Rules
 {
+    // TODO: Is there a better name?
     /// <summary>
     /// 用于将一个对象属性标记为对象引用。
     /// </summary>
