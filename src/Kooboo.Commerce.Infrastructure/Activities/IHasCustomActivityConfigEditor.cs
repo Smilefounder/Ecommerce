@@ -10,6 +10,6 @@ namespace Kooboo.Commerce.Activities
     /// </summary>
     public interface IHasCustomActivityConfigEditor
     {
-        string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo);
+        string GetEditorVirtualPath();
     }
 }

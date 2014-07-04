@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Activities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,19 @@ namespace Kooboo.Commerce.Rules.Activities
         public bool Async { get; set; }
 
         public int AsyncDelay { get; set; }
+
+        public object LoadConfigModel(Type configModelType)
+        {
+            return DeserializeConfigModel(Config, configModelType);
+        }
+
+        public static object DeserializeConfigModel(string config, Type configModelType)
+        {
+            if (String.IsNullOrWhiteSpace(config))
+            {
+                return null;
+            }
+            return JsonConvert.DeserializeObject(config, configModelType);
+        }
     }
 }

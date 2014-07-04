@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
             Text = entry.ShortName ?? entry.DisplayName ?? entry.EventType.Name;
 
             Controller = "Rule";
-            Action = "Index";
+            Action = "List";
             Area = "Commerce";
 
             RouteValues = new System.Web.Routing.RouteValueDictionary();
@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                 Text = "Overview",
                 Name = "Overview",
                 RouteValues = new RouteValueDictionary(),
-                Controller = "Activity",
+                Controller = "Rule",
                 Area = "Commerce",
                 Action = "Index",
                 Initializer = new CommerceMenuItemInitializer(),

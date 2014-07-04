@@ -107,7 +107,7 @@ namespace Kooboo.Commerce.Activities.OrderReminder
             }
         }
 
-        public string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
+        public string GetEditorVirtualPath()
         {
             return "~/Areas/" + Strings.AreaName + "/Views/Config.cshtml";
         }

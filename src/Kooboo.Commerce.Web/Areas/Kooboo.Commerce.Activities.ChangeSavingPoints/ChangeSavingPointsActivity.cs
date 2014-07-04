@@ -85,7 +85,7 @@ namespace Kooboo.Commerce.Activities.ChangeSavingPoints
             return order == null ? null : order.Customer;
         }
 
-        public string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
+        public string GetEditorVirtualPath()
         {
             return String.Format("~/Areas/{0}/Views/Config.cshtml", Strings.AreaName);
         }

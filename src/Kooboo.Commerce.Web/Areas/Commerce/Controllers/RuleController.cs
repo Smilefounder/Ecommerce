@@ -24,7 +24,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _activityProvider = activityProvider;
         }
 
-        public ActionResult Index(string eventName)
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult List(string eventName)
         {
             var eventEntry = ActivityEventManager.Instance.FindEvent(eventName);
             var availableActivities = _activityProvider.FindBindableTo(eventEntry.EventType)
@@ -104,7 +109,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (activity is IHasCustomActivityConfigEditor)
             {
-                configEditorVirtualPath = ((IHasCustomActivityConfigEditor)activity).GetEditorVirtualPath(null, null);
+                configEditorVirtualPath = ((IHasCustomActivityConfigEditor)activity).GetEditorVirtualPath();
             }
             else if (activity.ConfigModelType != null)
             {

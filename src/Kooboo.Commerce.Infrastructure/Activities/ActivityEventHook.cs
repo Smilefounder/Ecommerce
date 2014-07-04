@@ -7,6 +7,7 @@ using System.Text;
 using System.Reflection;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Activities;
 
 namespace Kooboo.Commerce.Activities
 {
@@ -52,35 +53,22 @@ namespace Kooboo.Commerce.Activities
             var ruleEngine = new ConditionEvaluator();
 
             var activityQueue = database.GetRepository<ActivityQueueItem>();
-            var rules = database.GetRepository<ActivityRule>()
-                                .Query()
-                                .ByEvent(eventType)
-                                .OrderBy(x => x.Id)
-                                .ToList();
+            var ruleManager = RuleManager.GetManager(commerceInstance.Name);
+            var rules = ruleManager.GetRules(eventType.Name);
+
+            var activities = new List<ConfiguredActivity>();
 
             foreach (var rule in rules)
             {
-                if (rule.Type == RuleType.Always)
-                {
-                    RunOrEnqueueActivities(rule.AttachedActivityInfos, rule, @event, activityQueue);
-                }
-                else
-                {
-                    if (ruleEngine.Evaluate(rule.Conditions, @event))
-                    {
-                        RunOrEnqueueActivities(rule.ThenActivityInfos, rule, @event, activityQueue);
-                    }
-                    else
-                    {
-                        RunOrEnqueueActivities(rule.ElseActivityInfos, rule, @event, activityQueue);
-                    }
-                }
+                activities.AddRange(rule.Execute(@event));
             }
+
+            RunOrEnqueueActivities(activities, @event, activityQueue);
         }
 
-        private void RunOrEnqueueActivities(IEnumerable<AttachedActivityInfo> settings, ActivityRule rule, IEvent @event, IRepository<ActivityQueueItem> activityQueue)
+        private void RunOrEnqueueActivities(IEnumerable<ConfiguredActivity> settings, IEvent @event, IRepository<ActivityQueueItem> activityQueue)
         {
-            foreach (var setting in settings.OrderByExecutionOrder())
+            foreach (var setting in settings)
             {
                 var activity = _provider.FindByName(setting.ActivityName);
                 // If the activity is missing, then ignore it
@@ -93,9 +81,9 @@ namespace Kooboo.Commerce.Activities
                 // and admin configured it to "execute async", 
                 // but the second version of the activity doesn't allow async execution.
                 // In this case, we need to ignore admin settings, that is, execute it right now
-                if (setting.IsAsyncExeuctionEnabled && activity.AllowAsyncExecution)
+                if (setting.Async && activity.AllowAsyncExecution)
                 {
-                    var queueItem = new ActivityQueueItem(setting, @event);
+                    var queueItem = new ActivityQueueItem(@event, setting);
                     activityQueue.Insert(queueItem);
                 }
                 else
@@ -103,7 +91,7 @@ namespace Kooboo.Commerce.Activities
                     object parameters = null;
                     if (activity.ConfigModelType != null)
                     {
-                        parameters = setting.LoadActivityConfig(activity.ConfigModelType);
+                        parameters = setting.LoadConfigModel(activity.ConfigModelType);
                     }
 
                     activity.Execute(@event, new ActivityContext(parameters, false));

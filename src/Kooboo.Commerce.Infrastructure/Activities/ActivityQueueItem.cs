@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.Extensions;
 using System.Data.Entity.ModelConfiguration;
+using Kooboo.Commerce.Rules.Activities;
 
 namespace Kooboo.Commerce.Activities
 {
@@ -21,10 +22,6 @@ namespace Kooboo.Commerce.Activities
     {
         public virtual int Id { get; set; }
 
-        public virtual int RuleId { get; set; }
-
-        public virtual int AttachedActivityInfoId { get; set; }
-
         /// <summary>
         /// The CLR type of the event.
         /// </summary>
@@ -34,6 +31,10 @@ namespace Kooboo.Commerce.Activities
         /// The json serialized event data (payload).
         /// </summary>
         public virtual string EventData { get; set; }
+
+        public virtual string ActivityName { get; set; }
+
+        public virtual string ActivityConfig { get; set; }
 
         public virtual DateTime ScheduledExecuteTimeUtc { get; set; }
 
@@ -49,13 +50,13 @@ namespace Kooboo.Commerce.Activities
 
         public ActivityQueueItem() { }
 
-        public ActivityQueueItem(AttachedActivityInfo activity, IEvent @event)
+        public ActivityQueueItem(IEvent @event, ConfiguredActivity activity)
         {
-            RuleId = activity.Rule.Id;
-            AttachedActivityInfoId = activity.Id;
             EventType = @event.GetType().AssemblyQualifiedNameWithoutVersion();
             EventData = JsonConvert.SerializeObject(@event);
-            ScheduledExecuteTimeUtc = activity.CalculateExecutionTime(@event.TimestampUtc);
+            ActivityName = activity.ActivityName;
+            ActivityConfig = activity.Config;
+            ScheduledExecuteTimeUtc = DateTime.UtcNow.AddSeconds(activity.AsyncDelay);
         }
 
         public virtual IEvent LoadEvent()

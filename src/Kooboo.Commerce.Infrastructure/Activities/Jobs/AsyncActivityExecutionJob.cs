@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Rules.Activities;
 using Kooboo.Job;
 using System;
 using System.Collections.Generic;
@@ -45,8 +46,6 @@ namespace Kooboo.Commerce.Activities.Jobs
                                      .Where(x => x.Status == QueueItemStatus.Pending && x.ScheduledExecuteTimeUtc <= now)
                                      .OrderBy(x => x.Id);
 
-                    var ruleRepository = instance.Database.GetRepository<ActivityRule>();
-
                     foreach (var queueItem in query.Batched(batchSize))
                     {
                         // Change status
@@ -59,15 +58,13 @@ namespace Kooboo.Commerce.Activities.Jobs
                             try
                             {
                                 var @event = queueItem.LoadEvent();
-                                var rule = ruleRepository.Find(queueItem.RuleId);
-                                var attachedActivityInfo = rule.AttachedActivityInfos.Find(queueItem.AttachedActivityInfoId);
-                                var activity = activityProvider.FindByName(attachedActivityInfo.ActivityName);
+                                var activity = activityProvider.FindByName(queueItem.ActivityName);
                                 if (activity != null)
                                 {
                                     object parameters = null;
                                     if (activity.ConfigModelType != null)
                                     {
-                                        parameters = attachedActivityInfo.LoadActivityConfig(activity.ConfigModelType);
+                                        parameters = ConfiguredActivity.DeserializeConfigModel(queueItem.ActivityConfig, activity.ConfigModelType);
                                     }
 
                                     activity.Execute(@event, new ActivityContext(parameters, true));
@@ -76,7 +73,7 @@ namespace Kooboo.Commerce.Activities.Jobs
                                 }
                                 else
                                 {
-                                    queueItem.MarkFailed("Cannot find activity with name '" + attachedActivityInfo.ActivityName + "'. Ensure the activity is installed.");
+                                    queueItem.MarkFailed("Cannot find activity with name '" + queueItem.ActivityName + "'. Ensure the activity is installed.");
                                 }
                             }
                             catch (Exception ex)

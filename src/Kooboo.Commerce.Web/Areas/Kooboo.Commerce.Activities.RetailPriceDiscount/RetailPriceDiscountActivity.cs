@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Activities.RetailPriceDiscount
             @event.FinalUnitPrice = newPrice;
         }
 
-        public string GetEditorVirtualPath(ActivityRule rule, AttachedActivityInfo attachedActivityInfo)
+        public string GetEditorVirtualPath()
         {
             return String.Format("~/Areas/{0}/Views/Config.cshtml", Strings.AreaName);
         }

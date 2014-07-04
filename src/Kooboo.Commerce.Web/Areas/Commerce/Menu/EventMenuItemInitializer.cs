@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                 return false;
             }
 
-            if (menuItem is EventMenuItem && action.Equals("Index", StringComparison.OrdinalIgnoreCase))
+            if (menuItem is EventMenuItem && action.Equals("List", StringComparison.OrdinalIgnoreCase))
             {
                 var eventName = controllerContext.RequestContext.GetRequestValue("eventName");
                 return !String.IsNullOrEmpty(eventName) && eventName.Equals(menuItem.RouteValues["eventName"].ToString(), StringComparison.OrdinalIgnoreCase);

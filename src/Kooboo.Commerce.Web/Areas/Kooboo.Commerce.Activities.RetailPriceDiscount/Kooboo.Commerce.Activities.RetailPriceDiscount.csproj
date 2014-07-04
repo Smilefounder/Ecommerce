@@ -81,8 +81,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddInAreaRegistration.cs" />
-    <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="DiscountMode.cs" />
     <Compile Include="RetailPriceDiscountActivity.cs" />
     <Compile Include="RetailPriceDiscountActivityConfig.cs" />

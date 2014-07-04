@@ -85,10 +85,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddInAreaRegistration.cs" />
     <Compile Include="ChangeSavingPointsActivity.cs" />
     <Compile Include="ChangeSavingPointsActivityConfig.cs" />
-    <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SavingPointAction.cs" />
     <Compile Include="Strings.cs" />
