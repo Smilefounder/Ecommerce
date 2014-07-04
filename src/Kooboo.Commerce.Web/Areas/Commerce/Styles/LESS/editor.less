@@ -72,6 +72,10 @@
 		top: 0;
 		width: 400px;
 
+		.ui-tabs .ui-tabs-nav li a {
+			min-width: 50px;
+		}
+
 		.code-viewer {
 			.title {
 				font-size: 12px;
@@ -92,7 +96,8 @@
 			.code {
 				cursor: pointer;
 
-				&.active {
+				&.active,
+				&.hover {
 					background: #39F;
 					color: #FFF;
 					.rounded(3px);
@@ -113,7 +118,8 @@
 						background: #DDD;
 					}
 
-					&.active {
+					&.active,
+					&.hover {
 						background: #39F;
 						color: #FFF;
 					}
@@ -228,8 +234,49 @@
 						white-space: nowrap;
 					}
 
+					li {
+						background: url(images/line.png) no-repeat 6px -35px;
+						padding: 0 0 0 16px;
+
+						&:last-child {
+							background: url(images/line-end.png) no-repeat 6px -11px;
+						}
+
+						span {
+							background: #FFF;
+							padding-left: 4px;
+						}
+					}
+
 					&:hover {
 						background: #F5F5F5;
+
+						span {
+							background-color: #F5F5F5;
+						}
+					}
+				}
+
+				table {
+					width: 100%;
+
+					th,
+					td {
+						padding: 4px;
+
+						&:first-child {
+							padding-left: 20px;
+						}
+
+						&:last-child {
+							padding-right: 20px;
+						}
+					}
+
+					td {
+						&.action {
+							width: 16px;
+						}
 					}
 				}
 			}
@@ -266,6 +313,140 @@
 						right: 0;
 						top: 0;
 					}
+				}
+			}
+		}
+
+		.layout-box {
+			position: relative;
+
+			> .label {
+				bottom: 0;
+				top: auto !important;
+
+				&.left {
+					left: 0;
+				}
+
+				&.right {
+					left: auto;
+					right: 0;
+				}
+			}
+
+			div {
+				padding: 24px;
+				position: relative;
+
+				&.hover {
+					background: #39F;
+					color: #FFF;
+
+					> .label,
+					> input,
+					> .text {
+						color: #FFF !important;
+					}
+				}
+			}
+
+			.label {
+				background: none;
+				color: #555;
+				left: 4px;
+				line-height: 1.5;
+				padding: 0;
+				position: absolute;
+				top: 0;
+			}
+
+			input.top,
+			input.bottom,
+			input.left,
+			input.right {
+				background: none;
+				border: none;
+				height: 20px;
+				padding: 0;
+				position: absolute;
+				text-align: center;
+				width: 20px;
+
+				&.null {
+					color: #999;
+				}
+
+				&:focus {
+					background: #FFF;
+					color: #555;
+				}
+			}
+
+			input.top {
+				left: 50%;
+				margin-left: -10px;
+				top: 2px;
+			}
+
+			input.bottom {
+				bottom: 2px;
+				left: 50%;
+				margin-left: -10px;
+			}
+
+			input.left {
+				left: 2px;
+				top: 50%;
+				margin-top: -10px;
+			}
+
+			input.right {
+				right: 2px;
+				top: 50%;
+				margin-top: -10px;
+			}
+
+			.margin {
+				background: #FFF;
+				border: 1px dashed #BBB;
+			}
+
+			.border {
+				background: #BBB;
+				border: 1px solid #888;
+			}
+
+			.padding {
+				background: #DDD;
+				border: 1px solid #888;
+			}
+
+			.content {
+				background: #DDD;
+				border: 1px solid #888;
+				padding: 40px;
+
+				input.height,
+				input.width {
+					background: none;
+					border: none;
+					height: 20px;
+					padding: 0;
+					text-align: center;
+					width: 24px;
+
+					&.null {
+						color: #999;
+					}
+
+					&:focus {
+						background: #FFF;
+						color: #555;
+					}
+				}
+
+				.text {
+					color: #555;
 				}
 			}
 		}

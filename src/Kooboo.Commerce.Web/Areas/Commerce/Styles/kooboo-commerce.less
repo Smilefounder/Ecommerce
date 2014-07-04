@@ -140,17 +140,112 @@
 ----------------------------------------------------------*/
 .block.rules {
 	.rule {
-		padding: 10px 0;
-		border-bottom: 1px solid #DDD;
+		.icon.drag {
+			cursor: move;
+			display: none;
+		}
 
-		.wrap {
-			border-bottom: 1px dashed #EEE;
-			margin-bottom: 5px;
-			padding-bottom: 5px;
+		.summary {
+			background: #F9F9F9;
+			border: 1px solid #EEE;
+			margin-top: 10px;
+			padding: 10px 40px;
+			position: relative;
+			.rounded(5px);
 
-			&:last-child {
-				border: none;
-				margin: 0;
+			.icon.toggle {
+				cursor: pointer;
+				left: 19px;
+				margin-top: -5px;
+				position: absolute;
+				top: 50%;
+				.sprite(@plus-mini);
+			}
+
+			.action.remove {
+				margin-top: -8px;
+				position: absolute;
+				right: 10px;
+				top: 50%;
+			}
+
+			.summary-text span {
+				margin: 0 4px;
+
+				&:first-child {
+					margin-left: 0;
+				}
+			}
+
+			.tag {
+				color: #3CA8DB;
+				font-weight: 600;
+				text-transform: uppercase;
+			}
+
+			.label {
+				padding: 0 4px;
+			}
+		}
+
+		.detail {
+			background: #FFF;
+			border: 1px solid #CCC;
+			border-left-width: 3px;
+			border-right: none;
+			margin-top: 15px;
+			position: relative;
+
+			> .action.remove {
+				position: absolute;
+				right: 5px;
+				top: 5px;
+			}
+
+			.wrap {
+				border-bottom: 1px dashed #DDD;
+				padding: 10px 0 10px 10px;
+
+				&:last-child {
+					border: none;
+					margin: 0;
+				}
+			}
+
+			.condition {
+				.label {
+					float: left;
+					margin-right: 10px;
+					line-height: 17px;
+				}
+
+				.action {
+					float: left;
+					margin: 3px 5px 0 0;
+				}
+			}
+
+			select,
+			.button {
+				float: left;
+				margin-right: 10px;
+			}
+
+				.button.dropdown.only-icon {
+					margin-top: 10px;
+
+					&:first-child {
+						margin: 0;
+					}
+				}
+
+			.action.left {
+				margin: 6px 10px 0 0;
+			}
+
+			.buttons {
+				padding: 10px;
+				.clearfix();
 			}
 		}
 
@@ -165,11 +260,26 @@
 				margin: 4px 5px 0 0;
 			}
 		}
+	}
 
-		select,
-		.button {
-			float: left;
-			margin-right: 10px;
+	.ui-sortable .rule {
+		.summary {
+			.icon.drag {
+				display: block;
+				left: 2px;
+				margin-top: -9px;
+				position: absolute;
+				top: 50%;
+			}
+		}
+
+		.detail {
+			.icon.drag {
+				display: block;
+				left: -12px;
+				position: absolute;
+				top: -1px;
+			}
 		}
 	}
 
