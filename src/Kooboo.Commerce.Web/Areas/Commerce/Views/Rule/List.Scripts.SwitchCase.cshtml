@@ -39,7 +39,7 @@
                         <div>
                             <input type="text" data-bind="value: Value" class="medium" />
                         </div>
-                        <div data-bind="foreach: Rules" data-rules-prop="Rules">
+                        <div data-bind="sortable: { data: Rules, connectClass: $root.GenerateSortableConnectClass(), options: { handle: '.icon.drag' } }" data-rules-prop="Rules">
                             <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
                         </div>
                         <div class="button dropdown only-icon" data-toggle="dropdown">
@@ -63,7 +63,7 @@
                         <span class="rule-label">DEFAULT</span>
                     </div>
                     <div class="span11">
-                        <div data-bind="foreach: Default" data-rules-prop="Default">
+                        <div data-bind="sortable: { data: Default, connectClass: $root.GenerateSortableConnectClass(), options: { handle: '.icon.drag' } }" data-rules-prop="Default">
                             <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
                         </div>
                         <div class="button dropdown only-icon" data-toggle="dropdown">

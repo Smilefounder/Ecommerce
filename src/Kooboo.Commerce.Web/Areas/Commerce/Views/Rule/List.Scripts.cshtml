@@ -31,6 +31,10 @@
 
             self.AvailableActivities = [];
 
+            self.GenerateSortableConnectClass = function () {
+                return 'ko-container-' + new Date().getTime() + Math.round(Math.random() * 10000);
+            }
+
             self.Rules = ko.observableArray();
 
             self.AddRule = function (rules, type) {

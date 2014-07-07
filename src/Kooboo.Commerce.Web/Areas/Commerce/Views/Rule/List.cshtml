@@ -23,7 +23,7 @@
             </ul>
         </div>
     </div>
-    <div data-bind="foreach: { data: Rules }" data-rules-prop="Rules">
+    <div data-bind="sortable: { data: Rules, connectClass: 'root-rules', options: { handle: '.icon.drag' } }" data-rules-prop="Rules">
         <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }" class="top-level-rule-holder"></div>
     </div>
 </div>

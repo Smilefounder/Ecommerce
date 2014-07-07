@@ -25,7 +25,7 @@
                         <span class="rule-label">THEN</span>
                     </div>
                     <div class="span11">
-                        <div data-bind="foreach: Then" data-rules-prop="Then">
+                        <div data-bind="sortable: { data: Then, connectClass: $root.GenerateSortableConnectClass(), options: { handle: '.icon.drag' } }" data-rules-prop="Then">
                             <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
                         </div>
                         <div class="button dropdown only-icon" data-toggle="dropdown">
@@ -45,7 +45,7 @@
                         <span class="rule-label">ELSE</span>
                     </div>
                     <div class="span11">
-                        <div data-bind="foreach: Else" data-rules-prop="Else">
+                        <div data-bind="sortable: { data: Else, connectClass: $root.GenerateSortableConnectClass(), options: { handle: '.icon.drag' } }" data-rules-prop="Else">
                             <div data-bind="template: { data: $data, name: 'RuleTemplate-' + Type() }"></div>
                         </div>
                         <div class="button dropdown only-icon">

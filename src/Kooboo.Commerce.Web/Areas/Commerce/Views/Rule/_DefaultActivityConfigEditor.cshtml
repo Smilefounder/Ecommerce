@@ -1,6 +1,5 @@
 ﻿@{
-    var activity = ViewBag.Activity as IActivity;
-    var configModelType = activity.ConfigModelType;
+    var configModelType = ViewBag.Activity.ConfigModelType as Type;
 }
 
 <form class="common-form" id="default-activity-config-editor">
