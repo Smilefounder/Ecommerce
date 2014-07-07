@@ -260,6 +260,48 @@
 				margin: 4px 5px 0 0;
 			}
 		}
+
+		.activities {
+			li {
+				background: #F5F5F5;
+				border: 1px solid #DDD;
+				line-height: 16px;
+				margin: 0 10px 10px 0;
+				width: 300px;
+				padding: 4px;
+
+				.icon.drag {
+					display: none;
+				}
+
+				.action {
+					float: right;
+					margin-left: 10px;
+				}
+
+				.text {
+					display: block;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
+
+			&.ui-sortable {
+				li {
+					padding-left: 10px;
+					position: relative;
+
+					.icon.drag {
+						cursor: move;
+						display: block;
+						left: 2px;
+						position: absolute;
+						top: 3px;
+					}
+				}
+			}
+		}
 	}
 
 	.ui-sortable .rule {
