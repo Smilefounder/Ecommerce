@@ -1,9 +1,10 @@
-﻿using Kooboo.Commerce.Rules;
+﻿using Kooboo.Commerce.Globalization;
+using Kooboo.Commerce.Rules;
 using System.Collections.Generic;
 
 namespace Kooboo.Commerce.Brands
 {
-    public class Brand
+    public class Brand : ILocalizable
     {
         [Param]
         public int Id { get; set; }

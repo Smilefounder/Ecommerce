@@ -350,6 +350,7 @@
     <Compile Include="Areas\Commerce\Bootstrapping\PaymentProcessorRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\PromotionPolicyRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ShippingRateProviderRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Controllers\TestController.cs" />
     <Compile Include="Areas\Commerce\EntityUtil.cs" />
     <Compile Include="Areas\Commerce\Extensions\PagedListExtensions.cs" />
     <Compile Include="Areas\Commerce\Handlers\FilesStatus.cs" />

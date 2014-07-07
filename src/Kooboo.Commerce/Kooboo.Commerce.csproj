@@ -81,6 +81,8 @@
     <Compile Include="Events\Categories\ICategoryEvent.cs" />
     <Compile Include="Events\Customers\CustomerDeleted.cs" />
     <Compile Include="Events\Customers\CustomerUpdated.cs" />
+    <Compile Include="Events\Globalization\GetText.cs" />
+    <Compile Include="Events\Globalization\SetText.cs" />
     <Compile Include="Events\PaymentMethods\IPaymentMethodEvent.cs" />
     <Compile Include="Events\PaymentMethods\PaymentMethodDisabled.cs" />
     <Compile Include="Events\PaymentMethods\PaymentMethodEnabled.cs" />
@@ -105,6 +107,10 @@
     <Compile Include="Events\ShoppingCarts\CartItemRemoved.cs" />
     <Compile Include="Events\ShoppingCarts\CartCreated.cs" />
     <Compile Include="Events\ShoppingCarts\CartPriceCalculated.cs" />
+    <Compile Include="Globalization\EntityKey.cs" />
+    <Compile Include="Globalization\EntityProperty.cs" />
+    <Compile Include="Globalization\ILocalizable.cs" />
+    <Compile Include="Globalization\LocalizableExtensions.cs" />
     <Compile Include="Locations\AddressExtensions.cs" />
     <Compile Include="Customers\CustomerCustomField.cs" />
     <Compile Include="Customers\CustomerQueryModel.cs" />
