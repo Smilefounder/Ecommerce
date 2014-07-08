@@ -6,6 +6,7 @@ using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Globalization;
 
 namespace Kooboo.Commerce.Products
 {
@@ -13,7 +14,7 @@ namespace Kooboo.Commerce.Products
     /// This class store the product information, but the sale items. The items to be sold stored in the ProductVariant. 
     /// One product can have multiple variants, each variant contains some field values and some price, stock, etc. 
     /// </summary>
-    public class Product
+    public class Product : ILocalizable
     {
         public Product()
         {

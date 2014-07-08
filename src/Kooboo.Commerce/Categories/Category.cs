@@ -1,10 +1,11 @@
-﻿using Kooboo.Commerce.Rules;
+﻿using Kooboo.Commerce.Globalization;
+using Kooboo.Commerce.Rules;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
 namespace Kooboo.Commerce.Categories
 {
-    public class Category
+    public class Category : ILocalizable
     { 
         [Param]
         public int Id { get; set; } 

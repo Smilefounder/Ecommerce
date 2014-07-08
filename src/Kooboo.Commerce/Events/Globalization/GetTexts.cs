@@ -7,22 +7,16 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Globalization
 {
-    public class SetText : Event
+    public class GetTexts : Event
     {
-        public ILocalizable Entity { get; private set; }
-
         public IDictionary<EntityProperty, string> Texts { get; private set; }
 
         public CultureInfo Culture { get; private set; }
 
-        public SetText(ILocalizable entity, IDictionary<EntityProperty, string> texts, CultureInfo culture)
+        public GetTexts(IDictionary<EntityProperty, string> texts, CultureInfo culture)
         {
-            Require.NotNull(texts, "texts");
-            Require.NotNull(culture, "culture");
-
-            Entity = entity;
-            Texts = texts;
             Culture = culture;
+            Texts = texts;
         }
     }
 }

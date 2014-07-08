@@ -76,11 +76,22 @@ namespace Kooboo.Commerce.Globalization
 
         static readonly ConcurrentDictionary<Type, List<PropertyInfo>> _cache = new ConcurrentDictionary<Type, List<PropertyInfo>>();
 
+        public static EntityKey Get<T>(T entity)
+            where T : class
+        {
+            return Get(entity, typeof(T));
+        }
+
         public static EntityKey Get(object entity)
+        {
+            return Get(entity, entity.GetType());
+        }
+
+        static EntityKey Get(object entity, Type entityType)
         {
             Require.NotNull(entity, "entity");
 
-            var props = GetKeyProperties(entity.GetType());
+            var props = GetKeyProperties(entityType);
             if (props.Count == 0)
                 throw new InvalidOperationException("No key is defined in type " + entity.GetType() + ".");
 
@@ -90,7 +101,7 @@ namespace Kooboo.Commerce.Globalization
                 idValues[i] = props[i].GetValue(entity, null);
             }
 
-            return new EntityKey(entity.GetType(), idValues);
+            return new EntityKey(entityType, idValues);
         }
 
         public static IList<PropertyInfo> GetKeyProperties(Type type)

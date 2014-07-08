@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
+using Kooboo.Commerce.Globalization;
 using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.ShoppingCarts;
@@ -9,7 +10,7 @@ using System.Linq;
 
 namespace Kooboo.Commerce.Products
 {
-    public class ProductPrice
+    public class ProductPrice : ILocalizable
     {
         [Param]
         public int Id { get; set; }

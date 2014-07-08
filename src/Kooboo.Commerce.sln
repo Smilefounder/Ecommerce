@@ -128,7 +128,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Rules.Custo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Tabs.Products.Sample", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Tabs.Products.Sample\Kooboo.Commerce.Tabs.Products.Sample.csproj", "{8DFA786B-4EC1-4B78-85DA-BCBCA5BA6F92}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rules", "Rules", "{7BD3519A-562B-4780-BCB5-E14F1B396B3C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business Rules", "Business Rules", "{7BD3519A-562B-4780-BCB5-E14F1B396B3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Rules.Activities.ChangeSavingPoints", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Rules.Activities.ChangeSavingPoints\Kooboo.Commerce.Rules.Activities.ChangeSavingPoints.csproj", "{E2A85603-2C66-4F33-9C5A-ED885C73026D}"
 EndProject
