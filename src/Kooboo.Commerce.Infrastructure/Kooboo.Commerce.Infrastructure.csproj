@@ -84,7 +84,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\EntityKeyManager.cs" />
     <Compile Include="Rules\Activities\ActivityBase.cs" />
     <Compile Include="Rules\Activities\ActivityContext.cs" />
     <Compile Include="Rules\Activities\ActivityEventManager.cs" />

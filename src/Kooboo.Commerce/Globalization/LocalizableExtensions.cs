@@ -20,7 +20,7 @@ namespace Kooboo.Commerce
 
         public static IDictionary<string, string> GetTexts(this ILocalizable entity, IEnumerable<string> properties, CultureInfo culture)
         {
-            var entityKey = EntityKey.GetEntityKey(entity);
+            var entityKey = EntityKey.Get(entity);
             var entityProperties = properties.Select(name => new EntityProperty(name, entityKey));
 
             var result = GetTexts(entity, entityProperties, culture);
@@ -41,7 +41,7 @@ namespace Kooboo.Commerce
 
         public static void SetTexts(this ILocalizable entity, IDictionary<string, string> propertyTexts, CultureInfo culture)
         {
-            var entityKey = EntityKey.GetEntityKey(entity);
+            var entityKey = EntityKey.Get(entity);
             var texts = propertyTexts.ToDictionary(x => new EntityProperty(x.Key, entityKey), x => x.Value);
 
             var @event = new SetText(entity, texts, culture);
