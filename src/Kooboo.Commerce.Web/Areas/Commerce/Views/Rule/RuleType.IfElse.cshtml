@@ -145,10 +145,10 @@
             },
 
             RenderTooltip: function (rule, level) {
-                var html = '<div style="padding-left:' + (10 * level) + 'px">';
+                var html = '<div class="rule-summary">';
 
-                html += '<div>IF (' + window.RuleTypes['IfElse'].GetConditionsDescription(rule) + ')</div>';
-                html += '<div>THEN</div>';
+                html += '<div><span class="tag">IF</span> (' + window.RuleTypes['IfElse'].GetConditionsDescription(rule) + ')</div>';
+                html += '<div><span class="tag">THEN</span></div>';
 
                 if (rule.Then().length > 0) {
                     $.each(rule.Then(), function (i) {
@@ -162,7 +162,7 @@
                 }
 
                 if (rule.Else().length > 0) {
-                    html += '<div>ELSE</div>';
+                    html += '<div><span class="tag">ELSE</span></div>';
                     $.each(rule.Else(), function(i) {
                         if (i > 0) {
                             html += '<br/>';

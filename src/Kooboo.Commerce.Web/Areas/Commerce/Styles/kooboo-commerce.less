@@ -139,53 +139,87 @@
 /* Rules block
 ----------------------------------------------------------*/
 .block.rules {
+
+	.summary {
+		background: #F9F9F9;
+		border: 1px solid #EEE;
+		margin-top: 10px;
+		padding: 10px 40px;
+		position: relative;
+		.rounded(5px);
+
+		.icon.toggle {
+			cursor: pointer;
+			left: 19px;
+			margin-top: -5px;
+			position: absolute;
+			top: 50%;
+			.sprite(@plus-mini);
+		}
+
+		.action.remove {
+			margin-top: -8px;
+			position: absolute;
+			right: 10px;
+			top: 50%;
+		}
+
+		.summary-text span {
+			margin: 0 4px;
+
+			&:first-child {
+				margin-left: 0;
+			}
+		}
+
+		.tag {
+			color: #3CA8DB;
+			font-weight: 600;
+			text-transform: uppercase;
+		}
+
+		.label {
+			padding: 0 4px;
+		}
+	}
+
+	.simple-table {
+		td {
+			background: #FFF;
+			border-bottom: 1px solid #DDD;
+
+			&.event {
+				background: #F9F9F9;
+				font-weight: 600;
+				line-height: 40px;
+				vertical-align: text-top;
+				width: 140px;
+			}
+		}
+
+		tr:hover td {
+			background: #FFFFF0;
+		}
+
+		.summary {
+			padding: 10px 30px 10px 10px;
+
+			&:first-child {
+				margin: 0;
+			}
+
+			.action {
+				position: absolute;
+				right: 10px;
+				top: 10px;
+			}
+		}
+	}
+
 	.rule {
 		.icon.drag {
 			cursor: move;
 			display: none;
-		}
-
-		.summary {
-			background: #F9F9F9;
-			border: 1px solid #EEE;
-			margin-top: 10px;
-			padding: 10px 40px;
-			position: relative;
-			.rounded(5px);
-
-			.icon.toggle {
-				cursor: pointer;
-				left: 19px;
-				margin-top: -5px;
-				position: absolute;
-				top: 50%;
-				.sprite(@plus-mini);
-			}
-
-			.action.remove {
-				margin-top: -8px;
-				position: absolute;
-				right: 10px;
-				top: 50%;
-			}
-
-			.summary-text span {
-				margin: 0 4px;
-
-				&:first-child {
-					margin-left: 0;
-				}
-			}
-
-			.tag {
-				color: #3CA8DB;
-				font-weight: 600;
-				text-transform: uppercase;
-			}
-
-			.label {
-				padding: 0 4px;
-			}
 		}
 
 		.detail {
@@ -330,6 +364,26 @@
 		color: #3CA8DB;
 		display: block;
 		text-transform: uppercase;
+	}
+}
+
+/* Rule summary
+----------------------------------------------------------*/
+.rule-summary {
+	white-space: nowrap;
+
+	.tag {
+		color: #3CA8DB;
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+
+	.label {
+		padding: 0 4px;
+	}
+
+	.rule-summary {
+		margin-left: 20px;
 	}
 }
 

@@ -140,13 +140,12 @@
             },
 
             RenderTooltip: function (rule, level) {
-                var html = '<div style="padding-left:' + (10 * level) + 'px">';
+                var html = '<div class="rule-summary">';
 
                 $.each(rule.Activities(), function (i) {
-                    html += '<div>' + this.Description() + '</div>';
+                    html += '<div><span class="label">' + this.Description() + '</span></div>';
                 });
 
-                html += '</div>';
                 html += '</div>';
 
                 return html;

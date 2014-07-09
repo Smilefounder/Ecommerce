@@ -187,19 +187,19 @@
             },
 
             RenderTooltip: function (rule, level) {
-                var html = '<div style="padding-left:' + (10 * level) + 'px">';
+                var html = '<div class="rule-summary">';
 
-                html += '<div>SWITCH (' + rule.Parameter() + ')</div>';
+                html += '<div><span class="tag">SWITCH</span> (' + rule.Parameter() + ')</div>';
 
                 $.each(rule.Cases(), function (i, caze) {
-                    html += '<div>CASE ' + caze.Value() + '</div>';
+                    html += '<div><span class="tag">CASE</span> ' + caze.Value() + '</div>';
                     $.each(caze.Rules(), function () {
                         html += window.RuleTypes[this.Type()].RenderTooltip(this, level + 1);
                     });
                 });
 
                 if (rule.Default().length > 0) {
-                    html += '<div>DEFAULT</div>';
+                    html += '<div><span class="tag">DEFAULT</span></div>';
                     $.each(rule.Default(), function () {
                         html += window.RuleTypes[this.Type()].RenderTooltip(this, level + 1);
                     });
