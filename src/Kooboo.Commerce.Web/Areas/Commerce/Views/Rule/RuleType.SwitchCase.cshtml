@@ -146,9 +146,8 @@
                     html += '<div>CASE (' + caze.Value() + ')</div>';
                     $.each(caze.Rules(), function (i, rule) {
                         if (i > 0 ) {
-                            html += '<br/>';
+                            html += '<hr class="rule-divider"/>';
                         }
-
                         html += window.RuleTypes[rule.Type()].RenderTooltip(rule, 1);
                     });
                 }
@@ -178,7 +177,7 @@
                 var html = '';
                 $.each(rules, function (i, rule) {
                     if (i > 0) {
-                        html +='<br/>';
+                        html += '<hr class="rule-divider"/>';
                     }
                     html += window.RuleTypes[rule.Type()].RenderTooltip(rule, 0);
                 });

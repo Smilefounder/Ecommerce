@@ -136,7 +136,7 @@
                 var html = '';
                 $.each(rules, function (i, rule) {
                     if (i > 0) {
-                        html += '<br/>'
+                        html += '<hr class="rule-divider"/>';
                     }
                     html += window.RuleTypes[rule.Type()].RenderTooltip(rule, 0);
                 });
@@ -153,7 +153,7 @@
                 if (rule.Then().length > 0) {
                     $.each(rule.Then(), function (i) {
                         if (i > 0) {
-                            html += '<hr/>';
+                            html += '<hr class="rule-divider"/>';
                         }
                         html += window.RuleTypes[this.Type()].RenderTooltip(this, level + 1);
                     });
@@ -165,7 +165,7 @@
                     html += '<div><span class="tag">ELSE</span></div>';
                     $.each(rule.Else(), function(i) {
                         if (i > 0) {
-                            html += '<br/>';
+                            html += '<hr class="rule-divider"/>';
                         }
                         html += window.RuleTypes[this.Type()].RenderTooltip(this, level + 1);
                     });
