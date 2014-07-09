@@ -1,20 +1,43 @@
-﻿@model IList<EventSlot>
+﻿@using Newtonsoft.Json
+@using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
+@model IList<EventSlotModel>
 @{
     ViewBag.Title = "Overview".Localize();
 }
 
-<div class="block">
-    @foreach (var slot in Model) {
+<div class="block" id="rules-overview" data-bind="foreach: Slots">
     <div class="columns">
-        <div class="span4">
-            @slot.EventName
+        <div class="span3">
+            <span data-bind="text: EventName"></span>
         </div>
-        <div class="span8">
-            @foreach (var rule in slot.Rules)
-            {
-                
-            }
+        <div class="span9">
+            <div class="block rules">
+                <!-- ko foreach: Rules -->
+                <div class="rule rule-overview">
+                    <a class="action" data-bind="attr: { href: '@Url.Action("List", RouteValues.From(Request.QueryString))&eventName=' + $parent.EventName() }">
+                        @Html.IconImage("edit-small")
+                    </a>
+                    <div class="summary">
+                        <div data-bind="template: { name: 'RuleSummaryTemplate-' + Type(), data: $data }"></div>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
         </div>
     </div>
-    }
 </div>
+
+@Html.Partial("RuleType.IfElse")
+@Html.Partial("RuleType.SwitchCase")
+@Html.Partial("RuleType.Always")
+
+<script>
+    $(function () {
+
+        var viewModel = {
+            Slots: ko.mapping.fromJS(@(Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }))))
+        };
+
+        ko.applyBindings(viewModel, document.getElementById('rules-overview'));
+    });
+</script>

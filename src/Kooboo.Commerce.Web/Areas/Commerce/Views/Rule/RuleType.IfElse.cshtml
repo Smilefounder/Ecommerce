@@ -10,18 +10,7 @@
             </a>
             @Html.IconImage("drag")
             <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
-            <div class="summary-text">
-                <span class="tag">IF</span>
-                <span>(<span data-bind="html: window.RuleTypes['IfElse'].GetConditionsDescription($data)"></span>)</span>
-                <!-- ko if: Then().length > 0 -->
-                <span class="tag">THEN</span>
-                <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['IfElse'].GetBranchSummary(Then()), tooltip: window.RuleTypes['IfElse'].GetBranchTooltip(Then())"></span>
-                <!-- /ko -->
-                <!-- ko if: Else().length > 0 -->
-                <span class="tag">ELSE</span>
-                <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['IfElse'].GetBranchSummary(Else()), tooltip: window.RuleTypes['IfElse'].GetBranchTooltip(Else())"></span>
-                <!-- /ko -->
-            </div>
+            <div data-bind="template: { name: 'RuleSummaryTemplate-IfElse', data: $data }"></div>
         </div>
         <!-- /ko -->
         <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
@@ -84,11 +73,27 @@
     </div>
 </script>
 
+<script type="text/html" id="RuleSummaryTemplate-IfElse">
+    <div class="summary-text">
+        <span class="tag">IF</span>
+        <span>(<span data-bind="html: window.RuleTypes['IfElse'].GetConditionsDescription($data)"></span>)</span>
+        <!-- ko if: Then().length > 0 -->
+        <span class="tag">THEN</span>
+        <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['IfElse'].GetBranchSummary(Then()), tooltip: window.RuleTypes['IfElse'].GetBranchTooltip(Then())"></span>
+        <!-- /ko -->
+        <!-- ko if: Else().length > 0 -->
+        <span class="tag">ELSE</span>
+        <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['IfElse'].GetBranchSummary(Else()), tooltip: window.RuleTypes['IfElse'].GetBranchTooltip(Else())"></span>
+        <!-- /ko -->
+    </div>
+</script>
+
 <script>
     (function () {
 
         var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new IfElseRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects }));
-
+        
+        window.RuleTypes = window.RuleTypes || {};
         window.RuleTypes['IfElse'] = {
 
             Name: 'IfElse',

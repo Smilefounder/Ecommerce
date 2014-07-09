@@ -8,9 +8,9 @@
     window.AvailableActivities = @Html.Raw(JsonConvert.SerializeObject(ViewBag.AvailableActivities));
 </script>
 
-@Html.Partial("List.Scripts.IfElse")
-@Html.Partial("List.Scripts.SwitchCase")
-@Html.Partial("List.Scripts.Always")
+@Html.Partial("RuleType.IfElse")
+@Html.Partial("RuleType.SwitchCase")
+@Html.Partial("RuleType.Always")
 
 @Html.Partial("_ConditionsDialog")
 <script>

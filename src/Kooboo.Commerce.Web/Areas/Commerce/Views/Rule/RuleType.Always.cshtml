@@ -10,10 +10,7 @@
             </a>
             @Html.IconImage("drag")
             <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
-            <div class="summary-text">
-                <span class="tag">ALWAYS</span>
-                <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['Always'].GetActivitiesSummary($data), tooltip: window.RuleTypes['Always'].GetActivitiesTooltip($data)"></span>
-            </div>
+            <div data-bind="template: { name: 'RuleSummaryTemplate-Always', data: $data }"></div>
         </div>
         <!-- /ko -->
         <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
@@ -46,6 +43,13 @@
             </div>
             @Html.Partial("_RuleFooter")
         </div>
+    </div>
+</script>
+
+<script type="text/html" id="RuleSummaryTemplate-Always">
+    <div class="summary-text">
+        <span class="tag">ALWAYS</span>
+        <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['Always'].GetActivitiesSummary($data), tooltip: window.RuleTypes['Always'].GetActivitiesTooltip($data)"></span>
     </div>
 </script>
 
@@ -93,6 +97,7 @@
             window.ActivityEditingContext = null;
         }
 
+        window.RuleTypes = window.RuleTypes || {};
         window.RuleTypes['Always'] = {
 
             Name: 'Always',

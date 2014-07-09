@@ -421,6 +421,7 @@
     <Compile Include="Areas\Commerce\Models\Rules\AlwaysRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\CaseModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConfiguredActivityModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Rules\EventSlotModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\IfElseRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\RuleModelBase.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\SwitchCaseRuleModel.cs" />
@@ -3533,15 +3534,15 @@
     <Content Include="Areas\Commerce\Views\Shared\_DefaultTabPluginView.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\List.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\List.Scripts.cshtml" />
-    <Content Include="Areas\Commerce\Views\Rule\List.Scripts.IfElse.cshtml" />
-    <Content Include="Areas\Commerce\Views\Rule\List.Scripts.Always.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\RuleType.IfElse.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\RuleType.Always.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\AddActivity.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\_ActivityEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\_ActivityEditor.BasicInfo.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\_ActivityEditor.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\_DefaultActivityConfigEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\EditActivity.cshtml" />
-    <Content Include="Areas\Commerce\Views\Rule\List.Scripts.SwitchCase.cshtml" />
+    <Content Include="Areas\Commerce\Views\Rule\RuleType.SwitchCase.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\_RuleFooter.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />

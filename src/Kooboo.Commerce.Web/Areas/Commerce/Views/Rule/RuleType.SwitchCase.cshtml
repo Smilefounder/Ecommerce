@@ -4,7 +4,7 @@
 @using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
 @{
     var parameters = ViewBag.AvailableParameters as IList<RuleParameter>;
-    parameters = parameters.Where(p => p.SupportedOperators.Any(o => o is EqualsOperator)).ToList();   
+    parameters = parameters == null ? null : parameters.Where(p => p.SupportedOperators.Any(o => o is EqualsOperator)).ToList();   
 }
 
 <script type="text/html" id="RuleTemplate-SwitchCase">
@@ -16,25 +16,7 @@
             </a>
             @Html.IconImage("drag")
             <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
-            <div class="summary-text">
-                <span class="tag">SWITCH</span>
-                <span>(<span data-bind="html: Parameter"></span>)</span>
-                <!-- ko if: Cases().length === 1 -->
-                <span data-bind="with: Cases()[0]">
-                    <span class="tag">CASE</span>
-                    <span>(<span data-bind="html: Value"></span>)</span>
-                    <span data-bind="html: window.RuleTypes['SwitchCase'].GetRulesSummary(Rules()), tooltip: window.RuleTypes['SwitchCase'].GetRulesTooltip(Rules())"></span>
-                </span>
-                <span data-toggle="expand-rule" data-bind="visible: Cases().length > 1, tooltip: window.RuleTypes['SwitchCase'].GetCasesTooltip(Cases(), 1)">...</span>
-                <!-- /ko -->
-                <!-- ko if: Cases().length > 1 -->
-                <span class="label" data-toggle="expand-rule" data-bind="tooltip: window.RuleTypes['SwitchCase'].GetCasesTooltip(Cases(), 0)">...</span>
-                <!-- /ko -->
-                <!-- ko if: Default().length > 0 -->
-                <span class="tag">DEFAULT</span>
-                <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['SwitchCase'].GetRulesSummary(Default()), tooltip: window.RuleTypes['SwitchCase'].GetRulesTooltip(Default())"></span>
-                <!-- /ko -->
-            </div>
+            <div data-bind="template: { name: 'RuleSummaryTemplate-SwitchCase', data: $data }"></div>
         </div>
         <!-- /ko -->
         <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
@@ -47,9 +29,11 @@
                     </div>
                     <div class="span11">
                         <select data-bind="value: Parameter" class="medium">
-                            @foreach (var param in parameters)
-                            {
-                                <option value="@param.Name">@param.Name</option>
+                            @if (parameters != null) { 
+                                foreach (var param in parameters)
+                                {
+                                    <option value="@param.Name">@param.Name</option>
+                                }
                             }
                         </select>
                     </div>
@@ -109,11 +93,34 @@
     </div>
 </script>
 
+<script type="text/html" id="RuleSummaryTemplate-SwitchCase">
+    <div class="summary-text">
+        <span class="tag">SWITCH</span>
+        <span>(<span data-bind="html: Parameter"></span>)</span>
+        <!-- ko if: Cases().length === 1 -->
+        <span data-bind="with: Cases()[0]">
+            <span class="tag">CASE</span>
+            <span>(<span data-bind="html: Value"></span>)</span>
+            <span data-bind="html: window.RuleTypes['SwitchCase'].GetRulesSummary(Rules()), tooltip: window.RuleTypes['SwitchCase'].GetRulesTooltip(Rules())"></span>
+        </span>
+        <span data-toggle="expand-rule" data-bind="visible: Cases().length > 1, tooltip: window.RuleTypes['SwitchCase'].GetCasesTooltip(Cases(), 1)">...</span>
+        <!-- /ko -->
+        <!-- ko if: Cases().length > 1 -->
+        <span class="label" data-toggle="expand-rule" data-bind="tooltip: window.RuleTypes['SwitchCase'].GetCasesTooltip(Cases(), 0)">...</span>
+        <!-- /ko -->
+        <!-- ko if: Default().length > 0 -->
+        <span class="tag">DEFAULT</span>
+        <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['SwitchCase'].GetRulesSummary(Default()), tooltip: window.RuleTypes['SwitchCase'].GetRulesTooltip(Default())"></span>
+        <!-- /ko -->
+    </div>
+</script>
+
 <script>
     (function () {
 
         var defaultModel = @Html.Raw(JsonConvert.SerializeObject(new SwitchCaseRuleModel(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects }));
-
+ 
+        window.RuleTypes = window.RuleTypes || {};
         window.RuleTypes['SwitchCase'] = {
 
             Name: 'SwitchCase',
