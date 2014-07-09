@@ -326,6 +326,11 @@
     <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\ObjectModelBinder.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Customers\RecentOrderedCustomers.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Customers\TopOrderedCustomers.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Orders\MostCostOrder.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Orders\RecentOrder.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Products\TopSoldProduct.cs" />
     <Compile Include="Areas\Commerce\Common\RouteValues.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListItems.cs" />
@@ -3707,10 +3712,6 @@
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce.Customers.ExtendedQuery\Kooboo.Commerce.Customers.ExtendedQuery.csproj">
-      <Project>{e0fecbcd-68c8-4c2d-8bd5-7bb03054b5c8}</Project>
-      <Name>Kooboo.Commerce.Customers.ExtendedQuery</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Data.SqlServer\Kooboo.Commerce.Data.SqlServer.csproj">
       <Project>{5b8b6f8c-f82f-425f-b521-40b2949383e4}</Project>
       <Name>Kooboo.Commerce.Data.SqlServer</Name>
@@ -3718,14 +3719,6 @@
     <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
       <Name>Kooboo.Commerce.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce.Orders.ExtendedQuery\Kooboo.Commerce.Orders.ExtendedQuery.csproj">
-      <Project>{efe5d7fe-7a24-403b-ab6a-e35a3c58b4ce}</Project>
-      <Name>Kooboo.Commerce.Orders.ExtendedQuery</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce.Products.ExtendedQuery\Kooboo.Commerce.Products.ExtendedQuery.csproj">
-      <Project>{78e5afa1-8282-4d0f-b380-b4a2b46b55d2}</Project>
-      <Name>Kooboo.Commerce.Products.ExtendedQuery</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Web.Framework\Kooboo.Commerce.Web.Framework.csproj">
       <Project>{fada65d6-57b3-4049-9961-5aeab7806297}</Project>

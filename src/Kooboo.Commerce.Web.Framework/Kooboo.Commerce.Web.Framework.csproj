@@ -77,6 +77,15 @@
     <Compile Include="Mvc\JsonNetResult.cs" />
     <Compile Include="Mvc\TransactionalAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\CustomerQueryModel.cs" />
+    <Compile Include="Queries\DefaultExtendedQueryManager.cs" />
+    <Compile Include="Queries\ICustomerExtendedQuery.cs" />
+    <Compile Include="Queries\IOrderExtendedQuery.cs" />
+    <Compile Include="Queries\OrderQueryModel.cs" />
+    <Compile Include="Queries\IProductExtendedQuery.cs" />
+    <Compile Include="Queries\IExtendedQuery.cs" />
+    <Compile Include="Queries\IExtendedQueryManager.cs" />
+    <Compile Include="Queries\ProductQueryModel.cs" />
     <Compile Include="Tabs\DynamicViewDataDictionary.cs" />
     <Compile Include="Tabs\ITabPlugin.cs" />
     <Compile Include="Tabs\LoadedTabPlugin.cs" />
@@ -91,7 +100,12 @@
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
       <Name>Kooboo.Commerce.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce\Kooboo.Commerce.csproj">
+      <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
+      <Name>Kooboo.Commerce</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -73,7 +73,6 @@
     <Compile Include="Categories\CategoryCustomField.cs" />
     <Compile Include="Categories\Services\CategoryService.cs" />
     <Compile Include="Categories\Services\ICategoryService.cs" />
-    <Compile Include="Customers\ExtendedQuery.cs" />
     <Compile Include="EAV\CustomFieldValue.cs" />
     <Compile Include="Events\Categories\CategoryCreated.cs" />
     <Compile Include="Events\Categories\CategoryDeleted.cs" />
@@ -113,8 +112,6 @@
     <Compile Include="Globalization\Localizer.cs" />
     <Compile Include="Locations\AddressExtensions.cs" />
     <Compile Include="Customers\CustomerCustomField.cs" />
-    <Compile Include="Customers\CustomerQueryModel.cs" />
-    <Compile Include="DefaultExtendedQueryManager.cs" />
     <Compile Include="Events\Brands\BrandCreated.cs" />
     <Compile Include="Events\Brands\BrandDeleted.cs" />
     <Compile Include="Events\Brands\BrandUpdated.cs" />
@@ -127,7 +124,6 @@
     <Compile Include="Events\Promotions\PromotionDisabled.cs" />
     <Compile Include="Events\Promotions\IPromotionEvent.cs" />
     <Compile Include="Events\Promotions\PromotionEnabled.cs" />
-    <Compile Include="IExtendedQuery.cs" />
     <Compile Include="EAV\FieldDataType.cs" />
     <Compile Include="EAV\CustomFieldType.cs" />
     <Compile Include="EAV\Services\CustomFieldService.cs" />
@@ -137,7 +133,6 @@
     <Compile Include="Events\Products\IProductEvent.cs" />
     <Compile Include="Events\ShoppingCarts\IShoppingCartEvent.cs" />
     <Compile Include="Events\Orders\IOrderEvent.cs" />
-    <Compile Include="IExtendedQueryManager.cs" />
     <Compile Include="Locations\Services\CountryService.cs" />
     <Compile Include="Locations\Services\ICountryService.cs" />
     <Compile Include="Data\Mapping\BrandMap.cs" />
@@ -154,11 +149,9 @@
     <Compile Include="Data\Mapping\ProductTypeMap.cs" />
     <Compile Include="Data\Mapping\ProductTypeVariantFieldMap.cs" />
     <Compile Include="Data\Mapping\ShoppingCartMap.cs" />
-    <Compile Include="Orders\ExtendedQuery.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderCustomField.cs" />
     <Compile Include="Orders\OrderingProcessManager.cs" />
-    <Compile Include="Orders\OrderQueryModel.cs" />
     <Compile Include="Orders\Pricing\PriceCalculationItem.cs" />
     <Compile Include="Orders\Pricing\IPriceCalculationModule.cs" />
     <Compile Include="Orders\Pricing\PriceCalculationContext.cs" />
@@ -181,9 +174,6 @@
     <Compile Include="Payments\Services\IPaymentService.cs" />
     <Compile Include="Orders\Services\IOrderService.cs" />
     <Compile Include="Payments\Services\PaymentService.cs" />
-    <Compile Include="Products\ExtendedQuery.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Products\Product.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -200,9 +190,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Products\ProductPriceVariantValue.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Products\ProductQueryModel.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Products\ProductType.cs">

@@ -9,7 +9,7 @@ using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Products.ExtendedQuery
 {
-    public class TopSoldProduct : Kooboo.Commerce.ExtendedQuery.ProductQuery
+    public class TopSoldProduct : Kooboo.Commerce.IProductExtendedQuery
     {
         public string Name
         {

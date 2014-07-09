@@ -7,11 +7,6 @@ using System.Text;
 
 namespace Kooboo.Commerce
 {
-    public partial class ExtendedQuery
-    {
-
-    }
-
     public interface IExtendedQuery
     {
         string Name { get; }

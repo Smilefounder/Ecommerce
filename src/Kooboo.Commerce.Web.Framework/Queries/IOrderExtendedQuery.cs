@@ -5,9 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce
 {
-    public partial class ExtendedQuery
+    public interface IOrderExtendedQuery : IExtendedQuery<Orders.OrderQueryModel>
     {
-        public interface OrderQuery : IExtendedQuery<Orders.OrderQueryModel>
-        { }
     }
 }

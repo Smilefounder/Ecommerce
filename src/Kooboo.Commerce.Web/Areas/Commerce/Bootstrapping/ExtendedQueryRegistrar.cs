@@ -18,19 +18,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
 
         public void Register(IContainerManager containerManager, CMS.Common.Runtime.ITypeFinder typeFinder)
         {
-            foreach (var type in typeFinder.FindClassesOfType<ExtendedQuery.CustomerQuery>())
+            foreach (var type in typeFinder.FindClassesOfType<ICustomerExtendedQuery>())
             {
-                containerManager.AddComponent(typeof(ExtendedQuery.CustomerQuery), type, type.FullName, ComponentLifeStyle.Transient);
+                containerManager.AddComponent(typeof(ICustomerExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
             }
 
-            foreach (var type in typeFinder.FindClassesOfType<ExtendedQuery.OrderQuery>())
+            foreach (var type in typeFinder.FindClassesOfType<IOrderExtendedQuery>())
             {
-                containerManager.AddComponent(typeof(ExtendedQuery.OrderQuery), type, type.FullName, ComponentLifeStyle.Transient);
+                containerManager.AddComponent(typeof(IOrderExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
             }
 
-            foreach (var type in typeFinder.FindClassesOfType<ExtendedQuery.ProductQuery>())
+            foreach (var type in typeFinder.FindClassesOfType<IProductExtendedQuery>())
             {
-                containerManager.AddComponent(typeof(ExtendedQuery.ProductQuery), type, type.FullName, ComponentLifeStyle.Transient);
+                containerManager.AddComponent(typeof(IProductExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
             }
         }
     }

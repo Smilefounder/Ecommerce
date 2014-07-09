@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 .ToPagedList(page, pageSize)
                 .Transform(o => new CustomerRowModel(o.Customer, o.Orders));
 
-            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<ExtendedQuery.CustomerQuery>();
+            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<ICustomerExtendedQuery>();
 
             return View(customers);
         }
@@ -139,12 +139,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult ExtendQuery(string name, int? page, int? pageSize)
         {
-            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<ExtendedQuery.CustomerQuery>();
+            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<ICustomerExtendedQuery>();
             IPagedList<CustomerRowModel> model = null;
-            var query = _extendedQueryManager.GetExtendedQuery<ExtendedQuery.CustomerQuery>(name);
+            var query = _extendedQueryManager.GetExtendedQuery<ICustomerExtendedQuery>(name);
             if (query != null)
             {
-                var paras = _extendedQueryManager.GetExtendedQueryParameters<ExtendedQuery.CustomerQuery>(name);
+                var paras = _extendedQueryManager.GetExtendedQueryParameters<ICustomerExtendedQuery>(name);
 
                 model = query.Query(paras, _db, page ?? 1, pageSize ?? 50)
                     .Transform(o => new CustomerRowModel(o.Customer, o.OrdersCount));
@@ -169,8 +169,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult GetParameters(string name)
         {
-            var query = _extendedQueryManager.GetExtendedQuery<ExtendedQuery.CustomerQuery>(name);
-            var paras = _extendedQueryManager.GetExtendedQueryParameters<ExtendedQuery.CustomerQuery>(name);
+            var query = _extendedQueryManager.GetExtendedQuery<ICustomerExtendedQuery>(name);
+            var paras = _extendedQueryManager.GetExtendedQueryParameters<ICustomerExtendedQuery>(name);
             return JsonNet(new { Query = query, Parameters = paras });
         }
 
@@ -179,7 +179,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             try
             {
-                _extendedQueryManager.SaveExtendedQueryParameters<ExtendedQuery.CustomerQuery>(name, parameters);
+                _extendedQueryManager.SaveExtendedQueryParameters<ICustomerExtendedQuery>(name, parameters);
                 return this.JsonNet(new { status = 0, message = "Parameter Saved." });
             }
             catch (Exception ex)

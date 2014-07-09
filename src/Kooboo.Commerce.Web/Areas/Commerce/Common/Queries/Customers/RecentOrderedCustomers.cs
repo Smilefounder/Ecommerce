@@ -9,21 +9,21 @@ using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.Commerce.Customers.ExtendedQuery
 {
-    public class TopOrderedCustomers : Kooboo.Commerce.ExtendedQuery.CustomerQuery
+    public class RecentOrderedCustomers : Kooboo.Commerce.ICustomerExtendedQuery
     {
         public string Name
         {
-            get { return "TopOrderedCustomers"; }
+            get { return "RecentOrderedCustomer"; }
         }
 
         public string Title
         {
-            get { return "Most Ordered Customers"; }
+            get { return "Recent Ordered Customers"; }
         }
 
         public string Description
         {
-            get { return "return top number of customers who placed the most orders."; }
+            get { return "Customers who placed orders in the last days"; }
         }
 
         public ExtendedQueryParameter[] Parameters
@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Customers.ExtendedQuery
             {
                 return new ExtendedQueryParameter[]
                     {
-                        new ExtendedQueryParameter() { Name = "Num", Description = "top number", Type = typeof(System.Int32), DefaultValue = 10 }
+                        new ExtendedQueryParameter() { Name = "Days", Description = "Customer Ordered Days Before", Type = typeof(System.Int32), DefaultValue = 7 }
                     };
             }
         }
@@ -41,21 +41,24 @@ namespace Kooboo.Commerce.Customers.ExtendedQuery
         {
             if (pageIndex <= 1)
                 pageIndex = 1;
-            int num = 10;
-            var numPara = parameters.FirstOrDefault(o => o.Name == "Num");
-            if (numPara != null && numPara.Value != null && !string.IsNullOrEmpty(numPara.Value.ToString()))
-                num = Convert.ToInt32(numPara.Value);
 
-            var orderQuery = db.GetRepository<Order>().Query();
+            int days = 7;
+            var para = parameters.FirstOrDefault(o => o.Name == "Days");
+            if (para != null && para.Value != null)
+                days = Convert.ToInt32(para.Value);
+            DateTime lastDate = DateTime.Today.AddDays(-1 * days);
+
+            var orderQuery = db.GetRepository<Order>().Query()
+                .Where(o => o.CreatedAtUtc > lastDate);
             IQueryable<CustomerQueryModel> query = db.GetRepository<Customer>().Query()
                 .GroupJoin(orderQuery,
                            customer => customer.Id,
                            order => order.CustomerId,
                            (customer, orders) => new { Customer = customer, Orders = orders.Count() })
                 .Select(o => new CustomerQueryModel() { Customer = o.Customer, OrdersCount = o.Orders })
-                .OrderByDescending(o => o.OrdersCount);
+                .OrderByDescending(o => o.Customer.Id);
             var total = query.Count();
-            var data = query.Skip(0).Take(num).ToArray();
+            var data = query.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToArray();
             return new PagedList<CustomerQueryModel>(data, pageIndex, pageSize, total);
         }
     }
