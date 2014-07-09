@@ -67,7 +67,7 @@
             },
             onSaveSuccess: function (self, info) {
                 var name = self.Name();
-                var url = '@(executeurl)?siteName=@Request.QueryString["siteName"]&name=' + name;
+                var url = '@(executeurl)?instance=@(Request.QueryString["instance"])&siteName=@Request.QueryString["siteName"]&name=' + name;
                 window.location.href = url;
             },
             onInit: function (self) {

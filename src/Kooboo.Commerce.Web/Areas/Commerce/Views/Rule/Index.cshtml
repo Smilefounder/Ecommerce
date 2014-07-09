@@ -20,7 +20,7 @@
                         <!-- ko foreach: Rules -->
                         <div class="summary">
                             <div data-bind="template: { name: 'RuleSummaryTemplate-' + Type(), data: $data }"></div>
-                            <a class="action" data-bind="attr: { href: '@Url.Action("List", RouteValues.From(Request.QueryString))&eventName=' + $parent.EventName() }">
+                            <a class="action" data-bind="attr: { href: '@Url.Action("List", RouteValues.From(Request.QueryString))&eventName=' + $parent.EventName() + '&activeRule=' + $index() }">
                                 @Html.IconImage("edit-small")
                             </a>
                         </div>

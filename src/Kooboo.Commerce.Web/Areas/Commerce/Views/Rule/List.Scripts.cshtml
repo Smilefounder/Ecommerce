@@ -22,6 +22,7 @@
     $(function () {
 
         var eventName = '@(ViewBag.Event.EventName)';
+        var activeRuleIndex = @(Request.QueryString["activeRule"] ?? "null");
         var originalRules = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
 
         function RulesViewModel() {
@@ -108,11 +109,19 @@
             ExpandRule($(this).closest('.rule'));
             e.preventDefault();
         });
-
         $(document).on('click', '[data-toggle="collapse-rule"]', function (e) {
             CollapseRule($(this).closest('.rule'));
             e.preventDefault();
         });
+
+        if (activeRuleIndex !== null) {
+            var $rule = $('.top-level-rule-holder:nth(' + activeRuleIndex + ')').find('>.rule');
+            ExpandRule($rule);
+            kb.ui.Animation.scrollTo($rule, {
+                container: '#main > .wrap',
+                offset: 10
+            });
+        }
 
         function ExpandRule($rule) {
             $rule.find('.summary:first').hide();

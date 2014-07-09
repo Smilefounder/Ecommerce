@@ -173,6 +173,19 @@
         }
     });
 
+    // UI
+    kb.registerNamespace('kb.ui');
+
+    kb.ui.Animation = {
+        scrollTo: function (element, options) {
+            options = options || {};
+            var top = $(element).position().top - (options.offset || 0);
+            $(options.container || 'html, body').animate({
+                scrollTop: top
+            }, 'fast', null, options.done);
+        }
+    };
+
     // Unobtrusive control initializations
     kb.registerNamespace('kb.ui.unobtrusive');
 
