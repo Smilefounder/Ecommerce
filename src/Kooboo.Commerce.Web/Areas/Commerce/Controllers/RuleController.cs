@@ -26,7 +26,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var manager = RuleManager.GetManager(CurrentInstance.Name);
+            var slots = manager.GetSlots().Where(s => s.Rules.Count > 0).ToList();
+            return View(slots);
         }
 
         public ActionResult List(string eventName)

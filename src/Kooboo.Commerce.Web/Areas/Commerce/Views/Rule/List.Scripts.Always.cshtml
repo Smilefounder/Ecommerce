@@ -3,7 +3,19 @@
 
 <script type="text/html" id="RuleTemplate-Always">
     <div class="rule">
-        @Html.Partial("_RuleHeader")
+        <!-- ko if: $($element).parents('.rule').length === 1 -->
+        <div class="summary">
+            <a href="#" data-toggle="expand-rule">
+                @Html.IconImage("toggle")
+            </a>
+            @Html.IconImage("drag")
+            <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+            <div class="summary-text">
+                <span class="tag">ALWAYS</span>
+                <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['Always'].GetActivitiesSummary($data), tooltip: window.RuleTypes['Always'].GetActivitiesTooltip($data)"></span>
+            </div>
+        </div>
+        <!-- /ko -->
         <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
             @Html.IconImage("drag")
             <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
@@ -96,17 +108,41 @@
                 return model;
             },
 
-            GetSummary: function (rule) {
-                var html = '<span class="tag">ALWAYS</span> ';
+            GetActivitiesSummary: function (rule) {
+                var html = '<span class="label">';
 
                 if (rule.Activities().length > 0) {
-                    html += '<span class="label">' + rule.Activities()[0].Description() + '</span>';
+                    html += rule.Activities()[0].Description();
                     if (rule.Activities().length > 1) {
-                        html += '<span>...</span>';
+                        html += '...';
                     }
+
                 } else {
-                    html += '<span class="label">[EMPTY]</span>';
+                    html += '[EMPTY]';
                 }
+
+                html += '</span>'
+
+                return html;
+            },
+
+            GetActivitiesTooltip: function (rule) {
+                if (rule.Activities().length <= 1) {
+                    return '';
+                }
+
+                return window.RuleTypes['Always'].RenderTooltip(rule, 0);
+            },
+
+            RenderTooltip: function (rule, level) {
+                var html = '<div style="padding-left:' + (10 * level) + 'px">';
+
+                $.each(rule.Activities(), function (i) {
+                    html += '<div>' + this.Description() + '</div>';
+                });
+
+                html += '</div>';
+                html += '</div>';
 
                 return html;
             },

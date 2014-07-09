@@ -3542,7 +3542,6 @@
     <Content Include="Areas\Commerce\Views\Rule\_DefaultActivityConfigEditor.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\EditActivity.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\List.Scripts.SwitchCase.cshtml" />
-    <Content Include="Areas\Commerce\Views\Rule\_RuleHeader.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\_RuleFooter.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />

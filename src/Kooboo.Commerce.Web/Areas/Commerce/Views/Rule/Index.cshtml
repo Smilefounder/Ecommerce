@@ -1,5 +1,20 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model IList<EventSlot>
+@{
+    ViewBag.Title = "Overview".Localize();
 }
 
-<h2>Index</h2>
+<div class="block">
+    @foreach (var slot in Model) {
+    <div class="columns">
+        <div class="span4">
+            @slot.EventName
+        </div>
+        <div class="span8">
+            @foreach (var rule in slot.Rules)
+            {
+                
+            }
+        </div>
+    </div>
+    }
+</div>

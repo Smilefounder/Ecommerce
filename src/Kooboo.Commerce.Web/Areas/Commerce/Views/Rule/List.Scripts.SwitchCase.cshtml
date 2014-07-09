@@ -9,7 +9,34 @@
 
 <script type="text/html" id="RuleTemplate-SwitchCase">
     <div class="rule">
-        @Html.Partial("_RuleHeader")
+        <!-- ko if: $($element).parents('.rule').length === 1 -->
+        <div class="summary">
+            <a href="#" data-toggle="expand-rule">
+                @Html.IconImage("toggle")
+            </a>
+            @Html.IconImage("drag")
+            <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+            <div class="summary-text">
+                <span class="tag">SWITCH</span>
+                <span>(<span data-bind="html: Parameter"></span>)</span>
+                <!-- ko if: Cases().length === 1 -->
+                <span data-bind="with: Cases()[0]">
+                    <span class="tag">CASE</span>
+                    <span>(<span data-bind="html: Value"></span>)</span>
+                    <span data-bind="html: window.RuleTypes['SwitchCase'].GetRulesSummary(Rules()), tooltip: window.RuleTypes['SwitchCase'].GetRulesTooltip(Rules())"></span>
+                </span>
+                <span data-toggle="expand-rule" data-bind="visible: Cases().length > 1, tooltip: window.RuleTypes['SwitchCase'].GetCasesTooltip(Cases(), 1)">...</span>
+                <!-- /ko -->
+                <!-- ko if: Cases().length > 1 -->
+                <span class="label" data-toggle="expand-rule" data-bind="tooltip: window.RuleTypes['SwitchCase'].GetCasesTooltip(Cases(), 0)">...</span>
+                <!-- /ko -->
+                <!-- ko if: Default().length > 0 -->
+                <span class="tag">DEFAULT</span>
+                <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['SwitchCase'].GetRulesSummary(Default()), tooltip: window.RuleTypes['SwitchCase'].GetRulesTooltip(Default())"></span>
+                <!-- /ko -->
+            </div>
+        </div>
+        <!-- /ko -->
         <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
             @Html.IconImage("drag")
             <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
@@ -105,49 +132,73 @@
                 return model;
             },
 
-            GetSummary: function (rule) {
-                var html = '<span class="tag">SWITCH</span> (' + rule.Parameter() + ') ';
-
-                if (rule.Cases().length > 0) {
-                    html += '<span class="tag">CASE</span> ';
-
-                    var caze = rule.Cases()[0];
-                    html += '<span>(' + caze.Value() + ')</span> ';
-
-                    if (caze.Rules().length > 0) {
-                        var alwaysRule = _.find(caze.Rules(), function (r) {
-                            return r.Type() === 'Always';
-                        });
-                        if (alwaysRule && alwaysRule.Activities().length > 0) {
-                            html += '<span class="label">' + alwaysRule.Activities()[0].Description() + '</span>';
+            GetCasesTooltip: function (cases, start) {
+                var html = '';
+                for (var i = start, len = cases.length; i < len; i++) {
+                    var caze = cases[i];
+                    html += '<div>CASE (' + caze.Value() + ')</div>';
+                    $.each(caze.Rules(), function (i, rule) {
+                        if (i > 0 ) {
+                            html += '<br/>';
                         }
 
-                        if (alwaysRule.Activities().length > 1) {
-                            html += '<span>...</span>';
-                        }
-                    }
-
-                    if (rule.Cases().length > 1) {
-                        html += ' <span>...</span>';
-                    }
+                        html += window.RuleTypes[rule.Type()].RenderTooltip(rule, 1);
+                    });
                 }
+
+                return html;
+            },
+
+            GetRulesSummary: function (rules) {
+                var html = '<span class="label">';
+
+                if (rules.length === 1 && rules[0].Type() === 'Always' && rules[0].Activities().length > 0) {
+                    var rule = rules[0];
+                    html += rule.Activities()[0].Description();
+                    if (rule.Activities().length > 1) {
+                        html += '...';
+                    }
+                } else {
+                    html += '...';
+                }
+
+                html += '</span>';
+
+                return html;
+            },
+
+            GetRulesTooltip: function (rules) {
+                var html = '';
+                $.each(rules, function (i, rule) {
+                    if (i > 0) {
+                        html +='<br/>';
+                    }
+                    html += window.RuleTypes[rule.Type()].RenderTooltip(rule, 0);
+                });
+
+                return html;
+            },
+
+            RenderTooltip: function (rule, level) {
+                var html = '<div style="padding-left:' + (10 * level) + 'px">';
+
+                html += '<div>SWITCH (' + rule.Parameter() + ')</div>';
+
+                $.each(rule.Cases(), function (i, caze) {
+                    html += '<div>CASE ' + caze.Value() + '</div>';
+                    $.each(caze.Rules(), function () {
+                        html += window.RuleTypes[this.Type()].RenderTooltip(this, level + 1);
+                    });
+                });
 
                 if (rule.Default().length > 0) {
-                    html += ' <span class="tag">DEFAULT</span> ';
-                    
-                    var alwaysRule = _.find(rule.Default(), function (r) {
-                        return r.Type() === 'Always';
+                    html += '<div>DEFAULT</div>';
+                    $.each(rule.Default(), function () {
+                        html += window.RuleTypes[this.Type()].RenderTooltip(this, level + 1);
                     });
-
-                    if (alwaysRule && alwaysRule.Activities().length > 0) {
-                        html += '<span class="label">' + alwaysRule.Activities()[0].Description() + '</span>';
-                        if (alwaysRule.Activities().length > 1) {
-                            html += '<span>...</span>';
-                        }
-                    } else {
-                        html += '<span class="label">...</span>';
-                    }
                 }
+
+                html += '</div>';
 
                 return html;
             },

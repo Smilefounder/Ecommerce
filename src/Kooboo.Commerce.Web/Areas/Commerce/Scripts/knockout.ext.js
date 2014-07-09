@@ -71,6 +71,21 @@ ko.bindingHandlers.tagbox = {
     }
 };
 
+ko.bindingHandlers.tooltip = {
+    init: function (element, valueAccessor) {
+        $(element).tooltip({
+            items: element.tagName.toLowerCase(),
+            html: true,
+            content: function () {
+                return ko.utils.unwrapObservable(valueAccessor());
+            }
+        });
+    },
+    update: function (element, valueAccessor) {
+
+    }
+};
+
 ko.bindingHandlers.select2 = {
     _updateIsCausedBySelect2: false,
     init: function (element, valueAccessor, allBindingsAccessor) {

@@ -3,7 +3,27 @@
 
 <script type="text/html" id="RuleTemplate-IfElse">
     <div class="rule">
-        @Html.Partial("_RuleHeader")
+        <!-- ko if: $($element).parents('.rule').length === 1 -->
+        <div class="summary">
+            <a href="#" data-toggle="expand-rule">
+                @Html.IconImage("toggle")
+            </a>
+            @Html.IconImage("drag")
+            <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
+            <div class="summary-text">
+                <span class="tag">IF</span>
+                <span>(<span data-bind="html: window.RuleTypes['IfElse'].GetConditionsDescription($data)"></span>)</span>
+                <!-- ko if: Then().length > 0 -->
+                <span class="tag">THEN</span>
+                <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['IfElse'].GetBranchSummary(Then()), tooltip: window.RuleTypes['IfElse'].GetBranchTooltip(Then())"></span>
+                <!-- /ko -->
+                <!-- ko if: Else().length > 0 -->
+                <span class="tag">ELSE</span>
+                <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['IfElse'].GetBranchSummary(Else()), tooltip: window.RuleTypes['IfElse'].GetBranchTooltip(Else())"></span>
+                <!-- /ko -->
+            </div>
+        </div>
+        <!-- /ko -->
         <div class="detail" data-bind="style: { display: $($element).parents('.rule').length === 1 ? 'none' : '' }">
             @Html.IconImage("drag")
             <a class="action remove" href="#" data-bind="click: $root.RemoveRule">@Html.IconImage("minus-small")</a>
@@ -14,7 +34,7 @@
                     </div>
                     <div class="span11">
                         <div class="condition">
-                            <a class="label label-info" data-bind="html: $root.GetConditionsDescription($data), click: $root.EditCondition"></a>
+                            <a class="label label-info" data-bind="html: window.RuleTypes['IfElse'].GetConditionsDescription($data), click: $root.EditCondition"></a>
                         </div>
                     </div>
                 </div>
@@ -83,69 +103,98 @@
                 return model;
             },
 
-            GetSummary: function (rule) {
-                var html = '<span class="tag">IF</span> ';
-                if (rule.Conditions().length > 0) {
-                    html += '<span>(' + window.RootViewModel.GetConditionsDescription(rule) + ')</span>';
-                } else {
-                    html += '<span>()</span>';
-                }
+            GetBranchSummary: function (rules) {
+                var html = '';
 
-                html += buildBranchSummary('THEN', rule.Then());
-                html += buildBranchSummary('ELSE', rule.Else());
-
-                function buildBranchSummary(branch, rules) {
-                    var html = '';
-                    if (rules.length > 0) {
-                        html += ' <span class="tag">' + branch + '</span>';
-
-                        var alwaysRuleChild = _.find(rules, function (r) {
-                            return r.Type() === 'Always';
-                        });
-
-                        if (alwaysRuleChild) {
-                            if (alwaysRuleChild.Activities().length > 0) {
-                                html += '<span class="label">' + alwaysRuleChild.Activities()[0].Description() + '</span>';
-                            }
-                            if (alwaysRuleChild.Activities().length > 1 || rules.length > 1) {
-                                html += '<span>...</span>';
-                            }
-                        } else {
-                            html += '<span class="label">...</span>';
+                if (rules.length === 1 && rules[0].Type() === 'Always') {
+                    if (rules[0].Activities().length > 0) {
+                        html += '<span class="label">';
+                        html += rules[0].Activities()[0].Description();
+                        if (rules[0].Activities().length > 1) {
+                            html += '...';
                         }
+                        html += '</span>';
                     }
-
-                    return html;
+                } else {
+                    html += '<span class="label">...</span>';
                 }
 
                 return html;
             },
 
+            GetBranchTooltip: function (rules) {
+                // In this case, the detail is shown directly, so no need to have a tooltip
+                if (rules.length === 1 && rules[0].Type() === 'Always' && rules[0].Activities().length <= 1) {
+                    return '';
+                }
+
+                var html = '';
+                $.each(rules, function (i, rule) {
+                    if (i > 0) {
+                        html += '<br/>'
+                    }
+                    html += window.RuleTypes[rule.Type()].RenderTooltip(rule, 0);
+                });
+
+                return html;
+            },
+
+            RenderTooltip: function (rule, level) {
+                var html = '<div style="padding-left:' + (10 * level) + 'px">';
+
+                html += '<div>IF (' + window.RuleTypes['IfElse'].GetConditionsDescription(rule) + ')</div>';
+                html += '<div>THEN</div>';
+
+                if (rule.Then().length > 0) {
+                    $.each(rule.Then(), function (i) {
+                        if (i > 0) {
+                            html += '<br/>';
+                        }
+                        html += window.RuleTypes[this.Type()].RenderTooltip(this, level + 1);
+                    });
+                } else {
+                    html += '<div>[EMPTY]</div>';
+                }
+
+                if (rule.Else().length > 0) {
+                    html += '<div>ELSE</div>';
+                    $.each(rule.Else(), function(i) {
+                        if (i > 0) {
+                            html += '<br/>';
+                        }
+                        html += window.RuleTypes[this.Type()].RenderTooltip(this, level + 1);
+                    });
+                }
+
+                html += '</div>';
+
+                return html;
+            },
+
+            GetConditionsDescription: function (rule) {
+                if (rule.Conditions().length === 0) {
+                    return '@("Edit condition".Localize())';
+                }
+
+                var desc = '';
+
+                $.each(rule.Conditions(), function (i) {
+                    if (i > 0) {
+                        desc += ' AND '
+                    }
+
+                    if (this.Type() === 'Exclude') {
+                        desc += ' NOT '
+                    }
+
+                    desc += '(' + this.Expression() + ')';
+                });
+
+                return desc;
+            },
+
             OnPageDataBinding: function (root) {
                 $.extend(root, {
-
-                    GetConditionsDescription: function (rule) {
-                        if (rule.Conditions().length === 0) {
-                            return '@("Edit condition".Localize())';
-                        }
-
-                        var desc = '';
-
-                        $.each(rule.Conditions(), function (i) {
-                            if (i > 0) {
-                                desc += ' AND '
-                            }
-
-                            if (this.Type() === 'Exclude') {
-                                desc += ' NOT '
-                            }
-
-                            desc += '(' + this.Expression() + ')';
-                        });
-
-                        return desc;
-                    },
-
                     EditCondition: function (rule) {
                         var dialog = ConditionsDialog.instance();
 
