@@ -1,7 +1,6 @@
 ﻿@using Kooboo.Commerce.Customers;
 @{
     ViewBag.Title = "Customers".Localize();
-    var extendedQueries = ViewBag.Queries as IList<IQuery>;
 }
 
 @section Panel {
@@ -19,39 +18,5 @@
     </div>
 }
 
-<div id="customer-list-tabs">
-    <ul>
-        @for(var i = 0; i < extendedQueries.Count; i++)
-        {
-            var query = extendedQueries[i];
-            
-            <li data-normal-link="true" data-query-name="@query.Name" data-index="@i">
-                <a href="#@query.Name" data-href="@Url.Action("Index", RouteValues.From(Request.QueryString).Merge("queryName", query.Name))">
-                    @query.DisplayName
-                </a>
-            </li>
-        }
-    </ul>
-    <div id="@ViewBag.CurrentQuery.Name" style="padding-top:20px">
-        @Html.GridFor2(ViewBag.ModelType as Type, Model as System.Collections.IEnumerable)
-    </div>
-</div>
-
-<div class="pagination right">
-    @Html.Pager(Model as IPagedList, null, null, null, "", ViewContext.RequestContext.AllRouteValues(), null)
-</div>
-
-<script>
-    $(function () {
-        $('#customer-list-tabs').tabs({
-            active: $('#customer-list-tabs li[data-query-name="@ViewBag.CurrentQuery.Name"]').data('index'),
-            beforeActivate: function (event, ui) {
-                var href = $(ui.newTab).find('a').data('href');
-                if (href) { //check if it is hash link
-                    location.href = href;
-                }
-            }
-        });
-    });
-</script>
+@Html.Partial("_QueryGrid")
 

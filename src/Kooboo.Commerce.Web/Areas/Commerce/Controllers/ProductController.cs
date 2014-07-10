@@ -20,6 +20,9 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.CMS.Common;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Settings;
+using Kooboo.Commerce.Web.Queries.Products;
+using Kooboo.Commerce.Web.Framework.Queries;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -45,17 +48,26 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _categoryService = categoryService;
         }
 
-        public ActionResult Index(string search, int? page, int? pageSize)
+        public ActionResult Index(string queryName, int? page, int? pageSize)
         {
-            var productTypes = _productTypeService.Query().ToList();
-            var query = _productService.Query();
-            if (!string.IsNullOrEmpty(search))
-                query = query.Where(o => o.Name.Contains(search));
-            var model = query
-                .OrderByDescending(x => x.Id)
-                .ToPagedList(page, pageSize);
-            ViewBag.ProductTypes = productTypes;
-            //ViewBag.ExtendedQueries = _extendedQueryManager.All<IProductExtendedQuery>();
+            var model = new QueryGridModel
+            {
+                AllQueries = QueryManager.Instance.GetQueries(typeof(IProductQuery)).ToList()
+            };
+
+            if (String.IsNullOrEmpty(queryName))
+            {
+                model.CurrentQuery = model.AllQueries.FirstOrDefault();
+            }
+            else
+            {
+                model.CurrentQuery = QueryManager.Instance.GetQuery(queryName);
+            }
+
+            model.AllQueries = QueryManager.Instance.GetQueries(typeof(IProductQuery)).ToList();
+            model.CurrentQueryResult = model.CurrentQuery.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, QueryManager.Instance.GetQueryConfig(model.CurrentQuery.Name));
+
+            ViewBag.ProductTypes = _productTypeService.Query().ToList();
 
             return View(model);
         }
@@ -169,7 +181,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Delete(ProductRowModel[] model)
+        public ActionResult Delete(ProductModel[] model)
         {
             try
             {
@@ -242,20 +254,5 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             return JsonNet(tree);
         }
-
-        //[HttpGet]
-        //public ActionResult ExtendQuery(string name, int? page, int? pageSize)
-        //{
-        //    var productTypes = _productTypeService.Query().ToList();
-        //    ViewBag.ProductTypes = productTypes;
-        //    ViewBag.ExtendedQueries = _extendedQueryManager.All<Product>();
-        //    IPagedList<Product> model = null;
-        //    var query = _extendedQueryManager.Find<Product>(name);
-        //    var paras = _extendedQueryManager.GetConfig<Product>(name);
-
-        //    model = query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, paras);
-
-        //    return View("Index", model);
-        //}
     }
 }

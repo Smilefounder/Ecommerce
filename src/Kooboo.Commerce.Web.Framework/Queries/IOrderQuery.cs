@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce
+namespace Kooboo.Commerce.Web.Framework.Queries
 {
-    public interface IOrderExtendedQuery : IExtendedQuery<Orders.Order>
+    public interface IOrderQuery : IQuery
     {
     }
 }

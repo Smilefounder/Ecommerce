@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
 {
-    public class ExtendedQueryRegistrar : IDependencyRegistrar
+    public class QueryRegistrar : IDependencyRegistrar
     {
         public int Order
         {
@@ -27,17 +27,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
                 {
                     manager.Register(typeof(ICustomerQuery), (ICustomerQuery)Activator.CreateInstance(type));
                 }
+                else if (typeof(IProductQuery).IsAssignableFrom(type))
+                {
+                    manager.Register(typeof(IProductQuery), (IProductQuery)Activator.CreateInstance(type));
+                }
+                else if (typeof(IOrderQuery).IsAssignableFrom(type))
+                {
+                    manager.Register(typeof(IOrderQuery), (IOrderQuery)Activator.CreateInstance(type));
+                }
             }
-
-            //foreach (var type in typeFinder.FindClassesOfType<IOrderExtendedQuery>())
-            //{
-            //    containerManager.AddComponent(typeof(IOrderExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
-            //}
-
-            //foreach (var type in typeFinder.FindClassesOfType<IProductExtendedQuery>())
-            //{
-            //    containerManager.AddComponent(typeof(IProductExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
-            //}
         }
     }
 }

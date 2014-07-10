@@ -19,6 +19,8 @@ using Kooboo.Commerce.Payments;
 using Kooboo.CMS.Common;
 using Kooboo.Commerce.Web.Framework;
 using Kooboo.Commerce.Web.Framework.Mvc;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
+using Kooboo.Commerce.Web.Framework.Queries;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -40,23 +42,25 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string search, int? page, int? pageSize)
+        public ActionResult Index(string queryName, int? page, int? pageSize)
         {
-            var query = _orderService.Query();
-            if (!string.IsNullOrEmpty(search))
+            var model = new QueryGridModel
             {
-                query = query.Where(o => o.Customer.FirstName.StartsWith(search) || o.Customer.MiddleName.StartsWith(search) || o.Customer.LastName.StartsWith(search));
+                AllQueries = QueryManager.Instance.GetQueries(typeof(IOrderQuery)).ToList()
+            };
+
+            if (String.IsNullOrEmpty(queryName))
+            {
+                model.CurrentQuery = model.AllQueries.FirstOrDefault();
             }
-            var orders = query.OrderByDescending(x => x.Id)
-                .ToPagedList(page, pageSize);
-            foreach (var order in orders)
+            else
             {
-                order.Customer = _customerService.GetById(order.CustomerId);
+                model.CurrentQuery = QueryManager.Instance.GetQuery(queryName);
             }
 
-            //ViewBag.ExtendedQueries = _extendedQueryManager.All<IOrderExtendedQuery>();
+            model.CurrentQueryResult = model.CurrentQuery.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, QueryManager.Instance.GetQueryConfig(model.CurrentQuery.Name));
 
-            return View(orders);
+            return View(model);
         }
 
         [HttpGet]
@@ -293,18 +297,5 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             return RedirectToAction("Index", RouteValues.From(Request.QueryString));
         }
-
-        //[HttpGet]
-        //public ActionResult ExtendQuery(string name, int? page, int? pageSize)
-        //{
-        //    ViewBag.ExtendedQueries = _extendedQueryManager.All<IOrderExtendedQuery>();
-        //    IPagedList<Order> model = null;
-        //    var query = _extendedQueryManager.Find<Order>(name);
-        //    var paras = _extendedQueryManager.GetConfig<Order>(name);
-
-        //    model = query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, paras);
-
-        //    return View("Index", model);
-        //}
     }
 }

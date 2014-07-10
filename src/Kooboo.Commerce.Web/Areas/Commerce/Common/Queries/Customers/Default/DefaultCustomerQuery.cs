@@ -12,6 +12,38 @@ namespace Kooboo.Commerce.Web.Queries.Customers.Default
 {
     public class DefaultCustomerQuery : ICustomerQuery
     {
+        public string Name
+        {
+            get
+            {
+                return "AllCustomers";
+            }
+        }
+
+        public string DisplayName
+        {
+            get
+            {
+                return "All";
+            }
+        }
+
+        public Type ConfigType
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        public Type ResultType
+        {
+            get
+            {
+                return typeof(CustomerModel);
+            }
+        }
+
         public IPagedList Execute(Data.CommerceInstance instance, int pageIndex, int pageSize, object config)
         {
             var db = instance.Database;
@@ -27,38 +59,6 @@ namespace Kooboo.Commerce.Web.Queries.Customers.Default
                 .Transform(o => new CustomerModel(o.Customer));
 
             return customers;
-        }
-
-        public string Name
-        {
-            get
-            {
-                return "All";
-            }
-        }
-
-        public string DisplayName
-        {
-            get
-            {
-                return "All";
-            }
-        }
-
-        public Type ConfigModelType
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        public Type ElementType
-        {
-            get
-            {
-                return typeof(CustomerModel);
-            }
         }
     }
 }

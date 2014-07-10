@@ -16,6 +16,7 @@ using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Web.Framework.Queries;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -34,25 +35,23 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index(string queryName, int? page, int? pageSize)
         {
-            IQuery query = null;
+            var model = new QueryGridModel
+            {
+                AllQueries = QueryManager.Instance.GetQueries(typeof(ICustomerQuery)).ToList()
+            };
 
             if (String.IsNullOrEmpty(queryName))
             {
-                query = QueryManager.Instance.GetQueries(typeof(ICustomerQuery)).FirstOrDefault();
-                queryName = query.Name;
+                model.CurrentQuery = model.AllQueries.FirstOrDefault();
             }
             else
             {
-                query = QueryManager.Instance.GetQuery(typeof(ICustomerQuery), queryName);
+                model.CurrentQuery = QueryManager.Instance.GetQuery(queryName);
             }
 
-            ViewBag.CurrentQuery = query;
-            ViewBag.ModelType = query.ElementType;
-            ViewBag.Queries = QueryManager.Instance.GetQueries(typeof(ICustomerQuery));
+            model.CurrentQueryResult = model.CurrentQuery.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, QueryManager.Instance.GetQueryConfig(model.CurrentQuery.Name));
 
-            var models = query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, QueryManager.Instance.GetQueryConfig(typeof(ICustomerQuery), queryName));
-
-            return View(models);
+            return View(model);
         }
 
         public ActionResult Create()
@@ -98,22 +97,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, HandleAjaxFormError]
         public ActionResult Delete(CustomerModel[] model)
         {
-            var data = new JsonResultData(ModelState);
-
-            data.RunWithTry(_ =>
+            foreach (var obj in model)
             {
-                foreach (var obj in model)
-                {
-                    var customer = _customerService.GetById(obj.Id);
-                    _customerService.Delete(customer);
-                }
-                data.ReloadPage = true;
-            });
+                var customer = _customerService.GetById(obj.Id);
+                _customerService.Delete(customer);
+            }
 
-            return Json(data);
+            return AjaxForm().ReloadPage();
         }
 
         [HttpGet]
@@ -127,63 +120,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult GetOrders(int customerId, int? page, int? pageSize)
         {
-
-            var objs = _orderService.Query().Where(o => o.CustomerId == customerId)
-                .OrderByDescending(o => o.Id)
-                .ToPagedList(page, pageSize);
+            var objs = _orderService.Query()
+                                    .Where(o => o.CustomerId == customerId)
+                                    .OrderByDescending(o => o.Id)
+                                    .ToPagedList(page, pageSize);
             return JsonNet(objs);
         }
-
-        //[HttpGet]
-        //public ActionResult ExtendQuery(string name, int? page, int? pageSize)
-        //{
-        //    ViewBag.ExtendedQueries = EngineContext.Current.ResolveAll(typeof(CustomerQuery<>));
-        //    IPagedList<CustomerRowModel> model = null;
-        //    var query = _extendedQueryManager.Find<Customer>(name);
-        //    if (query != null)
-        //    {
-        //        var paras = _extendedQueryManager.Find<Customer>(name);
-
-        //        model = query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, paras)
-        //            .Transform(o => new CustomerRowModel(o.Customer, o.OrdersCount));
-
-        //    }
-        //    else
-        //    {
-        //        var customerQuery = _customerService.Query();
-        //        var orderQuery = _orderService.Query();
-        //        model = customerQuery
-        //            .GroupJoin(orderQuery,
-        //                       customer => customer.Id,
-        //                       order => order.CustomerId,
-        //                       (customer, orders) => new { Customer = customer, Orders = orders.Count() })
-        //            .OrderByDescending(groupedItem => groupedItem.Customer.Id)
-        //            .ToPagedList(page, pageSize)
-        //            .Transform(o => new CustomerRowModel(o.Customer, o.Orders));
-        //    }
-        //    return View("Index", model);
-        //}
-
-        //[HttpGet]
-        //public ActionResult GetParameters(string name)
-        //{
-        //    var query = _extendedQueryManager.Find<ICustomerExtendedQuery>(name);
-        //    var paras = _extendedQueryManager.GetExtendedQueryParameters<ICustomerExtendedQuery>(name);
-        //    return JsonNet(new { Query = query, Parameters = paras });
-        //}
-
-        //[HttpPost]
-        //public ActionResult SaveParameters(string name, object parameters)
-        //{
-        //    try
-        //    {
-        //        _extendedQueryManager.SaveExtendedQueryParameters<ICustomerExtendedQuery>(name, parameters);
-        //        return this.JsonNet(new { status = 0, message = "Parameter Saved." });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return this.JsonNet(new { status = 1, message = ex.Message });
-        //    }
-        //}
     }
 }

@@ -14,9 +14,9 @@ namespace Kooboo.Commerce.Web.Framework.Queries
 
         string DisplayName { get; }
 
-        Type ConfigModelType { get; }
+        Type ConfigType { get; }
 
-        Type ElementType { get; }
+        Type ResultType { get; }
 
         IPagedList Execute(CommerceInstance instance, int pageIndex, int pageSize, object config);
     }

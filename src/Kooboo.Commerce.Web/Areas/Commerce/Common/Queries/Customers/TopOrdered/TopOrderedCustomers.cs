@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Web.Queries.Customers.TopOrdered
             get { return "return top number of customers who placed the most orders."; }
         }
 
-        public Type ConfigModelType
+        public Type ConfigType
         {
             get
             {
@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.Web.Queries.Customers.TopOrdered
             }
         }
 
-        public Type ElementType
+        public Type ResultType
         {
             get
             {
