@@ -6,9 +6,24 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Orders;
 using Kooboo.Web.Mvc.Paging;
+using System.ComponentModel;
 
 namespace Kooboo.Commerce.Products.ExtendedQuery
 {
+    public class TopSoldProductConfig
+    {
+        [Description("Top number")]
+        public int Num { get; set; }
+
+        [Description("Bought in days")]
+        public int Days { get; set; }
+
+        public TopSoldProductConfig()
+        {
+            Days = 7;
+        }
+    }
+
     public class TopSoldProduct : Kooboo.Commerce.IProductExtendedQuery
     {
         public string Name
@@ -26,15 +41,11 @@ namespace Kooboo.Commerce.Products.ExtendedQuery
             get { return "Top sold products in the last days"; }
         }
 
-        public ExtendedQueryParameter[] Parameters
+        public Type ConfigModelType
         {
             get
             {
-                return new ExtendedQueryParameter[]
-                    {
-                         new ExtendedQueryParameter() { Name = "Num", Description = "top number", Type = typeof(System.Int32), DefaultValue = 10 },
-                        new ExtendedQueryParameter() { Name = "Days", Description = "Bought In Days", Type = typeof(System.Int32), DefaultValue = 7 }
-                    };
+                return typeof(TopSoldProductConfig);
             }
         }
 
@@ -46,16 +57,16 @@ namespace Kooboo.Commerce.Products.ExtendedQuery
         }
 
 
-        public IPagedList<ProductQueryModel> Query(IEnumerable<ExtendedQueryParameter> parameters, ICommerceDatabase db, int pageIndex, int pageSize)
+        public IPagedList<ProductQueryModel> Execute(CommerceInstance instance, int pageIndex, int pageSize, object config)
         {
             if (pageIndex <= 1)
                 pageIndex = 1;
 
-            int days = 7;
-            var para = parameters.FirstOrDefault(o => o.Name == "Days");
-            if (para != null && para.Value != null)
-                days = Convert.ToInt32(para.Value);
-            DateTime lastDate = DateTime.Today.AddDays(-1 * days);
+            var parameters = config as TopSoldProductConfig ?? new TopSoldProductConfig();
+
+            DateTime lastDate = DateTime.Today.AddDays(-1 * parameters.Days);
+
+            var db = instance.Database;
 
             IQueryable<SaledProduct> orderItemQuery = db.GetRepository<OrderItem>().Query()
                 .GroupBy(o => o.ProductPriceId).Select(g => new SaledProduct

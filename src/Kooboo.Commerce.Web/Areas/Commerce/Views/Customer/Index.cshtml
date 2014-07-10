@@ -1,12 +1,7 @@
 ﻿@using Kooboo.Commerce.Customers;
-@model PagedList<CustomerRowModel>
 @{
     ViewBag.Title = "Customers".Localize();
-    var extendedQueries = ViewBag.ExtendedQueries as IEnumerable<ICustomerExtendedQuery>;
-    var extendedQueryViewModel = new ViewDataDictionary();
-    extendedQueryViewModel.Add("GetExtendedParametersUrl", "/Commerce/Customer/GetParameters");
-    extendedQueryViewModel.Add("SaveExtendedParametersUrl", "/Commerce/Customer/SaveParameters");
-    extendedQueryViewModel.Add("ExecuteQueryUrl", "/Commerce/Customer/ExtendQuery");
+    var extendedQueries = ViewBag.Queries as IList<IQuery>;
 }
 
 @section Panel {
@@ -21,70 +16,42 @@
     <h1 class="title">@ViewBag.Title</h1>
     <div class="search-panel">
         @Html.Partial("_Search")
-        <a class="more">@Html.IconImage("sprite")</a>
-        @Html.Partial("_ExtendedQueryParameter", extendedQueries, extendedQueryViewModel)
     </div>
 }
 
-<div class="common-table">
-    @using (Html.BeginForm("Delete", "Customer", RouteValues.From(Request.QueryString), FormMethod.Post, new { @class = "no-stop" }))
-    {
-        <table>
-            <thead>
-                <tr>
-                    <th class="checkbox">
-                        <input type="checkbox" class="select-all">
-                    </th>
-                    <th>
-                        @("Name".Localize())
-                    </th>
-                    <th>
-                        @("Email".Localize())
-                    </th>
-                    <th>
-                        @("Orders".Localize())
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model == null || Model.Count() <= 0)
-                {
-                    <tr class="empty"><td colspan="100">@("Empty".Localize())</td></tr>
-                }
-                else
-                {
-                    foreach (var p in Model)
-                    {
-                        <tr>
-                            <td class="checkbox ">
-                                <input type="checkbox" class="select" name="select" value="@p.Id" data-id-property="Id" autocomplete="off">
-                            </td>
-                            <td>
-                                <a href="/Commerce/Customer/Edit?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]&Id=@(p.Id)&return=@Url.Encode("/Commerce/Customer?siteName=" + Request.QueryString["siteName"] + "&instance=" + Request.QueryString["instance"])">@p.Name</a>
-                            </td>
-                            <td>
-                                @p.Email
-                            </td>
-                            <td>
-                                @p.Orders
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    }
-    <script type="text/javascript">
-        $(function () {
-            var table = $('.common-table table');
-            table.checkableTable();
-            table.grid();
-        });
-    </script>
+<div id="customer-list-tabs">
+    <ul>
+        @for(var i = 0; i < extendedQueries.Count; i++)
+        {
+            var query = extendedQueries[i];
+            
+            <li data-normal-link="true" data-query-name="@query.Name" data-index="@i">
+                <a href="#@query.Name" data-href="@Url.Action("Index", RouteValues.From(Request.QueryString).Merge("queryName", query.Name))">
+                    @query.DisplayName
+                </a>
+            </li>
+        }
+    </ul>
+    <div id="@ViewBag.CurrentQuery.Name" style="padding-top:20px">
+        @Html.GridFor2(ViewBag.ModelType as Type, Model as System.Collections.IEnumerable)
+    </div>
 </div>
 
-@*@Html.GridFor2(typeof(CustomerRowModel), Model)*@
 <div class="pagination right">
-    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+    @Html.Pager(Model as IPagedList, null, null, null, "", ViewContext.RequestContext.AllRouteValues(), null)
 </div>
+
+<script>
+    $(function () {
+        $('#customer-list-tabs').tabs({
+            active: $('#customer-list-tabs li[data-query-name="@ViewBag.CurrentQuery.Name"]').data('index'),
+            beforeActivate: function (event, ui) {
+                var href = $(ui.newTab).find('a').data('href');
+                if (href) { //check if it is hash link
+                    location.href = href;
+                }
+            }
+        });
+    });
+</script>
 

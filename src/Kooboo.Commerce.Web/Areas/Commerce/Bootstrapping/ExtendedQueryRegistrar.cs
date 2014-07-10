@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Web.Framework.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,20 +19,25 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
 
         public void Register(IContainerManager containerManager, CMS.Common.Runtime.ITypeFinder typeFinder)
         {
-            foreach (var type in typeFinder.FindClassesOfType<ICustomerExtendedQuery>())
+            var manager = QueryManager.Instance;
+
+            foreach (var type in typeFinder.FindClassesOfType(typeof(IQuery)))
             {
-                containerManager.AddComponent(typeof(ICustomerExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
+                if (typeof(ICustomerQuery).IsAssignableFrom(type))
+                {
+                    manager.Register(typeof(ICustomerQuery), (ICustomerQuery)Activator.CreateInstance(type));
+                }
             }
 
-            foreach (var type in typeFinder.FindClassesOfType<IOrderExtendedQuery>())
-            {
-                containerManager.AddComponent(typeof(IOrderExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
-            }
+            //foreach (var type in typeFinder.FindClassesOfType<IOrderExtendedQuery>())
+            //{
+            //    containerManager.AddComponent(typeof(IOrderExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
+            //}
 
-            foreach (var type in typeFinder.FindClassesOfType<IProductExtendedQuery>())
-            {
-                containerManager.AddComponent(typeof(IProductExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
-            }
+            //foreach (var type in typeFinder.FindClassesOfType<IProductExtendedQuery>())
+            //{
+            //    containerManager.AddComponent(typeof(IProductExtendedQuery), type, type.FullName, ComponentLifeStyle.Transient);
+            //}
         }
     }
 }

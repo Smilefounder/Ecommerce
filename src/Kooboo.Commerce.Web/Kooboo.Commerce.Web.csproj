@@ -326,11 +326,11 @@
     <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\ObjectModelBinder.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\RecentOrderedCustomers.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\TopOrderedCustomers.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Orders\MostCostOrder.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Orders\RecentOrder.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Products\TopSoldProduct.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Customers\Default\DefaultCustomerQuery.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Customers\RecentOrdered\RecentOrderedCustomer.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Customers\RecentOrdered\RecentOrderedCustomers.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Customers\TopOrdered\TopOrderedCustomer.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Customers\TopOrdered\TopOrderedCustomers.cs" />
     <Compile Include="Areas\Commerce\Common\RouteValues.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListItems.cs" />
@@ -396,7 +396,7 @@
     <Compile Include="Areas\Commerce\Models\Countries\CountryEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Countries\CountryRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\CustomerEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Customers\CustomerRowModel.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Customers\CustomerModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\CustomFieldEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\FieldValidationRuleEditorModel.cs" />

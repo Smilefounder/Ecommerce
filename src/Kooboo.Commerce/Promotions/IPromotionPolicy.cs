@@ -27,7 +27,6 @@ namespace Kooboo.Commerce.Promotions
         /// <summary>
         /// 执行促销策略。
         /// </summary>
-        /// <param name="context"></param>
         void Execute(PromotionContext context);
     }
 }

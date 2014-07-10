@@ -24,43 +24,37 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class OrderController : CommerceControllerBase
     {
-        private readonly ICommerceDatabase _db;
         private readonly IOrderService _orderService;
         private readonly ICustomerService _customerService;
         private readonly IProductService _productService;
         private readonly ICountryService _countryService;
         private readonly IPaymentMethodService _paymentMethodService;
-        private readonly IExtendedQueryManager _extendedQueryManager;
 
-        public OrderController(ICommerceDatabase db, IOrderService orderService, ICustomerService customerService, IProductService productService, ICountryService countryService, IPaymentMethodService paymentMethodService,
-            IExtendedQueryManager extendedQueryManager)
+        public OrderController(IOrderService orderService, ICustomerService customerService, IProductService productService, ICountryService countryService, IPaymentMethodService paymentMethodService)
         {
-            _db = db;
             _orderService = orderService;
             _customerService = customerService;
             _productService = productService;
             _countryService = countryService;
             _paymentMethodService = paymentMethodService;
-
-            _extendedQueryManager = extendedQueryManager;
         }
 
         [HttpGet]
         public ActionResult Index(string search, int? page, int? pageSize)
         {
             var query = _orderService.Query();
-            if(!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(o => o.Customer.FirstName.StartsWith(search) || o.Customer.MiddleName.StartsWith(search) || o.Customer.LastName.StartsWith(search));
             }
             var orders = query.OrderByDescending(x => x.Id)
                 .ToPagedList(page, pageSize);
-            foreach(var order in orders)
+            foreach (var order in orders)
             {
                 order.Customer = _customerService.GetById(order.CustomerId);
             }
 
-            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<IOrderExtendedQuery>();
+            //ViewBag.ExtendedQueries = _extendedQueryManager.All<IOrderExtendedQuery>();
 
             return View(orders);
         }
@@ -174,7 +168,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.Countries = _countryService.Query();
             //ViewBag.PaymentMethods = _paymentMethodService.GetAllPaymentMethods();
             if (order.ShippingAddress == null)
-            { 
+            {
                 order.ShippingAddress = new OrderAddress();
                 if (customer.ShippingAddress != null)
                 {
@@ -300,51 +294,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return RedirectToAction("Index", RouteValues.From(Request.QueryString));
         }
 
-        [HttpGet]
-        public ActionResult ExtendQuery(string name, int? page, int? pageSize)
-        {
-            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<IOrderExtendedQuery>();
-            IPagedList<Order> model = null;
-            var query = _extendedQueryManager.GetExtendedQuery<IOrderExtendedQuery>(name);
-            if (query != null)
-            {
-                var paras = _extendedQueryManager.GetExtendedQueryParameters<IOrderExtendedQuery>(name);
+        //[HttpGet]
+        //public ActionResult ExtendQuery(string name, int? page, int? pageSize)
+        //{
+        //    ViewBag.ExtendedQueries = _extendedQueryManager.All<IOrderExtendedQuery>();
+        //    IPagedList<Order> model = null;
+        //    var query = _extendedQueryManager.Find<Order>(name);
+        //    var paras = _extendedQueryManager.GetConfig<Order>(name);
 
-                model = query.Query(paras, _db, page ?? 1, pageSize ?? 50)
-                .Transform((o) => { o.Order.Customer = o.Customer; return o.Order; });
+        //    model = query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, paras);
 
-            }
-            else
-            {
-                model = _orderService.Query().OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
-                foreach (var order in model)
-                {
-                    order.Customer = _customerService.GetById(order.CustomerId);
-                }
-            }
-            return View("Index", model);
-        }
-
-        [HttpGet]
-        public ActionResult GetParameters(string name)
-        {
-            var query = _extendedQueryManager.GetExtendedQuery<IOrderExtendedQuery>(name);
-            var paras = _extendedQueryManager.GetExtendedQueryParameters<IOrderExtendedQuery>(name);
-            return JsonNet(new { Query = query, Parameters = paras });
-        }
-
-        [HttpPost]
-        public ActionResult SaveParameters(string name, IEnumerable<ExtendedQueryParameter> parameters)
-        {
-            try
-            {
-                _extendedQueryManager.SaveExtendedQueryParameters<IOrderExtendedQuery>(name, parameters);
-                return this.JsonNet(new { status = 0, message = "Parameter Saved." });
-            }
-            catch (Exception ex)
-            {
-                return this.JsonNet(new { status = 1, message = ex.Message });
-            }
-        }
+        //    return View("Index", model);
+        //}
     }
 }

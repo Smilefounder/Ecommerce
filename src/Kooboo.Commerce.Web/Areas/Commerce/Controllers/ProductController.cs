@@ -25,30 +25,24 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ProductController : CommerceControllerBase
     {
-        private ICommerceDatabase _db;
         private ISettingService _settingService;
         private IProductService _productService;
         private IProductTypeService _productTypeService;
         private IBrandService _brandService;
         private ICategoryService _categoryService;
-        private IExtendedQueryManager _extendedQueryManager;
 
         public ProductController(
-                ICommerceDatabase db,
                 ISettingService settingService,
                 IProductService productService,
                 IProductTypeService productTypeService,
                 IBrandService brandService,
-                ICategoryService categoryService,
-                IExtendedQueryManager extendedQueryManager)
+                ICategoryService categoryService)
         {
-            _db = db;
             _settingService = settingService;
             _productService = productService;
             _productTypeService = productTypeService;
             _brandService = brandService;
             _categoryService = categoryService;
-            _extendedQueryManager = extendedQueryManager;
         }
 
         public ActionResult Index(string search, int? page, int? pageSize)
@@ -61,7 +55,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 .OrderByDescending(x => x.Id)
                 .ToPagedList(page, pageSize);
             ViewBag.ProductTypes = productTypes;
-            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<IProductExtendedQuery>();
+            //ViewBag.ExtendedQueries = _extendedQueryManager.All<IProductExtendedQuery>();
 
             return View(model);
         }
@@ -249,51 +243,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return JsonNet(tree);
         }
 
-        [HttpGet]
-        public ActionResult ExtendQuery(string name, int? page, int? pageSize)
-        {
-            var productTypes = _productTypeService.Query().ToList();
-            ViewBag.ProductTypes = productTypes;
-            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<IProductExtendedQuery>();
-            IPagedList<Product> model = null;
-            var query = _extendedQueryManager.GetExtendedQuery<IProductExtendedQuery>(name);
-            if (query != null)
-            {
-                var paras = _extendedQueryManager.GetExtendedQueryParameters<IProductExtendedQuery>(name);
+        //[HttpGet]
+        //public ActionResult ExtendQuery(string name, int? page, int? pageSize)
+        //{
+        //    var productTypes = _productTypeService.Query().ToList();
+        //    ViewBag.ProductTypes = productTypes;
+        //    ViewBag.ExtendedQueries = _extendedQueryManager.All<Product>();
+        //    IPagedList<Product> model = null;
+        //    var query = _extendedQueryManager.Find<Product>(name);
+        //    var paras = _extendedQueryManager.GetConfig<Product>(name);
 
-                model = query.Query(paras, _db, page ?? 1, pageSize ?? 50)
-                    .Transform(o => o.Product);
-            }
-            else
-            {
-                var pquery = _productService.Query();
-                model = pquery
-                    .OrderByDescending(x => x.Id)
-                    .ToPagedList(page, pageSize);
-            }
-            return View("Index", model);
-        }
+        //    model = query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, paras);
 
-        [HttpGet]
-        public ActionResult GetParameters(string name)
-        {
-            var query = _extendedQueryManager.GetExtendedQuery<IProductExtendedQuery>(name);
-            var paras = _extendedQueryManager.GetExtendedQueryParameters<IProductExtendedQuery>(name);
-            return JsonNet(new { Query = query, Parameters = paras });
-        }
-
-        [HttpPost]
-        public ActionResult SaveParameters(string name, IEnumerable<ExtendedQueryParameter> parameters)
-        {
-            try
-            {
-                _extendedQueryManager.SaveExtendedQueryParameters<IProductExtendedQuery>(name, parameters);
-                return this.JsonNet(new { status = 0, message = "Parameter Saved." });
-            }
-            catch (Exception ex)
-            {
-                return this.JsonNet(new { status = 1, message = ex.Message });
-            }
-        }
+        //    return View("Index", model);
+        //}
     }
 }

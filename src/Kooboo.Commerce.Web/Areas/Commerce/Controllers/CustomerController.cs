@@ -14,47 +14,45 @@ using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
+using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Web.Framework.Queries;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class CustomerController : CommerceControllerBase
     {
-        private readonly ICommerceDatabase _db;
         private readonly ICustomerService _customerService;
         private readonly IOrderService _orderService;
         private readonly ICountryService _countryService;
-        private readonly IExtendedQueryManager _extendedQueryManager;
 
-        public CustomerController(ICommerceDatabase db, ICustomerService customerService, ICountryService countryService, IOrderService orderService,
-            IExtendedQueryManager extendedQueryManager)
+        public CustomerController(ICustomerService customerService, ICountryService countryService, IOrderService orderService)
         {
-            _db = db;
             _customerService = customerService;
             _countryService = countryService;
             _orderService = orderService;
-            _extendedQueryManager = extendedQueryManager;
         }
 
-        public ActionResult Index(string search, int? page, int? pageSize)
+        public ActionResult Index(string queryName, int? page, int? pageSize)
         {
-            var customerQuery = _customerService.Query();
-            if (!string.IsNullOrEmpty(search))
+            IQuery query = null;
+
+            if (String.IsNullOrEmpty(queryName))
             {
-                customerQuery = customerQuery.Where(o => o.FirstName.StartsWith(search) || o.MiddleName.StartsWith(search) || o.LastName.StartsWith(search));
+                query = QueryManager.Instance.GetQueries(typeof(ICustomerQuery)).FirstOrDefault();
+                queryName = query.Name;
             }
-            var orderQuery = _orderService.Query();
-            var customers = customerQuery
-                .GroupJoin(orderQuery,
-                           customer => customer.Id,
-                           order => order.CustomerId,
-                           (customer, orders) => new { Customer = customer, Orders = orders.Count() })
-                .OrderByDescending(groupedItem => groupedItem.Customer.Id)
-                .ToPagedList(page, pageSize)
-                .Transform(o => new CustomerRowModel(o.Customer, o.Orders));
+            else
+            {
+                query = QueryManager.Instance.GetQuery(typeof(ICustomerQuery), queryName);
+            }
 
-            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<ICustomerExtendedQuery>();
+            ViewBag.CurrentQuery = query;
+            ViewBag.ModelType = query.ElementType;
+            ViewBag.Queries = QueryManager.Instance.GetQueries(typeof(ICustomerQuery));
 
-            return View(customers);
+            var models = query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, QueryManager.Instance.GetQueryConfig(typeof(ICustomerQuery), queryName));
+
+            return View(models);
         }
 
         public ActionResult Create()
@@ -101,7 +99,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(CustomerRowModel[] model)
+        public ActionResult Delete(CustomerModel[] model)
         {
             var data = new JsonResultData(ModelState);
 
@@ -136,56 +134,56 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return JsonNet(objs);
         }
 
-        [HttpGet]
-        public ActionResult ExtendQuery(string name, int? page, int? pageSize)
-        {
-            ViewBag.ExtendedQueries = _extendedQueryManager.GetExtendedQueries<ICustomerExtendedQuery>();
-            IPagedList<CustomerRowModel> model = null;
-            var query = _extendedQueryManager.GetExtendedQuery<ICustomerExtendedQuery>(name);
-            if (query != null)
-            {
-                var paras = _extendedQueryManager.GetExtendedQueryParameters<ICustomerExtendedQuery>(name);
+        //[HttpGet]
+        //public ActionResult ExtendQuery(string name, int? page, int? pageSize)
+        //{
+        //    ViewBag.ExtendedQueries = EngineContext.Current.ResolveAll(typeof(CustomerQuery<>));
+        //    IPagedList<CustomerRowModel> model = null;
+        //    var query = _extendedQueryManager.Find<Customer>(name);
+        //    if (query != null)
+        //    {
+        //        var paras = _extendedQueryManager.Find<Customer>(name);
 
-                model = query.Query(paras, _db, page ?? 1, pageSize ?? 50)
-                    .Transform(o => new CustomerRowModel(o.Customer, o.OrdersCount));
+        //        model = query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, paras)
+        //            .Transform(o => new CustomerRowModel(o.Customer, o.OrdersCount));
 
-            }
-            else
-            {
-                var customerQuery = _customerService.Query();
-                var orderQuery = _orderService.Query();
-                model = customerQuery
-                    .GroupJoin(orderQuery,
-                               customer => customer.Id,
-                               order => order.CustomerId,
-                               (customer, orders) => new { Customer = customer, Orders = orders.Count() })
-                    .OrderByDescending(groupedItem => groupedItem.Customer.Id)
-                    .ToPagedList(page, pageSize)
-                    .Transform(o => new CustomerRowModel(o.Customer, o.Orders));
-            }
-            return View("Index", model);
-        }
+        //    }
+        //    else
+        //    {
+        //        var customerQuery = _customerService.Query();
+        //        var orderQuery = _orderService.Query();
+        //        model = customerQuery
+        //            .GroupJoin(orderQuery,
+        //                       customer => customer.Id,
+        //                       order => order.CustomerId,
+        //                       (customer, orders) => new { Customer = customer, Orders = orders.Count() })
+        //            .OrderByDescending(groupedItem => groupedItem.Customer.Id)
+        //            .ToPagedList(page, pageSize)
+        //            .Transform(o => new CustomerRowModel(o.Customer, o.Orders));
+        //    }
+        //    return View("Index", model);
+        //}
 
-        [HttpGet]
-        public ActionResult GetParameters(string name)
-        {
-            var query = _extendedQueryManager.GetExtendedQuery<ICustomerExtendedQuery>(name);
-            var paras = _extendedQueryManager.GetExtendedQueryParameters<ICustomerExtendedQuery>(name);
-            return JsonNet(new { Query = query, Parameters = paras });
-        }
+        //[HttpGet]
+        //public ActionResult GetParameters(string name)
+        //{
+        //    var query = _extendedQueryManager.Find<ICustomerExtendedQuery>(name);
+        //    var paras = _extendedQueryManager.GetExtendedQueryParameters<ICustomerExtendedQuery>(name);
+        //    return JsonNet(new { Query = query, Parameters = paras });
+        //}
 
-        [HttpPost]
-        public ActionResult SaveParameters(string name, IEnumerable<ExtendedQueryParameter> parameters)
-        {
-            try
-            {
-                _extendedQueryManager.SaveExtendedQueryParameters<ICustomerExtendedQuery>(name, parameters);
-                return this.JsonNet(new { status = 0, message = "Parameter Saved." });
-            }
-            catch (Exception ex)
-            {
-                return this.JsonNet(new { status = 1, message = ex.Message });
-            }
-        }
+        //[HttpPost]
+        //public ActionResult SaveParameters(string name, object parameters)
+        //{
+        //    try
+        //    {
+        //        _extendedQueryManager.SaveExtendedQueryParameters<ICustomerExtendedQuery>(name, parameters);
+        //        return this.JsonNet(new { status = 0, message = "Parameter Saved." });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return this.JsonNet(new { status = 1, message = ex.Message });
+        //    }
+        //}
     }
 }

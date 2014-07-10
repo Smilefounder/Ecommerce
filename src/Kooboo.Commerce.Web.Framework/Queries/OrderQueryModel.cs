@@ -9,6 +9,5 @@ namespace Kooboo.Commerce.Orders
     public class OrderQueryModel
     {
         public Order Order { get; set; }
-        public Customer Customer { get; set; }
     }
 }
