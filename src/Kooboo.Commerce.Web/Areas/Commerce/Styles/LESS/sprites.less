@@ -101,28 +101,29 @@
 @select-blue: "0 -1516px 17px 18px";
 @select-gray: "0 -1534px 17px 18px";
 @send: "0 -1552px 26px 26px";
-@setting-small: "0 -1578px 12px 12px";
-@setting: "0 -1590px 26px 26px";
-@signout: "0 -1616px 12px 12px";
-@sort-asc: "0 -1628px 8px 11px";
-@sort-desc: "0 -1639px 8px 11px";
-@status-error: "0 -1650px 9px 9px";
-@status-normal: "0 -1659px 19px 19px";
-@status-off: "0 -1678px 9px 9px";
-@status-on: "0 -1687px 9px 9px";
-@status-warning: "0 -1696px 9px 9px";
-@switch: "0 -1705px 28px 28px";
-@tick: "0 -1733px 14px 12px";
-@trash: "0 -1745px 26px 26px";
-@triangle-down-black: "0 -1771px 11px 12px";
-@triangle-right-black: "0 -1783px 12px 11px";
-@undo-blue: "0 -1794px 15px 13px";
-@undo-gray: "0 -1807px 15px 13px";
-@upload: "0 -1820px 26px 26px";
-@uploads: "0 -1846px 26px 26px";
-@users: "0 -1872px 16px 12px";
-@warning-small: "0 -1884px 12px 12px";
-@warning: "0 -1896px 28px 24px";
+@setting-small-gray: "0 -1578px 12px 12px";
+@setting-small: "0 -1590px 12px 12px";
+@setting: "0 -1602px 26px 26px";
+@signout: "0 -1628px 12px 12px";
+@sort-asc: "0 -1640px 8px 11px";
+@sort-desc: "0 -1651px 8px 11px";
+@status-error: "0 -1662px 9px 9px";
+@status-normal: "0 -1671px 19px 19px";
+@status-off: "0 -1690px 9px 9px";
+@status-on: "0 -1699px 9px 9px";
+@status-warning: "0 -1708px 9px 9px";
+@switch: "0 -1717px 28px 28px";
+@tick: "0 -1745px 14px 12px";
+@trash: "0 -1757px 26px 26px";
+@triangle-down-black: "0 -1783px 11px 12px";
+@triangle-right-black: "0 -1795px 12px 11px";
+@undo-blue: "0 -1806px 15px 13px";
+@undo-gray: "0 -1819px 15px 13px";
+@upload: "0 -1832px 26px 26px";
+@uploads: "0 -1858px 26px 26px";
+@users: "0 -1884px 16px 12px";
+@warning-small: "0 -1896px 12px 12px";
+@warning: "0 -1908px 28px 24px";
 
 .sprite (@sprite) {
 	background: url(./images/sprites.png) no-repeat e( `@{sprite}.split(' ')[0]` ) e( `@{sprite}.split(' ')[1]` );
@@ -752,134 +753,140 @@
 		width: 26px;
 	}
 
-	&.setting-small {
+	&.setting-small-gray {
 		background-position: 0 -1578px;
 		height: 12px;
 		width: 12px;
 	}
 
-	&.setting {
+	&.setting-small {
 		background-position: 0 -1590px;
+		height: 12px;
+		width: 12px;
+	}
+
+	&.setting {
+		background-position: 0 -1602px;
 		height: 26px;
 		width: 26px;
 	}
 
 	&.signout {
-		background-position: 0 -1616px;
+		background-position: 0 -1628px;
 		height: 12px;
 		width: 12px;
 	}
 
 	&.sort-asc {
-		background-position: 0 -1628px;
+		background-position: 0 -1640px;
 		height: 11px;
 		width: 8px;
 	}
 
 	&.sort-desc {
-		background-position: 0 -1639px;
+		background-position: 0 -1651px;
 		height: 11px;
 		width: 8px;
 	}
 
 	&.status-error {
-		background-position: 0 -1650px;
+		background-position: 0 -1662px;
 		height: 9px;
 		width: 9px;
 	}
 
 	&.status-normal {
-		background-position: 0 -1659px;
+		background-position: 0 -1671px;
 		height: 19px;
 		width: 19px;
 	}
 
 	&.status-off {
-		background-position: 0 -1678px;
+		background-position: 0 -1690px;
 		height: 9px;
 		width: 9px;
 	}
 
 	&.status-on {
-		background-position: 0 -1687px;
+		background-position: 0 -1699px;
 		height: 9px;
 		width: 9px;
 	}
 
 	&.status-warning {
-		background-position: 0 -1696px;
+		background-position: 0 -1708px;
 		height: 9px;
 		width: 9px;
 	}
 
 	&.switch {
-		background-position: 0 -1705px;
+		background-position: 0 -1717px;
 		height: 28px;
 		width: 28px;
 	}
 
 	&.tick {
-		background-position: 0 -1733px;
+		background-position: 0 -1745px;
 		height: 12px;
 		width: 14px;
 	}
 
 	&.trash {
-		background-position: 0 -1745px;
+		background-position: 0 -1757px;
 		height: 26px;
 		width: 26px;
 	}
 
 	&.triangle-down-black {
-		background-position: 0 -1771px;
+		background-position: 0 -1783px;
 		height: 12px;
 		width: 11px;
 	}
 
 	&.triangle-right-black {
-		background-position: 0 -1783px;
+		background-position: 0 -1795px;
 		height: 11px;
 		width: 12px;
 	}
 
 	&.undo-blue {
-		background-position: 0 -1794px;
+		background-position: 0 -1806px;
 		height: 13px;
 		width: 15px;
 	}
 
 	&.undo-gray {
-		background-position: 0 -1807px;
+		background-position: 0 -1819px;
 		height: 13px;
 		width: 15px;
 	}
 
 	&.upload {
-		background-position: 0 -1820px;
+		background-position: 0 -1832px;
 		height: 26px;
 		width: 26px;
 	}
 
 	&.uploads {
-		background-position: 0 -1846px;
+		background-position: 0 -1858px;
 		height: 26px;
 		width: 26px;
 	}
 
 	&.users {
-		background-position: 0 -1872px;
+		background-position: 0 -1884px;
 		height: 12px;
 		width: 16px;
 	}
 
 	&.warning-small {
-		background-position: 0 -1884px;
+		background-position: 0 -1896px;
 		height: 12px;
 		width: 12px;
 	}
 
 	&.warning {
-		background-position: 0 -1896px;
+		background-position: 0 -1908px;
 		height: 24px;
 		width: 28px;
 	}
