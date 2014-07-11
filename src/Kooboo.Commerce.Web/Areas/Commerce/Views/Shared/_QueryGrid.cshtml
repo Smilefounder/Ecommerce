@@ -11,7 +11,7 @@
                     @queryInfo.GetDisplayName()
                     @if (queryInfo.Query.ConfigType != null)
                     {
-                        <span style="cursor:pointer" data-toggle="configure-query">@Html.IconImage("edit-small")</span>
+                        <span class="action" data-toggle="configure-query" title="@("Setting".Localize())">@Html.IconImage("setting-small-gray")</span>
                     }
                 </a>
             </li>
