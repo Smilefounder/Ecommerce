@@ -109,14 +109,14 @@ namespace Kooboo.Commerce.Rules
                 return new RuleSerializer().SerializeSlot(content as EventSlot).ToString();
             }
 
-            public T Deserialize<T>(string content)
+            public object Deserialize(string content, Type type)
             {
                 if (String.IsNullOrEmpty(content))
                 {
-                    return default(T);
+                    return null;
                 }
 
-                return (T)(object)new RuleSerializer().DeserializeSlot(content);
+                return new RuleSerializer().DeserializeSlot(content);
             }
         }
 

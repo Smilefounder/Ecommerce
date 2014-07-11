@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Web.Queries.Orders.MostCost
     {
         public string Name
         {
-            get { return "MostCostOrder"; }
+            get { return "MostCostOrders"; }
         }
 
         public string DisplayName

@@ -3652,7 +3652,6 @@
     <Content Include="Views\Shared\EditorTemplates\Decimal.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Category\~contents\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Comment\~contents\" />

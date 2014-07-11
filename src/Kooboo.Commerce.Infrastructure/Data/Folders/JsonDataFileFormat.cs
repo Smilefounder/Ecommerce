@@ -20,14 +20,14 @@ namespace Kooboo.Commerce.Data.Folders
             return JsonConvert.SerializeObject(content);
         }
 
-        public T Deserialize<T>(string content)
+        public object Deserialize(string content, Type type)
         {
             if (String.IsNullOrWhiteSpace(content))
             {
-                return default(T);
+                return null;
             }
 
-            return JsonConvert.DeserializeObject<T>(content);
+            return JsonConvert.DeserializeObject(content, type);
         }
     }
 }

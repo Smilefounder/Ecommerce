@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Data.Folders;
+using Kooboo.Web.Url;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +13,7 @@ namespace Kooboo.Commerce.Web.Framework.Queries
     {
         public static QueryManager Instance = new QueryManager();
 
-        readonly IObjectPersistence _persistence = new JsonObjectPersistence();
+        readonly DataFolder _folder = new DataFolder(UrlUtility.Combine(CommerceDataFolderVirtualPaths.Shared, "Queries"), JsonDataFileFormat.Instance);
         readonly Dictionary<string, IQuery> _queriesByNames = new Dictionary<string, IQuery>(StringComparer.OrdinalIgnoreCase);
         readonly Dictionary<Type, List<IQuery>> _queriesByContractTypes = new Dictionary<Type, List<IQuery>>();
 
@@ -58,26 +61,19 @@ namespace Kooboo.Commerce.Web.Framework.Queries
                 return null;
             }
 
-            var folder = string.Format("{0}/{1}", query.GetType().Name, queryName);
-            object config = null;
-            var json = _persistence.GetObject<string>(folder);
-            if (String.IsNullOrEmpty(json))
+            var file = _folder.GetFile(queryName + ".config");
+            if (file.Exists)
             {
-                config = TypeActivator.CreateInstance(query.ConfigType);
-            }
-            else
-            {
-                config = JsonConvert.DeserializeObject(json, query.ConfigType);
+                return file.Read(query.ConfigType);
             }
 
-            return config;
+            return null;
         }
 
         public void SaveQueryConfig(string queryName, object config)
         {
-            var query = GetQuery(queryName);
-            var folder = string.Format("{0}/{1}", query.GetType().Name, queryName);
-            _persistence.SaveObject<string>(folder, JsonConvert.SerializeObject(config));
+            var file = _folder.GetFile(queryName + ".config");
+            file.Write(config);
         }
     }
 }

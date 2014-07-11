@@ -46,10 +46,16 @@ namespace Kooboo.Commerce.Data.Folders
             _format = format;
         }
 
-        public virtual T Read<T>()
+        public T Read<T>()
+        {
+            var content = Read(typeof(T));
+            return content == null ? default(T) : (T)content;
+        }
+
+        public virtual object Read(Type type)
         {
             var content = File.ReadAllText(PhysicalPath, Encoding.UTF8);
-            return Format.Deserialize<T>(content);
+            return Format.Deserialize(content, type);
         }
 
         public virtual void Write(object content)

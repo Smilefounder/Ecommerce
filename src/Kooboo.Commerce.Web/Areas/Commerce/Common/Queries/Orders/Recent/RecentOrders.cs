@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Web.Queries.Orders.Recent
     {
         public string Name
         {
-            get { return "RecentOrder"; }
+            get { return "RecentOrders"; }
         }
 
         public string DisplayName

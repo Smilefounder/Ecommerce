@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Web.Queries.Products.TopSold
     {
         public string Name
         {
-            get { return "TopSoldProduct"; }
+            get { return "TopSoldProducts"; }
         }
 
         public string DisplayName

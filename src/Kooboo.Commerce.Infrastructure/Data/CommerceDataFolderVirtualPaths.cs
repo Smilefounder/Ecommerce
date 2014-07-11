@@ -17,6 +17,14 @@ namespace Kooboo.Commerce.Data
             }
         }
 
+        public static string Shared
+        {
+            get
+            {
+                return UrlUtility.Combine(Root, "Shared");
+            }
+        }
+
         public static string Instances
         {
             get

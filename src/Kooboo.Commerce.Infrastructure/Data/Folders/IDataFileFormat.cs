@@ -9,6 +9,6 @@ namespace Kooboo.Commerce.Data.Folders
     {
         string Serialize(object content);
 
-        T Deserialize<T>(string content);
+        object Deserialize(string content, Type type);
     }
 }
