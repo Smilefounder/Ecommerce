@@ -84,8 +84,10 @@
     <Compile Include="Queries\IProductQuery.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Queries\QueryInfo.cs" />
     <Compile Include="Queries\QueryManager.cs" />
     <Compile Include="Queries\IQuery.cs" />
+    <Compile Include="Queries\QueryType.cs" />
     <Compile Include="Tabs\DynamicViewDataDictionary.cs" />
     <Compile Include="Tabs\ITabPlugin.cs" />
     <Compile Include="Tabs\LoadedTabPlugin.cs" />

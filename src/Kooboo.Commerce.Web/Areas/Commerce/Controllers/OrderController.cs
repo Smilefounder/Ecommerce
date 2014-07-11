@@ -46,19 +46,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var model = new QueryGridModel
             {
-                AllQueries = QueryManager.Instance.GetQueries(typeof(IOrderQuery)).ToList()
+                AllQueryInfos = QueryManager.Instance.GetQueryInfos(QueryTypes.Orders).ToList()
             };
 
             if (String.IsNullOrEmpty(queryName))
             {
-                model.CurrentQuery = model.AllQueries.FirstOrDefault();
+                model.CurrentQueryInfo = model.AllQueryInfos.FirstOrDefault();
             }
             else
             {
-                model.CurrentQuery = QueryManager.Instance.GetQuery(queryName);
+                model.CurrentQueryInfo = QueryManager.Instance.GetQueryInfo(queryName);
             }
 
-            model.CurrentQueryResult = model.CurrentQuery.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, QueryManager.Instance.GetQueryConfig(model.CurrentQuery.Name));
+            model.CurrentQueryResult = model.CurrentQueryInfo.Query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, model.CurrentQueryInfo.GetQueryConfig());
 
             return View(model);
         }

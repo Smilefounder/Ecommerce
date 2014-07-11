@@ -14,10 +14,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Config(string queryName)
         {
             var manager = QueryManager.Instance;
-            var query = manager.GetQuery(queryName);
-            var config = manager.GetQueryConfig(queryName) ?? TypeActivator.CreateInstance(query.ConfigType);
+            var queryInfo = manager.GetQueryInfo(queryName);
+            var queryConfig = queryInfo.GetQueryConfig();
+            var config = queryConfig ?? TypeActivator.CreateInstance(queryInfo.Query.ConfigType);
 
-            ViewBag.Query = query;
+            ViewBag.QueryInfo = queryInfo;
+            ViewBag.DisplayName = queryInfo.GetDisplayName();
 
             return PartialView(config);
         }
@@ -26,7 +28,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public void Config(string queryName, [ModelBinder(typeof(ObjectModelBinder))]object config)
         {
             var manager = QueryManager.Instance;
-            manager.SaveQueryConfig(queryName, config);
+            var queryInfo = manager.GetQueryInfo(queryName);
+
+            queryInfo.SetDisplayName(Request.Form["DisplayName"]);
+            queryInfo.WriteQueryConfig(config);
         }
     }
 }

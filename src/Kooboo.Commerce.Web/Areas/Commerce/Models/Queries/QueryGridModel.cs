@@ -9,9 +9,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Queries
 {
     public class QueryGridModel
     {
-        public IQuery CurrentQuery { get; set; }
+        public QueryInfo CurrentQueryInfo { get; set; }
 
-        public IList<IQuery> AllQueries { get; set; }
+        public IList<QueryInfo> AllQueryInfos { get; set; }
 
         public IPagedList CurrentQueryResult { get; set; }
     }

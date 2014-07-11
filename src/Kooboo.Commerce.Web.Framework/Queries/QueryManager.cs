@@ -14,66 +14,46 @@ namespace Kooboo.Commerce.Web.Framework.Queries
         public static QueryManager Instance = new QueryManager();
 
         readonly DataFolder _folder = new DataFolder(UrlUtility.Combine(CommerceDataFolderVirtualPaths.Shared, "Queries"), JsonDataFileFormat.Instance);
-        readonly Dictionary<string, IQuery> _queriesByNames = new Dictionary<string, IQuery>(StringComparer.OrdinalIgnoreCase);
-        readonly Dictionary<Type, List<IQuery>> _queriesByContractTypes = new Dictionary<Type, List<IQuery>>();
+        readonly Dictionary<string, QueryInfo> _queriesByNames = new Dictionary<string, QueryInfo>(StringComparer.OrdinalIgnoreCase);
+        readonly Dictionary<Type, List<QueryInfo>> _queriesByContractTypes = new Dictionary<Type, List<QueryInfo>>();
 
-        public IEnumerable<IQuery> GetQueries(Type contractType)
+        public IEnumerable<QueryInfo> GetQueryInfos(QueryType type)
         {
-            List<IQuery> queries;
-            if (_queriesByContractTypes.TryGetValue(contractType, out queries))
+            List<QueryInfo> queries;
+            if (_queriesByContractTypes.TryGetValue(type.Type, out queries))
             {
                 return queries;
             }
 
-            return Enumerable.Empty<IQuery>();
+            return Enumerable.Empty<QueryInfo>();
         }
 
-        public IQuery GetQuery(string name)
+        public QueryInfo GetQueryInfo(string name)
         {
-            IQuery query;
-            if (_queriesByNames.TryGetValue(name, out query))
+            QueryInfo info;
+            if (_queriesByNames.TryGetValue(name, out info))
             {
-                return query;
+                return info;
             }
-
             return null;
         }
 
-        public void Register(Type contractType, IQuery query)
+        public void Register(IQuery query)
         {
             if (_queriesByNames.ContainsKey(query.Name))
                 throw new InvalidOperationException("An query named '" + query.Name + "' already exists.");
 
-            if (!_queriesByContractTypes.ContainsKey(contractType))
+            var queryType = QueryType.Of(query);
+
+            if (!_queriesByContractTypes.ContainsKey(queryType.Type))
             {
-                _queriesByContractTypes.Add(contractType, new List<IQuery>());
+                _queriesByContractTypes.Add(queryType.Type, new List<QueryInfo>());
             }
 
-            _queriesByContractTypes[contractType].Add(query);
-            _queriesByNames.Add(query.Name, query);
-        }
+            var queryInfo = new QueryInfo(query, queryType);
 
-        public object GetQueryConfig(string queryName)
-        {
-            var query = GetQuery(queryName);
-            if (query.ConfigType == null)
-            {
-                return null;
-            }
-
-            var file = _folder.GetFile(queryName + ".config");
-            if (file.Exists)
-            {
-                return file.Read(query.ConfigType);
-            }
-
-            return null;
-        }
-
-        public void SaveQueryConfig(string queryName, object config)
-        {
-            var file = _folder.GetFile(queryName + ".config");
-            file.Write(config);
+            _queriesByContractTypes[queryType.Type].Add(queryInfo);
+            _queriesByNames.Add(query.Name, queryInfo);
         }
     }
 }

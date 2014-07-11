@@ -23,18 +23,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
 
             foreach (var type in typeFinder.FindClassesOfType(typeof(IQuery)))
             {
-                if (typeof(ICustomerQuery).IsAssignableFrom(type))
-                {
-                    manager.Register(typeof(ICustomerQuery), (ICustomerQuery)Activator.CreateInstance(type));
-                }
-                else if (typeof(IProductQuery).IsAssignableFrom(type))
-                {
-                    manager.Register(typeof(IProductQuery), (IProductQuery)Activator.CreateInstance(type));
-                }
-                else if (typeof(IOrderQuery).IsAssignableFrom(type))
-                {
-                    manager.Register(typeof(IOrderQuery), (IOrderQuery)Activator.CreateInstance(type));
-                }
+                manager.Register(Activator.CreateInstance(type) as IQuery);
             }
         }
     }

@@ -54,6 +54,11 @@ namespace Kooboo.Commerce.Data.Folders
 
         public virtual object Read(Type type)
         {
+            if (!Exists)
+            {
+                return null;
+            }
+
             var content = File.ReadAllText(PhysicalPath, Encoding.UTF8);
             return Format.Deserialize(content, type);
         }

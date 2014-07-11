@@ -16,6 +16,7 @@ namespace Kooboo.Commerce.Web.Queries.Products.TopSold
 
         public TopSoldProductsConfig()
         {
+            Num = 10;
             Days = 7;
         }
     }
