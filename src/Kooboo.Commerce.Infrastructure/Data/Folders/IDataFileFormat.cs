@@ -11,4 +11,9 @@ namespace Kooboo.Commerce.Data.Folders
 
         object Deserialize(string content, Type type);
     }
+
+    public static class DataFileFormats
+    {
+        public static readonly IDataFileFormat Json = new JsonDataFileFormat();
+    }
 }

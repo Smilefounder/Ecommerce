@@ -15,13 +15,13 @@ namespace Kooboo.Commerce.Web.Framework.Queries
 
         public IQuery Query { get; private set; }
 
-        public QueryInfo(IQuery query, QueryType queryType)
+        public QueryInfo(IQuery query, QueryType queryType, DataFolderFactory folderFactory)
         {
             Query = query;
 
             var folderName = queryType.DisplayName;
             var virtualPath = UrlUtility.Combine(CommerceDataFolderVirtualPaths.Shared, "Queries", folderName, query.Name + ".config");
-            _configFile = new DataFile(virtualPath, JsonDataFileFormat.Instance);
+            _configFile = folderFactory.GetFile(virtualPath, DataFileFormats.Json);
         }
 
         public string GetDisplayName()
@@ -43,7 +43,7 @@ namespace Kooboo.Commerce.Web.Framework.Queries
             return data == null ? null : data.ConfigData;
         }
 
-        public void WriteQueryConfig(object config)
+        public void SetQueryConfig(object config)
         {
             var data = _configFile.Read<QuerySettings>() ?? new QuerySettings();
             data.ConfigData = config;

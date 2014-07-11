@@ -76,7 +76,7 @@
 <script type="text/html" id="RuleSummaryTemplate-IfElse">
     <div class="summary-text">
         <span class="tag">IF</span>
-        <span>(<span data-bind="html: window.RuleTypes['IfElse'].GetConditionsDescription($data)"></span>)</span>
+        <span data-bind="html: window.RuleTypes['IfElse'].GetConditionsDescription($data)"></span>
         <!-- ko if: Then().length > 0 -->
         <span class="tag">THEN</span>
         <span data-toggle="expand-rule" data-bind="html: window.RuleTypes['IfElse'].GetBranchSummary(Then()), tooltip: window.RuleTypes['IfElse'].GetBranchTooltip(Then())"></span>

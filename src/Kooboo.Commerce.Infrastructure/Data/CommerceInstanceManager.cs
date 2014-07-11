@@ -16,11 +16,31 @@ namespace Kooboo.Commerce.Data
     [Dependency(typeof(ICommerceInstanceManager), ComponentLifeStyle.InRequestScope)]
     public class CommerceInstanceManager : ICommerceInstanceManager
     {
-        private CommerceDbProviderCollection _dbProviders = CommerceDbProviders.Providers;
-        private CommerceInstanceSettingsManager _settingsManager = new CommerceInstanceSettingsManager();
+        private List<IInstanceInitializer> _initializers;
+        private DataFolderFactory _folderFactory;
+        private CommerceInstanceSettingsManager _settingsManager;
 
-        [Inject]
-        public IEnumerable<IInstanceInitializer> InstanceInitializers { get; set; }
+        private CommerceDbProviderCollection _dbProviders = CommerceDbProviders.Providers;
+
+        public CommerceDbProviderCollection DbProviders
+        {
+            get
+            {
+                return _dbProviders;
+            }
+            set
+            {
+                Require.NotNull(value, "value");
+                _dbProviders = value;
+            }
+        }
+
+        public CommerceInstanceManager(DataFolderFactory folderFactory, IEnumerable<IInstanceInitializer> initializers)
+        {
+            _folderFactory = folderFactory;
+            _settingsManager = new CommerceInstanceSettingsManager(_folderFactory);
+            _initializers = initializers.ToList();
+        }
 
         public void CreateInstance(CommerceInstanceSettings settings)
         {
@@ -42,17 +62,17 @@ namespace Kooboo.Commerce.Data
                     dbProvider.DatabaseOperations.CreateDatabase(database);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new CommerceDbException("Commerce instance creation failed: " + ex.Message, ex);
             }
 
             _settingsManager.Create(settings.Name, settings);
 
-            if (InstanceInitializers != null)
+            if (_initializers != null)
             {
                 var instance = GetInstance(settings.Name);
-                foreach (var initializer in InstanceInitializers)
+                foreach (var initializer in _initializers)
                 {
                     initializer.Initialize(instance);
                 }
@@ -95,7 +115,7 @@ namespace Kooboo.Commerce.Data
             _settingsManager.Delete(name);
 
             // Delete instance folder
-            var folder = new DataFolder(CommerceDataFolderVirtualPaths.ForInstance(settings.Name));
+            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(settings.Name), DataFileFormats.Json);
             folder.Delete();
 
             Event.Raise(new CommerceInstanceDeleted(settings));
@@ -103,7 +123,8 @@ namespace Kooboo.Commerce.Data
 
         public CommerceInstanceSettings GetInstanceSettings(string instanceName)
         {
-            return _settingsManager.Get(instanceName);
+            var settingsManager = new CommerceInstanceSettingsManager(_folderFactory);
+            return settingsManager.Get(instanceName);
         }
 
         public IEnumerable<CommerceInstance> GetInstances()

@@ -13,9 +13,21 @@ namespace Kooboo.Commerce.Web.Framework.Queries
     {
         public static QueryManager Instance = new QueryManager();
 
-        readonly DataFolder _folder = new DataFolder(UrlUtility.Combine(CommerceDataFolderVirtualPaths.Shared, "Queries"), JsonDataFileFormat.Instance);
+        readonly DataFolderFactory _folderFactory;
+        readonly DataFolder _folder;
         readonly Dictionary<string, QueryInfo> _queriesByNames = new Dictionary<string, QueryInfo>(StringComparer.OrdinalIgnoreCase);
         readonly Dictionary<Type, List<QueryInfo>> _queriesByContractTypes = new Dictionary<Type, List<QueryInfo>>();
+
+        public QueryManager()
+            : this(DataFolderFactory.Current)
+        {
+        }
+
+        public QueryManager(DataFolderFactory folderFactory)
+        {
+            _folderFactory = folderFactory;
+            _folder = folderFactory.GetFolder(UrlUtility.Combine(CommerceDataFolderVirtualPaths.Shared, "Queries"), DataFileFormats.Json);
+        }
 
         public IEnumerable<QueryInfo> GetQueryInfos(QueryType type)
         {
@@ -50,7 +62,7 @@ namespace Kooboo.Commerce.Web.Framework.Queries
                 _queriesByContractTypes.Add(queryType.Type, new List<QueryInfo>());
             }
 
-            var queryInfo = new QueryInfo(query, queryType);
+            var queryInfo = new QueryInfo(query, queryType, _folderFactory);
 
             _queriesByContractTypes[queryType.Type].Add(queryInfo);
             _queriesByNames.Add(query.Name, queryInfo);

@@ -14,29 +14,37 @@ namespace Kooboo.Commerce.Rules
 {
     public class RuleManager
     {
-        readonly Lazy<ConcurrentDictionary<string, EventSlot>> _slots;
+        readonly Lazy<Dictionary<string, DataFile>> _slots;
+        readonly DataFolderFactory _folderFactory;
 
         public string InstanceName { get; private set; }
 
         public RuleManager(string instanceName)
+            : this(instanceName, DataFolderFactory.Current)
         {
-            Require.NotNullOrEmpty(instanceName, "instanceName");
-
-            InstanceName = instanceName;
-            _slots = new Lazy<ConcurrentDictionary<string, EventSlot>>(Reload, true);
         }
 
-        private ConcurrentDictionary<string, EventSlot> Reload()
+        public RuleManager(string instanceName, DataFolderFactory folderFactory)
         {
-            var dictionary = new ConcurrentDictionary<string, EventSlot>();
-            var folder = new DataFolder(CommerceDataFolderVirtualPaths.ForInstanceFolder(InstanceName, "Rules"), new EventSlotFileFormat());
+            Require.NotNullOrEmpty(instanceName, "instanceName");
+            Require.NotNull(folderFactory, "folderFactory");
+
+            InstanceName = instanceName;
+            _folderFactory = folderFactory;
+            _slots = new Lazy<Dictionary<string, DataFile>>(Reload, true);
+        }
+
+        private Dictionary<string, DataFile> Reload()
+        {
+            var dictionary = new Dictionary<string, DataFile>();
+            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstanceFolder(InstanceName, "Rules"), RulesFileFormat.Instance);
             if (folder.Exists)
             {
                 foreach (var file in folder.GetFiles("*.config"))
                 {
                     var eventName = Path.GetFileNameWithoutExtension(file.Name);
-                    var slot = file.Read<EventSlot>();
-                    dictionary.TryAdd(eventName, slot);
+                    // Cache the file content
+                    dictionary.Add(eventName, file.Cached());
                 }
             }
 
@@ -45,17 +53,26 @@ namespace Kooboo.Commerce.Rules
 
         public IEnumerable<EventSlot> GetSlots()
         {
-            return _slots.Value.Values.ToList();
+            return _slots.Value.Values.Select(f => f.Read<EventSlot>()).ToList();
         }
 
         public IEnumerable<RuleBase> GetRules(string eventName)
         {
             Require.NotNullOrEmpty(eventName, "eventName");
 
-            EventSlot slot;
+            DataFile file;
 
-            if (_slots.Value.TryGetValue(eventName, out slot))
+            if (_slots.Value.TryGetValue(eventName, out file))
             {
+                var slot = file.Read<EventSlot>();
+                if (slot == null)
+                {
+                    return Enumerable.Empty<RuleBase>();
+                }
+
+                // Here we directly return the result instead of returning a copy
+                // is because this method might be used very frequently.
+                // So ensure that calling code don't change the result.
                 return slot.Rules;
             }
 
@@ -66,10 +83,20 @@ namespace Kooboo.Commerce.Rules
         {
             Require.NotNullOrEmpty(eventName, "eventName");
 
-            var slot = new EventSlot(eventName, rules);
-            var file = new DataFile(CommerceDataFolderVirtualPaths.ForInstanceFolder(InstanceName, "Rules/" + eventName + ".config"), new EventSlotFileFormat());
-            file.Write(slot);
-            _slots.Value.AddOrUpdate(eventName, slot, (_, __) => slot);
+            DataFile file = null;
+
+            if (!_slots.Value.ContainsKey(eventName))
+            {
+                file = _folderFactory.GetFile(CommerceDataFolderVirtualPaths.ForInstanceFolder(InstanceName, "Rules/" + eventName + ".config"), RulesFileFormat.Instance)
+                                     .Cached(); // Cache file content
+                _slots.Value.Add(eventName, file);
+            }
+            else
+            {
+                file = _slots.Value[eventName];
+            }
+
+            file.Write(new EventSlot(eventName, rules));
         }
 
         #region Factory
@@ -97,8 +124,10 @@ namespace Kooboo.Commerce.Rules
 
         #region Event slot file format
 
-        class EventSlotFileFormat : IDataFileFormat
+        class RulesFileFormat : IDataFileFormat
         {
+            public static readonly RulesFileFormat Instance = new RulesFileFormat();
+
             public string Serialize(object content)
             {
                 if (content == null)

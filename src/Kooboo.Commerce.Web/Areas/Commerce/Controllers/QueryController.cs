@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var queryInfo = manager.GetQueryInfo(queryName);
 
             queryInfo.SetDisplayName(Request.Form["DisplayName"]);
-            queryInfo.WriteQueryConfig(config);
+            queryInfo.SetQueryConfig(config);
         }
     }
 }

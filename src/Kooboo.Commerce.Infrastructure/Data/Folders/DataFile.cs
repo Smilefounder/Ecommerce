@@ -1,23 +1,28 @@
-﻿using System;
+﻿using Kooboo.Web.Url;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web.Hosting;
 
 namespace Kooboo.Commerce.Data.Folders
 {
-    public class DataFile
+    public abstract class DataFile
     {
-        public string Name { get; private set; }
+        protected DataFile(string virtualPath, IDataFileFormat format)
+        {
+            Name = Path.GetFileName(virtualPath);
+            VirtualPath = virtualPath;
+            Format = format;
+        }
 
-        public string VirtualPath { get; private set; }
+        public string Name { get; protected set; }
 
-        public string PhysicalPath { get; private set; }
+        public string VirtualPath { get; protected set; }
 
         private IDataFileFormat _format;
 
-        public IDataFileFormat Format
+        public virtual IDataFileFormat Format
         {
             get
             {
@@ -30,21 +35,7 @@ namespace Kooboo.Commerce.Data.Folders
             }
         }
 
-        public bool Exists
-        {
-            get
-            {
-                return File.Exists(PhysicalPath);
-            }
-        }
-
-        public DataFile(string virtualPath, IDataFileFormat format)
-        {
-            VirtualPath = virtualPath;
-            PhysicalPath = HostingEnvironment.MapPath(virtualPath);
-            Name = Path.GetFileName(PhysicalPath);
-            _format = format;
-        }
+        public abstract bool Exists { get; }
 
         public T Read<T>()
         {
@@ -52,31 +43,23 @@ namespace Kooboo.Commerce.Data.Folders
             return content == null ? default(T) : (T)content;
         }
 
-        public virtual object Read(Type type)
+        public abstract object Read(Type type);
+
+        public abstract void Write(object content);
+
+        public abstract void Delete();
+    }
+
+    public static class DataFileExtensions
+    {
+        public static DataFile Cached(this DataFile file)
         {
-            if (!Exists)
+            if (file is CachedDataFile)
             {
-                return null;
+                return file;
             }
 
-            var content = File.ReadAllText(PhysicalPath, Encoding.UTF8);
-            return Format.Deserialize(content, type);
-        }
-
-        public virtual void Write(object content)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(PhysicalPath));
-
-            var text = Format.Serialize(content);
-            File.WriteAllText(PhysicalPath, text);
-        }
-
-        public void Delete()
-        {
-            if (Exists)
-            {
-                File.Delete(PhysicalPath);
-            }
+            return new CachedDataFile(file);
         }
     }
 }

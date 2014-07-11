@@ -8,8 +8,6 @@ namespace Kooboo.Commerce.Data.Folders
 {
     public class JsonDataFileFormat : IDataFileFormat
     {
-        public static readonly JsonDataFileFormat Instance = new JsonDataFileFormat();
-
         public string Serialize(object content)
         {
             if (content == null)

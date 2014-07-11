@@ -12,12 +12,24 @@ namespace Kooboo.Commerce.Data
     {
         const string SettingsFileName = "settings.config";
 
+        private DataFolderFactory _folderFactory;
+
+        public CommerceInstanceSettingsManager()
+            : this(DataFolderFactory.Current)
+        {
+        }
+
+        public CommerceInstanceSettingsManager(DataFolderFactory folderFactory)
+        {
+            _folderFactory = folderFactory;
+        }
+
         public IEnumerable<CommerceInstanceSettings> All()
         {
-            var container = new DataFolder(CommerceDataFolderVirtualPaths.Instances);
+            var container = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.Instances, DataFileFormats.Json);
             foreach (var folder in container.GetFolders())
             {
-                var file = folder.GetJsonFile(SettingsFileName);
+                var file = folder.GetFile(SettingsFileName);
                 if (file.Exists)
                 {
                     yield return file.Read<CommerceInstanceSettings>();
@@ -27,8 +39,8 @@ namespace Kooboo.Commerce.Data
 
         public CommerceInstanceSettings Get(string instanceName)
         {
-            var folder = new DataFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName));
-            var file = folder.GetJsonFile(SettingsFileName);
+            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName), DataFileFormats.Json);
+            var file = folder.GetFile(SettingsFileName);
             if (file.Exists)
             {
                 return file.Read<CommerceInstanceSettings>();
@@ -39,8 +51,8 @@ namespace Kooboo.Commerce.Data
 
         public void Create(string instanceName, CommerceInstanceSettings settings)
         {
-            var folder = new DataFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName));
-            var file = folder.GetJsonFile(SettingsFileName);
+            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName), DataFileFormats.Json);
+            var file = folder.GetFile(SettingsFileName);
             if (file.Exists)
                 throw new InvalidOperationException("Instance settings file already exists. Instance name: " + instanceName + ".");
 
@@ -49,8 +61,8 @@ namespace Kooboo.Commerce.Data
 
         public void Update(string instanceName, CommerceInstanceSettings settings)
         {
-            var folder = new DataFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName));
-            var file = folder.GetJsonFile(SettingsFileName);
+            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName), DataFileFormats.Json);
+            var file = folder.GetFile(SettingsFileName);
             if (!file.Exists)
                 throw new InvalidOperationException("Failed to update instance metadata because instance was not found. Instance name: " + instanceName + ".");
 
@@ -64,8 +76,8 @@ namespace Kooboo.Commerce.Data
 
         public void Delete(string instanceName)
         {
-            var folder = new DataFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName));
-            var file = folder.GetJsonFile(SettingsFileName);
+            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName), DataFileFormats.Json);
+            var file = folder.GetFile(SettingsFileName);
             if (!file.Exists)
                 throw new InvalidOperationException("Instance '" + instanceName + "' was not found.");
 
