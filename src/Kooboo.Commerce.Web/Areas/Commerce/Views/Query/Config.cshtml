@@ -1,10 +1,10 @@
 ﻿@{
     var queryInfo = ViewBag.QueryInfo as QueryInfo;
-    var configModelType = queryInfo.Query.ConfigType;
+    var configType = queryInfo.Query.ConfigType;
 }
 
 <form class="common-form">
-    <input type="hidden" name="BindingType" value="@configModelType.AssemblyQualifiedName" />
+    <input type="hidden" name="BindingType" value="@configType.AssemblyQualifiedName" />
     <table>
         <tr>
             <th>@("Display name".Localize())</th>
@@ -16,7 +16,7 @@
                 <span data-valmsg-for="DisplayName" data-valmsg-replace="true"></span>
             </td>
         </tr>
-        @foreach (var property in configModelType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+        @foreach (var property in configType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
         {
             @Html.Editor(property.Name)
         }

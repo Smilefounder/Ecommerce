@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Web.Queries.Products.Default
         {
             get
             {
-                return Name;
+                return "All";
             }
         }
 

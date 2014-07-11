@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Data.Folders;
 using Kooboo.Web.Url;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +22,11 @@ namespace Kooboo.Commerce.Web.Framework.Queries
 
             var folderName = queryType.DisplayName;
             var virtualPath = UrlUtility.Combine(CommerceDataFolderVirtualPaths.Shared, "Queries", folderName, query.Name + ".config");
-            _configFile = folderFactory.GetFile(virtualPath, DataFileFormats.Json);
+
+            _configFile = folderFactory.GetFile(virtualPath, new JsonDataFileFormat(new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            }));
         }
 
         public string GetDisplayName()
