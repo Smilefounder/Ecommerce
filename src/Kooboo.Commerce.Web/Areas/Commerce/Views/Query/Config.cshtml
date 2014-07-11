@@ -6,6 +6,16 @@
 <form class="common-form">
     <input type="hidden" name="BindingType" value="@configModelType.AssemblyQualifiedName" />
     <table>
+        <tr>
+            <th>@("Display name".Localize())</th>
+            <td>
+                <input type="text" name="DisplayName" value="@ViewBag.DisplayName"
+                       data-val="true"
+                       data-val-required="@("Required".Localize())"
+                       maxlength="50" />
+                <span data-valmsg-for="DisplayName" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
         @foreach (var property in configModelType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
         {
             @Html.Editor(property.Name)

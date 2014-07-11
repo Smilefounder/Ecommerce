@@ -11,9 +11,9 @@ namespace Kooboo.Commerce.Data
 
         CommerceInstance GetInstance(string instanceName);
 
-        CommerceInstanceSettings GetMetadata(string instanceName);
+        CommerceInstanceSettings GetInstanceSettings(string instanceName);
 
-        void CreateInstance(CommerceInstanceSettings metadata);
+        void CreateInstance(CommerceInstanceSettings settings);
 
         void DeleteInstance(string instanceName);
     }

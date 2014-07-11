@@ -1,7 +1,7 @@
 ﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Data.Events;
+using Kooboo.Commerce.Data.Folders;
 using Kooboo.Commerce.Events;
-using Kooboo.Commerce.IO;
 using Kooboo.Commerce.Rules.Serialization;
 using System;
 using System.Collections.Concurrent;
@@ -14,8 +14,7 @@ namespace Kooboo.Commerce.Rules
 {
     public class RuleManager
     {
-        readonly string _folderPath;
-        readonly Lazy<ConcurrentDictionary<string, CachedFile<EventSlot>>> _slots;
+        readonly Lazy<ConcurrentDictionary<string, EventSlot>> _slots;
 
         public string InstanceName { get; private set; }
 
@@ -24,49 +23,39 @@ namespace Kooboo.Commerce.Rules
             Require.NotNullOrEmpty(instanceName, "instanceName");
 
             InstanceName = instanceName;
-            _folderPath = CommerceDataFolder.GetInstanceFolderPath(instanceName, "Rules");
-            _slots = new Lazy<ConcurrentDictionary<string, CachedFile<EventSlot>>>(Reload, true);
+            _slots = new Lazy<ConcurrentDictionary<string, EventSlot>>(Reload, true);
         }
 
-        private ConcurrentDictionary<string, CachedFile<EventSlot>> Reload()
+        private ConcurrentDictionary<string, EventSlot> Reload()
         {
-            var dictionary = new ConcurrentDictionary<string, CachedFile<EventSlot>>();
-            if (Directory.Exists(_folderPath))
+            var dictionary = new ConcurrentDictionary<string, EventSlot>();
+            var folder = new DataFolder(CommerceDataFolderVirtualPaths.ForInstanceFolder(InstanceName, "Rules"), new EventSlotFileFormat());
+            if (folder.Exists)
             {
-                foreach (var file in Directory.GetFiles(_folderPath, "*.config"))
+                foreach (var file in folder.GetFiles("*.config"))
                 {
-                    var eventName = Path.GetFileNameWithoutExtension(file);
-                    dictionary.TryAdd(eventName, new CachedFile<EventSlot>(file, SerializeSlot, DeserializeSlot));
+                    var eventName = Path.GetFileNameWithoutExtension(file.Name);
+                    var slot = file.Read<EventSlot>();
+                    dictionary.TryAdd(eventName, slot);
                 }
             }
 
             return dictionary;
         }
 
-        private string SerializeSlot(EventSlot slot)
-        {
-            return new RuleSerializer().SerializeSlot(slot).ToString();
-        }
-
-        private EventSlot DeserializeSlot(string text)
-        {
-            return new RuleSerializer().DeserializeSlot(text);
-        }
-
         public IEnumerable<EventSlot> GetSlots()
         {
-            return _slots.Value.Values.Select(f => f.Read()).ToList();
+            return _slots.Value.Values.ToList();
         }
 
         public IEnumerable<RuleBase> GetRules(string eventName)
         {
             Require.NotNullOrEmpty(eventName, "eventName");
 
-            CachedFile<EventSlot> file;
+            EventSlot slot;
 
-            if (_slots.Value.TryGetValue(eventName, out file))
+            if (_slots.Value.TryGetValue(eventName, out slot))
             {
-                var slot = file.Read();
                 return slot.Rules;
             }
 
@@ -77,13 +66,10 @@ namespace Kooboo.Commerce.Rules
         {
             Require.NotNullOrEmpty(eventName, "eventName");
 
-            var slot = _slots.Value.GetOrAdd(eventName, name => new CachedFile<EventSlot>(GetEventSlotFilePath(name), SerializeSlot, DeserializeSlot));
-            slot.Write(new EventSlot(eventName, rules ?? Enumerable.Empty<RuleBase>()));
-        }
-
-        private string GetEventSlotFilePath(string eventName)
-        {
-            return Path.Combine(_folderPath, eventName + ".config");
+            var slot = new EventSlot(eventName, rules);
+            var file = new DataFile(CommerceDataFolderVirtualPaths.ForInstanceFolder(InstanceName, "Rules/" + eventName + ".config"), new EventSlotFileFormat());
+            file.Write(slot);
+            _slots.Value.AddOrUpdate(eventName, slot, (_, __) => slot);
         }
 
         #region Factory
@@ -98,12 +84,39 @@ namespace Kooboo.Commerce.Rules
         }
 
         // Remove cache when the instance is deleted
-        class RuleManagerCacheUpdateHandler : IHandle<CommerceInstanceDeleted>
+        class CacheUpdateHandler : IHandle<CommerceInstanceDeleted>
         {
             public void Handle(CommerceInstanceDeleted @event)
             {
                 RuleManager manager;
                 _managers.TryRemove(@event.InstanceSettings.Name, out manager);
+            }
+        }
+
+        #endregion
+
+        #region Event slot file format
+
+        class EventSlotFileFormat : IDataFileFormat
+        {
+            public string Serialize(object content)
+            {
+                if (content == null)
+                {
+                    return null;
+                }
+
+                return new RuleSerializer().SerializeSlot(content as EventSlot).ToString();
+            }
+
+            public T Deserialize<T>(string content)
+            {
+                if (String.IsNullOrEmpty(content))
+                {
+                    return default(T);
+                }
+
+                return (T)(object)new RuleSerializer().DeserializeSlot(content);
             }
         }
 

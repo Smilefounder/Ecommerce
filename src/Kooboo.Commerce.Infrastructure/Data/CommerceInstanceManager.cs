@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data.Events;
+using Kooboo.Commerce.Data.Folders;
 using Kooboo.Commerce.Data.Initialization;
 using Kooboo.Commerce.Data.Providers;
 using Kooboo.Commerce.Events;
@@ -16,7 +17,7 @@ namespace Kooboo.Commerce.Data
     public class CommerceInstanceManager : ICommerceInstanceManager
     {
         private CommerceDbProviderCollection _dbProviders = CommerceDbProviders.Providers;
-        private CommerceInstanceSettingsManager _settingsManager = CommerceInstanceSettingsManager.Instance;
+        private CommerceInstanceSettingsManager _settingsManager = new CommerceInstanceSettingsManager();
 
         [Inject]
         public IEnumerable<IInstanceInitializer> InstanceInitializers { get; set; }
@@ -93,13 +94,14 @@ namespace Kooboo.Commerce.Data
 
             _settingsManager.Delete(name);
 
-            // Delete whold folder
-            Kooboo.IO.IOUtility.DeleteDirectory(CommerceDataFolder.GetInstancePath(settings.Name), true);
+            // Delete instance folder
+            var folder = new DataFolder(CommerceDataFolderVirtualPaths.ForInstance(settings.Name));
+            folder.Delete();
 
             Event.Raise(new CommerceInstanceDeleted(settings));
         }
 
-        public CommerceInstanceSettings GetMetadata(string instanceName)
+        public CommerceInstanceSettings GetInstanceSettings(string instanceName)
         {
             return _settingsManager.Get(instanceName);
         }

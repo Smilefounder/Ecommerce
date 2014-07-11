@@ -91,7 +91,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Edit(string name)
         {
-            var metadata = _instanceManager.GetMetadata(name);
+            var metadata = _instanceManager.GetInstanceSettings(name);
             var dbProvider = CommerceDbProviders.Providers.Find(metadata.DbProviderInvariantName, metadata.DbProviderManifestToken);
 
             var model = new CommerceInstanceEditorModel
@@ -124,25 +124,26 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError]
         public ActionResult Edit(CommerceInstanceEditorModel model, string @return)
         {
-            var metadata = _instanceManager.GetMetadata(model.Name);
-            metadata.DisplayName = model.DisplayName;
+            var settings = _instanceManager.GetInstanceSettings(model.Name);
+            settings.DisplayName = model.DisplayName;
 
             if (model.AdvancedMode)
             {
-                metadata.ConnectionString = model.ConnectionString;
+                settings.ConnectionString = model.ConnectionString;
             }
             else
             {
-                metadata.ConnectionString = null;
-                metadata.ConnectionStringParameters.Clear();
+                settings.ConnectionString = null;
+                settings.ConnectionStringParameters.Clear();
 
                 foreach (var param in model.ConnectionStringParameters)
                 {
-                    metadata.ConnectionStringParameters.Add(param.Text, param.Value);
+                    settings.ConnectionStringParameters.Add(param.Text, param.Value);
                 }
             }
 
-            CommerceInstanceSettingsManager.Instance.Update(model.Name, metadata);
+            var manager = new CommerceInstanceSettingsManager();
+            manager.Update(model.Name, settings);
 
             return AjaxForm().RedirectTo(@return);
         }
