@@ -23,6 +23,8 @@ using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Web.Queries.Products;
 using Kooboo.Commerce.Web.Framework.Queries;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
+using Kooboo.Commerce.Web.Framework.Mvc;
+using Kooboo.Commerce.Web.Framework.Actions;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -69,6 +71,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.ProductTypes = _productTypeService.Query().ToList();
 
             return View(model);
+        }
+
+        [HttpPost, HandleAjaxFormError, Transactional]
+        public ActionResult ExecuteAction(string actionName, ProductModel[] model)
+        {
+            var action = Actions.GetAction(typeof(Product), actionName);
+            foreach (var each in model)
+            {
+                var product = _productService.GetById(each.Id);
+                action.Execute(product, CurrentInstance);
+            }
+
+            return AjaxForm().ReloadPage();
         }
 
         [HttpGet]

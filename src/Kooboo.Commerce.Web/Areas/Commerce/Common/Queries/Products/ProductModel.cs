@@ -5,11 +5,11 @@ using System.Web;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Commerce.Web.Framework.Queries;
 
 namespace Kooboo.Commerce.Web.Queries.Products
 {
-    [Grid(Checkable = true, IdProperty = "Id")]
-    public class ProductModel
+    public class ProductModel : IProductModel
     {
         public ProductModel()
         {
@@ -24,6 +24,7 @@ namespace Kooboo.Commerce.Web.Queries.Products
             ProductTypeId = product.ProductTypeId;
         }
 
+        [GridColumn]
         public int Id { get; set; }
 
         [GridColumn(GridItemColumnType = typeof(LinkedGridItemColumn))]

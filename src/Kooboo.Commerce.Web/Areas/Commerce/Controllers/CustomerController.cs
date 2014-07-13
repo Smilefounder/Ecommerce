@@ -17,6 +17,7 @@ using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Web.Framework.Queries;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
+using Kooboo.Commerce.Web.Framework.Actions;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -52,6 +53,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             model.CurrentQueryResult = model.CurrentQueryInfo.Query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, model.CurrentQueryInfo.GetQueryConfig());
 
             return View(model);
+        }
+
+        [HttpPost, HandleAjaxFormError, Transactional]
+        public ActionResult ExecuteAction(string actionName, CustomerModel[] model)
+        {
+            var action = Actions.GetAction(typeof(Customer), actionName);
+            foreach (var each in model)
+            {
+                var customer = _customerService.GetById(each.Id);
+                action.Execute(customer, CurrentInstance);
+            }
+
+            return AjaxForm().ReloadPage();
         }
 
         public ActionResult Create()

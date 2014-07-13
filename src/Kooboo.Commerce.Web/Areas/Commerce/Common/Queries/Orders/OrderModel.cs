@@ -7,11 +7,11 @@ using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Payments;
 using Kooboo.Web.Mvc.Grid2.Design;
 using Kooboo.Commerce.Web.Grid2;
+using Kooboo.Commerce.Web.Framework.Queries;
 
 namespace Kooboo.Commerce.Web.Queries.Orders
 {
-    [Grid(IdProperty = "Id", Checkable = true)]
-    public class OrderModel
+    public class OrderModel : IOrderModel
     {
         [LinkedGridColumn(TargetAction = "Detail")]
         public int Id { get; set; }

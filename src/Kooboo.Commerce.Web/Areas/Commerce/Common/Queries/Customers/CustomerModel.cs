@@ -9,8 +9,7 @@ using Kooboo.Commerce.Web.Framework.Queries;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
 {
-    [Grid(IdProperty = "Id", Checkable = true)]
-    public class CustomerModel
+    public class CustomerModel : ICustomerModel
     {
         [GridColumn]
         public int Id { get; set; }

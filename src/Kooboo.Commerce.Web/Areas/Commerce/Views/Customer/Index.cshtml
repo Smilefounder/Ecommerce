@@ -1,4 +1,5 @@
-﻿@using Kooboo.Commerce.Customers;
+﻿@using Kooboo.Commerce.Customers
+@using Kooboo.Commerce.Web.Framework.Actions
 @{
     ViewBag.Title = "Customers".Localize();
 }
@@ -8,6 +9,7 @@
     {
         buttons.AddCreateButton();
         buttons.AddDeleteButton();
+        buttons.AddEntityActions(Actions.GetActions(typeof(Customer)));
     }))
 }
 

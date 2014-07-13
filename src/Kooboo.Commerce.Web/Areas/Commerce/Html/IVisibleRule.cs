@@ -27,6 +27,7 @@ namespace Kooboo.Commerce.Web.Html
 
         public void Apply(TagBuilder button)
         {
+            button.MergeAttribute("data-show-on-check", "Any");
             button.MergeAttribute("data-show-on-selector", Selector);
         }
     }

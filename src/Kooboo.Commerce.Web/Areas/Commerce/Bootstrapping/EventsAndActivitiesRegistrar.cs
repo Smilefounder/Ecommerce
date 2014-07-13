@@ -18,7 +18,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
 {
-    public class ActivityRegistrar : IDependencyRegistrar
+    public class EventsAndActivitiesRegistrar : IDependencyRegistrar
     {
         public int Order
         {
@@ -134,6 +134,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
             manager.RegisterEvent("Orders", "Order Created", "Created", typeof(OrderCreated));
             manager.RegisterEvent("Orders", "Order Status Changed", "Status Changed", typeof(OrderStatusChanged));
             manager.RegisterEvent("Orders", "Payment Status Changed", "Payment Status Changed", typeof(PaymentStatusChanged));
+            manager.RegisterEvent("Orders", "Get Order Actions", "Get Actions", typeof(GetOrderActions));
         }
     }
 }

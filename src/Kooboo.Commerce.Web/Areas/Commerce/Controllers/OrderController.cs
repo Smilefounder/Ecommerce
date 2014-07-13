@@ -1,26 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Orders;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Services;
-using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Customers.Services;
-using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Payments.Services;
-using Kooboo.Commerce.Payments;
-using Kooboo.CMS.Common;
-using Kooboo.Commerce.Web.Framework;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
 using Kooboo.Commerce.Web.Framework.Queries;
+using Kooboo.Commerce.Web.Queries.Orders;
+using Kooboo.Commerce.Web.Framework.Actions;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -63,6 +56,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
+        [HttpPost, HandleAjaxFormError, Transactional]
+        public ActionResult ExecuteAction(string actionName, OrderModel[] model)
+        {
+            var action = Actions.GetAction(typeof(Order), actionName);
+            foreach (var each in model)
+            {
+                var order = _orderService.GetById(each.Id);
+                action.Execute(order, CurrentInstance);
+            }
+
+            return AjaxForm().ReloadPage();
+        }
+
         [HttpGet]
         public ActionResult Detail(int id)
         {
@@ -99,6 +105,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.Return = "/Commerce/Order?siteName=" + Request.QueryString["siteName"] + "&instance=" + Request.QueryString["instance"];
             return View(order);
         }
+
         public ActionResult SelectProduct()
         {
             var order = Session["TempOrder"] as Order;

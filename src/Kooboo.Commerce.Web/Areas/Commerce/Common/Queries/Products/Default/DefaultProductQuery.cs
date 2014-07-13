@@ -47,7 +47,8 @@ namespace Kooboo.Commerce.Web.Queries.Products.Default
             var models = db.GetRepository<Product>()
                            .Query()
                            .OrderByDescending(x => x.Id)
-                           .ToPagedList(pageIndex, pageSize);
+                           .ToPagedList(pageIndex, pageSize)
+                           .Transform(p => new ProductModel(p));
 
             return models;
         }

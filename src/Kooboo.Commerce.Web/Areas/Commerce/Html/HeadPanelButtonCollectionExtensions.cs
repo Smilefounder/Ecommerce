@@ -6,11 +6,24 @@ using System.Web.Mvc;
 using Kooboo.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Commerce.Web.Framework;
+using Kooboo.Commerce.Web.Framework.Actions;
 
 namespace Kooboo.Commerce.Web.Html
 {
     public static class HeadPanelButtonCollectionExtensions
     {
+        public static HeaderPanelButtonCollection AddEntityActions(this HeaderPanelButtonCollection buttons, IEnumerable<IEntityAction> actions)
+        {
+            foreach (var action in actions)
+            {
+                buttons.AddAjaxPostButton(action.ButtonText, action.IconClass, "ExecuteAction", new { actionName = action.Name })
+                       .WithConfirmMessage(action.ConfirmMessage)
+                       .VisibleWhenSelected(".action-" + action.Name);
+            }
+
+            return buttons;
+        }
+
         public static HeaderPanelButton AddAjaxPostButton(this HeaderPanelButtonCollection buttons, string text, string icon, string action, object additionalRouteValues = null)
         {
             return AddAjaxPostButton(buttons, text, icon, action, additionalRouteValues == null ? new RouteValueDictionary() : new RouteValueDictionary(additionalRouteValues));
