@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using EntityFramework.Extensions;
 
 namespace Kooboo.Commerce.Data
 {
@@ -47,17 +48,17 @@ namespace Kooboo.Commerce.Data
             return Query().Where(predicate);
         }
 
-        public virtual T Find(params object[] id)
+        public T Find(params object[] id)
         {
             return DbContext.Set<T>().Find(id);
         }
 
-        public virtual T Find(Expression<Func<T, bool>> predicate)
+        public T Find(Expression<Func<T, bool>> predicate)
         {
             return Query(predicate).FirstOrDefault();
         }
 
-        public virtual void Insert(T entity)
+        public void Insert(T entity)
         {
             Require.NotNull(entity, "entity");
 
@@ -67,7 +68,7 @@ namespace Kooboo.Commerce.Data
             DbContext.SaveChanges();
         }
 
-        public virtual void Update(T entity)
+        public void Update(T entity)
         {
             var entry = DbContext.Entry(entity);
             if (entry.State == EntityState.Detached)
@@ -82,19 +83,29 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public virtual void Update(T entity, object values)
+        public void Update(T entity, object values)
         {
             var entry = DbContext.Entry(entity);
             entry.CurrentValues.SetValues(values);
             DbContext.SaveChanges();
         }
 
-        public virtual void Delete(T entity)
+        public void Update(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> update)
+        {
+            DbContext.Set<T>().Where(predicate).Update(update);
+        }
+
+        public void Delete(T entity)
         {
             Require.NotNull(entity, "entity");
 
             DbContext.Set<T>().Remove(entity);
             DbContext.SaveChanges();
+        }
+
+        public void Delete(Expression<Func<T, bool>> predicate)
+        {
+            DbContext.Set<T>().Where(predicate).Delete();
         }
     }
 }

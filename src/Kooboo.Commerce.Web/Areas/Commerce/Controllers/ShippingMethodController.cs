@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var methods = _shippingMethodService.Query()
                                                 .OrderBy(x => x.Id)
-                                                .Paginate(page, pageSize)
+                                                .Paginate(page - 1, pageSize)
                                                 .Transform(x => new ShippingMethodRowModel
                                                 {
                                                     Id = x.Id,
