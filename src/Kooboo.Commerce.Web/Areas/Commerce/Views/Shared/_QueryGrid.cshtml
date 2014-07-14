@@ -18,7 +18,7 @@
         }
     </ul>
     <div id="@Model.CurrentQueryInfo.Query.Name">
-        @Html.GridFor2(Model.CurrentQueryInfo.Query.ResultType as Type, Model.CurrentQueryResult as System.Collections.IEnumerable)
+        @Html.GridFor2(Model.CurrentQueryInfo.Query.ResultType as Type, Model.CurrentQueryResult as System.Collections.IEnumerable, "_Grid2.SimpleTable")
 
         <div class="pagination right">
             @Html.Pager(Model.CurrentQueryResult as IPagedList, null, null, null, "", ViewContext.RequestContext.AllRouteValues(), null)

@@ -3574,6 +3574,7 @@
     <Content Include="Areas\Commerce\Views\Shared\_QueryConfigDialog.cshtml" />
     <Content Include="Areas\Commerce\Views\Query\Config.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_QueryGrid.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_Grid2.SimpleTable.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
