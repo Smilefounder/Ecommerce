@@ -40,16 +40,14 @@ namespace Kooboo.Commerce.Web.Queries.Orders.MostCost
             }
         }
 
-        public IPagedList Execute(CommerceInstance instance, int pageIndex, int pageSize, object config)
+        public Pagination Execute(QueryContext context)
         {
-            if (pageIndex <= 1)
-                pageIndex = 1;
-
-            var parameters = config as MostCostOrdersConfig ?? new MostCostOrdersConfig();
-            var db = instance.Database;
+            var parameters = context.Config as MostCostOrdersConfig ?? new MostCostOrdersConfig();
+            var db = context.Instance.Database;
             var customerQuery = db.GetRepository<Customer>().Query();
             var query = db.GetRepository<Order>()
                           .Query()
+                          .ByKeywords(context.Keywords)
                           .Join(customerQuery,
                                order => order.CustomerId,
                                customer => customer.Id,
@@ -66,10 +64,7 @@ namespace Kooboo.Commerce.Web.Queries.Orders.MostCost
                           })
                           .OrderByDescending(o => o.Total);
 
-            var total = query.Count();
-            var data = query.Skip(0).Take(parameters.Num).ToArray();
-
-            return new PagedList<OrderModel>(data, pageIndex, pageSize, total);
+            return query.Paginate(context.PageIndex, context.PageSize);
         }
     }
 }

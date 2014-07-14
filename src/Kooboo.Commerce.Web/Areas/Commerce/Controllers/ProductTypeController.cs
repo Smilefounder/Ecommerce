@@ -33,11 +33,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _customFieldService = customFieldService;
         }
 
-        public ActionResult Index(int? page, int? pageSize)
+        public ActionResult Index(int page = 1, int pageSize = 50)
         {
             var model = _productTypeService.Query()
-                                           .ToPagedList(page, pageSize)
-                                           .Transform(o => new ProductTypeRowModel(o));
+                                           .Paginate(page - 1, pageSize)
+                                           .Transform(o => new ProductTypeRowModel(o))
+                                           .ToPagedList();
             return View(model);
         }
 

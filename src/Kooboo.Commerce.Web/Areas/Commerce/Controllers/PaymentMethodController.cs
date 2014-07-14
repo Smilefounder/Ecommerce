@@ -31,12 +31,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _paymentMethodService = paymentMethodService;
         }
 
-        public ActionResult Index(int? page, int? pageSize)
+        public ActionResult Index(int page = 1, int pageSize = 50)
         {
             var methods = _paymentMethodService.Query()
                                  .OrderByDescending(x => x.Id)
-                                 .ToPagedList(page, pageSize)
-                                 .Transform(x => new PaymentMethodRowModel(x));
+                                 .Paginate(page - 1, pageSize)
+                                 .Transform(x => new PaymentMethodRowModel(x))
+                                 .ToPagedList();
             return View(methods);
         }
 

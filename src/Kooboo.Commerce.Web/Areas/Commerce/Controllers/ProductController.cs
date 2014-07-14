@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _categoryService = categoryService;
         }
 
-        public ActionResult Index(string queryName, int? page, int? pageSize)
+        public ActionResult Index(string search, string queryName, int page = 1, int pageSize = 50)
         {
             var model = new QueryGridModel
             {
@@ -66,7 +66,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 model.CurrentQueryInfo = QueryManager.Instance.GetQueryInfo(queryName);
             }
 
-            model.CurrentQueryResult = model.CurrentQueryInfo.Query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, model.CurrentQueryInfo.GetQueryConfig());
+            model.CurrentQueryResult = model.CurrentQueryInfo
+                                            .Query
+                                            .Execute(new QueryContext(CurrentInstance, search, page - 1, pageSize, model.CurrentQueryInfo.GetQueryConfig()))
+                                            .ToPagedList();
 
             ViewBag.ProductTypes = _productTypeService.Query().ToList();
 

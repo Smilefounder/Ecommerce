@@ -6,7 +6,7 @@ using System.Data.Entity.Core.Common;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Data.SqlServer
+namespace Kooboo.Commerce.Data.Providers.SqlServer
 {
     public class SqlServerCommerceDbProvider : ICommerceDbProvider
     {

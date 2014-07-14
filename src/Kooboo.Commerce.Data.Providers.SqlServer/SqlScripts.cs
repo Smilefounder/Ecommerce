@@ -4,9 +4,9 @@ using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Data.SqlServer
+namespace Kooboo.Commerce.Data.Providers.SqlServer
 {
-    internal class SqlScripts
+    class SqlScripts
     {
         private StringBuilder _builder = new StringBuilder();
 

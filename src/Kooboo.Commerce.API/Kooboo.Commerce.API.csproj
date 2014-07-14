@@ -107,7 +107,6 @@
     <Compile Include="Payments\IPaymentMethodQuery.cs" />
     <Compile Include="Payments\IPaymentQuery.cs" />
     <Compile Include="Payments\Payment.cs" />
-    <Compile Include="PagedListWrapper.cs" />
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="PriceChangeMode.cs" />

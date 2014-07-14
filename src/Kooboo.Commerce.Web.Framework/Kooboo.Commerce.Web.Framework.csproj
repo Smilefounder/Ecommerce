@@ -98,6 +98,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Queries\IOrderModel.cs" />
+    <Compile Include="Queries\QueryContext.cs" />
     <Compile Include="Queries\QueryInfo.cs" />
     <Compile Include="Queries\QueryManager.cs" />
     <Compile Include="Queries\IQuery.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.Data.Providers;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -7,7 +8,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Data.SqlServer
+namespace Kooboo.Commerce.Data.Providers.SqlServer
 {
     public class SqlServerCommerceDatabaseOperations : ICommerceDatabaseOperations
     {

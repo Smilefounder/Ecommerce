@@ -58,16 +58,13 @@ namespace Kooboo.Commerce.Web.Queries.Customers.TopOrdered
             }
         }
 
-        public IPagedList Execute(CommerceInstance instance, int pageIndex, int pageSize, object config)
+        public Pagination Execute(QueryContext context)
         {
-            if (pageIndex <= 1)
-                pageIndex = 1;
-
-            var parameters = config as TopOrderedCustomersConfig ?? new TopOrderedCustomersConfig();
-            var db = instance.Database;
+            var parameters = context.Config as TopOrderedCustomersConfig ?? new TopOrderedCustomersConfig();
+            var db = context.Instance.Database;
 
             var orderQuery = db.GetRepository<Order>().Query();
-            IQueryable<TopOrderedCustomer> query = db.GetRepository<Customer>().Query()
+            IQueryable<TopOrderedCustomer> query = db.GetRepository<Customer>().Query().ByKeywords(context.Keywords)
                 .GroupJoin(orderQuery,
                            customer => customer.Id,
                            order => order.CustomerId,
@@ -80,9 +77,8 @@ namespace Kooboo.Commerce.Web.Queries.Customers.TopOrdered
                     OrdersCount = o.Orders 
                 })
                 .OrderByDescending(o => o.OrdersCount);
-            var total = query.Count();
-            var data = query.Skip(0).Take(parameters.Num).ToArray();
-            return new PagedList<TopOrderedCustomer>(data, pageIndex, pageSize, total);
+
+            return query.Paginate(context.PageIndex, context.PageSize);
         }
     }
 }

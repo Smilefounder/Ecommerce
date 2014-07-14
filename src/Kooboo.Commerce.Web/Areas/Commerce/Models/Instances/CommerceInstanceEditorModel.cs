@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Data.Providers;
 using Kooboo.Commerce.Web.Framework.ComponentModel.DataAnnotations;
 using Kooboo.Web.Mvc;
 using System;

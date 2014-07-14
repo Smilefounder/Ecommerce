@@ -48,11 +48,11 @@ namespace Kooboo.Commerce.Web.Queries.Products.TopSold
         }
 
 
-        public IPagedList Execute(CommerceInstance instance, int pageIndex, int pageSize, object config)
+        public Pagination Execute(QueryContext context)
         {
-            var parameters = config as TopSoldProductsConfig ?? new TopSoldProductsConfig();
+            var parameters = context.Config as TopSoldProductsConfig ?? new TopSoldProductsConfig();
             var lastDate = DateTime.Today.AddDays(-1 * parameters.Days);
-            var db = instance.Database;
+            var db = context.Instance.Database;
 
             IQueryable<SaledProduct> orderItemQuery = db.GetRepository<OrderItem>()
                                    .Query()
@@ -66,10 +66,10 @@ namespace Kooboo.Commerce.Web.Queries.Products.TopSold
                                    .OrderByDescending(g => g.SaledCount);
 
             var total = orderItemQuery.Count();
-            orderItemQuery = orderItemQuery.Skip(pageSize * (pageIndex - 1)).Take(pageSize);
+            orderItemQuery = orderItemQuery.Skip(context.PageSize * context.PageIndex).Take(context.PageSize);
 
-            var productQuery = db.GetRepository<Product>().Query();
-
+            var productQuery = db.GetRepository<Product>().Query().ByKeywords(context.Keywords);
+            
             var saledProduct = orderItemQuery.Join(productQuery,
                                                    saled => saled.ProductId,
                                                    product => product.Id,
@@ -84,7 +84,7 @@ namespace Kooboo.Commerce.Web.Queries.Products.TopSold
 
             var data = saledProduct.ToArray();
 
-            return new PagedList<ProductModel>(data, pageIndex, pageSize, total);
+            return new Pagination<ProductModel>(data, context.PageIndex, context.PageSize, total);
         }
     }
 }

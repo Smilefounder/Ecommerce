@@ -2,6 +2,7 @@
 @using Kooboo.Commerce.Web.Framework.Actions
 @{
     ViewBag.Title = "Orders".Localize();
+    ViewBag.EnableSearch = true;
 }
 
 @section Panel {
@@ -11,13 +12,6 @@
         buttons.AddDeleteButton();
         buttons.AddEntityActions(Actions.GetActions(typeof(Order)));
     }))
-}
-
-@section Topbar {
-    <h1 class="title">@ViewBag.Title</h1>
-    <div class="search-panel">
-        @Html.Partial("_Search")
-    </div>
 }
 
 @Html.Partial("_QueryGrid")

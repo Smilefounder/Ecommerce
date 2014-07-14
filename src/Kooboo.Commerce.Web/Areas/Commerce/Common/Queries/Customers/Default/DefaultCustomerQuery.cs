@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Customers;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Customers;
 using Kooboo.Commerce.Web.Framework.Queries;
@@ -44,10 +45,10 @@ namespace Kooboo.Commerce.Web.Queries.Customers.Default
             }
         }
 
-        public IPagedList Execute(Data.CommerceInstance instance, int pageIndex, int pageSize, object config)
+        public Pagination Execute(QueryContext context)
         {
-            var db = instance.Database;
-            var customerQuery = db.GetRepository<Customer>().Query();
+            var db = context.Instance.Database;
+            var customerQuery = db.GetRepository<Customer>().Query().ByKeywords(context.Keywords);
             var orderQuery = db.GetRepository<Order>().Query();
             var customers = customerQuery
                 .GroupJoin(orderQuery,
@@ -55,7 +56,7 @@ namespace Kooboo.Commerce.Web.Queries.Customers.Default
                            order => order.CustomerId,
                            (customer, orders) => new { Customer = customer, Orders = orders.Count() })
                 .OrderByDescending(groupedItem => groupedItem.Customer.Id)
-                .ToPagedList(pageIndex, pageSize)
+                .Paginate(context.PageIndex, context.PageSize)
                 .Transform(o => new CustomerModel(o.Customer));
 
             return customers;

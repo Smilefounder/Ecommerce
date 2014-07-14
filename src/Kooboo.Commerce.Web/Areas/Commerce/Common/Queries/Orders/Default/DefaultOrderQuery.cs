@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Orders;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Web.Framework.Queries;
 using System;
 using System.Collections.Generic;
@@ -41,14 +42,15 @@ namespace Kooboo.Commerce.Web.Queries.Orders.Default
             }
         }
 
-        public Kooboo.Web.Mvc.Paging.IPagedList Execute(Data.CommerceInstance instance, int pageIndex, int pageSize, object config)
+        public Pagination Execute(QueryContext context)
         {
-            var db = instance.Database;
+            var db = context.Instance.Database;
 
             return db.GetRepository<Order>()
                      .Query()
+                     .ByKeywords(context.Keywords)
                      .OrderByDescending(o => o.Id)
-                     .ToPagedList(pageIndex, pageSize)
+                     .Paginate(context.PageIndex, context.PageSize)
                      .Transform(o => new OrderModel(o, o.Customer));
         }
     }

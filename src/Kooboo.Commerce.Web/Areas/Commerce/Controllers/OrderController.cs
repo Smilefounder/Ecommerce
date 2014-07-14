@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string queryName, int? page, int? pageSize)
+        public ActionResult Index(string search, string queryName, int page = 1, int pageSize = 50)
         {
             var model = new QueryGridModel
             {
@@ -51,7 +51,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 model.CurrentQueryInfo = QueryManager.Instance.GetQueryInfo(queryName);
             }
 
-            model.CurrentQueryResult = model.CurrentQueryInfo.Query.Execute(CurrentInstance, page ?? 1, pageSize ?? 50, model.CurrentQueryInfo.GetQueryConfig());
+            model.CurrentQueryResult = model.CurrentQueryInfo
+                                            .Query
+                                            .Execute(new QueryContext(CurrentInstance, search, page - 1, pageSize, model.CurrentQueryInfo.GetQueryConfig()))
+                                            .ToPagedList();
 
             return View(model);
         }
@@ -93,7 +96,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 order = Session["TempOrder"] as Order;
             }
 
-            var customers = _customerService.Query().OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
+            var customers = _customerService.Query().OrderByDescending(x => x.Id).Paginate(page ?? 1 - 1, pageSize ?? 50).ToPagedList();
             ViewBag.Customers = customers;
 
             if (order.CustomerId > 0)
@@ -131,7 +134,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(order);
         }
 
-        public ActionResult ProductList(int? page = 1, int? pageSize = 50)
+        public ActionResult ProductList(int page = 1, int pageSize = 50)
         {
             var query = _productService.Query();
             string search = Request.Form["search"];
@@ -140,7 +143,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
                 query = query.Where(o => o.Name.StartsWith(search));
             }
-            var products = query.OrderByDescending(x => x.Id).ToPagedList(page, pageSize);
+            var products = query.OrderByDescending(x => x.Id).Paginate(page - 1, pageSize).ToPagedList();
             ViewBag.Products = products;
             ViewBag.Search = search;
             var order = Session["TempOrder"] as Order;

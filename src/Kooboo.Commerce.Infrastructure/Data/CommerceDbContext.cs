@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Data.Events;
+using Kooboo.Commerce.Data.Providers;
 
 namespace Kooboo.Commerce.Data
 {

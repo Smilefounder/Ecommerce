@@ -40,6 +40,12 @@
                     else
                     {
                         <h1 class="title">@ViewBag.Title</h1>
+                        if (ViewBag.EnableSearch == true)
+                        {
+                            <div class="search-panel">
+                                @Html.Partial("_Search")
+                            </div>
+                        }
                     }
                 </div>
                 <div class="wrap">
@@ -64,4 +70,5 @@
 
     @Html.Partial("Master.Script")
 </body>
+
 </html>

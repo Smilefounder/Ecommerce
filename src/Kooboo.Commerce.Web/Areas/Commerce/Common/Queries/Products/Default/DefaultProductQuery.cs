@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Products;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Framework.Queries;
 using System;
 using System.Collections.Generic;
@@ -41,16 +42,18 @@ namespace Kooboo.Commerce.Web.Queries.Products.Default
             }
         }
 
-        public Kooboo.Web.Mvc.Paging.IPagedList Execute(Data.CommerceInstance instance, int pageIndex, int pageSize, object config)
+        public Pagination Execute(QueryContext context)
         {
-            var db = instance.Database;
-            var models = db.GetRepository<Product>()
-                           .Query()
-                           .OrderByDescending(x => x.Id)
-                           .ToPagedList(pageIndex, pageSize)
-                           .Transform(p => new ProductModel(p));
+            var db = context.Instance.Database;
+            var query = db.GetRepository<Product>()
+                          .Query()
+                          .ByKeywords(context.Keywords);
 
-            return models;
+            var result = query.OrderByDescending(x => x.Id)
+                              .Paginate(context.PageIndex, context.PageSize)
+                              .Transform(p => new ProductModel(p));
+
+            return result;
         }
     }
 }

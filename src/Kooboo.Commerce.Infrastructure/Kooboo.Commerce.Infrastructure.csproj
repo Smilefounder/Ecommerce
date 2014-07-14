@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Extensions\PaginationExtensions.cs" />
     <Compile Include="Data\Folders\CachedDataFile.cs" />
     <Compile Include="Data\Folders\Disk\DiskDataFile.cs" />
     <Compile Include="Data\Folders\Disk\DiskDataFolder.cs" />
@@ -93,6 +94,8 @@
     <Compile Include="Data\Folders\Disk\DiskDataFolderFactory.cs" />
     <Compile Include="Data\Folders\IDataFileFormat.cs" />
     <Compile Include="Data\Folders\JsonDataFileFormat.cs" />
+    <Compile Include="Data\Pagination.cs" />
+    <Compile Include="Data\Pagination`.cs" />
     <Compile Include="Rules\Activities\ActivityBase.cs" />
     <Compile Include="Rules\Activities\ActivityContext.cs" />
     <Compile Include="Rules\Activities\ActivityEventManager.cs" />
@@ -121,7 +124,7 @@
     <Compile Include="Data\Extensions\CommerceDatabaseExtensions.cs" />
     <Compile Include="Data\Extensions\DbContextExtensions.cs" />
     <Compile Include="Data\ICommerceDbTransaction.cs" />
-    <Compile Include="Data\ICommerceDatabaseOperations.cs" />
+    <Compile Include="Data\Providers\ICommerceDatabaseOperations.cs" />
     <Compile Include="Data\CommerceDatabase.cs" />
     <Compile Include="Data\CommerceInstanceManager.cs" />
     <Compile Include="Data\CommerceDbContext.cs" />
@@ -129,7 +132,7 @@
     <Compile Include="Data\CommerceRepository.cs" />
     <Compile Include="Data\ICommerceDatabase.cs" />
     <Compile Include="Data\ICommerceInstanceManager.cs" />
-    <Compile Include="Data\ICommerceDbProvider.cs" />
+    <Compile Include="Data\Providers\ICommerceDbProvider.cs" />
     <Compile Include="Data\CommerceInstance.cs" />
     <Compile Include="Data\Initialization\IInstanceInitializer.cs" />
     <Compile Include="Data\CommerceDataFolderVirtualPaths.cs" />

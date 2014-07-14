@@ -22,12 +22,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _countryService = countryService;
         }
 
-        public ActionResult Index(int? page, int? pageSize)
+        public ActionResult Index(int page = 1, int pageSize = 50)
         {
             var bindings = _countryService.Query()
-                .OrderBy(o => o.Name)
-                .ToPagedList(page, pageSize)
-                .Transform(o => new CountryRowModel(o));
+                                          .OrderBy(o => o.Name)
+                                          .Paginate(page - 1, pageSize)
+                                          .Transform(o => new CountryRowModel(o))
+                                          .ToPagedList();
 
             return View(bindings);
         }

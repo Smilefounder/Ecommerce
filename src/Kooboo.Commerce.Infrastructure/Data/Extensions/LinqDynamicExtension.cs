@@ -134,12 +134,6 @@ namespace Kooboo.Commerce.Data
                     source.Expression, Expression.Constant(count)));
         }
 
-        public static IQueryable<T> Paginate<T>(this IQueryable<T> query, int page, int pageSize)
-        {
-            int skip = Math.Max(pageSize * (page - 1), 0);
-            return query.Skip(skip).Take(pageSize);
-        }
-
         public static IQueryable GroupBy(this IQueryable source, string keySelector, string elementSelector, params object[] values)
         {
             if (source == null) throw new ArgumentNullException("source");

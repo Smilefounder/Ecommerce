@@ -32,15 +32,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Index(int page = 1, int pageSize = 50)
         {
             var methods = _shippingMethodService.Query()
-                                               .OrderBy(x => x.Id)
-                                               .ToPagedList(page, pageSize)
-                                               .Transform(x => new ShippingMethodRowModel
-                                               {
-                                                   Id = x.Id,
-                                                   Name = x.Name,
-                                                   IsEnabled = x.IsEnabled,
-                                                   ShippingRateProviderName = x.ShippingRateProviderName
-                                               });
+                                                .OrderBy(x => x.Id)
+                                                .Paginate(page, pageSize)
+                                                .Transform(x => new ShippingMethodRowModel
+                                                {
+                                                    Id = x.Id,
+                                                    Name = x.Name,
+                                                    IsEnabled = x.IsEnabled,
+                                                    ShippingRateProviderName = x.ShippingRateProviderName
+                                                })
+                                                .ToPagedList();
 
             return View(methods);
         }

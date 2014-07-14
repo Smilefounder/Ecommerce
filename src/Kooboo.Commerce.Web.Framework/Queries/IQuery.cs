@@ -18,6 +18,6 @@ namespace Kooboo.Commerce.Web.Framework.Queries
 
         Type ResultType { get; }
 
-        IPagedList Execute(CommerceInstance instance, int pageIndex, int pageSize, object config);
+        Pagination Execute(QueryContext context);
     }
 }

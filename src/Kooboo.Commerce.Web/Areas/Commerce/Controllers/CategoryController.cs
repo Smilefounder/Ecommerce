@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _categoryService = categoryService;
         }
 
-        public ActionResult Index(int? page, int? pageSize)
+        public ActionResult Index(int page = 1, int pageSize = 50)
         {
             var categories = _categoryService.Query().Where(o => o.Parent == null)
                 .OrderByDescending(x => x.Id)
@@ -37,7 +37,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     Published = x.Published,
                     ChildrenCount = x.Children.Count
                 })
-                .ToPagedList(page, pageSize);
+                .Paginate(page - 1, pageSize)
+                .ToPagedList();
 
             return View(categories);
         }

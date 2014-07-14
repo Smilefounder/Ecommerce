@@ -24,12 +24,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _brandService = brandService;
         }
 
-        public ActionResult Index(int? page, int? pageSize)
+        public ActionResult Index(int page = 1, int pageSize = 50)
         {
             var brands = _brandService.Query()
                                 .OrderByDescending(x => x.Id)
-                                .ToPagedList(page, pageSize)
-                                .Transform(x => new BrandRowModel(x));
+                                .Paginate(page - 1, pageSize)
+                                .Transform(x => new BrandRowModel(x))
+                                .ToPagedList();
 
             return View(brands);
         }

@@ -330,6 +330,7 @@
     <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\ObjectModelBinder.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Customers\CustomerQueryExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Queries\Customers\Default\DefaultCustomerQuery.cs" />
     <Compile Include="Areas\Commerce\Common\Queries\Customers\RecentOrdered\RecentOrderedCustomer.cs" />
     <Compile Include="Areas\Commerce\Common\Queries\Customers\RecentOrdered\RecentOrderedCustomers.cs" />
@@ -342,11 +343,13 @@
     </Compile>
     <Compile Include="Areas\Commerce\Common\Queries\Orders\MostCost\MostCostOrdersConfig.cs" />
     <Compile Include="Areas\Commerce\Common\Queries\Orders\OrderModel.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Orders\OrderQueryExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Queries\Orders\Recent\RecentOrders.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Common\Queries\Orders\Recent\RecentOrdersConfig.cs" />
     <Compile Include="Areas\Commerce\Common\Queries\Products\Default\DefaultProductQuery.cs" />
+    <Compile Include="Areas\Commerce\Common\Queries\Products\ProductQueryExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Queries\Products\TopSold\TopSoldProducts.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -377,7 +380,6 @@
     <Compile Include="Areas\Commerce\Bootstrapping\PromotionPolicyRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ShippingRateProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\EntityUtil.cs" />
-    <Compile Include="Areas\Commerce\Extensions\PagedListExtensions.cs" />
     <Compile Include="Areas\Commerce\Handlers\FilesStatus.cs" />
     <Compile Include="Areas\Commerce\Handlers\FileType.cs" />
     <Compile Include="Areas\Commerce\Handlers\ImageHandler.ashx.cs">
@@ -3733,9 +3735,9 @@
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.API</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce.Data.SqlServer\Kooboo.Commerce.Data.SqlServer.csproj">
+    <ProjectReference Include="..\Kooboo.Commerce.Data.Providers.SqlServer\Kooboo.Commerce.Data.Providers.SqlServer.csproj">
       <Project>{5b8b6f8c-f82f-425f-b521-40b2949383e4}</Project>
-      <Name>Kooboo.Commerce.Data.SqlServer</Name>
+      <Name>Kooboo.Commerce.Data.Providers.SqlServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>

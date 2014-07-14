@@ -40,15 +40,16 @@ namespace Kooboo.Commerce.Web.Queries.Orders.Recent
             }
         }
 
-        public IPagedList Execute(CommerceInstance instance, int pageIndex, int pageSize, object config)
+        public Pagination Execute(QueryContext context)
         {
-            var parameters = config as RecentOrdersConfig ?? new RecentOrdersConfig();
-            var lastDate = DateTime.Today.AddDays(-1 * parameters.Days);
+            var parameters = context.Config as RecentOrdersConfig ?? new RecentOrdersConfig();
+            var lastDate = DateTime.Today.AddDays(-1 * parameters.Days).ToUniversalTime();
 
-            var db = instance.Database;
+            var db = context.Instance.Database;
             var customerQuery = db.GetRepository<Customer>().Query();
             var query = db.GetRepository<Order>()
                           .Query()
+                          .ByKeywords(context.Keywords)
                           .Join(customerQuery,
                                order => order.CustomerId,
                                customer => customer.Id,
@@ -65,10 +66,7 @@ namespace Kooboo.Commerce.Web.Queries.Orders.Recent
                           })
                           .OrderByDescending(o => o.Id);
 
-            var total = query.Count();
-            var data = query.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToArray();
-
-            return new PagedList<OrderModel>(data, pageIndex, pageSize, total);
+            return query.Paginate(context.PageIndex, context.PageSize);
         }
     }
 }

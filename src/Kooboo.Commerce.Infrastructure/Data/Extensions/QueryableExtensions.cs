@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Kooboo.Commerce.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Kooboo.Commerce.Data
+namespace Kooboo.Commerce
 {
     public static class QueryableExtensions
     {
@@ -18,6 +19,16 @@ namespace Kooboo.Commerce.Data
             where T : class
         {
             return System.Data.Entity.QueryableExtensions.Include<T, TProperty>(query, path);
+        }
+
+        public static Pagination<T> Paginate<T>(this IQueryable<T> query, int pageIndex, int pageSize)
+        {
+            var total = query.Count();
+            var items = query.Skip(pageIndex * pageSize)
+                             .Take(pageSize)
+                             .ToList();
+
+            return new Pagination<T>(items, pageIndex, pageSize, total);
         }
     }
 }

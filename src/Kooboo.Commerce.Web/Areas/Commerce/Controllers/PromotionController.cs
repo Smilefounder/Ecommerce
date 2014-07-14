@@ -34,14 +34,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _policyProvider = policyProvider;
         }
 
-        public ActionResult Index(int? page, int? pageSize)
+        public ActionResult Index(int page = 1, int pageSize = 50)
         {
             ViewBag.AllPolicies = _policyProvider.All().ToSelectList().ToList();
 
             var promotions = _promotionService.Query()
                                              .OrderByDescending(x => x.Id)
-                                             .ToPagedList(page, pageSize)
-                                             .Transform(x => new PromotionRowModel(x));
+                                             .Paginate(page - 1, pageSize)
+                                             .Transform(x => new PromotionRowModel(x))
+                                             .ToPagedList();
 
             return View(promotions);
         }
