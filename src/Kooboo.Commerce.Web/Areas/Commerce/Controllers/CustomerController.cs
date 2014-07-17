@@ -73,6 +73,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Edit(int id)
         {
+            var customer = _customerService.GetById(id);
+
+            ViewBag.ToolbarCommands = ToolbarCommands.GetCommands(ControllerContext, customer, CurrentInstance);
+
             return View("Edit");
         }
 

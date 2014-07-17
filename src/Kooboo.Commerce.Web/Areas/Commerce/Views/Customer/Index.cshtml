@@ -1,5 +1,4 @@
 ﻿@using Kooboo.Commerce.Customers
-@using Kooboo.Commerce.Web.Framework.UI.Toolbar
 @{
     ViewBag.Title = "Customers".Localize();
     ViewBag.EnableSearch = true;
@@ -9,7 +8,6 @@
     @(Html.HeaderPanel().Buttons(buttons =>
     {
         buttons.AddCreateButton();
-        buttons.AddDeleteButton();
         buttons.AddToolbarCommands(ToolbarCommands.GetCommands(ViewContext.Controller.ControllerContext));
     }))
 }

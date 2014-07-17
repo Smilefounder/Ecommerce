@@ -15,29 +15,31 @@
         $(function () {
             $('.header-panel [data-cmd-name]').each(function () {
                 var $button = $(this);
+                var options = {
+                    commandName: $button.data('cmd-name'),
+                    buttonText: $button.data('cmd-text'),
+                    confirmMessage: $button.data('confirm'),
+                    needConfig: $button.data('need-config'),
+                    modelId: $button.data('model-id'),
+                    modelIdProperty: $button.data('model-id-prop')
+                };
+
                 $button.on('click', function () {
-                    window.ToolbarCommandConfigDialog.instance().open({
-                        commandName: $button.data('cmd-name'),
-                        buttonText: $button.data('cmd-text'),
-                        confirmMessage: $button.data('cmd-confirm')
-                    });
+                    if ($button.data('need-config') == true) {
+                        window.ToolbarCommandConfigDialog.instance().open(options);
+                    } else {
+                        executeCommand(options);
+                    }
                 });
             });
         });
-
-        window.configureToolbarCommand = function (commandName, confirmMessage) {
-            window.ToolbarCommandConfigDialog.instance().open({
-                commandName: commandName,
-                confirmMessage: confirmMessage
-            });
-        }
 
         window.ToolbarCommandConfigDialog = function () {
             var self = this;
             var $dialog = null;
             var $form = null;
-            var commandName = null;
-            var confirmMessage = null;
+
+            self.options = null;
 
             self.init = function () {
                 if ($dialog !== null) {
@@ -60,14 +62,12 @@
             }
 
             self.open = function (options) {
-                commandName = options.commandName;
-                confirmMessage = options.confirmMessage || null;
-
+                self.options = options;
                 self.init();
 
-                $dialog.find('[data-toggle="submit-config"]').html(options.buttonText);
+                $dialog.find('[data-toggle="submit-config"]').html(self.options.buttonText);
 
-                $.get('/Commerce/Toolbar/CommandConfig', { commandName: commandName })
+                $.get('/Commerce/Toolbar/CommandConfig', { commandName: self.options.commandName })
                  .done(function (html) {
                      $dialog.find('.dialog-body').replaceWith(html);
                      $form = $dialog.find('form');
@@ -81,14 +81,30 @@
                     return false;
                 }
 
-                if (confirmMessage) {
-                    if (!confirm(confirmMessage)) {
-                        return false;
-                    }
+                executeCommand(self.options, $form.serializeArray());
+                self.close();
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+            }
+        }
+
+        function executeCommand(options, config) {
+            if (options.confirmMessage) {
+                if (!confirm(options.confirmMessage)) {
+                    return false;
                 }
+            }
 
-                var data = [];
+            var data = [];
 
+            if (options.modelId) {
+                data.push({
+                    name: 'model[0].' + options.modelIdProperty || 'Id',
+                    value: options.modelId
+                });
+            } else {
                 $('[name=select]:checked').each(function (i) {
                     var idProp = $(this).data('id-property');
                     if (idProp) {
@@ -98,52 +114,54 @@
                         });
                     }
                 });
+            }
 
-                $.each($form.serializeArray(), function () {
+            if (config) {
+                $.each(config, function () {
                     data.push({
                         name: 'config.' + this.name,
                         value: this.value
                     });
                 });
+            }
 
-                self.close();
-                window.loading.show();
+            window.loading.show();
 
-                $.post('@Url.Action("ExecuteToolbarCommand")?commandName=' + commandName, data, function (data, textStatus, jqXHR, postData) {
-                    window.loading.hide();
+            $.post('@Url.Action("ExecuteToolbarCommand")?commandName=' + options.commandName, data, function (data, textStatus, jqXHR, postData) {
+                window.loading.hide();
 
-                    var results = data.Model;
-                    var hasErrors = false;
+                if (!data.Success) {
+                    info.show(data.Messages.join('<br/>'), false);
+                    return false;
+                }
 
-                    if (results.length > 0) {
-                        $.each(results, function () {
-                            if (this.Messages.length > 0) {
-                                info.show(this.Messages.join('<br/>'), this.Success);
-                            }
+                var results = data.Model;
+                var hasErrors = false;
 
-                            if (!this.Success) {
-                                hasErrors = true;
-                            }
-                        });
-
-                        // Don't reload if any error occurs
-                        if (!hasErrors) {
-                            setTimeout(reloadPage, 1500);
+                if (results.length > 0) {
+                    $.each(results, function () {
+                        if (this.Messages.length > 0) {
+                            info.show(this.Messages.join('<br/>'), this.Success);
                         }
-                    } else {
-                        reloadPage();
+
+                        if (!this.Success) {
+                            hasErrors = true;
+                        }
+                    });
+
+                    // Don't reload if any error occurs
+                    if (!hasErrors) {
+                        setTimeout(reloadPage, 1500);
                     }
+                } else {
+                    reloadPage();
+                }
 
-                }, 'json');
-            }
+            }, 'json');
+        }
 
-            self.close = function () {
-                $dialog.dialog('close');
-            }
-
-            function reloadPage() {
-                location.href = location.href.replace(/#+$/, '');
-            }
+        function reloadPage() {
+            location.href = location.href.replace(/#+$/, '');
         }
 
         var instance = new window.ToolbarCommandConfigDialog();

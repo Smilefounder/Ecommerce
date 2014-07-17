@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Products.Services;
+using Kooboo.Commerce.Web.Framework.UI;
 using Kooboo.Commerce.Web.Framework.UI.Toolbar;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Products
             get
             {
                 return "Unpublish";
+            }
+        }
+
+        public override IEnumerable<Framework.UI.MvcRoute> ApplyTo
+        {
+            get
+            {
+                yield return MvcRoutes.Products.List();
             }
         }
 

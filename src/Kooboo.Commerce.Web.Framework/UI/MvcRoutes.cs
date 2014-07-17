@@ -28,11 +28,6 @@ namespace Kooboo.Commerce.Web.Framework.UI
                 };
             }
 
-            public static MvcRoute Create()
-            {
-                return Edit();
-            }
-
             public static MvcRoute Edit()
             {
                 return new MvcRoute
@@ -63,11 +58,6 @@ namespace Kooboo.Commerce.Web.Framework.UI
                     Controller = "Customer",
                     Action = "Index"
                 };
-            }
-
-            public static MvcRoute Create()
-            {
-                return Edit();
             }
 
             public static MvcRoute Edit()

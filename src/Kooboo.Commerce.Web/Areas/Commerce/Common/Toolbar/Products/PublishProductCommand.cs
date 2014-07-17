@@ -27,6 +27,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Products
             }
         }
 
+        public override IEnumerable<MvcRoute> ApplyTo
+        {
+            get
+            {
+                yield return MvcRoutes.Products.List();
+            }
+        }
+
         public override bool IsVisible(Kooboo.Commerce.Products.Product product, Data.CommerceInstance instance)
         {
             return !product.IsPublished;

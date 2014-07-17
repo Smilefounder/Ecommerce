@@ -97,7 +97,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var product = _productService.GetById(id);
             var productType = _productTypeService.GetById(product.ProductTypeId);
 
+            ViewBag.Product = product;
             ViewBag.ProductType = productType;
+            ViewBag.ToolbarCommands = ToolbarCommands.GetCommands(ControllerContext, product, CurrentInstance);
 
             LoadTabPlugins();
 

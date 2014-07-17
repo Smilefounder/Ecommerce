@@ -1,17 +1,16 @@
 ﻿@model Kooboo.Commerce.Orders.Order
 @{
     ViewBag.Title = "Order Detail".Localize();
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
 }
 
-@section Panel{
-    <ul class="header-panel">
-        <li>
-            <a href="@ViewBag.Return">
-                @Html.IconImage("back") @("Back".Localize())
-            </a>
-        </li>
-    </ul>
+@section Panel {
+
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddToolbarCommands(ViewBag.ToolbarCommands as IEnumerable<IToolbarCommand>, Model.Id);
+        buttons.AddBackButton();
+    })
 }
 
 <h1 class="title">Order #@Model.Id</h1>

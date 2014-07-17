@@ -1,26 +1,19 @@
 ﻿@model CustomerEditorModel
 @{
     ViewBag.Title = (string.IsNullOrEmpty(Request.QueryString["Id"]) ? "Create Customer" : "Edit Customer").Localize();
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
 }
 
-@section Panel{
-    <ul class="header-panel">
-        <li>
-            <a href="javascript:submitForm();">
-                @Html.IconImage("save") @("Save".Localize())
-            </a>
-        </li>
-        <li>
-            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("back") @("Back".Localize())
-            </a>
-        </li>
-    </ul>
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.Add("Save", "save", "javascript:submitForm();");
+        buttons.AddToolbarCommands(ViewBag.ToolbarCommands as IEnumerable<IToolbarCommand>);
+        buttons.AddBackButton();
+    })
 }
 
 <div class="block">
-    <h1 class="title">@ViewBag.Title</h1>
     <form>
         <div id="J_CustomerTabs">
             <ul>

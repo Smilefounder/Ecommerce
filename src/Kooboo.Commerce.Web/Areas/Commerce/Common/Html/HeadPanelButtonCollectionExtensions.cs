@@ -14,25 +14,29 @@ namespace Kooboo.Commerce.Web.Html
     {
         public static HeaderPanelButtonCollection AddToolbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<IToolbarCommand> commands)
         {
+            return AddToolbarCommands(buttons, commands, null, null);
+        }
+
+        public static HeaderPanelButtonCollection AddToolbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<IToolbarCommand> commands, object modelId, string modelIdProperty = "Id")
+        {
+            if (commands == null)
+            {
+                return buttons;
+            }
+
             foreach (var cmd in commands)
             {
-                if (cmd.ConfigType != null)
-                {
-                    buttons.Add(cmd.ButtonText, cmd.IconClass)
-                           .VisibleWhenSelected(".cmd-" + cmd.Name)
-                           .WithAttributes(new
-                           {
-                               data_cmd_name = cmd.Name,
-                               data_cmd_text = cmd.ButtonText,
-                               data_cmd_confirm = cmd.ConfirmMessage
-                           });
-                }
-                else
-                {
-                    buttons.AddAjaxPostButton(cmd.ButtonText, cmd.IconClass, "ExecuteToolbarCommand", new { commandName = cmd.Name })
-                           .WithConfirmMessage(cmd.ConfirmMessage)
-                           .VisibleWhenSelected(".cmd-" + cmd.Name);
-                }
+                buttons.Add(cmd.ButtonText, cmd.IconClass)
+                       .VisibleWhenSelected(".cmd-" + cmd.Name)
+                       .WithAttributes(new
+                       {
+                           data_need_config = cmd.ConfigType != null,
+                           data_model_id = modelId,
+                           data_model_id_prop = modelIdProperty,
+                           data_cmd_name = cmd.Name,
+                           data_cmd_text = cmd.ButtonText,
+                           data_confirm = cmd.ConfirmMessage
+                       });
             }
 
             return buttons;

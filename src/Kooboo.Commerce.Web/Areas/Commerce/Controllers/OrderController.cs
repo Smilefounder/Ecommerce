@@ -78,7 +78,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Detail(int id)
         {
             var order = _orderService.GetById(id);
+
+            ViewBag.ToolbarCommands = ToolbarCommands.GetCommands(ControllerContext, order, CurrentInstance).ToList();
             ViewBag.Return = "/Commerce/Order?siteName=" + Request.QueryString["siteName"] + "&instance=" + Request.QueryString["instance"];
+ 
             return View(order);
         }
 

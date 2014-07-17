@@ -354,6 +354,7 @@
     <Compile Include="Areas\Commerce\Common\RouteValues.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListItems.cs" />
+    <Compile Include="Areas\Commerce\Common\Toolbar\Customers\DeleteCommand.cs" />
     <Compile Include="Areas\Commerce\Common\Toolbar\Orders\ApproveOrderCommand.cs" />
     <Compile Include="Areas\Commerce\Common\Toolbar\Orders\ApproveOrderCommandConfig.cs" />
     <Compile Include="Areas\Commerce\Common\Toolbar\Orders\Events\ApproveOrder.cs" />

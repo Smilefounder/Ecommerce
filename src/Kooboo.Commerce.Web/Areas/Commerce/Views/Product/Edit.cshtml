@@ -1,22 +1,24 @@
 ﻿@using Kooboo.Commerce.Web.Form
 @{
-    ViewBag.Title = (string.IsNullOrEmpty(Request.QueryString["Id"]) ? "Create Product" : "Edit Product").Localize();
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
 
+    var product = (Product)ViewBag.Product;
     var productType = (ProductType)ViewBag.ProductType;
     var controls = FormControls.Controls().ToList();
+
+    ViewBag.Title = (string.IsNullOrEmpty(Request.QueryString["Id"]) ? "Create Product".Localize() : "Edit Product".Localize() + ": " + product.Name);
 }
 @section Panel {
     @Html.HeaderPanel().Buttons(buttons =>
     {
         buttons.Add("Save", "save").WithUrl("javascript:saveProduct();");
+        buttons.AddToolbarCommands(ViewBag.ToolbarCommands as IEnumerable<IToolbarCommand>, product.Id);
         buttons.AddCancelButton();
     })
 }
 
 <div id="product-edit-main">
     <div class="block" data-bind="with:data">
-        <h1 class="title"><span>@ViewBag.Title:</span><span data-bind="text: Name"></span></h1>
         <div id="J_ProductTabs">
             <ul>
                 <li><a href="#basicInfo">@("Basic info".Localize())</a></li>
