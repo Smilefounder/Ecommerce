@@ -1,5 +1,5 @@
 ﻿@using Kooboo.Commerce.Products
-@using Kooboo.Commerce.Web.Framework.Actions
+@using Kooboo.Commerce.Web.Framework.UI.Toolbar;
 @{
     ViewBag.Title = "Products".Localize();
     ViewBag.EnableSearch = true;
@@ -21,7 +21,7 @@
         });
 
         buttons.AddDeleteButton();
-        buttons.AddEntityActions(Actions.GetActions(typeof(Product)));
+        buttons.AddToolbarCommands(ToolbarCommands.GetCommands(ViewContext.Controller.ControllerContext));
     }))
 }
 

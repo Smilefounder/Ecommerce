@@ -11,6 +11,11 @@ namespace Kooboo.Commerce.Web.Framework.Mvc
     {
         public JsonResultData Data { get; private set; }
 
+        public AjaxFormResult()
+        {
+            Data = new JsonResultData();
+        }
+
         public AjaxFormResult(ModelStateDictionary modelState)
         {
             Data = new JsonResultData(modelState);

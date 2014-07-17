@@ -175,7 +175,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxError, Transactional]
-        public void UpdateShippingRateProviderConfig(int shippingMethodId, [ModelBinder(typeof(ObjectModelBinder))]object config)
+        public void UpdateShippingRateProviderConfig(int shippingMethodId, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config)
         {
             var method = _shippingMethodService.GetById(shippingMethodId);
             method.UpdateShippingRateProviderConfig(config);

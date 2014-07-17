@@ -203,7 +203,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxError, Transactional]
-        public void UpdatePolicyConfig(int promotionId, [ModelBinder(typeof(ObjectModelBinder))]object config)
+        public void UpdatePolicyConfig(int promotionId, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config)
         {
             var promotion = _promotionService.GetById(promotionId);
             promotion.UpdatePolicyConfig(config);

@@ -1,0 +1,19 @@
+﻿@using Kooboo.Commerce.Web.Framework.UI.Toolbar
+@{
+    var command = ViewBag.Command as IToolbarCommand;
+}
+
+<div class="topbar">
+    <h1 class="title">@(command.ButtonText.Localize())</h1>
+</div>
+<div class="wrap">
+    <form class="common-form">
+        <input type="hidden" name="BindingType" value="@command.ConfigType.AssemblyQualifiedName" />
+        <table>
+            @foreach (var property in command.ConfigType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+            {
+                @Html.Editor(property.Name)
+            }
+        </table>
+    </form>
+</div>

@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     public class TabPluginController : CommerceControllerBase
     {
         [HttpPost, HandleAjaxError, Transactional]
-        public void Submit(string pluginType, [ModelBinder(typeof(ObjectModelBinder))]object model)
+        public void Submit(string pluginType, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object model)
         {
             var type = Type.GetType(pluginType, true);
             var plugin = (ITabPlugin)EngineContext.Current.Resolve(type);

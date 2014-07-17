@@ -23,7 +23,9 @@ namespace Kooboo.Commerce.Rules.Activities
 
         public string ShortName { get; private set; }
 
-        public EventEntry(string category, string displayName, string shortName, Type eventType)
+        public int Order { get; private set; }
+
+        public EventEntry(Type eventType, string category, string displayName, string shortName, int order)
         {
             Require.NotNull(eventType, "eventType");
 
@@ -31,6 +33,7 @@ namespace Kooboo.Commerce.Rules.Activities
             DisplayName = displayName;
             ShortName = shortName;
             EventType = eventType;
+            Order = order;
         }
     }
 }

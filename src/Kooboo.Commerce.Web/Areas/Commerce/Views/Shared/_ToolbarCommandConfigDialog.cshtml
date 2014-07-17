@@ -1,0 +1,157 @@
+﻿<div class="hide">
+    <div id="toolbar-command-config-dialog">
+        <div class="dialog-body"></div>
+        <div class="buttons">
+            <a href="#" class="button right gray" data-toggle="cancel-config">@("Cancel".Localize())</a>
+            <a href="#" class="button right" data-toggle="submit-config">@("Submit".Localize())</a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    (function ($) {
+
+        $(function () {
+            $('.header-panel [data-cmd-name]').each(function () {
+                var $button = $(this);
+                $button.on('click', function () {
+                    window.ToolbarCommandConfigDialog.instance().open({
+                        commandName: $button.data('cmd-name'),
+                        buttonText: $button.data('cmd-text'),
+                        confirmMessage: $button.data('cmd-confirm')
+                    });
+                });
+            });
+        });
+
+        window.configureToolbarCommand = function (commandName, confirmMessage) {
+            window.ToolbarCommandConfigDialog.instance().open({
+                commandName: commandName,
+                confirmMessage: confirmMessage
+            });
+        }
+
+        window.ToolbarCommandConfigDialog = function () {
+            var self = this;
+            var $dialog = null;
+            var $form = null;
+            var commandName = null;
+            var confirmMessage = null;
+
+            self.init = function () {
+                if ($dialog !== null) {
+                    return;
+                }
+
+                $dialog = $('#toolbar-command-config-dialog').dialog({
+                    modal: true,
+                    autoOpen: false
+                });
+
+                $dialog.find('[data-toggle="cancel-config"]').click(function () {
+                    self.close();
+                    return false;
+                });
+                $dialog.find('[data-toggle="submit-config"]').click(function () {
+                    self.submit();
+                    return false;
+                });
+            }
+
+            self.open = function (options) {
+                commandName = options.commandName;
+                confirmMessage = options.confirmMessage || null;
+
+                self.init();
+
+                $dialog.find('[data-toggle="submit-config"]').html(options.buttonText);
+
+                $.get('/Commerce/Toolbar/CommandConfig', { commandName: commandName })
+                 .done(function (html) {
+                     $dialog.find('.dialog-body').replaceWith(html);
+                     $form = $dialog.find('form');
+                     $.validator.unobtrusive.reparse($form);
+                     $dialog.dialog('open');
+                 });
+            }
+
+            self.submit = function () {
+                if (!$form.valid()) {
+                    return false;
+                }
+
+                if (confirmMessage) {
+                    if (!confirm(confirmMessage)) {
+                        return false;
+                    }
+                }
+
+                var data = [];
+
+                $('[name=select]:checked').each(function (i) {
+                    var idProp = $(this).data('id-property');
+                    if (idProp) {
+                        data.push({
+                            name: 'model[' + i + '].' + idProp,
+                            value: $(this).val()
+                        });
+                    }
+                });
+
+                $.each($form.serializeArray(), function () {
+                    data.push({
+                        name: 'config.' + this.name,
+                        value: this.value
+                    });
+                });
+
+                self.close();
+                window.loading.show();
+
+                $.post('@Url.Action("ExecuteToolbarCommand")?commandName=' + commandName, data, function (data, textStatus, jqXHR, postData) {
+                    window.loading.hide();
+
+                    var results = data.Model;
+                    var hasErrors = false;
+
+                    if (results.length > 0) {
+                        $.each(results, function () {
+                            if (this.Messages.length > 0) {
+                                info.show(this.Messages.join('<br/>'), this.Success);
+                            }
+
+                            if (!this.Success) {
+                                hasErrors = true;
+                            }
+                        });
+
+                        // Don't reload if any error occurs
+                        if (!hasErrors) {
+                            setTimeout(reloadPage, 1500);
+                        }
+                    } else {
+                        reloadPage();
+                    }
+
+                }, 'json');
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+            }
+
+            function reloadPage() {
+                location.href = location.href.replace(/#+$/, '');
+            }
+        }
+
+        var instance = new window.ToolbarCommandConfigDialog();
+
+        window.ToolbarCommandConfigDialog.instance = function () {
+            return instance;
+        }
+
+    })(jQuery);
+
+</script>

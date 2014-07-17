@@ -101,14 +101,14 @@
     <Compile Include="Events\ShippingMethods\IShippingMethodEvent.cs" />
     <Compile Include="Events\ShippingMethods\ShippingMethodDisabled.cs" />
     <Compile Include="Events\ShippingMethods\ShippingMethodEnabled.cs" />
-    <Compile Include="Events\ShoppingCarts\CartExpired.cs">
+    <Compile Include="Events\Carts\CartExpired.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Events\ShoppingCarts\CartItemAdded.cs" />
-    <Compile Include="Events\ShoppingCarts\CartItemQuantityChanged.cs" />
-    <Compile Include="Events\ShoppingCarts\CartItemRemoved.cs" />
-    <Compile Include="Events\ShoppingCarts\CartCreated.cs" />
-    <Compile Include="Events\ShoppingCarts\CartPriceCalculated.cs" />
+    <Compile Include="Events\Carts\CartItemAdded.cs" />
+    <Compile Include="Events\Carts\CartItemQuantityChanged.cs" />
+    <Compile Include="Events\Carts\CartItemRemoved.cs" />
+    <Compile Include="Events\Carts\CartCreated.cs" />
+    <Compile Include="Events\Carts\CartPriceCalculated.cs" />
     <Compile Include="Globalization\EntityKey.cs" />
     <Compile Include="Globalization\EntityProperty.cs" />
     <Compile Include="Globalization\ILocalizable.cs" />
@@ -134,7 +134,7 @@
     <Compile Include="EAV\ValidatorType.cs" />
     <Compile Include="Events\Customers\ICustomerEvent.cs" />
     <Compile Include="Events\Products\IProductEvent.cs" />
-    <Compile Include="Events\ShoppingCarts\IShoppingCartEvent.cs" />
+    <Compile Include="Events\Carts\ICartEvent.cs" />
     <Compile Include="Events\Orders\IOrderEvent.cs" />
     <Compile Include="Locations\Services\CountryService.cs" />
     <Compile Include="Locations\Services\ICountryService.cs" />

@@ -12,7 +12,7 @@ using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.ShoppingCarts;
+using Kooboo.Commerce.Events.Carts;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Shipping;
 

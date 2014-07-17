@@ -13,7 +13,10 @@ using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
 using Kooboo.Commerce.Web.Framework.Queries;
 using Kooboo.Commerce.Web.Queries.Orders;
-using Kooboo.Commerce.Web.Framework.Actions;
+using Kooboo.Commerce.Web.Framework.UI.Toolbar;
+using Kooboo.Commerce.Web.Mvc.ModelBinding;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar;
+using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -60,16 +63,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult ExecuteAction(string actionName, OrderModel[] model)
+        public ActionResult ExecuteToolbarCommand(string commandName, OrderModel[] model, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config = null)
         {
-            var action = Actions.GetAction(typeof(Order), actionName);
-            foreach (var each in model)
-            {
-                var order = _orderService.GetById(each.Id);
-                action.Execute(order, CurrentInstance);
-            }
+            var command = ToolbarCommands.GetCommand(commandName);
+            var orders = model.Select(m => _orderService.GetById(m.Id)).ToList();
+            var results = ToolbarCommandHelper.SafeExecute(command, config, orders, CommerceInstance.Current);
 
-            return AjaxForm().ReloadPage();
+            command.SetDefaultCommandConfig(config);
+
+            return AjaxForm().WithModel(results).ReloadPage();
         }
 
         [HttpGet]

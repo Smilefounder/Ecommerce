@@ -7,7 +7,7 @@
 @section Panel {
     @(Html.HeaderPanel().Buttons(buttons =>
     {
-        buttons.Add("Save", "save").Attributes(new { data_toggle = "save-rules" });
+        buttons.Add("Save", "save").WithAttributes(new { data_toggle = "save-rules" });
     }))
 }
 

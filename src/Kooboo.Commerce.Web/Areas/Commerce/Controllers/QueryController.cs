@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxError]
-        public void Config(string queryName, [ModelBinder(typeof(ObjectModelBinder))]object config)
+        public void Config(string queryName, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config)
         {
             var manager = QueryManager.Instance;
             var queryInfo = manager.GetQueryInfo(queryName);

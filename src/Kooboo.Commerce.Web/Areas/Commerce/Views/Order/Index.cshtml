@@ -1,5 +1,5 @@
 ﻿@using Kooboo.Commerce.Orders
-@using Kooboo.Commerce.Web.Framework.Actions
+@using Kooboo.Commerce.Web.Framework.UI.Toolbar;
 @{
     ViewBag.Title = "Orders".Localize();
     ViewBag.EnableSearch = true;
@@ -10,8 +10,9 @@
     {
         buttons.AddCreateButton();
         buttons.AddDeleteButton();
-        buttons.AddEntityActions(Actions.GetActions(typeof(Order)));
+        buttons.AddToolbarCommands(ToolbarCommands.GetCommands(ViewContext.Controller.ControllerContext));
     }))
 }
 
 @Html.Partial("_QueryGrid")
+@Html.Partial("_ToolbarCommandConfigDialog")

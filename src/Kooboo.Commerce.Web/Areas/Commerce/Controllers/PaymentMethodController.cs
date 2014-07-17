@@ -125,7 +125,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxError, Transactional]
-        public void UpdateProcessorConfig(int paymentMethodId, [ModelBinder(typeof(ObjectModelBinder))]object config)
+        public void UpdateProcessorConfig(int paymentMethodId, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config)
         {
             var method = _paymentMethodService.GetById(paymentMethodId);
             method.UpdateProcessorConfig(config);

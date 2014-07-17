@@ -99,6 +99,7 @@
     <Compile Include="Data\Folders\JsonDataFileFormat.cs" />
     <Compile Include="Data\Pagination.cs" />
     <Compile Include="Data\Pagination`.cs" />
+    <Compile Include="Rules\Activities\ActivityEventAttribute.cs" />
     <Compile Include="Rules\Activities\ActivityBase.cs" />
     <Compile Include="Rules\Activities\ActivityContext.cs" />
     <Compile Include="Rules\Activities\ActivityEventManager.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="Rules\TypeExtensions.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Scope`.cs" />
+    <Compile Include="Utils\Inflector.cs" />
     <Compile Include="Utils\TypeHelper.cs" />
   </ItemGroup>
   <ItemGroup>

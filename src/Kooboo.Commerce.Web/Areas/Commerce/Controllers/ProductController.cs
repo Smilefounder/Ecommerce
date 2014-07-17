@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc.Paging;
-using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.EAV;
-using Kooboo.Commerce.ImageSizes;
-using Kooboo.Commerce.Brands;
-using Kooboo.Commerce.Categories;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
@@ -24,7 +15,9 @@ using Kooboo.Commerce.Web.Queries.Products;
 using Kooboo.Commerce.Web.Framework.Queries;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Framework.Actions;
+using Kooboo.Commerce.Web.Framework.UI.Toolbar;
+using Kooboo.Commerce.Web.Mvc.ModelBinding;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -77,16 +70,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult ExecuteAction(string actionName, ProductModel[] model)
+        public ActionResult ExecuteToolbarCommand(string commandName, ProductModel[] model, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config = null)
         {
-            var action = Actions.GetAction(typeof(Product), actionName);
-            foreach (var each in model)
-            {
-                var product = _productService.GetById(each.Id);
-                action.Execute(product, CurrentInstance);
-            }
+            var command = ToolbarCommands.GetCommand(commandName);
+            var products = model.Select(m => _productService.GetById(m.Id)).ToList();
+            var results = ToolbarCommandHelper.SafeExecute(command, config, products, CommerceInstance.Current);
 
-            return AjaxForm().ReloadPage();
+            command.SetDefaultCommandConfig(config);
+
+            return AjaxForm().WithModel(results).ReloadPage();
         }
 
         [HttpGet]

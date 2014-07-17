@@ -293,11 +293,8 @@
     <Compile Include="Areas\Commerce\Bootstrapping\QueryRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\CommerceInstanceRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\TabPluginRegistrar.cs" />
-    <Compile Include="Areas\Commerce\Bootstrapping\EntityActionsRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\ToolbarCommandsRegistrar.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
-    <Compile Include="Areas\Commerce\Common\Actions\Products\ProductActionsRegistration.cs" />
-    <Compile Include="Areas\Commerce\Common\Actions\Products\PublishProductAction.cs" />
-    <Compile Include="Areas\Commerce\Common\Actions\Products\UnpublishProductAction.cs" />
     <Compile Include="Areas\Commerce\Common\Extensions\JsonExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\FormHelper.cs" />
@@ -328,7 +325,7 @@
     <Compile Include="Areas\Commerce\Common\Form\Validation\ValidationExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Initialization\DefaultCommerceInstanceInitializer.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />
-    <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\ObjectModelBinder.cs" />
+    <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\BindingTypeAwareModelBinder.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
     <Compile Include="Areas\Commerce\Common\Queries\Customers\CustomerQueryExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Queries\Customers\Default\DefaultCustomerQuery.cs" />
@@ -357,6 +354,12 @@
     <Compile Include="Areas\Commerce\Common\RouteValues.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListItems.cs" />
+    <Compile Include="Areas\Commerce\Common\Toolbar\Orders\ApproveOrderCommand.cs" />
+    <Compile Include="Areas\Commerce\Common\Toolbar\Orders\ApproveOrderCommandConfig.cs" />
+    <Compile Include="Areas\Commerce\Common\Toolbar\Orders\Events\ApproveOrder.cs" />
+    <Compile Include="Areas\Commerce\Common\Toolbar\Products\PublishProductCommand.cs" />
+    <Compile Include="Areas\Commerce\Common\Toolbar\Products\UnpublishProductCommand.cs" />
+    <Compile Include="Areas\Commerce\Common\Toolbar\ToolbarCommandHelper.cs" />
     <Compile Include="Areas\Commerce\Controllers\AddInManagementController.cs" />
     <Compile Include="Areas\Commerce\Controllers\BrandController.cs" />
     <Compile Include="Areas\Commerce\Controllers\CategoryController.cs" />
@@ -379,6 +382,7 @@
     <Compile Include="Areas\Commerce\Bootstrapping\PaymentProcessorRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\PromotionPolicyRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ShippingRateProviderRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Controllers\ToolbarController.cs" />
     <Compile Include="Areas\Commerce\EntityUtil.cs" />
     <Compile Include="Areas\Commerce\Handlers\FilesStatus.cs" />
     <Compile Include="Areas\Commerce\Handlers\FileType.cs" />
@@ -389,15 +393,15 @@
     <Compile Include="Areas\Commerce\Handlers\UploadHandler.ashx.cs">
       <DependentUpon>UploadHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Commerce\Html\CommandType.cs" />
-    <Compile Include="Areas\Commerce\Html\GridChecked.cs" />
-    <Compile Include="Areas\Commerce\Html\HeaderPanel.cs" />
-    <Compile Include="Areas\Commerce\Html\HeaderPanelButton.cs" />
-    <Compile Include="Areas\Commerce\Html\HeaderPanelButtonCollection.cs" />
-    <Compile Include="Areas\Commerce\Html\HeaderPanelHtmlExtensions.cs" />
-    <Compile Include="Areas\Commerce\Html\HeadPanelButtonCollectionExtensions.cs" />
-    <Compile Include="Areas\Commerce\Html\IVisibleRule.cs" />
-    <Compile Include="Areas\Commerce\Html\SelectListExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\Html\CommandType.cs" />
+    <Compile Include="Areas\Commerce\Common\Html\GridChecked.cs" />
+    <Compile Include="Areas\Commerce\Common\Html\HeaderPanel.cs" />
+    <Compile Include="Areas\Commerce\Common\Html\HeaderPanelButton.cs" />
+    <Compile Include="Areas\Commerce\Common\Html\HeaderPanelButtonCollection.cs" />
+    <Compile Include="Areas\Commerce\Common\Html\HeaderPanelHtmlExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\Html\HeadPanelButtonCollectionExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\Html\IVisibleRule.cs" />
+    <Compile Include="Areas\Commerce\Common\Html\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Menu\CommerceMenuItemInitializer.cs" />
     <Compile Include="Areas\Commerce\Menu\MediaLibraryInitializer.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
@@ -3576,6 +3580,8 @@
     <Content Include="Areas\Commerce\Views\Shared\_QueryGrid.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_Grid2.SimpleTable.cshtml" />
     <Content Include="packages.config" />
+    <Content Include="Areas\Commerce\Views\Shared\_ToolbarCommandConfigDialog.cshtml" />
+    <Content Include="Areas\Commerce\Views\Toolbar\CommandConfig.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />

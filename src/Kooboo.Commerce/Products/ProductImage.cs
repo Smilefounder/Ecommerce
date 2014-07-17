@@ -29,7 +29,8 @@ namespace Kooboo.Commerce.Products
             {
                 var images = @event.DbContext.Set<ProductImage>();
 
-                images.Where(i => i.Product == null)
+                images.Local
+                      .Where(i => i.Product == null)
                       .ToList()
                       .ForEach(i => images.Remove(i));
             }

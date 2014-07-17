@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Activities;
 using Kooboo.Commerce.ShoppingCarts;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Products
 {
+    [ActivityEvent(Order = 100)]
     public class GetPrice : Event, IProductEvent
     {
         [Reference(typeof(Product))]

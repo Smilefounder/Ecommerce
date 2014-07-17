@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Kooboo.CMS.Common;
 using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Customers;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Web.Framework.Queries;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
-using Kooboo.Commerce.Web.Framework.Actions;
+using Kooboo.Commerce.Web.Mvc.ModelBinding;
+using Kooboo.Commerce.Web.Framework.UI.Toolbar;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -59,16 +55,15 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult ExecuteAction(string actionName, CustomerModel[] model)
+        public ActionResult ExecuteToolbarCommand(string commandName, CustomerModel[] model, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config = null)
         {
-            var action = Actions.GetAction(typeof(Customer), actionName);
-            foreach (var each in model)
-            {
-                var customer = _customerService.GetById(each.Id);
-                action.Execute(customer, CurrentInstance);
-            }
+            var command = ToolbarCommands.GetCommand(commandName);
+            var customers = model.Select(m => _customerService.GetById(m.Id)).ToList();
+            var results = ToolbarCommandHelper.SafeExecute(command, config, customers, CommerceInstance.Current);
 
-            return AjaxForm().ReloadPage();
+            command.SetDefaultCommandConfig(config);
+
+            return AjaxForm().WithModel(results).ReloadPage();
         }
 
         public ActionResult Create()
