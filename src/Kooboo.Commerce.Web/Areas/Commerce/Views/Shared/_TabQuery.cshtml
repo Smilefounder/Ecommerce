@@ -1,28 +1,45 @@
 ﻿@model Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries.TabQueryModel
 
 @{
+    var savedQueries = Model.SavedQueries.OrderBy(q => q.Order).ThenBy(q => q.CreatedAtUtc).ToList();
     var currentQuery = Model.AvailableQueries.Find(q => q.Name == Model.CurrentQuery.QueryName);
 }
 
 <div id="list-tabs">
     <ul>
-        @for (var i = 0; i < Model.SavedQueries.Count; i++)
+        @for (var i = 0; i < savedQueries.Count; i++)
         {
-            var savedQuery = Model.SavedQueries[i];
+            var savedQuery = savedQueries[i];
             var query = Model.AvailableQueries.Find(q => q.Name == savedQuery.QueryName);
 
-            <li data-normal-link="true" data-query-name="@savedQuery.QueryName" data-index="@i">
-                <a href="#@savedQuery.QueryName" data-href="@Url.Action("Index", RouteValues.From(Request.QueryString).Merge("queryId", savedQuery.Id))">
-                    @savedQuery.DisplayName
+            <li class="query-tab" data-normal-link="true" data-query-id="@savedQuery.Id" data-index="@i">
+                <a href="#Query-@savedQuery.Id" data-href="@Url.Action("Index", RouteValues.From(Request.QueryString).Merge("queryId", savedQuery.Id))">
+                    <span class="tab-title">@savedQuery.DisplayName</span>
                     @if (query.ConfigType != null)
                     {
                         <span class="action" data-toggle="configure-query" data-query-id="@savedQuery.Id" title="@("Setting".Localize())">@Html.IconImage("setting-small-gray")</span>
                     }
+                    @if (savedQueries.Count > 1) { 
+                        <span class="action" data-toggle="delete-query" data-query-id="@savedQuery.Id">@Html.IconImage("minus-small")</span>
+                    }
                 </a>
             </li>
         }
+        <li>
+            <div class="button dropdown only-icon">
+                <a href="#" style="min-width:initial" class="dropdown-toggle">
+                    @Html.IconImage("plus-black")
+                </a>
+                <ul>
+                    @foreach (var query in Model.AvailableQueries)
+                    {
+                        <li><a data-toggle="add-query" data-query-name="@query.Name" data-need-config="@(query.ConfigType == null ? "false" : "true")" href="#">@query.DisplayName</a></li>
+                    }
+                </ul>
+            </div>
+        </li>
     </ul>
-    <div id="@currentQuery.Name">
+    <div id="Query-@Model.CurrentQuery.Id">
         @Html.GridFor2(currentQuery.ResultType as Type, Model.CurrentQueryResult as System.Collections.IEnumerable, "_Grid2.SimpleTable")
 
         <div class="pagination right">
@@ -35,34 +52,121 @@
 <script>
     $(function () {
         var $tabs = $('#list-tabs');
+        var tabUrlTemplate = '@Html.Raw(Url.Action("Index"))?instance=@(Request.QueryString["instance"])&siteName=@(Request.QueryString["siteName"])&queryId={queryId}';
 
         $tabs.tabs({
-            active: $tabs.find('li[data-query-name="@currentQuery.Name"]').data('index'),
+            active: $tabs.find('li[data-query-id="@Model.CurrentQuery.Id"]').data('index'),
             beforeActivate: function (event, ui) {
-                var href = $(ui.newTab).find('a').data('href');
-                if (href) {
-                    location.href = href;
+                var $tab = $(ui.newTab);
+                if ($tab.is('.query-tab')) {
+                    var href = $tab.find('a').data('href');
+                    if (href) {
+                        location.href = href;
+                    }
+                } else {
+                    return false;
                 }
             }
         });
 
+        // Make tabs sortable
+        $tabs.find(".ui-tabs-nav").sortable({
+            axis: "x",
+            items: 'li.query-tab',
+            stop: function () {
+                $tabs.tabs("refresh");
+
+                // Save tab orders
+                var data = [];
+                $tabs.find('.query-tab').each(function (i) {
+                    data.push({
+                        Id: $(this).data('query-id'),
+                        Order: i
+                    });
+                });
+
+                $.ajax({
+                    url: '/Commerce/TabQuery/SaveOrders?pageName=@(Model.PageName)',
+                    data: JSON.stringify(data),
+                    type: 'POST',
+                    contentType: 'application/json'
+                });
+            }
+        });
+
+        // Tab item actions
+
         $('[data-toggle="configure-query"]').click(function () {
             var $li = $(this).closest('li');
+            var queryId = $(this).data('query-id');
 
             TabQueryConfigDialog.instance().open({
                 pageName: '@Model.PageName',
-                queryId: $li.data('query-id'),
-                onSubmitted: function () {
+                queryId: queryId,
+                onSubmitted: function (data) {
                     if ($tabs.tabs('option', 'active') == $li.data('index')) {
                         setTimeout(function () {
                             window.leaveConfirm.pass();
                             location.href = location.href;
                         }, 1000)
+                    } else {
+                        $li.find('.tab-title').html(data.DisplayName);
                     }
                 }
             });
 
             return false;
         });
+
+        $('[data-toggle="delete-query"]').click(function () {
+            if (!confirm('@("Are you sure to delete this tab?".Localize())')) {
+                return false;
+            }
+
+            var $li = $(this).closest('li');
+
+            $.post('/Commerce/TabQuery/Delete', {
+                pageName: '@Model.PageName',
+                queryId: $(this).data('query-id')
+            })
+            .done(function () {
+                $li.remove();
+                navigateToTab($tabs.find('>ul>li:first').data('query-id'));
+            });
+
+            return false;
+        });
+
+        // Add tab dropdown
+
+        $(document).on('click', '[data-toggle="add-query"]', function () {
+            var queryName = $(this).data('query-name');
+            var needConfig = $(this).data('need-config');
+
+            $.post('/Commerce/TabQuery/Add', {
+                pageName: '@Model.PageName',
+                queryName: queryName
+            })
+            .done(function (result) {
+                var queryId = result.QueryId;
+                if (needConfig) {
+                    TabQueryConfigDialog.instance().open({
+                        pageName: '@Model.PageName',
+                        queryId: queryId,
+                        onSubmitted: function () {
+                            window.leaveConfirm.pass();
+                            navigateToTab(queryId);
+                        }
+                    });
+                } else {
+                    navigateToTab(queryId);
+                }
+            });
+        });
+
+        function navigateToTab(queryId) {
+            var url = tabUrlTemplate.replace('{queryId}', queryId);
+            location.href = url;
+        }
     });
 </script>

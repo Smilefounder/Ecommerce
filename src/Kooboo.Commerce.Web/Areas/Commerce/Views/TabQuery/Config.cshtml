@@ -4,6 +4,7 @@
 
 <form class="common-form">
     @Html.Hidden("Id")
+    @Html.Hidden("QueryName")
     <input type="hidden" name="Config.BindingType" value="@query.ConfigType.AssemblyQualifiedName" />
     <table>
         @Html.Editor("DisplayName")

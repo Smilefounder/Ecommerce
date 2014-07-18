@@ -23,26 +23,26 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries
             _folder = folder;
         }
 
-        public IEnumerable<SavedTabQuery> GetSavedQueries(string pageName)
+        public IEnumerable<SavedTabQuery> FindAll(string pageName)
         {
             var folder = _folder.GetFolder(pageName, DataFileFormats.TypedJson);
             return folder.GetFiles("*.config").Select(f => f.Read<SavedTabQuery>());
         }
 
-        public SavedTabQuery GetSavedQuery(string pageName, Guid id)
+        public SavedTabQuery Find(string pageName, Guid id)
         {
             var folder = _folder.GetFolder(pageName, DataFileFormats.TypedJson);
             return folder.GetFile(id.ToString() + ".config").Read<SavedTabQuery>();
         }
 
-        public SavedTabQuery AddSavedQuery(string pageName, SavedTabQuery query)
+        public SavedTabQuery Add(string pageName, SavedTabQuery query)
         {
             var folder = _folder.GetFolder(pageName, DataFileFormats.TypedJson);
             folder.GetFile(query.Id.ToString() + ".config").Write(query);
             return query;
         }
 
-        public SavedTabQuery UpdateSavedQuery(string pageName, SavedTabQuery query)
+        public SavedTabQuery Update(string pageName, SavedTabQuery query)
         {
             var file = _folder.GetFolder(pageName, DataFileFormats.TypedJson).GetFile(query.Id.ToString() + ".config");
             var savedQuery = file.Read<SavedTabQuery>();
@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries
             return savedQuery;
         }
 
-        public void RemoveSavedQuery(string pageName, Guid id)
+        public void Delete(string pageName, Guid id)
         {
             var folder = _folder.GetFolder(pageName);
             folder.GetFile(id.ToString() + ".config").Delete();

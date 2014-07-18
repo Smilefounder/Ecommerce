@@ -76,11 +76,11 @@
                     type: 'POST',
                     data: $form.serializeArray()
                 })
-                .done(function () {
+                .done(function (result) {
                     info.show('@("Query settings successfully saved.".Localize())', true);
 
                     if (self.options.onSubmitted) {
-                        self.options.onSubmitted.apply(self, []);
+                        self.options.onSubmitted.apply(self, [result]);
                     }
 
                     self.close();

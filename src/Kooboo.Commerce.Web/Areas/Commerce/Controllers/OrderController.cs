@@ -45,14 +45,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var model = new TabQueryModel
             {
                 PageName = "Orders",
-                SavedQueries = manager.GetSavedQueries("Orders").ToList(),
+                SavedQueries = manager.FindAll("Orders").ToList(),
                 AvailableQueries = TabQueries.GetQueries(ControllerContext).ToList()
             };
 
             if (model.SavedQueries.Count == 0)
             {
                 var savedQuery = SavedTabQuery.CreateFrom(model.AvailableQueries.First());
-                manager.AddSavedQuery(model.PageName, savedQuery);
+                manager.Add(model.PageName, savedQuery);
                 model.SavedQueries.Add(savedQuery);
             }
 
@@ -62,7 +62,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
             else
             {
-                model.CurrentQuery = manager.GetSavedQuery(model.PageName, new Guid(queryId));
+                model.CurrentQuery = manager.Find(model.PageName, new Guid(queryId));
             }
 
             var query = model.AvailableQueries.Find(q => q.Name == model.CurrentQuery.QueryName);

@@ -15,11 +15,14 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries
 
         public int Order { get; set; }
 
+        public DateTime CreatedAtUtc { get; set; }
+
         public object Config { get; set; }
 
         public SavedTabQuery()
         {
             Id = Guid.NewGuid();
+            CreatedAtUtc = DateTime.UtcNow;
         }
 
         public static SavedTabQuery CreateFrom(ITabQuery query)
