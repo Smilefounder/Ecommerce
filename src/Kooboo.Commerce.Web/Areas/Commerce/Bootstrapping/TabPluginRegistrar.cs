@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Web.Framework.Tabs;
+using Kooboo.Commerce.Web.Framework.UI.Tabs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Framework.Tabs
+namespace Kooboo.Commerce.Web.Framework.UI.Tabs
 {
     public static class TabPlugins
     {
@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Web.Framework.Tabs
             var plugins = EngineContext.Current.ResolveAll<ITabPlugin>();
             foreach (var plugin in plugins)
             {
-                if (plugin.IsVisible(controllerContext))
+                if (plugin.ApplyTo.Any(x => x.Matches(controllerContext)))
                 {
                     yield return plugin;
                 }

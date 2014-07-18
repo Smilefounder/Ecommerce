@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Kooboo.Commerce.Web.Framework.UI;
+using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Framework.Tabs
+namespace Kooboo.Commerce.Web.Framework.UI.Tabs
 {
     public abstract class TabPlugin<TModel> : ITabPlugin
     {
@@ -39,7 +41,7 @@ namespace Kooboo.Commerce.Web.Framework.Tabs
             }
         }
 
-        public abstract bool IsVisible(ControllerContext controllerContext);
+        public abstract IEnumerable<MvcRoute> ApplyTo { get; }
 
         public abstract void OnLoad(TabLoadContext context);
 

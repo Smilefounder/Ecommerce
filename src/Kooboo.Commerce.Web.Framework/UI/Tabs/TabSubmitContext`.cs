@@ -5,7 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Framework.Tabs
+namespace Kooboo.Commerce.Web.Framework.UI.Tabs
 {
     public class TabSubmitContext<TModel>
     {

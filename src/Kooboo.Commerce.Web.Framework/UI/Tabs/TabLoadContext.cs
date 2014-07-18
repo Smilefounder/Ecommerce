@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Kooboo.Commerce.Web.Framework.Tabs
+namespace Kooboo.Commerce.Web.Framework.UI.Tabs
 {
     public class TabLoadContext
     {

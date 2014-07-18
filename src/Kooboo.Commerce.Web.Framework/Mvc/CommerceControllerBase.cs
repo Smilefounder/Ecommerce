@@ -5,7 +5,7 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.Web.Mvc;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Web.Framework.Tabs;
+using Kooboo.Commerce.Web.Framework.UI.Tabs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

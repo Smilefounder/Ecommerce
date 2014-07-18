@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Framework.Tabs
+namespace Kooboo.Commerce.Web.Framework.UI.Tabs
 {
     class DynamicViewDataDictionary : DynamicObject
     {

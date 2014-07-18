@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Web.Framework.Tabs;
+﻿using Kooboo.Commerce.Web.Framework.UI;
+using Kooboo.Commerce.Web.Framework.UI.Tabs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,16 +27,17 @@ namespace Kooboo.Commerce.Recommendations
             }
         }
 
+        public override IEnumerable<Web.Framework.UI.MvcRoute> ApplyTo
+        {
+            get
+            {
+                yield return MvcRoutes.Products.Edit();
+            }
+        }
+
         public ProductRecommendationsTabPlugin(IProductRecommendationService service)
         {
             _service = service;
-        }
-
-        public override bool IsVisible(System.Web.Mvc.ControllerContext controllerContext)
-        {
-            return controllerContext.AreaName() == "Commerce"
-                && controllerContext.ControllerName() == "Product"
-                && controllerContext.ActionName() == "Edit";
         }
 
         public override void OnLoad(TabLoadContext context)

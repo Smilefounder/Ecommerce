@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Web.Framework.Tabs;
+﻿using Kooboo.Commerce.Web.Framework.UI;
+using Kooboo.Commerce.Web.Framework.UI.Tabs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,12 @@ namespace Kooboo.Commerce.Tabs.Products.Sample
             }
         }
 
-        public override bool IsVisible(System.Web.Mvc.ControllerContext controllerContext)
+        public override IEnumerable<Web.Framework.UI.MvcRoute> ApplyTo
         {
-            return controllerContext.AreaName() == "Commerce"
-                && controllerContext.ControllerName() == "Product"
-                && controllerContext.ActionName() == "Edit";
+            get
+            {
+                yield return MvcRoutes.Products.Edit();
+            }
         }
 
         public override void OnLoad(TabLoadContext context)

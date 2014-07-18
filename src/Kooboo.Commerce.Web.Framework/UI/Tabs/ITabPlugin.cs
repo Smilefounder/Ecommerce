@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Framework.Tabs
+namespace Kooboo.Commerce.Web.Framework.UI.Tabs
 {
     public interface ITabPlugin
     {
@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Web.Framework.Tabs
 
         int Order { get; }
 
-        bool IsVisible(ControllerContext controllerContext);
+        IEnumerable<MvcRoute> ApplyTo { get; }
 
         void OnLoad(TabLoadContext context);
 

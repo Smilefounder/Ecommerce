@@ -73,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
-    <Compile Include="Extensions\ControllerContextExtensions.cs" />
     <Compile Include="Http\TransactionalAttribute.cs" />
     <Compile Include="Mvc\AjaxFormResult.cs" />
     <Compile Include="Mvc\CommerceControllerBase.cs" />
