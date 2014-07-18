@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.Rules.Activities.OrderReminder
                 {
                     var dataContext = new CancelConditionModel
                     {
-                        OrderStatus = order.OrderStatus
+                        OrderStatus = order.Status
                     };
 
                     if (new ConditionEvaluator().Evaluate(config.CancelConditions, dataContext))

@@ -162,9 +162,15 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>@("Order Status".Localize())</th>
+                            <th>@("Order status".Localize())</th>
                             <td>
-                                @Model.OrderStatus
+                                @Model.Status
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Processing status".Localize())</th>
+                            <td>
+                                @Model.ProcessingStatus
                             </td>
                         </tr>
                         <tr>

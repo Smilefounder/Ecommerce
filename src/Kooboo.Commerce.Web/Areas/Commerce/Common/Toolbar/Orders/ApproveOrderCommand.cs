@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Orders
 
         public override bool IsVisible(Order order, CommerceInstance instance)
         {
-            return order.OrderStatus == OrderStatus.Paid;
+            return order.Status == OrderStatus.Paid && order.ProcessingStatus != "Approved";
         }
 
         public override ToolbarCommandResult Execute(Order order, object config, CommerceInstance instance)

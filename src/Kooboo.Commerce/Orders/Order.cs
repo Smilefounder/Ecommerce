@@ -29,7 +29,11 @@ namespace Kooboo.Commerce.Orders
         public DateTime CreatedAtUtc { get; set; }
 
         [Param]
-        public OrderStatus OrderStatus { get; set; }
+        public OrderStatus Status { get; set; }
+
+        [Param]
+        [StringLength(50)]
+        public string ProcessingStatus { get; set; }
 
         public string Coupon { get; set; }
 

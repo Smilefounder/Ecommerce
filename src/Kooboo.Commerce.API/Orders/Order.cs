@@ -43,7 +43,10 @@ namespace Kooboo.Commerce.API.Orders
         /// <summary>
         /// order status
         /// </summary>
-        public OrderStatus OrderStatus { get; set; }
+        public OrderStatus Status { get; set; }
+
+        public string ProcessingStatus { get; set; }
+
         /// <summary>
         /// is this order completed
         /// </summary>

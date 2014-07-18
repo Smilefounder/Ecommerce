@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +12,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries
 
         public string QueryName { get; set; }
 
+        [Display(Name = "Display name")]
         public string DisplayName { get; set; }
 
         public int Order { get; set; }

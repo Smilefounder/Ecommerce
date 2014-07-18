@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders.MostCost
                           {
                               Id = o.Id,
                               Total = o.Total,
-                              OrderStatus = o.OrderStatus,
+                              Status = o.Status,
                               CreatedAtUtc = o.CreatedAtUtc,
                               CustomerFirstName = o.Customer.FirstName,
                               CustomerLastName = o.Customer.LastName

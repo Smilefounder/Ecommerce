@@ -123,10 +123,10 @@ namespace Kooboo.Commerce.Orders.Services
 
         public void ChangeStatus(Order order, OrderStatus newStatus)
         {
-            if (order.OrderStatus != newStatus)
+            if (order.Status != newStatus)
             {
-                var oldStatus = order.OrderStatus;
-                order.OrderStatus = newStatus;
+                var oldStatus = order.Status;
+                order.Status = newStatus;
 
                 _db.SaveChanges();
 

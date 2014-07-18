@@ -359,6 +359,7 @@
     <Compile Include="Areas\Commerce\Common\Toolbar\Orders\ApproveOrderCommand.cs" />
     <Compile Include="Areas\Commerce\Common\Toolbar\Orders\ApproveOrderCommandConfig.cs" />
     <Compile Include="Areas\Commerce\Common\Toolbar\Orders\Events\ApproveOrder.cs" />
+    <Compile Include="Areas\Commerce\Common\Toolbar\Orders\MarkApprovedActivity.cs" />
     <Compile Include="Areas\Commerce\Common\Toolbar\Products\PublishProductCommand.cs" />
     <Compile Include="Areas\Commerce\Common\Toolbar\Products\UnpublishProductCommand.cs" />
     <Compile Include="Areas\Commerce\Common\Toolbar\ToolbarCommandHelper.cs" />

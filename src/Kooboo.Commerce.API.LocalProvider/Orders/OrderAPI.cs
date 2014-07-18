@@ -140,7 +140,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         public IOrderQuery ByOrderStatus(OrderStatus status)
         {
             EnsureQuery();
-            _query = _query.Where(o => (int)o.OrderStatus == (int)status);
+            _query = _query.Where(o => (int)o.Status == (int)status);
             return this;
         }
 

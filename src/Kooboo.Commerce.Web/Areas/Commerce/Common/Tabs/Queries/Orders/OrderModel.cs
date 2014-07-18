@@ -33,7 +33,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders
         public decimal Total { get; set; }
 
         [GridColumn(HeaderText = "Order status")]
-        public OrderStatus OrderStatus { get; set; }
+        public OrderStatus Status { get; set; }
+
+        [GridColumn(HeaderText = "Processing status")]
+        public string ProcessingStatus { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
 
@@ -57,7 +60,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders
             CustomerLastName = customer.LastName;
             Total = order.Total;
             CreatedAtUtc = order.CreatedAtUtc;
-            OrderStatus = order.OrderStatus;
+            Status = order.Status;
+            ProcessingStatus = order.ProcessingStatus;
         }
     }
 }

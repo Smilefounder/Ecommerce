@@ -44,7 +44,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders.Default
             {
                 if (config.Status != null)
                 {
-                    query = query.Where(o => o.OrderStatus == config.Status.Value);
+                    query = query.Where(o => o.Status == config.Status.Value);
+                }
+                if (!String.IsNullOrWhiteSpace(config.ProcessingStatus))
+                {
+                    query = query.Where(o => o.ProcessingStatus == config.ProcessingStatus);
                 }
             }
 
