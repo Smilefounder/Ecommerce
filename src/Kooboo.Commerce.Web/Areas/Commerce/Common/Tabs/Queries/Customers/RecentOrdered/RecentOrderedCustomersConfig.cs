@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Queries.Customers.RecentOrdered
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Customers.RecentOrdered
 {
     public class RecentOrderedCustomersConfig
     {

@@ -9,11 +9,13 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Customers;
 using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Mvc.ModelBinding;
 using Kooboo.Commerce.Web.Framework.UI.Toolbar;
 using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Customers;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Customers.Default;
+using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -40,9 +42,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 AvailableQueries = TabQueries.GetQueries(ControllerContext).ToList()
             };
 
+            // Ensure default
             if (model.SavedQueries.Count == 0)
             {
-                var savedQuery = SavedTabQuery.CreateFrom(model.AvailableQueries.First());
+                var savedQuery = SavedTabQuery.CreateFrom(new DefaultCustomersQuery(), "All");
                 manager.Add(model.PageName, savedQuery);
                 model.SavedQueries.Add(savedQuery);
             }

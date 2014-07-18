@@ -324,17 +324,18 @@
     <Compile Include="Areas\Commerce\Common\Form\Validation\UniqueValidator.cs" />
     <Compile Include="Areas\Commerce\Common\Form\Validation\ValidationExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Initialization\DefaultCommerceInstanceInitializer.cs" />
-    <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />
-    <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\BindingTypeAwareModelBinder.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\CustomerQueryExtensions.cs" />
-    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\Default\AllCustomers.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\Default\DefaultCustomersQuery.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\Default\DefaultCustomersQueryConfig.cs" />
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\RecentOrdered\RecentOrderedCustomer.cs" />
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\RecentOrdered\RecentOrderedCustomers.cs" />
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\RecentOrdered\RecentOrderedCustomersConfig.cs" />
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\TopOrdered\TopOrderedCustomer.cs" />
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\TopOrdered\TopOrderedCustomers.cs" />
-    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\Default\AllOrders.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\Default\DefaultOrdersQuery.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\Default\DefaultOrdersQueryConfig.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\Default\OrderStatusDataSource.cs" />
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\MostCost\MostCostOrders.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -345,7 +346,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\Recent\RecentOrdersConfig.cs" />
-    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\Default\AllProducts.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\Default\DefaultProductsQuery.cs" />
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\ProductQueryExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\TopSold\TopSoldProducts.cs">
       <SubType>Code</SubType>
@@ -469,7 +470,6 @@
     <Compile Include="Areas\Commerce\Models\TabQueries\TabQueryModel.cs" />
     <Compile Include="Areas\Commerce\PaymentUrlHelper.cs" />
     <Compile Include="Areas\Commerce\UrlHelperExtensions.cs" />
-    <Compile Include="Areas\Commerce\Common\Mvc\HandleAjaxErrorAttribute.cs" />
     <Compile Include="Areas\Sites\Views\ABRuleSetting\ABRuleSettingIndexToolbarProvider.cs" />
     <Compile Include="Areas\Sites\Views\DataSource\IndexToolbarProvider.cs" />
     <Compile Include="Areas\Sites\Views\Label\LabelIndexToolbarProvider.cs" />

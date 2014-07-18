@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Queries.Products
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products
 {
     static class ProductQueryExtensions
     {

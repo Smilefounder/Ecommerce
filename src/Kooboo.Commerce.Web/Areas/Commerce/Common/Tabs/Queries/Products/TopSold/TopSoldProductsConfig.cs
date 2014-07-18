@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Queries.Products.TopSold
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products.TopSold
 {
     public class TopSoldProductsConfig
     {

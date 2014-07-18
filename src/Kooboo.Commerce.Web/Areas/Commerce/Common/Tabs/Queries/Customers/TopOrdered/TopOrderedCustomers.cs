@@ -11,7 +11,7 @@ using Kooboo.Web.Mvc.Grid2.Design;
 using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 
-namespace Kooboo.Commerce.Web.Queries.Customers.TopOrdered
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Customers.TopOrdered
 {
     public class TopOrderedCustomersConfig
     {

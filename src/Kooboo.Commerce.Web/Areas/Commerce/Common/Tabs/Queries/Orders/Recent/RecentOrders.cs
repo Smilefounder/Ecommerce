@@ -10,7 +10,7 @@ using System.ComponentModel;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 
-namespace Kooboo.Commerce.Web.Queries.Orders.Recent
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders.Recent
 {
     public class RecentOrders : OrderTabQuery<OrderModel>
     {

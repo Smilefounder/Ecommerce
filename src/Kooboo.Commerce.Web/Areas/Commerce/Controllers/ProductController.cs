@@ -11,13 +11,14 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.CMS.Common;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Settings;
-using Kooboo.Commerce.Web.Queries.Products;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.UI.Toolbar;
-using Kooboo.Commerce.Web.Mvc.ModelBinding;
 using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products.Default;
+using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -55,7 +56,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (model.SavedQueries.Count == 0)
             {
-                var savedQuery = SavedTabQuery.CreateFrom(model.AvailableQueries.First());
+                var savedQuery = SavedTabQuery.CreateFrom(new DefaultProductsQuery(), "All");
                 manager.Add(model.PageName, savedQuery);
                 model.SavedQueries.Add(savedQuery);
             }

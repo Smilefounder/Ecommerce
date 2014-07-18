@@ -9,7 +9,7 @@ using Kooboo.Web.Mvc.Grid2.Design;
 using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 
-namespace Kooboo.Commerce.Web.Queries.Orders
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders
 {
     public class OrderModel : IOrderModel
     {

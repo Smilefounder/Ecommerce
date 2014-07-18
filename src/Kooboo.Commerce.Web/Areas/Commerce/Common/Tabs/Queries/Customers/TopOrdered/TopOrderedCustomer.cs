@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Queries.Customers.TopOrdered
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Customers.TopOrdered
 {
     public class TopOrderedCustomer : CustomerModel
     {

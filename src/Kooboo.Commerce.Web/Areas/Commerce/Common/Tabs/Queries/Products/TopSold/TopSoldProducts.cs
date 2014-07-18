@@ -10,7 +10,7 @@ using System.ComponentModel;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 
-namespace Kooboo.Commerce.Web.Queries.Products.TopSold
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products.TopSold
 {
     public class TopSoldProducts : ProductTabQuery<ProductModel>
     {

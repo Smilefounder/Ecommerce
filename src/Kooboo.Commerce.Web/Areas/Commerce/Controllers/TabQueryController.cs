@@ -1,6 +1,6 @@
-﻿using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
+﻿using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
+using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 using Kooboo.Commerce.Web.Mvc;
-using Kooboo.Commerce.Web.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;

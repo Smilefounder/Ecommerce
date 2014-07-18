@@ -7,7 +7,7 @@ using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Customers
 {
     public class CustomerModel : ICustomerModel
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Mvc.ModelBinding
+namespace Kooboo.Commerce.Web.Framework.Mvc.ModelBinding
 {
     /// <summary>
     /// A model binder for System.Object type based on BindingType request parameter.

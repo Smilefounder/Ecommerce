@@ -1,7 +1,6 @@
 ﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
-using Kooboo.Commerce.Web.Queries.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +8,13 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products.Default
 {
-    public class AllProducts : ProductTabQuery<ProductModel>
+    public class DefaultProductsQuery : ProductTabQuery<ProductModel>
     {
         public override string Name
         {
             get
             {
-                return "AllProducts";
+                return "Products_Default";
             }
         }
 
@@ -23,7 +22,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products.Defaul
         {
             get
             {
-                return "All";
+                return "Default";
             }
         }
 

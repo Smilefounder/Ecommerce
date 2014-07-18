@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Queries.Orders
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders
 {
     static class OrderQueryExtensions
     {

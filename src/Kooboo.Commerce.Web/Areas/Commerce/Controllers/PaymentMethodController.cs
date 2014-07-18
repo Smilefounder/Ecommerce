@@ -15,8 +15,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models;
-using Kooboo.Commerce.Web.Mvc.ModelBinding;
 using Kooboo.Commerce.Web.Framework.Mvc;
+using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {

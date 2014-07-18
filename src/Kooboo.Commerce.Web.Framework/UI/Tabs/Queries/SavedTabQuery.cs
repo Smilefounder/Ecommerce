@@ -25,12 +25,12 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries
             CreatedAtUtc = DateTime.UtcNow;
         }
 
-        public static SavedTabQuery CreateFrom(ITabQuery query)
+        public static SavedTabQuery CreateFrom(ITabQuery query, string displayName = null)
         {
             return new SavedTabQuery
             {
                 QueryName = query.Name,
-                DisplayName = query.DisplayName,
+                DisplayName = displayName,
                 Config = query.ConfigType == null ? null : Activator.CreateInstance(query.ConfigType)
             };
         }
