@@ -10,10 +10,5 @@ namespace Kooboo.Commerce.API.Locations
     /// </summary>
     public interface ICountryAPI : ICountryQuery
     {
-        /// <summary>
-        /// create country query
-        /// </summary>
-        /// <returns>country query</returns>
-        ICountryQuery Query();
     }
 }

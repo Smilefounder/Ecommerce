@@ -119,24 +119,5 @@ namespace Kooboo.Commerce.API.RestProvider.Orders
             QueryParameters.Add("cartId", cartId.ToString());
             return Post<int>("CreateFromCart", context);
         }
-
-        /// <summary>
-        /// create order query
-        /// </summary>
-        /// <returns>order query</returns>
-        public IOrderQuery Query()
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// create order data access
-        /// </summary>
-        /// <returns>order data access</returns>
-        public IOrderAccess Access()
-        {
-            return this;
-        }
-
     }
 }

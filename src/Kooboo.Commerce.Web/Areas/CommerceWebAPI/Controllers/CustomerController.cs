@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         protected override ICommerceQuery<Customer> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();
-            var query = Commerce().Customers.Query();
+            var query = Commerce().Customers as ICustomerQuery;
             if (Request.GetRouteData().Values.Keys.Contains("id"))
                 query = query.ById(Convert.ToInt32(Request.GetRouteData().Values["id"]));
             if (!string.IsNullOrEmpty(qs["id"]))

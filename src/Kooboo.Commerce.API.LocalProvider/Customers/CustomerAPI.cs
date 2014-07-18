@@ -230,23 +230,5 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
 
             return mapped.Id;
         }
-
-        /// <summary>
-        /// create customer query
-        /// </summary>
-        /// <returns>customer query</returns>
-        public ICustomerQuery Query()
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// create customer data access
-        /// </summary>
-        /// <returns>customer data access</returns>
-        public ICustomerAccess Access()
-        {
-            return this;
-        }
     }
 }

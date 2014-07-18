@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
-    public class ProductController : CommerceAPIControllerAccessBase<Product>
+    public class ProductController : CommerceAPIControllerQueryBase<Product>
     {
         /// <summary>
         /// build the commerce query filters from query string.
@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         protected override ICommerceQuery<Product> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();
-            var query = Commerce().Products.Query();
+            var query = Commerce().Products as IProductQuery;
             if (Request.GetRouteData().Values.Keys.Contains("id"))
                 query = query.ById(Convert.ToInt32(Request.GetRouteData().Values["id"]));
             if (!string.IsNullOrEmpty(qs["id"]))
@@ -47,11 +47,5 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 
             return BuildLoadWithFromQueryStrings(query, qs);
         }
-
-        protected override ICommerceAccess<Product> GetAccesser()
-        {
-            return Commerce().Products;
-        }
-
     }
 }

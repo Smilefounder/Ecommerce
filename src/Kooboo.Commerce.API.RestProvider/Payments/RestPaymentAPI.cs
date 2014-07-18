@@ -14,15 +14,5 @@ namespace Kooboo.Commerce.API.RestProvider.Payments
         {
             return Post<PaymentResult>(null, request);
         }
-
-        public IPaymentQuery Query()
-        {
-            return this;
-        }
-
-        public IPaymentAccess Access()
-        {
-            return this;
-        }
     }
 }

@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         protected override ICommerceQuery<Payment> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();
-            var query = Commerce().Payments.Query();
+            var query = Commerce().Payments as IPaymentQuery;
 
             if (Request.GetRouteData().Values.Keys.Contains("id"))
                 query = query.ById(Convert.ToInt32(Request.GetRouteData().Values["id"]));

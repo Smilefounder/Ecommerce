@@ -65,7 +65,6 @@
     <Compile Include="IMapper.cs" />
     <Compile Include="LocalCommerceAPI.cs" />
     <Compile Include="LocalCommerceQuery.cs" />
-    <Compile Include="LocalCommerceQueryAccess.cs" />
     <Compile Include="Locations\CountryAPI.cs" />
     <Compile Include="Payments\LocalPaymentAPI.cs" />
     <Compile Include="Payments\LocalPaymentMethodAPI.cs" />

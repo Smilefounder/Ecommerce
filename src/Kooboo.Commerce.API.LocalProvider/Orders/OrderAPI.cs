@@ -185,24 +185,5 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             _query = _query.Where(o => customFieldQuery.Any(c => c.OrderId == o.Id));
             return this;
         }
-
-        /// <summary>
-        /// create order query
-        /// </summary>
-        /// <returns>order query</returns>
-        public IOrderQuery Query()
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// create order data access
-        /// </summary>
-        /// <returns>order data access</returns>
-        public IOrderAccess Access()
-        {
-            return this;
-        }
-
     }
 }

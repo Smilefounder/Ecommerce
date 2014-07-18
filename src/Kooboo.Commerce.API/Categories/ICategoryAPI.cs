@@ -10,10 +10,5 @@ namespace Kooboo.Commerce.API.Categories
     /// </summary>
     public interface ICategoryAPI : ICategoryQuery
     {
-        /// <summary>
-        /// create category query 
-        /// </summary>
-        /// <returns>category query</returns>
-        ICategoryQuery Query();
     }
 }

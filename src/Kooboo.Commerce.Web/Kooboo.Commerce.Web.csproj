@@ -273,7 +273,6 @@
     <Compile Include="Areas\CommerceWebAPI\Controllers\ApiInfoController.cs" />
     <Compile Include="Areas\CommerceWebAPI\Controllers\BrandController.cs" />
     <Compile Include="Areas\CommerceWebAPI\Controllers\CategoryController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\CommerceAPIControllerAccessBase.cs" />
     <Compile Include="Areas\CommerceWebAPI\Controllers\CommerceAPIControllerBase.cs" />
     <Compile Include="Areas\CommerceWebAPI\Controllers\CommerceAPIControllerQueryBase.cs" />
     <Compile Include="Areas\CommerceWebAPI\Controllers\CountryController.cs" />

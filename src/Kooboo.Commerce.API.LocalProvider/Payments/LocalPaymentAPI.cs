@@ -10,7 +10,7 @@ using Api = Kooboo.Commerce.API;
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
     [Dependency(typeof(IPaymentAPI))]
-    public class LocalPaymentAPI : LocalPaymentQuery, IPaymentAccess, IPaymentAPI
+    public class LocalPaymentAPI : LocalPaymentQuery, IPaymentAPI
     {
         private IPaymentMethodService _paymentMethodService;
         private IPaymentProcessorProvider _processorFactory;
@@ -57,16 +57,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
                 PaymentStatus = (Api.Payments.PaymentStatus)(int)processResult.PaymentStatus,
                 RedirectUrl = processResult.RedirectUrl
             };
-        }
-
-        public IPaymentQuery Query()
-        {
-            return this;
-        }
-
-        public IPaymentAccess Access()
-        {
-            return this;
         }
     }
 }

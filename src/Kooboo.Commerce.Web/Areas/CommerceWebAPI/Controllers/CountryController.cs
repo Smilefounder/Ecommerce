@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         protected override ICommerceQuery<Country> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();
-            var query = Commerce().Countries.Query();
+            var query = Commerce().Countries as ICountryQuery;
             if (Request.GetRouteData().Values.Keys.Contains("id"))
                 query = query.ById(Convert.ToInt32(Request.GetRouteData().Values["id"]));
             if (!string.IsNullOrEmpty(qs["id"]))

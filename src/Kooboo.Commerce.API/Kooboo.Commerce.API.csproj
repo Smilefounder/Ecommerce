@@ -75,7 +75,6 @@
     <Compile Include="CommerceAPIBase.cs" />
     <Compile Include="Customers\Customer.cs" />
     <Compile Include="Customers\CustomerCustomField.cs" />
-    <Compile Include="Customers\ICustomerAccess.cs" />
     <Compile Include="Customers\ICustomerAPI.cs" />
     <Compile Include="Customers\ICustomerQuery.cs" />
     <Compile Include="EAV\CustomField.cs" />
@@ -83,7 +82,6 @@
     <Compile Include="EAV\FieldDataType.cs" />
     <Compile Include="EAV\FieldValidationRule.cs" />
     <Compile Include="Gender.cs" />
-    <Compile Include="ICommerceAccess.cs" />
     <Compile Include="ICommerceQuery.cs" />
     <Compile Include="Brands\IBrandQuery.cs" />
     <Compile Include="ICommerceAPI.cs" />
@@ -91,7 +89,6 @@
     <Compile Include="Locations\Country.cs" />
     <Compile Include="Locations\ICountryAPI.cs" />
     <Compile Include="Locations\ICountryQuery.cs" />
-    <Compile Include="Orders\IOrderAccess.cs" />
     <Compile Include="Orders\IOrderAPI.cs" />
     <Compile Include="Orders\IOrderQuery.cs" />
     <Compile Include="Orders\Order.cs" />
@@ -101,7 +98,6 @@
     <Compile Include="Orders\OrderStatus.cs" />
     <Compile Include="Payments\PaymentRequest.cs" />
     <Compile Include="Payments\PaymentResult.cs" />
-    <Compile Include="Payments\IPaymentAccess.cs" />
     <Compile Include="Payments\IPaymentAPI.cs" />
     <Compile Include="Payments\IPaymentMethodAPI.cs" />
     <Compile Include="Payments\IPaymentMethodQuery.cs" />
@@ -110,7 +106,6 @@
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="PriceChangeMode.cs" />
-    <Compile Include="Products\IProductAccess.cs" />
     <Compile Include="Products\IProductAPI.cs" />
     <Compile Include="Products\IProductQuery.cs" />
     <Compile Include="Products\Product.cs" />
@@ -126,7 +121,6 @@
     <Compile Include="Shipping\IShippingMethodAPI.cs" />
     <Compile Include="Shipping\IShippingMethodQuery.cs" />
     <Compile Include="Shipping\ShippingMethod.cs" />
-    <Compile Include="Carts\IShoppingCartAccess.cs" />
     <Compile Include="Carts\IShoppingCartAPI.cs" />
     <Compile Include="Carts\IShoppingCartQuery.cs" />
     <Compile Include="Carts\ShoppingCart.cs" />

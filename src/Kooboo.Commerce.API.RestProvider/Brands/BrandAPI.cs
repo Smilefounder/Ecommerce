@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.API.RestProvider.Brands
     /// </summary>
     [Dependency(typeof(IBrandAPI))]
     [Dependency(typeof(IBrandQuery))]
-    public class BrandAPI : RestApiAccessBase<Brand>, IBrandAPI
+    public class BrandAPI : RestApiQueryBase<Brand>, IBrandAPI
     {
         /// <summary>
         /// add id filter to query
@@ -46,15 +46,6 @@ namespace Kooboo.Commerce.API.RestProvider.Brands
         {
             QueryParameters.Add("customField.name", customFieldName);
             QueryParameters.Add("customField.value", fieldValue);
-            return this;
-        }
-
-        /// <summary>
-        /// create a query
-        /// </summary>
-        /// <returns>brand query</returns>
-        public IBrandQuery Query()
-        {
             return this;
         }
     }

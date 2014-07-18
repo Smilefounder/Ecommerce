@@ -7,6 +7,5 @@ namespace Kooboo.Commerce.API.Shipping
 {
     public interface IShippingMethodAPI : IShippingMethodQuery
     {
-        IShippingMethodQuery Query();
     }
 }

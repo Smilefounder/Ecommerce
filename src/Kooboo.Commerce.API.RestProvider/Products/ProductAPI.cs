@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.API.RestProvider.Products
     /// </summary>
     [Dependency(typeof(IProductAPI))]
     [Dependency(typeof(IProductQuery))]
-    public class ProductAPI : RestApiAccessBase<Product>, IProductAPI
+    public class ProductAPI : RestApiQueryBase<Product>, IProductAPI
     {
         /// <summary>
         /// add id filter to query
@@ -153,24 +153,6 @@ namespace Kooboo.Commerce.API.RestProvider.Products
         {
             QueryParameters.Add("priceVariant.name", variantName);
             QueryParameters.Add("priceVariant.vallue", variantValue);
-            return this;
-        }
-
-        /// <summary>
-        /// create product query
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery Query()
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// create product data access
-        /// </summary>
-        /// <returns>product data access</returns>
-        public IProductAccess Access()
-        {
             return this;
         }
     }

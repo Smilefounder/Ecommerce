@@ -115,25 +115,6 @@ namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
             Post<bool>("ExpireShppingCart");
         }
 
-        /// <summary>
-        /// create shopping cart query
-        /// </summary>
-        /// <returns>shopping cart query</returns>
-        public IShoppingCartQuery Query()
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// create shopping cart data access
-        /// </summary>
-        /// <returns>shopping cart data access</returns>
-        public IShoppingCartAccess Access()
-        {
-            return this;
-        }
-
-
         public int AddItem(int cartId, int productPriceId, int quantity)
         {
             QueryParameters.Add("cartId", cartId.ToString());

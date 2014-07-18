@@ -303,23 +303,5 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
                 _cartService.ExpireCart(shoppingCart);
             }
         }
-
-        /// <summary>
-        /// create shopping cart query
-        /// </summary>
-        /// <returns>shopping cart query</returns>
-        public IShoppingCartQuery Query()
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// create shopping cart data access
-        /// </summary>
-        /// <returns>shopping cart data access</returns>
-        public IShoppingCartAccess Access()
-        {
-            return this;
-        }
     }
 }

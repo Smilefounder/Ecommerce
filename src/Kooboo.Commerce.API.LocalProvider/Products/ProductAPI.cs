@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
     /// </summary>
     [Dependency(typeof(IProductAPI))]
     [Dependency(typeof(IProductQuery))]
-    public class ProductAPI : LocalCommerceQueryAccess<Product, Kooboo.Commerce.Products.Product>, IProductAPI
+    public class ProductAPI : LocalCommerceQuery<Product, Kooboo.Commerce.Products.Product>, IProductAPI
     {
         private IProductService _productService;
         private IBrandService _brandService;
@@ -100,68 +100,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
             }
 
             return product;
-        }
-
-        /// <summary>
-        /// create object
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>true if successfully, else false</returns>
-        public override bool Create(Product obj)
-        {
-            if (obj != null)
-            {
-                _productService.Create(_mapper.MapFrom(obj));
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// update object
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>true if successfully, else false</returns>
-        public override bool Update(Product obj)
-        {
-            // TODO: Product的关联属性本身是可能没有Include进来的，一次性Update那也许只有EF的Attach可以做，但这样就无法触发详细的事件了
-            throw new NotImplementedException();
-            //if (obj != null)
-            //{
-            //    return _productService.Update(_mapper.MapFrom(obj));
-            //}
-            //return false;
-        }
-
-        /// <summary>
-        /// create/update object
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>true if successfully, else false</returns>
-        public override bool Save(Product obj)
-        {
-            throw new NotImplementedException();
-            //if (obj != null)
-            //{
-            //    return _productService.Save(_mapper.MapFrom(obj));
-            //}
-            //return false;
-        }
-
-        /// <summary>
-        /// delete object
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>true if successfully, else false</returns>
-        public override bool Delete(Product obj)
-        {
-            if (obj != null)
-            {
-                var product = _productService.GetById(obj.Id);
-                _productService.Delete(product);
-                return true;
-            }
-            return false;
         }
 
         /// <summary>
@@ -299,24 +237,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         {
             EnsureQuery();
             _query = _query.Where(o => o.PriceList.Any(p => p.VariantValues.Any(v => v.CustomField.Name == variantName && v.FieldValue == variantValue)));
-            return this;
-        }
-
-        /// <summary>
-        /// create product query
-        /// </summary>
-        /// <returns>product query</returns>
-        public IProductQuery Query()
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// create product data access
-        /// </summary>
-        /// <returns>product data access</returns>
-        public IProductAccess Access()
-        {
             return this;
         }
     }

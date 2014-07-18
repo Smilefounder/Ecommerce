@@ -82,7 +82,6 @@
     <Compile Include="Payments\RestPaymentQuery.cs" />
     <Compile Include="Products\ProductAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestApiAccessBase.cs" />
     <Compile Include="RestApiBase.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -57,7 +57,7 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
         private ShoppingCart CartInfo(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
         {
             var api = site.Commerce();
-            var query = api.ShoppingCarts.Query();
+            var query = api.ShoppingCarts as IShoppingCartQuery;
             var cartId = controllerContext.HttpContext.CurrentCartId();
 
             query = query.ById(cartId);

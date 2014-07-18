@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         protected override ICommerceQuery<ShoppingCart> BuildQueryFromQueryStrings()
         {
             var qs = Request.RequestUri.ParseQueryString();
-            var query = Commerce().ShoppingCarts.Query();
+            var query = Commerce().ShoppingCarts as IShoppingCartQuery;
             if (!string.IsNullOrEmpty(qs["sessionId"]))
                 query = query.BySessionId(qs["sessionId"]);
             if (!string.IsNullOrEmpty(qs["accountId"]))
