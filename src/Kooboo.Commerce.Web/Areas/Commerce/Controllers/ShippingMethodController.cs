@@ -2,7 +2,6 @@
 using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.Commerce.Shipping.Services;
-using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class ShippingMethodController : CommerceControllerBase
+    public class ShippingMethodController : CommerceController
     {
         private IShippingMethodService _shippingMethodService;
         private IShippingRateProviderFactory _shippingRateProviderFactory;

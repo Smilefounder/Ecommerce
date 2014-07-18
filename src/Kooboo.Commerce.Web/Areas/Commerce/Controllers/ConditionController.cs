@@ -4,16 +4,16 @@ using Kooboo.Commerce.Rules.Conditions.Expressions.Formatting;
 using Kooboo.Commerce.Rules.Parameters;
 using Kooboo.Commerce.Rules.Conditions.Parsing;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
-using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class ConditionController : CommerceControllerBase
+    public class ConditionController : CommerceController
     {
         public ActionResult AvailableParameters(string dataContextType)
         {

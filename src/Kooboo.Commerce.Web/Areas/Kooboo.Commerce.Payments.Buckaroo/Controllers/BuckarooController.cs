@@ -4,7 +4,6 @@ using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,7 +13,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
 {
-    public class BuckarooController : CommerceControllerBase
+    public class BuckarooController : CommerceController
     {
         private IPaymentService _paymentService;
         private IPaymentMethodService _paymentMethodService;

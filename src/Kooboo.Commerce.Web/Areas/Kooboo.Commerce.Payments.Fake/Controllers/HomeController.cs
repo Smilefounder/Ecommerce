@@ -3,7 +3,6 @@ using Kooboo.Commerce.Payments.Fake.Models;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Web;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Payments.Fake.Controllers
 {
-    public class HomeController : CommerceControllerBase
+    public class HomeController : CommerceController
     {
         private IPaymentService _paymentService;
         private IPaymentMethodService _paymentMethodService;

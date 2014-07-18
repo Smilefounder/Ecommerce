@@ -11,11 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.Commerce.Web.Framework.Mvc;
 
-namespace Kooboo.Commerce.Web.Mvc
+namespace Kooboo.Commerce.Web.Framework.Mvc
 {
-    public class CommerceControllerBase : Controller
+    public class CommerceController : Controller
     {
         public CommerceInstance CurrentInstance
         {

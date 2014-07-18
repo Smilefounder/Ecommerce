@@ -1,5 +1,5 @@
 ﻿using Kooboo.Commerce.Handlers;
-using Kooboo.Commerce.Web.Mvc;
+using Kooboo.Commerce.Web.Framework.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class MediaLibraryController : CommerceControllerBase
+    public class MediaLibraryController : CommerceController
     {
         private string uploadFolder = "~/Uploads/";
 

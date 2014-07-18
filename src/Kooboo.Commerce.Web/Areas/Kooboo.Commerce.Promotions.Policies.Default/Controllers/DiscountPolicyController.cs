@@ -4,7 +4,6 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Promotions.Policies.Default.Models;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Promotions.Policies.Default.Controllers
 {
-    public class DiscountPolicyController : CommerceControllerBase
+    public class DiscountPolicyController : CommerceController
     {
         private IPromotionService _promotionService;
 

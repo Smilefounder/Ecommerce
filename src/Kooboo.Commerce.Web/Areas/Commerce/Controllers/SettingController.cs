@@ -8,14 +8,13 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Settings;
 using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Settings.Services;
-using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.EAV.Services;
 using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class SettingController : CommerceControllerBase
+    public class SettingController : CommerceController
     {
         private readonly ISettingService _settings;
         private readonly ICustomFieldService _customFieldService;

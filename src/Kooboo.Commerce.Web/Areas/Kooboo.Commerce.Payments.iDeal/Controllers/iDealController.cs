@@ -3,7 +3,6 @@ using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Mvc;
 using Mollie.iDEAL;
 using System;
 using System.Collections.Generic;

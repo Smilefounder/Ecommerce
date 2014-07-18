@@ -1,6 +1,6 @@
 ﻿using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Settings.Services;
-using Kooboo.Commerce.Web.Mvc;
+using Kooboo.Commerce.Web.Framework.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Accessories.Controllers
 {
-    public class AccessoryController : CommerceControllerBase
+    public class AccessoryController : CommerceController
     {
         private IProductService _productService;
 

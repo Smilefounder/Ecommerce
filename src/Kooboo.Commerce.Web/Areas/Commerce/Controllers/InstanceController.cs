@@ -2,7 +2,6 @@
 using Kooboo.Commerce.Data.Providers;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Instances;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class InstanceController : CommerceControllerBase
+    public class InstanceController : CommerceController
     {
         private ICommerceInstanceManager _instanceManager;
 

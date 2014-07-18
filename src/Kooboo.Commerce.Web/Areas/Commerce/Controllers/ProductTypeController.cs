@@ -13,13 +13,12 @@ using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.EAV;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes;
-using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
 
-    public class ProductTypeController : CommerceControllerBase
+    public class ProductTypeController : CommerceController
     {
 
         private readonly IProductTypeService _productTypeService;

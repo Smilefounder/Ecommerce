@@ -1,9 +1,9 @@
-﻿using Kooboo.Commerce.Web.Mvc;
+﻿using Kooboo.Commerce.Web.Framework.Mvc;
 using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class HomeController : CommerceControllerBase
+    public class HomeController : CommerceController
     {
         public ActionResult Index()
         {

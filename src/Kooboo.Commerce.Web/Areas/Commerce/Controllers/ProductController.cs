@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
@@ -22,7 +21,7 @@ using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class ProductController : CommerceControllerBase
+    public class ProductController : CommerceController
     {
         private ISettingService _settingService;
         private IProductService _productService;

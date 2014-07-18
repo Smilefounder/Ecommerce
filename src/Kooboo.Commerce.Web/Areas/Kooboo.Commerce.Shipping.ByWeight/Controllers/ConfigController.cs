@@ -3,7 +3,6 @@ using Kooboo.Commerce.Shipping.ByWeight.Models;
 using Kooboo.Commerce.Shipping.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Controllers;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
 {
-    public class ConfigController : CommerceControllerBase
+    public class ConfigController : CommerceController
     {
         private IShippingMethodService _service;
 

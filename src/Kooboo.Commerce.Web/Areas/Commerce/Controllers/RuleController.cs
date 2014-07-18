@@ -1,7 +1,6 @@
 ﻿using Kooboo.Commerce.Activities;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Rules;
-using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +11,11 @@ using Newtonsoft.Json;
 using Kooboo.Commerce.Rules.Activities;
 using Kooboo.Commerce.Rules.Parameters;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Conditions;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class RuleController : CommerceControllerBase
+    public class RuleController : CommerceController
     {
         private IActivityProvider _activityProvider;
 

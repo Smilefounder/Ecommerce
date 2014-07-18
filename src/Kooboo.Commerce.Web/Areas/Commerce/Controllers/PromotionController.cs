@@ -4,7 +4,6 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions;
-using Kooboo.Commerce.Web.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,7 +22,7 @@ using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class PromotionController : CommerceControllerBase
+    public class PromotionController : CommerceController
     {
         private IPromotionService _promotionService;
         private IPromotionPolicyProvider _policyProvider;

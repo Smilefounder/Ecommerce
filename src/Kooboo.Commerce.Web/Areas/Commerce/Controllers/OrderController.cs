@@ -6,7 +6,6 @@ using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
@@ -21,7 +20,7 @@ using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class OrderController : CommerceControllerBase
+    public class OrderController : CommerceController
     {
         private readonly IOrderService _orderService;
         private readonly ICustomerService _customerService;

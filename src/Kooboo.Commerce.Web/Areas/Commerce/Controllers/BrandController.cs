@@ -10,12 +10,11 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Brands;
 using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Brands.Services;
-using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class BrandController : CommerceControllerBase
+    public class BrandController : CommerceController
     {
         private IBrandService _brandService;
 

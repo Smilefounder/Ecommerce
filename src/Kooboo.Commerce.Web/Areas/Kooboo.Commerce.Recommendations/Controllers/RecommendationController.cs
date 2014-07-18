@@ -1,5 +1,5 @@
 ﻿using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Web.Mvc;
+using Kooboo.Commerce.Web.Framework.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Recommendations.Controllers
 {
-    public class RecommendationController : CommerceControllerBase
+    public class RecommendationController : CommerceController
     {
         private IProductService _productService;
 

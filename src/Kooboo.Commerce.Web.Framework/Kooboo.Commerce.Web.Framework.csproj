@@ -75,9 +75,8 @@
     <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
     <Compile Include="Http\TransactionalAttribute.cs" />
     <Compile Include="Mvc\AjaxFormResult.cs" />
-    <Compile Include="Mvc\CommerceControllerBase.cs" />
+    <Compile Include="Mvc\CommerceController.cs" />
     <Compile Include="Mvc\EFContractResolver.cs" />
-    <Compile Include="Mvc\EnumerableExtensions.cs" />
     <Compile Include="Mvc\ExternalPostResult.cs" />
     <Compile Include="Mvc\HandleAjaxErrorAttribute.cs" />
     <Compile Include="Mvc\HandleAjaxFormErrorAttribute.cs" />

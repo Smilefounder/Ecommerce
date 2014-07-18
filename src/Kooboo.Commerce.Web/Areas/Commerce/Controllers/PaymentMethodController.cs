@@ -6,7 +6,6 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.PaymentMethods;
-using Kooboo.Commerce.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +19,7 @@ using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class PaymentMethodController : CommerceControllerBase
+    public class PaymentMethodController : CommerceController
     {
         private IPaymentProcessorProvider _processorProvider;
         private IPaymentMethodService _paymentMethodService;

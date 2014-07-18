@@ -3,7 +3,6 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web;
-using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Web.Url;
 using System;
 using System.Collections.Generic;

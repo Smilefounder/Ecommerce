@@ -11,13 +11,12 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.Commerce.Categories;
 using Kooboo.Commerce.Categories.Services;
-using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
 
-    public class CategoryController : CommerceControllerBase
+    public class CategoryController : CommerceController
     {
 
         private readonly ICategoryService _categoryService;

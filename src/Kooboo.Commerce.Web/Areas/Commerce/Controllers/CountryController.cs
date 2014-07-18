@@ -7,13 +7,12 @@ using Kooboo.CMS.Common;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Countries;
-using Kooboo.Commerce.Web.Mvc;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class CountryController : CommerceControllerBase
+    public class CountryController : CommerceController
     {
         private readonly ICountryService _countryService;
 
