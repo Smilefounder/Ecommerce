@@ -290,7 +290,7 @@
     <Compile Include="Areas\Commerce\Bootstrapping\CommerceDbProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ConditionParameterProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\EventHandlerRegistrar.cs" />
-    <Compile Include="Areas\Commerce\Bootstrapping\QueryRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\TabQueryRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\CommerceInstanceRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\TabPluginRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ToolbarCommandsRegistrar.cs" />
@@ -327,30 +327,30 @@
     <Compile Include="Areas\Commerce\Common\Mvc\CommerceControllerBase.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\ModelBinding\BindingTypeAwareModelBinder.cs" />
     <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\CustomerQueryExtensions.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\Default\DefaultCustomerQuery.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\RecentOrdered\RecentOrderedCustomer.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\RecentOrdered\RecentOrderedCustomers.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\RecentOrdered\RecentOrderedCustomersConfig.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\TopOrdered\TopOrderedCustomer.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\TopOrdered\TopOrderedCustomers.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Orders\Default\DefaultOrderQuery.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Orders\MostCost\MostCostOrders.cs">
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\CustomerQueryExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\Default\AllCustomers.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\RecentOrdered\RecentOrderedCustomer.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\RecentOrdered\RecentOrderedCustomers.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\RecentOrdered\RecentOrderedCustomersConfig.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\TopOrdered\TopOrderedCustomer.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\TopOrdered\TopOrderedCustomers.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\Default\AllOrders.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\MostCost\MostCostOrders.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Areas\Commerce\Common\Queries\Orders\MostCost\MostCostOrdersConfig.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Orders\OrderModel.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Orders\OrderQueryExtensions.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Orders\Recent\RecentOrders.cs">
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\MostCost\MostCostOrdersConfig.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\OrderModel.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\OrderQueryExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\Recent\RecentOrders.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Areas\Commerce\Common\Queries\Orders\Recent\RecentOrdersConfig.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Products\Default\DefaultProductQuery.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Products\ProductQueryExtensions.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Products\TopSold\TopSoldProducts.cs">
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Orders\Recent\RecentOrdersConfig.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\Default\AllProducts.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\ProductQueryExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\TopSold\TopSoldProducts.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Areas\Commerce\Common\Queries\Products\TopSold\TopSoldProductsConfig.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\TopSold\TopSoldProductsConfig.cs" />
     <Compile Include="Areas\Commerce\Common\RouteValues.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListItems.cs" />
@@ -375,7 +375,7 @@
     <Compile Include="Areas\Commerce\Controllers\ProductTypeController.cs" />
     <Compile Include="Areas\Commerce\Controllers\PromotionController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ConditionController.cs" />
-    <Compile Include="Areas\Commerce\Controllers\QueryController.cs" />
+    <Compile Include="Areas\Commerce\Controllers\TabQueryController.cs" />
     <Compile Include="Areas\Commerce\Controllers\RuleController.cs" />
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
@@ -423,7 +423,7 @@
     <Compile Include="Areas\Commerce\Models\Countries\CountryEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Countries\CountryRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\CustomerEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Customers\CustomerModel.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Customers\CustomerModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\CustomFieldEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\EAV\FieldValidationRuleEditorModel.cs" />
@@ -433,7 +433,7 @@
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentMethodEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentMethodRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Products\ProductEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Common\Queries\Products\ProductModel.cs" />
+    <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\ProductModel.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Grid2\ProductTypeRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeRowModel.cs" />
@@ -449,7 +449,6 @@
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionModel.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionModelBuilder.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\RuleParameterModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Queries\QueryGridModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\AlwaysRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\CaseModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\ConfiguredActivityModel.cs" />
@@ -467,6 +466,7 @@
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingMethodRowModel.cs" />
     <Compile Include="Areas\Commerce\CommerceApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingRateProviderConfigEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\TabQueries\TabQueryModel.cs" />
     <Compile Include="Areas\Commerce\PaymentUrlHelper.cs" />
     <Compile Include="Areas\Commerce\UrlHelperExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Mvc\HandleAjaxErrorAttribute.cs" />
@@ -3576,9 +3576,9 @@
     <Content Include="Areas\Commerce\Views\Rule\RuleType.SwitchCase.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\_RuleFooter.cshtml" />
     <Content Include="Areas\Commerce\Views\Rule\Index.cshtml" />
-    <Content Include="Areas\Commerce\Views\Shared\_QueryConfigDialog.cshtml" />
-    <Content Include="Areas\Commerce\Views\Query\Config.cshtml" />
-    <Content Include="Areas\Commerce\Views\Shared\_QueryGrid.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_TabQueryConfigDialog.cshtml" />
+    <Content Include="Areas\Commerce\Views\TabQuery\Config.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_TabQuery.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_Grid2.SimpleTable.cshtml" />
     <Content Include="packages.config" />
     <Content Include="Areas\Commerce\Views\Shared\_ToolbarCommandConfigDialog.cshtml" />

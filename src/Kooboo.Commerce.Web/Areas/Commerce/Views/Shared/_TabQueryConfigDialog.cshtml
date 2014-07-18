@@ -1,0 +1,103 @@
+﻿<div class="hide">
+    <div id="query-config-dialog">
+        <div class="topbar">
+            <h1 class="title">@("Settings".Localize())</h1>
+        </div>
+        <div class="wrap">
+            <div class="query-config-form"></div>
+        </div>
+        <div class="buttons">
+            <a href="#" class="button gray right btn-cancel-query-config">@("Cancel".Localize())</a>
+            <a href="#" class="button right btn-submit-query-config">@("Save".Localize())</a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    (function ($) {
+
+        window.TabQueryConfigDialog = function () {
+            var self = this;
+            var $dialog = null;
+            var $form = null;
+
+            self.options = null;
+
+            self.init = function () {
+                if ($dialog !== null) {
+                    return;
+                }
+
+                $dialog = $('#query-config-dialog').dialog({
+                    modal: true,
+                    autoOpen: false
+                });
+
+                $dialog.find('.btn-cancel-query-config').click(function () {
+                    self.close();
+                    return false;
+                });
+                $dialog.find('.btn-submit-query-config').click(function () {
+                    self.sumbit();
+                    return false;
+                });
+            }
+
+            self.open = function (options) {
+                self.options = options;
+
+                self.init();
+
+                $.get('/Commerce/TabQuery/Config', { pageName: options.pageName, queryId: options.queryId })
+                 .done(function (html) {
+                     $dialog.find('.query-config-form').html(html);
+                     $form = $dialog.find('form');
+                     $.validator.unobtrusive.reparse($form);
+                     $dialog.dialog('open');
+                 });
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+            }
+
+            self.validate = function () {
+                return $form.valid();
+            }
+
+            self.sumbit = function () {
+                if (!self.validate()) {
+                    return;
+                }
+
+                return $.ajax({
+                    url: '/Commerce/TabQuery/Config?pageName=' + self.options.pageName + '&queryId=' + self.options.queryId,
+                    type: 'POST',
+                    data: $form.serializeArray()
+                })
+                .done(function () {
+                    info.show('@("Query settings successfully saved.".Localize())', true);
+
+                    if (self.options.onSubmitted) {
+                        self.options.onSubmitted.apply(self, []);
+                    }
+
+                    self.close();
+                })
+                .fail(function (xhr) {
+                    var error = JSON.parse(xhr.responseText);
+                    info.show(error.message, false);
+                });
+            }
+        };
+
+        var instance = new window.TabQueryConfigDialog();
+
+        window.TabQueryConfigDialog.instance = function () {
+            return instance;
+        };
+
+    })(jQuery);
+
+</script>

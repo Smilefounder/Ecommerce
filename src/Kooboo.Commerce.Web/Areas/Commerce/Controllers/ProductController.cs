@@ -12,12 +12,12 @@ using Kooboo.CMS.Common;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Web.Queries.Products;
-using Kooboo.Commerce.Web.Framework.Queries;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.Queries;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.UI.Toolbar;
 using Kooboo.Commerce.Web.Mvc.ModelBinding;
 using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries;
+using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -43,25 +43,35 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _categoryService = categoryService;
         }
 
-        public ActionResult Index(string search, string queryName, int page = 1, int pageSize = 50)
+        public ActionResult Index(string search, string queryId, int page = 1, int pageSize = 50)
         {
-            var model = new QueryGridModel
+            var manager = new SavedTabQueryManager();
+            var model = new TabQueryModel
             {
-                AllQueryInfos = QueryManager.Instance.GetQueryInfos(QueryTypes.Products).ToList()
+                PageName = "Products",
+                SavedQueries = manager.GetSavedQueries("Products").ToList(),
+                AvailableQueries = TabQueries.GetQueries(ControllerContext).ToList()
             };
 
-            if (String.IsNullOrEmpty(queryName))
+            if (model.SavedQueries.Count == 0)
             {
-                model.CurrentQueryInfo = model.AllQueryInfos.FirstOrDefault();
+                var savedQuery = SavedTabQuery.CreateFrom(model.AvailableQueries.First());
+                manager.AddSavedQuery(model.PageName, savedQuery);
+                model.SavedQueries.Add(savedQuery);
+            }
+
+            if (String.IsNullOrEmpty(queryId))
+            {
+                model.CurrentQuery = model.SavedQueries.FirstOrDefault();
             }
             else
             {
-                model.CurrentQueryInfo = QueryManager.Instance.GetQueryInfo(queryName);
+                model.CurrentQuery = manager.GetSavedQuery("Products", new Guid(queryId));
             }
 
-            model.CurrentQueryResult = model.CurrentQueryInfo
-                                            .Query
-                                            .Execute(new QueryContext(CurrentInstance, search, page - 1, pageSize, model.CurrentQueryInfo.GetQueryConfig()))
+            var query = model.AvailableQueries.Find(q => q.Name == model.CurrentQuery.QueryName);
+
+            model.CurrentQueryResult = query.Execute(new QueryContext(CurrentInstance, search, page - 1, pageSize, model.CurrentQuery.Config))
                                             .ToPagedList();
 
             ViewBag.ProductTypes = _productTypeService.Query().ToList();

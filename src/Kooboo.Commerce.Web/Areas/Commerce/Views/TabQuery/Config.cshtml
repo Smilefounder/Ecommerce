@@ -1,0 +1,15 @@
+﻿@{
+    var query = ViewBag.Query as ITabQuery;
+}
+
+<form class="common-form">
+    @Html.Hidden("Id")
+    <input type="hidden" name="Config.BindingType" value="@query.ConfigType.AssemblyQualifiedName" />
+    <table>
+        @Html.Editor("DisplayName")
+        @foreach (var property in query.ConfigType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+        {
+            @Html.Editor("Config." + property.Name)
+        }
+    </table>
+</form>
