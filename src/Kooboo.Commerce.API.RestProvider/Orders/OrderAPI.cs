@@ -1,7 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.API.Orders;
-using Kooboo.Commerce.API.ShoppingCarts;
+using Kooboo.Commerce.API.Carts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

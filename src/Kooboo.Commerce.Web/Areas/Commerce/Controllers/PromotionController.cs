@@ -163,7 +163,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             string nextUrl = null;
 
-            if (editor != null || policy.ConfigModelType != null)
+            if (editor != null || policy.ConfigType != null)
             {
                 nextUrl = Url.Action("Policy", RouteValues.From(Request.QueryString).Merge("id", promotion.Id));
             }
@@ -193,7 +193,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var editorModel = new PromotionPolicyConfigEditorModel
             {
                 PromotionId = promotion.Id,
-                Config = promotion.LoadPolicyConfig(policy.ConfigModelType) ?? Activator.CreateInstance(policy.ConfigModelType)
+                Config = promotion.LoadPolicyConfig(policy.ConfigType) ?? Activator.CreateInstance(policy.ConfigType)
             };
 
             ViewBag.Policy = policy;

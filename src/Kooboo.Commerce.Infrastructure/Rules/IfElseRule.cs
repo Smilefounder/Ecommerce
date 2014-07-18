@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public class IfElseRule : RuleBase
+    public class IfElseRule : Rule
     {
         private IList<Condition> _conditions;
-        private List<RuleBase> _then = new List<RuleBase>();
-        private List<RuleBase> _else = new List<RuleBase>();
+        private List<Rule> _then = new List<Rule>();
+        private List<Rule> _else = new List<Rule>();
 
         public IList<Condition> Conditions
         {
@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Rules
             }
         }
 
-        public IList<RuleBase> Then
+        public IList<Rule> Then
         {
             get
             {
@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Rules
             }
         }
 
-        public IList<RuleBase> Else
+        public IList<Rule> Else
         {
             get
             {

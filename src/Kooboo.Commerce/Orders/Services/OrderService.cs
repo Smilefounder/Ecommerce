@@ -10,10 +10,10 @@ using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Payments;
-using Kooboo.Commerce.ShoppingCarts;
+using Kooboo.Commerce.Carts;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Customers.Services;
-using Kooboo.Commerce.ShoppingCarts.Services;
+using Kooboo.Commerce.Carts.Services;
 using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Orders.Pricing;
 

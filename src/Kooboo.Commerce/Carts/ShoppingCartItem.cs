@@ -5,7 +5,7 @@ using System.Text;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Rules;
 
-namespace Kooboo.Commerce.ShoppingCarts
+namespace Kooboo.Commerce.Carts
 {
     public class ShoppingCartItem
     {

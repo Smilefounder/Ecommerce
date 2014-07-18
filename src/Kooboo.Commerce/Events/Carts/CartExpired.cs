@@ -1,5 +1,5 @@
 ﻿using Kooboo.Commerce.Rules.Activities;
-using Kooboo.Commerce.ShoppingCarts;
+using Kooboo.Commerce.Carts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

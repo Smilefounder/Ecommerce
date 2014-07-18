@@ -4,7 +4,7 @@ using System.Linq;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Shipping;
 
-namespace Kooboo.Commerce.ShoppingCarts
+namespace Kooboo.Commerce.Carts
 {
     public class ShoppingCart
     {

@@ -85,9 +85,9 @@ namespace Kooboo.Commerce.Rules.Activities
                 }
 
                 object config = null;
-                if (activity.ConfigModelType != null)
+                if (activity.ConfigType != null)
                 {
-                    config = configuredActivity.LoadConfigModel(activity.ConfigModelType);
+                    config = configuredActivity.LoadConfigModel(activity.ConfigType);
                 }
 
                 activity.Execute(@event, new ActivityContext(config, false));

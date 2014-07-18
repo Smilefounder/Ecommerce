@@ -10,17 +10,17 @@ namespace Kooboo.Commerce.Rules
     {
         public string EventName { get; private set; }
 
-        public IList<RuleBase> Rules { get; private set; }
+        public IList<Rule> Rules { get; private set; }
 
         public EventSlot(string eventName)
         {
             Require.NotNullOrEmpty(eventName, "eventName");
 
             EventName = eventName;
-            Rules = new List<RuleBase>();
+            Rules = new List<Rule>();
         }
 
-        public EventSlot(string eventName, IEnumerable<RuleBase> rules)
+        public EventSlot(string eventName, IEnumerable<Rule> rules)
         {
             Require.NotNullOrEmpty(eventName, "eventName");
             Require.NotNull(rules, "rules");

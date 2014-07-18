@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public class AlwaysRule : RuleBase
+    public class AlwaysRule : Rule
     {
         private List<ConfiguredActivity> _activities = new List<ConfiguredActivity>();
 

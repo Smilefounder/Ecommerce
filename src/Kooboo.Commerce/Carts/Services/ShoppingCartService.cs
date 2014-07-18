@@ -16,7 +16,7 @@ using Kooboo.Commerce.Events.Carts;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Shipping;
 
-namespace Kooboo.Commerce.ShoppingCarts.Services
+namespace Kooboo.Commerce.Carts.Services
 {
     [Dependency(typeof(IShoppingCartService))]
     public class ShoppingCartService : IShoppingCartService

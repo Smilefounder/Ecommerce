@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default
             }
         }
 
-        public Type ConfigModelType
+        public Type ConfigType
         {
             get
             {

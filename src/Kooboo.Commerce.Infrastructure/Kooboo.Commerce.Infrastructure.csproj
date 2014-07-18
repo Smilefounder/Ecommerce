@@ -100,7 +100,7 @@
     <Compile Include="Data\Pagination.cs" />
     <Compile Include="Data\Pagination`.cs" />
     <Compile Include="Rules\Activities\ActivityEventAttribute.cs" />
-    <Compile Include="Rules\Activities\ActivityBase.cs" />
+    <Compile Include="Rules\Activities\Activity.cs" />
     <Compile Include="Rules\Activities\ActivityContext.cs" />
     <Compile Include="Rules\Activities\ActivityEventManager.cs" />
     <Compile Include="Rules\Activities\EventEntry.cs" />
@@ -159,7 +159,7 @@
     <Compile Include="Rules\AlwaysRule.cs" />
     <Compile Include="Rules\EventSlot.cs" />
     <Compile Include="Rules\IfElseRule.cs" />
-    <Compile Include="Rules\RuleBase.cs" />
+    <Compile Include="Rules\Rule.cs" />
     <Compile Include="Rules\Conditions\Operators\ComparisonOperatorCollection.cs" />
     <Compile Include="Rules\Conditions\Operators\ComparisonOperators.cs" />
     <Compile Include="Rules\Parameters\ChainedRuleParameterValueResolver.cs" />

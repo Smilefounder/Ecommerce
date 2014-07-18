@@ -126,12 +126,12 @@
     <Compile Include="Shipping\IShippingMethodAPI.cs" />
     <Compile Include="Shipping\IShippingMethodQuery.cs" />
     <Compile Include="Shipping\ShippingMethod.cs" />
-    <Compile Include="ShoppingCarts\IShoppingCartAccess.cs" />
-    <Compile Include="ShoppingCarts\IShoppingCartAPI.cs" />
-    <Compile Include="ShoppingCarts\IShoppingCartQuery.cs" />
-    <Compile Include="ShoppingCarts\ShoppingCart.cs" />
-    <Compile Include="ShoppingCarts\ShoppingCartItem.cs" />
-    <Compile Include="ShoppingCarts\ShoppingContext.cs" />
+    <Compile Include="Carts\IShoppingCartAccess.cs" />
+    <Compile Include="Carts\IShoppingCartAPI.cs" />
+    <Compile Include="Carts\IShoppingCartQuery.cs" />
+    <Compile Include="Carts\ShoppingCart.cs" />
+    <Compile Include="Carts\ShoppingCartItem.cs" />
+    <Compile Include="Carts\ShoppingContext.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

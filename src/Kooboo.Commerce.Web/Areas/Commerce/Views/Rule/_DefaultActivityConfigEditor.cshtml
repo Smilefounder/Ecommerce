@@ -1,11 +1,11 @@
 ﻿@{
-    var configModelType = ViewBag.Activity.ConfigModelType as Type;
+    var configType = ViewBag.Activity.ConfigType as Type;
 }
 
 <form class="common-form" id="default-activity-config-editor">
     <table>
         <tbody>
-            @foreach (var prop in configModelType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+            @foreach (var prop in configType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
             {
                 @Html.Editor(prop.Name)
             }

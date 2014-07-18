@@ -13,7 +13,8 @@
                     <th>Rules</th>
                 </tr>
             </thead>
-            <tbody id="rules-overview" data-bind="foreach: Slots">
+            <tbody id="rules-overview">
+                <!-- ko foreach: Slots -->
                 <tr>
                     <td class="event" data-bind="text: EventName"></td>
                     <td>
@@ -25,6 +26,12 @@
                             </a>
                         </div>
                         <!-- /ko -->
+                    </td>
+                </tr>
+                <!-- /ko -->
+                <tr data-bind="if: Slots().length === 0" class="empty">
+                    <td colspan="100">
+                        @("Empty".Localize())
                     </td>
                 </tr>
             </tbody>

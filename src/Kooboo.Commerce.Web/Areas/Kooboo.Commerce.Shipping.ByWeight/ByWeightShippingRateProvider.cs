@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Shipping.ByWeight
             }
         }
 
-        public Type ConfigModelType
+        public Type ConfigType
         {
             get
             {

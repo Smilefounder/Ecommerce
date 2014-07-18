@@ -36,9 +36,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             var processor = _processorFactory.FindByName(paymentMethod.ProcessorName);
             object config = null;
 
-            if (processor.ConfigModelType != null)
+            if (processor.ConfigType != null)
             {
-                config = paymentMethod.LoadProcessorConfig(processor.ConfigModelType);
+                config = paymentMethod.LoadProcessorConfig(processor.ConfigType);
             }
 
             var processResult = processor.Process(new PaymentProcessingContext(payment, config)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.ShoppingCarts
+namespace Kooboo.Commerce.API.Carts
 {
     /// <summary>
     /// shopping cart query

@@ -12,7 +12,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Rules.Activities.ChangeSavingPoints
 {
-    public class ChangeSavingPointsActivity : ActivityBase<IOrderEvent>, IHasCustomActivityConfigEditor
+    public class ChangeSavingPointsActivity : Activity<IOrderEvent>, IHasCustomActivityConfigEditor
     {
         public override string Name
         {
@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Rules.Activities.ChangeSavingPoints
             }
         }
 
-        public override Type ConfigModelType
+        public override Type ConfigType
         {
             get
             {

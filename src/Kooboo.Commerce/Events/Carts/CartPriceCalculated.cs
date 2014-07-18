@@ -1,6 +1,6 @@
 ﻿using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Rules.Activities;
-using Kooboo.Commerce.ShoppingCarts;
+using Kooboo.Commerce.Carts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

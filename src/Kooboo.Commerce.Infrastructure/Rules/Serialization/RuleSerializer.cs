@@ -13,8 +13,8 @@ namespace Kooboo.Commerce.Rules.Serialization
 {
     public class RuleSerializer
     {
-        private Dictionary<Type, Func<RuleBase, XElement>> _serializers;
-        private Dictionary<string, Func<EventEntry, XElement, RuleBase>> _deserializers;
+        private Dictionary<Type, Func<Rule, XElement>> _serializers;
+        private Dictionary<string, Func<EventEntry, XElement, Rule>> _deserializers;
 
         private ActivityEventManager _eventManager = ActivityEventManager.Instance;
         public ActivityEventManager EventManager
@@ -51,13 +51,13 @@ namespace Kooboo.Commerce.Rules.Serialization
 
         public RuleSerializer()
         {
-            _serializers = new Dictionary<Type, Func<RuleBase, XElement>>
+            _serializers = new Dictionary<Type, Func<Rule, XElement>>
             {
                 { typeof(IfElseRule), SerializeIfElse },
                 { typeof(SwitchCaseRule), SerializeSwitchCase },
                 { typeof(AlwaysRule), SerializeAlways }
             };
-            _deserializers = new Dictionary<string, Func<EventEntry, XElement, RuleBase>>
+            _deserializers = new Dictionary<string, Func<EventEntry, XElement, Rule>>
             {
                 { "if", DeserializeIfElse },
                 { "switch", DeserializeSwitchCase },
@@ -71,7 +71,7 @@ namespace Kooboo.Commerce.Rules.Serialization
             return SerializeSlot(@event, slot.Rules);
         }
 
-        public XElement SerializeSlot(EventEntry @event, IEnumerable<RuleBase> rules)
+        public XElement SerializeSlot(EventEntry @event, IEnumerable<Rule> rules)
         {
             var element = new XElement("event", new XAttribute("name", @event.EventName));
             foreach (var rule in rules)
@@ -83,7 +83,7 @@ namespace Kooboo.Commerce.Rules.Serialization
             return element;
         }
 
-        public XElement SerializeRule(RuleBase rule)
+        public XElement SerializeRule(Rule rule)
         {
             var serializer = _serializers[rule.GetType()];
             return serializer(rule);
@@ -114,7 +114,7 @@ namespace Kooboo.Commerce.Rules.Serialization
             return slot;
         }
 
-        public RuleBase DeserializeRule(EventEntry @event, XElement element)
+        public Rule DeserializeRule(EventEntry @event, XElement element)
         {
             var deserializer = _deserializers[element.Name.LocalName];
             return deserializer(@event, element);
@@ -122,7 +122,7 @@ namespace Kooboo.Commerce.Rules.Serialization
 
         #region If-Else Rule
 
-        private XElement SerializeIfElse(RuleBase rule)
+        private XElement SerializeIfElse(Rule rule)
         {
             var ifElseRule = rule as IfElseRule;
             var ifElement = new XElement("if");
@@ -162,7 +162,7 @@ namespace Kooboo.Commerce.Rules.Serialization
             return ifElement;
         }
 
-        private RuleBase DeserializeIfElse(EventEntry @event, XElement element)
+        private Rule DeserializeIfElse(EventEntry @event, XElement element)
         {
             var rule = (IfElseRule)TypeActivator.CreateInstance(typeof(IfElseRule));
             var conditionsElement = element.Element("conditions");
@@ -211,7 +211,7 @@ namespace Kooboo.Commerce.Rules.Serialization
 
         #region Switch-Case-Default Rule
 
-        private XElement SerializeSwitchCase(RuleBase rule)
+        private XElement SerializeSwitchCase(Rule rule)
         {
             var switchCaseRule = rule as SwitchCaseRule;
             var switchElement = new XElement("switch", new XAttribute("parameter", switchCaseRule.Parameter.Name));
@@ -247,7 +247,7 @@ namespace Kooboo.Commerce.Rules.Serialization
             return switchElement;
         }
 
-        private RuleBase DeserializeSwitchCase(EventEntry @event, XElement element)
+        private Rule DeserializeSwitchCase(EventEntry @event, XElement element)
         {
             var paramName = element.Attribute("parameter").Value;
             var param = ParameterProviders.GetParameter(@event.EventType, paramName);
@@ -262,7 +262,7 @@ namespace Kooboo.Commerce.Rules.Serialization
             foreach (var caseElement in element.Elements("case"))
             {
                 var value = Convert.ChangeType(caseElement.Attribute("value").Value, param.ValueType);
-                var caseRules = new List<RuleBase>();
+                var caseRules = new List<Rule>();
 
                 foreach (var caseRuleElement in caseElement.Elements())
                 {
@@ -297,7 +297,7 @@ namespace Kooboo.Commerce.Rules.Serialization
 
         #region Always Rule
 
-        private XElement SerializeAlways(RuleBase rule)
+        private XElement SerializeAlways(Rule rule)
         {
             var alwaysRule = rule as AlwaysRule;
             var element = new XElement("always");
@@ -333,7 +333,7 @@ namespace Kooboo.Commerce.Rules.Serialization
             return element;
         }
 
-        private RuleBase DeserializeAlways(EventEntry @event, XElement element)
+        private Rule DeserializeAlways(EventEntry @event, XElement element)
         {
             var rule = (AlwaysRule)TypeActivator.CreateInstance(typeof(AlwaysRule));
 

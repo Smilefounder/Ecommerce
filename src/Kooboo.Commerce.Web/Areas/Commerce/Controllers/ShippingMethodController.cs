@@ -146,7 +146,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             string redirectUrl = null;
 
             var editor = shippingRateProvider as IHasCustomShippingRateProviderConfigEditor;
-            if (editor != null || shippingRateProvider.ConfigModelType != null)
+            if (editor != null || shippingRateProvider.ConfigType != null)
             {
                 redirectUrl = Url.Action("ShippingRateProvider", RouteValues.From(Request.QueryString).Merge("id", method.Id));
             }
@@ -165,7 +165,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var editorModel = new ShippingRateProviderConfigEditorModel
             {
                 ShippingMethodId = method.Id,
-                Config = method.LoadShippingRateProviderConfig(shippingRateProvider.ConfigModelType) ?? Activator.CreateInstance(shippingRateProvider.ConfigModelType)
+                Config = method.LoadShippingRateProviderConfig(shippingRateProvider.ConfigType) ?? Activator.CreateInstance(shippingRateProvider.ConfigType)
             };
 
             ViewBag.ShippingRateProvider = shippingRateProvider;

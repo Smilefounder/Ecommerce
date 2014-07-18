@@ -1,7 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.API.ShoppingCarts;
+using Kooboo.Commerce.API.Carts;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Orders;
@@ -10,7 +10,7 @@ using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Shipping.Services;
-using Kooboo.Commerce.ShoppingCarts.Services;
+using Kooboo.Commerce.Carts.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
     /// </summary>
     [Dependency(typeof(IShoppingCartAPI))]
     [Dependency(typeof(IShoppingCartQuery))]
-    public class ShoppingCartAPI : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart>, IShoppingCartAPI
+    public class ShoppingCartAPI : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.Carts.ShoppingCart>, IShoppingCartAPI
     {
         private ICommerceDatabase _db;
         private IProductService _productService;
@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
         private IPromotionPolicyProvider _promotionPolicyFactory;
-        private IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> _cartItemMapper;
+        private IMapper<ShoppingCartItem, Kooboo.Commerce.Carts.ShoppingCartItem> _cartItemMapper;
 
         public ShoppingCartAPI(
             ICommerceDatabase db,
@@ -44,8 +44,8 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             ICustomerService customerService,
             IPromotionService promotionService,
             IPromotionPolicyProvider promotionPolicyFactory,
-            IMapper<ShoppingCart, Kooboo.Commerce.ShoppingCarts.ShoppingCart> mapper,
-            IMapper<ShoppingCartItem, Kooboo.Commerce.ShoppingCarts.ShoppingCartItem> cartItemMapper)
+            IMapper<ShoppingCart, Kooboo.Commerce.Carts.ShoppingCart> mapper,
+            IMapper<ShoppingCartItem, Kooboo.Commerce.Carts.ShoppingCartItem> cartItemMapper)
             : base(mapper)
         {
             _db = db;
@@ -65,7 +65,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         /// create entity query
         /// </summary>
         /// <returns>queryable object</returns>
-        protected override IQueryable<Commerce.ShoppingCarts.ShoppingCart> CreateQuery()
+        protected override IQueryable<Commerce.Carts.ShoppingCart> CreateQuery()
         {
             return _cartService.Query();
         }
@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         /// </summary>
         /// <param name="query">pagination query</param>
         /// <returns>ordered query</returns>
-        protected override IQueryable<Commerce.ShoppingCarts.ShoppingCart> OrderByDefault(IQueryable<Commerce.ShoppingCarts.ShoppingCart> query)
+        protected override IQueryable<Commerce.Carts.ShoppingCart> OrderByDefault(IQueryable<Commerce.Carts.ShoppingCart> query)
         {
             return query.OrderByDescending(o => o.Id);
         }
@@ -111,7 +111,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             return this;
         }
 
-        protected override ShoppingCart Map(Commerce.ShoppingCarts.ShoppingCart obj)
+        protected override ShoppingCart Map(Commerce.Carts.ShoppingCart obj)
         {
             Include(o => o.Items);
             Include(o => o.Items.Select(i => i.ProductPrice));
@@ -151,7 +151,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             if (cart == null)
             {
                 var customer = _customerService.GetByAccountId(accountId);
-                cart = Kooboo.Commerce.ShoppingCarts.ShoppingCart.Create(customer);
+                cart = Kooboo.Commerce.Carts.ShoppingCart.Create(customer);
                 _cartService.Create(cart);
             }
 
@@ -163,7 +163,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             var cart = _cartService.GetBySessionId(sessionId);
             if (cart == null)
             {
-                cart = Kooboo.Commerce.ShoppingCarts.ShoppingCart.Create(sessionId);
+                cart = Kooboo.Commerce.Carts.ShoppingCart.Create(sessionId);
                 _cartService.Create(cart);
             }
 
@@ -270,7 +270,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             if (customerCart == null)
             {
                 var customer = _customerService.GetById(customerId);
-                customerCart = Kooboo.Commerce.ShoppingCarts.ShoppingCart.Create(customer, session);
+                customerCart = Kooboo.Commerce.Carts.ShoppingCart.Create(customer, session);
                 _cartService.Create(customerCart);
             }
 

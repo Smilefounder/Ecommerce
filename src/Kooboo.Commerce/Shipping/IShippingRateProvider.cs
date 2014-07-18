@@ -1,5 +1,5 @@
 ﻿using Kooboo.Commerce.Customers;
-using Kooboo.Commerce.ShoppingCarts;
+using Kooboo.Commerce.Carts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Shipping
     {
         string Name { get; }
 
-        Type ConfigModelType { get; }
+        Type ConfigType { get; }
 
         /// <summary>
         /// 计算运费。

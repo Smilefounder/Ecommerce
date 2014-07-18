@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             get { return Strings.ProcessorName; }
         }
 
-        public Type ConfigModelType
+        public Type ConfigType
         {
             get
             {

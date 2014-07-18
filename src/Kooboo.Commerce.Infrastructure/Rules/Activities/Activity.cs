@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules.Activities
 {
-    public abstract class ActivityBase<TEvent> : IActivity
+    public abstract class Activity<TEvent> : IActivity
         where TEvent : IEvent
     {
         public abstract string Name { get; }
@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Rules.Activities
             }
         }
 
-        public virtual Type ConfigModelType
+        public virtual Type ConfigType
         {
             get
             {

@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
             get { return Strings.ProcessorName; }
         }
 
-        public Type ConfigModelType
+        public Type ConfigType
         {
             get
             {

@@ -95,7 +95,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var processor = _processorProvider.FindByName(method.ProcessorName);
 
             var editor = processor as IHasCustomPaymentProcessorConfigEditor;
-            if (editor != null || processor.ConfigModelType != null)
+            if (editor != null || processor.ConfigType != null)
             {
                 redirectUrl = Url.Action("Processor", RouteValues.From(Request.QueryString).Merge("id", method.Id));
             }
@@ -115,7 +115,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             var editorModel = new PaymentProcessorConfigEditorModel
             {
                 PaymentMethodId = method.Id,
-                Config = method.LoadProcessorConfig(processor.ConfigModelType) ?? Activator.CreateInstance(processor.ConfigModelType)
+                Config = method.LoadProcessorConfig(processor.ConfigType) ?? Activator.CreateInstance(processor.ConfigType)
             };
 
             ViewBag.Processor = processor;

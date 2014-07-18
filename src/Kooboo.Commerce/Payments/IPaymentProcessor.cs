@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Payments
         /// <summary>
         /// 用于存放配置信息的类的类型。
         /// </summary>
-        Type ConfigModelType { get; }
+        Type ConfigType { get; }
 
         /// <summary>
         /// 处理支付请求，并返回结果。

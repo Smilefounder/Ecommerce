@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Payments.Fake
             }
         }
 
-        public Type ConfigModelType
+        public Type ConfigType
         {
             get
             {

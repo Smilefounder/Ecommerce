@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.Rules.Activities.Simple
 {
-    public class SimpleActivity : ActivityBase<IOrderEvent>
+    public class SimpleActivity : Activity<IOrderEvent>
     {
         public override string Name
         {
@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Rules.Activities.Simple
             }
         }
 
-        public override Type ConfigModelType
+        public override Type ConfigType
         {
             get
             {

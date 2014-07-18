@@ -8,7 +8,7 @@ using Kooboo.Commerce.API.Categories;
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.API.Orders;
-using Kooboo.Commerce.API.ShoppingCarts;
+using Kooboo.Commerce.API.Carts;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Payments;

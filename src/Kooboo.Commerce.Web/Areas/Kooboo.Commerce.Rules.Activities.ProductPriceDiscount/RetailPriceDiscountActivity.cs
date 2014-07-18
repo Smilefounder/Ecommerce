@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Rules.Activities.ProductPriceDiscount
 {
-    public class RetailPriceDiscountActivity : ActivityBase<GetPrice>, IHasCustomActivityConfigEditor
+    public class RetailPriceDiscountActivity : Activity<GetPrice>, IHasCustomActivityConfigEditor
     {
         public override string Name
         {
@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Rules.Activities.ProductPriceDiscount
             }
         }
 
-        public override Type ConfigModelType
+        public override Type ConfigType
         {
             get
             {

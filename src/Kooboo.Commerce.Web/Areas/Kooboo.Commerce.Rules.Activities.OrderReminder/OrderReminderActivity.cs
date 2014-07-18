@@ -19,7 +19,7 @@ using Kooboo.Commerce.Rules.Conditions;
 
 namespace Kooboo.Commerce.Rules.Activities.OrderReminder
 {
-    public class OrderReminderActivity : ActivityBase<IOrderEvent>, IHasCustomActivityConfigEditor
+    public class OrderReminderActivity : Activity<IOrderEvent>, IHasCustomActivityConfigEditor
     {
         public override string Name
         {
@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Rules.Activities.OrderReminder
             }
         }
 
-        public override Type ConfigModelType
+        public override Type ConfigType
         {
             get
             {

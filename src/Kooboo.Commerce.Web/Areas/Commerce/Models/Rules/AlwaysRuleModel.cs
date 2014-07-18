@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             return model;
         }
 
-        public override RuleBase ToRule(EventEntry @event)
+        public override Rule ToRule(EventEntry @event)
         {
             var rule = new AlwaysRule();
             foreach (var activityModel in Activities)

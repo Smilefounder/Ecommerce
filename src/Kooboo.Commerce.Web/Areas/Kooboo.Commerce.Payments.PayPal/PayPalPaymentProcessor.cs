@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             }
         }
 
-        public Type ConfigModelType
+        public Type ConfigType
         {
             get
             {

@@ -11,7 +11,13 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries
     {
         public abstract string Name { get; }
 
-        public abstract string DisplayName { get; }
+        public virtual string DisplayName
+        {
+            get
+            {
+                return Name;
+            }
+        }
 
         public virtual Type ConfigType
         {

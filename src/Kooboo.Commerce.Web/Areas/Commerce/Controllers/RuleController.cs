@@ -73,7 +73,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var @event = ActivityEventManager.Instance.FindEvent(eventName);
             var models = JsonConvert.DeserializeObject<List<RuleModelBase>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });         
-            var rules = new List<RuleBase>();
+            var rules = new List<Rule>();
 
             foreach (var model in models)
             {
@@ -91,9 +91,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.Activity = activity;
             ViewBag.ConfigEditorVirtualPath = GetConfigEditorVirtualPath(activity);
 
-            if (activity.ConfigModelType != null)
+            if (activity.ConfigType != null)
             {
-                ViewBag.ConfigModel = TypeActivator.CreateInstance(activity.ConfigModelType);
+                ViewBag.ConfigModel = TypeActivator.CreateInstance(activity.ConfigType);
             }
 
             return View();
@@ -106,9 +106,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.Activity = activity;
             ViewBag.ConfigEditorVirtualPath = GetConfigEditorVirtualPath(activity);
 
-            if (activity.ConfigModelType != null)
+            if (activity.ConfigType != null)
             {
-                ViewBag.ConfigModel = TypeActivator.CreateInstance(activity.ConfigModelType);
+                ViewBag.ConfigModel = TypeActivator.CreateInstance(activity.ConfigType);
             }
 
             return View();
@@ -122,7 +122,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 configEditorVirtualPath = ((IHasCustomActivityConfigEditor)activity).GetEditorVirtualPath();
             }
-            else if (activity.ConfigModelType != null)
+            else if (activity.ConfigType != null)
             {
                 configEditorVirtualPath = "~/Areas/Commerce/Views/Rule/_DefaultActivityConfigEditor.cshtml";
             }

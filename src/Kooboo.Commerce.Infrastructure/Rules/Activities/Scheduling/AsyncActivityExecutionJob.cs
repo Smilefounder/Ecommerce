@@ -63,9 +63,9 @@ namespace Kooboo.Commerce.Activities.Jobs
                                 if (activity != null)
                                 {
                                     object parameters = null;
-                                    if (activity.ConfigModelType != null)
+                                    if (activity.ConfigType != null)
                                     {
-                                        parameters = ConfiguredActivity.LoadConfigModel(queueItem.ActivityConfig, activity.ConfigModelType);
+                                        parameters = ConfiguredActivity.LoadConfigModel(queueItem.ActivityConfig, activity.ConfigType);
                                     }
 
                                     activity.Execute(@event, new ActivityContext(parameters, true));

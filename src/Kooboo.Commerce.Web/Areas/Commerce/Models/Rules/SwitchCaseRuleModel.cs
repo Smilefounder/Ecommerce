@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             return model;
         }
 
-        public override RuleBase ToRule(EventEntry @event)
+        public override Rule ToRule(EventEntry @event)
         {
             var param = RuleParameterProviders.Providers.GetParameter(@event.EventType, Parameter);
             var rule = new SwitchCaseRule(param);

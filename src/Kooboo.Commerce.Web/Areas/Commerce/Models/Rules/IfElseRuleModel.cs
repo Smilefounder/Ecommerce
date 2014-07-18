@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             return model;
         }
 
-        public override RuleBase ToRule(EventEntry @event)
+        public override Rule ToRule(EventEntry @event)
         {
             var rule = new IfElseRule();
             rule.Conditions = Conditions.ToList();

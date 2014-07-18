@@ -56,7 +56,7 @@ namespace Kooboo.Commerce.Rules
             return _slots.Value.Values.Select(f => f.Read<EventSlot>()).ToList();
         }
 
-        public IEnumerable<RuleBase> GetRules(string eventName)
+        public IEnumerable<Rule> GetRules(string eventName)
         {
             Require.NotNullOrEmpty(eventName, "eventName");
 
@@ -67,7 +67,7 @@ namespace Kooboo.Commerce.Rules
                 var slot = file.Read<EventSlot>();
                 if (slot == null)
                 {
-                    return Enumerable.Empty<RuleBase>();
+                    return Enumerable.Empty<Rule>();
                 }
 
                 // Here we directly return the result instead of returning a copy
@@ -76,10 +76,10 @@ namespace Kooboo.Commerce.Rules
                 return slot.Rules;
             }
 
-            return Enumerable.Empty<RuleBase>();
+            return Enumerable.Empty<Rule>();
         }
 
-        public void SaveRules(string eventName, IEnumerable<RuleBase> rules)
+        public void SaveRules(string eventName, IEnumerable<Rule> rules)
         {
             Require.NotNullOrEmpty(eventName, "eventName");
 

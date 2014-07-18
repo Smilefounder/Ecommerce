@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             Type = type;
         }
 
-        public static RuleModelBase FromRule(RuleBase rule)
+        public static RuleModelBase FromRule(Rule rule)
         {
             if (rule is AlwaysRule)
             {
@@ -35,6 +35,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             throw new NotSupportedException();
         }
 
-        public abstract RuleBase ToRule(EventEntry @event);
+        public abstract Rule ToRule(EventEntry @event);
     }
 }

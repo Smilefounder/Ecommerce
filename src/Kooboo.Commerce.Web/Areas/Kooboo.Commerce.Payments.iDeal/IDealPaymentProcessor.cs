@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Payments.iDeal
             }
         }
 
-        public Type ConfigModelType
+        public Type ConfigType
         {
             get
             {

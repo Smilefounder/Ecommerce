@@ -8,11 +8,11 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public abstract class RuleBase
+    public abstract class Rule
     {
         public abstract IEnumerable<ConfiguredActivity> Execute(object dataContext);
 
-        protected IEnumerable<ConfiguredActivity> Further(IEnumerable<RuleBase> rules, object dataContext)
+        protected IEnumerable<ConfiguredActivity> Further(IEnumerable<Rule> rules, object dataContext)
         {
             var result = new List<ConfiguredActivity>();
             foreach (var rule in rules)

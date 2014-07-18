@@ -9,7 +9,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Orders
 {
-    public class MarkApprovedActivity : ActivityBase<ApproveOrder>
+    public class MarkApprovedActivity : Activity<ApproveOrder>
     {
         public override string Name
         {

@@ -44,9 +44,9 @@ namespace Kooboo.Commerce.Orders.Pricing.Modules
                     throw new InvalidOperationException("Cannot load promotion policy with name '" + match.Promotion.PromotionPolicyName + "'. Ensure corresponding add-in has been installed.");
 
                 object config = null;
-                if (policy.ConfigModelType != null)
+                if (policy.ConfigType != null)
                 {
-                    config = match.Promotion.LoadPolicyConfig(policy.ConfigModelType);
+                    config = match.Promotion.LoadPolicyConfig(policy.ConfigType);
                 }
 
                 policy.Execute(new PromotionContext(match.Promotion, config, match.ConditionMatchedItems, context));

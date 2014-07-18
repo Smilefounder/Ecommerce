@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Promotions
         /// <summary>
         /// 存储配置信息的对象的类型。
         /// </summary>
-        Type ConfigModelType { get; }
+        Type ConfigType { get; }
 
         /// <summary>
         /// 执行促销策略。

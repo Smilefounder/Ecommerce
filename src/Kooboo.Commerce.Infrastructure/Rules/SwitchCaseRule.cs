@@ -7,31 +7,31 @@ using System.Text;
 
 namespace Kooboo.Commerce.Rules
 {
-    public class SwitchCaseRule : RuleBase
+    public class SwitchCaseRule : Rule
     {
         public RuleParameter Parameter { get; set; }
 
-        private Dictionary<object, IList<RuleBase>> _cases;
-        public IDictionary<object, IList<RuleBase>> Cases
+        private Dictionary<object, IList<Rule>> _cases;
+        public IDictionary<object, IList<Rule>> Cases
         {
             get
             {
                 if (_cases == null)
                 {
-                    _cases = new Dictionary<object, IList<RuleBase>>();
+                    _cases = new Dictionary<object, IList<Rule>>();
                 }
                 return _cases;
             }
         }
 
-        private List<RuleBase> _default;
-        public IList<RuleBase> Default
+        private List<Rule> _default;
+        public IList<Rule> Default
         {
             get
             {
                 if (_default == null)
                 {
-                    _default = new List<RuleBase>();
+                    _default = new List<Rule>();
                 }
                 return _default;
             }

@@ -9,7 +9,7 @@ using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Shipping;
 
-namespace Kooboo.Commerce.ShoppingCarts.Services
+namespace Kooboo.Commerce.Carts.Services
 {
     public interface IShoppingCartService
     {

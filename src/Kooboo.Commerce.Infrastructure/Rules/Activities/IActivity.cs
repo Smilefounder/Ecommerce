@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Rules.Activities
         /// <summary>
         /// Activity配置信息类的类型。
         /// </summary>
-        Type ConfigModelType { get; }
+        Type ConfigType { get; }
 
         /// <summary>
         /// 是否允许异步执行。

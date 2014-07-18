@@ -11,7 +11,13 @@ namespace Kooboo.Commerce.Web.Framework.UI.Toolbar
     {
         public abstract string Name { get; }
 
-        public abstract string ButtonText { get; }
+        public virtual string ButtonText
+        {
+            get
+            {
+                return Name;
+            }
+        }
 
         public virtual string IconClass
         {

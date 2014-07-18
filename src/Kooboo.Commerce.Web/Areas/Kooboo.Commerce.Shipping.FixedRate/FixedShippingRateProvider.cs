@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Shipping.FixedRate
             }
         }
 
-        public Type ConfigModelType
+        public Type ConfigType
         {
             get
             {

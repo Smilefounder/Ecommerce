@@ -23,9 +23,9 @@ namespace Kooboo.Commerce.Orders.Pricing.Modules
                 if (provider != null)
                 {
                     object shippingRateProviderConfig = null;
-                    if (provider.ConfigModelType != null)
+                    if (provider.ConfigType != null)
                     {
-                        shippingRateProviderConfig = context.ShippingMethod.LoadShippingRateProviderConfig(provider.ConfigModelType);
+                        shippingRateProviderConfig = context.ShippingMethod.LoadShippingRateProviderConfig(provider.ConfigType);
                     }
 
                     var shippingCost = provider.GetShippingRate(

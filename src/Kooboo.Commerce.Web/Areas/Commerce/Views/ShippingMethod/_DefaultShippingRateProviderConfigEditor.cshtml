@@ -1,15 +1,15 @@
 ﻿@model ShippingRateProviderConfigEditorModel
 @{
     var shippingRateProvider = ViewBag.ShippingRateProvider as IShippingRateProvider;
-    var configModelType = shippingRateProvider.ConfigModelType;
+    var configType = shippingRateProvider.ConfigType;
 }
 
 <form class="common-form" id="default-shipping-rate-provider-config-editor">
     @Html.HiddenFor(m => m.ShippingMethodId)
-    <input type="hidden" name="Config.BindingType" value="@Html.Raw(configModelType.AssemblyQualifiedName)" />
+    <input type="hidden" name="Config.BindingType" value="@Html.Raw(configType.AssemblyQualifiedName)" />
     <table>
         <tbody>
-            @foreach (var prop in configModelType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+            @foreach (var prop in configType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
             {
                 @Html.Editor("Config." + prop.Name)
             }
