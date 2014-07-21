@@ -12,22 +12,9 @@ namespace Kooboo.Commerce.Data
     {
         const string SettingsFileName = "settings.config";
 
-        private DataFolderFactory _folderFactory;
-
-        public CommerceInstanceSettingsManager()
-            : this(DataFolderFactory.Current)
-        {
-        }
-
-        public CommerceInstanceSettingsManager(DataFolderFactory folderFactory)
-        {
-            _folderFactory = folderFactory;
-        }
-
         public IEnumerable<CommerceInstanceSettings> All()
         {
-            var container = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.Instances, DataFileFormats.Json);
-            foreach (var folder in container.GetFolders())
+            foreach (var folder in DataFolders.Instances.GetFolders())
             {
                 var file = folder.GetFile(SettingsFileName);
                 if (file.Exists)
@@ -39,7 +26,7 @@ namespace Kooboo.Commerce.Data
 
         public CommerceInstanceSettings Get(string instanceName)
         {
-            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName), DataFileFormats.Json);
+            var folder = DataFolders.Instances.GetFolder(instanceName);
             var file = folder.GetFile(SettingsFileName);
             if (file.Exists)
             {
@@ -51,7 +38,7 @@ namespace Kooboo.Commerce.Data
 
         public void Create(string instanceName, CommerceInstanceSettings settings)
         {
-            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName), DataFileFormats.Json);
+            var folder = DataFolders.Instances.GetFolder(instanceName);
             var file = folder.GetFile(SettingsFileName);
             if (file.Exists)
                 throw new InvalidOperationException("Instance settings file already exists. Instance name: " + instanceName + ".");
@@ -61,7 +48,7 @@ namespace Kooboo.Commerce.Data
 
         public void Update(string instanceName, CommerceInstanceSettings settings)
         {
-            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName), DataFileFormats.Json);
+            var folder = DataFolders.Instances.GetFolder(instanceName);
             var file = folder.GetFile(SettingsFileName);
             if (!file.Exists)
                 throw new InvalidOperationException("Failed to update instance metadata because instance was not found. Instance name: " + instanceName + ".");
@@ -76,7 +63,7 @@ namespace Kooboo.Commerce.Data
 
         public void Delete(string instanceName)
         {
-            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(instanceName), DataFileFormats.Json);
+            var folder = DataFolders.Instances.GetFolder(instanceName);
             var file = folder.GetFile(SettingsFileName);
             if (!file.Exists)
                 throw new InvalidOperationException("Instance '" + instanceName + "' was not found.");

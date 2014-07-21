@@ -17,7 +17,6 @@ namespace Kooboo.Commerce.Data
     public class CommerceInstanceManager : ICommerceInstanceManager
     {
         private List<IInstanceInitializer> _initializers;
-        private DataFolderFactory _folderFactory;
         private CommerceInstanceSettingsManager _settingsManager;
 
         private CommerceDbProviderCollection _dbProviders = CommerceDbProviders.Providers;
@@ -35,10 +34,9 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public CommerceInstanceManager(DataFolderFactory folderFactory, IEnumerable<IInstanceInitializer> initializers)
+        public CommerceInstanceManager(IEnumerable<IInstanceInitializer> initializers)
         {
-            _folderFactory = folderFactory;
-            _settingsManager = new CommerceInstanceSettingsManager(_folderFactory);
+            _settingsManager = new CommerceInstanceSettingsManager();
             _initializers = initializers.ToList();
         }
 
@@ -115,7 +113,7 @@ namespace Kooboo.Commerce.Data
             _settingsManager.Delete(name);
 
             // Delete instance folder
-            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstance(settings.Name), DataFileFormats.Json);
+            var folder = DataFolders.Instances.GetFolder(settings.Name);
             folder.Delete();
 
             Event.Raise(new CommerceInstanceDeleted(settings));
@@ -123,7 +121,7 @@ namespace Kooboo.Commerce.Data
 
         public CommerceInstanceSettings GetInstanceSettings(string instanceName)
         {
-            var settingsManager = new CommerceInstanceSettingsManager(_folderFactory);
+            var settingsManager = new CommerceInstanceSettingsManager();
             return settingsManager.Get(instanceName);
         }
 

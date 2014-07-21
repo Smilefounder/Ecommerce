@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries
         private DataFolder _folder;
 
         public SavedTabQueryManager()
-            : this(DataFolderFactory.Current.GetFolder(UrlUtility.Combine(CommerceDataFolderVirtualPaths.Shared, "TabQueries"), DataFileFormats.TypedJson))
+            : this(DataFolders.Shared.GetFolder("TabQueries", DataFileFormats.TypedJson))
         {
         }
 

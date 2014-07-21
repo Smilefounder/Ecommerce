@@ -12,8 +12,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Toolbar
     {
         static DataFile GetCommandConfigDataFile(this IToolbarCommand command)
         {
-            return DataFolderFactory.Current.GetFile(
-                UrlUtility.Combine(CommerceDataFolderVirtualPaths.Shared, "Toolbar/Commands", command.Name + ".config"), DataFileFormats.TypedJson);
+            return DataFolders.Shared.GetFolder("Toolbar/Commands").GetFile(command.Name + ".config", DataFileFormats.TypedJson);
         }
 
         public static object GetDefaultConfig(this IToolbarCommand command)

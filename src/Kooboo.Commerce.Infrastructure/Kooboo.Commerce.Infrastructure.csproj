@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Folders\DataFolders.cs" />
     <Compile Include="Data\Extensions\PaginationExtensions.cs" />
     <Compile Include="Data\Folders\CachedDataFile.cs" />
     <Compile Include="Data\Folders\Disk\DiskDataFile.cs" />
@@ -139,7 +140,6 @@
     <Compile Include="Data\Providers\ICommerceDbProvider.cs" />
     <Compile Include="Data\CommerceInstance.cs" />
     <Compile Include="Data\Initialization\IInstanceInitializer.cs" />
-    <Compile Include="Data\CommerceDataFolderVirtualPaths.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\Extensions\LinqDynamicExtension.cs" />
     <Compile Include="Data\Extensions\QueryableExtensions.cs" />

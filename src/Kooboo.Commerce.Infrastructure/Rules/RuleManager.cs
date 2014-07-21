@@ -15,29 +15,21 @@ namespace Kooboo.Commerce.Rules
     public class RuleManager
     {
         readonly Lazy<Dictionary<string, DataFile>> _slots;
-        readonly DataFolderFactory _folderFactory;
 
         public string InstanceName { get; private set; }
 
         public RuleManager(string instanceName)
-            : this(instanceName, DataFolderFactory.Current)
-        {
-        }
-
-        public RuleManager(string instanceName, DataFolderFactory folderFactory)
         {
             Require.NotNullOrEmpty(instanceName, "instanceName");
-            Require.NotNull(folderFactory, "folderFactory");
 
             InstanceName = instanceName;
-            _folderFactory = folderFactory;
             _slots = new Lazy<Dictionary<string, DataFile>>(Reload, true);
         }
 
         private Dictionary<string, DataFile> Reload()
         {
             var dictionary = new Dictionary<string, DataFile>();
-            var folder = _folderFactory.GetFolder(CommerceDataFolderVirtualPaths.ForInstanceFolder(InstanceName, "Rules"), RulesFileFormat.Instance);
+            var folder = DataFolders.Instances.GetFolder(InstanceName).GetFolder("Rules", RulesFileFormat.Instance);
             if (folder.Exists)
             {
                 foreach (var file in folder.GetFiles("*.config"))
@@ -87,8 +79,11 @@ namespace Kooboo.Commerce.Rules
 
             if (!_slots.Value.ContainsKey(eventName))
             {
-                file = _folderFactory.GetFile(CommerceDataFolderVirtualPaths.ForInstanceFolder(InstanceName, "Rules/" + eventName + ".config"), RulesFileFormat.Instance)
-                                     .Cached(); // Cache file content
+                file = DataFolders.Instances
+                                  .GetFolder(InstanceName)
+                                  .GetFolder("Rules")
+                                  .GetFile(eventName + ".config", RulesFileFormat.Instance)
+                                  .Cached(); // Cache file content
                 _slots.Value.Add(eventName, file);
             }
             else
