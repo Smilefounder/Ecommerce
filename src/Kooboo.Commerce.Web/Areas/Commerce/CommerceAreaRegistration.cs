@@ -26,14 +26,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
                 , null
                 , new[] { "Kooboo.Commerce.Web.Areas.Commerce.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
             );
-            
-            var globalMenuFile = AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "GlobalMenu.config");
+
+            var globalMenuFile = AreaHelpers.CombineAreaFilePhysicalPath("Commerce", "CommerceGlobalMenu.config");
             if (File.Exists(globalMenuFile))
             {
-                Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(Kooboo.CMS.Sites.Extension.UI.GlobalSidebarMenu.ModuleGlobalSidebarMenuItemProvider.GetGlobalSidebarMenuTemplateName(AreaName), globalMenuFile);
+                MenuFactory.RegisterAreaMenu(Kooboo.CMS.Sites.Extension.UI.GlobalSidebarMenu.ModuleGlobalSidebarMenuItemProvider.GetGlobalSidebarMenuTemplateName(AreaName), globalMenuFile);
             }
-            MenuFactory.RegisterAreaMenu(AreaName, Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", AreaName, "InstanceMenu.config"));
 
+            MenuFactory.RegisterAreaMenu("Commerce", Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", AreaName, "CommerceInstanceMenu.config"));
 
             Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", AreaName, "WebResources.config"));
 

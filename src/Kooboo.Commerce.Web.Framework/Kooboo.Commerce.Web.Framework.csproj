@@ -44,6 +44,9 @@
     <Reference Include="Kooboo.CMS.Sites">
       <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Sites.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.CMS.Web">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
@@ -75,6 +78,8 @@
     <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
     <Compile Include="Http\TransactionalAttribute.cs" />
     <Compile Include="Mvc\AjaxFormResult.cs" />
+    <Compile Include="Mvc\CommerceAddinAreaRegistration.cs" />
+    <Compile Include="Mvc\CommerceAddinAreaRegistrationContext.cs" />
     <Compile Include="Mvc\CommerceController.cs" />
     <Compile Include="Mvc\EFContractResolver.cs" />
     <Compile Include="Mvc\ExternalPostResult.cs" />
@@ -83,7 +88,11 @@
     <Compile Include="Mvc\JsonNetResult.cs" />
     <Compile Include="Mvc\ModelBinding\BindingTypeAwareModelBinder.cs" />
     <Compile Include="Mvc\TransactionalAttribute.cs" />
+    <Compile Include="Mvc\ViewEngines\CommerceRazorViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Menu\CommerceGlobalMenuInjection.cs" />
+    <Compile Include="UI\Menu\CommerceInstanceMenuInjection.cs" />
+    <Compile Include="UI\Menu\CommerceInstanceMenuItemInitializer.cs" />
     <Compile Include="UI\MvcRoute.cs" />
     <Compile Include="UI\MvcRoutes.cs" />
     <Compile Include="UI\Tabs\Queries\CustomerTabQuery.cs" />

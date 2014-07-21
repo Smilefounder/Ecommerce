@@ -285,10 +285,12 @@
     <Compile Include="Areas\CommerceWebAPI\ViewModels\ApiInfo.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\AddinAreaRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\EventsAndActivitiesRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\CommerceDbProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\ConditionParameterProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\EventHandlerRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\MenuRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\TabQueryRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\CommerceInstanceRegistrar.cs" />
     <Compile Include="Areas\Commerce\Bootstrapping\TabPluginRegistrar.cs" />
@@ -404,8 +406,7 @@
     <Compile Include="Areas\Commerce\Common\Html\HeadPanelButtonCollectionExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\Html\IVisibleRule.cs" />
     <Compile Include="Areas\Commerce\Common\Html\SelectListExtensions.cs" />
-    <Compile Include="Areas\Commerce\Menu\CommerceMenuItemInitializer.cs" />
-    <Compile Include="Areas\Commerce\Menu\MediaLibraryInitializer.cs" />
+    <Compile Include="Areas\Commerce\Menu\EventsMenuInjection.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEntry.cs" />
@@ -416,7 +417,6 @@
     <Compile Include="Areas\Commerce\Models\Customers\CustomerCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CategoryDataSource.cs" />
     <Compile Include="Areas\Commerce\Menu\EventMenuItemInitializer.cs" />
-    <Compile Include="Areas\Commerce\Menu\EventMenuItems.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEditorModel.cs" />
@@ -3403,7 +3403,7 @@
     <Content Include="Areas\Commerce\Views\AddInManagement\Versions.cshtml" />
     <Content Include="Areas\Commerce\Views\AddInManagement\_ModuleNode.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_InstancesDropdown.cshtml" />
-    <Content Include="Areas\Commerce\GlobalMenu.config" />
+    <Content Include="Areas\Commerce\CommerceGlobalMenu.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\template.cshtml" />
     <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
@@ -3583,6 +3583,8 @@
     <Content Include="packages.config" />
     <Content Include="Areas\Commerce\Views\Shared\_ToolbarCommandConfigDialog.cshtml" />
     <Content Include="Areas\Commerce\Views\Toolbar\CommandConfig.cshtml" />
+    <Content Include="Areas\Sites\Templates\Layout\TAL\Default.zip" />
+    <Content Include="Areas\Sites\Views\Layout\LayoutPanelBlocks.cshtml.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />
@@ -3801,7 +3803,7 @@
     <Content Include="Views\Shared\_MenuItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\InstanceMenu.config" />
+    <Content Include="Areas\Commerce\CommerceInstanceMenu.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Grid2.cshtml" />
@@ -3911,6 +3913,12 @@
     <Content Include="Styles\support.less" />
     <Content Include="Styles\tabs.less" />
     <Content Include="Styles\ui.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="I18N\en-US.resx" />
+    <EmbeddedResource Include="I18N\ru-RU.resx" />
+    <EmbeddedResource Include="I18N\zh-CN.resx" />
+    <EmbeddedResource Include="I18N\zh-TW.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -5,22 +5,27 @@
 }
 
 <script type="text/html" id="tmpl-binding-convert">
-    <div class="item convert" data-bind="visible:!isImgTag()">
-        <p>Convert this element into:</p>
+    <div class="item convert" data-bind="visible:!isImgTag()&&!isFormTag()">
+        <p>@("Convert this element into".Localize()):</p>
         <ul class="radio-list" id="data-type-panel">
             <li data-bind="">
                 <input name="ConvertedType" id="data-type-label" flag="data-type" value="Label" type="radio">
-                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Label" for="data-type-label">Label</label>
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Label" for="data-type-label">@("Label".Localize())</label>
             </li>
             <li>
                 <input name="ConvertedType" id="data-type-data" flag="data-type" value="Data" type="radio">
-                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Data" for="data-type-data">Data</label>
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Data" for="data-type-data">@("Data".Localize())</label>
             </li>
             <li>
                 <input name="ConvertedType" id="data-type-rpt" flag="data-type" value="RepeatedItem" type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" value="RepeatedItem" for="data-type-rpt">
-                    Repeated
-                    item
+                    @("Repeated item".Localize())
+                </label>
+            </li>
+            <li data-bind="visible:false">
+                <input name="ConvertedType" id="data-type-form" flag="data-type" value="Form" type="radio">
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Form" for="data-type-form">
+                    @("Submission form".Localize())
                 </label>
             </li>
             <li data-bind="visible:false">
@@ -34,58 +39,58 @@
         </ul>
     </div>
     <div class="item convert" data-bind="visible:isImgTag()">
-        <p>Please select an image type:</p>
+        <p>@("Please select an image type".Localize()):</p>
         <ul class="form-list vertical">
             <li>
-                <input name="ImageType" id="data-type-staticimg" flag="data-type" value="StaticImg" type="radio">
+                <input name="ConvertedType" id="data-type-staticimg" flag="data-type" value="StaticImg" type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" value="StaticImg"
                        for="data-type-staticimg">
-                    Static
+                    @("Static".Localize())
                 </label>
             </li>
             <li>
-                <input name="ImageType" id="data-type-dynamicimg" flag="data-type" value="DynamicImg" type="radio">
-                <label class="inline" data-bind="click:dataItem.dataTypeChange" for="data-type-dynamicimg" value="DynamicImg">Dynamic</label>
+                <input name="ConvertedType" id="data-type-dynamicimg" flag="data-type" value="DynamicImg" type="radio">
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" for="data-type-dynamicimg" value="DynamicImg">@("Dynamic".Localize())</label>
             </li>
         </ul>
     </div>
+
 </script>
 
 <script type="text/html" id="tmpl-binding-editor">
     <div class="item file-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.staticImg">
         <div class="form-row">
             <div class="span4">
-                <label>Media library:</label>
+                <label>@("Media library".Localize()):</label>
             </div>
             <div class="span8">
-                <ul class="form-list images">
+                <ul class="form-list images" data-bind="visible:image.boundStaticImg()!=''">
                     <li>
                         <div class="file-thumbnail">
-                            <img src="images/demo-1.jpg">
-                            <a href="#" class="action">
-                                <img class="icon minus-small" src="images/invis.gif">
+                            <img data-bind="attr:{src:image.thumbnailSrc()}">
+                            <a href="#" class="action" data-bind="click:image.deleteTempStaticImg">
+                                @Html.IconImage("minus small")
                             </a>
                         </div>
                     </li>
                 </ul>
-                <a href="#" class="action">
-                    <img class="icon plus-small" src="images/invis.gif">
+                <span style="display:none" id="save-static-img-temp" data-bind="click:image._saveTempStaticImg"></span>
+                <a href="#" class="action" data-bind="click:image.showStaticImgs,visible:image.boundStaticImg()==''">
+                    @Html.IconImage("plus small")
                 </a>
             </div>
         </div>
     </div>
     <div class="item form-row" data-bind="visible:dataItem.dataType()==dataTypeEnum.dynamicImg">
         <div class="span4">
-            <label>File source:</label>
+            <label>@("File source".Localize()):</label>
         </div>
         <div class="span8">
-            <select>
-                <option>Product.Image</option>
-            </select>
+            <select class="data-simple" flag="datafield" data-bind="event:{change:dataItem.dataFieldChange},template:{data:$root,name:'tmpl-data-fields'}"></select>
         </div>
     </div>
     <div class="item label-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.label">
-        <textarea id="label-textarea" data-bind="value:utils.unescapeHTML(dataItem.dataContent()),event:{change:dataItem.labelTextChange}" class="autoresize">
+        <textarea id="label-textarea" data-bind="value:__utils__.unescapeHTML(dataItem.dataContent()),event:{change:dataItem.labelTextChange}" class="autoresize">
             Lorem ipsum dolor sit amet
         </textarea>
     </div>
@@ -115,7 +120,7 @@
     <div class="item link-editor" data-bind="visible:linkTo.isVisible()">
         <div class="form-row">
             <div class="span4">
-                <label>Link to:</label>
+                <label>@("Link to".Localize()):</label>
             </div>
             <div class="span8">
                 <select class="J_LinkType"
@@ -127,10 +132,10 @@
         <div class="form-row page-link"
              data-bind="visible:linkTo.chosenPage()!=externalLink&&linkTo.chosenPage()!=__conf__.defaultOption.name">
             <div class="span4">
-                <strong>Parameter</strong>
+                <strong>@("Parameter".Localize())</strong>
             </div>
             <div class="span8">
-                <strong>Value</strong>
+                <strong>@("Value".Localize())</strong>
             </div>
             <!-- ko foreach:{data:linkTo.parameters,as:'param'} -->
             <div class="span4" data-bind="html:param.name"></div>
@@ -151,7 +156,7 @@
     </div>
     <div class="item form-row" data-bind="visible:dataItem.dataType()==dataTypeEnum.repeater">
         <div class="span4">
-            <label>Repeated source:</label>
+            <label>@("Repeated source".Localize()):</label>
         </div>
         <div class="span8">
             <select id="sel-repeated-items"
@@ -163,10 +168,97 @@
             </select>
         </div>
     </div>
-    <!--</div>-->
+    <div class="item form-editor" data-bind="visible:isFormTag()">
+        <div class="form-row">
+            <div class="span4">
+                <label>Submit to:</label>
+            </div>
+            <div class="span8">
+                <select id="select-plugin-type" data-bind="foreach:{data:form.submissions,as:'submit'},value:form.chosenSubmission(),event:{change:form.submmsionChange}">
+                    <option data-bind="value:submit.name,text:submit.name"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="span4">
+                <label>Form type:</label>
+            </div>
+            <div class="span8">
+                <ul class="form-list vertical">
+                    <li>
+                        <input type="radio" name="ImageType" id="FormTypeNormal" value="Normal" checked="checked">
+                        <label class="inline" for="FormTypeNormal">Normal</label>
+                    </li>
+                    <li style="display:none">
+                        <input type="radio" name="ImageType" id="FormTypeAJAX" value="AJAX">
+                        <label class="inline" for="FormTypeAJAX">AJAX</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="span4">
+                <label>Redirect to:</label>
+            </div>
+            <div class="span8">
+                <select id="select-redirect-to" data-bind="foreach:{data:linkTo.pages,as:'page'},value:linkTo.chosenPage,event:{change:form.redirectToChange}">
+                    <option data-bind="value:page.name,text:page.name"></option>
+                </select>
+            </div>
+        </div>
+        <!--ko if: form.chosenSubmission()!=__conf__.defaultOption.name -->
+        <div class="fields">
+            <p class="info">Please select and bind the fields you want to submit:</p>
+            <!--ko foreach:{data:form.submissionSettings(),as:'set'} -->
+            <div class="field" data-bind="attr:{'param-name':set.key}">
+                <div class="form-row" type="submission-settings">
+                    <div class="span4">
+                        <label type="param-name" data-bind="html:set.key"></label>
+                    </div>
+                    <div class="span8">
+                        <div class="custom-select">
+                            @Html.IconImage("sprite")
+                            <span class="text" data-bind="html:__conf__.defaultOption.name">Please select</span>
+                            <a class="action" href="#" id="clear" style="display:none;" title="Clear" data-bind="click:$root.form.clearSelectedValue">@Html.IconImage("cross-mini")</a>
+                            <ul>
+                                <!--ko foreach:{data:$root.form.texts(),as:'text'} -->
+                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
+                                <!-- /ko -->
+                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" type="const-value" style="display:none;">
+                    <input type="text" name="const-value" placeholder="@("Default Value".Localize())" />
+                </div>
+                <div class="validation" type="input-valid" style="display:none;">
+                    <div class="form-row">
+                        <div class="span4">
+                            <label><input type="checkbox" name="check-required" rules="required" />Required</label>
+                        </div>
+                        <div class="span8">
+                            <input type="text" name="data-val-required" placeholder="@("Error Message".Localize())" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="span4">
+                            <label><input type="checkbox" name="check-regex" rules="regex,regex-pattern" />Regex</label>
+                        </div>
+                        <div class="span8">
+                            <input type="text" name="data-val-regex-pattern" placeholder="@("regex".Localize())" />
+                            <input class="top-margin" type="text" name="data-val-regex" placeholder="@("Error Message".Localize())" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ko-->
+        </div>
+        <!--/ko-->
+    </div>
     <p class="buttons" data-bind="visible:dataItem.dataType()!=dataTypeEnum.nothing">
-        <a class="button" href="#" data-bind="click:saveBindings">Save</a>
-        <a class="button gray" href="#" data-bind="click:cancelEdit">Cancel</a>
+        <a class="button" href="#" data-bind="click:saveBindings">@("Save".Localize())</a>
+        <a class="button gray" href="#" data-bind="click:cancelEdit">@("Cancel".Localize())</a>
     </p>
 </script>
 
@@ -179,7 +271,7 @@
                 <!-- ko if:$data.type==dataTypeEnum.label-->
                 <li>
                     @listButtons()
-                    <span data-bind="text:utils.unescapeHTML($data.tag.html())"></span>
+                    <span data-bind="text:__utils__.unescapeHTML($data.tag.html())"></span>
                 </li>
                 <!-- /ko -->
             </ul>
@@ -220,18 +312,22 @@
             <ul data-bind="foreach:boundTags()">
                 <!-- ko if:$data.type==dataTypeEnum.staticImg||$data.type==dataTypeEnum.dynamicImg-->
                 <li>
-                    <a href="#" title="Click to edit">
-                        <img src="images/demo-1.jpg" alt="Image">
+                    <a href="#" title="@("Click to edit".Localize())" data-bind="click:$root.editListItem">
+                        <!-- ko if:$data.type==dataTypeEnum.dynamicImg-->
+                        <img src="/Areas/Sites/Scripts/talEditor/images/thumbnail.png" alt="Image">
+                        <!-- /ko -->
+                        <!-- ko if:$data.type==dataTypeEnum.staticImg-->
+                        <img data-bind="attr:{src:$root.image.getThumbnailSrc(__parser__.analyseImage($data.tag).src)}" alt="Image">
+                        <!-- /ko -->
                     </a>
-                    <a class="action" href="#" title="Click to remove this image">
-                        <img src="images/invis.gif" class="icon minus-small" alt="Remove">
+                    <a class="action" href="#" title="@("Click to remove this image".Localize())" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">
+                        @Html.IconImage("minus small")
                     </a>
                 </li>
                 <!-- /ko -->
             </ul>
         </div>
     </div>
-
 </script>
 
 <script type="text/html" id="tmpl-code-dom">
