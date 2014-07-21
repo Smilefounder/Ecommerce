@@ -15,10 +15,7 @@
             <li class="query-tab" data-normal-link="true" data-query-id="@savedQuery.Id" data-index="@i">
                 <a href="#Query-@savedQuery.Id" data-href="@Url.Action("Index", RouteValues.From(Request.QueryString).Merge("queryId", savedQuery.Id))">
                     <span class="tab-title">@savedQuery.DisplayName</span>
-                    @if (query.ConfigType != null)
-                    {
-                        <span class="action" data-toggle="configure-query" data-query-id="@savedQuery.Id" title="@("Setting".Localize())">@Html.IconImage("setting-small-gray")</span>
-                    }
+                    <span class="action" data-toggle="configure-query" data-query-id="@savedQuery.Id" title="@("Setting".Localize())">@Html.IconImage("setting-small-gray")</span>
                     @if (savedQueries.Count > 1)
                     {
                         <span class="action remove" data-toggle="delete-query" data-query-id="@savedQuery.Id">@Html.IconImage("cross-mini-black")</span>
@@ -34,7 +31,7 @@
                 <ul>
                     @foreach (var query in Model.AvailableQueries)
                     {
-                        <li><a data-toggle="add-query" data-query-name="@query.Name" data-need-config="@(query.ConfigType == null ? "false" : "true")" href="#">@query.DisplayName</a></li>
+                        <li><a data-toggle="add-query" data-query-name="@query.Name" href="#">@query.DisplayName</a></li>
                     }
                 </ul>
             </div>
@@ -108,10 +105,10 @@
                     if ($tabs.tabs('option', 'active') == $li.data('index')) {
                         setTimeout(function () {
                             window.leaveConfirm.pass();
-                            location.href = location.href;
+                            navigateToTab(queryId);
                         }, 1000)
                     } else {
-                        $li.find('.tab-title').html(data.DisplayName);
+                        $li.find('.tab-title').html(data.displayName);
                     }
                 }
             });
@@ -142,25 +139,13 @@
 
         $(document).on('click', '[data-toggle="add-query"]', function () {
             var queryName = $(this).data('query-name');
-            var needConfig = $(this).data('need-config');
 
-            $.post('/Commerce/TabQuery/Add', {
+            TabQueryConfigDialog.instance().open({
                 pageName: '@Model.PageName',
-                queryName: queryName
-            })
-            .done(function (result) {
-                var queryId = result.QueryId;
-                if (needConfig) {
-                    TabQueryConfigDialog.instance().open({
-                        pageName: '@Model.PageName',
-                        queryId: queryId,
-                        onSubmitted: function () {
-                            window.leaveConfirm.pass();
-                            navigateToTab(queryId);
-                        }
-                    });
-                } else {
-                    navigateToTab(queryId);
+                queryName: queryName,
+                onSubmitted: function (result) {
+                    window.leaveConfirm.pass();
+                    navigateToTab(result.queryId);
                 }
             });
         });

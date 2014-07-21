@@ -49,7 +49,7 @@
 
                 self.init();
 
-                $.get('/Commerce/TabQuery/Config', { pageName: options.pageName, queryId: options.queryId })
+                $.get('/Commerce/TabQuery/Config', { pageName: options.pageName, queryName: options.queryName || null, queryId: options.queryId })
                  .done(function (html) {
                      $dialog.find('.query-config-form').html(html);
                      $form = $dialog.find('form');
@@ -72,7 +72,7 @@
                 }
 
                 return $.ajax({
-                    url: '/Commerce/TabQuery/Config?pageName=' + self.options.pageName + '&queryId=' + self.options.queryId,
+                    url: '/Commerce/TabQuery/Config?pageName=' + self.options.pageName + '&queryName=' + (self.options.queryName || null) + '&queryId=' + (self.options.queryId || ''),
                     type: 'POST',
                     data: $form.serializeArray()
                 })
@@ -80,7 +80,11 @@
                     info.show('@("Query settings successfully saved.".Localize())', true);
 
                     if (self.options.onSubmitted) {
-                        self.options.onSubmitted.apply(self, [result]);
+                        self.options.onSubmitted.apply(self, [{
+                            queryId: result.Id,
+                            displayName: result.DisplayName,
+                            config: result.Config
+                        }]);
                     }
 
                     self.close();

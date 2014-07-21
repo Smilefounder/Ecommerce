@@ -11,14 +11,29 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class TabQueryController : CommerceController
     {
-        public ActionResult Config(string pageName, string queryId)
+        public ActionResult Config(string pageName, string queryId, string queryName)
         {
             var manager = new SavedTabQueryManager();
-            var savedQuery = manager.Find(pageName, new Guid(queryId));
-            var query = TabQueries.GetQuery(savedQuery.QueryName);
-            if (savedQuery.Config == null)
+            ITabQuery query = null;
+            SavedTabQuery savedQuery = null;
+
+            if (!String.IsNullOrEmpty(queryId))
             {
-                savedQuery.Config = Activator.CreateInstance(query.ConfigType);
+                savedQuery = manager.Find(pageName, new Guid(queryId));
+                query = TabQueries.GetQuery(savedQuery.QueryName);
+                if (savedQuery.Config == null && query.ConfigType != null)
+                {
+                    savedQuery.Config = Activator.CreateInstance(query.ConfigType);
+                }
+            }
+            else
+            {
+                query = TabQueries.GetQuery(queryName);
+                savedQuery = new SavedTabQuery(queryName);
+                if (query.ConfigType != null)
+                {
+                    savedQuery.Config = Activator.CreateInstance(query.ConfigType);
+                }
             }
 
             ViewBag.Query = query;
@@ -27,29 +42,40 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxError]
-        public ActionResult Config(string pageName, string queryId, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config)
+        public ActionResult Config(string pageName, string queryName, string queryId, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config)
         {
             var manager = new SavedTabQueryManager();
-            var savedQuery = manager.Find(pageName, new Guid(queryId));
-            savedQuery.DisplayName = Request.Form["DisplayName"];
-            savedQuery.Config = config;
-            manager.Update(pageName, savedQuery);
-            return Json(savedQuery);
-        }
+            ITabQuery query = null;
+            SavedTabQuery savedQuery = null;
 
-        [HttpPost, HandleAjaxError]
-        public ActionResult Add(string pageName, string queryName)
-        {
-            var manager = new SavedTabQueryManager();
-            var query = TabQueries.GetQuery(queryName);
-            var savedQuery = SavedTabQuery.CreateFrom(query);
-            manager.Add(pageName, savedQuery);
-
-            return Json(new
+            if (!String.IsNullOrEmpty(queryId))
             {
-                QueryId = savedQuery.Id.ToString(),
-                DisplayName = savedQuery.DisplayName
-            });
+                savedQuery = manager.Find(pageName, new Guid(queryId));
+                query = TabQueries.GetQuery(savedQuery.QueryName);
+            }
+            else
+            {
+                savedQuery = new SavedTabQuery(queryName);
+                query = TabQueries.GetQuery(queryName);
+            }
+
+            savedQuery.DisplayName = Request.Form["DisplayName"];
+
+            if (query.ConfigType != null)
+            {
+                savedQuery.Config = config;
+            }
+
+            if (!String.IsNullOrEmpty(queryId))
+            {
+                manager.Update(pageName, savedQuery);
+            }
+            else
+            {
+                manager.Add(pageName, savedQuery);
+            }
+
+            return Json(savedQuery);
         }
 
         [HttpPost, HandleAjaxError]

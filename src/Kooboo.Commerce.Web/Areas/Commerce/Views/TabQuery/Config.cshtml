@@ -5,12 +5,16 @@
 <form class="common-form">
     @Html.Hidden("Id")
     @Html.Hidden("QueryName")
+    @if (query.ConfigType != null) { 
     <input type="hidden" name="Config.BindingType" value="@query.ConfigType.AssemblyQualifiedName" />
+    }
     <table>
         @Html.Editor("DisplayName")
-        @foreach (var property in query.ConfigType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
-        {
-            @Html.Editor("Config." + property.Name)
+        @if (query.ConfigType != null) { 
+            foreach (var property in query.ConfigType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+            {
+                @Html.Editor("Config." + property.Name)
+            }
         }
     </table>
 </form>

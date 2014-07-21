@@ -13,6 +13,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries
         public string QueryName { get; set; }
 
         [Display(Name = "Display name")]
+        [Required]
         public string DisplayName { get; set; }
 
         public int Order { get; set; }
@@ -21,17 +22,21 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries
 
         public object Config { get; set; }
 
-        public SavedTabQuery()
+        private SavedTabQuery()
         {
+        }
+
+        public SavedTabQuery(string queryName)
+        {
+            QueryName = queryName;
             Id = Guid.NewGuid();
             CreatedAtUtc = DateTime.UtcNow;
         }
 
         public static SavedTabQuery CreateFrom(ITabQuery query, string displayName = null)
         {
-            return new SavedTabQuery
+            return new SavedTabQuery(query.Name)
             {
-                QueryName = query.Name,
                 DisplayName = displayName,
                 Config = query.ConfigType == null ? null : Activator.CreateInstance(query.ConfigType)
             };
