@@ -19,17 +19,18 @@
                     {
                         <span class="action" data-toggle="configure-query" data-query-id="@savedQuery.Id" title="@("Setting".Localize())">@Html.IconImage("setting-small-gray")</span>
                     }
-                    @if (savedQueries.Count > 1) { 
-                        <span class="action" data-toggle="delete-query" data-query-id="@savedQuery.Id">@Html.IconImage("minus-small")</span>
+                    @if (savedQueries.Count > 1)
+                    {
+                        <span class="action remove" data-toggle="delete-query" data-query-id="@savedQuery.Id">@Html.IconImage("cross-mini-black")</span>
                     }
                 </a>
             </li>
         }
         <li>
-            <div class="button dropdown only-icon">
-                <a href="#" style="min-width:initial" class="dropdown-toggle">
+            <div class="button dropdown">
+                <span class="dropdown-toggle">
                     @Html.IconImage("plus-black")
-                </a>
+                </span>
                 <ul>
                     @foreach (var query in Model.AvailableQueries)
                     {

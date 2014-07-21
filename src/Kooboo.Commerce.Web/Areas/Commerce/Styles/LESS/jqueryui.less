@@ -38,20 +38,38 @@
 				line-height: 36px;
 				min-width: 100px;
 				padding: 0 12px;
+				position: relative;
 				text-align: center;
 				.rounded(3px 3px 0 0);
 
 				.action {
-					.opacity(50);
+					.opacity(30);
 
 					&:hover {
 						.opacity(100);
+					}
+
+					&.remove {
+						cursor: default;
+						line-height: 0;
+						position: absolute;
+						right: 3px;
+						top: 4px;
+						.opacity(0);
 					}
 				}
 
 				&:hover {
 					background: #EEE;
 					border-color: #EEE;
+
+					.action.remove {
+						.opacity(30);
+
+						&:hover {
+							.opacity(100);
+						}
+					}
 				}
 			}
 
@@ -67,6 +85,32 @@
 					font-weight: 400;
 					margin-bottom: -1px;
 					padding-bottom: 1px;
+				}
+			}
+		}
+
+		.button.dropdown {
+			background: #E5E5E5;
+			height: 37px;
+			min-width: 0;
+			padding: 0;
+
+			> span {
+				line-height: 0;
+				padding: 12px 14px;
+			}
+
+			ul {
+				top: 100%;
+
+				li {
+					float: none;
+					margin: 0;
+
+					a {
+						float: none;
+						text-align: left;
+					}
 				}
 			}
 		}
