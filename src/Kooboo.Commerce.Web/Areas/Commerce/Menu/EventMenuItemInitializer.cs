@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Kooboo.Web.Mvc;
+using Kooboo.Commerce.Web.Framework.UI.Menu;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 {
@@ -19,7 +20,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                 return false;
             }
 
-            if (menuItem is EventMenuItem && action.Equals("List", StringComparison.OrdinalIgnoreCase))
+            if (action.Equals("List", StringComparison.OrdinalIgnoreCase))
             {
                 var eventName = controllerContext.RequestContext.GetRequestValue("eventName");
                 return !String.IsNullOrEmpty(eventName) && eventName.Equals(menuItem.RouteValues["eventName"].ToString(), StringComparison.OrdinalIgnoreCase);

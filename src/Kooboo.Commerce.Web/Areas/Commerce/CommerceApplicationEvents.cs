@@ -5,6 +5,7 @@ using Kooboo.CMS.Common.Runtime.Mvc;
 using Kooboo.Commerce.Activities.Jobs;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Web.Framework.ComponentModel.DataAnnotations;
+using Kooboo.Commerce.Web.Framework.Mvc.ViewEngines;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,8 +25,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
             base.Application_Start(sender, e);
 
             // Mvc
-            DataAnnotationsModelValidatorProvider.RegisterAdapter(
-                typeof(RequiredIfAttribute), typeof(RequiredAttributeAdapter));
+            ViewEngines.Engines.Insert(0, new CommerceRazorViewEngine());
+
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(RequiredIfAttribute), typeof(RequiredAttributeAdapter));
 
             // Async Activity
             Kooboo.Job.Jobs.Instance.AttachJob(typeof(AsyncActivityExecutionJob).FullName, new AsyncActivityExecutionJob(), 30 * 1000, null);

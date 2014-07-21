@@ -10,7 +10,7 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.Web.Mvc.Menu;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
+namespace Kooboo.Commerce.Web.Framework.UI.Menu
 {
     public class CommerceMenuItemInitializer : AuthorizeMenuItemInitializer
     {
