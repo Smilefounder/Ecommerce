@@ -7,8 +7,9 @@ using Kooboo.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Commerce.Web.Framework;
 using Kooboo.Commerce.Web.Framework.UI.Toolbar;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
-namespace Kooboo.Commerce.Web.Html
+namespace Kooboo.Commerce.Web.Framework.UI.Html
 {
     public static class HeadPanelButtonCollectionExtensions
     {

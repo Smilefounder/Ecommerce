@@ -5,6 +5,7 @@ using System.Web;
 using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Commerce.Web.Framework.UI.Grid2;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands {
 
@@ -26,7 +27,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands {
             set;
         }
 
-        [GridColumn(GridItemColumnType = typeof(LinkedGridItemColumn))]
+        [LinkColumn("Edit")]
         public string Name {
             get;
             set;

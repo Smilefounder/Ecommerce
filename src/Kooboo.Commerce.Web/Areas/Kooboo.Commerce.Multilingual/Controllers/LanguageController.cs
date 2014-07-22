@@ -1,4 +1,6 @@
-﻿using Kooboo.Commerce.Web.Framework.Mvc;
+﻿using Kooboo.Commerce.Multilingual.Domain;
+using Kooboo.Commerce.Multilingual.Storage;
+using Kooboo.Commerce.Web.Framework.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,53 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 {
     public class LanguageController : CommerceController
     {
-        public ActionResult Index()
+        private ILanguageStore _languageStore;
+
+        public LanguageController(ILanguageStore languageStore)
         {
-            return View();
+            _languageStore = languageStore;
         }
 
+        public ActionResult Index()
+        {
+            var model = _languageStore.All().OrderBy(x => x.Name).ToList();
+            return View(model);
+        }
+
+        public ActionResult Create()
+        {
+            return View(new Language());
+        }
+
+        [HttpPost, HandleAjaxFormError]
+        public ActionResult Create(Language language, string @return)
+        {
+            _languageStore.Add(language);
+            return AjaxForm().RedirectTo(@return);
+        }
+
+        public ActionResult Edit(string name)
+        {
+            var model = _languageStore.Find(name);
+            return View(model);
+        }
+
+        [HttpPost, HandleAjaxFormError]
+        public ActionResult Edit(Language language, string @return)
+        {
+            _languageStore.Update(language);
+            return AjaxForm().RedirectTo(@return);
+        }
+
+        [HttpPost, HandleAjaxFormError]
+        public ActionResult Delete(Language[] model)
+        {
+            foreach (var lang in model)
+            {
+                _languageStore.Delete(lang.Name);
+            }
+
+            return AjaxForm().Success().ReloadPage();
+        }
     }
 }

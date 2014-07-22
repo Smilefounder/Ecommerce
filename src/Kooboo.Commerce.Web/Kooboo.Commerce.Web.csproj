@@ -353,7 +353,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Common\Tabs\Queries\Products\TopSold\TopSoldProductsConfig.cs" />
-    <Compile Include="Areas\Commerce\Common\RouteValues.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Common\SelectListItems.cs" />
     <Compile Include="Areas\Commerce\Common\Toolbar\Customers\DeleteCommand.cs" />
@@ -397,15 +396,6 @@
     <Compile Include="Areas\Commerce\Handlers\UploadHandler.ashx.cs">
       <DependentUpon>UploadHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Commerce\Common\Html\CommandType.cs" />
-    <Compile Include="Areas\Commerce\Common\Html\GridChecked.cs" />
-    <Compile Include="Areas\Commerce\Common\Html\HeaderPanel.cs" />
-    <Compile Include="Areas\Commerce\Common\Html\HeaderPanelButton.cs" />
-    <Compile Include="Areas\Commerce\Common\Html\HeaderPanelButtonCollection.cs" />
-    <Compile Include="Areas\Commerce\Common\Html\HeaderPanelHtmlExtensions.cs" />
-    <Compile Include="Areas\Commerce\Common\Html\HeadPanelButtonCollectionExtensions.cs" />
-    <Compile Include="Areas\Commerce\Common\Html\IVisibleRule.cs" />
-    <Compile Include="Areas\Commerce\Common\Html\SelectListExtensions.cs" />
     <Compile Include="Areas\Commerce\Menu\EventsMenuInjection.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryCustomFieldModel.cs" />
@@ -460,7 +450,6 @@
     <Compile Include="Areas\Commerce\Models\Settings\ProductSettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\SettingEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\StoreSettingEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\ShipmentTrackers\ShipmentTrackerRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\Extensions\ShippingRateProvidersExtensions.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\Grid2\ShippingMethodRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingMethodEditorModel.cs" />
@@ -485,9 +474,6 @@
     <Compile Include="Extensions\PagePlugin\PageExecuteSample.cs" />
     <Compile Include="Extensions\PagePlugin\PostGetSample.cs" />
     <Compile Include="Extensions\Submission\SubmissionPluginSample.cs" />
-    <Compile Include="Areas\Commerce\Grid2\BooleanGridColumnAttribute.cs" />
-    <Compile Include="Areas\Commerce\Grid2\LinkedGridItemColumn.cs" />
-    <Compile Include="Areas\Commerce\Grid2\LinkedGridColumnAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Areas\Commerce\Scripts\jquery.fileupload-fp.js" />
     <Content Include="Areas\Commerce\Scripts\jquery.fileupload-locale.js" />

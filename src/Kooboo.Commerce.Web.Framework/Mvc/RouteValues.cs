@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Routing;
 
-namespace Kooboo.Commerce.Web
+namespace Kooboo.Commerce.Web.Framework.Mvc
 {
     public static class RouteValues
     {

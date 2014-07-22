@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Html
+namespace Kooboo.Commerce.Web.Framework.UI.Html
 {
     public interface IVisibleRule
     {

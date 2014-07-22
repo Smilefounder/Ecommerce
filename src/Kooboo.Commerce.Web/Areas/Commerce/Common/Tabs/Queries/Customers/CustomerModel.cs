@@ -6,6 +6,7 @@ using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
+using Kooboo.Commerce.Web.Framework.UI.Grid2;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Customers
 {
@@ -18,7 +19,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Customers
 
         public string LastName { get; set; }
 
-        [GridColumn(GridItemColumnType = typeof(LinkedGridItemColumn))]
+        [LinkColumn("Edit")]
         public string Name
         {
             get

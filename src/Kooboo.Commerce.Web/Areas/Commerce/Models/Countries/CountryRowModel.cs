@@ -5,6 +5,7 @@ using System.Web;
 using Kooboo.Commerce.Locations;
 using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Commerce.Web.Framework.UI.Grid2;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries
 {
@@ -13,7 +14,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries
     {
         public int Id { get; set; }
 
-        [GridColumn(GridItemColumnType = typeof (LinkedGridItemColumn))]
+        [LinkColumn("Edit")]
         public string Name { get; set; }
 
         [GridColumn(HeaderText = "Three letter ISO code")]

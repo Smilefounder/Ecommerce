@@ -8,9 +8,9 @@ using System.Web;
 namespace Kooboo.Commerce.Web.Grid2
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class BooleanGridColumnAttribute : GridColumnAttribute
+    public class BooleanColumnAttribute : GridColumnAttribute
     {
-        public BooleanGridColumnAttribute()
+        public BooleanColumnAttribute()
         {
             GridItemColumnType = typeof(BooleanGridItemColumn);
         }

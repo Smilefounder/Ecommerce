@@ -1,0 +1,16 @@
+﻿@model Language
+@{
+    ViewBag.Title = "Edit Language".Localize();
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddCancelButton();
+    })
+}
+
+<div class="block common-form">
+    @Html.Partial("_Editor")
+</div>

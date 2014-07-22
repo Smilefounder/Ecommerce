@@ -1,5 +1,14 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model IEnumerable<Kooboo.Commerce.Multilingual.Domain.Language>
+@{
+    ViewBag.Title = "Languages".Localize();
 }
 
-<h2>Index</h2>
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddCreateButton();
+        buttons.AddDeleteButton();
+    })
+}
+
+@Html.GridForModel2()

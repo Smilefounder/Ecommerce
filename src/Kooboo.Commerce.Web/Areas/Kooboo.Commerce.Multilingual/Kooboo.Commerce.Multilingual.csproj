@@ -123,6 +123,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Domain\Language.cs" />
+    <Compile Include="Models\Language_Metadata.cs" />
+    <Compile Include="Storage\Default\DefaultLanguageStore.cs" />
+    <Compile Include="Storage\Default\MultilingualDataFolder.cs" />
+    <Compile Include="Storage\ILanguageStore.cs" />
     <Compile Include="MultilingualAreaRegistration.cs" />
     <Compile Include="MultilingualMenuInjection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,7 +146,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Content Include="Views\Language\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
@@ -165,6 +170,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Language\_Editor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Language\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Html
+namespace Kooboo.Commerce.Web.Framework.UI.Html
 {
     public static class HeaderPanelHtmlExtensions
     {

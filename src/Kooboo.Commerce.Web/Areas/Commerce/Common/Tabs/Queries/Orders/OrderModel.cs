@@ -8,12 +8,13 @@ using Kooboo.Commerce.Payments;
 using Kooboo.Web.Mvc.Grid2.Design;
 using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
+using Kooboo.Commerce.Web.Framework.UI.Grid2;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders
 {
     public class OrderModel : IOrderModel
     {
-        [LinkedGridColumn(TargetAction = "Detail")]
+        [LinkColumn("Detail")]
         public int Id { get; set; }
 
         public string CustomerFirstName { get; set; }

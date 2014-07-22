@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using Kooboo.Globalization;
 using System.Web.Routing;
 
-namespace Kooboo.Commerce.Web.Html
+namespace Kooboo.Commerce.Web.Framework.UI.Html
 {
     public class HeaderPanelButton : IHtmlString
     {

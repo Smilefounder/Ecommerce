@@ -1,0 +1,9 @@
+﻿@model Language
+
+@using (Html.BeginForm())
+{
+    <table>
+        @Html.EditorFor(m => m.Name)
+        @Html.EditorFor(m => m.DisplayName)
+    </table>
+}

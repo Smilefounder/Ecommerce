@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions.Grid2;
+using Kooboo.Commerce.Web.Framework.UI.Grid2;
 using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;
 using System;
@@ -14,7 +15,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
     {
         public int Id { get; set; }
 
-        [LinkedGridColumn(TargetAction = "BasicInfo")]
+        [LinkColumn("BasicInfo")]
         public string Name { get; set; }
 
         [GridColumn(HeaderText = "Coupon code")]
@@ -23,7 +24,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions
         [GridColumn]
         public int Priority { get; set; }
 
-        [BooleanGridColumn(HeaderText = "Enabled")]
+        [BooleanColumn(HeaderText = "Enabled")]
         public bool IsEnabled { get; set; }
 
         public bool IsSelected { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods.Grid2;
+using Kooboo.Commerce.Web.Framework.UI.Grid2;
 using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;
 using System;
@@ -14,13 +15,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods
     {
         public int Id { get; set; }
 
-        [LinkedGridColumn(TargetAction = "BasicInfo")]
+        [LinkColumn("BasicInfo")]
         public string Name { get; set; }
 
         [GridColumn(HeaderText = "Shipping rate provider")]
         public string ShippingRateProviderName { get; set; }
 
-        [BooleanGridColumn(HeaderText = "Enabled")]
+        [BooleanColumn(HeaderText = "Enabled")]
         public bool IsEnabled { get; set; }
     }
 }
