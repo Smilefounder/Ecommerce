@@ -13,15 +13,17 @@ namespace Kooboo.Commerce.Globalization
     {
         public Type EntityType { get; private set; }
 
-        public object[] Values { get; private set; }
+        // Entity might use composite keys, but that'll complicate things.
+        // And it's not often used. So we force to not use composite keys to simplify things.
+        public object Value { get; private set; }
 
-        public EntityKey(Type entityType, object[] values)
+        public EntityKey(Type entityType, object value)
         {
             Require.NotNull(entityType, "entityType");
-            Require.NotNull(values, "values");
+            Require.NotNull(value, "value");
 
             EntityType = entityType;
-            Values = values;
+            Value = value;
         }
 
         public bool Equals(EntityKey other)
@@ -31,20 +33,7 @@ namespace Kooboo.Commerce.Globalization
                 return false;
             }
 
-            if (other.Values.Length != Values.Length)
-            {
-                return false;
-            }
-
-            for (var i = 0; i < Values.Length; i++)
-            {
-                if (!other.Values[i].Equals(Values[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return Value.Equals(other.Value);
         }
 
         public override bool Equals(object obj)
@@ -56,25 +45,18 @@ namespace Kooboo.Commerce.Globalization
         {
             unchecked
             {
-                var hash = EntityType.GetHashCode();
-                for (var i = 0; i < Values.Length; i++)
-                {
-                    hash *= 397;
-                    hash ^= Values[i].GetHashCode();
-                }
-
-                return hash;
+                return (EntityType.GetHashCode() * 397) ^ Value.GetHashCode();
             }
         }
 
         public override string ToString()
         {
-            return EntityType.Name + "|" + String.Join("-", Values);
+            return EntityType.Name + "|" + Value;
         }
 
         #region Factory
 
-        static readonly ConcurrentDictionary<Type, List<PropertyInfo>> _cache = new ConcurrentDictionary<Type, List<PropertyInfo>>();
+        static readonly ConcurrentDictionary<Type, PropertyInfo> _cache = new ConcurrentDictionary<Type, PropertyInfo>();
 
         public static EntityKey Get<T>(T entity)
             where T : class
@@ -91,28 +73,23 @@ namespace Kooboo.Commerce.Globalization
         {
             Require.NotNull(entity, "entity");
 
-            var props = GetKeyProperties(entityType);
-            if (props.Count == 0)
-                throw new InvalidOperationException("No key is defined in type " + entity.GetType() + ".");
+            var prop = GetKeyProperty(entityType);
+            if (prop == null)
+                throw new InvalidOperationException("Cannot find id proeprty from entity " + entityType + ".");
 
-            var idValues = new object[props.Count];
-            for (var i = 0; i < props.Count; i++)
-            {
-                idValues[i] = props[i].GetValue(entity, null);
-            }
+            var value = prop.GetValue(entity, null);
 
-            return new EntityKey(entityType, idValues);
+            return new EntityKey(entityType, value);
         }
 
-        public static IList<PropertyInfo> GetKeyProperties(Type type)
+        public static PropertyInfo GetKeyProperty(Type type)
         {
             Require.NotNull(type, "type");
-            return _cache.GetOrAdd(type, LoadKeyProperties).ToList();
+            return _cache.GetOrAdd(type, LoadKeyProperty);
         }
 
-        static List<PropertyInfo> LoadKeyProperties(Type entityType)
+        static PropertyInfo LoadKeyProperty(Type entityType)
         {
-            var props = new List<PropertyInfo>();
             PropertyInfo conventionIdProp = null;
 
             foreach (var prop in entityType.GetProperties())
@@ -120,7 +97,7 @@ namespace Kooboo.Commerce.Globalization
                 var attr = prop.GetCustomAttribute<KeyAttribute>(false);
                 if (attr != null)
                 {
-                    props.Add(prop);
+                    return prop;
                 }
 
                 if (prop.Name == "Id")
@@ -130,12 +107,7 @@ namespace Kooboo.Commerce.Globalization
             }
 
             // If no explicit keys defined, use the conventional "Id" property as key
-            if (props.Count == 0)
-            {
-                props.Add(conventionIdProp);
-            }
-
-            return props;
+            return conventionIdProp;
         }
 
         #endregion

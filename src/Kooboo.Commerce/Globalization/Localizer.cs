@@ -19,33 +19,31 @@ namespace Kooboo.Commerce
             where T : class, ILocalizable
             where TTarget: class
         {
-            var originalPropertyTexts = new Dictionary<EntityProperty, string>();
+            IDictionary<EntityKey, EntityTextInfo> textInfos = new Dictionary<EntityKey, EntityTextInfo>();
             foreach (var entity in entities)
             {
-                foreach (var each in GetEntityPropertiesWithOriginalTexts<T>(entity, properties))
-                {
-                    originalPropertyTexts.Add(each.Key, each.Value);
-                }
+                var textInfo = GetTextInfo<T>(entity, properties);
+                textInfos.Add(textInfo.EntityKey, textInfo);
             }
 
-            var propertyTexts = GetTexts(originalPropertyTexts, culture);
+            textInfos = GetTextInfos(textInfos, culture);
             var targetsByKey = new Dictionary<EntityKey, object>();
 
             foreach (var target in targets)
             {
                 var targetKey = EntityKey.Get<TTarget>(target);
                 // Change key type to orignal entity type, so we can compare them later
-                targetKey = new EntityKey(typeof(T), targetKey.Values);
+                targetKey = new EntityKey(typeof(T), targetKey.Value);
                 targetsByKey.Add(targetKey, target);
             }
 
-            foreach (var each in propertyTexts)
+            foreach (var each in textInfos)
             {
-                var target = targetsByKey[each.Key.EntityKey];
-                var prop = TypeHelper.GetProperty(target.GetType(), each.Key.Name);
-                if (prop != null)
+                var target = targetsByKey[each.Key];
+                foreach (var propText in each.Value.PropertyTexts)
                 {
-                    prop.SetValue(target, each.Value, null);
+                    var prop = TypeHelper.GetProperty(target.GetType(), propText.Key);
+                    prop.SetValue(target, propText.Value, null);
                 }
             }
         }
@@ -76,15 +74,16 @@ namespace Kooboo.Commerce
         public static IDictionary<string, string> GetTexts<T>(this T entity, IEnumerable<string> properties, CultureInfo culture)
             where T : class, ILocalizable
         {
-            var result = GetTexts(GetEntityPropertiesWithOriginalTexts<T>(entity, properties), culture);
-            return result.ToDictionary(x => x.Key.Name, x => x.Value);
+            var textInfo = GetTextInfo<T>(entity, properties);
+            var result = GetTextInfos(new Dictionary<EntityKey, EntityTextInfo> { { textInfo.EntityKey, textInfo } }, culture);
+            return result[textInfo.EntityKey].PropertyTexts;
         }
 
-        static IDictionary<EntityProperty, string> GetEntityPropertiesWithOriginalTexts<T>(T entity, IEnumerable<string> properties)
+        static EntityTextInfo GetTextInfo<T>(T entity, IEnumerable<string> properties)
             where T : class, ILocalizable
         {
             var entityKey = EntityKey.Get<T>(entity);
-            var entityProperties = new Dictionary<EntityProperty, string>();
+            var entityProperties = new Dictionary<string, string>();
 
             foreach (var propName in properties)
             {
@@ -92,42 +91,18 @@ namespace Kooboo.Commerce
                 if (prop != null)
                 {
                     var value = prop.GetValue(entity, null) as string;
-                    entityProperties.Add(new EntityProperty(propName, entityKey), value);
+                    entityProperties.Add(propName, value);
                 }
             }
 
-            return entityProperties;
+            return new EntityTextInfo(entityKey, entityProperties);
         }
 
-        static IDictionary<EntityProperty, string> GetTexts(IDictionary<EntityProperty, string> originalTexts, CultureInfo culture)
+        static IDictionary<EntityKey, EntityTextInfo> GetTextInfos(IDictionary<EntityKey, EntityTextInfo> originalTextInfos, CultureInfo culture)
         {
-            var @event = new GetTexts(originalTexts, culture);
+            var @event = new GetText(originalTextInfos, culture);
             Event.Raise(@event);
-            return @event.Texts;
-        }
-
-        public static void NotifyOriginalTextChanged<T>(this T entity, string property)
-            where T : class, ILocalizable
-        {
-            NotifyOriginalTextsChanged(entity, new[] { property });
-        }
-
-        public static void NotifyOriginalTextsChanged<T>(this T entity, IEnumerable<string> properties)
-            where T : class, ILocalizable
-        {
-            var entityKey = EntityKey.Get<T>(entity);
-            var texts = new Dictionary<EntityProperty, string>();
-            foreach (var propName in properties)
-            {
-                var prop = TypeHelper.GetProperty(entityKey.EntityType, propName);
-                if (prop != null)
-                {
-                    var propValue = prop.GetValue(entity, null) as string;
-                    texts.Add(new EntityProperty(propName, entityKey), propValue);
-                }
-            }
-
-            Event.Raise(new OriginalTextsChanged(texts));
+            return @event.TextInfos;
         }
     }
 }

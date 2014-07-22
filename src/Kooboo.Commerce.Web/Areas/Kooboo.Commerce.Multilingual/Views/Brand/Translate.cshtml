@@ -1,0 +1,51 @@
+﻿@model BrandTranslation
+@{
+    ViewBag.Title = "Translate brand".Localize();
+    
+    var compared = ViewBag.Compared as BrandTranslation;
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddCancelButton();
+    })
+}
+
+<div class="common-form">
+    @using (Html.BeginForm()) { 
+        @Html.HiddenFor(m => m.Id)
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@("Original".Localize())</th>
+                    <th>@("Translated".Localize())</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@("Name".Localize())</td>
+                    <td>
+                        @compared.Name
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Name)
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td>@("Description".Localize())</td>
+                    <td>
+                        @compared.Description
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(m => m.Description)
+                        @Html.ValidationMessageFor(m => m.Description)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>

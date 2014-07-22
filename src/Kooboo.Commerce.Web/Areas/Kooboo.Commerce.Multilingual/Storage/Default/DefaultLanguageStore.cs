@@ -19,6 +19,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Default
             return MultilingualDataFolder.GetLanguagesFolder(CurrentInstance().Name)
                                          .GetFolders()
                                          .Select(f => f.GetFile("settings.config").Read<Language>())
+                                         .Where(f => f != null)
                                          .ToList();
         }
 

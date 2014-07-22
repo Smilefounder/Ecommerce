@@ -1,0 +1,17 @@
+﻿using Kooboo.Commerce.Globalization;
+using Kooboo.Commerce.Multilingual.Domain;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web;
+
+namespace Kooboo.Commerce.Multilingual.Storage
+{
+    public interface ITranslationStore
+    {
+        EntityTransaltion[] Find(CultureInfo culture, params EntityKey[] keys);
+
+        void AddOrUpdate(CultureInfo culture, EntityKey key, IDictionary<string, string> propertyTranslations);
+    }
+}

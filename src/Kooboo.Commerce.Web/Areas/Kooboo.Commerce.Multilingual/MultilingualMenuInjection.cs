@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Multilingual.Domain;
 using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.Commerce.Web.Framework.UI.Menu;
 using Kooboo.Web.Mvc.Menu;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Routing;
 
 namespace Kooboo.Commerce.Multilingual
 {
@@ -46,32 +48,38 @@ namespace Kooboo.Commerce.Multilingual
                 };
 
                 root.Items.Add(langItem);
-                AddLanguageChildItems(langItem);
+                AddLanguageChildItems(langItem, lang);
             }
         }
 
-        private void AddLanguageChildItems(MenuItem langItem)
+        private void AddLanguageChildItems(MenuItem langItem, Language lang)
         {
+            var routeValues = new RouteValueDictionary();
+            routeValues.Add("culture", lang.Name);
+
             langItem.Items.Add(new MenuItem
             {
                 Text = "Brands",
                 Controller = "Brand",
                 Action = "Index",
-                Area = Strings.AreaName
+                Area = Strings.AreaName,
+                RouteValues = routeValues
             });
             langItem.Items.Add(new MenuItem
             {
                 Text = "Categories",
                 Controller = "Category",
                 Action = "Index",
-                Area = Strings.AreaName
+                Area = Strings.AreaName,
+                RouteValues = routeValues
             });
             langItem.Items.Add(new MenuItem
             {
                 Text = "Products",
                 Controller = "Product",
                 Action = "Index",
-                Area = Strings.AreaName
+                Area = Strings.AreaName,
+                RouteValues = routeValues
             });
         }
     }
