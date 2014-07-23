@@ -1,13 +1,14 @@
-﻿using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Orders;
+﻿using Kooboo.Commerce.Customers;
+using Kooboo.Commerce.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Framework.UI.Toolbar
+namespace Kooboo.Commerce.Web.Framework.UI.Topbar
 {
-    public abstract class OrderToolbarCommand : IToolbarCommand
+    public abstract class CustomerTopbarCommand : ITopbarCommand
     {
         public abstract string Name { get; }
 
@@ -43,22 +44,22 @@ namespace Kooboo.Commerce.Web.Framework.UI.Toolbar
         {
             get
             {
-                yield return MvcRoutes.Orders.All();
+                yield return MvcRoutes.Customers.All();
             }
         }
 
-        public abstract bool IsVisible(Order order, CommerceInstance instance);
+        public abstract bool CanExecute(Customer customer, CommerceInstance instance);
 
-        bool IToolbarCommand.CanExecute(object context, CommerceInstance instance)
+        bool ITopbarCommand.CanExecute(object dataItem, CommerceInstance instance)
         {
-            return IsVisible(context as Order, instance);
+            return CanExecute(dataItem as Customer, instance);
         }
 
-        public abstract ToolbarCommandResult Execute(Order order, object config, CommerceInstance instance);
+        public abstract ActionResult Execute(IEnumerable<Customer> customers, object config, CommerceInstance instance);
 
-        ToolbarCommandResult IToolbarCommand.Execute(object data, object config, CommerceInstance instance)
+        ActionResult ITopbarCommand.Execute(IEnumerable<object> dataItems, object config, CommerceInstance instance)
         {
-            return Execute(data as Order, config, instance);
+            return Execute(dataItems.OfType<Customer>(), config, instance);
         }
     }
 }

@@ -3,6 +3,7 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Data.Context;
 using Kooboo.Commerce.Data.Folders;
 using Kooboo.Commerce.Data.Initialization;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace Kooboo.Commerce.Infrastructure.Dependencies
         {
             // Current instance providers
             containerManager.AddComponent(typeof(ICurrentInstanceProvider), typeof(ThreadScopeCurrentInstanceProvider), "ThreadScopeCurrentInstanceProvider", ComponentLifeStyle.Singleton);
-            containerManager.AddComponent(typeof(ICurrentInstanceProvider), typeof(HttpCurrentInstanceProvider), "HttpCurrentInstanceProvider", ComponentLifeStyle.Transient);
+            containerManager.AddComponent(typeof(ICurrentInstanceProvider), typeof(SiteAwareHttpCurrentInstanceProvider), "SiteAwareHttpCurrentInstanceProvider", ComponentLifeStyle.Transient);
 
             // Data folder factory
             containerManager.AddComponentInstance<DataFolderFactory>(DataFolderFactory.Current);

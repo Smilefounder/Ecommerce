@@ -45,6 +45,12 @@ namespace Kooboo.Commerce.Web.Framework.Mvc
             return this;
         }
 
+        public AjaxFormResult WithMessage(string message)
+        {
+            Data.AddMessage(message);
+            return this;
+        }
+
         public override void ExecuteResult(ControllerContext context)
         {
             var result = new JsonResult

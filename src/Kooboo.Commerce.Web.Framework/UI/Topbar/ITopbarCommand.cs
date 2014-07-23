@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Framework.UI.Toolbar
+namespace Kooboo.Commerce.Web.Framework.UI.Topbar
 {
-    public interface IToolbarCommand
+    public interface ITopbarCommand
     {
         string Name { get; }
 
@@ -23,8 +24,8 @@ namespace Kooboo.Commerce.Web.Framework.UI.Toolbar
 
         IEnumerable<MvcRoute> ApplyTo { get; }
 
-        bool CanExecute(object data, CommerceInstance instance);
+        bool CanExecute(object dataItem, CommerceInstance instance);
 
-        ToolbarCommandResult Execute(object data, object config, CommerceInstance instance);
+        ActionResult Execute(IEnumerable<object> dataItems, object config, CommerceInstance instance);
     }
 }

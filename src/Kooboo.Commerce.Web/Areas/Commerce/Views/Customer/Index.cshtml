@@ -8,7 +8,7 @@
     @(Html.HeaderPanel().Buttons(buttons =>
     {
         buttons.AddCreateButton();
-        buttons.AddToolbarCommands(ToolbarCommands.GetCommands(ViewContext.Controller.ControllerContext));
+        buttons.AddTopbarCommands(TopbarCommands.GetCommands(ViewContext.Controller.ControllerContext));
     }))
 }
 

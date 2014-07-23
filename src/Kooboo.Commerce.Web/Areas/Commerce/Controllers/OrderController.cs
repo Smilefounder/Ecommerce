@@ -9,8 +9,8 @@ using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Framework.UI.Toolbar;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar;
+using Kooboo.Commerce.Web.Framework.UI.Topbar;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
@@ -77,13 +77,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult ExecuteToolbarCommand(string commandName, OrderModel[] model, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config = null)
         {
-            var command = ToolbarCommands.GetCommand(commandName);
+            var command = TopbarCommands.GetCommand(commandName);
             var orders = model.Select(m => _orderService.GetById(m.Id)).ToList();
-            var results = ToolbarCommandHelper.SafeExecute(command, config, orders, CommerceInstance.Current);
+            var result = command.Execute(orders, config, CommerceInstance.Current);
+            if (result == null)
+            {
+                result = AjaxForm().ReloadPage();
+            }
 
-            command.SetDefaultCommandConfig(config);
+            command.UpdateDefaultCommandConfig(config);
 
-            return AjaxForm().WithModel(results).ReloadPage();
+            return result;
         }
 
         [HttpGet]
@@ -91,7 +95,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var order = _orderService.GetById(id);
 
-            ViewBag.ToolbarCommands = ToolbarCommands.GetCommands(ControllerContext, order, CurrentInstance).ToList();
+            ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, order, CurrentInstance).ToList();
             ViewBag.Return = "/Commerce/Order?siteName=" + Request.QueryString["siteName"] + "&instance=" + Request.QueryString["instance"];
  
             return View(order);

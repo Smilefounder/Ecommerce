@@ -8,7 +8,7 @@
 
     @Html.HeaderPanel().Buttons(buttons =>
     {
-        buttons.AddToolbarCommands(ViewBag.ToolbarCommands as IEnumerable<IToolbarCommand>, Model.Id);
+        buttons.AddTopbarCommands(ViewBag.ToolbarCommands as IEnumerable<ITopbarCommand>, Model.Id);
         buttons.AddBackButton();
     })
 }

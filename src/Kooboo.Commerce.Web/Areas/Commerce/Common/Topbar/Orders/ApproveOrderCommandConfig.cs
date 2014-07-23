@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Orders
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar.Orders
 {
     public class ApproveOrderCommandConfig
     {

@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Data.Context
             return instance;
         }
 
-        static string GetInstanceName(HttpContextBase httpContext)
+        protected virtual string GetInstanceName(HttpContextBase httpContext)
         {
             var instanceName = httpContext.Items["instance"] as string;
 

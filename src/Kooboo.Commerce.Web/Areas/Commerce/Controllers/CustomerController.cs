@@ -8,8 +8,8 @@ using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Customers;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Framework.UI.Toolbar;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar;
+using Kooboo.Commerce.Web.Framework.UI.Topbar;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries;
 using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Customers;
@@ -69,13 +69,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult ExecuteToolbarCommand(string commandName, CustomerModel[] model, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config = null)
         {
-            var command = ToolbarCommands.GetCommand(commandName);
+            var command = TopbarCommands.GetCommand(commandName);
             var customers = model.Select(m => _customerService.GetById(m.Id)).ToList();
-            var results = ToolbarCommandHelper.SafeExecute(command, config, customers, CommerceInstance.Current);
+            var result = command.Execute(customers, config, CommerceInstance.Current);
+            if (result == null)
+            {
+                result = AjaxForm().ReloadPage();
+            }
 
-            command.SetDefaultCommandConfig(config);
+            command.UpdateDefaultCommandConfig(config);
 
-            return AjaxForm().WithModel(results).ReloadPage();
+            return result;
         }
 
         public ActionResult Create()
@@ -87,7 +91,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var customer = _customerService.GetById(id);
 
-            ViewBag.ToolbarCommands = ToolbarCommands.GetCommands(ControllerContext, customer, CurrentInstance);
+            ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, customer, CurrentInstance);
 
             return View("Edit");
         }

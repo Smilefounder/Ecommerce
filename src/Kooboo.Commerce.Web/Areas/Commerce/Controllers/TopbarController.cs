@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.Web.Framework.UI.Toolbar;
+﻿using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +7,11 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class ToolbarController : Controller
+    public class TopbarController : Controller
     {
         public ActionResult CommandConfig(string commandName)
         {
-            var command = ToolbarCommands.GetCommand(commandName);
+            var command = TopbarCommands.GetCommand(commandName);
             var config = command.GetDefaultConfig() ?? Activator.CreateInstance(command.ConfigType);
 
             ViewBag.Command = command;

@@ -1,13 +1,13 @@
 ﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Rules.Activities;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Orders.Events;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar.Orders.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Orders
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar.Orders
 {
     public class MarkApprovedActivity : Activity<ApproveOrder>
     {

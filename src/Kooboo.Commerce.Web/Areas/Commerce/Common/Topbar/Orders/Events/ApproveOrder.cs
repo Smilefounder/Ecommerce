@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Orders.Events
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar.Orders.Events
 {
     [ActivityEvent(Category = "Orders", Order = 800)]
     public class ApproveOrder : Event

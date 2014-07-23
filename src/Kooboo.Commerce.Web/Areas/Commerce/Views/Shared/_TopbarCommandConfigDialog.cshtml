@@ -1,5 +1,5 @@
 ﻿<div class="hide">
-    <div id="toolbar-command-config-dialog">
+    <div id="topbar-command-config-dialog">
         <div class="dialog-body"></div>
         <div class="buttons">
             <a href="#" class="button right gray" data-toggle="cancel-config">@("Cancel".Localize())</a>
@@ -26,7 +26,7 @@
 
                 $button.on('click', function () {
                     if ($button.data('need-config') == true) {
-                        window.ToolbarCommandConfigDialog.instance().open(options);
+                        window.TopbarCommandConfigDialog.instance().open(options);
                     } else {
                         executeCommand(options);
                     }
@@ -34,7 +34,7 @@
             });
         });
 
-        window.ToolbarCommandConfigDialog = function () {
+        window.TopbarCommandConfigDialog = function () {
             var self = this;
             var $dialog = null;
             var $form = null;
@@ -46,7 +46,7 @@
                     return;
                 }
 
-                $dialog = $('#toolbar-command-config-dialog').dialog({
+                $dialog = $('#top-command-config-dialog').dialog({
                     modal: true,
                     autoOpen: false
                 });
@@ -67,7 +67,7 @@
 
                 $dialog.find('[data-toggle="submit-config"]').html(self.options.buttonText);
 
-                $.get('/Commerce/Toolbar/CommandConfig', { commandName: self.options.commandName })
+                $.get('/Commerce/Topbar/CommandConfig', { commandName: self.options.commandName })
                  .done(function (html) {
                      $dialog.find('.dialog-body').replaceWith(html);
                      $form = $dialog.find('form');
@@ -129,33 +129,7 @@
 
             $.post('@Url.Action("ExecuteToolbarCommand")?commandName=' + options.commandName, data, function (data, textStatus, jqXHR, postData) {
                 window.loading.hide();
-
-                if (!data.Success) {
-                    info.show(data.Messages.join('<br/>'), false);
-                    return false;
-                }
-
-                var results = data.Model;
-                var hasErrors = false;
-
-                if (results.length > 0) {
-                    $.each(results, function () {
-                        if (this.Messages.length > 0) {
-                            info.show(this.Messages.join('<br/>'), this.Success);
-                        }
-
-                        if (!this.Success) {
-                            hasErrors = true;
-                        }
-                    });
-
-                    // Don't reload if any error occurs
-                    if (!hasErrors) {
-                        setTimeout(reloadPage, 1500);
-                    }
-                } else {
-                    reloadPage();
-                }
+                parse_JsonResultData(data, textStatus, jqXHR);
 
             }, 'json');
         }
@@ -164,9 +138,9 @@
             location.href = location.href.replace(/#+$/, '');
         }
 
-        var instance = new window.ToolbarCommandConfigDialog();
+        var instance = new window.TopbarCommandConfigDialog();
 
-        window.ToolbarCommandConfigDialog.instance = function () {
+        window.TopbarCommandConfigDialog.instance = function () {
             return instance;
         }
 

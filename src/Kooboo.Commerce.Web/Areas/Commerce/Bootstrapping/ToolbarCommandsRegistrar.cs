@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Web.Framework.UI.Toolbar;
+using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +19,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Bootstrapping
 
         public void Register(IContainerManager containerManager, CMS.Common.Runtime.ITypeFinder typeFinder)
         {
-            foreach (var type in typeFinder.FindClassesOfType<IToolbarCommand>())
+            foreach (var type in typeFinder.FindClassesOfType<ITopbarCommand>())
             {
-                containerManager.AddComponent(typeof(IToolbarCommand), type, type.FullName, ComponentLifeStyle.Transient);
+                containerManager.AddComponent(typeof(ITopbarCommand), type, type.FullName, ComponentLifeStyle.Transient);
             }
         }
     }

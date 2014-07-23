@@ -1,14 +1,17 @@
 ﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Customers.Services;
-using Kooboo.Commerce.Web.Framework.UI.Toolbar;
+using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Customers
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar.Customers
 {
-    public class DeleteCommand : CustomerToolbarCommand
+    public class DeleteCommand : CustomerTopbarCommand
     {
         public override string Name
         {
@@ -38,19 +41,23 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Customers
         {
             get
             {
-                return "Are you sure to delete this customer?";
+                return "Are you sure to delete selected customers?";
             }
         }
 
-        public override bool CanExecute(Kooboo.Commerce.Customers.Customer customer, Data.CommerceInstance instance)
+        public override bool CanExecute(Kooboo.Commerce.Customers.Customer customer, CommerceInstance instance)
         {
             return true;
         }
 
-        public override ToolbarCommandResult Execute(Kooboo.Commerce.Customers.Customer customer, object config, Data.CommerceInstance instance)
+        public override ActionResult Execute(IEnumerable<Customer> customers, object config, CommerceInstance instance)
         {
             var service = EngineContext.Current.Resolve<ICustomerService>();
-            service.Delete(customer);
+            foreach (var customer in customers)
+            {
+                service.Delete(customer);
+            }
+
             return null;
         }
     }

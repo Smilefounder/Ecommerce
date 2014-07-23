@@ -11,8 +11,8 @@ using Kooboo.CMS.Common;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Web.Framework.Mvc;
-using Kooboo.Commerce.Web.Framework.UI.Toolbar;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar;
+using Kooboo.Commerce.Web.Framework.UI.Topbar;
+using Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products;
@@ -82,13 +82,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult ExecuteToolbarCommand(string commandName, ProductModel[] model, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config = null)
         {
-            var command = ToolbarCommands.GetCommand(commandName);
+            var command = TopbarCommands.GetCommand(commandName);
             var products = model.Select(m => _productService.GetById(m.Id)).ToList();
-            var results = ToolbarCommandHelper.SafeExecute(command, config, products, CommerceInstance.Current);
+            var result = command.Execute(products, config, CommerceInstance.Current);
+            if (result == null)
+            {
+                result = AjaxForm().ReloadPage();
+            }
 
-            command.SetDefaultCommandConfig(config);
+            command.UpdateDefaultCommandConfig(config);
 
-            return AjaxForm().WithModel(results).ReloadPage();
+            return result;
         }
 
         [HttpGet]
@@ -109,7 +113,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             ViewBag.Product = product;
             ViewBag.ProductType = productType;
-            ViewBag.ToolbarCommands = ToolbarCommands.GetCommands(ControllerContext, product, CurrentInstance);
+            ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, product, CurrentInstance);
 
             LoadTabPlugins();
 

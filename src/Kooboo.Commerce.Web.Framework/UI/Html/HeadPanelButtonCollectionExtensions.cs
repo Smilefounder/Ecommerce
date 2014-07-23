@@ -6,19 +6,19 @@ using System.Web.Mvc;
 using Kooboo.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Commerce.Web.Framework;
-using Kooboo.Commerce.Web.Framework.UI.Toolbar;
+using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Framework.UI.Html
 {
     public static class HeadPanelButtonCollectionExtensions
     {
-        public static HeaderPanelButtonCollection AddToolbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<IToolbarCommand> commands)
+        public static HeaderPanelButtonCollection AddTopbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<ITopbarCommand> commands)
         {
-            return AddToolbarCommands(buttons, commands, null, null);
+            return AddTopbarCommands(buttons, commands, null, null);
         }
 
-        public static HeaderPanelButtonCollection AddToolbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<IToolbarCommand> commands, object modelId, string modelIdProperty = "Id")
+        public static HeaderPanelButtonCollection AddTopbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<ITopbarCommand> commands, object modelId, string modelIdProperty = "Id")
         {
             if (commands == null)
             {

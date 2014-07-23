@@ -1,15 +1,18 @@
 ﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Framework.UI;
-using Kooboo.Commerce.Web.Framework.UI.Toolbar;
+using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Products
+namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar.Products
 {
-    public class UnpublishProductCommand : ProductToolbarCommand
+    public class UnpublishProductCommand : ProductTopbarCommand
     {
         public override string Name
         {
@@ -35,15 +38,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Toolbar.Products
             }
         }
 
-        public override bool IsVisible(Kooboo.Commerce.Products.Product product, Data.CommerceInstance instance)
+        public override bool CanExecute(Kooboo.Commerce.Products.Product product, CommerceInstance instance)
         {
             return product.IsPublished;
         }
 
-        public override ToolbarCommandResult Execute(Kooboo.Commerce.Products.Product product, object config, Data.CommerceInstance instance)
+        public override ActionResult Execute(IEnumerable<Product> products, object config, CommerceInstance instance)
         {
             var service = EngineContext.Current.Resolve<IProductService>();
-            service.Unpublish(product);
+            foreach (var product in products)
+            {
+                service.Unpublish(product);
+            }
+
             return null;
         }
     }

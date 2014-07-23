@@ -128,13 +128,12 @@
     <Compile Include="UI\Tabs\TabPlugins.cs" />
     <Compile Include="UI\Tabs\TabSubmitContext.cs" />
     <Compile Include="UI\Tabs\TabSubmitContext`.cs" />
-    <Compile Include="UI\Toolbar\CustomerToolbarCommand.cs" />
-    <Compile Include="UI\Toolbar\IToolbarCommand.cs" />
-    <Compile Include="UI\Toolbar\OrderToolbarCommand.cs" />
-    <Compile Include="UI\Toolbar\ProductToolbarCommand.cs" />
-    <Compile Include="UI\Toolbar\ToolbarCommandExtensions.cs" />
-    <Compile Include="UI\Toolbar\ToolbarCommandResult.cs" />
-    <Compile Include="UI\Toolbar\ToolbarCommands.cs" />
+    <Compile Include="UI\Topbar\CustomerTopbarCommand.cs" />
+    <Compile Include="UI\Topbar\ITopbarCommand.cs" />
+    <Compile Include="UI\Topbar\OrderTopbarCommand.cs" />
+    <Compile Include="UI\Topbar\ProductTopbarCommand.cs" />
+    <Compile Include="UI\Topbar\TopbarCommandExtensions.cs" />
+    <Compile Include="UI\Topbar\TopbarCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">

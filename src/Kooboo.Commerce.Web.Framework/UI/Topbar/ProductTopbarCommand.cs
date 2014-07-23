@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
-namespace Kooboo.Commerce.Web.Framework.UI.Toolbar
+namespace Kooboo.Commerce.Web.Framework.UI.Topbar
 {
-    public abstract class ProductToolbarCommand : IToolbarCommand
+    public abstract class ProductTopbarCommand : ITopbarCommand
     {
         public abstract string Name { get; }
 
@@ -59,18 +60,18 @@ namespace Kooboo.Commerce.Web.Framework.UI.Toolbar
             }
         }
 
-        public abstract bool IsVisible(Product product, CommerceInstance instance);
+        public abstract bool CanExecute(Product product, CommerceInstance instance);
 
-        bool IToolbarCommand.CanExecute(object context, CommerceInstance instance)
+        bool ITopbarCommand.CanExecute(object context, CommerceInstance instance)
         {
-            return IsVisible(context as Product, instance);
+            return CanExecute(context as Product, instance);
         }
 
-        public abstract ToolbarCommandResult Execute(Product product, object config, CommerceInstance instance);
+        public abstract ActionResult Execute(IEnumerable<Product> products, object config, CommerceInstance instance);
 
-        ToolbarCommandResult IToolbarCommand.Execute(object data, object config, CommerceInstance instance)
+        ActionResult ITopbarCommand.Execute(IEnumerable<object> dataItems, object config, CommerceInstance instance)
         {
-            return Execute(data as Product, config, instance);
+            return Execute(dataItems.OfType<Product>(), config, instance);
         }
     }
 }
