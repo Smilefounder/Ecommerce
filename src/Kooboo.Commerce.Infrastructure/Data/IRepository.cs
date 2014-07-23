@@ -6,28 +6,22 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository
     {
         ICommerceDatabase Database { get; }
 
-        T Find(params object[] id);
+        Type EntityType { get; }
 
-        T Find(Expression<Func<T, bool>> predicate);
+        object Find(params object[] ids);
 
-        IQueryable<T> Query();
+        IQueryable Query();
 
-        IQueryable<T> Query(Expression<Func<T, bool>> predicate);
+        void Insert(object entity);
 
-        void Insert(T entity);
+        void Update(object entity);
 
-        void Update(T entity);
+        void Update(object entity, object values);
 
-        void Update(T entity, object values);
-
-        void Update(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> update);
-
-        void Delete(T entity);
-
-        void Delete(Expression<Func<T, bool>> predicate);
+        void Delete(object entity);
     }
 }

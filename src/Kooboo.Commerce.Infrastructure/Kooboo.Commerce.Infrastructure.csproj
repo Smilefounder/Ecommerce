@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\CommerceRepository`.cs" />
     <Compile Include="Data\Folders\DataFolders.cs" />
     <Compile Include="Data\Extensions\PaginationExtensions.cs" />
     <Compile Include="Data\Folders\CachedDataFile.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Data\Folders\Disk\DiskDataFolderFactory.cs" />
     <Compile Include="Data\Folders\IDataFileFormat.cs" />
     <Compile Include="Data\Folders\JsonDataFileFormat.cs" />
+    <Compile Include="Data\IRepository`.cs" />
     <Compile Include="Data\Pagination.cs" />
     <Compile Include="Data\Pagination`.cs" />
     <Compile Include="Rules\Activities\ActivityEventAttribute.cs" />

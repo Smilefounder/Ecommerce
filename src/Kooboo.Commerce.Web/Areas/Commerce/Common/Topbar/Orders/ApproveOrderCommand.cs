@@ -59,7 +59,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar.Orders
                 Event.Raise(new ApproveOrder(order.Id));
             }
 
-            return new AjaxFormResult().WithMessage("Orders are approved.");
+            return null;
         }
     }
 }

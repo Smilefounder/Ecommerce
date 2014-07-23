@@ -1,4 +1,5 @@
-﻿@model Kooboo.Commerce.Orders.Order
+﻿@using Kooboo.Commerce.Orders
+@model Order
 @{
     ViewBag.Title = "Order Detail".Localize();
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
@@ -8,7 +9,7 @@
 
     @Html.HeaderPanel().Buttons(buttons =>
     {
-        buttons.AddTopbarCommands(ViewBag.ToolbarCommands as IEnumerable<ITopbarCommand>, Model.Id);
+        buttons.AddTopbarCommands(ViewBag.ToolbarCommands as IEnumerable<ITopbarCommand>, typeof(Order), Model.Id);
         buttons.AddBackButton();
     })
 }

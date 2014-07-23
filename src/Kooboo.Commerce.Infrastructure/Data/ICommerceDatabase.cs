@@ -15,6 +15,8 @@ namespace Kooboo.Commerce.Data
     {
         CommerceInstanceSettings InstanceSettings { get; }
 
+        IRepository GetRepository(Type entityType);
+
         IRepository<T> GetRepository<T>() where T : class;
 
         ICommerceDbTransaction Transaction { get; }

@@ -79,22 +79,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View(model);
         }
 
-        [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult ExecuteToolbarCommand(string commandName, ProductModel[] model, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config = null)
-        {
-            var command = TopbarCommands.GetCommand(commandName);
-            var products = model.Select(m => _productService.GetById(m.Id)).ToList();
-            var result = command.Execute(products, config, CommerceInstance.Current);
-            if (result == null)
-            {
-                result = AjaxForm().ReloadPage();
-            }
-
-            command.UpdateDefaultCommandConfig(config);
-
-            return result;
-        }
-
         [HttpGet]
         public ActionResult Create(int productTypeId)
         {

@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Locations.Services
         }
         public Country GetById(int id)
         {
-            return _countryRepository.Query(o => o.Id == id).FirstOrDefault();
+            return _countryRepository.Find(id);
         }
 
         public IQueryable<Country> Query()

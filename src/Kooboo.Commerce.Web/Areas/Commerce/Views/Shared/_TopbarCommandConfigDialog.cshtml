@@ -21,11 +21,11 @@
                     confirmMessage: $button.data('confirm'),
                     needConfig: $button.data('need-config'),
                     modelId: $button.data('model-id'),
-                    modelIdProperty: $button.data('model-id-prop')
+                    modelType: $button.data('model-type')
                 };
 
                 $button.on('click', function () {
-                    if ($button.data('need-config') == true) {
+                    if ($button.data('need-config')) {
                         window.TopbarCommandConfigDialog.instance().open(options);
                     } else {
                         executeCommand(options);
@@ -46,7 +46,7 @@
                     return;
                 }
 
-                $dialog = $('#top-command-config-dialog').dialog({
+                $dialog = $('#topbar-command-config-dialog').dialog({
                     modal: true,
                     autoOpen: false
                 });
@@ -81,8 +81,9 @@
                     return false;
                 }
 
-                executeCommand(self.options, $form.serializeArray());
-                self.close();
+                if (executeCommand(self.options, $form.serializeArray())) {
+                    self.close();
+                }
             }
 
             self.close = function () {
@@ -101,7 +102,7 @@
 
             if (options.modelId) {
                 data.push({
-                    name: 'model[0].' + options.modelIdProperty || 'Id',
+                    name: 'model[0].Id',
                     value: options.modelId
                 });
             } else {
@@ -127,11 +128,13 @@
 
             window.loading.show();
 
-            $.post('@Url.Action("ExecuteToolbarCommand")?commandName=' + options.commandName, data, function (data, textStatus, jqXHR, postData) {
+            $.post('/Commerce/Topbar/ExecuteCommand?commandName=' + options.commandName + '&itemType=' + encodeURIComponent(options.modelType), data, function (data, textStatus, jqXHR, postData) {
                 window.loading.hide();
                 parse_JsonResultData(data, textStatus, jqXHR);
 
             }, 'json');
+
+            return true;
         }
 
         function reloadPage() {

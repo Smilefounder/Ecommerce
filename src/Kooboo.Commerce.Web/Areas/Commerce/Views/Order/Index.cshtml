@@ -9,7 +9,7 @@
     {
         buttons.AddCreateButton();
         buttons.AddDeleteButton();
-        buttons.AddTopbarCommands(TopbarCommands.GetCommands(ViewContext.Controller.ControllerContext));
+        buttons.AddTopbarCommands(TopbarCommands.GetCommands(ViewContext.Controller.ControllerContext), typeof(Order));
     }))
 }
 

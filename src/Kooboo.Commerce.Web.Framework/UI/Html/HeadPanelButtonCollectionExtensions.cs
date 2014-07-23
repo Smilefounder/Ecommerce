@@ -13,12 +13,12 @@ namespace Kooboo.Commerce.Web.Framework.UI.Html
 {
     public static class HeadPanelButtonCollectionExtensions
     {
-        public static HeaderPanelButtonCollection AddTopbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<ITopbarCommand> commands)
+        public static HeaderPanelButtonCollection AddTopbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<ITopbarCommand> commands, Type modelType)
         {
-            return AddTopbarCommands(buttons, commands, null, null);
+            return AddTopbarCommands(buttons, commands, modelType, null);
         }
 
-        public static HeaderPanelButtonCollection AddTopbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<ITopbarCommand> commands, object modelId, string modelIdProperty = "Id")
+        public static HeaderPanelButtonCollection AddTopbarCommands(this HeaderPanelButtonCollection buttons, IEnumerable<ITopbarCommand> commands, Type modelType, object modelId)
         {
             if (commands == null)
             {
@@ -31,9 +31,9 @@ namespace Kooboo.Commerce.Web.Framework.UI.Html
                        .VisibleWhenSelected(".cmd-" + cmd.Name)
                        .WithAttributes(new
                        {
-                           data_need_config = cmd.ConfigType != null,
+                           data_need_config = (cmd.ConfigType != null ? "true" : "false"),
                            data_model_id = modelId,
-                           data_model_id_prop = modelIdProperty,
+                           data_model_type = modelType.AssemblyQualifiedName,
                            data_cmd_name = cmd.Name,
                            data_cmd_text = cmd.ButtonText,
                            data_confirm = cmd.ConfirmMessage

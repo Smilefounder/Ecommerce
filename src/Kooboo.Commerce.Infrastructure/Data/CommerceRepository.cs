@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using EntityFramework.Extensions;
 
 namespace Kooboo.Commerce.Data
 {
-    public class CommerceRepository<T> : IRepository<T> where T : class
+    public class CommerceRepository : IRepository
     {
         private CommerceDatabase _database;
+
+        public CommerceRepository(CommerceDatabase database, Type entityType)
+        {
+            _database = database;
+            EntityType = entityType;
+        }
 
         public ICommerceDatabase Database
         {
@@ -19,7 +24,7 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        protected DbContext DbContext
+        private DbContext DbContext
         {
             get
             {
@@ -27,54 +32,31 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        // Passing in ICommerceDatabase instead of CommerceDatabase is because,
-        // in IoC container the service type is ICommerceDatabase.
-        // If we ask for CommerceDatabase here, the IoC container will not be able to provide the CommerceDatabase instance.
-        public CommerceRepository(ICommerceDatabase database)
-        {
-            Require.NotNull(database, "database");
-            Require.That(database is CommerceDatabase, "Requires type " + typeof(CommerceDatabase) + ".");
+        public Type EntityType { get; private set; }
 
-            _database = (CommerceDatabase)database;
+        public object Find(params object[] ids)
+        {
+            return DbContext.Set(EntityType).Find(ids);
         }
 
-        public IQueryable<T> Query()
+        public IQueryable Query()
         {
-            return DbContext.Set<T>();
+            return DbContext.Set(EntityType);
         }
 
-        public IQueryable<T> Query(Expression<Func<T, bool>> predicate)
+        public void Insert(object entity)
         {
-            return Query().Where(predicate);
-        }
-
-        public T Find(params object[] id)
-        {
-            return DbContext.Set<T>().Find(id);
-        }
-
-        public T Find(Expression<Func<T, bool>> predicate)
-        {
-            return Query(predicate).FirstOrDefault();
-        }
-
-        public void Insert(T entity)
-        {
-            Require.NotNull(entity, "entity");
-
-            var table = DbContext.Set<T>();
-            table.Add(entity);
-
+            DbContext.Set(EntityType).Add(entity);
             DbContext.SaveChanges();
         }
 
-        public void Update(T entity)
+        public void Update(object entity)
         {
             var entry = DbContext.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
-                var keys = DbContext.GetKeys<T>(entity);
-                var dbEntity = DbContext.Set<T>().Find(keys);
+                var keys = DbContext.GetKeys(entity);
+                var dbEntity = DbContext.Set(EntityType).Find(keys);
                 Update(dbEntity, entry);
             }
             else
@@ -83,29 +65,17 @@ namespace Kooboo.Commerce.Data
             }
         }
 
-        public void Update(T entity, object values)
+        public void Update(object entity, object values)
         {
             var entry = DbContext.Entry(entity);
             entry.CurrentValues.SetValues(values);
             DbContext.SaveChanges();
         }
 
-        public void Update(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> update)
+        public void Delete(object entity)
         {
-            DbContext.Set<T>().Where(predicate).Update(update);
-        }
-
-        public void Delete(T entity)
-        {
-            Require.NotNull(entity, "entity");
-
-            DbContext.Set<T>().Remove(entity);
+            DbContext.Set(EntityType).Remove(entity);
             DbContext.SaveChanges();
-        }
-
-        public void Delete(Expression<Func<T, bool>> predicate)
-        {
-            DbContext.Set<T>().Where(predicate).Delete();
         }
     }
 }

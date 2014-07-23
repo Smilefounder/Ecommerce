@@ -1,4 +1,5 @@
-﻿@model CustomerEditorModel
+﻿@using Kooboo.Commerce.Customers
+@model CustomerEditorModel
 @{
     ViewBag.Title = (string.IsNullOrEmpty(Request.QueryString["Id"]) ? "Create Customer" : "Edit Customer").Localize();
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
@@ -8,7 +9,7 @@
     @Html.HeaderPanel().Buttons(buttons =>
     {
         buttons.Add("Save", "save", "javascript:submitForm();");
-        buttons.AddToolbarCommands(ViewBag.ToolbarCommands as IEnumerable<IToolbarCommand>);
+        buttons.AddTopbarCommands(ViewBag.ToolbarCommands as IEnumerable<ITopbarCommand>, typeof(Customer), Model.Id);
         buttons.AddBackButton();
     })
 }

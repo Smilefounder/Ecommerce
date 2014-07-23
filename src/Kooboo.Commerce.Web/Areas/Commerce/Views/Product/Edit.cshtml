@@ -12,7 +12,7 @@
     @Html.HeaderPanel().Buttons(buttons =>
     {
         buttons.Add("Save", "save").WithUrl("javascript:saveProduct();");
-        buttons.AddToolbarCommands(ViewBag.ToolbarCommands as IEnumerable<IToolbarCommand>, product.Id);
+        buttons.AddTopbarCommands(ViewBag.ToolbarCommands as IEnumerable<ITopbarCommand>, typeof(Product), product.Id);
         buttons.AddCancelButton();
     })
 }
