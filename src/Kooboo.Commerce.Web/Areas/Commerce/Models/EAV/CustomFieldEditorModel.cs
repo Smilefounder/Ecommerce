@@ -32,6 +32,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
             Sequence = field.Sequence;
             Modifiable = field.Modifiable;
             IsEnabled = field.IsEnabled;
+            IsValueLocalizable = field.IsValueLocalizable;
             FieldType = field.FieldType;
             SelectionItems = field.SelectionItems;
 
@@ -53,6 +54,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
             field.Modifiable = this.Modifiable;
             field.IsEnabled = this.IsEnabled;
             field.SelectionItems = this.SelectionItems;
+            field.IsValueLocalizable = this.IsValueLocalizable;
             if (ValidationRules != null)
             {
                 foreach (var rule in field.ValidationRules.ToList())
@@ -126,6 +128,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
         public bool Modifiable { get; set; }
 
         public bool IsEnabled { get; set; }
+
+        public bool IsValueLocalizable { get; set; }
 
         public CustomFieldType FieldType { get; set; }
 

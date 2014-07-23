@@ -125,6 +125,7 @@
     <Compile Include="Controllers\BrandController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Domain\Language.cs" />
     <Compile Include="Domain\EntityTranslation.cs" />
     <Compile Include="Handlers\GetTextHandler.cs" />
@@ -132,7 +133,10 @@
     <Compile Include="Models\BrandModel.cs" />
     <Compile Include="Models\CategoryGridItemModel.cs" />
     <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\CustomFieldValueModel.cs" />
     <Compile Include="Models\Language_Metadata.cs" />
+    <Compile Include="Models\ProductGridItemModel.cs" />
+    <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Storage\Default\DefaultTranslationStore.cs" />
     <Compile Include="Storage\Default\DefaultLanguageStore.cs" />
     <Compile Include="Storage\Default\MultilingualDataFolder.cs" />
@@ -198,6 +202,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Category\Translate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\Translate.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

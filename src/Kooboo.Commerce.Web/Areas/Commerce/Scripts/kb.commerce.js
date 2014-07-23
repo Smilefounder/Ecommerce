@@ -236,6 +236,22 @@
             });
 
             tinyMCE.init(tinyMCEConfig);
+
+            if (!window.__initedAjaxFormParam) {
+                window.__initedAjaxFormParam = true;
+
+                var original = function () { };
+
+                if (window.ajaxFormParam && window.ajaxFormParam.beforeSerialize) {
+                    original = window.ajaxFormParam.beforeSerialize;
+                }
+
+                window.ajaxFormParam = window.ajaxFormParam || {};
+                window.ajaxFormParam.beforeSerialize = function () {
+                    original();
+                    tinyMCE.triggerSave();
+                };
+            }
         }
     };
 

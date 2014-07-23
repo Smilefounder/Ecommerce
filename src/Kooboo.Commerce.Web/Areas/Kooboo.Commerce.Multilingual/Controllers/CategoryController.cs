@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 Id = category.Id
             };
 
-            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), new EntityKey(typeof(Category), category.Id))[0];
+            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), new EntityKey(typeof(Category), category.Id));
             if (translation != null)
             {
                 translated.Name = translation.Properties["Name"];

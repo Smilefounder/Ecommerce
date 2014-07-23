@@ -18,6 +18,7 @@
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Sequence')}, value:Sequence" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Modifiable')}, value:(Modifiable()+'')" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'IsEnabled')}, value:(IsEnabled()+'')" />
+                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'IsValueLocalizable')}, value:(IsValueLocalizable()+'')" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'SelectionItems')}, value:SelectionItems" />
                 <!--ko foreach:ValidationRules-->
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtRuleName($parentContext.$index,$index,'Id')}, value:Id" />

@@ -16,6 +16,11 @@ namespace Kooboo.Commerce.Multilingual.Storage.Default
     {
         public Func<CommerceInstance> CurrentInstance = () => CommerceInstance.Current;
 
+        public EntityTransaltion Find(System.Globalization.CultureInfo culture, Globalization.EntityKey key)
+        {
+            return Find(culture, new[] { key })[0];
+        }
+
         public EntityTransaltion[] Find(System.Globalization.CultureInfo culture, params Globalization.EntityKey[] keys)
         {
             var result = new EntityTransaltion[keys.Length];

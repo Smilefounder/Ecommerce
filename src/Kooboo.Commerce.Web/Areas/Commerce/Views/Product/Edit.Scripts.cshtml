@@ -595,6 +595,11 @@
     });
 
     function saveProduct() {
+        if (tinyMCE) {
+            tinyMCE.triggerSave();
+            $('[data-toggle="tinymce"]').trigger('change');
+        }
+
         var valid = true;
         $('#product-edit-main').find('form').each(function () {
             if (!$(this).valid()) {

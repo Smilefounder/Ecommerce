@@ -24,8 +24,8 @@ namespace Kooboo.Commerce.Multilingual
         {
             var root = new MenuItem
             {
-                Name = "MultiLanguage",
-                Text = "Multi-language"
+                Name = "Multiligual",
+                Text = "Multiligual"
             };
 
             menu.Items.Add(root);

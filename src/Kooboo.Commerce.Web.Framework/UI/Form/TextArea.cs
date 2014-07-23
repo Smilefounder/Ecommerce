@@ -41,5 +41,11 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
                 return "value";
             }
         }
+
+        protected override void BuildControl(System.Web.Mvc.TagBuilder builder, CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
+        {
+            base.BuildControl(builder, field, value, htmlAttributes, viewContext);
+            builder.InnerHtml = value;
+        }
     }
 }

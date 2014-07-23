@@ -59,6 +59,8 @@ namespace Kooboo.Commerce.EAV
         
         public bool IsEnabled { get; set; }
 
+        public bool IsValueLocalizable { get; set; }
+
         public string SelectionItems { get; set; }
 
         public virtual ICollection<FieldValidationRule> ValidationRules { get; set; }

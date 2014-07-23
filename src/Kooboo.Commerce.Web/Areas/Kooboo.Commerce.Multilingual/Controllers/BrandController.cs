@@ -57,7 +57,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             };
 
 
-            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), EntityKey.Get<Brand>(brand))[0];
+            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), EntityKey.Get<Brand>(brand));
             translation = translation ?? new EntityTransaltion(culture, EntityKey.Get<Brand>(brand));
 
             var translated = new BrandModel

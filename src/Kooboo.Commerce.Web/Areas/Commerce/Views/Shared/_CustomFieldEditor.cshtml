@@ -25,6 +25,7 @@
                 <table>
                     @Html.EditorFor(it => it.Tooltip, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:dataMap.Tooltip" } } })
                     @Html.EditorFor(it => it.Modifiable, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.Modifiable" } } })
+                    @Html.EditorFor(it => it.IsValueLocalizable, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:dataMap.IsValueLocalizable" } } })
                 </table>
             </div>
             <div class="tab-content" id="tabValidation">

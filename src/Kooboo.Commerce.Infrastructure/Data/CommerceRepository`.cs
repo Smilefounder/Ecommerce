@@ -71,7 +71,7 @@ namespace Kooboo.Commerce.Data
             {
                 var keys = DbContext.GetKeys(entity);
                 var dbEntity = DbContext.Set<T>().Find(keys);
-                Update(dbEntity, entry);
+                Update(dbEntity, entity);
             }
             else
             {

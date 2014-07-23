@@ -1,0 +1,69 @@
+﻿@using Kooboo.Commerce.Web.Framework.UI.Form
+@model ProductModel
+@{
+    ViewBag.Title = "Translate Product".Localize();
+
+    var controls = FormControls.Controls().ToList();
+    var compared = ViewBag.Compared as ProductModel;
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddCancelButton();
+    })
+}
+
+<div class="common-form" id="translate-form">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.Id)
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@("Original".Localize())</th>
+                    <th>@("Translated".Localize())</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@("Name".Localize())</td>
+                    <td>
+                        @compared.Name
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Name)
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </td>
+                </tr>
+                @for (var i = 0; i < Model.CustomFields.Count; i++)
+                {
+                    var comparedField = compared.CustomFields[i];
+                    var field = Model.CustomFields[i];
+                    var control = controls.Find(c => c.Name == field.ControlType);
+                    
+                    <tr>
+                        <td>@field.FieldLabel</td>
+                        <td>@Html.Raw(comparedField.FieldValue)</td>
+                        <td>
+                            <input type="hidden" name="CustomFields[@i].FieldName" value="@field.FieldName" />
+                            @control.Render(field.Field, field.FieldValue, new
+                            {
+                               name = "CustomFields[" + i + "].FieldValue"
+                            }, ViewContext)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+</div>
+
+<script>
+    $(function () {
+        kb.ui.unobtrusive.initialize(document.getElementById('translate-form'));
+    });
+</script>

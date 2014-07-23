@@ -39,10 +39,11 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             var validationAttributes = field.GetUnobtrusiveValidationAtributes();
             if (validationAttributes != null && validationAttributes.Count > 0)
             {
-                builder.MergeAttributes(validationAttributes);
+                builder.MergeAttributes(validationAttributes, true);
             }
 
             BuildControl(builder, field, value, htmlAttributes, viewContext);
+
             return new HtmlString(builder.ToString(TagRenderMode));
         }
 
@@ -50,7 +51,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
         {
             if (htmlAttributes != null)
             {
-                builder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+                builder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
             }
         }
     }
