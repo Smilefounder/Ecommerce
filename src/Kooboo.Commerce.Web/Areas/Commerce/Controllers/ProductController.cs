@@ -12,11 +12,11 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.UI.Topbar;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar;
+using Kooboo.Commerce.Web.Areas.Commerce.Topbar;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Products.Default;
+using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products;
+using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products.Default;
 using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
@@ -43,37 +43,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             _categoryService = categoryService;
         }
 
-        public ActionResult Index(string search, string queryId, int page = 1, int pageSize = 50)
+        public ActionResult Index()
         {
-            var manager = new SavedTabQueryManager();
-            var model = new TabQueryModel
-            {
-                PageName = "Products",
-                SavedQueries = manager.FindAll("Products").ToList(),
-                AvailableQueries = TabQueries.GetQueries(ControllerContext).ToList()
-            };
-
-            if (model.SavedQueries.Count == 0)
-            {
-                var savedQuery = SavedTabQuery.CreateFrom(new DefaultProductsQuery(), "All");
-                manager.Add(model.PageName, savedQuery);
-                model.SavedQueries.Add(savedQuery);
-            }
-
-            if (String.IsNullOrEmpty(queryId))
-            {
-                model.CurrentQuery = model.SavedQueries.FirstOrDefault();
-            }
-            else
-            {
-                model.CurrentQuery = manager.Find("Products", new Guid(queryId));
-            }
-
-            var query = model.AvailableQueries.Find(q => q.Name == model.CurrentQuery.QueryName);
-
-            model.CurrentQueryResult = query.Execute(new QueryContext(CurrentInstance, search, page - 1, pageSize, model.CurrentQuery.Config))
-                                            .ToPagedList();
-
+            var model = this.CreateTabQueryModel("Products", new DefaultProductsQuery());
             ViewBag.ProductTypes = _productTypeService.Query().ToList();
 
             return View(model);
@@ -84,7 +56,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             ViewBag.ProductType = _productTypeService.GetById(productTypeId);
 
-            LoadTabPlugins();
+            this.LoadTabPlugins();
 
             return View("Edit");
         }
@@ -99,7 +71,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             ViewBag.ProductType = productType;
             ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, product, CurrentInstance);
 
-            LoadTabPlugins();
+            this.LoadTabPlugins();
 
             return View("Edit");
         }

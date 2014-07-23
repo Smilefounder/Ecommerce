@@ -58,11 +58,5 @@ namespace Kooboo.Commerce.Web.Framework.Mvc
         {
             return new JsonNetResult() { Data = data };
         }
-
-        protected void LoadTabPlugins()
-        {
-            var plugins = TabPlugins.LoadTabPlugins(ControllerContext);
-            ViewData["LoadedTabPlugins"] = plugins;
-        }
     }
 }

@@ -10,12 +10,12 @@ using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.UI.Topbar;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Topbar;
+using Kooboo.Commerce.Web.Areas.Commerce.Topbar;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders;
-using Kooboo.Commerce.Web.Areas.Commerce.Common.Tabs.Queries.Orders.Default;
+using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Orders;
+using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Orders.Default;
 using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
@@ -38,39 +38,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string search, string queryId, int page = 1, int pageSize = 50)
+        public ActionResult Index()
         {
-            var manager = new SavedTabQueryManager();
-
-            var model = new TabQueryModel
-            {
-                PageName = "Orders",
-                SavedQueries = manager.FindAll("Orders").ToList(),
-                AvailableQueries = TabQueries.GetQueries(ControllerContext).ToList()
-            };
-
-            // Ensure default
-            if (model.SavedQueries.Count == 0)
-            {
-                var savedQuery = SavedTabQuery.CreateFrom(new DefaultOrdersQuery(), "All");
-                manager.Add(model.PageName, savedQuery);
-                model.SavedQueries.Add(savedQuery);
-            }
-
-            if (String.IsNullOrEmpty(queryId))
-            {
-                model.CurrentQuery = model.SavedQueries.FirstOrDefault();
-            }
-            else
-            {
-                model.CurrentQuery = manager.Find(model.PageName, new Guid(queryId));
-            }
-
-            var query = model.AvailableQueries.Find(q => q.Name == model.CurrentQuery.QueryName);
-
-            model.CurrentQueryResult = query.Execute(new QueryContext(CurrentInstance, search, page - 1, pageSize, model.CurrentQuery.Config))
-                                            .ToPagedList();
-
+            var model = this.CreateTabQueryModel("Orders", new DefaultOrdersQuery());
             return View(model);
         }
 

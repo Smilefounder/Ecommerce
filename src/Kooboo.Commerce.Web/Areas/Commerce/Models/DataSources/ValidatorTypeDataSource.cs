@@ -8,7 +8,7 @@ using System.Web.Routing;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Globalization;
 using Kooboo.Web.Mvc;
-using Kooboo.Commerce.Web.Form.Validation;
+using Kooboo.Commerce.Web.Framework.UI.Form.Validation;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.DataSources
 {

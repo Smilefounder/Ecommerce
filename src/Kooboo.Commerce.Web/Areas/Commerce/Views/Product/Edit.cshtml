@@ -1,4 +1,4 @@
-﻿@using Kooboo.Commerce.Web.Form
+﻿@using Kooboo.Commerce.Web.Framework.UI.Form
 @{
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
 
@@ -12,7 +12,7 @@
     @Html.HeaderPanel().Buttons(buttons =>
     {
         buttons.Add("Save", "save").WithUrl("javascript:saveProduct();");
-        buttons.AddTopbarCommands(ViewBag.ToolbarCommands as IEnumerable<ITopbarCommand>, typeof(Product), product.Id);
+        buttons.AddTopbarCommands(ViewBag.ToolbarCommands as IEnumerable<ITopbarCommand>, typeof(Product), product == null ? null : (int?)product.Id);
         buttons.AddCancelButton();
     })
 }
