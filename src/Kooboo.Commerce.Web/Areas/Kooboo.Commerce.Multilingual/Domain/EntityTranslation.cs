@@ -12,18 +12,18 @@ namespace Kooboo.Commerce.Multilingual.Domain
 
         public EntityKey EntityKey { get; private set; }
 
-        public TextTranslationDictionary PropertyTranslations { get; private set; }
+        public TextTranslationDictionary Properties { get; private set; }
 
         public EntityTransaltion(string culture, EntityKey key)
             : this(culture, key, null)
         {
         }
 
-        public EntityTransaltion(string culture, EntityKey key, IDictionary<string, string> propertyTranslations)
+        public EntityTransaltion(string culture, EntityKey key, IDictionary<string, string> properties)
         {
             Culture = culture;
             EntityKey = key;
-            PropertyTranslations = propertyTranslations == null ? new TextTranslationDictionary() : new TextTranslationDictionary(propertyTranslations);
+            Properties = properties == null ? new TextTranslationDictionary() : new TextTranslationDictionary(properties);
         }
     }
 }

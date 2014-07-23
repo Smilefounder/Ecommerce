@@ -25,19 +25,31 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             _translationStore = translationStore;
         }
 
-        public ActionResult Index(int page = 1, int pageSize = 50)
+        public ActionResult Index(string culture, int page = 1, int pageSize = 50)
         {
-            var brands = _brandService.Query()
-                                      .OrderByDescending(b => b.Id)
-                                      .Paginate(page - 1, pageSize)
-                                      .ToPagedList();
-            return View(brands);
+            var list = _brandService.Query()
+                                    .OrderByDescending(b => b.Id)
+                                    .Paginate(page - 1, pageSize)
+                                    .Transform(b => new BrandGridItemModel(b))
+                                    .ToPagedList();
+
+            var brands = list.ToList();
+            var brandKeys = brands.Select(x => new EntityKey(typeof(Brand), x.Id)).ToArray();
+
+            var translations = _translationStore.Find(CultureInfo.GetCultureInfo(culture), brandKeys);
+            for (var i = 0; i < translations.Length; i++)
+            {
+                var brand = brands[i];
+                brand.TranslatedName = translations[i].Properties["Name"];
+            }
+
+            return View(list);
         }
 
         public ActionResult Translate(int id, string culture)
         {
             var brand = _brandService.GetById(id);
-            var compared = new BrandTranslation
+            var compared = new BrandModel
             {
                 Id = brand.Id,
                 Name = brand.Name,
@@ -48,10 +60,10 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), EntityKey.Get<Brand>(brand))[0];
             translation = translation ?? new EntityTransaltion(culture, EntityKey.Get<Brand>(brand));
 
-            var translated = new BrandTranslation
+            var translated = new BrandModel
             {
-                Name = translation.PropertyTranslations["Name"],
-                Description = translation.PropertyTranslations["Description"]
+                Name = translation.Properties["Name"],
+                Description = translation.Properties["Description"]
             };
 
             ViewBag.Compared = compared;
@@ -60,7 +72,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         }
 
         [HttpPost]
-        public ActionResult Translate(BrandTranslation model, string culture, string @return)
+        public ActionResult Translate(BrandModel model, string culture, string @return)
         {
             var brandKey = new EntityKey(typeof(Brand), model.Id);
             _translationStore.AddOrUpdate(CultureInfo.GetCultureInfo(culture), brandKey, new Dictionary<string, string>

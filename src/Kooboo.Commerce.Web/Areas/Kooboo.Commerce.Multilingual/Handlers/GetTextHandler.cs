@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Multilingual.Handlers
                     continue;
                 }
 
-                foreach (var propTranslation in translation.PropertyTranslations)
+                foreach (var propTranslation in translation.Properties)
                 {
                     if (propTranslation.Value == null)
                     {

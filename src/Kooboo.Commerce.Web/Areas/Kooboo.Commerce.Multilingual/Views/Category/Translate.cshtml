@@ -1,8 +1,8 @@
-﻿@model BrandModel
+﻿@model CategoryModel
 @{
-    ViewBag.Title = "Translate brand".Localize();
-
-    var compared = ViewBag.Compared as BrandModel;
+    ViewBag.Title = "Translate category".Localize();
+    
+    var compared = ViewBag.Compared as CategoryModel;
 }
 
 @section Panel {
@@ -14,7 +14,8 @@
 }
 
 <div class="common-form">
-    @using (Html.BeginForm()) { 
+    @using (Html.BeginForm())
+    {
         @Html.HiddenFor(m => m.Id)
         <table>
             <thead>
@@ -27,9 +28,7 @@
             <tbody>
                 <tr>
                     <td>@("Name".Localize())</td>
-                    <td>
-                        @compared.Name
-                    </td>
+                    <td>@compared.Name</td>
                     <td>
                         @Html.TextBoxFor(m => m.Name)
                         @Html.ValidationMessageFor(m => m.Name)

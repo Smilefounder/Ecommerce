@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Categories".Localize();
+}
+
+<div class="common-table" id="category-tree">
+    <table>
+        <thead>
+            <tr>
+                <th>@("Name".Localize())</th>
+                <th>@("Translated name".Localize())</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="empty" data-bind="if: Categories().length === 0">
+                <td colspan="100">@("Empty".Localize())</td>
+            </tr>
+            <!-- ko template: { name: 'CategoryItemTemplate', foreach: Categories } -->
+            <!-- /ko -->
+        </tbody>
+    </table>
+</div>
+
+<script type="text/html" id="CategoryItemTemplate">
+    <tr>
+        <td>
+            <div data-bind="attr: { style: Level() > 0 ? 'padding-left:' + (19 * Level()) + 'px' : '' }">
+                <span class="expander" data-bind="visible: ChildrenCount() > 0, css: { 'active': Expanded }, click: $root.ToggleChildren">
+                    @Html.IconImage("sprite")
+                </span>
+                <a data-bind="attr: { href: $root.GetTranslatePageUrl($data) }, text: Name"></a>
+            </div>
+        </td>
+        <td data-bind="text: TranslatedName"></td>
+    </tr>
+    <!-- ko if: Expanded -->
+    <!-- ko template: { name: 'CategoryItemTemplate', foreach: Children } --><!-- /ko -->
+    <!-- /ko -->
+</script>
+
+<script>
+    $(function () {
+
+        var translatePageUrlTemplate = '@(Html.Raw(Url.Action("Translate", RouteValues.From(Request.QueryString).Merge("return", Request.RawUrl))))&id={Id}';
+
+        var CategoryTreeModel = function () {
+            var self = this;
+
+            self.Categories = ko.observableArray();
+
+            self.ToggleChildren = function (category) {
+                if (category.Expanded()) {
+                    category.Expanded(false);
+                } else {
+                    if (category.ChildrenLoaded) {
+                        category.Expanded(true);
+                    } else {
+                        loadChildren(category.Id(), category.Level() + 1).done(function (data) {
+                            $.each(data, function () {
+                                category.Children.push(ko.mapping.fromJS(this));
+                            });
+
+                            category.ChildrenLoaded = true;
+                            category.Expanded(true);
+                        });
+                    }
+                }
+            }
+
+            self.GetTranslatePageUrl = function (category) {
+                return translatePageUrlTemplate.replace('{Id}', category.Id());
+            }
+        };
+
+        var viewModel = new CategoryTreeModel();
+
+        loadChildren(null, 0).done(function (data) {
+            $.each(data, function () {
+                viewModel.Categories.push(ko.mapping.fromJS(this));
+            });
+
+            ko.applyBindings(viewModel, document.getElementById('category-tree'));
+        });
+
+        function loadChildren(parentId, level) {
+            return $.get('@Url.Action("Children")', {
+                parentId: parentId,
+                level: level,
+                culture: '@Request.QueryString["culture"]'
+            });
+        }
+    });
+</script>
