@@ -30,13 +30,12 @@ namespace Kooboo.Commerce.Multilingual
 
             menu.Items.Add(root);
 
-            root.Items.Add(new MenuItem
+            root.Items.Add(new MultilingualMenuItem
             {
                 Name = "Languages",
                 Text = "Languages",
                 Controller = "Language",
-                Action = "Index",
-                Area = Strings.AreaName
+                Action = "Index"
             });
 
             foreach (var lang in _languageStore.All())
@@ -54,32 +53,23 @@ namespace Kooboo.Commerce.Multilingual
 
         private void AddLanguageChildItems(MenuItem langItem, Language lang)
         {
-            var routeValues = new RouteValueDictionary();
-            routeValues.Add("culture", lang.Name);
-
-            langItem.Items.Add(new MenuItem
+            langItem.Items.Add(new LanguageSpecificMenuItem(lang.Name)
             {
                 Text = "Brands",
                 Controller = "Brand",
-                Action = "Index",
-                Area = Strings.AreaName,
-                RouteValues = routeValues
+                Action = "Index"
             });
-            langItem.Items.Add(new MenuItem
+            langItem.Items.Add(new LanguageSpecificMenuItem(lang.Name)
             {
                 Text = "Categories",
                 Controller = "Category",
-                Action = "Index",
-                Area = Strings.AreaName,
-                RouteValues = routeValues
+                Action = "Index"
             });
-            langItem.Items.Add(new MenuItem
+            langItem.Items.Add(new LanguageSpecificMenuItem(lang.Name)
             {
                 Text = "Products",
                 Controller = "Product",
-                Action = "Index",
-                Area = Strings.AreaName,
-                RouteValues = routeValues
+                Action = "Index"
             });
         }
     }

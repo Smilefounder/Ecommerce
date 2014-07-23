@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Menu
         {
             foreach (var item in items)
             {
-                if (item.Initializer == null || item.Initializer is DefaultMenuItemInitializer)
+                if (item.Initializer == null || item.Initializer.GetType() == typeof(DefaultMenuItemInitializer))
                 {
                     item.Initializer = initializer;
                 }

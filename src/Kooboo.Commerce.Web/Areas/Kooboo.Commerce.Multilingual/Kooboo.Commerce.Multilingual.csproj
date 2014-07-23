@@ -45,6 +45,10 @@
     <Reference Include="Kooboo.CMS.Common">
       <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.CMS.Web, Version=4.4.0.721, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -129,6 +133,9 @@
     <Compile Include="Domain\Language.cs" />
     <Compile Include="Domain\EntityTranslation.cs" />
     <Compile Include="Handlers\GetTextHandler.cs" />
+    <Compile Include="Menu\LanguageSpecificMenuItem.cs" />
+    <Compile Include="Menu\LanguageSpecificMenuItemInitializer.cs" />
+    <Compile Include="Menu\MultilingualMenuItem.cs" />
     <Compile Include="Models\BrandGridItemModel.cs" />
     <Compile Include="Models\BrandModel.cs" />
     <Compile Include="Models\CategoryGridItemModel.cs" />
@@ -142,7 +149,7 @@
     <Compile Include="Storage\Default\MultilingualDataFolder.cs" />
     <Compile Include="Storage\ILanguageStore.cs" />
     <Compile Include="MultilingualAreaRegistration.cs" />
-    <Compile Include="MultilingualMenuInjection.cs" />
+    <Compile Include="Menu\MultilingualMenuInjection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\ITranslationStore.cs" />
     <Compile Include="Strings.cs" />
