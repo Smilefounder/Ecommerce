@@ -130,9 +130,9 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Domain\Language.cs" />
-    <Compile Include="Domain\EntityTranslation.cs" />
-    <Compile Include="Handlers\GetTextHandler.cs" />
+    <Compile Include="Language.cs" />
+    <Compile Include="EntityTranslation.cs" />
+    <Compile Include="Handlers\GetTextEventHandler.cs" />
     <Compile Include="Menu\LanguageSpecificMenuItem.cs" />
     <Compile Include="Menu\LanguageSpecificMenuItemInitializer.cs" />
     <Compile Include="Menu\MultilingualMenuItem.cs" />

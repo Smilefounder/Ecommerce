@@ -9,12 +9,12 @@ namespace Kooboo.Commerce.Globalization
     {
         public EntityKey EntityKey { get; private set; }
 
-        public TextTranslationDictionary PropertyTexts { get; private set; }
+        public TextDictionary Properties { get; private set; }
 
         public EntityTextInfo(EntityKey key, IDictionary<string, string> propertyTexts)
         {
             EntityKey = key;
-            PropertyTexts = new TextTranslationDictionary(propertyTexts);
+            Properties = new TextDictionary(propertyTexts);
         }
     }
 }

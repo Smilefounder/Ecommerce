@@ -5,6 +5,7 @@ using System.Text;
 using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using System.Globalization;
 
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
@@ -49,7 +50,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
         /// <returns>object</returns>
         protected override Brand Map(Commerce.Brands.Brand obj)
         {
-            return _mapper.MapTo(obj);
+            var brand = _mapper.MapTo(obj);
+            obj.Localize(brand, new[] { "Name", "Description" }, CultureInfo.CurrentUICulture);
+            return brand;
         }
 
         /// <summary>
@@ -88,15 +91,5 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
             _query = _query.Where(o => customFieldQuery.Any(c => c.BrandId == o.Id));
             return this;
         }
-
-        /// <summary>
-        /// create a query
-        /// </summary>
-        /// <returns>brand query</returns>
-        public IBrandQuery Query()
-        {
-            return this;
-        }
-
     }
 }

@@ -216,7 +216,8 @@
         init: function (element) {
             var textarea = $(element);
             if (!textarea.attr('id')) {
-                textarea.attr('id', 'Tinymce_' + new Date().getTime());
+                var id = 'tinymce_' + new Date().getTime() + '_' + (Math.floor(Math.random(0) * 10000));
+                textarea.attr('id', id);
             }
 
             var tinyMCEConfig = $.extend({}, tinymce.getKoobooConfig(), {

@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.Globalization;
-using Kooboo.Commerce.Multilingual.Domain;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

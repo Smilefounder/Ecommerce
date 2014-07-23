@@ -5,18 +5,18 @@ using System.Text;
 
 namespace Kooboo.Commerce.Globalization
 {
-    public class TextTranslationDictionary : IDictionary<string, string>
+    public class TextDictionary : IDictionary<string, string>
     {
         private IDictionary<string, string> _data;
 
-        public TextTranslationDictionary()
+        public TextDictionary()
+            : this(null)
         {
-            _data = new Dictionary<string, string>();
         }
 
-        public TextTranslationDictionary(IDictionary<string, string> data)
+        public TextDictionary(IDictionary<string, string> data)
         {
-            _data = data;
+            _data = data ?? new Dictionary<string, string>();
         }
 
         public void Add(string key, string value)
@@ -69,10 +69,16 @@ namespace Kooboo.Commerce.Globalization
                 if (value == null)
                 {
                     _data.Remove(key);
+                    return;
+                }
+
+                if (_data.ContainsKey(key))
+                {
+                    _data[key] = value;
                 }
                 else
                 {
-                    _data[key] = value;
+                    _data.Add(key, value);
                 }
             }
         }

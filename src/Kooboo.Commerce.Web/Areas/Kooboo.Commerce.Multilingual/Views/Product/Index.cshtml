@@ -1,6 +1,7 @@
 ﻿@model PagedList<ProductGridItemModel>
 @{
     ViewBag.Title = "Products".Localize();
+    ViewBag.EnableSearch = true;
 }
 
 @Html.GridFor2(typeof(ProductGridItemModel), Model)

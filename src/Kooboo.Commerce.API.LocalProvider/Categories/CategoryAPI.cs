@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using System.Globalization;
 
 namespace Kooboo.Commerce.API.LocalProvider.Categories
 {
@@ -114,13 +115,18 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             return this;
         }
 
-        /// <summary>
-        /// create category query 
-        /// </summary>
-        /// <returns>category query</returns>
-        public ICategoryQuery Query()
+        protected override Category Map(Commerce.Categories.Category obj)
         {
-            return this;
+            var category = base.Map(obj);
+            obj.Localize(category, new[] { "Name", "Description" }, CultureInfo.CurrentUICulture);
+
+            // TODO: Bad!
+            if (category.Children != null)
+            {
+                obj.Children.CollectionLocalize(category.Children, new[] { "Name", "Description" }, CultureInfo.CurrentUICulture);
+            }
+
+            return category;
         }
     }
 }

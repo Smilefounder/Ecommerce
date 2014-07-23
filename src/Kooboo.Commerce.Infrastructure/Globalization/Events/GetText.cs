@@ -1,11 +1,12 @@
-﻿using Kooboo.Commerce.Globalization;
+﻿using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Events.Globalization
+namespace Kooboo.Commerce.Globalization.Events
 {
     public class GetText : Event
     {
@@ -24,10 +25,7 @@ namespace Kooboo.Commerce.Events.Globalization
             EntityTextInfo textInfo;
             if (TextInfos.TryGetValue(key, out textInfo))
             {
-                if (textInfo.PropertyTexts.ContainsKey(property))
-                {
-                    textInfo.PropertyTexts[property] = text;
-                }
+                textInfo.Properties[property] = text;
             }
         }
     }

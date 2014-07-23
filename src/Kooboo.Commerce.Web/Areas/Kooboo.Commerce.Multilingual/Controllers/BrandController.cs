@@ -1,7 +1,6 @@
 ﻿using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Globalization;
-using Kooboo.Commerce.Multilingual.Domain;
 using Kooboo.Commerce.Multilingual.Models;
 using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.Commerce.Web.Framework.Mvc;

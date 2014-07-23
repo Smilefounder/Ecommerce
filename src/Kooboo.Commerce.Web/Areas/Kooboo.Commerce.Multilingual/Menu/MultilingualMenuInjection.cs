@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Multilingual.Domain;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.Commerce.Web.Framework.UI.Menu;
 using Kooboo.Web.Mvc.Menu;
@@ -22,6 +22,11 @@ namespace Kooboo.Commerce.Multilingual
 
         public override void Inject(Menu menu, System.Web.Mvc.ControllerContext controllerContext)
         {
+            if (CommerceInstance.Current == null)
+            {
+                return;
+            }
+
             var root = new MenuItem
             {
                 Name = "Multiligual",

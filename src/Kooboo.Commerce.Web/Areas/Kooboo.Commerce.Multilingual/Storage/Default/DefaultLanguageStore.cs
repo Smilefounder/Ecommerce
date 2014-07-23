@@ -1,7 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Data.Folders;
-using Kooboo.Commerce.Multilingual.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

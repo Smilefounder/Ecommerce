@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.Multilingual.Domain;
-using Kooboo.Commerce.Multilingual.Storage;
+﻿using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using System;
 using System.Collections.Generic;

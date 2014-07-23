@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.Multilingual.Domain;
-using Kooboo.Commerce.Web.Framework.UI.Grid2;
+﻿using Kooboo.Commerce.Web.Framework.UI.Grid2;
 using Kooboo.ComponentModel;
 using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Grid2.Design;

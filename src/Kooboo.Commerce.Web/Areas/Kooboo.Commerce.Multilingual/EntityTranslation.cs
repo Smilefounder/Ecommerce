@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Multilingual.Domain
+namespace Kooboo.Commerce.Multilingual
 {
     public class EntityTransaltion
     {
@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Multilingual.Domain
 
         public EntityKey EntityKey { get; private set; }
 
-        public TextTranslationDictionary Properties { get; private set; }
+        public TextDictionary Properties { get; private set; }
 
         public EntityTransaltion(string culture, EntityKey key)
             : this(culture, key, null)
@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Multilingual.Domain
         {
             Culture = culture;
             EntityKey = key;
-            Properties = properties == null ? new TextTranslationDictionary() : new TextTranslationDictionary(properties);
+            Properties = properties == null ? new TextDictionary() : new TextDictionary(properties);
         }
     }
 }

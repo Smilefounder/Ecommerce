@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Multilingual.Domain
+namespace Kooboo.Commerce.Multilingual
 {
     public class Language
     {

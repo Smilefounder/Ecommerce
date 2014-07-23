@@ -1,7 +1,7 @@
 ﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Globalization;
 using Kooboo.Commerce.Globalization;
+using Kooboo.Commerce.Globalization.Events;
 using Kooboo.Commerce.Utils;
 using System;
 using System.Collections.Generic;
@@ -40,7 +40,7 @@ namespace Kooboo.Commerce
             foreach (var each in textInfos)
             {
                 var target = targetsByKey[each.Key];
-                foreach (var propText in each.Value.PropertyTexts)
+                foreach (var propText in each.Value.Properties)
                 {
                     var prop = TypeHelper.GetProperty(target.GetType(), propText.Key);
                     prop.SetValue(target, propText.Value, null);
@@ -53,7 +53,7 @@ namespace Kooboo.Commerce
             where TTarget : class
         {
             var targetType = typeof(TTarget);
-            var texts = entity.GetTexts<T>(properties, culture);
+            var texts = entity.GetText<T>(properties, culture);
             foreach (var each in texts)
             {
                 var prop = TypeHelper.GetProperty(targetType, each.Key);
@@ -67,16 +67,16 @@ namespace Kooboo.Commerce
         public static string GetText<T>(this T entity, string property, CultureInfo culture)
             where T : class, ILocalizable
         {
-            var texts = GetTexts<T>(entity, new[] { property }, culture);
+            var texts = GetText<T>(entity, new[] { property }, culture);
             return texts[property];
         }
 
-        public static IDictionary<string, string> GetTexts<T>(this T entity, IEnumerable<string> properties, CultureInfo culture)
+        public static TextDictionary GetText<T>(this T entity, IEnumerable<string> properties, CultureInfo culture)
             where T : class, ILocalizable
         {
             var textInfo = GetTextInfo<T>(entity, properties);
             var result = GetTextInfos(new Dictionary<EntityKey, EntityTextInfo> { { textInfo.EntityKey, textInfo } }, culture);
-            return result[textInfo.EntityKey].PropertyTexts;
+            return result[textInfo.EntityKey].Properties;
         }
 
         static EntityTextInfo GetTextInfo<T>(T entity, IEnumerable<string> properties)

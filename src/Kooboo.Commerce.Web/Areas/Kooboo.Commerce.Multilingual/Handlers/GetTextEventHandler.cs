@@ -1,6 +1,6 @@
 ﻿using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Events.Globalization;
 using Kooboo.Commerce.Globalization;
+using Kooboo.Commerce.Globalization.Events;
 using Kooboo.Commerce.Multilingual.Storage;
 using System;
 using System.Collections.Generic;
@@ -9,11 +9,11 @@ using System.Web;
 
 namespace Kooboo.Commerce.Multilingual.Handlers
 {
-    public class GetTextHandler : IHandle<GetText>
+    public class GetTextEventHandler : IHandle<GetText>
     {
         private ITranslationStore _translationStore;
 
-        public GetTextHandler(ITranslationStore translationStore)
+        public GetTextEventHandler(ITranslationStore translationStore)
         {
             _translationStore = translationStore;
         }
@@ -31,14 +31,14 @@ namespace Kooboo.Commerce.Multilingual.Handlers
                     continue;
                 }
 
-                foreach (var propTranslation in translation.Properties)
+                foreach (var prop in translation.Properties)
                 {
-                    if (propTranslation.Value == null)
+                    if (prop.Value == null)
                     {
                         continue;
                     }
 
-                    @event.SetText(translation.EntityKey, propTranslation.Key, propTranslation.Value);
+                    @event.SetText(translation.EntityKey, prop.Key, prop.Value);
                 }
             }
         }

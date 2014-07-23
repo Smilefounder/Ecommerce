@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.Globalization
+namespace Kooboo.Commerce
 {
     public class EntityKey : IEquatable<EntityKey>
     {
@@ -51,7 +51,7 @@ namespace Kooboo.Commerce.Globalization
 
         public override string ToString()
         {
-            return EntityType.Name + "|" + Value;
+            return EntityType.Name + ": " + Value;
         }
 
         #region Factory

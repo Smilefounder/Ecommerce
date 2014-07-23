@@ -2,7 +2,6 @@
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Data.Folders;
 using Kooboo.Commerce.Globalization;
-using Kooboo.Commerce.Multilingual.Domain;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -16,12 +15,12 @@ namespace Kooboo.Commerce.Multilingual.Storage.Default
     {
         public Func<CommerceInstance> CurrentInstance = () => CommerceInstance.Current;
 
-        public EntityTransaltion Find(System.Globalization.CultureInfo culture, Globalization.EntityKey key)
+        public EntityTransaltion Find(System.Globalization.CultureInfo culture, EntityKey key)
         {
             return Find(culture, new[] { key })[0];
         }
 
-        public EntityTransaltion[] Find(System.Globalization.CultureInfo culture, params Globalization.EntityKey[] keys)
+        public EntityTransaltion[] Find(System.Globalization.CultureInfo culture, params EntityKey[] keys)
         {
             var result = new EntityTransaltion[keys.Length];
             for (var i = 0; i < keys.Length; i++)
@@ -37,7 +36,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Default
         public void AddOrUpdate(CultureInfo culture, EntityKey key, IDictionary<string, string> propertyTranslations)
         {
             var file = GetTranslationDataFile(key, culture);
-            var translations = file.Read<TextTranslationDictionary>() ?? new TextTranslationDictionary();
+            var translations = file.Read<TextDictionary>() ?? new TextDictionary();
             foreach (var each in propertyTranslations)
             {
                 translations[each.Key] = each.Value;

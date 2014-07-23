@@ -102,6 +102,12 @@
     <Compile Include="Data\IRepository`.cs" />
     <Compile Include="Data\Pagination.cs" />
     <Compile Include="Data\Pagination`.cs" />
+    <Compile Include="EntityKey.cs" />
+    <Compile Include="Globalization\EntityTextInfo.cs" />
+    <Compile Include="Globalization\Events\GetText.cs" />
+    <Compile Include="Globalization\ILocalizable.cs" />
+    <Compile Include="Globalization\Localizer.cs" />
+    <Compile Include="Globalization\TextDictionary.cs" />
     <Compile Include="Rules\Activities\ActivityEventAttribute.cs" />
     <Compile Include="Rules\Activities\Activity.cs" />
     <Compile Include="Rules\Activities\ActivityContext.cs" />
