@@ -68,12 +68,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         {
             var product = base.Map(obj);
 
-            obj.Localize(product, new[] { "Name" }, CultureInfo.CurrentUICulture);
-
             if (product.PriceList != null)
             {
-                obj.PriceList.CollectionLocalize(product.PriceList, new[] { "Name" }, CultureInfo.CurrentUICulture);
-
                 foreach (var price in product.PriceList)
                 {
                     int? customerId = null;

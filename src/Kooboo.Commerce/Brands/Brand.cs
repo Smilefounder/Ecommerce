@@ -10,8 +10,10 @@ namespace Kooboo.Commerce.Brands
         public int Id { get; set; }
 
         [Param]
+        [Localizable]
         public string Name { get; set; }
 
+        [Localizable]
         public string Description { get; set; }
 
         /// <summary>

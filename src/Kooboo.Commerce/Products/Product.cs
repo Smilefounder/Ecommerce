@@ -38,6 +38,7 @@ namespace Kooboo.Commerce.Products
         public int Id { get; set; }
 
         [Param]
+        [Localizable]
         public string Name { get; set; }
 
         public int ProductTypeId { get; set; }

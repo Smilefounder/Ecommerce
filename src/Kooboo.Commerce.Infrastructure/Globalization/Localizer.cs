@@ -15,74 +15,22 @@ namespace Kooboo.Commerce
 {
     public static class Localizer
     {
-        public static void CollectionLocalize<T, TTarget>(this IEnumerable<T> entities, IEnumerable<TTarget> targets, IEnumerable<string> properties, CultureInfo culture)
-            where T : class, ILocalizable
-            where TTarget: class
+        public static string GetText(this ILocalizable entity, string property, CultureInfo culture)
         {
-            IDictionary<EntityKey, EntityTextInfo> textInfos = new Dictionary<EntityKey, EntityTextInfo>();
-            foreach (var entity in entities)
-            {
-                var textInfo = GetTextInfo<T>(entity, properties);
-                textInfos.Add(textInfo.EntityKey, textInfo);
-            }
-
-            textInfos = GetTextInfos(textInfos, culture);
-            var targetsByKey = new Dictionary<EntityKey, object>();
-
-            foreach (var target in targets)
-            {
-                var targetKey = EntityKey.Get<TTarget>(target);
-                // Change key type to orignal entity type, so we can compare them later
-                targetKey = new EntityKey(typeof(T), targetKey.Value);
-                targetsByKey.Add(targetKey, target);
-            }
-
-            foreach (var each in textInfos)
-            {
-                var target = targetsByKey[each.Key];
-                foreach (var propText in each.Value.Properties)
-                {
-                    var prop = TypeHelper.GetProperty(target.GetType(), propText.Key);
-                    prop.SetValue(target, propText.Value, null);
-                }
-            }
-        }
-
-        public static void Localize<T, TTarget>(this T entity, TTarget target, IEnumerable<string> properties, CultureInfo culture)
-            where T : class, ILocalizable
-            where TTarget : class
-        {
-            var targetType = typeof(TTarget);
-            var texts = entity.GetText<T>(properties, culture);
-            foreach (var each in texts)
-            {
-                var prop = TypeHelper.GetProperty(targetType, each.Key);
-                if (prop != null)
-                {
-                    prop.SetValue(target, each.Value, null);
-                }
-            }
-        }
-
-        public static string GetText<T>(this T entity, string property, CultureInfo culture)
-            where T : class, ILocalizable
-        {
-            var texts = GetText<T>(entity, new[] { property }, culture);
+            var texts = GetText(entity, new[] { property }, culture);
             return texts[property];
         }
 
-        public static TextDictionary GetText<T>(this T entity, IEnumerable<string> properties, CultureInfo culture)
-            where T : class, ILocalizable
+        public static TextDictionary GetText(this ILocalizable entity, IEnumerable<string> properties, CultureInfo culture)
         {
-            var textInfo = GetTextInfo<T>(entity, properties);
+            var textInfo = GetTextInfo(entity, properties);
             var result = GetTextInfos(new Dictionary<EntityKey, EntityTextInfo> { { textInfo.EntityKey, textInfo } }, culture);
             return result[textInfo.EntityKey].Properties;
         }
 
-        static EntityTextInfo GetTextInfo<T>(T entity, IEnumerable<string> properties)
-            where T : class, ILocalizable
+        static EntityTextInfo GetTextInfo(ILocalizable entity, IEnumerable<string> properties)
         {
-            var entityKey = EntityKey.Get<T>(entity);
+            var entityKey = EntityKey.Get(entity);
             var entityProperties = new Dictionary<string, string>();
 
             foreach (var propName in properties)

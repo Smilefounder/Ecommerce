@@ -114,19 +114,5 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
             _query = _query.Where(o => customFieldQuery.Any(c => c.CategoryId == o.Id));
             return this;
         }
-
-        protected override Category Map(Commerce.Categories.Category obj)
-        {
-            var category = base.Map(obj);
-            obj.Localize(category, new[] { "Name", "Description" }, CultureInfo.CurrentUICulture);
-
-            // TODO: Bad!
-            if (category.Children != null)
-            {
-                obj.Children.CollectionLocalize(category.Children, new[] { "Name", "Description" }, CultureInfo.CurrentUICulture);
-            }
-
-            return category;
-        }
     }
 }

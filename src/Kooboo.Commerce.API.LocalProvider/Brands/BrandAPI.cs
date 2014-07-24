@@ -6,6 +6,7 @@ using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using System.Globalization;
+using Kooboo.Commerce.API.LocalProvider.Mapping;
 
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
@@ -50,9 +51,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
         /// <returns>object</returns>
         protected override Brand Map(Commerce.Brands.Brand obj)
         {
-            var brand = _mapper.MapTo(obj);
-            obj.Localize(brand, new[] { "Name", "Description" }, CultureInfo.CurrentUICulture);
-            return brand;
+            return ObjectMapper.Map(obj, new Brand());
         }
 
         /// <summary>

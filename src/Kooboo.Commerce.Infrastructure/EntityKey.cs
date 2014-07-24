@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -58,15 +59,13 @@ namespace Kooboo.Commerce
 
         static readonly ConcurrentDictionary<Type, PropertyInfo> _cache = new ConcurrentDictionary<Type, PropertyInfo>();
 
-        public static EntityKey Get<T>(T entity)
-            where T : class
-        {
-            return Get(entity, typeof(T));
-        }
-
         public static EntityKey Get(object entity)
         {
-            return Get(entity, entity.GetType());
+            var entityType = entity.GetType();
+            // Unwarp entity framework proxy
+            entityType = ObjectContext.GetObjectType(entityType);
+
+            return Get(entity, entityType);
         }
 
         static EntityKey Get(object entity, Type entityType)
@@ -75,7 +74,7 @@ namespace Kooboo.Commerce
 
             var prop = GetKeyProperty(entityType);
             if (prop == null)
-                throw new InvalidOperationException("Cannot find id proeprty from entity " + entityType + ".");
+                throw new InvalidOperationException("Cannot find id property from entity " + entityType + ".");
 
             var value = prop.GetValue(entity, null);
 

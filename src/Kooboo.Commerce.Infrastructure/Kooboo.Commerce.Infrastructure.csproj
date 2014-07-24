@@ -106,6 +106,7 @@
     <Compile Include="Globalization\EntityTextInfo.cs" />
     <Compile Include="Globalization\Events\GetText.cs" />
     <Compile Include="Globalization\ILocalizable.cs" />
+    <Compile Include="Globalization\LocalizableAttribute.cs" />
     <Compile Include="Globalization\Localizer.cs" />
     <Compile Include="Globalization\TextDictionary.cs" />
     <Compile Include="Rules\Activities\ActivityEventAttribute.cs" />
