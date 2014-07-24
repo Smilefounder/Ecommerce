@@ -177,31 +177,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         }
 
         /// <summary>
-        /// add published filter to query
-        /// </summary>
-        /// <param name="published">product published</param>
-        /// <returns>product query</returns>
-        public IProductQuery IsPublished(bool published)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.IsPublished == published);
-            return this;
-        }
-
-        /// <summary>
-        /// filter the product by custom field value
-        /// </summary>
-        /// <param name="customFieldId">custom field id</param>
-        /// <param name="fieldValue">custom field valule</param>
-        /// <returns>product query</returns>
-        public IProductQuery ByCustomField(int customFieldId, string fieldValue)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.CustomFieldValues.Any(c => c.CustomFieldId == c.CustomFieldId && c.FieldText == fieldValue));
-            return this;
-        }
-
-        /// <summary>
         /// filter the product by custom field value
         /// </summary>
         /// <param name="customFieldName">custom field name</param>
@@ -211,19 +186,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         {
             EnsureQuery();
             _query = _query.Where(o => o.CustomFieldValues.Any(f => f.CustomField.Name == customFieldName && f.FieldValue == fieldValue));
-            return this;
-        }
-
-        /// <summary>
-        /// filter the product by product price variant
-        /// </summary>
-        /// <param name="variantId">price variant id</param>
-        /// <param name="variantVallue">price variant value</param>
-        /// <returns>product query</returns>
-        public IProductQuery ByPriceVariant(int variantId, string variantVallue)
-        {
-            EnsureQuery();
-            _query = _query.Where(o => o.PriceList.Any(p => p.VariantValues.Any(c => c.CustomFieldId == c.CustomFieldId && c.FieldText == variantVallue)));
             return this;
         }
 

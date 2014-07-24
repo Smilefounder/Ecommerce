@@ -48,20 +48,6 @@ namespace Kooboo.Commerce.API.Products
         /// <param name="brandId">product brand id</param>
         /// <returns>product query</returns>
         IProductQuery ByBrandId(int brandId);
-        /// <summary>
-        /// add published filter to query
-        /// </summary>
-        /// <param name="published">product published</param>
-        /// <returns>product query</returns>
-        IProductQuery IsPublished(bool published);
-
-        /// <summary>
-        /// filter the product by custom field value
-        /// </summary>
-        /// <param name="customFieldId">custom field id</param>
-        /// <param name="fieldValue">custom field valule</param>
-        /// <returns>product query</returns>
-        IProductQuery ByCustomField(int customFieldId, string fieldValue);
 
         /// <summary>
         /// filter the product by custom field value
@@ -70,14 +56,6 @@ namespace Kooboo.Commerce.API.Products
         /// <param name="fieldValue">custom field valule</param>
         /// <returns>product query</returns>
         IProductQuery ByCustomField(string customFieldName, string fieldValue);
-
-        /// <summary>
-        /// filter the product by product price variant
-        /// </summary>
-        /// <param name="variantId">price variant id</param>
-        /// <param name="variantVallue">price variant value</param>
-        /// <returns>product query</returns>
-        IProductQuery ByPriceVariant(int variantId, string variantVallue);
         /// <summary>
         /// filter the product by product price variant
         /// </summary>

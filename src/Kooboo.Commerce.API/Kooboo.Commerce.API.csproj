@@ -114,7 +114,6 @@
     <Compile Include="Products\ProductImage.cs" />
     <Compile Include="Products\ProductPrice.cs" />
     <Compile Include="Products\ProductPriceVariantValue.cs" />
-    <Compile Include="Products\ProductReview.cs" />
     <Compile Include="Products\ProductType.cs" />
     <Compile Include="Promotions\Promotion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

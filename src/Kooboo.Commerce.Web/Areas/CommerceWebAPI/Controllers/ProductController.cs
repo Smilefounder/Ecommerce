@@ -34,14 +34,8 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 query = query.ByProductTypeId(Convert.ToInt32(qs["productTypeId"]));
             if (!string.IsNullOrEmpty(qs["brandId"]))
                 query = query.ByBrandId(Convert.ToInt32(qs["brandId"]));
-            if (!string.IsNullOrEmpty(qs["published"]))
-                query = query.IsPublished(Convert.ToBoolean(qs["published"]));
-            if (!string.IsNullOrEmpty(qs["customField.id"]) && !string.IsNullOrEmpty(qs["customField.value"]))
-                query = query.ByCustomField(Convert.ToInt32(qs["customField.id"]), qs["customField.value"]);
             if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))
                 query = query.ByCustomField(qs["customField.name"], qs["customField.value"]);
-            if (!string.IsNullOrEmpty(qs["priceVariant.id"]) && !string.IsNullOrEmpty(qs["priceVariant.value"]))
-                query = query.ByPriceVariant(Convert.ToInt32(qs["priceVariant.id"]), qs["priceVariant.value"]);
             if (!string.IsNullOrEmpty(qs["priceVariant.name"]) && !string.IsNullOrEmpty(qs["priceVariant.value"]))
                 query = query.ByPriceVariant(qs["priceVariant.name"], qs["priceVariant.value"]);
 
