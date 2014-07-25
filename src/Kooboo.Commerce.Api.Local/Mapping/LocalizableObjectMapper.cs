@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.API.LocalProvider.Mapping
+namespace Kooboo.Commerce.Api.Local.Mapping
 {
     public class LocalizableObjectMapper : DefaultObjectMapper
     {

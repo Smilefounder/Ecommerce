@@ -7,8 +7,8 @@
     <ProjectGuid>{17485074-A10C-42A6-BE94-2BE21F2C60E3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.Commerce.API.RestProvider</RootNamespace>
-    <AssemblyName>Kooboo.Commerce.API.RestProvider</AssemblyName>
+    <RootNamespace>Kooboo.Commerce.Api.Rest</RootNamespace>
+    <AssemblyName>Kooboo.Commerce.Api.Rest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -90,13 +90,13 @@
     <Compile Include="ShoppingCarts\ShoppingCartAPI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj">
+    <ProjectReference Include="..\Kooboo.Commerce.Api.Local\Kooboo.Commerce.Api.Local.csproj">
       <Project>{6df0bcb3-a1c8-4150-ace5-a458a477d221}</Project>
-      <Name>Kooboo.Commerce.API.LocalProvider</Name>
+      <Name>Kooboo.Commerce.Api.Local</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
+    <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.Api.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
-      <Name>Kooboo.Commerce.API</Name>
+      <Name>Kooboo.Commerce.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

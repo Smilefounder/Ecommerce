@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
     {
         private ICountryService _countryService;
 
-        public CountryAPI(ICountryService countryService, IMapper<Country, Kooboo.Commerce.Locations.Country> mapper)
+        public CountryAPI(ICountryService countryService)
         {
             _countryService = countryService;
         }

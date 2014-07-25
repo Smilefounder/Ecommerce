@@ -42,15 +42,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Payments.Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Payments.AuthorizeNet", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Payments.AuthorizeNet\Kooboo.Commerce.Payments.AuthorizeNet.csproj", "{E5114D63-FFD9-413F-830E-6E4F769200B2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. API", "3. API", "{74EF2E50-2925-404D-9028-C457DDEC6520}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Api", "3. Api", "{74EF2E50-2925-404D-9028-C457DDEC6520}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Payments.Buckaroo", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Payments.Buckaroo\Kooboo.Commerce.Payments.Buckaroo.csproj", "{384099CF-682D-46B8-B136-010DBE91018D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API", "Kooboo.Commerce.API\Kooboo.Commerce.API.csproj", "{CD168C81-AA6F-480A-94EC-87E3BA0A5871}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Api", "Kooboo.Commerce.Api\Kooboo.Commerce.Api.csproj", "{CD168C81-AA6F-480A-94EC-87E3BA0A5871}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.LocalProvider", "Kooboo.Commerce.API.LocalProvider\Kooboo.Commerce.API.LocalProvider.csproj", "{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Api.Local", "Kooboo.Commerce.Api.Local\Kooboo.Commerce.Api.Local.csproj", "{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.API.RestProvider", "Kooboo.Commerce.API.RestProvider\Kooboo.Commerce.API.RestProvider.csproj", "{17485074-A10C-42A6-BE94-2BE21F2C60E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Api.Rest", "Kooboo.Commerce.Api.Rest\Kooboo.Commerce.Api.Rest.csproj", "{17485074-A10C-42A6-BE94-2BE21F2C60E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tab Plugins", "Tab Plugins", "{0A4D674F-2860-4ABE-8F86-0812A2B9D3B3}"
 EndProject

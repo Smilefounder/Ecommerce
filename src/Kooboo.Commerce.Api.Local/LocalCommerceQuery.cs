@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 using System.Web;
-using Kooboo.Commerce.API.LocalProvider.Mapping;
+using Kooboo.Commerce.Api.Local;
+using Kooboo.Commerce.Api.Local.Mapping;
 
 namespace Kooboo.Commerce.API.LocalProvider
 {

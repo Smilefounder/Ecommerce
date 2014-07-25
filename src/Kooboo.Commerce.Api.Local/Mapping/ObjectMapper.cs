@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.LocalProvider.Mapping
+namespace Kooboo.Commerce.Api.Local.Mapping
 {
     public static class ObjectMapper
     {

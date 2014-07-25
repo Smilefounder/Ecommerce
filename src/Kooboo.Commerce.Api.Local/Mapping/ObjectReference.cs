@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Kooboo.Commerce.API.LocalProvider.Mapping
+namespace Kooboo.Commerce.Api.Local.Mapping
 {
     public class ObjectReference : IEquatable<ObjectReference>
     {

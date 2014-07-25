@@ -106,9 +106,9 @@
     <Content Include="Views\Recommendations.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
+    <ProjectReference Include="..\..\..\Kooboo.Commerce.API\Kooboo.Commerce.Api.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
-      <Name>Kooboo.Commerce.API</Name>
+      <Name>Kooboo.Commerce.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>

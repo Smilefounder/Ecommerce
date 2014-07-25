@@ -7,8 +7,8 @@
     <ProjectGuid>{6DF0BCB3-A1C8-4150-ACE5-A458A477D221}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.Commerce.API.LocalProvider</RootNamespace>
-    <AssemblyName>Kooboo.Commerce.API.LocalProvider</AssemblyName>
+    <RootNamespace>Kooboo.Commerce.Api.Local</RootNamespace>
+    <AssemblyName>Kooboo.Commerce.Api.Local</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -62,7 +62,6 @@
     <Compile Include="Brands\BrandAPI.cs" />
     <Compile Include="Categories\CategoryAPI.cs" />
     <Compile Include="Customers\CustomerAPI.cs" />
-    <Compile Include="IMapper.cs" />
     <Compile Include="IncludeCollection.cs" />
     <Compile Include="LocalCommerceAPI.cs" />
     <Compile Include="LocalCommerceQuery.cs" />
@@ -80,16 +79,15 @@
     <Compile Include="Orders\OrderAPI.cs" />
     <Compile Include="Products\ProductAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionMapper.cs" />
     <Compile Include="Shipping\LocalShippingMethodAPI.cs" />
     <Compile Include="Shipping\LocalShippingMethodQuery.cs" />
     <Compile Include="ShoppingCarts\ShoppingCartAPI.cs" />
     <Compile Include="Utils\IncludeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.API.csproj">
+    <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.Api.csproj">
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
-      <Name>Kooboo.Commerce.API</Name>
+      <Name>Kooboo.Commerce.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>

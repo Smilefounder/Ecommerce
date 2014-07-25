@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     {
         protected IPaymentService PaymentService { get; private set; }
 
-        public LocalPaymentQuery(IPaymentService paymentService, IMapper<Payment, Kooboo.Commerce.Payments.Payment> mapper)
+        public LocalPaymentQuery(IPaymentService paymentService)
         {
             PaymentService = paymentService;
         }

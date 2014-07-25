@@ -6,7 +6,6 @@ using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using System.Globalization;
-using Kooboo.Commerce.API.LocalProvider.Mapping;
 
 namespace Kooboo.Commerce.API.LocalProvider.Brands
 {
