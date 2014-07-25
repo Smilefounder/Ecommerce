@@ -7,11 +7,18 @@ namespace Kooboo.Commerce.API.LocalProvider.Mapping
 {
     public class MappingContext
     {
-        public HashSet<ObjectProperty> VisitedTargetProperties { get; private set; }
+        public IncludeCollection Includes { get; private set; }
 
-        public MappingContext()
+        public HashSet<ObjectReference> VisitedObjects { get; private set; }
+
+        public MappingContext() : this(null)
         {
-            VisitedTargetProperties = new HashSet<ObjectProperty>();
+        }
+
+        public MappingContext(IncludeCollection includes)
+        {
+            Includes = includes ?? new IncludeCollection();
+            VisitedObjects = new HashSet<ObjectReference>();
         }
     }
 }

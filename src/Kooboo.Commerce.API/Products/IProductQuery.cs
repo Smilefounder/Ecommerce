@@ -30,13 +30,6 @@ namespace Kooboo.Commerce.API.Products
         /// <returns>product query</returns>
         IProductQuery ByName(string name);
         /// <summary>
-        /// add contains name filter to query
-        /// product name contains the input
-        /// </summary>
-        /// <param name="name">product name</param>
-        /// <returns>product query</returns>
-        IProductQuery ContainsName(string name);
-        /// <summary>
         /// add product type id filter to query
         /// </summary>
         /// <param name="productTypeId">product type id</param>

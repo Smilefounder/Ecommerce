@@ -24,13 +24,20 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             _translationStore = translationStore;
         }
 
-        public ActionResult Index(string culture, int page = 1, int pageSize = 50)
+        public ActionResult Index(string culture, string search, int page = 1, int pageSize = 50)
         {
-            var list = _brandService.Query()
-                                    .OrderByDescending(b => b.Id)
-                                    .Paginate(page - 1, pageSize)
-                                    .Transform(b => new BrandGridItemModel(b))
-                                    .ToPagedList();
+            var query = _brandService.Query();
+
+            if (!String.IsNullOrWhiteSpace(search))
+            {
+                search = search.Trim();
+                query = query.Where(b => b.Name.Contains(search));
+            }
+
+            var list = query.OrderByDescending(b => b.Id)
+                            .Paginate(page - 1, pageSize)
+                            .Transform(b => new BrandGridItemModel(b))
+                            .ToPagedList();
 
             var brands = list.ToList();
             var brandKeys = brands.Select(x => new EntityKey(typeof(Brand), x.Id)).ToArray();

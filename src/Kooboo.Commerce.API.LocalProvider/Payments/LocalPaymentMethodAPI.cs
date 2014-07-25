@@ -13,15 +13,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
     {
         public LocalPaymentMethodAPI(
             IPaymentMethodService paymentMethodService, 
-            Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory,
-            IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
-            : base(paymentMethodService, processorFactory, mapper)
+            Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory)
+            : base(paymentMethodService, processorFactory)
         {
-        }
-
-        public IPaymentMethodQuery Query()
-        {
-            return this;
         }
     }
 }

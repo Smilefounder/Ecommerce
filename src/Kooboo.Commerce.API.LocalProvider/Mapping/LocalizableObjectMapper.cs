@@ -12,9 +12,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Mapping
     {
         public Func<CultureInfo> GetCurrentCulture = () => CultureInfo.CurrentUICulture;
 
-        protected override object GetSourcePropertyValue(PropertyInfo property, object source)
+        protected override object ResolveSourcePropertyValue(PropertyInfo property, object source)
         {
-            var value = base.GetSourcePropertyValue(property, source);
+            var value = base.ResolveSourcePropertyValue(property, source);
 
             if (property.PropertyType != typeof(String))
             {

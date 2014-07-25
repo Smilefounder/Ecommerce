@@ -21,19 +21,14 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         private ICommerceDatabase _db;
         private ICustomerService _customerService;
         private ICountryService _countryService;
-        private IMapper<Address, Kooboo.Commerce.Locations.Address> _addressMapper;
 
         public CustomerAPI(
             ICommerceDatabase db,
-            ICustomerService customerService, ICountryService countryService,
-            IMapper<Customer, Kooboo.Commerce.Customers.Customer> mapper,
-            IMapper<Address, Kooboo.Commerce.Locations.Address> addressMapper)
-            : base(mapper)
+            ICustomerService customerService, ICountryService countryService)
         {
             _db = db;
             _customerService = customerService;
             _countryService = countryService;
-            _addressMapper = addressMapper;
         }
 
         /// <summary>
@@ -62,8 +57,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Id == id);
+            Query = Query.Where(o => o.Id == id);
             return this;
         }
 
@@ -74,8 +68,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByAccountId(string accountId)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.AccountId == accountId);
+            Query = Query.Where(o => o.AccountId == accountId);
             return this;
         }
 
@@ -86,8 +79,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByFirstName(string firstName)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.FirstName == firstName);
+            Query = Query.Where(o => o.FirstName == firstName);
             return this;
         }
 
@@ -98,8 +90,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByMiddleName(string middleName)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.MiddleName == middleName);
+            Query = Query.Where(o => o.MiddleName == middleName);
             return this;
         }
 
@@ -110,8 +101,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByLastName(string lastName)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.LastName == lastName);
+            Query = Query.Where(o => o.LastName == lastName);
             return this;
         }
 
@@ -122,8 +112,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByEmail(string email)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Email == email);
+            Query = Query.Where(o => o.Email == email);
             return this;
         }
 
@@ -134,8 +123,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByGender(Gender gender)
         {
-            EnsureQuery();
-            _query = _query.Where(o => (int)o.Gender == (int)gender);
+            Query = Query.Where(o => (int)o.Gender == (int)gender);
             return this;
         }
 
@@ -146,8 +134,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByPhone(string phone)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Phone == phone);
+            Query = Query.Where(o => o.Phone == phone);
             return this;
         }
 
@@ -158,8 +145,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByCity(string city)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.City == city);
+            Query = Query.Where(o => o.City == city);
             return this;
         }
 
@@ -170,8 +156,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByCountry(int countryId)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.CountryId == countryId);
+            Query = Query.Where(o => o.CountryId == countryId);
             return this;
         }
 
@@ -183,9 +168,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>customer query</returns>
         public ICustomerQuery ByCustomField(string customFieldName, string fieldValue)
         {
-            EnsureQuery();
             var customFieldQuery = _customerService.CustomFields().Where(o => o.Name == customFieldName && o.Value == fieldValue);
-            _query = _query.Where(o => customFieldQuery.Any(c => c.CustomerId == o.Id));
+            Query = Query.Where(o => customFieldQuery.Any(c => c.CustomerId == o.Id));
             return this;
         }
 
@@ -196,7 +180,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         public int AddAddress(int customerId, Address address)
         {
             var customer = _customerService.GetById(customerId);
-            var addr = _addressMapper.MapFrom(address);
+            var addr = CreateAddress(address);
 
             if (String.IsNullOrEmpty(addr.FirstName) && String.IsNullOrEmpty(addr.LastName))
             {
@@ -218,17 +202,43 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
         /// <returns>Id of the new created customer.</returns>
         public int Create(Customer customer)
         {
-            var mapped = _mapper.MapFrom(customer);
+            var mapped = new Kooboo.Commerce.Customers.Customer
+            {
+                AccountId = customer.AccountId,
+                City = customer.City,
+                CountryId = customer.CountryId,
+                Email = customer.Email,
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                Gender = (Kooboo.Commerce.Gender)(int)customer.Gender,
+                Phone = customer.Phone
+            };
 
             foreach (var address in customer.Addresses)
             {
-                mapped.Addresses.Add(_addressMapper.MapFrom(address));
+                mapped.Addresses.Add(CreateAddress(address));
             }
 
             _customerService.Create(mapped);
             customer.Id = mapped.Id;
 
             return mapped.Id;
+        }
+
+        private Kooboo.Commerce.Locations.Address CreateAddress(Address addr)
+        {
+            return new Commerce.Locations.Address
+            {
+                FirstName = addr.FirstName,
+                LastName = addr.LastName,
+                City = addr.City,
+                CountryId = addr.CountryId,
+                Phone = addr.Phone,
+                Postcode = addr.Postcode,
+                State = addr.State,
+                Address1 = addr.Address1,
+                Address2 = addr.Address2
+            };
         }
     }
 }

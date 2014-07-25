@@ -132,6 +132,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
         protected object CallMethod(object obj, string method, params object[] parameters)
         {
             var methodInfo = obj.GetType().GetMethod(method, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            if (methodInfo == null)
+                throw new InvalidOperationException("Method '" + method + "' was not found.");
+
             return methodInfo.Invoke(obj, parameters);
         }
 

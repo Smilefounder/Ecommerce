@@ -33,7 +33,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
         private IPromotionPolicyProvider _promotionPolicyFactory;
-        private IMapper<ShoppingCartItem, Kooboo.Commerce.Carts.ShoppingCartItem> _cartItemMapper;
 
         public ShoppingCartAPI(
             ICommerceDatabase db,
@@ -43,10 +42,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             IShippingMethodService shippingMethodService,
             ICustomerService customerService,
             IPromotionService promotionService,
-            IPromotionPolicyProvider promotionPolicyFactory,
-            IMapper<ShoppingCart, Kooboo.Commerce.Carts.ShoppingCart> mapper,
-            IMapper<ShoppingCartItem, Kooboo.Commerce.Carts.ShoppingCartItem> cartItemMapper)
-            : base(mapper)
+            IPromotionPolicyProvider promotionPolicyFactory)
         {
             _db = db;
             _productService = productService;
@@ -56,7 +52,6 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
             _customerService = customerService;
             _promotionService = promotionService;
             _promotionPolicyFactory = promotionPolicyFactory;
-            _cartItemMapper = cartItemMapper;
 
             Include(c => c.Items);
         }
@@ -82,8 +77,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 
         public IShoppingCartQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Id == id);
+            Query = Query.Where(o => o.Id == id);
             return this;
         }
 
@@ -94,8 +88,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         /// <returns>shopping cart query</returns>
         public IShoppingCartQuery BySessionId(string sessionId)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.SessionId == sessionId && o.Customer == null);
+            Query = Query.Where(o => o.SessionId == sessionId && o.Customer == null);
             return this;
         }
 
@@ -106,8 +99,7 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         /// <returns>shopping cart query</returns>
         public IShoppingCartQuery ByAccountId(string accountId)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Customer.AccountId == accountId);
+            Query = Query.Where(o => o.Customer.AccountId == accountId);
             return this;
         }
 

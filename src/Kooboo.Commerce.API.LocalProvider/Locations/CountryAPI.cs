@@ -19,7 +19,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         private ICountryService _countryService;
 
         public CountryAPI(ICountryService countryService, IMapper<Country, Kooboo.Commerce.Locations.Country> mapper)
-            : base(mapper)
         {
             _countryService = countryService;
         }
@@ -44,24 +43,13 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         }
 
         /// <summary>
-        /// map the entity to object
-        /// </summary>
-        /// <param name="obj">entity</param>
-        /// <returns>object</returns>
-        protected override Country Map(Commerce.Locations.Country obj)
-        {
-            return _mapper.MapTo(obj);
-        }
-
-        /// <summary>
         /// add id filter to query
         /// </summary>
         /// <param name="id">country id</param>
         /// <returns>country query</returns>
         public ICountryQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Id == id);
+            Query = Query.Where(o => o.Id == id);
             return this;
         }
 
@@ -72,8 +60,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         /// <returns>country query</returns>
         public ICountryQuery ByName(string name)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Name == name);
+            Query = Query.Where(o => o.Name == name);
             return this;
         }
         /// <summary>
@@ -83,8 +70,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         /// <returns>country query</returns>
         public ICountryQuery ByThreeLetterISOCode(string threeLetterISOCode)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.ThreeLetterIsoCode == threeLetterISOCode);
+            Query = Query.Where(o => o.ThreeLetterIsoCode == threeLetterISOCode);
             return this;
         }
 
@@ -95,8 +81,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         /// <returns>country query</returns>
         public ICountryQuery ByTwoLetterISOCode(string twoLetterISOCode)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.TwoLetterIsoCode == twoLetterISOCode);
+            Query = Query.Where(o => o.TwoLetterIsoCode == twoLetterISOCode);
             return this;
         }
 
@@ -107,17 +92,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         /// <returns>country query</returns>
         public ICountryQuery ByNumericISOCode(string numericISOCode)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.NumericIsoCode == numericISOCode);
-            return this;
-        }
-
-        /// <summary>
-        /// create country query
-        /// </summary>
-        /// <returns>country query</returns>
-        public ICountryQuery Query()
-        {
+            Query = Query.Where(o => o.NumericIsoCode == numericISOCode);
             return this;
         }
     }

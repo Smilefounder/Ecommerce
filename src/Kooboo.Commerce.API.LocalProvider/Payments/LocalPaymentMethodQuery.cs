@@ -16,9 +16,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
 
         public LocalPaymentMethodQuery(
             IPaymentMethodService paymentMethodService, 
-            Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory,
-            IMapper<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod> mapper)
-            : base(mapper)
+            Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory)
         {
             _paymentMethodService = paymentMethodService;
             _processorFactory = processorFactory;
@@ -26,22 +24,19 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
 
         public IPaymentMethodQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(x => x.Id == id);
+            Query = Query.Where(x => x.Id == id);
             return this;
         }
 
         public IPaymentMethodQuery ByUserKey(string userKey)
         {
-            EnsureQuery();
-            _query = _query.Where(x => x.UserKey == userKey);
+            Query = Query.Where(x => x.UserKey == userKey);
             return this;
         }
 
         public IPaymentMethodQuery ByName(string name)
         {
-            EnsureQuery();
-            _query = _query.Where(x => x.Name == name);
+            Query = Query.Where(x => x.Name == name);
             return this;
         }
 
@@ -62,16 +57,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         protected override IQueryable<Commerce.Payments.PaymentMethod> OrderByDefault(IQueryable<Commerce.Payments.PaymentMethod> query)
         {
             return query.OrderBy(x => x.Name);
-        }
-
-        /// <summary>
-        /// map the entity to object
-        /// </summary>
-        /// <param name="obj">entity</param>
-        /// <returns>object</returns>
-        protected override PaymentMethod Map(Commerce.Payments.PaymentMethod obj)
-        {
-            return _mapper.MapTo(obj);
         }
     }
 }

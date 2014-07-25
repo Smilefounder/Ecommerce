@@ -28,8 +28,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 query = query.ByCategoryId(Convert.ToInt32(qs["categoryId"]));
             if (!string.IsNullOrEmpty(qs["name"]))
                 query = query.ByName(qs["name"]);
-            if (!string.IsNullOrEmpty(qs["containsName"]))
-                query = query.ContainsName(qs["containsName"]);
             if (!string.IsNullOrEmpty(qs["productTypeId"]))
                 query = query.ByProductTypeId(Convert.ToInt32(qs["productTypeId"]));
             if (!string.IsNullOrEmpty(qs["brandId"]))

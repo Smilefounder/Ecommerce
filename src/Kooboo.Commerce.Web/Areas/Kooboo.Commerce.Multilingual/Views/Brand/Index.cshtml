@@ -1,6 +1,7 @@
 ﻿@model PagedList<BrandGridItemModel>
 @{
     ViewBag.Title = "Brands".Localize();
+    ViewBag.EnableSearch = true;
 }
 
 @Html.GridFor2(typeof(BrandGridItemModel), Model)

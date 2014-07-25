@@ -34,9 +34,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private ICustomFieldService _customFieldService;
 
         public ProductAPI(IProductService productService, IBrandService brandService, IProductTypeService productTypeService, ICustomFieldService customFieldService,
-            ICategoryService categoryService,
-            IMapper<Product, Kooboo.Commerce.Products.Product> mapper)
-            : base(mapper)
+            ICategoryService categoryService)
         {
             _productService = productService;
             _brandService = brandService;
@@ -105,8 +103,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <returns>customer query</returns>
         public IProductQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Id == id);
+            Query = Query.Where(o => o.Id == id);
             return this;
         }
 
@@ -117,8 +114,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <returns>product query</returns>
         public IProductQuery ByCategoryId(int categoryId)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Categories.Any(c => c.CategoryId == categoryId));
+            Query = Query.Where(o => o.Categories.Any(c => c.CategoryId == categoryId));
             return this;
         }
         /// <summary>
@@ -128,23 +124,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <returns>product query</returns>
         public IProductQuery ByName(string name)
         {
-            EnsureQuery();
-            name = name.ToLower();
-            _query = _query.Where(o => o.Name.ToLower() == name);
-            return this;
-        }
-
-        /// <summary>
-        /// add contains name filter to query
-        /// product name contains the input
-        /// </summary>
-        /// <param name="name">product name</param>
-        /// <returns>product query</returns>
-        public IProductQuery ContainsName(string name)
-        {
-            EnsureQuery();
-            name = name.ToLower();
-            _query = _query.Where(o => o.Name.ToLower().Contains(name));
+            Query = Query.Where(o => o.Name == name);
             return this;
         }
 
@@ -155,8 +135,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <returns>product query</returns>
         public IProductQuery ByProductTypeId(int productTypeId)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.ProductTypeId == productTypeId);
+            Query = Query.Where(o => o.ProductTypeId == productTypeId);
             return this;
         }
 
@@ -167,8 +146,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <returns>product query</returns>
         public IProductQuery ByBrandId(int brandId)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.BrandId == brandId);
+            Query = Query.Where(o => o.BrandId == brandId);
             return this;
         }
 
@@ -180,8 +158,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <returns>product query</returns>
         public IProductQuery ByCustomField(string customFieldName, string fieldValue)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.CustomFieldValues.Any(f => f.CustomField.Name == customFieldName && f.FieldValue == fieldValue));
+            Query = Query.Where(o => o.CustomFieldValues.Any(f => f.CustomField.Name == customFieldName && f.FieldValue == fieldValue));
             return this;
         }
 
@@ -193,8 +170,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <returns>product query</returns>
         public IProductQuery ByPriceVariant(string variantName, string variantValue)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.PriceList.Any(p => p.VariantValues.Any(v => v.CustomField.Name == variantName && v.FieldValue == variantValue)));
+            Query = Query.Where(o => o.PriceList.Any(p => p.VariantValues.Any(v => v.CustomField.Name == variantName && v.FieldValue == variantValue)));
             return this;
         }
     }

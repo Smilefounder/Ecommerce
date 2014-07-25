@@ -7,25 +7,25 @@ namespace Kooboo.Commerce.API.LocalProvider.Mapping
 {
     public static class ObjectMapper
     {
-        public static TTarget Map<TSource, TTarget>(TSource source)
+        public static TTarget Map<TSource, TTarget>(TSource source, IncludeCollection includes)
         {
-            return Map<TSource, TTarget>(source, (TTarget)Activator.CreateInstance(typeof(TTarget)));
+            return Map<TSource, TTarget>(source, (TTarget)Activator.CreateInstance(typeof(TTarget)), includes);
         }
 
-        public static TTarget Map<TSource, TTarget>(TSource source, TTarget target)
+        public static TTarget Map<TSource, TTarget>(TSource source, TTarget target, IncludeCollection includes)
         {
-            return (TTarget)Map(source, target, typeof(TSource), typeof(TTarget));
+            return (TTarget)Map(source, target, typeof(TSource), typeof(TTarget), includes);
         }
 
-        public static object Map(object source, Type sourceType, Type targetType)
+        public static object Map(object source, Type sourceType, Type targetType, IncludeCollection includes)
         {
-            return Map(source, Activator.CreateInstance(targetType), sourceType, targetType);
+            return Map(source, Activator.CreateInstance(targetType), sourceType, targetType, includes);
         }
 
-        public static object Map(object source, object target, Type sourceType, Type targetType)
+        public static object Map(object source, object target, Type sourceType, Type targetType, IncludeCollection includes)
         {
             var mapper = GetMapper(sourceType, targetType);
-            return mapper.Map(source, target, sourceType, targetType, new MappingContext());
+            return mapper.Map(source, target, sourceType, targetType, null, new MappingContext(includes));
         }
 
         static readonly Dictionary<Tuple<Type, Type>, IObjectMapper> _mappers = new Dictionary<Tuple<Type, Type>, IObjectMapper>();

@@ -63,6 +63,7 @@
     <Compile Include="Categories\CategoryAPI.cs" />
     <Compile Include="Customers\CustomerAPI.cs" />
     <Compile Include="IMapper.cs" />
+    <Compile Include="IncludeCollection.cs" />
     <Compile Include="LocalCommerceAPI.cs" />
     <Compile Include="LocalCommerceQuery.cs" />
     <Compile Include="Locations\CountryAPI.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Mapping\LocalizableObjectMapper.cs" />
     <Compile Include="Mapping\MappingContext.cs" />
     <Compile Include="Mapping\ObjectMapper.cs" />
-    <Compile Include="Mapping\ObjectProperty.cs" />
+    <Compile Include="Mapping\ObjectReference.cs" />
     <Compile Include="Payments\LocalPaymentAPI.cs" />
     <Compile Include="Payments\LocalPaymentMethodAPI.cs" />
     <Compile Include="Payments\LocalPaymentMethodQuery.cs" />

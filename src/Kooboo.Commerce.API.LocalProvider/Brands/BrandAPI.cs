@@ -19,8 +19,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
     {
         private IBrandService _brandService;
 
-        public BrandAPI(IBrandService brandService, IMapper<Brand, Kooboo.Commerce.Brands.Brand> mapper)
-            : base(mapper)
+        public BrandAPI(IBrandService brandService)
         {
             _brandService = brandService;
         }
@@ -41,17 +40,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
         /// <returns>ordered query</returns>
         protected override IQueryable<Commerce.Brands.Brand> OrderByDefault(IQueryable<Commerce.Brands.Brand> query)
         {
-            return _query.OrderByDescending(o => o.Id);
-        }
-
-        /// <summary>
-        /// map the entity to object
-        /// </summary>
-        /// <param name="obj">entity</param>
-        /// <returns>object</returns>
-        protected override Brand Map(Commerce.Brands.Brand obj)
-        {
-            return ObjectMapper.Map(obj, new Brand());
+            return query.OrderByDescending(o => o.Id);
         }
 
         /// <summary>
@@ -61,8 +50,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
         /// <returns>brand query</returns>
         public IBrandQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Id == id);
+            Query = Query.Where(o => o.Id == id);
             return this;
         }
 
@@ -73,8 +61,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
         /// <returns>brand query</returns>
         public IBrandQuery ByName(string name)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Name == name);
+            Query = Query.Where(o => o.Name == name);
             return this;
         }
         /// <summary>
@@ -85,9 +72,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Brands
         /// <returns>brand query</returns>
         public IBrandQuery ByCustomField(string customFieldName, string fieldValue)
         {
-            EnsureQuery();
             var customFieldQuery = _brandService.CustomFields().Where(o => o.Name == customFieldName && o.Value == fieldValue);
-            _query = _query.Where(o => customFieldQuery.Any(c => c.BrandId == o.Id));
+            Query = Query.Where(o => customFieldQuery.Any(c => c.BrandId == o.Id));
             return this;
         }
     }

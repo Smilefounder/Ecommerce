@@ -52,18 +52,17 @@
             <div class="product-left">
                 <div class="product-info-left propics">
                     <div class="product-bigpic">
-                        <a id="ctl00_cpContent_hlProductPicture" class="thickbox" title="Omnium®" href="@(image.ImageUrl)"><img id="ctl00_cpContent_imgProductPicture" title="@(product.Brand.Name)®" class="dpic" itemprop="image" src="@(image.ImageUrl)" alt="Omnium®" style="border-width:0px;"></a>
-
+                        <a class="thickbox" title="Omnium®" href="@(image.ImageUrl)"><img id="ctl00_cpContent_imgProductPicture" title="@(product.Brand.Name)®" class="dpic" itemprop="image" src="@(image.ImageUrl)" alt="Omnium®" style="border-width:0px;"></a>
                     </div>
-
-
-
                 </div>
                 <div class="product-info-right protext">
                     <div id="algemeen" class="tabs" style="display: block;">
                         <h1 itemprop="name">
                             @(product.Name)®
                         </h1>
+                        <small>
+                            @(product.Brand.Name)
+                        </small>
                         <div class="TotalReviews" itemprop="aggregaterating" itemscope="" itemtype="http://schema.org/AggregateRating">
 
                             <ul class="star-rating">

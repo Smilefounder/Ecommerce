@@ -13,25 +13,20 @@ namespace Kooboo.Commerce.API.LocalProvider.Shipping
     {
         private IShippingMethodService _shippingMethodService;
 
-        public LocalShippingMethodQuery(
-            IShippingMethodService shippingMethodService,
-            IMapper<ShippingMethod, Kooboo.Commerce.Shipping.ShippingMethod> mapper)
-            : base(mapper)
+        public LocalShippingMethodQuery(IShippingMethodService shippingMethodService)
         {
             _shippingMethodService = shippingMethodService;
         }
 
         public IShippingMethodQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(x => x.Id == id);
+            Query = Query.Where(x => x.Id == id);
             return this;
         }
 
         public IShippingMethodQuery ByName(string name)
         {
-            EnsureQuery();
-            _query = _query.Where(x => x.Name == name);
+            Query = Query.Where(x => x.Name == name);
             return this;
         }
 

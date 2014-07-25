@@ -7,6 +7,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Mapping
 {
     public interface IObjectMapper
     {
-        object Map(object source, object target, Type sourceType, Type targetType, MappingContext context);
+        object Map(object source, object target, Type sourceType, Type targetType, string prefix, MappingContext context);
     }
 }

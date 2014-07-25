@@ -11,39 +11,56 @@ namespace Kooboo.Commerce.API.LocalProvider.Mapping
     {
         public Func<Type, Type, IObjectMapper> GetMapper = (sourceType, targetType) => ObjectMapper.GetMapper(sourceType, targetType);
 
-        public object Map(object source, object target, Type sourceType, Type targetType, MappingContext context)
+        public virtual object Map(object source, object target, Type sourceType, Type targetType, string prefix, MappingContext context)
         {
             foreach (var targetProp in targetType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                var prop = new ObjectProperty(target, targetProp);
-                if (!context.VisitedTargetProperties.Contains(prop))
-                {
-                    context.VisitedTargetProperties.Add(prop);
-                    MapProperty(prop, source, sourceType, targetType, context);
-                }
+                var propPath = prefix + targetProp.Name;
+                MapProperty(targetProp, source, target, sourceType, targetType, propPath, context);
             }
 
             return target;
         }
 
-        protected virtual void MapProperty(ObjectProperty targetProperty, object source, Type sourceType, Type targetType, MappingContext context)
+        protected virtual void MapProperty(PropertyInfo targetProperty, object source, object target, Type sourceType, Type targetType, string propertyPath, MappingContext context)
         {
-            var sourceProperty = sourceType.GetProperty(targetProperty.PropertyName, BindingFlags.Public | BindingFlags.Instance);
+            var sourceProperty = sourceType.GetProperty(targetProperty.Name, BindingFlags.Public | BindingFlags.Instance);
             if (sourceProperty == null)
             {
                 return;
             }
 
-            var sourcePropValue = GetSourcePropertyValue(sourceProperty, source);
+            var sourcePropValue = ResolveSourcePropertyValue(sourceProperty, source);
+
+            if (sourcePropValue == null)
+            {
+                if (targetProperty.CanWrite)
+                {
+                    targetProperty.SetValue(target, null, null);
+                }
+
+                return;
+            }
 
             if (IsComplexType(targetProperty.PropertyType))
             {
+                if (!context.Includes.Includes(propertyPath))
+                {
+                    return;
+                }
+
+                object targetPropValue = targetProperty.GetValue(target, null);
+
+                if (context.VisitedObjects.Contains(targetPropValue))
+                {
+                    return;
+                }
+
                 Type targetElementType;
-                object targetPropValue = targetProperty.GetValue();
 
                 if (IsCollection(targetProperty.PropertyType, out targetElementType))
                 {
-                    var sourceElementType = sourceProperty.PropertyType.GetGenericArguments()[0];
+                    var sourceElementType = GetCollectionElementType(sourceProperty.PropertyType);
 
                     var elementMapper = GetMapper(sourceElementType, targetElementType);
                     if (elementMapper == null)
@@ -57,19 +74,38 @@ namespace Kooboo.Commerce.API.LocalProvider.Mapping
                     if (targetList == null || addMethod == null)
                     {
                         targetList = Activator.CreateInstance(typeof(List<>).MakeGenericType(targetElementType));
+                        addMethod = targetList.GetType().GetMethod("Add", BindingFlags.Public | BindingFlags.Instance, null, new[] { targetElementType }, null);
                     }
 
                     var sourceList = sourcePropValue as IEnumerable;
+                    var elementPrefix = propertyPath + ".";
+                    var totalElements = 0;
 
                     foreach (var sourceElement in sourceList)
                     {
-                        var targetElement = elementMapper.Map(sourceElement, Activator.CreateInstance(targetElementType), sourceElementType, targetElementType, context);
+                        var targetElement = elementMapper.Map(sourceElement, Activator.CreateInstance(targetElementType), sourceElementType, targetElementType, elementPrefix, context);
                         addMethod.Invoke(targetList, new[] { targetElement });
+                        totalElements++;
                     }
 
                     if (!Object.ReferenceEquals(targetList, targetPropValue))
                     {
-                        targetProperty.SetValue(targetList);
+                        if (targetProperty.PropertyType.IsArray)
+                        {
+                            var array = Array.CreateInstance(targetElementType, totalElements);
+                            var i = 0;
+                            foreach (var item in targetList as IEnumerable)
+                            {
+                                array.SetValue(item, i);
+                                i++;
+                            }
+
+                            targetProperty.SetValue(target, array, null);
+                        }
+                        else
+                        {
+                            targetProperty.SetValue(target, targetList, null);
+                        }
                     }
                 }
                 else
@@ -82,23 +118,37 @@ namespace Kooboo.Commerce.API.LocalProvider.Mapping
                             targetPropValue = Activator.CreateInstance(targetProperty.PropertyType);
                         }
 
-                        mapper.Map(sourcePropValue, targetPropValue, sourceProperty.PropertyType, targetProperty.PropertyType, context);
+                        targetPropValue = mapper.Map(sourcePropValue, targetPropValue, sourceProperty.PropertyType, targetProperty.PropertyType, propertyPath + ".", context);
+
+                        targetProperty.SetValue(target, targetPropValue, null);
                     }
                 }
             }
             else
             {
-                targetProperty.SetValue(sourcePropValue);
+                var targetPropValue = sourcePropValue;
+                if (targetProperty.PropertyType.IsEnum)
+                {
+                    targetPropValue = Enum.Parse(targetProperty.PropertyType, sourcePropValue.ToString(), true);
+                }
+
+                targetProperty.SetValue(target, sourcePropValue, null);
             }
         }
 
-        protected virtual object GetSourcePropertyValue(PropertyInfo property, object source)
+        protected virtual object ResolveSourcePropertyValue(PropertyInfo property, object source)
         {
             return property.GetValue(source, null);
         }
 
         protected bool IsCollection(Type type, out Type elementType)
         {
+            if (type.IsArray)
+            {
+                elementType = type.GetElementType();
+                return true;
+            }
+
             foreach (var @interface in type.GetInterfaces())
             {
                 if (@interface.IsGenericType)
@@ -115,6 +165,16 @@ namespace Kooboo.Commerce.API.LocalProvider.Mapping
             elementType = null;
 
             return false;
+        }
+
+        private Type GetCollectionElementType(Type type)
+        {
+            if (type.IsArray)
+            {
+                return type.GetElementType();
+            }
+
+            return type.GetGenericArguments()[0];
         }
 
         protected bool IsComplexType(Type type)

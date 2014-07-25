@@ -15,23 +15,20 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         protected IPaymentService PaymentService { get; private set; }
 
         public LocalPaymentQuery(IPaymentService paymentService, IMapper<Payment, Kooboo.Commerce.Payments.Payment> mapper)
-            : base(mapper)
         {
             PaymentService = paymentService;
         }
 
         public IPaymentQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(x => x.Id == id);
+            Query = Query.Where(x => x.Id == id);
             return this;
         }
 
         public IPaymentQuery ByStatus(Kooboo.Commerce.API.Payments.PaymentStatus status)
         {
-            EnsureQuery();
             var mappedStatus = (Kooboo.Commerce.Payments.PaymentStatus)(int)status;
-            _query = _query.Where(x => x.Status == mappedStatus);
+            Query = Query.Where(x => x.Status == mappedStatus);
             return this;
         }
 
@@ -51,17 +48,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         /// <returns>ordered query</returns>
         protected override IQueryable<Commerce.Payments.Payment> OrderByDefault(IQueryable<Commerce.Payments.Payment> query)
         {
-            return _query.OrderByDescending(x => x.Id);
-        }
-
-        /// <summary>
-        /// map the entity to object
-        /// </summary>
-        /// <param name="obj">entity</param>
-        /// <returns>object</returns>
-        protected override Payment Map(Commerce.Payments.Payment obj)
-        {
-            return _mapper.MapTo(obj);
+            return query.OrderByDescending(x => x.Id);
         }
     }
 }

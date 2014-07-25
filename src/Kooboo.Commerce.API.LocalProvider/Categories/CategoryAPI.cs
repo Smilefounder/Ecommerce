@@ -18,8 +18,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
     {
         private ICategoryService _categoryService;
 
-        public CategoryAPI(ICategoryService categoryService, IMapper<Category, Kooboo.Commerce.Categories.Category> mapper)
-            : base(mapper)
+        public CategoryAPI(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
@@ -56,8 +55,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         /// <returns>category query</returns>
         public ICategoryQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Id == id).OrderBy(o => o.Name);
+            Query = Query.Where(o => o.Id == id).OrderBy(o => o.Name);
             return this;
         }
 
@@ -68,8 +66,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         /// <returns>category query</returns>
         public ICategoryQuery ByName(string name)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Name == name);
+            Query = Query.Where(o => o.Name == name);
             return this;
         }
 
@@ -81,8 +78,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         /// <returns>category query</returns>
         public ICategoryQuery Published(bool published)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Published == published);
+            Query = Query.Where(o => o.Published == published);
             return this;
         }
 
@@ -93,11 +89,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         /// <returns>category query</returns>
         public ICategoryQuery ByParentId(int? parentId)
         {
-            EnsureQuery();
             if (parentId.HasValue)
-                _query = _query.Where(o => o.Parent.Id == parentId.Value);
+                Query = Query.Where(o => o.Parent.Id == parentId.Value);
             else
-                _query = _query.Where(o => o.Parent == null);
+                Query = Query.Where(o => o.Parent == null);
             return this;
         }
 
@@ -109,10 +104,17 @@ namespace Kooboo.Commerce.API.LocalProvider.Categories
         /// <returns>brand query</returns>
         public ICategoryQuery ByCustomField(string customFieldName, string fieldValue)
         {
-            EnsureQuery();
             var customFieldQuery = _categoryService.CustomFields().Where(o => o.Name == customFieldName && o.Value == fieldValue);
-            _query = _query.Where(o => customFieldQuery.Any(c => c.CategoryId == o.Id));
+            Query = Query.Where(o => customFieldQuery.Any(c => c.CategoryId == o.Id));
             return this;
+        }
+
+        protected override Category Map(Commerce.Categories.Category obj)
+        {
+            var category = base.Map(obj);
+            category.Name = obj.GetText("Name", CultureInfo.CurrentUICulture) ?? category.Name;
+
+            return category;
         }
     }
 }

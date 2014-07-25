@@ -26,9 +26,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
 
-        public OrderAPI(ICommerceDatabase db, IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService,
-            IMapper<Order, Kooboo.Commerce.Orders.Order> mapper)
-            : base(mapper)
+        public OrderAPI(ICommerceDatabase db, IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService)
         {
             _db = db;
             _orderService = orderService;
@@ -55,14 +53,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
             return query.OrderByDescending(o => o.Id);
         }
 
-        /// <summary>
-        /// this method will be called after query executed
-        /// </summary>
-        protected override void OnQueryExecuted()
-        {
-            base.OnQueryExecuted();
-        }
-
         public int CreateFromCart(int cartId, ShoppingContext context)
         {
             var cart = _shoppingCartService.GetById(cartId);
@@ -87,8 +77,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         /// <returns>order query</returns>
         public IOrderQuery ById(int id)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Id == id);
+            Query = Query.Where(o => o.Id == id);
             return this;
         }
 
@@ -99,8 +88,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         /// <returns>order query</returns>
         public IOrderQuery ByCustomerId(int customerId)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.CustomerId == customerId);
+            Query = Query.Where(o => o.CustomerId == customerId);
             return this;
         }
 
@@ -111,8 +99,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         /// <returns>order query</returns>
         public IOrderQuery ByAccountId(string accountId)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Customer.AccountId == accountId);
+            Query = Query.Where(o => o.Customer.AccountId == accountId);
             return this;
         }
 
@@ -124,11 +111,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         /// <returns>order query</returns>
         public IOrderQuery ByCreateDate(DateTime? from, DateTime? to)
         {
-            EnsureQuery();
             if (from.HasValue)
-                _query = _query.Where(o => o.CreatedAtUtc >= from.Value);
+                Query = Query.Where(o => o.CreatedAtUtc >= from.Value);
             if (to.HasValue)
-                _query = _query.Where(o => o.CreatedAtUtc <= to.Value);
+                Query = Query.Where(o => o.CreatedAtUtc <= to.Value);
             return this;
         }
 
@@ -139,8 +125,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         /// <returns>order query</returns>
         public IOrderQuery ByOrderStatus(OrderStatus status)
         {
-            EnsureQuery();
-            _query = _query.Where(o => (int)o.Status == (int)status);
+            Query = Query.Where(o => (int)o.Status == (int)status);
             return this;
         }
 
@@ -151,8 +136,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         /// <returns>order query</returns>
         public IOrderQuery ByCoupon(string coupon)
         {
-            EnsureQuery();
-            _query = _query.Where(o => o.Coupon == coupon);
+            Query = Query.Where(o => o.Coupon == coupon);
             return this;
         }
 
@@ -164,11 +148,10 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         /// <returns>order query</returns>
         public IOrderQuery ByTotal(decimal? from, decimal? to)
         {
-            EnsureQuery();
             if (from.HasValue)
-                _query = _query.Where(o => o.Total >= from.Value);
+                Query = Query.Where(o => o.Total >= from.Value);
             if (to.HasValue)
-                _query = _query.Where(o => o.Total <= to.Value);
+                Query = Query.Where(o => o.Total <= to.Value);
             return this;
         }
 
@@ -180,9 +163,8 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         /// <returns>order query</returns>
         public IOrderQuery ByCustomField(string customFieldName, string fieldValue)
         {
-            EnsureQuery();
             var customFieldQuery = _orderService.CustomFields().Where(o => o.Name == customFieldName && o.Value == fieldValue);
-            _query = _query.Where(o => customFieldQuery.Any(c => c.OrderId == o.Id));
+            Query = Query.Where(o => customFieldQuery.Any(c => c.OrderId == o.Id));
             return this;
         }
     }

@@ -11,16 +11,9 @@ namespace Kooboo.Commerce.API.LocalProvider.Shipping
     [Dependency(typeof(IShippingMethodAPI))]
     public class LocalShippingMethodAPI : LocalShippingMethodQuery, IShippingMethodAPI
     {
-        public LocalShippingMethodAPI(
-            IShippingMethodService shippingMethodService, 
-            IMapper<ShippingMethod, Kooboo.Commerce.Shipping.ShippingMethod> mapper)
-            : base(shippingMethodService, mapper)
+        public LocalShippingMethodAPI(IShippingMethodService shippingMethodService)
+            : base(shippingMethodService)
         {
-        }
-
-        public IShippingMethodQuery Query()
-        {
-            return this;
         }
     }
 }
