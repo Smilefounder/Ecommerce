@@ -7,7 +7,7 @@ namespace Kooboo.Commerce.Api.Local
 {
     public class IncludeCollection : IEnumerable<string>
     {
-        private TrieNode _trie = TrieNode.Root;
+        private TrieNode _trie = TrieNode.CreateRoot();
         private StringComparison _comparison;
 
         public IncludeCollection()
@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.Api.Local
 
         public void Clear()
         {
-            _trie = TrieNode.Root;
+            _trie = TrieNode.CreateRoot();
         }
 
         public IEnumerator<string> GetEnumerator()
@@ -67,8 +67,6 @@ namespace Kooboo.Commerce.Api.Local
 
         class TrieNode
         {
-            public static readonly TrieNode Root = new TrieNode(null);
-
             public string Value { get; private set; }
 
             private List<TrieNode> _nodes;
@@ -96,6 +94,11 @@ namespace Kooboo.Commerce.Api.Local
             public TrieNode(string value)
             {
                 Value = value;
+            }
+
+            public static TrieNode CreateRoot()
+            {
+                return new TrieNode(null);
             }
 
             public void AddNode(string value, int start, StringComparison comparison)

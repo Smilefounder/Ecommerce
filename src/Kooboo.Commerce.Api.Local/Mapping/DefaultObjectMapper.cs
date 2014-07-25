@@ -68,14 +68,8 @@ namespace Kooboo.Commerce.Api.Local.Mapping
                         return;
                     }
 
-                    var targetList = targetPropValue;
-
-                    var addMethod = targetProperty.PropertyType.GetMethod("Add", BindingFlags.Public | BindingFlags.Instance, null, new[] { targetElementType }, null);
-                    if (targetList == null || addMethod == null)
-                    {
-                        targetList = Activator.CreateInstance(typeof(List<>).MakeGenericType(targetElementType));
-                        addMethod = targetList.GetType().GetMethod("Add", BindingFlags.Public | BindingFlags.Instance, null, new[] { targetElementType }, null);
-                    }
+                    var targetList = Activator.CreateInstance(typeof(List<>).MakeGenericType(targetElementType));
+                    var addMethod = targetList.GetType().GetMethod("Add", BindingFlags.Public | BindingFlags.Instance, null, new[] { targetElementType }, null);
 
                     var sourceList = sourcePropValue as IEnumerable;
                     var elementPrefix = propertyPath + ".";
