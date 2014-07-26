@@ -54,14 +54,14 @@
                 <th class="action"></th>
             </tr>
         </thead>
-        <tbody data-bind="if: $root.data().PriceList().length === 0">
+        <tbody data-bind="if: $root.data().Variants().length === 0">
             <tr class="empty">
                 <td colspan="100">
                     @("Empty".Localize())
                 </td>
             </tr>
         </tbody>
-        <tbody data-bind="foreach: { data: $root.data().PriceList, afterRender: $root.InitVariantFieldControls }">
+        <tbody data-bind="foreach: { data: $root.data().Variants, afterRender: $root.InitVariantFieldControls }">
             <tr data-bind="visible: !$root.IsEditingPrice($data), css: { active: Selected }">
                 <td class="checkbox">
                     <input type="checkbox" class="select" data-bind="checked: Selected" />
@@ -72,7 +72,7 @@
                     var field = customField.CustomField;
                     <td data-bind="text: $root.GetVariantFieldText($data, @field.Id)"></td>
                 }
-                <td class="mini" data-bind="text:RetailPrice"></td>
+                <td class="mini" data-bind="text:Price"></td>
                 <td><a data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit-small")</a></td>
                 <td><a data-bind="click: $root.DeletePrice" title="Delete">@Html.IconImage("minus-small")</a></td>
             </tr>
@@ -94,7 +94,7 @@
                                        }, ViewContext)
                     </td>
                 }
-                <td class="mini"><input type="text" data-bind="value:RetailPrice" class="mini"></td>
+                <td class="mini"><input type="text" data-bind="value:Price" class="mini"></td>
                 <td><a data-bind="click: $root.CommitPriceEditing" title="Save">@Html.IconImage("save-small")</a></td>
                 <td><a data-bind="click: $root.DeletePrice" title="Cancel">@Html.IconImage("minus-small")</a></td>
             </tr>

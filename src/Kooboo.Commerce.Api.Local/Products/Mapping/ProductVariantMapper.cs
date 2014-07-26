@@ -11,13 +11,13 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
     {
         public override object Map(object source, object target, Type sourceType, Type targetType, string prefix, MappingContext context)
         {
-            var variant = base.Map(source, target, sourceType, targetType, prefix, context) as ProductPrice;
+            var variant = base.Map(source, target, sourceType, targetType, prefix, context) as ProductVariant;
+                var fromVariant = source as Kooboo.Commerce.Products.ProductVariant;
 
             // Variant Fields
             if (context.Includes.Includes(prefix + "VariantFields"))
             {
-                var fromVariant = source as Kooboo.Commerce.Products.ProductPrice;
-                foreach (var fieldValue in fromVariant.VariantValues)
+                foreach (var fieldValue in fromVariant.VariantFields)
                 {
                     var field = new CustomFieldValue
                     {
@@ -29,12 +29,31 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
 
                     if (fieldValue.CustomField.IsValueLocalizable)
                     {
-                        field.FieldText = fromVariant.GetText("VariantFields[" + field.FieldName + "]", context.Culture);
+                        field.FieldText = fromVariant.GetText("VariantFields[" + field.FieldName + "]", context.ApiContext.Culture);
                     }
 
                     variant.VariantFields.Add(field);
                 }
             }
+
+            // Final price
+            // TODO: How to resolve performance issue if it's quering product list with variants?
+            var shoppingContext = new Kooboo.Commerce.Carts.ShoppingContext
+            {
+                Culture = context.ApiContext.Culture.Name,
+                Currency = context.ApiContext.Currency
+            };
+
+            if (context.ApiContext.CustomerAccountId != null)
+            {
+                var customer = ((LocalApiContext)context.ApiContext).Services.Customers.GetByAccountId(context.ApiContext.CustomerAccountId);
+                if (customer != null)
+                {
+                    shoppingContext.CustomerId = customer.Id;
+                }
+            }
+
+            variant.FinalPrice = fromVariant.GetFinalPrice(shoppingContext);
 
             return variant;
         }

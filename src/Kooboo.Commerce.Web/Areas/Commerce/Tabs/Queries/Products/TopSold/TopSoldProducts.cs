@@ -47,11 +47,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products.TopSold
 
             IQueryable<SaledProduct> orderItemQuery = db.GetRepository<OrderItem>()
                                    .Query()
-                                   .GroupBy(o => o.ProductPriceId)
+                                   .GroupBy(o => o.ProductVariantId)
                                    .Select(g => new SaledProduct
                                    {
-                                       ProductPriceId = g.FirstOrDefault().ProductPriceId,
-                                       ProductId = g.FirstOrDefault().ProductPrice.ProductId,
+                                       ProductPriceId = g.FirstOrDefault().ProductVariantId,
+                                       ProductId = g.FirstOrDefault().ProductVariant.ProductId,
                                        SaledCount = g.Sum(o => o.Quantity)
                                    })
                                    .OrderByDescending(g => g.SaledCount);

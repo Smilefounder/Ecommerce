@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -8,6 +9,11 @@ namespace Kooboo.Commerce.Utils
 {
     public static class TypeHelper
     {
+        public static Type GetType(object entity)
+        {
+            return ObjectContext.GetObjectType(entity.GetType());
+        }
+
         public static PropertyInfo GetProperty(Type type, string property)
         {
             Require.NotNull(type, "type");

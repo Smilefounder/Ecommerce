@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Kooboo.Commerce.Api.Carts;
 using Kooboo.Commerce.Api.Products;
 using Kooboo.CMS.Membership.Models;
+using Kooboo.Commerce.CMSIntegration;
 
 namespace Kooboo.CMS.Plugins.Vitaminstore
 {
@@ -62,11 +63,10 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
 
             query = query.ById(cartId);
 
-            query.Include("Items.ProductPrice");
-            query.Include("Items.ProductPrice.Product");
-            query.Include("Items.ProductPrice.Product.Brand");
-            query.Include("Items.ProductPrice.Product.PriceList");
-            query.Include("Items.ProductPrice.Product.Images");
+            query.Include("Items.ProductVariant");
+            query.Include("Items.Product");
+            query.Include("Items.Product.Brand");
+            query.Include("Items.Product.Images");
 
             return query.FirstOrDefault() ?? new ShoppingCart
             {

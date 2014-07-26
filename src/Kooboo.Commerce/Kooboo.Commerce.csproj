@@ -185,10 +185,10 @@
     <Compile Include="Products\ProductImage.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\ProductPrice.cs">
+    <Compile Include="Products\ProductVariant.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\ProductPriceVariantValue.cs">
+    <Compile Include="Products\ProductVariantFieldValue.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Products\ProductType.cs">

@@ -59,11 +59,6 @@ namespace Kooboo.Commerce.Customers.Services
             return _addressRepository.Query();
         }
 
-        public IQueryable<CustomerCustomField> CustomFields()
-        {
-            return _customerCustomFieldRepository.Query();
-        }
-
         public void Create(Customer customer)
         {
             _customerRepository.Insert(customer);

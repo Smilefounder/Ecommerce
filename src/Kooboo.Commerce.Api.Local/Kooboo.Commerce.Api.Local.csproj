@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brands\BrandApi.cs" />
+    <Compile Include="Carts\Mapping\ShoppingCartItemMapper.cs" />
     <Compile Include="Categories\CategoryApi.cs" />
     <Compile Include="Customers\CustomerApi.cs" />
     <Compile Include="IncludeCollection.cs" />

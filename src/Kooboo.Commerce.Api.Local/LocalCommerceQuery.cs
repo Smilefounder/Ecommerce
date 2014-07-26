@@ -29,6 +29,8 @@ namespace Kooboo.Commerce.Api.Local
             }
         }
 
+        protected LocalApiContext Context { get; private set; }
+
         private IQueryable<Model> _query;
 
         protected IQueryable<Model> Query
@@ -48,13 +50,18 @@ namespace Kooboo.Commerce.Api.Local
             }
         }
 
+        protected LocalCommerceQuery(LocalApiContext context)
+        {
+            Context = context;
+        }
+
         protected abstract IQueryable<Model> CreateQuery();
 
         protected abstract IQueryable<Model> OrderByDefault(IQueryable<Model> query);
 
         protected virtual T Map(Model obj)
         {
-            return ObjectMapper.Map<Model, T>(obj, Includes, CultureInfo.CurrentUICulture);
+            return ObjectMapper.Map<Model, T>(obj, Context, _includes);
         }
 
         public ICommerceQuery<T> Include(string property)

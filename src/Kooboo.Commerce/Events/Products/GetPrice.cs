@@ -16,25 +16,25 @@ namespace Kooboo.Commerce.Events.Products
         [Reference(typeof(Product))]
         public int ProductId { get; private set; }
 
-        [Reference(typeof(ProductPrice))]
-        public int ProductPriceId { get; private set; }
+        [Reference(typeof(ProductVariant))]
+        public int VariantId { get; private set; }
 
         [Reference(Prefix = "")]
         public ShoppingContext ShoppingContext { get; private set; }
 
         [Param]
-        public decimal OriginalUnitPrice { get; private set; }
+        public decimal OriginalPrice { get; private set; }
 
-        public decimal FinalUnitPrice { get; set; }
+        public decimal FinalPrice { get; set; }
 
-        private GetPrice() { }
+        protected GetPrice() { }
 
-        public GetPrice(int productId, int productPriceId, decimal originalUnitPrice, ShoppingContext shoppingContext)
+        public GetPrice(int productId, int variantId, decimal originalPrice, ShoppingContext shoppingContext)
         {
             ProductId = productId;
-            ProductPriceId = productPriceId;
-            OriginalUnitPrice = originalUnitPrice;
-            FinalUnitPrice = originalUnitPrice;
+            VariantId = variantId;
+            OriginalPrice = originalPrice;
+            FinalPrice = originalPrice;
             ShoppingContext = shoppingContext;
         }
     }

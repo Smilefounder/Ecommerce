@@ -7,6 +7,7 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.EAV;
 using Kooboo.Commerce.Globalization;
+using Kooboo.Commerce.Carts;
 
 namespace Kooboo.Commerce.Products
 {
@@ -24,11 +25,12 @@ namespace Kooboo.Commerce.Products
             Brand = null;
             Categories = new List<ProductCategory>();
             Images = new List<ProductImage>();
-            CustomFieldValues = new List<ProductCustomFieldValue>();
-            PriceList = new List<ProductPrice>();
+            CustomFields = new List<ProductCustomFieldValue>();
+            Variants = new List<ProductVariant>();
         }
 
-        public Product(string name, ProductType type) : this()
+        public Product(string name, ProductType type)
+            : this()
         {
             Name = name;
             Type = type;
@@ -62,23 +64,29 @@ namespace Kooboo.Commerce.Products
 
         public virtual ICollection<ProductImage> Images { get; set; }
 
-        public virtual ICollection<ProductCustomFieldValue> CustomFieldValues { get; set; }
+        public virtual ICollection<ProductCustomFieldValue> CustomFields { get; set; }
 
-        public virtual ICollection<ProductPrice> PriceList { get; set; }
+        public virtual ICollection<ProductVariant> Variants { get; set; }
 
-        public virtual ProductPrice FindPrice(int priceId)
+        public virtual decimal GetFinalPrice(int variantId, ShoppingContext context)
         {
-            return PriceList.FirstOrDefault(p => p.Id == priceId);
+            var variant = FindVariant(variantId);
+            return variant.GetFinalPrice(context);
         }
 
-        public virtual ProductPrice CreatePrice(string name, string sku)
+        public virtual ProductVariant FindVariant(int priceId)
         {
-            return new ProductPrice(this, name, sku);
+            return Variants.FirstOrDefault(p => p.Id == priceId);
+        }
+
+        public virtual ProductVariant CreateVariant(string name, string sku)
+        {
+            return new ProductVariant(this, name, sku);
         }
 
         public virtual ProductCustomFieldValue FindCustomFieldValue(int customFieldId)
         {
-            return CustomFieldValues.FirstOrDefault(x => x.CustomFieldId == customFieldId);
+            return CustomFields.FirstOrDefault(x => x.CustomFieldId == customFieldId);
         }
 
         public virtual void UpdateCustomFieldValues(IEnumerable<ProductCustomFieldValue> fieldValues)
@@ -90,11 +98,11 @@ namespace Kooboo.Commerce.Products
         {
             var newFieldValueList = fieldValues.ToList();
 
-            foreach (var fieldValue in CustomFieldValues.ToList())
+            foreach (var fieldValue in CustomFields.ToList())
             {
                 if (!newFieldValueList.Any(f => f.FieldId == fieldValue.CustomFieldId))
                 {
-                    CustomFieldValues.Remove(fieldValue);
+                    CustomFields.Remove(fieldValue);
                 }
             }
 
@@ -114,7 +122,7 @@ namespace Kooboo.Commerce.Products
             else
             {
                 fieldValue = new ProductCustomFieldValue(this, fieldId, value);
-                CustomFieldValues.Add(fieldValue);
+                CustomFields.Add(fieldValue);
             }
         }
 

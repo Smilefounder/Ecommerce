@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Kooboo.Commerce.Products
 {
-    public class ProductPrice : ILocalizable
+    public class ProductVariant : ILocalizable
     {
         [Param]
         public int Id { get; set; }
@@ -25,24 +25,21 @@ namespace Kooboo.Commerce.Products
         public string Sku { get; set; }
 
         [Param]
-        public decimal PurchasePrice { get; set; }
-
-        [Param]
-        public decimal RetailPrice { get; set; }
+        public decimal Price { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
 
         public virtual Product Product { get; set; }
 
-        public virtual ICollection<ProductPriceVariantValue> VariantValues { get; set; }
+        public virtual ICollection<ProductVariantFieldValue> VariantFields { get; set; }
 
-        public ProductPrice()
+        public ProductVariant()
         {
-            VariantValues = new List<ProductPriceVariantValue>();
+            VariantFields = new List<ProductVariantFieldValue>();
             CreatedAtUtc = DateTime.UtcNow;
         }
 
-        public ProductPrice(Product product, string name, string sku)
+        public ProductVariant(Product product, string name, string sku)
             : this()
         {
             Product = product;
@@ -52,37 +49,36 @@ namespace Kooboo.Commerce.Products
 
         public decimal GetFinalPrice(ShoppingContext context)
         {
-            return PriceCalculationContext.GetFinalUnitPrice(ProductId, Id, RetailPrice, context);
+            return PriceCalculationContext.GetFinalPrice(ProductId, Id, Price, context);
         }
 
-        public virtual void UpdateFrom(ProductPrice other)
+        public virtual void UpdateFrom(ProductVariant other)
         {
             Name = other.Name;
             Sku = other.Sku;
-            PurchasePrice = other.PurchasePrice;
-            RetailPrice = other.RetailPrice;
-            UpdateVariantValues(other.VariantValues);
+            Price = other.Price;
+            UpdateVariantFields(other.VariantFields);
         }
 
-        public virtual void UpdateVariantValues(IEnumerable<ProductPriceVariantValue> values)
+        public virtual void UpdateVariantFields(IEnumerable<ProductVariantFieldValue> values)
         {
             var newValueList = values.ToList();
 
-            foreach (var value in VariantValues.ToList())
+            foreach (var value in VariantFields.ToList())
             {
                 if (!newValueList.Any(f => f.CustomFieldId == value.CustomFieldId))
                 {
-                    VariantValues.Remove(value);
+                    VariantFields.Remove(value);
                 }
             }
 
             foreach (var fieldValue in newValueList)
             {
-                var current = VariantValues.FirstOrDefault(f => f.CustomFieldId == fieldValue.CustomFieldId);
+                var current = VariantFields.FirstOrDefault(f => f.CustomFieldId == fieldValue.CustomFieldId);
                 if (current == null)
                 {
-                    current = new ProductPriceVariantValue(this, fieldValue.CustomFieldId, fieldValue.FieldValue);
-                    VariantValues.Add(current);
+                    current = new ProductVariantFieldValue(this, fieldValue.CustomFieldId, fieldValue.FieldValue);
+                    VariantFields.Add(current);
                 }
                 else
                 {

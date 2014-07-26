@@ -25,12 +25,12 @@
                 <!-- ko foreach: Items -->
                 <tr>
                     <td rowspan="3" class="pic top">
-                        <a data-bind="attr: { href: '/product/' + ProductPrice.ProductId() }">
-                            <img style="width:115px;height:115px;" data-bind="attr: { src: $root.GetDefaultImageUrl(ProductPrice.Product) }">
+                        <a data-bind="attr: { href: '/product/' + Product.Id() }">
+                            <img style="width:115px;height:115px;" data-bind="attr: { src: $root.GetDefaultImageUrl(Product) }">
                         </a>
                     </td>
                     <td colspan="3" class="name top">
-                        <strong data-bind="text: ProductPrice.Name"></strong> van <em data-bind="text: ProductPrice.Product.Brand.Name"></em>
+                        <strong data-bind="text: ProductVariant.Name"></strong> van <em data-bind="text: Product.Brand.Name"></em>
                     </td>
                     <td colspan="2" class="subtotal top remove">
                         <a href="#" data-bind="click: $root.RemoveItem">Product verwijderen</a>
@@ -46,13 +46,13 @@
                 </tr>
                 <tr>
                     <td class="value">
-                        <span data-bind="text: ProductPrice.Name"></span>
+                        <span data-bind="text: ProductVariant.Name"></span>
                     </td>
                     <td class="value">
                         <select data-bind="options: $root.QuantityRange, value: Quantity" class="item-quantity-dropdown"></select>
                     </td>
                     <td class="value">
-                        € <span data-bind="text: ProductPrice.RetailPrice"></span>
+                        € <span data-bind="text: ProductVariant.Price"></span>
                     </td>
                     <td class="discount value" data-bind="visible: Discount">
                         € <span data-bind="text: Discount"></span>
@@ -125,7 +125,7 @@
             var _this = this;
             var _cart = cart;
 
-            this.ProductPriceId = ko.observable();
+            this.ProductVariantId = ko.observable();
 
             this.Quantity = ko.observable();
 
@@ -189,7 +189,7 @@
                 .done(HandleAjaxResult);
             }
 
-            this.ChangeProductPrice = function (item, newProductPriceId) {
+            this.ChangeProductVariant = function (item, newProductVariantId) {
                 var quantity = item.Quantity();
 
                 http.post('/Kooboo-Submit/RemoveCartItem', {
@@ -198,7 +198,7 @@
                 .done(function (result) {
                     HandleAjaxResult(result, function () {
                         http.post('/Kooboo-Submit/AddCartItem', {
-                            ProductPriceId: newProductPriceId,
+                            ProductVariantId: newProductVariantId,
                             Quantity: quantity
                         })
                         .done(HandleAjaxResult);

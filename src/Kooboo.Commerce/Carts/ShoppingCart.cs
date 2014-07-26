@@ -67,7 +67,7 @@ namespace Kooboo.Commerce.Carts
 
         public ShoppingCartItem FindItemByProductPrice(int productPriceId)
         {
-            return Items.FirstOrDefault(i => i.ProductPrice.Id == productPriceId);
+            return Items.FirstOrDefault(i => i.ProductVariant.Id == productPriceId);
         }
     }
 }

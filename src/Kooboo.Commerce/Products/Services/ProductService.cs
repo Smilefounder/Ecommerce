@@ -14,9 +14,9 @@ namespace Kooboo.Commerce.Products.Services
     public class ProductService : IProductService
     {
         private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<ProductPrice> _variantRepository;
+        private readonly IRepository<ProductVariant> _variantRepository;
 
-        public ProductService(IRepository<Product> productRepository, IRepository<ProductPrice> variantRepository)
+        public ProductService(IRepository<Product> productRepository, IRepository<ProductVariant> variantRepository)
         {
             _productRepository = productRepository;
             _variantRepository = variantRepository;
@@ -32,12 +32,12 @@ namespace Kooboo.Commerce.Products.Services
             return _productRepository.Query();
         }
 
-        public IQueryable<ProductPrice> ProductPrices()
+        public IQueryable<ProductVariant> ProductVariants()
         {
             return _variantRepository.Query();
         }
 
-        public ProductPrice GetProductPriceById(int id)
+        public ProductVariant GetProductVariantById(int id)
         {
             return _variantRepository.Find(id);
         }
@@ -58,27 +58,27 @@ namespace Kooboo.Commerce.Products.Services
             dbProduct.Name = product.Name;
             dbProduct.Brand = product.Brand;
 
-            dbProduct.UpdateCustomFieldValues(product.CustomFieldValues);
+            dbProduct.UpdateCustomFieldValues(product.CustomFields);
             dbProduct.UpdateImages(product.Images);
             dbProduct.UpdateCategories(product.Categories);
 
             _productRepository.Database.SaveChanges();
 
             // Product variants
-            foreach (var variant in dbProduct.PriceList.ToList())
+            foreach (var variant in dbProduct.Variants.ToList())
             {
-                if (!product.PriceList.Any(p => p.Id == variant.Id))
+                if (!product.Variants.Any(p => p.Id == variant.Id))
                 {
                     RemovePrice(dbProduct, variant.Id);
                 }
             }
 
-            foreach (var variantModel in product.PriceList)
+            foreach (var variantModel in product.Variants)
             {
-                var current = dbProduct.FindPrice(variantModel.Id);
+                var current = dbProduct.FindVariant(variantModel.Id);
                 if (current == null)
                 {
-                    var variant = dbProduct.CreatePrice(variantModel.Name, variantModel.Sku);
+                    var variant = dbProduct.CreateVariant(variantModel.Name, variantModel.Sku);
                     variant.UpdateFrom(variantModel);
                     AddPrice(dbProduct, variant);
                 }
@@ -131,9 +131,9 @@ namespace Kooboo.Commerce.Products.Services
             return true;
         }
 
-        public void AddPrice(Product product, ProductPrice price)
+        public void AddPrice(Product product, ProductVariant price)
         {
-            product.PriceList.Add(price);
+            product.Variants.Add(price);
             _productRepository.Database.SaveChanges();
 
             Event.Raise(new ProductVariantAdded(product, price));
@@ -141,13 +141,13 @@ namespace Kooboo.Commerce.Products.Services
 
         public bool RemovePrice(Product product, int priceId)
         {
-            var price = product.FindPrice(priceId);
+            var price = product.FindVariant(priceId);
             if (price == null)
             {
                 return false;
             }
 
-            product.PriceList.Remove(price);
+            product.Variants.Remove(price);
             _variantRepository.Delete(price);
 
             _productRepository.Database.SaveChanges();
@@ -157,9 +157,9 @@ namespace Kooboo.Commerce.Products.Services
             return true;
         }
 
-        public bool UpdatePrice(Product product, int priceId, ProductPrice newPrice)
+        public bool UpdatePrice(Product product, int priceId, ProductVariant newPrice)
         {
-            var price = product.FindPrice(priceId);
+            var price = product.FindVariant(priceId);
             if (price == null)
             {
                 return false;

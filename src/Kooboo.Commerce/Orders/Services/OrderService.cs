@@ -61,11 +61,6 @@ namespace Kooboo.Commerce.Orders.Services
             return _orderRepository.Query();
         }
 
-        public IQueryable<OrderCustomField> CustomFields()
-        {
-            return _orderCustomFieldRepository.Query();
-        }
-
         public Order CreateFromCart(ShoppingCart cart, ShoppingContext context)
         {
             Require.NotNull(cart, "cart");

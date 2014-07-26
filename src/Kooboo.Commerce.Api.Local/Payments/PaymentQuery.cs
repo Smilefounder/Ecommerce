@@ -14,9 +14,10 @@ namespace Kooboo.Commerce.Api.Local.Payments
     {
         protected IPaymentService PaymentService { get; private set; }
 
-        public PaymentQuery(IPaymentService paymentService)
+        public PaymentQuery(LocalApiContext context)
+            : base(context)
         {
-            PaymentService = paymentService;
+            PaymentService = context.Services.Payments;
         }
 
         public IPaymentQuery ById(int id)

@@ -42,8 +42,8 @@ namespace Kooboo.Commerce.Rules.Activities.ProductPriceDiscount
                 return;
             }
 
-            var newPrice = config.ApplyDiscount(@event.FinalUnitPrice);
-            @event.FinalUnitPrice = newPrice;
+            var newPrice = config.ApplyDiscount(@event.FinalPrice);
+            @event.FinalPrice = newPrice;
         }
 
         public string GetEditorVirtualPath()

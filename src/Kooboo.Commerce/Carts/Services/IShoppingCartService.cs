@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Carts.Services
 
         void AddItem(ShoppingCart cart, ShoppingCartItem item);
 
-        ShoppingCartItem AddItem(ShoppingCart cart, Product product, ProductPrice price, int quantity);
+        ShoppingCartItem AddItem(ShoppingCart cart, Product product, ProductVariant price, int quantity);
 
         bool RemoveItem(ShoppingCart cart, int itemId);
 

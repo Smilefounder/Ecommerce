@@ -81,7 +81,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
                 return null;
             }
 
-            var instanceName = context.DataSourceContext.Site.CommerceInstanceName();
+            var instanceName = context.DataSourceContext.Site.InstanceName();
 
             if (String.IsNullOrWhiteSpace(instanceName))
                 throw new InvalidOperationException("Commerce instance name is not configured in CMS.");

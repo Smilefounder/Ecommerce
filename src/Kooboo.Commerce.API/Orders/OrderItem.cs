@@ -66,6 +66,6 @@ namespace Kooboo.Commerce.Api.Orders
         /// <summary>
         /// corresponding product price, which is various by the product variants.
         /// </summary>
-        public ProductPrice ProductPrice { get; set; }
+        public ProductVariant ProductPrice { get; set; }
     }
 }

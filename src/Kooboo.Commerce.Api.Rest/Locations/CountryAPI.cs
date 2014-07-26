@@ -41,7 +41,7 @@ namespace Kooboo.Commerce.Api.RestProvider.Locations
         /// </summary>
         /// <param name="threeLetterISOCode">country three letter ISO code</param>
         /// <returns>country query</returns>
-        public ICountryQuery ByThreeLetterISOCode(string threeLetterISOCode)
+        public ICountryQuery ByThreeLetterIsoCode(string threeLetterISOCode)
         {
             QueryParameters.Add("threeLetterISOCode", threeLetterISOCode);
             return this;
@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Api.RestProvider.Locations
         /// </summary>
         /// <param name="twoLetterISOCode">country two letter ISO code</param>
         /// <returns>country query</returns>
-        public ICountryQuery ByTwoLetterISOCode(string twoLetterISOCode)
+        public ICountryQuery ByTwoLetterIsoCode(string twoLetterISOCode)
         {
             QueryParameters.Add("twoLetterISOCode", twoLetterISOCode);
             return this;
@@ -63,7 +63,7 @@ namespace Kooboo.Commerce.Api.RestProvider.Locations
         /// </summary>
         /// <param name="numericISOCode">country numeric ISO code</param>
         /// <returns>country query</returns>
-        public ICountryQuery ByNumericISOCode(string numericISOCode)
+        public ICountryQuery ByNumericIsoCode(string numericISOCode)
         {
             QueryParameters.Add("numericISOCode", numericISOCode);
             return this;

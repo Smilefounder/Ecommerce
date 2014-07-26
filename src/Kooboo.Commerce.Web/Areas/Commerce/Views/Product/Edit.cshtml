@@ -21,14 +21,14 @@
     <div class="block" data-bind="with:data">
         <div id="J_ProductTabs">
             <ul>
-                <li><a href="#basicInfo">@("Basic info".Localize())</a></li>
-                <li data-bind="visible: ProductTypeId"><a href="#customFields">@("Custom Fields".Localize())</a></li>
+                <li><a href="#basic">@("Basic info".Localize())</a></li>
+                <li data-bind="visible: ProductTypeId"><a href="#fields">@("Fields".Localize())</a></li>
                 <li><a href="#images">@("Images".Localize())</a></li>
                 <li><a href="#categories">@("Categories".Localize())</a></li>
-                <li data-bind="visible: ProductTypeId"><a href="#variants">@("Variants & Prices".Localize())</a></li>
+                <li data-bind="visible: ProductTypeId"><a href="#variants">@("Variants".Localize())</a></li>
                 @Html.Partial("_TabPluginHeaders")
             </ul>
-            <div id="basicInfo">
+            <div id="basic">
                 <form>
                     @Html.Partial("_TabBasicInfo")
                 </form>
@@ -51,10 +51,10 @@
             </div>
             <div id="variants">
                 <form>
-                    @Html.Partial("_TabPrices")
+                    @Html.Partial("_TabVariants")
                 </form>
             </div>
-            <div id="customFields">
+            <div id="fields">
                 <form>
                     @Html.Partial("_TabCustomFields")
                 </form>

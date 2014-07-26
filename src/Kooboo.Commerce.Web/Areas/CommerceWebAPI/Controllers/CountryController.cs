@@ -29,11 +29,11 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (!string.IsNullOrEmpty(qs["name"]))
                 query = query.ByName(qs["name"]);
             if (!string.IsNullOrEmpty(qs["threeLetterISOCode"]))
-                query = query.ByThreeLetterISOCode(qs["threeLetterISOCode"]);
+                query = query.ByThreeLetterIsoCode(qs["threeLetterISOCode"]);
             if (!string.IsNullOrEmpty(qs["twoLetterISOCode"]))
-                query = query.ByTwoLetterISOCode(qs["twoLetterISOCode"]);
+                query = query.ByTwoLetterIsoCode(qs["twoLetterISOCode"]);
             if (!string.IsNullOrEmpty(qs["numericISOCode"]))
-                query = query.ByNumericISOCode(qs["numericISOCode"]);
+                query = query.ByNumericIsoCode(qs["numericISOCode"]);
 
             return BuildLoadWithFromQueryStrings(query, qs);
         }

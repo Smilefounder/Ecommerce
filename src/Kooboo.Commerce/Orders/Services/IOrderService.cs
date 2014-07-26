@@ -14,8 +14,6 @@ namespace Kooboo.Commerce.Orders.Services
 
         IQueryable<Order> Query();
 
-        IQueryable<OrderCustomField> CustomFields();
-
         Order CreateFromCart(ShoppingCart cart, ShoppingContext context);
 
         bool Create(Order order);

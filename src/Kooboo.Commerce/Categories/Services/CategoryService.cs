@@ -32,10 +32,6 @@ namespace Kooboo.Commerce.Categories.Services
         {
             return _categoryRepository.Query();
         }
-        public IQueryable<CategoryCustomField> CustomFields()
-        {
-            return _categoryCustomFieldRepository.Query();
-        }
 
         public void Create(Category category)
         {

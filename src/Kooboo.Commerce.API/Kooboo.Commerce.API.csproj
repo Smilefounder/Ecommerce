@@ -110,9 +110,10 @@
     <Compile Include="Products\CustomFieldValue.cs" />
     <Compile Include="Products\IProductApi.cs" />
     <Compile Include="Products\IProductQuery.cs" />
+    <Compile Include="Products\PriceRange.cs" />
     <Compile Include="Products\Product.cs" />
     <Compile Include="Products\ProductImage.cs" />
-    <Compile Include="Products\ProductPrice.cs" />
+    <Compile Include="Products\ProductVariant.cs" />
     <Compile Include="Products\ProductType.cs" />
     <Compile Include="Promotions\Promotion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

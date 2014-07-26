@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kooboo.Commerce.Products
 {
-    public class ProductPriceVariantValue
+    public class ProductVariantFieldValue
     {
         [Key, Column(Order = 0)]
         public int ProductPriceId { get; set; }
@@ -16,15 +16,17 @@ namespace Kooboo.Commerce.Products
         [Key, Column(Order = 1)]
         public int CustomFieldId { get; set; }
 
+        public string FieldText { get; set; }
+
         public string FieldValue { get; set; }
 
-        public virtual ProductPrice ProductPrice { get; set; }
+        public virtual ProductVariant ProductPrice { get; set; }
 
         public virtual CustomField CustomField { get; set; }
 
-        public ProductPriceVariantValue() { }
+        public ProductVariantFieldValue() { }
 
-        public ProductPriceVariantValue(ProductPrice price, int fieldId, string value)
+        public ProductVariantFieldValue(ProductVariant price, int fieldId, string value)
         {
             ProductPrice = price;
             CustomFieldId = fieldId;

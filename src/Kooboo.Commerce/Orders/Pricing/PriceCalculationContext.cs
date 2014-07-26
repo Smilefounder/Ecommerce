@@ -99,9 +99,9 @@ namespace Kooboo.Commerce.Orders.Pricing
             AppliedPromotions = new List<Promotion>();
         }
 
-        public PriceCalculationItem AddItem(int itemId, ProductPrice productPrice, int quantity)
+        public PriceCalculationItem AddItem(int itemId, ProductVariant productPrice, int quantity)
         {
-            var retailPrice = GetFinalUnitPrice(productPrice.ProductId, productPrice.Id, productPrice.RetailPrice);
+            var retailPrice = GetFinalUnitPrice(productPrice.ProductId, productPrice.Id, productPrice.Price);
             var item = new PriceCalculationItem(itemId, productPrice.ProductId, productPrice.Id, retailPrice, quantity);
             Items.Add(item);
             return item;
@@ -111,17 +111,17 @@ namespace Kooboo.Commerce.Orders.Pricing
         {
             var customerId = Customer == null ? null : (int?)Customer.Id;
             var shoppingContext = new ShoppingContext(customerId, Culture, Currency);
-            return PriceCalculationContext.GetFinalUnitPrice(productId, productPriceId, originalPrice, shoppingContext);
+            return PriceCalculationContext.GetFinalPrice(productId, productPriceId, originalPrice, shoppingContext);
         }
 
         /// <summary>
         /// Gets the final price of the specified product price in the current shopping context.
         /// </summary>
-        public static decimal GetFinalUnitPrice(int productId, int productPriceId, decimal originalPrice, ShoppingContext shoppingContext)
+        public static decimal GetFinalPrice(int productId, int variantId, decimal originalPrice, ShoppingContext shoppingContext)
         {
-            var @event = new GetPrice(productId, productPriceId, originalPrice, shoppingContext);
+            var @event = new GetPrice(productId, variantId, originalPrice, shoppingContext);
             Event.Raise(@event);
-            return @event.FinalUnitPrice;
+            return @event.FinalPrice;
         }
 
         public static PriceCalculationContext CreateFrom(ShoppingCart cart)
@@ -137,7 +137,7 @@ namespace Kooboo.Commerce.Orders.Pricing
 
             foreach (var item in cart.Items)
             {
-                context.AddItem(item.Id, item.ProductPrice, item.Quantity);
+                context.AddItem(item.Id, item.ProductVariant, item.Quantity);
             }
 
             return context;

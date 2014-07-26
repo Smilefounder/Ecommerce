@@ -11,9 +11,9 @@ namespace Kooboo.Commerce.Products.Services
 
         IQueryable<Product> Query();
 
-        IQueryable<ProductPrice> ProductPrices();
+        IQueryable<ProductVariant> ProductVariants();
 
-        ProductPrice GetProductPriceById(int id);
+        ProductVariant GetProductVariantById(int id);
 
         Product Create(Product product);
 
@@ -25,10 +25,10 @@ namespace Kooboo.Commerce.Products.Services
 
         bool Unpublish(Product product);
 
-        void AddPrice(Product product, ProductPrice price);
+        void AddPrice(Product product, ProductVariant price);
 
         bool RemovePrice(Product product, int priceId);
 
-        bool UpdatePrice(Product product, int priceId, ProductPrice newPrice);
+        bool UpdatePrice(Product product, int priceId, ProductVariant newPrice);
     }
 }

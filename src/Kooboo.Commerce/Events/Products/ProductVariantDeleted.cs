@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Events.Products
 
         protected ProductVariantDeleted() { }
 
-        public ProductVariantDeleted(Product product, ProductPrice price)
+        public ProductVariantDeleted(Product product, ProductVariant price)
         {
             ProductId = product.Id;
             ProductPriceId = price.Id;

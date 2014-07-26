@@ -22,8 +22,6 @@ namespace Kooboo.Commerce.Customers.Services
 
         void AddAddress(Customer customer, Address address);
 
-        IQueryable<CustomerCustomField> CustomFields();
-
         void Create(Customer customer);
 
         void Update(Customer customer);

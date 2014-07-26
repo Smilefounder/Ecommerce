@@ -8,9 +8,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Products
 {
-    /// <summary>
-    /// product
-    /// </summary>
     public class Product
     {
         public int Id { get; set; }
@@ -23,6 +20,8 @@ namespace Kooboo.Commerce.Api.Products
 
         public int ProductTypeId { get; set; }
 
+        public PriceRange PriceRange { get; set; }
+
         public DateTime CreatedAtUtc { get; set; }
 
         public Brand Brand { get; set; }
@@ -33,13 +32,14 @@ namespace Kooboo.Commerce.Api.Products
 
         public ICollection<CustomFieldValue> CustomFields { get; set; }
 
-        public ProductPrice[] PriceList { get; set; }
+        public ICollection<ProductVariant> Variants { get; set; }
 
         public Product()
         {
             Categories = new List<Category>();
             Images = new List<ProductImage>();
             CustomFields = new List<CustomFieldValue>();
+            Variants = new List<ProductVariant>();
         }
 
         public ProductImage GetImage(string imageSizeName)
@@ -59,27 +59,6 @@ namespace Kooboo.Commerce.Api.Products
                 return CustomFields.FirstOrDefault(o => o.FieldName == fieldName);
             }
 
-            return null;
-        }
-
-        public ProductPrice GetLowestPrice()
-        {
-            if (PriceList != null)
-            {
-                var price = PriceList.OrderBy(o => o.RetailPrice).FirstOrDefault();
-                return price;
-            }
-            return null;
-        }
-
-        public Tuple<decimal, decimal> GetPriceRange()
-        {
-            if(PriceList != null)
-            {
-                var lowestPrice = PriceList.OrderBy(o => o.RetailPrice).First();
-                var highestPrice = PriceList.OrderBy(o => o.RetailPrice).Last();
-                return new Tuple<decimal, decimal>(lowestPrice.RetailPrice, highestPrice.RetailPrice);
-            }
             return null;
         }
     }

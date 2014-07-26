@@ -54,8 +54,8 @@
             if ('Success' in data) { data.status = data.Success ? 0 : 1; }
             if ('Messages' in data) { data.message = data.Messages[0]; }
 
-            if (data.PriceList !== undefined) {
-                $.each(data.PriceList, function () {
+            if (data.Variants !== undefined) {
+                $.each(data.Variants, function () {
                     this.Selected = false;
                 });
             }
@@ -140,8 +140,8 @@
             self.ComputeDistinctVariantValuesByFields = function () {
                 var fields = [];
 
-                $.each(self.data().PriceList(), function () {
-                    $.each(this.VariantValues(), function () {
+                $.each(self.data().Variants(), function () {
+                    $.each(this.VariantFields(), function () {
                         var fieldName = this.CustomField().Name();
                         var fieldValue = this.FieldValue();
                         if (fieldValue !== null && fieldValue !== undefined && fieldValue !== '') {
@@ -168,31 +168,31 @@
             }
 
             self.AnyPriceSelected = ko.computed(function () {
-                if (!self.data() || !self.data().PriceList()) {
+                if (!self.data() || !self.data().Variants()) {
                     return false;
                 }
 
-                return _.any(self.data().PriceList(), function (price) {
+                return _.any(self.data().Variants(), function (price) {
                     return price.Selected();
                 });
             });
 
             self.SelectAllPrices = function () {
-                $.each(self.data().PriceList(), function () {
+                $.each(self.data().Variants(), function () {
                     this.Selected(true);
                 });
             }
 
             self.ClearPriceSelection = function () {
-                $.each(self.data().PriceList(), function () {
+                $.each(self.data().Variants(), function () {
                     this.Selected(false);
                 });
             }
 
             self.SelectPricesByFieldValue = function (fieldName, fieldValue) {
-                $.each(self.data().PriceList(), function () {
+                $.each(self.data().Variants(), function () {
                     var price = this;
-                    var value = _.find(price.VariantValues(), function (val) {
+                    var value = _.find(price.VariantFields(), function (val) {
                         return val.CustomField().Name() == fieldName;
                     });
 
@@ -217,7 +217,7 @@
             self.GetSelectedPrices = function () {
                 var candidates = [];
 
-                $.each(self.data().PriceList(), function () {
+                $.each(self.data().Variants(), function () {
                     if (this.Selected()) {
                         candidates.push(this);
                     }
@@ -227,7 +227,7 @@
             }
 
             self.GetCustomFieldValue = function (fieldId) {
-                var fieldValue = _.find(self.data().CustomFieldValues(), function (field) {
+                var fieldValue = _.find(self.data().CustomFields(), function (field) {
                     return field.CustomFieldId() == fieldId;
                 });
 
@@ -245,7 +245,7 @@
                         FieldValue: ko.observable()
                     };
 
-                    self.data().CustomFieldValues.push(fieldValue);
+                    self.data().CustomFields.push(fieldValue);
                 }
 
                 return fieldValue.FieldValue;
@@ -269,7 +269,7 @@
             }
 
             self.GetVariantFieldValue = function (price, fieldId) {
-                var fieldValue = _.find(price.VariantValues(), function (field) {
+                var fieldValue = _.find(price.VariantFields(), function (field) {
                     return field.CustomFieldId() == fieldId;
                 });
 
@@ -287,7 +287,7 @@
                         FieldValue: ko.observable()
                     };
 
-                    price.VariantValues.push(fieldValue);
+                    price.VariantFields.push(fieldValue);
                 }
 
                 return fieldValue.FieldValue;
@@ -315,19 +315,16 @@
                     ProductId: ko.observable(self.data().Id()),
                     Name: ko.observable(''),
                     Sku: ko.observable(''),
-                    PurchasePrice: ko.observable(0.0),
-                    RetailPrice: ko.observable(0.0),
-                    Stock: ko.observable(0),
-                    DeliveryDays: ko.observable(0),
+                    Price: ko.observable(0.0),
                     CreatedAtUtc: ko.observable(new Date()),
                     IsPublished: ko.observable(true),
                     PublishedAtUtc: ko.observable(new Date()),
-                    VariantValues: ko.observableArray([]),
+                    VariantFields: ko.observableArray([]),
                     Selected: ko.observable(false)
                 };
 
                 $.each(Metadata.ProductType.VariationFields, function (i, field) {
-                    price.VariantValues.push({
+                    price.VariantFields.push({
                         Id: ko.observable(new Date().getTime()),
                         ProductId: ko.observable(self.data().Id()),
                         CustomFieldId: ko.observable(field.Id),
@@ -344,7 +341,7 @@
             self.AddPrice = function () {
                 var price = self.NewPrice();
                 self.EditingPrice(price);
-                self.data().PriceList.push(price);
+                self.data().Variants.push(price);
             };
 
             // fieldValues format:
@@ -383,7 +380,7 @@
                         $.each(combination, function () {
                             var fieldName = this.name;
                             var fieldValue = this.value;
-                            var field = _.find(price.VariantValues(), function (f) {
+                            var field = _.find(price.VariantFields(), function (f) {
                                 return f.CustomField().Name() == fieldName;
                             });
                             field.FieldValue(fieldValue);
@@ -393,20 +390,20 @@
                     newPriceList.push(price);
                 }
 
-                self.data().PriceList.removeAll();
-                self.data().PriceList(newPriceList);
+                self.data().Variants.removeAll();
+                self.data().Variants(newPriceList);
 
                 self.ComputeDistinctVariantValuesByFields();
 
                 function findPrice(combination) {
-                    return _.find(self.data().PriceList(), function (price) {
+                    return _.find(self.data().Variants(), function (price) {
                         var matched = true;
 
                         $.each(combination, function () {
                             var fieldName = this.name;
                             var fieldValue = this.value;
 
-                            var hasThisField = _.any(price.VariantValues(), function (f) {
+                            var hasThisField = _.any(price.VariantFields(), function (f) {
                                 return f.CustomField().Name() == fieldName && f.FieldValue() == fieldValue;
                             });
 
@@ -422,7 +419,7 @@
             }
 
             self.DeletePrice = function (item) {
-                self.data().PriceList.remove(item);
+                self.data().Variants.remove(item);
                 self.ComputeDistinctVariantValuesByFields();
             };
 
@@ -431,7 +428,7 @@
             };
 
             self.GetPriceVaiantText = function (field, price) {
-                var f = $.grep(price.VariantValues(), function (n, i) { return n.CustomFieldId() == field.CustomFieldId(); })[0];
+                var f = $.grep(price.VariantFields(), function (n, i) { return n.CustomFieldId() == field.CustomFieldId(); })[0];
                 if (f)
                     return f.FieldValue();
                 return '';
@@ -566,7 +563,7 @@
              // Bulk change prices dialog
 
              ChangePriceDialog.instance().onSave = function (price) {
-                 $.each(vm.data().PriceList(), function () {
+                 $.each(vm.data().Variants(), function () {
                      if (this.Selected()) {
                          this.RetailPrice(price);
                      }

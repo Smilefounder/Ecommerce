@@ -14,12 +14,12 @@ namespace Kooboo.Commerce.Events.Products
         [Reference(typeof(Product))]
         public int ProductId { get; set; }
 
-        [Reference(typeof(ProductPrice))]
+        [Reference(typeof(ProductVariant))]
         public int ProductPriceId { get; set; }
 
         protected ProductVariantUpdated() { }
 
-        public ProductVariantUpdated(Product product, ProductPrice price)
+        public ProductVariantUpdated(Product product, ProductVariant price)
         {
             ProductId = product.Id;
             ProductPriceId = price.Id;

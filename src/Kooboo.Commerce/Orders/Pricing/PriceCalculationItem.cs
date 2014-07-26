@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Orders.Pricing
         [Reference(typeof(Product))]
         public int ProductId { get; private set; }
 
-        [Reference(typeof(ProductPrice))]
+        [Reference(typeof(ProductVariant))]
         public int ProductPriceId { get; private set; }
 
         [Param]

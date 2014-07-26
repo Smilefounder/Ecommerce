@@ -13,16 +13,16 @@ namespace Kooboo.Commerce.Carts
 
         public virtual ShoppingCart ShoppingCart { get; set; }
 
-        public virtual ProductPrice ProductPrice { get; set; }
+        public virtual ProductVariant ProductVariant { get; set; }
 
         [Param]
         public int Quantity { get; set; }
 
         public ShoppingCartItem() { }
 
-        public ShoppingCartItem(ProductPrice productPrice, int quantity, ShoppingCart cart)
+        public ShoppingCartItem(ProductVariant variant, int quantity, ShoppingCart cart)
         {
-            ProductPrice = productPrice;
+            ProductVariant = variant;
             Quantity = quantity;
             ShoppingCart = cart;
         }

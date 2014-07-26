@@ -1,24 +1,15 @@
-﻿using Kooboo.CMS.Common.Runtime.Dependency;
+﻿using System.Linq;
 using Kooboo.Commerce.Api.Payments;
-using Kooboo.Commerce.Payments.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Kooboo.Commerce.Api.Local.Payments
 {
-    [Dependency(typeof(IPaymentMethodQuery))]
     public class PaymentMethodQuery : LocalCommerceQuery<PaymentMethod, Kooboo.Commerce.Payments.PaymentMethod>, IPaymentMethodQuery
     {
-        private IPaymentMethodService _paymentMethodService;
         private Kooboo.Commerce.Payments.IPaymentProcessorProvider _processorFactory;
 
-        public PaymentMethodQuery(
-            IPaymentMethodService paymentMethodService, 
-            Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory)
+        public PaymentMethodQuery(LocalApiContext context, Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory)
+            : base(context)
         {
-            _paymentMethodService = paymentMethodService;
             _processorFactory = processorFactory;
         }
 
@@ -46,7 +37,7 @@ namespace Kooboo.Commerce.Api.Local.Payments
         /// <returns>queryable object</returns>
         protected override IQueryable<Commerce.Payments.PaymentMethod> CreateQuery()
         {
-            return _paymentMethodService.Query().Where(x => x.IsEnabled);
+            return Context.Services.PaymentMethods.Query().Where(x => x.IsEnabled);
         }
 
         /// <summary>

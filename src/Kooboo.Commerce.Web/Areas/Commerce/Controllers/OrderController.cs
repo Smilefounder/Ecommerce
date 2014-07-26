@@ -182,7 +182,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var order = Session["TempOrder"] as Order;
 
-            order.OrderItems.Remove(order.OrderItems.First(o => o.ProductPriceId == id));
+            order.OrderItems.Remove(order.OrderItems.First(o => o.ProductVariantId == id));
 
             Session["TempOrder"] = order;
             ViewBag.Return = "/Commerce/Order/SelectProduct?siteName=" + Request.QueryString["siteName"] + "&instance=" + Request.QueryString["instance"];
@@ -198,7 +198,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 if (k.StartsWith("cb_"))
                 {
                     var priceid = Convert.ToInt32(k.Substring(3));
-                    order.OrderItems.Remove(order.OrderItems.First(o => o.ProductPriceId == priceid));
+                    order.OrderItems.Remove(order.OrderItems.First(o => o.ProductVariantId == priceid));
                 }
             }
 
@@ -221,12 +221,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 if (item.Quantity > 0)
                 {
-                    var oldItem = order.OrderItems.FirstOrDefault(o => o.ProductPriceId == item.ProductPriceId);
+                    var oldItem = order.OrderItems.FirstOrDefault(o => o.ProductVariantId == item.ProductVariantId);
                     if (oldItem == null)
                     {
                         item.SubTotal = item.Quantity * item.UnitPrice;
                         item.Total = item.SubTotal;
-                        item.ProductPrice = _productService.GetProductPriceById(item.ProductPriceId);
+                        item.ProductVariant = _productService.GetProductVariantById(item.ProductVariantId);
                         order.OrderItems.Add(item);
                     }
                     else

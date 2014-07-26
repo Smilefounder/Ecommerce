@@ -11,8 +11,6 @@ namespace Kooboo.Commerce.Categories.Services
 
         IQueryable<Category> Query();
 
-        IQueryable<CategoryCustomField> CustomFields();
-
         void Create(Category category);
 
         void Update(Category category);

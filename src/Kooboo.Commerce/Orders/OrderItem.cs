@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Orders
         /// <summary>
         /// The item that user really buy. One product can have multiple variants. Like one type of shop has multiple color or size, comsumer buys one of the variants.
         /// </summary>
-        public int ProductPriceId { get; set; }
+        public int ProductVariantId { get; set; }
 
         /// <summary>
         /// redundant for query.
@@ -43,16 +43,16 @@ namespace Kooboo.Commerce.Orders
 
         public virtual Order Order { get; set; }
 
-        public virtual ProductPrice ProductPrice { get; set; }
+        public virtual ProductVariant ProductVariant { get; set; }
 
         public static OrderItem CreateFrom(ShoppingCartItem cartItem, decimal finalUnitPrice)
         {
             return new OrderItem
             {
-                ProductPriceId = cartItem.ProductPrice.Id,
-                ProductPrice = cartItem.ProductPrice,
-                ProductName = cartItem.ProductPrice.Name,
-                SKU = cartItem.ProductPrice.Sku,
+                ProductVariantId = cartItem.ProductVariant.Id,
+                ProductVariant = cartItem.ProductVariant,
+                ProductName = cartItem.ProductVariant.Name,
+                SKU = cartItem.ProductVariant.Sku,
                 UnitPrice = finalUnitPrice,
                 Quantity = cartItem.Quantity
             };

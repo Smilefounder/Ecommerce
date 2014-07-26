@@ -8,11 +8,10 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Local.Shipping
 {
-    [Dependency(typeof(IShippingMethodApi))]
     public class ShippingMethodApi : ShippingMethodQuery, IShippingMethodApi
     {
-        public ShippingMethodApi(IShippingMethodService shippingMethodService)
-            : base(shippingMethodService)
+        public ShippingMethodApi(LocalApiContext context)
+            : base(context)
         {
         }
     }

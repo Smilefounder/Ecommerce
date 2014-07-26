@@ -11,8 +11,6 @@ namespace Kooboo.Commerce.Brands.Services
 
         IQueryable<Brand> Query();
 
-        IQueryable<BrandCustomField> CustomFields();
-
         void Create(Brand brand);
 
         void Update(Brand brand);

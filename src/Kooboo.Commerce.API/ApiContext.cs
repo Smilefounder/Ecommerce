@@ -8,17 +8,22 @@ namespace Kooboo.Commerce.Api
 {
     public class ApiContext
     {
-        public string Instance { get; private set; }
+        public string Instance { get; set; }
 
-        public CultureInfo Culture { get; private set; }
+        public CultureInfo Culture { get; set; }
 
-        public string Currency { get; private set; }
+        public string Currency { get; set; }
 
-        public ApiContext(string instance, CultureInfo culture, string currency)
+        public string CustomerAccountId { get; set; }
+
+        public ApiContext() { }
+
+        public ApiContext(string instance, CultureInfo culture, string currency, string customerAccountId)
         {
             Instance = instance;
             Culture = culture;
             Currency = currency;
+            CustomerAccountId = customerAccountId;
         }
     }
 }

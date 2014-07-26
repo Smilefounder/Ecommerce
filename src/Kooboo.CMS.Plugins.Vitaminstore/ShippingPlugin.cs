@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Kooboo.Commerce.Api.Countries;
 using Kooboo.Commerce.Api.Customers;
+using Kooboo.Commerce.CMSIntegration;
 
 namespace Kooboo.CMS.Plugins.Vitaminstore
 {

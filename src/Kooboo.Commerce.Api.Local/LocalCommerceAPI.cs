@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
+﻿using System.Web;
 using Kooboo.Commerce.Data;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Local.Countries;
 using Kooboo.Commerce.Api.Brands;
 using Kooboo.Commerce.Api.Categories;
 using Kooboo.Commerce.Api.Local.Categories;
 using Kooboo.Commerce.Api.Local.Customers;
-using Kooboo.Commerce.Api.Local;
 using Kooboo.Commerce.Api.Local.Products;
 using Kooboo.Commerce.Api.Local.Carts;
 using Kooboo.Commerce.Api.Local.Orders;
@@ -31,8 +25,7 @@ using Kooboo.Commerce.Api.Local.Brands;
 namespace Kooboo.Commerce.Api.Local
 {
     /// <summary>
-    /// local commerce api
-    /// this api uses the Kooboo.Commerce dll directly.
+    /// Local commerce api which directly dependent on commerce native componements.
     /// </summary>
     [Dependency(typeof(ICommerceApi), Key = "Local")]
     public class LocalCommerceApi : ICommerceApi
@@ -46,7 +39,7 @@ namespace Kooboo.Commerce.Api.Local
             HttpContext.Current.Items["instance"] = context.Instance;
             HttpContext.Current.Items["language"] = context.Culture.Name;
 
-            _context = new LocalApiContext(context, CommerceInstance.Current.Database, GetServiceFactory());
+            _context = new LocalApiContext(context, CommerceInstance.Current.Database, EngineContext.Current.Resolve<IServiceFactory>());
         }
 
         public ICountryApi Countries
@@ -61,7 +54,7 @@ namespace Kooboo.Commerce.Api.Local
         {
             get
             {
-                return new BrandApi(GetServiceFactory().Brands);
+                return new BrandApi(_context);
             }
         }
 
@@ -69,7 +62,7 @@ namespace Kooboo.Commerce.Api.Local
         {
             get
             {
-                return new CategoryApi(GetServiceFactory().Categories);
+                return new CategoryApi(_context);
             }
         }
 
@@ -117,7 +110,7 @@ namespace Kooboo.Commerce.Api.Local
         {
             get
             {
-                return new PaymentMethodApi(_context.ServiceFactory.PaymentMethods, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
+                return new PaymentMethodApi(_context, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
             }
         }
 
@@ -125,13 +118,8 @@ namespace Kooboo.Commerce.Api.Local
         {
             get
             {
-                return new ShippingMethodApi(_context.ServiceFactory.ShippingMethods);
+                return new ShippingMethodApi(_context);
             }
-        }
-
-        private IServiceFactory GetServiceFactory()
-        {
-            return EngineContext.Current.Resolve<IServiceFactory>();
         }
     }
 }

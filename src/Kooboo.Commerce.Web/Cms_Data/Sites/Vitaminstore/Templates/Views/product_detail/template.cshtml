@@ -9,8 +9,9 @@
         image = new ProductImage();
         image.ImageUrl = "";
     }
-    var priceRange = product.GetPriceRange();
-    var lowestPrice = product.GetLowestPrice();
+
+    var variants = product.Variants as IEnumerable<ProductVariant>;
+    var cheapestVariant = variants.OrderByDescending(v => v.Price).FirstOrDefault();
 }
 
 <form id="__AjaxAntiForgeryForm" action="#" method="post">
@@ -197,20 +198,20 @@
             </div>
             <div class="product-right">
                 <div id="pricebox">
-                    <div class="lowestprice" data-packid="@lowestPrice.Id" title="Klik hier om 1 product toe te voegen aan uw winkelwagen">
+                    <div class="lowestprice" data-packid="@cheapestVariant.Id" title="Klik hier om 1 product toe te voegen aan uw winkelwagen">
                         <div class="lowestprice-top">
                         </div>
                         <div class="lowestprice-item" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
                             <span class="measure">
-                                @(lowestPrice.GetVariantField("MeasureQuantity").FieldText)
+                                @(cheapestVariant.GetVariantField("MeasureQuantity").FieldText)
                                 @(product.GetCustomField("Measure").FieldText)&nbsp;
                             </span><br>
                             <span class="price">
-                                @if (lowestPrice.RetailPrice != lowestPrice.FinalRetailPrice)
+                                @if (cheapestVariant.Price != cheapestVariant.FinalPrice)
                                 {
-                                    <del style="color:orange">€ @lowestPrice.RetailPrice</del><br />
+                                    <del style="color:orange">€ @cheapestVariant.Price</del><br />
                                 }
-                                € @(lowestPrice.FinalRetailPrice)
+                                € @(cheapestVariant.FinalPrice)
                             </span>
                         </div>
                         <div class="lowestprice-bottom">
@@ -221,7 +222,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <div class="btn-pro btn-addcart btn-addcart-3d" data-packid="@lowestPrice.Id">
+                                        <div class="btn-pro btn-addcart btn-addcart-3d" data-packid="@cheapestVariant.Id">
                                             <table cellpadding="0" cellspacing="0">
                                                 <tbody>
                                                     <tr>
@@ -258,14 +259,14 @@
                     <h5>
                         Voordeel Verpakkingen
                     </h5>
-                    @if (product.PriceList.Length > 1)
+                    @if (product.Variants.Count > 1)
                     {
                         <div class="higherprice">
                             <div class="higherprice-top">
                             </div>
-                            @foreach (var price in product.PriceList)
+                            @foreach (var price in product.Variants)
                             {
-                                if (price.Id == lowestPrice.Id) { continue; }
+                                if (price.Id == cheapestVariant.Id) { continue; }
                                 <div class="higherprice-item first-higherprice" title="Klik hier om 1 product toe te voegen aan uw winkelwagen" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
 
                                     <span class="measure" onclick="AddCart(@price.Id,1)">
@@ -273,10 +274,10 @@
                                         @(product.GetCustomField("Measure").FieldText)
                                     </span><br>
                                     <span class="price" onclick="AddCart(@price.Id,1)" itemprop="price">
-                                        @if (price.RetailPrice != price.FinalRetailPrice) {
-                                            <del style="color:orange">€ @(price.RetailPrice)</del><br/>
+                                        @if (price.Price != price.FinalPrice) {
+                                            <del style="color:orange">€ @(price.Price)</del><br/>
                                         }
-                                        € @(price.FinalRetailPrice)
+                                        € @(price.FinalPrice)
                                     </span>
 
                                     <span class="addSKU" onclick="AddCart(@price.Id,1)"></span>

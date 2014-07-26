@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models
 {
     public class AddItemModel
     {
-        public int ProductPriceId { get; set; }
+        public int ProductVariantId { get; set; }
 
         public int Quantity { get; set; }
 

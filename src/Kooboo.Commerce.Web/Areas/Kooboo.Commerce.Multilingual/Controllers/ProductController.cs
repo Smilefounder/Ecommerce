@@ -62,7 +62,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         public ActionResult Translate(int id, string culture)
         {
             var product = _repository.Find(id);
-            var fields = product.CustomFieldValues.Where(f => f.CustomField.IsValueLocalizable).ToList();
+            var fields = product.CustomFields.Where(f => f.CustomField.IsValueLocalizable).ToList();
 
             var compared = new ProductModel
             {

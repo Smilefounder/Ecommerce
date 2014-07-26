@@ -28,18 +28,18 @@ namespace Kooboo.Commerce.Api.Countries
         /// </summary>
         /// <param name="threeLetterISOCode">country three letter ISO code</param>
         /// <returns>country query</returns>
-        ICountryQuery ByThreeLetterISOCode(string threeLetterISOCode);
+        ICountryQuery ByThreeLetterIsoCode(string threeLetterISOCode);
         /// <summary>
         /// add two letter ISO code filter to query
         /// </summary>
         /// <param name="twoLetterISOCode">country two letter ISO code</param>
         /// <returns>country query</returns>
-        ICountryQuery ByTwoLetterISOCode(string twoLetterISOCode);
+        ICountryQuery ByTwoLetterIsoCode(string twoLetterISOCode);
         /// <summary>
         /// add numeric ISO code filter to query
         /// </summary>
         /// <param name="numericISOCode">country numeric ISO code</param>
         /// <returns>country query</returns>
-        ICountryQuery ByNumericISOCode(string numericISOCode);
+        ICountryQuery ByNumericIsoCode(string numericISOCode);
     }
 }

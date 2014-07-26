@@ -3485,7 +3485,7 @@
     <Content Include="Areas\Commerce\Views\MediaLibrary\Selection.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Edit.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_ChangePriceDialog.cshtml" />
-    <Content Include="Areas\Commerce\Views\Product\_TabPrices.cshtml" />
+    <Content Include="Areas\Commerce\Views\Product\_TabVariants.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_TabCustomFields.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_TabBasicInfo.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_BulkAddDialog.cshtml" />

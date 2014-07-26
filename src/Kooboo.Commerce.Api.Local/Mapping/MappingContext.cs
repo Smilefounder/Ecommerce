@@ -8,24 +8,25 @@ namespace Kooboo.Commerce.Api.Local.Mapping
 {
     public class MappingContext
     {
-        public CultureInfo Culture { get; private set; }
+        public ApiContext ApiContext { get; private set; }
 
         public IncludeCollection Includes { get; private set; }
 
         public HashSet<ObjectReference> VisitedObjects { get; private set; }
 
-        public MappingContext() : this(null, CultureInfo.CurrentUICulture)
+        public MappingContext(ApiContext apiContext) 
+            : this(apiContext, null, CultureInfo.CurrentUICulture)
         {
         }
 
-        public MappingContext(IncludeCollection includes)
-            : this(includes, CultureInfo.CurrentUICulture)
+        public MappingContext(ApiContext apiContext, IncludeCollection includes)
+            : this(apiContext, includes, CultureInfo.CurrentUICulture)
         {
         }
 
-        public MappingContext(IncludeCollection includes, CultureInfo culture)
+        public MappingContext(ApiContext apiContext, IncludeCollection includes, CultureInfo culture)
         {
-            Culture = culture;
+            ApiContext = apiContext;
             Includes = includes ?? new IncludeCollection();
             VisitedObjects = new HashSet<ObjectReference>();
         }

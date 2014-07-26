@@ -2,7 +2,7 @@
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.Commerce.Api;
-using Kooboo.Commerce.Api;
+using Kooboo.CMS.Sites.Membership;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -71,7 +71,10 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
         {
             var dataSourceContext = context.DataSourceContext;
 
-            var apiContext = new ApiContext(context.Site.CommerceInstanceName(), CultureInfo.GetCultureInfo(context.Site.Culture), null);
+            var user = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
+            var accountId = user == null ? null : user.UUID;
+
+            var apiContext = new ApiContext(context.Site.InstanceName(), CultureInfo.GetCultureInfo(context.Site.Culture), null, accountId);
             var api = ApiService.Get(context.Site.ApiType(), apiContext);
 
             var query = GetQuery(api);

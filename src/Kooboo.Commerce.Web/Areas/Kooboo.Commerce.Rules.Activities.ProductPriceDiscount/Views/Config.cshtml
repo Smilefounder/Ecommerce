@@ -41,25 +41,19 @@
 
         var editor = ActivityEditor.current();
         var model = new ViewModel();
-        var ruleId = editor.model().ruleId();
 
         editor.on('databound', function (sender, args) {
             ko.applyBindings(model, document.getElementById('retailprice-discount-form'));
 
-            var attachedActivityInfoId = editor.model().attachedActivityInfoId();
-            if (attachedActivityInfoId) {
-                var url = '/@(Strings.AreaName)/Config/Load';
-                return $.get(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + attachedActivityInfoId)
-                        .then(function (data) {
-                            ko.mapping.fromJS(data, {}, model);
-                        });
+            var config = editor.activityConfig();
+            if (config) {
+                ko.mapping.fromJS(config, {}, model);
             }
         });
 
-        editor.on('saved', function (sender, args) {
-            var activityInfoId = args.attachedActivityInfoId;
-            var url = '/@(Strings.AreaName)/Config/Save';
-            return kb.http.safePost(url + '?ruleId=' + ruleId + '&attachedActivityInfoId=' + activityInfoId, ko.mapping.toJS(model));
+        editor.on('saving', function (sender, args) {
+            var config = ko.mapping.toJS(model);
+            editor.activityConfig(config);
         });
 
         function ViewModel() {

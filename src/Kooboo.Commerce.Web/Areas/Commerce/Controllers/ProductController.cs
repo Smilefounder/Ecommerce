@@ -137,7 +137,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             var query = _productService.Query()
                                        .Where(p => p.Id != productId)
-                                       .Where(p => p.CustomFieldValues.Any(f => f.CustomField.Name == fieldName && f.FieldValue == fieldValue));
+                                       .Where(p => p.CustomFields.Any(f => f.CustomField.Name == fieldName && f.FieldValue == fieldValue));
 
             var valid = !query.Any();
 

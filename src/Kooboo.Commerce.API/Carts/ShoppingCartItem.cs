@@ -6,33 +6,18 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Carts
 {
-    /// <summary>
-    /// shopping cart item
-    /// </summary>
     public class ShoppingCartItem
     {
-        /// <summary>
-        /// shopping cart item id
-        /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// product price
-        /// </summary>
-        public ProductPrice ProductPrice { get; set; }
+        public Product Product { get; set; }
 
-        public int ProductPriceId { get; set; }
+        public ProductVariant ProductVariant { get; set; }
 
-        /// <summary>
-        /// quantity
-        /// </summary>
         public int Quantity { get; set; }
 
         public decimal Subtotal { get; set; }
 
-        /// <summary>
-        /// Discount of the cart item from applicable promotions.
-        /// </summary>
         public decimal Discount { get; set; }
 
         public decimal Total { get; set; }

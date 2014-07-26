@@ -129,14 +129,14 @@ namespace Kooboo.Commerce.Carts.Services
             Event.Raise(new CartItemAdded(cart, item));
         }
 
-        public ShoppingCartItem AddItem(ShoppingCart cart, Product product, ProductPrice productPrice, int quantity)
+        public ShoppingCartItem AddItem(ShoppingCart cart, Product product, ProductVariant productPrice, int quantity)
         {
             Require.NotNull(cart, "cart");
             Require.NotNull(product, "product");
             Require.NotNull(productPrice, "productPrice");
             Require.That(quantity > 0, "quantity", "Quantity should be greater than zero.");
 
-            var item = cart.Items.FirstOrDefault(i => i.ProductPrice.Id == productPrice.Id);
+            var item = cart.Items.FirstOrDefault(i => i.ProductVariant.Id == productPrice.Id);
             if (item == null)
             {
                 item = new ShoppingCartItem(productPrice, quantity, cart);
@@ -233,7 +233,7 @@ namespace Kooboo.Commerce.Carts.Services
 
             foreach (var item in from.Items)
             {
-                AddItem(to, item.ProductPrice.Product, item.ProductPrice, item.Quantity);
+                AddItem(to, item.ProductVariant.Product, item.ProductVariant, item.Quantity);
             }
 
             from.Items.Clear();

@@ -32,11 +32,6 @@ namespace Kooboo.Commerce.Brands.Services
             return _brandRepository.Query();
         }
 
-        public IQueryable<BrandCustomField> CustomFields()
-        {
-            return _customFieldRepository.Query();
-        }
-
         public void Create(Brand brand)
         {
             _brandRepository.Insert(brand);

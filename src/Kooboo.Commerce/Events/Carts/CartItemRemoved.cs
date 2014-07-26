@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Events.Carts
         [Reference(typeof(Product))]
         public int ProductId { get; set; }
 
-        [Reference(typeof(ProductPrice))]
+        [Reference(typeof(ProductVariant))]
         public int ProductPriceId { get; set; }
 
         [Param]
@@ -31,8 +31,8 @@ namespace Kooboo.Commerce.Events.Carts
         {
             CartId = cart.Id;
             ItemId = item.Id;
-            ProductId = item.ProductPrice.ProductId;
-            ProductPriceId = item.ProductPrice.Id;
+            ProductId = item.ProductVariant.ProductId;
+            ProductPriceId = item.ProductVariant.Id;
             Quantity = item.Quantity;
         }
     }
