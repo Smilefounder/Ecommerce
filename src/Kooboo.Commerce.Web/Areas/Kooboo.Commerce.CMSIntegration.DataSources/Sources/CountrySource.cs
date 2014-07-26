@@ -13,5 +13,10 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             : base("Countries", typeof(ICountryQuery), typeof(Country))
         {
         }
+
+        protected override object GetQuery(API.ICommerceAPI api)
+        {
+            return api.Countries;
+        }
     }
 }

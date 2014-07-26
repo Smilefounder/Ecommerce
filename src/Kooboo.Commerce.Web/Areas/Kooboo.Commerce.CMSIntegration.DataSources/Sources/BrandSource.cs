@@ -13,5 +13,10 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             : base("Brands", typeof(IBrandQuery), typeof(Brand))
         {
         }
+
+        protected override object GetQuery(API.ICommerceAPI api)
+        {
+            return api.Brands;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Api.Local;
 using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.Customers.Services;
@@ -18,17 +19,17 @@ namespace Kooboo.Commerce.API.LocalProvider.Customers
     [Dependency(typeof(ICustomerQuery), ComponentLifeStyle.Transient)]
     public class CustomerAPI : LocalCommerceQuery<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerAPI
     {
+        private LocalApiContext _context;
         private ICommerceDatabase _db;
         private ICustomerService _customerService;
         private ICountryService _countryService;
 
-        public CustomerAPI(
-            ICommerceDatabase db,
-            ICustomerService customerService, ICountryService countryService)
+        public CustomerAPI(LocalApiContext context)
         {
-            _db = db;
-            _customerService = customerService;
-            _countryService = countryService;
+            _context = context;
+            _db = _context.Database;
+            _customerService = _context.ServiceFactory.Customers;
+            _countryService = _context.ServiceFactory.Countries;
         }
 
         /// <summary>

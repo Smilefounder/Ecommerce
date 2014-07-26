@@ -1,8 +1,10 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.API;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,9 +41,14 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
 
         public static ICommerceAPI Commerce(this Site site)
         {
-            var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();
-            commerceService.InitCommerceInstance(site.GetCommerceName(), site.GetLanguage(), site.GetCurrency(), site.CustomFields);
-            return commerceService;
+            var context = new ApiContext(site.GetCommerceName(), CultureInfo.GetCultureInfo(site.Culture), null);
+            var apiType = "Local";
+            if (site.CustomFields.ContainsKey("CommerceApiType"))
+            {
+                apiType = site.CustomFields["CommerceApiType"];
+            }
+
+            return ApiService.Get(apiType, context);
         }
     }
 }

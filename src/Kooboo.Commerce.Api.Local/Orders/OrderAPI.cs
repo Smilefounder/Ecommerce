@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Kooboo.Commerce.Api.Local;
 
 namespace Kooboo.Commerce.API.LocalProvider.Orders
 {
@@ -26,12 +27,12 @@ namespace Kooboo.Commerce.API.LocalProvider.Orders
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
 
-        public OrderAPI(ICommerceDatabase db, IOrderService orderService, IShoppingCartService shoppingCartService, ICustomerService customerService)
+        public OrderAPI(LocalApiContext context)
         {
-            _db = db;
-            _orderService = orderService;
-            _shoppingCartService = shoppingCartService;
-            _customerService = customerService;
+            _db = context.Database;
+            _orderService = context.ServiceFactory.Orders;
+            _shoppingCartService = context.ServiceFactory.Carts;
+            _customerService = context.ServiceFactory.Customers;
         }
 
         /// <summary>

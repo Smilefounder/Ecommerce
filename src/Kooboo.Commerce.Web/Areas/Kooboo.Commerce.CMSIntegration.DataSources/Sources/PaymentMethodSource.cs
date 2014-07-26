@@ -13,5 +13,10 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             : base("PaymentMethods", typeof(IPaymentMethodQuery), typeof(PaymentMethod))
         {
         }
+
+        protected override object GetQuery(API.ICommerceAPI api)
+        {
+            return api.PaymentMethods;
+        }
     }
 }

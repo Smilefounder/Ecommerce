@@ -63,6 +63,7 @@
     <Compile Include="Categories\CategoryAPI.cs" />
     <Compile Include="Customers\CustomerAPI.cs" />
     <Compile Include="IncludeCollection.cs" />
+    <Compile Include="LocalApiContext.cs" />
     <Compile Include="LocalCommerceAPI.cs" />
     <Compile Include="LocalCommerceQuery.cs" />
     <Compile Include="Locations\CountryAPI.cs" />

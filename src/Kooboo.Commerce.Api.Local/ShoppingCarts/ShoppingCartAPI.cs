@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.Commerce.Api.Local;
 
 namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
 {
@@ -32,26 +33,16 @@ namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
         private ICustomerAPI _customerApi;
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
-        private IPromotionPolicyProvider _promotionPolicyFactory;
 
-        public ShoppingCartAPI(
-            ICommerceDatabase db,
-            IProductService productService,
-            ICustomerAPI customerApi,
-            IShoppingCartService shoppingCartService,
-            IShippingMethodService shippingMethodService,
-            ICustomerService customerService,
-            IPromotionService promotionService,
-            IPromotionPolicyProvider promotionPolicyFactory)
+        public ShoppingCartAPI(LocalApiContext context, ICustomerAPI customerApi)
         {
-            _db = db;
-            _productService = productService;
+            _db = context.Database;
+            _productService = context.ServiceFactory.Products;
             _customerApi = customerApi;
-            _cartService = shoppingCartService;
-            _shippingMethodService = shippingMethodService;
-            _customerService = customerService;
-            _promotionService = promotionService;
-            _promotionPolicyFactory = promotionPolicyFactory;
+            _cartService = context.ServiceFactory.Carts;
+            _shippingMethodService = context.ServiceFactory.ShippingMethods;
+            _customerService = context.ServiceFactory.Customers;
+            _promotionService = context.ServiceFactory.Promotions;
 
             Include(c => c.Items);
         }

@@ -17,6 +17,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             InternalFilters.Add(new SourceFilterDefinition("ByCurrentCustomer"));
         }
 
+        protected override object GetQuery(API.ICommerceAPI api)
+        {
+            return api.ShoppingCarts;
+        }
+
         protected override void ApplyFilters(object query, List<SourceFilter> filters, CommerceSourceContext context)
         {
             var byCurrentCustomer = filters.Find(f => f.Name == "ByCurrentCustomer");

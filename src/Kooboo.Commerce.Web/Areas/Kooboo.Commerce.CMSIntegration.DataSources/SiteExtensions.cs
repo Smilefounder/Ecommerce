@@ -8,6 +8,16 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
 {
     public static class SiteExtensions
     {
+        public static string ApiType(this Site site)
+        {
+            if (site.CustomFields.ContainsKey("CommerceApiType"))
+            {
+                return site.CustomFields["CommerceApiType"];
+            }
+
+            return "Local";
+        }
+
         public static string CommerceInstanceName(this Site site)
         {
             return site.CustomFields["CommerceInstance"];

@@ -17,6 +17,7 @@ using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.API.Customers;
 using System.Globalization;
 using Kooboo.Commerce.Api.Products;
+using Kooboo.Commerce.Api.Local;
 
 namespace Kooboo.Commerce.API.LocalProvider.Products
 {
@@ -24,24 +25,21 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
     [Dependency(typeof(IProductQuery))]
     public class ProductApi : LocalCommerceQuery<Product, Kooboo.Commerce.Products.Product>, IProductApi
     {
+        private LocalApiContext _context;
         private IProductService _productService;
         private IBrandService _brandService;
         private IProductTypeService _productTypeService;
         private ICategoryService _categoryService;
         private ICustomFieldService _customFieldService;
 
-        public ProductApi(
-            IProductService productService, 
-            IBrandService brandService, 
-            IProductTypeService productTypeService, 
-            ICustomFieldService customFieldService,
-            ICategoryService categoryService)
+        public ProductApi(LocalApiContext context)
         {
-            _productService = productService;
-            _brandService = brandService;
-            _productTypeService = productTypeService;
-            _customFieldService = customFieldService;
-            _categoryService = categoryService;
+            _context = context;
+            _productService = _context.ServiceFactory.Products;
+            _brandService = _context.ServiceFactory.Brands;
+            _productTypeService = _context.ServiceFactory.ProductTypes;
+            _customFieldService = _context.ServiceFactory.CustomFields;
+            _categoryService = _context.ServiceFactory.Categories;
         }
 
         /// <summary>

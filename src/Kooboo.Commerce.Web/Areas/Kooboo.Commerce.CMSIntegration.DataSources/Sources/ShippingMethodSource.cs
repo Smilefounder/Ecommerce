@@ -12,5 +12,10 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             : base("ShippingMethods", typeof(IShippingMethodQuery), typeof(ShippingMethod))
         {
         }
+
+        protected override object GetQuery(API.ICommerceAPI api)
+        {
+            return api.ShippingMethods;
+        }
     }
 }

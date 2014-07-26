@@ -1,9 +1,11 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.API;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -63,13 +65,16 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             Descriptor = descriptor;
         }
 
+        protected abstract object GetQuery(ICommerceAPI api);
+
         public virtual object Execute(CommerceSourceContext context)
         {
             var dataSourceContext = context.DataSourceContext;
-            var api = EngineContext.Current.Resolve<ICommerceAPI>();
-            api.InitCommerceInstance(GetInstanceName(dataSourceContext.Site), dataSourceContext.Site.Culture, null, dataSourceContext.Site.CustomFields);
 
-            var query = EngineContext.Current.Resolve(QueryType);
+            var apiContext = new ApiContext(context.Site.CommerceInstanceName(), CultureInfo.GetCultureInfo(context.Site.Culture), null);
+            var api = ApiService.Get(context.Site.ApiType(), apiContext);
+
+            var query = GetQuery(api);
 
             if (context.Filters != null && context.Filters.Count > 0)
             {
@@ -122,11 +127,6 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
                     CallMethod(query, definition.Method.Name, parameters);
                 }
             }
-        }
-
-        private string GetInstanceName(Site site)
-        {
-            return site.CustomFields["CommerceInstance"];
         }
 
         protected object CallMethod(object obj, string method, params object[] parameters)

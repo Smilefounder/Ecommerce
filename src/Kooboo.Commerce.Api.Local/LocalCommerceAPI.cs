@@ -6,6 +6,27 @@ using System.Web;
 using Kooboo.Commerce.Data;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Api;
+using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.API.LocalProvider.Locations;
+using Kooboo.Commerce.API.Brands;
+using Kooboo.Commerce.API.LocalProvider.Brands;
+using Kooboo.Commerce.API.Categories;
+using Kooboo.Commerce.API.LocalProvider.Categories;
+using Kooboo.Commerce.API.LocalProvider.Customers;
+using Kooboo.Commerce.Api.Local;
+using Kooboo.Commerce.API.LocalProvider.Products;
+using Kooboo.Commerce.API.LocalProvider.ShoppingCarts;
+using Kooboo.Commerce.API.LocalProvider.Orders;
+using Kooboo.Commerce.API.LocalProvider.Payments;
+using Kooboo.Commerce.Payments;
+using Kooboo.Commerce.API.LocalProvider.Shipping;
+using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.Api.Products;
+using Kooboo.Commerce.API.Carts;
+using Kooboo.Commerce.API.Orders;
+using Kooboo.Commerce.API.Payments;
+using Kooboo.Commerce.API.Shipping;
 
 namespace Kooboo.Commerce.API.LocalProvider
 {
@@ -13,30 +34,104 @@ namespace Kooboo.Commerce.API.LocalProvider
     /// local commerce api
     /// this api uses the Kooboo.Commerce dll directly.
     /// </summary>
-    [Dependency(typeof(ICommerceAPI), ComponentLifeStyle.InRequestScope)]
-    public class LocalCommerceAPI : CommerceAPIBase
+    [Dependency(typeof(ICommerceAPI), Key = "Local")]
+    public class LocalCommerceAPI : ICommerceAPI
     {
-        /// <summary>
-        /// set the commerce instance and language to HttpContext.Current.Items.
-        /// so that the ICommerceInstanceManager can OpenInstance by using HttpContextItemCommerceInstanceNameResolver
-        /// </summary>
-        /// <param name="instance">commerce instance name</param>
-        /// <param name="language">language</param>
-        /// <param name="currency">currency</param>
-        /// <param name="settings">kooboo cms site's custom field settings</param>
-        public override void InitCommerceInstance(string instance, string language, string currency, Dictionary<string, string> settings)
+        private LocalApiContext _context;
+
+        public void Initialize(Api.ApiContext context)
         {
-            if (HttpContext.Current != null)
+            // TODO: Not good! But without this, we are not able to resolve services.
+            //       So we might need to think about improving the design of service apis. No idea for now.
+            HttpContext.Current.Items["instance"] = context.Instance;
+            HttpContext.Current.Items["language"] = context.Culture.Name;
+
+            _context = new LocalApiContext(context, CommerceInstance.Current.Database, GetServiceFactory());
+        }
+
+        public ICountryAPI Countries
+        {
+            get
             {
-                HttpContext.Current.Items["instance"] = instance;
-                HttpContext.Current.Items["language"] = language;
+                return new CountryAPI(_context);
             }
         }
 
-        protected override Q GetAPI<Q>()
+        public IBrandAPI Brands
         {
-            var q = base.GetAPI<Q>();
-            return q;
+            get
+            {
+                return new BrandAPI(GetServiceFactory().Brands);
+            }
+        }
+
+        public ICategoryAPI Categories
+        {
+            get
+            {
+                return new CategoryAPI(GetServiceFactory().Categories);
+            }
+        }
+
+        public ICustomerAPI Customers
+        {
+            get
+            {
+                return new CustomerAPI(_context);
+            }
+        }
+
+        public IProductApi Products
+        {
+            get
+            {
+                return new ProductApi(_context);
+            }
+        }
+
+        public IShoppingCartAPI ShoppingCarts
+        {
+            get
+            {
+                return new ShoppingCartAPI(_context, Customers);
+            }
+        }
+
+        public IOrderAPI Orders
+        {
+            get
+            {
+                return new OrderAPI(_context);
+            }
+        }
+
+        public IPaymentAPI Payments
+        {
+            get
+            {
+                return new LocalPaymentAPI(_context, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
+            }
+        }
+
+        public IPaymentMethodAPI PaymentMethods
+        {
+            get
+            {
+                return new LocalPaymentMethodAPI(_context.ServiceFactory.PaymentMethods, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
+            }
+        }
+
+        public IShippingMethodAPI ShippingMethods
+        {
+            get
+            {
+                return new LocalShippingMethodAPI(_context.ServiceFactory.ShippingMethods);
+            }
+        }
+
+        private IServiceFactory GetServiceFactory()
+        {
+            return EngineContext.Current.Resolve<IServiceFactory>();
         }
     }
 }

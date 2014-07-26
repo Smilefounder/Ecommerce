@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Api.Local;
 using Kooboo.Commerce.API.Categories;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.Locations.Services;
@@ -16,11 +17,13 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
     [Dependency(typeof(ICountryQuery), ComponentLifeStyle.Transient)]
     public class CountryAPI : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryAPI
     {
-        private ICountryService _countryService;
+        private LocalApiContext _context;
+        private ICountryService _service;
 
-        public CountryAPI(ICountryService countryService)
+        public CountryAPI(LocalApiContext context)
         {
-            _countryService = countryService;
+            _context = context;
+            _service = _context.ServiceFactory.Countries;
         }
 
         /// <summary>
@@ -29,7 +32,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Locations
         /// <returns>queryable object</returns>
         protected override IQueryable<Kooboo.Commerce.Locations.Country> CreateQuery()
         {
-            return _countryService.Query();
+            return _service.Query();
         }
 
         /// <summary>

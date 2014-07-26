@@ -76,6 +76,8 @@
     <Compile Include="Categories\CategoryCustomField.cs" />
     <Compile Include="Categories\Services\CategoryService.cs" />
     <Compile Include="Categories\Services\ICategoryService.cs" />
+    <Compile Include="DefaultServiceFactory.cs" />
+    <Compile Include="IServiceFactory.cs" />
     <Compile Include="Products\CustomFieldValue.cs" />
     <Compile Include="Events\Categories\CategoryCreated.cs" />
     <Compile Include="Events\Categories\CategoryDeleted.cs" />

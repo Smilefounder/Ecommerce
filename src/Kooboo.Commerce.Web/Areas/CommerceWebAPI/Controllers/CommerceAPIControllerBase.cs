@@ -19,12 +19,14 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// <returns>commerce api</returns>
         protected ICommerceAPI Commerce()
         {
-            var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();
-            string commerceInstance = this.ControllerContext.RouteData.Values["instance"].ToString();
-            string language = "";
-            string currency = "";
-            commerceService.InitCommerceInstance(commerceInstance, language, currency, null);
-            return commerceService;
+            // TODO: Fix this when get time
+            throw new NotImplementedException();
+            //var commerceService = EngineContext.Current.Resolve<ICommerceAPI>();
+            //string commerceInstance = this.ControllerContext.RouteData.Values["instance"].ToString();
+            //string language = "";
+            //string currency = "";
+            //commerceService.InitCommerceInstance(commerceInstance, language, currency, null);
+            //return commerceService;
         }
 	}
 }

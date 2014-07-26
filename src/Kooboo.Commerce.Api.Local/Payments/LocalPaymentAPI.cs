@@ -5,6 +5,7 @@ using Kooboo.Commerce.Payments.Services;
 using Payment = Kooboo.Commerce.Payments.Payment;
 using PaymentDto = Kooboo.Commerce.API.Payments.Payment;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Api.Local;
 
 namespace Kooboo.Commerce.API.LocalProvider.Payments
 {
@@ -14,14 +15,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
         private IPaymentMethodService _paymentMethodService;
         private IPaymentProcessorProvider _processorFactory;
 
-        public LocalPaymentAPI(
-            IPaymentMethodService paymentMethodService,
-            IPaymentService paymentService,
-            IPaymentProcessorProvider processorFactory)
-            : base(paymentService)
+        public LocalPaymentAPI(LocalApiContext context, IPaymentProcessorProvider processorFactory)
+            : base(context.ServiceFactory.Payments)
         {
             _processorFactory = processorFactory;
-            _paymentMethodService = paymentMethodService;
+            _paymentMethodService = context.ServiceFactory.PaymentMethods;
         }
 
         public PaymentResult Pay(PaymentRequest request)

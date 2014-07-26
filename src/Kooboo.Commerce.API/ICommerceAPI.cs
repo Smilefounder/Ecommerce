@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Api.Products;
+using Kooboo.Commerce.Api;
 
 namespace Kooboo.Commerce.API
 {
@@ -19,15 +20,7 @@ namespace Kooboo.Commerce.API
     /// </summary>
     public interface ICommerceAPI
     {
-        /// <summary>
-        /// all commerce services work on a specified commerce instance and language.
-        /// set the instance and language in the runtime context before calling commerce services.
-        /// </summary>
-        /// <param name="instance">commerce intance</param>
-        /// <param name="language">lanuage</param>
-        /// <param name="currency">currency</param>
-        /// <param name="settings">the extra settings for provider</param>
-        void InitCommerceInstance(string instance, string language, string currency, Dictionary<string, string> settings);
+        void Initialize(ApiContext context);
 
         /// <summary>
         /// country api
