@@ -4,13 +4,13 @@ using Kooboo.Commerce.API.Customers;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.API.Orders;
 using Kooboo.Commerce.API.Payments;
-using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.API.Shipping;
 using Kooboo.Commerce.API.Carts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.Commerce.Api.Products;
 
 namespace Kooboo.Commerce.API
 {
@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.API
         /// <summary>
         /// product api
         /// </summary>
-        IProductAPI Products { get; }
+        IProductApi Products { get; }
         /// <summary>
         /// shopping cart api
         /// </summary>

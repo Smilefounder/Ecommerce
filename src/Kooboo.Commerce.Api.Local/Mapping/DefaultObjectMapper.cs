@@ -11,6 +11,21 @@ namespace Kooboo.Commerce.Api.Local.Mapping
     {
         public Func<Type, Type, IObjectMapper> GetMapper = (sourceType, targetType) => ObjectMapper.GetMapper(sourceType, targetType);
 
+        private IPropertyValueResolver _sourcePropertyValueResolver = new LocalizablePropertyValueResolver();
+
+        public IPropertyValueResolver SourcePropertyValueResolver
+        {
+            get
+            {
+                return _sourcePropertyValueResolver;
+            }
+            set
+            {
+                Require.NotNull(value, "value");
+                _sourcePropertyValueResolver = value;
+            }
+        }
+
         public virtual object Map(object source, object target, Type sourceType, Type targetType, string prefix, MappingContext context)
         {
             foreach (var targetProp in targetType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -30,7 +45,7 @@ namespace Kooboo.Commerce.Api.Local.Mapping
                 return;
             }
 
-            var sourcePropValue = ResolveSourcePropertyValue(sourceProperty, source);
+            var sourcePropValue = ResolveSourcePropertyValue(sourceProperty, source, context);
 
             if (sourcePropValue == null)
             {
@@ -62,7 +77,7 @@ namespace Kooboo.Commerce.Api.Local.Mapping
                 {
                     var sourceElementType = GetCollectionElementType(sourceProperty.PropertyType);
 
-                    var elementMapper = GetMapper(sourceElementType, targetElementType);
+                    var elementMapper = GetMapperOrDefault(sourceElementType, targetElementType);
                     if (elementMapper == null)
                     {
                         return;
@@ -104,7 +119,7 @@ namespace Kooboo.Commerce.Api.Local.Mapping
                 }
                 else
                 {
-                    var mapper = GetMapper(sourceProperty.PropertyType, targetProperty.PropertyType);
+                    var mapper = GetMapperOrDefault(sourceProperty.PropertyType, targetProperty.PropertyType);
                     if (mapper != null)
                     {
                         if (targetPropValue == null)
@@ -130,9 +145,14 @@ namespace Kooboo.Commerce.Api.Local.Mapping
             }
         }
 
-        protected virtual object ResolveSourcePropertyValue(PropertyInfo property, object source)
+        protected IObjectMapper GetMapperOrDefault(Type sourceType, Type targetType)
         {
-            return property.GetValue(source, null);
+            return GetMapper(sourceType, targetType) ?? ObjectMapper.Default;
+        }
+
+        private object ResolveSourcePropertyValue(PropertyInfo property, object source, MappingContext context)
+        {
+            return SourcePropertyValueResolver.Resolve(property, source, context);
         }
 
         protected bool IsCollection(Type type, out Type elementType)

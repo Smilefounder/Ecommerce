@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.API.EAV;
 
-namespace Kooboo.Commerce.API.Products
+namespace Kooboo.Commerce.Api.Products
 {
     /// <summary>
     /// Define the type of a product, the type defines all the custom properties and variations. 

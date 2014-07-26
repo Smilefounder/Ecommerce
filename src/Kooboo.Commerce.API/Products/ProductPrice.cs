@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Kooboo.Commerce.Api.Products;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Products
+namespace Kooboo.Commerce.Api.Products
 {
     /// <summary>
     /// product price
@@ -41,33 +42,20 @@ namespace Kooboo.Commerce.API.Products
         /// </summary>
         public DateTime CreatedAtUtc { get; set; }
         /// <summary>
-        /// is published
-        /// </summary>
-        public bool IsPublished { get; set; }
-        /// <summary>
-        /// publish time at utc
-        /// </summary>
-        public DateTime? PublishedAtUtc { get; set; }
-        /// <summary>
         /// product
         /// </summary>
         public Product Product { get; set; }
-        /// <summary>
-        /// product variant values
-        /// </summary>
-        public ProductPriceVariantValue[] VariantValues { get; set; }
+        
+        public ICollection<CustomFieldValue> VariantFields { get; set; }
 
-        public string GetVariantValue(string variantFieldName)
+        public ProductPrice()
         {
-            if (VariantValues != null)
-            {
-                var customField = VariantValues.FirstOrDefault(o => o.CustomField.Name == variantFieldName);
-                if (customField != null)
-                {
-                    return string.IsNullOrEmpty(customField.FieldValue) ? customField.FieldText : customField.FieldValue;
-                }
-            }
-            return string.Empty;
+            VariantFields = new List<CustomFieldValue>();
+        }
+
+        public CustomFieldValue GetVariantField(string name)
+        {
+            return VariantFields.FirstOrDefault(f => f.FieldName == name);
         }
     }
 }

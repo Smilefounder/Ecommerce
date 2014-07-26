@@ -1,5 +1,5 @@
 ﻿using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.Products;
+using Kooboo.Commerce.Api.Products;
 using Kooboo.Web.Mvc.Paging;
 using System;
 using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))
                 query = query.ByCustomField(qs["customField.name"], qs["customField.value"]);
             if (!string.IsNullOrEmpty(qs["priceVariant.name"]) && !string.IsNullOrEmpty(qs["priceVariant.value"]))
-                query = query.ByPriceVariant(qs["priceVariant.name"], qs["priceVariant.value"]);
+                query = query.ByVariantField(qs["priceVariant.name"], qs["priceVariant.value"]);
 
             return BuildLoadWithFromQueryStrings(query, qs);
         }

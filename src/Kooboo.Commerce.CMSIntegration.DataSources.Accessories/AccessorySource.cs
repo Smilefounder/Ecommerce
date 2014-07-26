@@ -109,10 +109,10 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
                 
                 var accessoryIds = accessories.Select(x => x.ProductId).ToArray();
 
-                var result = new List<Kooboo.Commerce.API.Products.Product>();
+                var result = new List<Kooboo.Commerce.Api.Products.Product>();
                 foreach (var id in accessoryIds)
                 {
-                    var model = EngineContext.Current.Resolve<Kooboo.Commerce.API.Products.IProductAPI>()
+                    var model = EngineContext.Current.Resolve<Kooboo.Commerce.Api.Products.IProductApi>()
                                            .ById(id)
                                            .Include("PriceList")
                                            .Include("Images")
@@ -130,7 +130,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
 
         public IDictionary<string, object> GetDefinitions()
         {
-            return DataSourceDefinitionHelper.GetDefinitions(typeof(Kooboo.Commerce.API.Products.Product));
+            return DataSourceDefinitionHelper.GetDefinitions(typeof(Kooboo.Commerce.Api.Products.Product));
         }
     }
 }

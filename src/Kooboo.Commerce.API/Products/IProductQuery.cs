@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Kooboo.Commerce.API;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Products
+namespace Kooboo.Commerce.Api.Products
 {
     /// <summary>
     /// product query
@@ -55,6 +56,6 @@ namespace Kooboo.Commerce.API.Products
         /// <param name="variantName">price variant name</param>
         /// <param name="variantVallue">price variant value</param>
         /// <returns>product query</returns>
-        IProductQuery ByPriceVariant(string variantName, string variantValue);
+        IProductQuery ByVariantField(string variantName, string variantValue);
     }
 }

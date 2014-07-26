@@ -1,5 +1,5 @@
-﻿@using Kooboo.Commerce.API;
-@using Kooboo.Commerce.API.Products;
+﻿@using Kooboo.Commerce.Api;
+@using Kooboo.Commerce.Api.Products;
 @{
     var productId = Page_Context.Current.PageRequestContext.RouteValues["id"];
     var product = ViewBag.Product;
@@ -64,26 +64,18 @@
                             @(product.Brand.Name)
                         </small>
                         <div class="TotalReviews" itemprop="aggregaterating" itemscope="" itemtype="http://schema.org/AggregateRating">
-
                             <ul class="star-rating">
                                 <li class="current-rating" style="width:46px"></li>
                             </ul>
-
-                            <span class="ReviewsCount">
-                                <span itemprop="reviewCount">
-                                    32
-                                </span> <a id="openReview" href="#recensies" class="storeLink">Recensies</a>
-                            </span>
                         </div>
                         <h2 class="headtext">
-                            Zeer hooggedoseerd <a href="/informatie/Multivitaminen">multivitaminen</a> complex!
+                            @Html.Raw(product.GetCustomField("HeadText").FieldText)
                         </h2>
                         <div class="productline">
                         </div>
                         <div itemprop="description">
-                            @product.GetCustomFieldValue("Introduction")
+                            @Html.Raw(product.GetCustomField("Introduction").FieldText)
                         </div>
-
                         <br>
                         <br>
                         zoekwoord(en):
@@ -210,8 +202,8 @@
                         </div>
                         <div class="lowestprice-item" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
                             <span class="measure">
-                                @(lowestPrice.GetVariantValue("MeasureQuantity"))
-                                @(product.GetCustomFieldValue("Measure"))&nbsp;
+                                @(lowestPrice.GetVariantField("MeasureQuantity").FieldText)
+                                @(product.GetCustomField("Measure").FieldText)&nbsp;
                             </span><br>
                             <span class="price">
                                 @if (lowestPrice.RetailPrice != lowestPrice.FinalRetailPrice)
@@ -277,8 +269,8 @@
                                 <div class="higherprice-item first-higherprice" title="Klik hier om 1 product toe te voegen aan uw winkelwagen" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
 
                                     <span class="measure" onclick="AddCart(@price.Id,1)">
-                                        @(price.GetVariantValue("MeasureQuantity"))
-                                        @(product.GetCustomFieldValue("Measure"))
+                                        @(price.GetVariantField("MeasureQuantity").FieldValue)
+                                        @(product.GetCustomField("Measure").FieldText)
                                     </span><br>
                                     <span class="price" onclick="AddCart(@price.Id,1)" itemprop="price">
                                         @if (price.RetailPrice != price.FinalRetailPrice) {

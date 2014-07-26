@@ -3,7 +3,6 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.CMS.Membership;
 using Kooboo.Commerce.API.Brands;
-using Kooboo.Commerce.API.Products;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.EAV.Services;
@@ -17,15 +16,13 @@ using System.Web;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.API.Customers;
 using System.Globalization;
+using Kooboo.Commerce.Api.Products;
 
 namespace Kooboo.Commerce.API.LocalProvider.Products
 {
-    /// <summary>
-    /// product api
-    /// </summary>
-    [Dependency(typeof(IProductAPI))]
+    [Dependency(typeof(IProductApi))]
     [Dependency(typeof(IProductQuery))]
-    public class ProductAPI : LocalCommerceQuery<Product, Kooboo.Commerce.Products.Product>, IProductAPI
+    public class ProductApi : LocalCommerceQuery<Product, Kooboo.Commerce.Products.Product>, IProductApi
     {
         private IProductService _productService;
         private IBrandService _brandService;
@@ -33,7 +30,11 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         private ICategoryService _categoryService;
         private ICustomFieldService _customFieldService;
 
-        public ProductAPI(IProductService productService, IBrandService brandService, IProductTypeService productTypeService, ICustomFieldService customFieldService,
+        public ProductApi(
+            IProductService productService, 
+            IBrandService brandService, 
+            IProductTypeService productTypeService, 
+            ICustomFieldService customFieldService,
             ICategoryService categoryService)
         {
             _productService = productService;
@@ -87,7 +88,6 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
 
                     price.FinalRetailPrice = PriceCalculationContext.GetFinalUnitPrice(product.Id, price.Id, price.RetailPrice, new Kooboo.Commerce.Carts.ShoppingContext
                     {
-                        // TODO: We don't need Hal anymore, this need to be changed
                         CustomerId = customerId
                     });
                 }
@@ -168,7 +168,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
         /// <param name="variantName">price variant name</param>
         /// <param name="variantVallue">price variant value</param>
         /// <returns>product query</returns>
-        public IProductQuery ByPriceVariant(string variantName, string variantValue)
+        public IProductQuery ByVariantField(string variantName, string variantValue)
         {
             Query = Query.Where(o => o.PriceList.Any(p => p.VariantValues.Any(v => v.CustomField.Name == variantName && v.FieldValue == variantValue)));
             return this;

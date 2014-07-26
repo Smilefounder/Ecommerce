@@ -1,6 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.API.Brands;
-using Kooboo.Commerce.API.Products;
+using Kooboo.Commerce.Api.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +11,9 @@ namespace Kooboo.Commerce.API.RestProvider.Products
     /// <summary>
     /// product api
     /// </summary>
-    [Dependency(typeof(IProductAPI))]
+    [Dependency(typeof(IProductApi))]
     [Dependency(typeof(IProductQuery))]
-    public class ProductAPI : RestApiQueryBase<Product>, IProductAPI
+    public class ProductAPI : RestApiQueryBase<Product>, IProductApi
     {
         /// <summary>
         /// add id filter to query
@@ -50,18 +50,6 @@ namespace Kooboo.Commerce.API.RestProvider.Products
         }
 
         /// <summary>
-        /// add contains name filter to query
-        /// product name contains the input
-        /// </summary>
-        /// <param name="name">product name</param>
-        /// <returns>product query</returns>
-        public IProductQuery ContainsName(string name)
-        {
-            QueryParameters.Add("containsName", name);
-            return this;
-        }
-
-        /// <summary>
         /// add product type id filter to query
         /// </summary>
         /// <param name="productTypeId">product type id</param>
@@ -83,27 +71,6 @@ namespace Kooboo.Commerce.API.RestProvider.Products
             return this;
         }
 
-        /// <summary>
-        /// add published filter to query
-        /// </summary>
-        /// <param name="published">product published</param>
-        /// <returns>product query</returns>
-        public IProductQuery IsPublished(bool published)
-        {
-            QueryParameters.Add("published", published.ToString());
-            return this;
-        }
-
-        /// <summary>
-        /// add deleted filter to query
-        /// </summary>
-        /// <param name="deleted">product deleted</param>
-        /// <returns>product query</returns>
-        public IProductQuery IsDeleted(bool deleted)
-        {
-            QueryParameters.Add("deleted", deleted.ToString());
-            return this;
-        }
         /// <summary>
         /// filter the product by custom field value
         /// </summary>
@@ -133,23 +100,10 @@ namespace Kooboo.Commerce.API.RestProvider.Products
         /// <summary>
         /// filter the product by product price variant
         /// </summary>
-        /// <param name="variantId">price variant id</param>
-        /// <param name="variantVallue">price variant value</param>
-        /// <returns>product query</returns>
-        public IProductQuery ByPriceVariant(int variantId, string variantVallue)
-        {
-            QueryParameters.Add("priceVariant.id", variantId.ToString());
-            QueryParameters.Add("priceVariant.vallue", variantVallue);
-            return this;
-        }
-
-        /// <summary>
-        /// filter the product by product price variant
-        /// </summary>
         /// <param name="variantName">price variant name</param>
         /// <param name="variantVallue">price variant value</param>
         /// <returns>product query</returns>
-        public IProductQuery ByPriceVariant(string variantName, string variantValue)
+        public IProductQuery ByVariantField(string variantName, string variantValue)
         {
             QueryParameters.Add("priceVariant.name", variantName);
             QueryParameters.Add("priceVariant.vallue", variantValue);

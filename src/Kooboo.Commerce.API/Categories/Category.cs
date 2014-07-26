@@ -27,10 +27,6 @@ namespace Kooboo.Commerce.API.Categories
         /// </summary>
         public string Photo { get; set; }
         /// <summary>
-        /// is the category published? only published categories need to be shown on the front-site
-        /// </summary>
-        public bool Published { get; set; }
-        /// <summary>
         /// parent category
         /// </summary>
         public Category Parent { get; set; }

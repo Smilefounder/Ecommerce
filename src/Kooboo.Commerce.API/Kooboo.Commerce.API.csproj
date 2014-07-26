@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiContext.cs" />
     <Compile Include="Brands\Brand.cs" />
     <Compile Include="Brands\BrandCustomField.cs" />
     <Compile Include="Brands\IBrandAPI.cs" />
@@ -77,18 +78,18 @@
     <Compile Include="Customers\CustomerCustomField.cs" />
     <Compile Include="Customers\ICustomerAPI.cs" />
     <Compile Include="Customers\ICustomerQuery.cs" />
-    <Compile Include="EAV\CustomField.cs" />
-    <Compile Include="EAV\CustomFieldType.cs" />
-    <Compile Include="EAV\FieldDataType.cs" />
-    <Compile Include="EAV\FieldValidationRule.cs" />
+    <Compile Include="Products\CustomField.cs" />
+    <Compile Include="Products\CustomFieldType.cs" />
+    <Compile Include="Products\FieldDataType.cs" />
+    <Compile Include="Products\FieldValidationRule.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="ICommerceQuery.cs" />
     <Compile Include="Brands\IBrandQuery.cs" />
     <Compile Include="ICommerceAPI.cs" />
-    <Compile Include="Locations\Address.cs" />
-    <Compile Include="Locations\Country.cs" />
-    <Compile Include="Locations\ICountryAPI.cs" />
-    <Compile Include="Locations\ICountryQuery.cs" />
+    <Compile Include="Customers\Address.cs" />
+    <Compile Include="Countries\Country.cs" />
+    <Compile Include="Countries\ICountryAPI.cs" />
+    <Compile Include="Countries\ICountryQuery.cs" />
     <Compile Include="Orders\IOrderAPI.cs" />
     <Compile Include="Orders\IOrderQuery.cs" />
     <Compile Include="Orders\Order.cs" />
@@ -106,14 +107,12 @@
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="PriceChangeMode.cs" />
-    <Compile Include="Products\IProductAPI.cs" />
+    <Compile Include="Products\CustomFieldValue.cs" />
+    <Compile Include="Products\IProductApi.cs" />
     <Compile Include="Products\IProductQuery.cs" />
     <Compile Include="Products\Product.cs" />
-    <Compile Include="Products\ProductCategory.cs" />
-    <Compile Include="Products\ProductCustomFieldValue.cs" />
     <Compile Include="Products\ProductImage.cs" />
     <Compile Include="Products\ProductPrice.cs" />
-    <Compile Include="Products\ProductPriceVariantValue.cs" />
     <Compile Include="Products\ProductType.cs" />
     <Compile Include="Promotions\Promotion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

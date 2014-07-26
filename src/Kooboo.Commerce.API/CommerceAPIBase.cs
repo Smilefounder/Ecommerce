@@ -6,7 +6,7 @@ using Kooboo.Commerce.API.Brands;
 using Kooboo.Commerce.API.Locations;
 using Kooboo.Commerce.API.Categories;
 using Kooboo.Commerce.API.Customers;
-using Kooboo.Commerce.API.Products;
+using Kooboo.Commerce.Api.Products;
 using Kooboo.Commerce.API.Orders;
 using Kooboo.Commerce.API.Carts;
 using Kooboo.CMS.Common.Runtime;
@@ -77,9 +77,9 @@ namespace Kooboo.Commerce.API
         /// <summary>
         /// product api
         /// </summary>
-        public IProductAPI Products
+        public IProductApi Products
         {
-            get { return GetAPI<IProductAPI>(); }
+            get { return GetAPI<IProductApi>(); }
         }
         /// <summary>
         /// shopping cart api

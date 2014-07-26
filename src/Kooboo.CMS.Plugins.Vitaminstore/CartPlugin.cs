@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Kooboo.Commerce.API.Carts;
-using Kooboo.Commerce.API.Products;
+using Kooboo.Commerce.Api.Products;
 using Kooboo.CMS.Membership.Models;
 
 namespace Kooboo.CMS.Plugins.Vitaminstore

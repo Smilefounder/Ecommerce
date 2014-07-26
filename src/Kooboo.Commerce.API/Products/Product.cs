@@ -1,61 +1,46 @@
-﻿using Kooboo.Commerce.API.Brands;
+﻿using Kooboo.Commerce.Api.Products;
+using Kooboo.Commerce.API.Brands;
+using Kooboo.Commerce.API.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Products
+namespace Kooboo.Commerce.Api.Products
 {
     /// <summary>
     /// product
     /// </summary>
     public class Product
     {
-        /// <summary>
-        /// product id
-        /// </summary>
         public int Id { get; set; }
-        /// <summary>
-        /// product name
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// brand id
-        /// </summary>
-        public int? BrandId { get; set; }
-        /// <summary>
-        /// product type id
-        /// </summary>
-        public int ProductTypeId { get; set; }
-        /// <summary>
-        /// create time at utc
-        /// </summary>
-        public DateTime CreatedAtUtc { get; set; }
-        /// <summary>
-        /// product type
-        /// </summary>
-        public ProductType Type { get; set; }
-        /// <summary>
-        /// brand
-        /// </summary>
-        public Brand Brand { get; set; }
-        /// <summary>
-        /// product catgories
-        /// </summary>
-        public ProductCategory[] Categories { get; set; }
 
-        /// <summary>
-        /// images
-        /// </summary>
-        public ProductImage[] Images { get; set; }
-        /// <summary>
-        /// custom field valules
-        /// </summary>
-        public ProductCustomFieldValue[] CustomFieldValues { get; set; }
-        /// <summary>
-        /// product price list
-        /// </summary>
+        public string Name { get; set; }
+
+        public string SkuAlias { get; set; }
+
+        public int? BrandId { get; set; }
+
+        public int ProductTypeId { get; set; }
+
+        public DateTime CreatedAtUtc { get; set; }
+
+        public Brand Brand { get; set; }
+
+        public ICollection<Category> Categories { get; set; }
+
+        public ICollection<ProductImage> Images { get; set; }
+
+        public ICollection<CustomFieldValue> CustomFields { get; set; }
+
         public ProductPrice[] PriceList { get; set; }
+
+        public Product()
+        {
+            Categories = new List<Category>();
+            Images = new List<ProductImage>();
+            CustomFields = new List<CustomFieldValue>();
+        }
 
         public ProductImage GetImage(string imageSizeName)
         {
@@ -67,17 +52,14 @@ namespace Kooboo.Commerce.API.Products
             return null;
         }
 
-        public string GetCustomFieldValue(string customFieldName)
+        public CustomFieldValue GetCustomField(string fieldName)
         {
-            if (CustomFieldValues != null)
+            if (CustomFields != null)
             {
-                var customField = CustomFieldValues.FirstOrDefault(o => o.CustomField.Name == customFieldName);
-                if (customField != null)
-                {
-                    return string.IsNullOrEmpty(customField.FieldValue) ? customField.FieldText : customField.FieldValue;
-                }
+                return CustomFields.FirstOrDefault(o => o.FieldName == fieldName);
             }
-            return string.Empty;
+
+            return null;
         }
 
         public ProductPrice GetLowestPrice()
