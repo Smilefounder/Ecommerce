@@ -1,6 +1,6 @@
 ﻿using Kooboo.Commerce.Api.Local.Mapping;
 using Kooboo.Commerce.Api.Products;
-using Kooboo.Commerce.API.Categories;
+using Kooboo.Commerce.Api.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

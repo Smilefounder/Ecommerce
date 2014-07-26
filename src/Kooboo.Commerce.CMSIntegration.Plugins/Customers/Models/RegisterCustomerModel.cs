@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.API;
+﻿using Kooboo.Commerce.Api;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

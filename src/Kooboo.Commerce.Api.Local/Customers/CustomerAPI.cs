@@ -1,7 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Api.Local;
-using Kooboo.Commerce.API.Customers;
-using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.Api.Customers;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Locations.Services;
@@ -10,21 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.LocalProvider.Customers
+namespace Kooboo.Commerce.Api.Local.Customers
 {
-    /// <summary>
-    /// customer api
-    /// </summary>
-    [Dependency(typeof(ICustomerAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(ICustomerApi), ComponentLifeStyle.Transient)]
     [Dependency(typeof(ICustomerQuery), ComponentLifeStyle.Transient)]
-    public class CustomerAPI : LocalCommerceQuery<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerAPI
+    public class CustomerApi : LocalCommerceQuery<Customer, Kooboo.Commerce.Customers.Customer>, ICustomerApi
     {
         private LocalApiContext _context;
         private ICommerceDatabase _db;
         private ICustomerService _customerService;
         private ICountryService _countryService;
 
-        public CustomerAPI(LocalApiContext context)
+        public CustomerApi(LocalApiContext context)
         {
             _context = context;
             _db = _context.Database;

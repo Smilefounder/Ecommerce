@@ -1,6 +1,6 @@
 ﻿using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites.Membership;
-using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.Api.Customers;
 using Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models;
 using System;
 using System.Collections.Generic;

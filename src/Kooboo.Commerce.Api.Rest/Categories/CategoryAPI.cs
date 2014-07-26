@@ -1,18 +1,18 @@
-﻿using Kooboo.Commerce.API.Categories;
+﻿using Kooboo.Commerce.Api.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 
-namespace Kooboo.Commerce.API.RestProvider.Categories
+namespace Kooboo.Commerce.Api.RestProvider.Categories
 {
     /// <summary>
     /// category api
     /// </summary>
-    [Dependency(typeof(ICategoryAPI))]
+    [Dependency(typeof(ICategoryApi))]
     [Dependency(typeof(ICategoryQuery))]
-    public class CategoryAPI : RestApiQueryBase<Category>, ICategoryAPI
+    public class CategoryAPI : RestApiQueryBase<Category>, ICategoryApi
     {
         /// <summary>
         /// add id filter to query

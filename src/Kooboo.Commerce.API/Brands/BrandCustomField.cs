@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Brands
+namespace Kooboo.Commerce.Api.Brands
 {
     public class BrandCustomField
     {

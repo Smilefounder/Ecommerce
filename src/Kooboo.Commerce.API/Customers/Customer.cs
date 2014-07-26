@@ -1,10 +1,10 @@
-﻿using Kooboo.Commerce.API.Locations;
+﻿using Kooboo.Commerce.Api.Countries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Customers
+namespace Kooboo.Commerce.Api.Customers
 {
     /// <summary>
     /// custom api object

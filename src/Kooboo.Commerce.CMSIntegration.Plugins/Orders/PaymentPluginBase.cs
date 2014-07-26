@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.API.Payments;
+﻿using Kooboo.Commerce.Api.Payments;
 using Kooboo.Commerce.CMSIntegration.Plugins.Orders.Models;
 using System;
 using System.Collections.Generic;

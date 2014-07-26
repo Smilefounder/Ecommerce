@@ -1,40 +1,32 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Customers;
-using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.API.Carts;
+using Kooboo.Commerce.Api.Customers;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Orders;
-using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Promotions;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Shipping.Services;
 using Kooboo.Commerce.Carts.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Kooboo.Commerce.Api.Local;
+using Kooboo.Commerce.Api.Carts;
 
-namespace Kooboo.Commerce.API.LocalProvider.ShoppingCarts
+namespace Kooboo.Commerce.Api.Local.Carts
 {
     /// <summary>
     /// shopping cart api
     /// </summary>
-    [Dependency(typeof(IShoppingCartAPI))]
+    [Dependency(typeof(IShoppingCartApi))]
     [Dependency(typeof(IShoppingCartQuery))]
-    public class ShoppingCartAPI : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.Carts.ShoppingCart>, IShoppingCartAPI
+    public class ShoppingCartApi : LocalCommerceQuery<ShoppingCart, Kooboo.Commerce.Carts.ShoppingCart>, IShoppingCartApi
     {
         private ICommerceDatabase _db;
         private IProductService _productService;
         private IShoppingCartService _cartService;
         private IShippingMethodService _shippingMethodService;
-        private ICustomerAPI _customerApi;
+        private ICustomerApi _customerApi;
         private ICustomerService _customerService;
         private IPromotionService _promotionService;
 
-        public ShoppingCartAPI(LocalApiContext context, ICustomerAPI customerApi)
+        public ShoppingCartApi(LocalApiContext context, ICustomerApi customerApi)
         {
             _db = context.Database;
             _productService = context.ServiceFactory.Products;

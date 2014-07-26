@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Kooboo.Commerce.API.RestProvider
+namespace Kooboo.Commerce.Api.RestProvider
 {
     public class HttpHelper
     {

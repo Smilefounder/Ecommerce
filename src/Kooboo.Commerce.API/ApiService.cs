@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.API;
+using Kooboo.Commerce.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ namespace Kooboo.Commerce.Api
 {
     public static class ApiService
     {
-        public static ICommerceAPI Get(string type, ApiContext context)
+        public static ICommerceApi Get(string type, ApiContext context)
         {
-            var api = EngineContext.Current.Resolve<ICommerceAPI>(type);
+            var api = EngineContext.Current.Resolve<ICommerceApi>(type);
             api.Initialize(context);
             return api;
         }

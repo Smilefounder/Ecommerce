@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 
-namespace Kooboo.Commerce.API.RestProvider
+namespace Kooboo.Commerce.Api.RestProvider
 {
     /// <summary>
     /// request api query base blass

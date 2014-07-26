@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.EAV
+namespace Kooboo.Commerce.Api.EAV
 {
     /// <summary>
     /// custom file type

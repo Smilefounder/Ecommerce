@@ -1,7 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Membership.Models;
-using Kooboo.Commerce.API.Orders;
-using Kooboo.Commerce.API.Carts;
+using Kooboo.Commerce.Api.Orders;
+using Kooboo.Commerce.Api.Carts;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Orders.Services;
@@ -11,23 +11,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
-using Kooboo.Commerce.Api.Local;
 
-namespace Kooboo.Commerce.API.LocalProvider.Orders
+namespace Kooboo.Commerce.Api.Local.Orders
 {
     /// <summary>
     /// order api
     /// </summary>
-    [Dependency(typeof(IOrderAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(IOrderApi), ComponentLifeStyle.Transient)]
     [Dependency(typeof(IOrderQuery), ComponentLifeStyle.Transient)]
-    public class OrderAPI : LocalCommerceQuery<Order, Kooboo.Commerce.Orders.Order>, IOrderAPI
+    public class OrderApi : LocalCommerceQuery<Order, Kooboo.Commerce.Orders.Order>, IOrderApi
     {
         private ICommerceDatabase _db;
         private IOrderService _orderService;
         private IShoppingCartService _shoppingCartService;
         private ICustomerService _customerService;
 
-        public OrderAPI(LocalApiContext context)
+        public OrderApi(LocalApiContext context)
         {
             _db = context.Database;
             _orderService = context.ServiceFactory.Orders;

@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.API.Shipping;
+﻿using Kooboo.Commerce.Api.Shipping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
         {
         }
 
-        protected override object GetQuery(API.ICommerceAPI api)
+        protected override object GetQuery(Api.ICommerceApi api)
         {
             return api.ShippingMethods;
         }

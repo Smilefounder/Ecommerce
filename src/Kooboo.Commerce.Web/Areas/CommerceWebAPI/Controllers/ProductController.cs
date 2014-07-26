@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.API;
+﻿using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Products;
 using Kooboo.Web.Mvc.Paging;
 using System;

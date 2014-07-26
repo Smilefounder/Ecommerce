@@ -2,7 +2,7 @@
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.Commerce.Api;
-using Kooboo.Commerce.API;
+using Kooboo.Commerce.Api;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -65,7 +65,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             Descriptor = descriptor;
         }
 
-        protected abstract object GetQuery(ICommerceAPI api);
+        protected abstract object GetQuery(ICommerceApi api);
 
         public virtual object Execute(CommerceSourceContext context)
         {

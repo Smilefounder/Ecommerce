@@ -1,64 +1,45 @@
-﻿using Kooboo.Commerce.API.Brands;
-using Kooboo.Commerce.API.Categories;
-using Kooboo.Commerce.API.Customers;
-using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.API.Orders;
-using Kooboo.Commerce.API.Payments;
-using Kooboo.Commerce.API.Shipping;
-using Kooboo.Commerce.API.Carts;
+﻿using Kooboo.Commerce.Api.Brands;
+using Kooboo.Commerce.Api.Categories;
+using Kooboo.Commerce.Api.Customers;
+using Kooboo.Commerce.Api.Orders;
+using Kooboo.Commerce.Api.Payments;
+using Kooboo.Commerce.Api.Shipping;
+using Kooboo.Commerce.Api.Carts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Api.Products;
 using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Countries;
 
-namespace Kooboo.Commerce.API
+namespace Kooboo.Commerce.Api
 {
     /// <summary>
     /// commerce api
     /// </summary>
-    public interface ICommerceAPI
+    public interface ICommerceApi
     {
         void Initialize(ApiContext context);
 
-        /// <summary>
-        /// country api
-        /// </summary>
-        ICountryAPI Countries { get; }
-        /// <summary>
-        /// brand api
-        /// </summary>
-        IBrandAPI Brands { get; }
-        /// <summary>
-        /// category api
-        /// </summary>
-        ICategoryAPI Categories { get; }
-        /// <summary>
-        /// customer api
-        /// </summary>
-        ICustomerAPI Customers { get; }
-        /// <summary>
-        /// product api
-        /// </summary>
-        IProductApi Products { get; }
-        /// <summary>
-        /// shopping cart api
-        /// </summary>
-        IShoppingCartAPI ShoppingCarts { get; }
-        /// <summary>
-        /// order api
-        /// </summary>
-        IOrderAPI Orders { get; }
-        /// <summary>
-        /// payment api
-        /// </summary>
-        IPaymentAPI Payments { get; }
-        /// <summary>
-        /// payment method api
-        /// </summary>
-        IPaymentMethodAPI PaymentMethods { get; }
+        ICountryApi Countries { get; }
 
-        IShippingMethodAPI ShippingMethods { get; }
+        IBrandApi Brands { get; }
+
+        ICategoryApi Categories { get; }
+
+        ICustomerApi Customers { get; }
+
+        IProductApi Products { get; }
+
+        IShoppingCartApi ShoppingCarts { get; }
+
+        IOrderApi Orders { get; }
+
+        IPaymentApi Payments { get; }
+
+        IPaymentMethodApi PaymentMethods { get; }
+
+        IShippingMethodApi ShippingMethods { get; }
     }
 }

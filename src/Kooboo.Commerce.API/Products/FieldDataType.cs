@@ -8,7 +8,7 @@
 #endregion
 using System;
 
-namespace Kooboo.Commerce.API.EAV 
+namespace Kooboo.Commerce.Api.EAV 
 {
     /// <summary>
     /// field data type. used in cms.

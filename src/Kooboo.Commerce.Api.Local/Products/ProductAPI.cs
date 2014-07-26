@@ -2,7 +2,7 @@
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.CMS.Membership;
-using Kooboo.Commerce.API.Brands;
+using Kooboo.Commerce.Api.Brands;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.EAV.Services;
@@ -14,12 +14,12 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.Api.Customers;
 using System.Globalization;
 using Kooboo.Commerce.Api.Products;
 using Kooboo.Commerce.Api.Local;
 
-namespace Kooboo.Commerce.API.LocalProvider.Products
+namespace Kooboo.Commerce.Api.Local.Products
 {
     [Dependency(typeof(IProductApi))]
     [Dependency(typeof(IProductQuery))]
@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Products
                     var member = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
                     if (member != null)
                     {
-                        var customer = EngineContext.Current.Resolve<ICustomerAPI>()
+                        var customer = EngineContext.Current.Resolve<ICustomerApi>()
                                                     .ByAccountId(member.UUID)
                                                     .FirstOrDefault();
                         if (customer != null)

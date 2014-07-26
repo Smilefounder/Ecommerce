@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Kooboo.Commerce.Api.Countries;
+using Kooboo.Commerce.Api.Customers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Commerce.API.Locations;
 
-namespace Kooboo.Commerce.API.Orders
+namespace Kooboo.Commerce.Api.Orders
 {
     /// <summary>
     /// order address

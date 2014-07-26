@@ -1,20 +1,20 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Membership.Models;
-using Kooboo.Commerce.API.Orders;
-using Kooboo.Commerce.API.Carts;
+using Kooboo.Commerce.Api.Orders;
+using Kooboo.Commerce.Api.Carts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.RestProvider.Orders
+namespace Kooboo.Commerce.Api.RestProvider.Orders
 {
     /// <summary>
     /// order api
     /// </summary>
-    [Dependency(typeof(IOrderAPI))]
+    [Dependency(typeof(IOrderApi))]
     [Dependency(typeof(IOrderQuery))]
-    public class OrderAPI : RestApiQueryBase<Order>, IOrderAPI
+    public class OrderAPI : RestApiQueryBase<Order>, IOrderApi
     {
         /// <summary>
         /// add id filter to query

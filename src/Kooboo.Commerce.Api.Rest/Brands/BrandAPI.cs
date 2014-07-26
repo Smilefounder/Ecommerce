@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Commerce.API.Brands;
+using Kooboo.Commerce.Api.Brands;
 using Kooboo.CMS.Common.Runtime.Dependency;
 
-namespace Kooboo.Commerce.API.RestProvider.Brands
+namespace Kooboo.Commerce.Api.RestProvider.Brands
 {
     /// <summary>
     /// brand api
     /// </summary>
-    [Dependency(typeof(IBrandAPI))]
+    [Dependency(typeof(IBrandApi))]
     [Dependency(typeof(IBrandQuery))]
-    public class BrandAPI : RestApiQueryBase<Brand>, IBrandAPI
+    public class BrandAPI : RestApiQueryBase<Brand>, IBrandApi
     {
         /// <summary>
         /// add id filter to query

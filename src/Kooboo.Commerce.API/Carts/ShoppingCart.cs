@@ -1,13 +1,12 @@
-﻿using Kooboo.Commerce.API.Customers;
-using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.API.Promotions;
-using Kooboo.Commerce.API.Shipping;
+﻿using Kooboo.Commerce.Api.Customers;
+using Kooboo.Commerce.Api.Promotions;
+using Kooboo.Commerce.Api.Shipping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Carts
+namespace Kooboo.Commerce.Api.Carts
 {
     /// <summary>
     /// shopping cart

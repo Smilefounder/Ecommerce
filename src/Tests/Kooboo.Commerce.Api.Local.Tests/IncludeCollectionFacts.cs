@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.API.LocalProvider;
+﻿using Kooboo.Commerce.Api.Local;
 using System;
 using System.Collections.Generic;
 using System.Linq;

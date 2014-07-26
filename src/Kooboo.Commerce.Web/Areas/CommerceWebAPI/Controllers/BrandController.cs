@@ -4,8 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.Brands;
+using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Brands;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Payments
+namespace Kooboo.Commerce.Api.Payments
 {
-    public interface IPaymentAPI : IPaymentQuery
+    public interface IPaymentApi : IPaymentQuery
     {
         PaymentResult Pay(PaymentRequest request);
     }

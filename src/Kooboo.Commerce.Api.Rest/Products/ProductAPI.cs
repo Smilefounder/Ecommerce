@@ -1,12 +1,12 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Brands;
+using Kooboo.Commerce.Api.Brands;
 using Kooboo.Commerce.Api.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.RestProvider.Products
+namespace Kooboo.Commerce.Api.RestProvider.Products
 {
     /// <summary>
     /// product api

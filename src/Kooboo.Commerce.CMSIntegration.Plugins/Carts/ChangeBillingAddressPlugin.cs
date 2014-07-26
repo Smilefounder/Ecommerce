@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.API.Locations;
+﻿using Kooboo.Commerce.Api.Countries;
+using Kooboo.Commerce.Api.Customers;
 using Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models;
 using System;
 using System.Collections.Generic;

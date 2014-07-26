@@ -5,9 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Kooboo.CMS.Membership.Models;
-using Kooboo.Commerce.API.Carts;
-using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.Api.Carts;
+using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Countries;
+using Kooboo.Commerce.Api.Customers;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {

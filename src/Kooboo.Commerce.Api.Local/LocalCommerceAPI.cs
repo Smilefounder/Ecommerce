@@ -7,35 +7,35 @@ using Kooboo.Commerce.Data;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Api;
-using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.API.LocalProvider.Locations;
-using Kooboo.Commerce.API.Brands;
-using Kooboo.Commerce.API.LocalProvider.Brands;
-using Kooboo.Commerce.API.Categories;
-using Kooboo.Commerce.API.LocalProvider.Categories;
-using Kooboo.Commerce.API.LocalProvider.Customers;
+using Kooboo.Commerce.Api.Local.Countries;
+using Kooboo.Commerce.Api.Brands;
+using Kooboo.Commerce.Api.Categories;
+using Kooboo.Commerce.Api.Local.Categories;
+using Kooboo.Commerce.Api.Local.Customers;
 using Kooboo.Commerce.Api.Local;
-using Kooboo.Commerce.API.LocalProvider.Products;
-using Kooboo.Commerce.API.LocalProvider.ShoppingCarts;
-using Kooboo.Commerce.API.LocalProvider.Orders;
-using Kooboo.Commerce.API.LocalProvider.Payments;
+using Kooboo.Commerce.Api.Local.Products;
+using Kooboo.Commerce.Api.Local.Carts;
+using Kooboo.Commerce.Api.Local.Orders;
+using Kooboo.Commerce.Api.Local.Payments;
 using Kooboo.Commerce.Payments;
-using Kooboo.Commerce.API.LocalProvider.Shipping;
-using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.Api.Local.Shipping;
+using Kooboo.Commerce.Api.Customers;
 using Kooboo.Commerce.Api.Products;
-using Kooboo.Commerce.API.Carts;
-using Kooboo.Commerce.API.Orders;
-using Kooboo.Commerce.API.Payments;
-using Kooboo.Commerce.API.Shipping;
+using Kooboo.Commerce.Api.Carts;
+using Kooboo.Commerce.Api.Orders;
+using Kooboo.Commerce.Api.Payments;
+using Kooboo.Commerce.Api.Shipping;
+using Kooboo.Commerce.Api.Countries;
+using Kooboo.Commerce.Api.Local.Brands;
 
-namespace Kooboo.Commerce.API.LocalProvider
+namespace Kooboo.Commerce.Api.Local
 {
     /// <summary>
     /// local commerce api
     /// this api uses the Kooboo.Commerce dll directly.
     /// </summary>
-    [Dependency(typeof(ICommerceAPI), Key = "Local")]
-    public class LocalCommerceAPI : ICommerceAPI
+    [Dependency(typeof(ICommerceApi), Key = "Local")]
+    public class LocalCommerceApi : ICommerceApi
     {
         private LocalApiContext _context;
 
@@ -49,35 +49,35 @@ namespace Kooboo.Commerce.API.LocalProvider
             _context = new LocalApiContext(context, CommerceInstance.Current.Database, GetServiceFactory());
         }
 
-        public ICountryAPI Countries
+        public ICountryApi Countries
         {
             get
             {
-                return new CountryAPI(_context);
+                return new CountryApi(_context);
             }
         }
 
-        public IBrandAPI Brands
+        public IBrandApi Brands
         {
             get
             {
-                return new BrandAPI(GetServiceFactory().Brands);
+                return new BrandApi(GetServiceFactory().Brands);
             }
         }
 
-        public ICategoryAPI Categories
+        public ICategoryApi Categories
         {
             get
             {
-                return new CategoryAPI(GetServiceFactory().Categories);
+                return new CategoryApi(GetServiceFactory().Categories);
             }
         }
 
-        public ICustomerAPI Customers
+        public ICustomerApi Customers
         {
             get
             {
-                return new CustomerAPI(_context);
+                return new CustomerApi(_context);
             }
         }
 
@@ -89,43 +89,43 @@ namespace Kooboo.Commerce.API.LocalProvider
             }
         }
 
-        public IShoppingCartAPI ShoppingCarts
+        public IShoppingCartApi ShoppingCarts
         {
             get
             {
-                return new ShoppingCartAPI(_context, Customers);
+                return new ShoppingCartApi(_context, Customers);
             }
         }
 
-        public IOrderAPI Orders
+        public IOrderApi Orders
         {
             get
             {
-                return new OrderAPI(_context);
+                return new OrderApi(_context);
             }
         }
 
-        public IPaymentAPI Payments
+        public IPaymentApi Payments
         {
             get
             {
-                return new LocalPaymentAPI(_context, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
+                return new PaymentApi(_context, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
             }
         }
 
-        public IPaymentMethodAPI PaymentMethods
+        public IPaymentMethodApi PaymentMethods
         {
             get
             {
-                return new LocalPaymentMethodAPI(_context.ServiceFactory.PaymentMethods, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
+                return new PaymentMethodApi(_context.ServiceFactory.PaymentMethods, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
             }
         }
 
-        public IShippingMethodAPI ShippingMethods
+        public IShippingMethodApi ShippingMethods
         {
             get
             {
-                return new LocalShippingMethodAPI(_context.ServiceFactory.ShippingMethods);
+                return new ShippingMethodApi(_context.ServiceFactory.ShippingMethods);
             }
         }
 

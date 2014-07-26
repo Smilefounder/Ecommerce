@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Orders;
+using Kooboo.Commerce.Api.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
         {
         }
 
-        protected override object GetQuery(API.ICommerceAPI api)
+        protected override object GetQuery(Api.ICommerceApi api)
         {
             return api.Orders;
         }

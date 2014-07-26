@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Carts;
+using Kooboo.Commerce.Api.Carts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             InternalFilters.Add(new SourceFilterDefinition("ByCurrentCustomer"));
         }
 
-        protected override object GetQuery(API.ICommerceAPI api)
+        protected override object GetQuery(Api.ICommerceApi api)
         {
             return api.ShoppingCarts;
         }

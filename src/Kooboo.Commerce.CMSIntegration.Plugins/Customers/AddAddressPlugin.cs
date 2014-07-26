@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Membership;
-using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.Api.Countries;
+using Kooboo.Commerce.Api.Customers;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 {

@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Commerce.API.Brands;
+using Kooboo.Commerce.Api.Brands;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using System.Globalization;
 
-namespace Kooboo.Commerce.API.LocalProvider.Brands
+namespace Kooboo.Commerce.Api.Local.Brands
 {
     /// <summary>
     /// brand api
     /// </summary>
-    [Dependency(typeof(IBrandAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(IBrandApi), ComponentLifeStyle.Transient)]
     [Dependency(typeof(IBrandQuery), ComponentLifeStyle.Transient)]
-    public class BrandAPI : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandAPI
+    public class BrandApi : LocalCommerceQuery<Brand, Kooboo.Commerce.Brands.Brand>, IBrandApi
     {
         private IBrandService _brandService;
 
-        public BrandAPI(IBrandService brandService)
+        public BrandApi(IBrandService brandService)
         {
             _brandService = brandService;
         }

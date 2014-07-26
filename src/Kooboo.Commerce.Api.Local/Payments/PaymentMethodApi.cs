@@ -1,17 +1,17 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Payments;
+using Kooboo.Commerce.Api.Payments;
 using Kooboo.Commerce.Payments.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.LocalProvider.Payments
+namespace Kooboo.Commerce.Api.Local.Payments
 {
-    [Dependency(typeof(IPaymentMethodAPI))]
-    public class LocalPaymentMethodAPI : LocalPaymentMethodQuery, IPaymentMethodAPI
+    [Dependency(typeof(IPaymentMethodApi))]
+    public class PaymentMethodApi : PaymentMethodQuery, IPaymentMethodApi
     {
-        public LocalPaymentMethodAPI(
+        public PaymentMethodApi(
             IPaymentMethodService paymentMethodService, 
             Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory)
             : base(paymentMethodService, processorFactory)

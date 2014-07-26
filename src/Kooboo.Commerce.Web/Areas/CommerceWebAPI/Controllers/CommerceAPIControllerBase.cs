@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.API;
+using Kooboo.Commerce.Api;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
         /// create the commerce api from current request context, by the commerce instance name and language
         /// </summary>
         /// <returns>commerce api</returns>
-        protected ICommerceAPI Commerce()
+        protected ICommerceApi Commerce()
         {
             // TODO: Fix this when get time
             throw new NotImplementedException();

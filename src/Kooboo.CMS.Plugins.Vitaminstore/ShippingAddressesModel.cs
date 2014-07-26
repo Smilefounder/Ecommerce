@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.API.Locations;
+﻿using Kooboo.Commerce.Api.Customers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

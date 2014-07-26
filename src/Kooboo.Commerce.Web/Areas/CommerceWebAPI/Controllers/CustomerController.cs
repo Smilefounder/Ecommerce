@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Kooboo.Commerce.API.Customers;
-using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.Api.Customers;
+using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Countries;
 
 namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
 {
@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
             if (!string.IsNullOrEmpty(qs["email"]))
                 query = query.ByEmail(qs["email"]);
             if (!string.IsNullOrEmpty(qs["gender"]))
-                query = query.ByGender((Kooboo.Commerce.API.Gender)(Convert.ToInt32(qs["gender"])));
+                query = query.ByGender((Kooboo.Commerce.Api.Gender)(Convert.ToInt32(qs["gender"])));
             if (!string.IsNullOrEmpty(qs["phone"]))
                 query = query.ByPhone(qs["phone"]);
             if (!string.IsNullOrEmpty(qs["city"]))

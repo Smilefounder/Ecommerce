@@ -59,33 +59,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brands\BrandAPI.cs" />
-    <Compile Include="Categories\CategoryAPI.cs" />
-    <Compile Include="Customers\CustomerAPI.cs" />
+    <Compile Include="Brands\BrandApi.cs" />
+    <Compile Include="Categories\CategoryApi.cs" />
+    <Compile Include="Customers\CustomerApi.cs" />
     <Compile Include="IncludeCollection.cs" />
     <Compile Include="LocalApiContext.cs" />
-    <Compile Include="LocalCommerceAPI.cs" />
+    <Compile Include="LocalCommerceApi.cs" />
     <Compile Include="LocalCommerceQuery.cs" />
-    <Compile Include="Locations\CountryAPI.cs" />
+    <Compile Include="Countries\CountryApi.cs" />
     <Compile Include="Mapping\DefaultObjectMapper.cs" />
     <Compile Include="Mapping\IObjectMapper.cs" />
     <Compile Include="Mapping\IPropertyValueResolver.cs" />
     <Compile Include="Mapping\MappingContext.cs" />
     <Compile Include="Mapping\ObjectMapper.cs" />
     <Compile Include="Mapping\ObjectReference.cs" />
-    <Compile Include="Payments\LocalPaymentAPI.cs" />
-    <Compile Include="Payments\LocalPaymentMethodAPI.cs" />
-    <Compile Include="Payments\LocalPaymentMethodQuery.cs" />
-    <Compile Include="Payments\LocalPaymentQuery.cs" />
-    <Compile Include="Orders\OrderAPI.cs" />
+    <Compile Include="Payments\PaymentApi.cs" />
+    <Compile Include="Payments\PaymentMethodApi.cs" />
+    <Compile Include="Payments\PaymentMethodQuery.cs" />
+    <Compile Include="Payments\PaymentQuery.cs" />
+    <Compile Include="Orders\OrderApi.cs" />
     <Compile Include="Products\Mapping\ProductMapper.cs" />
     <Compile Include="Products\Mapping\ProductVariantMapper.cs" />
     <Compile Include="Products\ProductApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shipping\LocalShippingMethodAPI.cs" />
-    <Compile Include="Shipping\LocalShippingMethodQuery.cs" />
-    <Compile Include="ShoppingCarts\ShoppingCartAPI.cs" />
-    <Compile Include="Utils\IncludeHelper.cs" />
+    <Compile Include="Shipping\ShippingMethodApi.cs" />
+    <Compile Include="Shipping\ShippingMethodQuery.cs" />
+    <Compile Include="Carts\ShoppingCartApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kooboo.Commerce.API\Kooboo.Commerce.Api.csproj">

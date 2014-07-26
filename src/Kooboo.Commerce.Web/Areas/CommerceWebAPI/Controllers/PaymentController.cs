@@ -1,5 +1,5 @@
-﻿using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.Payments;
+﻿using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Payments;
 using Kooboo.Commerce.Web.Framework.Http;
 using System;
 using System.Collections.Generic;

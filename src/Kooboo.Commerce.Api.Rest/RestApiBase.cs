@@ -7,7 +7,7 @@ using System.Web;
 using System.Configuration;
 using Newtonsoft.Json;
 
-namespace Kooboo.Commerce.API.RestProvider
+namespace Kooboo.Commerce.Api.RestProvider
 {
     /// <summary>
     /// rest api base class

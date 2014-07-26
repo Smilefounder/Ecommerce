@@ -1,21 +1,21 @@
-﻿using Kooboo.Commerce.API.Payments;
+﻿using Kooboo.Commerce.Api.Payments;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Payments.Services;
 
 using Payment = Kooboo.Commerce.Payments.Payment;
-using PaymentDto = Kooboo.Commerce.API.Payments.Payment;
+using PaymentDto = Kooboo.Commerce.Api.Payments.Payment;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Api.Local;
 
-namespace Kooboo.Commerce.API.LocalProvider.Payments
+namespace Kooboo.Commerce.Api.Local.Payments
 {
-    [Dependency(typeof(IPaymentAPI))]
-    public class LocalPaymentAPI : LocalPaymentQuery, IPaymentAPI
+    [Dependency(typeof(IPaymentApi))]
+    public class PaymentApi : PaymentQuery, IPaymentApi
     {
         private IPaymentMethodService _paymentMethodService;
         private IPaymentProcessorProvider _processorFactory;
 
-        public LocalPaymentAPI(LocalApiContext context, IPaymentProcessorProvider processorFactory)
+        public PaymentApi(LocalApiContext context, IPaymentProcessorProvider processorFactory)
             : base(context.ServiceFactory.Payments)
         {
             _processorFactory = processorFactory;
@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             {
                 Message = processResult.Message,
                 PaymentId = payment.Id,
-                PaymentStatus = (Kooboo.Commerce.API.Payments.PaymentStatus)(int)processResult.PaymentStatus,
+                PaymentStatus = (Kooboo.Commerce.Api.Payments.PaymentStatus)(int)processResult.PaymentStatus,
                 RedirectUrl = processResult.RedirectUrl
             };
         }

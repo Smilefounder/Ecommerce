@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.API.Categories;
+﻿using Kooboo.Commerce.Api.Categories;
 using Kooboo.Commerce.Categories.Services;
 using System;
 using System.Collections.Generic;
@@ -7,18 +7,18 @@ using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using System.Globalization;
 
-namespace Kooboo.Commerce.API.LocalProvider.Categories
+namespace Kooboo.Commerce.Api.Local.Categories
 {
     /// <summary>
     /// category api
     /// </summary>
-    [Dependency(typeof(ICategoryAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(ICategoryApi), ComponentLifeStyle.Transient)]
     [Dependency(typeof(ICategoryQuery), ComponentLifeStyle.Transient)]
-    public class CategoryAPI : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryAPI
+    public class CategoryApi : LocalCommerceQuery<Category, Kooboo.Commerce.Categories.Category>, ICategoryApi
     {
         private ICategoryService _categoryService;
 
-        public CategoryAPI(ICategoryService categoryService)
+        public CategoryApi(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }

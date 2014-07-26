@@ -1,19 +1,19 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Shipping;
+using Kooboo.Commerce.Api.Shipping;
 using Kooboo.Commerce.Shipping.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.LocalProvider.Shipping
+namespace Kooboo.Commerce.Api.Local.Shipping
 {
     [Dependency(typeof(IShippingMethodQuery))]
-    public class LocalShippingMethodQuery : LocalCommerceQuery<ShippingMethod, Kooboo.Commerce.Shipping.ShippingMethod>, IShippingMethodQuery
+    public class ShippingMethodQuery : LocalCommerceQuery<ShippingMethod, Kooboo.Commerce.Shipping.ShippingMethod>, IShippingMethodQuery
     {
         private IShippingMethodService _shippingMethodService;
 
-        public LocalShippingMethodQuery(IShippingMethodService shippingMethodService)
+        public ShippingMethodQuery(IShippingMethodService shippingMethodService)
         {
             _shippingMethodService = shippingMethodService;
         }

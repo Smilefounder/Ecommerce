@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Api.Countries;
+using Kooboo.Commerce.Api.Brands;
+using Kooboo.Commerce.Api.Categories;
 
-namespace Kooboo.Commerce.API.RestProvider
+namespace Kooboo.Commerce.Api.RestProvider
 {
     /// <summary>
     /// commerce api by using restful web api
     /// </summary>
-    [Dependency(typeof(ICommerceAPI), Key = "Rest")]
-    public class RestCommerceAPI : ICommerceAPI
+    [Dependency(typeof(ICommerceApi), Key = "Rest")]
+    public class RestCommerceAPI : ICommerceApi
     {
         private string _instance;
         private string _language;
@@ -60,22 +63,22 @@ namespace Kooboo.Commerce.API.RestProvider
             throw new NotImplementedException();
         }
 
-        public API.Locations.ICountryAPI Countries
+        public ICountryApi Countries
         {
             get { throw new NotImplementedException(); }
         }
 
-        public API.Brands.IBrandAPI Brands
+        public IBrandApi Brands
         {
             get { throw new NotImplementedException(); }
         }
 
-        public API.Categories.ICategoryAPI Categories
+        public ICategoryApi Categories
         {
             get { throw new NotImplementedException(); }
         }
 
-        public API.Customers.ICustomerAPI Customers
+        public Api.Customers.ICustomerApi Customers
         {
             get { throw new NotImplementedException(); }
         }
@@ -85,27 +88,27 @@ namespace Kooboo.Commerce.API.RestProvider
             get { throw new NotImplementedException(); }
         }
 
-        public Carts.IShoppingCartAPI ShoppingCarts
+        public Carts.IShoppingCartApi ShoppingCarts
         {
             get { throw new NotImplementedException(); }
         }
 
-        public API.Orders.IOrderAPI Orders
+        public Api.Orders.IOrderApi Orders
         {
             get { throw new NotImplementedException(); }
         }
 
-        public API.Payments.IPaymentAPI Payments
+        public Api.Payments.IPaymentApi Payments
         {
             get { throw new NotImplementedException(); }
         }
 
-        public API.Payments.IPaymentMethodAPI PaymentMethods
+        public Api.Payments.IPaymentMethodApi PaymentMethods
         {
             get { throw new NotImplementedException(); }
         }
 
-        public Shipping.IShippingMethodAPI ShippingMethods
+        public Shipping.IShippingMethodApi ShippingMethods
         {
             get { throw new NotImplementedException(); }
         }

@@ -1,19 +1,19 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Categories;
-using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.Api.Categories;
+using Kooboo.Commerce.Api.Countries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.RestProvider.Locations
+namespace Kooboo.Commerce.Api.RestProvider.Locations
 {
     /// <summary>
     /// country api
     /// </summary>
-    [Dependency(typeof(ICountryAPI))]
+    [Dependency(typeof(ICountryApi))]
     [Dependency(typeof(ICountryQuery))]
-    public class CountryAPI : RestApiQueryBase<Country>, ICountryAPI
+    public class CountryAPI : RestApiQueryBase<Country>, ICountryApi
     {
         /// <summary>
         /// add id filter to query

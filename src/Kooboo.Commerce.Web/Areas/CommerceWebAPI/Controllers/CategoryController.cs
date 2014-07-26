@@ -1,5 +1,5 @@
-﻿using Kooboo.Commerce.API;
-using Kooboo.Commerce.API.Categories;
+﻿using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

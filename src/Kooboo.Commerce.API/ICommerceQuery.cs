@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Kooboo.Commerce.API
+namespace Kooboo.Commerce.Api
 {
     /// <summary>
     /// common query interface for commerce objects

@@ -1,14 +1,14 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Payments;
+using Kooboo.Commerce.Api.Payments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.RestProvider.Payments
+namespace Kooboo.Commerce.Api.RestProvider.Payments
 {
-    [Dependency(typeof(IPaymentMethodAPI))]
-    public class RestPaymentMethodAPI : RestPaymentMethodQuery, IPaymentMethodAPI
+    [Dependency(typeof(IPaymentMethodApi))]
+    public class RestPaymentMethodAPI : RestPaymentMethodQuery, IPaymentMethodApi
     {
         public IPaymentMethodQuery Query()
         {

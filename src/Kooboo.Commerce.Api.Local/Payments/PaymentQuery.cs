@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Payments;
+using Kooboo.Commerce.Api.Payments;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Payments.Services;
 using System;
@@ -7,14 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.LocalProvider.Payments
+namespace Kooboo.Commerce.Api.Local.Payments
 {
     [Dependency(typeof(IPaymentQuery))]
-    public class LocalPaymentQuery : LocalCommerceQuery<Payment, Kooboo.Commerce.Payments.Payment>, IPaymentQuery
+    public class PaymentQuery : LocalCommerceQuery<Payment, Kooboo.Commerce.Payments.Payment>, IPaymentQuery
     {
         protected IPaymentService PaymentService { get; private set; }
 
-        public LocalPaymentQuery(IPaymentService paymentService)
+        public PaymentQuery(IPaymentService paymentService)
         {
             PaymentService = paymentService;
         }
@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.API.LocalProvider.Payments
             return this;
         }
 
-        public IPaymentQuery ByStatus(Kooboo.Commerce.API.Payments.PaymentStatus status)
+        public IPaymentQuery ByStatus(Kooboo.Commerce.Api.Payments.PaymentStatus status)
         {
             var mappedStatus = (Kooboo.Commerce.Payments.PaymentStatus)(int)status;
             Query = Query.Where(x => x.Status == mappedStatus);

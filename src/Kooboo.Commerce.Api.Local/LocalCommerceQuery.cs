@@ -8,7 +8,7 @@ using Kooboo.Commerce.Api.Local;
 using Kooboo.Commerce.Api.Local.Mapping;
 using System.Globalization;
 
-namespace Kooboo.Commerce.API.LocalProvider
+namespace Kooboo.Commerce.Api.Local
 {
     /// <summary>
     /// local commerce query base class

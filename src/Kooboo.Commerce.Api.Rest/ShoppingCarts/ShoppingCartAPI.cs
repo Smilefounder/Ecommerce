@@ -1,20 +1,20 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.API.Customers;
-using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.API.Carts;
+using Kooboo.Commerce.Api.Customers;
+using Kooboo.Commerce.Api.Countries;
+using Kooboo.Commerce.Api.Carts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.RestProvider.ShoppingCarts
+namespace Kooboo.Commerce.Api.RestProvider.ShoppingCarts
 {
     /// <summary>
     /// shopping cart api
     /// </summary>
-    [Dependency(typeof(IShoppingCartAPI))]
+    [Dependency(typeof(IShoppingCartApi))]
     [Dependency(typeof(IShoppingCartQuery))]
-    public class ShoppingCartAPI : RestApiQueryBase<ShoppingCart>, IShoppingCartAPI
+    public class ShoppingCartAPI : RestApiQueryBase<ShoppingCart>, IShoppingCartApi
     {
         public IShoppingCartQuery ById(int id)
         {

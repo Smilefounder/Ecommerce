@@ -1,26 +1,26 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Api.Local;
-using Kooboo.Commerce.API.Categories;
-using Kooboo.Commerce.API.Locations;
+using Kooboo.Commerce.Api.Categories;
 using Kooboo.Commerce.Locations.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.Commerce.Api.Countries;
 
-namespace Kooboo.Commerce.API.LocalProvider.Locations
+namespace Kooboo.Commerce.Api.Local.Countries
 {
     /// <summary>
     /// country api
     /// </summary>
-    [Dependency(typeof(ICountryAPI), ComponentLifeStyle.Transient)]
+    [Dependency(typeof(ICountryApi), ComponentLifeStyle.Transient)]
     [Dependency(typeof(ICountryQuery), ComponentLifeStyle.Transient)]
-    public class CountryAPI : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryAPI
+    public class CountryApi : LocalCommerceQuery<Country, Kooboo.Commerce.Locations.Country>, ICountryApi
     {
         private LocalApiContext _context;
         private ICountryService _service;
 
-        public CountryAPI(LocalApiContext context)
+        public CountryApi(LocalApiContext context)
         {
             _context = context;
             _service = _context.ServiceFactory.Countries;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Payments
+namespace Kooboo.Commerce.Api.Payments
 {
     public enum PaymentStatus
     {

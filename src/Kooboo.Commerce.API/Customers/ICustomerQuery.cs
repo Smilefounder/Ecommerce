@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.API.Customers
+namespace Kooboo.Commerce.Api.Customers
 {
     /// <summary>
     /// customer query

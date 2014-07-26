@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Commerce.API.Locations;
-using Kooboo.Commerce.API.Payments;
-using Kooboo.Commerce.API.Carts;
-using Kooboo.Commerce.API.Customers;
+using Kooboo.Commerce.Api.Payments;
+using Kooboo.Commerce.Api.Carts;
+using Kooboo.Commerce.Api.Customers;
 
-namespace Kooboo.Commerce.API.Orders
+namespace Kooboo.Commerce.Api.Orders
 {
     /// <summary>
     /// order

@@ -1,7 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.Commerce.Api;
-using Kooboo.Commerce.API;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -39,7 +38,7 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             return null;
         }
 
-        public static ICommerceAPI Commerce(this Site site)
+        public static ICommerceApi Commerce(this Site site)
         {
             var context = new ApiContext(site.GetCommerceName(), CultureInfo.GetCultureInfo(site.Culture), null);
             return ApiService.Get("Local", context);
