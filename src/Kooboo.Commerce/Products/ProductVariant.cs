@@ -31,11 +31,11 @@ namespace Kooboo.Commerce.Products
 
         public virtual Product Product { get; set; }
 
-        public virtual ICollection<ProductVariantFieldValue> VariantFields { get; set; }
+        public virtual ICollection<ProductVariantField> VariantFields { get; set; }
 
         public ProductVariant()
         {
-            VariantFields = new List<ProductVariantFieldValue>();
+            VariantFields = new List<ProductVariantField>();
             CreatedAtUtc = DateTime.UtcNow;
         }
 
@@ -57,32 +57,30 @@ namespace Kooboo.Commerce.Products
             Name = other.Name;
             Sku = other.Sku;
             Price = other.Price;
-            UpdateVariantFields(other.VariantFields);
+            UpdateVariantFields(other.VariantFields.ToDictionary(f => f.FieldName, f => f.FieldValue));
         }
 
-        public virtual void UpdateVariantFields(IEnumerable<ProductVariantFieldValue> values)
+        public virtual void UpdateVariantFields(IDictionary<string, string> values)
         {
-            var newValueList = values.ToList();
-
             foreach (var value in VariantFields.ToList())
             {
-                if (!newValueList.Any(f => f.CustomFieldId == value.CustomFieldId))
+                if (!values.ContainsKey(value.FieldName))
                 {
                     VariantFields.Remove(value);
                 }
             }
 
-            foreach (var fieldValue in newValueList)
+            foreach (var value in values)
             {
-                var current = VariantFields.FirstOrDefault(f => f.CustomFieldId == fieldValue.CustomFieldId);
+                var current = VariantFields.FirstOrDefault(f => f.FieldName == value.Key);
                 if (current == null)
                 {
-                    current = new ProductVariantFieldValue(this, fieldValue.CustomFieldId, fieldValue.FieldValue);
+                    current = new ProductVariantField(value.Key, value.Value);
                     VariantFields.Add(current);
                 }
                 else
                 {
-                    current.FieldValue = fieldValue.FieldValue;
+                    current.FieldValue = value.Value;
                 }
             }
         }

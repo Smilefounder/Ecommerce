@@ -10,6 +10,7 @@ using System.Reflection;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Data.Events;
 using Kooboo.Commerce.Data.Providers;
+using Kooboo.Commerce.Data.Mapping;
 
 namespace Kooboo.Commerce.Data
 {
@@ -26,6 +27,17 @@ namespace Kooboo.Commerce.Data
         public override int SaveChanges()
         {
             Event.Raise(new SavingDbChanges(this));
+
+            // Delete orphans
+            var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Modified && e.Entity is IOrphanable);
+            foreach (var entry in entries)
+            {
+                var orphanable = entry.Entity as IOrphanable;
+                if (orphanable.IsOrphan())
+                {
+                    entry.State = EntityState.Deleted;
+                }
+            }
 
             return base.SaveChanges();
         }
@@ -59,6 +71,7 @@ namespace Kooboo.Commerce.Data
             }
 
             builder.Conventions.Remove<PluralizingTableNameConvention>();
+            builder.Conventions.Add<NonPublicPropertyConvention>();
 
             builder.Configurations.AddFromAssembly(Assembly.Load("Kooboo.Commerce.Infrastructure"));
             builder.Configurations.AddFromAssembly(Assembly.Load("Kooboo.Commerce"));

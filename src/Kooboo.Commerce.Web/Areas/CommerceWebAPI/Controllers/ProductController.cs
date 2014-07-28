@@ -34,8 +34,6 @@ namespace Kooboo.Commerce.Web.Areas.CommerceWebAPI.Controllers
                 query = query.ByBrandId(Convert.ToInt32(qs["brandId"]));
             if (!string.IsNullOrEmpty(qs["customField.name"]) && !string.IsNullOrEmpty(qs["customField.value"]))
                 query = query.ByCustomField(qs["customField.name"], qs["customField.value"]);
-            if (!string.IsNullOrEmpty(qs["priceVariant.name"]) && !string.IsNullOrEmpty(qs["priceVariant.value"]))
-                query = query.ByVariantField(qs["priceVariant.name"], qs["priceVariant.value"]);
 
             return BuildLoadWithFromQueryStrings(query, qs);
         }

@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Products.Services
             dbProduct.Name = product.Name;
             dbProduct.Brand = product.Brand;
 
-            dbProduct.UpdateCustomFieldValues(product.CustomFields);
+            dbProduct.UpdateCustomFields(product.CustomFields.ToDictionary(f => f.FieldName, f => f.FieldValue));
             dbProduct.UpdateImages(product.Images);
             dbProduct.UpdateCategories(product.Categories);
 

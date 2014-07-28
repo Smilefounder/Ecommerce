@@ -142,7 +142,7 @@
 
                 $.each(self.data().Variants(), function () {
                     $.each(this.VariantFields(), function () {
-                        var fieldName = this.CustomField().Name();
+                        var fieldName = this.FieldName();
                         var fieldValue = this.FieldValue();
                         if (fieldValue !== null && fieldValue !== undefined && fieldValue !== '') {
                             var field = _.find(fields, function (f) {
@@ -226,29 +226,27 @@
                 return candidates;
             }
 
-            self.GetCustomFieldValue = function (fieldId) {
-                var fieldValue = _.find(self.data().CustomFields(), function (field) {
-                    return field.CustomFieldId() == fieldId;
+            self.GetCustomFieldValue = function (fieldName) {
+                var field = _.find(self.data().CustomFields(), function (field) {
+                    return field.FieldName() == fieldName;
                 });
 
                 // New fields might be created after product creation, so here need to ensure custom field always exists
-                if (!fieldValue) {
-                    var field = _.find(Metadata.ProductType.CustomFields, function (f) {
-                        return f.Id == fieldId;
+                if (!field) {
+                    var definition = _.find(Metadata.ProductType.CustomFields, function (f) {
+                        return f.Name == fieldName;
                     });
 
-                    fieldValue = {
-                        Id: ko.observable(),
-                        ProductId: ko.observable(self.data().Id()),
-                        CustomFieldId: ko.observable(field.Id),
+                    field = {
+                        FieldName: ko.observable(definition.Name),
                         FieldText: ko.observable(),
                         FieldValue: ko.observable()
                     };
 
-                    self.data().CustomFields.push(fieldValue);
+                    self.data().CustomFields.push(field);
                 }
 
-                return fieldValue.FieldValue;
+                return field.FieldValue;
             }
 
             self.InitVariantFieldControls = function (elements) {
@@ -264,33 +262,31 @@
                 return fields;
             }
 
-            self.GetVariantFieldText = function (price, fieldId) {
-                return self.GetVariantFieldValue(price, fieldId);
+            self.GetVariantFieldText = function (price, fieldName) {
+                return self.GetVariantFieldValue(price, fieldName);
             }
 
-            self.GetVariantFieldValue = function (price, fieldId) {
-                var fieldValue = _.find(price.VariantFields(), function (field) {
-                    return field.CustomFieldId() == fieldId;
+            self.GetVariantFieldValue = function (price, fieldName) {
+                var field = _.find(price.VariantFields(), function (field) {
+                    return field.FieldName() == fieldName;
                 });
 
                 // New fields might be created after product creation, so here need to ensure custom field always exists
-                if (!fieldValue) {
-                    var field = _.find(Metadata.ProductType.VariationFields, function (f) {
-                        return f.Id == fieldId;
+                if (!field) {
+                    var definition = _.find(Metadata.ProductType.VariationFields, function (f) {
+                        return f.Name == fieldName;
                     });
 
                     fieldValue = {
-                        Id: ko.observable(),
-                        ProductId: ko.observable(self.data().Id()),
-                        CustomFieldId: ko.observable(field.Id),
+                        FieldName: ko.observable(definition.Name),
                         FieldText: ko.observable(),
                         FieldValue: ko.observable()
                     };
 
-                    price.VariantFields.push(fieldValue);
+                    price.VariantFields.push(field);
                 }
 
-                return fieldValue.FieldValue;
+                return field.FieldValue;
             }
 
             self.GetFieldSelectOptions = function (item) {
@@ -325,14 +321,9 @@
 
                 $.each(Metadata.ProductType.VariationFields, function (i, field) {
                     price.VariantFields.push({
-                        Id: ko.observable(new Date().getTime()),
-                        ProductId: ko.observable(self.data().Id()),
-                        CustomFieldId: ko.observable(field.Id),
+                        FieldName: ko.observable(field.Name),
                         FieldText: ko.observable(),
-                        FieldValue: ko.observable(),
-                        CustomField: ko.observable({
-                            Name: ko.observable(field.Name)
-                        })
+                        FieldValue: ko.observable()
                     });
                 });
 
@@ -404,7 +395,7 @@
                             var fieldValue = this.value;
 
                             var hasThisField = _.any(price.VariantFields(), function (f) {
-                                return f.CustomField().Name() == fieldName && f.FieldValue() == fieldValue;
+                                return f.FieldName() == fieldName && f.FieldValue() == fieldValue;
                             });
 
                             if (!hasThisField) {

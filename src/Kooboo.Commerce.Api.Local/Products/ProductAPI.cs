@@ -52,13 +52,7 @@ namespace Kooboo.Commerce.Api.Local.Products
 
         public IProductQuery ByCustomField(string customFieldName, string fieldValue)
         {
-            Query = Query.Where(o => o.CustomFields.Any(f => f.CustomField.Name == customFieldName && f.FieldValue == fieldValue));
-            return this;
-        }
-
-        public IProductQuery ByVariantField(string variantName, string variantValue)
-        {
-            Query = Query.Where(o => o.Variants.Any(p => p.VariantFields.Any(v => v.CustomField.Name == variantName && v.FieldValue == variantValue)));
+            Query = Query.Where(o => o.CustomFields.Any(f => f.FieldName == customFieldName && f.FieldValue == fieldValue));
             return this;
         }
     }

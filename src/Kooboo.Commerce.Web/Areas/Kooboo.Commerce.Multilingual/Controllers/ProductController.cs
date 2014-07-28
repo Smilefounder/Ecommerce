@@ -15,18 +15,18 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 {
     public class ProductController : CommerceController
     {
-        private IRepository<Product> _repository;
+        private IServiceFactory _services;
         private ITranslationStore _translationStore;
 
-        public ProductController(IRepository<Product> repository, ITranslationStore translationStore)
+        public ProductController(IServiceFactory serviceFactory, ITranslationStore translationStore)
         {
-            _repository = repository;
+            _services = serviceFactory;
             _translationStore = translationStore;
         }
 
         public ActionResult Index(string culture, string search, int page = 1, int pageSize = 50)
         {
-            var query = _repository.Query();
+            var query = _services.Products.Query();
             if (!String.IsNullOrWhiteSpace(search))
             {
                 search = search.Trim();
@@ -61,8 +61,9 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 
         public ActionResult Translate(int id, string culture)
         {
-            var product = _repository.Find(id);
-            var fields = product.CustomFields.Where(f => f.CustomField.IsValueLocalizable).ToList();
+            var product = _services.Products.GetById(id);
+            var productType = _services.ProductTypes.GetById(product.ProductTypeId);
+            var fields = productType.CustomFields.Where(f => f.CustomField.IsValueLocalizable).ToList();
 
             var compared = new ProductModel
             {
@@ -75,11 +76,10 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 compared.CustomFields.Add(new CustomFieldValueModel
                 {
                     Field = field.CustomField,
-                    FieldId = field.CustomFieldId,
                     FieldName = field.CustomField.Name,
                     FieldLabel = field.CustomField.Label,
                     ControlType = field.CustomField.ControlType,
-                    FieldValue = field.FieldValue
+                    FieldValue = product.CustomFields.GetValue(field.CustomField.Name)
                 });
             }
 
@@ -93,7 +93,6 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 translated.CustomFields.Add(new CustomFieldValueModel
                 {
                     Field = field.CustomField,
-                    FieldId = field.CustomFieldId,
                     FieldName = field.CustomField.Name,
                     ControlType = field.CustomField.ControlType,
                     FieldLabel = field.CustomField.Label

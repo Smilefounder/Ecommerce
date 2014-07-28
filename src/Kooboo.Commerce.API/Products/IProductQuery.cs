@@ -50,12 +50,5 @@ namespace Kooboo.Commerce.Api.Products
         /// <param name="fieldValue">custom field valule</param>
         /// <returns>product query</returns>
         IProductQuery ByCustomField(string customFieldName, string fieldValue);
-        /// <summary>
-        /// filter the product by product price variant
-        /// </summary>
-        /// <param name="variantName">price variant name</param>
-        /// <param name="variantVallue">price variant value</param>
-        /// <returns>product query</returns>
-        IProductQuery ByVariantField(string variantName, string variantValue);
     }
 }

@@ -25,18 +25,19 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
             {
                 foreach (var fieldValue in product.CustomFields)
                 {
+                    // TODO: Fix
                     var field = new CustomFieldValue
                     {
-                        FieldName = fieldValue.CustomField.Name,
-                        FieldLabel = fieldValue.CustomField.Label,
+                        FieldName = fieldValue.FieldName,
+                        //FieldLabel = fieldValue.CustomField.Label,
                         FieldText = fieldValue.FieldValue,
                         FieldValue = fieldValue.FieldValue
                     };
 
-                    if (fieldValue.CustomField.IsValueLocalizable)
-                    {
-                        field.FieldText = product.GetText("CustomFields[" + field.FieldName + "]", context.ApiContext.Culture);
-                    }
+                    //if (fieldValue.CustomField.IsValueLocalizable)
+                    //{
+                    //    field.FieldText = product.GetText("CustomFields[" + field.FieldName + "]", context.ApiContext.Culture);
+                    //}
 
                     model.CustomFields.Add(field);
                 }

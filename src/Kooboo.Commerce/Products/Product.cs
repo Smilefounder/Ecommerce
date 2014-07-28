@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Products
             Brand = null;
             Categories = new List<ProductCategory>();
             Images = new List<ProductImage>();
-            CustomFields = new List<ProductCustomFieldValue>();
+            CustomFields = new List<ProductCustomField>();
             Variants = new List<ProductVariant>();
         }
 
@@ -64,7 +64,7 @@ namespace Kooboo.Commerce.Products
 
         public virtual ICollection<ProductImage> Images { get; set; }
 
-        public virtual ICollection<ProductCustomFieldValue> CustomFields { get; set; }
+        public virtual ICollection<ProductCustomField> CustomFields { get; set; }
 
         public virtual ICollection<ProductVariant> Variants { get; set; }
 
@@ -84,44 +84,32 @@ namespace Kooboo.Commerce.Products
             return new ProductVariant(this, name, sku);
         }
 
-        public virtual ProductCustomFieldValue FindCustomFieldValue(int customFieldId)
+        public virtual void UpdateCustomFields(IDictionary<string, string> fieldValues)
         {
-            return CustomFields.FirstOrDefault(x => x.CustomFieldId == customFieldId);
-        }
-
-        public virtual void UpdateCustomFieldValues(IEnumerable<ProductCustomFieldValue> fieldValues)
-        {
-            UpdateCustomFieldValues(fieldValues.Select(f => new CustomFieldValue(f.CustomFieldId, f.FieldValue)));
-        }
-
-        public virtual void UpdateCustomFieldValues(IEnumerable<CustomFieldValue> fieldValues)
-        {
-            var newFieldValueList = fieldValues.ToList();
-
             foreach (var fieldValue in CustomFields.ToList())
             {
-                if (!newFieldValueList.Any(f => f.FieldId == fieldValue.CustomFieldId))
+                if (!fieldValues.ContainsKey(fieldValue.FieldName))
                 {
                     CustomFields.Remove(fieldValue);
                 }
             }
 
-            foreach (var fieldValue in newFieldValueList)
+            foreach (var fieldValue in fieldValues)
             {
-                UpdateCustomFieldValue(fieldValue.FieldId, fieldValue.FieldValue);
+                UpdateCustomField(fieldValue.Key, fieldValue.Value);
             }
         }
 
-        public virtual void UpdateCustomFieldValue(int fieldId, string value)
+        public virtual void UpdateCustomField(string name, string value)
         {
-            var fieldValue = FindCustomFieldValue(fieldId);
+            var fieldValue = CustomFields.FirstOrDefault(f => f.FieldName == name);
             if (fieldValue != null)
             {
                 fieldValue.FieldValue = value;
             }
             else
             {
-                fieldValue = new ProductCustomFieldValue(this, fieldId, value);
+                fieldValue = new ProductCustomField(name, value);
                 CustomFields.Add(fieldValue);
             }
         }

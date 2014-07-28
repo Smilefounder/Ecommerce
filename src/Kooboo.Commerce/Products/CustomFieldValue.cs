@@ -7,13 +7,13 @@ namespace Kooboo.Commerce.EAV
 {
     public class CustomFieldValue
     {
-        public int FieldId { get; set; }
+        public CustomField Field { get; set; }
 
         public string FieldValue { get; set; }
 
-        public CustomFieldValue(int fieldId, string value)
+        public CustomFieldValue(CustomField field, string value)
         {
-            FieldId = fieldId;
+            Field = field;
             FieldValue = value;
         }
     }

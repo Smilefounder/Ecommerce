@@ -123,6 +123,7 @@
     <Compile Include="Events\Promotions\PromotionDisabled.cs" />
     <Compile Include="Events\Promotions\IPromotionEvent.cs" />
     <Compile Include="Events\Promotions\PromotionEnabled.cs" />
+    <Compile Include="Products\CustomFieldValuesExtensions.cs" />
     <Compile Include="Products\FieldDataType.cs" />
     <Compile Include="Products\CustomFieldType.cs" />
     <Compile Include="Products\Services\CustomFieldService.cs" />
@@ -179,7 +180,7 @@
     <Compile Include="Products\ProductCategory.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\ProductCustomFieldValue.cs">
+    <Compile Include="Products\ProductCustomField.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Products\ProductImage.cs">
@@ -188,7 +189,7 @@
     <Compile Include="Products\ProductVariant.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\ProductVariantFieldValue.cs">
+    <Compile Include="Products\ProductVariantField.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Products\ProductType.cs">

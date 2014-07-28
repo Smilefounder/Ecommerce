@@ -67,10 +67,9 @@
                     <input type="checkbox" class="select" data-bind="checked: Selected" />
                 </td>
                 <td data-bind="text:Sku"></td>
-                @foreach (var customField in productType.VariationFields)
+                @foreach (var field in productType.VariationFields)
                 {
-                    var field = customField.CustomField;
-                    <td data-bind="text: $root.GetVariantFieldText($data, @field.Id)"></td>
+                    <td data-bind="text: $root.GetVariantFieldText($data, '@field.CustomField.Name')"></td>
                 }
                 <td class="mini" data-bind="text:Price"></td>
                 <td><a data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit-small")</a></td>
@@ -90,7 +89,7 @@
                         @control.Render(field, null, new
                                        {
                                            data_field_type = "VariantField",
-                                           data_bind = control.ValueBindingName + ": $root.GetVariantFieldValue($data, " + field.Id + ")"
+                                           data_bind = control.ValueBindingName + ": $root.GetVariantFieldValue($data, '" + field.Name + "')"
                                        }, ViewContext)
                     </td>
                 }

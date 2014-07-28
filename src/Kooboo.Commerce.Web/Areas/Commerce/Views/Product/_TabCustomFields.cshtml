@@ -25,7 +25,7 @@
                                             @class = "medium",
                                             style = "width:35%",
                                             data_field_type = "CustomField",
-                                            data_bind = control.ValueBindingName + ": $root.GetCustomFieldValue(" + field.Id + ")"
+                                            data_bind = control.ValueBindingName + ": $root.GetCustomFieldValue('" + field.Name + "')"
                                         }, ViewContext)
                         @if (!String.IsNullOrEmpty(field.Tooltip))
                         {
