@@ -13,12 +13,6 @@ namespace Kooboo.Commerce.Data.Mapping
     {
         public NonPublicPropertyConvention()
         {
-            Types().Having(NonPublicKeys)
-                   .Configure((config, props) =>
-                   {
-                       config.HasKey(props.Select(p => p.Name));
-                   });
-
             Types().Having(NonPublicProperties)
                    .Configure((config, props) =>
                    {
@@ -26,6 +20,12 @@ namespace Kooboo.Commerce.Data.Mapping
                        {
                            config.Property(prop);
                        }
+                   });
+
+            Types().Having(NonPublicKeys)
+                   .Configure((config, props) =>
+                   {
+                       config.HasKey(props.Select(p => p.Name));
                    });
         }
 

@@ -1,6 +1,9 @@
-﻿using Kooboo.Commerce.Rules;
+﻿using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Products.Internal;
+using Kooboo.Commerce.Rules;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 
 namespace Kooboo.Commerce.Products
@@ -25,14 +28,42 @@ namespace Kooboo.Commerce.Products
         [Param]
         public bool IsEnabled { get; set; }
 
-        public virtual ICollection<ProductTypeCustomField> CustomFields { get; set; }
+        protected virtual ICollection<ProductTypeCustomField> InternalCustomFields { get; set; }
+        private CustomFieldCollection _customFields;
 
-        public virtual ICollection<ProductTypeVariantField> VariationFields { get; set; }
+        public CustomFieldCollection CustomFields
+        {
+            get
+            {
+                if (_customFields == null)
+                {
+                    var orderedFields = InternalCustomFields.OrderBy(f => f.Sequence).Select(f => f.CustomField);
+                    _customFields = new CustomFieldCollection(orderedFields, OnCustomFieldAdded, OnCustomFieldRemoved, OnCustomFieldsSorted);
+                }
+                return _customFields;
+            }
+        }
+
+        protected virtual ICollection<ProductTypeVariantField> InternalVariantFields { get; set; }
+        private CustomFieldCollection _variantFields;
+
+        public CustomFieldCollection VariantFields
+        {
+            get
+            {
+                if (_variantFields == null)
+                {
+                    var orderedFields = InternalVariantFields.OrderBy(f => f.Sequence).Select(f => f.CustomField);
+                    _variantFields = new CustomFieldCollection(orderedFields, OnVariantFieldAdded, OnVariantFieldRemoved, OnVariantFieldsSorted);
+                }
+                return _variantFields;
+            }
+        }
 
         public ProductType()
         {
-            CustomFields = new List<ProductTypeCustomField>();
-            VariationFields = new List<ProductTypeVariantField>();
+            InternalCustomFields = new List<ProductTypeCustomField>();
+            InternalVariantFields = new List<ProductTypeVariantField>();
         }
 
         public ProductType(string name, string skuAlias = "SKU")
@@ -42,38 +73,79 @@ namespace Kooboo.Commerce.Products
             SkuAlias = skuAlias;
         }
 
-        public virtual ProductTypeCustomField FindCustomField(int fieldId)
-        {
-            return CustomFields.FirstOrDefault(f => f.CustomFieldId == fieldId);
-        }
+        #region Custom field collection callbacks
 
-        public virtual bool RemoveCustomField(int fieldId)
+        private void OnCustomFieldAdded(CustomField field)
         {
-            var field = CustomFields.FirstOrDefault(f => f.CustomFieldId == fieldId);
-            if (field != null)
+            InternalCustomFields.Add(new ProductTypeCustomField
             {
-                CustomFields.Remove(field);
-                return true;
-            }
-
-            return false;
+                CustomField = field,
+                Sequence = InternalCustomFields.Count == 0 ? 0 : InternalCustomFields.Max(f => f.Sequence) + 1
+            });
         }
 
-        public virtual ProductTypeVariantField FindVariantField(int fieldId)
+        private void OnCustomFieldRemoved(CustomField field)
         {
-            return VariationFields.FirstOrDefault(f => f.CustomFieldId == fieldId);
-        }
-
-        public virtual bool RemoveVariantField(int fieldId)
-        {
-            var field = VariationFields.FirstOrDefault(f => f.CustomFieldId == fieldId);
-            if (field != null)
+            var internalField = InternalCustomFields.FirstOrDefault(f => f.CustomField.Name == field.Name);
+            if (internalField != null)
             {
-                VariationFields.Remove(field);
-                return true;
+                InternalCustomFields.Remove(internalField);
             }
+        }
 
-            return false;
+        private void OnCustomFieldsSorted()
+        {
+            var sequence = 0;
+            foreach (var field in CustomFields)
+            {
+                var internalField = InternalCustomFields.FirstOrDefault(f => f.CustomField.Name == field.Name);
+                internalField.Sequence = sequence;
+                sequence++;
+            }
+        }
+
+        #endregion
+
+        #region Variant field collection callbacks
+
+        private void OnVariantFieldAdded(CustomField field)
+        {
+            InternalVariantFields.Add(new ProductTypeVariantField
+            {
+                CustomField = field,
+                Sequence = InternalVariantFields.Count == 0 ? 0 : InternalVariantFields.Max(f => f.Sequence) + 1
+            });
+        }
+
+        private void OnVariantFieldRemoved(CustomField field)
+        {
+            var internalField = InternalVariantFields.FirstOrDefault(f => f.CustomField.Name == field.Name);
+            if (internalField != null)
+            {
+                InternalVariantFields.Remove(internalField);
+            }
+        }
+
+        private void OnVariantFieldsSorted()
+        {
+            var sequence = 0;
+            foreach (var field in VariantFields)
+            {
+                var internalField = InternalVariantFields.FirstOrDefault(f => f.CustomField.Name == field.Name);
+                internalField.Sequence = sequence;
+                sequence++;
+            }
+        }
+
+        #endregion
+
+        class ProductTypeConfiguration : EntityTypeConfiguration<ProductType>
+        {
+            public ProductTypeConfiguration()
+            {
+                HasMany(c => c.InternalCustomFields).WithRequired(c => c.ProductType);
+                HasMany(c => c.InternalVariantFields).WithRequired(c => c.ProductType);
+            }
         }
     }
 }

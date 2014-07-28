@@ -78,6 +78,7 @@
     <Compile Include="Categories\Services\ICategoryService.cs" />
     <Compile Include="DefaultServiceFactory.cs" />
     <Compile Include="IServiceFactory.cs" />
+    <Compile Include="Products\CustomFieldCollection.cs" />
     <Compile Include="Products\CustomFieldValue.cs" />
     <Compile Include="Events\Categories\CategoryCreated.cs" />
     <Compile Include="Events\Categories\CategoryDeleted.cs" />
@@ -145,9 +146,6 @@
     <Compile Include="Data\Mapping\OrderMap.cs" />
     <Compile Include="Data\Mapping\PaymentMap.cs" />
     <Compile Include="Data\Mapping\ProductMap.cs" />
-    <Compile Include="Data\Mapping\ProductTypeCustomFieldMap.cs" />
-    <Compile Include="Data\Mapping\ProductTypeMap.cs" />
-    <Compile Include="Data\Mapping\ProductTypeVariantFieldMap.cs" />
     <Compile Include="Data\Mapping\ShoppingCartMap.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderCustomField.cs" />
@@ -195,10 +193,10 @@
     <Compile Include="Products\ProductType.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\ProductTypeCustomField.cs">
+    <Compile Include="Products\Internal\ProductTypeCustomField.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\ProductTypeVariantField.cs">
+    <Compile Include="Products\Internal\ProductTypeVariantField.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Products\Services\IProductService.cs">

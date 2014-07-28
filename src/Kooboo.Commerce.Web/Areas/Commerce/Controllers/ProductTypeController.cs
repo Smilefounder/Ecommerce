@@ -101,24 +101,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             };
 
             // Create or update fields
-            foreach (var field in model.CustomFields)
+            foreach (var field in model.CustomFields.OrderBy(f => f.Sequence))
             {
                 var customField = CreateOrUpdateField(field);
-                productType.CustomFields.Add(new ProductTypeCustomField
-                {
-                    CustomField = customField,
-                    CustomFieldId = customField.Id
-                });
+                productType.CustomFields.Add(customField);
             }
 
-            foreach (var field in model.VariationFields)
+            foreach (var field in model.VariationFields.OrderBy(f => f.Sequence))
             {
                 var variantField = CreateOrUpdateField(field);
-                productType.VariationFields.Add(new ProductTypeVariantField
-                {
-                    CustomField = variantField,
-                    CustomFieldId = variantField.Id
-                });
+                productType.VariantFields.Add(variantField);
             }
 
             if (productType.Id == 0)

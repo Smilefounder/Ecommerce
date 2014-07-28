@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Products;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kooboo.Commerce.EAV
 {

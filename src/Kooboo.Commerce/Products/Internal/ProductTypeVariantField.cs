@@ -6,23 +6,20 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Kooboo.Commerce.Products
+namespace Kooboo.Commerce.Products.Internal
 {
     public class ProductTypeVariantField
     {
         [Key, Column(Order = 0)]
         public int ProductTypeId { get; set; }
+
         [Key, Column(Order = 1)]
         public int CustomFieldId { get; set; }
+
         public virtual ProductType ProductType { get; set; }
+
         public virtual CustomField CustomField { get; set; }
 
-        public ProductTypeVariantField() { }
-
-        public ProductTypeVariantField(ProductType productType, CustomField field)
-        {
-            ProductType = productType;
-            CustomField = field;
-        }
+        public int Sequence { get; set; }
     }
 }

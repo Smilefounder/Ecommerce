@@ -28,21 +28,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
             Name = type.Name;
             SkuAlias = type.SkuAlias;
             IsEnabled = type.IsEnabled;
-            //
-            if (type.CustomFields != null)
+
+
+            foreach (var item in type.CustomFields)
             {
-                foreach (var item in type.CustomFields)
-                {
-                    CustomFields.Add(new CustomFieldEditorModel(item.CustomField));
-                }
+                CustomFields.Add(new CustomFieldEditorModel(item));
             }
-            //
-            if (type.VariationFields != null)
+
+            foreach (var item in type.VariantFields)
             {
-                foreach (var item in type.VariationFields)
-                {
-                    VariationFields.Add(new CustomFieldEditorModel(item.CustomField));
-                }
+                VariationFields.Add(new CustomFieldEditorModel(item));
             }
         }
 
@@ -52,32 +47,23 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
             type.Name = (this.Name ?? string.Empty).Trim();
             type.SkuAlias = (this.SkuAlias ?? string.Empty).Trim();
 
-            //
             if (this.CustomFields != null)
             {
-                type.CustomFields = new List<ProductTypeCustomField>();
-                foreach (var item in this.CustomFields)
+                foreach (var item in this.CustomFields.OrderBy(f => f.Sequence))
                 {
-                    var field = new ProductTypeCustomField();
-                    field.ProductTypeId = type.Id;
-                    field.CustomFieldId = item.Id;
-                    field.CustomField = new CustomField();
-                    item.UpdateTo(field.CustomField);
+                    var field = new CustomField();
+                    item.UpdateTo(field);
                     type.CustomFields.Add(field);
                 }
             }
-            //
+
             if (this.VariationFields != null)
             {
-                type.VariationFields = new List<ProductTypeVariantField>();
                 foreach (var item in this.VariationFields)
                 {
-                    var field = new ProductTypeVariantField();
-                    field.ProductTypeId = type.Id;
-                    field.CustomFieldId = item.Id;
-                    field.CustomField = new CustomField();
-                    item.UpdateTo(field.CustomField);
-                    type.VariationFields.Add(field);
+                    var field = new CustomField();
+                    item.UpdateTo(field);
+                    type.VariantFields.Add(field);
                 }
             }
         }

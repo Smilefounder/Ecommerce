@@ -47,44 +47,12 @@ namespace Kooboo.Commerce.Products.Services
             dbType.SkuAlias = type.SkuAlias;
 
             // Custom fields
-            foreach (var field in dbType.CustomFields.ToList())
-            {
-                if (!type.CustomFields.Any(f => f.CustomFieldId == field.CustomFieldId))
-                {
-                    dbType.CustomFields.Remove(field);
-                }
-            }
-
-            foreach (var field in type.CustomFields)
-            {
-                if (!dbType.CustomFields.Any(f => f.CustomFieldId == field.CustomFieldId))
-                {
-                    dbType.CustomFields.Add(new ProductTypeCustomField
-                    {
-                        CustomFieldId = field.CustomFieldId
-                    });
-                }
-            }
+            dbType.CustomFields.Intersect(type.CustomFields);
+            dbType.CustomFields.Sort(type.CustomFields.Select(f => f.Name));
 
             // Variant fields
-            foreach (var field in dbType.VariationFields.ToList())
-            {
-                if (!type.VariationFields.Any(f => f.CustomFieldId == field.CustomFieldId))
-                {
-                    dbType.VariationFields.Remove(field);
-                }
-            }
-
-            foreach (var field in type.VariationFields)
-            {
-                if (!dbType.VariationFields.Any(f => f.CustomFieldId == field.CustomFieldId))
-                {
-                    dbType.VariationFields.Add(new ProductTypeVariantField
-                    {
-                        CustomFieldId = field.CustomFieldId
-                    });
-                }
-            }
+            dbType.VariantFields.Intersect(type.VariantFields);
+            dbType.VariantFields.Sort(type.VariantFields.Select(f => f.Name));
 
             _repository.Database.SaveChanges();
         }

@@ -63,7 +63,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         {
             var product = _services.Products.GetById(id);
             var productType = _services.ProductTypes.GetById(product.ProductTypeId);
-            var fields = productType.CustomFields.Where(f => f.CustomField.IsValueLocalizable).ToList();
+            var fields = productType.CustomFields.Where(f => f.IsValueLocalizable).ToList();
 
             var compared = new ProductModel
             {
@@ -75,11 +75,11 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             {
                 compared.CustomFields.Add(new CustomFieldValueModel
                 {
-                    Field = field.CustomField,
-                    FieldName = field.CustomField.Name,
-                    FieldLabel = field.CustomField.Label,
-                    ControlType = field.CustomField.ControlType,
-                    FieldValue = product.CustomFields.GetValue(field.CustomField.Name)
+                    Field = field,
+                    FieldName = field.Name,
+                    FieldLabel = field.Label,
+                    ControlType = field.ControlType,
+                    FieldValue = product.CustomFields.GetValue(field.Name)
                 });
             }
 
@@ -92,10 +92,10 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             {
                 translated.CustomFields.Add(new CustomFieldValueModel
                 {
-                    Field = field.CustomField,
-                    FieldName = field.CustomField.Name,
-                    ControlType = field.CustomField.ControlType,
-                    FieldLabel = field.CustomField.Label
+                    Field = field,
+                    FieldName = field.Name,
+                    ControlType = field.ControlType,
+                    FieldLabel = field.Label
                 });
             }
 
