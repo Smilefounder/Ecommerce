@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Framework.UI.Form.Validation
 {
-    [Dependency(typeof(IValidator), Key = "Regex")]
+    [Dependency(typeof(IValidator), Key = "Regex", Order = 300)]
     public class RegexValidator : IValidator
     {
         public string Name

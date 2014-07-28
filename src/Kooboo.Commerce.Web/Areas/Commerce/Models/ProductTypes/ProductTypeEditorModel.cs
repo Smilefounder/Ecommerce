@@ -16,8 +16,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
         {
             SkuAlias = "SKU";
             CustomFields = new List<CustomFieldEditorModel>();
-            VariationFields = new List<CustomFieldEditorModel>();
-            SystemFields = new List<CustomField>();
+            VariantFields = new List<CustomFieldEditorModel>();
+            PredefinedFields = new List<CustomFieldEditorModel>();
         }
 
         public ProductTypeEditorModel(ProductType type)
@@ -36,7 +36,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
 
             foreach (var item in type.VariantFields)
             {
-                VariationFields.Add(new CustomFieldEditorModel(item));
+                VariantFields.Add(new CustomFieldEditorModel(item));
             }
         }
 
@@ -56,9 +56,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
                 }
             }
 
-            if (this.VariationFields != null)
+            if (this.VariantFields != null)
             {
-                foreach (var item in this.VariationFields)
+                foreach (var item in this.VariantFields)
                 {
                     var field = new CustomField();
                     item.UpdateTo(field);
@@ -78,10 +78,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
 
         public bool IsEnabled { get; set; }
 
-        public IEnumerable<CustomField> SystemFields { get; set; }
+        public List<CustomFieldEditorModel> PredefinedFields { get; set; }
 
         public List<CustomFieldEditorModel> CustomFields { get; set; }
 
-        public List<CustomFieldEditorModel> VariationFields { get; set; }
+        public List<CustomFieldEditorModel> VariantFields { get; set; }
     }
 }

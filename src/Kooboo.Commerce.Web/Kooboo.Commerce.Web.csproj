@@ -391,8 +391,8 @@
     <Compile Include="Areas\Commerce\Models\Customers\CustomerEditorModel.cs" />
     <Compile Include="Areas\Commerce\Tabs\Queries\Customers\CustomerModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
-    <Compile Include="Areas\Commerce\Models\Products\CustomFieldEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Products\FieldValidationRuleEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\ProductTypes\CustomFieldEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\ProductTypes\FieldValidationRuleEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\Grid2\PaymentMethodRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentProcessorConfigEditorModel.cs" />
@@ -3299,8 +3299,8 @@
     <Content Include="Areas\Commerce\Views\ShippingMethod\BasicInfo.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldEditorDialog.cshtml" />
-    <Content Include="Areas\Commerce\Views\Shared\_CustomFieldsGrid.cshtml" />
-    <Content Include="Areas\Commerce\Views\Shared\_CustomFieldsScripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_CustomFieldGrid.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_CustomFieldGrid.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Edit.cshtml" />
     <Content Include="Areas\Commerce\Views\Instance\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\Instance\Create.cshtml" />
@@ -3855,7 +3855,7 @@
     <Content Include="Areas\Commerce\Views\ProductType\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Views\ProductType\EditorTemplates\ProductTypeEditorModel.cshtml" />
+    <Content Include="Areas\Commerce\Views\ProductType\_Editor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Brand\Create.cshtml" />

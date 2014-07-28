@@ -53,31 +53,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Products
             field.IsValueLocalizable = this.IsValueLocalizable;
             if (ValidationRules != null)
             {
-                foreach (var rule in field.ValidationRules.ToList())
-                {
-                    if (!ValidationRules.Any(r => r.Id == rule.Id))
-                    {
-                        field.ValidationRules.Remove(rule);
-                    }
-                }
-
                 foreach (var ruleModel in ValidationRules)
                 {
-                    FieldValidationRule rule = null;
-
-                    if (ruleModel.Id > 0)
+                    field.ValidationRules.Add(new FieldValidationRule(ruleModel.ValidatorName)
                     {
-                        rule = field.ValidationRules.FirstOrDefault(r => r.Id == ruleModel.Id);
-                    }
-                    else
-                    {
-                        rule = new FieldValidationRule(ruleModel.ValidatorName);
-                        field.ValidationRules.Add(rule);
-                    }
-
-                    rule.ValidatorName = ruleModel.ValidatorName;
-                    rule.ValidatorData = ruleModel.ValidatorData;
-                    rule.ErrorMessage = ruleModel.ErrorMessage;
+                        Id = ruleModel.Id,
+                        ValidatorData = ruleModel.ValidatorData,
+                        ErrorMessage = ruleModel.ErrorMessage
+                    });
                 }
             }
         }

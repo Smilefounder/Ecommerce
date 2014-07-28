@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Framework.UI.Form.Validation
 {
-    [Dependency(typeof(IValidator), Key = "StringLength")]
+    [Dependency(typeof(IValidator), Key = "StringLength", Order = 400)]
     public class StringLengthValidator : IValidator
     {
         public string Name

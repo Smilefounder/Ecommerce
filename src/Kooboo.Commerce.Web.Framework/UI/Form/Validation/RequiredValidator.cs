@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Framework.UI.Form.Validation
 {
-    [Dependency(typeof(IValidator), Key = "Required")]
+    [Dependency(typeof(IValidator), Key = "Required", Order = 100)]
     public class RequiredValidator : IValidator
     {
         public string Name

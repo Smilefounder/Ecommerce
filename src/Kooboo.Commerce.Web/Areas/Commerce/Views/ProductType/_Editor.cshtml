@@ -1,0 +1,57 @@
+﻿@using Newtonsoft.Json
+@model ProductTypeEditorModel
+
+@{
+    ViewBag.CanAddPredefinedFields = true;
+    ViewBag.PredefinedFields = Model.PredefinedFields;
+}
+
+@using (Html.BeginForm("Save", "ProductType", RouteValues.From(Request.QueryString)))
+{
+    @Html.HiddenFor(m => m.Id)
+    <div id="product-type-tabs">
+        <ul>
+            <li>
+                <a href="#basicinfo">@("Basic info".Localize())</a>
+            </li>
+            <li>
+                <a href="#customfields">@("Custom fields".Localize())</a>
+            </li>
+            <li>
+                <a href="#variantfields">@("Variant fields".Localize())</a>
+            </li>
+        </ul>
+        <div id="basicinfo">
+            @Html.Partial("_BasicInfo", Model)
+        </div>
+        <div id="customfields">
+            <div id="customfields-holder">
+                @Html.Partial("_CustomFieldGrid")
+            </div>
+        </div>
+        <div id="variantfields">
+            <div id="variantfields-holder">
+                @Html.Partial("_CustomFieldGrid")
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Partial("_AddPredefinedFieldsDialog")
+@Html.Partial("_CustomFieldGrid.Scripts")
+
+<script>
+    $(function () {
+        $('#product-type-tabs').tabs();
+
+        new CustomFieldGrid('#customfields').load({
+            htmlPrefix: 'CustomFields',
+            fields: @Html.Raw(JsonConvert.SerializeObject(Model.CustomFields))
+        });
+
+        new CustomFieldGrid('#variantfields').load({
+            htmlPrefix: 'VariantFields',
+            fields: @Html.Raw(JsonConvert.SerializeObject(Model.VariantFields))
+        });
+    });
+</script>

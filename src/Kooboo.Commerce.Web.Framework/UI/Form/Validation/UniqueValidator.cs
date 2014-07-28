@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Framework.UI.Form.Validation
 {
-    [Dependency(typeof(IValidator), Key = "Unique")]
+    [Dependency(typeof(IValidator), Key = "Unique", Order = 500)]
     public class UniqueValidator : IValidator
     {
         public string Name

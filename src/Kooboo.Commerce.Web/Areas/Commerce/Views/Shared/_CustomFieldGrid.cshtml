@@ -1,0 +1,71 @@
+﻿<div class="simple-table customfield-grid-container">
+    <div class="toolbar">
+        @if (ViewBag.CanAddPredefinedFields)
+        {
+            <div class="button dropdown">
+                <span>@("Add a field".Localize())</span>
+                @Html.IconImage("sprite")
+                <ul>
+                    <li><a data-bind="click: AddField">@("New field".Localize())</a></li>
+                    <li><a data-bind="click: AddPredefinedField">@("Predefined field".Localize())</a></li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <a class="button" data-bind="click: AddField">@("Add a field".Localize())</a>
+        }
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="nocheckbox"></th>
+                    <th>@("Name".Localize())</th>
+                    <th>@("Label".Localize())</th>
+                    <th>@("Control type".Localize())</th>
+                    <th class="action"></th>
+                </tr>
+            </thead>
+            <tbody class="ui-sortable">
+                <!--ko if:!Fields().length-->
+                <tr class="empty">
+                    <td colspan="100">@("Empty".Localize())</td>
+                </tr>
+                <!--/ko-->
+                <!--ko foreach:Fields-->
+                <tr>
+                    <td class="nocheckbox">
+                        <div>@Html.IconImage("drag")</div>
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Id')}, value:Id" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Name')}, value:Name" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'DataType')}, value:DataType" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Label')}, value:Label" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Tooltip')}, value:Tooltip" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'ControlType')}, value:ControlType" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'DefaultValue')}, value:DefaultValue" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'IsValueLocalizable')}, value:(IsValueLocalizable()+'')" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'SelectionItems')}, value:SelectionItems" />
+                        <!--ko foreach:ValidationRules-->
+                        <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'Id')}, value:Id" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'ValidatorName')}, value:ValidatorName" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'ValidatorData')}, value:ValidatorData" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'ErrorMessage')}, value:ErrorMessage" />
+                        <!--/ko-->
+                    </td>
+                    <td>
+                        <a class="action" data-bind="visible: $root.CanEditPredefinedFields || !IsPredefined(), text:Name, click:$root.EditField"></a>
+                        <span data-bind="visible: !$root.CanEditPredefinedFields && IsPredefined()">
+                            <span data-bind="text: Name"></span>
+                            <small>(@("Predefined".Localize()))</small>
+                        </span>
+                    </td>
+                    <td data-bind="text:((Label()==''||Label()==null)?'-':Label)"></td>
+                    <td data-bind="text:ControlType"></td>
+                    <td class="action"><a class="action" data-bind="click:$root.RemoveField">@Html.IconImage("minus-small")</a></td>
+                </tr>
+                <!--/ko-->
+            </tbody>
+        </table>
+    </div>
+</div>

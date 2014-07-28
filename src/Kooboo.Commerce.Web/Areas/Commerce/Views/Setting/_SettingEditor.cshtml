@@ -1,4 +1,8 @@
-﻿@model SettingEditorModel
+﻿@using Newtonsoft.Json
+@model SettingEditorModel
+@{
+    ViewBag.CanAddPredefinedFields = false;             
+}
 
 @using (Html.BeginForm("Index", "Setting", RouteValues.From(Request.QueryString)))
 {
@@ -13,7 +17,7 @@
                 <a href="#Image">@("Image".Localize())</a>
             </li>
             <li>
-                <a href="#PredefinedField">@("Predefined field".Localize())</a>
+                <a href="#PredefinedField">@("Predefined fields".Localize())</a>
             </li>
         </ul>
         <div id="General">
@@ -136,21 +140,28 @@
             </div>
         </div>
         <div id="PredefinedField">
-            @{var gridViewData = new ViewDataDictionary();
-            gridViewData.Add("CreateButtonText", "Create system field".Localize());
-            gridViewData.Add("FieldType", 1);
-            }
-            @Html.Partial("_CustomFieldsGrid", Model.ProductSetting.SystemFields, gridViewData)
+            <div id="predefined-fields-holder">
+                @Html.Partial("_CustomFieldGrid")
+            </div>
         </div>
     </div>
     <script type="text/javascript">
         $(function () {
             $('#J_SettingTabs').tabs();
-            $('#PredefinedField').customFields({ data: @Html.Raw(Model.ProductSetting.SystemFields.ToJson(PropertyNaming.Default)), nameFmt: 'ProductSetting.SystemFields[{0}].{1}' });
         });
     </script>
 }
-@{
-    ViewData.Add("IsEditingPredefinedFields", true);
-}
-@Html.Partial("_CustomFieldsScripts", ViewData)
+
+@Html.Partial("_CustomFieldGrid.Scripts")
+
+<script>
+    $(function () {
+
+        new CustomFieldGrid('#predefined-fields-holder').load({
+            htmlPrefix: 'ProductSetting.PredefinedFields',
+            canEditPredefinedFields: true,
+            fields: @Html.Raw(JsonConvert.SerializeObject(Model.ProductSetting.PredefinedFields))
+        });
+
+    });
+</script>

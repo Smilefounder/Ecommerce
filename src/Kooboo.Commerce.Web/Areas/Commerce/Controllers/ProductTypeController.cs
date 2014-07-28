@@ -78,7 +78,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Create()
         {
             var model = new ProductTypeEditorModel();
-            model.SystemFields = _customFieldService.PredefinedFields().ToArray();
+            model.PredefinedFields = _customFieldService.PredefinedFields()
+                                                        .ToList()
+                                                        .Select(f => new CustomFieldEditorModel(f))
+                                                        .ToList();
             return View(model);
         }
 
@@ -86,7 +89,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var productType = _productTypeService.GetById(id);
             var model = new ProductTypeEditorModel(productType);
-            model.SystemFields = _customFieldService.PredefinedFields().ToArray();
+            model.PredefinedFields = _customFieldService.PredefinedFields()
+                                                        .ToList()
+                                                        .Select(f => new CustomFieldEditorModel(f))
+                                                        .ToList();
             return View(model);
         }
 
@@ -101,14 +107,30 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             // Create or update fields
             foreach (var field in model.CustomFields.OrderBy(f => f.Sequence))
             {
-                var customField = CreateOrUpdateField(field);
-                productType.CustomFields.Add(customField);
+                if (!field.IsPredefined)
+                {
+                    var customField = CreateOrUpdateField(field);
+                    productType.CustomFields.Add(customField);
+                }
+                else
+                {
+                    var customField = _customFieldService.GetById(field.Id);
+                    productType.CustomFields.Add(customField);
+                }
             }
 
-            foreach (var field in model.VariationFields.OrderBy(f => f.Sequence))
+            foreach (var field in model.VariantFields.OrderBy(f => f.Sequence))
             {
-                var variantField = CreateOrUpdateField(field);
-                productType.VariantFields.Add(variantField);
+                if (!field.IsPredefined)
+                {
+                    var variantField = CreateOrUpdateField(field);
+                    productType.VariantFields.Add(variantField);
+                }
+                else
+                {
+                    var variantField = _customFieldService.GetById(field.Id);
+                    productType.VariantFields.Add(variantField);
+                }
             }
 
             if (productType.Id == 0)

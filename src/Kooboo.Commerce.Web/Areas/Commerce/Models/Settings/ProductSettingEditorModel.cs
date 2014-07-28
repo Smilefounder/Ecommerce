@@ -11,19 +11,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Settings
 
     public class ProductSettingEditorModel
     {
-        public List<CustomFieldEditorModel> SystemFields { get; set; }
+        public List<CustomFieldEditorModel> PredefinedFields { get; set; }
 
         public ProductSettingEditorModel()
         {
-            SystemFields = new List<CustomFieldEditorModel>();
+            PredefinedFields = new List<CustomFieldEditorModel>();
         }
 
-        public ProductSettingEditorModel(IEnumerable<CustomField> systemFields)
+        public ProductSettingEditorModel(IEnumerable<CustomField> fields)
             : this()
         {
-            foreach (var field in systemFields)
+            foreach (var field in fields)
             {
-                SystemFields.Add(new CustomFieldEditorModel(field));
+                PredefinedFields.Add(new CustomFieldEditorModel(field));
             }
         }
     }

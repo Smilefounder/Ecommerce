@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 // Update system fields
                 var systemFields = new List<CustomField>();
-                foreach (var fieldModel in model.ProductSetting.SystemFields)
+                foreach (var fieldModel in model.ProductSetting.PredefinedFields)
                 {
                     fieldModel.IsPredefined = true;
 

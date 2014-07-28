@@ -1,0 +1,100 @@
+﻿@using Newtonsoft.Json
+
+@Html.Partial("_CustomFieldEditorDialog", new CustomFieldEditorModel())
+
+<script>
+    (function ($) {
+
+        var PredefinedFields = @(ViewBag.PredefinedFields == null ? "null" : Html.Raw(JsonConvert.SerializeObject(ViewBag.PredefinedFields)));
+
+        var CustomFieldGridModel = function () {
+            var self = this;
+
+            self.HtmlPrefix = null;
+
+            self.CanEditPredefinedFields = false;
+
+            self.Fields = ko.observableArray();
+
+            self.AddField = function () {
+                var dialog = window.CustomFieldEditorDialog.instance();
+                dialog.onSubmitted = function (model) {
+                    self.Fields.push(ko.mapping.fromJS(model));
+                };
+                dialog.open();
+            };
+
+            self.EditField = function (field) {
+                var dialog = window.CustomFieldEditorDialog.instance();
+                dialog.onSubmitted = function (model) {
+                    ko.mapping.fromJS(model, {}, field);
+                };
+                dialog.open({
+                    model: ko.mapping.toJS(field)
+                });
+            };
+
+            self.RemoveField = function (item) {
+                if (confirm('@("Are you sure you want to delete this item?".Localize())')) {
+                    self.Fields.remove(item);
+                    window.leaveConfirm.stop();
+                    return true;
+                }
+            };
+
+            self.AddPredefinedField = function () {
+                var dialog = window.AddPredefinedFieldsDialog.instance();
+                if (!dialog.onSubmitted) {
+                    dialog.onSubmitted = function (ids) {
+                        _.each(ids, function (id) {
+                            var field = _.find(PredefinedFields, function (f) {
+                                return f.Id == id;
+                            });
+                            if (field) {
+                                self.Fields.push(ko.mapping.fromJS(field));
+                            }
+                        });
+                    }
+                }
+
+                dialog.open();
+            };
+
+            self.GetInputHtmlName = function (index, name) {
+                return self.HtmlPrefix + '[' + index() + '].' + name;
+            };
+
+            self.GetValidationRuleInputHtmlName = function (parentIndex, index, name) {
+                return self.GetInputHtmlName(parentIndex, 'ValidationRules[' + index() + '].' + name);
+            };
+        };
+
+        window.CustomFieldGrid = function (element) {
+            var self = this;
+            var $element = $(element);
+
+            self.model = null;
+
+            self.load = function (options) {
+                if (self.model === null) {
+                    self.model = new CustomFieldGridModel();
+                    ko.applyBindings(self.model, $element.find('.customfield-grid-container')[0]);
+                }
+
+                self.reset();
+
+                self.model.HtmlPrefix = options.htmlPrefix;
+                self.model.CanEditPredefinedFields = !!options.canEditPredefinedFields;
+
+                $.each(options.fields, function () {
+                    self.model.Fields.push(ko.mapping.fromJS(this));
+                });
+            }
+
+            self.reset = function () {
+                self.model.Fields.removeAll();
+            }
+        }
+
+    }(jQuery));
+</script>

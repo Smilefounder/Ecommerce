@@ -226,7 +226,9 @@
             this.AddValidationRule = function () {
                 var validatorName = self.SelectedValidatorName();
                 var rule = {
+                    ErrorMessage: ko.observable(),
                     ValidatorName: ko.observable(validatorName),
+                    ValidatorData: ko.observable(),
                     ValidatorDataModel: ko.mapping.fromJS(defaultValidatorDataModels[validatorName])
                 };
 
@@ -285,9 +287,14 @@
                     ko.applyBindings(model, $dialog.find('form')[0]);
                 }
 
+                $dialog.find('.tabs').tabs('option', 'active', 0);
+
                 if (options.model) {
                     var data = $.extend({}, defaultModel, options.model);
                     ko.mapping.fromJS(data, mappingOptions, model);
+                } else {
+                    // reset
+                    ko.mapping.fromJS(defaultModel, mappingOptions, model);
                 }
 
                 $dialog.dialog('open');
@@ -302,6 +309,8 @@
             }
 
             self.submit = function () {
+                $dialog.find(':focus').blur();
+
                 if (!self.validate()) {
                     return false;
                 }
