@@ -8,7 +8,7 @@
 #endregion
 using System;
 
-namespace Kooboo.Commerce.EAV
+namespace Kooboo.Commerce.Products
 {
     /// <summary>
     /// Use in cms.

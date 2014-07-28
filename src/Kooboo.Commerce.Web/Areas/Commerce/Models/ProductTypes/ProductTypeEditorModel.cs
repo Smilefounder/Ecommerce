@@ -4,10 +4,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using Kooboo.Commerce.EAV;
-using Kooboo.Commerce.EAV.Services;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.EAV;
+using Kooboo.Commerce.Products.Services;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
 

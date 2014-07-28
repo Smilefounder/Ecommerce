@@ -7,11 +7,9 @@ using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.EAV;
-using Kooboo.Commerce.EAV.Services;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.EAV;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes;
 using Kooboo.Commerce.Web.Framework.Mvc;
 

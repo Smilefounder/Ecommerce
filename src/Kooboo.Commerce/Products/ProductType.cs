@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.EAV;
+﻿using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Internal;
 using Kooboo.Commerce.Rules;
 using System.Collections.Generic;
@@ -29,32 +29,32 @@ namespace Kooboo.Commerce.Products
         public bool IsEnabled { get; set; }
 
         protected virtual ICollection<ProductTypeCustomField> InternalCustomFields { get; set; }
-        private CustomFieldCollection _customFields;
+        private OrderedCustomFieldCollection _customFields;
 
-        public CustomFieldCollection CustomFields
+        public OrderedCustomFieldCollection CustomFields
         {
             get
             {
                 if (_customFields == null)
                 {
                     var orderedFields = InternalCustomFields.OrderBy(f => f.Sequence).Select(f => f.CustomField);
-                    _customFields = new CustomFieldCollection(orderedFields, OnCustomFieldAdded, OnCustomFieldRemoved, OnCustomFieldsSorted);
+                    _customFields = new OrderedCustomFieldCollection(orderedFields, OnCustomFieldAdded, OnCustomFieldRemoved, OnCustomFieldsSorted);
                 }
                 return _customFields;
             }
         }
 
         protected virtual ICollection<ProductTypeVariantField> InternalVariantFields { get; set; }
-        private CustomFieldCollection _variantFields;
+        private OrderedCustomFieldCollection _variantFields;
 
-        public CustomFieldCollection VariantFields
+        public OrderedCustomFieldCollection VariantFields
         {
             get
             {
                 if (_variantFields == null)
                 {
                     var orderedFields = InternalVariantFields.OrderBy(f => f.Sequence).Select(f => f.CustomField);
-                    _variantFields = new CustomFieldCollection(orderedFields, OnVariantFieldAdded, OnVariantFieldRemoved, OnVariantFieldsSorted);
+                    _variantFields = new OrderedCustomFieldCollection(orderedFields, OnVariantFieldAdded, OnVariantFieldRemoved, OnVariantFieldsSorted);
                 }
                 return _variantFields;
             }

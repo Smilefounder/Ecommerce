@@ -6,39 +6,22 @@ using System.Text;
 using Kooboo.Commerce.Products;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Kooboo.Commerce.EAV
+namespace Kooboo.Commerce.Products
 {
     public class CustomField
     {
         public CustomField()
         {
-            FieldType = CustomFieldType.Custom;
             ValidationRules = new List<FieldValidationRule>();
-        }
-
-        public void CopyTo(CustomField field)
-        {
-            field.Name = this.Name;
-            field.FieldType = this.FieldType;
-            field.DataType = this.DataType;
-            field.Label = this.Label;
-            field.Tooltip = this.Tooltip;
-            field.ControlType = this.ControlType;
-            field.DefaultValue = this.DefaultValue;
-            field.Sequence = this.Sequence;
-            field.Modifiable = this.Modifiable;
-            field.IsEnabled = this.IsEnabled;
-            field.SelectionItems = this.SelectionItems;
         }
 
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required, StringLength(50)]
         public string Name { get; set; }
 
-        [Required]
-        public CustomFieldType FieldType { get; set; }
+        public bool IsPredefined { get; set; }
 
         [Required]
         public FieldDataType DataType { get; set; }
@@ -52,13 +35,10 @@ namespace Kooboo.Commerce.EAV
         [Required, StringLength(50)]
         public string ControlType { get; set; }
 
+        [StringLength(1000)]
         public string DefaultValue { get; set; }
 
         public int Sequence { get; set; }
-
-        public bool Modifiable { get; set; }
-        
-        public bool IsEnabled { get; set; }
 
         public bool IsValueLocalizable { get; set; }
 

@@ -36,7 +36,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             }
         }
 
-        protected override void BuildControl(System.Web.Mvc.TagBuilder builder, EAV.CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
+        protected override void BuildControl(System.Web.Mvc.TagBuilder builder, Products.CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
         {
             builder.AddCssClass("form-list");
 

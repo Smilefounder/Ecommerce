@@ -8,8 +8,8 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Settings;
 using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Settings.Services;
-using Kooboo.Commerce.EAV.Services;
-using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Products.Services;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
@@ -57,7 +57,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 var systemFields = new List<CustomField>();
                 foreach (var fieldModel in model.ProductSetting.SystemFields)
                 {
-                    fieldModel.FieldType = CustomFieldType.System;
+                    fieldModel.IsPredefined = true;
 
                     CustomField field = null;
 
@@ -69,7 +69,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     {
                         field = new CustomField
                         {
-                            FieldType = CustomFieldType.System
+                            IsPredefined = true
                         };
                     }
 

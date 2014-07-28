@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Settings;
-using Kooboo.Commerce.Web.Areas.Commerce.Models.EAV;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Settings
 {

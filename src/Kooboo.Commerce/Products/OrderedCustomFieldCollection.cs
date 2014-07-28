@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.EAV;
+﻿using Kooboo.Commerce.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Products
 {
-    public class CustomFieldCollection : IEnumerable<CustomField>
+    public class OrderedCustomFieldCollection : IEnumerable<CustomField>
     {
         private List<CustomField> _fields;
         private Action<CustomField> _onAdded;
@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Products
             }
         }
 
-        public CustomFieldCollection(IEnumerable<CustomField> fields, Action<CustomField> onAdded, Action<CustomField> onRemoved, Action onSorted)
+        public OrderedCustomFieldCollection(IEnumerable<CustomField> fields, Action<CustomField> onAdded, Action<CustomField> onRemoved, Action onSorted)
         {
             _fields = fields.ToList();
             _onAdded = onAdded;

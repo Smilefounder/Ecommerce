@@ -6,8 +6,9 @@ using Kooboo.Commerce.Data;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Products;
 
-namespace Kooboo.Commerce.EAV.Services
+namespace Kooboo.Commerce.Products.Services
 {
+    // TODO: Should be predefined custom fields service
     [Dependency(typeof(ICustomFieldService))]
     public class CustomFieldService : ICustomFieldService
     {
@@ -30,7 +31,7 @@ namespace Kooboo.Commerce.EAV.Services
 
         public IQueryable<CustomField> PredefinedFields()
         {
-            return repoCustomField.Query().Where(o => o.FieldType == CustomFieldType.System);
+            return repoCustomField.Query().Where(o => o.IsPredefined == true);
         }
 
         public void Create(CustomField field)

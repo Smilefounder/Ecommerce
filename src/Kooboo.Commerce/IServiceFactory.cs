@@ -2,7 +2,7 @@
 using Kooboo.Commerce.Carts.Services;
 using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.Customers.Services;
-using Kooboo.Commerce.EAV.Services;
+using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Services;

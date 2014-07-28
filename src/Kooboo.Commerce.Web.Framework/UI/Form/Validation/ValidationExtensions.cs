@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Framework.UI.Form.Validation;
 using System;
 using System.Collections.Generic;

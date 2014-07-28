@@ -78,7 +78,7 @@
     <Compile Include="Categories\Services\ICategoryService.cs" />
     <Compile Include="DefaultServiceFactory.cs" />
     <Compile Include="IServiceFactory.cs" />
-    <Compile Include="Products\CustomFieldCollection.cs" />
+    <Compile Include="Products\OrderedCustomFieldCollection.cs" />
     <Compile Include="Products\CustomFieldValue.cs" />
     <Compile Include="Events\Categories\CategoryCreated.cs" />
     <Compile Include="Events\Categories\CategoryDeleted.cs" />
@@ -126,7 +126,6 @@
     <Compile Include="Events\Promotions\PromotionEnabled.cs" />
     <Compile Include="Products\CustomFieldValuesExtensions.cs" />
     <Compile Include="Products\FieldDataType.cs" />
-    <Compile Include="Products\CustomFieldType.cs" />
     <Compile Include="Products\Services\CustomFieldService.cs" />
     <Compile Include="Products\Services\ICustomFieldService.cs" />
     <Compile Include="Products\ValidatorType.cs" />

@@ -5,7 +5,7 @@ using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
-using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Globalization;
 using Kooboo.Commerce.Carts;
 

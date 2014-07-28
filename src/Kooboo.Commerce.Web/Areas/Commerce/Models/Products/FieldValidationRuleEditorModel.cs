@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Products;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV {
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Products {
 
     public class FieldValidationRuleEditorModel {
 

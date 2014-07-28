@@ -5,17 +5,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Kooboo.Web.Mvc;
-using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.DataSources;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Products
 {
     public class CustomFieldEditorModel
     {
         public CustomFieldEditorModel()
         {
             ControlType = "TextBox";
-            FieldType = CustomFieldType.Custom;
             ValidationRules = new List<FieldValidationRuleEditorModel>();
         }
 
@@ -30,10 +29,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
             ControlType = field.ControlType;
             DefaultValue = field.DefaultValue;
             Sequence = field.Sequence;
-            Modifiable = field.Modifiable;
-            IsEnabled = field.IsEnabled;
             IsValueLocalizable = field.IsValueLocalizable;
-            FieldType = field.FieldType;
+            IsPredefined = field.IsPredefined;
             SelectionItems = field.SelectionItems;
 
             foreach (var item in field.ValidationRules)
@@ -51,8 +48,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
             field.ControlType = this.ControlType;
             field.DefaultValue = this.DefaultValue;
             field.Sequence = this.Sequence;
-            field.Modifiable = this.Modifiable;
-            field.IsEnabled = this.IsEnabled;
+            field.IsPredefined = this.IsPredefined;
             field.SelectionItems = this.SelectionItems;
             field.IsValueLocalizable = this.IsValueLocalizable;
             if (ValidationRules != null)
@@ -122,16 +118,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.EAV
         [Required(ErrorMessage = "Required")]
         public int Sequence { get; set; }
 
-        [Description("Enable the modification of this field in the product editing page.")]
-        [DefaultValue(true)]
-        [Required(ErrorMessage = "Required")]
-        public bool Modifiable { get; set; }
-
-        public bool IsEnabled { get; set; }
-
         public bool IsValueLocalizable { get; set; }
 
-        public CustomFieldType FieldType { get; set; }
+        public bool IsPredefined { get; set; }
 
         public string SelectionItems { get; set; }
 

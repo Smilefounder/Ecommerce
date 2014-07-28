@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
-using Kooboo.Commerce.EAV;
+using Kooboo.Commerce.Products;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

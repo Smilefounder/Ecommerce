@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Products;
 
-namespace Kooboo.Commerce.EAV.Services {
+namespace Kooboo.Commerce.Products.Services {
 
     public interface ICustomFieldService {
 

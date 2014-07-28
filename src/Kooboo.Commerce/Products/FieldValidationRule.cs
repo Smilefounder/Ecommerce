@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.EAV
+namespace Kooboo.Commerce.Products
 {
     public class FieldValidationRule
     {

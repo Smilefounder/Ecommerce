@@ -15,9 +15,6 @@
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Tooltip')}, value:Tooltip" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'ControlType')}, value:ControlType" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'DefaultValue')}, value:DefaultValue" />
-                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Sequence')}, value:Sequence" />
-                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'Modifiable')}, value:(Modifiable()+'')" />
-                <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'IsEnabled')}, value:(IsEnabled()+'')" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'IsValueLocalizable')}, value:(IsValueLocalizable()+'')" />
                 <input type="hidden" name="{ko}" data-bind="attr:{name:$root.fmtName($index,'SelectionItems')}, value:SelectionItems" />
                 <!--ko foreach:ValidationRules-->
@@ -31,13 +28,11 @@
             <td><a class="action" data-bind="text:Name, click:$root.editField"></a></td>
             <td data-bind="text:((Label()==''||Label()==null)?'-':Label)"></td>
             <td data-bind="text:ControlType"></td>
-            <td><span data-bind="text: FieldType"></span></td>
-            <td data-bind="text:Sequence"></td>
             <td class="action"><a class="action" data-bind="click:$root.removeField">@Html.IconImage("minus-small")</a></td>
         </tr>
     </script>
     <script type="text/javascript">
-        var fieldType = '@((ViewData.ContainsKey("FieldType") ? Convert.ToInt32(ViewData["FieldType"]) : 0) == 0 ? "Custom" : "System")';
+        var isEditingPredefinedFields = '@(ViewBag.IsEditingPredefinedFields == null ? false : ViewBag.IsEditingPredefinedFields)';
         (function ($, ko) {
             // override
             $.validator.setDefaults({ ignore: 'input[type="hidden"]' });
@@ -128,7 +123,7 @@
             };
 
             //
-            var emptyCustomField = $.parseJSON('@Html.Raw(new CustomFieldEditorModel() { Modifiable = true, IsEnabled = true }.ToJson(PropertyNaming.Default))');
+            var emptyCustomField = $.parseJSON('@Html.Raw(new CustomFieldEditorModel().ToJson(PropertyNaming.Default))');
             var emptyValidationRules = {};
             emptyValidationRules['@ValidatorType.Required'] = $.parseJSON('@Html.Raw(new FieldValidationRuleEditorModel() { ValidatorName = ValidationType.Required.ToString() }.ToJson(PropertyNaming.Default))');
             emptyValidationRules['@ValidatorType.Required'].ValidatorData = '@Html.Raw(new { }.ToJson(PropertyNaming.Default))';
@@ -158,7 +153,7 @@
                     var count = self.fields().length;
                     var field = ko.mapping.fromJS(emptyCustomField);
                     field.Sequence(count + 1);
-                    field.FieldType(fieldType);
+                    field.IsPredefined(isEditingPredefinedFields);
                     utilities.showDialog(self, field, false);
                 };
                 //
