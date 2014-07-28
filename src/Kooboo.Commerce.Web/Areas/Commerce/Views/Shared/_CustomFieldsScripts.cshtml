@@ -173,38 +173,23 @@
                     }
                 };
                 this.addSystemField = function () {
-                    var dlg = self.systemFieldsDialog;
-                    if (dlg == undefined) {
-                        dlg = $(self.container).find('#custom_system_field_editor_dialog');
-                        self.systemFieldsDialog = dlg;
+                    var dialog = window.AddPredefinedFieldsDialog.instance();
+                    if (!dialog.onSubmitted) {
+                        dialog.onSubmitted = function (ids) {
+                            _.each(ids, function (id) {
+                                var field = _.find(self.systemFields(), function (f) {
+                                    return f.Id() == id;
+                                });
+                                if (field) {
+                                    self.insertField(field);
+                                }
+                            });
+                        }
                     }
-                    dlg.find('input:checkbox').prop('checked', false);
-                    utils.showDialog(dlg, 'Add System Fields', null, null, null, null, { buttons: null });
+
+                    dialog.open();
                 };
 
-                this.insertSystemField = function () {
-                    var dlg = self.systemFieldsDialog;
-                    if (dlg == undefined) {
-                        dlg = $(self.container).find('#custom_system_field_editor_dialog');
-                        self.systemFieldsDialog = dlg;
-                    }
-                    $.each(dlg.find('tbody input:checkbox:checked'), function () {
-                        var fid = $(this).val();
-                        var sf = $.grep(self.systemFields(), function (n, i) { return n.Id() == fid; })[0];
-                        if (sf) {
-                            self.insertField(sf);
-                        }
-                    });
-                    dlg.dialog('close');
-                };
-                this.cancelSystemField = function () {
-                    var dlg = self.systemFieldsDialog;
-                    if (dlg == undefined) {
-                        dlg = $(self.container).find('#custom_system_field_editor_dialog');
-                        self.systemFieldsDialog = dlg;
-                    }
-                    dlg.dialog('close');
-                };
                 //
                 this.fmtName = function (index, name) {
                     return $.format(self.nameFmt(), index(), name);

@@ -1,0 +1,125 @@
+﻿<div class="hide">
+    <div id="add-predefined-fields-dialog">
+        <div class="topbar">
+            <h1 class="title">@("Select Predefined Fields".Localize())</h1>
+        </div>
+        <div class="wrap">
+            <form class="common-form">
+                <div class="simple-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="checkbox">
+                                    <input type="checkbox" class="toggle-all" />
+                                </th>
+                                <th>@("Name".Localize())</th>
+                                <th>@("Label".Localize())</th>
+                                <th>@("Control type".Localize())</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- ko if: !fields().length -->
+                            <tr class="empty">
+                                <td colspan="100">@("Empty".Localize())</td>
+                            </tr>
+                            <!-- /ko -->
+                            <!-- ko foreach: fields -->
+                            <tr>
+                                <td class="checkbox">
+                                    <input type="checkbox" data-bind="value: Id" />
+                                </td>
+                                <td data-bind="text:Name"></td>
+                                <td data-bind="text:((Label()==''||Label()==null)?'-':Label)"></td>
+                                <td data-bind="text:ControlType"></td>
+                            </tr>
+                            <!-- /ko -->
+                        </tbody>
+                    </table>
+                </div>
+                <p class="buttons">
+                    <input type="button" class="button" data-toggle="submit-dialog" value="@("Add".Localize())">
+                    <a class="button gray" data-toggle="close-dialog">@("Cancel".Localize())</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+
+        window.AddPredefinedFieldsDialog = function () {
+            var self = this;
+            var $dialog = null;
+
+            self.onSubmitted = null;
+
+            self.model = { fields: null };
+
+            self.selectedFieldIds = function () {
+                var ids = [];
+                $dialog.find('tbody :checkbox:checked').each(function () {
+                    ids.push($(this).val());
+                });
+                return ids;
+            }
+
+            self.open = function () {
+                if ($dialog === null) {
+                    $dialog = $('#add-predefined-fields-dialog').dialog({
+                        autoOpen: false,
+                        modal: true
+                    });
+
+                    $dialog.on('click', '.toggle-all', function () {
+                        if ($(this).is(':checked')) {
+                            self.selectAll();
+                        } else {
+                            self.unselectAll();
+                        }
+                    });
+
+                    $dialog.on('click', '[data-toggle="submit-dialog"]', self.submit);
+                    $dialog.on('click', '[data-toggle="close-dialog"]', self.close);
+
+                    $.get('/Commerce/ProductType/PredefinedFields')
+                     .done(function (data) {
+                         self.model.fields = ko.mapping.fromJS(data);
+                         $dialog.dialog('open');
+                         ko.applyBindings(self.model, $dialog[0]);
+                     });
+                } else {
+                    self.unselectAll();
+                    $dialog.dialog('open');
+                }
+            }
+
+            self.submit = function () {
+                if (self.onSubmitted) {
+                    self.onSubmitted.apply(self, [self.selectedFieldIds()]);
+                }
+
+                self.close();
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+            }
+
+            self.selectAll = function () {
+                $dialog.find('tbody :checkbox').prop('checked', true);
+            }
+
+            self.unselectAll = function () {
+                $dialog.find('tbody :checkbox').prop('checked', false);
+            }
+        }
+
+        var instance = new window.AddPredefinedFieldsDialog();
+
+        window.AddPredefinedFieldsDialog.instance = function () {
+            return instance;
+        }
+
+    })(jQuery);
+</script>

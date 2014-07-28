@@ -152,5 +152,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             return field;
         }
+
+        public ActionResult PredefinedFields()
+        {
+            var fields = _customFieldService.PredefinedFields()
+                                            .OrderBy(f => f.Sequence)
+                                            .Select(f => new
+                                            {
+                                                f.Id,
+                                                f.Name,
+                                                f.Label,
+                                                f.ControlType
+                                            });
+
+            return Json(fields, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -3460,7 +3460,7 @@
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-confirm\template.cshtml" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-thankyou\setting.config" />
     <Content Include="Cms_Data\Sites\Vitaminstore\Templates\Views\checkout-thankyou\template.cshtml" />
-    <Content Include="Areas\Commerce\Views\Shared\_CustomSystemFiledEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_AddPredefinedFieldsDialog.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_ChooseFolder.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_Index.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\ContentDatabase\_Scripts.cshtml" />
