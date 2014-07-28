@@ -3298,7 +3298,7 @@
     <Content Include="Areas\Commerce\Views\ShippingMethod\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\BasicInfo.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Index.cshtml" />
-    <Content Include="Areas\Commerce\Views\Shared\_CustomFieldEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_CustomFieldEditorDialog.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldsGrid.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_CustomFieldsScripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Edit.cshtml" />

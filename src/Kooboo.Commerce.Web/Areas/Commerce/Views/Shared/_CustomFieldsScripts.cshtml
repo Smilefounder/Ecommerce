@@ -1,8 +1,7 @@
 ﻿
+@Html.Partial("_CustomFieldEditorDialog", new CustomFieldEditorModel())
+
 <div style="display: none;">
-    <div id="custom_field_editor_dialog">
-        @Html.Partial("_CustomFieldEditor", new CustomFieldEditorModel())
-    </div>
     <script type="text/template" id="custom_field_row_template">
         <tr data-bind="jqData:$data">
             <td class="nocheckbox draggable">
@@ -32,7 +31,7 @@
         </tr>
     </script>
     <script type="text/javascript">
-        var isEditingPredefinedFields = '@(ViewBag.IsEditingPredefinedFields == null ? false : ViewBag.IsEditingPredefinedFields)';
+        var isEditingPredefinedFields = @(ViewBag.IsEditingPredefinedFields == null ? "false" : ViewBag.IsEditingPredefinedFields.ToString().ToLower());
         (function ($, ko) {
             // override
             $.validator.setDefaults({ ignore: 'input[type="hidden"]' });
@@ -151,14 +150,26 @@
                 //
                 this.addField = function () {
                     var count = self.fields().length;
-                    var field = ko.mapping.fromJS(emptyCustomField);
-                    field.Sequence(count + 1);
-                    field.IsPredefined(isEditingPredefinedFields);
-                    utilities.showDialog(self, field, false);
+                    var dialog = window.CustomFieldEditorDialog.instance();
+                    dialog.onSubmitted = function (model) {
+                        self.fields.push(ko.mapping.fromJS(model));
+                    };
+                    dialog.open({
+                        model: {
+                            Sequence: count + 1,
+                            IsPredefined: isEditingPredefinedFields
+                        }
+                    });
                 };
                 //
-                this.editField = function () {
-                    utilities.showDialog(self, this, true);
+                this.editField = function (field) {
+                    var dialog = window.CustomFieldEditorDialog.instance();
+                    dialog.onSubmitted = function (model) {
+                        ko.mapping.fromJS(model, {}, field);
+                    };
+                    dialog.open({
+                        model: ko.mapping.toJS(field)
+                    });
                 };
                 //
                 this.insertField = function (item) {
@@ -200,117 +211,14 @@
                 };
             };
 
-            //
-            var customFieldEditorModel = function () {
-                var self = this;
-                var serializeData = function (data) {
-                    if (data.SelectionItemsObj) { data.SelectionItems(data.SelectionItemsObj.json()); }
-                    $.each(data.ValidationRules(), function () {
-                        this.ValidatorData($.toJSON(ko.mapping.toJS(this.ValidatorDataObj)));
-                    });
-                };
-                var deserializeData = function (data) {
-                    if (data.SelectionItems) {
-                        if (data.SelectionItemsObj) {
-                            data.SelectionItemsObj.update(data.SelectionItems());
-                        } else {
-                            data.SelectionItemsObj = new keyValuePairArray(data.SelectionItems());
-                        }
-                    }
-                    $.each(data.ValidationRules(), function () {
-                        this.ValidatorDataObj = ko.mapping.fromJS($.parseJSON(this.ValidatorData()));
-                    });
-                };
-
-                //
-                this.dataMap = ko.mapping.fromJS(emptyCustomField);
-                deserializeData(this.dataMap);
-                this.IsExistedField = ko.observable(false);
-
-                //
-                var refObj, originalField;
-                this.initialize = function (ref, field, exist) {
-                    refObj = ref;
-                    originalField = field;
-                    self.IsExistedField(exist);
-                    deserializeData(field);
-                    utilities.copyValue(field, self.dataMap);
-                    utilities.fieldEditorTabs().koobooTab().showTab(0);
-                    refreshSelectableValidationTypes();
-                };
-                this.currentRef = function () {
-                    return refObj;
-                };
-
-                //
-                this.save = function () {
-                    // trigger change event to ensure the input value update to dataMap, don't know why it will lose values.
-                    utilities.fieldEditorForm().find('input').trigger('change');
-                    if (!refObj || !utilities.fieldEditorForm().valid()) {
-                        var tabSwapped = false;
-                        utilities.fieldEditorTabs().find('.tab-index a').each(function (i) {
-                            var target = $($(this).attr('href'));
-                            if (target.find('input.input-validation-error, select.input-validation-error').length) {
-                                $(this).hide().show('pulsate', {}, 100).show('highlight', {}, 200).show('pulsate', {}, 300).show('highlight', {}, 400);
-                                if (!tabSwapped) { utilities.fieldEditorTabs().koobooTab().showTab(i); tabSwapped = true; }
-                            }
-                        });
-                        return;
-                    }
-                    serializeData(self.dataMap);
-                    if (self.IsExistedField()) {
-                        utilities.copyValue(self.dataMap, originalField);
-                    } else {
-                        refObj.insertField(self.dataMap);
-                    }
-                    window.leaveConfirm.stop();
-                    utilities.dialogElem().dialog('close');
-                };
-                this.cancel = function () {
-                    utilities.dialogElem().dialog('close');
-                };
-
-                //
-                var vtypes = [];
-                $.each(emptyValidationRules, function (n) { vtypes.push(n); });
-                this.validationTypes = ko.observableArray(ko.mapping.fromJS(vtypes)());
-                this.selectedValidationType = ko.observable();
-                var refreshSelectableValidationTypes = function () {
-                    var newTypes = ko.mapping.fromJS(vtypes);
-                    $.each(self.dataMap.ValidationRules(), function () { newTypes.remove(this.ValidatorName()); });
-                    self.validationTypes(newTypes());
-                    self.selectedValidationType(newTypes()[0]);
-                };
-                this.removeValidationRule = function (item) {
-                    self.dataMap.ValidationRules.remove(item);
-                    refreshSelectableValidationTypes();
-                };
-                this.addValidationRule = function () {
-                    var selectType = self.selectedValidationType();
-                    var emptyRule = ko.mapping.fromJS(emptyValidationRules[selectType]);
-                    deserializeData({ ValidationRules: function () { return [emptyRule]; } });
-                    self.dataMap.ValidationRules.push(emptyRule);
-                    refreshSelectableValidationTypes();
-                    utilities.updateFieldEditorValidation();
-                };
-
-                //
-                this.showSelectionValueContents = ko.computed(function () {
-                    return 'DropDownList,CheckBoxList,RadioList,'.indexOf(self.dataMap.ControlType() + ',') > -1;
-                });
-            };
-            var customFieldModel = new customFieldEditorModel();
-            ko.applyBindings(customFieldModel, utilities.dialogElem().get(0));
-            utilities.fieldEditorTabs().koobooTab();
-
             // custom validator
-            $.validator.addMethod('uniquecolumn', function (value) {
-                var fields = customFieldModel.currentRef().fields();
-                return !ko.utils.arrayFirst(fields, function (item) {
-                    return item.Name() && item.Name().toLowerCase() === value.toLowerCase();
-                });
-            });
-            $.validator.unobtrusive.adapters.addBool('uniquecolumn');
+            //$.validator.addMethod('uniquecolumn', function (value) {
+            //    var fields = customFieldModel.currentRef().fields();
+            //    return !ko.utils.arrayFirst(fields, function (item) {
+            //        return item.Name() && item.Name().toLowerCase() === value.toLowerCase();
+            //    });
+            //});
+            //$.validator.unobtrusive.adapters.addBool('uniquecolumn');
 
             // custom binding
             ko.bindingHandlers.jqData = {

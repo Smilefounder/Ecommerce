@@ -1,0 +1,328 @@
+﻿@using Newtonsoft.Json
+@using Kooboo.Commerce.Web.Framework.UI.Form.Validation
+@model CustomFieldEditorModel
+
+<div class="hide">
+    <div id="customfield-editor-dialog">
+        <div class="topbar">
+            <h1 class="title">@("Custom field".Localize())</h1>
+        </div>
+        <div class="wrap">
+            <form class="common-form">
+                <div class="tabs">
+                    <ul class="tab-index clearfix">
+                        <li><a class="active" href="#basic">@("Basic".Localize())</a></li>
+                        <li><a href="#more">@("Advanced".Localize())</a></li>
+                        <li><a href="#validation">@("Validation".Localize())</a></li>
+                        <li data-bind="visible: AllowSelectionItems"><a href="#selectionitems">@("Selection value".Localize())</a></li>
+                    </ul>
+                    <div class="tab-content active" id="basic">
+                        <table>
+                            @Html.EditorFor(it => it.Name, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "id", "column-name" }, { "data-bind", "value:Name, attr:{disabled:Id() > 0}" } } })
+                            @Html.EditorFor(it => it.Label, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:Label" } } })
+                            @Html.EditorFor(it => it.ControlType, new { NotSelect2 = true, HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:ControlType" } } })
+                            @Html.EditorFor(it => it.DataType, new { NotSelect2 = true, HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:DataType" } } })
+                            @Html.EditorFor(it => it.DefaultValue, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:DefaultValue" } } })
+                        </table>
+                    </div>
+                    <div class="tab-content" id="more">
+                        <table>
+                            @Html.EditorFor(it => it.Tooltip, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:Tooltip" } } })
+                            @Html.EditorFor(it => it.IsValueLocalizable, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:IsValueLocalizable" } } })
+                        </table>
+                    </div>
+                    <div class="tab-content" id="validation">
+                        <div class="form-row">
+                            <div class="span4">
+                                <select data-bind="options: Validators, optionsText: 'Name', optionsValue: 'Name', value: SelectedValidatorName, visible: Validators().length > 0"></select>
+                            </div>
+                            <div class="span8">
+                                <a href="javascript:;" class="action" data-bind="click: AddValidationRule, visible: Validators().length > 0">@Html.IconImage("plus")</a>
+                            </div>
+                        </div>
+                        <table>
+                            <tbody data-bind="foreach: { data: ValidationRules, as: 'rule', afterRender: UpdateValidation }">
+                                <tr class="border">
+                                    <td colspan="3"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>@("ValidationType".Localize())</label>
+                                    </td>
+                                    <td data-bind="text: rule.ValidatorName"></td>
+                                    <td style="width: 26px;">
+                                        <a title="Remove" class="action" href="javascript:;" data-bind="click: $root.RemoveValidationRule">@Html.IconImage("minus")</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>@("Error message".Localize())</label>
+                                    </td>
+                                    <td colspan="2">
+                                        <input type="text" class="medium" name="error-message"
+                                               data-bind="value: rule.ErrorMessage">
+                                        <span class="field-validation-valid" data-valmsg-for="error-message" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+
+                                <!-- ko if: rule.ValidatorName() =='StringLength' -->
+                                <tr>
+                                    <td>
+                                        <label>@("Min".Localize())</label>
+                                    </td>
+                                    <td colspan="2">
+                                        <input type="text" name="min-length" class="medium"
+                                               data-val="true"
+                                               data-val-required="@("Required".Localize())"
+                                               data-val-number="@("Must be a number".Localize())"
+                                               data-value-type="int32"
+                                               data-bind="value: rule.ValidatorDataModel.Min">
+                                        <span class="field-validation-valid"
+                                              data-valmsg-for="min-length"
+                                              data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>@("Max".Localize())</label>
+                                    </td>
+                                    <td colspan="2">
+                                        <input type="text" name="max-length" class="medium"
+                                               data-val="true"
+                                               data-val-required="@("Required".Localize())"
+                                               data-val-number="@("Must be a number".Localize())"
+                                               data-bind="value: rule.ValidatorDataModel.Max">
+                                        <span class="field-validation-valid"
+                                              data-valmsg-for="max-length"
+                                              data-valmsg-replace="true"></span>
+
+                                    </td>
+                                </tr>
+                                <!-- /ko -->
+                                <!-- ko if: rule.ValidatorName()=='Range' -->
+                                <tr>
+                                    <td>
+                                        <label>@("Start".Localize())</label>
+                                    </td>
+                                    <td colspan="2">
+                                        <input type="text" name="range-start" class="medium"
+                                               data-val="true"
+                                               data-val-required="@("Required".Localize())"
+                                               data-val-number="@("Must be a number".Localize())"
+                                               data-bind="value: rule.ValidatorDataModel.Start">
+                                        <span class="field-validation-valid"
+                                              data-valmsg-for="range-start"
+                                              data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>@("End".Localize())</label>
+                                    </td>
+                                    <td colspan="2">
+                                        <input type="text" name="range-end" class="medium"
+                                               data-val="true"
+                                               data-val-required="@("Required".Localize())"
+                                               data-val-number="@("Must be a number".Localize())"
+                                               data-bind="value: rule.ValidatorDataModel.End">
+                                        <span class="field-validation-valid"
+                                              data-valmsg-for="range-end"
+                                              data-valmsg-replace="true"></span>
+
+                                    </td>
+                                </tr>
+                                <!-- /ko -->
+                                <!-- ko if: rule.ValidatorName()=='Regex' -->
+                                <tr>
+                                    <td>
+                                        <label>@("Pattern".Localize())</label>
+                                    </td>
+                                    <td colspan="2">
+                                        <input type="text" class="medium" data-bind="value: rule.ValidatorDataModel.Pattern">
+                                    </td>
+                                </tr>
+                                <!-- /ko -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-content" id="selectionitems">
+                        <table class="key-value clear">
+                            <thead data-bind="visible: SelectionItemsModel().length>0">
+                                <tr>
+                                    <th><label class="short">@("Text".Localize())</label></th>
+                                    <th><label class="short">@("Value".Localize())</label></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: SelectionItemsModel">
+                                <tr>
+                                    <td>
+                                        <input type="text" class="short" data-bind="value:Key" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="short" data-bind="value:Value" />
+                                    </td>
+                                    <td>
+                                        <a href="#" class="form-action" data-bind="click: $root.RemoveSelectionItem">@Html.IconImage("minus")</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3">
+                                        <a href="#" class="form-action" data-bind="click: $root.AddSelectionItem">@Html.IconImage("plus")</a>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <p class="buttons">
+                    <input type="button" class="button" data-toggle="submit-dialog" value="@("Save".Localize())">
+                    <a class="button gray" data-toggle="close-dialog">@("Cancel".Localize())</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+
+        var defaultModel = @(Html.Raw(JsonConvert.SerializeObject(new CustomFieldEditorModel())));
+        var defaultValidatorDataModels = {
+            'Required': {},
+            'StringLength': @(Html.Raw(JsonConvert.SerializeObject(new StringLengthValidatorData()))),
+            'Range': @(Html.Raw(JsonConvert.SerializeObject(new RangeValidatorData()))),
+            'Regex': @(Html.Raw(JsonConvert.SerializeObject(new RegexValidatorData()))),
+            'Unique': {}
+        };
+
+        var Validators = @Html.Raw(JsonConvert.SerializeObject(ControlValidators.Validators().Select(v => new { v.Name })));
+
+        var mappingOptions = {
+            ValidationRules: {
+                create: function (args) {
+                    if (args.data.ValidatorData) {
+                        args.data.ValidatorDataModel = JSON.parse(args.data.ValidatorData);
+                    }
+                    var rule = ko.mapping.fromJS(args.data);
+                    return rule;
+                }
+            }
+        };
+
+        var CustomFieldEditorModel = function () {
+            var self = this;
+
+            self.Validators = ko.mapping.fromJS(Validators);
+
+            this.ControlType = ko.observable('TextBox');
+
+            this.SelectedValidatorName = ko.observable();
+
+            this.SelectionItemsModel = ko.observableArray();
+
+            this.AddValidationRule = function () {
+                var validatorName = self.SelectedValidatorName();
+                var rule = {
+                    ValidatorName: ko.observable(validatorName),
+                    ValidatorDataModel: ko.mapping.fromJS(defaultValidatorDataModels[validatorName])
+                };
+
+                self.ValidationRules.push(rule);
+            };
+
+            this.RemoveValidationRule = function (item) {
+                self.ValidationRules.remove(item);
+            };
+
+            this.AllowSelectionItems = ko.computed(function () {
+                return 'DropDownList,CheckBoxList,RadioList,'.indexOf(self.ControlType() + ',') > -1;
+            });
+
+            this.UpdateValidation = function () {
+                window.CustomFieldEditorDialog.instance().initValidation();
+            }
+        };
+
+        window.CustomFieldEditorDialog = function () {
+            var self = this;
+            var $dialog = null;
+            var model = ko.mapping.fromJS(defaultModel, mappingOptions, new CustomFieldEditorModel());
+
+            self.model = function () {
+                var result = ko.mapping.toJS(model);
+                if (result.SelectionItemsModel) {
+                    result.SelectionItems = JSON.stringify(result.SelectionItemsModel);
+                }
+
+                $.each(result.ValidationRules, function () {
+                    if (this.ValidatorDataModel) {
+                        this.ValidatorData = JSON.stringify(this.ValidatorDataModel);
+                    }
+                });
+
+                return result;
+            }
+
+            self.onSubmitted = null;
+
+            self.open = function (options) {
+                options = options || {};
+
+                if ($dialog === null) {
+                    $dialog = $('#customfield-editor-dialog').dialog({
+                        autoOpen: false,
+                        modal: true
+                    });
+
+                    $dialog.find('.tabs').tabs();
+
+                    $dialog.on('click', '[data-toggle="submit-dialog"]', self.submit);
+                    $dialog.on('click', '[data-toggle="close-dialog"]', self.close);
+
+                    ko.applyBindings(model, $dialog.find('form')[0]);
+                }
+
+                if (options.model) {
+                    var data = $.extend({}, defaultModel, options.model);
+                    ko.mapping.fromJS(data, mappingOptions, model);
+                }
+
+                $dialog.dialog('open');
+            }
+
+            self.validate = function () {
+                return $dialog.find('form').valid();
+            }
+
+            self.initValidation = function () {
+                $.validator.unobtrusive.reparse($dialog.find('form'));
+            }
+
+            self.submit = function () {
+                if (!self.validate()) {
+                    return false;
+                }
+
+                if (self.onSubmitted) {
+                    self.onSubmitted.apply(self, [self.model()]);
+                }
+
+                self.close();
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+            }
+        }
+
+        var instance = new window.CustomFieldEditorDialog();
+
+        window.CustomFieldEditorDialog.instance = function () {
+            return instance;
+        }
+
+    })(jQuery);
+</script>
