@@ -105,6 +105,7 @@
     <Compile Include="Data\Pagination.cs" />
     <Compile Include="Data\Pagination`.cs" />
     <Compile Include="EntityKey.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Globalization\EntityTextInfo.cs" />
     <Compile Include="Globalization\Events\GetText.cs" />
     <Compile Include="Globalization\ILocalizable.cs" />

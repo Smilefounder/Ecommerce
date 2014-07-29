@@ -126,8 +126,10 @@
     <Compile Include="Events\Promotions\PromotionEnabled.cs" />
     <Compile Include="Products\CustomFieldValuesExtensions.cs" />
     <Compile Include="Products\FieldDataType.cs" />
+    <Compile Include="Products\Services\CreateProductTypeRequest.cs" />
     <Compile Include="Products\Services\CustomFieldService.cs" />
     <Compile Include="Products\Services\ICustomFieldService.cs" />
+    <Compile Include="Products\Services\UpdateProductTypeRequest.cs" />
     <Compile Include="Products\ValidatorType.cs" />
     <Compile Include="Events\Customers\ICustomerEvent.cs" />
     <Compile Include="Events\Products\IProductEvent.cs" />

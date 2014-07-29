@@ -11,9 +11,9 @@ namespace Kooboo.Commerce.Products.Services
 
         IQueryable<ProductType> Query();
 
-        void Create(ProductType type);
+        ProductType Create(CreateProductTypeRequest request);
 
-        void Update(ProductType type);
+        ProductType Update(UpdateProductTypeRequest request);
 
         void Delete(ProductType type);
 

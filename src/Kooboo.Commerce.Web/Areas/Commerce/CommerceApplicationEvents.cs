@@ -4,6 +4,7 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime.Mvc;
 using Kooboo.Commerce.Activities.Jobs;
 using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Web.Bootstrapping;
 using Kooboo.Commerce.Web.Framework.ComponentModel.DataAnnotations;
 using Kooboo.Commerce.Web.Framework.Mvc.ViewEngines;
 using System;
@@ -24,9 +25,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
         {
             base.Application_Start(sender, e);
 
+            // AutoMapper
+            AutoMapperConfiguration.Configure();
+
             // Mvc
             ViewEngines.Engines.Insert(0, new CommerceRazorViewEngine());
-
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(RequiredIfAttribute), typeof(RequiredAttributeAdapter));
 
             // Async Activity

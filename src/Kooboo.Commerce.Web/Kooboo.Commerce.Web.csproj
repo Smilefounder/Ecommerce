@@ -46,6 +46,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="CookComputing.XmlRpcV2, Version=2.5.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Kooboo_CMS\CookComputing.XmlRpcV2.dll</HintPath>
@@ -285,7 +291,9 @@
     <Compile Include="Areas\CommerceWebAPI\ViewModels\ApiInfo.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
+    <Compile Include="Areas\Commerce\Models\ProductTypes\Mapping\ModelMaps.cs" />
     <Compile Include="Bootstrapping\AddinAreaRegistrar.cs" />
+    <Compile Include="Bootstrapping\AutoMapperConfiguration.cs" />
     <Compile Include="Bootstrapping\EventsAndActivitiesRegistrar.cs" />
     <Compile Include="Bootstrapping\CommerceDbProviderRegistrar.cs" />
     <Compile Include="Bootstrapping\RuleParameterProviderRegistrar.cs" />
@@ -401,7 +409,7 @@
     <Compile Include="Areas\Commerce\Models\Products\ProductEditorModel.cs" />
     <Compile Include="Areas\Commerce\Tabs\Queries\Products\ProductModel.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Grid2\ProductTypeRowModelGridItem.cs" />
-    <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeModel.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\Extensions\PromotionPoliciesExtensions.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\Grid2\PromotionRowModelGridItem.cs" />
@@ -3913,6 +3921,7 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(SolutionDir)\lib\MVC\*.dll"  "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

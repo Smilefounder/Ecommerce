@@ -3,6 +3,7 @@ using Kooboo.Commerce.Products.Internal;
 using Kooboo.Commerce.Rules;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 
@@ -22,7 +23,7 @@ namespace Kooboo.Commerce.Products
         public string Name { get; set; }
 
         [Param]
-        [Required, StringLength(50)]
+        [StringLength(50)]
         public string SkuAlias { get; set; }
 
         [Param]
@@ -31,6 +32,7 @@ namespace Kooboo.Commerce.Products
         protected virtual ICollection<ProductTypeCustomField> InternalCustomFields { get; set; }
         private OrderedCustomFieldCollection _customFields;
 
+        [NotMapped]
         public OrderedCustomFieldCollection CustomFields
         {
             get
@@ -47,6 +49,7 @@ namespace Kooboo.Commerce.Products
         protected virtual ICollection<ProductTypeVariantField> InternalVariantFields { get; set; }
         private OrderedCustomFieldCollection _variantFields;
 
+        [NotMapped]
         public OrderedCustomFieldCollection VariantFields
         {
             get
@@ -64,13 +67,6 @@ namespace Kooboo.Commerce.Products
         {
             InternalCustomFields = new List<ProductTypeCustomField>();
             InternalVariantFields = new List<ProductTypeVariantField>();
-        }
-
-        public ProductType(string name, string skuAlias = "SKU")
-            : this()
-        {
-            Name = name;
-            SkuAlias = skuAlias;
         }
 
         #region Custom field collection callbacks

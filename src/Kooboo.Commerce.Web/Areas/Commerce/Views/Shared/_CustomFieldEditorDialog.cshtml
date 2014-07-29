@@ -217,15 +217,20 @@
 
             self.Validators = ko.mapping.fromJS(Validators);
 
-            this.ControlType = ko.observable('TextBox');
+            self.Name = ko.observable();
 
-            this.SelectedValidatorName = ko.observable();
+            self.Label = ko.observable();
 
-            this.SelectionItemsModel = ko.observableArray();
+            self.ControlType = ko.observable('TextBox');
 
-            this.AddValidationRule = function () {
+            self.SelectedValidatorName = ko.observable();
+
+            self.SelectionItemsModel = ko.observableArray();
+
+            self.AddValidationRule = function () {
                 var validatorName = self.SelectedValidatorName();
                 var rule = {
+                    Id: ko.observable(0),
                     ErrorMessage: ko.observable(),
                     ValidatorName: ko.observable(validatorName),
                     ValidatorData: ko.observable(),
@@ -235,17 +240,24 @@
                 self.ValidationRules.push(rule);
             };
 
-            this.RemoveValidationRule = function (item) {
+            self.RemoveValidationRule = function (item) {
                 self.ValidationRules.remove(item);
             };
 
-            this.AllowSelectionItems = ko.computed(function () {
+            self.AllowSelectionItems = ko.computed(function () {
                 return 'DropDownList,CheckBoxList,RadioList,'.indexOf(self.ControlType() + ',') > -1;
             });
 
-            this.UpdateValidation = function () {
+            self.UpdateValidation = function () {
                 window.CustomFieldEditorDialog.instance().initValidation();
             }
+
+            self.Name.subscribe(function (name) {
+                var label = self.Label();
+                if (label === null || label === undefined || label === '') {
+                    self.Label(name);
+                }
+            });
         };
 
         window.CustomFieldEditorDialog = function () {

@@ -12,19 +12,16 @@ using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes;
 using Kooboo.Commerce.Web.Framework.Mvc;
+using AutoMapper;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-
     public class ProductTypeController : CommerceController
     {
-
         private readonly IProductTypeService _productTypeService;
         private readonly ICustomFieldService _customFieldService;
 
-        public ProductTypeController(
-                IProductTypeService productTypeService,
-                ICustomFieldService customFieldService)
+        public ProductTypeController(IProductTypeService productTypeService, ICustomFieldService customFieldService)
         {
             _productTypeService = productTypeService;
             _customFieldService = customFieldService;
@@ -77,69 +74,41 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Create()
         {
-            var model = new ProductTypeEditorModel();
-            model.PredefinedFields = _customFieldService.PredefinedFields()
-                                                        .ToList()
-                                                        .Select(f => new CustomFieldEditorModel(f))
-                                                        .ToList();
+            var model = Mapper.Map<ProductTypeModel>(new ProductType());
             return View(model);
         }
 
         public ActionResult Edit(int id, string @return)
         {
             var productType = _productTypeService.GetById(id);
-            var model = new ProductTypeEditorModel(productType);
-            model.PredefinedFields = _customFieldService.PredefinedFields()
-                                                        .ToList()
-                                                        .Select(f => new CustomFieldEditorModel(f))
-                                                        .ToList();
+            var model = Mapper.Map<ProductTypeModel>(productType);
             return View(model);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Save(ProductTypeEditorModel model, string @return)
+        public ActionResult Save(ProductTypeModel model, string @return)
         {
-            var productType = new ProductType(model.Name, model.SkuAlias)
-            {
-                Id = model.Id
-            };
+            ProductType productType = null;
 
-            // Create or update fields
-            foreach (var field in model.CustomFields.OrderBy(f => f.Sequence))
+            if (model.Id == 0)
             {
-                if (!field.IsPredefined)
+                productType = _productTypeService.Create(new CreateProductTypeRequest
                 {
-                    var customField = CreateOrUpdateField(field);
-                    productType.CustomFields.Add(customField);
-                }
-                else
-                {
-                    var customField = _customFieldService.GetById(field.Id);
-                    productType.CustomFields.Add(customField);
-                }
-            }
-
-            foreach (var field in model.VariantFields.OrderBy(f => f.Sequence))
-            {
-                if (!field.IsPredefined)
-                {
-                    var variantField = CreateOrUpdateField(field);
-                    productType.VariantFields.Add(variantField);
-                }
-                else
-                {
-                    var variantField = _customFieldService.GetById(field.Id);
-                    productType.VariantFields.Add(variantField);
-                }
-            }
-
-            if (productType.Id == 0)
-            {
-                _productTypeService.Create(productType);
+                    Name = model.Name,
+                    SkuAlias = model.SkuAlias,
+                    CustomFields = model.CustomFields,
+                    VariantFields = model.VariantFields
+                });
             }
             else
             {
-                _productTypeService.Update(productType);
+                productType = _productTypeService.Update(new UpdateProductTypeRequest(model.Id)
+                {
+                    Name = model.Name,
+                    SkuAlias = model.SkuAlias,
+                    CustomFields = model.CustomFields,
+                    VariantFields = model.VariantFields
+                });
             }
 
             if (model.IsEnabled)
@@ -152,27 +121,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
 
             return AjaxForm().RedirectTo(@return);
-        }
-
-        private CustomField CreateOrUpdateField(CustomFieldEditorModel model)
-        {
-            var field = new CustomField
-            {
-                Id = model.Id
-            };
-
-            model.UpdateTo(field);
-
-            if (field.Id == 0)
-            {
-                _customFieldService.Create(field);
-            }
-            else
-            {
-                _customFieldService.Update(field);
-            }
-
-            return field;
         }
 
         public ActionResult PredefinedFields()

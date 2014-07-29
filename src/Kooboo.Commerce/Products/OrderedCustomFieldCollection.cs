@@ -1,29 +1,21 @@
 ﻿using Kooboo.Commerce.Products;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.Commerce.Products
 {
-    public class OrderedCustomFieldCollection : IEnumerable<CustomField>
+    public class OrderedCustomFieldCollection : Collection<CustomField>
     {
-        private List<CustomField> _fields;
         private Action<CustomField> _onAdded;
         private Action<CustomField> _onRemoved;
         private Action _onSorted;
-
-        public int Count
-        {
-            get
-            {
-                return _fields.Count;
-            }
-        }
-
+        
         public OrderedCustomFieldCollection(IEnumerable<CustomField> fields, Action<CustomField> onAdded, Action<CustomField> onRemoved, Action onSorted)
+            : base(fields.ToList())
         {
-            _fields = fields.ToList();
             _onAdded = onAdded;
             _onRemoved = onRemoved;
             _onSorted = onSorted;
@@ -31,31 +23,17 @@ namespace Kooboo.Commerce.Products
 
         public bool Contains(string fieldName)
         {
-            return _fields.Exists(f => f.Name == fieldName);
+            return Items.Any(f => f.Name == fieldName);
+        }
+
+        public CustomField Find(int fieldId)
+        {
+            return Items.FirstOrDefault(f => f.Id == fieldId);
         }
 
         public CustomField Find(string fieldName)
         {
-            return _fields.Find(f => f.Name == fieldName);
-        }
-
-        public void Intersect(IEnumerable<CustomField> fields)
-        {
-            foreach (var field in _fields.ToList())
-            {
-                if (!fields.Any(f => f.Name == field.Name))
-                {
-                    Remove(field);
-                }
-            }
-
-            foreach (var field in fields)
-            {
-                if (!Contains(field.Name))
-                {
-                    Add(field);
-                }
-            }
+            return Items.FirstOrDefault(f => f.Name == fieldName);
         }
 
         public void Sort(IEnumerable<string> fieldNameOrders)
@@ -71,7 +49,7 @@ namespace Kooboo.Commerce.Products
                 }
             }
 
-            foreach (var field in _fields)
+            foreach (var field in Items)
             {
                 if (!fields.Contains(field))
                 {
@@ -90,10 +68,35 @@ namespace Kooboo.Commerce.Products
             }
         }
 
-        public void Add(CustomField field)
+        public void AddRange(IEnumerable<CustomField> fields)
         {
-            _fields.Add(field);
-            OnAdded(field);
+            foreach (var field in fields)
+            {
+                Add(field);
+            }
+        }
+
+        protected override void InsertItem(int index, Kooboo.Commerce.Products.CustomField item)
+        {
+            base.InsertItem(index, item);
+            OnAdded(item);
+        }
+
+        protected override void RemoveItem(int index)
+        {
+            var item = Items[index];
+            base.RemoveItem(index);
+            OnRemoved(item);
+        }
+
+        public bool Remove(int fieldId)
+        {
+            var field = Find(fieldId);
+            if (field != null)
+            {
+                return Remove(field);
+            }
+            return false;
         }
 
         public bool Remove(string fieldName)
@@ -102,16 +105,6 @@ namespace Kooboo.Commerce.Products
             if (field != null)
             {
                 return Remove(field);
-            }
-            return false;
-        }
-
-        public bool Remove(CustomField field)
-        {
-            if (_fields.Remove(field))
-            {
-                OnRemoved(field);
-                return true;
             }
             return false;
         }
@@ -130,16 +123,6 @@ namespace Kooboo.Commerce.Products
             {
                 _onRemoved(field);
             }
-        }
-
-        public IEnumerator<CustomField> GetEnumerator()
-        {
-            return _fields.GetEnumerator();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

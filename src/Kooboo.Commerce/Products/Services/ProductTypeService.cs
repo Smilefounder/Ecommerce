@@ -16,51 +16,131 @@ namespace Kooboo.Commerce.Products.Services
     [Dependency(typeof(IProductTypeService))]
     public class ProductTypeService : IProductTypeService
     {
-        private readonly IRepository<ProductType> _repository;
+        private readonly IRepository<ProductType> _productTypes;
+        private readonly IRepository<CustomField> _customFields;
 
-        public ProductTypeService(IRepository<ProductType> repository)
+        public ProductTypeService(IRepository<ProductType> productTypes, IRepository<CustomField> customFields)
         {
-            _repository = repository;
+            _productTypes = productTypes;
+            _customFields = customFields;
         }
 
         public ProductType GetById(int id)
         {
-            return _repository.Find(id);
+            return _productTypes.Find(id);
         }
 
         public IQueryable<ProductType> Query()
         {
-            return _repository.Query().OrderBy(p => p.Id);
+            return _productTypes.Query().OrderBy(p => p.Id);
         }
 
-        public void Create(ProductType type)
+        public ProductType Create(CreateProductTypeRequest request)
         {
-            _repository.Insert(type);
+            var type = new ProductType
+            {
+                Name = request.Name,
+                SkuAlias = request.SkuAlias
+            };
+
+            var predefinedFields = _customFields.Query().Where(f => f.IsPredefined).ToList();
+
+            if (request.CustomFields != null)
+            {
+                foreach (var field in request.CustomFields)
+                {
+                    if (field.IsPredefined)
+                    {
+                        var predefined = predefinedFields.Find(f => f.Id == field.Id);
+                        type.CustomFields.Add(predefined);
+                    }
+                    else
+                    {
+                        type.CustomFields.Add(field);
+                    }
+                }
+            }
+
+            if (request.VariantFields != null)
+            {
+                foreach (var field in request.VariantFields)
+                {
+                    if (field.IsPredefined)
+                    {
+                        var predefined = predefinedFields.Find(f => f.Id == field.Id);
+                        type.VariantFields.Add(predefined);
+                    }
+                    else
+                    {
+                        type.VariantFields.Add(field);
+                    }
+                }
+            }
+
+            _productTypes.Insert(type);
+
+            return type;
         }
 
-        public void Update(ProductType type)
+        public ProductType Update(UpdateProductTypeRequest request)
         {
-            var dbType = _repository.Find(type.Id);
+            var type = _productTypes.Find(request.Id);
 
             // Basic info
-            dbType.Name = type.Name;
-            dbType.SkuAlias = type.SkuAlias;
+            type.Name = request.Name;
+            type.SkuAlias = request.SkuAlias;
 
             // Custom fields
-            dbType.CustomFields.Intersect(type.CustomFields);
-            dbType.CustomFields.Sort(type.CustomFields.Select(f => f.Name));
+            if (request.CustomFields != null)
+            {
+                type.CustomFields.Update(
+                    from: request.CustomFields,
+                    by: f => f.Id,
+                    onUpdateItem: (oldItem, newItem) => 
+                    {
+                        oldItem.UpdateFrom(newItem);
+                    },
+                    onRemoveItem: field =>
+                    {
+                        if (!field.IsPredefined)
+                        {
+                            _customFields.Delete(field);
+                        }
+                    });
+
+                type.CustomFields.Sort(request.CustomFields.Select(f => f.Name));
+            }
 
             // Variant fields
-            dbType.VariantFields.Intersect(type.VariantFields);
-            dbType.VariantFields.Sort(type.VariantFields.Select(f => f.Name));
+            if (request.VariantFields != null)
+            {
+                type.VariantFields.Update(
+                    from: request.VariantFields,
+                    by: f => f.Id,
+                    onUpdateItem: (oldItem, newItem) =>
+                    {
+                        oldItem.UpdateFrom(newItem);
+                    },
+                    onRemoveItem: field =>
+                    {
+                        if (!field.IsPredefined)
+                        {
+                            _customFields.Delete(field);
+                        }
+                    });
 
-            _repository.Database.SaveChanges();
+                type.VariantFields.Sort(request.VariantFields.Select(f => f.Name));
+            }
+
+            _productTypes.Database.SaveChanges();
+
+            return type;
         }
 
         public void Delete(ProductType type)
         {
             Disable(type);
-            _repository.Delete(type);
+            _productTypes.Delete(type);
         }
 
         public bool Enable(ProductType type)
@@ -71,7 +151,7 @@ namespace Kooboo.Commerce.Products.Services
             }
 
             type.IsEnabled = true;
-            _repository.Database.SaveChanges();
+            _productTypes.Database.SaveChanges();
 
             Event.Raise(new ProductTypeEnabled(type));
 
@@ -86,7 +166,7 @@ namespace Kooboo.Commerce.Products.Services
             }
 
             type.IsEnabled = false;
-            _repository.Database.SaveChanges();
+            _productTypes.Database.SaveChanges();
 
             Event.Raise(new ProductTypeDisabled(type));
 
