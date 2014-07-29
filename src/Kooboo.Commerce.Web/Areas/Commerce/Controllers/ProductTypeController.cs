@@ -31,13 +31,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var model = _productTypeService.Query()
                                            .Paginate(page - 1, pageSize)
-                                           .Transform(o => new ProductTypeRowModel(o))
+                                           .Transform(type => new ProductTypeModel
+                                           {
+                                               Id = type.Id,
+                                               Name = type.Name,
+                                               SkuAlias = type.SkuAlias,
+                                               IsEnabled = type.IsEnabled
+                                           })
                                            .ToPagedList();
             return View(model);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Enable(ProductTypeRowModel[] model)
+        public ActionResult Enable(ProductTypeModel[] model)
         {
             foreach (var item in model)
             {
@@ -49,7 +55,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Disable(ProductTypeRowModel[] model)
+        public ActionResult Disable(ProductTypeModel[] model)
         {
             foreach (var item in model)
             {
@@ -61,7 +67,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Delete(ProductTypeRowModel[] model)
+        public ActionResult Delete(ProductTypeModel[] model)
         {
             foreach (var item in model)
             {

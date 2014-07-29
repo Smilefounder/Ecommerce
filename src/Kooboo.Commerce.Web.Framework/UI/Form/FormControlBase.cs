@@ -20,6 +20,10 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             }
         }
 
+        public abstract bool IsValuesPredefined { get; }
+
+        public abstract bool IsSelectionList { get; }
+
         protected abstract string TagName { get; }
 
         protected virtual TagRenderMode TagRenderMode

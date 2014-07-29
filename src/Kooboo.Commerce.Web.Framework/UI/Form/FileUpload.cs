@@ -20,6 +20,16 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             }
         }
 
+        public bool IsValuesPredefined
+        {
+            get { return false; }
+        }
+
+        public bool IsSelectionList
+        {
+            get { return false; }
+        }
+
         public string ValueBindingName
         {
             get

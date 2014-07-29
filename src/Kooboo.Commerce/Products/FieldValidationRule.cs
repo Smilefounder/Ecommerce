@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Products
         [Required, StringLength(50)]
         public string ValidatorName { get; set; }
 
-        public string ValidatorData { get; set; }
+        public string ValidatorConfig { get; set; }
 
         [Column]
         protected int? CustomFieldId { get; set; }
@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Products
         {
             ErrorMessage = other.ErrorMessage;
             ValidatorName = other.ValidatorName;
-            ValidatorData = other.ValidatorData;
+            ValidatorConfig = other.ValidatorConfig;
         }
 
         bool IOrphanable.IsOrphan()

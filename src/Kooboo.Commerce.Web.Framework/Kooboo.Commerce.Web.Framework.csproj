@@ -106,7 +106,7 @@
     <Compile Include="UI\Form\Password.cs" />
     <Compile Include="UI\Form\RadioList.cs" />
     <Compile Include="UI\Form\RichTextEditor.cs" />
-    <Compile Include="UI\Form\SelectionListItem.cs" />
+    <Compile Include="UI\Form\SelectionItem.cs" />
     <Compile Include="UI\Form\TextArea.cs" />
     <Compile Include="UI\Form\TextBox.cs" />
     <Compile Include="UI\Form\Validation\IValidator.cs" />

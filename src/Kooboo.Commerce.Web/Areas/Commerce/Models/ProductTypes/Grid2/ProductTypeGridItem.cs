@@ -7,16 +7,16 @@ using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes.Grid2
 {
-    public class ProductTypeRowModelGridItem : GridItem
+    public class ProductTypeGridItem : GridItem
     {
-        public ProductTypeRowModelGridItem(IGridModel gridModel, object dataItem, int dataIndex)
+        public ProductTypeGridItem(IGridModel gridModel, object dataItem, int dataIndex)
             : base(gridModel, dataItem, dataIndex)
         {
         }
 
         public override IHtmlString RenderItemContainerAtts()
         {
-            var model = (ProductTypeRowModel)DataItem;
+            var model = (ProductTypeModel)DataItem;
             return MvcHtmlString.Create(String.Format("class='{0}'", model.IsEnabled ? "enabled" : "disabled"));
         }
     }

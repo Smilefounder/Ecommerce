@@ -20,6 +20,16 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             }
         }
 
+        public override bool IsValuesPredefined
+        {
+            get { return true; }
+        }
+
+        public override bool IsSelectionList
+        {
+            get { return true; }
+        }
+
         protected override string TagName
         {
             get
@@ -40,10 +50,10 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
         {
             builder.AddCssClass("form-list");
 
-            if (!String.IsNullOrWhiteSpace(field.SelectionItems))
+            if (!String.IsNullOrWhiteSpace(field.ControlConfig))
             {
                 var itemsHtml = new StringBuilder();
-                var items = JsonConvert.DeserializeObject<List<SelectionListItem>>(field.SelectionItems);
+                var items = JsonConvert.DeserializeObject<List<SelectionItem>>(field.ControlConfig);
 
                 for (var i = 0; i < items.Count; i++)
                 {
@@ -58,7 +68,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
                     radio.MergeAttribute("value", item.Value);
 
                     var label = new TagBuilder("label");
-                    label.InnerHtml = item.Key;
+                    label.InnerHtml = item.Text;
                     label.AddCssClass("inline");
                     label.MergeAttribute("for", radioId);
 

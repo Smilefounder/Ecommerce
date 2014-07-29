@@ -17,6 +17,16 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             }
         }
 
+        public override bool IsValuesPredefined
+        {
+            get { return false; }
+        }
+
+        public override bool IsSelectionList
+        {
+            get { return false; }
+        }
+
         public override string Name
         {
             get

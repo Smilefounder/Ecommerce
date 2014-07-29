@@ -20,6 +20,16 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             }
         }
 
+        public override bool IsValuesPredefined
+        {
+            get { return true; }
+        }
+
+        public override bool IsSelectionList
+        {
+            get { return true; }
+        }
+
         protected override string TagName
         {
             get
@@ -32,16 +42,16 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
         {
             base.BuildControl(builder, field, value, htmlAttributes, viewContext);
 
-            if (!String.IsNullOrWhiteSpace(field.SelectionItems))
+            if (!String.IsNullOrWhiteSpace(field.ControlConfig))
             {
                 var html = new StringBuilder();
 
                 html.Append("<option value=\"\"></option>");
 
-                var items = JsonConvert.DeserializeObject<IList<SelectionListItem>>(field.SelectionItems);
+                var items = JsonConvert.DeserializeObject<IList<SelectionItem>>(field.ControlConfig);
                 foreach (var item in items)
                 {
-                    html.AppendFormat("<option value=\"{0}\">{1}</option>", item.Value, item.Key)
+                    html.AppendFormat("<option value=\"{0}\">{1}</option>", item.Value, item.Text)
                         .AppendLine();
                 }
 

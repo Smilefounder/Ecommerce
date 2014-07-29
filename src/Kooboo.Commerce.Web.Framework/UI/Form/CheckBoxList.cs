@@ -15,35 +15,36 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
     {
         public override string Name
         {
-            get
-            {
-                return "CheckBoxList";
-            }
+            get { return "CheckBoxList"; }
+        }
+
+        public override bool IsValuesPredefined
+        {
+            get { return true; }
+        }
+
+        public override bool IsSelectionList
+        {
+            get { return true; }
         }
 
         protected override string TagName
         {
-            get
-            {
-                return "ul";
-            }
+            get { return "ul"; }
         }
 
         public override string ValueBindingName
         {
-            get
-            {
-                return "checkboxlist";
-            }
+            get { return "checkboxlist"; }
         }
 
         protected override void BuildControl(System.Web.Mvc.TagBuilder builder, CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
         {
             builder.AddCssClass("form-list");
 
-            if (!String.IsNullOrWhiteSpace(field.SelectionItems))
+            if (!String.IsNullOrWhiteSpace(field.ControlConfig))
             {
-                var items = JsonConvert.DeserializeObject<List<SelectionListItem>>(field.SelectionItems);
+                var items = JsonConvert.DeserializeObject<List<SelectionItem>>(field.ControlConfig);
                 var itemsHtml = new StringBuilder();
 
                 for (var i = 0; i < items.Count; i++)
@@ -59,7 +60,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
                     checkbox.MergeAttribute("value", item.Value);
 
                     var label = new TagBuilder("label");
-                    label.InnerHtml = item.Key;
+                    label.InnerHtml = item.Text;
                     label.AddCssClass("inline");
                     label.MergeAttribute("for", checkboxId);
 

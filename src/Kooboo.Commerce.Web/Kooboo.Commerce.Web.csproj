@@ -291,6 +291,7 @@
     <Compile Include="Areas\CommerceWebAPI\ViewModels\ApiInfo.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
+    <Compile Include="Areas\Commerce\Models\ProductTypes\CustomField_Metadata.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Mapping\ModelMaps.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\GlobalSettings_Metadata.cs" />
     <Compile Include="Bootstrapping\AddinAreaRegistrar.cs" />
@@ -400,8 +401,6 @@
     <Compile Include="Areas\Commerce\Models\Customers\CustomerEditorModel.cs" />
     <Compile Include="Areas\Commerce\Tabs\Queries\Customers\CustomerModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\ValidatorTypeDataSource.cs" />
-    <Compile Include="Areas\Commerce\Models\ProductTypes\CustomFieldEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\ProductTypes\FieldValidationRuleEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Orders\OrderEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\Grid2\PaymentMethodRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentProcessorConfigEditorModel.cs" />
@@ -409,15 +408,14 @@
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentMethodRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Products\ProductEditorModel.cs" />
     <Compile Include="Areas\Commerce\Tabs\Queries\Products\ProductModel.cs" />
-    <Compile Include="Areas\Commerce\Models\ProductTypes\Grid2\ProductTypeRowModelGridItem.cs" />
+    <Compile Include="Areas\Commerce\Models\ProductTypes\Grid2\ProductTypeGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeModel.cs" />
-    <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\Extensions\PromotionPoliciesExtensions.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\Grid2\PromotionRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\PromotionEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\PromotionPolicyConfigEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Promotions\PromotionRowModel.cs" />
-    <Compile Include="Areas\Commerce\Models\DataSources\ControlTypeDataSource.cs" />
+    <Compile Include="Areas\Commerce\Models\ProductTypes\ControlTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CultureDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\CurrencyDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ComparisonModel.cs" />

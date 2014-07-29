@@ -11,26 +11,27 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
     {
         public override string Name
         {
-            get
-            {
-                return "CheckBox";
-            }
+            get { return "CheckBox"; }
+        }
+
+        public override bool IsValuesPredefined
+        {
+            get { return true; }
+        }
+
+        public override bool IsSelectionList
+        {
+            get { return false; }
         }
 
         public override string ValueBindingName
         {
-            get
-            {
-                return "checked";
-            }
+            get { return "checked"; }
         }
 
         protected override string Type
         {
-            get
-            {
-                return "checkbox";
-            }
+            get { return "checkbox"; }
         }
     }
 }

@@ -21,15 +21,15 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form.Validation
 
         public IEnumerable<System.Web.Mvc.ModelClientValidationRule> GetClientValidationRules(Products.CustomField field, Products.FieldValidationRule rule)
         {
-            if (!String.IsNullOrWhiteSpace(rule.ValidatorData))
+            if (!String.IsNullOrWhiteSpace(rule.ValidatorConfig))
             {
-                var data = JsonConvert.DeserializeObject<RegexValidatorData>(rule.ValidatorData);
+                var data = JsonConvert.DeserializeObject<RegexValidatorConfig>(rule.ValidatorConfig);
                 yield return new ModelClientValidationRegexRule(rule.ErrorMessage, data.Pattern);
             }
         }
     }
 
-    public class RegexValidatorData
+    public class RegexValidatorConfig
     {
         public string Pattern { get; set; }
     }

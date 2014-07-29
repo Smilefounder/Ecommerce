@@ -11,18 +11,22 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
     {
         protected override string Type
         {
-            get
-            {
-                return "text";
-            }
+            get { return "text"; }
+        }
+
+        public override bool IsValuesPredefined
+        {
+            get { return false; }
+        }
+
+        public override bool IsSelectionList
+        {
+            get { return false; }
         }
 
         public override string Name
         {
-            get
-            {
-                return "Date";
-            }
+            get { return "Date"; }
         }
 
         protected override void BuildControl(System.Web.Mvc.TagBuilder builder, Products.CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)

@@ -93,14 +93,10 @@ namespace Kooboo.Commerce.Products.Services
             // Custom fields
             if (request.CustomFields != null)
             {
-                var fields = new List<CustomField>();
-                foreach (var field in request.CustomFields)
-                {
-                    fields.Add(field.Id == 0 ? field : _customFields.Find(field.Id));
-                }
+                RefreshPredefinedFields(request.CustomFields);
 
                 type.CustomFields.Update(
-                    from: fields,
+                    from: request.CustomFields,
                     by: f => f.Id,
                     onUpdateItem: (oldItem, newItem) =>
                     {
@@ -120,14 +116,10 @@ namespace Kooboo.Commerce.Products.Services
             // Variant fields
             if (request.VariantFields != null)
             {
-                var fields = new List<CustomField>();
-                foreach (var field in request.VariantFields)
-                {
-                    fields.Add(field.Id == 0 ? field : _customFields.Find(field.Id));
-                }
+                RefreshPredefinedFields(request.VariantFields);
 
                 type.VariantFields.Update(
-                    from: fields,
+                    from: request.VariantFields,
                     by: f => f.Id,
                     onUpdateItem: (oldItem, newItem) =>
                     {
@@ -147,6 +139,17 @@ namespace Kooboo.Commerce.Products.Services
             _productTypes.Database.SaveChanges();
 
             return type;
+        }
+
+        private void RefreshPredefinedFields(List<CustomField> fields)
+        {
+            for (var i = 0; i < fields.Count; i++)
+            {
+                if (fields[i].IsPredefined)
+                {
+                    fields[i] = _customFields.Find(fields[i].Id);
+                }
+            }
         }
 
         public void Delete(ProductType type)

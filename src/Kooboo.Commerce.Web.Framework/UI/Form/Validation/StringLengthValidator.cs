@@ -21,18 +21,18 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form.Validation
 
         public IEnumerable<System.Web.Mvc.ModelClientValidationRule> GetClientValidationRules(Products.CustomField field, Products.FieldValidationRule rule)
         {
-            if (!String.IsNullOrWhiteSpace(rule.ValidatorData))
+            if (!String.IsNullOrWhiteSpace(rule.ValidatorConfig))
             {
-                var data = JsonConvert.DeserializeObject<StringLengthValidatorData>(rule.ValidatorData);
-                yield return new ModelClientValidationStringLengthRule(rule.ErrorMessage, data.Min, data.Max);
+                var data = JsonConvert.DeserializeObject<StringLengthValidatorConfig>(rule.ValidatorConfig);
+                yield return new ModelClientValidationStringLengthRule(rule.ErrorMessage, data.MinLength, data.MaxLength);
             }
         }
     }
 
-    public class StringLengthValidatorData
+    public class StringLengthValidatorConfig
     {
-        public int Min { get; set; }
+        public int MinLength { get; set; }
 
-        public int Max { get; set; }
+        public int MaxLength { get; set; }
     }
 }

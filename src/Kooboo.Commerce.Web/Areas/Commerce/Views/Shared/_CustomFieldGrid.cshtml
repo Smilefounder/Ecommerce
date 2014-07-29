@@ -39,17 +39,16 @@
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Id')}, value:Id" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Name')}, value:Name" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'IsPredefined')}, value:(IsPredefined()+'')" />
-                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'DataType')}, value:DataType" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Label')}, value:Label" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Tooltip')}, value:Tooltip" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'ControlType')}, value:ControlType" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'DefaultValue')}, value:DefaultValue" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'IsValueLocalizable')}, value:(IsValueLocalizable()+'')" />
-                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'SelectionItems')}, value:SelectionItems" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'ControlConfig')}, value:ControlConfig" />
                         <!--ko foreach:ValidationRules-->
                         <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'Id')}, value:Id" />
                         <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'ValidatorName')}, value:ValidatorName" />
-                        <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'ValidatorData')}, value:ValidatorData" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'ValidatorConfig')}, value:ValidatorConfig" />
                         <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'ErrorMessage')}, value:ErrorMessage" />
                         <!--/ko-->
                     </td>

@@ -14,18 +14,22 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
     {
         public string Name
         {
-            get
-            {
-                return "Display";
-            }
+            get { return "Display"; }
+        }
+
+        public bool IsValuesPredefined
+        {
+            get { return true; }
+        }
+
+        public bool IsSelectionList
+        {
+            get { return false; }
         }
 
         public string ValueBindingName
         {
-            get
-            {
-                return "value";
-            }
+            get { return "value"; }
         }
 
         public IHtmlString Render(CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)

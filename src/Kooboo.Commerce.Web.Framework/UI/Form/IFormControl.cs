@@ -13,6 +13,10 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
 
         string ValueBindingName { get; }
 
+        bool IsValuesPredefined { get; }
+
+        bool IsSelectionList { get; }
+
         IHtmlString Render(CustomField field, string value, object htmlAttributes, ViewContext viewContext);
     }
 }

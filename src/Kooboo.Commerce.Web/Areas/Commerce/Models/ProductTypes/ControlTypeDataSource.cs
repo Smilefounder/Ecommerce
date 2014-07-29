@@ -10,7 +10,7 @@ using Kooboo.Globalization;
 using Kooboo.Web.Mvc;
 using Kooboo.Commerce.Web.Framework.UI.Form;
 
-namespace Kooboo.Commerce.Web.Areas.Commerce.Models.DataSources
+namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
 {
 
     public class ControlTypeDataSource : ISelectListDataSource
