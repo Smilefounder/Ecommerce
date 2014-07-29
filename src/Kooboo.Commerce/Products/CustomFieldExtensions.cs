@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Products
 {
-    public static class CustomFieldValuesExtensions
+    public static class CustomFieldExtensions
     {
         public static string GetValue(this IEnumerable<ProductCustomField> fieldValues, string fieldName)
         {

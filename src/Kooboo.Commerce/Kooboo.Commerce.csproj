@@ -79,7 +79,6 @@
     <Compile Include="DefaultServiceFactory.cs" />
     <Compile Include="IServiceFactory.cs" />
     <Compile Include="Products\OrderedCustomFieldCollection.cs" />
-    <Compile Include="Products\CustomFieldValue.cs" />
     <Compile Include="Events\Categories\CategoryCreated.cs" />
     <Compile Include="Events\Categories\CategoryDeleted.cs" />
     <Compile Include="Events\Categories\CategoryUpdated.cs" />
@@ -124,12 +123,11 @@
     <Compile Include="Events\Promotions\PromotionDisabled.cs" />
     <Compile Include="Events\Promotions\IPromotionEvent.cs" />
     <Compile Include="Events\Promotions\PromotionEnabled.cs" />
-    <Compile Include="Products\CustomFieldValuesExtensions.cs" />
+    <Compile Include="Products\CustomFieldExtensions.cs" />
     <Compile Include="Products\Services\CreateProductTypeRequest.cs" />
     <Compile Include="Products\Services\PredefinedCustomFieldService.cs" />
     <Compile Include="Products\Services\IPredefinedCustomFieldService.cs" />
     <Compile Include="Products\Services\UpdateProductTypeRequest.cs" />
-    <Compile Include="Products\ValidatorType.cs" />
     <Compile Include="Events\Customers\ICustomerEvent.cs" />
     <Compile Include="Events\Products\IProductEvent.cs" />
     <Compile Include="Events\Carts\ICartEvent.cs" />
