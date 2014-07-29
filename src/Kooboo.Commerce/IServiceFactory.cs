@@ -6,18 +6,20 @@ using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Services;
-using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Shipping.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.Commerce.Settings.Services;
 
 namespace Kooboo.Commerce
 {
     public interface IServiceFactory
     {
+        ISettingService Settings { get; }
+
         ICountryService Countries { get; }
 
         IBrandService Brands { get; }
@@ -26,7 +28,7 @@ namespace Kooboo.Commerce
 
         IProductTypeService ProductTypes { get; }
 
-        ICustomFieldService CustomFields { get; }
+        IPredefinedCustomFieldService CustomFields { get; }
 
         IProductService Products { get; }
 

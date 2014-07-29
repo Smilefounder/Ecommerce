@@ -6,17 +6,17 @@ using Kooboo.Commerce.Products;
 
 namespace Kooboo.Commerce.Products.Services {
 
-    public interface ICustomFieldService {
+    public interface IPredefinedCustomFieldService {
 
         CustomField GetById(int id);
 
         IQueryable<CustomField> Query();
 
-        IQueryable<CustomField> PredefinedFields();
-
         void Create(CustomField field);
 
         void Update(CustomField field);
+
+        void UpdateWith(IEnumerable<CustomField> newFields);
 
         void Delete(CustomField field);
     }

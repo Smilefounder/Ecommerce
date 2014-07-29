@@ -12,25 +12,18 @@ namespace Kooboo.Commerce.Settings.Services
     [Dependency(typeof(ISettingService))]
     public class SettingService : ISettingService
     {
-        private readonly IRepository<KeyValueSetting> _repository;
+        private readonly IRepository<SettingItem> _repository;
 
-        public SettingService(IRepository<KeyValueSetting> repository)
+        public SettingService(IRepository<SettingItem> repository)
         {
             _repository = repository;
         }
 
-        public const string DefaultCategory = "__default";
-
-        public void Set(string key, object value, string category)
+        public void Set(string key, object value)
         {
             Require.NotNullOrEmpty(key, "key");
 
-            if (String.IsNullOrEmpty(category))
-            {
-                category = DefaultCategory;
-            }
-
-            var entry = _repository.Find(key, category);
+            var entry = _repository.Find(key);
             if (entry != null)
             {
                 entry.SetValue(value);
@@ -38,42 +31,32 @@ namespace Kooboo.Commerce.Settings.Services
             }
             else
             {
-                entry = new KeyValueSetting(key, category);
+                entry = new SettingItem(key);
                 entry.SetValue(value);
                 _repository.Insert(entry);
             }
         }
 
-        public string Get(string key, string category = null)
+        public string Get(string key)
         {
-            var item = FindEntry(key, category);
+            var item = FindEntry(key);
             return item == null ? null : item.Value;
         }
 
-        private KeyValueSetting FindEntry(string key, string category = null)
+        private SettingItem FindEntry(string key)
         {
-            if (String.IsNullOrEmpty(category))
-            {
-                category = DefaultCategory;
-            }
-
-            return _repository.Find(key, category);
+            return _repository.Find(key);
         }
 
-        public T Get<T>(string key, string category = null)
+        public T Get<T>(string key)
         {
-            var entry = FindEntry(key, category);
+            var entry = FindEntry(key);
             if (entry == null)
             {
                 return default(T);
             }
 
             return entry.GetValue<T>();
-        }
-
-        public IEnumerable<KeyValueSetting> GetByCategory(string category)
-        {
-            return _repository.Query().Where(o => o.Category == category);
         }
     }
 }

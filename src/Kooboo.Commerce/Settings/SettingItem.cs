@@ -7,22 +7,18 @@ using System.Text;
 
 namespace Kooboo.Commerce.Settings
 {
-    public class KeyValueSetting
+    public class SettingItem
     {
-        [Key]
-        public string Category { get; protected set; }
-
-        [Key]
-        public string Key { get; protected set; }
+        [Key, StringLength(50)]
+        public string Key { get; set; }
 
         public string Value { get; set; }
 
-        protected KeyValueSetting() { }
+        protected SettingItem() { }
 
-        public KeyValueSetting(string key, string category)
+        public SettingItem(string key)
         {
             Key = key;
-            Category = category;
         }
 
         public T GetValue<T>()

@@ -20,8 +20,21 @@ namespace Kooboo.Commerce.ImageSizes
 
         public int Height { get; set; }
 
-        public bool IsEnabled { get; set; }
-
         public bool IsMultiple { get; set; }
+
+        public ImageSize() { }
+
+        public ImageSize(string name, int width, int height)
+            : this(name, width, height, false)
+        {
+        }
+
+        public ImageSize(string name, int width, int height, bool isMultiple)
+        {
+            Name = name;
+            Width = width;
+            Height = height;
+            IsMultiple = isMultiple;
+        }
     }
 }

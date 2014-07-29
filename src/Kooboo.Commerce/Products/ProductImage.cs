@@ -1,41 +1,33 @@
 ﻿using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Data.Events;
 using Kooboo.Commerce.Events;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.Commerce.Products
 {
-    /// <summary>
-    /// The real image for each product, different size of image can ge rendered from imagesizeservice.
-    /// </summary>
-    public class ProductImage
+    public class ProductImage : IOrphanable
     {
+        [Key]
         public int Id { get; set; }
 
+        [StringLength(50)]
         public string Size { get; set; }
 
+        [StringLength(500)]
         public string ImageUrl { get; set; }
 
-        public Product Product { get; set; }
+        [Column]
+        protected int? ProductId { get; set; }
 
-        #region Delete Orphan Product Images Handler
-
-        class DeleteOrphanProductImageHandler : IHandle<SavingDbChanges>
+        bool IOrphanable.IsOrphan()
         {
-            public void Handle(SavingDbChanges @event)
-            {
-                var images = @event.DbContext.Set<ProductImage>();
-
-                images.Local
-                      .Where(i => i.Product == null)
-                      .ToList()
-                      .ForEach(i => images.Remove(i));
-            }
+            return ProductId == null;
         }
-
-        #endregion
     }
 }

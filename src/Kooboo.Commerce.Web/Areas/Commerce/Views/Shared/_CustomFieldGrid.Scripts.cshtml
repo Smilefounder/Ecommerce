@@ -12,6 +12,8 @@
 
             self.HtmlPrefix = null;
 
+            self.FieldDefaults = null;
+
             self.CanEditPredefinedFields = false;
 
             self.Fields = ko.observableArray();
@@ -21,7 +23,9 @@
                 dialog.onSubmitted = function (model) {
                     self.Fields.push(ko.mapping.fromJS(model));
                 };
-                dialog.open();
+                dialog.open({
+                    model: self.FieldDefaults
+                });
             };
 
             self.EditField = function (field) {
@@ -44,6 +48,10 @@
 
             self.AddPredefinedField = function () {
                 var dialog = window.AddPredefinedFieldsDialog.instance();
+                
+                dialog.excludes = _.filter(self.Fields(), function(f) { return f.IsPredefined(); })
+                                   .map(function (f) { return f.Name(); });
+
                 if (!dialog.onSubmitted) {
                     dialog.onSubmitted = function (ids) {
                         _.each(ids, function (id) {
@@ -84,6 +92,7 @@
                 self.reset();
 
                 self.model.HtmlPrefix = options.htmlPrefix;
+                self.model.FieldDefaults = options.fieldDefaults;
                 self.model.CanEditPredefinedFields = !!options.canEditPredefinedFields;
 
                 $.each(options.fields, function () {

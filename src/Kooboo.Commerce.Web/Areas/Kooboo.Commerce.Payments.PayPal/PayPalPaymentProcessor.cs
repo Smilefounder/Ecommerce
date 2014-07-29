@@ -52,8 +52,8 @@ namespace Kooboo.Commerce.Payments.PayPal
         {
             if (String.IsNullOrEmpty(context.CurrencyCode))
             {
-                var storeSettings = _settingsService.Get<StoreSettings>(StoreSettings.Key) ?? new StoreSettings();
-                context.CurrencyCode = storeSettings.CurrencyISOCode;
+                var storeSettings = _settingsService.Get<GlobalSettings>();
+                context.CurrencyCode = storeSettings.Currency;
             }
 
             var settings = context.ProcessorConfig as PayPalConfig;

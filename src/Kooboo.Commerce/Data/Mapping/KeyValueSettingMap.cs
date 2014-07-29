@@ -7,15 +7,10 @@ using Kooboo.Commerce.Settings;
 
 namespace Kooboo.Commerce.Data.Mapping
 {
-    class KeyValueSettingMap : EntityTypeConfiguration<KeyValueSetting>
+    class KeyValueSettingMap : EntityTypeConfiguration<SettingItem>
     {
         public KeyValueSettingMap()
         {
-            this.HasKey(o => new
-            {
-                o.Key,
-                o.Category
-            });
         }
     }
 }

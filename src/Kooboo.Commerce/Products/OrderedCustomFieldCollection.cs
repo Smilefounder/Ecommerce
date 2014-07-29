@@ -57,6 +57,13 @@ namespace Kooboo.Commerce.Products
                 }
             }
 
+            Items.Clear();
+
+            foreach (var item in fields)
+            {
+                Items.Add(item);
+            }
+
             OnSorted();
         }
 

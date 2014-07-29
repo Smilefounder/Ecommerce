@@ -27,18 +27,18 @@
                     <th class="action"></th>
                 </tr>
             </thead>
-            <tbody class="ui-sortable">
-                <!--ko if:!Fields().length-->
+            <tbody data-bind="visible: Fields().length === 0">
                 <tr class="empty">
                     <td colspan="100">@("Empty".Localize())</td>
                 </tr>
-                <!--/ko-->
-                <!--ko foreach:Fields-->
-                <tr>
+            </tbody>
+            <tbody data-bind="sortable: { data: Fields, connectClass: 'field-griditem', options: { handle: '.icon.drag' } }">
+                <tr class="field-griditem">
                     <td class="nocheckbox">
                         <div>@Html.IconImage("drag")</div>
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Id')}, value:Id" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Name')}, value:Name" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'IsPredefined')}, value:(IsPredefined()+'')" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'DataType')}, value:DataType" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Label')}, value:Label" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'Tooltip')}, value:Tooltip" />
@@ -64,7 +64,6 @@
                     <td data-bind="text:ControlType"></td>
                     <td class="action"><a class="action" data-bind="click:$root.RemoveField">@Html.IconImage("minus-small")</a></td>
                 </tr>
-                <!--/ko-->
             </tbody>
         </table>
     </div>

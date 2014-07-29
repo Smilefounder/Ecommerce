@@ -7,12 +7,23 @@ namespace Kooboo.Commerce.Settings.Services
 {
     public interface ISettingService
     {
-        string Get(string key, string category = null);
+        string Get(string key);
 
-        T Get<T>(string key, string category = null);
+        T Get<T>(string key);
 
-        void Set(string key, object value, string category = null);
+        void Set(string key, object value);
+    }
 
-        IEnumerable<KeyValueSetting> GetByCategory(string category);
+    public static class SettingServiceExtensions
+    {
+        public static T Get<T>(this ISettingService service)
+        {
+            return service.Get<T>(typeof(T).Name);
+        }
+
+        public static void Set<T>(this ISettingService service, T value)
+        {
+            service.Set(typeof(T).Name, value);
+        }
     }
 }

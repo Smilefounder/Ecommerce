@@ -11,7 +11,6 @@ namespace Kooboo.Commerce.Data.Mapping
     {
         public CategoryMap()
         {
-            //HasRequired(o => o.Catalog);
             HasMany(o => o.Children);
             HasOptional(o => o.Parent);
         }

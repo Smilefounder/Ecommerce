@@ -19,9 +19,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     public class ProductTypeController : CommerceController
     {
         private readonly IProductTypeService _productTypeService;
-        private readonly ICustomFieldService _customFieldService;
+        private readonly IPredefinedCustomFieldService _customFieldService;
 
-        public ProductTypeController(IProductTypeService productTypeService, ICustomFieldService customFieldService)
+        public ProductTypeController(IProductTypeService productTypeService, IPredefinedCustomFieldService customFieldService)
         {
             _productTypeService = productTypeService;
             _customFieldService = customFieldService;
@@ -125,7 +125,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult PredefinedFields()
         {
-            var fields = _customFieldService.PredefinedFields()
+            var fields = _customFieldService.Query()
                                             .OrderBy(f => f.Sequence)
                                             .Select(f => new
                                             {

@@ -185,8 +185,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult GetImageTypes()
         {
-            var settings = _settingService.Get<ImageSettings>(ImageSettings.Key) ?? new ImageSettings();
-            var sizes = settings.Sizes.Where(x => x.IsEnabled).ToList();
+            var settings = _settingService.Get<GlobalSettings>();
+            var sizes = settings.Image.Sizes.ToList();
             return JsonNet(sizes);
         }
 

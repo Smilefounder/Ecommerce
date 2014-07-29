@@ -17,69 +17,37 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     public class SettingController : CommerceController
     {
         private readonly ISettingService _settings;
-        private readonly ICustomFieldService _customFieldService;
+        private readonly IPredefinedCustomFieldService _predefinedFields;
 
-        public SettingController(
-            ISettingService settings,
-            ICustomFieldService customFieldService)
+        public SettingController(ISettingService settings, IPredefinedCustomFieldService predefinedFields)
         {
             _settings = settings;
-            _customFieldService = customFieldService;
+            _predefinedFields = predefinedFields;
         }
 
         public ActionResult Index()
         {
-            var model = new SettingEditorModel();
+            var model = new SettingsModel();
 
-            var storeSettings = _settings.Get<StoreSettings>(StoreSettings.Key) ?? new StoreSettings();
-            model.StoreSetting = new StoreSettingEditorModel(storeSettings);
-            model.ImageSettings = _settings.Get<ImageSettings>(ImageSettings.Key) ?? new ImageSettings();
-            model.ProductSetting = new ProductSettingEditorModel(_customFieldService.PredefinedFields());
+            model.Global = _settings.Get<GlobalSettings>();
+            model.PredefinedFields = _predefinedFields.Query().ToList();
 
             return View(model);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
-        public ActionResult Index(SettingEditorModel model)
+        public ActionResult Index(SettingsModel model)
         {
-            var storeSettings = new StoreSettings();
-            if (model.StoreSetting != null)
-            {
-                model.StoreSetting.UpdateTo(storeSettings);
-            }
+            _settings.Set(model.Global);
 
-            _settings.Set(StoreSettings.Key, storeSettings);
-            _settings.Set(ImageSettings.Key, model.ImageSettings);
-
-            if (model.ProductSetting != null)
+            if (model.PredefinedFields != null)
             {
-                // Update system fields
-                var systemFields = new List<CustomField>();
-                foreach (var fieldModel in model.ProductSetting.PredefinedFields)
+                for (var i = 0; i < model.PredefinedFields.Count; i++)
                 {
-                    fieldModel.IsPredefined = true;
-
-                    CustomField field = null;
-
-                    if (fieldModel.Id > 0)
-                    {
-                        field = _customFieldService.GetById(fieldModel.Id);
-                    }
-                    else
-                    {
-                        field = new CustomField
-                        {
-                            IsPredefined = true
-                        };
-                    }
-
-                    fieldModel.UpdateTo(field);
-
-                    if (field.Id == 0)
-                    {
-                        _customFieldService.Create(field);
-                    }
+                    model.PredefinedFields[i].Sequence = i;
                 }
+
+                _predefinedFields.UpdateWith(model.PredefinedFields);
             }
 
             return AjaxForm().ReloadPage();

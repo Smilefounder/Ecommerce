@@ -16,19 +16,22 @@ namespace Kooboo.Commerce.Web.Initialization
     {
         public void Initialize(CommerceInstance instance)
         {
-            InitDefaultImageSettings(instance);
+            InitGlobalSettings(instance);
         }
 
-        private void InitDefaultImageSettings(CommerceInstance instance)
+        private void InitGlobalSettings(CommerceInstance instance)
         {
-            var settings = new ImageSettings
+            var settings = new GlobalSettings
             {
-                Sizes =
+                Image = new ImageSettings
                 {
-                    CreateImageSize("List", 240, 240), 
-                    CreateImageSize("Detail", 300, 300),
-                    CreateImageSize("Thumbnail", 240, 240),
-                    CreateImageSize("Cart", 50, 50)
+                    Sizes =
+                    {
+                        new ImageSize("List", 240, 240), 
+                        new ImageSize("Detail", 300, 300, true),
+                        new ImageSize("Thumbnail", 240, 240),
+                        new ImageSize("Cart", 50, 50)
+                    }
                 }
             };
 
@@ -40,19 +43,8 @@ namespace Kooboo.Commerce.Web.Initialization
             using (var scope = Scope.Begin(instance))
             {
                 var service = EngineContext.Current.Resolve<ISettingService>();
-                service.Set(ImageSettings.Key, settings);
+                service.Set(settings);
             }
-        }
-
-        private ImageSize CreateImageSize(string name, int width, int height)
-        {
-            return new ImageSize
-            {
-                Name = name,
-                Width = width,
-                Height = height,
-                IsEnabled = true
-            };
         }
     }
 }

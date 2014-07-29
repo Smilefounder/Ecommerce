@@ -292,6 +292,7 @@
     <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
     <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Mapping\ModelMaps.cs" />
+    <Compile Include="Areas\Commerce\Models\Settings\GlobalSettings_Metadata.cs" />
     <Compile Include="Bootstrapping\AddinAreaRegistrar.cs" />
     <Compile Include="Bootstrapping\AutoMapperConfiguration.cs" />
     <Compile Include="Bootstrapping\EventsAndActivitiesRegistrar.cs" />
@@ -418,7 +419,7 @@
     <Compile Include="Areas\Commerce\Models\Promotions\PromotionRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\ControlTypeDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CultureDataSource.cs" />
-    <Compile Include="Areas\Commerce\Models\DataSources\CurrencyDataSource.cs" />
+    <Compile Include="Areas\Commerce\Models\Settings\CurrencyDataSource.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ComparisonModel.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionModel.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\ConditionModelBuilder.cs" />
@@ -430,9 +431,7 @@
     <Compile Include="Areas\Commerce\Models\Rules\IfElseRuleModel.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\RuleModelBase.cs" />
     <Compile Include="Areas\Commerce\Models\Rules\SwitchCaseRuleModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Settings\ProductSettingEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Settings\SettingEditorModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Settings\StoreSettingEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Settings\SettingsModel.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\Extensions\ShippingRateProvidersExtensions.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\Grid2\ShippingMethodRowModelGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\ShippingMethods\ShippingMethodEditorModel.cs" />
@@ -3297,12 +3296,7 @@
     <Content Include="Areas\Commerce\PackModule.bat" />
     <Content Include="Areas\Commerce\Views\Shared\_Sidebar.cshtml" />
     <Content Include="Areas\Commerce\Views\Setting\Index.cshtml" />
-    <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\Decimal.cshtml" />
-    <Content Include="Areas\Commerce\Views\Setting\_SettingEditor.cshtml" />
-    <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\ImageSizeEditorModel.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\Steps.cshtml" />
-    <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\StringCustom.cshtml" />
-    <Content Include="Areas\Commerce\Views\Setting\EditorTemplates\BooleanCustom.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\Index.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\BasicInfo.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\Index.cshtml" />

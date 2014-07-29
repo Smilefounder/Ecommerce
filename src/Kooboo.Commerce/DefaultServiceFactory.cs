@@ -15,12 +15,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.Commerce.Settings.Services;
 
 namespace Kooboo.Commerce
 {
     [Dependency(typeof(IServiceFactory))]
     public class DefaultServiceFactory : IServiceFactory
     {
+        public ISettingService Settings
+        {
+            get
+            {
+                return Resolve<ISettingService>();
+            }
+        }
+
         public ICountryService Countries
         {
             get { return Resolve<ICountryService>(); }
@@ -46,9 +55,9 @@ namespace Kooboo.Commerce
             get { return Resolve<IProductTypeService>(); }
         }
 
-        public ICustomFieldService CustomFields
+        public IPredefinedCustomFieldService CustomFields
         {
-            get { return Resolve<ICustomFieldService>(); }
+            get { return Resolve<IPredefinedCustomFieldService>(); }
         }
 
         public IProductService Products

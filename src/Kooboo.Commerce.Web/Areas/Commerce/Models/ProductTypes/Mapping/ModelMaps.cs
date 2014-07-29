@@ -16,8 +16,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes.Mapping
             Mapper.CreateMap<ProductType, ProductTypeModel>()
                   .BeforeMap((source, model) =>
                   {
-                      var service = EngineContext.Current.Resolve<ICustomFieldService>();
-                      model.PredefinedFields = service.PredefinedFields()
+                      var service = EngineContext.Current.Resolve<IPredefinedCustomFieldService>();
+                      model.PredefinedFields = service.Query()
                                                       .OrderBy(f => f.Sequence)
                                                       .ThenBy(f => f.Id)
                                                       .ToList();

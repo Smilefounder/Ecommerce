@@ -127,8 +127,8 @@
     <Compile Include="Products\CustomFieldValuesExtensions.cs" />
     <Compile Include="Products\FieldDataType.cs" />
     <Compile Include="Products\Services\CreateProductTypeRequest.cs" />
-    <Compile Include="Products\Services\CustomFieldService.cs" />
-    <Compile Include="Products\Services\ICustomFieldService.cs" />
+    <Compile Include="Products\Services\PredefinedCustomFieldService.cs" />
+    <Compile Include="Products\Services\IPredefinedCustomFieldService.cs" />
     <Compile Include="Products\Services\UpdateProductTypeRequest.cs" />
     <Compile Include="Products\ValidatorType.cs" />
     <Compile Include="Events\Customers\ICustomerEvent.cs" />
@@ -244,10 +244,10 @@
     <Compile Include="Customers\Customer.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
     <Compile Include="Settings\ImageSize.cs" />
-    <Compile Include="Settings\KeyValueSetting.cs" />
+    <Compile Include="Settings\SettingItem.cs" />
     <Compile Include="Orders\Order.cs" />
     <Compile Include="Orders\OrderItem.cs" />
-    <Compile Include="Settings\StoreSettings.cs" />
+    <Compile Include="Settings\GlobalSettings.cs" />
     <Compile Include="Products\FieldValidationRule.cs" />
     <Compile Include="Promotions\IPromotionPolicyProvider.cs" />
     <Compile Include="Promotions\IPromotionPolicy.cs" />

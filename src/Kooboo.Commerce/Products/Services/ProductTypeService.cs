@@ -93,10 +93,16 @@ namespace Kooboo.Commerce.Products.Services
             // Custom fields
             if (request.CustomFields != null)
             {
+                var fields = new List<CustomField>();
+                foreach (var field in request.CustomFields)
+                {
+                    fields.Add(field.Id == 0 ? field : _customFields.Find(field.Id));
+                }
+
                 type.CustomFields.Update(
-                    from: request.CustomFields,
+                    from: fields,
                     by: f => f.Id,
-                    onUpdateItem: (oldItem, newItem) => 
+                    onUpdateItem: (oldItem, newItem) =>
                     {
                         oldItem.UpdateFrom(newItem);
                     },
@@ -114,8 +120,14 @@ namespace Kooboo.Commerce.Products.Services
             // Variant fields
             if (request.VariantFields != null)
             {
+                var fields = new List<CustomField>();
+                foreach (var field in request.VariantFields)
+                {
+                    fields.Add(field.Id == 0 ? field : _customFields.Find(field.Id));
+                }
+
                 type.VariantFields.Update(
-                    from: request.VariantFields,
+                    from: fields,
                     by: f => f.Id,
                     onUpdateItem: (oldItem, newItem) =>
                     {

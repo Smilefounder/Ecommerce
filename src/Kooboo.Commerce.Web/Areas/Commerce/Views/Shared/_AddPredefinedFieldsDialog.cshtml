@@ -18,12 +18,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- ko if: !fields().length -->
+                            <!-- ko if: !filtered().length -->
                             <tr class="empty">
                                 <td colspan="100">@("Empty".Localize())</td>
                             </tr>
                             <!-- /ko -->
-                            <!-- ko foreach: fields -->
+                            <!-- ko foreach: filtered -->
                             <tr>
                                 <td class="checkbox">
                                     <input type="checkbox" data-bind="value: Id" />
@@ -54,7 +54,28 @@
 
             self.onSubmitted = null;
 
-            self.model = { fields: null };
+            self.excludes = [];
+
+            self.model = {
+                fields: null,
+                filtered: ko.observableArray()
+            };
+
+            self.initModel = function () {
+                var model = self.model;
+
+                model.filtered.removeAll();
+
+                if (!model.fields) {
+                    return;
+                }
+
+                _.each(self.model.fields(), function (f) {
+                    if (self.excludes.length === 0 || self.excludes.indexOf(f.Name()) < 0) {
+                        model.filtered.push(f);
+                    }
+                });
+            }
 
             self.selectedFieldIds = function () {
                 var ids = [];
@@ -85,11 +106,14 @@
                     $.get('/Commerce/ProductType/PredefinedFields')
                      .done(function (data) {
                          self.model.fields = ko.mapping.fromJS(data);
+                         self.initModel();
+
                          $dialog.dialog('open');
                          ko.applyBindings(self.model, $dialog[0]);
                      });
                 } else {
                     self.unselectAll();
+                    self.initModel();
                     $dialog.dialog('open');
                 }
             }
