@@ -42,21 +42,16 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
         {
             base.BuildControl(builder, field, value, htmlAttributes, viewContext);
 
-            if (!String.IsNullOrWhiteSpace(field.ControlConfig))
+            var html = new StringBuilder();
+            html.Append("<option value=\"\"></option>");
+
+            foreach (var item in field.SelectionItems)
             {
-                var html = new StringBuilder();
-
-                html.Append("<option value=\"\"></option>");
-
-                var items = JsonConvert.DeserializeObject<IList<SelectionItem>>(field.ControlConfig);
-                foreach (var item in items)
-                {
-                    html.AppendFormat("<option value=\"{0}\">{1}</option>", item.Value, item.Text)
-                        .AppendLine();
-                }
-
-                builder.InnerHtml = html.ToString();
+                html.AppendFormat("<option value=\"{0}\">{1}</option>", item.Value, item.Text)
+                    .AppendLine();
             }
+
+            builder.InnerHtml = html.ToString();
         }
     }
 }

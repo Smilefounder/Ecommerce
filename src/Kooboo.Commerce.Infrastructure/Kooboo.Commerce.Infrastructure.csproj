@@ -229,6 +229,7 @@
     <Compile Include="Rules\TypeExtensions.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Scope`.cs" />
+    <Compile Include="SelectionItem.cs" />
     <Compile Include="Utils\Inflector.cs" />
     <Compile Include="Utils\TypeHelper.cs" />
   </ItemGroup>

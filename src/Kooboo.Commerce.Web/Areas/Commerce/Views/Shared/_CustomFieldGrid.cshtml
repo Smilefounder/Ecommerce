@@ -44,7 +44,10 @@
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'ControlType')}, value:ControlType" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'DefaultValue')}, value:DefaultValue" />
                         <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'IsValueLocalizable')}, value:(IsValueLocalizable()+'')" />
-                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($index,'ControlConfig')}, value:ControlConfig" />
+                        <!--ko foreach:SelectionItems-->
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($parentContext.$index,'SelectionItems[' + $index() + '].Text')},value:Text" />
+                        <input type="hidden" data-bind="attr:{name:$root.GetInputHtmlName($parentContext.$index,'SelectionItems[' + $index() + '].Value')},value:Value" />
+                        <!--/ko-->
                         <!--ko foreach:ValidationRules-->
                         <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'Id')}, value:Id" />
                         <input type="hidden" data-bind="attr:{name:$root.GetValidationRuleInputHtmlName($parentContext.$index,$index,'ValidatorName')}, value:ValidatorName" />

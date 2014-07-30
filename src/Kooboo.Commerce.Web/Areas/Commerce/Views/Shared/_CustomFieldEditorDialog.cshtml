@@ -322,8 +322,6 @@
             self.model = function () {
                 var result = ko.mapping.toJS(model);
 
-                result.ControlConfig = JSON.stringify(ko.mapping.toJS(model.SelectionItems));
-
                 $.each(result.ValidationRules, function () {
                     if (this.ValidatorConfigModel) {
                         this.ValidatorConfig = JSON.stringify(this.ValidatorConfigModel);
@@ -331,18 +329,6 @@
                 });
 
                 return result;
-            }
-
-            self.initModel = function () {
-                model.SelectionItems.removeAll();
-
-                var config = model.ControlConfig ?  model.ControlConfig() : null;
-                if (config) {
-                    var items = JSON.parse(config);
-                    $.each(items, function () {
-                        model.SelectionItems.push(ko.mapping.fromJS(this));
-                    });
-                }
             }
 
             self.onSubmitted = null;
@@ -375,8 +361,6 @@
                     // reset
                     ko.mapping.fromJS(defaultModel, mappingOptions, model);
                 }
-
-                self.initModel();
 
                 $dialog.dialog('open');
             }

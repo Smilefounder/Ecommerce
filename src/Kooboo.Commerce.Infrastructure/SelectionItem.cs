@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Web.Framework.UI.Form
+namespace Kooboo.Commerce
 {
     public class SelectionItem
     {

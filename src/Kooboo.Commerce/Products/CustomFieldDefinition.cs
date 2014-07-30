@@ -6,6 +6,8 @@ using System.Text;
 using Kooboo.Commerce.Products;
 using System.ComponentModel.DataAnnotations.Schema;
 using Kooboo.Commerce.Data;
+using System.Collections.ObjectModel;
+using Newtonsoft.Json;
 
 namespace Kooboo.Commerce.Products
 {
@@ -34,7 +36,44 @@ namespace Kooboo.Commerce.Products
         [Required, StringLength(50)]
         public string ControlType { get; set; }
 
-        public string ControlConfig { get; set; }
+        [Column("SelectionItems")]
+        protected string SelectionItemsJson { get; set; }
+
+        private List<SelectionItem> _selectionItems;
+
+        [NotMapped]
+        public IEnumerable<SelectionItem> SelectionItems
+        {
+            get
+            {
+                if (_selectionItems == null)
+                {
+                    if (String.IsNullOrWhiteSpace(SelectionItemsJson))
+                    {
+                        _selectionItems = new List<SelectionItem>();
+                    }
+                    else
+                    {
+                        _selectionItems = JsonConvert.DeserializeObject<List<SelectionItem>>(SelectionItemsJson);
+                    }
+                }
+
+                return _selectionItems;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    SelectionItemsJson = null;
+                }
+                else
+                {
+                    SelectionItemsJson = JsonConvert.SerializeObject(value);
+                }
+
+                _selectionItems = null;
+            }
+        }
 
         [StringLength(1000)]
         public string DefaultValue { get; set; }
@@ -55,7 +94,7 @@ namespace Kooboo.Commerce.Products
             DefaultValue = field.DefaultValue;
             Sequence = field.Sequence;
             IsValueLocalizable = field.IsValueLocalizable;
-            ControlConfig = field.ControlConfig;
+            SelectionItems = field.SelectionItems;
 
             ValidationRules.Update(
                 from: field.ValidationRules,

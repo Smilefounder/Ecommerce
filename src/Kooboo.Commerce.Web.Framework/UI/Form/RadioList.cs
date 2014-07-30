@@ -50,36 +50,34 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
         {
             builder.AddCssClass("form-list");
 
-            if (!String.IsNullOrWhiteSpace(field.ControlConfig))
+            var itemsHtml = new StringBuilder();
+            var i = 0;
+
+            foreach (var item in field.SelectionItems)
             {
-                var itemsHtml = new StringBuilder();
-                var items = JsonConvert.DeserializeObject<List<SelectionItem>>(field.ControlConfig);
+                itemsHtml.AppendLine("<li>");
 
-                for (var i = 0; i < items.Count; i++)
-                {
-                    var item = items[i];
-                    itemsHtml.AppendLine("<li>");
+                var radioId = field.Name + "_" + i;
+                var radio = new TagBuilder("input");
+                radio.MergeAttribute("id", radioId);
+                radio.MergeAttribute("type", "radio");
+                radio.MergeAttribute("name", field.Name);
+                radio.MergeAttribute("value", item.Value);
 
-                    var radioId = field.Name + "_" + i;
-                    var radio = new TagBuilder("input");
-                    radio.MergeAttribute("id", radioId);
-                    radio.MergeAttribute("type", "radio");
-                    radio.MergeAttribute("name", field.Name);
-                    radio.MergeAttribute("value", item.Value);
+                var label = new TagBuilder("label");
+                label.InnerHtml = item.Text;
+                label.AddCssClass("inline");
+                label.MergeAttribute("for", radioId);
 
-                    var label = new TagBuilder("label");
-                    label.InnerHtml = item.Text;
-                    label.AddCssClass("inline");
-                    label.MergeAttribute("for", radioId);
+                itemsHtml.AppendLine(radio.ToString(TagRenderMode.SelfClosing));
+                itemsHtml.AppendLine(label.ToString());
 
-                    itemsHtml.AppendLine(radio.ToString(TagRenderMode.SelfClosing));
-                    itemsHtml.AppendLine(label.ToString());
+                itemsHtml.AppendLine("</li>");
 
-                    itemsHtml.AppendLine("</li>");
-                }
-
-                builder.InnerHtml = itemsHtml.ToString();
+                i++;
             }
+
+            builder.InnerHtml = itemsHtml.ToString();
 
             base.BuildControl(builder, field, value, htmlAttributes, viewContext);
         }
