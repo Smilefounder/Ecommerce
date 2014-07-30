@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
 {
     public static class ValidationExtensions
     {
-        public static IEnumerable<ModelClientValidationRule> GetClientValidationRules(this CustomField field)
+        public static IEnumerable<ModelClientValidationRule> GetClientValidationRules(this CustomFieldDefinition field)
         {
             var rules = Enumerable.Empty<ModelClientValidationRule>();
             var validators = ControlValidators.Validators().ToList();
@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             return rules;
         }
 
-        public static IDictionary<string, object> GetUnobtrusiveValidationAtributes(this CustomField field)
+        public static IDictionary<string, object> GetUnobtrusiveValidationAtributes(this CustomFieldDefinition field)
         {
             var result = new Dictionary<string, object>();
 

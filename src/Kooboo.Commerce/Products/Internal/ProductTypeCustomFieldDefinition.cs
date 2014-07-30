@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kooboo.Commerce.Products.Internal
 {
-    public class ProductTypeCustomField
+    public class ProductTypeCustomFieldDefinition
     {
         [Key, Column(Order = 0)]
         public int ProductTypeId { get; set; }
@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Products.Internal
 
         public virtual ProductType ProductType { get; set; }
 
-        public virtual CustomField CustomField { get; set; }
+        public virtual CustomFieldDefinition CustomField { get; set; }
 
         public int Sequence { get; set; }
     }

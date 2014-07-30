@@ -20,20 +20,10 @@ namespace Kooboo.Commerce.Products
         public Product()
         {
             CreatedAtUtc = DateTime.UtcNow;
-            IsPublished = false;
-            Type = null;
-            Brand = null;
             Categories = new List<ProductCategory>();
             Images = new List<ProductImage>();
             CustomFields = new List<ProductCustomField>();
             Variants = new List<ProductVariant>();
-        }
-
-        public Product(string name, ProductType type)
-            : this()
-        {
-            Name = name;
-            Type = type;
         }
 
         [Param]
@@ -51,9 +41,6 @@ namespace Kooboo.Commerce.Products
         public bool IsPublished { get; set; }
 
         public DateTime? PublishedAtUtc { get; set; }
-
-        [Reference]
-        public virtual ProductType Type { get; set; }
 
         public int? BrandId { get; set; }
 

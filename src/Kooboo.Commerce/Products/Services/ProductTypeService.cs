@@ -17,9 +17,9 @@ namespace Kooboo.Commerce.Products.Services
     public class ProductTypeService : IProductTypeService
     {
         private readonly IRepository<ProductType> _productTypes;
-        private readonly IRepository<CustomField> _customFields;
+        private readonly IRepository<CustomFieldDefinition> _customFields;
 
-        public ProductTypeService(IRepository<ProductType> productTypes, IRepository<CustomField> customFields)
+        public ProductTypeService(IRepository<ProductType> productTypes, IRepository<CustomFieldDefinition> customFields)
         {
             _productTypes = productTypes;
             _customFields = customFields;
@@ -52,11 +52,11 @@ namespace Kooboo.Commerce.Products.Services
                     if (field.IsPredefined)
                     {
                         var predefined = predefinedFields.Find(f => f.Id == field.Id);
-                        type.CustomFields.Add(predefined);
+                        type.CustomFieldDefinitions.Add(predefined);
                     }
                     else
                     {
-                        type.CustomFields.Add(field);
+                        type.CustomFieldDefinitions.Add(field);
                     }
                 }
             }
@@ -68,11 +68,11 @@ namespace Kooboo.Commerce.Products.Services
                     if (field.IsPredefined)
                     {
                         var predefined = predefinedFields.Find(f => f.Id == field.Id);
-                        type.VariantFields.Add(predefined);
+                        type.VariantFieldDefinitions.Add(predefined);
                     }
                     else
                     {
-                        type.VariantFields.Add(field);
+                        type.VariantFieldDefinitions.Add(field);
                     }
                 }
             }
@@ -95,7 +95,7 @@ namespace Kooboo.Commerce.Products.Services
             {
                 RefreshPredefinedFields(request.CustomFields);
 
-                type.CustomFields.Update(
+                type.CustomFieldDefinitions.Update(
                     from: request.CustomFields,
                     by: f => f.Id,
                     onUpdateItem: (oldItem, newItem) =>
@@ -110,7 +110,7 @@ namespace Kooboo.Commerce.Products.Services
                         }
                     });
 
-                type.CustomFields.Sort(request.CustomFields.Select(f => f.Name));
+                type.CustomFieldDefinitions.Sort(request.CustomFields.Select(f => f.Name));
             }
 
             // Variant fields
@@ -118,7 +118,7 @@ namespace Kooboo.Commerce.Products.Services
             {
                 RefreshPredefinedFields(request.VariantFields);
 
-                type.VariantFields.Update(
+                type.VariantFieldDefinitions.Update(
                     from: request.VariantFields,
                     by: f => f.Id,
                     onUpdateItem: (oldItem, newItem) =>
@@ -133,7 +133,7 @@ namespace Kooboo.Commerce.Products.Services
                         }
                     });
 
-                type.VariantFields.Sort(request.VariantFields.Select(f => f.Name));
+                type.VariantFieldDefinitions.Sort(request.VariantFields.Select(f => f.Name));
             }
 
             _productTypes.Database.SaveChanges();
@@ -141,7 +141,7 @@ namespace Kooboo.Commerce.Products.Services
             return type;
         }
 
-        private void RefreshPredefinedFields(List<CustomField> fields)
+        private void RefreshPredefinedFields(List<CustomFieldDefinition> fields)
         {
             for (var i = 0; i < fields.Count; i++)
             {

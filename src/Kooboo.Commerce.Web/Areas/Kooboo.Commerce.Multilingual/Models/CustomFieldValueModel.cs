@@ -16,6 +16,6 @@ namespace Kooboo.Commerce.Multilingual.Models
 
         public string FieldValue { get; set; }
 
-        public CustomField Field { get; set; }
+        public CustomFieldDefinition Field { get; set; }
     }
 }

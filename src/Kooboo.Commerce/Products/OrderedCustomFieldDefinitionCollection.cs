@@ -7,13 +7,13 @@ using System.Text;
 
 namespace Kooboo.Commerce.Products
 {
-    public class OrderedCustomFieldCollection : Collection<CustomField>
+    public class OrderedCustomFieldDefinitionCollection : Collection<CustomFieldDefinition>
     {
-        private Action<CustomField> _onAdded;
-        private Action<CustomField> _onRemoved;
+        private Action<CustomFieldDefinition> _onAdded;
+        private Action<CustomFieldDefinition> _onRemoved;
         private Action _onSorted;
         
-        public OrderedCustomFieldCollection(IEnumerable<CustomField> fields, Action<CustomField> onAdded, Action<CustomField> onRemoved, Action onSorted)
+        public OrderedCustomFieldDefinitionCollection(IEnumerable<CustomFieldDefinition> fields, Action<CustomFieldDefinition> onAdded, Action<CustomFieldDefinition> onRemoved, Action onSorted)
             : base(fields.ToList())
         {
             _onAdded = onAdded;
@@ -26,19 +26,19 @@ namespace Kooboo.Commerce.Products
             return Items.Any(f => f.Name == fieldName);
         }
 
-        public CustomField Find(int fieldId)
+        public CustomFieldDefinition Find(int fieldId)
         {
             return Items.FirstOrDefault(f => f.Id == fieldId);
         }
 
-        public CustomField Find(string fieldName)
+        public CustomFieldDefinition Find(string fieldName)
         {
             return Items.FirstOrDefault(f => f.Name == fieldName);
         }
 
         public void Sort(IEnumerable<string> fieldNameOrders)
         {
-            var fields = new List<CustomField>();
+            var fields = new List<CustomFieldDefinition>();
 
             foreach (var fieldName in fieldNameOrders)
             {
@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.Products
             }
         }
 
-        public void AddRange(IEnumerable<CustomField> fields)
+        public void AddRange(IEnumerable<CustomFieldDefinition> fields)
         {
             foreach (var field in fields)
             {
@@ -83,7 +83,7 @@ namespace Kooboo.Commerce.Products
             }
         }
 
-        protected override void InsertItem(int index, Kooboo.Commerce.Products.CustomField item)
+        protected override void InsertItem(int index, Kooboo.Commerce.Products.CustomFieldDefinition item)
         {
             base.InsertItem(index, item);
             OnAdded(item);
@@ -116,7 +116,7 @@ namespace Kooboo.Commerce.Products
             return false;
         }
 
-        private void OnAdded(CustomField field)
+        private void OnAdded(CustomFieldDefinition field)
         {
             if (_onAdded != null)
             {
@@ -124,7 +124,7 @@ namespace Kooboo.Commerce.Products
             }
         }
 
-        private void OnRemoved(CustomField field)
+        private void OnRemoved(CustomFieldDefinition field)
         {
             if (_onRemoved != null)
             {

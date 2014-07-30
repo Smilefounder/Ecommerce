@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form.Validation
             }
         }
 
-        public IEnumerable<System.Web.Mvc.ModelClientValidationRule> GetClientValidationRules(CustomField field, FieldValidationRule rule)
+        public IEnumerable<System.Web.Mvc.ModelClientValidationRule> GetClientValidationRules(CustomFieldDefinition field, FieldValidationRule rule)
         {
             yield return new ModelClientValidationRule
             {

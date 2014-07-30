@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form.Validation
     {
         string Name { get; }
 
-        IEnumerable<ModelClientValidationRule> GetClientValidationRules(CustomField field, FieldValidationRule rule);
+        IEnumerable<ModelClientValidationRule> GetClientValidationRules(CustomFieldDefinition field, FieldValidationRule rule);
     }
 
     public static class ControlValidators

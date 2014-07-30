@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             }
         }
 
-        public virtual IHtmlString Render(CustomField field, string value, object htmlAttributes, ViewContext viewContext)
+        public virtual IHtmlString Render(CustomFieldDefinition field, string value, object htmlAttributes, ViewContext viewContext)
         {
             var builder = new TagBuilder(TagName);
 
@@ -51,7 +51,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             return new HtmlString(builder.ToString(TagRenderMode));
         }
 
-        protected virtual void BuildControl(TagBuilder builder, CustomField field, string value, object htmlAttributes, ViewContext viewContext)
+        protected virtual void BuildControl(TagBuilder builder, CustomFieldDefinition field, string value, object htmlAttributes, ViewContext viewContext)
         {
             if (htmlAttributes != null)
             {

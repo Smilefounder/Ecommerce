@@ -8,7 +8,6 @@ using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Locations.Services;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments.Services;
-using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Shipping.Services;
 using System;

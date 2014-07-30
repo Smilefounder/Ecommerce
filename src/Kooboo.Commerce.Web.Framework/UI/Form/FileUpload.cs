@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             }
         }
 
-        public IHtmlString Render(CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
+        public IHtmlString Render(CustomFieldDefinition field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
         {
             var container = new TagBuilder("div");
             container.AddCssClass("custom-file");

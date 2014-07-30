@@ -11,8 +11,8 @@ namespace Kooboo.Commerce.Products.Services
 
         public string SkuAlias { get; set; }
 
-        public List<CustomField> CustomFields { get; set; }
+        public List<CustomFieldDefinition> CustomFields { get; set; }
 
-        public List<CustomField> VariantFields { get; set; }
+        public List<CustomFieldDefinition> VariantFields { get; set; }
     }
 }

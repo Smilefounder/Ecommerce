@@ -102,8 +102,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 {
                     Name = model.Name,
                     SkuAlias = model.SkuAlias,
-                    CustomFields = model.CustomFields,
-                    VariantFields = model.VariantFields
+                    CustomFields = model.CustomFieldDefinitions,
+                    VariantFields = model.VariantFieldDefinitions
                 });
             }
             else
@@ -112,8 +112,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 {
                     Name = model.Name,
                     SkuAlias = model.SkuAlias,
-                    CustomFields = model.CustomFields,
-                    VariantFields = model.VariantFields
+                    CustomFields = model.CustomFieldDefinitions,
+                    VariantFields = model.VariantFieldDefinitions
                 });
             }
 

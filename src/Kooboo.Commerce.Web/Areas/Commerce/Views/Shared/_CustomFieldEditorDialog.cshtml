@@ -1,7 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using Kooboo.Commerce.Web.Framework.UI.Form
 @using Kooboo.Commerce.Web.Framework.UI.Form.Validation
-@model CustomField
 
 <div class="hide">
     <div id="customfield-editor-dialog">
@@ -223,7 +222,7 @@
 <script>
     (function ($) {
 
-        var defaultModel = @(Html.Raw(JsonConvert.SerializeObject(new CustomField())));
+        var defaultModel = @(Html.Raw(JsonConvert.SerializeObject(new CustomFieldDefinition())));
         var defaultValidatorConfigs = {
             'Required': {},
             'StringLength': @(Html.Raw(JsonConvert.SerializeObject(new StringLengthValidatorConfig()))),

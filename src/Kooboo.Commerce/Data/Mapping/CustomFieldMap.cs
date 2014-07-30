@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Mapping
 {
-    class CustomFieldMap : EntityTypeConfiguration<CustomField>
+    class CustomFieldMap : EntityTypeConfiguration<CustomFieldDefinition>
     {
         public CustomFieldMap()
         {

@@ -9,7 +9,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
 {
-    [MetadataFor(typeof(CustomField))]
+    [MetadataFor(typeof(CustomFieldDefinition))]
     public class CustomField_Metadata
     {
         [Required]

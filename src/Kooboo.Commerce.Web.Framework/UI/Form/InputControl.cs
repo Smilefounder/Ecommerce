@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
 
         protected abstract string Type { get; }
 
-        protected override void BuildControl(TagBuilder builder, CustomField field, string value, object htmlAttributes, ViewContext viewContext)
+        protected override void BuildControl(TagBuilder builder, CustomFieldDefinition field, string value, object htmlAttributes, ViewContext viewContext)
         {
             builder.MergeAttribute("type", Type, true);
 

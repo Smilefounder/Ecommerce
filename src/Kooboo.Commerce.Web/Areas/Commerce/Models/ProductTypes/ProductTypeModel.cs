@@ -30,16 +30,16 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
         [BooleanColumn]
         public bool IsEnabled { get; set; }
 
-        public List<CustomField> PredefinedFields { get; set; }
+        public List<CustomFieldDefinition> PredefinedFields { get; set; }
 
-        public List<CustomField> CustomFields { get; set; }
+        public List<CustomFieldDefinition> CustomFieldDefinitions { get; set; }
 
-        public List<CustomField> VariantFields { get; set; }
+        public List<CustomFieldDefinition> VariantFieldDefinitions { get; set; }
 
         public ProductTypeModel()
         {
-            CustomFields = new List<CustomField>();
-            VariantFields = new List<CustomField>();
+            CustomFieldDefinitions = new List<CustomFieldDefinition>();
+            VariantFieldDefinitions = new List<CustomFieldDefinition>();
         }
     }
 }

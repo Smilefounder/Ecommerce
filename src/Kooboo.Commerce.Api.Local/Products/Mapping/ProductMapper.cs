@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
             var model = base.Map(source, target, sourceType, targetType, prefix, context) as Product;
             var product = source as Kooboo.Commerce.Products.Product;
 
-            model.SkuAlias = product.Type.SkuAlias;
+            //model.SkuAlias = product.Type.SkuAlias;
 
             // Price range
             model.PriceRange = new PriceRange(product.Variants.Min(v => v.Price), product.Variants.Max(v => v.Price));

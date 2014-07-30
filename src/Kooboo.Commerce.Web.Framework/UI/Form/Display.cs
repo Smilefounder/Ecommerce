@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             get { return "value"; }
         }
 
-        public IHtmlString Render(CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
+        public IHtmlString Render(CustomFieldDefinition field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
         {
             var input = new TagBuilder("input");
             input.Attributes.Add("type", "hidden");

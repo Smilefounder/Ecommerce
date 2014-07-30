@@ -8,7 +8,7 @@
     <input type="hidden" name="FieldType" value="VariantField" />
     <div class="toolbar">
         <a class="button" href="javascript:;" data-bind="click: $root.AddPrice">Add</a>
-        @if (productType.VariationFields.Count > 0)
+        @if (productType.VariantFieldDefinitions.Count > 0)
         {
             <a href="#" class="button" data-action="set-variant-values">@("Bulk add".Localize())</a>
         }
@@ -45,9 +45,9 @@
                     </div>
                 </th>
                 <th>@("Sku".Localize())</th>
-                @foreach (var field in productType.VariationFields)
+                @foreach (var field in productType.VariantFieldDefinitions)
                 {
-                    <th>@field.CustomField.Label</th>
+                    <th>@field.Label</th>
                 }
                 <th class="mini">@("Price".Localize())</th>
                 <th class="action"></th>
@@ -67,9 +67,9 @@
                     <input type="checkbox" class="select" data-bind="checked: Selected" />
                 </td>
                 <td data-bind="text:Sku"></td>
-                @foreach (var field in productType.VariationFields)
+                @foreach (var field in productType.VariantFieldDefinitions)
                 {
-                    <td data-bind="text: $root.GetVariantFieldText($data, '@field.CustomField.Name')"></td>
+                    <td data-bind="text: $root.GetVariantFieldText($data, '@field.Name')"></td>
                 }
                 <td class="mini" data-bind="text:Price"></td>
                 <td><a data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit-small")</a></td>
@@ -80,9 +80,8 @@
                     <input type="checkbox" class="select" data-bind="checked: Selected" />
                 </td>
                 <td><input type="text" data-bind="value:Sku"></td>
-                @foreach (var customField in productType.VariationFields)
+                @foreach (var field in productType.VariantFieldDefinitions)
                 {
-                    var field = customField.CustomField;
                     var control = controls.FirstOrDefault(c => c.Name == field.ControlType) ?? controls.First();
 
                     <td>

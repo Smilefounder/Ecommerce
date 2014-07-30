@@ -12,9 +12,9 @@
 
     var Metadata = {
         ProductType: {
-            CustomFields: @(Html.Raw(productType.CustomFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson())),
-            VariationFields: @(Html.Raw(productType.VariationFields.Select(f => new { f.CustomField.Id, f.CustomField.Name, f.CustomField.Label }).ToJson()))
-            }
+            CustomFieldDefinitions: @(Html.Raw(productType.CustomFieldDefinitions.Select(f => new { f.Id, f.Name, f.Label }).ToJson())),
+            VariantFieldDefinitions: @(Html.Raw(productType.VariantFieldDefinitions.Select(f => new { f.Id, f.Name, f.Label }).ToJson()))
+        }
     };
 
     var vm = new ObjectModel({
@@ -193,7 +193,7 @@
                 $.each(self.data().Variants(), function () {
                     var price = this;
                     var value = _.find(price.VariantFields(), function (val) {
-                        return val.CustomField().Name() == fieldName;
+                        return val.FieldName() == fieldName;
                     });
 
                     if (value && value.FieldValue() == fieldValue) {
@@ -233,7 +233,7 @@
 
                 // New fields might be created after product creation, so here need to ensure custom field always exists
                 if (!field) {
-                    var definition = _.find(Metadata.ProductType.CustomFields, function (f) {
+                    var definition = _.find(Metadata.ProductType.CustomFieldDefinitions, function (f) {
                         return f.Name == fieldName;
                     });
 
@@ -255,7 +255,7 @@
 
             self.GetAllVariantFieldNames = function () {
                 var fields = [];
-                $.each(Metadata.ProductType.VariationFields, function () {
+                $.each(Metadata.ProductType.VariantFieldDefinitions, function () {
                     fields.push(this.Name);
                 });
 
@@ -273,7 +273,7 @@
 
                 // New fields might be created after product creation, so here need to ensure custom field always exists
                 if (!field) {
-                    var definition = _.find(Metadata.ProductType.VariationFields, function (f) {
+                    var definition = _.find(Metadata.ProductType.VariantFieldDefinitions, function (f) {
                         return f.Name == fieldName;
                     });
 
@@ -319,7 +319,7 @@
                     Selected: ko.observable(false)
                 };
 
-                $.each(Metadata.ProductType.VariationFields, function (i, field) {
+                $.each(Metadata.ProductType.VariantFieldDefinitions, function (i, field) {
                     price.VariantFields.push({
                         FieldName: ko.observable(field.Name),
                         FieldText: ko.observable(),
@@ -372,7 +372,7 @@
                             var fieldName = this.name;
                             var fieldValue = this.value;
                             var field = _.find(price.VariantFields(), function (f) {
-                                return f.CustomField().Name() == fieldName;
+                                return f.FieldName() == fieldName;
                             });
                             field.FieldValue(fieldValue);
                         });
@@ -556,7 +556,7 @@
              ChangePriceDialog.instance().onSave = function (price) {
                  $.each(vm.data().Variants(), function () {
                      if (this.Selected()) {
-                         this.RetailPrice(price);
+                         this.Price(price);
                      }
                  });
              };

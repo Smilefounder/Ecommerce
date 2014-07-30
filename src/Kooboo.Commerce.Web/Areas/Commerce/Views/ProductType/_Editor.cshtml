@@ -45,13 +45,13 @@
         $('#product-type-tabs').tabs();
 
         new CustomFieldGrid('#customfields').load({
-            htmlPrefix: 'CustomFields',
-            fields: @Html.Raw(JsonConvert.SerializeObject(Model.CustomFields))
+            htmlPrefix: 'CustomFieldDefinitions',
+            fields: @Html.Raw(JsonConvert.SerializeObject(Model.CustomFieldDefinitions))
         });
 
         new CustomFieldGrid('#variantfields').load({
-            htmlPrefix: 'VariantFields',
-            fields: @Html.Raw(JsonConvert.SerializeObject(Model.VariantFields))
+            htmlPrefix: 'VariantFieldDefinitions',
+            fields: @Html.Raw(JsonConvert.SerializeObject(Model.VariantFieldDefinitions))
         });
     });
 </script>

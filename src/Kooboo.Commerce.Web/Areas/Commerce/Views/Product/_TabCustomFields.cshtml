@@ -9,9 +9,8 @@
     <input type="hidden" name="FieldType" value="CustomField" />
     <table>
         <tbody>
-            @foreach (var customField in productType.CustomFields)
+            @foreach (var field in productType.CustomFieldDefinitions)
             {
-                var field = customField.CustomField;
                 var control = controls.FirstOrDefault(c => c.Name == field.ControlType);
                 if (control == null)
                 {

@@ -63,7 +63,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         {
             var product = _services.Products.GetById(id);
             var productType = _services.ProductTypes.GetById(product.ProductTypeId);
-            var fields = productType.CustomFields.Where(f => f.IsValueLocalizable).ToList();
+            var fields = productType.CustomFieldDefinitions.Where(f => f.IsValueLocalizable).ToList();
 
             var compared = new ProductModel
             {

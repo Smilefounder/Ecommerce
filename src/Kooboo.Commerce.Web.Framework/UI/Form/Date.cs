@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             get { return "Date"; }
         }
 
-        protected override void BuildControl(System.Web.Mvc.TagBuilder builder, Products.CustomField field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
+        protected override void BuildControl(System.Web.Mvc.TagBuilder builder, Products.CustomFieldDefinition field, string value, object htmlAttributes, System.Web.Mvc.ViewContext viewContext)
         {
             builder.MergeAttribute("data-toggle", "datepicker");
             base.BuildControl(builder, field, value, htmlAttributes, viewContext);

@@ -9,9 +9,9 @@ using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Products
 {
-    public class CustomField
+    public class CustomFieldDefinition
     {
-        public CustomField()
+        public CustomFieldDefinition()
         {
             ControlType = "TextBox";
             ValidationRules = new List<FieldValidationRule>();
@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Products
 
         public virtual ICollection<FieldValidationRule> ValidationRules { get; set; }
 
-        public void UpdateFrom(CustomField field)
+        public void UpdateFrom(CustomFieldDefinition field)
         {
             // Do not update IsPredefined and Id
             Name = field.Name;

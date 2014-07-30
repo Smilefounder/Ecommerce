@@ -11,6 +11,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Settings
     {
         public GlobalSettings Global { get; set; }
 
-        public IList<CustomField> PredefinedFields { get; set; }
+        public IList<CustomFieldDefinition> PredefinedFields { get; set; }
     }
 }

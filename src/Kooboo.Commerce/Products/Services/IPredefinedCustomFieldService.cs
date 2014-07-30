@@ -8,16 +8,16 @@ namespace Kooboo.Commerce.Products.Services {
 
     public interface IPredefinedCustomFieldService {
 
-        CustomField GetById(int id);
+        CustomFieldDefinition GetById(int id);
 
-        IQueryable<CustomField> Query();
+        IQueryable<CustomFieldDefinition> Query();
 
-        void Create(CustomField field);
+        void Create(CustomFieldDefinition field);
 
-        void Update(CustomField field);
+        void Update(CustomFieldDefinition field);
 
-        void UpdateWith(IEnumerable<CustomField> newFields);
+        void UpdateWith(IEnumerable<CustomFieldDefinition> newFields);
 
-        void Delete(CustomField field);
+        void Delete(CustomFieldDefinition field);
     }
 }

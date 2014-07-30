@@ -29,72 +29,72 @@ namespace Kooboo.Commerce.Products
         [Param]
         public bool IsEnabled { get; set; }
 
-        protected virtual ICollection<ProductTypeCustomField> InternalCustomFields { get; set; }
-        private OrderedCustomFieldCollection _customFields;
+        protected virtual ICollection<ProductTypeCustomFieldDefinition> InternalCustomFieldDefinitions { get; set; }
+        private OrderedCustomFieldDefinitionCollection _customFieldDefinitions;
 
         [NotMapped]
-        public OrderedCustomFieldCollection CustomFields
+        public OrderedCustomFieldDefinitionCollection CustomFieldDefinitions
         {
             get
             {
-                if (_customFields == null)
+                if (_customFieldDefinitions == null)
                 {
-                    var orderedFields = InternalCustomFields.OrderBy(f => f.Sequence).Select(f => f.CustomField);
-                    _customFields = new OrderedCustomFieldCollection(orderedFields, OnCustomFieldAdded, OnCustomFieldRemoved, OnCustomFieldsSorted);
+                    var orderedFields = InternalCustomFieldDefinitions.OrderBy(f => f.Sequence).Select(f => f.CustomField);
+                    _customFieldDefinitions = new OrderedCustomFieldDefinitionCollection(orderedFields, OnCustomFieldAdded, OnCustomFieldRemoved, OnCustomFieldsSorted);
                 }
-                return _customFields;
+                return _customFieldDefinitions;
             }
         }
 
-        protected virtual ICollection<ProductTypeVariantField> InternalVariantFields { get; set; }
-        private OrderedCustomFieldCollection _variantFields;
+        protected virtual ICollection<ProductTypeVariantFieldDefintion> InternalVariantFieldDefinitions { get; set; }
+        private OrderedCustomFieldDefinitionCollection _variantFieldDefinitions;
 
         [NotMapped]
-        public OrderedCustomFieldCollection VariantFields
+        public OrderedCustomFieldDefinitionCollection VariantFieldDefinitions
         {
             get
             {
-                if (_variantFields == null)
+                if (_variantFieldDefinitions == null)
                 {
-                    var orderedFields = InternalVariantFields.OrderBy(f => f.Sequence).Select(f => f.CustomField);
-                    _variantFields = new OrderedCustomFieldCollection(orderedFields, OnVariantFieldAdded, OnVariantFieldRemoved, OnVariantFieldsSorted);
+                    var orderedFields = InternalVariantFieldDefinitions.OrderBy(f => f.Sequence).Select(f => f.CustomField);
+                    _variantFieldDefinitions = new OrderedCustomFieldDefinitionCollection(orderedFields, OnVariantFieldAdded, OnVariantFieldRemoved, OnVariantFieldsSorted);
                 }
-                return _variantFields;
+                return _variantFieldDefinitions;
             }
         }
 
         public ProductType()
         {
-            InternalCustomFields = new List<ProductTypeCustomField>();
-            InternalVariantFields = new List<ProductTypeVariantField>();
+            InternalCustomFieldDefinitions = new List<ProductTypeCustomFieldDefinition>();
+            InternalVariantFieldDefinitions = new List<ProductTypeVariantFieldDefintion>();
         }
 
         #region Custom field collection callbacks
 
-        private void OnCustomFieldAdded(CustomField field)
+        private void OnCustomFieldAdded(CustomFieldDefinition field)
         {
-            InternalCustomFields.Add(new ProductTypeCustomField
+            InternalCustomFieldDefinitions.Add(new ProductTypeCustomFieldDefinition
             {
                 CustomField = field,
-                Sequence = InternalCustomFields.Count == 0 ? 0 : InternalCustomFields.Max(f => f.Sequence) + 1
+                Sequence = InternalCustomFieldDefinitions.Count == 0 ? 0 : InternalCustomFieldDefinitions.Max(f => f.Sequence) + 1
             });
         }
 
-        private void OnCustomFieldRemoved(CustomField field)
+        private void OnCustomFieldRemoved(CustomFieldDefinition field)
         {
-            var internalField = InternalCustomFields.FirstOrDefault(f => f.CustomField.Name == field.Name);
+            var internalField = InternalCustomFieldDefinitions.FirstOrDefault(f => f.CustomField.Name == field.Name);
             if (internalField != null)
             {
-                InternalCustomFields.Remove(internalField);
+                InternalCustomFieldDefinitions.Remove(internalField);
             }
         }
 
         private void OnCustomFieldsSorted()
         {
             var sequence = 0;
-            foreach (var field in CustomFields)
+            foreach (var field in CustomFieldDefinitions)
             {
-                var internalField = InternalCustomFields.FirstOrDefault(f => f.CustomField.Name == field.Name);
+                var internalField = InternalCustomFieldDefinitions.FirstOrDefault(f => f.CustomField.Name == field.Name);
                 internalField.Sequence = sequence;
                 sequence++;
             }
@@ -104,30 +104,30 @@ namespace Kooboo.Commerce.Products
 
         #region Variant field collection callbacks
 
-        private void OnVariantFieldAdded(CustomField field)
+        private void OnVariantFieldAdded(CustomFieldDefinition field)
         {
-            InternalVariantFields.Add(new ProductTypeVariantField
+            InternalVariantFieldDefinitions.Add(new ProductTypeVariantFieldDefintion
             {
                 CustomField = field,
-                Sequence = InternalVariantFields.Count == 0 ? 0 : InternalVariantFields.Max(f => f.Sequence) + 1
+                Sequence = InternalVariantFieldDefinitions.Count == 0 ? 0 : InternalVariantFieldDefinitions.Max(f => f.Sequence) + 1
             });
         }
 
-        private void OnVariantFieldRemoved(CustomField field)
+        private void OnVariantFieldRemoved(CustomFieldDefinition field)
         {
-            var internalField = InternalVariantFields.FirstOrDefault(f => f.CustomField.Name == field.Name);
+            var internalField = InternalVariantFieldDefinitions.FirstOrDefault(f => f.CustomField.Name == field.Name);
             if (internalField != null)
             {
-                InternalVariantFields.Remove(internalField);
+                InternalVariantFieldDefinitions.Remove(internalField);
             }
         }
 
         private void OnVariantFieldsSorted()
         {
             var sequence = 0;
-            foreach (var field in VariantFields)
+            foreach (var field in VariantFieldDefinitions)
             {
-                var internalField = InternalVariantFields.FirstOrDefault(f => f.CustomField.Name == field.Name);
+                var internalField = InternalVariantFieldDefinitions.FirstOrDefault(f => f.CustomField.Name == field.Name);
                 internalField.Sequence = sequence;
                 sequence++;
             }
@@ -139,8 +139,8 @@ namespace Kooboo.Commerce.Products
         {
             public ProductTypeConfiguration()
             {
-                HasMany(c => c.InternalCustomFields).WithRequired(c => c.ProductType);
-                HasMany(c => c.InternalVariantFields).WithRequired(c => c.ProductType);
+                HasMany(c => c.InternalCustomFieldDefinitions).WithRequired(c => c.ProductType);
+                HasMany(c => c.InternalVariantFieldDefinitions).WithRequired(c => c.ProductType);
             }
         }
     }
