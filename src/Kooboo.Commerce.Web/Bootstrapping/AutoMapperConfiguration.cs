@@ -21,13 +21,10 @@ namespace Kooboo.Commerce.Web.Bootstrapping
                 }
             }
 
-            Mapper.Initialize(cfg =>
+            foreach (var profile in profiles)
             {
-                foreach (var profile in profiles)
-                {
-                    cfg.AddProfile(profile);
-                }
-            });
+                Mapper.AddProfile(profile);
+            }
         }
     }
 }

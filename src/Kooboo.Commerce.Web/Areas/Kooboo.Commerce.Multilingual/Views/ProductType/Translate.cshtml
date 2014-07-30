@@ -1,0 +1,133 @@
+﻿@model ProductTypeModel
+@{
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
+    ViewBag.Title = Model.Name;
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+        buttons.AddCancelButton();
+    })
+}
+
+@using (Html.BeginForm())
+{ 
+    <div id="translation-main">
+        <input type="hidden" name="Id" data-bind="value: Compared.Id" />
+        <div class="tabs" data-bind="with: Compared">
+            <ul>
+                <li><a href="#customfields">@("Custom fields".Localize())</a></li>
+                <li><a href="#variantfields">@("Variant fields".Localize())</a></li>
+            </ul>
+            <div id="customfields">
+                <div data-bind="template: { name: 'FieldsGridTemplate', data: { type: 'CustomField', data: CustomFieldDefinitions }}"></div>
+            </div>
+            <div id="variantfields">
+                <div data-bind="template: { name: 'FieldsGridTemplate', data: { type: 'VariantField', data: VariantFieldDefinitions }}"></div>
+            </div>
+        </div>
+        <div class="hide" data-bind="with: Translated">
+            <div data-bind="template: { name: 'FieldsHiddenFormInputsTemplate', data: { prefix: 'CustomFieldDefinitions', data: CustomFieldDefinitions }}"></div>
+            <div data-bind="template: { name: 'FieldsHiddenFormInputsTemplate', data: { prefix: 'VariantFieldDefinitions', data: VariantFieldDefinitions }}"></div>
+        </div>
+    </div>
+}
+
+<script type="text/html" id="FieldsGridTemplate">
+    <div class="simple-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>@("Name".Localize())</th>
+                    <th>@("Label".Localize())</th>
+                    <th>@("Translated label".Localize())</th>
+                    <th>@("Control type".Localize())</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: $data.data">
+                <tr>
+                    <td>
+                        <a href="#" data-bind="text: Name, click: $root.Translate.bind($data, $parent.type)"></a>
+                    </td>
+                    <td>
+                        <span data-bind="text: Label"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: $root.GetTranslatedLabel($parent.type, $data)"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: ControlType"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</script>
+
+<script type="text/html" id="FieldsHiddenFormInputsTemplate">
+    <div class="hide" data-bind="foreach: $data.data">
+        <input type="hidden" data-bind="attr:{ name: $parent.prefix + '[' + $index() + '].Id' }, value: Id" />
+        <input type="hidden" data-bind="attr:{ name: $parent.prefix + '[' + $index() + '].Name' }, value: Name" />
+        <input type="hidden" data-bind="attr:{ name: $parent.prefix + '[' + $index() + '].Label' }, value: Label" />
+        <input type="hidden" data-bind="attr:{ name: $parent.prefix + '[' + $index() + '].ControlType' }, value: ControlType" />
+        <input type="hidden" data-bind="attr:{ name: $parent.prefix + '[' + $index() + '].DefaultValue' }, value: DefaultValue" />
+        <!-- ko foreach: SelectionItems -->
+        <input type="hidden" data-bind="attr:{ name: $parents[1].prefix + '[' + $parentContext.$index() + '].SelectionItems[' + $index() + '].Text' }, value: Text" />
+        <input type="hidden" data-bind="attr:{ name: $parents[1].prefix + '[' + $parentContext.$index() + '].SelectionItems[' + $index() + '].Value' }, value: Value" />
+        <!-- /ko -->
+    </div>
+</script>
+
+@Html.Partial("_TranslateFieldDialog")
+
+<script>
+    window.keepLoading = true;
+
+    $(function () {
+
+        function ViewModel() {
+            var self = this;
+
+            self.Translate = function (type, field) {
+                var dialog = window.TranslateFieldDialog.instance();
+                var translated = self.FindTranslatedField(type, field.Id());
+
+                if (!dialog.onSubmitted) {
+                    dialog.onSubmitted = function (result) {
+                        var translated = self.FindTranslatedField(type, result.Id);
+                        ko.mapping.fromJS(result, {}, translated);
+                    };
+                }
+
+                dialog.open({
+                    compared: ko.mapping.toJS(field),
+                    translated: ko.mapping.toJS(translated)
+                });
+            }
+
+            self.GetTranslatedLabel = function (type, field) {
+                var translated = self.FindTranslatedField(type, field.Id());
+                return translated.Label;
+            }
+
+            self.FindTranslatedField = function (type, fieldId) {
+                var candidates = type === 'CustomField' ? self.Translated.CustomFieldDefinitions : self.Translated.VariantFieldDefinitions;
+                var translated = _.find(candidates(), function (f) {
+                    return f.Id() == fieldId;
+                });
+                return translated;
+            }
+        }
+
+        $.get('@Url.Action("GetModel")?id=@Model.Id&culture=@Request.QueryString["culture"]')
+         .done(function (data) {
+             var vm = ko.mapping.fromJS(data, {}, new ViewModel());
+             ko.applyBindings(vm, document.getElementById('translation-main'));
+
+             $('.tabs').tabs();
+         });
+
+    });
+</script>

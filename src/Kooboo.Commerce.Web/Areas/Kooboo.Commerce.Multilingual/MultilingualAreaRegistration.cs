@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common;
+using Kooboo.Commerce.Multilingual.Models.Mapping;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Web.Mvc;
 using System;
@@ -29,6 +30,8 @@ namespace Kooboo.Commerce.Multilingual
             );
 
             Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "WebResources.config"));
+
+            MapperConfiguration.Configure();
         }
     }
 }

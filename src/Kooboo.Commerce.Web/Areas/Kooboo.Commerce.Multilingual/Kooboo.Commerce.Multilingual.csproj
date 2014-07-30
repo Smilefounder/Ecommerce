@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\..\..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="Kooboo">
       <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
     </Reference>
@@ -130,6 +136,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductTypeController.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="EntityTranslation.cs" />
     <Compile Include="Handlers\GetTextEventHandler.cs" />
@@ -142,8 +149,11 @@
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\CustomFieldValueModel.cs" />
     <Compile Include="Models\Language_Metadata.cs" />
+    <Compile Include="Models\Mapping\MapperConfiguration.cs" />
     <Compile Include="Models\ProductGridItemModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\ProductTypeGridItemModel.cs" />
+    <Compile Include="Models\ProductTypeModel.cs" />
     <Compile Include="Storage\Default\DefaultTranslationStore.cs" />
     <Compile Include="Storage\Default\DefaultLanguageStore.cs" />
     <Compile Include="Storage\Default\MultilingualDataFolder.cs" />
@@ -216,6 +226,18 @@
   <ItemGroup>
     <Content Include="Views\Product\Translate.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProductType\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProductType\Translate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProductType\_TranslateFieldDialog.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -248,6 +270,7 @@
     <PostBuildEvent>xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
 xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\..\..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\..\..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

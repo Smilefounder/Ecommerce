@@ -61,20 +61,22 @@ namespace Kooboo.Commerce.Multilingual
             langItem.Items.Add(new LanguageSpecificMenuItem(lang.Name)
             {
                 Text = "Brands",
-                Controller = "Brand",
-                Action = "Index"
+                Controller = "Brand"
             });
             langItem.Items.Add(new LanguageSpecificMenuItem(lang.Name)
             {
                 Text = "Categories",
-                Controller = "Category",
-                Action = "Index"
+                Controller = "Category"
             });
             langItem.Items.Add(new LanguageSpecificMenuItem(lang.Name)
             {
                 Text = "Products",
-                Controller = "Product",
-                Action = "Index"
+                Controller = "Product"
+            });
+            langItem.Items.Add(new LanguageSpecificMenuItem(lang.Name)
+            {
+                Text = "Product types",
+                Controller = "ProductType"
             });
         }
     }

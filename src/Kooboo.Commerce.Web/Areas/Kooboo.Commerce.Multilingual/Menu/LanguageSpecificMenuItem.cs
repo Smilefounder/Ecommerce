@@ -12,6 +12,7 @@ namespace Kooboo.Commerce.Multilingual
 
         public LanguageSpecificMenuItem(string language)
         {
+            Action = "Index";
             Language = language;
             RouteValues = new System.Web.Routing.RouteValueDictionary();
             RouteValues.Add("culture", language);

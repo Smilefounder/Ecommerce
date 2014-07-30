@@ -1,0 +1,10 @@
+﻿@model PagedList<ProductTypeGridItemModel>
+@{
+    ViewBag.Title = "Product Types".Localize();
+}
+
+@Html.GridFor2(typeof(ProductTypeGridItemModel), Model)
+
+<div class="pagination">
+    @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+</div>

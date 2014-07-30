@@ -1,0 +1,189 @@
+﻿@using Newtonsoft.Json
+@using Kooboo.Commerce.Web.Framework.UI.Form
+
+<div class="hide">
+    <div id="translate-field-dialog">
+        <div class="topbar">
+            <h1 class="title">@("Custom field".Localize())</h1>
+        </div>
+        <div class="wrap">
+            <form class="common-form">
+                <div class="tabs">
+                    <ul class="clearfix">
+                        <li><a href="#basic">@("Basic".Localize())</a></li>
+                        <li data-bind="visible: HasSelectionItems"><a href="#selectionitems">@("Selection value".Localize())</a></li>
+                    </ul>
+                    <div id="basic">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>@("Original".Localize())</th>
+                                    <th>@("Translated".Localize())</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>@("Name".Localize())</th>
+                                    <td data-bind="text: Compared.Name"></td>
+                                    <td data-bind="text: Compared.Name"></td>
+                                </tr>
+                                <tr>
+                                    <th>@("Label".Localize())</th>
+                                    <td data-bind="text: Compared.Label"></td>
+                                    <td>
+                                        <input type="text" name="Label" class="medium" maxlength="50" data-bind="value: Translated.Label" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@("Default value".Localize())</th>
+                                    <td data-bind="text: Compared.DefaultValue"></td>
+                                    <td>
+                                        <input type="text" name="DefaultValue" class="medium" data-bind="value: Translated.DefaultValue" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="selectionitems">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>@("Original".Localize())</th>
+                                    <th>@("Translated".Localize())</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: SelectionItemTranslations">
+                                <tr>
+                                    <td data-bind="text: OriginalText"></td>
+                                    <td>
+                                        <input type="text" class="medium" data-bind="value: TranslatedText, attr: { name: 'SelectionItemTranslations_' + $index() + '_TranslatedText' }" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="buttons">
+                    <button class="button" data-toggle="submit-dialog">@("Save".Localize())</button>
+                    <a class="button gray" data-toggle="close-dialog">@("Cancel".Localize())</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+
+        var DefaultModel = @Html.Raw(JsonConvert.SerializeObject(new CustomFieldDefinitionModel()));
+        var Controls = @Html.Raw(JsonConvert.SerializeObject(FormControls.Controls().ToDictionary(c => c.Name, c => new { c.Name, c.IsSelectionList, c.IsValuesPredefined })));
+
+        var TranslateFieldDialogModel = function () {
+            var self = this;
+
+            self.Compared = ko.mapping.fromJS(DefaultModel);
+
+            self.Translated = ko.mapping.fromJS(DefaultModel);
+
+            self.HasSelectionItems = ko.computed(function () {
+                var control = Controls[self.Compared.ControlType()];
+                if (control) {
+                    return control.IsSelectionList;
+                }
+                return false;
+            });
+
+            self.SelectionItemTranslations = ko.observableArray();
+        }
+
+        window.TranslateFieldDialog = function () {
+            var self = this;
+            var $dialog = null;
+            var model = new TranslateFieldDialogModel();
+
+            self.onSubmitted = null;
+
+            self.open = function (options) {
+                if ($dialog === null) {
+                    $dialog = $('#translate-field-dialog').dialog({
+                        autoOpen: false,
+                        modal: true
+                    });
+
+                    updateModel(options);
+                    ko.applyBindings(model, $dialog.find('form')[0]);
+
+                    $dialog.on('click', '[data-toggle="submit-dialog"]', self.submit);
+                    $dialog.on('click', '[data-toggle="close-dialog"]', self.close);
+                } else {
+                    updateModel(options);
+                }
+
+                $dialog.dialog('open');
+                $dialog.find('.tabs').tabs('option', 'active', 0);
+            }
+
+            self.submit = function () {
+                $dialog.find(':focus').blur();
+
+                // sync back translated text
+                $.each(model.SelectionItemTranslations(), function () {
+                    var value = this.Value;
+                    var translated = _.find(model.Translated.SelectionItems(), function (item) {
+                        return item.Value() == value;
+                    });
+                    translated.Text(this.TranslatedText());
+                });
+
+                window.leaveConfirm.pass();
+
+                var translated = ko.mapping.toJS(model.Translated);
+
+                self.onSubmitted.apply(self, [translated]);
+                self.close();
+
+                return false;
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+                return false;
+            }
+
+            function updateModel(options) {
+                model.Compared.SelectionItems.removeAll();
+                model.Translated.SelectionItems.removeAll();
+                model.SelectionItemTranslations.removeAll();
+
+                ko.mapping.fromJS(options.compared, {}, model.Compared);
+                ko.mapping.fromJS(options.translated, {}, model.Translated);
+
+                // Build selection item translations to simplify data binding
+                $.each(options.compared.SelectionItems, function () {
+                    var value = this.Value;
+                    var translation = {
+                        Value: value,
+                        OriginalText: ko.observable(this.Text),
+                        TranslatedText: ko.observable()
+                    };
+
+                    var translated = _.find(options.translated.SelectionItems, function (item) {
+                        return value == item.Value;
+                    });
+
+                    translation.TranslatedText(translated.Text);
+
+                    model.SelectionItemTranslations.push(translation);
+                });
+            }
+        }
+
+        var instance = new window.TranslateFieldDialog();
+
+        window.TranslateFieldDialog.instance = function () {
+            return instance;
+        };
+
+    })(jQuery);
+</script>
