@@ -78,10 +78,6 @@
     <Compile Include="Customers\CustomerCustomField.cs" />
     <Compile Include="Customers\ICustomerApi.cs" />
     <Compile Include="Customers\ICustomerQuery.cs" />
-    <Compile Include="Products\CustomField.cs" />
-    <Compile Include="Products\CustomFieldType.cs" />
-    <Compile Include="Products\FieldDataType.cs" />
-    <Compile Include="Products\FieldValidationRule.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="ICommerceQuery.cs" />
     <Compile Include="Brands\IBrandQuery.cs" />
@@ -107,14 +103,13 @@
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
     <Compile Include="PriceChangeMode.cs" />
-    <Compile Include="Products\CustomFieldValue.cs" />
+    <Compile Include="Products\CustomField.cs" />
     <Compile Include="Products\IProductApi.cs" />
     <Compile Include="Products\IProductQuery.cs" />
     <Compile Include="Products\PriceRange.cs" />
     <Compile Include="Products\Product.cs" />
     <Compile Include="Products\ProductImage.cs" />
     <Compile Include="Products\ProductVariant.cs" />
-    <Compile Include="Products\ProductType.cs" />
     <Compile Include="Promotions\Promotion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shipping\IShippingMethodApi.cs" />

@@ -18,10 +18,6 @@ namespace Kooboo.Commerce.Products
         [Param]
         public int ProductId { get; set; }
 
-        // TODO: Seems this field is never used
-        [Param]
-        public string Name { get; set; }
-
         [Param]
         public string Sku { get; set; }
 
@@ -40,12 +36,10 @@ namespace Kooboo.Commerce.Products
             CreatedAtUtc = DateTime.UtcNow;
         }
 
-        public ProductVariant(Product product, string name, string sku)
+        public ProductVariant(Product product)
             : this()
         {
             Product = product;
-            Name = name;
-            Sku = sku;
         }
 
         public decimal GetFinalPrice(ShoppingContext context)
@@ -55,7 +49,6 @@ namespace Kooboo.Commerce.Products
 
         public virtual void UpdateFrom(ProductVariant other)
         {
-            Name = other.Name;
             Sku = other.Sku;
             Price = other.Price;
             UpdateVariantFields(other.VariantFields.ToDictionary(f => f.FieldName, f => f.FieldValue));

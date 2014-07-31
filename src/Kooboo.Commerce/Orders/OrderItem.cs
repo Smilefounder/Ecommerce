@@ -51,7 +51,7 @@ namespace Kooboo.Commerce.Orders
             {
                 ProductVariantId = cartItem.ProductVariant.Id,
                 ProductVariant = cartItem.ProductVariant,
-                ProductName = cartItem.ProductVariant.Name,
+                ProductName = cartItem.ProductVariant.Product.Name,
                 SKU = cartItem.ProductVariant.Sku,
                 UnitPrice = finalUnitPrice,
                 Quantity = cartItem.Quantity

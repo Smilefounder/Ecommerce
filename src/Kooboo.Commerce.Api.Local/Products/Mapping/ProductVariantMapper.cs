@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Api.Local.Mapping;
 using Kooboo.Commerce.Api.Products;
+using Kooboo.Commerce.Web.Framework.UI.Form;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,34 +12,10 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
     {
         public override object Map(object source, object target, Type sourceType, Type targetType, string prefix, MappingContext context)
         {
-            var variant = base.Map(source, target, sourceType, targetType, prefix, context) as ProductVariant;
-                var fromVariant = source as Kooboo.Commerce.Products.ProductVariant;
-
-            // Variant Fields
-            if (context.Includes.Includes(prefix + "VariantFields"))
-            {
-                foreach (var fieldValue in fromVariant.VariantFields)
-                {
-                    // TODO: Fix
-                    var field = new CustomFieldValue
-                    {
-                        FieldName = fieldValue.FieldName,
-                        //FieldLabel = fieldValue.CustomField.Label,
-                        FieldText = fieldValue.FieldValue,
-                        FieldValue = fieldValue.FieldValue
-                    };
-
-                    //if (fieldValue.CustomField.IsValueLocalizable)
-                    //{
-                    //    field.FieldText = fromVariant.GetText("VariantFields[" + field.FieldName + "]", context.ApiContext.Culture);
-                    //}
-
-                    variant.VariantFields.Add(field);
-                }
-            }
+            var model = base.Map(source, target, sourceType, targetType, prefix, context) as ProductVariant;
+            var variant = source as Kooboo.Commerce.Products.ProductVariant;
 
             // Final price
-            // TODO: How to resolve performance issue if it's quering product list with variants?
             var shoppingContext = new Kooboo.Commerce.Carts.ShoppingContext
             {
                 Culture = context.ApiContext.Culture.Name,
@@ -54,9 +31,72 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
                 }
             }
 
-            variant.FinalPrice = fromVariant.GetFinalPrice(shoppingContext);
+            model.FinalPrice = variant.GetFinalPrice(shoppingContext);
 
-            return variant;
+            return model;
+        }
+
+        protected override void MapProperty(System.Reflection.PropertyInfo targetProperty, object source, object target, Type sourceType, Type targetType, string propertyPath, MappingContext context)
+        {
+            var model = target as ProductVariant;
+            var variant = source as Kooboo.Commerce.Products.ProductVariant;
+
+            if (targetProperty.Name == "VariantFields" && context.Includes.Includes(propertyPath))
+            {
+                var services = (context.ApiContext as LocalApiContext).Services;
+
+                var product = services.Products.GetById(variant.ProductId);
+                var productType = services.ProductTypes.GetById(product.ProductTypeId);
+                
+                var controls = FormControls.Controls().ToList();
+
+                foreach (var definition in productType.VariantFieldDefinitions)
+                {
+                    var field = variant.VariantFields.FirstOrDefault(f => f.FieldName == definition.Name);
+                    var fieldModel = new CustomField
+                    {
+                        FieldName = definition.Name,
+                        FieldLabel = productType.GetText("VariantFieldDefinitions[" + definition.Name + "].Label", context.ApiContext.Culture),
+                        FieldValue = field == null ? null : field.FieldValue
+                    };
+
+                    if (String.IsNullOrEmpty(fieldModel.FieldLabel))
+                    {
+                        fieldModel.FieldLabel = definition.Label;
+                    }
+
+                    if (field != null)
+                    {
+                        var control = controls.Find(c => c.Name == definition.ControlType);
+                        if (!control.IsSelectionList && !control.IsValuesPredefined)
+                        {
+                            fieldModel.FieldText = variant.GetText("VariantFields[" + definition.Name + "]", context.ApiContext.Culture);
+                        }
+                        else
+                        {
+                            if (control.IsSelectionList)
+                            {
+                                fieldModel.FieldText = productType.GetText("VariantFieldDefinitions[" + definition.Name + "].SelectionItems[" + fieldModel.FieldValue + "]", context.ApiContext.Culture);
+                            }
+                            else
+                            {
+                                fieldModel.FieldText = productType.GetText("VariantFieldDefinitions[" + definition.Name + "].DefaultValue", context.ApiContext.Culture);
+                            }
+                        }
+                    }
+
+                    if (String.IsNullOrEmpty(fieldModel.FieldText))
+                    {
+                        fieldModel.FieldText = fieldModel.FieldValue;
+                    }
+
+                    model.VariantFields.Add(fieldModel);
+                }
+            }
+            else
+            {
+                base.MapProperty(targetProperty, source, target, sourceType, targetType, propertyPath, context);
+            }
         }
     }
 }

@@ -69,22 +69,22 @@ namespace Kooboo.Commerce.Products.Services
             {
                 if (!product.Variants.Any(p => p.Id == variant.Id))
                 {
-                    RemovePrice(dbProduct, variant.Id);
+                    RemoveProductVariant(dbProduct, variant.Id);
                 }
             }
 
             foreach (var variantModel in product.Variants)
             {
-                var current = dbProduct.FindVariant(variantModel.Id);
+                var current = dbProduct.Variants.FirstOrDefault(it => it.Id == variantModel.Id);
                 if (current == null)
                 {
-                    var variant = dbProduct.CreateVariant(variantModel.Name, variantModel.Sku);
+                    var variant = new ProductVariant(dbProduct);
                     variant.UpdateFrom(variantModel);
-                    AddPrice(dbProduct, variant);
+                    AddProductVariant(dbProduct, variant);
                 }
                 else
                 {
-                    UpdatePrice(dbProduct, current.Id, variantModel);
+                    UpdateProductVariant(dbProduct, current.Id, variantModel);
                 }
             }
 
@@ -131,44 +131,44 @@ namespace Kooboo.Commerce.Products.Services
             return true;
         }
 
-        public void AddPrice(Product product, ProductVariant price)
+        public void AddProductVariant(Product product, ProductVariant variant)
         {
-            product.Variants.Add(price);
+            product.Variants.Add(variant);
             _productRepository.Database.SaveChanges();
 
-            Event.Raise(new ProductVariantAdded(product, price));
+            Event.Raise(new ProductVariantAdded(product, variant));
         }
 
-        public bool RemovePrice(Product product, int priceId)
+        public bool RemoveProductVariant(Product product, int variantId)
         {
-            var price = product.FindVariant(priceId);
-            if (price == null)
+            var variant = product.Variants.FirstOrDefault(it => it.Id == variantId);
+            if (variant == null)
             {
                 return false;
             }
 
-            product.Variants.Remove(price);
-            _variantRepository.Delete(price);
+            product.Variants.Remove(variant);
+            _variantRepository.Delete(variant);
 
             _productRepository.Database.SaveChanges();
 
-            Event.Raise(new ProductVariantDeleted(product, price));
+            Event.Raise(new ProductVariantDeleted(product, variant));
 
             return true;
         }
 
-        public bool UpdatePrice(Product product, int priceId, ProductVariant newPrice)
+        public bool UpdateProductVariant(Product product, int variantId, ProductVariant newVariant)
         {
-            var price = product.FindVariant(priceId);
-            if (price == null)
+            var variant = product.Variants.FirstOrDefault(it => it.Id == variantId);
+            if (variant == null)
             {
                 return false;
             }
 
-            price.UpdateFrom(newPrice);
+            variant.UpdateFrom(newVariant);
             _productRepository.Database.SaveChanges();
 
-            Event.Raise(new ProductVariantUpdated(product, price));
+            Event.Raise(new ProductVariantUpdated(product, variant));
 
             return true;
         }

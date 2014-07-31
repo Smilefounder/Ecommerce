@@ -36,7 +36,7 @@ namespace Kooboo.Commerce.Api.Local.Mapping
             if (localizable != null && property.IsDefined(typeof(LocalizableAttribute), false))
             {
                 var localizedValue = localizable.GetText(property.Name, context.ApiContext.Culture);
-                if (localizedValue != null)
+                if (!String.IsNullOrEmpty(localizedValue))
                 {
                     return localizedValue;
                 }

@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Api.Products
 
         public ICollection<ProductImage> Images { get; set; }
 
-        public ICollection<CustomFieldValue> CustomFields { get; set; }
+        public ICollection<CustomField> CustomFields { get; set; }
 
         public ICollection<ProductVariant> Variants { get; set; }
 
@@ -38,21 +38,21 @@ namespace Kooboo.Commerce.Api.Products
         {
             Categories = new List<Category>();
             Images = new List<ProductImage>();
-            CustomFields = new List<CustomFieldValue>();
+            CustomFields = new List<CustomField>();
             Variants = new List<ProductVariant>();
         }
 
-        public ProductImage GetImage(string imageSizeName)
+        public ProductImage GetImage(string sizeName)
         {
             if (Images != null)
             {
-                var image = Images.FirstOrDefault(o => o.Size == imageSizeName);
-                return image;
+                return Images.FirstOrDefault(o => o.Size == sizeName);
             }
+
             return null;
         }
 
-        public CustomFieldValue GetCustomField(string fieldName)
+        public CustomField GetCustomField(string fieldName)
         {
             if (CustomFields != null)
             {

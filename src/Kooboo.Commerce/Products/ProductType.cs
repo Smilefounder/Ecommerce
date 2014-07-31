@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Products;
+﻿using Kooboo.Commerce.Globalization;
+using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Internal;
 using Kooboo.Commerce.Rules;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Kooboo.Commerce.Products
     /// <summary>
     /// Define the type of a product, the type defines all the custom properties and variations. 
     /// </summary>
-    public class ProductType
+    public class ProductType : ILocalizable
     {
         [Key, Param]
         public int Id { get; set; }

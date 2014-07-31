@@ -28,36 +28,17 @@
         else
         {
             @featuredProduct.Name<br />
-            <strong>Custom fields:</strong>
-            <div>
-                @if (featuredProduct.CustomFields != null)
-                {
-                    <ul>
-                        @foreach (var field in featuredProduct.CustomFields)
-                        {
-                            <li>@field.FieldLabel = @field.FieldText (@(field.FieldValue))</li>
-                        }
-                    </ul>
-                }
-            </div>
-            <strong>Variants:</strong>
-            <div>
-                @if (featuredProduct.Variants != null)
-                {
-                    foreach (var variant in featuredProduct.Variants)
+            <span>Brand:</span> @Html.Raw(featuredProduct.Brand == null ? "<span style='color:red'>Not loaded</span>" : featuredProduct.Brand.Name)
+            <strong>Product Accessories:</strong>
+            if (featuredProduct.Accessories != null)
+            {
+                <ul>
+                    @foreach (var accessory in featuredProduct.Accessories)
                     {
-                        <div>
-                            <strong>SKU: @variant.Sku</strong>
-                            <div>
-                                @foreach (var field in variant.VariantFields)
-                                {
-                                    <div>@field.FieldLabel = @field.FieldText</div>
-                                }
-                            </div>
-                        </div>
+                        <li>@accessory.Name</li>
                     }
-                }
-            </div>
+                </ul>
+            }
         }
     </div>
     <br />

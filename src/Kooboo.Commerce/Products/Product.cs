@@ -57,18 +57,8 @@ namespace Kooboo.Commerce.Products
 
         public virtual decimal GetFinalPrice(int variantId, ShoppingContext context)
         {
-            var variant = FindVariant(variantId);
+            var variant = Variants.FirstOrDefault(it => it.Id == variantId);
             return variant.GetFinalPrice(context);
-        }
-
-        public virtual ProductVariant FindVariant(int priceId)
-        {
-            return Variants.FirstOrDefault(p => p.Id == priceId);
-        }
-
-        public virtual ProductVariant CreateVariant(string name, string sku)
-        {
-            return new ProductVariant(this, name, sku);
         }
 
         public virtual void UpdateCustomFields(IDictionary<string, string> fieldValues)
@@ -99,11 +89,6 @@ namespace Kooboo.Commerce.Products
                 fieldValue = new ProductCustomField(name, value);
                 CustomFields.Add(fieldValue);
             }
-        }
-
-        public virtual ProductImage GetImage(string size)
-        {
-            return Images.FirstOrDefault(i => i.Size == size);
         }
 
         public virtual void UpdateImages(IEnumerable<ProductImage> images)

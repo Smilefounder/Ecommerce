@@ -22,14 +22,14 @@ namespace Kooboo.Commerce.Api.Products
 
         public DateTime CreatedAtUtc { get; set; }
         
-        public ICollection<CustomFieldValue> VariantFields { get; set; }
+        public ICollection<CustomField> VariantFields { get; set; }
 
         public ProductVariant()
         {
-            VariantFields = new List<CustomFieldValue>();
+            VariantFields = new List<CustomField>();
         }
 
-        public CustomFieldValue GetVariantField(string name)
+        public CustomField GetVariantField(string name)
         {
             return VariantFields.FirstOrDefault(f => f.FieldName == name);
         }
