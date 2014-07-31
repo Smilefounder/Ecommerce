@@ -147,13 +147,15 @@
     <Compile Include="Models\BrandModel.cs" />
     <Compile Include="Models\CategoryGridItemModel.cs" />
     <Compile Include="Models\CategoryModel.cs" />
-    <Compile Include="Models\CustomFieldValueModel.cs" />
+    <Compile Include="Models\CustomFieldModel.cs" />
     <Compile Include="Models\Language_Metadata.cs" />
     <Compile Include="Models\Mapping\MapperConfiguration.cs" />
     <Compile Include="Models\ProductGridItemModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\ProductTypeGridItemModel.cs" />
     <Compile Include="Models\ProductTypeModel.cs" />
+    <Compile Include="Models\ProductVariantModel.cs" />
+    <Compile Include="Models\TranslationPair.cs" />
     <Compile Include="Storage\Default\DefaultTranslationStore.cs" />
     <Compile Include="Storage\Default\DefaultLanguageStore.cs" />
     <Compile Include="Storage\Default\MultilingualDataFolder.cs" />
@@ -237,6 +239,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ProductType\_TranslateFieldDialog.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\_TranslateVariantDialog.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -11,6 +11,10 @@ namespace Kooboo.Commerce.Multilingual.Models.Mapping
     {
         public static void Configure()
         {
+            Mapper.CreateMap<Product, ProductModel>().ForMember(p => p.Variants, opt => opt.Ignore());
+            Mapper.CreateMap<ProductCustomField, CustomFieldModel>();
+            Mapper.CreateMap<ProductVariantField, CustomFieldModel>();
+
             Mapper.CreateMap<ProductType, ProductTypeModel>();
             Mapper.CreateMap<CustomFieldDefinition, CustomFieldDefinitionModel>();
         }

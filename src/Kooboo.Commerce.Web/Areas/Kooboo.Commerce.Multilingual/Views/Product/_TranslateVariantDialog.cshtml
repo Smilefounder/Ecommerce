@@ -1,0 +1,165 @@
+﻿@using Newtonsoft.Json
+@using Kooboo.Commerce.Web.Framework.UI.Form
+@{
+    var productType = ViewBag.ProductType as ProductType;
+    var controls = FormControls.Controls().ToList();
+}
+
+<div class="hide" id="translate-variant-dialog">
+    <div class="topbar">
+        <h1 class="title">@("Translate variant".Localize())</h1>
+    </div>
+    <div class="wrap">
+        <form class="common-form">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>@("Original".Localize())</th>
+                        <th>@("Translated".Localize())</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var definition in productType.VariantFieldDefinitions)
+                    {
+                        var control = controls.Find(c => c.Name == definition.ControlType);
+                        <tr>
+                            <th>@definition.Label</th>
+                            <td data-bind="html: $root.GetComparedVariantFieldText('@definition.Name')"></td>
+                            <td>
+                                @if (control.IsSelectionList || control.IsValuesPredefined)
+                                {
+                                    <div data-bind="html: $root.GetTranslatedVariantFieldText('@definition.Name')"></div>
+                                }
+                                else { 
+                                    @control.Render(definition, null, new
+                                     {
+                                         data_bind = control.ValueBindingName + ": $root.GetTranslatedVariantFieldValue('" + definition.Name + "')"
+                                     }, ViewContext)
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+        <p class="buttons">
+            <button class="button" data-toggle="submit-dialog">@("Save".Localize())</button>
+            <a class="button gray" data-toggle="close-dialog">@("Cancel".Localize())</a>
+        </p>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+
+        var DefaultModel = @Html.Raw(JsonConvert.SerializeObject(new ProductVariantModel()));
+        var MappingOptions = {
+            VariantFields: {
+                key: function (data) {
+                    return ko.utils.unwrapObservable(data.Translated.FieldName);
+                }
+            }
+        };
+
+        var TranslateVariantDialogModel = function () {
+            var self = this;
+
+            self.VariantFields = ko.observableArray();
+
+            self.Init = function () {
+                $.each(self.VariantFields(), function () {
+                    var field = this;
+                    field.Translated.FieldValue.subscribe(function (value) {
+                        field.Translated.FieldText(value);
+                    });
+                });
+            }
+
+            self.GetComparedVariantFieldText = function (fieldName) {
+                var field = self.FindVariantField(fieldName);
+                return field.Compared.FieldText;
+            }
+
+            self.GetTranslatedVariantFieldText = function (fieldName) {
+                var field = self.FindVariantField(fieldName);
+                return field.Translated.FieldText;
+            }
+
+            self.GetTranslatedVariantFieldValue = function (fieldName) {
+                var field = self.FindVariantField(fieldName);
+                return field.Translated.FieldValue;
+            }
+
+            self.FindVariantField = function (fieldName) {
+                return _.find(self.VariantFields(), function (f) {
+                    return f.Compared.FieldName() == fieldName;
+                });
+            }
+        }
+
+        window.TranslateVariantDialog = function () {
+            var self = this;
+            var $dialog = null;
+            var $form = null;
+            var model = ko.mapping.fromJS(DefaultModel, MappingOptions, new TranslateVariantDialogModel());
+
+            self.onSubmitted = null;
+
+            self.model = function () {
+                return ko.mapping.toJS(model);
+            }
+
+            self.open = function (options) {
+                if ($dialog === null) {
+                    $dialog = $('#translate-variant-dialog').dialog({
+                        modal: true,
+                        autoOpen: false
+                    });
+
+                    $form = $dialog.find('.common-form');
+
+                    updateModel(options);
+                    model.Init();
+
+                    ko.applyBindings(model, $form[0]);
+
+                    $dialog.on('click', '[data-toggle="submit-dialog"]', self.submit);
+                    $dialog.on('click', '[data-toggle="close-dialog"]', self.close);
+                } else {
+                    updateModel(options);
+                }
+
+                $dialog.dialog('open');
+            }
+
+            self.submit = function () {
+                $dialog.find(':focus').blur();
+
+                if (self.onSubmitted) {
+                    self.onSubmitted.apply(self, [self.model()]);
+                }
+
+                self.close();
+
+                return false;
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+                return false;
+            }
+
+            function updateModel(options) {
+                ko.mapping.fromJS(options.model, MappingOptions, model);
+            }
+        }
+
+        var instance = new window.TranslateVariantDialog();
+
+        window.TranslateVariantDialog.instance = function () {
+            return instance;
+        };
+
+    })(jQuery);
+</script>

@@ -80,8 +80,6 @@ namespace Kooboo.Commerce.Products
 
         public int Sequence { get; set; }
 
-        public bool IsValueLocalizable { get; set; }
-
         public virtual ICollection<FieldValidationRule> ValidationRules { get; set; }
 
         public void UpdateFrom(CustomFieldDefinition field)
@@ -93,7 +91,6 @@ namespace Kooboo.Commerce.Products
             ControlType = field.ControlType;
             DefaultValue = field.DefaultValue;
             Sequence = field.Sequence;
-            IsValueLocalizable = field.IsValueLocalizable;
             SelectionItems = field.SelectionItems;
 
             ValidationRules.Update(

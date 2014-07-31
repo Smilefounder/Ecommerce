@@ -18,6 +18,7 @@ namespace Kooboo.Commerce.Products
         [Param]
         public int ProductId { get; set; }
 
+        // TODO: Seems this field is never used
         [Param]
         public string Name { get; set; }
 

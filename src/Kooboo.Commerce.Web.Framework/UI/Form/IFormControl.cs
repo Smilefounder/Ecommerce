@@ -17,6 +17,8 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
 
         bool IsSelectionList { get; }
 
-        IHtmlString Render(CustomFieldDefinition field, string value, object htmlAttributes, ViewContext viewContext);
+        IHtmlString Render(CustomFieldDefinition fieldDefinition, string fieldValue, object htmlAttributes, ViewContext viewContext);
+
+        string GetFieldDisplayText(CustomFieldDefinition fieldDefinition, string fieldValue);
     }
 }

@@ -53,5 +53,11 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
 
             builder.InnerHtml = html.ToString();
         }
+
+        public override string GetFieldDisplayText(CustomFieldDefinition fieldDefinition, string fieldValue)
+        {
+            var item = fieldDefinition.SelectionItems.FirstOrDefault(i => i.Value == fieldValue);
+            return item == null ? fieldValue : item.Text;
+        }
     }
 }

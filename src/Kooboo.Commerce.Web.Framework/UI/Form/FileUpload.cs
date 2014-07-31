@@ -82,5 +82,10 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
 
             return new HtmlString(container.ToString());
         }
+
+        public string GetFieldDisplayText(CustomFieldDefinition fieldDefinition, string fieldValue)
+        {
+            return fieldValue;
+        }
     }
 }

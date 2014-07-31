@@ -1,10 +1,12 @@
-﻿@using Kooboo.Commerce.Web.Framework.UI.Form
+﻿@using Newtonsoft.Json
+@using Kooboo.Commerce.Web.Framework.UI.Form
 @model ProductModel
 @{
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
     ViewBag.Title = "Translate Product".Localize();
 
     var controls = FormControls.Controls().ToList();
+    var productType = ViewBag.ProductType as ProductType;
     var compared = ViewBag.Compared as ProductModel;
 }
 
@@ -20,51 +22,133 @@
     @using (Html.BeginForm())
     {
         @Html.HiddenFor(m => m.Id)
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>@("Original".Localize())</th>
-                    <th>@("Translated".Localize())</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@("Name".Localize())</td>
-                    <td>
-                        @compared.Name
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.Name)
-                        @Html.ValidationMessageFor(m => m.Name)
-                    </td>
-                </tr>
-                @for (var i = 0; i < Model.CustomFields.Count; i++)
-                {
-                    var comparedField = compared.CustomFields[i];
-                    var field = Model.CustomFields[i];
-                    var control = controls.Find(c => c.Name == field.ControlType);
-                    
-                    <tr>
-                        <td>@field.FieldLabel</td>
-                        <td>@Html.Raw(comparedField.FieldValue)</td>
-                        <td>
-                            <input type="hidden" name="CustomFields[@i].FieldName" value="@field.FieldName" />
-                            @control.Render(field.Field, field.FieldValue, new
-                            {
-                               name = "CustomFields[" + i + "].FieldValue"
-                            }, ViewContext)
-                        </td>
-                    </tr>
-                }
-            </tbody>
+        <div class="tabs">
+            <ul>
+                <li><a href="#basicinfo">@("Product info".Localize())</a></li>
+                <li><a href="#variants">@("Variants".Localize())</a></li>
+            </ul>
+            <div id="basicinfo">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>@("Original".Localize())</th>
+                            <th>@("Translated".Localize())</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@("Name".Localize())</td>
+                            <td>
+                                @compared.Name
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.Name)
+                                @Html.ValidationMessageFor(m => m.Name)
+                            </td>
+                        </tr>
+                        @for (var i = 0; i < Model.CustomFields.Count; i++)
+                        {
+                            var field = Model.CustomFields[i];
+                            var definition = productType.CustomFieldDefinitions.Find(field.FieldName);
+                            var comparedField = compared.CustomFields[i];
+                            var control = controls.Find(c => c.Name == definition.ControlType);
 
-        </table>
+                            <tr>
+                                <td>@definition.Label</td>
+                                <td>@Html.Raw(comparedField.FieldText)</td>
+                                <td>
+                                    <input type="hidden" name="CustomFields[@i].FieldName" value="@field.FieldName" />
+                                    @if (control.IsSelectionList || control.IsValuesPredefined)
+                                    {
+                                        @Html.Raw(field.FieldText);
+                                    }
+                                    else
+                                    {
+                                        @control.Render(definition, field.FieldValue, new
+                                        {
+                                            name = "CustomFields[" + i + "].FieldValue"
+                                        }, ViewContext)
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="variants">
+                <div id="variant-grid" class="simple-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>@("SKU".Localize())</th>
+                                @foreach (var field in productType.VariantFieldDefinitions)
+                                {
+                                    <th>@field.Label</th>
+                                }
+                                <th class="action"></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: Variants">
+                            <tr>
+                                <td>
+                                    <span data-bind="text: Sku"></span>
+                                    <input type="hidden" data-bind="attr:{ name: 'Variants[' + $index() + '].Id' }, value: Id" />
+                                </td>
+                                <!-- ko foreach: VariantFields -->
+                                <td>
+                                    <span data-bind="html: Translated.FieldText() || Compared.FieldText()"></span>
+
+                                    <input type="hidden" data-bind="attr:{name:'Variants[' + $parentContext.$index() + '].VariantFields[' + $index() + '].Translated.FieldName'}, value: Translated.FieldName" />
+                                    <input type="hidden" data-bind="attr:{name:'Variants[' + $parentContext.$index() + '].VariantFields[' + $index() + '].Translated.FieldValue'}, value: Translated.FieldValue" />
+                                </td>
+                                <!-- /ko -->
+                                <td>
+                                    <a href="#" data-bind="click: $root.Translate">@("Translate".Localize())</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     }
 </div>
 
+@Html.Partial("_TranslateVariantDialog")
 <script>
     $(function () {
+        $('.tabs').tabs();
         kb.ui.unobtrusive.initialize(document.getElementById('translate-form'));
+
+        var VariantGridModel = function () {
+            var self = this;
+
+            self.Translate = function (variant) {
+                var variantId = variant.Id();
+                var dialog = window.TranslateVariantDialog.instance();
+                dialog.onSubmitted = function (model) {
+                    var variant = self.FindVariant(variantId);
+                    ko.mapping.fromJS(model, {}, variant);
+                };
+
+                dialog.open({
+                    model: ko.mapping.toJS(variant)
+                });
+            }
+
+            self.FindVariant = function (id) {
+                return _.find(self.Variants(), function (v) {
+                    return v.Id() == id;
+                });
+            }
+        };
+
+        // Variants grid data binding
+        var vm = new VariantGridModel();
+        vm.Variants = ko.mapping.fromJS(@(Html.Raw(JsonConvert.SerializeObject(Model.Variants))));
+
+        ko.applyBindings(vm, document.getElementById('variant-grid'));
     });
 </script>

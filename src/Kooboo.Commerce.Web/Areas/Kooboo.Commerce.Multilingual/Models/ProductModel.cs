@@ -11,11 +11,14 @@ namespace Kooboo.Commerce.Multilingual.Models
 
         public string Name { get; set; }
 
-        public IList<CustomFieldValueModel> CustomFields { get; set; }
+        public IList<CustomFieldModel> CustomFields { get; set; }
+
+        public IList<ProductVariantModel> Variants { get; set; }
 
         public ProductModel()
         {
-            CustomFields = new List<CustomFieldValueModel>();
+            CustomFields = new List<CustomFieldModel>();
+            Variants = new List<ProductVariantModel>();
         }
     }
 }

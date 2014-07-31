@@ -24,8 +24,5 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes
 
         [Display(Name = "Default value")]
         public string DefaultValue { get; set; }
-
-        [Display(Name = "Is value localizable")]
-        public bool IsValueLocalizable { get; set; }
     }
 }

@@ -34,29 +34,34 @@ namespace Kooboo.Commerce.Web.Framework.UI.Form
             }
         }
 
-        public virtual IHtmlString Render(CustomFieldDefinition field, string value, object htmlAttributes, ViewContext viewContext)
+        public virtual IHtmlString Render(CustomFieldDefinition fieldDefinition, string fieldValue, object htmlAttributes, ViewContext viewContext)
         {
             var builder = new TagBuilder(TagName);
 
-            builder.MergeAttribute("name", field.Name);
+            builder.MergeAttribute("name", fieldDefinition.Name);
 
-            var validationAttributes = field.GetUnobtrusiveValidationAtributes();
+            var validationAttributes = fieldDefinition.GetUnobtrusiveValidationAtributes();
             if (validationAttributes != null && validationAttributes.Count > 0)
             {
                 builder.MergeAttributes(validationAttributes, true);
             }
 
-            BuildControl(builder, field, value, htmlAttributes, viewContext);
+            BuildControl(builder, fieldDefinition, fieldValue, htmlAttributes, viewContext);
 
             return new HtmlString(builder.ToString(TagRenderMode));
         }
 
-        protected virtual void BuildControl(TagBuilder builder, CustomFieldDefinition field, string value, object htmlAttributes, ViewContext viewContext)
+        protected virtual void BuildControl(TagBuilder builder, CustomFieldDefinition fieldDefinition, string fieldValue, object htmlAttributes, ViewContext viewContext)
         {
             if (htmlAttributes != null)
             {
                 builder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
             }
+        }
+
+        public virtual string GetFieldDisplayText(CustomFieldDefinition fieldDefinition, string fieldValue)
+        {
+            return fieldValue;
         }
     }
 }
