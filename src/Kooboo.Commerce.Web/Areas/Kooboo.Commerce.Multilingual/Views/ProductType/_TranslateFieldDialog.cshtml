@@ -19,6 +19,7 @@
                                 <tr>
                                     <th></th>
                                     <th>@("Original".Localize())</th>
+                                    <th>@("Change from last translation".Localize())</th>
                                     <th>@("Translated".Localize())</th>
                                 </tr>
                             </thead>
@@ -26,11 +27,13 @@
                                 <tr>
                                     <th>@("Name".Localize())</th>
                                     <td data-bind="text: Compared.Name"></td>
+                                    <td data-bind="html: Difference.Name"></td>
                                     <td data-bind="text: Compared.Name"></td>
                                 </tr>
                                 <tr>
                                     <th>@("Label".Localize())</th>
                                     <td data-bind="text: Compared.Label"></td>
+                                    <td data-bind="html: Difference.Label"></td>
                                     <td>
                                         <input type="text" name="Label" class="medium" maxlength="50" data-bind="value: Translated.Label" />
                                     </td>
@@ -38,6 +41,7 @@
                                 <tr>
                                     <th>@("Default value".Localize())</th>
                                     <td data-bind="text: Compared.DefaultValue"></td>
+                                    <td data-bind="html: Difference.DefaultValue"></td>
                                     <td>
                                         <input type="text" name="DefaultValue" class="medium" data-bind="value: Translated.DefaultValue" />
                                     </td>
@@ -50,12 +54,14 @@
                             <thead>
                                 <tr>
                                     <th>@("Original".Localize())</th>
+                                    <th>@("Changes from last translation".Localize())</th>
                                     <th>@("Translated".Localize())</th>
                                 </tr>
                             </thead>
                             <tbody data-bind="foreach: SelectionItemTranslations">
                                 <tr>
                                     <td data-bind="text: OriginalText"></td>
+                                    <td data-bind="html: TextDiff"></td>
                                     <td>
                                         <input type="text" class="medium" data-bind="value: TranslatedText, attr: { name: 'SelectionItemTranslations_' + $index() + '_TranslatedText' }" />
                                     </td>
@@ -83,6 +89,8 @@
             var self = this;
 
             self.Compared = ko.mapping.fromJS(DefaultModel);
+
+            self.Difference = ko.mapping.fromJS(DefaultModel);
 
             self.Translated = ko.mapping.fromJS(DefaultModel);
 
@@ -157,6 +165,7 @@
                 model.SelectionItemTranslations.removeAll();
 
                 ko.mapping.fromJS(options.compared, {}, model.Compared);
+                ko.mapping.fromJS(options.difference, {}, model.Difference);
                 ko.mapping.fromJS(options.translated, {}, model.Translated);
 
                 // Build selection item translations to simplify data binding
@@ -165,14 +174,19 @@
                     var translation = {
                         Value: value,
                         OriginalText: ko.observable(this.Text),
+                        TextDiff: ko.observable(),
                         TranslatedText: ko.observable()
                     };
 
                     var translated = _.find(options.translated.SelectionItems, function (item) {
                         return value == item.Value;
                     });
-
                     translation.TranslatedText(translated.Text);
+
+                    var diff = _.find(options.difference.SelectionItems, function (item) {
+                        return value == item.Value;
+                    });
+                    translation.TextDiff(diff.Text);
 
                     model.SelectionItemTranslations.push(translation);
                 });

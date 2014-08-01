@@ -45,6 +45,10 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\..\..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="DiffPlex, Version=1.2.0.38654, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Kooboo_CMS\DiffPlex.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.dll</HintPath>
@@ -156,6 +160,7 @@
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductTypeController.cs" />
+    <Compile Include="DiffHelper.cs" />
     <Compile Include="Integration\ChangeSubscribtion\BrandChangeSubscription.cs" />
     <Compile Include="Integration\ChangeSubscribtion\CategoryChangeSubscription.cs" />
     <Compile Include="Integration\ChangeSubscribtion\ProductChangeSubscription.cs" />
@@ -195,6 +200,9 @@
     <Compile Include="Strings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Styles\content.css">
+      <DependentUpon>content.less</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -204,6 +212,10 @@
     </Content>
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Styles\content.less" />
+    <Content Include="Styles\content.css.map">
+      <DependentUpon>content.css</DependentUpon>
     </Content>
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />

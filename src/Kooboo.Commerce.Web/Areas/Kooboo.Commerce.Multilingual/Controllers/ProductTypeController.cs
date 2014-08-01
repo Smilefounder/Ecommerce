@@ -90,23 +90,32 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 Id = compared.Id,
                 Name = compared.Name
             };
+            
+            // Difference of compared product type and the previous compared product type
+            var diff = new ProductTypeModel
+            {
+                Id = compared.Id,
+                Name = compared.Name
+            };
 
             var entityKey = EntityKey.Get(productType);
-            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), entityKey) ?? new EntityTransaltion(culture, entityKey);
+            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), entityKey);
 
             foreach (var field in compared.CustomFieldDefinitions)
             {
                 translated.CustomFieldDefinitions.Add(LoadFieldTranslation(field, "CustomFieldDefinitions", translation));
+                diff.CustomFieldDefinitions.Add(LoadFieldDiff(field, "CustomFieldDefinitions", translation));
             }
-
             foreach (var field in compared.VariantFieldDefinitions)
             {
                 translated.VariantFieldDefinitions.Add(LoadFieldTranslation(field, "VariantFieldDefinitions", translation));
+                diff.VariantFieldDefinitions.Add(LoadFieldDiff(field, "VariantFieldDefinitions", translation));
             }
 
             return Json(new
             {
                 Compared = compared,
+                Difference = diff,
                 Translated = translated
             }, JsonRequestBehavior.AllowGet);
         }
@@ -119,21 +128,56 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             {
                 Id = original.Id,
                 Name = original.Name,
-                ControlType = original.ControlType,
-                Label = translation.GetTranslatedText(prefix + "Label"),
-                DefaultValue = translation.GetTranslatedText(prefix + "DefaultValue")
+                ControlType = original.ControlType
             };
+
+            if (translation != null)
+            {
+                translated.Label = translation.GetTranslatedText(prefix + "Label");
+                translated.DefaultValue = translation.GetTranslatedText(prefix + "DefaultValue");
+            }
 
             foreach (var item in original.SelectionItems)
             {
-                translated.SelectionItems.Add(new SelectionItem
+                var translatedItem = new SelectionItem { Value = item.Value };
+                if (translation != null)
                 {
-                    Text = translation.GetTranslatedText(prefix + "SelectionItems[" + item.Value + "]"),
-                    Value = item.Value
-                });
+                    translatedItem.Text = translation.GetTranslatedText(prefix + "SelectionItems[" + item.Value + "]");
+                }
+                translated.SelectionItems.Add(item);
             }
 
             return translated;
+        }
+
+        private CustomFieldDefinitionModel LoadFieldDiff(CustomFieldDefinitionModel compared, string prefix, EntityTransaltion translation)
+        {
+            prefix = prefix + "[" + compared.Name + "].";
+
+            var diff = new CustomFieldDefinitionModel
+            {
+                Id = compared.Id,
+                Name = compared.Name,
+                ControlType = compared.ControlType
+            };
+
+            if (translation != null)
+            {
+                diff.Label = DiffHelper.GetDiffHtml(translation.GetOriginalText(prefix + "Label"), compared.Label);
+                diff.DefaultValue = DiffHelper.GetDiffHtml(translation.GetOriginalText(prefix + "DefaultValue"), compared.DefaultValue);
+            }
+
+            foreach (var item in compared.SelectionItems)
+            {
+                var itemDiff = new SelectionItem { Value = item.Value };
+                if (translation != null)
+                {
+                    itemDiff.Text = DiffHelper.GetDiffHtml(translation.GetOriginalText(prefix + "SelectionItems[" + item.Value + "]"), item.Text);
+                }
+                diff.SelectionItems.Add(itemDiff);
+            }
+
+            return diff;
         }
 
         private void UpdateFieldTranslation(CustomFieldDefinition original, CustomFieldDefinitionModel translated, string prefix, List<PropertyTranslation> translations)

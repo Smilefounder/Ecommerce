@@ -15,11 +15,6 @@ namespace Kooboo.Commerce.Multilingual
         public string OriginalText { get; set; }
 
         /// <summary>
-        /// The updated original text after the translation.
-        /// </summary>
-        public string UpdatedOrignalText { get; set; }
-
-        /// <summary>
         /// The translated text.
         /// </summary>
         public string TranslatedText { get; set; }

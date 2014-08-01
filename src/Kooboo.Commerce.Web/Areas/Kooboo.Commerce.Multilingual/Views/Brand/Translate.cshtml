@@ -1,8 +1,10 @@
 ﻿@model BrandModel
 @{
+    Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
     ViewBag.Title = "Translate brand".Localize();
 
     var compared = ViewBag.Compared as BrandModel;
+    var difference = ViewBag.Difference as BrandModel;
 }
 
 @section Panel {
@@ -21,6 +23,7 @@
                 <tr>
                     <th></th>
                     <th>@("Original".Localize())</th>
+                    <th>@("Changes from last translation".Localize())</th>
                     <th>@("Translated".Localize())</th>
                 </tr>
             </thead>
@@ -31,6 +34,9 @@
                         @compared.Name
                     </td>
                     <td>
+                        @Html.Raw(difference.Name)
+                    </td>
+                    <td>
                         @Html.TextBoxFor(m => m.Name)
                         @Html.ValidationMessageFor(m => m.Name)
                     </td>
@@ -39,6 +45,9 @@
                     <td>@("Description".Localize())</td>
                     <td>
                         @compared.Description
+                    </td>
+                    <td>
+                        @Html.Raw(difference.Description)
                     </td>
                     <td>
                         @Html.TextAreaFor(m => m.Description)

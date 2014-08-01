@@ -1,11 +1,8 @@
 ﻿using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Globalization;
 using Kooboo.Commerce.Globalization.Events;
 using Kooboo.Commerce.Multilingual.Storage;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Kooboo.Commerce.Multilingual.Integration
 {

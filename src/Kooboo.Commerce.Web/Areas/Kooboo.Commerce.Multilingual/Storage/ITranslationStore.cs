@@ -22,15 +22,7 @@ namespace Kooboo.Commerce.Multilingual.Storage
         /// Mark the translations of the specified entity out of date.
         /// </summary>
         void MarkOutOfDate(CultureInfo culture, EntityKey key);
-
-        /// <summary>
-        /// Accept origin updates and mark the translations of the specified entity out of date.
-        /// </summary>
-        /// <returns>
-        /// True if the new proerty values is truely new values (different from the recored original values in previous translation). Otherwise false.
-        /// </returns>
-        bool MarkOutOfDate(CultureInfo culture, EntityKey key, IDictionary<string, string> propertyUpdates);
-
+        
         void Delete(CultureInfo culture, EntityKey key);
     }
 }

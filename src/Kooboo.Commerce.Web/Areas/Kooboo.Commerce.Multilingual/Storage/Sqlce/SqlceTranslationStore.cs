@@ -62,21 +62,10 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
                     };
 
                     entry.Properties = JsonConvert.SerializeObject(propertyTranslations);
-
                     db.Translations.Add(entry);
                 }
                 else
                 {
-                    // If it's updating, sync OriginalText with UpdatedOriginalText if OriginalText is not set
-                    var props = propertyTranslations.Select(p => p.Clone()).ToList();
-                    foreach (var prop in props)
-                    {
-                        if (prop.OriginalText == null)
-                        {
-                            prop.OriginalText = prop.UpdatedOrignalText;
-                        }
-                    }
-
                     entry.Properties = JsonConvert.SerializeObject(propertyTranslations);
                     entry.IsOutOfDate = false;
                 }
@@ -90,46 +79,11 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
             using (var db = new MultilingualDbContext(CurrentInstance().Name))
             {
                 var entry = db.Translations.Find(GetUnderlyingEntityKey(culture.Name, key));
-                entry.IsOutOfDate = true;
-                db.SaveChanges();
-            }
-        }
-
-        public bool MarkOutOfDate(CultureInfo culture, EntityKey key, IDictionary<string, string> propertyUpdates)
-        {
-            using (var db = new MultilingualDbContext(CurrentInstance().Name))
-            {
-                var entry = db.Translations.Find(GetUnderlyingEntityKey(culture.Name, key));
-                // If no entry is found, it means that this entity is never translated, and we simply ingore it
                 if (entry != null)
                 {
-                    var updated = false;
-                    var properties = JsonConvert.DeserializeObject<List<PropertyTranslation>>(entry.Properties);
-
-                    foreach (var each in propertyUpdates)
-                    {
-                        var prop = properties.Find(p => p.Property == each.Key);
-                        if (prop != null)
-                        {
-                            if (prop.OriginalText == null || !prop.OriginalText.Equals(each.Value))
-                            {
-                                prop.UpdatedOrignalText = each.Value;
-                                updated = true;
-                            }
-                        }
-                    }
-
-                    if (updated)
-                    {
-                        entry.IsOutOfDate = true;
-                        entry.Properties = JsonConvert.SerializeObject(properties);
-                        db.SaveChanges();
-                    }
-
-                    return updated;
+                    entry.IsOutOfDate = true;
+                    db.SaveChanges();
                 }
-
-                return false;
             }
         }
 

@@ -28,5 +28,11 @@ namespace Kooboo.Commerce.Multilingual
             var translation = PropertyTranslations.FirstOrDefault(t => t.Property == property);
             return translation == null ? null : translation.TranslatedText;
         }
+
+        public string GetOriginalText(string property)
+        {
+            var translation = PropertyTranslations.FirstOrDefault(t => t.Property == property);
+            return translation == null ? null : translation.OriginalText;
+        }
     }
 }

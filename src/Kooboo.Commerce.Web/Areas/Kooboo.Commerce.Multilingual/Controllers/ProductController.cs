@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DiffPlex;
+using DiffPlex.DiffBuilder;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Globalization;
 using Kooboo.Commerce.Multilingual.Models;
@@ -72,11 +74,16 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 
             var compared = Mapper.Map<Product, ProductModel>(product);
             var translated = Mapper.Map<Product, ProductModel>(product);
+            var difference = new ProductModel();
 
             var productKey = new EntityKey(typeof(Product), product.Id);
-            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), productKey) ?? new EntityTransaltion(culture, productKey);
+            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), productKey);
 
-            translated.Name = translation.GetTranslatedText("Name");
+            if (translation != null)
+            {
+                translated.Name = translation.GetTranslatedText("Name");
+                difference.Name = DiffHelper.GetDiffHtml(translation.GetOriginalText("Name"), product.Name);
+            }
 
             // Custom fields
             // Product type definition might change, so we need to display fields base on product type definition
@@ -88,22 +95,26 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 var control = controls.Find(c => c.Name == definition.ControlType);
                 var field = product.CustomFields.FirstOrDefault(f => f.FieldName == definition.Name) ?? new ProductCustomField(definition.Name, null);
 
-                var fieldModel = Mapper.Map<CustomFieldModel>(field);
-                fieldModel.FieldText = control.GetFieldDisplayText(definition, field.FieldValue);
+                var comparedField = MapOrDefault(definition, field);
+                comparedField.FieldText = control.GetFieldDisplayText(definition, field == null ? null : field.FieldValue);
+                compared.CustomFields.Add(comparedField);
 
-                compared.CustomFields.Add(fieldModel);
+                var translatedField = MapOrDefault(definition, field);
+                translatedField.FieldText = comparedField.FieldText;
 
-                fieldModel = Mapper.Map<CustomFieldModel>(field);
-                fieldModel.FieldText = control.GetFieldDisplayText(definition, field.FieldValue);
+                var diffField = new CustomFieldModel { FieldName = definition.Name };
 
                 // If the field value is defined in product editing page, then it's always the field value that get translated
-                if (!control.IsSelectionList && !control.IsValuesPredefined)
+                if (translation != null && !control.IsSelectionList && !control.IsValuesPredefined)
                 {
-                    fieldModel.FieldText = translation.GetTranslatedText("CustomFields[" + field.FieldName + "]");
-                    fieldModel.FieldValue = fieldModel.FieldText;
+                    translatedField.FieldText = translation.GetTranslatedText("CustomFields[" + field.FieldName + "]");
+                    translatedField.FieldValue = translatedField.FieldText;
+
+                    diffField.FieldText = DiffHelper.GetDiffHtml(translation.GetOriginalText("CustomFields[" + field.FieldName + "]"), comparedField.FieldText);
                 }
 
-                translated.CustomFields.Add(fieldModel);
+                translated.CustomFields.Add(translatedField);
+                difference.CustomFields.Add(diffField);
             }
 
             // Variants
@@ -111,8 +122,19 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 
             ViewBag.ProductType = productType;
             ViewBag.Compared = compared;
+            ViewBag.Difference = difference;
 
             return View(translated);
+        }
+
+        private CustomFieldModel MapOrDefault<T>(CustomFieldDefinition definition, T field) where T : ICustomField
+        {
+            if (field == null)
+            {
+                return new CustomFieldModel { FieldName = definition.Name };
+            }
+
+            return Mapper.Map<T, CustomFieldModel>(field);
         }
 
         [HttpPost, HandleAjaxFormError, ValidateInput(false)]
@@ -174,7 +196,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             foreach (var variant in product.Variants)
             {
                 var variantKey = new EntityKey(typeof(ProductVariant), variant.Id);
-                var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), variantKey) ?? new EntityTransaltion(culture, variantKey);
+                var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), variantKey);
 
                 var model = new ProductVariantModel
                 {
@@ -202,14 +224,21 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                         FieldValue = compared.FieldValue
                     };
 
+                    var diff = new CustomFieldModel
+                    {
+                        FieldName = compared.FieldName
+                    };
+
                     // If the field value is entered in product editing page, then it's always the field value that get translated
-                    if (!control.IsSelectionList && !control.IsValuesPredefined)
+                    if (translation != null && !control.IsSelectionList && !control.IsValuesPredefined)
                     {
                         translated.FieldText = translation.GetTranslatedText("VariantFields[" + fieldDefinition.Name + "]");
                         translated.FieldValue = translated.FieldText;
+
+                        diff.FieldText = DiffHelper.GetDiffHtml(translation.GetOriginalText("VariantFields[" + fieldDefinition.Name + "]"), field == null ? null : field.FieldValue);
                     }
 
-                    model.VariantFields.Add(new TranslationTuple<CustomFieldModel>(compared, translated));
+                    model.VariantFields.Add(new TranslationTuple<CustomFieldModel>(compared, diff, translated));
                 }
 
                 models.Add(model);

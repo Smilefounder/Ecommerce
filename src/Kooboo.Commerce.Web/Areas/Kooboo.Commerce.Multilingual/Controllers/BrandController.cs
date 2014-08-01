@@ -67,15 +67,27 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 Description = brand.Description
             };
 
-            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), EntityKey.Get(brand));
-            translation = translation ?? new EntityTransaltion(culture, EntityKey.Get(brand));
-
             var translated = new BrandModel
             {
-                Name = translation.GetTranslatedText("Name"),
-                Description = translation.GetTranslatedText("Description")
+                Id = brand.Id
             };
 
+            var diff = new BrandModel
+            {
+                Id = brand.Id
+            };
+
+            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), EntityKey.Get(brand));
+            if (translation != null)
+            {
+                translated.Name = translation.GetTranslatedText("Name");
+                translated.Description = translation.GetTranslatedText("Description");
+
+                diff.Name = DiffHelper.GetDiffHtml(translation.GetOriginalText("Name"), brand.Name);
+                diff.Description = DiffHelper.GetDiffHtml(translation.GetOriginalText("Description"), brand.Description);
+            }
+
+            ViewBag.Difference = diff;
             ViewBag.Compared = compared;
 
             return View(translated);

@@ -38,15 +38,23 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             {
                 Id = category.Id
             };
+            var diff = new CategoryModel
+            {
+                Id = category.Id
+            };
 
             var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), new EntityKey(typeof(Category), category.Id));
             if (translation != null)
             {
                 translated.Name = translation.GetTranslatedText("Name");
                 translated.Description = translation.GetTranslatedText("Description");
+
+                diff.Name = DiffHelper.GetDiffHtml(translation.GetOriginalText("Name"), category.Name);
+                diff.Description = DiffHelper.GetDiffHtml(translation.GetOriginalText("Description"), category.Description);
             }
 
             ViewBag.Compared = compared;
+            ViewBag.Difference = diff;
 
             return View(translated);
         }

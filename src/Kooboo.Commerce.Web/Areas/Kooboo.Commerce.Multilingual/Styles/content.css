@@ -1,0 +1,11 @@
+﻿.diff-line {
+  display: block;
+}
+.diff-inserted {
+  background-color: #dfd;
+}
+.diff-deleted {
+  background-color: #fdd;
+  text-decoration: line-through;
+}
+/*# sourceMappingURL=content.css.map */

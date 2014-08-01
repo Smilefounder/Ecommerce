@@ -2,11 +2,8 @@
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.Commerce.Products;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 
 namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscription
 {
@@ -25,23 +22,11 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscription
 
         public void Handle(ProductUpdated @event)
         {
-            var product = _serviceFactory.Products.GetById(@event.ProductId);
-            var key = new EntityKey(typeof(Product), product.Id);
-            var updates = new Dictionary<string, string>
-            {
-                { "Name", product.Name }
-            };
-
-            foreach (var field in product.CustomFields)
-            {
-                updates.Add("CustomFields[" + field.FieldName + "]", field.FieldValue);
-            }
-
+            var key = new EntityKey(typeof(Product), @event.ProductId);
             var languages = _languageStore.All().ToList();
-
             foreach (var lang in languages)
             {
-                _translationStore.MarkOutOfDate(CultureInfo.GetCultureInfo(lang.Name), key, updates);
+                _translationStore.MarkOutOfDate(CultureInfo.GetCultureInfo(lang.Name), key);
             }
         }
 
