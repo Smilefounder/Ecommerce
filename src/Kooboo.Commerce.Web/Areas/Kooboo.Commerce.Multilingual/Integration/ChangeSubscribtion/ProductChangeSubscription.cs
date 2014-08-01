@@ -9,13 +9,11 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscription
 {
     class ProductChangeSubscription : IHandle<ProductUpdated>, IHandle<ProductDeleted>
     {
-        private IServiceFactory _serviceFactory;
         private ILanguageStore _languageStore;
         private ITranslationStore _translationStore;
 
-        public ProductChangeSubscription(IServiceFactory serviceFactory, ILanguageStore languageStore, ITranslationStore translationStore)
+        public ProductChangeSubscription(ILanguageStore languageStore, ITranslationStore translationStore)
         {
-            _serviceFactory = serviceFactory;
             _languageStore = languageStore;
             _translationStore = translationStore;
         }

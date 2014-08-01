@@ -10,11 +10,9 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscription
     {
         private ILanguageStore _languageStore;
         private ITranslationStore _translationStore;
-        private IServiceFactory _serviceFactory;
 
-        public BrandChangeSubscription(IServiceFactory serviceFactory, ILanguageStore languageStore, ITranslationStore translationStore)
+        public BrandChangeSubscription(ILanguageStore languageStore, ITranslationStore translationStore)
         {
-            _serviceFactory = serviceFactory;
             _languageStore = languageStore;
             _translationStore = translationStore;
         }
