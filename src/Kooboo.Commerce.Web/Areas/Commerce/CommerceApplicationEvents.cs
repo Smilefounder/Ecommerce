@@ -3,9 +3,11 @@ using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime.Mvc;
 using Kooboo.Commerce.Activities.Jobs;
+using Kooboo.Commerce.Data.Providers;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Web.Bootstrapping;
 using Kooboo.Commerce.Web.Framework.ComponentModel.DataAnnotations;
+using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.Mvc.ViewEngines;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce
         public override void Application_Start(object sender, EventArgs e)
         {
             base.Application_Start(sender, e);
+
+            foreach (var provider in CommerceDbProviders.Providers)
+            {
+                provider.Initialize();
+            }
 
             // AutoMapper
             AutoMapperConfiguration.Configure();

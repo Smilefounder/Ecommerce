@@ -88,8 +88,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
@@ -294,25 +293,24 @@
     <Compile Include="Areas\Commerce\Models\ProductTypes\CustomField_Metadata.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Mapping\ModelMaps.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\GlobalSettings_Metadata.cs" />
-    <Compile Include="Bootstrapping\AddinAreaRegistrar.cs" />
-    <Compile Include="Bootstrapping\AutoMapperConfiguration.cs" />
-    <Compile Include="Bootstrapping\EventsAndActivitiesRegistrar.cs" />
-    <Compile Include="Bootstrapping\CommerceDbProviderRegistrar.cs" />
-    <Compile Include="Bootstrapping\RuleParameterProviderRegistrar.cs" />
-    <Compile Include="Bootstrapping\EventHandlerRegistrar.cs" />
-    <Compile Include="Bootstrapping\MenuInjectionRegistrar.cs" />
-    <Compile Include="Bootstrapping\TabQueryRegistrar.cs" />
-    <Compile Include="Bootstrapping\CommerceInstanceRegistrar.cs" />
-    <Compile Include="Bootstrapping\TabPluginRegistrar.cs" />
-    <Compile Include="Bootstrapping\TopbarCommandsRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\AutoMapperConfiguration.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\EventsAndActivitiesRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\CommerceDbProviderRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\RuleParameterProviderRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\EventHandlerRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\MenuInjectionRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\TabQueryRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\CommerceInstanceRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\TabPluginRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\TopbarCommandsRegistrar.cs" />
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
-    <Compile Include="Common\SiteAwareHttpCurrentInstanceProvider.cs" />
-    <Compile Include="Common\Extensions\CommerceControllerExtensions.cs" />
-    <Compile Include="Common\Extensions\JsonExtensions.cs" />
-    <Compile Include="Common\Extensions\TimeSpanExtensions.cs" />
-    <Compile Include="Common\FormHelper.cs" />
-    <Compile Include="Common\Initialization\DefaultCommerceInstanceInitializer.cs" />
-    <Compile Include="Common\PropertyNaming.cs" />
+    <Compile Include="Areas\Commerce\Common\SiteAwareHttpCurrentInstanceProvider.cs" />
+    <Compile Include="Areas\Commerce\Common\Extensions\CommerceControllerExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\Extensions\JsonExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\Extensions\TimeSpanExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\FormHelper.cs" />
+    <Compile Include="Areas\Commerce\Common\Initialization\DefaultCommerceInstanceInitializer.cs" />
+    <Compile Include="Areas\Commerce\Common\PropertyNaming.cs" />
     <Compile Include="Areas\Commerce\Tabs\Queries\Customers\CustomerQueryExtensions.cs" />
     <Compile Include="Areas\Commerce\Tabs\Queries\Customers\Default\DefaultCustomersQuery.cs" />
     <Compile Include="Areas\Commerce\Tabs\Queries\Customers\Default\DefaultCustomersQueryConfig.cs" />
@@ -340,8 +338,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Tabs\Queries\Products\TopSold\TopSoldProductsConfig.cs" />
-    <Compile Include="Common\SelectListExtensions.cs" />
-    <Compile Include="Common\SelectListItems.cs" />
+    <Compile Include="Areas\Commerce\Common\SelectListExtensions.cs" />
+    <Compile Include="Areas\Commerce\Common\SelectListItems.cs" />
     <Compile Include="Areas\Commerce\Topbar\Customers\DeleteCommand.cs" />
     <Compile Include="Areas\Commerce\Topbar\Orders\ApproveOrderCommand.cs" />
     <Compile Include="Areas\Commerce\Topbar\Orders\ApproveOrderCommandConfig.cs" />
@@ -368,9 +366,9 @@
     <Compile Include="Areas\Commerce\Controllers\SettingController.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShippingMethodController.cs" />
     <Compile Include="Areas\Commerce\Controllers\TabPluginController.cs" />
-    <Compile Include="Bootstrapping\PaymentProcessorRegistrar.cs" />
-    <Compile Include="Bootstrapping\PromotionPolicyRegistrar.cs" />
-    <Compile Include="Bootstrapping\ShippingRateProviderRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\PaymentProcessorRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\PromotionPolicyRegistrar.cs" />
+    <Compile Include="Areas\Commerce\Bootstrapping\ShippingRateProviderRegistrar.cs" />
     <Compile Include="Areas\Commerce\Controllers\TopbarController.cs" />
     <Compile Include="Areas\Commerce\Handlers\FilesStatus.cs" />
     <Compile Include="Areas\Commerce\Handlers\FileType.cs" />

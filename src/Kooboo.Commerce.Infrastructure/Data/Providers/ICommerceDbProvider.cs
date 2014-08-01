@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Providers
 {
+    // TODO: Refactor this
     public interface ICommerceDbProvider
     {
         string InvariantName { get; }
@@ -16,6 +17,8 @@ namespace Kooboo.Commerce.Data.Providers
         ICommerceDatabaseOperations DatabaseOperations { get; }
 
         IConnectionStringBuilder ConnectionStringBuilder { get; }
+
+        void Initialize();
     }
 
     public interface IConnectionStringBuilder

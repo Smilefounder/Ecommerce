@@ -141,7 +141,9 @@ namespace Kooboo.Commerce.Data
 
             var settings = _settingsManager.Get(name);
             if (settings == null)
-                throw new InvalidOperationException("Commerce instance \"" + name + "\" not exists.");
+            {
+                return null;
+            }
 
             return new CommerceInstance(settings);
         }

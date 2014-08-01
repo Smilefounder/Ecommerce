@@ -1,4 +1,5 @@
-﻿using Kooboo.Web.Mvc.Menu;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Web.Mvc.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Menu
 
         void IMenuInjection.Inject(Kooboo.Web.Mvc.Menu.Menu menu, System.Web.Mvc.ControllerContext controllerContext)
         {
-            if (menu.Name == "Commerce")
+            if (menu.Name == "Commerce" && CommerceInstance.Current != null)
             {
                 Inject(menu, controllerContext);
                 PrepareItems(menu.Items, new CommerceMenuItemInitializer());

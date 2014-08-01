@@ -78,8 +78,8 @@
     <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
     <Compile Include="Http\TransactionalAttribute.cs" />
     <Compile Include="Mvc\AjaxFormResult.cs" />
-    <Compile Include="Mvc\CommerceAddinAreaRegistration.cs" />
-    <Compile Include="Mvc\CommerceAddinAreaRegistrationContext.cs" />
+    <Compile Include="Mvc\AddinAreaRegistration.cs" />
+    <Compile Include="Mvc\AddinAreaRegistrationContext.cs" />
     <Compile Include="Mvc\CommerceController.cs" />
     <Compile Include="Mvc\EFContractResolver.cs" />
     <Compile Include="Mvc\ExternalPostResult.cs" />

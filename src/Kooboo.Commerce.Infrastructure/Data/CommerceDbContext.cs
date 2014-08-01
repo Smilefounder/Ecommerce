@@ -11,6 +11,7 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Data.Events;
 using Kooboo.Commerce.Data.Providers;
 using Kooboo.Commerce.Data.Mapping;
+using System.Data.Common;
 
 namespace Kooboo.Commerce.Data
 {
@@ -18,8 +19,8 @@ namespace Kooboo.Commerce.Data
     {
         public CommerceInstanceSettings CommerceInstanceMetadata { get; private set; }
 
-        private CommerceDbContext(CommerceInstanceSettings commerceInstanceMetadata, string connectionString, DbCompiledModel model)
-            : base(connectionString, model)
+        private CommerceDbContext(CommerceInstanceSettings commerceInstanceMetadata, DbConnection connection, DbCompiledModel model)
+            : base(connection, model, true)
         {
             CommerceInstanceMetadata = commerceInstanceMetadata;
         }
@@ -58,7 +59,11 @@ namespace Kooboo.Commerce.Data
                 return CreateModel(key.Schema, key.DbProviderInfo);
             });
 
-            return new CommerceDbContext(metadata, dbProvider.GetConnectionString(metadata), model);
+            var dbProviderFactory = DbConfiguration.DependencyResolver.GetService(typeof(DbProviderFactory), dbProvider.InvariantName) as DbProviderFactory;
+            var conn = dbProviderFactory.CreateConnection();
+            conn.ConnectionString = dbProvider.GetConnectionString(metadata);
+
+            return new CommerceDbContext(metadata, conn, model);
         }
 
         static DbCompiledModel CreateModel(string schema, DbProviderInfo dbProviderInfo)

@@ -7,7 +7,7 @@ using System.Web.Routing;
 
 namespace Kooboo.Commerce.Web.Framework.Mvc
 {
-    public class CommerceAddinAreaRegistrationContext
+    public class AddinAreaRegistrationContext
     {
         private AreaRegistrationContext _context;
 
@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Web.Framework.Mvc
             get { return _context.Routes; }
         }
 
-        public CommerceAddinAreaRegistrationContext(AreaRegistrationContext context)
+        public AddinAreaRegistrationContext(AreaRegistrationContext context)
         {
             _context = context;
         }

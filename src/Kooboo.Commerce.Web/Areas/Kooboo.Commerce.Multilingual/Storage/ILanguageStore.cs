@@ -15,6 +15,6 @@ namespace Kooboo.Commerce.Multilingual.Storage
 
         void Update(Language language);
 
-        void Delete(string code);
+        void Delete(string name);
     }
 }

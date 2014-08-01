@@ -2,9 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Data.Entity;
 using System.Data.Entity.Core.Common;
 using System.Linq;
 using System.Text;
+using System.Data.Entity.Infrastructure.DependencyResolution;
+using System.Data.Entity.SqlServer;
 
 namespace Kooboo.Commerce.Data.Providers.SqlServer
 {
@@ -48,6 +51,17 @@ namespace Kooboo.Commerce.Data.Providers.SqlServer
             {
                 return new SqlServerConnectionStringBuilder();
             }
+        }
+
+        public void Initialize()
+        {
+            DbConfiguration.Loaded += DbConfiguration_Loaded;
+        }
+
+        void DbConfiguration_Loaded(object sender, System.Data.Entity.Infrastructure.DependencyResolution.DbConfigurationLoadedEventArgs e)
+        {
+            e.AddDependencyResolver(new SingletonDependencyResolver<DbProviderServices>(
+                SqlProviderServices.Instance, SqlProviderServices.ProviderInvariantName), true);
         }
     }
 
