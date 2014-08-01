@@ -45,8 +45,13 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             var translations = _translationStore.Find(CultureInfo.GetCultureInfo(culture), brandKeys);
             for (var i = 0; i < translations.Length; i++)
             {
-                var brand = brands[i];
-                brand.TranslatedName = translations[i].Properties["Name"];
+                if (translations[i] != null)
+                {
+                    var brand = brands[i];
+                    brand.TranslatedName = translations[i].GetTranslatedText("Name");
+                    brand.IsTranslated = true;
+                    brand.IsOutOfDate = translations[i].IsOutOfDate;
+                }
             }
 
             return View(list);
@@ -62,14 +67,13 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 Description = brand.Description
             };
 
-
             var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), EntityKey.Get(brand));
             translation = translation ?? new EntityTransaltion(culture, EntityKey.Get(brand));
 
             var translated = new BrandModel
             {
-                Name = translation.Properties["Name"],
-                Description = translation.Properties["Description"]
+                Name = translation.GetTranslatedText("Name"),
+                Description = translation.GetTranslatedText("Description")
             };
 
             ViewBag.Compared = compared;
@@ -81,11 +85,15 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         public ActionResult Translate(BrandModel model, string culture, string @return)
         {
             var brandKey = new EntityKey(typeof(Brand), model.Id);
-            _translationStore.AddOrUpdate(CultureInfo.GetCultureInfo(culture), brandKey, new Dictionary<string, string>
+            var brand = _brandService.GetById(model.Id);
+
+            var props = new List<PropertyTranslation>
             {
-                { "Name", model.Name },
-                { "Description", model.Description }
-            });
+                new PropertyTranslation("Name", brand.Name, model.Name),
+                new PropertyTranslation("Description", brand.Description, model.Description)
+            };
+
+            _translationStore.AddOrUpdate(CultureInfo.GetCultureInfo(culture), brandKey, props);
 
             return AjaxForm().RedirectTo(@return);
         }

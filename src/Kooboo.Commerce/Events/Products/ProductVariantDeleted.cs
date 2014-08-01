@@ -15,14 +15,14 @@ namespace Kooboo.Commerce.Events.Products
         public int ProductId { get; set; }
 
         [Param]
-        public int ProductPriceId { get; set; }
+        public int ProductVariantId { get; set; }
 
         protected ProductVariantDeleted() { }
 
-        public ProductVariantDeleted(Product product, ProductVariant price)
+        public ProductVariantDeleted(Product product, ProductVariant variant)
         {
             ProductId = product.Id;
-            ProductPriceId = price.Id;
+            ProductVariantId = variant.Id;
         }
     }
 }

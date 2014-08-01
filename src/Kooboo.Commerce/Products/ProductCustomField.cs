@@ -9,7 +9,7 @@ using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Products
 {
-    public class ProductCustomField : IOrphanable
+    public class ProductCustomField : IOrphanable, ICustomField
     {
         [Key]
         protected int Id { get; set; }
@@ -18,8 +18,6 @@ namespace Kooboo.Commerce.Products
         /// Redundant custom field name to speed up query perfromance.
         /// </summary>
         public string FieldName { get; set; }
-
-        public string FieldText { get; set; }
 
         public string FieldValue { get; set; }
 

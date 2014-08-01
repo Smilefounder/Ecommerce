@@ -156,9 +156,14 @@
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductTypeController.cs" />
+    <Compile Include="Integration\ChangeSubscribtion\BrandChangeSubscription.cs" />
+    <Compile Include="Integration\ChangeSubscribtion\CategoryChangeSubscription.cs" />
+    <Compile Include="Integration\ChangeSubscribtion\ProductChangeSubscription.cs" />
+    <Compile Include="Integration\ChangeSubscribtion\ProductTypeChangeSubscription.cs" />
+    <Compile Include="Integration\ChangeSubscribtion\ProductVariantChangeSubscription.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="EntityTranslation.cs" />
-    <Compile Include="Handlers\GetTextEventHandler.cs" />
+    <Compile Include="Integration\GetTextEventSubscription.cs" />
     <Compile Include="Menu\LanguageSpecificMenuItem.cs" />
     <Compile Include="Menu\LanguageSpecificMenuItemInitializer.cs" />
     <Compile Include="Menu\MultilingualMenuItem.cs" />
@@ -174,7 +179,8 @@
     <Compile Include="Models\ProductTypeGridItemModel.cs" />
     <Compile Include="Models\ProductTypeModel.cs" />
     <Compile Include="Models\ProductVariantModel.cs" />
-    <Compile Include="Models\TranslationPair.cs" />
+    <Compile Include="Models\TranslationTuple.cs" />
+    <Compile Include="PropertyTranslation.cs" />
     <Compile Include="Storage\ILanguageStore.cs" />
     <Compile Include="MultilingualAreaRegistration.cs" />
     <Compile Include="Menu\MultilingualMenuInjection.cs" />

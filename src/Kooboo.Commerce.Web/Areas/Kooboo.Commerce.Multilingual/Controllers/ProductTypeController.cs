@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             _translationStore = translationStore;
         }
 
-        public ActionResult Index(int page = 1, int pageSize = 50)
+        public ActionResult Index(string culture, int page = 1, int pageSize = 50)
         {
             var models = _repository.Query()
                                     .OrderBy(t => t.Id)
@@ -35,6 +35,17 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                                         Name = t.Name
                                     })
                                     .ToPagedList();
+
+            foreach (var model in models)
+            {
+                var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), new EntityKey(typeof(ProductType), model.Id));
+                if (translation != null)
+                {
+                    model.IsTranslated = true;
+                    model.IsOutOfDate = translation.IsOutOfDate;
+                }
+            }
+
             return View(models);
         }
 
@@ -49,18 +60,22 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         public ActionResult Translate(int id, string culture, ProductTypeModel model, string @return)
         {
             var entityKey = new EntityKey(typeof(ProductType), id);
-            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), entityKey) ?? new EntityTransaltion(culture, entityKey);
+            var productType = _repository.Find(model.Id);
+
+            var props = new List<PropertyTranslation>();
 
             foreach (var field in model.CustomFieldDefinitions)
             {
-                UpdateFieldTranslation(field, "CustomFieldDefinitions[" + field.Name + "].", translation);
+                var originalField = productType.CustomFieldDefinitions.Find(field.Id);
+                UpdateFieldTranslation(originalField, field, "CustomFieldDefinitions[" + field.Name + "].", props);
             }
             foreach (var field in model.VariantFieldDefinitions)
             {
-                UpdateFieldTranslation(field, "VariantFieldDefinitions[" + field.Name + "].", translation);
+                var originalField = productType.VariantFieldDefinitions.Find(field.Id);
+                UpdateFieldTranslation(originalField, field, "VariantFieldDefinitions[" + field.Name + "].", props);
             }
 
-            _translationStore.AddOrUpdate(CultureInfo.GetCultureInfo(culture), entityKey, translation.Properties);
+            _translationStore.AddOrUpdate(CultureInfo.GetCultureInfo(culture), entityKey, props);
 
             return AjaxForm().RedirectTo(@return);
         }
@@ -105,15 +120,15 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 Id = original.Id,
                 Name = original.Name,
                 ControlType = original.ControlType,
-                Label = translation.Properties[prefix + "Label"],
-                DefaultValue = translation.Properties[prefix + "DefaultValue"]
+                Label = translation.GetTranslatedText(prefix + "Label"),
+                DefaultValue = translation.GetTranslatedText(prefix + "DefaultValue")
             };
 
             foreach (var item in original.SelectionItems)
             {
                 translated.SelectionItems.Add(new SelectionItem
                 {
-                    Text = translation.Properties[prefix + "SelectionItems[" + item.Value + "]"],
+                    Text = translation.GetTranslatedText(prefix + "SelectionItems[" + item.Value + "]"),
                     Value = item.Value
                 });
             }
@@ -121,14 +136,15 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             return translated;
         }
 
-        private void UpdateFieldTranslation(CustomFieldDefinitionModel translated, string prefix, EntityTransaltion translation)
+        private void UpdateFieldTranslation(CustomFieldDefinition original, CustomFieldDefinitionModel translated, string prefix, List<PropertyTranslation> translations)
         {
-            translation.Properties[prefix + "Label"] = translated.Label;
-            translation.Properties[prefix + "DefaultValue"] = translated.DefaultValue;
+            translations.Add(new PropertyTranslation(prefix + "Label", original.Label, translated.Label));
+            translations.Add(new PropertyTranslation(prefix + "DefaultValue", original.DefaultValue, translated.DefaultValue));
 
             foreach (var item in translated.SelectionItems)
             {
-                translation.Properties[prefix + "SelectionItems[" + item.Value + "]"] = item.Text;
+                var originalItem = original.SelectionItems.FirstOrDefault(i => i.Value == item.Value);
+                translations.Add(new PropertyTranslation(prefix + "SelectionItems[" + item.Value + "]", originalItem.Text, item.Text));
             }
         }
     }

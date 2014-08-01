@@ -9,20 +9,20 @@ using System.Text;
 namespace Kooboo.Commerce.Events.Products
 {
     [ActivityEvent(Order = 300)]
-    public class ProductVariantAdded : Event, IProductEvent
+    public class ProductVariantCreated : Event, IProductEvent
     {
         [Reference(typeof(Product))]
         public int ProductId { get; set; }
 
         [Reference(typeof(ProductVariant))]
-        public int ProductPriceId { get; set; }
+        public int ProductVariantId { get; set; }
 
-        protected ProductVariantAdded() { }
+        protected ProductVariantCreated() { }
 
-        public ProductVariantAdded(Product product, ProductVariant price)
+        public ProductVariantCreated(Product product, ProductVariant variant)
         {
             ProductId = product.Id;
-            ProductPriceId = price.Id;
+            ProductVariantId = variant.Id;
         }
     }
 }

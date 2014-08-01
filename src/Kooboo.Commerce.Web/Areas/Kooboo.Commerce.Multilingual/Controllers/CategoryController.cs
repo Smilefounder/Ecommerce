@@ -42,8 +42,8 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), new EntityKey(typeof(Category), category.Id));
             if (translation != null)
             {
-                translated.Name = translation.Properties["Name"];
-                translated.Description = translation.Properties["Description"];
+                translated.Name = translation.GetTranslatedText("Name");
+                translated.Description = translation.GetTranslatedText("Description");
             }
 
             ViewBag.Compared = compared;
@@ -54,10 +54,13 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         [HttpPost, HandleAjaxFormError]
         public ActionResult Translate(string culture, CategoryModel model, string @return)
         {
-            _translationStore.AddOrUpdate(CultureInfo.GetCultureInfo(culture), new EntityKey(typeof(Category), model.Id), new Dictionary<string, string>
+            var key = new EntityKey(typeof(Category), model.Id);
+            var category = _repository.Find(model.Id);
+
+            _translationStore.AddOrUpdate(CultureInfo.GetCultureInfo(culture), key, new List<PropertyTranslation>
             {
-                { "Name", model.Name },
-                { "Description", model.Description }
+                new PropertyTranslation("Name", category.Name, model.Name),
+                new PropertyTranslation("Description", category.Description, model.Description)
             });
 
             return AjaxForm().RedirectTo(@return);
@@ -95,7 +98,9 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 if (translation != null)
                 {
                     var category = categories[i];
-                    category.TranslatedName = translation.Properties["Name"];
+                    category.TranslatedName = translation.GetTranslatedText("Name");
+                    category.IsTranslated = true;
+                    category.IsOutOfDate = translation.IsOutOfDate;
                 }
             }
 

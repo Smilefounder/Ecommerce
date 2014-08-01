@@ -5,16 +5,16 @@ using System.Web;
 
 namespace Kooboo.Commerce.Multilingual.Models
 {
-    public class TranslationPair<T>
+    public class TranslationTuple<T>
         where T : class
     {
         public T Compared { get; set; }
 
         public T Translated { get; set; }
 
-        public TranslationPair() { }
+        public TranslationTuple() { }
 
-        public TranslationPair(T compared, T translated)
+        public TranslationTuple(T compared, T translated)
         {
             Compared = compared;
             Translated = translated;

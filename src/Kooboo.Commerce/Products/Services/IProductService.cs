@@ -25,10 +25,10 @@ namespace Kooboo.Commerce.Products.Services
 
         bool Unpublish(Product product);
 
-        void AddProductVariant(Product product, ProductVariant price);
+        void AddProductVariant(Product product, ProductVariant variant, bool notifyProductUpdated);
 
-        bool RemoveProductVariant(Product product, int priceId);
+        bool RemoveProductVariant(Product product, int variantId, bool notifyProductUpdated);
 
-        bool UpdateProductVariant(Product product, int priceId, ProductVariant newPrice);
+        bool UpdateProductVariant(Product product, int variantId, ProductVariant newVariant, bool notifyProductUpdated);
     }
 }

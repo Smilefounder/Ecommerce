@@ -6,16 +6,17 @@ using System.Web;
 
 namespace Kooboo.Commerce.Multilingual.Models
 {
-    [Grid]
     public class CategoryGridItemModel
     {
         public int Id { get; set; }
 
-        [GridColumn]
         public string Name { get; set; }
 
-        [GridColumn(HeaderText = "Translated name")]
         public string TranslatedName { get; set; }
+
+        public bool IsTranslated { get; set; }
+
+        public bool IsOutOfDate { get; set; }
 
         public int Level { get; set; }
 

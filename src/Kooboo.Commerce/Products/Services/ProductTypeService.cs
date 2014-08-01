@@ -79,6 +79,8 @@ namespace Kooboo.Commerce.Products.Services
 
             _productTypes.Insert(type);
 
+            Event.Raise(new ProductTypeCreated(type));
+
             return type;
         }
 
@@ -138,6 +140,8 @@ namespace Kooboo.Commerce.Products.Services
 
             _productTypes.Database.SaveChanges();
 
+            Event.Raise(new ProductTypeUpdated(type));
+
             return type;
         }
 
@@ -156,6 +160,7 @@ namespace Kooboo.Commerce.Products.Services
         {
             Disable(type);
             _productTypes.Delete(type);
+            Event.Raise(new ProductTypeDeleted(type));
         }
 
         public bool Enable(ProductType type)

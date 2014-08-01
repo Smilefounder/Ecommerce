@@ -13,11 +13,11 @@ namespace Kooboo.Commerce.Multilingual.Models
 
         public decimal Price { get; set; }
 
-        public IList<TranslationPair<CustomFieldModel>> VariantFields { get; set; }
+        public IList<TranslationTuple<CustomFieldModel>> VariantFields { get; set; }
 
         public ProductVariantModel()
         {
-            VariantFields = new List<TranslationPair<CustomFieldModel>>();
+            VariantFields = new List<TranslationTuple<CustomFieldModel>>();
         }
     }
 }

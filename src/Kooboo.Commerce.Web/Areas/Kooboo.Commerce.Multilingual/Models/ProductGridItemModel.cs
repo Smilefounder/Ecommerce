@@ -18,5 +18,11 @@ namespace Kooboo.Commerce.Multilingual.Models
 
         [GridColumn(HeaderText = "Translated name")]
         public string TranslatedName { get; set; }
+
+        [GridColumn(HeaderText = "Translated")]
+        public bool IsTranslated { get; set; }
+
+        [GridColumn(HeaderText = "Out of date")]
+        public bool IsOutOfDate { get; set; }
     }
 }

@@ -77,7 +77,11 @@
     <Compile Include="Categories\Services\CategoryService.cs" />
     <Compile Include="Categories\Services\ICategoryService.cs" />
     <Compile Include="DefaultServiceFactory.cs" />
+    <Compile Include="Events\ProductTypes\ProductTypeCreated.cs" />
+    <Compile Include="Events\ProductTypes\ProductTypeDeleted.cs" />
+    <Compile Include="Events\ProductTypes\ProductTypeUpdated.cs" />
     <Compile Include="IServiceFactory.cs" />
+    <Compile Include="Products\ICustomField.cs" />
     <Compile Include="Products\OrderedCustomFieldDefinitionCollection.cs" />
     <Compile Include="Events\Categories\CategoryCreated.cs" />
     <Compile Include="Events\Categories\CategoryDeleted.cs" />
@@ -89,7 +93,7 @@
     <Compile Include="Events\PaymentMethods\PaymentMethodDisabled.cs" />
     <Compile Include="Events\PaymentMethods\PaymentMethodEnabled.cs" />
     <Compile Include="Events\Products\GetPrice.cs" />
-    <Compile Include="Events\Products\ProductVariantAdded.cs" />
+    <Compile Include="Events\Products\ProductVariantCreated.cs" />
     <Compile Include="Events\Products\ProductVariantDeleted.cs" />
     <Compile Include="Events\Products\ProductVariantUpdated.cs" />
     <Compile Include="Events\Products\ProductPublished.cs" />

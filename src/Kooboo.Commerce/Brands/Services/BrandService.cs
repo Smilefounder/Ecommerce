@@ -38,24 +38,24 @@ namespace Kooboo.Commerce.Brands.Services
             Event.Raise(new BrandCreated(brand));
         }
 
-        public void Update(Brand brand)
+        public void Update(Brand model)
         {
-            var dbBrand = _brandRepository.Find(brand.Id);
+            var brand = _brandRepository.Find(model.Id);
 
-            dbBrand.CustomFields.Clear();
+            brand.CustomFields.Clear();
 
-            foreach (var field in brand.CustomFields)
+            foreach (var field in model.CustomFields)
             {
-                dbBrand.CustomFields.Add(new BrandCustomField
+                brand.CustomFields.Add(new BrandCustomField
                 {
                     Name = field.Name,
                     Value = field.Value
                 });
             }
 
-            _brandRepository.Update(dbBrand, brand);
+            _brandRepository.Update(brand, model);
 
-            Event.Raise(new BrandUpdated(dbBrand));
+            Event.Raise(new BrandUpdated(brand));
         }
 
         public void Delete(Brand brand)

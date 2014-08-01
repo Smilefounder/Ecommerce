@@ -9,14 +9,12 @@ using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Products
 {
-    public class ProductVariantField : IOrphanable
+    public class ProductVariantField : IOrphanable, ICustomField
     {
         [Key]
         protected int Id { get; set; }
 
         public string FieldName { get; set; }
-
-        public string FieldText { get; set; }
 
         public string FieldValue { get; set; }
 

@@ -18,8 +18,10 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
         [Key, Column(Order = 2), StringLength(50)]
         public string EntityKey { get; set; }
 
+        public bool IsOutOfDate { get; set; }
+
         /// <summary>
-        /// Translation dictionary for entity properties as json.
+        /// Property translations as json.
         /// </summary>
         public string Properties { get; set; }
     }

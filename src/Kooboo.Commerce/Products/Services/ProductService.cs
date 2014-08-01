@@ -69,7 +69,7 @@ namespace Kooboo.Commerce.Products.Services
             {
                 if (!product.Variants.Any(p => p.Id == variant.Id))
                 {
-                    RemoveProductVariant(dbProduct, variant.Id);
+                    RemoveProductVariant(dbProduct, variant.Id, false);
                 }
             }
 
@@ -80,11 +80,11 @@ namespace Kooboo.Commerce.Products.Services
                 {
                     var variant = new ProductVariant(dbProduct);
                     variant.UpdateFrom(variantModel);
-                    AddProductVariant(dbProduct, variant);
+                    AddProductVariant(dbProduct, variant, false);
                 }
                 else
                 {
-                    UpdateProductVariant(dbProduct, current.Id, variantModel);
+                    UpdateProductVariant(dbProduct, current.Id, variantModel, false);
                 }
             }
 
@@ -131,15 +131,20 @@ namespace Kooboo.Commerce.Products.Services
             return true;
         }
 
-        public void AddProductVariant(Product product, ProductVariant variant)
+        public void AddProductVariant(Product product, ProductVariant variant, bool notifyProductUpdated)
         {
             product.Variants.Add(variant);
             _productRepository.Database.SaveChanges();
 
-            Event.Raise(new ProductVariantAdded(product, variant));
+            Event.Raise(new ProductVariantCreated(product, variant));
+
+            if (notifyProductUpdated)
+            {
+                Event.Raise(new ProductUpdated(product));
+            }
         }
 
-        public bool RemoveProductVariant(Product product, int variantId)
+        public bool RemoveProductVariant(Product product, int variantId, bool notifyProductUpdated)
         {
             var variant = product.Variants.FirstOrDefault(it => it.Id == variantId);
             if (variant == null)
@@ -154,10 +159,15 @@ namespace Kooboo.Commerce.Products.Services
 
             Event.Raise(new ProductVariantDeleted(product, variant));
 
+            if (notifyProductUpdated)
+            {
+                Event.Raise(new ProductUpdated(product));
+            }
+
             return true;
         }
 
-        public bool UpdateProductVariant(Product product, int variantId, ProductVariant newVariant)
+        public bool UpdateProductVariant(Product product, int variantId, ProductVariant newVariant, bool notifyProductUpdated)
         {
             var variant = product.Variants.FirstOrDefault(it => it.Id == variantId);
             if (variant == null)
@@ -169,6 +179,11 @@ namespace Kooboo.Commerce.Products.Services
             _productRepository.Database.SaveChanges();
 
             Event.Raise(new ProductVariantUpdated(product, variant));
+
+            if (notifyProductUpdated)
+            {
+                Event.Raise(new ProductUpdated(product));
+            }
 
             return true;
         }

@@ -54,7 +54,9 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 if (translation != null)
                 {
                     var product = products[i];
-                    product.TranslatedName = translation.Properties["Name"];
+                    product.TranslatedName = translation.GetTranslatedText("Name");
+                    product.IsTranslated = true;
+                    product.IsOutOfDate = translation.IsOutOfDate;
                 }
             }
 
@@ -74,7 +76,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             var productKey = new EntityKey(typeof(Product), product.Id);
             var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), productKey) ?? new EntityTransaltion(culture, productKey);
 
-            translated.Name = translation.Properties["Name"];
+            translated.Name = translation.GetTranslatedText("Name");
 
             // Custom fields
             // Product type definition might change, so we need to display fields base on product type definition
@@ -97,7 +99,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 // If the field value is defined in product editing page, then it's always the field value that get translated
                 if (!control.IsSelectionList && !control.IsValuesPredefined)
                 {
-                    fieldModel.FieldText = translation.Properties["CustomFields[" + field.FieldName + "]"];
+                    fieldModel.FieldText = translation.GetTranslatedText("CustomFields[" + field.FieldName + "]");
                     fieldModel.FieldValue = fieldModel.FieldText;
                 }
 
@@ -120,8 +122,8 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             var productType = _services.ProductTypes.GetById(product.ProductTypeId);
             var controls = FormControls.Controls().ToList();
 
-            var translations = new Dictionary<string, string>();
-            translations.Add("Name", model.Name);
+            var translations = new List<PropertyTranslation>();
+            translations.Add(new PropertyTranslation("Name", product.Name, model.Name));
 
             foreach (var definition in productType.CustomFieldDefinitions)
             {
@@ -130,7 +132,8 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 
                 if (!control.IsSelectionList && !control.IsValuesPredefined)
                 {
-                    translations.Add("CustomFields[" + field.FieldName + "]", field.FieldValue);
+                    var originalField = product.CustomFields.FirstOrDefault(f => f.FieldName == definition.Name);
+                    translations.Add(new PropertyTranslation("CustomFields[" + field.FieldName + "]", originalField == null ? null : originalField.FieldValue, field.FieldValue));
                 }
             }
 
@@ -138,23 +141,25 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 
             foreach (var variant in model.Variants)
             {
+                var originalVariant = product.Variants.FirstOrDefault(v => v.Id == variant.Id);
                 var variantKey = new EntityKey(typeof(ProductVariant), variant.Id);
-                _translationStore.AddOrUpdate(CultureInfo.GetCultureInfo(culture), variantKey, GetVariantTranslations(variant, productType, controls));
+                _translationStore.AddOrUpdate(CultureInfo.GetCultureInfo(culture), variantKey, GetVariantTranslations(variant, originalVariant, productType, controls));
             }
 
             return AjaxForm().RedirectTo(@return);
         }
 
-        private IDictionary<string, string> GetVariantTranslations(ProductVariantModel model, ProductType productType, List<IFormControl> controls)
+        private IEnumerable<PropertyTranslation> GetVariantTranslations(ProductVariantModel translatedVariant, ProductVariant originalVariant, ProductType productType, List<IFormControl> controls)
         {
-            var translations = new Dictionary<string, string>();
+            var translations = new List<PropertyTranslation>();
             foreach (var definition in productType.VariantFieldDefinitions)
             {
-                var field = model.VariantFields.FirstOrDefault(f => f.Translated.FieldName == definition.Name);
+                var field = translatedVariant.VariantFields.FirstOrDefault(f => f.Translated.FieldName == definition.Name);
                 var control = controls.Find(c => c.Name == definition.ControlType);
                 if (!control.IsSelectionList && !control.IsValuesPredefined)
                 {
-                    translations.Add("VariantFields[" + definition.Name + "]", field.Translated.FieldValue);
+                    var originalField = originalVariant.VariantFields.FirstOrDefault(f => f.FieldName == definition.Name);
+                    translations.Add(new PropertyTranslation("VariantFields[" + definition.Name + "]", originalField == null ? null : originalField.FieldValue, field.Translated.FieldValue));
                 }
             }
 
@@ -200,11 +205,11 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                     // If the field value is entered in product editing page, then it's always the field value that get translated
                     if (!control.IsSelectionList && !control.IsValuesPredefined)
                     {
-                        translated.FieldText = translation.Properties["VariantFields[" + fieldDefinition.Name + "]"];
+                        translated.FieldText = translation.GetTranslatedText("VariantFields[" + fieldDefinition.Name + "]");
                         translated.FieldValue = translated.FieldText;
                     }
 
-                    model.VariantFields.Add(new TranslationPair<CustomFieldModel>(compared, translated));
+                    model.VariantFields.Add(new TranslationTuple<CustomFieldModel>(compared, translated));
                 }
 
                 models.Add(model);

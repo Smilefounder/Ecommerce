@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Multilingual.Handlers
+namespace Kooboo.Commerce.Multilingual.Integration
 {
-    public class GetTextEventHandler : IHandle<GetText>
+    class GetTextEventSubscription : IHandle<GetText>
     {
         private ITranslationStore _translationStore;
 
-        public GetTextEventHandler(ITranslationStore translationStore)
+        public GetTextEventSubscription(ITranslationStore translationStore)
         {
             _translationStore = translationStore;
         }
@@ -31,14 +31,14 @@ namespace Kooboo.Commerce.Multilingual.Handlers
                     continue;
                 }
 
-                foreach (var prop in translation.Properties)
+                foreach (var prop in translation.PropertyTranslations)
                 {
-                    if (prop.Value == null)
+                    if (String.IsNullOrEmpty(prop.TranslatedText))
                     {
                         continue;
                     }
 
-                    @event.SetText(translation.EntityKey, prop.Key, prop.Value);
+                    @event.SetText(translation.EntityKey, prop.Property, prop.TranslatedText);
                 }
             }
         }
