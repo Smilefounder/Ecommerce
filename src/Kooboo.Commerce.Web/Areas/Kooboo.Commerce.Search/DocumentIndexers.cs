@@ -46,14 +46,14 @@ namespace Kooboo.Commerce.Search
             public override bool Equals(object obj)
             {
                 var other = obj as IndexerKey;
-                return other != null && other.Instance == Instance && other.Culture.Equals(Culture) && other.DocumentType.Equals(DocumentType);
+                return other != null && other.Instance.Equals(Instance, StringComparison.OrdinalIgnoreCase) && other.Culture.Equals(Culture) && other.DocumentType.Equals(DocumentType);
             }
 
             public override int GetHashCode()
             {
                 unchecked
                 {
-                    var hash = Instance.GetHashCode();
+                    var hash = Instance.ToLowerInvariant().GetHashCode();
                     hash = hash * 397 ^ Culture.GetHashCode();
                     hash = hash * 397 ^ DocumentType.GetHashCode();
                     return hash;

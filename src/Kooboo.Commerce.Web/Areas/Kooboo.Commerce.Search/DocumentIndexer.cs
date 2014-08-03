@@ -40,6 +40,8 @@ namespace Kooboo.Commerce.Search
 
         public IEnumerable<FieldFacet> Facets(Query query, params string[] fields)
         {
+            query = query ?? new MatchAllDocsQuery();
+
             var facets = new List<FieldFacet>();
             foreach (var field in fields)
             {

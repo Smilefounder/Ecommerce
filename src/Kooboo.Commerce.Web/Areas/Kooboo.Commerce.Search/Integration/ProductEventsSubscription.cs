@@ -14,7 +14,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Search.Integration
 {
-    class ProductEventsSubscription : 
+    class ProductEventsSubscription :
         IHandle<ProductCreated>, IHandle<ProductUpdated>, IHandle<ProductPublished>, IHandle<ProductUnpublished>, IHandle<ProductDeleted>
         , IHandle<TranslationUpdated>
         , IHandle<LanguageAdded>, IHandle<LanguageDeleted>
@@ -48,12 +48,22 @@ namespace Kooboo.Commerce.Search.Integration
         {
             if (@event.EntityKey.EntityType == typeof(Product))
             {
-                IndexProductIfPublished((int)@event.EntityKey.Value);
+                var product = _serviceFactory.Products.GetById((int)@event.EntityKey.Value);
+                if (product.IsPublished)
+                {
+                    var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
+                    Index(product, productType, new[] { @event.Culture });
+                }
             }
             else if (@event.EntityKey.EntityType == typeof(ProductVariant))
             {
                 var variant = _serviceFactory.Products.GetProductVariantById((int)@event.EntityKey.Value);
-                IndexProductIfPublished(variant.ProductId);
+                var product = _serviceFactory.Products.GetById(variant.ProductId);
+                if (product.IsPublished)
+                {
+                    var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
+                    Index(product, productType, new[] { @event.Culture });
+                }
             }
         }
 
@@ -63,17 +73,29 @@ namespace Kooboo.Commerce.Search.Integration
 
         public void Handle(ProductCreated @event)
         {
-            IndexProductIfPublished(@event.ProductId);
+            var product = _serviceFactory.Products.GetById(@event.ProductId);
+            if (product.IsPublished)
+            {
+                var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
+                Index(product, productType, GetAllCultures());
+            }
         }
 
         public void Handle(ProductUpdated @event)
         {
-            IndexProductIfPublished(@event.ProductId);
+            var product = _serviceFactory.Products.GetById(@event.ProductId);
+            if (product.IsPublished)
+            {
+                var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
+                Index(product, productType, GetAllCultures());
+            }
         }
 
         public void Handle(ProductPublished @event)
         {
-            IndexProductIfPublished(@event.ProductId);
+            var product = _serviceFactory.Products.GetById(@event.ProductId);
+            var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
+            Index(product, productType, GetAllCultures());
         }
 
         public void Handle(ProductUnpublished @event)
@@ -88,18 +110,25 @@ namespace Kooboo.Commerce.Search.Integration
 
         #endregion
 
-        private void IndexProductIfPublished(int productId)
+        private void Index(Product product, ProductType productType, IEnumerable<CultureInfo> cultures)
         {
-            var product = _serviceFactory.Products.GetById(productId);
-            if (product.IsPublished)
+            foreach (var culture in cultures)
             {
-                var culture = CultureInfo.InvariantCulture;
-                var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
-
                 var indexer = DocumentIndexers.GetIndexer(CommerceInstance.Current.Name, culture, typeof(Product));
                 indexer.Index(ProductDocumentBuilder.Build(product, productType, culture));
                 indexer.Commit();
             }
+        }
+
+        private IEnumerable<CultureInfo> GetAllCultures()
+        {
+            var cultures = new List<CultureInfo> { CultureInfo.InvariantCulture };
+            foreach (var lang in _languageStore.All())
+            {
+                cultures.Add(CultureInfo.GetCultureInfo(lang.Name));
+            }
+
+            return cultures;
         }
 
         private void DeleteIndex(int productId)

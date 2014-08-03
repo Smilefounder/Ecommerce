@@ -21,9 +21,19 @@ namespace Kooboo.Commerce.CMSIntegration
             return "Local";
         }
 
-        public static string InstanceName(this Site site)
+        public static string GetCommerceInstanceName(this Site site)
         {
             return site.CustomFields["CommerceInstance"];
+        }
+
+        public static string GetCommerceApiHost(this Site site)
+        {
+            if (site.CustomFields.ContainsKey("CommerceApiHost"))
+            {
+                return site.CustomFields["CommerceApiHost"];
+            }
+
+            return null;
         }
 
         public static string GetCurrency(this Site site)
@@ -36,7 +46,7 @@ namespace Kooboo.Commerce.CMSIntegration
             var user = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
             var accountId = user == null ? null : user.UUID;
 
-            var context = new ApiContext(site.InstanceName(), CultureInfo.GetCultureInfo(site.Culture), null, accountId);
+            var context = new ApiContext(site.GetCommerceInstanceName(), CultureInfo.GetCultureInfo(site.Culture), null, accountId);
 
             var apiType = "Local";
             if (site.CustomFields.ContainsKey("CommerceApiType"))

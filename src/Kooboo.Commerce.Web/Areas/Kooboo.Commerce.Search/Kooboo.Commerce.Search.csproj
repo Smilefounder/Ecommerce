@@ -48,6 +48,10 @@
     <Reference Include="Kooboo">
       <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.CMS.Common, Version=4.4.0.721, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
+    </Reference>
     <Reference Include="Lucene.Net">
       <HintPath>..\..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
     </Reference>
@@ -157,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzers.cs" />
+    <Compile Include="Api\FacetsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="FacetItem.cs" />
     <Compile Include="FieldFacet.cs" />

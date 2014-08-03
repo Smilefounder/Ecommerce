@@ -74,7 +74,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Sources
             var user = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
             var accountId = user == null ? null : user.UUID;
 
-            var apiContext = new ApiContext(context.Site.InstanceName(), CultureInfo.GetCultureInfo(context.Site.Culture), null, accountId);
+            var apiContext = new ApiContext(context.Site.GetCommerceInstanceName(), CultureInfo.GetCultureInfo(context.Site.Culture), null, accountId);
             var api = ApiService.Get(context.Site.ApiType(), apiContext);
 
             var query = GetQuery(api);

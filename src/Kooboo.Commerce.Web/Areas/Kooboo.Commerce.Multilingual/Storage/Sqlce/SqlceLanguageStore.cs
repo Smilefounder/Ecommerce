@@ -22,6 +22,14 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
             }
         }
 
+        public bool Exists(string name)
+        {
+            using (var db = new MultilingualDbContext(CurrentInstance().Name))
+            {
+                return db.Languages.Any(l => l.Name == name);
+            }
+        }
+
         public Language Find(string name)
         {
             using (var db = new MultilingualDbContext(CurrentInstance().Name))

@@ -9,6 +9,8 @@ namespace Kooboo.Commerce.Multilingual.Storage
     {
         IEnumerable<Language> All();
 
+        bool Exists(string name);
+
         Language Find(string name);
 
         void Add(Language language);
