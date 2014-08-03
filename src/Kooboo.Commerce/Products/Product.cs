@@ -8,6 +8,7 @@ using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Globalization;
 using Kooboo.Commerce.Carts;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kooboo.Commerce.Products
 {
@@ -26,7 +27,7 @@ namespace Kooboo.Commerce.Products
             Variants = new List<ProductVariant>();
         }
 
-        [Param]
+        [Key, Param]
         public int Id { get; set; }
 
         [Param]

@@ -1,5 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Multilingual.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +36,8 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
             {
                 db.Languages.Add(language);
                 db.SaveChanges();
+
+                Event.Raise(new LanguageAdded(language.Name));
             }
         }
 
@@ -54,6 +58,8 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
                 var lang = db.Languages.Find(name);
                 db.Languages.Remove(lang);
                 db.SaveChanges();
+
+                Event.Raise(new LanguageDeleted(lang.Name));
             }
         }
     }

@@ -7,6 +7,8 @@ using Kooboo.Extensions;
 using Newtonsoft.Json;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using System.Globalization;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Multilingual.Events;
 
 namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 {
@@ -71,6 +73,8 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
                 }
 
                 db.SaveChanges();
+
+                Event.Raise(new TranslationUpdated(key, propertyTranslations, culture));
             }
         }
 
