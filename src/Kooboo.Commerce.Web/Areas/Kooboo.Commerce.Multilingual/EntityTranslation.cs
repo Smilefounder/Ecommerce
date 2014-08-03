@@ -8,19 +8,18 @@ namespace Kooboo.Commerce.Multilingual
 {
     public class EntityTransaltion
     {
-        public string Culture { get; private set; }
+        public string Culture { get; set; }
 
-        public EntityKey EntityKey { get; private set; }
+        public EntityKey EntityKey { get; set; }
 
         public bool IsOutOfDate { get; set; }
 
         public IList<PropertyTranslation> PropertyTranslations { get; set; }
 
-        public EntityTransaltion(string culture, EntityKey key)
+        public EntityTransaltion(string culture, EntityKey entityKey)
         {
             Culture = culture;
-            EntityKey = key;
-            PropertyTranslations = new List<PropertyTranslation>();
+            EntityKey = entityKey;
         }
 
         public string GetTranslatedText(string property)

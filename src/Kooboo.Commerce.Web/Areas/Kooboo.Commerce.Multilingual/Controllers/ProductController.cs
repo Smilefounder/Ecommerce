@@ -65,6 +65,29 @@ namespace Kooboo.Commerce.Multilingual.Controllers
             return View(list);
         }
 
+        public ActionResult OutOfDate(string culture, int page = 1, int pageSize = 50)
+        {
+            var items = _translationStore.FindOutOfDate(CultureInfo.GetCultureInfo(culture), typeof(Product), page - 1, pageSize);
+            var productIds = items.Select(p => (int)p.EntityKey.Value).ToArray();
+            var products = _services.Products.Query().Where(p => productIds.Contains(p.Id)).ToList();
+
+            var models = items.Transform(t =>
+            {
+                var productId = (int)t.EntityKey.Value;
+                var product = products.Find(p => p.Id == productId);
+                return new ProductGridItemModel
+                {
+                    Id = product.Id,
+                    IsOutOfDate = true,
+                    IsTranslated = true,
+                    Name = product.Name,
+                    TranslatedName = t.GetTranslatedText("Name")
+                };
+            });
+
+            return View(models.ToPagedList());
+        }
+
         public ActionResult Translate(int id, string culture)
         {
             var product = _services.Products.GetById(id);

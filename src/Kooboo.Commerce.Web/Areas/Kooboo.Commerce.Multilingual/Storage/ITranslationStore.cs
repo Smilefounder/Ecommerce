@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Globalization;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,6 +13,8 @@ namespace Kooboo.Commerce.Multilingual.Storage
         EntityTransaltion Find(CultureInfo culture, EntityKey key);
 
         EntityTransaltion[] Find(CultureInfo culture, params EntityKey[] keys);
+
+        Pagination<EntityTransaltion> FindOutOfDate(CultureInfo culture, Type entityType, int pageIndex, int pageSize); 
 
         /// <summary>
         /// Add or update translations for the specified entity.

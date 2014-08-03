@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public EntityTransaltion Find(System.Globalization.CultureInfo culture, EntityKey key)
         {
-            return Find(culture, new [] { key })[0];
+            return Find(culture, new[] { key })[0];
         }
 
         public EntityTransaltion[] Find(System.Globalization.CultureInfo culture, params EntityKey[] keys)
@@ -47,6 +47,28 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
             }
 
             return result;
+        }
+
+        public Pagination<EntityTransaltion> FindOutOfDate(CultureInfo culture, Type entityType, int pageInex, int pageSize)
+        {
+            using (var db = new MultilingualDbContext(CurrentInstance().Name))
+            {
+                return db.Translations
+                         .Where(t => t.Culture == culture.Name && t.EntityType == entityType.Name && t.IsOutOfDate)
+                         .OrderBy(t => t.EntityKey)
+                         .Paginate(pageInex, pageSize)
+                         .Transform(entry =>
+                         {
+                             var keyType = EntityKey.GetKeyProperty(entityType).PropertyType;
+                             var translation = new EntityTransaltion(culture.Name, new EntityKey(entityType, Convert.ChangeType(entry.EntityKey, keyType)))
+                             {
+                                 IsOutOfDate = true,
+                                 PropertyTranslations = JsonConvert.DeserializeObject<List<PropertyTranslation>>(entry.Properties)
+                             };
+
+                             return translation;
+                         });
+            }
         }
 
         public void AddOrUpdate(System.Globalization.CultureInfo culture, EntityKey key, IEnumerable<PropertyTranslation> propertyTranslations)

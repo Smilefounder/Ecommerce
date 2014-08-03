@@ -3,7 +3,14 @@
     ViewBag.Title = "Product Types".Localize();
 }
 
-@Html.GridFor2(typeof(ProductTypeGridItemModel), Model)
+<div class="tabs ui-tabs ui-widget ui-widget-content ui-corner-all">
+    <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+        <li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active"><a href="@Url.Action("Index", RouteValues.From(Request.QueryString).Merge("page", 1))">@("All".Localize())</a></li>
+        <li class="ui-state-default ui-corner-top"><a href="@Url.Action("OutOfDate", RouteValues.From(Request.QueryString).Merge("page", 1))">@("Out of date".Localize())</a></li>
+    </ul>
+</div>
+
+@Html.GridFor2(typeof(ProductTypeGridItemModel), Model, "_Grid2.SimpleTable")
 
 <div class="pagination">
     @Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
