@@ -7,44 +7,43 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
+using Kooboo.Commerce.Brands;
 
 namespace Kooboo.Commerce.Products.Services
 {
     [Dependency(typeof(IProductService))]
     public class ProductService : IProductService
     {
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<ProductVariant> _variantRepository;
+        private readonly ICommerceDatabase _database;
 
-        public ProductService(IRepository<Product> productRepository, IRepository<ProductVariant> variantRepository)
+        public ProductService(ICommerceDatabase database)
         {
-            _productRepository = productRepository;
-            _variantRepository = variantRepository;
+            _database = database;
         }
 
         public Product GetById(int id)
         {
-            return _productRepository.Find(id);
+            return _database.GetRepository<Product>().Find(id);
         }
 
         public IQueryable<Product> Query()
         {
-            return _productRepository.Query();
+            return _database.GetRepository<Product>().Query();
         }
 
         public IQueryable<ProductVariant> ProductVariants()
         {
-            return _variantRepository.Query();
+            return _database.GetRepository<ProductVariant>().Query();
         }
 
         public ProductVariant GetProductVariantById(int id)
         {
-            return _variantRepository.Find(id);
+            return _database.GetRepository<ProductVariant>().Find(id);
         }
 
         public Product Create(Product product)
         {
-            _productRepository.Insert(product);
+            _database.GetRepository<Product>().Insert(product);
             Event.Raise(new ProductCreated(product));
 
             return product;
@@ -52,17 +51,17 @@ namespace Kooboo.Commerce.Products.Services
 
         public Product Update(Product product)
         {
-            var dbProduct = _productRepository.Find(product.Id);
+            var dbProduct = _database.GetRepository<Product>().Find(product.Id);
 
             // Basic info
             dbProduct.Name = product.Name;
-            dbProduct.Brand = product.Brand;
+            dbProduct.Brand = product.BrandId == null ? null : _database.GetRepository<Brand>().Find(product.BrandId.Value);
 
             dbProduct.UpdateCustomFields(product.CustomFields.ToDictionary(f => f.FieldName, f => f.FieldValue));
             dbProduct.UpdateImages(product.Images);
             dbProduct.UpdateCategories(product.Categories);
 
-            _productRepository.Database.SaveChanges();
+            _database.SaveChanges();
 
             // Product variants
             foreach (var variant in dbProduct.Variants.ToList())
@@ -95,7 +94,7 @@ namespace Kooboo.Commerce.Products.Services
 
         public void Delete(Product product)
         {
-            _productRepository.Delete(product);
+            _database.GetRepository<Product>().Delete(product);
             Event.Raise(new ProductDeleted(product));
         }
 
@@ -108,7 +107,7 @@ namespace Kooboo.Commerce.Products.Services
 
             product.IsPublished = true;
 
-            _productRepository.Database.SaveChanges();
+            _database.SaveChanges();
 
             Event.Raise(new ProductPublished(product));
 
@@ -124,7 +123,7 @@ namespace Kooboo.Commerce.Products.Services
 
             product.IsPublished = false;
 
-            _productRepository.Database.SaveChanges();
+            _database.SaveChanges();
 
             Event.Raise(new ProductUnpublished(product));
 
@@ -134,7 +133,7 @@ namespace Kooboo.Commerce.Products.Services
         public void AddProductVariant(Product product, ProductVariant variant, bool notifyProductUpdated)
         {
             product.Variants.Add(variant);
-            _productRepository.Database.SaveChanges();
+            _database.SaveChanges();
 
             Event.Raise(new ProductVariantCreated(product, variant));
 
@@ -153,9 +152,9 @@ namespace Kooboo.Commerce.Products.Services
             }
 
             product.Variants.Remove(variant);
-            _variantRepository.Delete(variant);
+            _database.GetRepository<ProductVariant>().Delete(variant);
 
-            _productRepository.Database.SaveChanges();
+            _database.SaveChanges();
 
             Event.Raise(new ProductVariantDeleted(product, variant));
 
@@ -176,7 +175,7 @@ namespace Kooboo.Commerce.Products.Services
             }
 
             variant.UpdateFrom(newVariant);
-            _productRepository.Database.SaveChanges();
+            _database.SaveChanges();
 
             Event.Raise(new ProductVariantUpdated(product, variant));
 

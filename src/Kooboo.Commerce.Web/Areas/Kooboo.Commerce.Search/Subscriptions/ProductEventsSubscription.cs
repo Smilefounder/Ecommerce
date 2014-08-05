@@ -12,7 +12,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Search.Integration
+namespace Kooboo.Commerce.Search.Subscriptions
 {
     class ProductEventsSubscription :
         IHandle<ProductCreated>, IHandle<ProductUpdated>, IHandle<ProductPublished>, IHandle<ProductUnpublished>, IHandle<ProductDeleted>
@@ -141,6 +141,7 @@ namespace Kooboo.Commerce.Search.Integration
             {
                 var langIndexer = DocumentIndexers.GetIndexer(CommerceInstance.Current.Name, CultureInfo.GetCultureInfo(lang.Name), typeof(Product));
                 langIndexer.Delete(productId);
+                langIndexer.Commit();
             }
         }
     }

@@ -1,4 +1,6 @@
 ﻿using Kooboo.Commerce.Products;
+using Kooboo.Commerce.Search.Facets;
+using Lucene.Net.Index;
 using Lucene.Net.Search;
 using System;
 using System.Collections.Generic;
@@ -14,25 +16,25 @@ namespace Kooboo.Commerce.Search.Controllers
         public void Index()
         {
             var indexer = DocumentIndexers.GetIndexer("Vitaminstore", CultureInfo.InvariantCulture, typeof(Product));
+            var doc = indexer.Search(new TermQuery(new Term("Id", "1")), 1);
+            Response.Write(doc.TotalHits);
 
-            var serviceFactory = new DefaultServiceFactory();
-            var fields = new List<string>();
-            var productTypes = serviceFactory.ProductTypes.Query().ToList();
-            foreach (var type in productTypes)
-            {
-                foreach (var field in type.VariantFieldDefinitions)
+            var results = indexer.Facets(new MatchAllDocsQuery(), new Facet[] {
+                new Facet { Name = "Brand" },
+                new Facet { Name = "Price", Ranges = new List<FacetRange>
                 {
-                    fields.Add(field.Name);
-                }
-            }
+                    FacetRange.Parse("[0 TO 5000}", "[0 TO 5000}"),
+                    FacetRange.Parse("[5000 TO 10000}", "[5000 TO 10000}"),
+                    FacetRange.Parse("[10000 TO NULL]", "[10000 TO NULL]")
+                }}
+            });
 
-            var facets = indexer.Facets(new MatchAllDocsQuery(), fields.ToArray());
-            foreach (var facet in facets)
+            foreach (var result in results.Results)
             {
-                Response.Write("<h4>" + facet.FieldName + "</h4>");
-                foreach (var item in facet.Items)
+                Response.Write("<h5>" + result.Key + "</h5>");
+                foreach (var value in result.Value.Values)
                 {
-                    Response.Write(item.Name + "(" + item.Count + ")" + ", ");
+                    Response.Write(value.Term + "(" + value.Hits + "), ");
                 }
             }
         }

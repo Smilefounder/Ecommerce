@@ -43,20 +43,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 
         public object Execute(CommerceSourceContext context)
         {
-            var api = new FacetsApi(GetCommerceHost(context), context.Site.GetCommerceInstanceName());
-            return api.Facets(context.Site.Culture);
-        }
-
-        private string GetCommerceHost(CommerceSourceContext context)
-        {
-            var host = context.Site.GetCommerceApiHost();
-            if (String.IsNullOrEmpty(host))
-            {
-                var httpRequest = HttpContext.Current.Request;
-                host = httpRequest.Url.Scheme + "://" + httpRequest.Url.Authority;
-            }
-
-            return host;
+            return null;
         }
 
         public IDictionary<string, object> GetDefinitions()

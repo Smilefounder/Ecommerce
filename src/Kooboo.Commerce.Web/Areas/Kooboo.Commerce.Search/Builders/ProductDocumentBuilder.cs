@@ -37,6 +37,11 @@ namespace Kooboo.Commerce.Search.Builders
                 searchText.Append(" ").Append(categoryName);
             }
 
+            foreach(var variant in product.Variants)
+            {
+                doc.Add(new NumericField("Price", Field.Store.YES, true).SetDoubleValue((double)variant.Price));
+            }
+
             var controls = FormControls.Controls().ToList(); // TODO: Duplicate IsSelectionList in the ProductType?
             var variantFieldValues = new Dictionary<string, HashSet<string>>();
 

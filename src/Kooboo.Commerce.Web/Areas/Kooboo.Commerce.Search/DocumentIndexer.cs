@@ -1,4 +1,5 @@
-﻿using Lucene.Net.Analysis;
+﻿using Kooboo.Commerce.Search.Facets;
+using Lucene.Net.Analysis;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Linq;
@@ -33,34 +34,20 @@ namespace Kooboo.Commerce.Search
             return _searcher.IndexReader;
         }
 
+        public TopDocs Search(Query query, int topN)
+        {
+            return _searcher.Search(query, topN);
+        }
+
         public TopFieldDocs Search(Query query, Filter filter, int topN, Sort sort)
         {
             return _searcher.Search(query, filter, topN, sort);
         }
 
-        public IEnumerable<FieldFacet> Facets(Query query, params string[] fields)
+        public FacetResults Facets(Query query, IEnumerable<Facet> facets)
         {
-            query = query ?? new MatchAllDocsQuery();
-
-            var facets = new List<FieldFacet>();
-            foreach (var field in fields)
-            {
-                var facet = new FieldFacet { FieldName = field };
-                // TODO: SimpleFacetedSearch should be singleton
-                var search = new SimpleFacetedSearch(_searcher.IndexReader, field);
-                foreach (var hit in search.Search(query).HitsPerFacet)
-                {
-                    facet.Items.Add(new FacetItem
-                    {
-                        Name = hit.Name.ToString(),
-                        Count = hit.HitCount
-                    });
-                }
-
-                facets.Add(facet);
-            }
-
-            return facets;
+            var searcher = new FacetedSearcher(_searcher);
+            return searcher.Search(query, facets);
         }
 
         public void Index(Document document)
@@ -72,7 +59,7 @@ namespace Kooboo.Commerce.Search
 
         public void Delete(object key)
         {
-            var term = new Term(GetKeyFieldName(), key.ToString());
+            var term = new TermQuery(new Term(GetKeyFieldName(), key.ToString()));
             _writer.DeleteDocuments(term);
         }
 

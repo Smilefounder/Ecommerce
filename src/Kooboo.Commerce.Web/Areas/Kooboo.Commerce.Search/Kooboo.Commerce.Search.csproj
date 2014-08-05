@@ -161,15 +161,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzers.cs" />
-    <Compile Include="Api\FacetsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="FacetItem.cs" />
-    <Compile Include="FieldFacet.cs" />
+    <Compile Include="Facets\EncodedFacetRange.cs" />
+    <Compile Include="Facets\Facet.cs" />
+    <Compile Include="Facets\FacetedSearcher.cs" />
+    <Compile Include="Facets\FacetRange.cs" />
+    <Compile Include="Facets\FacetResult.cs" />
+    <Compile Include="Facets\GatherAllCollector.cs" />
     <Compile Include="LuceneConstants.cs" />
     <Compile Include="Builders\ProductDocumentBuilder.cs" />
     <Compile Include="DocumentIndexer.cs" />
     <Compile Include="DocumentIndexers.cs" />
-    <Compile Include="Integration\ProductEventsSubscription.cs" />
+    <Compile Include="LuceneUtil.cs" />
+    <Compile Include="Subscriptions\ProductEventsSubscription.cs" />
+    <Compile Include="CMSIntegration\ProductFacetsDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchAreaRegistration.cs" />
     <Compile Include="Strings.cs" />
@@ -186,6 +191,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Kooboo.Commerce.CMSIntegration.Common\Kooboo.Commerce.CMSIntegration.Common.csproj">
+      <Project>{1e1c9b6d-9bb8-4701-86d8-e29e6eaa238a}</Project>
+      <Name>Kooboo.Commerce.CMSIntegration.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
       <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
       <Name>Kooboo.Commerce.Infrastructure</Name>
@@ -197,6 +206,10 @@
     <ProjectReference Include="..\..\..\Kooboo.Commerce\Kooboo.Commerce.csproj">
       <Project>{ba7aa675-9613-4507-9baa-2ba608e990ca}</Project>
       <Name>Kooboo.Commerce</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.CMSIntegration.DataSources\Kooboo.Commerce.CMSIntegration.DataSources.csproj">
+      <Project>{75ae6d76-90c0-4977-8fdd-e97e2e64a6f4}</Project>
+      <Name>Kooboo.Commerce.CMSIntegration.DataSources</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.Commerce.Multilingual\Kooboo.Commerce.Multilingual.csproj">
       <Project>{91988e78-c47f-44bb-8852-c1a4989ad4b0}</Project>
