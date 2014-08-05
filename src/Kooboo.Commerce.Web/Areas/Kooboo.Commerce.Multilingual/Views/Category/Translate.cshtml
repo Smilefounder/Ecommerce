@@ -2,7 +2,7 @@
 @{
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
     ViewBag.Title = "Translate category".Localize();
-    
+
     var compared = ViewBag.Compared as CategoryModel;
     var difference = ViewBag.Difference as CategoryModel;
 }
@@ -30,7 +30,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>@("Name".Localize())</td>
+                    <th>@("Name".Localize())</th>
                     <td>@compared.Name</td>
                     <td>@Html.Raw(difference.Name)</td>
                     <td>
@@ -39,7 +39,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>@("Description".Localize())</td>
+                    <th>@("Description".Localize())</th>
                     <td>
                         @compared.Description
                     </td>

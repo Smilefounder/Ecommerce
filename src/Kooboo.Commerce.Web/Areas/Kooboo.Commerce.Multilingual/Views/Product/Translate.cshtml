@@ -40,7 +40,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@("Name".Localize())</td>
+                            <th>@("Name".Localize())</th>
                             <td>
                                 @compared.Name
                             </td>
@@ -61,7 +61,7 @@
                             var control = controls.Find(c => c.Name == definition.ControlType);
 
                             <tr>
-                                <td>@definition.Label</td>
+                                <th>@definition.Label</th>
                                 <td>@Html.Raw(comparedField.FieldText)</td>
                                 <td>@Html.Raw(diffField.FieldText)</td>
                                 <td>
