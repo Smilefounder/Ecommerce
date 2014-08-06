@@ -114,7 +114,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
         {
             foreach (var culture in cultures)
             {
-                var indexer = DocumentIndexers.GetIndexer(CommerceInstance.Current.Name, culture, typeof(Product));
+                var indexer = DocumentIndexers.GetLiveIndexer(CommerceInstance.Current.Name, typeof(Product), culture);
                 indexer.Index(ProductDocumentBuilder.Build(product, productType, culture));
                 indexer.Commit();
             }
@@ -133,13 +133,13 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         private void DeleteIndex(int productId)
         {
-            var indexer = DocumentIndexers.GetIndexer(CommerceInstance.Current.Name, CultureInfo.InvariantCulture, typeof(Product));
+            var indexer = DocumentIndexers.GetLiveIndexer(CommerceInstance.Current.Name, typeof(Product), CultureInfo.InvariantCulture);
             indexer.Delete(productId);
             indexer.Commit();
 
             foreach (var lang in _languageStore.All())
             {
-                var langIndexer = DocumentIndexers.GetIndexer(CommerceInstance.Current.Name, CultureInfo.GetCultureInfo(lang.Name), typeof(Product));
+                var langIndexer = DocumentIndexers.GetLiveIndexer(CommerceInstance.Current.Name, typeof(Product), CultureInfo.GetCultureInfo(lang.Name));
                 langIndexer.Delete(productId);
                 langIndexer.Commit();
             }

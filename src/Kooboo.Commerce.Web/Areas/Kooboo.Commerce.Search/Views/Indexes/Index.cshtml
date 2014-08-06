@@ -1,0 +1,197 @@
+﻿@using Newtonsoft.Json
+@model IList<IndexModel>
+@{
+    ViewBag.Title = "Indexes".Localize();
+
+    var serializerSettings = new JsonSerializerSettings();
+    serializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.Add("Rebuild", null).VisibleWhenSelected(".can-rebuild").WithAttributes(new { data_toggle = "rebuild" });
+        buttons.Add("Cancel", null).VisibleWhenSelected(".can-cancel").WithAttributes(new { data_toggle = "cancel" });
+    })
+}
+
+<div id="indexes-main">
+    <div data-bind="foreach: Indexes" id="index-list">
+        <div class="content-block database index-item" data-bind="click: $root.ToggleSelect, attr: { id: 'index-item-' + Name() }, css: { 'checked': Selected, 'can-rebuild': !IsRebuilding(), 'can-cancel': IsRebuilding }">
+            <div class="content-block-header">
+                <a href="#" data-bind="text: Name"></a>
+                <input type="radio" name="select" class="select" data-bind="attr: { value: Name, id: 'Indexes-' + Name() }, checked: Selected() ? Name() : ''" data-id-property="Name" />
+                <label data-bind="attr: { for: 'Indexes-' + Name() }"></label>
+                <span class="corner"></span>
+            </div>
+            <ul>
+                <li data-bind="visible: IsRebuilding"><span style="color:#090">@("Rebuilding") (<span data-bind="text: RebuildProgress() + '%'"></span>)</span></li>
+                <li data-bind="visible: !IsRebuilding() && LastRebuildStatus() !== 'Failed' && LastSucceededRebuildTimeUtc()">
+                    @("Last rebuild".Localize()):<br />
+                    <span data-bind="text: moment(LastSucceededRebuildTimeUtc()).format('YYYY-MM-DD HH:mm:ss')"></span>
+                </li>
+                <li data-bind="visible: !IsRebuilding() && LastRebuildStatus() === 'Failed'">
+                    @("Last rebuild".Localize()): <span style="color:red" data-bind="tooltip: LastRebuildError">@("Failed")</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+        var indexes = @Html.Raw(JsonConvert.SerializeObject(Model, serializerSettings));
+
+        var ViewModel = function () {
+            var self = this;
+
+            self.Indexes = ko.observableArray();
+
+            self.ToggleSelect = function (indexItem, e) {
+                if (indexItem.Selected()) {
+                    indexItem.Selected(false);
+                } else {
+                    self.Select(indexItem);
+                }
+
+                e.stopPropagation();
+            }
+
+            self.Select = function (indexItem) {
+                $.each(self.Indexes(), function () {
+                    if (this !== indexItem) {
+                        this.Selected(false);
+                    } else {
+                        this.Selected(true);
+                    }
+                });
+
+                self.UpdateHeaderPanel();
+            }
+
+            self.ClearSelection = function () {
+                $.each(self.Indexes(), function () {
+                    if (this.Selected()) {
+                        this.Selected(false);
+                        return false;
+                    }
+                });
+
+                self.UpdateHeaderPanel();
+            }
+
+            self.RebuildSelectedIndex = function () {
+                if (!confirm('@("Are you sure to rebuild selected index?".Localize())')) {
+                    return false;
+                }
+
+                var selected = _.find(self.Indexes(), function (index) { return index.Selected() });
+                selected.IsRebuilding(true);
+
+                $.post('@Url.Action("Rebuild")?documentType=' + encodeURIComponent(selected.DocumentType()));
+
+                self.UpdateHeaderPanel();
+            }
+
+            self.CancelRebuildSelectedIndex = function () {
+                if (!confirm('@("Are you sure to cancel the rebuild?".Localize())')) {
+                    return false;
+                }
+
+                window.loading.show();
+
+                var selected = _.find(self.Indexes(), function (index) { return index.Selected() });
+                
+                $.post('@Url.Action("CancelRebuild")?documentType=' + encodeURIComponent(selected.DocumentType()))
+                 .done(function (data) {
+                     window.loading.hide();
+                     selected.IsRebuilding(false);
+                     selected.LastRebuildStatus('Cancelled');
+                     selected.LastRebuildError(null);
+                     selected.LastRebuildErrorDetail(null);
+
+                     self.UpdateHeaderPanel();
+                 })
+                 .fail(function (xhr) {
+                     window.loading.hide();
+                     var data = JSON.parse(xhr.responseText);
+                     window.info.show(data.message, false);
+                 });
+            }
+
+            self.RefreshRebuildingInfo = function () {
+                var defer = $.Deferred();
+                var indexes = [];
+                $.each(self.Indexes(), function () {
+                    if (this.IsRebuilding()) {
+                        indexes.push(this);
+                    }
+                });
+
+                if (indexes.length === 0) {
+                    defer.resolve();
+                    return defer.promise();;
+                }
+
+                var keys = _.map(indexes, function (index) { return index.DocumentType() + '|' + index.Culture() });
+                $.get('@Url.Action("GetRebuildingInfo")?keys=' + encodeURIComponent(keys.join('||')))
+                 .done(function (data) {
+                     $.each(data, function (i) {
+                         var index = indexes[i];
+                         index.IsRebuilding(this.isRebuilding);
+                         index.RebuildProgress(this.rebuildProgress);
+                         index.LastRebuildStatus(this.lastRebuildStatus);
+                         index.LastSucceededRebuildTimeUtc(this.lastSucceededRebuildTimeUtc);
+                     });
+
+                     self.UpdateHeaderPanel();
+                     defer.resolve();
+                 });
+
+                return defer.promise();
+            }
+
+            self.UpdateHeaderPanel = function () {
+                var $selected = $('#index-list :checked').closest('.index-item');
+                $('#header [data-show-on-selector]').hide();
+                $('#header [data-show-on-selector]').each(function () {
+                    if ($selected.is($(this).data('show-on-selector'))) {
+                        $(this).show();
+                    }
+                });
+            }
+        };
+
+        var viewModel = new ViewModel();
+        $.each(indexes, function () {
+            this.Selected = false;
+            viewModel.Indexes.push(ko.mapping.fromJS(this));
+        });
+
+        $('#header [data-show-on-selector]').hide();
+
+        ko.applyBindings(viewModel, document.getElementById('indexes-main'));
+
+        $(document).click(function () {
+            viewModel.ClearSelection();
+        });
+
+        $(document).on('click', '[data-toggle="rebuild"]', function () {
+            viewModel.RebuildSelectedIndex();
+            return false;
+        });
+        $(document).on('click', '[data-toggle="cancel"]', function () {
+            viewModel.CancelRebuildSelectedIndex();
+            return false;
+        });
+
+        refreshRebuidlingInfo();
+
+        function refreshRebuidlingInfo() {
+            viewModel.RefreshRebuildingInfo().done(function () {
+                setTimeout(refreshRebuidlingInfo, 3000);
+            });
+        }
+    });
+</script>

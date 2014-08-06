@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Search.Controllers
     {
         public void Index()
         {
-            var indexer = DocumentIndexers.GetIndexer("Vitaminstore", CultureInfo.InvariantCulture, typeof(Product));
+            var indexer = DocumentIndexers.GetLiveIndexer("Vitaminstore", typeof(Product), CultureInfo.InvariantCulture);
             var doc = indexer.Search(new TermQuery(new Term("Id", "1")), 1);
             Response.Write(doc.TotalHits);
 

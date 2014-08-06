@@ -11,53 +11,38 @@ namespace Kooboo.Commerce.Search
 {
     public static class DocumentIndexers
     {
-        static readonly ConcurrentDictionary<IndexerKey, DocumentIndexer> _indexers = new ConcurrentDictionary<IndexerKey, DocumentIndexer>();
+        static readonly ConcurrentDictionary<IndexKey, DocumentIndexer> _indexers = new ConcurrentDictionary<IndexKey, DocumentIndexer>();
 
-        public static DocumentIndexer GetIndexer(string instance, CultureInfo culture, Type documentType)
+        public static string GetDirectory(string instance, Type documentType, CultureInfo culture, bool rebuild = false)
         {
-            return _indexers.GetOrAdd(new IndexerKey(instance, culture, documentType), key =>
+            var cultureFolderName = culture.Equals(CultureInfo.InvariantCulture) ? "Original" : culture.Name;
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Commerce_Data\\Instances\\" + instance + "\\Indexes\\" + cultureFolderName + "\\" + documentType.Name);
+            if (rebuild)
+            {
+                path += "-Rebuild";
+            }
+            return path;
+        }
+
+        public static DocumentIndexer GetLiveIndexer(string instance, Type documentType, CultureInfo culture)
+        {
+            return _indexers.GetOrAdd(new IndexKey(instance, documentType, culture), key =>
             {
                 lock (_indexers)
                 {
-                    var cultureFolderName = culture.Equals(CultureInfo.InvariantCulture) ? "Original" : culture.Name;
-                    var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Commerce_Data\\Instances\\" + instance + "\\Indexes\\" + cultureFolderName + "\\" + documentType.Name);
+                    var path = GetDirectory(instance, documentType, culture, false);
                     System.IO.Directory.CreateDirectory(path);
-
                     return new DocumentIndexer(key.DocumentType, Lucene.Net.Store.FSDirectory.Open(path), Analyzers.GetAnalyzer(culture));
                 }
             });
         }
 
-        class IndexerKey
+        public static void CloseLiveIndexer(string instance, Type documentType, CultureInfo culture)
         {
-            public string Instance { get; private set; }
-
-            public CultureInfo Culture { get; private set; }
-
-            public Type DocumentType { get; private set; }
-
-            public IndexerKey(string instance, CultureInfo culture, Type documentType)
+            DocumentIndexer indexer;
+            if (_indexers.TryRemove(new IndexKey(instance, documentType, culture), out indexer))
             {
-                Instance = instance;
-                Culture = culture;
-                DocumentType = documentType;
-            }
-
-            public override bool Equals(object obj)
-            {
-                var other = obj as IndexerKey;
-                return other != null && other.Instance.Equals(Instance, StringComparison.OrdinalIgnoreCase) && other.Culture.Equals(Culture) && other.DocumentType.Equals(DocumentType);
-            }
-
-            public override int GetHashCode()
-            {
-                unchecked
-                {
-                    var hash = Instance.ToLowerInvariant().GetHashCode();
-                    hash = hash * 397 ^ Culture.GetHashCode();
-                    hash = hash * 397 ^ DocumentType.GetHashCode();
-                    return hash;
-                }
+                indexer.Dispose();
             }
         }
     }

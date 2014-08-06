@@ -31,22 +31,38 @@ namespace Kooboo.Commerce.Search
 
         public IndexReader GetReader()
         {
-            return _searcher.IndexReader;
+            return GetSearcher().IndexReader;
+        }
+
+        private IndexSearcher GetSearcher()
+        {
+            if (_searcher == null)
+            {
+                lock (_lock)
+                {
+                    if (_searcher == null)
+                    {
+                        _searcher = new IndexSearcher(_writer.GetReader());
+                    }
+                }
+            }
+
+            return _searcher;
         }
 
         public TopDocs Search(Query query, int topN)
         {
-            return _searcher.Search(query, topN);
+            return GetSearcher().Search(query, topN);
         }
 
         public TopFieldDocs Search(Query query, Filter filter, int topN, Sort sort)
         {
-            return _searcher.Search(query, filter, topN, sort);
+            return GetSearcher().Search(query, filter, topN, sort);
         }
 
         public FacetResults Facets(Query query, IEnumerable<Facet> facets)
         {
-            var searcher = new FacetedSearcher(_searcher);
+            var searcher = new FacetedSearcher(GetSearcher());
             return searcher.Search(query, facets);
         }
 
@@ -74,8 +90,11 @@ namespace Kooboo.Commerce.Search
             {
                 _writer.Commit();
 
-                _searcher.Dispose();
-                _searcher = new IndexSearcher(_writer.GetReader());
+                if (_searcher != null)
+                {
+                    _searcher.Dispose();
+                    _searcher = null;
+                }
             }
         }
 
@@ -83,6 +102,12 @@ namespace Kooboo.Commerce.Search
         {
             _writer.Dispose();
             _directory.Dispose();
+
+            if (_searcher != null)
+            {
+                _searcher.IndexReader.Dispose();
+                _searcher.Dispose();
+            }
         }
     }
 }

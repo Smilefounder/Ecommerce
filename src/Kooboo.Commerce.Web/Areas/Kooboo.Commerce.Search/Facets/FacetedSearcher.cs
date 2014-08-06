@@ -64,6 +64,11 @@ namespace Kooboo.Commerce.Search.Facets
                             while (termDocs.Next() && totalDocs > 0)
                             {
                                 totalDocs--;
+
+                                if (!allCollector.Documents.Contains(termDocs.Doc))
+                                {
+                                    continue;
+                                }
                                 if (reader.IsDeleted(termDocs.Doc))
                                 {
                                     continue;

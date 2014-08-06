@@ -52,6 +52,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.CMS.Web, Version=4.4.0.721, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.CMS.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Lucene.Net">
       <HintPath>..\..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
     </Reference>
@@ -161,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzers.cs" />
+    <Compile Include="Controllers\IndexesController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Facets\EncodedFacetRange.cs" />
     <Compile Include="Facets\Facet.cs" />
@@ -168,11 +173,24 @@
     <Compile Include="Facets\FacetRange.cs" />
     <Compile Include="Facets\FacetResult.cs" />
     <Compile Include="Facets\GatherAllCollector.cs" />
+    <Compile Include="IndexKey.cs" />
     <Compile Include="LuceneConstants.cs" />
     <Compile Include="Builders\ProductDocumentBuilder.cs" />
     <Compile Include="DocumentIndexer.cs" />
     <Compile Include="DocumentIndexers.cs" />
     <Compile Include="LuceneUtil.cs" />
+    <Compile Include="Menu\SearchMenuInjection.cs" />
+    <Compile Include="Models\IndexModel.cs" />
+    <Compile Include="Rebuild\FileBasedRebuildInfoManager.cs" />
+    <Compile Include="Rebuild\IIndexSource.cs" />
+    <Compile Include="Rebuild\IndexSources.cs" />
+    <Compile Include="Rebuild\IRebuildInfoManager.cs" />
+    <Compile Include="Rebuild\ProductIndexSource.cs" />
+    <Compile Include="Rebuild\RebuildInfo.cs" />
+    <Compile Include="Rebuild\RebuildTask.cs" />
+    <Compile Include="Rebuild\RebuildTaskContext.cs" />
+    <Compile Include="Rebuild\RebuildTasks.cs" />
+    <Compile Include="Rebuild\RebuildStatus.cs" />
     <Compile Include="Subscriptions\ProductEventsSubscription.cs" />
     <Compile Include="CMSIntegration\ProductFacetsDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -187,9 +205,13 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Indexes\Index.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kooboo.Commerce.CMSIntegration.Common\Kooboo.Commerce.CMSIntegration.Common.csproj">
       <Project>{1e1c9b6d-9bb8-4701-86d8-e29e6eaa238a}</Project>
@@ -218,6 +240,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WebResources.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

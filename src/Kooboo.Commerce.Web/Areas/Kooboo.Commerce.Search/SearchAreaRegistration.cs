@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Web.Framework.Mvc;
+using Kooboo.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace Kooboo.Commerce.Search
                  defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                  namespaces: new[] { "Kooboo.Commerce.Search.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
             );
+
+            Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "WebResources.config"));
         }
     }
 }

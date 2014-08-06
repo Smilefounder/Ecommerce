@@ -8,7 +8,11 @@ namespace Kooboo.Commerce.Data.Context
 {
     public class HttpCurrentInstanceProvider : ICurrentInstanceProvider
     {
-        public Func<HttpContextBase> GetHttpContext = () => new HttpContextWrapper(HttpContext.Current);
+        public Func<HttpContextBase> GetHttpContext = () =>
+        {
+            var httpContext = HttpContext.Current;
+            return httpContext == null ? null : new HttpContextWrapper(httpContext);
+        };
 
         private ICommerceInstanceManager _instanceManager;
 
@@ -20,6 +24,10 @@ namespace Kooboo.Commerce.Data.Context
         public CommerceInstance GetCurrentInstance()
         {
             var httpContext = GetHttpContext();
+            if (httpContext == null)
+            {
+                return null;
+            }
 
             var instance = httpContext.Items["Kooboo.Commerce.Data.CommerceInstance.Current"] as CommerceInstance;
             if (instance == null)
