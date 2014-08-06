@@ -1,0 +1,242 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+@using Newtonsoft.Json;
+@using Kooboo.CMS.Sites.DataSource;
+
+@{
+    var adapter = Model.DataSource as CommerceDataSourceAdapter;
+    var dataSource = adapter.DataSource;
+}
+
+<script>
+    $(function () {
+        var viewModel = new ViewModel();
+
+        function ViewModel() {
+            var _this = this;
+            var _mappingOptions = {
+                Filters: {
+                    create: function (args) {
+                        var filter = ko.mapping.fromJS(args.data);
+                        filter.IsEditing = ko.observable(false);
+                        filter.IsNew = ko.observable(false);
+                        return filter;
+                    }
+                }
+            };
+
+            this.Init = function () {
+                _this.UpdateAllPathsIncluded();
+            }
+
+            this.DataSources = ko.observableArray();
+
+            this.DataSourceSetting = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects })), _mappingOptions);
+
+            this.DataSource = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(dataSource, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects })));
+
+            this.SelectedDataSource = ko.computed(function () {
+                var name = _this.DataSource.Name();
+                if (!name) {
+                    return null;
+                }
+
+                var dataSource = _.find(_this.DataSources(), function (q) {
+                    return q.Name() === name;
+                })
+
+                return dataSource;
+            });
+
+            this.AvailableFilters = ko.computed(function () {
+                var dataSource = _this.SelectedDataSource();
+                if (!dataSource) {
+                    return [];
+                }
+
+                return dataSource.Filters();
+            });
+
+            this.AddFilter = function () {
+                var filter = {
+                    Name: ko.observable(),
+                    ParameterValues: ko.observableArray(),
+                    IsEditing: ko.observable(false),
+                    IsNew: ko.observable(true)
+                };
+
+                filter.Name.subscribe(function (name) {
+                    var params = _this.GetFilterParameters(name);
+                    filter.ParameterValues.removeAll();
+                    $.each(params, function () {
+                        filter.ParameterValues.push({
+                            ParameterName: ko.observable(this.Name()),
+                            ParameterValue: ko.observable()
+                        });
+                    });
+                });
+
+                _this.DataSource.Settings.Filters.push(filter);
+                _this.EditFilter(filter);
+            }
+
+            this.EditFilter = function (filter) {
+                filter.memo = ko.mapping.toJS(filter);
+                filter.IsEditing(true);
+            }
+
+            this.RemoveFilter = function (filter) {
+                _this.DataSource.Settings.Filters.remove(filter);
+            }
+
+            this.CommitFilterEditing = function (filter) {
+                if (_this.Validate()) {
+                    filter.IsNew(false);
+                    filter.IsEditing(false);
+                }
+            }
+
+            this.CancelFilterEditing = function (filter) {
+                if (filter.IsNew()) {
+                    _this.DataSource.Settings.Filters.remove(filter);
+                } else {
+                    ko.mapping.fromJS(filter.memo, {}, filter);
+                    filter.IsEditing(false);
+                }
+            }
+
+            this.GetFilterParameters = function (filterName) {
+                var dataSource = _this.SelectedDataSource();
+                var filter = _.find(dataSource.Filters(), function (it) {
+                    return it.Name() === filterName;
+                });
+
+                return filter.Parameters();
+            }
+
+            this.GetFilterParametersDisplayText = function (filter) {
+                var text = '';
+                $.each(filter.ParameterValues(), function () {
+                    var value = this.ParameterValue();
+                    if (value !== null && value !== undefined && value !== '') {
+                        var name = this.ParameterName();
+                        if (text.length > 0) {
+                            text += ', ';
+                        }
+                        text += name + ' = ' + value;
+                    }
+                });
+
+                if (text.length > 0) {
+                    return '(' + text + ')';
+                }
+
+                return null;
+            }
+
+            this.IsPathIncluded = function (path) {
+                return _.any(_this.DataSource.Includes(), function (p) {
+                    return p === path;
+                });
+            }
+
+            this.IsPathDisabled = function (path) {
+                return _.any(_this.DataSource.Includes(), function (p) {
+                    return p.length > path.length && p.indexOf(path) === 0;
+                });
+            }
+
+            this.TogglePathInclude = function (path) {
+                if (_this.IsPathIncluded(path)) {
+                    _this.ExcludePath(path);
+                } else {
+                    _this.IncludePath(path);
+                }
+
+                return true;
+            }
+
+            this.IncludePath = function (path) {
+                var includesMap = {};
+                _.each(_this.DataSource.Settings.Includes(), function (p) {
+                    includesMap[p] = true;
+                });
+
+                // Add also parent paths
+                _.each(_this.SelectedSource().IncludablePaths(), function (p) {
+                    if (!includesMap[p] && p.length < path.length && (path.indexOf(p) === 0)) {
+                        _this.DataSource.Settings.Includes.push(p);
+                    }
+                });
+
+                _this.DataSource.Settings.Includes.push(path);
+                _this.UpdateAllPathsIncluded();
+            }
+
+            this.ExcludePath = function (path) {
+                _this.DataSource.Settings.Includes.remove(path);
+                _this.AllPathsIncluded(false);
+            }
+
+            this.IncludeAllPaths = function () {
+                _this.DataSource.Settings.Includes.removeAll();
+                _.each(_this.SelectedSource().IncludablePaths(), function (p) {
+                    _this.DataSource.Settings.Includes.push(p);
+                });
+                _this.UpdateAllPathsIncluded();
+            }
+
+            this.ExcludeAllPaths = function () {
+                _this.DataSource.Settings.Includes.removeAll();
+                _this.AllPathsIncluded(false);
+            }
+
+            this.AllPathsIncluded = ko.observable();
+
+            this.UpdateAllPathsIncluded = function () {
+                _this.AllPathsIncluded(
+                    _this.SelectedDataSource()
+                    && _this.SelectedDataSource().IncludablePaths().length === _this.DataSource.Settings.Includes().length);
+            }
+
+            this.ToggleIncludeAll = function () {
+                if (_this.AllPathsIncluded()) {
+                    _this.IncludeAllPaths();
+                } else {
+                    _this.ExcludeAllPaths();
+                }
+
+                return true;
+            }
+
+            this.Validate = function () {
+                return $('#commerce-datasource').closest('form').valid();
+            }
+
+            this.ReparseValidation = function () {
+                var $form = $('#commerce-datasource').closest('form');
+                $form.removeData('validator');
+                $form.removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse($form);
+            }
+
+            this.DataSource.Name.subscribe(function () {
+                _this.DataSource.Settings.Filters.removeAll();
+                _this.DataSource.Settings.Includes.removeAll();
+                _this.AllPathsIncluded(false);
+            });
+        }
+
+        $.when(LoadDataSources())
+         .then(function () {
+             viewModel.Init();
+             ko.applyBindings(viewModel, document.getElementById('commerce-datasource'));
+         });
+
+        function LoadDataSources() {
+            return $.get('/Kooboo.Commerce.CMSIntegration.DataSources/GenericDataSource/List')
+                    .then(function (data) {
+                        ko.mapping.fromJS(data, {}, viewModel.DataSources);
+                    });
+        }
+    });
+</script>

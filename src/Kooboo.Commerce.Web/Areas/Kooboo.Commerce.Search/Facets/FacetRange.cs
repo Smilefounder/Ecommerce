@@ -1,21 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace Kooboo.Commerce.Search.Facets
 {
+    [DataContract]
     public class FacetRange
     {
+        [DataMember]
         public string Name { get; set; }
 
+        [DataMember]
         public bool FromInclusive { get; set; }
 
+        [DataMember]
         public double? FromValue { get; set; }
 
+        [DataMember]
         public bool ToInclusive { get; set; }
 
+        [DataMember]
         public double? ToValue { get; set; }
+
+        public FacetRange() { }
 
         public FacetRange(string name)
         {

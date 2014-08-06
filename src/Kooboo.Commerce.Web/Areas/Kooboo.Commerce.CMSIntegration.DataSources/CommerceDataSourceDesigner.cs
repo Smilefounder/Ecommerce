@@ -10,30 +10,30 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
     [Dependency(typeof(IDataSourceDesigner), Key = "Commerce datasource")]
     public class CommerceDataSourceDesigner : IDataSourceDesigner
     {
-        public string Name
-        {
-            get
-            {
-                return "Commerce datasource";
-            }
-        }
-
         public IDataSource CreateDataSource()
         {
-            return new CommerceDataSource();
+            return new CommerceDataSourceAdapter();
         }
 
         public string DesignerVirtualPath
         {
             get
             {
-                return "~/Areas/" + Strings.AreaName + "/Views/_Index.cshtml";
+                return "~/Areas/" + Strings.AreaName + "/Views/DataSourceDesigner.cshtml";
             }
         }
 
         public bool IsEditorFor(IDataSource dataSource)
         {
-            return dataSource is CommerceDataSource;
+            return dataSource is CommerceDataSourceAdapter;
+        }
+
+        public string Name
+        {
+            get
+            {
+                return "Commerce datasource";
+            }
         }
     }
 }

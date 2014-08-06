@@ -1,0 +1,34 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+
+<div class="block common-form">
+    <table>
+        <tr>
+            <th>@("Filters".Localize())</th>
+            <td>
+                <div>
+                    <a href="#">@Html.IconImage("plus small")</a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>@("Sort field".Localize())</th>
+            <td>
+                <input type="text" name="DataSource.SortField" data-bind="value: DataSourceSetting.DataSource.SortField" />
+            </td>
+        </tr>
+        <tr>
+            <th>@("Sort direction".Localize())</th>
+            <td>
+                <input type="text" name="DataSource.SortDirection" data-bind="value: DataSourceSetting.DataSource.SortDirection" />
+            </td>
+        </tr>
+        <tr>
+            <th>@("Facets".Localize())</th>
+            <td>
+                <div>
+                    <a href="#">@Html.IconImage("plus small")</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

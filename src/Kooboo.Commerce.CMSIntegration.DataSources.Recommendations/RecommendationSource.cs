@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.CMSIntegration.DataSources.Sources;
+using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
+using Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
@@ -13,9 +14,9 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
 {
-    public class RecommendationSource : ICommerceSource
+    public class RecommendationSource : GenericCommerceDataSource
     {
-        public string Name
+        public override string Name
         {
             get
             {
@@ -23,11 +24,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             }
         }
 
-        public IEnumerable<SourceFilterDefinition> Filters
+        public override IEnumerable<FilterDefinition> Filters
         {
             get
             {
-                yield return new SourceFilterDefinition("ByProduct")
+                yield return new FilterDefinition("ByProduct")
                 {
                     Parameters = new List<FilterParameterDefinition>{
                         new FilterParameterDefinition("productId", typeof(Int32))
@@ -36,7 +37,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             }
         }
 
-        public IEnumerable<string> SortableFields
+        public override IEnumerable<string> SortableFields
         {
             get
             {
@@ -44,7 +45,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             }
         }
 
-        public IEnumerable<string> IncludablePaths
+        public override IEnumerable<string> IncludablePaths
         {
             get
             {
@@ -67,9 +68,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             _instanceManager = instanceManager;
         }
 
-        public object Execute(CommerceSourceContext context)
+        protected override object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
         {
-            var productIdFilter = context.Filters.Find(f => f.Name == "ByProduct");
+            var productIdFilter = settings.Filters.Find(f => f.Name == "ByProduct");
             if (productIdFilter == null)
             {
                 return null;
@@ -81,7 +82,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
                 return null;
             }
 
-            var instanceName = context.DataSourceContext.Site.GetCommerceInstanceName();
+            var instanceName = context.Site.GetCommerceInstanceName();
 
             if (String.IsNullOrWhiteSpace(instanceName))
                 throw new InvalidOperationException("Commerce instance name is not configured in CMS.");
@@ -90,9 +91,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             using (var scope = Scope.Begin(instance))
             {
                 var recommendations = ProductRecommendationService().GetRecommendations((int)productId);
-                if (!String.IsNullOrEmpty(context.SortField) && context.SortField == "Rank")
+                if (!String.IsNullOrEmpty(settings.SortField) && settings.SortField == "Rank")
                 {
-                    if (context.SortDirection == SortDirection.Asc)
+                    if (settings.SortDirection == SortDirection.Asc)
                     {
                         recommendations = recommendations.OrderBy(r => r.Rank).ToList();
                     }
@@ -102,9 +103,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
                     }
                 }
 
-                if (context.Top != null)
+                if (settings.Top != null)
                 {
-                    recommendations = recommendations.Take(context.Top.Value).ToList();
+                    recommendations = recommendations.Take(settings.Top.Value).ToList();
                 }
 
                 var productIds = recommendations.Select(x => x.ProductId).ToArray();
@@ -128,7 +129,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             }
         }
 
-        public IDictionary<string, object> GetDefinitions()
+        public override IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)
         {
             return DataSourceDefinitionHelper.GetDefinitions(typeof(Kooboo.Commerce.Api.Products.Product));
         }

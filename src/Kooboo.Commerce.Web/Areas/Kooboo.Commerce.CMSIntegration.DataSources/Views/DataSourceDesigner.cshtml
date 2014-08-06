@@ -1,0 +1,73 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+@{
+    var adapter = Model.DataSource as CommerceDataSourceAdapter;
+    if (adapter == null)
+    {
+        adapter = new CommerceDataSourceAdapter();
+        Model.DataSource = adapter;
+    }
+
+    var allDataSources = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<ICommerceDataSource>().OrderBy(it => it.Name).ToList();
+    var dataSource = adapter.DataSource;
+    if (dataSource == null)
+    {
+        var dataSourceName = ViewContext.RequestContext.GetRequestValue("dataSource");
+        if (!String.IsNullOrEmpty(dataSourceName))
+        {
+            dataSource = allDataSources.Find(it => it.Name.Equals(dataSourceName, StringComparison.OrdinalIgnoreCase));
+            adapter.DataSource = dataSource;
+        }
+    }
+}
+
+@using (Html.BeginForm())
+{
+    if (ViewBag.IsEditing != true)
+    {
+        <h1 class="title"><label for="DataName">@ViewBag.Title:</label> @Html.EditorFor(m => m.DataName, new { Layout = "_NoLabel.cshtml" })</h1>
+    }
+    else
+    {
+        <h1 class="title">@ViewBag.Title: <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+    }
+    @Html.Hidden("Designer", ((Kooboo.CMS.Sites.DataSource.IDataSourceDesigner)ViewBag.Designer).Name)
+    @Html.Hidden("CommerceDataSourceType", dataSource == null ? null : dataSource.GetType().FullName)
+    
+    <div class="block">
+        @if (dataSource == null) { 
+            <div class="common-form">
+                <table>
+                    <tr>
+                        <th>@("Data source".Localize())</th>
+                        <td>
+                            <select name="CommerceDataSourceName" data-toggle="change-datasource">
+                                <option value=""></option>
+                                @foreach (var ds in allDataSources)
+                                {
+                                    <option value="@ds.Name">@ds.Name</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+        else
+        {
+            @Html.Partial(dataSource.EditorVirtualPath)
+        }
+    </div>
+}
+
+<script>
+    $(function () {
+        var urlTemplate = '@Html.Raw(Url.Action("Create", ViewContext.RequestContext.AllRouteValues()))&dataSource={DataSource}';
+
+        $('[data-toggle="change-datasource"]').change(function () {
+            var name = $(this).val();
+            if (name) {
+                location.href = urlTemplate.replace('{DataSource}', name);
+            }
+        });
+    });
+</script>
