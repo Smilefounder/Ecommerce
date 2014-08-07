@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecommendationSource.cs" />
+    <Compile Include="RecommendationDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kooboo.Commerce.Api.Local\Kooboo.Commerce.Api.Local.csproj">

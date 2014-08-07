@@ -6,17 +6,19 @@
 
 <div style="font-size:16px;padding:10px;background:#eee;">
     <h4>Facets</h4>
-    @foreach (var facet in ViewBag.ProductFacets)
-    {
-        <div>
-            <strong style="display:inline-block;min-width:100px;text-align:right">@facet.FieldName:</strong>
-            <span>
-                @foreach (var item in facet.Items)
-                {
-                    <a href="#" style="display:inline-block;margin-left:10px;">@item.Name (@item.Count)</a>
-                }
-            </span>
-        </div>
+    @if (ViewBag.ProductFacets != null) { 
+        foreach (var facet in ViewBag.ProductFacets)
+        {
+            <div>
+                <strong style="display:inline-block;min-width:100px;text-align:right">@facet.FieldName:</strong>
+                <span>
+                    @foreach (var item in facet.Items)
+                    {
+                        <a href="#" style="display:inline-block;margin-left:10px;">@item.Name (@item.Count)</a>
+                    }
+                </span>
+            </div>
+        }
     }
     <br/><br/>
     <strong>Brands loaded from DataSource:</strong><br />

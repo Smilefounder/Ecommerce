@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Formula;
 using Kooboo.CMS.Sites.DataRule;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,11 @@ using System.Web;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 {
+    [DataContract]
+    [KnownType(typeof(GenericCommerceDataSource))]
     public abstract class GenericCommerceDataSource : ICommerceDataSource
     {
+        [JsonProperty]
         public abstract string Name { get; }
 
         public string EditorVirtualPath
@@ -22,7 +26,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 
         private GenericCommerceDataSourceSettings _settings;
 
-        [DataMember]
+        [DataMember, JsonProperty]
         public GenericCommerceDataSourceSettings Settings
         {
             get
@@ -39,10 +43,13 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
             }
         }
 
+        [JsonProperty]
         public abstract IEnumerable<FilterDefinition> Filters { get; }
 
+        [JsonProperty]
         public abstract IEnumerable<string> SortableFields { get; }
 
+        [JsonProperty]
         public abstract IEnumerable<string> IncludablePaths { get; }
 
         public virtual object Execute(CommerceDataSourceContext context)

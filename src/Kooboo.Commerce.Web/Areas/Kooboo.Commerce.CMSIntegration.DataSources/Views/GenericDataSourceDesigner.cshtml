@@ -1,16 +1,8 @@
 ﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
 
-<div id="commerce-datasource" class="block common-form">
+<div id="generic-commerce-datasource" class="block common-form">
     <table>
-        <tr>
-            <th>
-                @("Source".Localize())
-            </th>
-            <td>
-                <select name="DataSource.Name" data-bind="options: DataSources, optionsText: 'Name', optionsValue: 'Name', value: DataSource.Name"></select>
-            </td>
-        </tr>
-        <tr data-bind="visible: SelectedDataSource() && SelectedDataSource().Filters().length > 0" style="display:none">
+        <tr data-bind="visible: DataSource.Filters() && DataSource.Filters().length > 0" style="display:none">
             <th>
                 @("Filters".Localize())
             </th>
@@ -26,16 +18,16 @@
                             <a href="#" data-bind="click: $root.RemoveFilter" style="display:inline-block">@Html.IconImage("minus small")</a>
                         </span>
 
-                        <input type="hidden" data-bind="attr: { name: 'DataSource.Settings.Filters[' + $index() + '].Name' }, value: Name" />
+                        <input type="hidden" data-bind="attr: { name: 'DataSource.CommerceDataSource.Settings.Filters[' + $index() + '].Name' }, value: Name" />
                         <!-- ko foreach: ParameterValues -->
-                        <input type="hidden" data-bind="attr: { name: 'DataSource.Settings.Filters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterName' }, value: ParameterName" />
-                        <input type="hidden" data-bind="attr: { name: 'DataSource.Settings.Filters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterValue' }, value: ParameterValue" />
+                        <input type="hidden" data-bind="attr: { name: 'DataSource.CommerceDataSource.Settings.Filters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterName' }, value: ParameterName" />
+                        <input type="hidden" data-bind="attr: { name: 'DataSource.CommerceDataSource.Settings.Filters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterValue' }, value: ParameterValue" />
                         <!-- /ko -->
                     </div>
                     <div data-bind="visible: IsEditing" style="margin-top:10px;padding:10px;background:#eee;">
                         <div class="clearfix" style="margin-bottom:10px;">
                             <span data-bind="if: IsNew">
-                                <select data-bind="options: $root.AvailableFilters, optionsText: 'Name', optionsValue: 'Name', value: Name"></select>
+                                <select data-bind="options: $root.DataSource.Filters, optionsText: 'Name', optionsValue: 'Name', value: Name"></select>
                             </span>
                             <span data-bind="if: !IsNew()">
                                 <span data-bind="text: Name"></span>
@@ -79,17 +71,17 @@
             <th>@("Query type".Localize())</th>
             <td>
                 <div class="clearfix">
-                    <input type="radio" id="TakeOperation_List" name="DataSource.Settings.TakeOperation" value="0" data-bind="checked: DataSource.Settings.TakeOperation" />
+                    <input type="radio" id="TakeOperation_List" name="DataSource.CommerceDataSource.Settings.TakeOperation" value="0" data-bind="checked: DataSource.Settings.TakeOperation" />
                     <label for="TakeOperation_List" class="inline">@("List of contents".Localize())</label>
                 </div>
                 <div class="clearfix" style="margin-top:10px">
-                    <input type="radio" id="TakeOperation_FirstOrDefault" name="DataSource.Settings.TakeOperation" value="1" data-bind="checked: DataSource.Settings.TakeOperation" />
+                    <input type="radio" id="TakeOperation_FirstOrDefault" name="DataSource.CommerceDataSource.Settings.TakeOperation" value="1" data-bind="checked: DataSource.Settings.TakeOperation" />
                     <label for="TakeOperation_First" class="inline">@("First or default (one content item)".Localize())</label>
                 </div>
             </td>
         </tr>
     </table>
-    <fieldset data-bind="visible: DataSource.Settings.TakeOperation() == 0 || SelectedDataSource().SortableFields && SelectedDataSource().SortableFields().length > 0">
+    <fieldset data-bind="visible: DataSource.Settings.TakeOperation() == 0 || DataSource.SortableFields() && DataSource.SortableFields().length > 0">
         <legend class="clickable">@Html.IconImage("arrow") @("Advanced".Localize())</legend>
         <div style="padding-top:10px">
             <table class="common-form">
@@ -97,21 +89,21 @@
                     <tr>
                         <th>@("Top".Localize())</th>
                         <td>
-                            <input type="text" name="DataSource.Settings.Top" data-bind="value: DataSource.Settings.Top" />
+                            <input type="text" name="DataSource.CommerceDataSource.Settings.Top" data-bind="value: DataSource.Settings.Top" />
                         </td>
                     </tr>
                 </tbody>
-                <tbody data-bind="visible: SelectedDataSource().SortableFields && SelectedDataSource().SortableFields().length > 0">
+                <tbody data-bind="visible: DataSource.SortableFields() && DataSource.SortableFields().length > 0">
                     <tr>
                         <th>@("Sort field".Localize())</th>
                         <td>
-                            <select name="DataSource.Settings.SortField" data-bind="options: SelectedDataSource().SortableFields, value: DataSource.Settings.SortField"></select>
+                            <select name="DataSource.CommerceDataSource.Settings.SortField" data-bind="options: DataSource.SortableFields, value: DataSource.Settings.SortField"></select>
                         </td>
                     </tr>
                     <tr>
                         <th>@("Sort direction".Localize())</th>
                         <td>
-                            <select name="DataSource.Settings.SortDirection" data-bind="value: DataSource.Settings.SortDirection">
+                            <select name="DataSource.CommerceDataSource.Settings.SortDirection" data-bind="value: DataSource.Settings.SortDirection">
                                 <option value="0">@("ASC".Localize())</option>
                                 <option value="1">@("DESC".Localize())</option>
                             </select>
@@ -122,13 +114,13 @@
                     <tr>
                         <th>@("Enable paging".Localize())</th>
                         <td>
-                            <input type="checkbox" name="DataSource.Settings.EnablePaging" value="true" data-bind="checked: DataSource.Settings.EnablePaging" />
+                            <input type="checkbox" name="DataSource.CommerceDataSource.Settings.EnablePaging" value="true" data-bind="checked: DataSource.Settings.EnablePaging" />
                         </td>
                     </tr>
                     <tr>
                         <th>@("Page size".Localize())</th>
                         <td>
-                            <input type="text" name="DataSource.Settings.PageSize" data-bind="enable: DataSource.Settings.EnablePaging, value: DataSource.Settings.PageSize" />
+                            <input type="text" name="DataSource.CommerceDataSource.Settings.PageSize" data-bind="enable: DataSource.Settings.EnablePaging, value: DataSource.Settings.PageSize" />
                             <em class="tip">
                                 @("A const value OR dynamic value get from query string. eg: 10 OR {PageSize}".Localize())
                             </em>
@@ -137,7 +129,7 @@
                     <tr>
                         <th>@("Page number".Localize())</th>
                         <td>
-                            <input type="text" name="DataSource.Settings.PageNumber" data-bind="enable: DataSource.Settings.EnablePaging, value: DataSource.Settings.PageNumber" />
+                            <input type="text" name="DataSource.CommerceDataSource.Settings.PageNumber" data-bind="enable: DataSource.Settings.EnablePaging, value: DataSource.Settings.PageNumber" />
                             <em class="tip">
                                 @("The page number parameter name. eg:{PageNumber}".Localize())
                             </em>
@@ -147,7 +139,7 @@
             </table>
         </div>
     </fieldset>
-    <fieldset data-bind="visible: SelectedDataSource() && SelectedDataSource().IncludablePaths && SelectedDataSource().IncludablePaths().length > 0" style="display:none">
+    <fieldset data-bind="visible: DataSource.IncludablePaths() && DataSource.IncludablePaths().length > 0" style="display:none">
         <legend class="clickable">@Html.IconImage("arrow") @("Includes".Localize())</legend>
         <div style="padding-top:10px">
             <table class="common-form">
@@ -159,12 +151,12 @@
                                 <input id="IncludeAll" name="IncludeAll" type="checkbox" data-bind="checked: $root.AllPathsIncluded, click: $root.ToggleIncludeAll" />
                                 <label class="inline" for="IncludeAll">@("All".Localize())</label>
                             </div>
-                            <div data-bind="foreach: SelectedDataSource().IncludablePaths">
+                            <div data-bind="foreach: DataSource.IncludablePaths">
                                 <div class="clearfix" style="padding-bottom:10px">
                                     <input type="checkbox" name="IncludablePaths" data-bind="attr: { id: 'IncludablePath_' + $index(), value: $data }, checked: $root.IsPathIncluded($data), disable: $root.IsPathDisabled($data), click: $root.TogglePathInclude" />
                                     <label class="inline" data-bind="text: $data, attr: { 'for': 'IncludablePath_' + $index() }"></label>
                                     <!-- Values of disabled form elements won't be sent to server, so we use a hidden checkbox to hold the real values to be sent to server -->
-                                    <input type="checkbox" style="display:none" name="DataSource.Settings.Includes" data-bind="attr: { value: $data }, checked: $root.IsPathIncluded($data)" />
+                                    <input type="checkbox" style="display:none" name="DataSource.CommerceDataSource.Settings.Includes" data-bind="attr: { value: $data }, checked: $root.IsPathIncluded($data)" />
                                 </div>
                             </div>
                         </td>

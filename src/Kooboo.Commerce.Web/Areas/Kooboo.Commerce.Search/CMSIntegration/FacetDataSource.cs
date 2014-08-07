@@ -12,6 +12,7 @@ using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
 namespace Kooboo.Commerce.Search.CMSIntegration
 {
     [DataContract]
+    [KnownType(typeof(FacetDataSource))]
     public class FacetDataSource : ICommerceDataSource
     {
         public string Name

@@ -6,13 +6,13 @@ using System.Web;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Bootstrapping
 {
-    public class CommerceSourceRegistrar : IDependencyRegistrar
+    public class CommerceDataSourceRegistrar : IDependencyRegistrar
     {
         public int Order
         {
             get
             {
-                return 100;
+                return 200;
             }
         }
 

@@ -7,30 +7,33 @@ using Kooboo.CMS.Sites.Membership;
 using System.Globalization;
 using System.Reflection;
 using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
+using System.Runtime.Serialization;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
+    [DataContract]
+    [KnownType(typeof(ApiBasedDataSource))]
     public abstract class ApiBasedDataSource : GenericCommerceDataSource
     {
-        protected ApiQueryDescriptor Descriptor { get; private set; }
+        private ApiQueryDescriptor _descriptor;
 
-        protected List<FilterDefinition> InternalFilters;
-        protected HashSet<string> InternalSortableFields = new HashSet<string>();
-        protected HashSet<string> InternalIncludablePaths;
-
-        protected Type QueryType { get; private set; }
-
-        protected Type ItemType { get; private set; }
-
-        private string _name;
-
-        public override string Name
+        protected ApiQueryDescriptor Descriptor
         {
             get
             {
-                return _name;
+                if (_descriptor == null)
+                {
+                    _descriptor = ApiQueryDescriptor.GetDescriptor(QueryType);
+                }
+                return _descriptor;
             }
         }
+
+        protected abstract Type QueryType { get; }
+
+        protected abstract Type ItemType { get; }
+
+        private List<FilterDefinition> _filters;
 
         public override IEnumerable<FilterDefinition> Filters
         {
@@ -40,6 +43,20 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
             }
         }
 
+        protected List<FilterDefinition> InternalFilters
+        {
+            get
+            {
+                if (_filters == null)
+                {
+                    _filters = Descriptor.Filters.Select(f => f.ToFilterDefinition()).ToList();
+                }
+                return _filters;
+            }
+        }
+
+        private HashSet<string> _sortableFields;
+
         public override IEnumerable<string> SortableFields
         {
             get
@@ -47,6 +64,20 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
                 return InternalSortableFields;
             }
         }
+
+        protected HashSet<string> InternalSortableFields
+        {
+            get
+            {
+                if (_sortableFields == null)
+                {
+                    _sortableFields = new HashSet<string>();
+                }
+                return _sortableFields;
+            }
+        }
+
+        private HashSet<string> _includablePaths;
 
         public override IEnumerable<string> IncludablePaths
         {
@@ -56,18 +87,16 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
             }
         }
 
-        protected ApiBasedDataSource(string name, Type queryType, Type itemType)
+        protected HashSet<string> InternalIncludablePaths
         {
-            _name = name;
-            QueryType = queryType;
-            ItemType = itemType;
-
-            var descriptor = ApiQueryDescriptor.GetDescriptor(queryType);
-
-            InternalFilters = descriptor.Filters.Select(f => f.ToFilterDefinition()).ToList();
-            InternalIncludablePaths = new HashSet<string>(descriptor.IncludablePaths);
-
-            Descriptor = descriptor;
+            get
+            {
+                if (_includablePaths == null)
+                {
+                    _includablePaths = new HashSet<string>(Descriptor.IncludablePaths);
+                }
+                return _includablePaths;
+            }
         }
 
         protected abstract object GetQuery(ICommerceApi api);

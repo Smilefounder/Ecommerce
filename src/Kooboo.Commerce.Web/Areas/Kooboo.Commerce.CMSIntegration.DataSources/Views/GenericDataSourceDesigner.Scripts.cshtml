@@ -3,12 +3,12 @@
 @using Kooboo.CMS.Sites.DataSource;
 
 @{
-    var adapter = Model.DataSource as CommerceDataSourceAdapter;
-    var dataSource = adapter.DataSource;
+    var dataSource = ViewBag.CommerceDataSource as ICommerceDataSource;
 }
 
 <script>
     $(function () {
+
         var viewModel = new ViewModel();
 
         function ViewModel() {
@@ -32,29 +32,7 @@
 
             this.DataSourceSetting = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects })), _mappingOptions);
 
-            this.DataSource = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(dataSource, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects })));
-
-            this.SelectedDataSource = ko.computed(function () {
-                var name = _this.DataSource.Name();
-                if (!name) {
-                    return null;
-                }
-
-                var dataSource = _.find(_this.DataSources(), function (q) {
-                    return q.Name() === name;
-                })
-
-                return dataSource;
-            });
-
-            this.AvailableFilters = ko.computed(function () {
-                var dataSource = _this.SelectedDataSource();
-                if (!dataSource) {
-                    return [];
-                }
-
-                return dataSource.Filters();
-            });
+            this.DataSource = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(dataSource)), _mappingOptions);
 
             this.AddFilter = function () {
                 var filter = {
@@ -105,8 +83,7 @@
             }
 
             this.GetFilterParameters = function (filterName) {
-                var dataSource = _this.SelectedDataSource();
-                var filter = _.find(dataSource.Filters(), function (it) {
+                var filter = _.find(_this.DataSource.Filters(), function (it) {
                     return it.Name() === filterName;
                 });
 
@@ -134,13 +111,13 @@
             }
 
             this.IsPathIncluded = function (path) {
-                return _.any(_this.DataSource.Includes(), function (p) {
+                return _.any(_this.DataSource.Settings.Includes(), function (p) {
                     return p === path;
                 });
             }
 
             this.IsPathDisabled = function (path) {
-                return _.any(_this.DataSource.Includes(), function (p) {
+                return _.any(_this.DataSource.Settings.Includes(), function (p) {
                     return p.length > path.length && p.indexOf(path) === 0;
                 });
             }
@@ -162,7 +139,7 @@
                 });
 
                 // Add also parent paths
-                _.each(_this.SelectedSource().IncludablePaths(), function (p) {
+                _.each(_this.DataSource.IncludablePaths(), function (p) {
                     if (!includesMap[p] && p.length < path.length && (path.indexOf(p) === 0)) {
                         _this.DataSource.Settings.Includes.push(p);
                     }
@@ -179,7 +156,7 @@
 
             this.IncludeAllPaths = function () {
                 _this.DataSource.Settings.Includes.removeAll();
-                _.each(_this.SelectedSource().IncludablePaths(), function (p) {
+                _.each(_this.DataSource.IncludablePaths(), function (p) {
                     _this.DataSource.Settings.Includes.push(p);
                 });
                 _this.UpdateAllPathsIncluded();
@@ -194,8 +171,7 @@
 
             this.UpdateAllPathsIncluded = function () {
                 _this.AllPathsIncluded(
-                    _this.SelectedDataSource()
-                    && _this.SelectedDataSource().IncludablePaths().length === _this.DataSource.Settings.Includes().length);
+                    _this.DataSource.IncludablePaths().length === _this.DataSource.Settings.Includes().length);
             }
 
             this.ToggleIncludeAll = function () {
@@ -209,34 +185,17 @@
             }
 
             this.Validate = function () {
-                return $('#commerce-datasource').closest('form').valid();
+                return $('#generic-commerce-datasource').closest('form').valid();
             }
 
             this.ReparseValidation = function () {
-                var $form = $('#commerce-datasource').closest('form');
+                var $form = $('#generic-commerce-datasource').closest('form');
                 $form.removeData('validator');
                 $form.removeData('unobtrusiveValidation');
                 $.validator.unobtrusive.parse($form);
             }
-
-            this.DataSource.Name.subscribe(function () {
-                _this.DataSource.Settings.Filters.removeAll();
-                _this.DataSource.Settings.Includes.removeAll();
-                _this.AllPathsIncluded(false);
-            });
         }
 
-        $.when(LoadDataSources())
-         .then(function () {
-             viewModel.Init();
-             ko.applyBindings(viewModel, document.getElementById('commerce-datasource'));
-         });
-
-        function LoadDataSources() {
-            return $.get('/Kooboo.Commerce.CMSIntegration.DataSources/GenericDataSource/List')
-                    .then(function (data) {
-                        ko.mapping.fromJS(data, {}, viewModel.DataSources);
-                    });
-        }
+        ko.applyBindings(viewModel, document.getElementById('generic-commerce-datasource'));
     });
 </script>

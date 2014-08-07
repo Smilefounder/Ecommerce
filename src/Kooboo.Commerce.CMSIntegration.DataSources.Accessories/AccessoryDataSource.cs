@@ -1,26 +1,29 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Accessories;
 using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
 using Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Recommendations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
+namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
 {
-    public class RecommendationSource : GenericCommerceDataSource
+    [DataContract]
+    [KnownType(typeof(AccessoryDataSource))]
+    public class AccessoryDataSource : GenericCommerceDataSource
     {
         public override string Name
         {
             get
             {
-                return "Recommendations";
+                return "Accessories";
             }
         }
 
@@ -30,7 +33,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             {
                 yield return new FilterDefinition("ByProduct")
                 {
-                    Parameters = new List<FilterParameterDefinition>{
+                    Parameters = new List<FilterParameterDefinition> {
                         new FilterParameterDefinition("productId", typeof(Int32))
                     }
                 };
@@ -41,7 +44,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
         {
             get
             {
-                yield return "Rank";
+                return null;
             }
         }
 
@@ -59,11 +62,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
         // while IProductService requires a commerce instance context.
         public Func<IProductService> ProductService = () => EngineContext.Current.Resolve<IProductService>();
 
-        public Func<IProductRecommendationService> ProductRecommendationService = () => EngineContext.Current.Resolve<IProductRecommendationService>();
+        public Func<IProductAccessoryService> ProductAccessoryService = () => EngineContext.Current.Resolve<IProductAccessoryService>();
 
         private ICommerceInstanceManager _instanceManager;
 
-        public RecommendationSource(ICommerceInstanceManager instanceManager)
+        public AccessoryDataSource(ICommerceInstanceManager instanceManager)
         {
             _instanceManager = instanceManager;
         }
@@ -90,28 +93,28 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             using (var instance = _instanceManager.GetInstance(instanceName))
             using (var scope = Scope.Begin(instance))
             {
-                var recommendations = ProductRecommendationService().GetRecommendations((int)productId);
+                var accessories = ProductAccessoryService().GetAccessories((int)productId);
                 if (!String.IsNullOrEmpty(settings.SortField) && settings.SortField == "Rank")
                 {
                     if (settings.SortDirection == SortDirection.Asc)
                     {
-                        recommendations = recommendations.OrderBy(r => r.Rank).ToList();
+                        accessories = accessories.OrderBy(r => r.Rank).ToList();
                     }
                     else
                     {
-                        recommendations = recommendations.OrderByDescending(r => r.Rank).ToList();
+                        accessories = accessories.OrderByDescending(r => r.Rank).ToList();
                     }
                 }
 
                 if (settings.Top != null)
                 {
-                    recommendations = recommendations.Take(settings.Top.Value).ToList();
-                }
-
-                var productIds = recommendations.Select(x => x.ProductId).ToArray();
+                    accessories = accessories.Take(settings.Top.Value).ToList();
+                } 
+                
+                var accessoryIds = accessories.Select(x => x.ProductId).ToArray();
 
                 var result = new List<Kooboo.Commerce.Api.Products.Product>();
-                foreach (var id in productIds)
+                foreach (var id in accessoryIds)
                 {
                     var model = EngineContext.Current.Resolve<Kooboo.Commerce.Api.Products.IProductApi>()
                                            .ById(id)

@@ -5,13 +5,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Kooboo.CMS.Sites.Membership;
+using System.Runtime.Serialization;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
+    [DataContract]
+    [KnownType(typeof(ShoppingCartDataSource))]
     public class ShoppingCartDataSource : ApiBasedDataSource
     {
+        public override string Name
+        {
+            get { return "ShoppingCarts"; }
+        }
+
+        protected override Type QueryType
+        {
+            get { return typeof(IShoppingCartQuery); }
+        }
+
+        protected override Type ItemType
+        {
+            get { return typeof(ShoppingCart); }
+        }
+
         public ShoppingCartDataSource()
-            : base("ShoppingCarts", typeof(IShoppingCartQuery), typeof(ShoppingCart))
+        {
+            OnDeserialized(default(StreamingContext));
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
         {
             InternalIncludablePaths.Remove("AppliedPromotions");
             InternalFilters.Add(new FilterDefinition("ByCurrentCustomer"));

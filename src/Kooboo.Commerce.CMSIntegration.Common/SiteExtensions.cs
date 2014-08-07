@@ -26,16 +26,6 @@ namespace Kooboo.Commerce.CMSIntegration
             return site.CustomFields["CommerceInstance"];
         }
 
-        public static string GetCommerceApiHost(this Site site)
-        {
-            if (site.CustomFields.ContainsKey("CommerceApiHost"))
-            {
-                return site.CustomFields["CommerceApiHost"];
-            }
-
-            return null;
-        }
-
         public static string GetCurrency(this Site site)
         {
             return null;
