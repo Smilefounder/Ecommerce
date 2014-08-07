@@ -10,11 +10,11 @@
         foreach (var facet in ViewBag.ProductFacets)
         {
             <div>
-                <strong style="display:inline-block;min-width:100px;text-align:right">@facet.FieldName:</strong>
+                <strong style="display:inline-block;min-width:100px;text-align:right">@facet.Name:</strong>
                 <span>
-                    @foreach (var item in facet.Items)
+                    @foreach (var value in facet.Values)
                     {
-                        <a href="#" style="display:inline-block;margin-left:10px;">@item.Name (@item.Count)</a>
+                        <a href="#" style="display:inline-block;margin-left:10px;">@value.Term (@value.Hits)</a>
                     }
                 </span>
             </div>

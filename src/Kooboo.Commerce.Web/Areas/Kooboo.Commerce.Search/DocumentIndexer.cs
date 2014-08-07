@@ -60,7 +60,7 @@ namespace Kooboo.Commerce.Search
             return GetSearcher().Search(query, filter, topN, sort);
         }
 
-        public FacetResults Facets(Query query, IEnumerable<Facet> facets)
+        public IList<FacetResult> Facets(Query query, IEnumerable<Facet> facets)
         {
             var searcher = new FacetedSearcher(GetSearcher());
             return searcher.Search(query, facets);

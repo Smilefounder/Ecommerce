@@ -99,7 +99,6 @@
     <Compile Include="CommerceDataSourceDesigner.cs" />
     <Compile Include="Generic\ApiBased\DataSourceDefinitionHelper.cs" />
     <Compile Include="Generic\Filter.cs" />
-    <Compile Include="Controllers\GenericDataSourceController.cs" />
     <Compile Include="Generic\GenericCommerceDataSource.cs" />
     <Compile Include="Generic\GenericCommerceDataSourceSettings.cs" />
     <Compile Include="ICommerceDataSource.cs" />

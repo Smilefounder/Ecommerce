@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Search.Controllers
         public void Index()
         {
             var indexer = DocumentIndexers.GetLiveIndexer("Vitaminstore", typeof(Product), CultureInfo.InvariantCulture);
-            var doc = indexer.Search(new TermQuery(new Term("Id", "1")), 1);
+            var doc = indexer.Search(new MatchAllDocsQuery(), Int32.MaxValue);
             Response.Write(doc.TotalHits);
 
             var results = indexer.Facets(new MatchAllDocsQuery(), new Facet[] {
@@ -29,10 +29,10 @@ namespace Kooboo.Commerce.Search.Controllers
                 }}
             });
 
-            foreach (var result in results.Results)
+            foreach (var result in results)
             {
-                Response.Write("<h5>" + result.Key + "</h5>");
-                foreach (var value in result.Value.Values)
+                Response.Write("<h5>" + result.Name+ "</h5>");
+                foreach (var value in result.Values)
                 {
                     Response.Write(value.Term + "(" + value.Hits + "), ");
                 }

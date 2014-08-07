@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Search.Facets
             _searcher = searcher;
         }
 
-        public FacetResults Search(Query query, IEnumerable<Facet> facets)
+        public IList<FacetResult> Search(Query query, IEnumerable<Facet> facets)
         {
             var reader = _searcher.IndexReader;
             var allCollector = new GatherAllCollector();
@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Search.Facets
                                 break;
                             }
 
-                            if (IsLowPrecisionNumber(termEnum.Term.Text))
+                            if (isRangeFacet && IsLowPrecisionNumber(termEnum.Term.Text))
                             {
                                 continue;
                             }
@@ -65,6 +65,7 @@ namespace Kooboo.Commerce.Search.Facets
                             {
                                 totalDocs--;
 
+                                // Collect the filtered result only
                                 if (!allCollector.Documents.Contains(termDocs.Doc))
                                 {
                                     continue;
@@ -114,10 +115,10 @@ namespace Kooboo.Commerce.Search.Facets
                 }
             }
 
-            var results = new FacetResults();
+            var results = new List<FacetResult>();
             foreach (var each in facetsByName)
             {
-                results.Results.Add(each.Key, new FacetResult(each.Value.Values));
+                results.Add(new FacetResult(each.Key, each.Value.Values));
             }
 
             return results;

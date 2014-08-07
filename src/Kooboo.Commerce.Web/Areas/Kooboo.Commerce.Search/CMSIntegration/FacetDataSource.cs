@@ -6,6 +6,11 @@ using Kooboo.CMS.Sites.DataSource;
 using Kooboo.Commerce.Search.Facets;
 using System.Runtime.Serialization;
 using Kooboo.Commerce.CMSIntegration.DataSources;
+using Kooboo.Commerce.Products;
+using System.Globalization;
+using Lucene.Net.Search;
+using Kooboo.Commerce.Multilingual.Storage;
+using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.Commerce.Search.CMSIntegration
 {
@@ -35,12 +40,6 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         [DataMember]
         public IList<Facet> Facets { get; set; }
 
-        [DataMember]
-        public string SortField { get; set; }
-
-        [DataMember]
-        public string SortDirection { get; set; }
-
         public FacetDataSource()
         {
             Filters = new List<Filter>();
@@ -49,7 +48,30 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 
         public object Execute(CommerceDataSourceContext context)
         {
-            return null;
+            if (Facets == null || Facets.Count == 0)
+            {
+                return new List<FacetResult>();
+            }
+
+            var culture = CultureInfo.InvariantCulture;
+
+            if (!String.IsNullOrEmpty(context.Site.Culture))
+            {
+                var languageStore = EngineContext.Current.Resolve<ILanguageStore>();
+                if (languageStore.Exists(context.Site.Culture))
+                {
+                    culture = CultureInfo.GetCultureInfo(context.Site.Culture);
+                }
+            }
+
+            var indexer = DocumentIndexers.GetLiveIndexer(context.Instance, typeof(Product), culture);
+            return indexer.Facets(BuildQuery(), Facets);
+        }
+
+        // TODO: Complete it
+        private Query BuildQuery()
+        {
+            return new MatchAllDocsQuery();
         }
 
         public IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)

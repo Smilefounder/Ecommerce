@@ -5,22 +5,15 @@ using System.Web;
 
 namespace Kooboo.Commerce.Search.Facets
 {
-    public class FacetResults
-    {
-        public IDictionary<string, FacetResult> Results { get; set; }
-
-        public FacetResults()
-        {
-            Results = new Dictionary<string, FacetResult>();
-        }
-    }
-
     public class FacetResult
     {
+        public string Name { get; set; }
+
         public IList<FacetValue> Values { get; set; }
 
-        public FacetResult(IEnumerable<FacetValue> values)
+        public FacetResult(string name, IEnumerable<FacetValue> values)
         {
+            Name = name;
             Values = values.ToList();
         }
     }
