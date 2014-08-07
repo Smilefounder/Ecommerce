@@ -17,6 +17,18 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
         [DataMember]
         public ICommerceDataSource CommerceDataSource { get; set; }
 
+        [DataMember]
+        public string CommerceDataSourceType { get; set; }
+
+        private void OnSerialized(StreamingContext context)
+        {
+            // Always ensure CommerceDataSource is not null, otherwise we are not able to deserialize it in data contract
+            if (CommerceDataSource == null)
+            {
+                CommerceDataSource = TypeActivator.CreateInstance(Type.GetType(CommerceDataSourceType, true)) as ICommerceDataSource;
+            }
+        }
+
         public object Execute(DataSourceContext dataSourceContext)
         {
             return CommerceDataSource.Execute(CommerceDataSourceContext.CreateFrom(dataSourceContext));

@@ -35,7 +35,10 @@
 @using (Html.BeginForm())
 {
     @Html.Hidden("Designer", ((Kooboo.CMS.Sites.DataSource.IDataSourceDesigner)ViewBag.Designer).Name)
-    @Html.Hidden("CommerceDataSourceType", dataSource == null ? null : dataSource.GetType().FullName)
+    // This field is for model binding
+    @Html.Hidden("CommerceDataSourceType", dataSource.GetType().FullName)
+    // This field is for CommerceDataSourceAdapter serialization
+    @Html.Hidden("DataSource.CommerceDataSourceType", dataSource.GetType().AssemblyQualifiedNameWithoutVersion())
 
     <h1 class="title">@ViewBag.Title</h1>
     <div class="block common-form">

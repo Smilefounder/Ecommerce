@@ -39,15 +39,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Persistence
         {
             var basePath = Path.Combine(site.PhysicalPath, DIRNAME);
             var knownTypes = _designers.Select(it => it.CreateDataSource().GetType()).ToList();
-
-            foreach (var dataSoruce in _commerceDataSources)
-            {
-                knownTypes.Add(dataSoruce.GetType());
-                if (dataSoruce is ISerializationKnownTypesProvider)
-                {
-                    knownTypes.AddRange(((ISerializationKnownTypesProvider)dataSoruce).GetKnownTypes());
-                }
-            }
+            knownTypes.AddRange(_commerceDataSources.Select(it => it.GetType()));
 
             return new XmlObjectFileStorage<DataSourceSetting>(basePath, @lock, knownTypes);
         }

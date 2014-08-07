@@ -146,11 +146,11 @@
             }
 
             self.GetFacetHtmlName = function (index, field) {
-                return 'DataSource.Facets[' + index + '].' + field;
+                return 'DataSource.CommerceDataSource.Facets[' + index + '].' + field;
             }
 
             self.GetFacetRangeHtmlName = function (facetIndex, rangeIndex, field) {
-                return 'DataSource.Facets[' + facetIndex + '].Ranges[' + rangeIndex + '].' + field;
+                return 'DataSource.CommerceDataSource.Facets[' + facetIndex + '].Ranges[' + rangeIndex + '].' + field;
             }
 
             self.UnaddedFilterDefinitions = ko.computed(function () {

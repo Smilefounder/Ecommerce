@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 {
     [DataContract]
     [KnownType(typeof(FacetDataSource))]
-    public class FacetDataSource : ICommerceDataSource, ISerializationKnownTypesProvider
+    public class FacetDataSource : ICommerceDataSource
     {
         public string Name
         {
@@ -65,12 +65,6 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         public bool IsEnumerable()
         {
             return true;
-        }
-
-        public IEnumerable<Type> GetKnownTypes()
-        {
-            yield return typeof(Facet);
-            yield return typeof(Filter);
         }
     }
 }
