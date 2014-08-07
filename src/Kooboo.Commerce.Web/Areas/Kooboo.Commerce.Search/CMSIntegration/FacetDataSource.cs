@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Web;
 using Kooboo.Commerce.CMSIntegration;
 using Kooboo.CMS.Sites.DataSource;
 using Kooboo.Commerce.Search.Facets;
 using System.Runtime.Serialization;
 using Kooboo.Commerce.CMSIntegration.DataSources;
-using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
 
 namespace Kooboo.Commerce.Search.CMSIntegration
 {
     [DataContract]
     [KnownType(typeof(FacetDataSource))]
-    public class FacetDataSource : ICommerceDataSource
+    public class FacetDataSource : ICommerceDataSource, ISerializationKnownTypesProvider
     {
         public string Name
         {
@@ -67,6 +65,12 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         public bool IsEnumerable()
         {
             return true;
+        }
+
+        public IEnumerable<Type> GetKnownTypes()
+        {
+            yield return typeof(Facet);
+            yield return typeof(Filter);
         }
     }
 }

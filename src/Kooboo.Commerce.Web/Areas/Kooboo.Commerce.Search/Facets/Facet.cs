@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 namespace Kooboo.Commerce.Search.Facets
 {
     [DataContract]
+    [KnownType(typeof(Facet))]
     public class Facet
     {
         [DataMember]

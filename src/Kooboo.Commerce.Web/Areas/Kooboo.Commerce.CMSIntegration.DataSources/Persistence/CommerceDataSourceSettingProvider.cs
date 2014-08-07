@@ -38,8 +38,16 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Persistence
         protected override IFileStorage<DataSourceSetting> GetFileStorage(Site site)
         {
             var basePath = Path.Combine(site.PhysicalPath, DIRNAME);
-            var knownTypes = _designers.Select(it => it.CreateDataSource().GetType())
-                                       .Union(_commerceDataSources.Select(it => it.GetType()));
+            var knownTypes = _designers.Select(it => it.CreateDataSource().GetType()).ToList();
+
+            foreach (var dataSoruce in _commerceDataSources)
+            {
+                knownTypes.Add(dataSoruce.GetType());
+                if (dataSoruce is ISerializationKnownTypesProvider)
+                {
+                    knownTypes.AddRange(((ISerializationKnownTypesProvider)dataSoruce).GetKnownTypes());
+                }
+            }
 
             return new XmlObjectFileStorage<DataSourceSetting>(basePath, @lock, knownTypes);
         }

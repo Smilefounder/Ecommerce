@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Controllers
             return Json(descriptors, JsonRequestBehavior.AllowGet);
         }
 
-        public void Test()
+        public void Test(DataSourceSetting setting)
         {
             var filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cms_Data\\Sites\\Vitaminstore\\DataSources\\test.config");
             var knownTypes = new List<Type>();

@@ -7,6 +7,7 @@ using System.Web;
 namespace Kooboo.Commerce.Search.Facets
 {
     [DataContract]
+    [KnownType(typeof(FacetRange))]
     public class FacetRange
     {
         [DataMember]

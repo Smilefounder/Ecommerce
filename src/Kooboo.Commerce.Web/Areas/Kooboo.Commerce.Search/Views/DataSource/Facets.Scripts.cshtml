@@ -11,7 +11,11 @@
     var instanceName = site.GetCommerceInstanceName();
     var instance = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ICommerceInstanceManager>().GetInstance(instanceName);
     var productTypes = instance.Database.GetRepository<ProductType>().Query().ToList();
-    var facetDefinitions = FacetHelper.GetFacetDefinitions(productTypes);
+    
+    var facetDefinitions = FacetDefinition.GetFacetDefinitions(productTypes);
+    var filterDefinitions = FilterDefinition.GetFilterDefinitions(productTypes);
+    
+    var serializerSettings = new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() } };
 }
 
 <script>
@@ -19,8 +23,9 @@
     (function ($) {
 
         var Metadata = {
-            FacetDefinitions: @(Html.Raw(JsonConvert.SerializeObject(facetDefinitions, new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() } })))
-            };
+            FacetDefinitions: @(Html.Raw(JsonConvert.SerializeObject(facetDefinitions, serializerSettings))),
+            FilterDefinitions: @(Html.Raw(JsonConvert.SerializeObject(filterDefinitions, serializerSettings)))
+        };
 
         var MappingOptions = {
             Ranges: {
@@ -138,6 +143,67 @@
                 exp += (range.ToValue() ? range.ToValue() : '*');
                 exp += (range.ToInclusive() ? ']' : '}');
                 return exp;
+            }
+
+            self.GetFacetHtmlName = function (index, field) {
+                return 'DataSource.Facets[' + index + '].' + field;
+            }
+
+            self.GetFacetRangeHtmlName = function (facetIndex, rangeIndex, field) {
+                return 'DataSource.Facets[' + facetIndex + '].Ranges[' + rangeIndex + '].' + field;
+            }
+
+            self.UnaddedFilterDefinitions = ko.computed(function () {
+                var result = [];
+                $.each(Metadata.FilterDefinitions, function () {
+                    var def = this;
+                    if (!_.any(self.DataSource.Filters(), function (f) { return f.Field() == def.Field })) {
+                        result.push(def);
+                    }
+                });
+
+                return result;
+            });
+
+            self.SelectedFilterName = ko.observable();
+
+            self.SelectedFilterDefinition = ko.computed(function () {
+                var filterName = self.SelectedFilterName();
+                if (!filterName) {
+                    return null;
+                }
+
+                return _.find(Metadata.FilterDefinitions, function (def) {
+                    return def.Field === filterName
+                });
+            });
+
+            self.AddSelectedFilter = function () {
+                var def = self.SelectedFilterDefinition();
+                self.DataSource.Filters.push({
+                    Field: ko.observable(def.Field),
+                    UseRangeFiltering: ko.observable(def.SupportRangeFiltering),
+                    FieldValue: ko.observable(),
+                    FromValue: ko.observable(),
+                    FromInclusive: ko.observable(true),
+                    ToValue: ko.observable(),
+                    ToInclusive: ko.observable(false)
+                });
+            }
+
+            self.IsRangeFilteringSupported = function (filterFieldName) {
+                var filter = _.find(Metadata.FilterDefinitions, function (def) {
+                    return def.Field === filterFieldName;
+                });
+                return filter.SupportRangeFiltering;
+            }
+
+            self.GetFilterHtmlName = function (index, fieldName) {
+                return 'DataSource.CommerceDataSource.Filters[' + index + '].' + fieldName;
+            }
+
+            self.GetFilterHtmlId = function (index, fieldName) {
+                return self.GetFilterHtmlName(index, fieldName).replace(/\./g, '_');
             }
         }
 

@@ -170,7 +170,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzers.cs" />
-    <Compile Include="CMSIntegration\FacetHelper.cs" />
+    <Compile Include="CMSIntegration\Filter.cs" />
+    <Compile Include="CMSIntegration\FilterDefinition.cs" />
     <Compile Include="Controllers\IndexesController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Facets\EncodedFacetRange.cs" />
