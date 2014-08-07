@@ -1,0 +1,150 @@
+﻿@using Kooboo.Commerce.Data
+@using Kooboo.Commerce.Products
+@using Kooboo.Commerce.CMSIntegration
+@using Kooboo.Commerce.Search.CMSIntegration
+@using Newtonsoft.Json
+
+@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+
+@{
+    var site = Kooboo.CMS.Sites.Models.Site.Current;
+    var instanceName = site.GetCommerceInstanceName();
+    var instance = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ICommerceInstanceManager>().GetInstance(instanceName);
+    var productTypes = instance.Database.GetRepository<ProductType>().Query().ToList();
+    var facetDefinitions = FacetHelper.GetFacetDefinitions(productTypes);
+}
+
+<script>
+
+    (function ($) {
+
+        var Metadata = {
+            FacetDefinitions: @(Html.Raw(JsonConvert.SerializeObject(facetDefinitions, new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() } })))
+            };
+
+        var MappingOptions = {
+            Ranges: {
+                create: function (args) {
+                    var vm = ko.mapping.fromJS(args.data);
+                    vm.IsEditing = ko.observable(false);
+                    vm.CanCancelEditing = ko.observable(true);
+                    return vm;
+                }
+            }
+        };
+
+        var ViewModel = function () {
+            var self = this;
+
+            self.DataSource = ko.mapping.fromJS(@(Html.Raw(JsonConvert.SerializeObject(ViewBag.CommerceDataSource))), MappingOptions);
+
+            self.SelectedFacetName = ko.observable();
+
+            self.UnaddedFacetDefinitions = ko.computed(function () {
+                var result = [];
+                $.each(Metadata.FacetDefinitions, function () {
+                    var def = this;
+                    if (!_.any(self.DataSource.Facets(), function (facet) { return facet.Name() == def.Name })) {
+                        result.push(def);
+                    }
+                });
+
+                return result;
+            });
+
+            self.SelectedFacetDefinition = ko.computed(function () {
+                var facetName = self.SelectedFacetName();
+                if (!facetName) {
+                    return null;
+                }
+
+                return _.find(Metadata.FacetDefinitions, function (def) {
+                    return def.Name === facetName
+                });
+            });
+
+            self.AddSelectedFacet = function () {
+                var def = self.SelectedFacetDefinition();
+                if (def) {
+                    var facet = {
+                        Name: ko.observable(def.Name),
+                        Ranges: ko.observableArray()
+                    };
+                    
+                    if (def.Mode === 'Ranges') {
+                        var range = self.CreateRange();
+                        range.CanCancelEditing(false);
+                        facet.Ranges.push(range);
+                    }
+
+                    self.DataSource.Facets.push(facet);
+                }
+            }
+
+            self.RemoveFacet = function (facet) {
+                self.DataSource.Facets.remove(facet);
+            }
+
+            self.AddRange = function (facet) {
+                var range = self.CreateRange();
+                range.CanCancelEditing(true);
+                facet.Ranges.push(range);
+            }
+
+            self.CreateRange = function () {
+                return {
+                    Label: ko.observable(),
+                    FromInclusive: ko.observable(true),
+                    FromValue: ko.observable(),
+                    ToInclusive: ko.observable(false),
+                    ToValue: ko.observable(),
+                    IsEditing: ko.observable(true),
+                    CanCancelEditing: ko.observable(false)
+                };
+            }
+
+            self.EditRange = function (facet, range) {
+                range.memo = ko.mapping.toJS(range);
+                range.IsEditing(true);
+            }
+
+            self.RemoveRange = function (facet, range) {
+                facet.Ranges.remove(range);
+            }
+
+            self.CommitRangeEditing = function (facet, range) {
+                delete range.memo;
+
+                range.IsEditing(false);
+                range.CanCancelEditing(true);
+            }
+
+            self.CancelRangeEditing = function (facet, range) {
+                var memo = range.memo;
+                if (memo) {
+                    delete range.memo;
+                    ko.mapping.fromJS(memo, {}, range);
+                } else {
+                    facet.Ranges.remove(range);
+                }
+                range.IsEditing(false);
+            }
+
+            self.BuildRangeExpression = function (range) {
+                var exp = '';
+                exp += (range.FromInclusive() ? '[' : '{');
+                exp += (range.FromValue() ? range.FromValue() : '*');
+                exp += ' TO ';
+                exp += (range.ToValue() ? range.ToValue() : '*');
+                exp += (range.ToInclusive() ? ']' : '}');
+                return exp;
+            }
+        }
+
+        var viewModel = new ViewModel();
+
+        ko.applyBindings(viewModel, document.getElementById('facets-datasource-main'));
+
+    })(jQuery);
+
+</script>

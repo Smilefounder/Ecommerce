@@ -41,7 +41,13 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         public string SortField { get; set; }
 
         [DataMember]
-        public SortDirection SortDirection { get; set; }
+        public string SortDirection { get; set; }
+
+        public FacetDataSource()
+        {
+            Filters = new List<Filter>();
+            Facets = new List<Facet>();
+        }
 
         public object Execute(CommerceDataSourceContext context)
         {

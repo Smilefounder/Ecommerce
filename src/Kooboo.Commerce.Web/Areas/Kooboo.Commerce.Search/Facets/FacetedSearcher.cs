@@ -95,10 +95,10 @@ namespace Kooboo.Commerce.Search.Facets
                                         if (range.Includes(termEnum.Term.Text))
                                         {
                                             FacetValue facetValue;
-                                            if (!valuesByTerm.TryGetValue(range.Name, out facetValue))
+                                            if (!valuesByTerm.TryGetValue(range.Label, out facetValue))
                                             {
-                                                facetValue = new FacetValue(range.Name, 1);
-                                                valuesByTerm.Add(range.Name, facetValue);
+                                                facetValue = new FacetValue(range.Label, 1);
+                                                valuesByTerm.Add(range.Label, facetValue);
                                             }
                                             else
                                             {

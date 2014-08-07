@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Search.Facets
     public class FacetRange
     {
         [DataMember]
-        public string Name { get; set; }
+        public string Label { get; set; }
 
         [DataMember]
         public bool FromInclusive { get; set; }
@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Search.Facets
 
         public FacetRange(string name)
         {
-            Name = name;
+            Label = name;
         }
 
         // [NULL TO 200]

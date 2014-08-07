@@ -1,34 +1,118 @@
 ﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
 
-<div class="block common-form">
+<div class="block common-form" id="facets-datasource-main">
     <table>
-        <tr>
-            <th>@("Filters".Localize())</th>
-            <td>
-                <div>
-                    <a href="#">@Html.IconImage("plus small")</a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th>@("Sort field".Localize())</th>
-            <td>
-                <input type="text" name="DataSource.SortField" data-bind="value: DataSourceSetting.DataSource.SortField" />
-            </td>
-        </tr>
-        <tr>
-            <th>@("Sort direction".Localize())</th>
-            <td>
-                <input type="text" name="DataSource.SortDirection" data-bind="value: DataSourceSetting.DataSource.SortDirection" />
-            </td>
-        </tr>
         <tr>
             <th>@("Facets".Localize())</th>
             <td>
                 <div>
-                    <a href="#">@Html.IconImage("plus small")</a>
+                    <select class="medium" data-bind="options: UnaddedFacetDefinitions, optionsText: 'Name', optionsValue: 'Name', value: SelectedFacetName"></select>
+                    <a href="#" data-bind="click: AddSelectedFacet">
+                        @Html.IconImage("plus")
+                    </a>
+                </div>
+                <div data-bind="visible: DataSource.Facets().length > 0" style="display:none;margin-top:10px" class="simple-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>@("Name".Localize())</th>
+                                <th>@("Ranges".Localize())</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: DataSource.Facets">
+                            <tr>
+                                <td data-bind="text: Name"></td>
+                                <td>
+                                    <span data-bind="visible: Ranges().length === 0">-</span>
+                                    <div data-bind="visible: Ranges().length > 0">
+                                        <div data-bind="foreach: Ranges">
+                                            <div data-bind="visible: !IsEditing()">
+                                                <span data-bind="text: Label() ? Label() : $root.BuildRangeExpression($data)"></span>
+                                                <a href="#" data-bind="click: $root.EditRange.bind($data, $parent)" style="display:inline-block">@Html.IconImage("edit small")</a>
+                                                <!-- ko if: $parent.Ranges().length > 1 -->
+                                                <a href="#" data-bind="click: $root.RemoveRange.bind($data, $parent)" style="display:inline-block">@Html.IconImage("minus small")</a>
+                                                <!-- /ko -->
+                                            </div>
+                                            <div class="common-form" data-bind="visible: IsEditing" style="margin-top:10px">
+                                                <table>
+                                                    <tr>
+                                                        <th>@("Label".Localize())</th>
+                                                        <td>
+                                                            <input type="text" class="small" data-bind="value: Label, attr: { name: 'EditedRangeLabel' + $index() }"
+                                                                   data-val="true" data-val-required="@("Required".Localize())" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>@("From value".Localize())</th>
+                                                        <td>
+                                                            <input type="text" class="small" data-bind="value: FromValue, attr: { name: 'EditedRangeFromValue' + $index() }" />
+                                                            <input type="checkbox" data-bind="checked: FromInclusive, attr: { name: 'EditedRangeFromInclusive' + $index(), id: 'EditedRangeFromInclusive' + $index() }" title="@("From value inclusive".Localize())" />
+                                                            <label class="inline" data-bind="attr: { 'for': 'EditedRangeFromInclusive' + $index() }">@("Inclusive".Localize())</label>
+                                                            <em class="tip">@("Leave empty for unlimited lower bound".Localize())</em>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>@("To value".Localize())</th>
+                                                        <td>
+                                                            <input type="text" class="small" data-bind="value: ToValue, attr: { name: 'EditedRangeToValue' + $index() }" />
+                                                            <input type="checkbox" data-bind="checked: ToInclusive, attr: { name: 'EditedRangeToInclusive' + $index(), id: 'EditedRangeToInclusive' + $index() }" title="@("To value inclusive".Localize())" />
+                                                            <label class="inline" data-bind="attr: { 'for': 'EditedRangeToInclusive' + $index() }">@("Inclusive".Localize())</label>
+                                                            <em class="tip">@("Leave empty for unlimited upper bound".Localize())</em>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th></th>
+                                                        <td>
+                                                            <a href="#" class="button" data-bind="click: $root.CommitRangeEditing.bind($data, $parent)">@("Save".Localize())</a>
+                                                            <a href="#" class="button gray" data-bind="visible: CanCancelEditing, click: $root.CancelRangeEditing.bind($data, $parent)">@("Cancel".Localize())</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:10px">
+                                            <a href="#" data-bind="click: $root.AddRange">@Html.IconImage("plus small")</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="#" data-bind="click: $root.RemoveFacet">@Html.IconImage("minus")</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </td>
         </tr>
     </table>
+    <fieldset>
+        <legend class="clickable">@Html.IconImage("arrow") @("Advanced".Localize())</legend>
+        <div style="padding-top:10px">
+            <table>
+                <tr>
+                    <th>@("Filters".Localize())</th>
+                    <td>
+                        <div>
+                            <a href="#">@Html.IconImage("plus small")</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Sort field".Localize())</th>
+                    <td>
+                        <input type="text" name="DataSource.SortField" data-bind="value: DataSource.SortField" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Sort direction".Localize())</th>
+                    <td>
+                        <input type="text" name="DataSource.SortDirection" data-bind="value: DataSource.SortDirection" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
 </div>
+
+@Html.Partial("~/Areas/Kooboo.Commerce.Search/Views/DataSource/Facets.Scripts.cshtml")

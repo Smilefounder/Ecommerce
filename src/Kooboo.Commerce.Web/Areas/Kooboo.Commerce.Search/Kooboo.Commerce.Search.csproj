@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzers.cs" />
+    <Compile Include="CMSIntegration\FacetHelper.cs" />
     <Compile Include="Controllers\IndexesController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Facets\EncodedFacetRange.cs" />
@@ -185,6 +186,8 @@
     <Compile Include="DocumentIndexers.cs" />
     <Compile Include="LuceneUtil.cs" />
     <Compile Include="Menu\SearchMenuInjection.cs" />
+    <Compile Include="CMSIntegration\FacetDefinition.cs" />
+    <Compile Include="CMSIntegration\FacetMode.cs" />
     <Compile Include="Models\IndexModel.cs" />
     <Compile Include="Rebuild\FileBasedRebuildInfoManager.cs" />
     <Compile Include="Rebuild\IIndexSource.cs" />
@@ -254,6 +257,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\DataSource\Facets.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DataSource\Facets.Scripts.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
