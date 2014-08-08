@@ -8,7 +8,6 @@ using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 using Kooboo.Commerce.Web.Framework.UI.Grid2;
-using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes.Grid2;
 

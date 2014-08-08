@@ -24,15 +24,13 @@
                 <tr>
                     <th></th>
                     <th>@("Original".Localize())</th>
-                    <th>@("Changes from last translation".Localize())</th>
                     <th>@("Translated".Localize())</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>@("Name".Localize())</td>
-                    <td>@compared.Name</td>
-                    <td>@Html.Raw(difference.Name)</td>
+                    <td>@Html.Raw(difference.Name ?? compared.Name)</td>
                     <td>
                         @Html.TextBoxFor(m => m.Name)
                         @Html.ValidationMessageFor(m => m.Name)
@@ -41,10 +39,7 @@
                 <tr>
                     <td>@("Description".Localize())</td>
                     <td>
-                        @compared.Description
-                    </td>
-                    <td>
-                        @Html.Raw(difference.Description)
+                        @Html.Raw(difference.Description ?? compared.Description)
                     </td>
                     <td>
                         @Html.TextAreaFor(m => m.Description)

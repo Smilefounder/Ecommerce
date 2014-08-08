@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Web.Grid2
+namespace Kooboo.Commerce.Web.Framework.UI.Grid2
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class BooleanColumnAttribute : GridColumnAttribute

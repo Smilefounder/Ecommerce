@@ -33,8 +33,8 @@
             </div>
         </td>
         <td data-bind="text: TranslatedName"></td>
-        <td data-bind="text: IsTranslated"></td>
-        <td data-bind="text: IsOutOfDate"></td>
+        <td data-bind="text: IsTranslated() ? '@("YES".Localize())' : '-'"></td>
+        <td data-bind="text: IsOutOfDate() ? '@("YES".Localize())' : '-'"></td>
     </tr>
     <!-- ko if: Expanded -->
     <!-- ko template: { name: 'CategoryItemTemplate', foreach: Children } --><!-- /ko -->

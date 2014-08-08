@@ -16,7 +16,6 @@
                     <tr>
                         <th></th>
                         <th>@("Original".Localize())</th>
-                        <th>@("Changes from last translation".Localize())</th>
                         <th>@("Translated".Localize())</th>
                     </tr>
                 </thead>
@@ -26,7 +25,6 @@
                         var control = controls.Find(c => c.Name == definition.ControlType);
                         <tr>
                             <th>@definition.Label</th>
-                            <td data-bind="html: $root.GetComparedVariantFieldText('@definition.Name')"></td>
                             <td>
                                 <div data-bind="html: $root.GetVariantFieldDiffHtml('@definition.Name')"></div>
                             </td>
@@ -87,7 +85,11 @@
 
             self.GetVariantFieldDiffHtml = function (fieldName) {
                 var field = self.FindVariantField(fieldName);
-                return field == null ? null : field.Diff.FieldText();
+                var html = field == null ? null : field.Diff.FieldText();
+                if (html === null || html === undefined || html === '') {
+                    html = self.GetComparedVariantFieldText(fieldName);
+                }
+                return html;
             }
 
             self.GetTranslatedVariantFieldText = function (fieldName) {

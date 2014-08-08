@@ -17,11 +17,11 @@
 
 <div id="indexes-main">
     <div data-bind="foreach: Indexes" id="index-list">
-        <div class="content-block database index-item" data-bind="click: $root.ToggleSelect, attr: { id: 'index-item-' + Name() }, css: { 'checked': Selected, 'can-rebuild': !IsRebuilding(), 'can-cancel': IsRebuilding }">
+        <div class="content-block database index-item" data-bind="click: $root.ToggleSelect, attr: { id: 'index-item-' + $root.ToValidHtmlId(Name()) }, css: { 'checked': Selected, 'can-rebuild': !IsRebuilding(), 'can-cancel': IsRebuilding }">
             <div class="content-block-header">
                 <a href="#" data-bind="text: Name"></a>
-                <input type="radio" name="select" class="select" data-bind="attr: { value: Name, id: 'Indexes-' + Name() }, checked: Selected() ? Name() : ''" data-id-property="Name" />
-                <label data-bind="attr: { for: 'Indexes-' + Name() }"></label>
+                <input type="radio" name="select" class="select" data-bind="attr: { value: Name, id: 'Indexes-' + $root.ToValidHtmlId(Name()) }, checked: Selected() ? Name() : ''" data-id-property="Name" />
+                <label data-bind="attr: { for: 'Indexes-' + $root.ToValidHtmlId(Name()) }"></label>
                 <span class="corner"></span>
             </div>
             <ul>
@@ -47,6 +47,11 @@
             var self = this;
 
             self.Indexes = ko.observableArray();
+
+            self.ToValidHtmlId = function (id) {
+                id = ko.utils.unwrapObservable(id);
+                return id.replace(/[^\w\-_]/ig, '_');
+            }
 
             self.ToggleSelect = function (indexItem, e) {
                 if (indexItem.Selected()) {

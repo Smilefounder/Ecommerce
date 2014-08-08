@@ -34,7 +34,6 @@
                         <tr>
                             <th></th>
                             <th>@("Original".Localize())</th>
-                            <th>@("Changes from last translation".Localize())</th>
                             <th>@("Translated".Localize())</th>
                         </tr>
                     </thead>
@@ -42,10 +41,7 @@
                         <tr>
                             <td>@("Name".Localize())</td>
                             <td>
-                                @compared.Name
-                            </td>
-                            <td>
-                                @Html.Raw(difference.Name)
+                                @Html.Raw(difference.Name ?? compared.Name)
                             </td>
                             <td>
                                 @Html.TextBoxFor(m => m.Name)
@@ -62,8 +58,7 @@
 
                             <tr>
                                 <td>@definition.Label</td>
-                                <td>@Html.Raw(comparedField.FieldText)</td>
-                                <td>@Html.Raw(diffField.FieldText)</td>
+                                <td>@Html.Raw(diffField.FieldText ?? comparedField.FieldText)</td>
                                 <td>
                                     <input type="hidden" name="CustomFields[@i].FieldName" value="@field.FieldName" />
                                     @if (control.IsSelectionList || control.IsValuesPredefined)

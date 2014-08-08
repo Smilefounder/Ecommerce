@@ -1,6 +1,5 @@
 ﻿using Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods.Grid2;
 using Kooboo.Commerce.Web.Framework.UI.Grid2;
-using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;
 using System;
 using System.Collections.Generic;

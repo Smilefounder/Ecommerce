@@ -19,10 +19,10 @@ namespace Kooboo.Commerce.Multilingual.Models
         [GridColumn(HeaderText = "Translated name")]
         public string TranslatedName { get; set; }
 
-        [GridColumn(HeaderText = "Translated")]
+        [BooleanColumn(HeaderText = "Translated")]
         public bool IsTranslated { get; set; }
 
-        [GridColumn(HeaderText = "Out of date")]
+        [BooleanColumn(HeaderText = "Out of date")]
         public bool IsOutOfDate { get; set; }
 
         public BrandGridItemModel() { }

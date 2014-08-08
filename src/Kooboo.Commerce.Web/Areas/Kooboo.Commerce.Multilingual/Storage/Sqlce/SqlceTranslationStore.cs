@@ -49,6 +49,22 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
             return result;
         }
 
+        public int TotalTranslated(CultureInfo culture, Type entityType)
+        {
+            using (var db = new MultilingualDbContext(CurrentInstance().Name))
+            {
+                return db.Translations.Where(it => it.Culture == culture.Name && it.EntityType == entityType.Name).Count();
+            }
+        }
+
+        public int TotalOutOfDate(CultureInfo culture, Type entityType)
+        {
+            using (var db = new MultilingualDbContext(CurrentInstance().Name))
+            {
+                return db.Translations.Where(it => it.Culture == culture.Name && it.EntityType == entityType.Name && it.IsOutOfDate).Count();
+            }
+        }
+
         public Pagination<EntityTransaltion> FindOutOfDate(CultureInfo culture, Type entityType, int pageInex, int pageSize)
         {
             using (var db = new MultilingualDbContext(CurrentInstance().Name))

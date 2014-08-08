@@ -14,6 +14,10 @@ namespace Kooboo.Commerce.Multilingual.Storage
 
         EntityTransaltion[] Find(CultureInfo culture, params EntityKey[] keys);
 
+        int TotalTranslated(CultureInfo culture, Type entityType);
+
+        int TotalOutOfDate(CultureInfo culture, Type entityType);
+
         Pagination<EntityTransaltion> FindOutOfDate(CultureInfo culture, Type entityType, int pageIndex, int pageSize); 
 
         /// <summary>

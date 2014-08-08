@@ -19,29 +19,25 @@
                                 <tr>
                                     <th></th>
                                     <th>@("Original".Localize())</th>
-                                    <th>@("Change from last translation".Localize())</th>
                                     <th>@("Translated".Localize())</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <th>@("Name".Localize())</th>
-                                    <td data-bind="text: Compared.Name"></td>
-                                    <td data-bind="html: Difference.Name"></td>
+                                    <td data-bind="html: Compared.Name"></td>
                                     <td data-bind="text: Compared.Name"></td>
                                 </tr>
                                 <tr>
                                     <th>@("Label".Localize())</th>
-                                    <td data-bind="text: Compared.Label"></td>
-                                    <td data-bind="html: Difference.Label"></td>
+                                    <td data-bind="html: $root.GetDifferenceOrCompared(Difference.Label(), Compared.Label())"></td>
                                     <td>
                                         <input type="text" name="Label" class="medium" maxlength="50" data-bind="value: Translated.Label" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>@("Default value".Localize())</th>
-                                    <td data-bind="text: Compared.DefaultValue"></td>
-                                    <td data-bind="html: Difference.DefaultValue"></td>
+                                    <td data-bind="html: $root.GetDifferenceOrCompared(Difference.DefaultValue(), Compared.DefaultValue())"></td>
                                     <td>
                                         <input type="text" name="DefaultValue" class="medium" data-bind="value: Translated.DefaultValue" />
                                     </td>
@@ -54,14 +50,12 @@
                             <thead>
                                 <tr>
                                     <th>@("Original".Localize())</th>
-                                    <th>@("Changes from last translation".Localize())</th>
                                     <th>@("Translated".Localize())</th>
                                 </tr>
                             </thead>
                             <tbody data-bind="foreach: SelectionItemTranslations">
                                 <tr>
-                                    <td data-bind="text: OriginalText"></td>
-                                    <td data-bind="html: TextDiff"></td>
+                                    <td data-bind="html: $root.GetDifferenceOrCompared(TextDiff(), OriginalText())"></td>
                                     <td>
                                         <input type="text" class="medium" data-bind="value: TranslatedText, attr: { name: 'SelectionItemTranslations_' + $index() + '_TranslatedText' }" />
                                     </td>
@@ -93,6 +87,13 @@
             self.Difference = ko.mapping.fromJS(DefaultModel);
 
             self.Translated = ko.mapping.fromJS(DefaultModel);
+
+            self.GetDifferenceOrCompared = function (diff, compared) {
+                if (diff === null || diff === undefined || diff === '') {
+                    return compared;
+                }
+                return diff;
+            }
 
             self.HasSelectionItems = ko.computed(function () {
                 var control = Controls[self.Compared.ControlType()];

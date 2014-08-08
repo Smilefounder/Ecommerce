@@ -6,7 +6,6 @@ using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Payments;
 using Kooboo.Web.Mvc.Grid2.Design;
-using Kooboo.Commerce.Web.Grid2;
 using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 using Kooboo.Commerce.Web.Framework.UI.Grid2;
 
