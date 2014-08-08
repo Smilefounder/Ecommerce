@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Search.Rebuild
         {
             return _tasks.GetOrAdd(new IndexKey(instance, documentType, culture), key =>
             {
-                return new RebuildTask(IndexSources.GetIndexSource(documentType), new RebuildTaskContext(instance, documentType, culture));
+                return new RebuildTask(DocumentSources.GetIndexSource(documentType), new RebuildTaskContext(instance, documentType, culture));
             });
         }
     }

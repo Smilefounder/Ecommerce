@@ -2,17 +2,18 @@
 using Lucene.Net.Analysis;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using Lucene.Net.Linq;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
 namespace Kooboo.Commerce.Search
 {
-    public class DocumentIndexer : IDisposable
+    public class IndexStore : IDisposable
     {
         private Directory _directory;
         private readonly object _lock = new object();
@@ -21,17 +22,12 @@ namespace Kooboo.Commerce.Search
 
         public Type DocumentType { get; private set; }
 
-        public DocumentIndexer(Type documentType, Directory directory, Analyzer analyzer)
+        public IndexStore(Type documentType, Directory directory, Analyzer analyzer)
         {
             DocumentType = documentType;
             _directory = directory;
             _writer = new IndexWriter(_directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
             _searcher = new IndexSearcher(_writer.GetReader());
-        }
-
-        public IndexReader GetReader()
-        {
-            return GetSearcher().IndexReader;
         }
 
         private IndexSearcher GetSearcher()
@@ -60,17 +56,18 @@ namespace Kooboo.Commerce.Search
             return GetSearcher().Search(query, filter, topN, sort);
         }
 
-        public IList<FacetResult> Facets(Query query, IEnumerable<Facet> facets)
+        public IList<FacetResult> GetFacets(Query query, IEnumerable<Facet> facets)
         {
             var searcher = new FacetedSearcher(GetSearcher());
             return searcher.Search(query, facets);
         }
 
-        public void Index(Document document)
+        public void Index(object model)
         {
+            var doc = DocumentBuilder.Build(model);
             var keyFieldName = GetKeyFieldName();
-            _writer.DeleteDocuments(new Term(keyFieldName, document.GetField(keyFieldName).StringValue));
-            _writer.AddDocument(document);
+            _writer.DeleteDocuments(new Term(keyFieldName, doc.GetField(keyFieldName).StringValue));
+            _writer.AddDocument(doc);
         }
 
         public void Delete(object key)

@@ -11,6 +11,9 @@ namespace Kooboo.Commerce.Search.Facets
         public string Name { get; set; }
 
         [DataMember]
+        public string Field { get; set; }
+
+        [DataMember]
         public IList<FacetRange> Ranges { get; set; }
     }
 }

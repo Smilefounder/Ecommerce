@@ -6,16 +6,16 @@ using System.Web;
 
 namespace Kooboo.Commerce.Search.Rebuild
 {
-    public static class IndexSources
+    public static class DocumentSources
     {
-        public static readonly Dictionary<Type, IIndexSource> _sources = new Dictionary<Type, IIndexSource>();
+        public static readonly Dictionary<Type, IDocumentSource> _sources = new Dictionary<Type, IDocumentSource>();
 
-        public static IIndexSource GetIndexSource(Type documentType)
+        public static IDocumentSource GetIndexSource(Type documentType)
         {
             return _sources[documentType];
         }
 
-        static IndexSources()
+        static DocumentSources()
         {
             _sources.Add(typeof(Product), new ProductIndexSource());
         }

@@ -10,15 +10,17 @@ namespace Kooboo.Commerce.Search.CMSIntegration
     {
         public string Name { get; set; }
 
+        public string Field { get; set; }
+
         public FacetMode Mode { get; set; }
 
         public static IList<FacetDefinition> GetFacetDefinitions(IEnumerable<ProductType> productTypes)
         {
             var facets = new List<FacetDefinition>
             {
-                new FacetDefinition { Name = "Brand", Mode = FacetMode.Default },
-                new FacetDefinition { Name = "Category", Mode = FacetMode.Default },
-                new FacetDefinition { Name = "Price", Mode = FacetMode.Ranges }
+                new FacetDefinition { Name = "Brand", Field = "Brand", Mode = FacetMode.Default },
+                new FacetDefinition { Name = "Category", Field = "Categories", Mode = FacetMode.Default },
+                new FacetDefinition { Name = "Price", Field = "Prices", Mode = FacetMode.Ranges }
             };
 
             foreach (var productType in productTypes)
@@ -30,6 +32,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                         facets.Add(new FacetDefinition
                         {
                             Name = fieldDef.Name,
+                            Field = fieldDef.Name,
                             Mode = FacetMode.Default
                         });
                     }

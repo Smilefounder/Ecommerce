@@ -11,6 +11,9 @@ namespace Kooboo.Commerce.Search.CMSIntegration
     public class Filter
     {
         [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
         public string Field { get; set; }
 
         [DataMember]

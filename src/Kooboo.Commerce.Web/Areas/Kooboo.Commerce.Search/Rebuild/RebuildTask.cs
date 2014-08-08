@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Search.Rebuild
         private ManualResetEventSlim _cancelledEvent = new ManualResetEventSlim(false);
         private bool _cancelling = false;
         private readonly object _statusLock = new object();
-        private IIndexSource _source;
+        private IDocumentSource _source;
         private IRebuildInfoManager _taskInfoManager;
 
         public int Progress { get; private set; }
@@ -28,12 +28,12 @@ namespace Kooboo.Commerce.Search.Rebuild
 
         public Func<ICommerceInstanceManager> GetCommerceInstanceManager = () => EngineContext.Current.Resolve<ICommerceInstanceManager>();
 
-        public RebuildTask(IIndexSource source, RebuildTaskContext context)
+        public RebuildTask(IDocumentSource source, RebuildTaskContext context)
             : this(source, context, new FileBasedRebuildInfoManager())
         {
         }
 
-        public RebuildTask(IIndexSource source, RebuildTaskContext context, IRebuildInfoManager taskInfoManager)
+        public RebuildTask(IDocumentSource source, RebuildTaskContext context, IRebuildInfoManager taskInfoManager)
         {
             Require.NotNull(source, "source");
             Require.NotNull(context, "context");
@@ -101,12 +101,12 @@ namespace Kooboo.Commerce.Search.Rebuild
 
         private void DoWork(CommerceInstance instance)
         {
-            DocumentIndexer indexer = null;
+            IndexStore indexer = null;
 
             try
             {
-                var rebuildDirectory = DocumentIndexers.GetDirectory(Context.Instance, Context.DocumentType, Context.Culture, true);
-                var liveDirectory = DocumentIndexers.GetDirectory(Context.Instance, Context.DocumentType, Context.Culture, false);
+                var rebuildDirectory = IndexStores.GetDirectory(Context.Instance, Context.Culture, Context.DocumentType, true);
+                var liveDirectory = IndexStores.GetDirectory(Context.Instance, Context.Culture, Context.DocumentType, false);
 
                 // Ensure temp folder are deleted (last rebuild might encounter errors when deleting the temp folder)
                 Kooboo.IO.IOUtility.DeleteDirectory(rebuildDirectory, true);
@@ -117,7 +117,7 @@ namespace Kooboo.Commerce.Search.Rebuild
 
                 Progress = 0;
 
-                indexer = new DocumentIndexer(Context.DocumentType, FSDirectory.Open(rebuildDirectory), Analyzers.GetAnalyzer(Context.Culture));
+                indexer = new IndexStore(Context.DocumentType, FSDirectory.Open(rebuildDirectory), Analyzers.GetAnalyzer(Context.Culture));
 
                 foreach (var data in _source.Enumerate(instance, Context.DocumentType, Context.Culture))
                 {
@@ -126,11 +126,7 @@ namespace Kooboo.Commerce.Search.Rebuild
                         break;
                     }
 
-                    var doc = _source.CreateDocument(data, instance, Context.DocumentType, Context.Culture);
-                    if (doc != null)
-                    {
-                        indexer.Index(doc);
-                    }
+                    indexer.Index(data);
 
                     totalRebuilt++;
                     Progress = (int)Math.Round(totalRebuilt * 100 / (double)total);
@@ -165,7 +161,7 @@ namespace Kooboo.Commerce.Search.Rebuild
 
                     // Replace old index files with the new ones
 
-                    DocumentIndexers.CloseLiveIndexer(Context.Instance, Context.DocumentType, Context.Culture);
+                    IndexStores.Close(Context.Instance, Context.Culture, Context.DocumentType);
 
                     var liveDirectoryExists = System.IO.Directory.Exists(liveDirectory);
                     if (liveDirectoryExists)

@@ -8,6 +8,8 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 {
     public class FilterDefinition
     {
+        public string Name { get; set; }
+
         public string Field { get; set; }
 
         public bool SupportRangeFiltering { get; set; }
@@ -16,9 +18,9 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         {
             var filters = new List<FilterDefinition>
             {
-                new FilterDefinition { Field = "Brand" },
-                new FilterDefinition { Field = "Category" },
-                new FilterDefinition { Field = "MinPrice", SupportRangeFiltering = true }
+                new FilterDefinition { Name = "Brand", Field = "Brand" },
+                new FilterDefinition { Name = "Category", Field = "Categories" },
+                new FilterDefinition { Name = "MinPrice", Field = "MinPrice", SupportRangeFiltering = true }
             };
 
             foreach (var productType in productTypes)
@@ -29,6 +31,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                     {
                         filters.Add(new FilterDefinition
                         {
+                            Name = fieldDef.Name,
                             Field = fieldDef.Name
                         });
                     }

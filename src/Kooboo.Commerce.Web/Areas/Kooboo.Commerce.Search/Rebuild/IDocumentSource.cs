@@ -9,12 +9,10 @@ using System.Web;
 
 namespace Kooboo.Commerce.Search.Rebuild
 {
-    public interface IIndexSource
+    public interface IDocumentSource
     {
         int Count(CommerceInstance instance, Type documentType, CultureInfo culture);
 
         IEnumerable Enumerate(CommerceInstance instance, Type documentType, CultureInfo culture);
-
-        Document CreateDocument(object data, CommerceInstance instance, Type documentType, CultureInfo culture);
     }
 }

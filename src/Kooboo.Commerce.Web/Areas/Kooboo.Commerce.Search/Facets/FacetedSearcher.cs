@@ -26,14 +26,14 @@ namespace Kooboo.Commerce.Search.Facets
             // Key: Facet name, Value: { Key: Term }
             var facetsByName = new Dictionary<string, Dictionary<string, FacetValue>>();
             var encodedRanges = facets.Where(f => f.Ranges != null && f.Ranges.Count > 0)
-                                      .ToDictionary(f => f.Name, f => f.Ranges.Select(r => EncodedFacetRange.Encode(r)).ToList());
+                                      .ToDictionary(f => f.Field, f => f.Ranges.Select(r => EncodedFacetRange.Encode(r)).ToList());
 
             using (var termDocs = reader.TermDocs())
             {
                 foreach (var facet in facets)
                 {
                     var isRangeFacet = facet.Ranges != null && facet.Ranges.Count > 0;
-                    var field = facet.Name;
+                    var field = facet.Field;
 
                     // Loop all terms of the specified field
                     using (var termEnum = reader.Terms(new Term(field)))
@@ -91,7 +91,7 @@ namespace Kooboo.Commerce.Search.Facets
                                 }
                                 else
                                 {
-                                    foreach (var range in encodedRanges[facet.Name])
+                                    foreach (var range in encodedRanges[facet.Field])
                                     {
                                         if (range.Includes(termEnum.Term.Text))
                                         {

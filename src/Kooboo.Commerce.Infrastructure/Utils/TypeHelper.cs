@@ -9,6 +9,11 @@ namespace Kooboo.Commerce.Utils
 {
     public static class TypeHelper
     {
+        public static bool IsSimpleType(Type type)
+        {
+            return type.IsValueType || type == typeof(String);
+        }
+
         public static Type GetType(object entity)
         {
             return ObjectContext.GetObjectType(entity.GetType());

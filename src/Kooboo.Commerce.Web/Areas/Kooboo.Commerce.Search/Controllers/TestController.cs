@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Products;
+using Kooboo.Commerce.Search.Documents;
 using Kooboo.Commerce.Search.Facets;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
@@ -15,13 +16,11 @@ namespace Kooboo.Commerce.Search.Controllers
     {
         public void Index()
         {
-            var indexer = DocumentIndexers.GetLiveIndexer("Vitaminstore", typeof(Product), CultureInfo.InvariantCulture);
-            var doc = indexer.Search(new MatchAllDocsQuery(), Int32.MaxValue);
-            Response.Write(doc.TotalHits);
+            var indexer = IndexStores.Get<ProductDocument>("Vitaminstore", CultureInfo.InvariantCulture);
 
-            var results = indexer.Facets(new MatchAllDocsQuery(), new Facet[] {
-                new Facet { Name = "Brand" },
-                new Facet { Name = "Price", Ranges = new List<FacetRange>
+            var results = indexer.GetFacets(new MatchAllDocsQuery(), new Facet[] {
+                new Facet { Field = "Brand" },
+                new Facet { Field = "Price", Ranges = new List<FacetRange>
                 {
                     FacetRange.Parse("[0 TO 5000}", "[0 TO 5000}"),
                     FacetRange.Parse("[5000 TO 10000}", "[5000 TO 10000}"),

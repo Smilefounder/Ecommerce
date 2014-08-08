@@ -73,6 +73,7 @@
                 if (def) {
                     var facet = {
                         Name: ko.observable(def.Name),
+                        Field: ko.observable(def.Field),
                         Ranges: ko.observableArray()
                     };
                     
@@ -174,13 +175,14 @@
                 }
 
                 return _.find(Metadata.FilterDefinitions, function (def) {
-                    return def.Field === filterName
+                    return def.Name === filterName
                 });
             });
 
             self.AddSelectedFilter = function () {
                 var def = self.SelectedFilterDefinition();
                 self.DataSource.Filters.push({
+                    Name: ko.observable(def.Name),
                     Field: ko.observable(def.Field),
                     UseRangeFiltering: ko.observable(def.SupportRangeFiltering),
                     FieldValue: ko.observable(),
@@ -189,6 +191,10 @@
                     ToValue: ko.observable(),
                     ToInclusive: ko.observable(false)
                 });
+            }
+
+            self.RemoveFilter = function (filter) {
+                self.DataSource.Filters.remove(filter);
             }
 
             self.IsRangeFilteringSupported = function (filterFieldName) {

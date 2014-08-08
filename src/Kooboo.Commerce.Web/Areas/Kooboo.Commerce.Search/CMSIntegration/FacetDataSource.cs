@@ -11,6 +11,7 @@ using System.Globalization;
 using Lucene.Net.Search;
 using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Search.Documents;
 
 namespace Kooboo.Commerce.Search.CMSIntegration
 {
@@ -64,8 +65,8 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                 }
             }
 
-            var indexer = DocumentIndexers.GetLiveIndexer(context.Instance, typeof(Product), culture);
-            return indexer.Facets(BuildQuery(), Facets);
+            var store = IndexStores.Get<ProductDocument>(context.Instance, culture);
+            return store.GetFacets(BuildQuery(), Facets);
         }
 
         // TODO: Complete it
