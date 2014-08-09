@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Search.Rebuild
         private ManualResetEventSlim _cancelledEvent = new ManualResetEventSlim(false);
         private bool _cancelling = false;
         private readonly object _statusLock = new object();
-        private IDocumentSource _source;
+        private IIndexSource _source;
         private IRebuildInfoManager _taskInfoManager;
 
         public int Progress { get; private set; }
@@ -28,12 +28,12 @@ namespace Kooboo.Commerce.Search.Rebuild
 
         public Func<ICommerceInstanceManager> GetCommerceInstanceManager = () => EngineContext.Current.Resolve<ICommerceInstanceManager>();
 
-        public RebuildTask(IDocumentSource source, RebuildTaskContext context)
+        public RebuildTask(IIndexSource source, RebuildTaskContext context)
             : this(source, context, new FileBasedRebuildInfoManager())
         {
         }
 
-        public RebuildTask(IDocumentSource source, RebuildTaskContext context, IRebuildInfoManager taskInfoManager)
+        public RebuildTask(IIndexSource source, RebuildTaskContext context, IRebuildInfoManager taskInfoManager)
         {
             Require.NotNull(source, "source");
             Require.NotNull(context, "context");
@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.Search.Rebuild
 
         public RebuildInfo GetTaskInfo()
         {
-            return _taskInfoManager.Load(new IndexKey(Context.Instance, Context.DocumentType, Context.Culture)) ?? new RebuildInfo();
+            return _taskInfoManager.Load(new IndexKey(Context.Instance, Context.ModelType, Context.Culture)) ?? new RebuildInfo();
         }
 
         public void Cancel()
@@ -101,32 +101,32 @@ namespace Kooboo.Commerce.Search.Rebuild
 
         private void DoWork(CommerceInstance instance)
         {
-            IndexStore indexer = null;
+            IndexStore store = null;
 
             try
             {
-                var rebuildDirectory = IndexStores.GetDirectory(Context.Instance, Context.Culture, Context.DocumentType, true);
-                var liveDirectory = IndexStores.GetDirectory(Context.Instance, Context.Culture, Context.DocumentType, false);
+                var rebuildDirectory = IndexStores.GetDirectory(Context.Instance, Context.Culture, Context.ModelType, true);
+                var liveDirectory = IndexStores.GetDirectory(Context.Instance, Context.Culture, Context.ModelType, false);
 
                 // Ensure temp folder are deleted (last rebuild might encounter errors when deleting the temp folder)
                 Kooboo.IO.IOUtility.DeleteDirectory(rebuildDirectory, true);
                 Kooboo.IO.IOUtility.DeleteDirectory(liveDirectory + "-tmp", true);
 
-                var total = _source.Count(instance, Context.DocumentType, Context.Culture);
+                var total = _source.Count(instance, Context.Culture);
                 var totalRebuilt = 0;
 
                 Progress = 0;
 
-                indexer = new IndexStore(Context.DocumentType, FSDirectory.Open(rebuildDirectory), Analyzers.GetAnalyzer(Context.Culture));
+                store = new IndexStore(Context.ModelType, FSDirectory.Open(rebuildDirectory), Analyzers.GetAnalyzer(Context.Culture));
 
-                foreach (var data in _source.Enumerate(instance, Context.DocumentType, Context.Culture))
+                foreach (var data in _source.Enumerate(instance, Context.Culture))
                 {
                     if (_cancelling)
                     {
                         break;
                     }
 
-                    indexer.Index(data);
+                    store.Index(data);
 
                     totalRebuilt++;
                     Progress = (int)Math.Round(totalRebuilt * 100 / (double)total);
@@ -134,7 +134,7 @@ namespace Kooboo.Commerce.Search.Rebuild
 
                 if (_cancelling)
                 {
-                    indexer.Dispose();
+                    store.Dispose();
 
                     UpdateTaskInfo(info =>
                     {
@@ -149,8 +149,8 @@ namespace Kooboo.Commerce.Search.Rebuild
                 }
                 else
                 {
-                    indexer.Commit();
-                    indexer.Dispose();
+                    store.Commit();
+                    store.Dispose();
 
                     UpdateTaskInfo(info =>
                     {
@@ -161,7 +161,7 @@ namespace Kooboo.Commerce.Search.Rebuild
 
                     // Replace old index files with the new ones
 
-                    IndexStores.Close(Context.Instance, Context.Culture, Context.DocumentType);
+                    IndexStores.Close(Context.Instance, Context.Culture, Context.ModelType);
 
                     var liveDirectoryExists = System.IO.Directory.Exists(liveDirectory);
                     if (liveDirectoryExists)
@@ -184,9 +184,9 @@ namespace Kooboo.Commerce.Search.Rebuild
             }
             catch (Exception ex)
             {
-                if (indexer != null)
+                if (store != null)
                 {
-                    indexer.Dispose();
+                    store.Dispose();
                 }
 
                 UpdateTaskInfo(info =>
@@ -202,7 +202,7 @@ namespace Kooboo.Commerce.Search.Rebuild
 
         protected void UpdateTaskInfo(Action<RebuildInfo> action)
         {
-            var indexKey = new IndexKey(Context.Instance, Context.DocumentType, Context.Culture);
+            var indexKey = new IndexKey(Context.Instance, Context.ModelType, Context.Culture);
             var info = _taskInfoManager.Load(indexKey) ?? new RebuildInfo();
             action(info);
             _taskInfoManager.Save(indexKey, info);

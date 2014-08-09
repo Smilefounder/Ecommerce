@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Search
 {
-    static class IndexUtil
+    static class LuceneUtility
     {
         public static string ToFieldStringValue(object value)
         {

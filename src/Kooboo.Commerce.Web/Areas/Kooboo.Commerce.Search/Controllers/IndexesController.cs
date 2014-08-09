@@ -11,6 +11,7 @@ using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Search.Rebuild;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Search.Controllers.Models;
+using Kooboo.Commerce.Search.Models;
 
 namespace Kooboo.Commerce.Search.Controllers
 {
@@ -26,11 +27,11 @@ namespace Kooboo.Commerce.Search.Controllers
         public ActionResult Index()
         {
             var models = new List<IndexModel>();
-            models.AddRange(CreateIndexModels("Products", typeof(Product)));
+            models.AddRange(CreateIndexModels("Products", typeof(ProductModel)));
             return View(models);
         }
 
-        private List<IndexModel> CreateIndexModels(string name, Type documentType)
+        private List<IndexModel> CreateIndexModels(string name, Type modelType)
         {
             var languages = new List<string> { String.Empty };
             languages.AddRange(_languageStore.All().Select(l => l.Name));
@@ -43,10 +44,10 @@ namespace Kooboo.Commerce.Search.Controllers
                 {
                     Name = name + (!String.IsNullOrEmpty(lang) ? " (" + lang + ")" : String.Empty),
                     Culture = lang,
-                    DocumentType = documentType.AssemblyQualifiedNameWithoutVersion()
+                    DocumentType = modelType.AssemblyQualifiedNameWithoutVersion()
                 };
 
-                var task = RebuildTasks.GetTask(CurrentInstance.Name, documentType, CultureInfo.GetCultureInfo(lang));
+                var task = RebuildTasks.GetTask(CurrentInstance.Name, modelType, CultureInfo.GetCultureInfo(lang));
                 UpdateIndexModel(model, task);
 
                 models.Add(model);

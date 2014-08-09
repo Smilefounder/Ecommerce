@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Search.Rebuild
             return DataFolders.Instances.GetFolder(key.Instance)
                                         .GetFolder("Indexes")
                                         .GetFolder("RebuildInfos", DataFileFormats.Json)
-                                        .GetFile(key.DocumentType.Name + (String.IsNullOrEmpty(key.Culture.Name) ? String.Empty : "-" + key.Culture.Name) + ".json");
+                                        .GetFile(key.ModelType.Name + (String.IsNullOrEmpty(key.Culture.Name) ? String.Empty : "-" + key.Culture.Name) + ".json");
         }
     }
 }

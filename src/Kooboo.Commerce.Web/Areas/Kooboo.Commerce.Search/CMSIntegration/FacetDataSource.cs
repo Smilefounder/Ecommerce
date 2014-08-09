@@ -74,7 +74,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 
             if (Filters != null)
             {
-                query = query.ApplyFilters(ParseFilters(context));
+                query = query.ApplyFilters(ParseFilters(context), culture);
             }
 
             return query.ToFacets(Facets);

@@ -1,5 +1,6 @@
 ﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Search.Facets;
+using Lucene.Net.Analysis;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 using System;
@@ -87,7 +88,7 @@ namespace Kooboo.Commerce.Search
             }
             else
             {
-                query = new TermRangeQuery(field, IndexUtil.ToFieldStringValue(fromValue), IndexUtil.ToFieldStringValue(toValue), fromInclusive, toInclusive);
+                query = new TermRangeQuery(field, LuceneUtility.ToFieldStringValue(fromValue), LuceneUtility.ToFieldStringValue(toValue), fromInclusive, toInclusive);
             }
 
             return And(query);
@@ -117,7 +118,7 @@ namespace Kooboo.Commerce.Search
                 }
                 else
                 {
-                    sortType = IndexUtil.GetSortType(property.PropertyType);
+                    sortType = LuceneUtility.GetSortType(property.PropertyType);
                 }
             }
 
@@ -194,7 +195,7 @@ namespace Kooboo.Commerce.Search
 
         private TermQuery CreateTermQuery(string field, object value)
         {
-            return new TermQuery(new Term(field, IndexUtil.ToFieldStringValue(value)));
+            return new TermQuery(new Term(field, LuceneUtility.ToFieldStringValue(value)));
         }
 
         private IndexQuery And(Query query)

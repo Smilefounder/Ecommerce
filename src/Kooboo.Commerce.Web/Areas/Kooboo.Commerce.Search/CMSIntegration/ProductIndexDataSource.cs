@@ -67,7 +67,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
             // Apply filters
             if (Filters != null)
             {
-                query = query.ApplyFilters(ParseFilters(context));
+                query = query.ApplyFilters(ParseFilters(context), culture);
             }
 
             // Apply sorting

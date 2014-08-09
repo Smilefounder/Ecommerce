@@ -45,17 +45,17 @@ namespace Kooboo.Commerce.Search
 
             if (TypeHelper.IsSimpleType(prop.PropertyType))
             {
-                return IndexUtil.FromFieldStringValue(fieldValue, prop.PropertyType);
+                return LuceneUtility.FromFieldStringValue(fieldValue, prop.PropertyType);
             }
 
             var propTypeInfo = ModelTypeInfo.GetTypeInfo(prop.PropertyType);
             if (propTypeInfo.IsDictionary)
             {
-                return IndexUtil.FromFieldStringValue(fieldValue, propTypeInfo.DictionaryValueType);
+                return LuceneUtility.FromFieldStringValue(fieldValue, propTypeInfo.DictionaryValueType);
             }
             else if (propTypeInfo.IsCollection)
             {
-                return IndexUtil.FromFieldStringValue(fieldValue, propTypeInfo.ElementType);
+                return LuceneUtility.FromFieldStringValue(fieldValue, propTypeInfo.ElementType);
             }
 
             return null;
@@ -180,7 +180,7 @@ namespace Kooboo.Commerce.Search
                     var field = document.GetField(prop.Name);
                     if (field != null)
                     {
-                        var propValue = IndexUtil.FromFieldStringValue(field.StringValue, prop.PropertyType);
+                        var propValue = LuceneUtility.FromFieldStringValue(field.StringValue, prop.PropertyType);
                         prop.SetValue(model, propValue, null);
                     }
                 }
@@ -211,7 +211,7 @@ namespace Kooboo.Commerce.Search
 
                                     if (TryParseDictionaryFieldName(field.Name, out propName, out dicKey))
                                     {
-                                        var fieldValue = IndexUtil.FromFieldStringValue(field.StringValue, propTypeInfo.DictionaryValueType);
+                                        var fieldValue = LuceneUtility.FromFieldStringValue(field.StringValue, propTypeInfo.DictionaryValueType);
                                         dic.Add(dicKey, fieldValue);
                                     }
                                 }
@@ -240,7 +240,7 @@ namespace Kooboo.Commerce.Search
 
                                         if (TryParseDictionaryFieldName(field.Name, out propName, out dicKey))
                                         {
-                                            var fieldValue = IndexUtil.FromFieldStringValue(field.StringValue, dicValueTypeInfo.ElementType);
+                                            var fieldValue = LuceneUtility.FromFieldStringValue(field.StringValue, dicValueTypeInfo.ElementType);
                                             if (!dic.Contains(dicKey))
                                             {
                                                 dic.Add(dicKey, Activator.CreateInstance(newDicValueType));
@@ -273,7 +273,7 @@ namespace Kooboo.Commerce.Search
 
                             foreach (var field in fields)
                             {
-                                var fieldValue = IndexUtil.FromFieldStringValue(field.StringValue, propTypeInfo.ElementType);
+                                var fieldValue = LuceneUtility.FromFieldStringValue(field.StringValue, propTypeInfo.ElementType);
                                 list.Add(fieldValue);
                             }
 

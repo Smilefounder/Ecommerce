@@ -115,6 +115,8 @@
                                     <strong data-bind="text: Name"></strong>
                                     <input type="hidden" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'Name') }, value: Name" />
                                     <input type="hidden" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'Field') }, value: Field" />
+                                    <input type="hidden" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'LowercaseInput') }, value: LowercaseInput() ? 'true' : 'false'" />
+
                                     <a style="float:right" data-bind="click: $root.RemoveFilter">
                                         @Html.IconImage("minus small")
                                     </a>

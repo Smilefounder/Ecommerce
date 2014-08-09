@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace Kooboo.Commerce.Search.Rebuild
 {
-    public class ProductIndexSource : IDocumentSource
+    public class ProductIndexSource : IIndexSource
     {
-        public int Count(CommerceInstance instance, Type documentType, CultureInfo culture)
+        public int Count(CommerceInstance instance, CultureInfo culture)
         {
             return Query(instance).Count();
         }
@@ -19,13 +19,13 @@ namespace Kooboo.Commerce.Search.Rebuild
             return instance.Database.GetRepository<Product>().Query().Where(p => p.IsPublished).OrderBy(p => p.Id);
         }
 
-        public System.Collections.IEnumerable Enumerate(CommerceInstance instance, Type documentType, CultureInfo culture)
+        public System.Collections.IEnumerable Enumerate(CommerceInstance instance, CultureInfo culture)
         {
             foreach (var data in new BatchedQuery<Product>(Query(instance), 1000))
             {
                 var product = data as Product;
                 var productType = instance.Database.GetRepository<ProductType>().Find(product.ProductTypeId);
-                yield return ProductModel.CreateFrom(product, productType, culture);
+                yield return ProductModel.Create(product, productType, culture);
             }
         }
     }

@@ -184,6 +184,7 @@
                 self.DataSource.Filters.push({
                     Name: ko.observable(def.Name),
                     Field: ko.observable(def.Field),
+                    LowercaseInput: ko.observable(def.LowercaseInput),
                     UseRangeFiltering: ko.observable(def.SupportRangeFiltering),
                     FieldValue: ko.observable(),
                     FromValue: ko.observable(),

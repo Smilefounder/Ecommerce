@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -7,7 +8,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 {
     static class IndexQueryExtensions
     {
-        public static IndexQuery ApplyFilters(this IndexQuery query, IEnumerable<Filter> parsedFilters)
+        public static IndexQuery ApplyFilters(this IndexQuery query, IEnumerable<Filter> parsedFilters, CultureInfo culture)
         {
             foreach (var filter in parsedFilters)
             {
@@ -28,6 +29,11 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                     var filterValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Field, filter.FieldValue);
                     if (filterValue != null)
                     {
+                        if (filterValue is String && filter.LowercaseInput)
+                        {
+                            filterValue = (filterValue as String).ToLower(culture);
+                        }
+
                         query = query.WhereEquals(filter.Field, filterValue);
                     }
                 }

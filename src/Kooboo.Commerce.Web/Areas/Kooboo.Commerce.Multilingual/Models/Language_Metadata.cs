@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Multilingual.Models
             return CultureInfo.GetCultures(CultureTypes.SpecificCultures)
                               .Select(x => new SelectListItem
                               {
-                                  Text = x.DisplayName,
+                                  Text = x.NativeName,
                                   Value = x.Name
                               })
                               .ToList();

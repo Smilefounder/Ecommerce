@@ -11,18 +11,18 @@ namespace Kooboo.Commerce.Search.Rebuild
     {
         public string Instance { get; private set; }
 
-        public Type DocumentType { get; private set; }
+        public Type ModelType { get; private set; }
 
         public CultureInfo Culture { get; private set; }
 
-        public RebuildTaskContext(string instance, Type documentType, CultureInfo culture)
+        public RebuildTaskContext(string instance, Type modelType, CultureInfo culture)
         {
             Require.NotNullOrEmpty(instance, "instance");
-            Require.NotNull(documentType, "documentType");
+            Require.NotNull(modelType, "modelType");
             Require.NotNull(culture, "culture");
 
             Instance = instance;
-            DocumentType = documentType;
+            ModelType = modelType;
             Culture = culture;
         }
     }

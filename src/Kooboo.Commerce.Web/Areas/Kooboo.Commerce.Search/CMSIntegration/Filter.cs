@@ -23,6 +23,9 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         public bool UseRangeFiltering { get; set; }
 
         [DataMember]
+        public bool LowercaseInput { get; set; }
+
+        [DataMember]
         public string FieldValue { get; set; }
 
         [DataMember]
@@ -37,52 +40,6 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         [DataMember]
         public bool ToInclusive { get; set; }
 
-        public bool IsEmpty()
-        {
-            if (UseRangeFiltering)
-            {
-                return String.IsNullOrWhiteSpace(FromValue) && String.IsNullOrWhiteSpace(ToValue);
-            }
-
-            return String.IsNullOrWhiteSpace(FieldValue);
-        }
-
-        public bool IsMatch(FacetRange range)
-        {
-            if (!UseRangeFiltering)
-            {
-                return false;
-            }
-
-            if (FromInclusive != range.FromInclusive || ToInclusive != range.ToInclusive)
-            {
-                return false;
-            }
-
-            if (range.FromValue == null && !String.IsNullOrWhiteSpace(FromValue)
-                || range.FromValue != null && String.IsNullOrWhiteSpace(FromValue))
-            {
-                return false;
-            }
-
-            if (range.ToValue == null && !String.IsNullOrWhiteSpace(ToValue)
-                || range.ToValue != null && String.IsNullOrWhiteSpace(ToValue))
-            {
-                return false;
-            }
-
-            if (range.FromValue != null && Convert.ToDouble(FromValue) != range.FromValue.Value)
-            {
-                return false;
-            }
-            if (range.ToValue != null && Convert.ToDouble(ToValue) != range.ToValue.Value)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public Filter Parse(IValueProvider valueProvider)
         {
             var parsed = new Filter
@@ -90,6 +47,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                 Name = Name,
                 Field = Field,
                 UseRangeFiltering = UseRangeFiltering,
+                LowercaseInput = LowercaseInput,
                 FieldValue = ParameterizedFieldValue.GetFieldValue(FieldValue, valueProvider),
                 FromValue = ParameterizedFieldValue.GetFieldValue(FromValue, valueProvider),
                 FromInclusive = FromInclusive,

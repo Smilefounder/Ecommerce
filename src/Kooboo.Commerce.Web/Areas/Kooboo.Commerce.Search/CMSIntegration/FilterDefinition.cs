@@ -12,13 +12,18 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 
         public string Field { get; set; }
 
+        /// <summary>
+        /// If need to lowercase the input when searching. Analyzed fields need to lowercase the input (default behavior of StandardAnalyzer).
+        /// </summary>
+        public bool LowercaseInput { get; set; }
+
         public bool SupportRangeFiltering { get; set; }
 
         public static IList<FilterDefinition> GetFilterDefinitions(IEnumerable<ProductType> productTypes)
         {
             var filters = new List<FilterDefinition>
             {
-                new FilterDefinition { Name = "Keywords", Field = "SearchText" },
+                new FilterDefinition { Name = "Keywords", Field = "SearchText", LowercaseInput = true },
                 new FilterDefinition { Name = "Brand", Field = "Brand" },
                 new FilterDefinition { Name = "Category", Field = "Categories" },
                 new FilterDefinition { Name = "MinPrice", Field = "MinPrice", SupportRangeFiltering = true }
