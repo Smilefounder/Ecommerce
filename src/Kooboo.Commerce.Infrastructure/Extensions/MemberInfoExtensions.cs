@@ -8,7 +8,7 @@ namespace Kooboo.Commerce
 {
     public static class MemberInfoExtensions
     {
-        public static T GetCustomAttribute<T>(this MemberInfo member, bool inherit)
+        public static T GetCustomAttribute<T>(this MemberInfo member, bool inherit = false)
             where T : Attribute
         {
             return member.GetCustomAttributes(typeof(T), inherit)

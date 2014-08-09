@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Search.Controllers
         {
             var indexer = IndexStores.Get<ProductDocument>("Vitaminstore", CultureInfo.InvariantCulture);
 
-            var results = indexer.GetFacets(new MatchAllDocsQuery(), new Facet[] {
+            var results = indexer.Query().ToFacets(new Facet[] {
                 new Facet { Field = "Brand" },
                 new Facet { Field = "Price", Ranges = new List<FacetRange>
                 {

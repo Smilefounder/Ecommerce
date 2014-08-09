@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.Search.Facets
             return true;
         }
 
-        public static EncodedFacetRange Encode(FacetRange range)
+        public static EncodedFacetRange CreateFrom(FacetRange range)
         {
             var result = new EncodedFacetRange
             {
@@ -47,12 +47,10 @@ namespace Kooboo.Commerce.Search.Facets
             if (range.FromValue != null)
             {
                 result.FromValue = NumericUtils.DoubleToPrefixCoded(range.FromValue.Value);
-                //result.FromValue = LuceneUtil.Unescape(result.FromValue);
             }
             if (range.ToValue != null)
             {
                 result.ToValue = NumericUtils.DoubleToPrefixCoded(range.ToValue.Value);
-                //result.ToValue = LuceneUtil.Unescape(result.ToValue);
             }
 
             return result;

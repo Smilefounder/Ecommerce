@@ -20,11 +20,11 @@ namespace Kooboo.Commerce.Search
         private IndexWriter _writer;
         private IndexSearcher _searcher;
 
-        public Type DocumentType { get; private set; }
+        public Type ModelType { get; private set; }
 
-        public IndexStore(Type documentType, Directory directory, Analyzer analyzer)
+        public IndexStore(Type modelType, Directory directory, Analyzer analyzer)
         {
-            DocumentType = documentType;
+            ModelType = modelType;
             _directory = directory;
             _writer = new IndexWriter(_directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
             _searcher = new IndexSearcher(_writer.GetReader());
@@ -46,25 +46,14 @@ namespace Kooboo.Commerce.Search
             return _searcher;
         }
 
-        public TopDocs Search(Query query, int topN)
+        public IndexQuery Query()
         {
-            return GetSearcher().Search(query, topN);
-        }
-
-        public TopFieldDocs Search(Query query, Filter filter, int topN, Sort sort)
-        {
-            return GetSearcher().Search(query, filter, topN, sort);
-        }
-
-        public IList<FacetResult> GetFacets(Query query, IEnumerable<Facet> facets)
-        {
-            var searcher = new FacetedSearcher(GetSearcher());
-            return searcher.Search(query, facets);
+            return new IndexQuery(ModelType, GetSearcher());
         }
 
         public void Index(object model)
         {
-            var doc = DocumentBuilder.Build(model);
+            var doc = ModelConverter.ToDocument(model);
             var keyFieldName = GetKeyFieldName();
             _writer.DeleteDocuments(new Term(keyFieldName, doc.GetField(keyFieldName).StringValue));
             _writer.AddDocument(doc);
@@ -78,7 +67,7 @@ namespace Kooboo.Commerce.Search
 
         private string GetKeyFieldName()
         {
-            return EntityKey.GetKeyProperty(DocumentType).Name;
+            return EntityKey.GetKeyProperty(ModelType).Name;
         }
 
         public void Commit()

@@ -94,7 +94,7 @@
                 var selected = _.find(self.Indexes(), function (index) { return index.Selected() });
                 selected.IsRebuilding(true);
 
-                $.post('@Url.Action("Rebuild")?documentType=' + encodeURIComponent(selected.DocumentType()));
+                $.post('@Url.Action("Rebuild")?documentType=' + encodeURIComponent(selected.DocumentType()) + '&culture=' + (selected.Culture() || ''));
 
                 self.UpdateHeaderPanel();
             }

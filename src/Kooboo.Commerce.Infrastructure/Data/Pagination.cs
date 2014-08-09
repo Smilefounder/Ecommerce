@@ -40,6 +40,11 @@ namespace Kooboo.Commerce.Data
             TotalPages = (int)Math.Ceiling(TotalItems / (double)PageSize);
         }
 
+        public Pagination<T> Cast<T>()
+        {
+            return new Pagination<T>(Items.Cast<T>(), PageIndex, PageSize, TotalItems);
+        }
+
         public IEnumerator GetEnumerator()
         {
             return _items.GetEnumerator();

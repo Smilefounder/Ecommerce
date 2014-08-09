@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Search
         {
             if (!Numeric)
             {
-                return new Field(fieldName, fieldValue == null ? "<NULL>" : fieldValue.ToString(), Store, Index);
+                return new Field(fieldName, IndexUtil.ToFieldStringValue(fieldValue), Store, Index);
             }
 
             var field = new NumericField(fieldName, Store, Index != Field.Index.NO);

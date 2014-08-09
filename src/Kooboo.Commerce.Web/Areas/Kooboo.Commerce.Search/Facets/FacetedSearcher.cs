@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Search.Facets
 {
-    public class FacetedSearcher
+    class FacetedSearcher
     {
         private IndexSearcher _searcher;
 
@@ -23,10 +23,10 @@ namespace Kooboo.Commerce.Search.Facets
             var allCollector = new GatherAllCollector();
             _searcher.Search(query, allCollector);
 
-            // Key: Facet name, Value: { Key: Term }
-            var facetsByName = new Dictionary<string, Dictionary<string, FacetValue>>();
+            // Key: Facet field, Value: { Key: Term }
+            var facetsByField = new Dictionary<string, Dictionary<string, FacetValue>>();
             var encodedRanges = facets.Where(f => f.Ranges != null && f.Ranges.Count > 0)
-                                      .ToDictionary(f => f.Field, f => f.Ranges.Select(r => EncodedFacetRange.Encode(r)).ToList());
+                                      .ToDictionary(f => f.Field, f => f.Ranges.Select(r => EncodedFacetRange.CreateFrom(r)).ToList());
 
             using (var termDocs = reader.TermDocs())
             {
@@ -39,10 +39,10 @@ namespace Kooboo.Commerce.Search.Facets
                     using (var termEnum = reader.Terms(new Term(field)))
                     {
                         Dictionary<string, FacetValue> valuesByTerm;
-                        if (!facetsByName.TryGetValue(field, out valuesByTerm))
+                        if (!facetsByField.TryGetValue(field, out valuesByTerm))
                         {
                             valuesByTerm = new Dictionary<string, FacetValue>();
-                            facetsByName.Add(field, valuesByTerm);
+                            facetsByField.Add(field, valuesByTerm);
                         }
 
                         do
@@ -116,15 +116,16 @@ namespace Kooboo.Commerce.Search.Facets
             }
 
             var results = new List<FacetResult>();
-            foreach (var each in facetsByName)
+            foreach (var each in facetsByField)
             {
-                results.Add(new FacetResult(each.Key, each.Value.Values));
+                var facet = facets.FirstOrDefault(f => f.Field == each.Key);
+                results.Add(new FacetResult(facet.Name, facet.Field, each.Value.Values));
             }
 
             return results;
         }
 
-        // TODO: How it works?
+        // TODO: How is the numeric value get stored as a trie in detail?
         static bool IsLowPrecisionNumber(string value)
         {
             if (String.IsNullOrEmpty(value))

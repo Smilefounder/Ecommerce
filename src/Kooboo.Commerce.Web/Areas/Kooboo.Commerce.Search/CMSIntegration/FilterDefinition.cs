@@ -18,6 +18,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         {
             var filters = new List<FilterDefinition>
             {
+                new FilterDefinition { Name = "Keywords", Field = "SearchText" },
                 new FilterDefinition { Name = "Brand", Field = "Brand" },
                 new FilterDefinition { Name = "Category", Field = "Categories" },
                 new FilterDefinition { Name = "MinPrice", Field = "MinPrice", SupportRangeFiltering = true }

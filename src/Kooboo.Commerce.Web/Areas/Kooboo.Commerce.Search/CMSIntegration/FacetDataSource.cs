@@ -12,6 +12,10 @@ using Lucene.Net.Search;
 using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Search.Documents;
+using System.Reflection;
+using Kooboo.Commerce.Utils;
+using Kooboo.Commerce.Reflection;
+using Kooboo.CMS.Sites.DataRule;
 
 namespace Kooboo.Commerce.Search.CMSIntegration
 {
@@ -66,13 +70,50 @@ namespace Kooboo.Commerce.Search.CMSIntegration
             }
 
             var store = IndexStores.Get<ProductDocument>(context.Instance, culture);
-            return store.GetFacets(BuildQuery(), Facets);
+
+            var filters = ParseFilters(context);
+            var query = ApplyFilter(store.Query(), filters);
+
+            return query.ToFacets(Facets);
         }
 
-        // TODO: Complete it
-        private Query BuildQuery()
+        private List<Filter> ParseFilters(CommerceDataSourceContext context)
         {
-            return new MatchAllDocsQuery();
+            if (Filters == null)
+            {
+                return new List<Filter>();
+            }
+
+            return Filters.Select(f => f.Parse(context.ValueProvider)).ToList();
+        }
+
+        private IndexQuery ApplyFilter(IndexQuery query, IEnumerable<Filter> filters)
+        {
+            foreach (var filter in filters)
+            {
+                if (filter.UseRangeFiltering)
+                {
+                    var fromValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Field, filter.FromValue);
+                    var toValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Field, filter.ToValue);
+
+                    query = query.WhereBetween(filter.Field, fromValue, toValue, filter.FromInclusive, filter.ToInclusive);
+                }
+                else
+                {
+                    if (String.IsNullOrWhiteSpace(filter.FieldValue))
+                    {
+                        continue;
+                    }
+
+                    var filterValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Field, filter.FieldValue);
+                    if (filterValue != null)
+                    {
+                        query = query.WhereEquals(filter.Field, filterValue);
+                    }
+                }
+            }
+
+            return query;
         }
 
         public IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)
