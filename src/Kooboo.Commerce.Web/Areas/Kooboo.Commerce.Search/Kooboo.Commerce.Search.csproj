@@ -163,11 +163,14 @@
     <Compile Include="Analyzers.cs" />
     <Compile Include="CMSIntegration\Filter.cs" />
     <Compile Include="CMSIntegration\FilterDefinition.cs" />
+    <Compile Include="CMSIntegration\IndexQueryExtensions.cs" />
+    <Compile Include="CMSIntegration\ProductIndexDataSource.cs" />
     <Compile Include="Controllers\IndexesController.cs" />
+    <Compile Include="Controllers\Models\IndexModel.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="IndexQuery.cs" />
     <Compile Include="IndexStores.cs" />
-    <Compile Include="Documents\ProductDocument.cs" />
+    <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Facets\PrefixCodedFacetRange.cs" />
     <Compile Include="Facets\Facet.cs" />
     <Compile Include="Facets\FacetedSearcher.cs" />
@@ -183,7 +186,6 @@
     <Compile Include="Menu\SearchMenuInjection.cs" />
     <Compile Include="CMSIntegration\FacetDefinition.cs" />
     <Compile Include="CMSIntegration\FacetMode.cs" />
-    <Compile Include="Models\IndexModel.cs" />
     <Compile Include="Rebuild\FileBasedRebuildInfoManager.cs" />
     <Compile Include="Rebuild\IDocumentSource.cs" />
     <Compile Include="Rebuild\DocumentSources.cs" />
@@ -255,6 +257,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\DataSource\Facets.Scripts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DataSource\ProductIndexes.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DataSource\ProductIndexes.Scripts.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

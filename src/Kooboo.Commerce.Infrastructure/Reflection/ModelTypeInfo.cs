@@ -19,6 +19,8 @@ namespace Kooboo.Commerce.Reflection
 
         public bool IsCollection { get; private set; }
 
+        public bool IsSet { get; private set; }
+
         public Type ElementType { get; private set; }
 
         public bool IsDictionary { get; private set; }
@@ -63,6 +65,10 @@ namespace Kooboo.Commerce.Reflection
             {
                 IsCollection = true;
                 ElementType = type.GetGenericArguments()[0];
+            }
+            if (genericDef == typeof(ISet<>))
+            {
+                IsSet = true;
             }
             if (genericDef == typeof(IDictionary<,>))
             {

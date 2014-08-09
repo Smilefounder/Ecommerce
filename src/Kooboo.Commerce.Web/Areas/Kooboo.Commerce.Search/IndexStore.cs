@@ -1,15 +1,8 @@
-﻿using Kooboo.Commerce.Search.Facets;
-using Lucene.Net.Analysis;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Analysis;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web;
 
 namespace Kooboo.Commerce.Search
 {

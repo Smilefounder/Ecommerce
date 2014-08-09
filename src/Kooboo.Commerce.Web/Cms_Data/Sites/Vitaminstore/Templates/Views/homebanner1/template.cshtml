@@ -21,62 +21,35 @@
         }
     }
     <br/><br/>
-    <strong>Brands loaded from DataSource:</strong><br />
-    <div style="padding-top:10px;line-height:1.7em;">
-        @if (brands != null)
-        {
-            foreach (var brand in brands)
+    <h4>Search results:</h4>
+    @if (ViewBag.ProductIndexes != null)
+    {
+        <div>
+            @foreach (var product in ViewBag.ProductIndexes)
             {
-                <span>
-                    @brand.Name,
-                </span>
-            }
-        }
-    </div>
-    <br />
-    <br />
-    <strong>Featured Product</strong>
-    <div style="padding-top:10px;line-height:1.7em">
-        @if (featuredProduct == null)
-        {
-            <span>Empty</span>
-        }
-        else
-        {
-            @featuredProduct.Name<br />
-            <strong>Custom fields:</strong>
-            <div>
-                @if (featuredProduct.CustomFields != null)
-                {
-                    <ul>
-                        @foreach (var field in featuredProduct.CustomFields)
+                <div style="padding: 10px;border:orange 1px solid;border-radius:5px;margin-top:10px;background:#fff;">
+                    <div><a href="/product/@product.Id">@product.Name</a></div>
+                    <div style="margin-top:5px">
+                        <span style="color:orange">$@(product.MinPrice) - $@(product.MaxPrice)</span>
+                    </div>
+                    <div style="margin-top:5px">
+                        @foreach (var field in product.VariantFieldValues)
                         {
-                            <li>@field.FieldLabel = @field.FieldText (@(field.FieldValue))</li>
-                        }
-                    </ul>
-                }
-            </div>
-            <strong>Variants:</strong>
-            <div>
-                @if (featuredProduct.Variants != null)
-                {
-                    foreach (var variant in featuredProduct.Variants)
-                    {
-                        <div>
-                            <strong>SKU: @variant.Sku</strong>
-                            <div>
-                                @foreach (var field in variant.VariantFields)
-                                {
-                                    <div>@field.FieldLabel = @field.FieldText</div>
-                                }
+                            <div style="margin-top:5px">
+                                <span>@field.Key:</span>
+                                <span>
+                                    @foreach (var value in field.Value)
+                                    {
+                                        <span style="padding:0 5px; background:orange;display:inline-block;color:#fff;">@value</span>
+                                    }
+                                </span>
                             </div>
-                        </div>
-                    }
-                }
-            </div>
-        }
-    </div>
-    <br />
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
 </div>
 
 

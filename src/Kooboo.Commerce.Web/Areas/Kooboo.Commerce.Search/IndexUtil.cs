@@ -38,5 +38,43 @@ namespace Kooboo.Commerce.Search
 
             return Convert.ChangeType(value, fieldType);
         }
+
+        public static int GetSortType(Type fieldType)
+        {
+            if (fieldType == typeof(short))
+            {
+                return Lucene.Net.Search.SortField.SHORT;
+            }
+            if (fieldType == typeof(int))
+            {
+                return Lucene.Net.Search.SortField.INT;
+            }
+            if (fieldType == typeof(long))
+            {
+                return Lucene.Net.Search.SortField.LONG;
+            }
+            if (fieldType == typeof(string))
+            {
+                return Lucene.Net.Search.SortField.STRING;
+            }
+            if (fieldType == typeof(float))
+            {
+                return Lucene.Net.Search.SortField.FLOAT;
+            }
+            if (fieldType == typeof(double))
+            {
+                return Lucene.Net.Search.SortField.DOUBLE;
+            }
+            if (fieldType == typeof(decimal))
+            {
+                return Lucene.Net.Search.SortField.DOUBLE;
+            }
+            if (fieldType == typeof(DateTime))
+            {
+                return Lucene.Net.Search.SortField.LONG;
+            }
+
+            return Lucene.Net.Search.SortField.STRING;
+        }
     }
 }

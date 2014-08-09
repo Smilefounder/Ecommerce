@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                         filters.Add(new FilterDefinition
                         {
                             Name = fieldDef.Name,
-                            Field = fieldDef.Name
+                            Field = ModelConverter.GetDictionaryFieldName("VariantFieldValues", fieldDef.Name)
                         });
                     }
                 }

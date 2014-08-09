@@ -4,7 +4,7 @@ using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Multilingual.Events;
 using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Search.Documents;
+using Kooboo.Commerce.Search.Models;
 using Lucene.Net.Index;
 using System;
 using System.Collections.Generic;
@@ -114,8 +114,8 @@ namespace Kooboo.Commerce.Search.Subscriptions
         {
             foreach (var culture in cultures)
             {
-                var indexer = IndexStores.Get<ProductDocument>(CommerceInstance.Current.Name, culture);
-                indexer.Index(ProductDocument.CreateFrom(product, productType, culture));
+                var indexer = IndexStores.Get<ProductModel>(CommerceInstance.Current.Name, culture);
+                indexer.Index(ProductModel.CreateFrom(product, productType, culture));
                 indexer.Commit();
             }
         }
@@ -133,13 +133,13 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         private void DeleteIndex(int productId)
         {
-            var indexer = IndexStores.Get<ProductDocument>(CommerceInstance.Current.Name, CultureInfo.InvariantCulture);
+            var indexer = IndexStores.Get<ProductModel>(CommerceInstance.Current.Name, CultureInfo.InvariantCulture);
             indexer.Delete(productId);
             indexer.Commit();
 
             foreach (var lang in _languageStore.All())
             {
-                var langIndexer = IndexStores.Get<ProductDocument>(CommerceInstance.Current.Name, CultureInfo.GetCultureInfo(lang.Name));
+                var langIndexer = IndexStores.Get<ProductModel>(CommerceInstance.Current.Name, CultureInfo.GetCultureInfo(lang.Name));
                 langIndexer.Delete(productId);
                 langIndexer.Commit();
             }

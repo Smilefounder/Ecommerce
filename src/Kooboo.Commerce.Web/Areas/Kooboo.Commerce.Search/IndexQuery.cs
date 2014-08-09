@@ -15,6 +15,20 @@ namespace Kooboo.Commerce.Search
         private Query _query = new MatchAllDocsQuery();
         private IndexSearcher _searcher;
 
+        private List<SortField> _sortFields;
+        private List<SortField> SortFields
+        {
+            get
+            {
+                if (_sortFields == null)
+                {
+                    _sortFields = new List<SortField>();
+                }
+
+                return _sortFields;
+            }
+        }
+
         public Type ModelType { get; private set; }
 
         public IndexQuery(Type modelType, IndexSearcher searcher)
@@ -79,9 +93,58 @@ namespace Kooboo.Commerce.Search
             return And(query);
         }
 
+        /// <summary>
+        /// Add sort field. Use + prefix for asc sorting, or use - prefix for desc sorting.
+        /// </summary>
+        public IndexQuery AddOrderBy(string field)
+        {
+            var reverse = false;
+            if (field[0] == '+' || field[0] == '-')
+            {
+                reverse = field[0] == '-';
+                field = field.Substring(1);
+            }
+
+            var sortType = Lucene.Net.Search.SortField.STRING;
+
+            var property = ModelType.GetProperty(field, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            if (property != null)
+            {
+                var fieldAttr = property.GetCustomAttribute<FieldAttribute>();
+                if (fieldAttr != null && fieldAttr.Numeric)
+                {
+                    sortType = Lucene.Net.Search.SortField.DOUBLE;
+                }
+                else
+                {
+                    sortType = IndexUtil.GetSortType(property.PropertyType);
+                }
+            }
+
+            _sortFields.Add(new SortField(field, sortType, reverse));
+
+            return this;
+        }
+
         public Pagination Paginate(int pageIndex, int pageSize)
         {
-            var docs = _searcher.Search(_query, null, Int32.MaxValue);
+            Sort sort = null;
+
+            if (_sortFields != null && _sortFields.Count > 0)
+            {
+                sort = new Sort(_sortFields.ToArray());
+            }
+
+            TopDocs docs;
+
+            if (sort == null)
+            {
+                docs = _searcher.Search(_query, null, Int32.MaxValue);
+            }
+            else
+            {
+                docs = _searcher.Search(_query, null, Int32.MaxValue, sort);
+            }
 
             var items = new List<object>();
             var start = pageIndex * pageSize;

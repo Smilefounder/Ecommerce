@@ -1,0 +1,85 @@
+﻿@{
+    var brands = ViewBag.Brands;
+    var featuredProduct = ViewBag.FeaturedProduct;
+    var accessories = ViewBag.Accessories;
+}
+
+<div style="font-size:16px;padding:10px;background:#eee;">
+    <h4>Facets</h4>
+    @if (ViewBag.ProductFacets != null) { 
+        foreach (var facet in ViewBag.ProductFacets)
+        {
+            <div>
+                <strong style="display:inline-block;min-width:100px;text-align:right">@facet.Name:</strong>
+                <span>
+                    @foreach (var value in facet.Values)
+                    {
+                        <a href="#" style="display:inline-block;margin-left:10px;">@value.Term (@value.Hits)</a>
+                    }
+                </span>
+            </div>
+        }
+    }
+    <br/><br/>
+    <strong>Brands loaded from DataSource:</strong><br />
+    <div style="padding-top:10px;line-height:1.7em;">
+        @if (brands != null)
+        {
+            foreach (var brand in brands)
+            {
+                <span>
+                    @brand.Name,
+                </span>
+            }
+        }
+    </div>
+    <br />
+    <br />
+    <strong>Featured Product</strong>
+    <div style="padding-top:10px;line-height:1.7em">
+        @if (featuredProduct == null)
+        {
+            <span>Empty</span>
+        }
+        else
+        {
+            @featuredProduct.Name<br />
+            <strong>Custom fields:</strong>
+            <div>
+                @if (featuredProduct.CustomFields != null)
+                {
+                    <ul>
+                        @foreach (var field in featuredProduct.CustomFields)
+                        {
+                            <li>@field.FieldLabel = @field.FieldText (@(field.FieldValue))</li>
+                        }
+                    </ul>
+                }
+            </div>
+            <strong>Variants:</strong>
+            <div>
+                @if (featuredProduct.Variants != null)
+                {
+                    foreach (var variant in featuredProduct.Variants)
+                    {
+                        <div>
+                            <strong>SKU: @variant.Sku</strong>
+                            <div>
+                                @foreach (var field in variant.VariantFields)
+                                {
+                                    <div>@field.FieldLabel = @field.FieldText</div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
+    <br />
+</div>
+
+
+<div class="homebanner1 orbit" style="overflow: hidden; width: 630px; height: 200px;">
+    <a href="http://newshoppage.vitaminstore.eu/Health/Vitaminen-en-mineralen/mineralen/Magnesium-Tauraat-voor-de-zorg-van-spieren-VitaminSports-ontspanning/P118" style="z-index: 3; display: block;"><img src="/Cms_Data/Sites/Vitaminstore/flash/images/45Magnesium-Tauraat.jpg" alt="" border="0"></a>
+</div>

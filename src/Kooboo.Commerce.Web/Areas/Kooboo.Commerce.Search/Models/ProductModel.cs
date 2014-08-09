@@ -9,9 +9,9 @@ using System.Globalization;
 using Kooboo.Commerce.Web.Framework.UI.Form;
 using System.Text;
 
-namespace Kooboo.Commerce.Search.Documents
+namespace Kooboo.Commerce.Search.Models
 {
-    public class ProductDocument
+    public class ProductModel
     {
         [Key]
         [Field(Field.Index.NOT_ANALYZED)]
@@ -41,16 +41,16 @@ namespace Kooboo.Commerce.Search.Documents
         [Field(Field.Index.ANALYZED, Field.Store.NO)]
         public string SearchText { get; set; }
 
-        public ProductDocument()
+        public ProductModel()
         {
             Categories = new List<string>();
             Prices = new List<decimal>();
             VariantFieldValues = new Dictionary<string, HashSet<string>>();
         }
 
-        public static ProductDocument CreateFrom(Product product, ProductType productType, CultureInfo culture)
+        public static ProductModel CreateFrom(Product product, ProductType productType, CultureInfo culture)
         {
-            var doc = new ProductDocument
+            var doc = new ProductModel
             {
                 Id = product.Id,
                 Name = product.GetText("Name", culture) ?? product.Name

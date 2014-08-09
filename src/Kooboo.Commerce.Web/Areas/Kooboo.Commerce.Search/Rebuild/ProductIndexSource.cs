@@ -1,6 +1,6 @@
 ﻿using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Search.Documents;
+using Kooboo.Commerce.Search.Models;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Search.Rebuild
             {
                 var product = data as Product;
                 var productType = instance.Database.GetRepository<ProductType>().Find(product.ProductTypeId);
-                yield return ProductDocument.CreateFrom(product, productType, culture);
+                yield return ProductModel.CreateFrom(product, productType, culture);
             }
         }
     }

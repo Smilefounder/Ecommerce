@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                         facets.Add(new FacetDefinition
                         {
                             Name = fieldDef.Name,
-                            Field = fieldDef.Name,
+                            Field = ModelConverter.GetDictionaryFieldName("VariantFieldValues", fieldDef.Name),
                             Mode = FacetMode.Default
                         });
                     }

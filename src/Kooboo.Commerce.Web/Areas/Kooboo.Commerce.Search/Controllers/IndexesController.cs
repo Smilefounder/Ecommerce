@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.Search.Models;
-using Kooboo.Commerce.Web.Framework.Mvc;
+﻿using Kooboo.Commerce.Web.Framework.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +10,7 @@ using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Search.Rebuild;
 using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Search.Controllers.Models;
 
 namespace Kooboo.Commerce.Search.Controllers
 {
