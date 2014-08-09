@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>@("Name".Localize())</td>
+                    <th>@("Name".Localize())</th>
                     <td>
                         @Html.Raw(difference.Name ?? compared.Name)
                     </td>
@@ -38,7 +38,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>@("Description".Localize())</td>
+                    <th>@("Description".Localize())</th>
                     <td>
                         @Html.Raw(difference.Description ?? compared.Description)
                     </td>
