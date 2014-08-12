@@ -1,8 +1,78 @@
 ﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
 
-<div class="block common-form" id="facets-datasource-main">
+<div class="block common-form" id="product-search-datasource">
     <table>
         <tr>
+            <th>@("Filters".Localize())</th>
+            <td>
+                <div>
+                    <select class="medium" data-bind="options: UnaddedFilterDefinitions, optionsText: 'Name', optionsValue: 'Name', value: SelectedFilterName"></select>
+                    <a href="#" data-bind="click: AddSelectedFilter">
+                        @Html.IconImage("plus")
+                    </a>
+                </div>
+                <div data-bind="foreach: DataSource.Filters">
+                    <div style="margin: 10px 0;border-bottom:#ddd 1px dashed;padding: 5px 0;">
+                        <div style="margin-bottom:10px">
+                            <strong data-bind="text: Name"></strong>
+                            <input type="hidden" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'Name') }, value: Name" />
+                            <input type="hidden" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'Field') }, value: Field" />
+                            <input type="hidden" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'LowercaseInput') }, value: LowercaseInput() ? 'true' : 'false'" />
+
+                            <a style="float:right" data-bind="click: $root.RemoveFilter">
+                                @Html.IconImage("minus small")
+                            </a>
+                        </div>
+                        <div style="margin:10px 0;" data-bind="visible: $root.IsRangeFilteringSupported(Field())" class="clearfix">
+                            <input type="checkbox" value="true" data-bind="attr: { id: $root.GetFilterHtmlId($index(), 'UseRangeFiltering'), name: $root.GetFilterHtmlName($index(), 'UseRangeFiltering') }, checked: UseRangeFiltering" />
+                            <label class="inline" data-bind="attr: { 'for': $root.GetFilterHtmlId($index(), 'UseRangeFiltering') }">@("Use range filtering".Localize())</label>
+                        </div>
+                        <div data-bind="visible: UseRangeFiltering" class="common-form">
+                            <table>
+                                <tr>
+                                    <th>@("From value".Localize())</th>
+                                    <td>
+                                        <input type="text" class="small" data-bind="value: FromValue, attr: { name: $root.GetFilterHtmlName($index(), 'FromValue') }" />
+                                        <input type="checkbox" value="true" data-bind="attr: { id: $root.GetFilterHtmlId($index(), 'FromInclusive'), name: $root.GetFilterHtmlName($index(), 'FromInclusive') }, checked: FromInclusive" />
+                                        <label data-bind="attr: { 'for': $root.GetFilterHtmlId($index(), 'FromInclusive') }">@("Inclusive".Localize())</label>
+                                        <em class="tip">@("Leave empty for unlimited lower bound".Localize())</em>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@("To value".Localize())</th>
+                                    <td>
+                                        <input type="text" class="small" data-bind="value: ToValue, attr: { name: $root.GetFilterHtmlName($index(), 'ToValue') }" />
+                                        <input type="checkbox" value="true" data-bind="attr: { id: $root.GetFilterHtmlId($index(), 'ToInclusive'), name: $root.GetFilterHtmlName($index(), 'ToInclusive') }, checked: ToInclusive" />
+                                        <label data-bind="attr: { 'for': $root.GetFilterHtmlId($index(), 'ToInclusive') }">@("Inclusive".Localize())</label>
+                                        <em class="tip">@("Leave empty for unlimited upper bound".Localize())</em>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div data-bind="visible: !UseRangeFiltering()" class="common-form">
+                            <table>
+                                <tr>
+                                    <th>@("Value".Localize())</th>
+                                    <td>
+                                        <input type="text" class="medium" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'FieldValue') }, value: FieldValue" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th></th>
+            <td>
+                <input type="checkbox" id="IncludeFacets" name="DataSource.CommerceDataSource.IncludeFacets" value="true" data-bind="checked: DataSource.IncludeFacets" />
+                <label class="inline" for="IncludeFacets">@("Include facets".Localize())</label>
+            </td>
+        </tr>
+        <tr data-bind="visible: DataSource.IncludeFacets">
             <th>@("Facets".Localize())</th>
             <td>
                 <div>
@@ -22,7 +92,7 @@
                         </thead>
                         <tbody data-bind="foreach: DataSource.Facets">
                             <tr>
-                                <td>
+                                <td style="vertical-align:top">
                                     <span data-bind="text: Name"></span>
                                     <input type="hidden" data-bind="attr: { name: $root.GetFacetHtmlName($index(), 'Name') }, value: Name" />
                                     <input type="hidden" data-bind="attr: { name: $root.GetFacetHtmlName($index(), 'Field') }, value: Field" />
@@ -30,8 +100,8 @@
                                 <td>
                                     <span data-bind="visible: !Ranges() || Ranges().length === 0">-</span>
                                     <div data-bind="visible: Ranges() && Ranges().length > 0">
-                                        <div data-bind="foreach: Ranges">
-                                            <div data-bind="visible: !IsEditing()">
+                                        <div data-bind="foreach: { data: Ranges, afterRender: $root.UpdateValidation }">
+                                            <div data-bind="visible: !IsEditing()" style="margin-bottom:5px">
                                                 <span data-bind="text: Label() ? Label() : $root.BuildRangeExpression($data)"></span>
                                                 <a href="#" data-bind="click: $root.EditRange.bind($data, $parent)" style="display:inline-block">@Html.IconImage("edit small")</a>
                                                 <!-- ko if: $parent.Ranges().length > 1 -->
@@ -44,7 +114,7 @@
                                                 <input type="hidden" data-bind="attr: { name: $root.GetFacetRangeHtmlName($parentContext.$index(), $index(), 'ToValue') }, value: ToValue" />
                                                 <input type="hidden" data-bind="attr: { name: $root.GetFacetRangeHtmlName($parentContext.$index(), $index(), 'ToInclusive') }, value: ToInclusive() ? 'true' : 'false'" />
                                             </div>
-                                            <div class="common-form" data-bind="visible: IsEditing" style="margin-top:10px">
+                                            <div class="common-form range-edit-form" data-bind="visible: IsEditing">
                                                 <table>
                                                     <tr>
                                                         <th>@("Label".Localize())</th>
@@ -86,7 +156,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
+                                <td style="vertical-align:top">
                                     <a href="#" data-bind="click: $root.RemoveFacet">@Html.IconImage("minus")</a>
                                 </td>
                             </tr>
@@ -97,68 +167,28 @@
         </tr>
     </table>
     <fieldset>
-        <legend class="clickable">@Html.IconImage("arrow") @("Advanced".Localize())</legend>
+        <legend class="clickable">@Html.IconImage("arrow") @("Pagination & Sorting".Localize())</legend>
         <div style="padding-top:10px">
             <table>
                 <tr>
-                    <th>@("Filters".Localize())</th>
+                    <th>@("Sort field".Localize())</th>
                     <td>
-                        <div>
-                            <select class="medium" data-bind="options: UnaddedFilterDefinitions, optionsText: 'Name', optionsValue: 'Name', value: SelectedFilterName"></select>
-                            <a href="#" data-bind="click: AddSelectedFilter">
-                                @Html.IconImage("plus")
-                            </a>
-                        </div>
-                        <div data-bind="foreach: DataSource.Filters">
-                            <div style="margin: 10px 0;border-bottom:#ddd 1px dashed;padding: 5px 0;">
-                                <div style="margin-bottom:10px">
-                                    <strong data-bind="text: Name"></strong>
-                                    <input type="hidden" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'Name') }, value: Name" />
-                                    <input type="hidden" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'Field') }, value: Field" />
-                                    <input type="hidden" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'LowercaseInput') }, value: LowercaseInput() ? 'true' : 'false'" />
-
-                                    <a style="float:right" data-bind="click: $root.RemoveFilter">
-                                        @Html.IconImage("minus small")
-                                    </a>
-                                </div>
-                                <div style="margin:10px 0;" data-bind="visible: $root.IsRangeFilteringSupported(Field())" class="clearfix">
-                                    <input type="checkbox" value="true" data-bind="attr: { id: $root.GetFilterHtmlId($index(), 'UseRangeFiltering'), name: $root.GetFilterHtmlName($index(), 'UseRangeFiltering') }, checked: UseRangeFiltering" />
-                                    <label class="inline" data-bind="attr: { 'for': $root.GetFilterHtmlId($index(), 'UseRangeFiltering') }">@("Use range filtering".Localize())</label>
-                                </div>
-                                <div data-bind="visible: UseRangeFiltering" class="common-form">
-                                    <table>
-                                        <tr>
-                                            <th>@("From value".Localize())</th>
-                                            <td>
-                                                <input type="text" class="small" data-bind="value: FromValue, attr: { name: $root.GetFilterHtmlName($index(), 'FromValue') }" />
-                                                <input type="checkbox" value="true" data-bind="attr: { id: $root.GetFilterHtmlId($index(), 'FromInclusive'), name: $root.GetFilterHtmlName($index(), 'FromInclusive') }, checked: FromInclusive" />
-                                                <label data-bind="attr: { 'for': $root.GetFilterHtmlId($index(), 'FromInclusive') }">@("Inclusive".Localize())</label>
-                                                <em class="tip">@("Leave empty for unlimited lower bound".Localize())</em>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>@("To value".Localize())</th>
-                                            <td>
-                                                <input type="text" class="small" data-bind="value: ToValue, attr: { name: $root.GetFilterHtmlName($index(), 'ToValue') }" />
-                                                <input type="checkbox" value="true" data-bind="attr: { id: $root.GetFilterHtmlId($index(), 'ToInclusive'), name: $root.GetFilterHtmlName($index(), 'ToInclusive') }, checked: ToInclusive" />
-                                                <label data-bind="attr: { 'for': $root.GetFilterHtmlId($index(), 'ToInclusive') }">@("Inclusive".Localize())</label>
-                                                <em class="tip">@("Leave empty for unlimited upper bound".Localize())</em>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div data-bind="visible: !UseRangeFiltering()" class="common-form">
-                                    <table>
-                                        <tr>
-                                            <th>@("Value".Localize())</th>
-                                            <td>
-                                                <input type="text" class="medium" data-bind="attr: { name: $root.GetFilterHtmlName($index(), 'FieldValue') }, value: FieldValue" />
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        <input type="text" name="DataSource.CommerceDataSource.SortField" data-bind="value: DataSource.SortField" />
+                        <em class="tip">
+                            @("Use + prefix for asc sorting, or use - prefix for desc sorting. Leave empty to use default sorting (by relevance).");
+                        </em>
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Page size".Localize())</th>
+                    <td>
+                        <input type="text" name="DataSource.CommerceDataSource.PageSize" data-bind="value: DataSource.PageSize" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Page number".Localize())</th>
+                    <td>
+                        <input type="text" name="DataSource.CommerceDataSource.PageNumber" data-bind="value: DataSource.PageNumber" />
                     </td>
                 </tr>
             </table>
@@ -166,4 +196,4 @@
     </fieldset>
 </div>
 
-@Html.Partial("~/Areas/Kooboo.Commerce.Search/Views/DataSource/Facets.Scripts.cshtml")
+@Html.Partial("~/Areas/Kooboo.Commerce.Search/Views/DataSource/ProductSearch.Scripts.cshtml")

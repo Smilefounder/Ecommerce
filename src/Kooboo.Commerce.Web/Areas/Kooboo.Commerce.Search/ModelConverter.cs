@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.Reflection;
-using Kooboo.Commerce.Utils;
 using Lucene.Net.Documents;
 using System;
 using System.Collections;

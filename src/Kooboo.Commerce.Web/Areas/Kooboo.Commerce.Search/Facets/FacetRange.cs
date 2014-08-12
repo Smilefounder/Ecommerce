@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Web;
 
 namespace Kooboo.Commerce.Search.Facets
@@ -28,14 +29,26 @@ namespace Kooboo.Commerce.Search.Facets
 
         public FacetRange() { }
 
-        public FacetRange(string name)
+        public FacetRange(string label)
         {
-            Label = name;
+            Label = label;
+        }
+
+        public override string ToString()
+        {
+            var exp = new StringBuilder();
+            exp.Append(FromInclusive ? "[" : "{");
+            exp.Append(FromValue == null ? "*" : FromValue.Value.ToString());
+            exp.Append(" TO ");
+            exp.Append(ToValue == null ? "*" : ToValue.Value.ToString());
+            exp.Append(ToInclusive ? "]" : "}");
+
+            return exp.ToString();
         }
 
         // [NULL TO 200]
         // {100 TO 1000]
-        public static FacetRange Parse(string name, string rangeValue)
+        public static FacetRange Parse(string label, string rangeValue)
         {
             var parts = rangeValue.Split(new[] { " TO " }, 2, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 2)
@@ -44,7 +57,7 @@ namespace Kooboo.Commerce.Search.Facets
             var from = parts[0].Trim();
             var to = parts[1].Trim();
 
-            var range = new FacetRange(name);
+            var range = new FacetRange(label);
             range.FromInclusive = IsInclusive(from.First());
             range.ToInclusive = IsInclusive(to.Last());
 

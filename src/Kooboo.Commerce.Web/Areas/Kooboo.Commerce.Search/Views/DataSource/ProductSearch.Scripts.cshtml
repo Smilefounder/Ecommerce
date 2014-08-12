@@ -11,10 +11,10 @@
     var instanceName = site.GetCommerceInstanceName();
     var instance = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ICommerceInstanceManager>().GetInstance(instanceName);
     var productTypes = instance.Database.GetRepository<ProductType>().Query().ToList();
-    
+
     var facetDefinitions = FacetDefinition.GetFacetDefinitions(productTypes);
     var filterDefinitions = FilterDefinition.GetFilterDefinitions(productTypes);
-    
+
     var serializerSettings = new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() } };
 }
 
@@ -118,11 +118,18 @@
                 facet.Ranges.remove(range);
             }
 
-            self.CommitRangeEditing = function (facet, range) {
-                delete range.memo;
+            self.CommitRangeEditing = function (facet, range, event) {
+                var $form = $(event.srcElement).closest('.range-edit-form');
+                var valid = true;
+                $form.find(':text').each(function () {
+                    valid = valid & $(this).valid();
+                });
 
-                range.IsEditing(false);
-                range.CanCancelEditing(true);
+                if (valid) {
+                    delete range.memo;
+                    range.IsEditing(false);
+                    range.CanCancelEditing(true);
+                }
             }
 
             self.CancelRangeEditing = function (facet, range) {
@@ -212,11 +219,18 @@
             self.GetFilterHtmlId = function (index, fieldName) {
                 return self.GetFilterHtmlName(index, fieldName).replace(/\./g, '_');
             }
+
+            self.UpdateValidation = function () {
+                var $form = $('#product-search-datasource').closest('form');
+                $form.removeData('validator');
+                $form.removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse($form);
+            }
         }
 
         var viewModel = new ViewModel();
 
-        ko.applyBindings(viewModel, document.getElementById('facets-datasource-main'));
+        ko.applyBindings(viewModel, document.getElementById('product-search-datasource'));
 
     })(jQuery);
 

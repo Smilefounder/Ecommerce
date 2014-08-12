@@ -19,11 +19,23 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 
         public bool SupportRangeFiltering { get; set; }
 
+        public Filter CreateFilter()
+        {
+            return new Filter
+            {
+                Name = Name,
+                Field = Field,
+                LowercaseInput = LowercaseInput
+            };
+        }
+
+        public static FilterDefinition Keywords = new FilterDefinition { Name = "Keywords", Field = "SearchText", LowercaseInput = true };
+
         public static IList<FilterDefinition> GetFilterDefinitions(IEnumerable<ProductType> productTypes)
         {
             var filters = new List<FilterDefinition>
             {
-                new FilterDefinition { Name = "Keywords", Field = "SearchText", LowercaseInput = true },
+                Keywords,
                 new FilterDefinition { Name = "Brand", Field = "Brand" },
                 new FilterDefinition { Name = "Category", Field = "Categories" },
                 new FilterDefinition { Name = "MinPrice", Field = "MinPrice", SupportRangeFiltering = true }

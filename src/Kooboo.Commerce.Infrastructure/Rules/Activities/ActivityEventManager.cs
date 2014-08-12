@@ -1,5 +1,5 @@
 ﻿using Kooboo.Commerce.Events;
-using Kooboo.Commerce.Utils;
+using Kooboo.Commerce.Text;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

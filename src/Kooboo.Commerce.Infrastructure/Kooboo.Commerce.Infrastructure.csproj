@@ -231,8 +231,8 @@
     <Compile Include="Scope.cs" />
     <Compile Include="Scope`.cs" />
     <Compile Include="SelectionItem.cs" />
-    <Compile Include="Utils\Inflector.cs" />
-    <Compile Include="Utils\TypeHelper.cs" />
+    <Compile Include="Text\Inflector.cs" />
+    <Compile Include="Reflection\TypeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

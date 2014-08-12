@@ -30,6 +30,8 @@ namespace Kooboo.Commerce.Search.Facets
     {
         public string Term { get; set; }
 
+        public string Url { get; set; }
+
         public int Hits { get; set; }
 
         public FacetValue(string term, int hits)

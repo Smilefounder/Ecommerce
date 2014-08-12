@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-namespace Kooboo.Commerce.Utils
+namespace Kooboo.Commerce.Text
 {
     // https://github.com/markrendle/Inflector
     public static class Inflector

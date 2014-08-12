@@ -1,5 +1,4 @@
-﻿@using Kooboo.Web.Url
-@{
+﻿@{
     var brands = ViewBag.Brands;
     var featuredProduct = ViewBag.FeaturedProduct;
     var accessories = ViewBag.Accessories;
@@ -10,41 +9,18 @@
 }
 
 <div style="font-size:16px;padding:10px;background:#eee;">
+    <h4>Facets</h4>
     @if (facets != null) { 
-        var selectedFacets = new Dictionary<string, string>();
-        
         foreach (var facet in facets)
         {
-            if (String.IsNullOrEmpty(Request.QueryString[facet.Name])) { 
-            <div style="margin-bottom:5px">
-                <span style="display:inline-block;min-width:100px;text-align:right">@facet.Name:</span>
+            <div>
+                <strong style="display:inline-block;min-width:100px;text-align:right">@facet.Name:</strong>
                 <span>
                     @foreach (var value in facet.Values)
                     {
                         <a href="@value.Url" style="display:inline-block;margin-left:10px;">@value.Term (@value.Hits)</a>
                     }
                 </span>
-            </div>
-            }
-            else
-            {
-                selectedFacets.Add(facet.Name, Request.QueryString[facet.Name]);
-            }
-        }
-
-        if (selectedFacets.Count > 0)
-        {
-            <div style="padding-top:10px">
-                <strong>You selected:</strong>
-                @foreach (var facet in selectedFacets)
-                {
-                    var url = UrlUtility.RemoveQuery(Request.RawUrl, facet.Key);
-                    
-                    <span style="display:inline-block;padding:2px 5px;background:orange;margin-right:5px;color:#fff">
-                        @facet.Value
-                        <a href="@url" style="color:#fff;text-decoration:none;font-weight:bold;">&times;</a>
-                    </span>
-                }
             </div>
         }
     }

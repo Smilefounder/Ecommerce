@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kooboo.Commerce.Utils
+namespace Kooboo.Commerce.Reflection
 {
     public static class TypeHelper
     {
