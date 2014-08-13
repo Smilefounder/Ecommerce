@@ -122,7 +122,7 @@ namespace Kooboo.Commerce.Search
                 }
             }
 
-            _sortFields.Add(new SortField(field, sortType, reverse));
+            SortFields.Add(new SortField(field, sortType, reverse));
 
             return this;
         }

@@ -58,7 +58,7 @@
                 <div style="padding: 10px;border:orange 1px solid;border-radius:5px;margin-top:10px;background:#fff;">
                     <div><a href="/product/@product.Id">@product.Name</a></div>
                     <div style="margin-top:5px">
-                        <span style="color:orange">$@(product.MinPrice) - $@(product.MaxPrice)</span>
+                        <span style="color:orange">$@(product.LowestPrice) - $@(product.HighestPrice)</span>
                     </div>
                     <div style="margin-top:5px">
                         @foreach (var field in product.VariantFieldValues)

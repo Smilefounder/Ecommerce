@@ -27,10 +27,10 @@ namespace Kooboo.Commerce.Search.Models
         public IList<string> Categories { get; set; }
 
         [Field(Field.Index.NOT_ANALYZED, Numeric = true)]
-        public decimal MinPrice { get; set; }
+        public decimal LowestPrice { get; set; }
 
         [Field(Field.Index.NOT_ANALYZED, Numeric = true)]
-        public decimal MaxPrice { get; set; }
+        public decimal HighestPrice { get; set; }
 
         [Field(Field.Index.NOT_ANALYZED, Numeric = true)]
         public IList<decimal> Prices { get; set; }
@@ -72,8 +72,8 @@ namespace Kooboo.Commerce.Search.Models
 
             if (doc.Prices.Count > 0)
             {
-                doc.MinPrice = doc.Prices.Min();
-                doc.MaxPrice = doc.Prices.Max();
+                doc.LowestPrice = doc.Prices.Min();
+                doc.HighestPrice = doc.Prices.Max();
             }
 
             var controls = FormControls.Controls().ToList();
