@@ -154,7 +154,7 @@
     <Compile Include="Data\CommerceInstance.cs" />
     <Compile Include="Data\Initialization\IInstanceInitializer.cs" />
     <Compile Include="Data\IRepository.cs" />
-    <Compile Include="Data\Extensions\LinqDynamicExtension.cs" />
+    <Compile Include="Extensions\LinqDynamicExtension.cs" />
     <Compile Include="Data\Extensions\QueryableExtensions.cs" />
     <Compile Include="Events\Extensions\HandlerTypeExtensions.cs" />
     <Compile Include="Events\EventHandlerManager.cs" />

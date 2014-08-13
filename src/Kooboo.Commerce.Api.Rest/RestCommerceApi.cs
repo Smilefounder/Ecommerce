@@ -67,8 +67,8 @@ namespace Kooboo.Commerce.Api.RestProvider
         {
             get { throw new NotImplementedException(); }
         }
-
-        public IBrandApi Brands
+        
+        public IBrandClient BrandClient
         {
             get { throw new NotImplementedException(); }
         }

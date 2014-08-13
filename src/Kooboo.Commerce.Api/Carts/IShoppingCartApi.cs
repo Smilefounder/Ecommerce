@@ -6,14 +6,13 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Carts
 {
-    /// <summary>
-    /// shopping cart api
-    /// </summary>
-    public interface IShoppingCartApi : IShoppingCartQuery
+    public interface IShoppingCartApi
     {
-        int CustomerCartId(string accountId);
+        Query<ShoppingCart> Query();
 
-        int SessionCartId(string sessionId);
+        int GetCartIdByAccountId(string accountId);
+
+        int GetCartIdBySessionId(string sessionId);
 
         /// <summary>
         /// Apply coupon to the shopping cart. 
@@ -55,10 +54,8 @@ namespace Kooboo.Commerce.Api.Carts
         void ChangeItemQuantity(int cartId, int itemId, int newQuantity);
 
         /// <summary>
-        /// expire the shopping cart, so that user can create another new shopping cart by current session id
+        /// Expire the shopping cart.
         /// </summary>
-        /// <param name="cartId">shopping cart id</param>
-        /// <returns>true if successfully, else false</returns>
         void ExpireCart(int cartId);
     }
 }

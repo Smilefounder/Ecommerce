@@ -58,6 +58,7 @@ namespace Kooboo.Commerce.Api.Local.Mapping
         {
             AddMapper(typeof(Kooboo.Commerce.Products.Product), typeof(Product), new ProductMapper());
             AddMapper(typeof(Kooboo.Commerce.Products.ProductVariant), typeof(ProductVariant), new ProductVariantMapper());
+            AddMapper(typeof(Kooboo.Commerce.Carts.ShoppingCart), typeof(ShoppingCart), new ShoppingCartMapper());
             AddMapper(typeof(Kooboo.Commerce.Carts.ShoppingCartItem), typeof(ShoppingCartItem), new ShoppingCartItemMapper());
         }
     }

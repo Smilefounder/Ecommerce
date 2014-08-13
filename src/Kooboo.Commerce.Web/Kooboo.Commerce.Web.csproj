@@ -278,22 +278,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Areas\CommerceWebAPI\CommerceWebAPIAreaRegistration.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\ApiInfoController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\BrandController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\CategoryController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\CommerceAPIControllerBase.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\CommerceAPIControllerQueryBase.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\CountryController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\CustomerController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\OrderController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\PaymentController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\PaymentMethodController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\ProductController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\Controllers\ShoppingCartController.cs" />
-    <Compile Include="Areas\CommerceWebAPI\ViewModels\ApiInfo.cs" />
-    <Compile Include="Areas\CommerceWebAPI\WebApiDependencyResolver.cs" />
-    <Compile Include="Areas\CommerceWebAPI\WebApiHttpApplicationEvents.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\CustomField_Metadata.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Mapping\ModelMaps.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\GlobalSettings_Metadata.cs" />
@@ -3375,13 +3359,6 @@
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\PaymentReturn\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Pay\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Pay\template.cshtml" />
-    <Content Include="Areas\CommerceWebAPI\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\CommerceWebAPI\Views\ApiInfo\AllAPI.cshtml" />
-    <Content Include="Areas\CommerceWebAPI\Views\ApiInfo\APIDetail.cshtml" />
-    <Content Include="Areas\CommerceWebAPI\Views\ApiInfo\Index.cshtml" />
-    <Content Include="Areas\CommerceWebAPI\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\CommerceWebAPI\Views\Shared\Error.cshtml" />
-    <Content Include="Areas\CommerceWebAPI\Views\Web.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Recommendations\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Recommendations\template.cshtml" />
     <Content Include="Areas\Commerce\Views\PaymentMethod\Steps.cshtml" />

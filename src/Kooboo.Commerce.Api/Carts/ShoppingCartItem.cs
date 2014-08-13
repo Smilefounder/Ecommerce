@@ -10,8 +10,10 @@ namespace Kooboo.Commerce.Api.Carts
     {
         public int Id { get; set; }
 
+        [OptionalInclude]
         public Product Product { get; set; }
 
+        [OptionalInclude]
         public ProductVariant ProductVariant { get; set; }
 
         public int Quantity { get; set; }

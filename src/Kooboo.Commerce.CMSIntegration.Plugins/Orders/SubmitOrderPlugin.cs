@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Membership;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Payments;
 using Kooboo.Commerce.Api.Carts;
 using Kooboo.Commerce.CMSIntegration.Plugins.Orders.Models;
@@ -21,7 +22,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
             var api = Site.Commerce();
 
             var member = HttpContext.Membership().GetMembershipUser();
-            var cart = api.ShoppingCarts.ByAccountId(member.UUID).FirstOrDefault();
+            var cart = api.ShoppingCarts.Query().ByAccountId(member.UUID).FirstOrDefault();
             var orderId = api.Orders.CreateFromCart(cart.Id, new ShoppingContext
             {
                 Currency = Site.GetCurrency(),

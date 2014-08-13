@@ -97,6 +97,7 @@
     <Compile Include="Bootstrapping\DataSourceHttpApplicationEvents.cs" />
     <Compile Include="CommerceDataSourceAdapter.cs" />
     <Compile Include="CommerceDataSourceDesigner.cs" />
+    <Compile Include="Generic\ApiBased\ApiDataSource.cs" />
     <Compile Include="Generic\ApiBased\DataSourceDefinitionHelper.cs" />
     <Compile Include="Generic\Filter.cs" />
     <Compile Include="Generic\GenericCommerceDataSource.cs" />

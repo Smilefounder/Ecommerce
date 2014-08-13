@@ -1,7 +1,9 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Brands;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
@@ -10,26 +12,19 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
     [KnownType(typeof(BrandDataSource))]
-    public class BrandDataSource : ApiBasedDataSource
+    public class BrandDataSource : ApiDataSource<Brand>
     {
         public override string Name
         {
-            get { return "Brands"; }
+            get
+            {
+                return "Brands";
+            }
         }
 
-        protected override Type QueryType
+        protected override Query<Brand> Query(ICommerceApi api)
         {
-            get { return typeof(IBrandQuery); }
-        }
-
-        protected override Type ItemType
-        {
-            get { return typeof(Brand); }
-        }
-
-        protected override object GetQuery(Api.ICommerceApi api)
-        {
-            return api.Brands;
+            return api.Brands.Query();
         }
     }
 }

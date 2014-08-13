@@ -11,13 +11,24 @@ namespace Kooboo.Commerce.Api.Local
         private StringComparison _comparison;
 
         public IncludeCollection()
-            : this(StringComparison.Ordinal)
+            : this(Enumerable.Empty<string>())
+        {
+        }
+
+        public IncludeCollection(IEnumerable<string> paths)
+            : this(paths, StringComparison.Ordinal)
         {
         }
 
         public IncludeCollection(StringComparison comparison)
+            : this(Enumerable.Empty<string>(), comparison)
+        {
+        }
+
+        public IncludeCollection(IEnumerable<string> paths, StringComparison comparison)
         {
             _comparison = comparison;
+            AddRange(paths);
         }
 
         public void Add(string path)

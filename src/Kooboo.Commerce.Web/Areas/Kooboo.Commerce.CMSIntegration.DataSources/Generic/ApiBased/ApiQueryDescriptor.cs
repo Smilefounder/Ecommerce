@@ -105,12 +105,6 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 
             foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                // Ignore HAL links
-                if (prop.Name == "Links")
-                {
-                    continue;
-                }
-
                 if (!visitedTypes.Contains(prop.PropertyType))
                 {
                     Type nextType = null;

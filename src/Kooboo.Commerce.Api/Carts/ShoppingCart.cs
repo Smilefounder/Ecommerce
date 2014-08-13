@@ -24,22 +24,27 @@ namespace Kooboo.Commerce.Api.Carts
         /// <summary>
         /// shopping cart items
         /// </summary>
+        [OptionalInclude]
         public IList<ShoppingCartItem> Items { get; set; }
         /// <summary>
         /// shipping address
         /// will copy to order's shipping address when create order from shopping cart
         /// </summary>
+        [OptionalInclude]
         public Address ShippingAddress { get; set; }
 
+        [OptionalInclude]
         public ShippingMethod ShippingMethod { get; set; }
 
         /// <summary>
         /// billing address
         /// will copy to order's billing address when create order from shopping cart
+        [OptionalInclude]
         public Address BillingAddress { get; set; }
         /// <summary>
         /// customer info
         /// </summary>
+        [OptionalInclude]
         public Customer Customer { get; set; }
         /// <summary>
         /// use coupon code

@@ -28,10 +28,10 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             var accountId = context.CurrentCustomerAccountId();
             if (!String.IsNullOrWhiteSpace(accountId))
             {
-                return Site.Current.Commerce().ShoppingCarts.CustomerCartId(accountId);
+                return Site.Current.Commerce().ShoppingCarts.GetCartIdByAccountId(accountId);
             }
 
-            return Site.Current.Commerce().ShoppingCarts.SessionCartId(context.CurrentSessionId());
+            return Site.Current.Commerce().ShoppingCarts.GetCartIdBySessionId(context.CurrentSessionId());
         }
     }
 }

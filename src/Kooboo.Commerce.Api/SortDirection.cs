@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Api.Brands
+namespace Kooboo.Commerce.Api
 {
-    public interface IBrandApi
+    public enum SortDirection
     {
-        Query<Brand> Query();
+        Asc = 0,
+        Desc = 1
     }
 }

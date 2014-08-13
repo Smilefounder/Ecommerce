@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Carts;
 using Kooboo.Commerce.Api.Products;
 using Kooboo.CMS.Membership.Models;
@@ -58,7 +59,7 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
         private ShoppingCart CartInfo(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting)
         {
             var api = site.Commerce();
-            var query = api.ShoppingCarts as IShoppingCartQuery;
+            var query = api.ShoppingCarts.Query();
             var cartId = controllerContext.HttpContext.CurrentCartId();
 
             query = query.ById(cartId);
@@ -97,7 +98,7 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
         private ShoppingCart GetShoppingCart(Site site, ControllerContext controllerContext)
         {
             var cartId = controllerContext.HttpContext.CurrentCartId();
-            return site.Commerce().ShoppingCarts.ById(cartId).FirstOrDefault();
+            return site.Commerce().ShoppingCarts.Query().ById(cartId).FirstOrDefault();
         }
     }
 }

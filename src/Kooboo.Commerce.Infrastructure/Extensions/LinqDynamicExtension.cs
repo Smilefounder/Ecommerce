@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-//using System.Data.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 
-namespace Kooboo.Commerce.Data
+namespace Kooboo.Commerce
 {
     public static class DynamicQueryable
     {
