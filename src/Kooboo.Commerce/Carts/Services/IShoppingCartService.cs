@@ -5,7 +5,7 @@ using System.Text;
 using Kooboo.Commerce.Customers;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Shipping;
 

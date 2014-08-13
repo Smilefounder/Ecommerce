@@ -7,7 +7,7 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Customers;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Carts;

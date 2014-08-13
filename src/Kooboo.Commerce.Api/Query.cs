@@ -32,6 +32,22 @@ namespace Kooboo.Commerce.Api
             Limit = Int32.MaxValue;
         }
 
+        public Query<T> AddFilter(string name, object parameters)
+        {
+            return AddFilter(new QueryFilter(name, parameters));
+        }
+
+        public Query<T> AddFilter(string name, IDictionary<string, object> parameters)
+        {
+            return AddFilter(new QueryFilter(name, parameters));
+        }
+
+        public Query<T> AddFilter(QueryFilter filter)
+        {
+            Filters.Add(filter);
+            return this;
+        }
+
         public Query<T> Include(string path)
         {
             Includes.Add(path);

@@ -7,7 +7,7 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 
-namespace Kooboo.Commerce.Locations.Services
+namespace Kooboo.Commerce.Countries.Services
 {
     [Dependency(typeof(ICountryService))]
     public class CountryService : ICountryService

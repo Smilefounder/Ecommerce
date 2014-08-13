@@ -15,11 +15,6 @@ namespace Kooboo.Commerce.Api.Carts
             }
         }
 
-        public IEnumerable<ParameterDescription> Parameters
-        {
-            get { return null; }
-        }
-
         public IEnumerable<string> OptionalIncludeFields
         {
             get { return OptionalIncludeAttribute.GetOptionalIncludeFields(typeof(ShoppingCart)); }

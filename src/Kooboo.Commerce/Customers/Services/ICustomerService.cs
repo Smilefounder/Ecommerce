@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.Commerce.Orders;
 using Kooboo.CMS.Membership.Models;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Countries;
 
 namespace Kooboo.Commerce.Customers.Services
 {

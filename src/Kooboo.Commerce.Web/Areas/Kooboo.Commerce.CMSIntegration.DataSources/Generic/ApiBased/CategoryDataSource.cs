@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Categories;
 using System;
 using System.Collections.Generic;
@@ -10,26 +11,16 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
     [KnownType(typeof(CategoryDataSource))]
-    public class CategoryDataSource : ApiBasedDataSource
+    public class CategoryDataSource : ApiDataSource<Category>
     {
         public override string Name
         {
             get { return "Categories"; }
         }
 
-        protected override Type QueryType
+        protected override Query<Category> Query(ICommerceApi api)
         {
-            get { return typeof(ICategoryQuery); }
-        }
-
-        protected override Type ItemType
-        {
-            get { return typeof(Category); }
-        }
-
-        protected override object GetQuery(Api.ICommerceApi api)
-        {
-            return api.Categories;
+            return api.Categories.Query();
         }
     }
 }

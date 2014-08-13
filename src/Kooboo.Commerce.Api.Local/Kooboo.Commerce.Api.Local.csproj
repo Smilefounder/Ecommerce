@@ -65,6 +65,8 @@
     <Compile Include="Carts\Mapping\ShoppingCartMapper.cs" />
     <Compile Include="Carts\ShoppingCartQueryExecutor.cs" />
     <Compile Include="Categories\CategoryApi.cs" />
+    <Compile Include="Categories\CategoryQueryExecutor.cs" />
+    <Compile Include="Countries\CountryQueryExecutor.cs" />
     <Compile Include="Customers\CustomerApi.cs" />
     <Compile Include="IncludeCollection.cs" />
     <Compile Include="LocalApiContext.cs" />

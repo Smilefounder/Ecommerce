@@ -1,5 +1,7 @@
 ﻿using Kooboo.Commerce.Api.Brands;
 using Kooboo.Commerce.Api.Carts;
+using Kooboo.Commerce.Api.Categories;
+using Kooboo.Commerce.Api.Countries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +32,9 @@ namespace Kooboo.Commerce.Api
         static QueryDescriptors()
         {
             Add(typeof(Query<Brand>), new BrandQueryDescriptor());
-            Add(typeof(ShoppingCart), new ShoppingCartQueryDescriptor());
+            Add(typeof(Query<Category>), new CategoryQueryDescriptor());
+            Add(typeof(Query<Country>), new CountryQueryDescriptor());
+            Add(typeof(Query<ShoppingCart>), new ShoppingCartQueryDescriptor());
         }
     }
 }

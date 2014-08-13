@@ -13,7 +13,7 @@ using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Carts;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Shipping;
 
 namespace Kooboo.Commerce.Carts.Services

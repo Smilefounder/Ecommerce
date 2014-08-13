@@ -130,9 +130,9 @@ namespace Kooboo.Commerce.Api.Local.Customers
             return mapped.Id;
         }
 
-        private Kooboo.Commerce.Locations.Address CreateAddress(Address addr)
+        private Kooboo.Commerce.Countries.Address CreateAddress(Address addr)
         {
-            return new Commerce.Locations.Address
+            return new Commerce.Countries.Address
             {
                 FirstName = addr.FirstName,
                 LastName = addr.LastName,

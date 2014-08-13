@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Countries
 {
-    /// <summary>
-    /// country api
-    /// </summary>
-    public interface ICountryApi : ICountryQuery
+    public interface ICountryApi
     {
+        Query<Country> Query();
     }
 }

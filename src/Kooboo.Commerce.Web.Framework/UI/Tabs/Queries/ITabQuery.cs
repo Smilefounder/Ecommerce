@@ -1,12 +1,8 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Locations;
-using Kooboo.Commerce.Web.Framework.UI;
-using Kooboo.Web.Mvc.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 
 namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries

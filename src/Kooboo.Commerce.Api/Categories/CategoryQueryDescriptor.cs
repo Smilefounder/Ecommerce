@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Api.Brands
+namespace Kooboo.Commerce.Api.Categories
 {
-    public class BrandQueryDescriptor : IQueryDescriptor
+    public class CategoryQueryDescriptor : IQueryDescriptor
     {
         public IEnumerable<FilterDescription> Filters
         {
             get
             {
-                return new[] { BrandFilters.ById, BrandFilters.ByName, BrandFilters.ByCustomField };
+                return new[] { CategoryFilters.ById, CategoryFilters.ByName, CategoryFilters.ByParent, CategoryFilters.ByCustomField };
             }
         }
 
         public IEnumerable<string> OptionalIncludeFields
         {
-            get { return null; }
+            get { return OptionalIncludeAttribute.GetOptionalIncludeFields(typeof(Category)); }
         }
 
         public IEnumerable<string> DefaultIncludedFields
@@ -27,10 +27,7 @@ namespace Kooboo.Commerce.Api.Brands
 
         public IEnumerable<string> SortFields
         {
-            get
-            {
-                return new[] { "Id", "Name" };
-            }
+            get { return new [] { "Id", "Name" }; }
         }
     }
 }

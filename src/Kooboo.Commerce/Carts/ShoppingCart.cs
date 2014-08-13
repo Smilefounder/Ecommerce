@@ -1,7 +1,7 @@
 ﻿using Kooboo.Commerce.Customers;
 using System.Collections.Generic;
 using System.Linq;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Shipping;
 
 namespace Kooboo.Commerce.Carts

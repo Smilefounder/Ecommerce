@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.Locations;
+﻿using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;

@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using Kooboo.CMS.Common;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Countries;
-using Kooboo.Commerce.Locations.Services;
+using Kooboo.Commerce.Countries.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers

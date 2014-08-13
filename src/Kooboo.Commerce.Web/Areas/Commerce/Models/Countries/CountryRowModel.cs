@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Countries;
 using Kooboo.Web.Mvc.Grid2.Design;
 using Kooboo.Commerce.Web.Framework.UI.Grid2;
 

@@ -4,7 +4,7 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Countries;
 
 namespace Kooboo.Commerce.Customers.Services
 {

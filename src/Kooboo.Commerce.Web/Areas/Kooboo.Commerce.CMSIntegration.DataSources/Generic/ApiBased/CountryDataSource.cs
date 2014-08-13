@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Countries;
 using System;
 using System.Collections.Generic;
@@ -10,26 +11,16 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
     [KnownType(typeof(CountryDataSource))]
-    public class CountryDataSource : ApiBasedDataSource
+    public class CountryDataSource : ApiDataSource<Country>
     {
         public override string Name
         {
             get { return "Countries"; }
         }
 
-        protected override Type QueryType
+        protected override Query<Country> Query(ICommerceApi api)
         {
-            get { return typeof(ICountryQuery); }
-        }
-
-        protected override Type ItemType
-        {
-            get { return typeof(Country); }
-        }
-
-        protected override object GetQuery(Api.ICommerceApi api)
-        {
-            return api.Countries;
+            return api.Countries.Query();
         }
     }
 }

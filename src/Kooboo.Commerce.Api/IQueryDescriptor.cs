@@ -10,8 +10,6 @@ namespace Kooboo.Commerce.Api
     {
         IEnumerable<FilterDescription> Filters { get; }
 
-        IEnumerable<ParameterDescription> Parameters { get; }
-
         IEnumerable<string> OptionalIncludeFields { get; }
 
         IEnumerable<string> DefaultIncludedFields { get; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using Kooboo.Commerce.Locations;
+using Kooboo.Commerce.Countries;
 using Kooboo.Web.Mvc.Grid2.Design;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Countries

@@ -6,7 +6,7 @@ using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Locations.Services;
+using Kooboo.Commerce.Countries.Services;
 using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.UI.Topbar;

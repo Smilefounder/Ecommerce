@@ -23,6 +23,7 @@ namespace Kooboo.Commerce.Categories
         /// </summary>
         public string Photo { get; set; }
 
+        // TODO: Remove?
         public bool Published { get; set; }
 
         public int? ParentId { get; set; }

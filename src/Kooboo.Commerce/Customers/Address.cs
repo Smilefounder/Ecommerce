@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Locations
+namespace Kooboo.Commerce.Countries
 {
     public class Address
     {

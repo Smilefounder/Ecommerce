@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Categories
 {
-    /// <summary>
-    /// category api, query only
-    /// </summary>
-    public interface ICategoryApi : ICategoryQuery
+    public interface ICategoryApi
     {
+        Query<Category> Query();
     }
 }
