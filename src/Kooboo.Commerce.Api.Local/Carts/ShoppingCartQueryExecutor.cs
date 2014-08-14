@@ -25,15 +25,18 @@ namespace Kooboo.Commerce.Api.Local.Carts
         {
             if (filter.Name == ShoppingCartFilters.ById.Name)
             {
-                query = query.Where(it => it.Id == (int)filter.Parameters["Id"]);
+                var cartId = filter.GetParameterValueOrDefault<int>("Id");
+                query = query.Where(it => it.Id == cartId);
             }
             else if (filter.Name == ShoppingCartFilters.BySessionId.Name)
             {
-                query = query.Where(it => it.SessionId == (string)filter.Parameters["SessionId"]);
+                var sessionId = filter.GetParameterValueOrDefault<string>("SessionId");
+                query = query.Where(it => it.SessionId == sessionId);
             }
             else if (filter.Name == ShoppingCartFilters.ByAccountId.Name)
             {
-                query = query.Where(it => it.Customer.AccountId == (string)filter.Parameters["AccountId"]);
+                var accountId = filter.GetParameterValueOrDefault<string>("AccountId");
+                query = query.Where(it => it.Customer.AccountId == accountId);
             }
             else if (filter.Name == ShoppingCartFilters.ByCurrentCustomer.Name)
             {

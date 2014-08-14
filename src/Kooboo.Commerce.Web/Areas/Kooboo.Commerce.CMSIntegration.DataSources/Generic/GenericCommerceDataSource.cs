@@ -55,7 +55,13 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 
         public virtual object Execute(CommerceDataSourceContext context)
         {
-            return DoExecute(context, ParseSettings(context));
+            ParsedGenericCommerceDataSourceSettings settings;
+            if (TryParseSettings(context, out settings))
+            {
+                return DoExecute(context, settings);
+            }
+
+            return null;
         }
 
         protected abstract object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings);
@@ -103,57 +109,57 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
             return true;
         }
 
-        protected ParsedGenericCommerceDataSourceSettings ParseSettings(CommerceDataSourceContext context)
+        protected bool TryParseSettings(CommerceDataSourceContext context, out ParsedGenericCommerceDataSourceSettings settings)
         {
-            var result = new ParsedGenericCommerceDataSourceSettings();
-
             if (Settings == null)
             {
-                return result;
+                settings = null;
+                return false;
             }
+
+            settings = new ParsedGenericCommerceDataSourceSettings();
 
             // Filters
             if (Settings.Filters != null && Settings.Filters.Count > 0)
             {
-                foreach (var each in Settings.Filters)
+                foreach (var savedFilter in Settings.Filters)
                 {
-                    var filterDefinition = Filters.FirstOrDefault(f => f.Name == each.Name);
-                    if (filterDefinition != null)
+                    var filterDefinition = Filters.FirstOrDefault(f => f.Name == savedFilter.Name);
+                    if (filterDefinition == null)
                     {
-                        var filter = new ParsedFilter(each.Name);
+                        continue;
+                    }
 
-                        foreach (var param in each.ParameterValues)
-                        {
-                            var paramDefinition = filterDefinition.Parameters.FirstOrDefault(p => p.Name == param.ParameterName);
-                            if (paramDefinition != null)
-                            {
-                                var strParamValue = ParameterizedFieldValue.GetFieldValue(param.ParameterValue, context.ValueProvider);
-                                var paramValue = ResolveParameterValue(strParamValue, paramDefinition.ValueType);
-                                filter.ParameterValues.Add(param.ParameterName, paramValue);
-                            }
-                        }
-
-                        result.Filters.Add(filter);
+                    var parsedFilter = savedFilter.Parse(filterDefinition, context);
+                    if (parsedFilter != null)
+                    {
+                        settings.Filters.Add(parsedFilter);
+                    }
+                    else if (savedFilter.Required)
+                    {
+                        // If filter is required but it's not presented in current context. Parse failed.
+                        settings = null;
+                        return false;
                     }
                 }
             }
 
-            result.TakeOperation = Settings.TakeOperation;
+            settings.TakeOperation = Settings.TakeOperation;
 
             // Pagination
-            result.EnablePaging = Settings.EnablePaging;
-            if (result.EnablePaging)
+            settings.EnablePaging = Settings.EnablePaging;
+            if (settings.EnablePaging)
             {
                 var pageSize = ParameterizedFieldValue.GetFieldValue(Settings.PageSize, context.ValueProvider);
                 if (!String.IsNullOrEmpty(pageSize))
                 {
-                    result.PageSize = Convert.ToInt32(pageSize);
+                    settings.PageSize = Convert.ToInt32(pageSize);
                 }
 
                 var pageNumber = ParameterizedFieldValue.GetFieldValue(Settings.PageNumber, context.ValueProvider);
                 if (!String.IsNullOrEmpty(pageNumber))
                 {
-                    result.PageNumber = Convert.ToInt32(pageNumber);
+                    settings.PageNumber = Convert.ToInt32(pageNumber);
                 }
             }
 
@@ -163,34 +169,17 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
                 var top = ParameterizedFieldValue.GetFieldValue(Settings.Top, context.ValueProvider);
                 if (!String.IsNullOrWhiteSpace(top))
                 {
-                    result.Top = Convert.ToInt32(top);
+                    settings.Top = Convert.ToInt32(top);
                 }
             }
 
             // Includes
             if (Settings.Includes != null)
             {
-                result.Includes = Settings.Includes.ToList();
+                settings.Includes = Settings.Includes.ToList();
             }
 
-            return result;
-        }
-
-        private object ResolveParameterValue(string strValue, Type type)
-        {
-            if (String.IsNullOrWhiteSpace(strValue))
-            {
-                return null;
-            }
-
-            Type targetType = type;
-
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-            {
-                targetType = Nullable.GetUnderlyingType(type);
-            }
-
-            return Convert.ChangeType(strValue, targetType);
+            return true;
         }
     }
 }

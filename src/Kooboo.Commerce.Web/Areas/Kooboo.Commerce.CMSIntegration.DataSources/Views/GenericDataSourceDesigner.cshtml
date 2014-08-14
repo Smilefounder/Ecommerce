@@ -13,12 +13,14 @@
                         <span style="color:#888;">
                             <span data-bind="text: $root.GetFilterParametersDisplayText($data)"></span>
                         </span>
+                        <span data-bind="visible: Required" style="color:red">*</span>
                         <span>
                             <a href="#" data-bind="click: $root.EditFilter" style="display:inline-block">@Html.IconImage("edit small")</a>
                             <a href="#" data-bind="click: $root.RemoveFilter" style="display:inline-block">@Html.IconImage("minus small")</a>
                         </span>
 
                         <input type="hidden" data-bind="attr: { name: 'DataSource.CommerceDataSource.Settings.Filters[' + $index() + '].Name' }, value: Name" />
+                        <input type="hidden" data-bind="attr: { name: 'Datasource.CommerceDataSource.Settings.Filters[' + $index() + '].Required' }, value: Required() ? 'true' : 'false'" />
                         <!-- ko foreach: ParameterValues -->
                         <input type="hidden" data-bind="attr: { name: 'DataSource.CommerceDataSource.Settings.Filters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterName' }, value: ParameterName" />
                         <input type="hidden" data-bind="attr: { name: 'DataSource.CommerceDataSource.Settings.Filters[' + $parentContext.$index() + '].ParameterValues[' + $index() + '].ParameterValue' }, value: ParameterValue" />
@@ -32,6 +34,11 @@
                             <span data-bind="if: !IsNew()">
                                 <span data-bind="text: Name"></span>
                             </span>
+                        </div>
+                        <div class="clearfix" style="margin-bottom:10px">
+                            <input type="checkbox" value="true" data-bind="checked: Required, attr: { name: 'Filter_' + $index() + '_Required', id: 'Filter_' + $index() + '_Required' }" />
+                            <label data-bind="attr: { 'for': 'Filter_' + $index() + '_Required' }" class="inline">@("Required".Localize())</label>
+                            <em class="tip">@("Data source result will be null if any required filter is not presented")</em>
                         </div>
 
                         <fieldset data-bind="visible: ParameterValues().length > 0">
@@ -81,7 +88,7 @@
             </td>
         </tr>
     </table>
-    <fieldset data-bind="visible: DataSource.Settings.TakeOperation() == 0 || DataSource.SortableFields() && DataSource.SortableFields().length > 0">
+    <fieldset data-bind="visible: DataSource.Settings.TakeOperation() == 0 || DataSource.SortFields() && DataSource.SortFields().length > 0">
         <legend class="clickable">@Html.IconImage("arrow") @("Advanced".Localize())</legend>
         <div style="padding-top:10px">
             <table class="common-form">
@@ -93,11 +100,11 @@
                         </td>
                     </tr>
                 </tbody>
-                <tbody data-bind="visible: DataSource.SortableFields() && DataSource.SortableFields().length > 0">
+                <tbody data-bind="visible: DataSource.SortFields() && DataSource.SortFields().length > 0">
                     <tr>
                         <th>@("Sort field".Localize())</th>
                         <td>
-                            <select name="DataSource.CommerceDataSource.Settings.SortField" data-bind="options: DataSource.SortableFields, value: DataSource.Settings.SortField"></select>
+                            <select name="DataSource.CommerceDataSource.Settings.SortField" data-bind="options: DataSource.SortFields, value: DataSource.Settings.SortField"></select>
                         </td>
                     </tr>
                     <tr>
@@ -139,7 +146,7 @@
             </table>
         </div>
     </fieldset>
-    <fieldset data-bind="visible: DataSource.IncludablePaths() && DataSource.IncludablePaths().length > 0" style="display:none">
+    <fieldset data-bind="visible: DataSource.OptionalIncludeFields() && DataSource.OptionalIncludeFields().length > 0" style="display:none">
         <legend class="clickable">@Html.IconImage("arrow") @("Includes".Localize())</legend>
         <div style="padding-top:10px">
             <table class="common-form">
@@ -151,9 +158,9 @@
                                 <input id="IncludeAll" name="IncludeAll" type="checkbox" data-bind="checked: $root.AllPathsIncluded, click: $root.ToggleIncludeAll" />
                                 <label class="inline" for="IncludeAll">@("All".Localize())</label>
                             </div>
-                            <div data-bind="foreach: DataSource.IncludablePaths">
+                            <div data-bind="foreach: DataSource.OptionalIncludeFields">
                                 <div class="clearfix" style="padding-bottom:10px">
-                                    <input type="checkbox" name="IncludablePaths" data-bind="attr: { id: 'IncludablePath_' + $index(), value: $data }, checked: $root.IsPathIncluded($data), disable: $root.IsPathDisabled($data), click: $root.TogglePathInclude" />
+                                    <input type="checkbox" name="OptionalIncludeFields" data-bind="attr: { id: 'IncludablePath_' + $index(), value: $data }, checked: $root.IsPathIncluded($data), disable: $root.IsPathDisabled($data), click: $root.TogglePathInclude" />
                                     <label class="inline" data-bind="text: $data, attr: { 'for': 'IncludablePath_' + $index() }"></label>
                                     <!-- Values of disabled form elements won't be sent to server, so we use a hidden checkbox to hold the real values to be sent to server -->
                                     <input type="checkbox" style="display:none" name="DataSource.CommerceDataSource.Settings.Includes" data-bind="attr: { value: $data }, checked: $root.IsPathIncluded($data)" />

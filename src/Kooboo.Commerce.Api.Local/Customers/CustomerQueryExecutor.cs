@@ -23,15 +23,18 @@ namespace Kooboo.Commerce.Api.Local.Customers
         {
             if (filter.Name == CustomerFilters.ById.Name)
             {
-                query = query.Where(c => c.Id == (int)filter.Parameters["Id"]);
+                var id = filter.GetParameterValueOrDefault<int>("Id");
+                query = query.Where(c => c.Id == id);
             }
             else if (filter.Name == CustomerFilters.ByEmail.Name)
             {
-                query = query.Where(c => c.Email == (string)filter.Parameters["Email"]);
+                var email = filter.GetParameterValueOrDefault<string>("Email");
+                query = query.Where(c => c.Email == email);
             }
             else if (filter.Name == CustomerFilters.ByAccountId.Name)
             {
-                query = query.Where(c => c.AccountId == (string)filter.Parameters["AccountId"]);
+                var accountId = filter.GetParameterValueOrDefault<string>("AccountId");
+                query = query.Where(c => c.AccountId == accountId);
             }
             else if (filter.Name == CustomerFilters.ByCustomField.Name)
             {

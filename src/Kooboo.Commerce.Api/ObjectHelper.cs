@@ -8,9 +8,9 @@ namespace Kooboo.Commerce.Api
 {
     static class ObjectHelper
     {
-        public static Dictionary<string, object> AnonymousToDictionary(object obj)
+        public static Dictionary<string, object> AnonymousToDictionary(object obj, StringComparer comparer)
         {
-            var dic = new Dictionary<string, object>();
+            var dic = new Dictionary<string, object>(comparer);
 
             if (obj != null)
             {

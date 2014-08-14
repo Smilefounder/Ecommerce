@@ -23,15 +23,18 @@ namespace Kooboo.Commerce.Api.Local.Orders
         {
             if (filter.Name == OrderFilters.ById.Name)
             {
-                query = query.Where(o => o.Id == (int)filter.Parameters["Id"]);
+                var id = filter.GetParameterValueOrDefault<int>("Id");
+                query = query.Where(o => o.Id == id);
             }
             else if (filter.Name == OrderFilters.ByCustomerId.Name)
             {
-                query = query.Where(o => o.Customer.Id == (int)filter.Parameters["CustomerId"]);
+                var customerId = filter.GetParameterValueOrDefault<int>("CustomerId");
+                query = query.Where(o => o.Customer.Id == customerId);
             }
             else if (filter.Name == OrderFilters.ByCustomerAccountId.Name)
             {
-                query = query.Where(o => o.Customer.AccountId == (string)filter.Parameters["CustomerAccountId"]);
+                var accountId = filter.GetParameterValueOrDefault<string>("CustomerAccountId");
+                query = query.Where(o => o.Customer.AccountId == accountId);
             }
             else if (filter.Name == OrderFilters.ByUtcCreatedDate.Name)
             {
@@ -54,11 +57,13 @@ namespace Kooboo.Commerce.Api.Local.Orders
             }
             else if (filter.Name == OrderFilters.ByProcessingStatus.Name)
             {
-                query = query.Where(o => o.ProcessingStatus == (string)filter.Parameters["ProcessingStatus"]);
+                var status = filter.GetParameterValueOrDefault<string>("ProcessingStatus");
+                query = query.Where(o => o.ProcessingStatus == status);
             }
             else if (filter.Name == OrderFilters.ByCouponCode.Name)
             {
-                query = query.Where(o => o.Coupon == (string)filter.Parameters["CouponCode"]);
+                var coupon = filter.GetParameterValueOrDefault<string>("CouponCode");
+                query = query.Where(o => o.Coupon == coupon);
             }
             else if (filter.Name == OrderFilters.ByTotal.Name)
             {
@@ -76,7 +81,9 @@ namespace Kooboo.Commerce.Api.Local.Orders
             }
             else if (filter.Name == OrderFilters.ByCustomField.Name)
             {
-                query = query.Where(o => o.CustomFields.Any(f => f.Name == (string)filter.Parameters["FieldName"] && f.Value == (string)filter.Parameters["FieldValue"]));
+                var fieldName = (string)filter.Parameters["FieldName"];
+                var fieldValue = (string)filter.Parameters["FieldValue"];
+                query = query.Where(o => o.CustomFields.Any(f => f.Name == fieldName && f.Value == fieldValue));
             }
 
             return query;

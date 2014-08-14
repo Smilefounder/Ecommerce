@@ -23,23 +23,28 @@ namespace Kooboo.Commerce.Api.Local.Countries
         {
             if (filter.Name == CountryFilters.ById.Name)
             {
-                query = query.Where(c => c.Id == (int)filter.Parameters["Id"]);
+                var id = filter.GetParameterValueOrDefault<int>("Id");
+                query = query.Where(c => c.Id == id);
             }
             else if (filter.Name == CountryFilters.ByName.Name)
             {
-                query = query.Where(c => c.Name == (string)filter.Parameters["Name"]);
+                var name = filter.GetParameterValueOrDefault<string>("Name");
+                query = query.Where(c => c.Name == name);
             }
             else if (filter.Name == CountryFilters.ByTwoLetterIsoCode.Name)
             {
-                query = query.Where(c => c.TwoLetterIsoCode == (string)filter.Parameters["TwoLetterIsoCode"]);
+                var code = filter.GetParameterValueOrDefault<string>("TwoLetterIsoCode");
+                query = query.Where(c => c.TwoLetterIsoCode == code);
             }
             else if (filter.Name == CountryFilters.ByThreeLetterIsoCode.Name)
             {
-                query = query.Where(c => c.ThreeLetterIsoCode == (string)filter.Parameters["ThreeLetterIsoCode"]);
+                var code = filter.GetParameterValueOrDefault<string>("ThreeLetterIsoCode");
+                query = query.Where(c => c.ThreeLetterIsoCode == code);
             }
             else if (filter.Name == CountryFilters.ByNumericIsoCode.Name)
             {
-                query = query.Where(c => c.NumericIsoCode == (string)filter.Parameters["NumericIsoCode"]);
+                var code = filter.GetParameterValueOrDefault<string>("NumericIsoCode");
+                query = query.Where(c => c.NumericIsoCode == code);
             }
 
             return query;

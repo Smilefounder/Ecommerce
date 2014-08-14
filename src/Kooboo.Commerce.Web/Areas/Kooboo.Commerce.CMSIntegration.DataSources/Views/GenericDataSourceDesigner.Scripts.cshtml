@@ -139,7 +139,7 @@
                 });
 
                 // Add also parent paths
-                _.each(_this.DataSource.IncludablePaths(), function (p) {
+                _.each(_this.DataSource.OptionalIncludeFields(), function (p) {
                     if (!includesMap[p] && p.length < path.length && (path.indexOf(p) === 0)) {
                         _this.DataSource.Settings.Includes.push(p);
                     }
@@ -156,7 +156,7 @@
 
             this.IncludeAllPaths = function () {
                 _this.DataSource.Settings.Includes.removeAll();
-                _.each(_this.DataSource.IncludablePaths(), function (p) {
+                _.each(_this.DataSource.OptionalIncludeFields(), function (p) {
                     _this.DataSource.Settings.Includes.push(p);
                 });
                 _this.UpdateAllPathsIncluded();
@@ -171,7 +171,7 @@
 
             this.UpdateAllPathsIncluded = function () {
                 _this.AllPathsIncluded(
-                    _this.DataSource.IncludablePaths().length === _this.DataSource.Settings.Includes().length);
+                    _this.DataSource.OptionalIncludeFields().length === _this.DataSource.Settings.Includes().length);
             }
 
             this.ToggleIncludeAll = function () {

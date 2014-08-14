@@ -11,43 +11,28 @@ namespace Kooboo.Commerce.Api.Metadata
 
         public Type ValueType { get; private set; }
 
-        public object DefaultValue { get; private set; }
+        public bool Required { get; private set; }
 
-        public ParameterDescription(string name, Type valueType)
-            : this(name, valueType, null)
-        {
-        }
-
-        public ParameterDescription(string name, Type valueType, object defaultValue)
+        public ParameterDescription(string name, Type valueType, bool required)
         {
             Name = name;
             ValueType = valueType;
-            DefaultValue = defaultValue;
+            Required = required;
         }
     }
 
     public class Int32ParameterDescription : ParameterDescription
     {
-        public Int32ParameterDescription(string name)
-            : base(name, typeof(Int32))
-        {
-        }
-
-        public Int32ParameterDescription(string name, int defaultValue)
-            : base(name, typeof(Int32), defaultValue)
+        public Int32ParameterDescription(string name, bool required)
+            : base(name, typeof(Int32), required)
         {
         }
     }
 
     public class StringParameterDescription : ParameterDescription
     {
-        public StringParameterDescription(string name)
-            : base(name, typeof(String))
-        {
-        }
-
-        public StringParameterDescription(string name, string defaultValue)
-            : base(name, typeof(String), defaultValue)
+        public StringParameterDescription(string name, bool required)
+            : base(name, typeof(String), required)
         {
         }
     }

@@ -23,11 +23,13 @@ namespace Kooboo.Commerce.Api.Local.Categories
         {
             if (filter.Name == CategoryFilters.ById.Name)
             {
-                query = query.Where(c => c.Id == (int)filter.Parameters["Id"]);
+                var categoryId = filter.GetParameterValueOrDefault<int>("Id");
+                query = query.Where(c => c.Id == categoryId);
             }
             else if (filter.Name == CategoryFilters.ByName.Name)
             {
-                query = query.Where(c => c.Name == (string)filter.Parameters["Name"]);
+                var name = filter.GetParameterValueOrDefault<string>("Name");
+                query = query.Where(c => c.Name == name);
             }
             else if (filter.Name == CategoryFilters.ByParent.Name)
             {

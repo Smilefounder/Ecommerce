@@ -23,6 +23,11 @@ namespace Kooboo.Commerce.Api.Metadata
             Parameters = parameters.ToList();
         }
 
+        public ParameterDescription GetParameter(string paramName)
+        {
+            return Parameters.FirstOrDefault(p => p.Name == paramName);
+        }
+
         public QueryFilter CreateFilter(object parameters)
         {
             return new QueryFilter(Name, parameters);

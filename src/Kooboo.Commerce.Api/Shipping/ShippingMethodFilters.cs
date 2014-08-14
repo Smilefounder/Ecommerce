@@ -8,8 +8,8 @@ namespace Kooboo.Commerce.Api.Shipping
 {
     public static class ShippingMethodFilters
     {
-        public static readonly FilterDescription ById = new FilterDescription("ById", new Int32ParameterDescription("Id"));
+        public static readonly FilterDescription ById = new FilterDescription("ById", new Int32ParameterDescription("Id", true));
 
-        public static readonly FilterDescription ByName = new FilterDescription("ByName", new StringParameterDescription("Name"));
+        public static readonly FilterDescription ByName = new FilterDescription("ByName", new StringParameterDescription("Name", true));
     }
 }

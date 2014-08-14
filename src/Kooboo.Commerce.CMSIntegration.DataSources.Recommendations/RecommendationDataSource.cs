@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
         {
             get
             {
-                return new[] { new FilterDescription("ByProduct", new Int32ParameterDescription("ProductId")) };
+                return new[] { new FilterDescription("ByProduct", new Int32ParameterDescription("ProductId", true)) };
             }
         }
 

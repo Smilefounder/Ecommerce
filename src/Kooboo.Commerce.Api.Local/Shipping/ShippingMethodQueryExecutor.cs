@@ -20,11 +20,13 @@ namespace Kooboo.Commerce.Api.Local.Shipping
         {
             if (filter.Name == ShippingMethodFilters.ById.Name)
             {
-                query = query.Where(it => it.Id == (int)filter.Parameters["Id"]);
+                var id = (int)filter.Parameters["Id"];
+                query = query.Where(it => it.Id == id);
             }
             else if (filter.Name == ShippingMethodFilters.ByName.Name)
             {
-                query = query.Where(it => it.Name == (string)filter.Parameters["Name"]);
+                var name = (string)filter.Parameters["Name"];
+                query = query.Where(it => it.Name == name);
             }
 
             return query;

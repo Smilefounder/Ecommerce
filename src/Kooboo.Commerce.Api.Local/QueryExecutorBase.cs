@@ -62,8 +62,13 @@ namespace Kooboo.Commerce.Api.Local
 
         protected virtual IQueryable<TSource> ApplySorts(IQueryable<TSource> query, IEnumerable<Sort> sorts)
         {
-            var exp = String.Join(",", sorts.Select(it => it.Field + " " + it.Direction));
-            return query.OrderBy(exp) as IQueryable<TSource>;
+            if (sorts.Any())
+            {
+                var exp = String.Join(",", sorts.Select(it => it.Field + " " + it.Direction));
+                query = query.OrderBy(exp) as IQueryable<TSource>;
+            }
+
+            return query;
         }
 
         protected virtual T Map(TSource source, IncludeCollection includes)

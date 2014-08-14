@@ -8,10 +8,10 @@ namespace Kooboo.Commerce.Api.Payments
 {
     public static class PaymentMethodFilters
     {
-        public static readonly FilterDescription ById = new FilterDescription("ById", new Int32ParameterDescription("Id"));
+        public static readonly FilterDescription ById = new FilterDescription("ById", new Int32ParameterDescription("Id", true));
 
-        public static readonly FilterDescription ByName = new FilterDescription("ByName", new StringParameterDescription("Name"));
+        public static readonly FilterDescription ByName = new FilterDescription("ByName", new StringParameterDescription("Name", true));
 
-        public static readonly FilterDescription ByUserKey = new FilterDescription("ByUserKey", new StringParameterDescription("UserKey"));
+        public static readonly FilterDescription ByUserKey = new FilterDescription("ByUserKey", new StringParameterDescription("UserKey", true));
     }
 }

@@ -20,13 +20,32 @@ namespace Kooboo.Commerce.Api
         public QueryFilter(string name, object parameters)
         {
             Name = name;
-            Parameters = ObjectHelper.AnonymousToDictionary(parameters);
+            Parameters = ObjectHelper.AnonymousToDictionary(parameters, StringComparer.OrdinalIgnoreCase);
         }
 
         public QueryFilter(string name, IDictionary<string, object> parameters)
         {
             Name = name;
-            Parameters = parameters;
+            Parameters = new Dictionary<string, object>(parameters, StringComparer.OrdinalIgnoreCase);
+        }
+
+        public T GetParameterValueOrDefault<T>(string paramName)
+        {
+            return GetParameterValueOrDefault<T>(paramName, default(T));
+        }
+
+        public T GetParameterValueOrDefault<T>(string paramName, T defaultValue)
+        {
+            if (Parameters.ContainsKey(paramName))
+            {
+                var value = Parameters[paramName];
+                if (value != null)
+                {
+                    return (T)value;
+                }
+            }
+
+            return defaultValue;
         }
     }
 }

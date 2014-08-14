@@ -54,8 +54,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
             // Sorting
             if (!String.IsNullOrEmpty(settings.SortField))
             {
-                // TODO: Fix sorting
-                query.Sorts.Add(new Sort(settings.SortField, Kooboo.Commerce.Api.SortDirection.Asc));
+                query.Sorts.Add(new Sort(settings.SortField, settings.SortDirection));
             }
 
             if (settings.TakeOperation == TakeOperation.First)

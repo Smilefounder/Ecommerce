@@ -23,15 +23,18 @@ namespace Kooboo.Commerce.Api.Local.Payments
         {
             if (filter.Name == PaymentMethodFilters.ById.Name)
             {
-                query = query.Where(it => it.Id == (int)filter.Parameters["Id"]);
+                var id = (int)filter.Parameters["Id"];
+                query = query.Where(it => it.Id == id);
             }
             else if (filter.Name == PaymentMethodFilters.ByName.Name)
             {
-                query = query.Where(it => it.Name == (string)filter.Parameters["Name"]);
+                var name = (string)filter.Parameters["Name"];
+                query = query.Where(it => it.Name == name);
             }
             else if (filter.Name == PaymentMethodFilters.ByUserKey.Name)
             {
-                query = query.Where(it => it.UserKey == (string)filter.Parameters["UserKey"]);
+                var userKey = (string)filter.Parameters["UserKey"];
+                query = query.Where(it => it.UserKey == userKey);
             }
 
             return query;

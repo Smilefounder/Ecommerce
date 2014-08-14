@@ -23,19 +23,23 @@ namespace Kooboo.Commerce.Api.Local.Products
         {
             if (filter.Name == ProductFilters.ById.Name)
             {
-                query = query.Where(p => p.Id == (int)filter.Parameters["Id"]);
+                var id = (int)filter.Parameters["Id"];
+                query = query.Where(p => p.Id == id);
             }
             else if (filter.Name == ProductFilters.ByName.Name)
             {
-                query = query.Where(p => p.Name == (string)filter.Parameters["Name"]);
+                var name = (string)filter.Parameters["Name"];
+                query = query.Where(p => p.Name == name);
             }
             else if (filter.Name == ProductFilters.ByCategory.Name)
             {
-                query = query.Where(p => p.Categories.Any(c => c.CategoryId == (int)filter.Parameters["CategoryId"]));
+                var categoryId = (int)filter.Parameters["CategoryId"];
+                query = query.Where(p => p.Categories.Any(c => c.CategoryId == categoryId));
             }
             else if (filter.Name == ProductFilters.ByBrand.Name)
             {
-                query = query.Where(p => p.BrandId == (int)filter.Parameters["BrandId"]);
+                var brandId = (int)filter.Parameters["BrandId"];
+                query = query.Where(p => p.BrandId == brandId);
             }
             else if (filter.Name == ProductFilters.ByCustomField.Name)
             {
