@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Countries;
 using Kooboo.Commerce.Api.Customers;
 using Kooboo.Commerce.CMSIntegration;
@@ -51,6 +52,7 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             var model = new ShippingAddressesModel();
             var member = controllerContext.HttpContext.Membership().GetMembershipUser();
             var customer = site.Commerce().Customers
+                                          .Query()
                                           .ByAccountId(member.UUID)
                                           .Include(c => c.Addresses)
                                           .FirstOrDefault();

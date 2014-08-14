@@ -68,10 +68,9 @@
     <Compile Include="Categories\CategoryQueryExecutor.cs" />
     <Compile Include="Countries\CountryQueryExecutor.cs" />
     <Compile Include="Customers\CustomerApi.cs" />
-    <Compile Include="IncludeCollection.cs" />
+    <Compile Include="Customers\CustomerQueryExecutor.cs" />
     <Compile Include="LocalApiContext.cs" />
     <Compile Include="LocalCommerceApi.cs" />
-    <Compile Include="LocalCommerceQuery.cs" />
     <Compile Include="Countries\CountryApi.cs" />
     <Compile Include="Mapping\DefaultObjectMapper.cs" />
     <Compile Include="Mapping\IObjectMapper.cs" />
@@ -79,18 +78,18 @@
     <Compile Include="Mapping\MappingContext.cs" />
     <Compile Include="Mapping\ObjectMapper.cs" />
     <Compile Include="Mapping\ObjectReference.cs" />
-    <Compile Include="Payments\PaymentApi.cs" />
+    <Compile Include="Orders\OrderQueryExecutor.cs" />
     <Compile Include="Payments\PaymentMethodApi.cs" />
-    <Compile Include="Payments\PaymentMethodQuery.cs" />
-    <Compile Include="Payments\PaymentQuery.cs" />
+    <Compile Include="Payments\PaymentMethodQueryExecutor.cs" />
     <Compile Include="Orders\OrderApi.cs" />
     <Compile Include="Products\Mapping\ProductMapper.cs" />
     <Compile Include="Products\Mapping\ProductVariantMapper.cs" />
     <Compile Include="Products\ProductApi.cs" />
+    <Compile Include="Products\ProductQueryExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryExecutorBase.cs" />
     <Compile Include="Shipping\ShippingMethodApi.cs" />
-    <Compile Include="Shipping\ShippingMethodQuery.cs" />
+    <Compile Include="Shipping\ShippingMethodQueryExecutor.cs" />
     <Compile Include="Carts\ShoppingCartApi.cs" />
   </ItemGroup>
   <ItemGroup>

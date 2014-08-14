@@ -10,26 +10,16 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
     [KnownType(typeof(OrderDataSource))]
-    public class OrderDataSource : ApiBasedDataSource
+    public class OrderDataSource : ApiBasedDataSource<Order>
     {
         public override string Name
         {
             get { return "Orders"; }
         }
 
-        protected override Type QueryType
+        protected override Api.Query<Order> Query(Api.ICommerceApi api)
         {
-            get { return typeof(IOrderQuery); }
-        }
-
-        protected override Type ItemType
-        {
-            get { return typeof(Order); }
-        }
-
-        protected override object GetQuery(Api.ICommerceApi api)
-        {
-            return api.Orders;
+            return api.Orders.Query();
         }
     }
 }

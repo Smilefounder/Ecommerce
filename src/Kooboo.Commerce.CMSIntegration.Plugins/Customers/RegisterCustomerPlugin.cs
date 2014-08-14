@@ -43,7 +43,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
             {
                 foreach (var each in model.CustomFields)
                 {
-                    customer.CustomFields.Add(new CustomerCustomField(each.Key, each.Value));
+                    customer.CustomFields.Add(each.Key, each.Value);
                 }
             }
 

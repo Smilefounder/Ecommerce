@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.Api;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -13,7 +14,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
         public TakeOperation TakeOperation { get; set; }
 
         [DataMember]
-        public List<Filter> Filters { get; set; }
+        public List<SavedFilter> Filters { get; set; }
 
         [DataMember]
         public List<string> Includes { get; set; }
@@ -38,7 +39,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 
         public GenericCommerceDataSourceSettings()
         {
-            Filters = new List<Filter>();
+            Filters = new List<SavedFilter>();
             Includes = new List<string>();
         }
     }

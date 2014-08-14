@@ -33,14 +33,14 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Models
                 Filters = source.Filters.Select(f => new FilterModel(f)).ToList();
             }
 
-            if (source.SortableFields != null)
+            if (source.SortFields != null)
             {
-                SortableFields = source.SortableFields.ToList();
+                SortableFields = source.SortFields.ToList();
             }
 
-            if (source.IncludablePaths != null)
+            if (source.OptionalIncludeFields != null)
             {
-                IncludablePaths = source.IncludablePaths.ToList();
+                IncludablePaths = source.OptionalIncludeFields.ToList();
             }
         }
     }

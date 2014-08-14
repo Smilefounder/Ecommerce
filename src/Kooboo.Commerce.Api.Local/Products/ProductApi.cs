@@ -3,57 +3,18 @@ using Kooboo.Commerce.Api.Products;
 
 namespace Kooboo.Commerce.Api.Local.Products
 {
-    public class ProductApi : LocalCommerceQuery<Product, Kooboo.Commerce.Products.Product>, IProductApi
+    public class ProductApi : IProductApi
     {
+        private LocalApiContext _context;
+
         public ProductApi(LocalApiContext context)
-            : base(context)
         {
+            _context = context;
         }
 
-        protected override IQueryable<Commerce.Products.Product> CreateQuery()
+        public Query<Product> Query()
         {
-            return Context.Services.Products.Query();
-        }
-
-        protected override IQueryable<Commerce.Products.Product> OrderByDefault(IQueryable<Commerce.Products.Product> query)
-        {
-            return query.OrderByDescending(o => o.Id);
-        }
-
-        public IProductQuery ById(int id)
-        {
-            Query = Query.Where(o => o.Id == id);
-            return this;
-        }
-
-        public IProductQuery ByCategoryId(int categoryId)
-        {
-            Query = Query.Where(o => o.Categories.Any(c => c.CategoryId == categoryId));
-            return this;
-        }
-
-        public IProductQuery ByName(string name)
-        {
-            Query = Query.Where(o => o.Name == name);
-            return this;
-        }
-
-        public IProductQuery ByProductTypeId(int productTypeId)
-        {
-            Query = Query.Where(o => o.ProductTypeId == productTypeId);
-            return this;
-        }
-
-        public IProductQuery ByBrandId(int brandId)
-        {
-            Query = Query.Where(o => o.BrandId == brandId);
-            return this;
-        }
-
-        public IProductQuery ByCustomField(string customFieldName, string fieldValue)
-        {
-            Query = Query.Where(o => o.CustomFields.Any(f => f.FieldName == customFieldName && f.FieldValue == fieldValue));
-            return this;
+            return new Query<Product>(new ProductQueryExecutor(_context));
         }
     }
 }

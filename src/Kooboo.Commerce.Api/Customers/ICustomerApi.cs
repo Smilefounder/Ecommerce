@@ -5,11 +5,10 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Customers
 {
-    /// <summary>
-    /// customer apis
-    /// </summary>
-    public interface ICustomerApi : ICustomerQuery
+    public interface ICustomerApi
     {
+        Query<Customer> Query();
+
         int Create(Customer customer);
 
         int AddAddress(int customerId, Address address);    

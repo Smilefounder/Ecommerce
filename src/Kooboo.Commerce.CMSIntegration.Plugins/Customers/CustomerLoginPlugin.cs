@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites.Membership;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Customers;
 using Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models;
 using System;
@@ -27,7 +28,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 
             if (valid)
             {
-                customer = Site.Commerce().Customers.ByEmail(model.Email).FirstOrDefault();
+                customer = Site.Commerce().Customers.Query().ByEmail(model.Email).FirstOrDefault();
                 if (customer == null)
                 {
                     valid = false;

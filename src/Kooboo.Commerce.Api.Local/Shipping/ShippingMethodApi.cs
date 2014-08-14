@@ -8,11 +8,18 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Local.Shipping
 {
-    public class ShippingMethodApi : ShippingMethodQuery, IShippingMethodApi
+    public class ShippingMethodApi : IShippingMethodApi
     {
+        private LocalApiContext _context;
+
         public ShippingMethodApi(LocalApiContext context)
-            : base(context)
         {
+            _context = context;
+        }
+
+        public Query<ShippingMethod> Query()
+        {
+            return new Query<ShippingMethod>(new ShippingMethodQueryExecutor(_context));
         }
     }
 }

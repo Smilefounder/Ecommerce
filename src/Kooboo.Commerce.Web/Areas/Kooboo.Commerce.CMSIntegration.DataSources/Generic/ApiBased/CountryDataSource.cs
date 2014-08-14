@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
     [KnownType(typeof(CountryDataSource))]
-    public class CountryDataSource : ApiDataSource<Country>
+    public class CountryDataSource : ApiBasedDataSource<Country>
     {
         public override string Name
         {

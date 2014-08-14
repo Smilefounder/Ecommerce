@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
+﻿using Kooboo.Commerce.Api.Metadata;
+using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Models
             Parameters = new List<FilterParameterModel>();
         }
 
-        public FilterModel(FilterDefinition filter)
+        public FilterModel(FilterDescription filter)
         {
             Name = filter.Name;
             Parameters = filter.Parameters.Select(p => new FilterParameterModel
@@ -27,6 +28,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Models
             .ToList();
         }
     }
+
     public class FilterParameterModel
     {
         public string Name { get; set; }

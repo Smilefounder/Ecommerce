@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
     [KnownType(typeof(BrandDataSource))]
-    public class BrandDataSource : ApiDataSource<Brand>
+    public class BrandDataSource : ApiBasedDataSource<Brand>
     {
         public override string Name
         {

@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Payments
 {
-    public interface IPaymentMethodApi : IPaymentMethodQuery
+    public interface IPaymentMethodApi
     {
+        Query<PaymentMethod> Query();
     }
 }

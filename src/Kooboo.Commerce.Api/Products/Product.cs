@@ -20,19 +20,26 @@ namespace Kooboo.Commerce.Api.Products
 
         public int ProductTypeId { get; set; }
 
-        public PriceRange PriceRange { get; set; }
+        public decimal LowestPrice { get; set; }
+
+        public decimal HighestPrice { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
 
+        [OptionalInclude]
         public Brand Brand { get; set; }
 
-        public ICollection<Category> Categories { get; set; }
+        [OptionalInclude]
+        public IList<Category> Categories { get; set; }
 
-        public ICollection<ProductImage> Images { get; set; }
+        [OptionalInclude]
+        public IList<ProductImage> Images { get; set; }
 
-        public ICollection<CustomField> CustomFields { get; set; }
+        [OptionalInclude]
+        public IList<CustomField> CustomFields { get; set; }
 
-        public ICollection<ProductVariant> Variants { get; set; }
+        [OptionalInclude]
+        public IList<ProductVariant> Variants { get; set; }
 
         public Product()
         {

@@ -2,33 +2,34 @@
 using System.Linq;
 using Kooboo.Commerce.Api.Orders;
 using Kooboo.Commerce.Api.Carts;
+using Kooboo.Commerce.Api.Payments;
+using Kooboo.Commerce.Payments;
 
 namespace Kooboo.Commerce.Api.Local.Orders
 {
-    public class OrderApi : LocalCommerceQuery<Order, Kooboo.Commerce.Orders.Order>, IOrderApi
+    public class OrderApi : IOrderApi
     {
-        public OrderApi(LocalApiContext context)
-            : base(context)
+        private LocalApiContext _context;
+        private IPaymentProcessorProvider _paymentProcessorProvider;
+
+        public OrderApi(LocalApiContext context, IPaymentProcessorProvider paymentProcessorProvider)
         {
+            _context = context;
+            _paymentProcessorProvider = paymentProcessorProvider;
         }
 
-        protected override IQueryable<Commerce.Orders.Order> CreateQuery()
+        public Query<Order> Query()
         {
-            return Context.Services.Orders.Query();
-        }
-
-        protected override IQueryable<Commerce.Orders.Order> OrderByDefault(IQueryable<Commerce.Orders.Order> query)
-        {
-            return query.OrderByDescending(o => o.Id);
+            return new Query<Order>(new OrderQueryExecutor(_context));
         }
 
         public int CreateFromCart(int cartId, ShoppingContext context)
         {
-            var cart = Context.Services.Carts.GetById(cartId);
+            var cart = _context.Services.Carts.GetById(cartId);
 
-            return Context.Database.WithTransaction(() =>
+            return _context.Database.WithTransaction(() =>
             {
-                var order = Context.Services.Orders.CreateFromCart(cart, new Kooboo.Commerce.Carts.ShoppingContext
+                var order = _context.Services.Orders.CreateFromCart(cart, new Kooboo.Commerce.Carts.ShoppingContext
                 {
                     Culture = context.Culture,
                     Currency = context.Currency,
@@ -39,58 +40,38 @@ namespace Kooboo.Commerce.Api.Local.Orders
             });
         }
 
-        public IOrderQuery ById(int id)
+        public PaymentResult Pay(PaymentRequest request)
         {
-            Query = Query.Where(o => o.Id == id);
-            return this;
-        }
+            var paymentMethod = _context.Services.PaymentMethods.GetById(request.PaymentMethodId);
+            var payment = new Kooboo.Commerce.Payments.Payment(request.OrderId, request.Amount, paymentMethod, request.Description);
 
-        public IOrderQuery ByCustomerId(int customerId)
-        {
-            Query = Query.Where(o => o.CustomerId == customerId);
-            return this;
-        }
+            _context.Services.Payments.Create(payment);
 
-        public IOrderQuery ByAccountId(string accountId)
-        {
-            Query = Query.Where(o => o.Customer.AccountId == accountId);
-            return this;
-        }
+            // TODO: Consider move ProcessPayment to PaymentService
+            var processor = _paymentProcessorProvider.FindByName(paymentMethod.ProcessorName);
+            object config = null;
 
-        public IOrderQuery ByCreateDate(DateTime? from, DateTime? to)
-        {
-            if (from.HasValue)
-                Query = Query.Where(o => o.CreatedAtUtc >= from.Value);
-            if (to.HasValue)
-                Query = Query.Where(o => o.CreatedAtUtc <= to.Value);
-            return this;
-        }
+            if (processor.ConfigType != null)
+            {
+                config = paymentMethod.LoadProcessorConfig(processor.ConfigType);
+            }
 
-        public IOrderQuery ByOrderStatus(OrderStatus status)
-        {
-            Query = Query.Where(o => (int)o.Status == (int)status);
-            return this;
-        }
+            var processResult = processor.Process(new Kooboo.Commerce.Payments.PaymentProcessingContext(payment, config)
+            {
+                CurrencyCode = request.CurrencyCode,
+                ReturnUrl = request.ReturnUrl,
+                Parameters = request.Parameters
+            });
 
-        public IOrderQuery ByCoupon(string coupon)
-        {
-            Query = Query.Where(o => o.Coupon == coupon);
-            return this;
-        }
+            _context.Services.Payments.AcceptProcessResult(payment, processResult);
 
-        public IOrderQuery ByTotal(decimal? from, decimal? to)
-        {
-            if (from.HasValue)
-                Query = Query.Where(o => o.Total >= from.Value);
-            if (to.HasValue)
-                Query = Query.Where(o => o.Total <= to.Value);
-            return this;
-        }
-
-        public IOrderQuery ByCustomField(string fieldName, string fieldValue)
-        {
-            Query = Query.Where(o => o.CustomFields.Any(f => f.Name == fieldName && f.Value == fieldValue));
-            return this;
+            return new PaymentResult
+            {
+                Message = processResult.Message,
+                PaymentId = payment.Id,
+                PaymentStatus = (Kooboo.Commerce.Api.Payments.PaymentStatus)(int)processResult.PaymentStatus,
+                RedirectUrl = processResult.RedirectUrl
+            };
         }
     }
 }

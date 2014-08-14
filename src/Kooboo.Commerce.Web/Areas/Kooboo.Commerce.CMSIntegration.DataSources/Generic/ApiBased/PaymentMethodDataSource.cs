@@ -10,26 +10,16 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
     [KnownType(typeof(PaymentMethodDataSource))]
-    public class PaymentMethodDataSource : ApiBasedDataSource
+    public class PaymentMethodDataSource : ApiBasedDataSource<PaymentMethod>
     {
         public override string Name
         {
             get { return "PaymentMethods"; }
         }
 
-        protected override Type QueryType
+        protected override Api.Query<PaymentMethod> Query(Api.ICommerceApi api)
         {
-            get { return typeof(IPaymentMethodQuery); }
-        }
-
-        protected override Type ItemType
-        {
-            get { return typeof(PaymentMethod); }
-        }
-
-        protected override object GetQuery(Api.ICommerceApi api)
-        {
-            return api.PaymentMethods;
+            return api.PaymentMethods.Query();
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Kooboo.Commerce.Api.Local
 
         protected abstract IQueryable<TSource> ApplyFilter(IQueryable<TSource> query, QueryFilter filter);
 
-        protected virtual IQueryable<TSource> ApplySorts(IQueryable<TSource> query, IEnumerable<QuerySort> sorts)
+        protected virtual IQueryable<TSource> ApplySorts(IQueryable<TSource> query, IEnumerable<Sort> sorts)
         {
             var exp = String.Join(",", sorts.Select(it => it.Field + " " + it.Direction));
             return query.OrderBy(exp) as IQueryable<TSource>;

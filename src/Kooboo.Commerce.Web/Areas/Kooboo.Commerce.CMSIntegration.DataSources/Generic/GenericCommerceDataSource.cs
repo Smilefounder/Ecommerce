@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Formula;
 using Kooboo.CMS.Sites.DataRule;
+using Kooboo.Commerce.Api.Metadata;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -44,13 +45,13 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
         }
 
         [JsonProperty]
-        public abstract IEnumerable<FilterDefinition> Filters { get; }
+        public abstract IEnumerable<FilterDescription> Filters { get; }
 
         [JsonProperty]
-        public abstract IEnumerable<string> SortableFields { get; }
+        public abstract IEnumerable<string> SortFields { get; }
 
         [JsonProperty]
-        public abstract IEnumerable<string> IncludablePaths { get; }
+        public abstract IEnumerable<string> OptionalIncludeFields { get; }
 
         public virtual object Execute(CommerceDataSourceContext context)
         {
@@ -123,11 +124,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 
                         foreach (var param in each.ParameterValues)
                         {
-                            var paramDefinition = filterDefinition.Parameters.Find(p => p.Name == param.ParameterName);
+                            var paramDefinition = filterDefinition.Parameters.FirstOrDefault(p => p.Name == param.ParameterName);
                             if (paramDefinition != null)
                             {
                                 var strParamValue = ParameterizedFieldValue.GetFieldValue(param.ParameterValue, context.ValueProvider);
-                                var paramValue = ResolveParameterValue(strParamValue, paramDefinition.Type);
+                                var paramValue = ResolveParameterValue(strParamValue, paramDefinition.ValueType);
                                 filter.ParameterValues.Add(param.ParameterName, paramValue);
                             }
                         }

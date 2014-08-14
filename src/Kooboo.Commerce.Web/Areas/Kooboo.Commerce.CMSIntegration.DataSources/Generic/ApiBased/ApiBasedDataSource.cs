@@ -5,199 +5,92 @@ using System.Linq;
 using System.Web;
 using Kooboo.CMS.Sites.Membership;
 using System.Globalization;
-using System.Reflection;
-using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
+using Kooboo.Commerce.Api.Metadata;
 using System.Runtime.Serialization;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
-    [KnownType(typeof(ApiBasedDataSource))]
-    public abstract class ApiBasedDataSource : GenericCommerceDataSource
+    public abstract class ApiBasedDataSource<T> : GenericCommerceDataSource
+        where T : class
     {
-        private ApiQueryDescriptor _descriptor;
-
-        protected ApiQueryDescriptor Descriptor
+        public override IEnumerable<FilterDescription> Filters
         {
             get
             {
-                if (_descriptor == null)
-                {
-                    _descriptor = ApiQueryDescriptor.GetDescriptor(QueryType);
-                }
-                return _descriptor;
+                return GetQueryDescriptor().Filters;
             }
         }
 
-        protected abstract Type QueryType { get; }
-
-        protected abstract Type ItemType { get; }
-
-        private List<FilterDefinition> _filters;
-
-        public override IEnumerable<FilterDefinition> Filters
+        public override IEnumerable<string> SortFields
         {
-            get
-            {
-                return InternalFilters;
-            }
+            get { return GetQueryDescriptor().SortFields; }
         }
 
-        protected List<FilterDefinition> InternalFilters
+        public override IEnumerable<string> OptionalIncludeFields
         {
-            get
-            {
-                if (_filters == null)
-                {
-                    _filters = Descriptor.Filters.Select(f => f.ToFilterDefinition()).ToList();
-                }
-                return _filters;
-            }
+            get { return GetQueryDescriptor().OptionalIncludeFields; }
         }
-
-        private HashSet<string> _sortableFields;
-
-        public override IEnumerable<string> SortableFields
-        {
-            get
-            {
-                return InternalSortableFields;
-            }
-        }
-
-        protected HashSet<string> InternalSortableFields
-        {
-            get
-            {
-                if (_sortableFields == null)
-                {
-                    _sortableFields = new HashSet<string>();
-                }
-                return _sortableFields;
-            }
-        }
-
-        private HashSet<string> _includablePaths;
-
-        public override IEnumerable<string> IncludablePaths
-        {
-            get
-            {
-                return InternalIncludablePaths;
-            }
-        }
-
-        protected HashSet<string> InternalIncludablePaths
-        {
-            get
-            {
-                if (_includablePaths == null)
-                {
-                    _includablePaths = new HashSet<string>(Descriptor.IncludablePaths);
-                }
-                return _includablePaths;
-            }
-        }
-
-        protected abstract object GetQuery(ICommerceApi api);
 
         protected override object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
         {
             var user = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
             var accountId = user == null ? null : user.UUID;
 
-            var apiContext = new ApiContext(context.Site.GetCommerceInstanceName(), CultureInfo.GetCultureInfo(context.Site.Culture), null, accountId);
+            var apiContext = new ApiContext(context.Site.GetCommerceInstanceName(), CultureInfo.GetCultureInfo(context.Site.Culture), context.Site.GetCurrency(), accountId);
             var api = ApiService.Get(context.Site.ApiType(), apiContext);
 
-            var query = GetQuery(api);
+            var query = Query(api);
 
+            // Filters
             if (settings.Filters != null && settings.Filters.Count > 0)
             {
-                ApplyFilters(query, settings.Filters, context);
-            }
-            if (settings.Includes != null && settings.Includes.Count > 0)
-            {
-                ApplyIncludes(query, settings.Includes, context);
-            }
-
-            // Executing result
-            if (settings.TakeOperation == Kooboo.Commerce.CMSIntegration.DataSources.TakeOperation.List)
-            {
-                if (settings.EnablePaging)
+                foreach (var filter in settings.Filters)
                 {
-                    var pageSize = settings.PageSize.GetValueOrDefault(10);
-                    var pageNumber = settings.PageNumber.GetValueOrDefault(1);
-
-                    return CallMethod(query, "Pagination", pageNumber - 1, pageSize);
+                    query.Filters.Add(new QueryFilter(filter.Name, filter.ParameterValues));
                 }
+            }
 
-                return CallMethod(query, "ToArray");
+            // Sorting
+            if (!String.IsNullOrEmpty(settings.SortField))
+            {
+                // TODO: Fix sorting
+                query.Sorts.Add(new Sort(settings.SortField, Kooboo.Commerce.Api.SortDirection.Asc));
+            }
+
+            if (settings.TakeOperation == TakeOperation.First)
+            {
+                return query.FirstOrDefault();
+            }
+
+            if (settings.EnablePaging)
+            {
+                var pageSize = settings.PageSize.GetValueOrDefault(50);
+                var pageNumber = settings.PageNumber.GetValueOrDefault(1);
+
+                query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
             }
             else
             {
-                return CallMethod(query, "FirstOrDefault");
+                if (settings.Top != null && settings.Top.Value > 0)
+                {
+                    query.Take(settings.Top.Value);
+                }
             }
+
+            return query.ToList();
         }
 
         public override IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)
         {
-            return DataSourceDefinitionHelper.GetDefinitions(ItemType);
+            return DataSourceDefinitionHelper.GetDefinitions(typeof(T));
         }
 
-        protected virtual void ApplyFilters(object query, List<ParsedFilter> filters, CommerceDataSourceContext context)
+        protected abstract Query<T> Query(ICommerceApi api);
+
+        private IQueryDescriptor GetQueryDescriptor()
         {
-            foreach (var filter in filters)
-            {
-                var definition = Descriptor.Filters.FirstOrDefault(f => f.Name == filter.Name);
-                if (definition != null)
-                {
-                    var parameters = new object[definition.Parameters.Count];
-                    for (var i = 0; i < definition.Parameters.Count; i++)
-                    {
-                        var param = definition.Parameters[i];
-                        var paramValue = filter.ParameterValues[param.Name];
-                        parameters[i] = filter.ParameterValues[param.Name];
-                    }
-
-                    CallMethod(query, definition.Method.Name, parameters);
-                }
-            }
-        }
-
-        protected object CallMethod(object obj, string method, params object[] parameters)
-        {
-            var methodInfo = obj.GetType().GetMethod(method, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-            if (methodInfo == null)
-                throw new InvalidOperationException("Method '" + method + "' was not found.");
-
-            return methodInfo.Invoke(obj, parameters);
-        }
-
-        protected virtual void ApplyIncludes(object query, IEnumerable<string> includes, CommerceDataSourceContext context)
-        {
-            var methods = query.GetType()
-                               .GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                               .Where(m => m.Name == "Include");
-
-            MethodInfo includeMethod = null;
-
-            foreach (var method in methods)
-            {
-                var args = method.GetParameters();
-                if (args.Length == 1 && args[0].ParameterType == typeof(string))
-                {
-                    includeMethod = method;
-                    break;
-                }
-            }
-
-            if (includeMethod == null)
-                throw new InvalidOperationException("Cannot find Include(string path) method in query api.");
-
-            foreach (var path in includes)
-            {
-                includeMethod.Invoke(query, new object[] { path });
-            }
+            return QueryDescriptors.Get(typeof(Query<T>));
         }
     }
 }

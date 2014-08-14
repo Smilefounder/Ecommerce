@@ -96,14 +96,14 @@
     <Compile Include="Bootstrapping\CommerceDataSourceRegistrar.cs" />
     <Compile Include="Bootstrapping\DataSourceHttpApplicationEvents.cs" />
     <Compile Include="CommerceDataSourceAdapter.cs" />
+    <Compile Include="CommerceDataSourceContext.cs" />
     <Compile Include="CommerceDataSourceDesigner.cs" />
-    <Compile Include="Generic\ApiBased\ApiDataSource.cs" />
-    <Compile Include="Generic\ApiBased\DataSourceDefinitionHelper.cs" />
-    <Compile Include="Generic\Filter.cs" />
+    <Compile Include="Generic\ApiBased\ApiBasedDataSource.cs" />
+    <Compile Include="Generic\DataSourceDefinitionHelper.cs" />
+    <Compile Include="Generic\SavedFilter.cs" />
     <Compile Include="Generic\GenericCommerceDataSource.cs" />
     <Compile Include="Generic\GenericCommerceDataSourceSettings.cs" />
     <Compile Include="ICommerceDataSource.cs" />
-    <Compile Include="Generic\ApiBased\ApiBasedDataSource.cs" />
     <Compile Include="ModelBinders\CommerceDataSourceModelBinder.cs" />
     <Compile Include="Models\GenericDataSourceModel.cs" />
     <Compile Include="Models\FilterModel.cs" />
@@ -111,22 +111,18 @@
     <Compile Include="Generic\ParsedGenericCommerceDataSourceSettings.cs" />
     <Compile Include="Persistence\CommerceDataSourceSettingProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Generic\FilterParameterValue.cs" />
+    <Compile Include="Generic\SavedFilterParameterValue.cs" />
     <Compile Include="Generic\ApiBased\ShippingMethodDataSource.cs" />
-    <Compile Include="TakeOperation.cs" />
-    <Compile Include="Generic\ApiBased\ApiQueryDescriptor.cs" />
+    <Compile Include="Generic\TakeOperation.cs" />
     <Compile Include="Generic\ApiBased\BrandDataSource.cs" />
     <Compile Include="Generic\ApiBased\CategoryDataSource.cs" />
     <Compile Include="Generic\ApiBased\CountryDataSource.cs" />
     <Compile Include="Generic\ApiBased\CustomerDataSource.cs" />
-    <Compile Include="Generic\FilterParameterDefinition.cs" />
     <Compile Include="Generic\ApiBased\OrderDataSource.cs" />
     <Compile Include="Generic\ApiBased\PaymentMethodDataSource.cs" />
     <Compile Include="Generic\ApiBased\ProductDataSource.cs" />
     <Compile Include="Generic\ApiBased\ShoppingCartDataSource.cs" />
-    <Compile Include="SortDirection.cs" />
     <Compile Include="Generic\ParsedFilter.cs" />
-    <Compile Include="Generic\FilterDefinition.cs" />
     <Compile Include="Strings.cs" />
   </ItemGroup>
   <ItemGroup>

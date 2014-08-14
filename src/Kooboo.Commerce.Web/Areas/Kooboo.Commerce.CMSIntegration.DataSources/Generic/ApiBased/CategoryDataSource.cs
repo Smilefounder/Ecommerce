@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
     [KnownType(typeof(CategoryDataSource))]
-    public class CategoryDataSource : ApiDataSource<Category>
+    public class CategoryDataSource : ApiBasedDataSource<Category>
     {
         public override string Name
         {

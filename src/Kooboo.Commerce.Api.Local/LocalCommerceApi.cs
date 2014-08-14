@@ -94,15 +94,7 @@ namespace Kooboo.Commerce.Api.Local
         {
             get
             {
-                return new OrderApi(_context);
-            }
-        }
-
-        public IPaymentApi Payments
-        {
-            get
-            {
-                return new PaymentApi(_context, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
+                return new OrderApi(_context, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
             }
         }
 
@@ -110,7 +102,7 @@ namespace Kooboo.Commerce.Api.Local
         {
             get
             {
-                return new PaymentMethodApi(_context, EngineContext.Current.Resolve<IPaymentProcessorProvider>());
+                return new PaymentMethodApi(_context);
             }
         }
 

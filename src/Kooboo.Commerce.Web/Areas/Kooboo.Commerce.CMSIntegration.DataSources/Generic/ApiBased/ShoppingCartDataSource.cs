@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
 {
     [DataContract]
     [KnownType(typeof(ShoppingCartDataSource))]
-    public class ShoppingCartDataSource : ApiDataSource<ShoppingCart>
+    public class ShoppingCartDataSource : ApiBasedDataSource<ShoppingCart>
     {
         public override string Name
         {

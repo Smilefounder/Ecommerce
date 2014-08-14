@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Membership;
+using Kooboo.Commerce.Api;
 using Kooboo.Commerce.Api.Countries;
 using Kooboo.Commerce.Api.Customers;
 
@@ -14,7 +15,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
         protected override SubmissionExecuteResult Execute(AddAddressModel model)
         {
             var member = HttpContext.Membership().GetMembershipUser();
-            var customer = Site.Commerce().Customers.ByAccountId(member.UUID).FirstOrDefault();
+            var customer = Site.Commerce().Customers.Query().ByAccountId(member.UUID).FirstOrDefault();
 
             var address = new Address
             {

@@ -63,23 +63,5 @@ namespace Kooboo.Commerce.Api.Orders
         /// phone, optional
         /// </summary>
         public string Phone { get; set; }
-
-        /// <summary>
-        /// create order address from customer address
-        /// </summary>
-        /// <param name="address">customer address</param>
-        public void FromAddress(Address address)
-        {
-            this.CustomerId = address.CustomerId;
-            this.CountryId = address.CountryId;
-            this.FirstName = address.FirstName;
-            this.LastName = address.LastName;
-            this.Address1 = address.Address1;
-            this.Address2 = address.Address2;
-            this.Postcode = address.Postcode;
-            this.City = address.City;
-            this.State = address.State;
-            this.Phone = address.Phone;
-        }
     }
 }

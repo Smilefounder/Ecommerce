@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Shipping
 {
-    public interface IShippingMethodApi : IShippingMethodQuery
+    public interface IShippingMethodApi
     {
+        Query<ShippingMethod> Query();
     }
 }

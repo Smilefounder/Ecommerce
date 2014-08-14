@@ -12,6 +12,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Metadata;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
 {
@@ -27,20 +29,15 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             }
         }
 
-        public override IEnumerable<FilterDefinition> Filters
+        public override IEnumerable<FilterDescription> Filters
         {
             get
             {
-                yield return new FilterDefinition("ByProduct")
-                {
-                    Parameters = new List<FilterParameterDefinition>{
-                        new FilterParameterDefinition("productId", typeof(Int32))
-                    }
-                };
+                return new[] { new FilterDescription("ByProduct", new Int32ParameterDescription("ProductId")) };
             }
         }
 
-        public override IEnumerable<string> SortableFields
+        public override IEnumerable<string> SortFields
         {
             get
             {
@@ -48,7 +45,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             }
         }
 
-        public override IEnumerable<string> IncludablePaths
+        public override IEnumerable<string> OptionalIncludeFields
         {
             get
             {
@@ -117,6 +114,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
                 foreach (var id in productIds)
                 {
                     var model = EngineContext.Current.Resolve<Kooboo.Commerce.Api.Products.IProductApi>()
+                                           .Query()
                                            .ById(id)
                                            .Include("PriceList")
                                            .Include("Images")

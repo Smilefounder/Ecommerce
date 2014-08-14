@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Api.Payments;
+﻿using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Payments;
 using Kooboo.Commerce.CMSIntegration.Plugins.Orders.Models;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,13 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
     {
         protected override SubmissionExecuteResult Execute(TModel model)
         {
-            var order = Site.Commerce().Orders.ById(model.OrderId).FirstOrDefault();
-            var paymentMethod = Site.Commerce().PaymentMethods.ById(model.PaymentMethodId).FirstOrDefault();
+            var order = Site.Commerce().Orders.Query().ById(model.OrderId).FirstOrDefault();
+            var paymentMethod = Site.Commerce().PaymentMethods.Query().ById(model.PaymentMethodId).FirstOrDefault();
 
             var returnUrl = ResolveUrl(model.ReturnUrl, ControllerContext);
 
             // TODO: Don't calculate payment method cost here, calculate in the commerce side
-            var payment = new PaymentRequest
+            var request = new PaymentRequest
             {
                 OrderId = model.OrderId,
                 Description = "Order #" + model.OrderId,
@@ -34,11 +35,11 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
             {
                 foreach (var each in parameters)
                 {
-                    payment.Parameters.Add(each.Key, each.Value);
+                    request.Parameters.Add(each.Key, each.Value);
                 }
             }
 
-            var result = Site.Commerce().Payments.Pay(payment);
+            var result = Site.Commerce().Orders.Pay(request);
             var data = new PayOrderResult
             {
                 PaymentStatus = result.PaymentStatus.ToString(),

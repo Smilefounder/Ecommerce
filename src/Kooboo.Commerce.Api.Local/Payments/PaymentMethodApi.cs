@@ -2,11 +2,18 @@
 
 namespace Kooboo.Commerce.Api.Local.Payments
 {
-    public class PaymentMethodApi : PaymentMethodQuery, IPaymentMethodApi
+    public class PaymentMethodApi : IPaymentMethodApi
     {
-        public PaymentMethodApi(LocalApiContext context, Kooboo.Commerce.Payments.IPaymentProcessorProvider processorFactory)
-            : base(context, processorFactory)
+        private LocalApiContext _context;
+
+        public PaymentMethodApi(LocalApiContext context)
         {
+            _context = context;
+        }
+
+        public Query<PaymentMethod> Query()
+        {
+            return new Query<PaymentMethod>(new PaymentMethodQueryExecutor(_context));
         }
     }
 }

@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Products
 {
-    public interface IProductApi : IProductQuery
+    public interface IProductApi
     {
+        Query<Product> Query();
     }
 }

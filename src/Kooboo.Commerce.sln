@@ -138,6 +138,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Search", "Search", "{EC29A1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Search", "Kooboo.Commerce.Web\Areas\Kooboo.Commerce.Search\Kooboo.Commerce.Search.csproj", "{44033543-03B1-416D-AD52-1B06E5754B84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.Commerce.Api.Tests", "Tests\Kooboo.Commerce.Api.Tests\Kooboo.Commerce.Api.Tests.csproj", "{791CC69C-7995-451A-A20C-4731B400642B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -300,6 +302,10 @@ Global
 		{44033543-03B1-416D-AD52-1B06E5754B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44033543-03B1-416D-AD52-1B06E5754B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44033543-03B1-416D-AD52-1B06E5754B84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{791CC69C-7995-451A-A20C-4731B400642B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{791CC69C-7995-451A-A20C-4731B400642B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{791CC69C-7995-451A-A20C-4731B400642B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{791CC69C-7995-451A-A20C-4731B400642B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -363,5 +369,6 @@ Global
 		{1E1C9B6D-9BB8-4701-86D8-E29E6EAA238A} = {6466DDD2-36B2-4CDD-9830-4322B89284FB}
 		{EC29A1D6-A431-40D6-935E-69B940E4E036} = {BF64373D-7134-4408-8749-1B6A954BEFF8}
 		{44033543-03B1-416D-AD52-1B06E5754B84} = {EC29A1D6-A431-40D6-935E-69B940E4E036}
+		{791CC69C-7995-451A-A20C-4731B400642B} = {B1D3962B-E46F-4AEB-9174-F638850D7AAF}
 	EndGlobalSection
 EndGlobal

@@ -15,9 +15,6 @@ using Kooboo.Commerce.Api.Countries;
 
 namespace Kooboo.Commerce.Api
 {
-    /// <summary>
-    /// commerce api
-    /// </summary>
     public interface ICommerceApi
     {
         void Initialize(ApiContext context);
@@ -35,8 +32,6 @@ namespace Kooboo.Commerce.Api
         IShoppingCartApi ShoppingCarts { get; }
 
         IOrderApi Orders { get; }
-
-        IPaymentApi Payments { get; }
 
         IPaymentMethodApi PaymentMethods { get; }
 

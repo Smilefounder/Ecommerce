@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Api.Payments
 
         public string UserKey { get; set; }
 
-        public PriceChangeMode AdditionalFeeChargeMode { get; set; }
+        public PaymentMethodFeeChargeMode AdditionalFeeChargeMode { get; set; }
 
         public decimal AdditionalFeeAmount { get; set; }
 
@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Api.Payments
 
         public decimal GetPaymentMethodFee(decimal total)
         {
-            if (AdditionalFeeChargeMode == PriceChangeMode.ByAmount)
+            if (AdditionalFeeChargeMode == PaymentMethodFeeChargeMode.ByAmount)
             {
                 return AdditionalFeeAmount;
             }
