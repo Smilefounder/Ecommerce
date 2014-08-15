@@ -24,8 +24,8 @@ namespace Kooboo.Commerce.Api.Local.Categories
             query = base.ApplyFilters(query, filters);
 
             // We expose a category tree to client, not just a simply list all categories.
-            // So if no ByParent filter is specified, we apply a ParentId = null filter implicitly, so return only root categories.
-            if (!filters.Any(f => f.Name == CategoryFilters.ByParent.Name))
+            // So if no filter is specified, we apply a ParentId = null filter implicitly, so return only root categories.
+            if (!filters.Any())
             {
                 query = ApplyFilter(query, CategoryFilters.ByParent.CreateFilter(new { ParentId = (int?)null }));
             }

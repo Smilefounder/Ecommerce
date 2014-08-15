@@ -1,7 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
-using Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased;
+using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Products.Services;
@@ -68,7 +68,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Recommendations
             _instanceManager = instanceManager;
         }
 
-        protected override object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
+        protected override object ExecuteCore(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
         {
             var productIdFilter = settings.Filters.Find(f => f.Name == "ByProduct");
             if (productIdFilter == null)

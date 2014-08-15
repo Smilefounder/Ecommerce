@@ -7,11 +7,11 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
+namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
 {
     [DataContract]
     [KnownType(typeof(CountryDataSource))]
-    public class CountryDataSource : ApiBasedDataSource<Country>
+    public class CountryDataSource : ApiQueryBasedDataSource<Country>
     {
         public override string Name
         {

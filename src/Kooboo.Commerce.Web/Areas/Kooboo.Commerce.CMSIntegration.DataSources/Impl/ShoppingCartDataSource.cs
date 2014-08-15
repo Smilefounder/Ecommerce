@@ -8,11 +8,11 @@ using Kooboo.CMS.Sites.Membership;
 using System.Runtime.Serialization;
 using Kooboo.Commerce.Api;
 
-namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
+namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
 {
     [DataContract]
     [KnownType(typeof(ShoppingCartDataSource))]
-    public class ShoppingCartDataSource : ApiBasedDataSource<ShoppingCart>
+    public class ShoppingCartDataSource : ApiQueryBasedDataSource<ShoppingCart>
     {
         public override string Name
         {

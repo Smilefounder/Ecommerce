@@ -45,28 +45,40 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
         }
 
         [JsonProperty]
-        public abstract IEnumerable<FilterDescription> Filters { get; }
+        public virtual IEnumerable<FilterDescription> Filters
+        {
+            get { return null; }
+        }
 
         [JsonProperty]
-        public abstract IEnumerable<string> SortFields { get; }
+        public virtual IEnumerable<string> SortFields
+        {
+            get { return null; }
+        }
 
         [JsonProperty]
-        public abstract IEnumerable<string> OptionalIncludeFields { get; }
+        public virtual IEnumerable<string> OptionalIncludeFields
+        {
+            get { return null; }
+        }
 
         public virtual object Execute(CommerceDataSourceContext context)
         {
             ParsedGenericCommerceDataSourceSettings settings;
             if (TryParseSettings(context, out settings))
             {
-                return DoExecute(context, settings);
+                return ExecuteCore(context, settings);
             }
 
             return null;
         }
 
-        protected abstract object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings);
+        protected abstract object ExecuteCore(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings);
 
-        public abstract IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context);
+        public virtual IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)
+        {
+            return new Dictionary<string, object>();
+        }
 
         public virtual IEnumerable<string> GetParameters()
         {
@@ -150,28 +162,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
             settings.EnablePaging = Settings.EnablePaging;
             if (settings.EnablePaging)
             {
-                var pageSize = ParameterizedFieldValue.GetFieldValue(Settings.PageSize, context.ValueProvider);
-                if (!String.IsNullOrEmpty(pageSize))
-                {
-                    settings.PageSize = Convert.ToInt32(pageSize);
-                }
-
-                var pageNumber = ParameterizedFieldValue.GetFieldValue(Settings.PageNumber, context.ValueProvider);
-                if (!String.IsNullOrEmpty(pageNumber))
-                {
-                    settings.PageNumber = Convert.ToInt32(pageNumber);
-                }
+                settings.PageSize = context.ResolveFieldValue<int?>(Settings.PageSize, null);
+                settings.PageNumber = context.ResolveFieldValue<int?>(Settings.PageNumber, null);
             }
 
-            // Top
-            if (!String.IsNullOrWhiteSpace(Settings.Top))
-            {
-                var top = ParameterizedFieldValue.GetFieldValue(Settings.Top, context.ValueProvider);
-                if (!String.IsNullOrWhiteSpace(top))
-                {
-                    settings.Top = Convert.ToInt32(top);
-                }
-            }
+            settings.Top = context.ResolveFieldValue<int?>(Settings.Top, null);
 
             // Includes
             if (Settings.Includes != null)

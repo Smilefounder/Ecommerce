@@ -8,11 +8,11 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
+namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
 {
     [DataContract]
     [KnownType(typeof(BrandDataSource))]
-    public class BrandDataSource : ApiBasedDataSource<Brand>
+    public class BrandDataSource : ApiQueryBasedDataSource<Brand>
     {
         public override string Name
         {

@@ -1,6 +1,6 @@
 ﻿@{
     var category = ViewBag.Category;
-    var products = ViewBag.Products;
+    var products = category == null ? null : category.ProductsByCategory;
 }
 <form id="__AjaxAntiForgeryForm" action="#" method="post">
     @AntiForgery.GetHtml()
@@ -13,21 +13,11 @@
     </div>
 }
 else { 
-    <div>
-        @if (ViewBag.Breadcrumb != null)
-        {
-            foreach (var cat in ViewBag.Breadcrumb)
-            {
-                <a href="/Category/@cat.Id">@cat.Name</a>   
-                <span>&gt;</span>
-            }
-        }
-    </div>
     <div class="search_top">
         <div class="grid_left search_count">
             Categorie
             <br>
-            ‘<span class="orange">@category.Name</span>’
+            ‘<span class="orange">@category.Name</span>’ 
         </div>
     </div>
 }

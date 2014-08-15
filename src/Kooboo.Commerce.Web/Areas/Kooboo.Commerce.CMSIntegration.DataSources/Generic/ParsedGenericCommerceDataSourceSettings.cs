@@ -8,6 +8,8 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 {
     public class ParsedGenericCommerceDataSourceSettings
     {
+        public Dictionary<string, object> Parameters { get; set; }
+
         public List<ParsedFilter> Filters { get; set; }
 
         public List<string> Includes { get; set; }
@@ -28,6 +30,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 
         public ParsedGenericCommerceDataSourceSettings()
         {
+            Parameters = new Dictionary<string, object>();
             Filters = new List<ParsedFilter>();
             Includes = new List<string>();
         }

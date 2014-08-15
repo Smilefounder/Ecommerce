@@ -11,9 +11,6 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
     public class GenericCommerceDataSourceSettings
     {
         [DataMember]
-        public TakeOperation TakeOperation { get; set; }
-
-        [DataMember]
         public List<SavedFilter> Filters { get; set; }
 
         [DataMember]
@@ -36,6 +33,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 
         [DataMember]
         public string PageNumber { get; set; }
+
+        [DataMember]
+        public TakeOperation TakeOperation { get; set; }
 
         public GenericCommerceDataSourceSettings()
         {

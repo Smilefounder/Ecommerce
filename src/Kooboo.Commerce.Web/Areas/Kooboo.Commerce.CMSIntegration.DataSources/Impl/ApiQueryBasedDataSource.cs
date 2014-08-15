@@ -7,11 +7,12 @@ using Kooboo.CMS.Sites.Membership;
 using System.Globalization;
 using Kooboo.Commerce.Api.Metadata;
 using System.Runtime.Serialization;
+using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
 
-namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
+namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
 {
     [DataContract]
-    public abstract class ApiBasedDataSource<T> : GenericCommerceDataSource
+    public abstract class ApiQueryBasedDataSource<T> : GenericCommerceDataSource
         where T : class
     {
         public override IEnumerable<FilterDescription> Filters
@@ -32,15 +33,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
             get { return GetQueryDescriptor().OptionalIncludeFields; }
         }
 
-        protected override object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
+        protected override object ExecuteCore(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
         {
-            var user = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
-            var accountId = user == null ? null : user.UUID;
-
-            var apiContext = new ApiContext(context.Site.GetCommerceInstanceName(), CultureInfo.GetCultureInfo(context.Site.Culture), context.Site.GetCurrency(), accountId);
-            var api = ApiService.Get(context.Site.ApiType(), apiContext);
-
-            var query = Query(api);
+            var query = Query(context.Site.Commerce());
 
             // Filters
             if (settings.Filters != null && settings.Filters.Count > 0)

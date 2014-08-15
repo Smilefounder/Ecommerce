@@ -1,4 +1,5 @@
-﻿using Kooboo.CMS.Sites.DataSource;
+﻿using Kooboo.CMS.Sites.DataRule;
+using Kooboo.CMS.Sites.DataSource;
 using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,42 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
             };
 
             return result;
+        }
+
+        public string GetFieldValue(string field)
+        {
+            return ParameterizedFieldValue.GetFieldValue(field, ValueProvider);
+        }
+
+        public object ResolveFieldValue(string field, Type type)
+        {
+            var fieldValue = GetFieldValue(field);
+            if (String.IsNullOrWhiteSpace(fieldValue))
+            {
+                return null;
+            }
+
+            if (type.IsValueType && !type.IsPrimitive)
+            {
+                var underlyingType = Nullable.GetUnderlyingType(type);
+                if (underlyingType != null)
+                {
+                    return Convert.ChangeType(fieldValue, underlyingType);
+                }
+            }
+
+            return Convert.ChangeType(fieldValue, type);
+        }
+
+        public T ResolveFieldValue<T>(string field, T defaultValue)
+        {
+            var value = ResolveFieldValue(field, typeof(T));
+            if (value == null)
+            {
+                return defaultValue;
+            }
+
+            return (T)value;
         }
     }
 }

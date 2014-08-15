@@ -1,0 +1,19 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+
+@{
+    var datasource = ViewBag.CommerceDataSource as CategoryBreadcrumbDataSource;
+}
+
+<div class="block common-form">
+    <table>
+        <tr>
+            <th>@("Current category id".Localize())</th>
+            <td>
+                <input type="text" class="medium" name="DataSource.CommerceDataSource.CurrentCategoryId" value="@datasource.CurrentCategoryId"
+                       data-val="true"
+                       data-val-required="@("Required".Localize())" />
+                <span data-valmsg-for="DataSource.CommerceDataSource.CurrentCategoryId" data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+    </table>
+</div>

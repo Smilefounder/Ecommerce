@@ -6,11 +6,11 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
+namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
 {
     [DataContract]
     [KnownType(typeof(PaymentMethodDataSource))]
-    public class PaymentMethodDataSource : ApiBasedDataSource<PaymentMethod>
+    public class PaymentMethodDataSource : ApiQueryBasedDataSource<PaymentMethod>
     {
         public override string Name
         {

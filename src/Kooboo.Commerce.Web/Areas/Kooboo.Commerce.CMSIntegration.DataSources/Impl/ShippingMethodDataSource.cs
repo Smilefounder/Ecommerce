@@ -5,11 +5,11 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
+namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
 {
     [DataContract]
     [KnownType(typeof(ShippingMethodDataSource))]
-    public class ShippingMethodDataSource : ApiBasedDataSource<ShippingMethod>
+    public class ShippingMethodDataSource : ApiQueryBasedDataSource<ShippingMethod>
     {
         public override string Name
         {

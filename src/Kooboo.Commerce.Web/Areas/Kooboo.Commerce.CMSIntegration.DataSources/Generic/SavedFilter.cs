@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
                     return null;
                 }
 
-                var paramValue = ResolveParameterValue(strParamValue, paramDef.ValueType);
+                var paramValue = paramDef.ResolveValue(strParamValue);
                 paramValues.Add(paramDef.Name, paramValue);
             }
 
@@ -54,23 +54,6 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
             {
                 ParameterValues = paramValues
             };
-        }
-
-        private object ResolveParameterValue(string strValue, Type type)
-        {
-            if (String.IsNullOrWhiteSpace(strValue))
-            {
-                return null;
-            }
-
-            Type targetType = type;
-
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-            {
-                targetType = Nullable.GetUnderlyingType(type);
-            }
-
-            return Convert.ChangeType(strValue, targetType);
         }
     }
 }

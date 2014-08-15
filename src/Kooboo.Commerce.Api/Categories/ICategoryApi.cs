@@ -8,5 +8,7 @@ namespace Kooboo.Commerce.Api.Categories
     public interface ICategoryApi
     {
         Query<Category> Query();
+
+        IList<Category> Breadcrumb(int currentCategoryId);
     }
 }

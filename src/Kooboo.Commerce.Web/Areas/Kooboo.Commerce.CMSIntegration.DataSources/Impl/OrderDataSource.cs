@@ -6,11 +6,11 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
+namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
 {
     [DataContract]
     [KnownType(typeof(OrderDataSource))]
-    public class OrderDataSource : ApiBasedDataSource<Order>
+    public class OrderDataSource : ApiQueryBasedDataSource<Order>
     {
         public override string Name
         {

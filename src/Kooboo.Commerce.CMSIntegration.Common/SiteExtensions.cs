@@ -36,7 +36,7 @@ namespace Kooboo.Commerce.CMSIntegration
             var user = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
             var accountId = user == null ? null : user.UUID;
 
-            var context = new ApiContext(site.GetCommerceInstanceName(), CultureInfo.GetCultureInfo(site.Culture), null, accountId);
+            var context = new ApiContext(site.GetCommerceInstanceName(), CultureInfo.GetCultureInfo(site.Culture), site.GetCurrency(), accountId);
 
             var apiType = "Local";
             if (site.CustomFields.ContainsKey("CommerceApiType"))
