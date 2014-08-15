@@ -96,7 +96,6 @@
     <Compile Include="Orders\OrderQueryExtensions.cs" />
     <Compile Include="Metadata\QueryDescriptors.cs" />
     <Compile Include="Gender.cs" />
-    <Compile Include="ICommerceQuery.cs" />
     <Compile Include="ICommerceApi.cs" />
     <Compile Include="Customers\Address.cs" />
     <Compile Include="Countries\Country.cs" />
