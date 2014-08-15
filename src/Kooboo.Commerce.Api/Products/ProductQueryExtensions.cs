@@ -13,6 +13,11 @@ namespace Kooboo.Commerce.Api
             return query.AddFilter(ProductFilters.ById.CreateFilter(new { Id = id }));
         }
 
+        public static Query<Product> ByIds(this Query<Product> query, params int[] ids)
+        {
+            return query.AddFilter(ProductFilters.ByIds.CreateFilter(new { Ids = ids }));
+        }
+
         public static Query<Product> ByName(this Query<Product> query, string name)
         {
             return query.AddFilter(ProductFilters.ByName.CreateFilter(new { Name = name }));

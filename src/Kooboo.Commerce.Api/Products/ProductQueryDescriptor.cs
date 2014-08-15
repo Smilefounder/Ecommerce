@@ -10,12 +10,17 @@ namespace Kooboo.Commerce.Api.Products
     {
         public IEnumerable<FilterDescription> Filters
         {
-            get { return new[] { ProductFilters.ById, ProductFilters.ByName, ProductFilters.ByBrand, ProductFilters.ByCategory, ProductFilters.ByCustomField }; }
+            get { return new[] { ProductFilters.ById, ProductFilters.ByIds, ProductFilters.ByName, ProductFilters.ByBrand, ProductFilters.ByCategory, ProductFilters.ByCustomField }; }
         }
 
         public IEnumerable<string> OptionalIncludeFields
         {
-            get { return OptionalIncludeAttribute.GetOptionalIncludeFields(typeof(Product)); }
+            get
+            {
+                var fields = OptionalIncludeAttribute.GetOptionalIncludeFields(typeof(Product)).ToList();
+                fields.RemoveAll(path => path.StartsWith("Categories."));
+                return fields;
+            }
         }
 
         public IEnumerable<string> DefaultIncludedFields

@@ -26,6 +26,14 @@ namespace Kooboo.Commerce.Api.Local.Products
                 var id = (int)filter.Parameters["Id"];
                 query = query.Where(p => p.Id == id);
             }
+            else if (filter.Name == ProductFilters.ByIds.Name)
+            {
+                var ids = (int[])filter.Parameters["Ids"];
+                if (ids != null)
+                {
+                    query = query.Where(p => ids.Contains(p.Id));
+                }
+            }
             else if (filter.Name == ProductFilters.ByName.Name)
             {
                 var name = (string)filter.Parameters["Name"];

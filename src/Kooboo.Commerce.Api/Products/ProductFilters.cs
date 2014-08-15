@@ -10,6 +10,8 @@ namespace Kooboo.Commerce.Api.Products
     {
         public static readonly FilterDescription ById = new FilterDescription("ById", new Int32ParameterDescription("Id", true));
 
+        public static readonly FilterDescription ByIds = new FilterDescription("ByIds", new ParameterDescription("Ids", typeof(int[]), true));
+
         public static readonly FilterDescription ByName = new FilterDescription("ByName", new StringParameterDescription("Name", true));
 
         public static readonly FilterDescription ByCategory = new FilterDescription("ByCategory", new Int32ParameterDescription("CategoryId", true));

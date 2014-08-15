@@ -100,7 +100,6 @@
     <Compile Include="CommerceDataSourceDesigner.cs" />
     <Compile Include="Impl\ApiQueryBasedDataSource.cs" />
     <Compile Include="Generic\DataSourceDefinitionHelper.cs" />
-    <Compile Include="Generic\ParameterDescriptionExtensions.cs" />
     <Compile Include="Generic\SavedFilter.cs" />
     <Compile Include="Generic\GenericCommerceDataSource.cs" />
     <Compile Include="Generic\GenericCommerceDataSourceSettings.cs" />
@@ -126,6 +125,7 @@
     <Compile Include="Impl\ShoppingCartDataSource.cs" />
     <Compile Include="Generic\ParsedFilter.cs" />
     <Compile Include="Strings.cs" />
+    <Compile Include="StringConvert.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config">

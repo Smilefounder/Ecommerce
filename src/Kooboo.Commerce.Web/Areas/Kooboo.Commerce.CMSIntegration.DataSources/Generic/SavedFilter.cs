@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
                     return null;
                 }
 
-                var paramValue = paramDef.ResolveValue(strParamValue);
+                var paramValue = StringConvert.ToObject(strParamValue, paramDef.ValueType);
                 paramValues.Add(paramDef.Name, paramValue);
             }
 

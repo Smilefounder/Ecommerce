@@ -21,18 +21,6 @@
     }
 </div>
 
-<div style="font-size:16px;padding:10px;background:#eee">
-    @if (ViewBag.ProductsByIds != null)
-    {
-        foreach (var product in ViewBag.ProductsByIds)
-        {
-            <div>
-                <a href="/product/@product.Id">@product.Name</a>
-            </div>
-        }
-    }
-</div>
-
 <div style="font-size:16px;padding:10px;background:#eee;">
     @if (facets != null) { 
         var selectedFacets = new Dictionary<string, string>();

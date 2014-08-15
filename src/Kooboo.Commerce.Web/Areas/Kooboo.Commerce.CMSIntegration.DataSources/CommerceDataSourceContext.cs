@@ -45,16 +45,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
                 return null;
             }
 
-            if (type.IsValueType && !type.IsPrimitive)
-            {
-                var underlyingType = Nullable.GetUnderlyingType(type);
-                if (underlyingType != null)
-                {
-                    return Convert.ChangeType(fieldValue, underlyingType);
-                }
-            }
-
-            return Convert.ChangeType(fieldValue, type);
+            return StringConvert.ToObject(fieldValue, type);
         }
 
         public T ResolveFieldValue<T>(string field, T defaultValue)
