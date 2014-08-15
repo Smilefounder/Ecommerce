@@ -37,6 +37,7 @@
             this.AddFilter = function () {
                 var filter = {
                     Name: ko.observable(),
+                    Required: ko.observable(false),
                     ParameterValues: ko.observableArray(),
                     IsEditing: ko.observable(false),
                     IsNew: ko.observable(true)

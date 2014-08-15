@@ -37,11 +37,8 @@ namespace Kooboo.Commerce.Api.Local
         private IQueryable<TSource> ToLocalQuery(Query<T> query)
         {
             var localQuery = CreateLocalQuery();
-            foreach (var filter in query.Filters)
-            {
-                localQuery = ApplyFilter(localQuery, filter);
-            }
 
+            localQuery = ApplyFilters(localQuery, query.Filters);
             localQuery = ApplySorts(localQuery, query.Sorts);
 
             if (query.Start > 0)
@@ -57,6 +54,16 @@ namespace Kooboo.Commerce.Api.Local
         }
 
         protected abstract IQueryable<TSource> CreateLocalQuery();
+
+        protected virtual IQueryable<TSource> ApplyFilters(IQueryable<TSource> query, IEnumerable<QueryFilter> filters)
+        {
+            foreach (var filter in filters)
+            {
+                query = ApplyFilter(query, filter);
+            }
+
+            return query;
+        }
 
         protected abstract IQueryable<TSource> ApplyFilter(IQueryable<TSource> query, QueryFilter filter);
 

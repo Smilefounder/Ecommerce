@@ -46,7 +46,6 @@ namespace Kooboo.Commerce.Api.Local.Mapping
             }
 
             var sourcePropValue = ResolveSourcePropertyValue(sourceProperty, source, context);
-
             if (sourcePropValue == null)
             {
                 if (targetProperty.CanWrite)
@@ -59,90 +58,105 @@ namespace Kooboo.Commerce.Api.Local.Mapping
 
             if (IsComplexType(targetProperty.PropertyType))
             {
-                if (!context.Includes.Includes(propertyPath))
+                if (!IsComplexPropertyIncluded(targetProperty, propertyPath, context))
                 {
                     return;
                 }
 
-                object targetPropValue = targetProperty.GetValue(target, null);
+                MapComplexProperty(targetProperty, sourceProperty, sourcePropValue, source, target, sourceType, targetType, propertyPath, context);
+            }
+            else
+            {
+                MapSimpleProperty(targetProperty, sourceProperty, sourcePropValue, source, target, sourceType, targetType, propertyPath, context);
+            }
+        }
 
-                if (context.VisitedObjects.Contains(targetPropValue))
+        protected virtual bool IsComplexPropertyIncluded(PropertyInfo property, string propertyPath, MappingContext context)
+        {
+            return context.Includes.Includes(propertyPath);
+        }
+
+        protected virtual void MapComplexProperty(PropertyInfo targetProperty, PropertyInfo sourceProperty, object sourcePropValue, object source, object target, Type sourceType, Type targetType, string propertyPath, MappingContext context)
+        {
+            object targetPropValue = targetProperty.GetValue(target, null);
+
+            if (context.VisitedObjects.Contains(targetPropValue))
+            {
+                return;
+            }
+
+            Type targetElementType;
+
+            if (IsCollection(targetProperty.PropertyType, out targetElementType))
+            {
+                var sourceElementType = GetCollectionElementType(sourceProperty.PropertyType);
+
+                var elementMapper = GetMapperOrDefault(sourceElementType, targetElementType);
+                if (elementMapper == null)
                 {
                     return;
                 }
 
-                Type targetElementType;
+                var targetList = Activator.CreateInstance(typeof(List<>).MakeGenericType(targetElementType));
+                var addMethod = targetList.GetType().GetMethod("Add", BindingFlags.Public | BindingFlags.Instance, null, new[] { targetElementType }, null);
 
-                if (IsCollection(targetProperty.PropertyType, out targetElementType))
+                var sourceList = sourcePropValue as IEnumerable;
+                var elementPrefix = propertyPath + ".";
+                var totalElements = 0;
+
+                foreach (var sourceElement in sourceList)
                 {
-                    var sourceElementType = GetCollectionElementType(sourceProperty.PropertyType);
-
-                    var elementMapper = GetMapperOrDefault(sourceElementType, targetElementType);
-                    if (elementMapper == null)
-                    {
-                        return;
-                    }
-
-                    var targetList = Activator.CreateInstance(typeof(List<>).MakeGenericType(targetElementType));
-                    var addMethod = targetList.GetType().GetMethod("Add", BindingFlags.Public | BindingFlags.Instance, null, new[] { targetElementType }, null);
-
-                    var sourceList = sourcePropValue as IEnumerable;
-                    var elementPrefix = propertyPath + ".";
-                    var totalElements = 0;
-
-                    foreach (var sourceElement in sourceList)
-                    {
-                        var targetElement = elementMapper.Map(sourceElement, Activator.CreateInstance(targetElementType), sourceElementType, targetElementType, elementPrefix, context);
-                        addMethod.Invoke(targetList, new[] { targetElement });
-                        totalElements++;
-                    }
-
-                    if (!Object.ReferenceEquals(targetList, targetPropValue))
-                    {
-                        if (targetProperty.PropertyType.IsArray)
-                        {
-                            var array = Array.CreateInstance(targetElementType, totalElements);
-                            var i = 0;
-                            foreach (var item in targetList as IEnumerable)
-                            {
-                                array.SetValue(item, i);
-                                i++;
-                            }
-
-                            targetProperty.SetValue(target, array, null);
-                        }
-                        else
-                        {
-                            targetProperty.SetValue(target, targetList, null);
-                        }
-                    }
+                    var targetElement = elementMapper.Map(sourceElement, Activator.CreateInstance(targetElementType), sourceElementType, targetElementType, elementPrefix, context);
+                    addMethod.Invoke(targetList, new[] { targetElement });
+                    totalElements++;
                 }
-                else
+
+                if (!Object.ReferenceEquals(targetList, targetPropValue))
                 {
-                    var mapper = GetMapperOrDefault(sourceProperty.PropertyType, targetProperty.PropertyType);
-                    if (mapper != null)
+                    if (targetProperty.PropertyType.IsArray)
                     {
-                        if (targetPropValue == null)
+                        var array = Array.CreateInstance(targetElementType, totalElements);
+                        var i = 0;
+                        foreach (var item in targetList as IEnumerable)
                         {
-                            targetPropValue = Activator.CreateInstance(targetProperty.PropertyType);
+                            array.SetValue(item, i);
+                            i++;
                         }
 
-                        targetPropValue = mapper.Map(sourcePropValue, targetPropValue, sourceProperty.PropertyType, targetProperty.PropertyType, propertyPath + ".", context);
-
-                        targetProperty.SetValue(target, targetPropValue, null);
+                        targetProperty.SetValue(target, array, null);
+                    }
+                    else
+                    {
+                        targetProperty.SetValue(target, targetList, null);
                     }
                 }
             }
             else
             {
-                var targetPropValue = sourcePropValue;
-                if (targetProperty.PropertyType.IsEnum)
+                var mapper = GetMapperOrDefault(sourceProperty.PropertyType, targetProperty.PropertyType);
+                if (mapper != null)
                 {
-                    targetPropValue = Enum.Parse(targetProperty.PropertyType, sourcePropValue.ToString(), true);
-                }
+                    if (targetPropValue == null)
+                    {
+                        targetPropValue = Activator.CreateInstance(targetProperty.PropertyType);
+                    }
 
-                targetProperty.SetValue(target, sourcePropValue, null);
+                    targetPropValue = mapper.Map(sourcePropValue, targetPropValue, sourceProperty.PropertyType, targetProperty.PropertyType, propertyPath + ".", context);
+
+                    targetProperty.SetValue(target, targetPropValue, null);
+                }
             }
+        }
+
+        protected virtual void MapSimpleProperty(PropertyInfo targetProperty, PropertyInfo sourceProperty, object sourcePropValue, object source, object target, Type sourceType, Type targetType, string propertyPath, MappingContext context)
+        {
+            var targetPropValue = sourcePropValue;
+            if (targetProperty.PropertyType.IsEnum)
+            {
+                targetPropValue = Enum.Parse(targetProperty.PropertyType, sourcePropValue.ToString(), true);
+            }
+
+            targetProperty.SetValue(target, sourcePropValue, null);
         }
 
         protected IObjectMapper GetMapperOrDefault(Type sourceType, Type targetType)

@@ -11,7 +11,18 @@
                 @if (cate.Children != null) { 
                     foreach(var sub in cate.Children)
                     { 
-                    <li><a href="/Category/@sub.Id">@sub.Name</a></li>
+                        <li>
+                            <a href="/Category/@sub.Id">@sub.Name</a>
+                        </li>
+                        if (sub.Children != null)
+                        {
+                            foreach (var subsub in sub.Children)
+                            {
+                                <li style="padding-left:20px">
+                                    <a href="/Category/@subsub.Id">@subsub.Name</a>
+                                </li>
+                            }
+                        }
                     }
                 }
             </ul>

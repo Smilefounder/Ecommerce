@@ -19,6 +19,20 @@ namespace Kooboo.Commerce.Api.Local.Categories
             return ApiContext.Services.Categories.Query().OrderBy(c => c.Id);
         }
 
+        protected override IQueryable<Core.Category> ApplyFilters(IQueryable<Core.Category> query, IEnumerable<QueryFilter> filters)
+        {
+            query = base.ApplyFilters(query, filters);
+
+            // We expose a category tree to client, not just a simply list all categories.
+            // So if no ByParent filter is specified, we apply a ParentId = null filter implicitly, so return only root categories.
+            if (!filters.Any(f => f.Name == CategoryFilters.ByParent.Name))
+            {
+                query = ApplyFilter(query, CategoryFilters.ByParent.CreateFilter(new { ParentId = (int?)null }));
+            }
+
+            return query;
+        }
+
         protected override IQueryable<Core.Category> ApplyFilter(IQueryable<Core.Category> query, QueryFilter filter)
         {
             if (filter.Name == CategoryFilters.ById.Name)

@@ -62,6 +62,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
                 return query.FirstOrDefault();
             }
 
+            // Pagination
             if (settings.EnablePaging)
             {
                 var pageSize = settings.PageSize.GetValueOrDefault(50);
@@ -74,6 +75,15 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic.ApiBased
                 if (settings.Top != null && settings.Top.Value > 0)
                 {
                     query.Take(settings.Top.Value);
+                }
+            }
+
+            // Includes
+            if (settings.Includes != null && settings.Includes.Count > 0)
+            {
+                foreach (var path in settings.Includes)
+                {
+                    query.Include(path);
                 }
             }
 

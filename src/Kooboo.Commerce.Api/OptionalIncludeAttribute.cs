@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Api
                             else if (prop.PropertyType.IsGenericType)
                             {
                                 // Ignore dictionary (we don't want to support such complex senario)
-                                if (!prop.PropertyType.GetInterfaces().Any(it => it.GetGenericTypeDefinition() == typeof(IDictionary<,>)))
+                                if (!prop.PropertyType.GetInterfaces().Any(it => it.IsGenericType && it.GetGenericTypeDefinition() == typeof(IDictionary<,>)))
                                 {
                                     nextType = prop.PropertyType.GetGenericArguments()[0];
                                 }

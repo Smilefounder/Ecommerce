@@ -18,7 +18,12 @@ namespace Kooboo.Commerce.Api.Categories
 
         public IEnumerable<string> OptionalIncludeFields
         {
-            get { return OptionalIncludeAttribute.GetOptionalIncludeFields(typeof(Category)); }
+            get
+            {
+                var fields = OptionalIncludeAttribute.GetOptionalIncludeFields(typeof(Category)).ToList();
+                fields.Add("WholeCategoryTree");
+                return fields;
+            }
         }
 
         public IEnumerable<string> DefaultIncludedFields
@@ -28,7 +33,7 @@ namespace Kooboo.Commerce.Api.Categories
 
         public IEnumerable<string> SortFields
         {
-            get { return new [] { "Id", "Name" }; }
+            get { return new[] { "Id", "Name" }; }
         }
     }
 }

@@ -15,8 +15,7 @@ namespace Kooboo.Commerce.Api.Categories
 
         public string Photo { get; set; }
 
-        [OptionalInclude]
-        public Category Parent { get; set; }
+        public int? ParentId { get; set; }
 
         [OptionalInclude]
         public IList<Category> Children { get; set; }
