@@ -67,7 +67,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
             _instanceManager = instanceManager;
         }
 
-        protected override object ExecuteCore(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
+        protected override object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
         {
             var productIdFilter = settings.Filters.Find(f => f.Name == "ByProduct");
             if (productIdFilter == null)

@@ -6,16 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Kooboo.CMS.Sites.Membership;
+using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins
 {
     static class HttpContextExtensions
     {
-        public static string CurrentSessionId(this HttpContextBase context)
-        {
-            return context.Session.SessionID;
-        }
-
         public static string CurrentCustomerAccountId(this HttpContextBase context)
         {
             var member = context.Membership().GetMembershipUser();
@@ -30,7 +26,8 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
                 return Site.Current.Commerce().ShoppingCarts.GetCartIdByAccountId(accountId);
             }
 
-            return Site.Current.Commerce().ShoppingCarts.GetCartIdBySessionId(context.CurrentSessionId());
+            var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(true);
+            return Site.Current.Commerce().ShoppingCarts.GetCartIdBySessionId(sessionId);
         }
     }
 }

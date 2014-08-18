@@ -62,18 +62,18 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
             get { return null; }
         }
 
-        public virtual object Execute(CommerceDataSourceContext context)
+        public object Execute(CommerceDataSourceContext context)
         {
             ParsedGenericCommerceDataSourceSettings settings;
             if (TryParseSettings(context, out settings))
             {
-                return ExecuteCore(context, settings);
+                return DoExecute(context, settings);
             }
 
             return null;
         }
 
-        protected abstract object ExecuteCore(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings);
+        protected abstract object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings);
 
         public virtual IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)
         {

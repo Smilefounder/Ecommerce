@@ -33,18 +33,12 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
             get { return GetQueryDescriptor().OptionalIncludeFields; }
         }
 
-        protected override object ExecuteCore(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
+        protected override object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
         {
             var query = Query(context.Site.Commerce());
 
             // Filters
-            if (settings.Filters != null && settings.Filters.Count > 0)
-            {
-                foreach (var filter in settings.Filters)
-                {
-                    query.Filters.Add(new QueryFilter(filter.Name, filter.ParameterValues));
-                }
-            }
+            query = ApplyFilters(query, settings.Filters, context);
 
             // Sorting
             if (!String.IsNullOrEmpty(settings.SortField))
@@ -83,6 +77,21 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
             }
 
             return query.ToList();
+        }
+
+        protected virtual Query<T> ApplyFilters(Query<T> query, IList<ParsedFilter> filters, CommerceDataSourceContext context)
+        {
+            if (filters == null)
+            {
+                return query;
+            }
+
+            foreach (var filter in filters)
+            {
+                query.Filters.Add(new QueryFilter(filter.Name, filter.ParameterValues));
+            }
+
+            return query;
         }
 
         public override IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)

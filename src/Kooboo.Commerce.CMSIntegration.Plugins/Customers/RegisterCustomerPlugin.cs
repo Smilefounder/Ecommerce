@@ -1,4 +1,5 @@
-﻿using Kooboo.CMS.Membership.Services;
+﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.Commerce.Api.Customers;
 using Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models;
@@ -54,7 +55,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 var auth = new MembershipAuthentication(Site, membership, HttpContext);
                 auth.SetAuthCookie(customer.Email, false);
 
-                var sessionId = HttpContext.CurrentSessionId();
+                var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(false);
                 if (!String.IsNullOrWhiteSpace(sessionId))
                 {
                     Site.Commerce().ShoppingCarts.MigrateCart(customerId, sessionId);

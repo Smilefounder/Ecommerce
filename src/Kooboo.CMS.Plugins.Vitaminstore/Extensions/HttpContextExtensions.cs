@@ -7,16 +7,12 @@ using System.Threading.Tasks;
 using System.Web;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.Commerce.CMSIntegration;
+using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.CMS.Plugins.Vitaminstore
 {
     public static class HttpContextExtensions
     {
-        public static string CurrentSessionId(this HttpContextBase context)
-        {
-            return context.Session.SessionID;
-        }
-
         public static string CurrentCustomerAccountId(this HttpContextBase context)
         {
             var member = context.Membership().GetMembershipUser();
@@ -31,7 +27,9 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
                 return Site.Current.Commerce().ShoppingCarts.GetCartIdByAccountId(accountId);
             }
 
-            return Site.Current.Commerce().ShoppingCarts.GetCartIdBySessionId(context.CurrentSessionId());
+            var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(true);
+
+            return Site.Current.Commerce().ShoppingCarts.GetCartIdBySessionId(sessionId);
         }
     }
 }

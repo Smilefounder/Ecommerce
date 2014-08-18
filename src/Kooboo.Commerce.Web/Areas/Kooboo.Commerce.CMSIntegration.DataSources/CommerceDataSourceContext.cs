@@ -1,4 +1,5 @@
-﻿using Kooboo.CMS.Sites.DataRule;
+﻿using Kooboo.CMS.Membership.Models;
+using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.DataSource;
 using Kooboo.CMS.Sites.Models;
 using System;
@@ -6,11 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.CMS.Sites.Membership;
 
 namespace Kooboo.Commerce.CMSIntegration.DataSources
 {
     public class CommerceDataSourceContext
     {
+        public HttpContextBase HttpContext { get; set; }
+
         public Site Site { get; set; }
 
         public Page Page { get; set; }
@@ -19,10 +23,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
 
         public IValueProvider ValueProvider { get; set; }
 
-        public static CommerceDataSourceContext CreateFrom(DataSourceContext context)
+        public static CommerceDataSourceContext CreateFrom(DataSourceContext context, HttpContextBase httpContext)
         {
             var result = new CommerceDataSourceContext
             {
+                HttpContext = httpContext,
                 Site = context.Site,
                 Page = context.Page,
                 Instance = context.Site.GetCommerceInstanceName(),

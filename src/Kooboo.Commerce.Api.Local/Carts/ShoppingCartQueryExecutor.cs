@@ -38,21 +38,6 @@ namespace Kooboo.Commerce.Api.Local.Carts
                 var accountId = filter.GetParameterValueOrDefault<string>("AccountId");
                 query = query.Where(it => it.Customer.AccountId == accountId);
             }
-            else if (filter.Name == ShoppingCartFilters.ByCurrentCustomer.Name)
-            {
-                // TODO: Ask ApiContext for Membership
-                var httpContext = new HttpContextWrapper(HttpContext.Current);
-                var member = httpContext.Membership().GetMembershipUser();
-                if (member != null && !String.IsNullOrWhiteSpace(member.UUID))
-                {
-                    query = query.Where(it => it.Customer.AccountId == member.UUID);
-                }
-                else
-                {
-                    // TODO: Ask ApiContext for SessionID
-                    query = query.Where(it => it.SessionId == httpContext.Session.SessionID);
-                }
-            }
 
             return query;
         }

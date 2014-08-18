@@ -13,7 +13,5 @@ namespace Kooboo.Commerce.Api.Carts
         public static readonly FilterDescription BySessionId = new FilterDescription("BySessionId", new StringParameterDescription("SessionId", true));
 
         public static readonly FilterDescription ByAccountId = new FilterDescription("ByAccountId", new StringParameterDescription("AccountId", true));
-
-        public static readonly FilterDescription ByCurrentCustomer = new FilterDescription("ByCurrentCustomer");
     }
 }
