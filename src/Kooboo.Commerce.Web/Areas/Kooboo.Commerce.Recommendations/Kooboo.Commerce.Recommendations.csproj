@@ -108,6 +108,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CMSIntegration\HttpContextVisitorCookieExtensions.cs" />
     <Compile Include="CMSIntegration\RecommendationDataSource.cs" />
     <Compile Include="Engine\Behaviors\BehaviorObservers.cs" />
     <Compile Include="Engine\Behaviors\BehaviorTypes.cs" />

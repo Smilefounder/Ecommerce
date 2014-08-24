@@ -1,5 +1,8 @@
-﻿@using Kooboo.Commerce.Api;
-@using Kooboo.Commerce.Api.Products;
+﻿@using Kooboo.Commerce.Api
+@using Kooboo.Commerce.Api.Products
+@using Kooboo.Commerce.CMSIntegration
+@using Kooboo.Commerce.Recommendations.CMSIntegration
+@using Kooboo.Commerce.Recommendations.Engine.Behaviors
 @{
     var productId = Page_Context.Current.PageRequestContext.RouteValues["id"];
     var product = ViewBag.Product;
@@ -12,7 +15,20 @@
 
     var variants = product.Variants as IEnumerable<ProductVariant>;
     var cheapestVariant = variants.OrderByDescending(v => v.Price).FirstOrDefault();
+    
+    BehaviorObservers.OnReceive(Site.Current.GetCommerceInstanceName(), new [] {
+        new Behavior
+        {
+            Type = BehaviorTypes.View,
+            ItemId = product.Id.ToString(),
+            UserId = Context.EnsureVisitorUniqueId()
+        }
+    });
 }
+
+<p style="margin-bottom:10px;font-size:14px;font-weight:bold">
+    Visitor ID: <span style="color:#ff6a00">@Context.GetVisitorUniqueId()</span>
+</p>
 
 <form id="__AjaxAntiForgeryForm" action="#" method="post">
     @AntiForgery.GetHtml()

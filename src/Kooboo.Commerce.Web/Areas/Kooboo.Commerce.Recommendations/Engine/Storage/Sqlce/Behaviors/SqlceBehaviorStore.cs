@@ -117,7 +117,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
             using (var db = CreateDbContext())
             {
                 var itemUsers = db.ItemUsers.Find(itemId);
-                if (itemUsers != null)
+                if (itemUsers == null)
                 {
                     itemUsers = new ItemUsers { ItemId = itemId };
                     db.ItemUsers.Add(itemUsers);

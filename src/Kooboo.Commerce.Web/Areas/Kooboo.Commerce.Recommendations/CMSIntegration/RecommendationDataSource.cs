@@ -29,8 +29,7 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
 
         protected override object DoExecute(Commerce.CMSIntegration.DataSources.CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
         {
-            // TODO: 未登录时应使用Cookie，但如何在用户访问产品页时生成Cookie呢？
-            var userId = context.HttpContext.Session.SessionID;
+            var userId = context.HttpContext.GetVisitorUniqueId();
 
             var top = settings.Top.GetValueOrDefault(4);
             var engine = GetRecommendationEngine(context, settings);

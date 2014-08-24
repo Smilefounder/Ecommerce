@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
     public class BehaviorRecord
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string UserId { get; set; }
 
@@ -26,7 +26,6 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
 
         public BehaviorRecord(Behavior behavior)
         {
-            Id = CreateId(behavior.Type, behavior.UserId, behavior.ItemId);
             UserId = behavior.UserId;
             ItemId = behavior.ItemId;
             Type = behavior.Type;
@@ -44,11 +43,6 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
                 Weight = Weight,
                 UtcTimestamp = UtcTimestamp
             };
-        }
-
-        public static string CreateId(string type, string userId, string itemId)
-        {
-            return type + "|" + userId + "|" + itemId;
         }
     }
 }

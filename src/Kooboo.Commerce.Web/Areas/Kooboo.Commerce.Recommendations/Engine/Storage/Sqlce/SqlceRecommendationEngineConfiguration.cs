@@ -53,12 +53,11 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce
                 var matrixName = GetSimilarityMatrixName(behaviorType);
                 var matrix = new SqlceSimilarityMatrix(instance, matrixName);
                 SimilarityMatrixes.SetMatrix(instance, matrixName, matrix);
-
                 RelatedItemsReaders.AddReader(instance, new ItemToItemRelatedItemsReader(matrix));
-                // TODO: Make configurable in backend
-                BehaviorObservers.Add(instance, new BufferedBehaviorObserver(new SqlceBehaviorStoreUpdater(instance), 1000, TimeSpan.FromSeconds(10)));
             }
 
+            // TODO: Make configurable in backend
+            BehaviorObservers.Add(instance, new BufferedBehaviorObserver(new SqlceBehaviorStoreUpdater(instance), 1000, TimeSpan.FromSeconds(10)));
             RecommendationEngines.Set(instance, new AggregateRecommendationEngine(CreateRecommendationEngines(instance)));
             RecomputeSimilarityMatrixTasks.AddTasks(instance, CreateRecomputeSimilarityMatrixTasks(instance));
         }
