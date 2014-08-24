@@ -1,4 +1,7 @@
-﻿using Kooboo.Commerce.Api.Metadata;
+﻿using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Metadata;
+using Kooboo.Commerce.Api.Products;
+using Kooboo.Commerce.CMSIntegration;
 using Kooboo.Commerce.CMSIntegration.DataSources;
 using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
 using Kooboo.Commerce.Recommendations.Engine;
@@ -20,7 +23,7 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
         {
             get
             {
-                yield return new FilterDescription("ByProduct", new Int32ParameterDescription("ProductId", false));
+                yield return new FilterDescription("ByProduct", new Int32ParameterDescription("ProductId", true));
             }
         }
 
@@ -33,8 +36,27 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
             var engine = GetRecommendationEngine(context, settings);
 
             var items = engine.Recommend(userId, top);
+            var itemIds = items.Select(it => Convert.ToInt32(it.ItemId)).ToArray();
 
-            return items;
+            var products = context.Site.Commerce()
+                                  .Products.Query().ByIds(itemIds)
+                                  .Include(p => p.Brand)
+                                  .Include(p => p.Images)
+                                  .Include(p => p.Variants)
+                                  .ToList();
+
+            var result = new List<Product>();
+
+            foreach (var itemId in itemIds)
+            {
+                var product = products.Find(p => p.Id == itemId);
+                if (product != null)
+                {
+                    result.Add(product);
+                }
+            }
+
+            return result;
         }
 
         private IRecommendationEngine GetRecommendationEngine(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)

@@ -22,6 +22,7 @@ namespace Kooboo.Commerce.Api.Products
 
         public DateTime CreatedAtUtc { get; set; }
         
+        [OptionalInclude]
         public ICollection<CustomField> VariantFields { get; set; }
 
         public ProductVariant()

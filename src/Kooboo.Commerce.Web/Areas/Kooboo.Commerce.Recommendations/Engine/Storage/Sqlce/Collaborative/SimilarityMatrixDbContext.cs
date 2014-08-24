@@ -16,8 +16,16 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
         public DbSet<ItemSimilarity> Similarities { get; set; }
 
         public SimilarityMatrixDbContext(string instance, string dbName)
-            : base(SqlceDbContextHelper.CreateConnection(instance, dbName), SqlceDbContextHelper.GetModel("SimilarityMatrixDbContext"), true)
+            : base(SqlceDbContextHelper.CreateConnection(instance, dbName), GetModel(), true)
         {
+        }
+
+        static DbCompiledModel GetModel()
+        {
+            return SqlceDbContextHelper.GetModel(typeof(SimilarityMatrixDbContext).Name, builder =>
+            {
+                builder.Entity<ItemSimilarity>();
+            });
         }
     }
 }

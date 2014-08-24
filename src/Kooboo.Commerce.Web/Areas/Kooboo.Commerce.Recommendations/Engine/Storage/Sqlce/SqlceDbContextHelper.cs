@@ -15,12 +15,14 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce
     {
         static readonly ConcurrentDictionary<string, DbCompiledModel> _cache = new ConcurrentDictionary<string, DbCompiledModel>();
 
-        public static DbCompiledModel GetModel(string name)
+        public static DbCompiledModel GetModel(string name, Action<DbModelBuilder> configure)
         {
             return _cache.GetOrAdd(name, modelName =>
             {
                 var builder = new DbModelBuilder();
                 builder.Conventions.Remove<PluralizingTableNameConvention>();
+
+                configure(builder);
 
                 var providerInfo = new DbProviderInfo(SqlCeProviderServices.ProviderInvariantName, "4.0");
                 return builder.Build(providerInfo).Compile();

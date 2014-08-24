@@ -46,6 +46,15 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
                 query.Sorts.Add(new Sort(settings.SortField, settings.SortDirection));
             }
 
+            // Includes
+            if (settings.Includes != null && settings.Includes.Count > 0)
+            {
+                foreach (var path in settings.Includes)
+                {
+                    query.Include(path);
+                }
+            }
+
             if (settings.TakeOperation == TakeOperation.First)
             {
                 return query.FirstOrDefault();
@@ -64,15 +73,6 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
                 if (settings.Top != null && settings.Top.Value > 0)
                 {
                     query.Take(settings.Top.Value);
-                }
-            }
-
-            // Includes
-            if (settings.Includes != null && settings.Includes.Count > 0)
-            {
-                foreach (var path in settings.Includes)
-                {
-                    query.Include(path);
                 }
             }
 
