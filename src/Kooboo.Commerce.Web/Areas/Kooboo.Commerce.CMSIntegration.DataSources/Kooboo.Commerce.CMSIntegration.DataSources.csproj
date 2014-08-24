@@ -98,6 +98,7 @@
     <Compile Include="CommerceDataSourceAdapter.cs" />
     <Compile Include="CommerceDataSourceContext.cs" />
     <Compile Include="CommerceDataSourceDesigner.cs" />
+    <Compile Include="Extensions\HttpContextExtensions.cs" />
     <Compile Include="Impl\ApiQueryBasedDataSource.cs" />
     <Compile Include="Generic\DataSourceDefinitionHelper.cs" />
     <Compile Include="Generic\SavedFilter.cs" />

@@ -31,12 +31,12 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
 
         public object Execute(DataSourceContext dataSourceContext)
         {
-            return CommerceDataSource.Execute(CommerceDataSourceContext.CreateFrom(dataSourceContext));
+            return CommerceDataSource.Execute(CommerceDataSourceContext.CreateFrom(dataSourceContext, new HttpContextWrapper(HttpContext.Current)));
         }
 
         public IDictionary<string, object> GetDefinitions(DataSourceContext dataSourceContext)
         {
-            return CommerceDataSource.GetDefinitions(CommerceDataSourceContext.CreateFrom(dataSourceContext));
+            return CommerceDataSource.GetDefinitions(CommerceDataSourceContext.CreateFrom(dataSourceContext, new HttpContextWrapper(HttpContext.Current)));
         }
 
         public IEnumerable<string> GetParameters()

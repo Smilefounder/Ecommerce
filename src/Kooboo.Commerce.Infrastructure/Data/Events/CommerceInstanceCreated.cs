@@ -8,11 +8,14 @@ namespace Kooboo.Commerce.Data.Events
 {
     public class CommerceInstanceCreated : Event
     {
-        public CommerceInstanceSettings InstanceSettings { get; private set; }
+        public string InstanceName { get; private set; }
 
-        public CommerceInstanceCreated(CommerceInstanceSettings settings)
+        public CommerceInstanceSettings Settings { get; private set; }
+
+        public CommerceInstanceCreated(string instanceName, CommerceInstanceSettings settings)
         {
-            InstanceSettings = settings;
+            InstanceName = instanceName;
+            Settings = settings;
         }
     }
 }

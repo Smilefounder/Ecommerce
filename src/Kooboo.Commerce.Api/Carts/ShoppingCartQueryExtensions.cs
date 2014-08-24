@@ -25,11 +25,5 @@ namespace Kooboo.Commerce.Api
             query.Filters.Add(ShoppingCartFilters.ByAccountId.CreateFilter(new { AccountId = accountId }));
             return query;
         }
-
-        public static Query<ShoppingCart> ByCurrentCustomer(this Query<ShoppingCart> query)
-        {
-            query.Filters.Add(ShoppingCartFilters.ByCurrentCustomer.CreateFilter(null));
-            return query;
-        }
     }
 }

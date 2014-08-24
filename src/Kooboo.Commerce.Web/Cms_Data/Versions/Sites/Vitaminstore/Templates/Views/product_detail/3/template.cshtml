@@ -1,0 +1,310 @@
+﻿@using Kooboo.Commerce.Api;
+@using Kooboo.Commerce.Api.Products;
+@{
+    var productId = Page_Context.Current.PageRequestContext.RouteValues["id"];
+    var product = ViewBag.Product;
+    var image = product.GetImage("List");
+    if (image == null)
+    {
+        image = new ProductImage();
+        image.ImageUrl = "";
+    }
+
+    var variants = product.Variants as IEnumerable<ProductVariant>;
+    var cheapestVariant = variants.OrderByDescending(v => v.Price).FirstOrDefault();
+}
+
+<form id="__AjaxAntiForgeryForm" action="#" method="post">
+    @AntiForgery.GetHtml()
+</form>
+    <div class="product" itemscope="" itemtype="http://schema.org/Product">
+        <div class="product-top">
+            <ul>
+                <li class="short"><a href="#algemeen" class="selected">algemeen</a></li>
+                <li class="short"><a href="#meerinfo">meer</a></li>
+
+                <li class="short">
+                    <a href="#gebruik">gebruik</a>
+                </li>
+
+
+                <li class="short">
+                    <a href="#video">
+                        video
+                        <span id="ctl00_cpContent_ltlVideoCountTop" class="orange">(1)</span>
+                    </a>
+                </li>
+
+                <li class="long">
+                    <a href="#recensies">
+                        recensies
+                        <span id="ctl00_cpContent_ltlReviewCountTop" class="orange">(32)</span>
+                    </a>
+                </li>
+                <li class="long">
+                    <a href="#vragen">
+                        vragen
+                        <span id="ctl00_cpContent_ltlQuestionCountTop" class="orange">(91)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="product-middle">
+            <div class="product-left">
+                <div class="product-info-left propics">
+                    <div class="product-bigpic">
+                        <a class="thickbox" title="Omnium®" href="@(image.ImageUrl)"><img id="ctl00_cpContent_imgProductPicture" title="@(product.Brand.Name)®" class="dpic" itemprop="image" src="@(image.ImageUrl)" alt="Omnium®" style="border-width:0px;"></a>
+                    </div>
+                </div>
+                <div class="product-info-right protext">
+                    <div id="algemeen" class="tabs" style="display: block;">
+                        <h1 itemprop="name">
+                            @(product.Name)®
+                        </h1>
+                        <small>
+                            @(product.Brand.Name)
+                        </small>
+                        <div class="TotalReviews" itemprop="aggregaterating" itemscope="" itemtype="http://schema.org/AggregateRating">
+                            <ul class="star-rating">
+                                <li class="current-rating" style="width:46px"></li>
+                            </ul>
+                        </div>
+                        <h2 class="headtext">
+                            @Html.Raw(product.GetCustomField("HeadText").FieldText)
+                        </h2>
+                        <div class="productline">
+                        </div>
+                        <div itemprop="description">
+                            @Html.Raw(product.GetCustomField("Introduction").FieldText)
+                        </div>
+                        <br>
+                        <br>
+                        zoekwoord(en):
+                        <a class="GreyLink" href="/Search.aspx?keywords=vitamines">vitamines</a>, <a class="GreyLink" href="/Search.aspx?keywords=mineralen">mineralen</a>, <a class="GreyLink" href="/Search.aspx?keywords=multi">multi</a>, <a class="GreyLink" href="/Search.aspx?keywords=Solgar">Solgar</a>, <a class="GreyLink" href="/Search.aspx?keywords=orthomoleculair">orthomoleculair</a>, <a class="GreyLink" href="/Search.aspx?keywords=vegetarische+multi">vegetarische multi</a>, <a class="GreyLink" href="/Search.aspx?keywords=senioren+multi">senioren multi</a>, <a class="GreyLink" href="/Search.aspx?keywords=natuurlijke+multi">natuurlijke multi</a>, <a class="GreyLink" href="/Search.aspx?keywords=vitamine+supplementen">vitamine supplementen</a>
+
+                        <br>
+                        <br>
+                        <span class="moreinfo">Meer...</span>
+                    </div>
+                    <div id="meerinfo" class="tabs" style="display: none;">
+
+                        <h3>Meer info</h3>
+                        <div class="productline">
+                        </div>
+                        <ul><li>Voor iedereen die het beste wil </li><li>Samengesteld volgens de meest recente wetenschappelijke inzichten</li><li>Bevat onder meer:  - <a href="/informatie/Ester-C">Ester-C</a>®  - 100% natuurlijk <a href="/informatie/Vitamine-E">vitamine E</a>-complex - 100% natuurlijk carotenoïdencomplex - Aminozuurgecheleerde <a href="/informatie/Mineralen">mineralen</a> (Albion) - <a href="/informatie/Ijzer">IJzer</a> in goed opneembare, maagvriendelijke vorm - <a href="/informatie/Fosfatidylserine">Fosfatidylserine</a> complex</li><li>Zeer rijk aan anti-oxidanten (Co-enzym Q-10, n-acetyl-cysteïne, groene thee extract, liponzuur, quercetine, broccoli, curcuma)</li><li>Soy from Nature</li><li>Aqua coating</li><li>De donkere glazen verpakking biedt de meest optimale bescherming tegen invloed van zuurstof, vocht en licht</li></ul>
+
+                        <h3>Hoofdingrediënt</h3>
+                        <div class="productline">
+                        </div>
+                        Vitaminen &amp; <a href="/informatie/Mineralen">Mineralen</a> in biologische vormen.
+
+                        <h3>Ingrediënten</h3>
+                        <div class="productline">
+                        </div>
+                        <table><tbody><tr valign="top"><td width="65%"><a href="/health/vitaminen/vitamine-c">Vitamine C</a> (<a href="/informatie/Ester-C">Ester-C</a>®***: <a href="/informatie/Calcium">calcium</a> ascorbaat)</td><td width="35%" align="right">(375 % <a href="/informatie/ADH">ADH</a>) 300 mg</td></tr><tr valign="top"><td width="65%">Vulstoffen (microkristallijne cellulose, hydroxypropyl cellulose)</td><td width="35%" align="right"> </td></tr><tr valign="top"><td width="65%"><a href="/informatie/Vitamine-E">Vitamine E</a> (d-alfa tocoferyl succinaat)</td><td width="35%" align="right">(300 IE) (2058 % <a href="/informatie/ADH">ADH</a>) 247 mg</td></tr><tr valign="top"><td width="65%">Choline (bitartraat)</td><td width="35%" align="right">75 mg</td></tr><tr valign="top"><td width="65%">Anti-klontermiddelen (silicium dioxide, plantaardig magnesiumstearaat, plantaardig stearinezuur)</td><td width="35%" align="right"> </td></tr><tr valign="top"><td width="65%"><a href="/informatie/Magnesium">Magnesium</a> (bisglycinaat*, oxide)</td><td width="35%" align="right">32 mg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Calcium">Calcium</a> (bisglycinaat*, ascorbaat, d-calcium pantothenaat)</td><td width="35%" align="right">64 mg</td></tr><tr valign="top"><td width="65%">Cellulose gom</td><td width="35%" align="right"> </td></tr><tr valign="top"><td width="65%"><a href="/informatie/Vitamine">Vitamine</a> B-5 (calcium pantothenaat)</td><td width="35%" align="right">(1333 % ADH) 80 mg</td></tr><tr valign="top"><td width="65%">Glansmiddelen (hydroxypropylmethyl cellulose, plantaardig glycerine)</td><td width="35%" align="right"> </td></tr><tr valign="top"><td width="65%">Natuurlijk beta-caroteen</td><td width="35%" align="right">5 mg</td></tr><tr valign="top"><td width="65%">Bevat andere carotenoïden</td><td width="35%" align="right">13 µg</td></tr><tr valign="top"><td width="65%">Inositol</td><td width="35%" align="right">75 mg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Vitamine">Vitamine</a> B-6 (pyridoxine HCl)****</td><td width="35%" align="right">(3571 % ADH) 50 mg</td></tr><tr valign="top"><td width="65%">Vitamine B-3 (nicotinamide)</td><td width="35%" align="right">(375 % ADH) 60 mg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Zink">Zink</a> (bisglycinaat*)</td><td width="35%" align="right">(100 % ADH) 10 mg</td></tr><tr valign="top"><td width="65%">Bioflavonoïden (citrus)</td><td width="35%" align="right">13 mg</td></tr><tr valign="top"><td width="65%">Gestandaardiseerd Curcuma (geelwortel) extract (46,5 mg [93%] curcuminoïden)</td><td width="35%" align="right">50 mg</td></tr><tr valign="top"><td width="65%">N-acetyl-cysteïne</td><td width="35%" align="right">50 mg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Ijzer">IJzer</a> (bisglycinaat**)</td><td width="35%" align="right">(64 % ADH) 9 mg</td></tr><tr valign="top"><td width="65%">Broccoli/crucifera (koolsoorten) extract</td><td width="35%" align="right">50 mg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Fosfatidylserine">Fosfatidylserine</a></td><td width="35%" align="right">10 mg</td></tr><tr valign="top"><td width="65%">Sojakiem extract (bevat 2% isoflavonen)</td><td width="35%" align="right">50 mg</td></tr><tr valign="top"><td width="65%">Vitamine B-1 (<a href="/informatie/Thiamine">thiamine</a> mononitraat)</td><td width="35%" align="right">(2727 % ADH) 30 mg</td></tr><tr valign="top"><td width="65%">Vitamine B-2 (riboflavine, riboflavine-5-fosfaat)</td><td width="35%" align="right">(2571 % ADH) 36 mg</td></tr><tr valign="top"><td width="65%">Kleurstoffen (anthocyaninen [uit druivenschil], titaandioxide)</td><td width="35%" align="right"> </td></tr><tr valign="top"><td width="65%">Polyfenolen extract poeder (uit groene thee, druivenpitten en pijnboombast)</td><td width="35%" align="right">20 mg</td></tr><tr valign="top"><td width="65%">D-Limoneen (citrus) poeder extract</td><td width="35%" align="right">5 mg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Koper">Koper</a> (bisglycinaat*)</td><td width="35%" align="right">(150 % ADH) 1500 µg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Selenium">Selenium</a> (selenomethionine)</td><td width="35%" align="right">(127 % ADH) 70 µg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Mangaan">Mangaan</a> (bisglycinaat*)</td><td width="35%" align="right">(100 % ADH) 2 mg</td></tr><tr valign="top"><td width="65%">Vitamine B-12 (cyanocobalamine)</td><td width="35%" align="right">(4000 % ADH) 100 µg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Biotine">Biotine</a></td><td width="35%" align="right">(200 % ADH) 100 µg</td></tr><tr valign="top"><td width="65%">Quercetine</td><td width="35%" align="right">10 mg</td></tr><tr valign="top"><td width="65%">Borium (citroenzuur, boorzuur)</td><td width="35%" align="right">0.5 mg</td></tr><tr valign="top"><td width="65%">Co-enzym Q-10</td><td width="35%" align="right">10 mg</td></tr><tr valign="top"><td width="65%">Alfa-Liponzuur</td><td width="35%" align="right">10 mg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Foliumzuur">Foliumzuur</a> (pteroylmonoglutaminezuur)</td><td width="35%" align="right">(200 % ADH) 400 µg</td></tr><tr valign="top"><td width="65%"><a href="/health/vitaminen/vitamine-d">Vitamine D</a> (D-2, ergocalciferol)</td><td width="35%" align="right">(200 IE) (100 % ADH) 5 µg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Vitamine-K">Vitamine K</a> (fytomenadion)</td><td width="35%" align="right">(27 % ADH) 20 µg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Jodium">Jodium</a> (<a href="/informatie/Kalium">kalium</a> jodide )</td><td width="35%" align="right">(100 % ADH) 150 µg</td></tr><tr valign="top"><td width="65%"><a href="/informatie/Chroom">Chroom</a> (picolinaat)</td><td width="35%" align="right">(250 % ADH) 100 µg</td></tr></tbody></table>ADH = Aanbevolen Dagelijkse Hoeveelheid<br>* Biologisch certificaat nr: FT 045<br>** Unieke vorm van gecheleerd ijzer (bisglycinaat), zeer goed opneembaar, maagvriendelijk en niet stoppend. Albion aminozuur chelaat process patent #5,516,925 en #6,716,814 Chelazomes.<br>*** Ester-C® is een handelsnaam van The Ester C Company. Vervaardigd onder US patent 6,197,813 en 6.878,744 en overeenkomstige buitenlandse patenten.<br>**** Langdurig dagelijks gebruik van deze hoeveelheid vitamine B-6 kan, bij hiervoor gevoelige personen, milde tintelingen of gevoelloosheid in ledematen veroorzaken.
+
+                        <h3>Overige Product Informatie</h3>
+                        <div class="productline">
+                        </div>
+
+                        EAN: (30 tabletten) 033984020658<br>
+
+                        EAN: (60 tabletten) 033984020665<br>
+
+                        EAN: (90 tabletten) 033984020672<br>
+
+                        EAN: (180 tabletten) 033984020726<br>
+
+
+                        <br>
+                        <br>
+                        <span class="usage">Gebruik...</span>
+                    </div>
+                    <div id="gebruik" class="tabs" style="display: none;">
+
+                        <h3>Gebruik</h3>
+                        <div class="productline">
+                        </div>
+                        Als voedingssupplement voor volwassenen twee tabletten dagelijks bij voorkeur bij een maaltijd innemen, tenzij anders geadviseerd. Aanbevolen dosering niet overschrijden.
+
+                        <h3>Waarschuwing</h3>
+                        <div class="productline">
+                        </div>
+                        <table class="table-extra-info"><tbody><tr><td>Gist</td><td>Nee</td></tr><tr><td>Gluten</td><td>Nee</td></tr><tr><td>Melk of melkbestanden</td><td>Nee</td></tr><tr><td>Soja</td><td>Ja</td></tr><tr><td>Sucrose</td><td>Nee</td></tr><tr><td>Conserveringsmiddelen</td><td>Nee</td></tr><tr><td>Zout toegevoegd</td><td>Nee</td></tr><tr><td>Geschikt voor vegetariers</td><td>Ja</td></tr><tr><td>Geschikt voor veganisten</td><td>Ja</td></tr><tr><td>kosher</td><td>Nee</td></tr><tr><td>halal</td><td>Nee</td></tr></tbody></table><br>Raadpleeg vóór gebruik een deskundige in geval van <a href="/informatie/Zwangerschap">zwangerschap</a>, lactatie, ziekte of medicijngebruik.
+                    </div>
+                </div>
+
+                <div id="video" class="tabs" style="display: none;">
+
+                    <object width="365" height="325"><param name="movie" value="http://www.youtube.com/v/Zri9dlfeCYo&amp;hl=en&amp;fs=1"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><embed src="http://www.youtube.com/v/Zri9dlfeCYo&amp;hl=en&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="365" height="325"></object><br>
+
+                </div>
+
+                <div id="recensies" class="tabs" style="display: none;">
+
+                    <table cellpadding="0" cellspacing="0" class="avgreview">
+                        <tbody>
+                            <tr>
+                                <td class="avgreview-total">
+                                    Gemiddelde Waardering
+                                </td>
+                                <td class="avgreview-star">
+
+                                    <ul class="star-rating">
+                                        <li class="current-rating" style="width:46px"></li>
+                                    </ul>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    (Gebaseerd op
+                                    32
+                                    reviews)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <a href="/ProductAddReview.aspx?ProductID=686&amp;KeepThis=true&amp;TB_iframe=true&amp;height=680&amp;width=650" class="thickbox addreviewlink" title="schrijf een recensie" rel="nofollow">Vertel wat je van dit product vindt en maak kans op €25,- shoptegoed!</a>
+                    <h3>Recensies</h3>
+                    <ul class="ReviewAddSearch">
+
+                        <li>
+                            <a href="/ProductReviewSearch.aspx?ProductID=686&amp;OriginalProductID=0&amp;PopupWidth=630&amp;KeepThis=true&amp;TB_iframe=true&amp;width=650" class="thickbox" title="zoek recensies" rel="nofollow">
+                                <img src="/images/product/search.png" alt="zoek recensies">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/ProductAddReview.aspx?ProductID=686&amp;KeepThis=true&amp;TB_iframe=true&amp;height=680&amp;width=650" class="thickbox" title="schrijf een recensie" rel="nofollow">
+                                <img src="/images/product/schrijf-een-recensie.png" alt="schrijf een recensie">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="vragen" class="tabs" style="display: none;">
+                    <h3>Vragen</h3>
+                </div>
+                <div class="product-extraitem">
+                    <div class="product-info-left">
+                        <strong>Verwachte Levertijd:</strong>
+                    </div>
+                    <div class="product-info-right">
+                        <span class="green">Vandaag besteld, morgen in huis!</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="product-right">
+                <div id="pricebox">
+                    <div class="lowestprice" data-packid="@cheapestVariant.Id" title="Klik hier om 1 product toe te voegen aan uw winkelwagen">
+                        <div class="lowestprice-top">
+                        </div>
+                        <div class="lowestprice-item" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+                            <span class="measure">
+                                @(cheapestVariant.GetVariantField("MeasureQuantity").FieldText)
+                                @(product.GetCustomField("Measure").FieldText)&nbsp;
+                            </span><br>
+                            <span class="price">
+                                @if (cheapestVariant.Price != cheapestVariant.FinalPrice)
+                                {
+                                    <del style="color:orange">€ @cheapestVariant.Price</del><br />
+                                }
+                                € @(cheapestVariant.FinalPrice)
+                            </span>
+                        </div>
+                        <div class="lowestprice-bottom">
+                        </div>
+                    </div>
+                    <div class="lowestprice-button">
+                        <table cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="btn-pro btn-addcart btn-addcart-3d" data-packid="@cheapestVariant.Id">
+                                            <table cellpadding="0" cellspacing="0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="cart-new">
+                                                            <span id="ctl00_cpContent_lblInCartNumbers" class="cart-num icon-share-alt icon-large"></span>
+                                                        </td>
+                                                        <td><span class="cart-text">IN WINKELWAGENTJE</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="tip-ClickAgain">
+                                    <td align="center">
+                                        Klik nogmaals om meerdere items toe te voegen.
+                                        <br>
+                                        <a href="#" class="deductItem">Klik hier om er één uit te halen</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="favorite-button">
+
+                        <a href="#" class="btn-add-favorite" data-id="686" onclick="dataLayer.push({'eventName': 'GAevent', 'eventCategory': 'MyVitaminstore',  'eventAction': 'AddFavorite'});"><i class="icon-heart-empty"></i>Voeg toe aan uw favorieten</a>
+
+
+                    </div>
+
+                    <div class="productline">
+                    </div>
+
+                    <h5>
+                        Voordeel Verpakkingen
+                    </h5>
+                    @if (product.Variants.Count > 1)
+                    {
+                        <div class="higherprice">
+                            <div class="higherprice-top">
+                            </div>
+                            @foreach (var price in product.Variants)
+                            {
+                                if (price.Id == cheapestVariant.Id) { continue; }
+                                <div class="higherprice-item first-higherprice" title="Klik hier om 1 product toe te voegen aan uw winkelwagen" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+
+                                    <span class="measure" onclick="AddCart(@price.Id,1)">
+                                        @(price.GetVariantField("MeasureQuantity").FieldValue)
+                                        @(product.GetCustomField("Measure").FieldText)
+                                    </span><br>
+                                    <span class="price" onclick="AddCart(@price.Id,1)" itemprop="price">
+                                        @if (price.Price != price.FinalPrice) {
+                                            <del style="color:orange">€ @(price.Price)</del><br/>
+                                        }
+                                        € @(price.FinalPrice)
+                                    </span>
+
+                                    <span class="addSKU" onclick="AddCart(@price.Id,1)"></span>
+                                </div>
+                            }
+
+                            <div class="higherprice-bottom">
+                            </div>
+                        </div>
+                    }
+                    <div class="productline">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="product-bottom">
+        </div>
+    </div>
+    <div class="addedtip">
+        toegevoegd aan de winkelwagen
+    </div>
+
+    <script>
+        $(function () {
+            $(".product-top ul").idTabs(function (id) {
+                return SwitchTab(id);
+            });
+        });
+    </script>

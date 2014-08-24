@@ -1,6 +1,5 @@
 ﻿@{
-    var product = ViewBag.Product;
-    var recommendations = product == null ? null : product.Recommendations;
+    var recommendations = ViewBag.Recommendations;
 } 
 
 <div id="recommendations-holder">
@@ -15,8 +14,6 @@
                     foreach (var item in recommendations)
                     {
                         var image = item.GetImage("List");
-                        var price = item.PriceList.Length > 0 ? item.PriceList[0] : null;
-                        
                         <div style="width: 152px;">
                             <div class="productpicture">
                                 <a href="/product/@item.Id">
@@ -34,15 +31,13 @@
                             <div style="float: left; width: 60px;">
                                 <ul class="star-rating"><li class="current-rating" style="width:40px"></li></ul>
                             </div>
-                            @if (price != null) { 
                             <div class="Price">
                                 <a class="GreyLink" href="/product/@item.Id" rel="nofollow">
                                     <span class="Price_normal">
-                                        € @price.FinalRetailPrice
+                                        € @item.LowestPrice
                                     </span>
                                 </a>
                             </div>
-                            }
                         </div>
                     }
                 }

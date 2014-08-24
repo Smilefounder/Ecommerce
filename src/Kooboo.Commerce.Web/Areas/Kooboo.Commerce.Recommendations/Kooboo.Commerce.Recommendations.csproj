@@ -39,6 +39,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\EntityFramework.6.1.1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\EntityFramework.SqlServerCompact.6.1.1\lib\net40\EntityFramework.SqlServerCompact.dll</HintPath>
+    </Reference>
     <Reference Include="Kooboo">
       <HintPath>..\..\..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
     </Reference>
@@ -56,8 +68,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\..\lib\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\Microsoft.SqlServer.Compact.4.0.8854.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\Microsoft.SqlServer.Compact.4.0.8854.1\lib\net40\System.Data.SqlServerCe.Entity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -88,22 +111,85 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\RecommendationController.cs" />
-    <Compile Include="IProductRecommendationService.cs" />
-    <Compile Include="ProductRecommendation.cs" />
-    <Compile Include="ProductRecommendationService.cs" />
-    <Compile Include="ProductRecommendationsTabPlugin.cs" />
+    <Compile Include="CMSIntegration\HttpContextVisitorCookieExtensions.cs" />
+    <Compile Include="CMSIntegration\RecommendationDataSource.cs" />
+    <Compile Include="Engine\Behaviors\BehaviorObservers.cs" />
+    <Compile Include="Engine\Behaviors\BehaviorTypes.cs" />
+    <Compile Include="Engine\Behaviors\BufferedBehaviorObserver.cs" />
+    <Compile Include="Engine\Behaviors\IBehaviorObserver.cs" />
+    <Compile Include="Engine\Behaviors\Behavior.cs" />
+    <Compile Include="Engine\Behaviors\IBehaviorTimestampReader.cs" />
+    <Compile Include="Engine\Behaviors\IUserItemRelationReader.cs" />
+    <Compile Include="Engine\Buffers\Buffer.cs" />
+    <Compile Include="Engine\Buffers\DistinctBuffer.cs" />
+    <Compile Include="Engine\Collaborative\NullItemPopularityReader.cs" />
+    <Compile Include="Engine\Collaborative\SimilarityMatrixes.cs" />
+    <Compile Include="Engine\RecommendationEngines.cs" />
+    <Compile Include="Engine\RelatedItemsReaders.cs" />
+    <Compile Include="Engine\StaticFeatureBuilder.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\Item.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\SqlceBehaviorStores.cs" />
+    <Compile Include="Bootstrapping\InstanceChangeEventHandler.cs" />
+    <Compile Include="Bootstrapping\RecommendationEngineConfiguration.cs" />
+    <Compile Include="Engine\Scheduling\IJob.cs" />
+    <Compile Include="Engine\Scheduling\RecomputeSimilarityMatrixJob.cs" />
+    <Compile Include="Engine\Collaborative\ISimilarityMatrix.cs" />
+    <Compile Include="Engine\IRecommendationEngine.cs" />
+    <Compile Include="Engine\ItemPair.cs" />
+    <Compile Include="Engine\IRelatedItemsReader.cs" />
+    <Compile Include="Engine\BehaviorBasedFeatureBuilder.cs" />
+    <Compile Include="Engine\FeatureBasedRecommendationEngine.cs" />
+    <Compile Include="Engine\IFeatureBuilder.cs" />
+    <Compile Include="Engine\RecommendedItem.cs" />
+    <Compile Include="Engine\Feature.cs" />
+    <Compile Include="Engine\Collaborative\IItemPopularityReader.cs" />
+    <Compile Include="Engine\Collaborative\ItemSimilarityCalculator.cs" />
+    <Compile Include="Engine\Collaborative\ItemToItemRelatedItemsReader.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\BehaviorDbContext.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\SqlceBehaviorStoreUpdater.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\BehaviorRecord.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\SetSerializer.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\ItemUsers.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\SqlceBehaviorStore.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\UserItems.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Collaborative\ItemSimilarity.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Paths.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Collaborative\SimilarityMatrixDbContext.cs" />
+    <Compile Include="Engine\Storage\Sqlce\SqlceDbContextHelper.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Collaborative\SqlceSimilarityMatrix.cs" />
+    <Compile Include="Engine\Formulas.cs" />
+    <Compile Include="Engine\Scheduling\Schedule.cs" />
+    <Compile Include="Engine\Scheduling\Scheduler.cs" />
+    <Compile Include="Engine\Scheduling\Schedulers.cs" />
+    <Compile Include="Engine\UserItemPair.cs" />
+    <Compile Include="Engine\AggregateRecommendationEngine.cs" />
+    <Compile Include="Engine\WeightedRecommendationEngine.cs" />
+    <Compile Include="Engine\WeightedRelatedItemsReader.cs" />
+    <Compile Include="IItemsReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecommendationsAreaRegistration.cs" />
-    <Compile Include="RecommendationsTabModel.cs" />
     <Compile Include="Strings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />
     <Content Include="Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Recommendations.cshtml" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\msvcr90.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Kooboo.Commerce.API\Kooboo.Commerce.Api.csproj">
@@ -130,9 +216,22 @@
       <Project>{dc4664e1-6e95-4062-9ac0-c0574ddab015}</Project>
       <Name>Kooboo.Commerce.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.CMSIntegration.DataSources\Kooboo.Commerce.CMSIntegration.DataSources.csproj">
+      <Project>{75ae6d76-90c0-4977-8fdd-e97e2e64a6f4}</Project>
+      <Name>Kooboo.Commerce.CMSIntegration.DataSources</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="module.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

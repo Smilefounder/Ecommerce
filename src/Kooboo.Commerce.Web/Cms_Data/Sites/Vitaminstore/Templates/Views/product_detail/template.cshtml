@@ -1,5 +1,8 @@
-﻿@using Kooboo.Commerce.Api;
-@using Kooboo.Commerce.Api.Products;
+﻿@using Kooboo.Commerce.Api
+@using Kooboo.Commerce.Api.Products
+@using Kooboo.Commerce.CMSIntegration
+@using Kooboo.Commerce.Recommendations.CMSIntegration
+@using Kooboo.Commerce.Recommendations.Engine.Behaviors
 @{
     var productId = Page_Context.Current.PageRequestContext.RouteValues["id"];
     var product = ViewBag.Product;
@@ -12,7 +15,20 @@
 
     var variants = product.Variants as IEnumerable<ProductVariant>;
     var cheapestVariant = variants.OrderByDescending(v => v.Price).FirstOrDefault();
+    
+    BehaviorObservers.OnReceive(Site.Current.GetCommerceInstanceName(), new [] {
+        new Behavior
+        {
+            Type = BehaviorTypes.View,
+            ItemId = product.Id.ToString(),
+            UserId = Context.EnsureVisitorUniqueId()
+        }
+    });
 }
+
+<p style="margin-bottom:10px;font-size:14px;font-weight:bold">
+    Visitor ID: <span style="color:#ff6a00">@Context.GetVisitorUniqueId()</span>
+</p>
 
 <form id="__AjaxAntiForgeryForm" action="#" method="post">
     @AntiForgery.GetHtml()
@@ -135,8 +151,6 @@
                 </div>
 
                 <div id="video" class="tabs" style="display: none;">
-
-                    <object width="365" height="325"><param name="movie" value="http://www.youtube.com/v/Zri9dlfeCYo&amp;hl=en&amp;fs=1"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><embed src="http://www.youtube.com/v/Zri9dlfeCYo&amp;hl=en&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="365" height="325"></object><br>
 
                 </div>
 

@@ -33,23 +33,26 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
             get { return GetQueryDescriptor().OptionalIncludeFields; }
         }
 
-        protected override object ExecuteCore(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
+        protected override object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
         {
             var query = Query(context.Site.Commerce());
 
             // Filters
-            if (settings.Filters != null && settings.Filters.Count > 0)
-            {
-                foreach (var filter in settings.Filters)
-                {
-                    query.Filters.Add(new QueryFilter(filter.Name, filter.ParameterValues));
-                }
-            }
+            query = ApplyFilters(query, settings.Filters, context);
 
             // Sorting
             if (!String.IsNullOrEmpty(settings.SortField))
             {
                 query.Sorts.Add(new Sort(settings.SortField, settings.SortDirection));
+            }
+
+            // Includes
+            if (settings.Includes != null && settings.Includes.Count > 0)
+            {
+                foreach (var path in settings.Includes)
+                {
+                    query.Include(path);
+                }
             }
 
             if (settings.TakeOperation == TakeOperation.First)
@@ -73,16 +76,22 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
                 }
             }
 
-            // Includes
-            if (settings.Includes != null && settings.Includes.Count > 0)
+            return query.ToList();
+        }
+
+        protected virtual Query<T> ApplyFilters(Query<T> query, IList<ParsedFilter> filters, CommerceDataSourceContext context)
+        {
+            if (filters == null)
             {
-                foreach (var path in settings.Includes)
-                {
-                    query.Include(path);
-                }
+                return query;
             }
 
-            return query.ToList();
+            foreach (var filter in filters)
+            {
+                query.Filters.Add(new QueryFilter(filter.Name, filter.ParameterValues));
+            }
+
+            return query;
         }
 
         public override IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)

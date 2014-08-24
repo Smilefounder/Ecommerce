@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
     {
         public void Handle(CommerceInstanceCreated @event)
         {
-            var folder = DataFolders.Instances.GetFolder(@event.InstanceSettings.Name).GetFolder("Multilingual");
+            var folder = DataFolders.Instances.GetFolder(@event.Settings.Name).GetFolder("Multilingual");
             folder.Create();
         }
     }

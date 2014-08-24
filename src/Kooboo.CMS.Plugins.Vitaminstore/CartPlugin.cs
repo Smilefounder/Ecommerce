@@ -12,6 +12,7 @@ using Kooboo.Commerce.Api.Carts;
 using Kooboo.Commerce.Api.Products;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.CMSIntegration;
+using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.CMS.Plugins.Vitaminstore
 {
@@ -69,9 +70,11 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             query.Include("Items.Product.Brand");
             query.Include("Items.Product.Images");
 
+            var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(true);
+
             return query.FirstOrDefault() ?? new ShoppingCart
             {
-                SessionId = controllerContext.HttpContext.CurrentSessionId()
+                SessionId = sessionId
             };
         }
 

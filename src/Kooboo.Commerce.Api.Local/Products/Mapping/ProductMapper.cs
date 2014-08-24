@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
                 foreach (var fromCategory in fromProduct.Categories)
                 {
                     var mapper = GetMapperOrDefault(typeof(Kooboo.Commerce.Categories.Category), typeof(Category));
-                    var category = mapper.Map(fromCategory, new Category(), typeof(Kooboo.Commerce.Categories.Category), typeof(Category), null, new MappingContext(context.ApiContext)) as Category;
+                    var category = mapper.Map(fromCategory.Category, new Category(), typeof(Kooboo.Commerce.Categories.Category), typeof(Category), null, new MappingContext(context.ApiContext, null, context.ApiContext.Culture)) as Category;
                     model.Categories.Add(category);
                 }
             }
