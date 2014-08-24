@@ -5,8 +5,8 @@ using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine
 {
-    public class RecommendationOptions
+    public interface IRecommendationEngine
     {
-        public ISet<string> ContextItemIds { get; set; }
+        IEnumerable<RecommendedItem> Recommend(string userId, int topN);
     }
 }

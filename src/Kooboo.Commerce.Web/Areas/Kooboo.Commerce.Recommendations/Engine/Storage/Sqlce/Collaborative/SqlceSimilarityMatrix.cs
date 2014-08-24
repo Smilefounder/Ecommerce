@@ -12,15 +12,15 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
     {
         public string InstanceName { get; private set; }
 
-        public string DatabaseName { get; private set; }
+        public string MatrixName { get; private set; }
 
-        public SqlceSimilarityMatrix(string instanceName, string databaseName)
+        public SqlceSimilarityMatrix(string instanceName, string matrixName)
         {
             Require.NotNullOrEmpty(instanceName, "instanceName");
-            Require.NotNullOrEmpty(databaseName, "databaseName");
+            Require.NotNullOrEmpty(matrixName, "matrixName");
 
             InstanceName = instanceName;
-            DatabaseName = databaseName;
+            MatrixName = matrixName;
         }
 
         public IEnumerable<string> AllItems()
@@ -122,20 +122,20 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
 
         public ISimilarityMatrix CreateSnapshot()
         {
-            return new SqlceSimilarityMatrix(InstanceName, DatabaseName + "_snapshot");
+            return new SqlceSimilarityMatrix(InstanceName, MatrixName + "_snapshot");
         }
 
         private SimilarityMatrixDbContext CreateDbContext()
         {
-            return new SimilarityMatrixDbContext(InstanceName, DatabaseName);
+            return new SimilarityMatrixDbContext(InstanceName, MatrixName);
         }
 
         public void ReplaceWith(ISimilarityMatrix snapshot)
         {
             var snapshotDb = snapshot as SqlceSimilarityMatrix;
-            var currentDbPath = Paths.Database(InstanceName, DatabaseName);
-            var tempDbPath = Paths.Database(InstanceName, DatabaseName + "_tmp");
-            var newDbPath = Paths.Database(snapshotDb.InstanceName, snapshotDb.DatabaseName);
+            var currentDbPath = Paths.Database(InstanceName, MatrixName);
+            var tempDbPath = Paths.Database(InstanceName, MatrixName + "_tmp");
+            var newDbPath = Paths.Database(snapshotDb.InstanceName, snapshotDb.MatrixName);
 
             File.Move(currentDbPath, tempDbPath);
             File.Move(newDbPath, currentDbPath);

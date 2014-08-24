@@ -50,6 +50,15 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
             }
         }
 
+        public IEnumerable<Behavior> GetRecentBehaviors(int count)
+        {
+            using (var db = CreateDbContext())
+            {
+                var behaviors = db.Behaviors.OrderByDescending(it => it.UtcTimestamp).Take(count).ToList();
+                return behaviors.Select(it => it.ToBehavior()).ToList();
+            }
+        }
+
         public ISet<string> GetItemsBehavedBy(string userId)
         {
             using (var db = CreateDbContext())

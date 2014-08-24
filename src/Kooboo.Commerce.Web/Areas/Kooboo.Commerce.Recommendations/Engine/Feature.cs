@@ -9,6 +9,17 @@ namespace Kooboo.Commerce.Recommendations.Engine
     {
         public string Id { get; set; }
 
-        public float Weight { get; set; }
+        public double Weight { get; set; }
+
+        public Feature(string id)
+            : this(id, 1.0d)
+        {
+        }
+
+        public Feature(string id, double weight)
+        {
+            Id = id;
+            Weight = weight;
+        }
     }
 }

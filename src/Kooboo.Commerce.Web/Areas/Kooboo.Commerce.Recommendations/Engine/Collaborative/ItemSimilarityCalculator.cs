@@ -86,8 +86,9 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
 
                 // 乘上时间衰减因子，同一个用户在越接近的时间里对两个物品产生了行为，此行为对相似度的贡献应越大。
                 // 例如，用户5分钟内产生行为的两个物品相似度较大，而相隔了几个月产生共同行为的两个物品相似度应很小。
-                var duration = _behaviorTimeReader.GetBehaviorTimestamp(userId, item1) - _behaviorTimeReader.GetBehaviorTimestamp(userId, item2);
-                var attenuationFactor = 1 / (1 + TimeAttenuationAlpha * Math.Abs(duration.TotalSeconds));
+                var timestamp1 = _behaviorTimeReader.GetBehaviorTimestamp(userId, item1);
+                var timestamp2 = _behaviorTimeReader.GetBehaviorTimestamp(userId, item2);
+                var attenuationFactor = Formulas.TimeAttenuationFactor(timestamp1, timestamp2, TimeAttenuationAlpha);
                 numerator *= attenuationFactor;
 
                 finalNumerator += numerator;

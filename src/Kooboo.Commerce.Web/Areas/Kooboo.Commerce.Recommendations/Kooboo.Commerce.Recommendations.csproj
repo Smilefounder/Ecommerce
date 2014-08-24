@@ -108,7 +108,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CMSIntegration\RecommendationDataSource.cs" />
     <Compile Include="Engine\Behaviors\BehaviorObservers.cs" />
+    <Compile Include="Engine\Behaviors\BehaviorTypes.cs" />
     <Compile Include="Engine\Behaviors\BufferedBehaviorObserver.cs" />
     <Compile Include="Engine\Behaviors\IBehaviorObserver.cs" />
     <Compile Include="Engine\Behaviors\Behavior.cs" />
@@ -117,19 +119,27 @@
     <Compile Include="Engine\Buffers\Buffer.cs" />
     <Compile Include="Engine\Buffers\DistinctBuffer.cs" />
     <Compile Include="Engine\Collaborative\NullItemPopularityReader.cs" />
-    <Compile Include="Engine\Collaborative\SimilarityComputationTask.cs" />
+    <Compile Include="Engine\Collaborative\SimilarityMatrixes.cs" />
+    <Compile Include="Engine\RecommendationEngines.cs" />
+    <Compile Include="Engine\RelatedItemsReaders.cs" />
+    <Compile Include="Engine\StaticFeatureBuilder.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\SqlceBehaviorStores.cs" />
+    <Compile Include="Engine\Storage\Sqlce\InstanceChangeEventHandler.cs" />
+    <Compile Include="Engine\Storage\Sqlce\SqlceRecommendationEngineConfiguration.cs" />
+    <Compile Include="Engine\Tasks\RecomputeSimilarityMatrixTask.cs" />
     <Compile Include="Engine\Collaborative\ISimilarityMatrix.cs" />
+    <Compile Include="Engine\Tasks\RecomputeSimilarityMatrixTasks.cs" />
+    <Compile Include="Engine\IRecommendationEngine.cs" />
     <Compile Include="Engine\ItemPair.cs" />
-    <Compile Include="Engine\IFeatureItemRelationReader.cs" />
+    <Compile Include="Engine\IRelatedItemsReader.cs" />
     <Compile Include="Engine\BehaviorBasedFeatureBuilder.cs" />
-    <Compile Include="Engine\RecommendationEngine.cs" />
+    <Compile Include="Engine\FeatureBasedRecommendationEngine.cs" />
     <Compile Include="Engine\IFeatureBuilder.cs" />
-    <Compile Include="Engine\RecommendationOptions.cs" />
     <Compile Include="Engine\RecommendedItem.cs" />
     <Compile Include="Engine\Feature.cs" />
     <Compile Include="Engine\Collaborative\IItemPopularityReader.cs" />
     <Compile Include="Engine\Collaborative\ItemSimilarityCalculator.cs" />
-    <Compile Include="Engine\Collaborative\ItemToItemRelationReader.cs" />
+    <Compile Include="Engine\Collaborative\ItemToItemRelatedItemsReader.cs" />
     <Compile Include="Engine\Storage\Sqlce\Behaviors\BehaviorDbContext.cs" />
     <Compile Include="Engine\Storage\Sqlce\Behaviors\SqlceBehaviorStoreUpdater.cs" />
     <Compile Include="Engine\Storage\Sqlce\Behaviors\BehaviorRecord.cs" />
@@ -140,10 +150,13 @@
     <Compile Include="Engine\Storage\Sqlce\Collaborative\ItemSimilarity.cs" />
     <Compile Include="Engine\Storage\Sqlce\Paths.cs" />
     <Compile Include="Engine\Storage\Sqlce\Collaborative\SimilarityMatrixDbContext.cs" />
-    <Compile Include="Engine\Storage\Sqlce\SqlceConfiguration.cs" />
     <Compile Include="Engine\Storage\Sqlce\SqlceDbContextHelper.cs" />
     <Compile Include="Engine\Storage\Sqlce\Collaborative\SqlceSimilarityMatrix.cs" />
+    <Compile Include="Engine\Formulas.cs" />
     <Compile Include="Engine\UserItemPair.cs" />
+    <Compile Include="Engine\AggregateRecommendationEngine.cs" />
+    <Compile Include="Engine\WeightedRecommendationEngine.cs" />
+    <Compile Include="Engine\WeightedRelatedItemsReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecommendationsAreaRegistration.cs" />
     <Compile Include="Strings.cs" />
@@ -194,12 +207,15 @@
       <Project>{dc4664e1-6e95-4062-9ac0-c0574ddab015}</Project>
       <Name>Kooboo.Commerce.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kooboo.Commerce.CMSIntegration.DataSources\Kooboo.Commerce.CMSIntegration.DataSources.csproj">
+      <Project>{75ae6d76-90c0-4977-8fdd-e97e2e64a6f4}</Project>
+      <Name>Kooboo.Commerce.CMSIntegration.DataSources</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="module.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CMSIntegration\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>

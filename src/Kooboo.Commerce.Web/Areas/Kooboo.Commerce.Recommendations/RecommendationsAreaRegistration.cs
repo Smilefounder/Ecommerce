@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Recommendations
                 namespaces: new[] { "Kooboo.Commerce.Recommendations.Controllers" }
             );
 
-            SqlceConfiguration.Configure();
+            SqlceRecommendationEngineConfiguration.Configure();
         }
     }
 }

@@ -111,7 +111,7 @@ namespace Kooboo.Commerce.Rules
             public void Handle(CommerceInstanceDeleted @event)
             {
                 RuleManager manager;
-                _managers.TryRemove(@event.InstanceSettings.Name, out manager);
+                _managers.TryRemove(@event.Settings.Name, out manager);
             }
         }
 

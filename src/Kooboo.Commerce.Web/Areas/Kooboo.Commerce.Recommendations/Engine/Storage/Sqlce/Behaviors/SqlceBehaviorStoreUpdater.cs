@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
 
         private void OnReceive(string type, IEnumerable<Behavior> behaviors)
         {
-            var store = new SqlceBehaviorStore(Instance, type);
+            var store = SqlceBehaviorStores.Get(Instance, type);
 
             // Store behaviors
             store.AddBehaviors(behaviors);

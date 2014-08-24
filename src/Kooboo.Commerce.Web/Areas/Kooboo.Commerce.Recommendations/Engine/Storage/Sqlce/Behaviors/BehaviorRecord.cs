@@ -34,6 +34,18 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
             UtcTimestamp = behavior.UtcTimestamp;
         }
 
+        public Behavior ToBehavior()
+        {
+            return new Behavior
+            {
+                UserId = UserId,
+                ItemId = ItemId,
+                Type = Type,
+                Weight = Weight,
+                UtcTimestamp = UtcTimestamp
+            };
+        }
+
         public static string CreateId(string type, string userId, string itemId)
         {
             return type + "|" + userId + "|" + itemId;
