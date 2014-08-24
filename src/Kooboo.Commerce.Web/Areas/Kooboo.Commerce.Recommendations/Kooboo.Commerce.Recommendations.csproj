@@ -68,6 +68,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\..\lib\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -124,12 +127,13 @@
     <Compile Include="Engine\RecommendationEngines.cs" />
     <Compile Include="Engine\RelatedItemsReaders.cs" />
     <Compile Include="Engine\StaticFeatureBuilder.cs" />
+    <Compile Include="Engine\Storage\Sqlce\Behaviors\Item.cs" />
     <Compile Include="Engine\Storage\Sqlce\Behaviors\SqlceBehaviorStores.cs" />
-    <Compile Include="Engine\Storage\Sqlce\InstanceChangeEventHandler.cs" />
-    <Compile Include="Engine\Storage\Sqlce\SqlceRecommendationEngineConfiguration.cs" />
-    <Compile Include="Engine\Tasks\RecomputeSimilarityMatrixTask.cs" />
+    <Compile Include="Bootstrapping\InstanceChangeEventHandler.cs" />
+    <Compile Include="Bootstrapping\RecommendationEngineConfiguration.cs" />
+    <Compile Include="Engine\Scheduling\IJob.cs" />
+    <Compile Include="Engine\Scheduling\RecomputeSimilarityMatrixJob.cs" />
     <Compile Include="Engine\Collaborative\ISimilarityMatrix.cs" />
-    <Compile Include="Engine\Tasks\RecomputeSimilarityMatrixTasks.cs" />
     <Compile Include="Engine\IRecommendationEngine.cs" />
     <Compile Include="Engine\ItemPair.cs" />
     <Compile Include="Engine\IRelatedItemsReader.cs" />
@@ -154,10 +158,14 @@
     <Compile Include="Engine\Storage\Sqlce\SqlceDbContextHelper.cs" />
     <Compile Include="Engine\Storage\Sqlce\Collaborative\SqlceSimilarityMatrix.cs" />
     <Compile Include="Engine\Formulas.cs" />
+    <Compile Include="Engine\Scheduling\Schedule.cs" />
+    <Compile Include="Engine\Scheduling\Scheduler.cs" />
+    <Compile Include="Engine\Scheduling\Schedulers.cs" />
     <Compile Include="Engine\UserItemPair.cs" />
     <Compile Include="Engine\AggregateRecommendationEngine.cs" />
     <Compile Include="Engine\WeightedRecommendationEngine.cs" />
     <Compile Include="Engine\WeightedRelatedItemsReader.cs" />
+    <Compile Include="IItemsReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecommendationsAreaRegistration.cs" />
     <Compile Include="Strings.cs" />

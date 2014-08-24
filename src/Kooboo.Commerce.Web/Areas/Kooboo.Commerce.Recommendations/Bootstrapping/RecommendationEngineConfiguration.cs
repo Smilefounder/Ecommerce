@@ -5,7 +5,7 @@ using Kooboo.Commerce.Recommendations.Engine.Behaviors;
 using Kooboo.Commerce.Recommendations.Engine.Collaborative;
 using Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors;
 using Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative;
-using Kooboo.Commerce.Recommendations.Engine.Tasks;
+using Kooboo.Commerce.Recommendations.Engine.Scheduling;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,10 +14,11 @@ using System.Data.Entity.Infrastructure.DependencyResolution;
 using System.Data.Entity.SqlServerCompact;
 using System.Linq;
 using System.Web;
+using Kooboo.Commerce.Recommendations.Engine;
 
-namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce
+namespace Kooboo.Commerce.Recommendations.Bootstrapping
 {
-    public static class SqlceRecommendationEngineConfiguration
+    public static class RecommendationEngineConfiguration
     {
         public static void Configure()
         {
@@ -59,7 +60,9 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce
             // TODO: Make configurable in backend
             BehaviorObservers.Add(instance, new BufferedBehaviorObserver(new SqlceBehaviorStoreUpdater(instance), 1000, TimeSpan.FromSeconds(10)));
             RecommendationEngines.Set(instance, new AggregateRecommendationEngine(CreateRecommendationEngines(instance)));
-            RecomputeSimilarityMatrixTasks.AddTasks(instance, CreateRecomputeSimilarityMatrixTasks(instance));
+
+            Schedulers.Start(instance);
+            ScheduleJobs(instance);
         }
 
         public static void Dispose(string instance)
@@ -68,26 +71,30 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce
 
             foreach (var behaviorType in BehaviorTypes.All())
             {
+                Schedulers.Stop(instance);
+                BehaviorObservers.Remove(instance);
                 SqlceBehaviorStores.Remove(instance);
                 SimilarityMatrixes.RemoveMatrix(instance);
                 RelatedItemsReaders.RemoveReaders(instance);
-                RecomputeSimilarityMatrixTasks.RemoveTasks(instance);
-                BehaviorObservers.Remove(instance);
             }
         }
 
-        static IEnumerable<RecomputeSimilarityMatrixTask> CreateRecomputeSimilarityMatrixTasks(string instance)
+        static void ScheduleJobs(string instance)
         {
+            var scheduler = Schedulers.Get(instance);
+
             foreach (var behaviorType in BehaviorTypes.All())
             {
-                var task = new RecomputeSimilarityMatrixTask(
+                var job = new RecomputeSimilarityMatrixJob(
                     "Recompute " + behaviorType + " matrix"
                     , SimilarityMatrixes.GetMatrix(instance, GetSimilarityMatrixName(behaviorType))
                     , SqlceBehaviorStores.Get(instance, behaviorType)
                     , SqlceBehaviorStores.Get(instance, behaviorType)
+                    , SqlceBehaviorStores.Get(instance, behaviorType)
                     , NullItemPopularityReader.Instance);
 
-                yield return task;
+                // TODO: Make configurable in backend, current configuration is only used for testing
+                scheduler.Schedule(job, interval: TimeSpan.FromMinutes(2), startTimeUtc: DateTime.UtcNow.AddSeconds(10));
             }
         }
 

@@ -30,6 +30,9 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
             // Store behaviors
             store.AddBehaviors(behaviors);
 
+            // Store items (which we can fetch to recompute similarity matrix)
+            store.AddItems(behaviors.Select(it => it.ItemId));
+
             // Update user/item relation
             foreach (var each in behaviors.GroupBy(it => it.ItemId))
             {

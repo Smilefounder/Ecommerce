@@ -83,6 +83,11 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
 
         public void UpdateSimilarity(string item1, string item2, double similarity)
         {
+            if (item1 == item2)
+            {
+                return;
+            }
+
             UpdateSimilarities(new Dictionary<ItemPair, double> { { new ItemPair(item1, item2), similarity } });
         }
 
@@ -92,9 +97,18 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
             {
                 foreach (var each in similarities)
                 {
+                    if (each.Key.Item1 == each.Key.Item2)
+                    {
+                        continue;
+                    }
+
                     if (each.Value == 0)
                     {
-                        db.Database.ExecuteSqlCommand("delete from " + typeof(ItemSimilarity).Name + " where Item1=@p1 and Item2=@p2", each.Key.Item1, each.Key.Item2);
+                        var similarity = db.Similarities.Find(new[] { each.Key.Item1, each.Key.Item2 });
+                        if (similarity != null)
+                        {
+                            db.Similarities.Remove(similarity);
+                        }
                     }
                     else
                     {
@@ -122,7 +136,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
 
         public ISimilarityMatrix CreateSnapshot()
         {
-            return new SqlceSimilarityMatrix(InstanceName, MatrixName + "_snapshot");
+            return new SqlceSimilarityMatrix(InstanceName, MatrixName + "_snapshot_" + Guid.NewGuid().ToString("N"));
         }
 
         private SimilarityMatrixDbContext CreateDbContext()
@@ -133,13 +147,26 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
         public void ReplaceWith(ISimilarityMatrix snapshot)
         {
             var snapshotDb = snapshot as SqlceSimilarityMatrix;
-            var currentDbPath = Paths.Database(InstanceName, MatrixName);
-            var tempDbPath = Paths.Database(InstanceName, MatrixName + "_tmp");
-            var newDbPath = Paths.Database(snapshotDb.InstanceName, snapshotDb.MatrixName);
+            var snapshotDbPath = Paths.Database(snapshotDb.InstanceName, snapshotDb.MatrixName);
+            // If there's no data in the online matrix, the snapshot database will not be created
+            if (!File.Exists(snapshotDbPath))
+            {
+                return;
+            }
 
-            File.Move(currentDbPath, tempDbPath);
-            File.Move(newDbPath, currentDbPath);
-            File.Delete(tempDbPath);
+            var currentDbPath = Paths.Database(InstanceName, MatrixName);
+
+            if (File.Exists(currentDbPath))
+            {
+                var tempPath = Paths.Database(InstanceName, MatrixName + "_tmp");
+                File.Move(currentDbPath, tempPath);
+                File.Move(snapshotDbPath, currentDbPath);
+                File.Delete(tempPath);
+            }
+            else
+            {
+                File.Move(snapshotDbPath, currentDbPath);
+            }
         }
     }
 }

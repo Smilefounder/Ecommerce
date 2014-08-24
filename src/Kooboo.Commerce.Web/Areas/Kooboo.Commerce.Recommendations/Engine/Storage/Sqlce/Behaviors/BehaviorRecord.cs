@@ -16,8 +16,6 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
 
         public string ItemId { get; set; }
 
-        public string Type { get; set; }
-
         public double Weight { get; set; }
 
         public DateTime UtcTimestamp { get; set; }
@@ -28,18 +26,17 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
         {
             UserId = behavior.UserId;
             ItemId = behavior.ItemId;
-            Type = behavior.Type;
             Weight = behavior.Weight;
             UtcTimestamp = behavior.UtcTimestamp;
         }
 
-        public Behavior ToBehavior()
+        public Behavior ToBehavior(string type)
         {
             return new Behavior
             {
                 UserId = UserId,
                 ItemId = ItemId,
-                Type = Type,
+                Type = type,
                 Weight = Weight,
                 UtcTimestamp = UtcTimestamp
             };

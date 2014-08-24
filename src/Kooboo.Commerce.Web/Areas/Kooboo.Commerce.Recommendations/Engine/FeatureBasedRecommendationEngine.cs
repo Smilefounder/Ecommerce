@@ -46,7 +46,15 @@ namespace Kooboo.Commerce.Recommendations.Engine
                         var weight = item.Value * feature.Weight;
 
                         recommendedItem.Weight += weight;
-                        recommendedItem.Reasons.Add(feature.Id, weight);
+
+                        if (recommendedItem.Reasons.ContainsKey(feature.Id))
+                        {
+                            recommendedItem.Reasons[feature.Id] += weight;
+                        }
+                        else
+                        {
+                            recommendedItem.Reasons.Add(feature.Id, weight);
+                        }
                     }
                 }
             }

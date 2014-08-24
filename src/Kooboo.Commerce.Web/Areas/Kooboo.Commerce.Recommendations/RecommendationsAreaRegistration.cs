@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce;
+﻿using Kooboo.Commerce.Recommendations.Bootstrapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Recommendations
                 namespaces: new[] { "Kooboo.Commerce.Recommendations.Controllers" }
             );
 
-            SqlceRecommendationEngineConfiguration.Configure();
+            RecommendationEngineConfiguration.Configure();
         }
     }
 }

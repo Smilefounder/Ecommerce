@@ -191,6 +191,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Kooboo_CMS\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\lib\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="NuGet.Core, Version=1.6.30117.9648, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Kooboo_CMS\NuGet.Core.dll</HintPath>
@@ -3526,6 +3529,7 @@
     <Content Include="Areas\Commerce\Views\Topbar\CommandConfig.cshtml" />
     <Content Include="Areas\Sites\Templates\Layout\TAL\Default.zip" />
     <Content Include="Areas\Sites\Views\Layout\LayoutPanelBlocks.cshtml.cshtml" />
+    <Content Include="NLog.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Styles\common.less" />
     <Content Include="Styles\Diff\Diff.css" />

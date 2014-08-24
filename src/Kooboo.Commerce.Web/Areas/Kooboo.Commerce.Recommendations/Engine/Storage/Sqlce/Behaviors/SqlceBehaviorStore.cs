@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
 {
-    public class SqlceBehaviorStore : IBehaviorTimestampReader, IUserItemRelationReader
+    public class SqlceBehaviorStore : IItemsReader, IBehaviorTimestampReader, IUserItemRelationReader
     {
         public string InstanceName { get; private set; }
 
@@ -18,12 +18,35 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
             BehaviorType = behaviorType;
         }
 
+        public IEnumerable<string> GetItems()
+        {
+            using (var db = CreateDbContext())
+            {
+                return db.Items.Select(it => it.Id).ToList();
+            }
+        }
+
+        public void AddItems(IEnumerable<string> items)
+        {
+            using (var db = CreateDbContext())
+            {
+                foreach (var itemId in items.Distinct())
+                {
+                    if (db.Items.Find(itemId) == null)
+                    {
+                        db.Items.Add(new Item { Id = itemId });
+                    }
+                }
+
+                db.SaveChanges();
+            }
+        }
+
         public DateTime GetBehaviorTimestamp(string userId, string itemId)
         {
             using (var db = CreateDbContext())
             {
                 var behavior = db.Behaviors
-                                 .Where(it => it.Type == BehaviorType)
                                  .Where(it => it.UserId == userId && it.ItemId == itemId)
                                  .OrderByDescending(it => it.UtcTimestamp)
                                  .FirstOrDefault();
@@ -54,8 +77,10 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
         {
             using (var db = CreateDbContext())
             {
-                var behaviors = db.Behaviors.OrderByDescending(it => it.UtcTimestamp).Take(count).ToList();
-                return behaviors.Select(it => it.ToBehavior()).ToList();
+                var behaviors = db.Behaviors.OrderByDescending(it => it.UtcTimestamp)
+                                            .Take(count)
+                                            .ToList();
+                return behaviors.Select(it => it.ToBehavior(BehaviorType)).ToList();
             }
         }
 
@@ -134,7 +159,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
 
         private BehaviorDbContext CreateDbContext()
         {
-            return new BehaviorDbContext(InstanceName);
+            return new BehaviorDbContext(InstanceName, BehaviorType);
         }
     }
 }

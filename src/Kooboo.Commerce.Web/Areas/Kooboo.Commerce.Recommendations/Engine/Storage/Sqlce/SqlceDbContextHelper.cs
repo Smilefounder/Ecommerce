@@ -15,18 +15,19 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce
     {
         static readonly ConcurrentDictionary<string, DbCompiledModel> _cache = new ConcurrentDictionary<string, DbCompiledModel>();
 
-        public static DbCompiledModel GetModel(string name, Action<DbModelBuilder> configure)
+        public static DbCompiledModel GetModel(string instance, string dbName, Action<DbModelBuilder> configure)
         {
-            return _cache.GetOrAdd(name, modelName =>
-            {
-                var builder = new DbModelBuilder();
-                builder.Conventions.Remove<PluralizingTableNameConvention>();
+            return _cache.GetOrAdd(instance + "|" + dbName, _ => CreateModel(configure));
+        }
 
-                configure(builder);
+        static DbCompiledModel CreateModel(Action<DbModelBuilder> configure)
+        {
+            var builder = new DbModelBuilder();
+            //builder.Conventions.Remove<PluralizingEntitySetNameConvention>();
+            configure(builder);
 
-                var providerInfo = new DbProviderInfo(SqlCeProviderServices.ProviderInvariantName, "4.0");
-                return builder.Build(providerInfo).Compile();
-            });
+            var providerInfo = new DbProviderInfo(SqlCeProviderServices.ProviderInvariantName, "4.0");
+            return builder.Build(providerInfo).Compile();
         }
 
         public static DbConnection CreateConnection(string instance, string dbName)
