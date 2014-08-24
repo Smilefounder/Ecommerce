@@ -82,16 +82,19 @@ namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
                     _log.ErrorException("Faile to execute job " + _job.Id + ": " + ex.Message, ex);
                 }
             }
-        }
 
-        public void Dispose()
-        {
+            // Dispose resource
             _event.Dispose();
 
             if (_job is IDisposable)
             {
                 ((IDisposable)_job).Dispose();
             }
+        }
+
+        public void Dispose()
+        {
+            Stop(false);
         }
     }
 }

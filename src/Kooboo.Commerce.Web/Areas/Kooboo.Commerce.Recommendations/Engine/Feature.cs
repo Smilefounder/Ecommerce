@@ -21,5 +21,10 @@ namespace Kooboo.Commerce.Recommendations.Engine
             Id = id;
             Weight = weight;
         }
+
+        public override string ToString()
+        {
+            return String.Format("[{0}:{1}]", Id, Weight);
+        }
     }
 }

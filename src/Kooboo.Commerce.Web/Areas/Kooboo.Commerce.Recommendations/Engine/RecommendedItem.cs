@@ -17,5 +17,10 @@ namespace Kooboo.Commerce.Recommendations.Engine
         {
             Reasons = new Dictionary<string, double>();
         }
+
+        public override string ToString()
+        {
+            return String.Format("ItemId: {0}, Weight: {1}", ItemId, Weight);
+        }
     }
 }

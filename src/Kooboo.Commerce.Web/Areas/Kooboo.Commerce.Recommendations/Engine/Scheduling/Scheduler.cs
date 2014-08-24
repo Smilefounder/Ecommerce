@@ -39,15 +39,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
                 {
                     var schedule = _schedules[jobId];
                     _schedules.Remove(jobId);
-
-                    try
-                    {
-                        schedule.Stop(false);
-                    }
-                    finally
-                    {
-                        schedule.Dispose();
-                    }
+                    schedule.Stop(false);
                 }
             }
         }
