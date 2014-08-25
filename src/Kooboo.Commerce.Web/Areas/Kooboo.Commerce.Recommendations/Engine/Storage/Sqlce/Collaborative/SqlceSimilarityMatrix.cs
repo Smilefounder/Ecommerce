@@ -71,7 +71,6 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
         {
             using (var db = CreateDbContext())
             {
-                // 如果是对称阵，则 similarity(item1, item2) 和 similarity(item2, item1) 是相等的，但必须冗余保存两份，否则此处不方便查询
                 var items = db.Similarities.Where(it => it.Item1 == itemId)
                                            .OrderByDescending(it => it.Similarity)
                                            .Take(topN)
@@ -81,17 +80,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
             }
         }
 
-        public void UpdateSimilarity(string item1, string item2, double similarity)
-        {
-            if (item1 == item2)
-            {
-                return;
-            }
-
-            UpdateSimilarities(new Dictionary<ItemPair, double> { { new ItemPair(item1, item2), similarity } });
-        }
-
-        public void UpdateSimilarities(IDictionary<ItemPair, double> similarities)
+        public void AddSimilarities(IDictionary<ItemPair, double> similarities)
         {
             using (var db = CreateDbContext())
             {
@@ -102,39 +91,26 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
                         continue;
                     }
 
-                    if (each.Value == 0)
+                    // 对称阵，则 similarity(item1, item2) 和 similarity(item2, item1) 是相等的，但必须冗余保存两份，否则不方便查询
+                    db.Similarities.Add(new ItemSimilarity
                     {
-                        var similarity = db.Similarities.Find(new[] { each.Key.Item1, each.Key.Item2 });
-                        if (similarity != null)
-                        {
-                            db.Similarities.Remove(similarity);
-                        }
-                    }
-                    else
+                        Item1 = each.Key.Item1,
+                        Item2 = each.Key.Item2,
+                        Similarity = each.Value
+                    });
+                    db.Similarities.Add(new ItemSimilarity
                     {
-                        var similarity = db.Similarities.Find(new[] { each.Key.Item1, each.Key.Item2 });
-                        if (similarity == null)
-                        {
-                            similarity = new ItemSimilarity
-                            {
-                                Item1 = each.Key.Item1,
-                                Item2 = each.Key.Item2,
-                                Similarity = each.Value
-                            };
-                            db.Similarities.Add(similarity);
-                        }
-                        else
-                        {
-                            similarity.Similarity = each.Value;
-                        }
-                    }
+                        Item1 = each.Key.Item2,
+                        Item2 = each.Key.Item1,
+                        Similarity = each.Value
+                    });
                 }
 
                 db.SaveChanges();
             }
         }
 
-        public ISimilarityMatrix CreateSnapshot()
+        public ISimilarityMatrix PrepareRecomputation()
         {
             return new SqlceSimilarityMatrix(InstanceName, MatrixName + "_snapshot_" + Guid.NewGuid().ToString("N"));
         }

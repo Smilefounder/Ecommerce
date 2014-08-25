@@ -49,16 +49,16 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
         {
             foreach (var behaviorType in BehaviorTypes.All())
             {
-                SqlceBehaviorStores.Set(instance, behaviorType, new SqlceBehaviorStore(instance, behaviorType));
+                BehaviorStores.Set(instance, behaviorType, new SqlceBehaviorStore(instance, behaviorType));
 
                 var matrixName = GetSimilarityMatrixName(behaviorType);
                 var matrix = new SqlceSimilarityMatrix(instance, matrixName);
                 SimilarityMatrixes.SetMatrix(instance, matrixName, matrix);
-                RelatedItemsReaders.AddReader(instance, new ItemToItemRelatedItemsReader(matrix));
+                RelatedItemsProviders.AddProvider(instance, new ItemToItemRelatedItemsProvider(matrix));
             }
 
             // TODO: Make configurable in backend
-            BehaviorObservers.Add(instance, new BufferedBehaviorObserver(new SqlceBehaviorStoreUpdater(instance), 1000, TimeSpan.FromSeconds(10)));
+            BehaviorReceivers.Set(instance, new BufferedBehaviorReceiver(new BehaviorReceiver(instance), 1000, TimeSpan.FromSeconds(10)));
             RecommendationEngines.Set(instance, new AggregateRecommendationEngine(CreateRecommendationEngines(instance)));
 
             Schedulers.Start(instance);
@@ -72,10 +72,10 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
             foreach (var behaviorType in BehaviorTypes.All())
             {
                 Schedulers.Stop(instance);
-                BehaviorObservers.Remove(instance);
-                SqlceBehaviorStores.Remove(instance);
+                BehaviorReceivers.Remove(instance);
+                BehaviorStores.Remove(instance);
                 SimilarityMatrixes.RemoveMatrix(instance);
-                RelatedItemsReaders.RemoveReaders(instance);
+                RelatedItemsProviders.RemoveProviders(instance);
             }
         }
 
@@ -88,10 +88,8 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
                 var job = new RecomputeSimilarityMatrixJob(
                     "Recompute " + behaviorType + " matrix"
                     , SimilarityMatrixes.GetMatrix(instance, GetSimilarityMatrixName(behaviorType))
-                    , SqlceBehaviorStores.Get(instance, behaviorType)
-                    , SqlceBehaviorStores.Get(instance, behaviorType)
-                    , SqlceBehaviorStores.Get(instance, behaviorType)
-                    , NullItemPopularityReader.Instance);
+                    , BehaviorStores.Get(instance, behaviorType)
+                    , NullItemPopularityProvider.Instance);
 
                 // TODO: Make configurable in backend, current configuration is only used for testing
                 scheduler.Schedule(job, interval: TimeSpan.FromMinutes(2), startTimeUtc: DateTime.UtcNow.AddSeconds(10));
@@ -109,11 +107,11 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
             {
                 var featureBuilder = new BehaviorBasedFeatureBuilder(() =>
                 {
-                    var store = SqlceBehaviorStores.Get(instance, behaviorType);
+                    var store = BehaviorStores.Get(instance, behaviorType);
                     return store.GetRecentBehaviors(50);
                 });
 
-                yield return new FeatureBasedRecommendationEngine(featureBuilder, RelatedItemsReaders.GetReaders(instance));
+                yield return new FeatureBasedRecommendationEngine(featureBuilder, RelatedItemsProviders.GetProviders(instance));
             }
         }
     }

@@ -5,8 +5,8 @@ using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
 {
-    public interface IBehaviorTimestampReader
+    public interface IBehaviorReceiver
     {
-        DateTime GetBehaviorTimestamp(string userId, string itemId);
+        void OnReceive(IEnumerable<Behavior> behaviors);
     }
 }

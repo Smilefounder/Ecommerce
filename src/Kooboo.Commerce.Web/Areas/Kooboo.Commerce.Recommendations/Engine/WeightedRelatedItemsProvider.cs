@@ -5,21 +5,21 @@ using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine
 {
-    public class WeightedRelatedItemsReader : IRelatedItemsReader
+    public class WeightedRelatedItemsProvider : IRelatedItemsProvider
     {
-        private IRelatedItemsReader _reader;
+        private IRelatedItemsProvider _provider;
 
         public float Weight { get; private set; }
 
-        public WeightedRelatedItemsReader(IRelatedItemsReader reader, float weight)
+        public WeightedRelatedItemsProvider(IRelatedItemsProvider provider, float weight)
         {
-            _reader = reader;
+            _provider = provider;
             Weight = weight;
         }
 
         public IDictionary<string, double> GetRelatedItems(string featureId, int topN)
         {
-            var relatedItems = _reader.GetRelatedItems(featureId, topN);
+            var relatedItems = _provider.GetRelatedItems(featureId, topN);
             foreach (var key in relatedItems.Keys)
             {
                 relatedItems[key] *= Weight;

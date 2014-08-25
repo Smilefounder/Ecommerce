@@ -1,12 +1,14 @@
 ﻿using Kooboo.Commerce.Recommendations.Engine.Behaviors;
+using Kooboo.Commerce.Recommendations.Engine.Collaborative;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
 {
-    public class SqlceBehaviorStore : IItemsReader, IBehaviorTimestampReader, IUserItemRelationReader
+    public class SqlceBehaviorStore : IBehaviorStore
     {
         public string InstanceName { get; private set; }
 
@@ -14,31 +16,21 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
 
         public SqlceBehaviorStore(string instanceName, string behaviorType)
         {
+            Require.NotNullOrEmpty(instanceName, "instanceName");
+            Require.NotNullOrEmpty(behaviorType, "behaviorType");
+
             InstanceName = instanceName;
             BehaviorType = behaviorType;
         }
 
-        public IEnumerable<string> GetItems()
+        public IEnumerable<string> GetAllItems()
         {
             using (var db = CreateDbContext())
             {
-                return db.Items.Select(it => it.Id).ToList();
-            }
-        }
-
-        public void AddItems(IEnumerable<string> items)
-        {
-            using (var db = CreateDbContext())
-            {
-                foreach (var itemId in items.Distinct())
-                {
-                    if (db.Items.Find(itemId) == null)
-                    {
-                        db.Items.Add(new Item { Id = itemId });
-                    }
-                }
-
-                db.SaveChanges();
+                return db.Behaviors.Where(it => it.Type == BehaviorType)
+                                   .GroupBy(it => it.ItemId)
+                                   .Select(it => it.Key)
+                                   .ToList();
             }
         }
 
@@ -46,30 +38,34 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
         {
             using (var db = CreateDbContext())
             {
-                var behavior = db.Behaviors
-                                 .Where(it => it.UserId == userId && it.ItemId == itemId)
-                                 .OrderByDescending(it => it.UtcTimestamp)
-                                 .FirstOrDefault();
+                var timestamp = db.Behaviors
+                                  .Where(it => it.Type == BehaviorType && it.UserId == userId && it.ItemId == itemId)
+                                  .Select(it => it.UtcTimestamp)
+                                  .FirstOrDefault();
 
-                if (behavior == null)
-                {
-                    return DateTime.MinValue;
-                }
-
-                return behavior.UtcTimestamp;
+                return timestamp;
             }
         }
 
-        public void AddBehaviors(IEnumerable<Behavior> behaviors)
+        public void SaveBehaviors(IEnumerable<Behavior> behaviors)
         {
             using (var db = CreateDbContext())
             {
                 foreach (var behavior in behaviors)
                 {
-                    db.Behaviors.Add(new BehaviorRecord(behavior));
-                }
+                    var record = new BehaviorRecord(behavior);
 
-                db.SaveChanges();
+                    try
+                    {
+                        db.Behaviors.Add(record);
+                        db.SaveChanges();
+                    }
+                    catch (DbUpdateException)
+                    {
+                        db.Entry(record).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
             }
         }
 
@@ -77,83 +73,40 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
         {
             using (var db = CreateDbContext())
             {
-                var behaviors = db.Behaviors.OrderByDescending(it => it.UtcTimestamp)
+                var behaviors = db.Behaviors.Where(it => it.Type == BehaviorType)
+                                            .OrderByDescending(it => it.UtcTimestamp)
                                             .Take(count)
                                             .ToList();
-                return behaviors.Select(it => it.ToBehavior(BehaviorType)).ToList();
+                return behaviors.Select(it => it.ToBehavior()).ToList();
             }
         }
 
-        public ISet<string> GetItemsBehavedBy(string userId)
+        public int GetUserActiveRate(string userId)
         {
             using (var db = CreateDbContext())
             {
-                var userItems = db.UserItems.Find(userId);
-                if (userItems != null && !String.IsNullOrEmpty(userItems.ItemIds))
-                {
-                    return SetSerializer.Deserialize(userItems.ItemIds);
-                }
-
-                return new HashSet<string>();
+                return db.Behaviors.Where(it => it.Type == BehaviorType && it.UserId == userId)
+                                   .Select(it => it.ItemId)
+                                   .Distinct()
+                                   .Count();
             }
         }
 
-        public int GetTotalBehavedItems(string userId)
-        {
-            return GetItemsBehavedBy(userId).Count;
-        }
-
-        public ISet<string> GetUsersBehaved(string itemId)
+        public int GetTotalUsersHaveBehaviorsOn(string itemId)
         {
             using (var db = CreateDbContext())
             {
-                var itemUsers = db.ItemUsers.Find(itemId);
-                if (itemUsers != null && !String.IsNullOrEmpty(itemUsers.UserIds))
-                {
-                    return SetSerializer.Deserialize(itemUsers.UserIds);
-                }
-
-                return new HashSet<string>();
+                return db.Behaviors.Where(it => it.Type == BehaviorType && it.ItemId == itemId).Count();
             }
         }
 
-        public void AddUserItems(string userId, IEnumerable<string> items)
+        public IEnumerable<string> GetUsersHaveBehaviorsOnBoth(string item1, string item2)
         {
             using (var db = CreateDbContext())
             {
-                var userItems = db.UserItems.Find(userId);
-                if (userItems == null)
-                {
-                    userItems = new UserItems { UserId = userId };
-                    db.UserItems.Add(userItems);
-                }
-
-                var itemIds = SetSerializer.Deserialize(userItems.ItemIds);
-                itemIds.UnionWith(items);
-
-                userItems.ItemIds = SetSerializer.Serialize(itemIds);
-
-                db.SaveChanges();
-            }
-        }
-
-        public void AddItemUsers(string itemId, IEnumerable<string> users)
-        {
-            using (var db = CreateDbContext())
-            {
-                var itemUsers = db.ItemUsers.Find(itemId);
-                if (itemUsers == null)
-                {
-                    itemUsers = new ItemUsers { ItemId = itemId };
-                    db.ItemUsers.Add(itemUsers);
-                }
-
-                var userIds = SetSerializer.Deserialize(itemUsers.UserIds);
-                userIds.UnionWith(users);
-
-                itemUsers.UserIds = SetSerializer.Serialize(userIds);
-
-                db.SaveChanges();
+                return db.Database.SqlQuery<string>(
+                        "select distinct UserId from BehaviorRecords t1 where ItemId = @p0 and exists (select * from BehaviorRecords t2 where t2.UserId = t1.UserId and t2.ItemId = @p1)",
+                        new object[] { item1, item2 }).ToList();
             }
         }
 

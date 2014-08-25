@@ -7,14 +7,14 @@ using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
 {
-    public class BufferedBehaviorObserver : IBehaviorObserver
+    public class BufferedBehaviorReceiver : IBehaviorReceiver
     {
-        private IBehaviorObserver _observer;
+        private IBehaviorReceiver _receiver;
         private Buffer<Behavior> _buffer;
 
-        public BufferedBehaviorObserver(IBehaviorObserver observer, int bufferCapacity, TimeSpan flushInterval)
+        public BufferedBehaviorReceiver(IBehaviorReceiver receiver, int bufferCapacity, TimeSpan flushInterval)
         {
-            _observer = observer;
+            _receiver = receiver;
             _buffer = new Buffer<Behavior>(bufferCapacity, flushInterval, DoFlush);
         }
 
@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
 
         private void DoFlush(IEnumerable<Behavior> behaviors)
         {
-            _observer.OnReceive(behaviors);
+            _receiver.OnReceive(behaviors);
         }
     }
 }

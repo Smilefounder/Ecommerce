@@ -24,14 +24,14 @@ namespace Kooboo.Commerce.Recommendations.Engine
     public class FeatureBasedRecommendationEngine : IRecommendationEngine
     {
         private IFeatureBuilder _featureBuilder;
-        private List<IRelatedItemsReader> _relatedItemsReaders;
+        private List<IRelatedItemsProvider> _relatedItemsReaders;
 
-        public FeatureBasedRecommendationEngine(IEnumerable<Feature> features, IEnumerable<IRelatedItemsReader> relatedItemsReaders)
+        public FeatureBasedRecommendationEngine(IEnumerable<Feature> features, IEnumerable<IRelatedItemsProvider> relatedItemsReaders)
             : this(new StaticFeatureBuilder(features), relatedItemsReaders)
         {
         }
 
-        public FeatureBasedRecommendationEngine(IFeatureBuilder featureBuilder, IEnumerable<IRelatedItemsReader> relatedItemsReaders)
+        public FeatureBasedRecommendationEngine(IFeatureBuilder featureBuilder, IEnumerable<IRelatedItemsProvider> relatedItemsReaders)
         {
             _featureBuilder = featureBuilder;
             _relatedItemsReaders = relatedItemsReaders.ToList();

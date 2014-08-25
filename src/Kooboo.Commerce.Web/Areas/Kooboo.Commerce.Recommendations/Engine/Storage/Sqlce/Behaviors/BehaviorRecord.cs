@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -9,11 +10,13 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
 {
     public class BehaviorRecord
     {
-        [Key]
-        public int Id { get; set; }
+        [Key, Column(Order = 0)]
+        public string Type { get; set; }
 
+        [Key, Column(Order = 1)]
         public string UserId { get; set; }
 
+        [Key, Column(Order = 2)]
         public string ItemId { get; set; }
 
         public double Weight { get; set; }
@@ -24,19 +27,20 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
 
         public BehaviorRecord(Behavior behavior)
         {
+            Type = behavior.Type;
             UserId = behavior.UserId;
             ItemId = behavior.ItemId;
             Weight = behavior.Weight;
             UtcTimestamp = behavior.UtcTimestamp;
         }
 
-        public Behavior ToBehavior(string type)
+        public Behavior ToBehavior()
         {
             return new Behavior
             {
                 UserId = UserId,
                 ItemId = ItemId,
-                Type = type,
+                Type = Type,
                 Weight = Weight,
                 UtcTimestamp = UtcTimestamp
             };

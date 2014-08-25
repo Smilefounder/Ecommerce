@@ -5,19 +5,19 @@ using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
 {
-    public static class BehaviorObservers
+    public static class BehaviorReceivers
     {
-        static readonly Dictionary<string, List<IBehaviorObserver>> _observersByInstance = new Dictionary<string, List<IBehaviorObserver>>();
+        static readonly Dictionary<string, IBehaviorReceiver> _observersByInstance = new Dictionary<string, IBehaviorReceiver>();
 
-        public static void Add(string instance, params IBehaviorObserver[] observers)
+        public static void Set(string instance, IBehaviorReceiver observer)
         {
             if (!_observersByInstance.ContainsKey(instance))
             {
-                _observersByInstance.Add(instance, new List<IBehaviorObserver>(observers));
+                _observersByInstance.Add(instance, observer);
             }
             else
             {
-                _observersByInstance[instance].AddRange(observers);
+                _observersByInstance[instance] = observer;
             }
         }
 
@@ -30,10 +30,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
         {
             if (_observersByInstance.ContainsKey(instance))
             {
-                foreach (var observer in _observersByInstance[instance])
-                {
-                    observer.OnReceive(behaviors);
-                }
+                _observersByInstance[instance].OnReceive(behaviors);
             }
         }
     }

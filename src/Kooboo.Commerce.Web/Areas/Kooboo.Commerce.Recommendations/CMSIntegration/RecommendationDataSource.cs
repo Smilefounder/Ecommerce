@@ -92,7 +92,7 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
             {
                 var productId = (int)filter.GetParameterValue("ProductId");
                 var features = new[] { new Feature(productId.ToString()) };
-                return new FeatureBasedRecommendationEngine(features, RelatedItemsReaders.GetReaders(context.Instance));
+                return new FeatureBasedRecommendationEngine(features, RelatedItemsProviders.GetProviders(context.Instance));
             }
             else
             {

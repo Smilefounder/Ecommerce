@@ -15,12 +15,10 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
 
         IDictionary<string, double> GetMostSimilarItems(string itemId, int topN);
 
-        void UpdateSimilarity(string item1, string item2, double similarity);
+        void AddSimilarities(IDictionary<ItemPair, double> similarities);
 
-        void UpdateSimilarities(IDictionary<ItemPair, double> similarities);
+        ISimilarityMatrix PrepareRecomputation();
 
-        ISimilarityMatrix CreateSnapshot();
-
-        void ReplaceWith(ISimilarityMatrix snapshot);
+        void ReplaceWith(ISimilarityMatrix newMatrix);
     }
 }

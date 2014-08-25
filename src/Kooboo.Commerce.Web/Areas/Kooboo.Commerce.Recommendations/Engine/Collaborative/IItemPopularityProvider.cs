@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
 {
-    public interface IItemPopularityReader
+    public interface IItemPopularityProvider
     {
         bool IsPopularItem(string itemId);
     }

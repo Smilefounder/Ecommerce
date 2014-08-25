@@ -27,10 +27,8 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
     /// </remarks>
     public class ItemSimilarityCalculator
     {
-        private IUserItemRelationReader _userItemRelationReader;
-        private IBehaviorTimestampReader _behaviorTimeReader;
-        private IItemPopularityReader _popularityReader;
-        private Dictionary<string, int> _userActiveRateCache;
+        private IBehaviorStore _behaviorStore;
+        private IItemPopularityProvider _popularityProvider;
 
         /// <summary>
         /// 时间衰减因子公式中的参数Alpha，值越大，则时间间隔越久产生行为的物品相似度越小。
@@ -42,12 +40,10 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
         /// </summary>
         public float PopularItemPunishAlpha { get; set; }
 
-        public ItemSimilarityCalculator(IUserItemRelationReader userItemRelationReader, IBehaviorTimestampReader behaviorTimeReader, IItemPopularityReader popularityReader)
+        public ItemSimilarityCalculator(IBehaviorStore behaviorStore, IItemPopularityProvider popularityProvider)
         {
-            _userItemRelationReader = userItemRelationReader;
-            _behaviorTimeReader = behaviorTimeReader;
-            _popularityReader = popularityReader;
-            _userActiveRateCache = new Dictionary<string, int>();
+            _behaviorStore = behaviorStore;
+            _popularityProvider = popularityProvider;
 
             TimeAttenuationAlpha = .0002f;
             PopularItemPunishAlpha = .6f;
@@ -55,14 +51,9 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
 
         public double CalculateSimilarity(string item1, string item2)
         {
-            var item1BehavingUsers = _userItemRelationReader.GetUsersBehaved(item1);
-            var item2BehavingUsers = _userItemRelationReader.GetUsersBehaved(item2);
-
-            var usersBehavedOnBothItems = new HashSet<string>(item1BehavingUsers);
-            usersBehavedOnBothItems.IntersectWith(item2BehavingUsers);
-
+            var usersBehavedOnBothItems = _behaviorStore.GetUsersHaveBehaviorsOnBoth(item1, item2);
             var numerator = ComputeNumerator(item1, item2, usersBehavedOnBothItems);
-            var denorminator = ComputeDenominator(item1, item2, item1BehavingUsers.Count, item2BehavingUsers.Count);
+            var denorminator = ComputeDenominator(item1, item2);
 
             if (denorminator == 0)
             {
@@ -72,7 +63,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
             return numerator / denorminator;
         }
 
-        private double ComputeNumerator(string item1, string item2, ISet<string> usersBehavedOnBothItems)
+        private double ComputeNumerator(string item1, string item2, IEnumerable<string> usersBehavedOnBothItems)
         {
             double finalNumerator = 0d;
 
@@ -82,12 +73,12 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
 
                 // 处罚活跃用户，越活跃的用户对相似度的贡献应越小。
                 // 例如，一个用户对90%的物品产生过行为，那这些行为对推荐的意义便不是太大
-                numerator = 1 / Math.Log(1 + GetUserActiveRate(userId));
+                numerator = 1 / Math.Log(1 + _behaviorStore.GetUserActiveRate(userId));
 
                 // 乘上时间衰减因子，同一个用户在越接近的时间里对两个物品产生了行为，此行为对相似度的贡献应越大。
                 // 例如，用户5分钟内产生行为的两个物品相似度较大，而相隔了几个月产生共同行为的两个物品相似度应很小。
-                var timestamp1 = _behaviorTimeReader.GetBehaviorTimestamp(userId, item1);
-                var timestamp2 = _behaviorTimeReader.GetBehaviorTimestamp(userId, item2);
+                var timestamp1 = _behaviorStore.GetBehaviorTimestamp(userId, item1);
+                var timestamp2 = _behaviorStore.GetBehaviorTimestamp(userId, item2);
                 var attenuationFactor = Formulas.TimeAttenuationFactor(timestamp1, timestamp2, TimeAttenuationAlpha);
                 numerator *= attenuationFactor;
 
@@ -97,25 +88,16 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
             return finalNumerator;
         }
 
-        private int GetUserActiveRate(string userId)
+        private double ComputeDenominator(string item1, string item2)
         {
-            int rate;
-            if (!_userActiveRateCache.TryGetValue(userId, out rate))
-            {
-                rate = _userItemRelationReader.GetTotalBehavedItems(userId);
-                _userActiveRateCache.Add(userId, rate);
-            }
+            var totalBehavingUsersOfItem1 = _behaviorStore.GetTotalUsersHaveBehaviorsOn(item1);
+            var totalBehavingUsersOfItem2 = _behaviorStore.GetTotalUsersHaveBehaviorsOn(item2);
 
-            return rate;
-        }
-
-        private double ComputeDenominator(string item1, string item2, int totalBehavingUsersOfItem1, int totalBehavingUsersOfItem2)
-        {
             var power1 = .5f;
             var power2 = .5f;
 
-            var isItem1Popular = _popularityReader.IsPopularItem(item1);
-            var isItem2Popular = _popularityReader.IsPopularItem(item2);
+            var isItem1Popular = _popularityProvider.IsPopularItem(item1);
+            var isItem2Popular = _popularityProvider.IsPopularItem(item2);
 
             // 如果两个物品为冷门物品对热门物品，则处罚热门物品
             if (isItem1Popular != isItem2Popular)

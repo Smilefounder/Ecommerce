@@ -11,55 +11,69 @@ namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
 {
     public class RecomputeSimilarityMatrixJob : IJob
     {
-        static readonly Logger _log = LogManager.GetCurrentClassLogger();
-
         private ISimilarityMatrix _matrix;
-        private IItemsReader _itemsReader;
-        private IUserItemRelationReader _userItemRelationReader;
-        private IBehaviorTimestampReader _behaviorTimestampReader;
-        private IItemPopularityReader _itemPopularityReader;
+        private IBehaviorStore _behaviorStore;
+        private IItemPopularityProvider _itemPopularityReader;
+        private int _updateBatchSize = 100;
+
+        public int UpdateBatchSize
+        {
+            get { return _updateBatchSize; }
+            set { _updateBatchSize = value; }
+        }
 
         public string Id { get; private set; }
 
-        public RecomputeSimilarityMatrixJob(string jobId, ISimilarityMatrix matrix, IItemsReader itemsReader, IUserItemRelationReader userItemRelationReader, IBehaviorTimestampReader behaviorTimestampReader, IItemPopularityReader itemPopularityReader)
+        public RecomputeSimilarityMatrixJob(string jobId, ISimilarityMatrix matrix, IBehaviorStore behaviorStore, IItemPopularityProvider itemPopularityReader)
         {
             Id = jobId;
             _matrix = matrix;
-            _itemsReader = itemsReader;
-            _userItemRelationReader = userItemRelationReader;
-            _behaviorTimestampReader = behaviorTimestampReader;
+            _behaviorStore = behaviorStore;
             _itemPopularityReader = itemPopularityReader;
         }
 
         public void Execute()
         {
-            var snapshot = _matrix.CreateSnapshot();
-            Recompute(snapshot);
-            _matrix.ReplaceWith(snapshot);
+            var newMatrix = _matrix.PrepareRecomputation();
+            Recompute(newMatrix);
+            _matrix.ReplaceWith(newMatrix);
         }
 
-        private void Recompute(ISimilarityMatrix snapshot)
+        private void Recompute(ISimilarityMatrix matrix)
         {
-            var allItems = _itemsReader.GetItems().ToList();
+            var allItems = _behaviorStore.GetAllItems().ToList();
             if (allItems.Count == 0)
             {
                 return;
             }
 
-            var calculator = new ItemSimilarityCalculator(_userItemRelationReader, _behaviorTimestampReader, _itemPopularityReader);
+            var calculator = new ItemSimilarityCalculator(_behaviorStore, _itemPopularityReader);
+            var batch = new Dictionary<ItemPair, double>();
 
-            foreach (var item in allItems)
+            for (var i = 0; i < allItems.Count; i++)
             {
-                foreach (var other in allItems)
+                for (var j = i + 1; j < allItems.Count; j++)
                 {
-                    if (item == other)
-                    {
-                        continue;
-                    }
+                    var item1 = allItems[i];
+                    var item2 = allItems[j];
 
-                    var similarity = calculator.CalculateSimilarity(item, other);
-                    snapshot.UpdateSimilarity(item, other, similarity);
+                    var similarity = calculator.CalculateSimilarity(item1, item2);
+                    if (similarity > 0)
+                    {
+                        batch.Add(new ItemPair(item1, item2), similarity);
+
+                        if (batch.Count == _updateBatchSize)
+                        {
+                            matrix.AddSimilarities(batch);
+                            batch.Clear();
+                        }
+                    }
                 }
+            }
+
+            if (batch.Count > 0)
+            {
+                matrix.AddSimilarities(batch);
             }
         }
     }

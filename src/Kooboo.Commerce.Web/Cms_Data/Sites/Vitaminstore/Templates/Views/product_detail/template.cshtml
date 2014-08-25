@@ -16,7 +16,7 @@
     var variants = product.Variants as IEnumerable<ProductVariant>;
     var cheapestVariant = variants.OrderByDescending(v => v.Price).FirstOrDefault();
     
-    BehaviorObservers.OnReceive(Site.Current.GetCommerceInstanceName(), new [] {
+    BehaviorReceivers.OnReceive(Site.Current.GetCommerceInstanceName(), new [] {
         new Behavior
         {
             Type = BehaviorTypes.View,

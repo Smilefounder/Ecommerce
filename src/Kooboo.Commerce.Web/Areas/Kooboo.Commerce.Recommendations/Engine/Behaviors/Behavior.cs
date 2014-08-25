@@ -7,11 +7,11 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
 {
     public class Behavior
     {
+        public string Type { get; set; }
+
         public string UserId { get; set; }
 
         public string ItemId { get; set; }
-
-        public string Type { get; set; }
 
         public double Weight { get; set; }
 
