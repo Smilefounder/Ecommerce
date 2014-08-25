@@ -37,6 +37,16 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
             var items = engine.Recommend(userId, top);
             var itemIds = items.Select(it => Convert.ToInt32(it.ItemId)).ToArray();
 
+            var reasonItemIds = new List<int>();
+            foreach (var item in items)
+            {
+                var reasonId = item.GetBestReasonItemId();
+                if (reasonId > 0)
+                {
+                    reasonItemIds.Add(reasonId);
+                }
+            }
+
             var products = context.Site.Commerce()
                                   .Products.Query().ByIds(itemIds)
                                   .Include(p => p.Brand)
@@ -44,14 +54,31 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
                                   .Include(p => p.Variants)
                                   .ToList();
 
-            var result = new List<Product>();
+            var reasons = context.Site.Commerce()
+                                 .Products.Query().ByIds(reasonItemIds.ToArray())
+                                 .ToList();
 
-            foreach (var itemId in itemIds)
+            var result = new List<ProductRecommendation>();
+
+            foreach (var item in items)
             {
-                var product = products.Find(p => p.Id == itemId);
+                var productId = Convert.ToInt32(item.ItemId);
+                var product = products.Find(p => p.Id == productId);
                 if (product != null)
                 {
-                    result.Add(product);
+                    var recommendation = new ProductRecommendation
+                    {
+                        Product = product,
+                        Weight = item.Weight
+                    };
+
+                    var reasonId = item.GetBestReasonItemId();
+                    if (reasonId > 0)
+                    {
+                        recommendation.Reason = reasons.Find(p => p.Id == reasonId);
+                    }
+
+                    result.Add(recommendation);
                 }
             }
 

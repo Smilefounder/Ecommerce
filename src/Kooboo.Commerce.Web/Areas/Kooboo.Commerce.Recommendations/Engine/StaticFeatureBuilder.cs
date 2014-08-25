@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.Recommendations.Engine
             _features = features.ToList();
         }
 
-        public IEnumerable<Feature> BuildUserFeatures(string userId)
+        public IEnumerable<Feature> BuildFeatures(string userId)
         {
             return _features;
         }

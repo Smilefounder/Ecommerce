@@ -113,6 +113,8 @@
   <ItemGroup>
     <Compile Include="CMSIntegration\HttpContextVisitorCookieExtensions.cs" />
     <Compile Include="CMSIntegration\RecommendationDataSource.cs" />
+    <Compile Include="CMSIntegration\RecommendedItemExtensions.cs" />
+    <Compile Include="CMSIntegration\ProductRecommendation.cs" />
     <Compile Include="Engine\Behaviors\BehaviorObservers.cs" />
     <Compile Include="Engine\Behaviors\BehaviorTypes.cs" />
     <Compile Include="Engine\Behaviors\BufferedBehaviorObserver.cs" />

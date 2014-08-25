@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Recommendations.Engine
     public interface IRelatedItemsReader
     {
         /// <summary>
-        /// 获取和指定的用户特征相关联的物品及其权重。
+        /// 获取和指定的特征相关联的物品及其权重。
         /// </summary>
         IDictionary<string, double> GetRelatedItems(string featureId, int topN);
     }

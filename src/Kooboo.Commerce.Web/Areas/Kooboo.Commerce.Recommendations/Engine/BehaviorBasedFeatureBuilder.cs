@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Recommendations.Engine
             TimeAttenuationAlpha = .0002f;
         }
 
-        public IEnumerable<Feature> BuildUserFeatures(string userId)
+        public IEnumerable<Feature> BuildFeatures(string userId)
         {
             var now = UtcNow();
             var features = new List<Feature>();

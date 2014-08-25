@@ -7,6 +7,9 @@ namespace Kooboo.Commerce.Recommendations.Engine
 {
     public interface IFeatureBuilder
     {
-        IEnumerable<Feature> BuildUserFeatures(string userId);
+        /// <summary>
+        /// 构建指定用户的特征并返回。
+        /// </summary>
+        IEnumerable<Feature> BuildFeatures(string userId);
     }
 }
