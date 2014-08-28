@@ -3,17 +3,15 @@ using Kooboo.Commerce.Recommendations.Engine.Collaborative;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
+namespace Kooboo.Commerce.Recommendations.Engine.Jobs
 {
     public class RecomputeSimilarityMatrixJob : IJob
     {
-        private ISimilarityMatrix _matrix;
-        private IBehaviorStore _behaviorStore;
-        private IItemPopularityProvider _itemPopularityReader;
         private int _updateBatchSize = 100;
 
         public int UpdateBatchSize
@@ -22,32 +20,26 @@ namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
             set { _updateBatchSize = value; }
         }
 
-        public string Id { get; private set; }
-
-        public RecomputeSimilarityMatrixJob(string jobId, ISimilarityMatrix matrix, IBehaviorStore behaviorStore, IItemPopularityProvider itemPopularityReader)
+        public void Execute(JobContext context)
         {
-            Id = jobId;
-            _matrix = matrix;
-            _behaviorStore = behaviorStore;
-            _itemPopularityReader = itemPopularityReader;
+            var instance = context.Instance;
+            var behaviorType = context.JobData["BehaviorType"];
+
+            var matrix = SimilarityMatrixes.GetMatrix(instance, behaviorType);
+            var newMatrix = matrix.PrepareRecomputation();
+            Recompute(newMatrix, BehaviorStores.Get(instance, behaviorType));
+            matrix.ReplaceWith(newMatrix);
         }
 
-        public void Execute()
+        private void Recompute(ISimilarityMatrix matrix, IBehaviorStore behaviorStore)
         {
-            var newMatrix = _matrix.PrepareRecomputation();
-            Recompute(newMatrix);
-            _matrix.ReplaceWith(newMatrix);
-        }
-
-        private void Recompute(ISimilarityMatrix matrix)
-        {
-            var allItems = _behaviorStore.GetAllItems().ToList();
+            var allItems = behaviorStore.GetAllItems().ToList();
             if (allItems.Count == 0)
             {
                 return;
             }
 
-            var calculator = new ItemSimilarityCalculator(_behaviorStore, _itemPopularityReader);
+            var calculator = new ItemSimilarityCalculator(behaviorStore, NullItemPopularityProvider.Instance);
             var batch = new Dictionary<ItemPair, double>();
 
             for (var i = 0; i < allItems.Count; i++)

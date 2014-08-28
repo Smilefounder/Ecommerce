@@ -7,12 +7,12 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
 {
     public static class SimilarityMatrixes
     {
-        // Key: instance name, Value key: matrix name
+        // Key: instance name, Value key: behavior type
         static readonly Dictionary<string, Dictionary<string, ISimilarityMatrix>> _matrixesByInstances = new Dictionary<string, Dictionary<string, ISimilarityMatrix>>();
 
-        public static ISimilarityMatrix GetMatrix(string instance, string name)
+        public static ISimilarityMatrix GetMatrix(string instance, string behaviorType)
         {
-            return _matrixesByInstances[instance][name];
+            return _matrixesByInstances[instance][behaviorType];
         }
 
         public static IEnumerable<ISimilarityMatrix> GetMatrixes(string instance)
@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
             return _matrixesByInstances[instance].Values;
         }
 
-        public static void SetMatrix(string instance, string name, ISimilarityMatrix matrix)
+        public static void SetMatrix(string instance, string behaviorType, ISimilarityMatrix matrix)
         {
             if (!_matrixesByInstances.ContainsKey(instance))
             {
@@ -28,13 +28,13 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
             }
 
             var matrixesByNames = _matrixesByInstances[instance];
-            if (matrixesByNames.ContainsKey(name))
+            if (matrixesByNames.ContainsKey(behaviorType))
             {
-                matrixesByNames[name] = matrix;
+                matrixesByNames[behaviorType] = matrix;
             }
             else
             {
-                matrixesByNames.Add(name, matrix);
+                matrixesByNames.Add(behaviorType, matrix);
             }
         }
 

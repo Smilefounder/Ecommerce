@@ -5,7 +5,7 @@ using Kooboo.Commerce.Recommendations.Engine.Behaviors;
 using Kooboo.Commerce.Recommendations.Engine.Collaborative;
 using Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors;
 using Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative;
-using Kooboo.Commerce.Recommendations.Engine.Scheduling;
+using Kooboo.Commerce.Recommendations.Engine.Jobs;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -51,9 +51,8 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
             {
                 BehaviorStores.Set(instance, behaviorType, new SqlceBehaviorStore(instance, behaviorType));
 
-                var matrixName = GetSimilarityMatrixName(behaviorType);
-                var matrix = new SqlceSimilarityMatrix(instance, matrixName);
-                SimilarityMatrixes.SetMatrix(instance, matrixName, matrix);
+                var matrix = new SqlceSimilarityMatrix(instance, "Similarity_" + behaviorType);
+                SimilarityMatrixes.SetMatrix(instance, behaviorType, matrix);
                 RelatedItemsProviders.AddProvider(instance, new ItemToItemRelatedItemsProvider(matrix));
             }
 
@@ -85,20 +84,25 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
 
             foreach (var behaviorType in BehaviorTypes.All())
             {
-                var job = new RecomputeSimilarityMatrixJob(
-                    "Recompute " + behaviorType + " matrix"
-                    , SimilarityMatrixes.GetMatrix(instance, GetSimilarityMatrixName(behaviorType))
-                    , BehaviorStores.Get(instance, behaviorType)
-                    , NullItemPopularityProvider.Instance);
+                var jobName = "Recompute similarity matrix (" + behaviorType + ")";
+                var config = JobConfig.Load(instance, jobName);
+                if (config == null)
+                {
+                    config = new JobConfig
+                    {
+                        JobName = jobName,
+                        Interval = TimeSpan.FromHours(24),
+                        StartTime = new TimeOfDay(2, 0)
+                    };
+                }
 
-                // TODO: Make configurable in backend, current configuration is only used for testing
-                scheduler.Schedule(job, interval: TimeSpan.FromMinutes(2), startTimeUtc: DateTime.UtcNow.AddSeconds(10));
+                var job = new RecomputeSimilarityMatrixJob();
+
+                scheduler.Schedule(jobName, job, config.Interval, config.StartTime, new Dictionary<string, string>
+                { 
+                    { "BehaviorType", behaviorType }
+                });
             }
-        }
-
-        static string GetSimilarityMatrixName(string behaviorType)
-        {
-            return "SimilarityMatrix_" + behaviorType;
         }
 
         static IEnumerable<IRecommendationEngine> CreateRecommendationEngines(string instance)

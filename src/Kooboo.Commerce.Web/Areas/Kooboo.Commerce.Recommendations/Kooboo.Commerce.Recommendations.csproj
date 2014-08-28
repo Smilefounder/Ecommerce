@@ -86,12 +86,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\MVC\System.Net.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\MVC\System.Web.Http.dll</HintPath>
@@ -99,6 +96,17 @@
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\MVC\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\MVC\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\MVC\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
@@ -108,13 +116,13 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CMSIntegration\HttpContextVisitorCookieExtensions.cs" />
     <Compile Include="CMSIntegration\RecommendationDataSource.cs" />
     <Compile Include="CMSIntegration\RecommendedItemExtensions.cs" />
     <Compile Include="CMSIntegration\ProductRecommendation.cs" />
+    <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Engine\Behaviors\BehaviorReceivers.cs" />
     <Compile Include="Engine\Behaviors\BehaviorStores.cs" />
     <Compile Include="Engine\Behaviors\BehaviorTypes.cs" />
@@ -125,13 +133,16 @@
     <Compile Include="Engine\Buffers\Buffer.cs" />
     <Compile Include="Engine\Collaborative\NullItemPopularityProvider.cs" />
     <Compile Include="Engine\Collaborative\SimilarityMatrixes.cs" />
+    <Compile Include="Engine\Jobs\JobConfig.cs" />
+    <Compile Include="Engine\Jobs\JobContext.cs" />
+    <Compile Include="Engine\Jobs\TimeOfDay.cs" />
     <Compile Include="Engine\RecommendationEngines.cs" />
     <Compile Include="Engine\RelatedItemsProviders.cs" />
     <Compile Include="Engine\StaticFeatureBuilder.cs" />
     <Compile Include="Bootstrapping\InstanceChangeEventHandler.cs" />
     <Compile Include="Bootstrapping\RecommendationEngineConfiguration.cs" />
-    <Compile Include="Engine\Scheduling\IJob.cs" />
-    <Compile Include="Engine\Scheduling\RecomputeSimilarityMatrixJob.cs" />
+    <Compile Include="Engine\Jobs\IJob.cs" />
+    <Compile Include="Engine\Jobs\RecomputeSimilarityMatrixJob.cs" />
     <Compile Include="Engine\Collaborative\ISimilarityMatrix.cs" />
     <Compile Include="Engine\IRecommendationEngine.cs" />
     <Compile Include="Engine\ItemPair.cs" />
@@ -154,14 +165,16 @@
     <Compile Include="Engine\Storage\Sqlce\SqlceDbContextHelper.cs" />
     <Compile Include="Engine\Storage\Sqlce\Collaborative\SqlceSimilarityMatrix.cs" />
     <Compile Include="Engine\Formulas.cs" />
-    <Compile Include="Engine\Scheduling\Schedule.cs" />
-    <Compile Include="Engine\Scheduling\Scheduler.cs" />
-    <Compile Include="Engine\Scheduling\Schedulers.cs" />
+    <Compile Include="Engine\Jobs\Schedule.cs" />
+    <Compile Include="Engine\Jobs\Scheduler.cs" />
+    <Compile Include="Engine\Jobs\Schedulers.cs" />
     <Compile Include="Engine\UserItemPair.cs" />
     <Compile Include="Engine\AggregateRecommendationEngine.cs" />
     <Compile Include="Engine\WeightedRecommendationEngine.cs" />
     <Compile Include="Engine\WeightedRelatedItemsProvider.cs" />
-    <Compile Include="IItemsReader.cs" />
+    <Compile Include="Menu\RecommendationMenuItem.cs" />
+    <Compile Include="Menu\RecommendationsMenuInjection.cs" />
+    <Compile Include="Models\JobConfigModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecommendationsAreaRegistration.cs" />
     <Compile Include="Strings.cs" />
@@ -169,6 +182,10 @@
   <ItemGroup>
     <Content Include="Web.config" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Config\Jobs.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="WebResources.config" />
+    <Content Include="Views\Config\_JobConfigDialog.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -220,9 +237,7 @@
   <ItemGroup>
     <Content Include="module.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

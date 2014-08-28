@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
+namespace Kooboo.Commerce.Recommendations.Engine.Jobs
 {
     public static class Schedulers
     {
@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
             if (_schedulers.ContainsKey(instance))
                 throw new InvalidOperationException("Scheduler for instance '" + instance + "' already started.");
 
-            var scheduler = new Scheduler();
+            var scheduler = new Scheduler(instance);
             _schedulers.Add(instance, scheduler);
 
             return scheduler;
@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
         {
             var scheduler = _schedulers[instance];
             _schedulers.Remove(instance);
-            scheduler.UnscheduleAll();
+            scheduler.UnscheduleAll(false);
         }
     }
 }

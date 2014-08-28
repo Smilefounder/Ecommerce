@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 
-namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
+namespace Kooboo.Commerce.Recommendations.Engine.Jobs
 {
     public class Schedule : IDisposable
     {
@@ -17,30 +17,45 @@ namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
         private AutoResetEvent _event;
         private bool _stopRequested;
 
-        public DateTime StartTimeUtc { get; private set; }
+        public string Instance { get; private set; }
+
+        public string JobName { get; private set; }
+
+        public TimeOfDay StartTime { get; private set; }
 
         public TimeSpan Interval { get; private set; }
 
-        public Schedule(IJob job, TimeSpan interval, DateTime startTimeUtc)
+        public IDictionary<string, string> JobData { get; private set; }
+
+        public Schedule(string instance, string jobName, IJob job, TimeSpan interval, TimeOfDay startTime, IDictionary<string, string> jobData)
         {
+            Instance = instance;
+            JobName = jobName;
             _job = job;
+            JobData = jobData;
             Interval = interval;
-            StartTimeUtc = startTimeUtc;
+            StartTime = startTime;
             _thread = new Thread(DoWork);
             _event = new AutoResetEvent(false);
         }
 
+        public Schedule Clone(TimeSpan newInterval, TimeOfDay newStartTime)
+        {
+            return new Schedule(Instance, JobName, _job, newInterval, newStartTime, JobData);
+        }
+
         public void Start()
         {
-            var now = DateTime.UtcNow;
+            var now = DateTime.Now;
+            var startTime = DateTime.Today.AddHours(StartTime.Hour).AddMinutes(StartTime.Mintue);
 
-            if (StartTimeUtc >= now)
+            if (startTime >= now)
             {
-                _secondsToWait = (int)(StartTimeUtc - now).TotalSeconds;
+                _secondsToWait = (int)(startTime - now).TotalSeconds;
             }
             else
             {
-                _secondsToWait = (int)(now - StartTimeUtc).TotalSeconds % (int)Interval.TotalSeconds;
+                _secondsToWait = (int)(now - startTime).TotalSeconds % (int)Interval.TotalSeconds;
             }
 
             _thread.Start();
@@ -70,16 +85,16 @@ namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
 
                 _secondsToWait = (int)Interval.TotalSeconds;
 
-                _log.Info("Job '" + _job.Id + "' started.");
+                _log.Info("Job '" + JobName + "' started.");
 
                 try
                 {
-                    _job.Execute();
-                    _log.Info("Job '" + _job.Id + "' completed.");
+                    _job.Execute(new JobContext(Instance, JobData));
+                    _log.Info("Job '" + JobName + "' completed.");
                 }
                 catch (Exception ex)
                 {
-                    _log.ErrorException("Faile to execute job " + _job.Id + ": " + ex.Message, ex);
+                    _log.ErrorException("Faile to execute job '" + JobName + "': " + ex.Message, ex);
                 }
             }
 

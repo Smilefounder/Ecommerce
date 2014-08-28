@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Recommendations.Engine.Scheduling
+namespace Kooboo.Commerce.Recommendations.Engine.Jobs
 {
     public interface IJob
     {
-        string Id { get; }
-
-        void Execute();
+        void Execute(JobContext context);
     }
 }

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Schedule>
+@{
+    ViewBag.Title = "Jobs";
+}
+
+<div class="simple-table">
+    <table>
+        <thead>
+            <tr>
+                <th>@("Job name".Localize())</th>
+                <th>@("Interval".Localize())</th>
+                <th>@("Start time".Localize())</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var schedule in Model)
+            {
+                <tr>
+                    <td><a href="#" data-jobname="@schedule.JobName" data-toggle="config-job">@schedule.JobName</a></td>
+                    <td>@schedule.Interval.TotalMinutes @("minutes".Localize())</td>
+                    <td>
+                        @(schedule.StartTime)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.Partial("_JobConfigDialog")
+
+<script>
+    $(function () {
+        $('[data-toggle="config-job"]').click(function () {
+            var jobName = $(this).data('jobname');
+            JobConfigDialog.instance().open({
+                jobName: jobName
+            });
+            return false;
+        });
+    });
+</script>

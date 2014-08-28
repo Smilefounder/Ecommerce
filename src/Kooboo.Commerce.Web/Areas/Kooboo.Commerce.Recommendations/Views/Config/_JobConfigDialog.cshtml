@@ -1,0 +1,112 @@
+﻿
+<div class="hide" id="jobconfig-dialog">
+    <div class="topbar">
+        <h1 class="title">@("Job settings".Localize())</h1>
+    </div>
+    <div class="wrap">
+        <form class="common-form">
+            <table>
+                <tr>
+                    <th>@("Interval".Localize())</th>
+                    <td>
+                        <input type="text" name="Interval" class="large"
+                               data-bind="value: interval"
+                               data-val="true"
+                               data-val-required="@("Required".Localize())"
+                               data-val-digits="@("Interval should be an integer".Localize())" />
+                        @("minutes".Localize())
+                        <span data-valmsg-for="Interval" data-valmsg-replace="true"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>@("Start time".Localize())</th>
+                    <td>
+                        <select name="StartHour" class="small" data-bind="value: startHour">
+                            @for (var i = 0; i < 24; i++)
+                            {
+                                <option value="@i">@i.ToString("00")</option>
+                            }
+                        </select>
+                        <select name="StartMinute" class="small" data-bind="value: startMinute">
+                            @for (var i = 0; i < 60; i++)
+                            {
+                                <option value="@i">@i.ToString("00")</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="buttons">
+        <a href="#" class="button gray right" data-toggle="close-dialog">@("Cancel".Localize())</a>
+        <a href="#" class="button right" data-toggle="submit-dialog">@("Save".Localize())</a>
+    </div>
+</div>
+
+<script>
+    (function ($) {
+
+        window.JobConfigDialog = function () {
+            var self = this;
+            var $dialog = null;
+            var jobName = null;
+            var model = {
+                interval: ko.observable(),
+                startHour: ko.observable(),
+                startMinute: ko.observable()
+            };
+
+            self.open = function (options) {
+                jobName = options.jobName;
+
+                if ($dialog == null) {
+                    $dialog = $('#jobconfig-dialog').dialog({
+                        modal: true,
+                        autoOpen: false
+                    });
+                    ko.applyBindings(model, $dialog.find('form')[0]);
+
+                    $dialog.find('[data-toggle="close-dialog"]').click(self.close);
+                    $dialog.find('[data-toggle="submit-dialog"]').click(self.submit);
+                }
+
+                $.get('@Url.Action("JobConfig")', { jobName: jobName })
+                 .done(function (data) {
+                     ko.mapping.fromJS(data, {}, model);
+                     $dialog.dialog('open');
+                 });
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+            }
+
+            self.submit = function () {
+                if (!$dialog.find('form').valid()) {
+                    return false;
+                }
+
+                window.loading.show();
+                $.post('@Url.Action("JobConfig")', ko.mapping.toJS(model))
+                 .done(function () {
+                     window.loading.hide();
+                     window.leaveConfirm.pass();
+                     self.close();
+                     location.href = location.pathname + location.search;
+                 });
+            }
+        }
+
+        var instance = null;
+
+        window.JobConfigDialog.instance = function () {
+            if (instance === null) {
+                instance = new JobConfigDialog();
+            }
+
+            return instance;
+        }
+
+    })(jQuery);
+</script>
