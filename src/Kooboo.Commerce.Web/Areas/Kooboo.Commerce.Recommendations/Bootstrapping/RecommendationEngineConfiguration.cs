@@ -107,14 +107,11 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
         {
             RecommendationEngines.Remove(instance);
 
-            foreach (var behaviorType in BehaviorTypes.All())
-            {
-                Schedulers.Stop(instance);
-                BehaviorReceivers.Remove(instance);
-                BehaviorStores.Remove(instance);
-                SimilarityMatrixes.Remove(instance);
-                RelatedItemsProviders.Remove(instance);
-            }
+            Schedulers.Stop(instance);
+            BehaviorReceivers.Remove(instance);
+            BehaviorStores.Remove(instance);
+            SimilarityMatrixes.Remove(instance);
+            RelatedItemsProviders.Remove(instance);
         }
 
         static void ScheduleJobs(string instance)

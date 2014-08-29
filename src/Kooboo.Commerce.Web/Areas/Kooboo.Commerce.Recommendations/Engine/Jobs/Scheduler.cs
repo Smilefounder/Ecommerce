@@ -63,7 +63,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Jobs
         {
             lock (_lock)
             {
-                foreach (var jobId in _schedules.Keys)
+                foreach (var jobId in _schedules.Keys.ToList())
                 {
                     Unschedule(jobId, waitUnitlStopped);
                 }

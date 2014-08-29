@@ -10,6 +10,11 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Data.Entity.Infrastructure.DependencyResolution;
+using System.Data.Entity.Core.Common;
+using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Infrastructure;
+using System.Data.Common;
 
 namespace Kooboo.Commerce.Data
 {
@@ -53,7 +58,7 @@ namespace Kooboo.Commerce.Data
 
             try
             {
-                CreatePhysicalDatabaseIfNotExists(connectionString);
+                CreatePhysicalDatabaseIfNotExists(connectionString, dbProvider);
 
                 using (var database = new CommerceDatabase(settings))
                 {
@@ -79,10 +84,13 @@ namespace Kooboo.Commerce.Data
             Event.Raise(new CommerceInstanceCreated(settings.Name, settings));
         }
 
-        static void CreatePhysicalDatabaseIfNotExists(string connectionString)
+        static void CreatePhysicalDatabaseIfNotExists(string connectionString, ICommerceDbProvider provider)
         {
+            var conn = DbProviderFactories.GetFactory(provider.InvariantName).CreateConnection();
+            conn.ConnectionString = connectionString;
+
             // TODO: Do not generate __MigrateHistory table or ...?
-            using (var dbContext = new EmptyDbContext(connectionString))
+            using (var dbContext = new EmptyDbContext(conn))
             {
                 dbContext.Database.CreateIfNotExists();
             }
@@ -153,8 +161,8 @@ namespace Kooboo.Commerce.Data
         /// </summary>
         class EmptyDbContext : DbContext
         {
-            public EmptyDbContext(string connectionString)
-                : base(connectionString)
+            public EmptyDbContext(DbConnection connection)
+                : base(connection, true)
             {
                 Database.SetInitializer<EmptyDbContext>(null);
             }
