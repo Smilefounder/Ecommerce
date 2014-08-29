@@ -738,6 +738,36 @@
             <param name="path">The path.</param>
             <param name="format">The format.</param>
         </member>
+        <member name="F:Kooboo.Dynamic.ReflectionDynamicObject._wrapped">
+            <summary>
+            The object we are going to wrap
+            </summary>
+        </member>
+        <member name="F:Kooboo.Dynamic.ReflectionDynamicObject.flags">
+            <summary>
+            Specify the flags for accessing members
+            </summary>
+        </member>
+        <member name="M:Kooboo.Dynamic.ReflectionDynamicObject.#ctor(System.Object)">
+            <summary>
+            Create a simple private wrapper
+            </summary>
+        </member>
+        <member name="M:Kooboo.Dynamic.ReflectionDynamicObject.TryInvokeMember(System.Dynamic.InvokeMemberBinder,System.Object[],System.Object@)">
+            <summary>
+            Try invoking a method
+            </summary>
+        </member>
+        <member name="M:Kooboo.Dynamic.ReflectionDynamicObject.TryGetMember(System.Dynamic.GetMemberBinder,System.Object@)">
+            <summary>
+            Tries to get a property or field with the given name
+            </summary>
+        </member>
+        <member name="M:Kooboo.Dynamic.ReflectionDynamicObject.TrySetMember(System.Dynamic.SetMemberBinder,System.Object)">
+            <summary>
+            Tries to set a property or field with the given name
+            </summary>
+        </member>
         <member name="T:Kooboo.Extensions.DictionaryExtensions">
             <summary>
             Obsolate, move to :Kooboo.Collections.DictionaryExtensions
@@ -2466,6 +2496,11 @@
              */
             </example>
         </member>
+        <member name="T:Kooboo.Web.Mvc.Menu.Badge">
+            <summary>
+            Menu item 文本上面的一些小标记
+            </summary>
+        </member>
         <member name="P:Kooboo.Web.Mvc.Grid2.Design.GridColumnAttribute.GridColumnType">
             <summary>
             实现IGridColumn接口
@@ -2693,6 +2728,11 @@
             <example>25,50,100</example>
             </summary>
             <value>The size options.</value>
+        </member>
+        <member name="P:Kooboo.Web.Mvc.Menu.MenuItem.Badge">
+            <summary>
+            文本上面的一些小标记
+            </summary>
         </member>
         <member name="P:Kooboo.Web.Mvc.Grid.GridActionAttribute.RouteValueProperties">
             <summary>

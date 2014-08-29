@@ -54,6 +54,66 @@
             josn?key={key}
             </summary>
         </member>
+        <member name="M:Kooboo.CMS.Sites.DataSource.ContentDataSource.WhereClauseToContentQueryHelper.BuildLogicalExpression(Kooboo.CMS.Sites.DataSource.ContentDataSource.Logical,Kooboo.CMS.Content.Query.Expressions.IWhereExpression,Kooboo.CMS.Content.Query.Expressions.IWhereExpression)">
+            <summary>
+            Build And/Or Expression
+            </summary>
+            <param name="logical"></param>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Models.IInheritable`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Models.IInheritable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.IInheritable.HasParentVersion">
+            <summary>
+            Determines whether [has parent version].
+            </summary>
+            <returns>
+              <c>true</c> if [has parent version]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.IInheritable.IsLocalized(Kooboo.CMS.Sites.Models.Site)">
+            <summary>
+            Determines whether the specified site is localized.
+            </summary>
+            <param name="site">The site.</param>
+            <returns>
+              <c>true</c> if the specified site is localized; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.IInheritable.Site">
+            <summary>
+            Gets the site.
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.IInheritable`1.LastVersion">
+            <summary>
+            Lasts the version.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.IInheritable`1.LastVersion(Kooboo.CMS.Sites.Models.Site)">
+            <summary>
+            Lasts the version.
+            </summary>
+            <param name="site">The site.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.DataSource.Http.HttpDataSource.URL">
+            <summary>
+            josn?key={key}
+            </summary>
+        </member>
         <member name="M:Kooboo.CMS.Sites.Extension.Management.IAssemblyReferences.RemoveReference(System.String,System.String)">
             <summary>
             Remove the reference.
@@ -194,6 +254,36 @@
             <param name="controllerContext"></param>
             <returns></returns>
         </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.ModulePathHelper.GetModuleInstallationFilePath(Kooboo.CMS.Sites.Extension.ModuleArea.ModulePath,System.String[])">
+            <summary>
+            GetModuleInstallationFilePath 是得到Module的安装目录，也就是它所在的Area目录
+            </summary>
+            <param name="modulePath">The module path.</param>
+            <param name="moduleInstallationFilePaths">The module installation file paths.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.ModulePathHelper.GetModuleSharedFilePath(Kooboo.CMS.Sites.Extension.ModuleArea.ModulePath,System.String[])">
+            <summary>
+            GetModuleSharedFilePath 是得到它共享的数据存放目录，与站点无关的，也就是：Cms_Data\ModuleData
+            </summary>
+            <param name="modulePath"></param>
+            <param name="extraPaths"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.ModulePathHelper.GetModuleLocalFilePath(Kooboo.CMS.Sites.Extension.ModuleArea.ModulePath,System.String[])">
+            <summary>
+            GetModuleLocalFilePath是得到Module在某个站点下的ModuleData，也就是：Cms_Data\Sites\{SiteName}\ModuleData
+            需要ModulePath.Site信息。
+            </summary>
+            <param name="modulePath"></param>
+            <param name="extraPaths"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.FormSetting.SubmitType">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:Kooboo.CMS.Sites.View.SecurityHelper.Encrypt(Kooboo.CMS.Sites.Models.Site,System.String)">
             <summary>
             Encrypts the specified original string.
@@ -316,52 +406,6 @@
             <returns>
             the remaining paths.<example>{"site1"}</example>
             </returns>
-        </member>
-        <member name="T:Kooboo.CMS.Sites.Models.IInheritable`1">
-            <summary>
-            
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="T:Kooboo.CMS.Sites.Models.IInheritable">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:Kooboo.CMS.Sites.Models.IInheritable.HasParentVersion">
-            <summary>
-            Determines whether [has parent version].
-            </summary>
-            <returns>
-              <c>true</c> if [has parent version]; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:Kooboo.CMS.Sites.Models.IInheritable.IsLocalized(Kooboo.CMS.Sites.Models.Site)">
-            <summary>
-            Determines whether the specified site is localized.
-            </summary>
-            <param name="site">The site.</param>
-            <returns>
-              <c>true</c> if the specified site is localized; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="P:Kooboo.CMS.Sites.Models.IInheritable.Site">
-            <summary>
-            Gets the site.
-            </summary>
-        </member>
-        <member name="M:Kooboo.CMS.Sites.Models.IInheritable`1.LastVersion">
-            <summary>
-            Lasts the version.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Kooboo.CMS.Sites.Models.IInheritable`1.LastVersion(Kooboo.CMS.Sites.Models.Site)">
-            <summary>
-            Lasts the version.
-            </summary>
-            <param name="site">The site.</param>
-            <returns></returns>
         </member>
         <member name="P:Kooboo.CMS.Sites.Models.CacheSettings.Duration">
             <summary>
@@ -635,7 +679,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Kooboo.CMS.Sites.Persistence.FileSystem.SiteProvider.Create(Kooboo.CMS.Sites.Models.Site,System.String,System.IO.Stream,Kooboo.CMS.Sites.Persistence.CreateSiteSetting)">
+        <member name="M:Kooboo.CMS.Sites.Persistence.FileSystem.SiteProvider.Create(Kooboo.CMS.Sites.Models.Site,System.String,System.IO.Stream,Kooboo.CMS.Sites.Models.Options.CreateSiteOptions)">
             <summary>
             1. Extract the site files.
             2. Create and initialize the repository if the repository doest not exsits.
@@ -657,7 +701,8 @@
         </member>
         <member name="T:Kooboo.CMS.Sites.Services.AssemblyManager">
             <summary>
-            Plugin 管理
+            Plugin 管理 
+            Singleton是因为在构造器里面需要拷贝DLL到BIN，实际发现很耗性能。
             </summary>
         </member>
         <member name="P:Kooboo.CMS.Sites.Services.FileEntry.RelativePath">
@@ -696,6 +741,35 @@
             </summary>
             <param name="site">The site.</param>
             <param name="url">The URL.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Services.SiteManager.Create(Kooboo.CMS.Sites.Models.Site,System.String,Kooboo.CMS.Sites.Models.Options.CreateSiteOptions)">
+            <summary>
+            Create sub site
+            </summary>
+            <param name="parent"></param>
+            <param name="siteName"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Services.SiteManager.Create(Kooboo.CMS.Sites.Models.Site,System.String,System.String,Kooboo.CMS.Sites.Models.Options.CreateSiteOptions)">
+            <summary>
+            Create site using package file path
+            </summary>
+            <param name="parent"></param>
+            <param name="siteName"></param>
+            <param name="packageFilePath"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Services.SiteManager.Create(Kooboo.CMS.Sites.Models.Site,System.String,System.IO.Stream,Kooboo.CMS.Sites.Models.Options.CreateSiteOptions)">
+            <summary>
+            Create site using package stream
+            </summary>
+            <param name="parent"></param>
+            <param name="siteName"></param>
+            <param name="stream">the package stream can be null. if it is null, it is going to create sub site.</param>
+            <param name="options"></param>
             <returns></returns>
         </member>
         <member name="M:Kooboo.CMS.Sites.Services.SiteManager.UseSharedDB(Kooboo.CMS.Sites.Models.Site)">

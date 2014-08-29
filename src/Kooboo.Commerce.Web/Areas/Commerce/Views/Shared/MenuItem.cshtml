@@ -1,12 +1,18 @@
 ﻿@*TODO: Copy to CMS*@
 @model Kooboo.Web.Mvc.Menu.MenuItem
+@using Kooboo.Web.Mvc.Menu;
+@helper RenderBadge(Badge badge)
+{
+    if (badge != null)
+    {
+        <span @Html.GenerateHtmlAttributes(badge.HtmlAttributes ?? new Dictionary<string, object>())>@badge.Text</span>
+    }
+}
 @if (Model.Visible)
 {
     var menuItem = Model as Kooboo.Web.Mvc.Menu.MenuItem;
     if (menuItem != null)
     {
-        var commerceMenuItem = menuItem as Kooboo.Commerce.Web.Framework.UI.Menu.CommerceMenuItem;
-        
         var controller = menuItem.Controller ?? ViewContext.RequestContext.GetRequestValue("controller");
         var folderClass = "";
         var folderControllders = new string[]{
@@ -31,26 +37,18 @@
             }
             @if (!string.IsNullOrEmpty(menuItem.Action) || !string.IsNullOrEmpty(menuItem.Controller))
             {
-                if (commerceMenuItem != null && !String.IsNullOrEmpty(commerceMenuItem.HtmlFormat))
-                {
-                    <a href="@Url.Action(menuItem.Action, menuItem.Controller, menuItem.RouteValues)">@Html.Raw(String.Format(commerceMenuItem.HtmlFormat, commerceMenuItem.Text.Localize()))</a>
-                }
-                else
-                {
-                    @Html.ActionLink(menuItem.Localizable ? menuItem.Text.Localize() : menuItem.Text, menuItem.Action, menuItem.Controller, menuItem.RouteValues, menuItem.HtmlAttributes)
-                }
+                var text = menuItem.Localizable ? menuItem.Text.Localize() : menuItem.Text;
+
+                var tips = string.IsNullOrEmpty(menuItem.Tips) ? text : menuItem.Localizable ? menuItem.Tips.Localize() : menuItem.Tips;
+
+                var htmlAttributes = menuItem.HtmlAttributes ?? new RouteValueDictionary();
+                htmlAttributes["title"] = tips;
+                <a href="@Url.Action(menuItem.Action,menuItem.Controller,menuItem.RouteValues)" @Html.GenerateHtmlAttributes(htmlAttributes)> @text @RenderBadge(menuItem.Badge)</a>
             }
             else
             {
-                <a class="action">
-                    @if (commerceMenuItem != null && !String.IsNullOrEmpty(commerceMenuItem.HtmlFormat))
-                    {
-                        @Html.Raw(String.Format(commerceMenuItem.HtmlFormat, menuItem.Text.Localize()))
-                    }
-                    else
-                    {
-                        @menuItem.Text.Localize()
-                    }
+                <a class="action" title="@menuItem.Text.Localize()">
+                    @menuItem.Text.Localize() @RenderBadge(menuItem.Badge)
                 </a>
             }
             @if (Model.Items.Count() > 0)

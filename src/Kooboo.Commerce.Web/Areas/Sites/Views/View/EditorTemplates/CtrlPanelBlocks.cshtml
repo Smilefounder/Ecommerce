@@ -174,8 +174,11 @@
                 <label>Submit to:</label>
             </div>
             <div class="span8">
-                <select id="select-plugin-type" data-bind="foreach:{data:form.submissions,as:'submit'},value:form.chosenSubmission(),event:{change:form.submmsionChange}">
-                    <option data-bind="value:submit.name,text:submit.name"></option>
+                <select id="select-plugin-type" data-bind="event:{change:form.submmsionChange}">
+                    <option value="" data-bind="text: __conf__.defaultOption.name"></option>
+                    <!--ko foreach:{data:form.submissions,as:'submit'}-->
+                    <option data-bind="value:submit.qualifiedName,text:submit.name"></option>
+                    <!--/ko-->
                 </select>
             </div>
         </div>
@@ -201,19 +204,19 @@
                 <label>Redirect to:</label>
             </div>
             <div class="span8">
-                <select id="select-redirect-to" data-bind="foreach:{data:linkTo.pages,as:'page'},value:linkTo.chosenPage,event:{change:form.redirectToChange}">
+                <select id="select-redirect-to" data-bind="foreach:{data:linkTo.pages,as:'page'},event:{change:form.redirectToChange}">
                     <option data-bind="value:page.name,text:page.name"></option>
                 </select>
             </div>
         </div>
-        <!--ko if: form.chosenSubmission()!=__conf__.defaultOption.name -->
+        <!--ko if: form.chosenSubmission()!="" -->
         <div class="fields">
             <p class="info">Please select and bind the fields you want to submit:</p>
             <!--ko foreach:{data:form.submissionSettings(),as:'set'} -->
-            <div class="field" data-bind="attr:{'param-name':set.key}">
+            <div class="field" data-bind="attr:{'param-name':set.Key}">
                 <div class="form-row" type="submission-settings">
                     <div class="span4">
-                        <label type="param-name" data-bind="html:set.key"></label>
+                        <label type="param-name" data-bind="html:set.Key"></label>
                     </div>
                     <div class="span8">
                         <div class="custom-select">
@@ -222,9 +225,9 @@
                             <a class="action" href="#" id="clear" style="display:none;" title="Clear" data-bind="click:$root.form.clearSelectedValue">@Html.IconImage("cross-mini")</a>
                             <ul>
                                 <!--ko foreach:{data:$root.form.texts(),as:'text'} -->
-                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
+                                <li data-bind="attr:{param:set.Key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
                                 <!-- /ko -->
-                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
+                                <li data-bind="attr:{param:set.Key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
                             </ul>
                         </div>
                     </div>
@@ -323,6 +326,20 @@
                     <a class="action" href="#" title="@("Click to remove this image".Localize())" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">
                         @Html.IconImage("minus small")
                     </a>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+    </div>
+    <div class="block list active" data-bind="visible:_.find(boundTags(),function(t){return t.type==dataTypeEnum.form;})">
+        <h6 class="title">@Html.IconImage("arrow")@("Form".Localize())</h6>
+
+        <div class="container">
+            <ul data-bind="foreach:boundTags()">
+                <!-- ko if:$data.type==dataTypeEnum.form-->
+                <li>
+                    @listButtons()
+                    <span data-bind="text:__parser__.analyseForm($data.tag)"></span>
                 </li>
                 <!-- /ko -->
             </ul>

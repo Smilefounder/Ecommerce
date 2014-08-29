@@ -13,6 +13,7 @@ var dataTypeEnum = {
     partial: 'Partial',
     position: 'Position',
     form:'Form',
+    field:'Field',
     nothing: 'Nothing'
 };
 var calloutEnum = {
@@ -22,7 +23,8 @@ var calloutEnum = {
     Position: 'P',
     DynamicImg:'I',
     StaticImg:"I",
-    Form:"F"
+    Form:"F",
+    Field:'f'
 };
 
 //conf
@@ -619,6 +621,11 @@ var TalParser = function () {
         }else{
             return {type:'dynamic',src:self.analyseDataField($tag)};
         }
+    };
+    self.analyseForm=function($tag){
+        $tag = $tag || self.tag();
+        var name=$tag.attr("name");
+        return "form["+name+"]";
     };
 }
 var __parser__ = new TalParser();

@@ -82,8 +82,15 @@ namespace Kooboo.Commerce.Multilingual
             parent.Items.Add(new LanguageSpecificMenuItem(culture.Name)
             {
                 Text = text,
-                HtmlFormat = "{0} <span class='badge badge-danger'>" + totalPending + "</span>",
-                Controller = controller
+                Controller = controller,
+                Badge = new Badge
+                {
+                    Text = totalPending.ToString(),
+                    HtmlAttributes = new Dictionary<string, object>
+                    {
+                        { "class", "badge badge-danger" }
+                    }
+                }
             });
         }
     }
