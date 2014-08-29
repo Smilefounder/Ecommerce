@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Multilingual
             {
                 return;
             }
-
+            
             var root = new MenuItem
             {
                 Name = "Multiligual",
@@ -56,7 +56,7 @@ namespace Kooboo.Commerce.Multilingual
                 var langItem = new MenuItem
                 {
                     Name = "Language-" + lang.Name,
-                    Text = lang.DisplayName + " (" + lang.Name + ")"
+                    Text = lang.Name
                 };
 
                 root.Items.Add(langItem);
@@ -81,7 +81,8 @@ namespace Kooboo.Commerce.Multilingual
 
             parent.Items.Add(new LanguageSpecificMenuItem(culture.Name)
             {
-                Text = text + (totalPending > 0 ? " (" + totalPending + ")" : ""),
+                Text = text,
+                HtmlFormat = "{0} <span class='badge badge-danger'>" + totalPending + "</span>",
                 Controller = controller
             });
         }

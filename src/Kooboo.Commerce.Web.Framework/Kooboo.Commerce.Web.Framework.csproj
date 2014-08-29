@@ -129,6 +129,7 @@
     <Compile Include="UI\Menu\CommerceGlobalMenuInjection.cs" />
     <Compile Include="UI\Menu\CommerceInstanceMenuInjection.cs" />
     <Compile Include="UI\Menu\CommerceInstanceMenuItemInitializer.cs" />
+    <Compile Include="UI\Menu\CommerceMenuItem.cs" />
     <Compile Include="UI\MvcRoute.cs" />
     <Compile Include="UI\MvcRoutes.cs" />
     <Compile Include="UI\Tabs\Queries\CustomerTabQuery.cs" />
