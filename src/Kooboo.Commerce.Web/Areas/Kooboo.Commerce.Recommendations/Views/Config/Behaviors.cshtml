@@ -1,0 +1,52 @@
+﻿@using Newtonsoft.Json
+@model IEnumerable<BehaviorConfig>
+@{
+    ViewBag.Title = "Settings".Localize();
+}
+
+@section Panel {
+    @Html.HeaderPanel().Buttons(buttons =>
+    {
+        buttons.AddSaveButton();
+    })
+}
+
+@Html.Partial("_Tabs", "Behaviors")
+
+@using (Html.BeginForm()) { 
+    <div class="common-form" id="behavior-config-main">
+        <table>
+            <thead>
+                <tr>
+                    <th>@("Behavior type".Localize())</th>
+                    <th>@("Weight".Localize())</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: Configs">
+                <tr>
+                    <td data-bind="text: BehaviorType"></td>
+                    <td>
+                        <input type="hidden" data-bind="value: BehaviorType, attr: { name: 'Configs[' + $index() + '].BehaviorType' }" />
+                        <input type="text" data-bind="value: Weight, attr: { name: 'Configs[' + $index() + '].Weight' }"
+                               data-val="true"
+                               data-val-required="@("Required".Localize())"
+                               data-val-number="@("Weight should be a number".Localize())" />
+                        <span data-bind="attr: { 'data-valmsg-for': 'Weight_' + $index() }" data-valmsg-replace="true"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+<script>
+    $(function () {
+
+        var model = {
+            Configs: ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(Model)))
+        };
+
+        ko.applyBindings(model, document.getElementById('behavior-config-main'));
+
+    });
+</script>

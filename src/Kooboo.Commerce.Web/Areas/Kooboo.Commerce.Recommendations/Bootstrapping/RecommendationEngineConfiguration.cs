@@ -47,21 +47,60 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
 
         public static void Initialize(string instance)
         {
+            var defaultBehaviorWeights = new Dictionary<string, float>
+            {
+                { BehaviorTypes.View, .6f },
+                { BehaviorTypes.Like, .7f },
+                { BehaviorTypes.AddToCart, .8f },
+                { BehaviorTypes.Purchase, 1f }
+            };
+
             foreach (var behaviorType in BehaviorTypes.All())
             {
-                BehaviorStores.Set(instance, behaviorType, new SqlceBehaviorStore(instance, behaviorType));
+                BehaviorStores.Register(instance, behaviorType, new SqlceBehaviorStore(instance, behaviorType));
 
-                var matrix = new SqlceSimilarityMatrix(instance, "Similarity_" + behaviorType);
-                SimilarityMatrixes.SetMatrix(instance, behaviorType, matrix);
-                RelatedItemsProviders.AddProvider(instance, new ItemToItemRelatedItemsProvider(matrix));
+                float weight = defaultBehaviorWeights[behaviorType];
+                var config = BehaviorConfig.Load(instance, behaviorType);
+                if (config != null)
+                {
+                    weight = config.Weight;
+                }
+
+                var matrix = new SqlceSimilarityMatrix(instance, behaviorType, "Similarity_" + behaviorType);
+                SimilarityMatrixes.Register(instance, behaviorType, matrix);
+                RelatedItemsProviders.Register(instance, new ItemToItemRelatedItemsProvider(matrix).Weighted(weight));
             }
 
-            // TODO: Make configurable in backend
             BehaviorReceivers.Set(instance, new BufferedBehaviorReceiver(new BehaviorReceiver(instance), 1000, TimeSpan.FromSeconds(10)));
             RecommendationEngines.Set(instance, new AggregateRecommendationEngine(CreateRecommendationEngines(instance)));
 
             Schedulers.Start(instance);
             ScheduleJobs(instance);
+        }
+
+        public static void ChangeBehaviorWeights(string instance, IDictionary<string, float> weights)
+        {
+            // TODO: Ugly cast
+            var providers = RelatedItemsProviders.All(instance).OfType<WeightedRelatedItemsProvider>().ToList();
+            foreach (var provider in providers)
+            {
+                var matrix = ((ItemToItemRelatedItemsProvider)provider.UnderlyingProvider).SimilarityMatrix as SqlceSimilarityMatrix;
+                provider.Weight = weights[matrix.BehaviorType];
+            }
+        }
+
+        public static IDictionary<string, float> GetBehaviorWeights(string instance)
+        {
+            // TODO: Ugly cast
+            var weights = new Dictionary<string, float>();
+            var providers = RelatedItemsProviders.All(instance).OfType<WeightedRelatedItemsProvider>().ToList();
+            foreach (var provider in providers)
+            {
+                var matrix = ((ItemToItemRelatedItemsProvider)provider.UnderlyingProvider).SimilarityMatrix as SqlceSimilarityMatrix;
+                weights.Add(matrix.BehaviorType, provider.Weight);
+            }
+
+            return weights;
         }
 
         public static void Dispose(string instance)
@@ -73,8 +112,8 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
                 Schedulers.Stop(instance);
                 BehaviorReceivers.Remove(instance);
                 BehaviorStores.Remove(instance);
-                SimilarityMatrixes.RemoveMatrix(instance);
-                RelatedItemsProviders.RemoveProviders(instance);
+                SimilarityMatrixes.Remove(instance);
+                RelatedItemsProviders.Remove(instance);
             }
         }
 
@@ -115,7 +154,7 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
                     return store.GetRecentBehaviors(50);
                 });
 
-                yield return new FeatureBasedRecommendationEngine(featureBuilder, RelatedItemsProviders.GetProviders(instance));
+                yield return new FeatureBasedRecommendationEngine(featureBuilder, RelatedItemsProviders.All(instance));
             }
         }
     }

@@ -9,7 +9,15 @@ namespace Kooboo.Commerce.Recommendations.Engine
     {
         private IRelatedItemsProvider _provider;
 
-        public float Weight { get; private set; }
+        public IRelatedItemsProvider UnderlyingProvider
+        {
+            get
+            {
+                return _provider;
+            }
+        }
+
+        public float Weight { get; set; }
 
         public WeightedRelatedItemsProvider(IRelatedItemsProvider provider, float weight)
         {
@@ -20,7 +28,7 @@ namespace Kooboo.Commerce.Recommendations.Engine
         public IDictionary<string, double> GetRelatedItems(string featureId, int topN)
         {
             var relatedItems = _provider.GetRelatedItems(featureId, topN);
-            foreach (var key in relatedItems.Keys)
+            foreach (var key in relatedItems.Keys.ToList())
             {
                 relatedItems[key] *= Weight;
             }

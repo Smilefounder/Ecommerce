@@ -1,0 +1,8 @@
+﻿@model String
+
+<div class="tabs">
+    <ul class="tab-index">
+        <li class="@(Model == "Behaviors" ? "active" : "")"><a href="@Url.Action("Behaviors", RouteValues.From(Request.QueryString))">@("Behaviors".Localize())</a></li>
+        <li class="@(Model == "Jobs" ? "active" : "")"><a href="@Url.Action("Jobs", RouteValues.From(Request.QueryString))">@("Jobs".Localize())</a></li>
+    </ul>
+</div>

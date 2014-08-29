@@ -52,6 +52,7 @@
             var $dialog = null;
             var jobName = null;
             var model = {
+                jobName: ko.observable(),
                 interval: ko.observable(),
                 startHour: ko.observable(),
                 startMinute: ko.observable()
@@ -59,6 +60,7 @@
 
             self.open = function (options) {
                 jobName = options.jobName;
+                model.jobName(jobName);
 
                 if ($dialog == null) {
                     $dialog = $('#jobconfig-dialog').dialog({
@@ -83,6 +85,8 @@
             }
 
             self.submit = function () {
+                $dialog.find(':focus').blur();
+
                 if (!$dialog.find('form').valid()) {
                     return false;
                 }

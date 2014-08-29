@@ -17,13 +17,16 @@ namespace Kooboo.Commerce.Recommendations.Engine.Jobs
 
         public static JobConfig Load(string instance, string jobName)
         {
-            var file = DataFolders.Instances.GetFolder(instance).GetFolder("Recommendations").GetFile("Config/Jobs/" + jobName + ".config");
+            var file = RecommendationsDataFolder.For(instance).GetFile("Config/Jobs/" + jobName + ".config");
             return file.Read<JobConfig>();
         }
 
         public static void Update(string instance, JobConfig config)
         {
-            var file = DataFolders.Instances.GetFolder(instance).GetFolder("Recommendations").GetFile("Config/Jobs/" + config.JobName + ".config");
+            if (String.IsNullOrEmpty(config.JobName))
+                throw new ArgumentException("config.JobName is required.");
+
+            var file = RecommendationsDataFolder.For(instance).GetFile("Config/Jobs/" + config.JobName + ".config");
             file.Write(config);
         }
     }

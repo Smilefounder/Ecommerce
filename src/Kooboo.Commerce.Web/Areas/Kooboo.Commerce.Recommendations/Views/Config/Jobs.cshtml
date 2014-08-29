@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Schedule>
 @{
-    ViewBag.Title = "Jobs";
+    ViewBag.Title = "Settings".Localize();
 }
+
+@Html.Partial("_Tabs", "Jobs")
 
 <div class="simple-table">
     <table>

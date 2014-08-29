@@ -12,6 +12,14 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
     {
         private ISimilarityMatrix _matrix;
 
+        public ISimilarityMatrix SimilarityMatrix
+        {
+            get
+            {
+                return _matrix;
+            }
+        }
+
         public ItemToItemRelatedItemsProvider(ISimilarityMatrix matrix)
         {
             _matrix = matrix;

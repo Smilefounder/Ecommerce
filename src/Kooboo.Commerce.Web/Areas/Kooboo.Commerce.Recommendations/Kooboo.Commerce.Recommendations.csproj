@@ -130,6 +130,7 @@
     <Compile Include="Engine\Behaviors\IBehaviorReceiver.cs" />
     <Compile Include="Engine\Behaviors\Behavior.cs" />
     <Compile Include="Engine\Behaviors\IBehaviorStore.cs" />
+    <Compile Include="Engine\BehaviorConfig.cs" />
     <Compile Include="Engine\Buffers\Buffer.cs" />
     <Compile Include="Engine\Collaborative\NullItemPopularityProvider.cs" />
     <Compile Include="Engine\Collaborative\SimilarityMatrixes.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Engine\Jobs\JobContext.cs" />
     <Compile Include="Engine\Jobs\TimeOfDay.cs" />
     <Compile Include="Engine\RecommendationEngines.cs" />
+    <Compile Include="Engine\RecommendationsDataFolder.cs" />
     <Compile Include="Engine\RelatedItemsProviders.cs" />
     <Compile Include="Engine\StaticFeatureBuilder.cs" />
     <Compile Include="Bootstrapping\InstanceChangeEventHandler.cs" />
@@ -186,6 +188,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="WebResources.config" />
     <Content Include="Views\Config\_JobConfigDialog.cshtml" />
+    <Content Include="Views\Config\Behaviors.cshtml" />
+    <Content Include="Views\Config\_Tabs.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

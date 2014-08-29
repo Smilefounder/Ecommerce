@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
             return _storesByInstances[instance][behaviorType];
         }
 
-        public static void Set(string instance, string behaviorType, IBehaviorStore store)
+        public static void Register(string instance, string behaviorType, IBehaviorStore store)
         {
             if (!_storesByInstances.ContainsKey(instance))
             {

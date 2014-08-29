@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Recommendations.Menu
             {
                 Text = "Settings",
                 Controller = "Config",
-                Action = "Jobs"
+                Action = "Behaviors"
             });
         }
     }

@@ -1,4 +1,6 @@
 ﻿using Kooboo.Commerce.Data.Folders;
+using Kooboo.Commerce.Recommendations.Bootstrapping;
+using Kooboo.Commerce.Recommendations.Engine;
 using Kooboo.Commerce.Recommendations.Engine.Jobs;
 using Kooboo.Commerce.Recommendations.Models;
 using Kooboo.Commerce.Web.Framework.Mvc;
@@ -35,6 +37,7 @@ namespace Kooboo.Commerce.Recommendations.Controllers
         {
             Kooboo.Commerce.Recommendations.Engine.Jobs.JobConfig.Update(CurrentInstance.Name, new JobConfig
             {
+                JobName = model.JobName,
                 Interval = TimeSpan.FromMinutes(model.Interval),
                 StartTime = new TimeOfDay(model.StartHour, model.StartMinute)
             });
@@ -43,9 +46,30 @@ namespace Kooboo.Commerce.Recommendations.Controllers
             scheduler.Reschedule(model.JobName, TimeSpan.FromMinutes(model.Interval), new TimeOfDay(model.StartHour, model.StartMinute));
         }
 
-        public ActionResult Weights()
+        public ActionResult Behaviors()
         {
-            return View();
+            var weights = RecommendationEngineConfiguration.GetBehaviorWeights(CurrentInstance.Name);
+            var configs = weights.Select(kv => new BehaviorConfig
+            {
+                BehaviorType = kv.Key,
+                Weight = kv.Value
+            });
+
+            return View(configs);
+        }
+
+        [HttpPost, HandleAjaxFormError]
+        public ActionResult Behaviors(IList<BehaviorConfig> configs)
+        {
+            foreach (var config in configs)
+            {
+                BehaviorConfig.Update(CurrentInstance.Name, config);
+            }
+
+            var weights = configs.ToDictionary(c => c.BehaviorType, c => c.Weight);
+            RecommendationEngineConfiguration.ChangeBehaviorWeights(CurrentInstance.Name, weights);
+
+            return AjaxForm().ReloadPage();
         }
     }
 }

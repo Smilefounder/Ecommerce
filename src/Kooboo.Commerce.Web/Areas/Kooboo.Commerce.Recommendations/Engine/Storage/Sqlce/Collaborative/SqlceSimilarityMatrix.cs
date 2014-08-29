@@ -10,17 +10,21 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
 {
     public class SqlceSimilarityMatrix : ISimilarityMatrix
     {
-        public string InstanceName { get; private set; }
+        public string Instance { get; private set; }
 
-        public string MatrixName { get; private set; }
+        public string BehaviorType { get; private set; }
 
-        public SqlceSimilarityMatrix(string instanceName, string matrixName)
+        public string DatabaseName { get; private set; }
+
+        public SqlceSimilarityMatrix(string instance, string behaviorType, string databaseName)
         {
-            Require.NotNullOrEmpty(instanceName, "instanceName");
-            Require.NotNullOrEmpty(matrixName, "matrixName");
+            Require.NotNullOrEmpty(instance, "instance");
+            Require.NotNullOrEmpty(behaviorType, "behaviorType");
+            Require.NotNullOrEmpty(databaseName, "matrixName");
 
-            InstanceName = instanceName;
-            MatrixName = matrixName;
+            Instance = instance;
+            BehaviorType = behaviorType;
+            DatabaseName = databaseName;
         }
 
         public IEnumerable<string> AllItems()
@@ -112,29 +116,29 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
 
         public ISimilarityMatrix PrepareRecomputation()
         {
-            return new SqlceSimilarityMatrix(InstanceName, MatrixName + "_snapshot_" + Guid.NewGuid().ToString("N"));
+            return new SqlceSimilarityMatrix(Instance, BehaviorType, DatabaseName + "_snapshot_" + Guid.NewGuid().ToString("N"));
         }
 
         private SimilarityMatrixDbContext CreateDbContext()
         {
-            return new SimilarityMatrixDbContext(InstanceName, MatrixName);
+            return new SimilarityMatrixDbContext(Instance, DatabaseName);
         }
 
         public void ReplaceWith(ISimilarityMatrix snapshot)
         {
             var snapshotDb = snapshot as SqlceSimilarityMatrix;
-            var snapshotDbPath = Paths.Database(snapshotDb.InstanceName, snapshotDb.MatrixName);
+            var snapshotDbPath = Paths.Database(snapshotDb.Instance, snapshotDb.DatabaseName);
             // If there's no data in the online matrix, the snapshot database will not be created
             if (!File.Exists(snapshotDbPath))
             {
                 return;
             }
 
-            var currentDbPath = Paths.Database(InstanceName, MatrixName);
+            var currentDbPath = Paths.Database(Instance, DatabaseName);
 
             if (File.Exists(currentDbPath))
             {
-                var tempPath = Paths.Database(InstanceName, MatrixName + "_tmp");
+                var tempPath = Paths.Database(Instance, DatabaseName + "_tmp");
                 File.Move(currentDbPath, tempPath);
                 File.Move(snapshotDbPath, currentDbPath);
                 File.Delete(tempPath);

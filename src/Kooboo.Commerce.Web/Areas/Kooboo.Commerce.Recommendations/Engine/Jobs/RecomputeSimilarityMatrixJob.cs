@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Jobs
             var instance = context.Instance;
             var behaviorType = context.JobData["BehaviorType"];
 
-            var matrix = SimilarityMatrixes.GetMatrix(instance, behaviorType);
+            var matrix = SimilarityMatrixes.Get(instance, behaviorType);
             var newMatrix = matrix.PrepareRecomputation();
             Recompute(newMatrix, BehaviorStores.Get(instance, behaviorType));
             matrix.ReplaceWith(newMatrix);

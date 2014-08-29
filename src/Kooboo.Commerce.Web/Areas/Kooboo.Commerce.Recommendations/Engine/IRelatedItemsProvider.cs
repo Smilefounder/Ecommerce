@@ -15,4 +15,12 @@ namespace Kooboo.Commerce.Recommendations.Engine
         /// </summary>
         IDictionary<string, double> GetRelatedItems(string featureId, int topN);
     }
+
+    public static class RelatedItemsProviderExtensions
+    {
+        public static WeightedRelatedItemsProvider Weighted(this IRelatedItemsProvider provider, float weight)
+        {
+            return new WeightedRelatedItemsProvider(provider, weight);
+        }
+    }
 }
