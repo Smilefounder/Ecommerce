@@ -17,9 +17,8 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
 
             var model = base.Map(source, target, sourceType, targetType, prefix, context) as Product;
             var product = source as Kooboo.Commerce.Products.Product;
-            var productType = services.ProductTypes.GetById(product.ProductTypeId);
 
-            model.SkuAlias = productType.SkuAlias;
+            model.SkuAlias = product.ProductType.SkuAlias;
 
             model.LowestPrice = product.Variants.Min(v => v.Price);
             model.HighestPrice = product.Variants.Max(v => v.Price);
@@ -31,23 +30,12 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
         {
             var model = target as Product;
 
-            if (targetProperty.Name == "Categories" && context.Includes.Includes(propertyPath))
-            {
-                var fromProduct = source as Kooboo.Commerce.Products.Product;
-
-                foreach (var fromCategory in fromProduct.Categories)
-                {
-                    var mapper = GetMapperOrDefault(typeof(Kooboo.Commerce.Categories.Category), typeof(Category));
-                    var category = mapper.Map(fromCategory.Category, new Category(), typeof(Kooboo.Commerce.Categories.Category), typeof(Category), null, new MappingContext(context.ApiContext, null, context.ApiContext.Culture)) as Category;
-                    model.Categories.Add(category);
-                }
-            }
-            else if (targetProperty.Name == "CustomFields" && context.Includes.Includes(propertyPath))
+            if (targetProperty.Name == "CustomFields" && context.Includes.Includes(propertyPath))
             {
                 var services = (context.ApiContext as LocalApiContext).Services;
 
                 var product = source as Kooboo.Commerce.Products.Product;
-                var productType = services.ProductTypes.GetById(product.ProductTypeId);
+                var productType = product.ProductType;
 
                 var controls = FormControls.Controls().ToList();
 

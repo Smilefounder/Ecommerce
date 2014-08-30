@@ -24,8 +24,7 @@ namespace Kooboo.Commerce.Search.Rebuild
             foreach (var data in new BatchedQuery<Product>(Query(instance), 1000))
             {
                 var product = data as Product;
-                var productType = instance.Database.GetRepository<ProductType>().Find(product.ProductTypeId);
-                yield return ProductModel.Create(product, productType, culture);
+                yield return ProductModel.Create(product, culture);
             }
         }
     }

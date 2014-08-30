@@ -165,7 +165,6 @@
     <Compile Include="Integration\ChangeSubscribtion\CategoryChangeSubscription.cs" />
     <Compile Include="Integration\ChangeSubscribtion\ProductChangeSubscription.cs" />
     <Compile Include="Integration\ChangeSubscribtion\ProductTypeChangeSubscription.cs" />
-    <Compile Include="Integration\ChangeSubscribtion\ProductVariantChangeSubscription.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="EntityTranslation.cs" />
     <Compile Include="Integration\GetTextEventSubscription.cs" />

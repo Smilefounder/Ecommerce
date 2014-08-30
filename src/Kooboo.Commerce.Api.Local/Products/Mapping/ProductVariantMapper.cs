@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
                 var services = (context.ApiContext as LocalApiContext).Services;
 
                 var product = services.Products.GetById(variant.ProductId);
-                var productType = services.ProductTypes.GetById(product.ProductTypeId);
+                var productType = product.ProductType;
                 
                 var controls = FormControls.Controls().ToList();
 

@@ -39,47 +39,47 @@
         </div>
         <div id="Image">
             <div class="common-form" id="image-settings">
-                <div data-bind="foreach: { data: Sizes, afterRender: UpdateValidation }">
+                <div data-bind="foreach: { data: Types, afterRender: UpdateValidation }">
                     <div class="form-row">
                         <div class="span2">
                             <input type="text"
                                    data-val="true"
                                    data-val-required="@("Name is required".Localize())"
                                    data-val-distinctsizename="@("Name is duplicated".Localize())"
-                                   data-bind="attr:{ name: 'Global.Image.Sizes[' + $index() + '].Name' }, value: Name">
+                                   data-bind="attr:{ name: 'Global.Image.Types[' + $index() + '].Name' }, value: Name">
                         </div>
                         <div class="span2">
                             <input type="text" defaultvalue="0"
                                    data-val="true"
                                    data-val-required="@("Width is required".Localize())"
                                    data-val-digits="@("Width should be an integer".Localize())"
-                                   data-bind="attr:{ name: 'Global.Image.Sizes[' + $index() + '].Width' }, value:Width" class="mini">
+                                   data-bind="attr:{ name: 'Global.Image.Types[' + $index() + '].Width' }, value:Width" class="mini">
                             <span class="text">x</span>
                             <input type="text" defaultvalue="0"
                                    data-val="true"
                                    data-val-required="@("Height is required".Localize())"
                                    data-val-digits="@("Height should be an integer".Localize())"
-                                   data-bind="attr:{ name: 'Global.Image.Sizes[' + $index() + '].Height' }, value:Height" class="mini">
+                                   data-bind="attr:{ name: 'Global.Image.Types[' + $index() + '].Height' }, value:Height" class="mini">
                         </div>
                         <div class="span2">
                             <div class="checkbox-field">
                                 <input type="checkbox" value="true"
-                                       data-bind="attr:{ name: 'Global.Image.Sizes[' + $index() + '].IsMultiple', id: 'Image_Sizes_' + $index() + '_IsMultiple' }, checked:IsMultiple" />
-                                <label class="inline" data-bind="attr:{'for': 'Image_Sizes_' + $index() + '_IsMultiple' }">@("IsMultiple".Localize())</label>
+                                       data-bind="attr:{ name: 'Global.Image.Types[' + $index() + '].AllowMultiple', id: 'ImageTypes_' + $index() + '_AllowMultiple' }, checked: AllowMultiple" />
+                                <label class="inline" data-bind="attr:{'for': 'ImageTypes_' + $index() + '_AllowMultiple' }">@("Allow Multiple".Localize())</label>
                             </div>
                         </div>
                         <div class="span2">
-                            <a class="action" data-bind="click:$parent.RemoveImageSize">@Html.IconImage("minus")</a>
+                            <a class="action" data-bind="click:$parent.RemoveImageType">@Html.IconImage("minus")</a>
                         </div>
                     </div>
                     <div>
-                        <div data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for': 'Global.Image.Sizes[' + $index() + '].Name' }"></div>
-                        <div data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for': 'Global.Image.Sizes[' + $index() + '].Width' }"></div>
-                        <div data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for': 'Global.Image.Sizes[' + $index() + '].Height' }"></div>
+                        <div data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for': 'Global.Image.Types[' + $index() + '].Name' }"></div>
+                        <div data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for': 'Global.Image.Types[' + $index() + '].Width' }"></div>
+                        <div data-valmsg-replace="true" data-bind="attr:{'data-valmsg-for': 'Global.Image.Types[' + $index() + '].Height' }"></div>
                     </div>
                 </div>
                 <div>
-                    <a class="action" data-bind="click: AddImageSize">@Html.IconImage("plus")</a>
+                    <a class="action" data-bind="click: AddImageType">@Html.IconImage("plus")</a>
                 </div>
                 <script>
                     (function ($) {
@@ -89,19 +89,19 @@
                         var ImageSettingsModel = function () {
                             var self = this;
 
-                            this.AddImageSize = function () {
-                                var size = {
+                            this.AddImageType = function () {
+                                var type = {
                                     Name: ko.observable(),
                                     Width: ko.observable(),
                                     Height: ko.observable(),
                                     IsEnabled: ko.observable(true),
-                                    IsMultiple: ko.observable(false)
+                                    AllowMultiple: ko.observable(false)
                                 };
-                                self.Sizes.push(size);
+                                self.Types.push(type);
                             };
 
-                            this.RemoveImageSize = function (size) {
-                                self.Sizes.remove(size);
+                            this.RemoveImageType = function (type) {
+                                self.Types.remove(type);
                             };
 
                             this.UpdateValidation = function () {
@@ -115,7 +115,7 @@
                             var set = {};
                             var duplicate = false;
 
-                            $.each(model.Sizes(), function () {
+                            $.each(model.Types(), function () {
                                 var name = (this.Name() || '').toLowerCase();
                                 if (set[name]) {
                                     duplicate = true;

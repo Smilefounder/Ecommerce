@@ -1,13 +1,10 @@
-﻿@{
-    var productType = (ProductType)ViewBag.ProductType;
-}
-<div class="common-form">
-    <table>
+﻿<div class="common-form">
+    <table data-bind="with: product">
         <tbody>
             <tr>
                 <th>@("Name".Localize())</th>
                 <td>
-                    <input type="text" name="Name" data-bind="value:Name" class="medium" 
+                    <input type="text" name="Name" data-bind="value: name" class="medium" 
                            data-val="true"
                            data-val-required="@("Required".Localize())" />
                     <span data-valmsg-for="Name" data-valmsg-replace="true"></span>
@@ -16,24 +13,18 @@
             <tr>
                 <th>@("Brand".Localize())</th>
                 <td>
-                    <div class="medium" data-bind="select2:BrandId, select2Options: $root.BrandSelect2Options"></div>
+                    <div class="medium" data-bind="select2: brand, select2Options: { textField: 'name', ajax: { url: '/Commerce/Product/SearchBrands' }}"></div>
                 </td>
             </tr>
             <tr>
-                <th>@("Product Type".Localize())</th>
-                <td>@productType.Name</td>
+                <th>@("Categories".Localize())</th>
+                <td>
+                    <div class="medium" data-bind="select2: categories, select2Options: { multiple: true, textField: 'name', ajax: { url: '/Commerce/Product/SearchCategories' }}"></div>
+                </td>
             </tr>
             <tr>
-                <th>@("Created At".Localize())</th>
-                <td><span data-bind="format:CreatedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
-            </tr>
-            <tr>
-                <th>@("Is Published".Localize())</th>
-                <td><input type="checkbox" data-bind="checked: IsPublished" /></td>
-            </tr>
-            <tr>
-                <th>@("Published At".Localize())</th>
-                <td><span data-bind="format:PublishedAtUtc, pattern: 'yy-mm-dd', provider: 'date'"></span></td>
+                <th>@("Publish".Localize())</th>
+                <td><input type="checkbox" data-bind="checked: isPublished" /></td>
             </tr>
         </tbody>
     </table>

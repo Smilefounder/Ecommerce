@@ -47,35 +47,33 @@ namespace Kooboo.Commerce.Products
             return PriceCalculationContext.GetFinalPrice(ProductId, Id, Price, context);
         }
 
-        public virtual void UpdateFrom(ProductVariant other)
+        public void SetVariantField(string name, string value)
         {
-            Sku = other.Sku;
-            Price = other.Price;
-            UpdateVariantFields(other.VariantFields.ToDictionary(f => f.FieldName, f => f.FieldValue));
+            var field = VariantFields.FirstOrDefault(f => f.FieldName == name);
+            if (field != null)
+            {
+                field.FieldValue = value;
+            }
+            else
+            {
+                field = new ProductVariantField(name, value);
+                VariantFields.Add(field);
+            }
         }
 
-        public virtual void UpdateVariantFields(IDictionary<string, string> values)
+        public void SetVariantFields(IDictionary<string, string> fieldValues)
         {
-            foreach (var value in VariantFields.ToList())
+            foreach (var field in VariantFields.ToList())
             {
-                if (!values.ContainsKey(value.FieldName))
+                if (!fieldValues.ContainsKey(field.FieldName))
                 {
-                    VariantFields.Remove(value);
+                    VariantFields.Remove(field);
                 }
             }
 
-            foreach (var value in values)
+            foreach (var fieldValue in fieldValues)
             {
-                var current = VariantFields.FirstOrDefault(f => f.FieldName == value.Key);
-                if (current == null)
-                {
-                    current = new ProductVariantField(value.Key, value.Value);
-                    VariantFields.Add(current);
-                }
-                else
-                {
-                    current.FieldValue = value.Value;
-                }
+                SetVariantField(fieldValue.Key, fieldValue.Value);
             }
         }
     }

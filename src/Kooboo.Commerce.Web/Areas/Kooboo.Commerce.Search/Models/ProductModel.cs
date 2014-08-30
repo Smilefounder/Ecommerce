@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.Search.Models
             VariantFieldValues = new Dictionary<string, HashSet<string>>();
         }
 
-        public static ProductModel Create(Product product, ProductType productType, CultureInfo culture)
+        public static ProductModel Create(Product product, CultureInfo culture)
         {
             var doc = new ProductModel
             {
@@ -63,7 +63,7 @@ namespace Kooboo.Commerce.Search.Models
 
             foreach (var category in product.Categories)
             {
-                doc.Categories.Add(category.Category.GetText("Name", culture) ?? category.Category.Name);
+                doc.Categories.Add(category.GetText("Name", culture) ?? category.Name);
             }
             foreach (var variant in product.Variants)
             {
@@ -80,7 +80,7 @@ namespace Kooboo.Commerce.Search.Models
 
             foreach (var variant in product.Variants)
             {
-                foreach (var fieldDef in productType.VariantFieldDefinitions)
+                foreach (var fieldDef in product.ProductType.VariantFieldDefinitions)
                 {
                     var variantField = variant.VariantFields.FirstOrDefault(f => f.FieldName == fieldDef.Name);
                     if (variantField != null)
@@ -92,12 +92,12 @@ namespace Kooboo.Commerce.Search.Models
                             var item = fieldDef.SelectionItems.FirstOrDefault(i => i.Value == variantField.FieldValue);
                             if (item != null)
                             {
-                                fieldValue = productType.GetText("VariantFieldDefinitions[" + fieldDef.Name + "].SelectionItems[" + item.Value + "]", culture) ?? item.Text;
+                                fieldValue = product.ProductType.GetText("VariantFieldDefinitions[" + fieldDef.Name + "].SelectionItems[" + item.Value + "]", culture) ?? item.Text;
                             }
                         }
                         else if (control.IsValuesPredefined)
                         {
-                            fieldValue = productType.GetText("VariantFieldDefinitions[" + fieldDef.Name + "].DefaultValue", culture) ?? fieldDef.DefaultValue;
+                            fieldValue = product.ProductType.GetText("VariantFieldDefinitions[" + fieldDef.Name + "].DefaultValue", culture) ?? fieldDef.DefaultValue;
                         }
                         else
                         {

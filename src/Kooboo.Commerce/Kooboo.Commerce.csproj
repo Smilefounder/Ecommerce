@@ -93,9 +93,6 @@
     <Compile Include="Events\PaymentMethods\PaymentMethodDisabled.cs" />
     <Compile Include="Events\PaymentMethods\PaymentMethodEnabled.cs" />
     <Compile Include="Events\Products\GetPrice.cs" />
-    <Compile Include="Events\Products\ProductVariantCreated.cs" />
-    <Compile Include="Events\Products\ProductVariantDeleted.cs" />
-    <Compile Include="Events\Products\ProductVariantUpdated.cs" />
     <Compile Include="Events\Products\ProductPublished.cs" />
     <Compile Include="Events\Products\ProductUnpublished.cs" />
     <Compile Include="Events\Products\ProductUpdated.cs" />
@@ -177,9 +174,6 @@
     <Compile Include="Products\Product.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\ProductCategory.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Products\ProductCustomField.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -244,7 +238,7 @@
     <Compile Include="Countries\Country.cs" />
     <Compile Include="Customers\Customer.cs" />
     <Compile Include="Orders\OrderStatus.cs" />
-    <Compile Include="Settings\ImageSize.cs" />
+    <Compile Include="Settings\ImageType.cs" />
     <Compile Include="Settings\SettingItem.cs" />
     <Compile Include="Orders\Order.cs" />
     <Compile Include="Orders\OrderItem.cs" />

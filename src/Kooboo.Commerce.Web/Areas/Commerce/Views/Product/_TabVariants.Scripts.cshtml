@@ -1,0 +1,237 @@
+﻿<script>
+    (function ($) {
+
+        var DefaultVariantModel = @Html.Raw(JsonEncoder.Encode(ViewBag.DefaultVariantModel, camelCase: true));
+
+        ProductEditor.tabs['Variants'] = {
+            init: function (context) {
+
+                // Extend model
+                var model = context.model;
+
+                // Format:
+                // [
+                //      {
+                //          fieldName: 'field name',
+                //          values: [ 'value1', 'value2' ]
+                //      }
+                // ]
+                model.summarizedVariantFieldValues = ko.observableArray();
+
+                model.summarizeVariantFieldValues = function () {
+                    var fields = [];
+
+                    $.each(model.product.variants(), function () {
+                        for (var fieldName in this.variantFields) {
+                            var fieldValue = this.variantFields[fieldName]();
+                            if (fieldValue !== null && fieldValue !== undefined && fieldValue !== '') {
+                                var field = _.find(fields, function (f) {
+                                    return f.name == fieldName;
+                                });
+
+                                if (!field) {
+                                    field = {
+                                        name: fieldName,
+                                        values: ko.observableArray()
+                                    };
+                                    fields.push(field);
+                                }
+
+                                if (!_.any(field.values(), function (v) { return v == fieldValue })) {
+                                    field.values.push(fieldValue);
+                                }
+                            }
+                        }
+                    });
+
+                    model.summarizedVariantFieldValues.removeAll();
+                    model.summarizedVariantFieldValues(fields);
+                }
+
+                // Add/edit/delete variants
+
+                model.addVariant = function () {
+                    var variant = ko.mapping.fromJS(DefaultVariantModel);
+                    model.product.variants.push(variant);
+                    variant.isEditing(true);
+                }
+
+                model.bulkAddVariants = function (fieldValues) {
+                    var arrays = [];
+
+                    $.each(fieldValues, function (i) {
+                        arrays.push([]);
+
+                        var name = this.name;
+                        $.each(this.values, function () {
+                            arrays[i].push({
+                                name: name,
+                                value: this.toString()
+                            });
+                        });
+                    });
+
+                    // compute all combinations
+                    var combinations = kb.math.descartes(arrays);
+                    var newVariants = [];
+
+                    for (var i = 0, len = combinations.length; i < len; i++) {
+                        var combination = combinations[i];
+                        var variant = model.findVariantByVariantFields(combination);
+                        if (!variant) {
+                            variant = ko.mapping.fromJS(DefaultVariantModel);
+                            $.each(combination, function () {
+                                variant.variantFields[this.name](this.value);
+                            });
+                        }
+                        newVariants.push(variant);
+                    }
+
+                    model.product.variants.removeAll();
+
+                    $.each(newVariants, function () {
+                        model.product.variants.push(this);
+                    });
+
+                    model.summarizeVariantFieldValues();
+                }
+
+                model.findVariantByVariantFields = function (fieldValues) {
+                    return _.find(model.product.variants(), function (variant) {
+                        var matched = true;
+
+                        $.each(fieldValues, function () {
+                            var fieldName = this.name;
+                            var fieldValue = this.value;
+
+                            var value = variant.variantFields[fieldName];
+                            if (!value || value() != fieldValue) {
+                                matched = false;
+                                return false;
+                            }
+                        });
+
+                        return matched;
+                    });
+                }
+
+                model.editVariant = function (variant) {
+                    variant.memo = ko.mapping.toJS(variant);
+                    variant.isEditing(true);
+                }
+
+                model.commitVariantEditing = function (variant) {
+                    variant.isEditing(false);
+                    delete variant.memo;
+                    model.summarizeVariantFieldValues();
+                }
+
+                model.cancelVariantEditing = function (variant) {
+                    if (variant.memo) {
+                        ko.mapping.fromJS(variant.memo, {}, variant);
+                        delete variant.memo;
+                    } else {
+                        model.product.variants.remove(variant);
+                    }
+                }
+
+                model.deleteVariant = function (variant) {
+                    model.product.variants.remove(variant);
+                    model.summarizeVariantFieldValues();
+                }
+
+                model.deleteSelectedVariants = function () {
+                    var variants = [];
+                    $.each(model.product.variants(), function () {
+                        if (this.selected()) {
+                            variants.push(this);
+                        }
+                    });
+
+                    $.each(variants, function () {
+                        model.product.variants.remove(this);
+                    });
+
+                    model.summarizeVariantFieldValues();
+                }
+
+                model.reinitVariantControls = function (elements) {
+                    kb.ui.unobtrusive.initialize(elements);
+                }
+
+                // Variant selection
+
+                model.anyVariantSelected = ko.computed(function () {
+                    return _.any(model.product.variants(), function (variant) {
+                        return variant.selected();
+                    });
+                });
+
+                model.selectAllVariants = function () {
+                    $.each(model.product.variants(), function () {
+                        this.selected(true);
+                    });
+                }
+
+                model.unselectAllVariants = function () {
+                    $.each(model.product.variants(), function () {
+                        this.selected(false);
+                    });
+                }
+
+                model.selectVariantByVariantField = function (fieldName, fieldValue) {
+                    $.each(model.product.variants(), function () {
+                        var value = this.variantFields[fieldName];
+                        if (value && value() == fieldValue) {
+                            this.selected(true);
+                        } else {
+                            this.selected(false);
+                        }
+                    });
+                }
+
+                model.summarizeVariantFieldValues();
+            },
+
+            onDataBound: function (context) {
+                var model = context.model;
+
+                $('[data-action="toggle-all-variants"]').on('click', function (e) {
+                    if ($(this).is(':checked')) {
+                        model.selectAllVariants();
+                    } else {
+                        model.unselectAllVariants();
+                    }
+
+                    e.stopPropagation();
+                });
+
+                // Bulk change price
+
+                ChangePriceDialog.instance().onSave = function (price) {
+                    $.each(model.product.variants(), function () {
+                        if (this.selected()) {
+                            this.price(price);
+                        }
+                    });
+                };
+
+                $('[data-action="bulk-change-price"]').on('click', function () {
+                    ChangePriceDialog.instance().open();
+                    return false;
+                });
+
+                // Bulk add variants
+
+                BulkAddDialog.instance().onSave = function (fields) {
+                    model.bulkAddVariants(fields);
+                };
+
+                $('[data-action="set-variant-values"]').on('click', function () {
+                    BulkAddDialog.instance().open();
+                    return false;
+                });
+            }
+        };
+    })(jQuery);
+</script>

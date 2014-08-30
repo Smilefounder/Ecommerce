@@ -88,23 +88,102 @@ ko.bindingHandlers.tooltip = {
 
 ko.bindingHandlers.select2 = {
     _updateIsCausedBySelect2: false,
-    init: function (element, valueAccessor, allBindingsAccessor) {
-        var options = {};
-        var allBindings = allBindingsAccessor();
-        if (allBindings.select2Options) {
-            $.extend(true, options, ko.utils.unwrapObservable(allBindings.select2Options));
+    init: function (element, valueAccessor, allBindings) {
+        var options = {
+            minimumInputLength: 0,
+            id: function (item) { return item.id },
+            formatResult: function (item) {
+                return item[options.textField];
+            },
+            formatSelection: function (item) {
+                return item[options.textField];
+            },
+            idField: 'id',
+            textField: 'text'
+        };
+
+        var value = ko.utils.unwrapObservable(valueAccessor());
+
+        if (allBindings.has('select2Options')) {
+            var select2Options = allBindings.get('select2Options');
+
+            if (select2Options.onlyLeafSelection === undefined) {
+                select2Options.onlyLeafSelection = true;
+            }
+
+            if (select2Options.ajax) {
+                options.ajax = {
+                    dataType: 'json',
+                    quietMillis: 100,
+                    data: function (term, page) {
+                        return {
+                            term: term,
+                            page: page
+                        };
+                    },
+                    results: function (data, page) {
+
+                        // Remove 'id' field for non-selectable nodes
+                        if (select2Options.onlyLeafSelection) {
+                            $.each(data.items, function () {
+                                removeIdIfHasChildren(this);
+                            });
+
+                            function removeIdIfHasChildren(item) {
+                                if (item.children && item.children.length > 0) {
+                                    delete item.id;
+
+                                    $.each(item.children, function () {
+                                        removeIdIfHasChildren(this);
+                                    });
+                                }
+                            }
+                        }
+
+                        return { text: options.textField, results: data.items, more: data.more };
+                    }
+                };
+
+                options.initSelection = function (element, callback) {
+                    if (value) {
+                        value = ko.toJS(value);
+                        callback(value);
+                    } else {
+                        callback(null);
+                    }
+                }
+            }
+
+            $.extend(true, options, select2Options);
         }
 
         $(element).select2(options)
                   .on('change', function (e) {
                       ko.bindingHandlers.select2._updateIsCausedBySelect2 = true;
-                      valueAccessor()(e.val);
+
+                      if (e.val.push) {
+                          var items = [];
+                          _.each(e.val, function (id) {
+                              var item = {};
+                              item[options.idField] = id;
+                              items.push(item);
+                          });
+                          valueAccessor()(items);
+                      } else {
+                          var oldItem = valueAccessor();
+                          oldItem[options.idField](e.val);
+                          oldItem[options.textField](null);
+                      }
+
                       ko.bindingHandlers.select2._updateIsCausedBySelect2 = false;
                   });
     },
     update: function (element, valueAccessor, allBindings) {
         if (!ko.bindingHandlers.select2._updateIsCausedBySelect2) {
-            $(element).select2('val', ko.utils.unwrapObservable(valueAccessor()));
+            var value = ko.utils.unwrapObservable(valueAccessor());
+            if (value) {
+                $(element).select2('val', ko.toJS(value));
+            }
         }
     }
 };

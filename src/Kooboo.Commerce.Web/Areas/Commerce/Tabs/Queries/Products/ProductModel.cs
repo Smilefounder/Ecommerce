@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products
             Id = product.Id;
             Name = product.Name;
             IsPublished = product.IsPublished;
-            ProductTypeId = product.ProductTypeId;
+            ProductTypeId = product.ProductType.Id;
         }
 
         [GridColumn]

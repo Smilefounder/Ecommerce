@@ -1,4 +1,9 @@
-﻿<div id="bulk-add-variant-dialog" style="display:none">
+﻿@using Newtonsoft.Json
+@{
+    var productType = ViewBag.ProductType as ProductType;
+}
+
+<div id="bulk-add-variant-dialog" style="display:none">
     <div class="topbar">
         <h1 class="title">@("Bulk Add".Localize())</h1>
     </div>
@@ -35,6 +40,10 @@
 <script>
     (function ($) {
 
+        var Metadata = {
+            variantFieldNames: @Html.Raw(JsonConvert.SerializeObject(productType.VariantFieldDefinitions.Select(f => f.Name)))
+        };
+
         window.BulkAddDialog = function () {
 
             var self = this;
@@ -58,10 +67,10 @@
                 ko.applyBindings(self.model, $dialog[0]);
             }
 
-            self.open = function (fields) {
+            self.open = function () {
                 self.model.fields.removeAll();
 
-                $.each(fields, function () {
+                $.each(Metadata.variantFieldNames, function () {
                     self.model.fields.push({
                         name: this.toString(),
                         values: ko.observable()

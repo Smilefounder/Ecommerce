@@ -2,7 +2,7 @@
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Data.Initialization;
-using Kooboo.Commerce.ImageSizes;
+using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Settings.Services;
 using System;
@@ -25,12 +25,12 @@ namespace Kooboo.Commerce.Web.Initialization
             {
                 Image = new ImageSettings
                 {
-                    Sizes =
+                    Types =
                     {
-                        new ImageSize("List", 240, 240), 
-                        new ImageSize("Detail", 300, 300, true),
-                        new ImageSize("Thumbnail", 240, 240),
-                        new ImageSize("Cart", 50, 50)
+                        new ImageType("List", 240, 240), 
+                        new ImageType("Detail", 300, 300, true),
+                        new ImageType("Thumbnail", 240, 240),
+                        new ImageType("Cart", 50, 50)
                     }
                 }
             };

@@ -15,20 +15,14 @@ namespace Kooboo.Commerce.Products.Services
 
         ProductVariant GetProductVariantById(int id);
 
-        Product Create(Product product);
+        void Create(Product product);
 
-        Product Update(Product product);
+        void Update(Product product);
 
         void Delete(Product product);
 
         bool Publish(Product product);
 
         bool Unpublish(Product product);
-
-        void AddProductVariant(Product product, ProductVariant variant, bool notifyProductUpdated);
-
-        bool RemoveProductVariant(Product product, int variantId, bool notifyProductUpdated);
-
-        bool UpdateProductVariant(Product product, int variantId, ProductVariant newVariant, bool notifyProductUpdated);
     }
 }

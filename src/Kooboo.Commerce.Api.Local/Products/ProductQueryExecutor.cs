@@ -42,12 +42,12 @@ namespace Kooboo.Commerce.Api.Local.Products
             else if (filter.Name == ProductFilters.ByCategory.Name)
             {
                 var categoryId = (int)filter.Parameters["CategoryId"];
-                query = query.Where(p => p.Categories.Any(c => c.CategoryId == categoryId));
+                query = query.Where(p => p.Categories.Any(c => c.Id == categoryId));
             }
             else if (filter.Name == ProductFilters.ByBrand.Name)
             {
                 var brandId = (int)filter.Parameters["BrandId"];
-                query = query.Where(p => p.BrandId == brandId);
+                query = query.Where(p => p.Brand.Id == brandId);
             }
             else if (filter.Name == ProductFilters.ByCustomField.Name)
             {

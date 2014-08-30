@@ -4,8 +4,8 @@
     var controls = FormControls.Controls().ToList();
 }
 
-<div class="common-form">
-    <input type="hidden" name="ProductId" data-bind="value: Id" />
+<div class="common-form" data-bind="with: product">
+    <input type="hidden" name="ProductId" data-bind="value: id" />
     <input type="hidden" name="FieldType" value="CustomField" />
     <table>
         <tbody>
@@ -24,7 +24,7 @@
                                             @class = "medium",
                                             style = "width:35%",
                                             data_field_type = "CustomField",
-                                            data_bind = control.ValueBindingName + ": $root.GetCustomFieldValue('" + field.Name + "')"
+                                            data_bind = control.ValueBindingName + ": customFields['" + field.Name + "']"
                                         }, ViewContext)
                         @if (!String.IsNullOrEmpty(field.Tooltip))
                         {

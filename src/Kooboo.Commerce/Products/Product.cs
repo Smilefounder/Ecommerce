@@ -9,6 +9,7 @@ using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Globalization;
 using Kooboo.Commerce.Carts;
 using System.ComponentModel.DataAnnotations;
+using Kooboo.Commerce.Categories;
 
 namespace Kooboo.Commerce.Products
 {
@@ -21,7 +22,7 @@ namespace Kooboo.Commerce.Products
         public Product()
         {
             CreatedAtUtc = DateTime.UtcNow;
-            Categories = new List<ProductCategory>();
+            Categories = new List<Category>();
             Images = new List<ProductImage>();
             CustomFields = new List<ProductCustomField>();
             Variants = new List<ProductVariant>();
@@ -34,7 +35,7 @@ namespace Kooboo.Commerce.Products
         [Localizable]
         public string Name { get; set; }
 
-        public int ProductTypeId { get; set; }
+        public virtual ProductType ProductType { get; set; }
 
         public DateTime CreatedAtUtc { get; set; }
 
@@ -43,12 +44,10 @@ namespace Kooboo.Commerce.Products
 
         public DateTime? PublishedAtUtc { get; set; }
 
-        public int? BrandId { get; set; }
-
         [Reference]
         public virtual Brand Brand { get; set; }
 
-        public virtual ICollection<ProductCategory> Categories { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
 
         public virtual ICollection<ProductImage> Images { get; set; }
 
@@ -62,7 +61,7 @@ namespace Kooboo.Commerce.Products
             return variant.GetFinalPrice(context);
         }
 
-        public virtual void UpdateCustomFields(IDictionary<string, string> fieldValues)
+        public virtual void SetCustomFields(IDictionary<string, string> fieldValues)
         {
             foreach (var fieldValue in CustomFields.ToList())
             {
@@ -74,11 +73,11 @@ namespace Kooboo.Commerce.Products
 
             foreach (var fieldValue in fieldValues)
             {
-                UpdateCustomField(fieldValue.Key, fieldValue.Value);
+                SetCustomField(fieldValue.Key, fieldValue.Value);
             }
         }
 
-        public virtual void UpdateCustomField(string name, string value)
+        public virtual void SetCustomField(string name, string value)
         {
             var fieldValue = CustomFields.FirstOrDefault(f => f.FieldName == name);
             if (fieldValue != null)
@@ -92,8 +91,13 @@ namespace Kooboo.Commerce.Products
             }
         }
 
-        public virtual void UpdateImages(IEnumerable<ProductImage> images)
+        public virtual void SetImages(IEnumerable<ProductImage> images)
         {
+            if (images == null)
+            {
+                Images.Clear();
+            }
+
             var newImageList = images.ToList();
 
             foreach (var image in Images.ToList())
@@ -111,50 +115,17 @@ namespace Kooboo.Commerce.Products
                 {
                     current = new ProductImage
                     {
-                        Size = image.Size,
+                        Type = image.Type,
                         ImageUrl = image.ImageUrl
                     };
                     Images.Add(current);
                 }
                 else
                 {
-                    current.Size = image.Size;
+                    current.Type = image.Type;
                     current.ImageUrl = image.ImageUrl;
                 }
             }
-        }
-
-        public virtual void UpdateCategories(IEnumerable<ProductCategory> categories)
-        {
-            var newCategoryList = categories.ToList();
-
-            foreach (var category in Categories.ToList())
-            {
-                if (!newCategoryList.Any(c => c.CategoryId == category.CategoryId))
-                {
-                    Categories.Remove(category);
-                }
-            }
-
-            foreach (var category in newCategoryList)
-            {
-                AddCategory(category.CategoryId);
-            }
-        }
-
-        public virtual bool AddCategory(int categoryId)
-        {
-            if (Categories.Any(c => c.CategoryId == categoryId))
-            {
-                return false;
-            }
-
-            Categories.Add(new ProductCategory
-            {
-                CategoryId = categoryId
-            });
-
-            return true;
         }
     }
 }

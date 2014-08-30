@@ -4,17 +4,17 @@
     var controls = FormControls.Controls().ToList();
 }
 
-<div class="simple-table">
+<div class="simple-table" data-bind="with: product">
     <input type="hidden" name="FieldType" value="VariantField" />
     <div class="toolbar">
-        <a class="button" href="javascript:;" data-bind="click: $root.AddPrice">Add</a>
+        <a class="button" href="javascript:;" data-bind="click: $root.addVariant">Add</a>
         @if (productType.VariantFieldDefinitions.Count > 0)
         {
             <a href="#" class="button" data-action="set-variant-values">@("Bulk add".Localize())</a>
         }
-        <span data-bind="visible: $root.AnyPriceSelected">
+        <span data-bind="visible: $root.anyVariantSelected">
             <a href="#" class="button" data-action="bulk-change-price">@("Change prices".Localize())</a>
-            <a href="#" class="button" data-bind="click: $root.DeleteSelectedPrices">@("Delete".Localize())</a>
+            <a href="#" class="button" data-bind="click: $root.deleteSelectedVariants">@("Delete".Localize())</a>
         </span>
     </div>
     <table class="variants-table">
@@ -22,21 +22,21 @@
             <tr>
                 <th class="checkbox mutiple">
                     <div data-toggle="dropdown">
-                        <input type="checkbox" class="select-all-prices">
+                        <input type="checkbox" data-action="toggle-all-variants">
                         @Html.IconImage("caret-down-black")
                         <ul class="dropdown hide">
-                            <!-- ko if: $root.DistinctVariantValuesByFields().length > 0 -->
-                                <li><a href="#" data-bind="click: $root.SelectAllPrices">@("All".Localize())</a></li>
-                                <!-- ko foreach: $root.DistinctVariantValuesByFields -->
-                                <!-- ko foreach: Values -->
+                            <!-- ko if: $root.summarizedVariantFieldValues().length > 0 -->
+                                <li><a href="#" data-bind="click: $root.selectAllVariants">@("All".Localize())</a></li>
+                                <!-- ko foreach: $root.summarizedVariantFieldValues -->
+                                <!-- ko foreach: values -->
                                 <li>
-                                    <a data-bind="text: $data, click: $root.SelectPricesByFieldValue.bind($data, $parent.Name)"></a>
+                                    <a data-bind="text: $data, click: $root.selectVariantByVariantField.bind($data, $parent.name)"></a>
                                 </li>
                                 <!-- /ko -->
                                 <!-- /ko -->
-                                <li><a href="#" data-bind="click: $root.ClearPriceSelection">@("None".Localize())</a></li>
+                                <li><a href="#" data-bind="click: $root.unselectAllVariants">@("None".Localize())</a></li>
                             <!-- /ko -->
-                            <!-- ko if: $root.DistinctVariantValuesByFields().length === 0 -->
+                            <!-- ko if: $root.summarizedVariantFieldValues().length === 0 -->
                             <li>
                                 <a href="javascript:void(0);">@("No available variant values".Localize())</a>
                             </li>
@@ -54,32 +54,32 @@
                 <th class="action"></th>
             </tr>
         </thead>
-        <tbody data-bind="if: $root.data().Variants().length === 0">
+        <tbody data-bind="if: variants().length === 0">
             <tr class="empty">
                 <td colspan="100">
                     @("Empty".Localize())
                 </td>
             </tr>
         </tbody>
-        <tbody data-bind="foreach: { data: $root.data().Variants, afterRender: $root.InitVariantFieldControls }">
-            <tr data-bind="visible: !$root.IsEditingPrice($data), css: { active: Selected }">
+        <tbody data-bind="foreach: { data: variants, afterRender: $root.reinitVariantControls }">
+            <tr data-bind="visible: !isEditing(), css: { active: selected }">
                 <td class="checkbox">
-                    <input type="checkbox" class="select" data-bind="checked: Selected" />
+                    <input type="checkbox" class="select" data-bind="checked: selected" />
                 </td>
-                <td data-bind="text:Sku"></td>
+                <td data-bind="text:sku"></td>
                 @foreach (var field in productType.VariantFieldDefinitions)
                 {
-                    <td data-bind="text: $root.GetVariantFieldText($data, '@field.Name')"></td>
+                    <td data-bind="text: variantFields['@field.Name']"></td>
                 }
-                <td class="mini" data-bind="text:Price"></td>
-                <td><a data-bind="click: $root.EditingPrice" title="Edit">@Html.IconImage("edit-small")</a></td>
-                <td><a data-bind="click: $root.DeletePrice" title="Delete">@Html.IconImage("minus-small")</a></td>
+                <td class="mini" data-bind="text:price"></td>
+                <td><a data-bind="click: $root.editVariant" title="Edit">@Html.IconImage("edit-small")</a></td>
+                <td><a data-bind="click: $root.deleteVariant" title="Delete">@Html.IconImage("minus-small")</a></td>
             </tr>
-            <tr data-bind="visible: $root.IsEditingPrice($data)">
+            <tr data-bind="visible: isEditing">
                 <td>
-                    <input type="checkbox" class="select" data-bind="checked: Selected" />
+                    <input type="checkbox" class="select" data-bind="checked: selected" />
                 </td>
-                <td><input type="text" data-bind="value:Sku"></td>
+                <td><input type="text" data-bind="value:sku"></td>
                 @foreach (var field in productType.VariantFieldDefinitions)
                 {
                     var control = controls.FirstOrDefault(c => c.Name == field.ControlType) ?? controls.First();
@@ -88,14 +88,16 @@
                         @control.Render(field, null, new
                                        {
                                            data_field_type = "VariantField",
-                                           data_bind = control.ValueBindingName + ": $root.GetVariantFieldValue($data, '" + field.Name + "')"
+                                           data_bind = control.ValueBindingName + ": variantFields['" + field.Name + "']"
                                        }, ViewContext)
                     </td>
                 }
-                <td class="mini"><input type="text" data-bind="value:Price" class="mini"></td>
-                <td><a data-bind="click: $root.CommitPriceEditing" title="Save">@Html.IconImage("save-small")</a></td>
-                <td><a data-bind="click: $root.DeletePrice" title="Cancel">@Html.IconImage("minus-small")</a></td>
+                <td class="mini"><input type="text" data-bind="value:price" class="mini"></td>
+                <td><a data-bind="click: $root.commitVariantEditing" title="Save">@Html.IconImage("save-small")</a></td>
+                <td><a data-bind="click: $root.cancelVariantEditing" title="Cancel">@Html.IconImage("minus-small")</a></td>
             </tr>
         </tbody>
     </table>
 </div>
+
+@Html.Partial("_TabVariants.Scripts")

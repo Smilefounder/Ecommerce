@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Api.Products
         {
             if (Images != null)
             {
-                return Images.FirstOrDefault(o => o.Size == size);
+                return Images.FirstOrDefault(o => o.Type == size);
             }
 
             return null;

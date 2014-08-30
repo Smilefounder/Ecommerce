@@ -11,10 +11,7 @@ namespace Kooboo.Commerce.Data.Mapping
     {
         public ProductMap()
         {
-            HasMany(p => p.Images).WithRequired().WillCascadeOnDelete();
-            HasMany(p => p.Categories).WithRequired().WillCascadeOnDelete();
-            HasMany(p => p.CustomFields).WithRequired().WillCascadeOnDelete();
-            HasMany(p => p.Variants).WithRequired().WillCascadeOnDelete();
+            HasMany(p => p.Categories).WithMany();
         }
     }
 }

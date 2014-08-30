@@ -281,6 +281,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Commerce\Models\Brands\BrandMappingProfile.cs" />
+    <Compile Include="Areas\Commerce\Models\Categories\CategoryMappingProfile.cs" />
+    <Compile Include="Areas\Commerce\Models\IdName.cs" />
+    <Compile Include="Areas\Commerce\Models\Products\ProductMappingProfile.cs" />
+    <Compile Include="Areas\Commerce\Models\Products\ProductEditorModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Products\ProductVariantModel.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\CustomField_Metadata.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Mapping\ModelMaps.cs" />
     <Compile Include="Areas\Commerce\Models\Settings\GlobalSettings_Metadata.cs" />
@@ -395,7 +401,6 @@
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentProcessorConfigEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentMethodEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\PaymentMethods\PaymentMethodRowModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Products\ProductEditorModel.cs" />
     <Compile Include="Areas\Commerce\Tabs\Queries\Products\ProductModel.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\Grid2\ProductTypeGridItem.cs" />
     <Compile Include="Areas\Commerce\Models\ProductTypes\ProductTypeModel.cs" />
@@ -449,6 +454,7 @@
     <Content Include="Areas\Commerce\Scripts\jquery.fileupload.js" />
     <Content Include="Areas\Commerce\Scripts\jquery.Jcrop.min.js" />
     <Content Include="Areas\Commerce\Scripts\jquery.validate.unobtrusive.ext.js" />
+    <Content Include="Areas\Commerce\Scripts\knockout.js" />
     <Content Include="Areas\Commerce\Scripts\knockout-sortable.js" />
     <Content Include="Areas\Commerce\Scripts\Kooboo_CMS.js" />
     <Content Include="Areas\Commerce\Scripts\moment.min.js" />
@@ -1563,6 +1569,9 @@
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CategoryMenu\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\NewProducts\setting.config" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\NewProducts\template.cshtml" />
+    <Content Include="Areas\Commerce\Views\Product\Edit.Scripts.cshtml" />
+    <Content Include="Areas\Commerce\Views\Product\_TabImages.cshtml" />
+    <Content Include="Areas\Commerce\Views\Product\_TabVariants.Scripts.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -3513,7 +3522,6 @@
     <Content Include="Areas\Commerce\Views\MediaLibrary\_MediaLibrary.cshtml" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\_MediaLibrary.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\Selection.cshtml" />
-    <Content Include="Areas\Commerce\Views\Product\Edit.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_ChangePriceDialog.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_TabVariants.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_TabCustomFields.cshtml" />

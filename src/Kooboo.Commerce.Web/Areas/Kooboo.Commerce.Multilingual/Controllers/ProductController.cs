@@ -91,7 +91,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         public ActionResult Translate(int id, string culture)
         {
             var product = _services.Products.GetById(id);
-            var productType = _services.ProductTypes.GetById(product.ProductTypeId);
+            var productType = product.ProductType;
 
             var controls = FormControls.Controls().ToList();
 
@@ -164,7 +164,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         public ActionResult Translate(string culture, ProductModel model, string @return)
         {
             var product = _services.Products.GetById(model.Id);
-            var productType = _services.ProductTypes.GetById(product.ProductTypeId);
+            var productType = product.ProductType;
             var controls = FormControls.Controls().ToList();
 
             var translations = new List<PropertyTranslation>();

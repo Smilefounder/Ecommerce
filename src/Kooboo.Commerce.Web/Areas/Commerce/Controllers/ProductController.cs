@@ -18,6 +18,10 @@ using Kooboo.Commerce.Web.Framework.UI.Tabs.Queries;
 using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products;
 using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products.Default;
 using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
+using AutoMapper;
+using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
+using Kooboo.Commerce.Web.Areas.Commerce.Models;
+using System.Collections.Generic;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -54,7 +58,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult Create(int productTypeId)
         {
-            ViewBag.ProductType = _productTypeService.GetById(productTypeId);
+            var productType = _productTypeService.GetById(productTypeId);
+
+            ViewBag.ProductType = productType;
+            ViewBag.DefaultVariantModel = CreateDefaultVariantModel(productType);
+            ViewBag.ImageTypes = _settingService.Get<GlobalSettings>().Image.Types;
 
             this.LoadTabPlugins();
 
@@ -65,10 +73,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Edit(int id)
         {
             var product = _productService.GetById(id);
-            var productType = _productTypeService.GetById(product.ProductTypeId);
+            var productType = product.ProductType;
 
             ViewBag.Product = product;
             ViewBag.ProductType = productType;
+            ViewBag.DefaultVariantModel = CreateDefaultVariantModel(productType);
+            ViewBag.ImageTypes = _settingService.Get<GlobalSettings>().Image.Types;
             ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, product, CurrentInstance);
 
             this.LoadTabPlugins();
@@ -86,44 +96,110 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             }
             if (product == null)
             {
-                product = new Product();
-                product.ProductTypeId = productTypeId.Value;
-                product.Name = "New Product";
+                product = new Product
+                {
+                    ProductType = _productTypeService.GetById(productTypeId.Value)
+                };
             }
-            return JsonNet(product);
+
+            var model = Mapper.Map<Product, ProductEditorModel>(product);
+
+            return JsonNet(model).UsingClientConvention();
         }
 
         [HttpPost]
-        public ActionResult Save(Product obj)
+        public ActionResult Save(ProductEditorModel model)
         {
-            try
+            var product = DoSave(model);
+            return JsonNet(new
             {
-                Product product = null;
+                Id = product.Id
+            }).UsingClientConvention();
+        }
 
-                if (obj.Id > 0)
+        private Product DoSave(ProductEditorModel model)
+        {
+            Product product = null;
+
+            if (model.Id == 0)
+            {
+                product = new Product
                 {
-                    product = _productService.Update(obj);
+                    ProductType = _productTypeService.GetById(model.ProductTypeId)
+                };
+                UpdateProduct(product, model);
+                _productService.Create(product);
+            }
+            else
+            {
+                product = _productService.GetById(model.Id);
+                UpdateProduct(product, model);
+                _productService.Update(product);
+            }
+
+            if (model.IsPublished)
+            {
+                _productService.Publish(product);
+            }
+            else
+            {
+                _productService.Unpublish(product);
+            }
+
+            return product;
+        }
+
+        private void UpdateProduct(Product product, ProductEditorModel model)
+        {
+            product.Name = model.Name;
+            product.Brand = model.Brand == null ? null : _brandService.GetById(model.Brand.Id);
+
+            product.Categories.Clear();
+            foreach (var category in model.Categories)
+            {
+                product.Categories.Add(_categoryService.GetById(category.Id));
+            }
+
+            product.SetCustomFields(model.CustomFields);
+            product.SetImages(model.Images);
+
+            foreach (var variant in product.Variants.ToList())
+            {
+                if (!model.Variants.Any(v => v.Id == variant.Id))
+                {
+                    product.Variants.Remove(variant);
+                }
+            }
+
+            foreach (var variantModel in model.Variants)
+            {
+                ProductVariant variant;
+
+                if (variantModel.Id > 0)
+                {
+                    variant = product.Variants.FirstOrDefault(v => v.Id == variantModel.Id);
                 }
                 else
                 {
-                    product = _productService.Create(obj);
+                    variant = new ProductVariant();
+                    product.Variants.Add(variant);
                 }
 
-                if (obj.IsPublished)
-                {
-                    _productService.Publish(product);
-                }
-                else
-                {
-                    _productService.Unpublish(product);
-                }
-
-                return this.JsonNet(new { status = 0, message = "product succssfully saved." });
+                variant.Sku = variantModel.Sku;
+                variant.Price = variantModel.Price;
+                variant.SetVariantFields(variantModel.VariantFields);
             }
-            catch (Exception ex)
+        }
+
+        public ProductVariantModel CreateDefaultVariantModel(ProductType productType)
+        {
+            var variant = new ProductVariantModel();
+            foreach (var fieldDef in productType.VariantFieldDefinitions)
             {
-                return this.JsonNet(new { status = 1, message = ex.Message });
+                variant.VariantFields.Add(fieldDef.Name, null);
             }
+
+            return variant;
         }
 
         [HttpGet]
@@ -186,7 +262,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult GetImageTypes()
         {
             var settings = _settingService.Get<GlobalSettings>();
-            var sizes = settings.Image.Sizes.ToList();
+            var sizes = settings.Image.Types.ToList();
             return JsonNet(sizes);
         }
 
@@ -198,7 +274,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         }
 
         [HttpGet]
-        public ActionResult SearchBrands(string term, int pageSize, int page)
+        public ActionResult SearchBrands(string term, int page, int pageSize = 10)
         {
             var query = _brandService.Query();
 
@@ -207,17 +283,45 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 query = query.Where(p => p.Name.Contains(term));
             }
 
-            var brands = query.OrderBy(p => p.Name)
-                              .Skip((page - 1) * pageSize)
-                              .Take(pageSize)
-                              .Select(p => new
-                              {
-                                  p.Id,
-                                  p.Name
-                              })
-                              .ToList();
+            var total = query.Count();
+            var totalPages = (int)Math.Ceiling(total / (double)pageSize);
 
-            return JsonNet(brands);
+            var items = query.OrderBy(p => p.Name)
+                             .Skip((page - 1) * pageSize)
+                             .Take(pageSize)
+                             .Select(p => new IdName
+                             {
+                                 Id = p.Id,
+                                 Name = p.Name
+                             })
+                             .ToList();
+
+            return JsonNet(new
+            {
+                Items = items,
+                More = page < totalPages
+            })
+            .UsingClientConvention();
+        }
+
+        [HttpGet]
+        public ActionResult SearchCategories(string term)
+        {
+            var all = _categoryService.Query().Select(c => new CategoryEntry
+            {
+                Id = c.Id,
+                Name = c.Name,
+                ParentId = c.ParentId
+            });
+
+            var categories = CategoryEntry.BuildCategoryTree(null, all);
+
+            return JsonNet(new
+            {
+                Items = categories,
+                More = false
+            })
+            .UsingClientConvention();
         }
 
         [HttpGet]

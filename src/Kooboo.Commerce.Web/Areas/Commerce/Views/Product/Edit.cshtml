@@ -6,26 +6,38 @@
     var productType = (ProductType)ViewBag.ProductType;
     var controls = FormControls.Controls().ToList();
 
-    ViewBag.Title = (string.IsNullOrEmpty(Request.QueryString["Id"]) ? "Create Product".Localize() : "Edit Product".Localize() + ": " + product.Name);
+    if (!String.IsNullOrEmpty(Request.QueryString["id"]))
+    {
+        ViewBag.Title = "Edit " + productType.Name + ": " + product.Name;
+    }
+    else
+    {
+        ViewBag.Title = "Create " + productType.Name;
+    }
 }
 @section Panel {
     @Html.HeaderPanel().Buttons(buttons =>
     {
-        buttons.Add("Save", "save").WithUrl("javascript:saveProduct();");
+        buttons.Add("Save", "save").WithUrl("javascript:viewModel.submit();");
         buttons.AddTopbarCommands(ViewBag.ToolbarCommands as IEnumerable<ITopbarCommand>, typeof(Product), product == null ? null : (int?)product.Id);
         buttons.AddCancelButton();
     })
 }
 
+<script>
+    window.ProductEditor = {
+        tabs: {}
+    };
+</script>
+
 <div id="product-edit-main">
-    <div class="block" data-bind="with:data">
+    <div class="block">
         <div id="J_ProductTabs">
             <ul>
                 <li><a href="#basic">@("Basic info".Localize())</a></li>
-                <li data-bind="visible: ProductTypeId"><a href="#fields">@("Fields".Localize())</a></li>
+                <li><a href="#fields">@("Fields".Localize())</a></li>
                 <li><a href="#images">@("Images".Localize())</a></li>
-                <li><a href="#categories">@("Categories".Localize())</a></li>
-                <li data-bind="visible: ProductTypeId"><a href="#variants">@("Variants".Localize())</a></li>
+                <li><a href="#variants">@("Variants".Localize())</a></li>
                 @Html.Partial("_TabPluginHeaders")
             </ul>
             <div id="basic">
@@ -33,20 +45,14 @@
                     @Html.Partial("_TabBasicInfo")
                 </form>
             </div>
-            <div id="categories">
+            <div id="fields">
                 <form>
-                    <div class="block treeview">
-                        <ul id="category_tree" data-bind="template: { name: 'category_template', foreach: $root.Categories }"></ul>
-                    </div>
+                    @Html.Partial("_TabCustomFields")
                 </form>
             </div>
             <div id="images">
                 <form>
-                    <div class="common-form">
-                        <table>
-                            <tbody data-bind="template: { name: 'image_type_template', foreach: $root.ImageTypes }"></tbody>
-                        </table>
-                    </div>
+                    @Html.Partial("_TabImages")
                 </form>
             </div>
             <div id="variants">
@@ -54,46 +60,9 @@
                     @Html.Partial("_TabVariants")
                 </form>
             </div>
-            <div id="fields">
-                <form>
-                    @Html.Partial("_TabCustomFields")
-                </form>
-            </div>
             @Html.Partial("_TabPluginContents")
         </div>
     </div>
 </div>
-
-<script id="category_template" type="text/html">
-    <li class="tree-node clearfix">
-        @Html.IconImage("folder-blue")
-        <!-- ko if: Children() && Children().length > 0 -->
-        <span class="toggle">@Html.IconImage("sprite")</span>
-        <!-- /ko -->
-        <input type="checkbox" data-bind="value:Id(), checked: $root.SelectedCategories" />
-        <span class="text" data-bind="text:Name"></span>
-        <!-- ko if: Children() && Children().length > 0 -->
-        <ul data-bind="template: { name: 'category_template', foreach: Children }"></ul>
-        <!-- /ko -->
-    </li>
-</script>
-<script id="image_type_template" type="text/html">
-    <tr>
-        <th><span data-bind="text:Name"></span><br />(<span data-bind="text:Width"></span>X<span data-bind="text:Height"></span>)</th>
-        <td>
-            <ul class="form-list images" data-bind="foreach: $root.GetImageUrl($data)">
-                <li>
-                    <div class="file-thumbnail">
-                        <img class="crop_image" style="max-height:100px" data-bind="attr:{src:ImageUrl, 'data-width': $root.GetImageWidth($data), 'data-height': $root.GetImageHeight($data) }" />
-                        <a href="javascript:;" class="action" data-bind="click: $root.RemoveImage">@Html.IconImage("minus-small")</a>
-                    </div>
-                </li>
-            </ul>
-            <a href="javascript:;" class="action J_Upload" data-owner="@(Request.QueryString["instance"])" data-bind="attr: { 'data-property': 'Products/' + Name(), 'data-multiple': IsMultiple }">
-                @Html.IconImage("plus-small")
-            </a>
-        </td>
-    </tr>
-</script>
 
 @Html.Partial("Edit.Scripts")

@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.ImageSizes;
+﻿using Kooboo.Commerce.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +8,11 @@ namespace Kooboo.Commerce.Settings
 {
     public class ImageSettings
     {
-        public List<ImageSize> Sizes { get; set; }
+        public List<ImageType> Types { get; set; }
 
         public ImageSettings()
         {
-            Sizes = new List<ImageSize>();
+            Types = new List<ImageType>();
         }
     }
 }

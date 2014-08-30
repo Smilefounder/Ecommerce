@@ -70,7 +70,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products.TopSold
                                                  Id = o.Product.Id,
                                                  Name = o.Product.Name,
                                                  IsPublished = o.Product.IsPublished,
-                                                 ProductTypeId = o.Product.ProductTypeId
+                                                 ProductTypeId = o.Product.ProductType.Id
                                              });
 
             var data = saledProduct.ToArray();

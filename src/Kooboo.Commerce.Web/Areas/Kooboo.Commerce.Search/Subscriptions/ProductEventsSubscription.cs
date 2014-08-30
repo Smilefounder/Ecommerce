@@ -51,8 +51,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
                 var product = _serviceFactory.Products.GetById((int)@event.EntityKey.Value);
                 if (product.IsPublished)
                 {
-                    var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
-                    Index(product, productType, new[] { @event.Culture });
+                    Index(product, new[] { @event.Culture });
                 }
             }
             else if (@event.EntityKey.EntityType == typeof(ProductVariant))
@@ -61,8 +60,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
                 var product = _serviceFactory.Products.GetById(variant.ProductId);
                 if (product.IsPublished)
                 {
-                    var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
-                    Index(product, productType, new[] { @event.Culture });
+                    Index(product, new[] { @event.Culture });
                 }
             }
         }
@@ -76,8 +74,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
             var product = _serviceFactory.Products.GetById(@event.ProductId);
             if (product.IsPublished)
             {
-                var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
-                Index(product, productType, GetAllCultures());
+                Index(product, GetAllCultures());
             }
         }
 
@@ -86,16 +83,14 @@ namespace Kooboo.Commerce.Search.Subscriptions
             var product = _serviceFactory.Products.GetById(@event.ProductId);
             if (product.IsPublished)
             {
-                var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
-                Index(product, productType, GetAllCultures());
+                Index(product, GetAllCultures());
             }
         }
 
         public void Handle(ProductPublished @event)
         {
             var product = _serviceFactory.Products.GetById(@event.ProductId);
-            var productType = _serviceFactory.ProductTypes.GetById(product.ProductTypeId);
-            Index(product, productType, GetAllCultures());
+            Index(product, GetAllCultures());
         }
 
         public void Handle(ProductUnpublished @event)
@@ -110,12 +105,12 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         #endregion
 
-        private void Index(Product product, ProductType productType, IEnumerable<CultureInfo> cultures)
+        private void Index(Product product, IEnumerable<CultureInfo> cultures)
         {
             foreach (var culture in cultures)
             {
                 var indexer = IndexStores.Get<ProductModel>(CommerceInstance.Current.Name, culture);
-                indexer.Index(ProductModel.Create(product, productType, culture));
+                indexer.Index(ProductModel.Create(product, culture));
                 indexer.Commit();
             }
         }

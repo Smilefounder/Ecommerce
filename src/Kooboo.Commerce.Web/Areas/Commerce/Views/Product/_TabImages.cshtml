@@ -1,0 +1,83 @@
+﻿@using Kooboo.Commerce.Settings
+@{
+    var imageTypes = ViewBag.ImageTypes as IEnumerable<ImageType>;
+}
+
+<div class="common-form">
+    <table>
+        <tbody>
+            @foreach (var type in imageTypes)
+            {
+                <tr>
+                    <th>
+                        @type.Name<br />(@type.Width X @type.Height)
+                    </th>
+                    <td>
+                        <ul class="form-list images" data-bind="foreach: $root.getImages('@type.Name')">
+                            <li>
+                                <div class="file-thumbnail">
+                                    <img class="crop_image" style="max-height:100px"
+                                         data-width="@type.Width" data-height="@type.Height"
+                                         data-bind="attr: { src: imageUrl }" />
+                                    <a href="#" class="action" data-bind="click: $root.removeImage">@Html.IconImage("minus-small")</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <a href="#" class="action J_Upload" data-owner="@(Request.QueryString["instance"])"
+                           data-property="Products/@type.Name" data-multiple="@(type.AllowMultiple ? "true" : "false")">@Html.IconImage("plus-small")</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    window.ProductEditor.tabs['Images'] = {
+        init: function (context) {
+            var model = context.model;
+
+            // Extend model
+            model.getImages = function (type) {
+                return _.filter(model.product.images(), function (image) {
+                    return image.type() === type;
+                });
+            }
+
+            model.addImage = function (type, url) {
+                model.product.images.push({
+                    id: ko.observable(),
+                    type: ko.observable(type),
+                    imageUrl: ko.observable(url)
+                });
+            }
+
+            model.removeImage = function (image) {
+                model.product.images.remove(image);
+            }
+
+            // Init uploaders
+            $('.J_Upload').upload({
+                on_file_select: function (data) {
+                    // TODO: Hack for now
+                    var parts = data.property.split('/');
+                    var imgType = parts[1];
+                    $.each(data.files, function (i, n) {
+                        model.addImage(imgType, n.Url);
+                        $('.crop_image').cropimage({
+                            on_image_croped: function (data) {
+                                $(data.element).attr('src', data.url + '?v=' + new Date().getTime())
+                            }
+                        });
+                    });
+                }
+            });
+
+            $('.crop_image').cropimage({
+                on_image_croped: function (data) {
+                    $(data.element).attr('src', data.url + '?v=' + new Date().getTime())
+                }
+            });
+        }
+    };
+</script>
