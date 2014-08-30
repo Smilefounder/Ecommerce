@@ -1559,6 +1559,10 @@
     <Content Include="Areas\Commerce\Views\Shared\_QuickLinks.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CategoryMenu\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CategoryMenu\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\NewProducts\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\NewProducts\template.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

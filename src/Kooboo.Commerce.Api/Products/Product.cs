@@ -26,6 +26,8 @@ namespace Kooboo.Commerce.Api.Products
 
         public DateTime CreatedAtUtc { get; set; }
 
+        public DateTime? PublishedAtUtc { get; set; }
+
         [OptionalInclude]
         public Brand Brand { get; set; }
 
@@ -49,11 +51,11 @@ namespace Kooboo.Commerce.Api.Products
             Variants = new List<ProductVariant>();
         }
 
-        public ProductImage GetImage(string sizeName)
+        public ProductImage GetImage(string size)
         {
             if (Images != null)
             {
-                return Images.FirstOrDefault(o => o.Size == sizeName);
+                return Images.FirstOrDefault(o => o.Size == size);
             }
 
             return null;

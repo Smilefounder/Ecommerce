@@ -24,7 +24,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
             this.Name = category.Name;
             this.Photo = category.Photo;
             this.Description = category.Description;
-            this.Published = category.Published;
             this.ChildrenCount = category.Children == null ? 0 : category.Children.Count;
             if (parent && category.Parent != null)
             {
@@ -59,13 +58,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
             set;
         }
 
-        [BooleanColumn]
-        public bool Published
-        {
-            get;
-            set;
-        }
-
         public int ChildrenCount { get; set; }
 
         public CategoryRowModel Parent
@@ -73,11 +65,5 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
             get;
             set;
         }
-
-        //[ActionGridColumn(HeaderText = "Add Child", ButtonText = "Add Child", ActionName = "AddChild", ImageSrc = "")]
-        //public string _AddChild {
-        //    get;
-        //    set;
-        //}
     }
 }

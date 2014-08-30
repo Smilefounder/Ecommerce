@@ -33,7 +33,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Published = x.Published,
                     ChildrenCount = x.Children.Count
                 })
                 .Paginate(page - 1, pageSize)
@@ -49,7 +48,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Published = x.Published,
                     ChildrenCount = x.Children.Count
                 })
                 .ToArray();

@@ -1,0 +1,20 @@
+﻿ @if (ViewBag.NewProducts != null)
+ {
+     <div class="row">
+         @foreach (var item in ViewBag.NewProducts)
+         {
+             var image = item.GetImage("List");
+             
+             <div class="col-sm-3">
+                 <div class="thumbnail">
+                     @if (image != null) { 
+                        <img src="@image.ImageUrl" alt="@item.Name" />
+                     }
+                     <div class="caption">
+                         <h4><a href="#">@item.Name</a></h4>
+                     </div>
+                 </div>
+             </div>
+         }
+     </div>
+ }

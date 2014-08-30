@@ -8,6 +8,7 @@ using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Brands;
+using Kooboo.Commerce.Categories;
 
 namespace Kooboo.Commerce.Products.Services
 {
@@ -41,59 +42,98 @@ namespace Kooboo.Commerce.Products.Services
             return _database.GetRepository<ProductVariant>().Find(id);
         }
 
-        public Product Create(Product product)
+        public Product Create(Product model)
         {
+            var product = new Product
+            {
+                Name = model.Name,
+                ProductTypeId = model.ProductTypeId
+            };
+
+            if (model.BrandId != null)
+            {
+                product.BrandId = model.BrandId;
+                product.Brand = _database.GetRepository<Brand>().Find(model.BrandId.Value);
+            }
+
+            if (model.Categories != null)
+            {
+                foreach (var category in model.Categories)
+                {
+                    product.Categories.Add(new ProductCategory
+                    {
+                        Category = _database.GetRepository<Category>().Find(category.CategoryId)
+                    });
+                }
+            }
+
+            if (model.Images != null)
+            {
+                product.UpdateImages(model.Images);
+            }
+
+            product.UpdateCustomFields(model.CustomFields.ToDictionary(f => f.FieldName, f => f.FieldValue));
+
+            _database.SaveChanges();
+
+            foreach (var variant in model.Variants.ToList())
+            {
+                AddProductVariant(product, variant, false);
+            }
+
             _database.GetRepository<Product>().Insert(product);
+
             Event.Raise(new ProductCreated(product));
 
             return product;
         }
 
-        public Product Update(Product product)
+        public Product Update(Product model)
         {
-            var dbProduct = _database.GetRepository<Product>().Find(product.Id);
+            var product = _database.GetRepository<Product>().Find(model.Id);
 
             // Basic info
-            dbProduct.Name = product.Name;
-            dbProduct.Brand = product.BrandId == null ? null : _database.GetRepository<Brand>().Find(product.BrandId.Value);
+            product.Name = model.Name;
+            product.Brand = model.BrandId == null ? null : _database.GetRepository<Brand>().Find(model.BrandId.Value);
 
-            dbProduct.UpdateCustomFields(product.CustomFields.ToDictionary(f => f.FieldName, f => f.FieldValue));
-            dbProduct.UpdateImages(product.Images);
-            dbProduct.UpdateCategories(product.Categories);
+            product.UpdateCustomFields(model.CustomFields.ToDictionary(f => f.FieldName, f => f.FieldValue));
+            product.UpdateImages(model.Images);
+            product.UpdateCategories(model.Categories);
 
             _database.SaveChanges();
 
             // Product variants
-            foreach (var variant in dbProduct.Variants.ToList())
+            foreach (var variant in product.Variants.ToList())
             {
-                if (!product.Variants.Any(p => p.Id == variant.Id))
+                if (!model.Variants.Any(p => p.Id == variant.Id))
                 {
-                    RemoveProductVariant(dbProduct, variant.Id, false);
+                    RemoveProductVariant(product, variant.Id, false);
                 }
             }
 
-            foreach (var variantModel in product.Variants)
+            foreach (var variantModel in model.Variants)
             {
-                var current = dbProduct.Variants.FirstOrDefault(it => it.Id == variantModel.Id);
+                var current = product.Variants.FirstOrDefault(it => it.Id == variantModel.Id);
                 if (current == null)
                 {
-                    var variant = new ProductVariant(dbProduct);
+                    var variant = new ProductVariant(product);
                     variant.UpdateFrom(variantModel);
-                    AddProductVariant(dbProduct, variant, false);
+                    AddProductVariant(product, variant, false);
                 }
                 else
                 {
-                    UpdateProductVariant(dbProduct, current.Id, variantModel, false);
+                    UpdateProductVariant(product, current.Id, variantModel, false);
                 }
             }
 
-            Event.Raise(new ProductUpdated(dbProduct));
+            Event.Raise(new ProductUpdated(product));
 
-            return dbProduct;
+            return product;
         }
 
-        public void Delete(Product product)
+        public void Delete(Product model)
         {
+            var product = _database.GetRepository<Product>().Find(model.Id);
             _database.GetRepository<Product>().Delete(product);
             Event.Raise(new ProductDeleted(product));
         }

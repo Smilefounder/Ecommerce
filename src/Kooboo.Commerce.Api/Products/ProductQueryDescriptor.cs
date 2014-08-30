@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Api.Products
 
         public IEnumerable<string> SortFields
         {
-            get { return new[] { "Id", "Name" }; }
+            get { return new[] { "Id", "Name", "CreatedAtUtc", "PublishedAtUtc" }; }
         }
     }
 }

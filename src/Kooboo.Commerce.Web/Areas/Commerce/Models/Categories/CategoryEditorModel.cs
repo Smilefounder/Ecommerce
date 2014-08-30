@@ -27,7 +27,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
             this.Name = category.Name;
             this.Photo = category.Photo;
             this.Description = category.Description;
-            this.Published = category.Published;
             //
             if (category.Parent != null)
             {
@@ -74,7 +73,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
             category.Name = (this.Name ?? string.Empty).Trim();
             category.Photo = (this.Photo ?? string.Empty).Trim();
             category.Description = (this.Description ?? string.Empty).Trim();
-            category.Published = this.Published;
             //
             //if (!string.IsNullOrEmpty(this.ParentId)) {
             //    category.Parent = new Category() { Id = int.Parse(this.ParentId) };
@@ -125,12 +123,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
         }
 
         public string Description
-        {
-            get;
-            set;
-        }
-
-        public bool Published
         {
             get;
             set;

@@ -22,7 +22,6 @@
                         <input type="checkbox" class="select-all">
                     </th>
                     <th>@("Name".Localize())</th>
-                    <th>@("Published".Localize())</th>
                     <th class="action"></th>
                 </tr>
             </thead>
@@ -49,9 +48,6 @@
                                     <span class="expander disabled"></span>
                                 }
                                 <a class="with-icon" href="/Commerce/Category/Edit?instance=@Request.QueryString["instance"]&siteName=@Request.QueryString["sitename"]&Id=@(p.Id)&return=@returnUrl">@Html.IconImage("file file-doc") @p.Name</a>
-                            </td>
-                            <td>
-                                @(p.Published ? "YES" : "-")
                             </td>
                             <td>
                                 <a href="/Commerce/Category/Create?instance=@Request.QueryString["instance"]&siteName=@Request.QueryString["sitename"]&ParentId=@(p.Id)&return=@returnUrl">@Html.IconImage("plus-small")</a>
@@ -105,7 +101,6 @@
                         var a = $('<a href="/Commerce/Category/Edit?instance=@Request.QueryString["instance"]&siteName=@Request.QueryString["sitename"]&Id=' + n.Id + '&return=@returnUrl"><img class="icon file file-doc" src="/Images/invis.gif" /></a>').append(n.Name);
                         ctd2.append(a);
                         ctr.append(ctd2);
-                        ctr.append($('<td>' + (n.Published ? "YES" : "-") + '</td>'));
                         var ctdl = $('<td></td>');
                         var ca = $('<a href="/Commerce/Category/Create?instance=@Request.QueryString["instance"]&siteName=@Request.QueryString["sitename"]&ParentId=' + n.Id + '&return=@returnUrl"><img class="icon plus-small" src="/Images/invis.gif" /></a>');
                         ctdl.append(ca);
