@@ -17,13 +17,6 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="@Url.FrontUrl().PageUrl("Home")">Home</a></li>
-                @if (ViewBag.RootCategories != null)
-                {
-                    foreach (var category in ViewBag.RootCategories)
-                    {
-                        <li><a href="#">@category.Name</a></li>
-                    }
-                }
             </ul>
             <form class="navbar-form navbar-left" role="search" action="@Url.FrontUrl().PageUrl("Search")" method="get">
                 <div class="form-group">
@@ -61,7 +54,7 @@
         $('.search-keywords')
         .on('focus', function () {
             $(this).animate({
-                width: '450px'
+                width: '600px'
             }, 500);
         })
         .on('blur', function () {

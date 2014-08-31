@@ -1,0 +1,91 @@
+﻿@using Kooboo.Commerce.Search.CMSIntegration
+@{
+    var result = ViewBag.SearchResults as ProductSearchResult;
+}
+
+<div class="page-header">
+    <h1>
+        @("Search results".Localize())
+    </h1>
+</div>
+
+@if (result.Total > 0 && result.Facets != null)
+{
+    var selectedFacets = new Dictionary<string, string>();
+
+    <div class="container">
+        @foreach (var facet in result.Facets)
+        {
+            if (String.IsNullOrEmpty(Request.QueryString[facet.Name]))
+            {
+                <div class="row" style="font-size:16px;line-height:1.6em;border-bottom:#eee 1px dotted;padding:5px 0">
+                    <div class="col-sm-1 text-right">
+                        <strong>@facet.Name</strong>
+                    </div>
+                    <div class="col-sm-11">
+                        @foreach (var value in facet.Values)
+                        {
+                            <a href="@value.Url" style="display:inline-block;margin-right:20px">@value.Term</a>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                selectedFacets.Add(facet.Name, Request.QueryString[facet.Name]);
+            }
+        }
+        @if (selectedFacets.Count > 0)
+        {
+            <hr />
+            foreach (var facet in selectedFacets)
+            {
+                var url = Kooboo.Web.Url.UrlUtility.RemoveQuery(Request.RawUrl, facet.Key);
+                <span class="label label-warning" style="font-size:16px;margin-right:5px">
+                    @facet.Value
+                    <a href="@url" style="color:white">&times;</a>
+                </span>
+            }
+        }
+        <hr />
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        @if (result.Total > 0) { 
+            foreach (var item in result.Products)
+            {
+                var image = item.GetImage("List");
+
+                <div class="col-sm-3">
+                    <div class="thumbnail">
+                        @if (image != null)
+                        {
+                            <img src="@image.ImageUrl" alt="@item.Name" class="img-responsive" />
+                        }
+                        else
+                        {
+                            <img src="http://placehold.it/300x200" class="img-responsive" />
+                        }
+                        <div class="caption">
+                            <h4>
+                                <a href="@Url.FrontUrl().PageUrl("Product", new { productId = @item.Id })">@item.Name</a>
+                            </h4>
+                            <p style="font-size:16px;font-weight:bold;color:orange">
+                                &euro; @item.LowestPrice - &euro; @item.HighestPrice
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div style="font-size:40px;padding:50px 0;text-align:center;color:#ddd">
+                <i class="fa fa-inbox"></i>
+                @("Nothing was found".Localize())
+            </div>
+        }
+    </div>
+</div>

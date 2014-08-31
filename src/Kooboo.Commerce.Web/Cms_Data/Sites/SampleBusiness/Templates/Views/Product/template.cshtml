@@ -105,7 +105,7 @@
             data: $form.serializeArray()
         })
         .done(function (data) {
-            location.href = location.pathname + location.search;
+            location.href = '@Html.Raw(Url.FrontUrl().PageUrl("Cart"))';
         });
 
         return false;

@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Data;
+﻿using Kooboo.Commerce.Api.Products;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Search.Facets;
 using Kooboo.Commerce.Search.Models;
 using System;
@@ -10,7 +11,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 {
     public class ProductSearchResult
     {
-        public IList<ProductModel> Products { get; set; }
+        public IList<Product> Products { get; set; }
 
         public int Total { get; set; }
 

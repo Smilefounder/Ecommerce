@@ -7,103 +7,112 @@
     <h1><i class="fa fa-shopping-cart"></i> Shopping cart</h1>
 </div>
 <div class="container">
-    @foreach (var item in cart.Items)
+    @if (cart.Items.Count > 0)
     {
-        var imageUrl = item.Product.GetImageUrl("List");
-        var productUrl = Url.FrontUrl().PageUrl("Product", new { productId = item.Product.Id });
+        foreach (var item in cart.Items)
+        {
+            var imageUrl = item.Product.GetImageUrl("List");
+            var productUrl = Url.FrontUrl().PageUrl("Product", new { productId = item.Product.Id });
 
-        <div class="row">
-            <div class="col-sm-8">
-                <div class="media">
-                    <a href="@productUrl" class="pull-left">
-                        <img src="@imageUrl" class="media-object" style="width:150px" />
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">
-                            <a href="@productUrl">@item.Product.Name</a>
-                            @if (item.Product.Brand != null)
-                            {
-                                <span class="text-muted">(@item.Product.Brand.Name)</span>
-                            }
-                        </h4>
-                        <div class="media-content">
-                            <p>
-                                @String.Join(", ", item.ProductVariant.VariantFields.Select(f => f.FieldLabel + ": " + f.FieldValue))
-                            </p>
-                            <form action="@Url.FrontUrl().SubmissionUrl("ChangeCartItemQuantity")" method="post">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="ItemId" value="@item.Id" />
-                                <div class="input-group" style="width:120px">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" data-toggle="decrease-quantity" data-itemid="@item.Id">-</button>
-                                    </span>
-                                    <input type="text" class="form-control quantity-input" name="NewQuantity" value="@item.Quantity" data-itemid="@item.Id" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" data-toggle="increase-quantity" data-itemid="@item.Id">+</button>
-                                    </span>
-                                </div>
-                            </form>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="media">
+                        <a href="@productUrl" class="pull-left">
+                            <img src="@imageUrl" class="media-object" style="width:150px" />
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a href="@productUrl">@item.Product.Name</a>
+                                @if (item.Product.Brand != null)
+                                {
+                                    <span class="text-muted">(@item.Product.Brand.Name)</span>
+                                }
+                            </h4>
+                            <div class="media-content">
+                                <p>
+                                    @String.Join(", ", item.ProductVariant.VariantFields.Select(f => f.FieldLabel + ": " + f.FieldValue))
+                                </p>
+                                <form action="@Url.FrontUrl().SubmissionUrl("ChangeCartItemQuantity")" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="ItemId" value="@item.Id" />
+                                    <div class="input-group" style="width:120px">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" data-toggle="decrease-quantity" data-itemid="@item.Id">-</button>
+                                        </span>
+                                        <input type="text" class="form-control quantity-input" name="NewQuantity" value="@item.Quantity" data-itemid="@item.Id" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" data-toggle="increase-quantity" data-itemid="@item.Id">+</button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-2">
+                    <strong style="color:orange">
+                        &euro; @item.Total.ToString("f2")
+                    </strong>
+                    @if (item.Discount > 0)
+                    {
+                        <div>
+                            <span class="label label-success">&euro; @item.Discount.ToString("f2")</span>
+                        </div>
+                    }
+                </div>
+                <div class="col-sm-2">
+                    <form action="@Url.FrontUrl().SubmissionUrl("RemoveCartItem")" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ItemId" value="@item.Id" />
+                        <button type="submit" class="btn btn-link pull-right"><i class="fa fa-trash-o"></i> Remove</button>
+                    </form>
+                </div>
             </div>
-            <div class="col-sm-2">
-                <strong style="color:orange">
-                    &euro; @item.Total.ToString("f2")
+            <hr />
+        }
+        <div class="clearfix">
+            @if (!String.IsNullOrEmpty(cart.CouponCode))
+            {
+                <div class="pull-left current-coupon-holder">
+                    <b>Coupon code:</b><br />
+                    <b style="font-size:28px;color:orange">@cart.CouponCode</b> <a href="#" data-toggle="change-coupon">Change</a>
+                </div>
+            }
+            <form class="form-inline pull-left ajax-form" id="apply-coupon-form" method="post" style="display:@(String.IsNullOrEmpty(cart.CouponCode) ? "" : "none")" action="@Url.FrontUrl().SubmissionUrl("ApplyCoupon")">
+                @Html.AntiForgeryToken()
+                <div class="input-group">
+                    <input type="text" class="form-control" name="CouponCode" value="@cart.CouponCode" placeholder="Coupon code" data-val="true" />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Apply</button>
+                    </span>
+                </div>
+                <span data-valmsg-for="CouponCode" data-valmsg-replace="true"></span>
+            </form>
+            <div class="pull-right">
+                <strong>
+                    <span style="font-size:32px;color:orange">&euro; @cart.Total.ToString("f2")</span>
                 </strong>
-                @if (item.Discount > 0)
+                @if (cart.TotalDiscount > 0)
                 {
-                    <div>
-                        <span class="label label-success">&euro; @item.Discount.ToString("f2")</span>
+                    <div class="text-right" style="margin-top:5px">
+                        <span class="label label-success">
+                            Discount: &euro; @cart.TotalDiscount.ToString("f2")
+                        </span>
                     </div>
                 }
             </div>
-            <div class="col-sm-2">
-                <form action="@Url.FrontUrl().SubmissionUrl("RemoveCartItem")" method="post">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="ItemId" value="@item.Id" />
-                    <button type="submit" class="btn btn-link pull-right"><i class="fa fa-trash-o"></i> Remove</button>
-                </form>
-            </div>
         </div>
-        <hr />
+        <div class="text-right" style="margin-top:20px">
+            <a href="/" class="btn btn-default btn-lg"><i class="fa fa-chevron-left"></i> Continue shopping</a>
+            <a href="@Url.FrontUrl().PageUrl("Checkout")" class="btn btn-lg btn-success" style="min-width:200px"><i class="fa fa-euro"></i> Checkout <i class="fa fa-chevron-right"></i></a>
+        </div>
     }
-    <div class="clearfix">
-        @if (!String.IsNullOrEmpty(cart.CouponCode))
-        {
-            <div class="pull-left current-coupon-holder">
-                <b>Coupon code:</b><br />
-                <b style="font-size:28px;color:orange">@cart.CouponCode</b> <a href="#" data-toggle="change-coupon">Change</a>
-            </div>
-        }
-        <form class="form-inline pull-left ajax-form" id="apply-coupon-form" method="post" style="display:@(String.IsNullOrEmpty(cart.CouponCode) ? "" : "none")" action="@Url.FrontUrl().SubmissionUrl("ApplyCoupon")">
-            @Html.AntiForgeryToken()
-            <div class="input-group">
-                <input type="text" class="form-control" name="CouponCode" value="@cart.CouponCode" placeholder="Coupon code" data-val="true" />
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-default">Apply</button>
-                </span>
-            </div>
-            <span data-valmsg-for="CouponCode" data-valmsg-replace="true"></span>
-        </form>
-        <div class="pull-right">
-            <strong>
-                <span style="font-size:32px;color:orange">&euro; @cart.Total.ToString("f2")</span>
-            </strong>
-            @if (cart.TotalDiscount > 0)
-            {
-                <div class="text-right" style="margin-top:5px">
-                    <span class="label label-success">
-                        Discount: &euro; @cart.TotalDiscount.ToString("f2")
-                    </span>
-                </div>
-            }
+    else
+    {
+        <div style="font-size:40px;color:#ddd;padding:100px 0;text-align:center">
+            <i class="fa fa-inbox"></i> @("Cart is empty".Localize())
         </div>
-    </div>
-    <div class="text-right" style="margin-top:20px">
-        <a href="/" class="btn btn-default btn-lg"><i class="fa fa-chevron-left"></i> Continue shopping</a>
-        <a href="@Url.FrontUrl().PageUrl("Checkout")" class="btn btn-lg btn-success" style="min-width:200px"><i class="fa fa-euro"></i> Checkout <i class="fa fa-chevron-right"></i></a>
-    </div>
+    }
 </div>
 
 <script>

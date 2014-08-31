@@ -53,7 +53,7 @@
             var model = context.model;
 
             if (model.selectedBrand.id()) {
-                if (!model.product.brand || !model.product.brand()) {
+                if (!model.product.brand || !ko.toJS(model.product.brand)) {
                     model.product.brand = {
                         id: ko.observable(),
                         name: ko.observable()

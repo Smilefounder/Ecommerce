@@ -1,5 +1,8 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Sites.DataRule;
+using Kooboo.Commerce.Api;
+using Kooboo.Commerce.Api.Products;
+using Kooboo.Commerce.CMSIntegration;
 using Kooboo.Commerce.CMSIntegration.DataSources;
 using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.Commerce.Search.Facets;
@@ -153,8 +156,9 @@ namespace Kooboo.Commerce.Search.CMSIntegration
             var result = new ProductSearchResult();
 
             var pagination = query.Paginate(EvaluatePageNumber(context) - 1, EvaluatePageSize(context));
-            result.Products = pagination.Cast<ProductModel>().ToList();
+
             result.Total = pagination.TotalItems;
+            result.Products = ToProducts(pagination.Cast<ProductModel>().ToList(), context.Site.Commerce());
 
             // Get facets
             if (IncludeFacets && Facets != null && Facets.Count > 0)
@@ -172,6 +176,28 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                         value.Url = UrlUtility.RemoveQuery(url, paramName);
                         value.Url = UrlUtility.AddQueryParam(value.Url, paramName, value.Term);
                     }
+                }
+            }
+
+            return result;
+        }
+
+        private List<Product> ToProducts(IList<ProductModel> models, ICommerceApi api)
+        {
+            var productIds = models.Select(m => m.Id).ToArray();
+            var products = api.Products.Query()
+                                       .ByIds(productIds)
+                                       .Include(p => p.Images)
+                                       .Include(p => p.Variants)
+                                       .ToList();
+
+            var result = new List<Product>();
+            foreach (var id in productIds)
+            {
+                var product = products.Find(p => p.Id == id);
+                if (product != null)
+                {
+                    result.Add(product);
                 }
             }
 
