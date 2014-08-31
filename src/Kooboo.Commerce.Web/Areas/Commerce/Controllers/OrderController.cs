@@ -77,7 +77,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             if (order.CustomerId > 0)
             {
                 var customer = _customerService.GetById(order.CustomerId);
-                TempData["Message"] = string.Format("Current Order: {0} {1} {2}", customer.FirstName, customer.MiddleName, customer.LastName);
+                TempData["Message"] = string.Format("Current Order: {0} {1} {2}", customer.FirstName, customer.LastName);
             }
             Session["TempOrder"] = order;
             ViewBag.Return = "/Commerce/Order?siteName=" + Request.QueryString["siteName"] + "&instance=" + Request.QueryString["instance"];

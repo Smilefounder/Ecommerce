@@ -49,12 +49,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
 
             Email = customer.Email;
             FirstName = customer.FirstName;
-            MiddleName = customer.MiddleName;
             LastName = customer.LastName;
             Gender = customer.Gender;
-            Phone = customer.Phone;
-            CountryId = customer.CountryId;
-            City = customer.City;
         }
 
         public void UpdateTo(Customer customer)
@@ -62,12 +58,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
             customer.Id = Id;
             customer.Email = Email.Trim();
             customer.FirstName = FirstName;
-            customer.MiddleName = MiddleName;
             customer.LastName = LastName;
             customer.Gender = Gender;
-            customer.Phone = Phone;
-            customer.CountryId = CountryId;
-            customer.City = City;
         }
     }
 }

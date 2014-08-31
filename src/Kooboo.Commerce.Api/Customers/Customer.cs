@@ -12,23 +12,15 @@ namespace Kooboo.Commerce.Api.Customers
 
         public string AccountId { get; set; }
 
-        public string FirstName { get; set; }
+        public string Group { get; set; }
 
-        public string MiddleName { get; set; }
+        public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
         public string Email { get; set; }
 
         public Gender Gender { get; set; }
-
-        public string Phone { get; set; }
-
-        public string City { get; set; }
-
-        public Country Country { get; set; }
-
-        public int? CountryId { get; set; }
 
         public int? ShippingAddressId { get; set; }
 
@@ -41,7 +33,7 @@ namespace Kooboo.Commerce.Api.Customers
 
         public string FullName
         {
-            get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); }
+            get { return string.Format("{0} {1}", FirstName, LastName); }
         }
 
         [OptionalInclude]

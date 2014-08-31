@@ -28,9 +28,6 @@ namespace Kooboo.Commerce.Customers
         public string FirstName { get; set; }
 
         [Param]
-        public string MiddleName { get; set; }
-
-        [Param]
         public string LastName { get; set; }
 
         [Param]
@@ -38,7 +35,7 @@ namespace Kooboo.Commerce.Customers
         {
             get
             {
-                return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName);
+                return string.Format("{0} {1}", FirstName, LastName);
             }
         }
 
@@ -48,20 +45,9 @@ namespace Kooboo.Commerce.Customers
         [Param]
         public Gender Gender { get; set; }
 
-        [Param]
-        public string Phone { get; set; }
-
-        public int? CountryId { get; set; }
-
         public int? ShippingAddressId { get; set; }
 
         public int? BillingAddressId { get; set; }
-
-        [Param]
-        public string City { get; set; }
-
-        [Reference]
-        public virtual Country Country { get; set; }
 
         public virtual List<Address> Addresses { get; set; }
 

@@ -3,7 +3,6 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Data.Initialization;
 using Kooboo.Commerce.Settings;
-using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Settings.Services;
 using System;
 using System.Collections.Generic;

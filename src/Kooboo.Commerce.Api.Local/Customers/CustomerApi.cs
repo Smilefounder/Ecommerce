@@ -41,13 +41,10 @@ namespace Kooboo.Commerce.Api.Local.Customers
             var mapped = new Kooboo.Commerce.Customers.Customer
             {
                 AccountId = customer.AccountId,
-                City = customer.City,
-                CountryId = customer.CountryId,
                 Email = customer.Email,
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
-                Gender = (Kooboo.Commerce.Gender)(int)customer.Gender,
-                Phone = customer.Phone
+                Gender = (Kooboo.Commerce.Gender)(int)customer.Gender
             };
 
             foreach (var address in customer.Addresses)

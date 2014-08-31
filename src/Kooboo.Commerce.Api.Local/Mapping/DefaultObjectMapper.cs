@@ -150,6 +150,11 @@ namespace Kooboo.Commerce.Api.Local.Mapping
 
         protected virtual void MapSimpleProperty(PropertyInfo targetProperty, PropertyInfo sourceProperty, object sourcePropValue, object source, object target, Type sourceType, Type targetType, string propertyPath, MappingContext context)
         {
+            if (!targetProperty.CanWrite)
+            {
+                return;
+            }
+
             var targetPropValue = sourcePropValue;
             if (targetProperty.PropertyType.IsEnum)
             {

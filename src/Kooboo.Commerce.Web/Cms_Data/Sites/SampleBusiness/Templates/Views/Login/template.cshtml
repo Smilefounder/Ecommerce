@@ -1,13 +1,18 @@
-﻿
+﻿@{
+    var returnUrl = ViewContext.RequestContext.GetRequestValue("ReturnUrl");
+}
+
 <div class="container">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <h3><i class="fa fa-sign-in"></i> @("Sign In".Localize())</h3>
-            <form class="ajax-form col-sm-10 well" action="@Url.FrontUrl().SubmissionUrl("LoginCustomer")" method="post">
+            <form class="ajax-form well" action="@Url.FrontUrl().SubmissionUrl("LoginCustomer")" method="post">
                 @Html.AntiForgeryToken()
+                <input type="hidden" name="ReturnUrl" value="@(String.IsNullOrEmpty(returnUrl) ? "/" : returnUrl)" />
                 <div class="form-group">
                     <label>@("Email".Localize()):</label>
-                    <input type="text" name="Email" class="form-control" data-val="true" data-val-required="@("Username is required".Localize())" />
+                    <input type="text" name="Email" class="form-control" 
+                           data-val="true" data-val-required="@("Email is required".Localize())" />
                     <span data-valmsg-for="Email" data-valmsg-replace="true"></span>
                 </div>
                 <div class="form-group">
@@ -22,13 +27,58 @@
                     </label>
                 </div>
                 <div class="form-group text-right">
-                    <a href="#" class="btn btn-link pull-left">@("Forgot password?".Localize())</a>
                     <button type="submit" class="btn btn-success">@("Sign in".Localize())</button>
                 </div>
             </form>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-5 col-sm-offset-1">
             <h3><i class="fa fa-user"></i> @("Create New Account".Localize())</h3>
+            <form class="ajax-form well" action="@Url.FrontUrl().SubmissionUrl("RegisterCustomer")" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="ReturnUrl" value="@(String.IsNullOrEmpty(returnUrl) ? "/" : returnUrl)" />
+                <input type="hidden" name="Gender" value="Unknown" />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>@("First name".Localize())</label>
+                            <input type="text" class="form-control" name="FirstName" maxlength="20"
+                                   data-val="true" data-val-required="@("First name is required".Localize())" />
+                            <span data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>@("Last name".Localize())</label>
+                            <input type="text" class="form-control" name="LastName" maxlength="20"
+                                   data-val="true" data-val-required="@("Last name is required".Localize())" />
+                            <span data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>@("Email".Localize())</label>
+                    <input type="text" name="Email" class="form-control" maxlength="50"
+                           data-val="true" data-val-required="@("Email is required".Localize())" />
+                    <span data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group">
+                    <label>@("Password".Localize())</label>
+                    <input type="password" name="Password" class="form-control" maxlength="20"
+                           data-val="true" data-val-required="@("Password is required".Localize())" />
+                    <span data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group">
+                    <label>@("Confirm password".Localize())</label>
+                    <input type="password" name="PasswordConfirm" class="form-control" maxlength="20"
+                           data-val="true" data-val-required="@("Confirm password is required".Localize())"
+                           data-val-equalto="@("Confirm password must be same as the password".Localize())"
+                           data-val-equalto-other="Password" />
+                    <span data-valmsg-for="PasswordConfirm" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-success">@("Create Account".Localize())</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

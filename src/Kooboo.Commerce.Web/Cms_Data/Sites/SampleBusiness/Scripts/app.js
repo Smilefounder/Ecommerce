@@ -43,4 +43,20 @@
 
         });
     });
+
+    $(document).on('click', '[data-toggle="submit-form"]', function () {
+        var $form = null;
+        var form = $(this).data('form');
+        if (form) {
+            $form = $(form);
+        } else {
+            $form = $(this).closest('form');
+        }
+
+        if ($form.length > 0) {
+            $form.submit();
+        }
+
+        return false;
+    });
 });

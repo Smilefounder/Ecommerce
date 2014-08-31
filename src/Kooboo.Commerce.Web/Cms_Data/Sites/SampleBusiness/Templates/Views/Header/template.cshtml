@@ -26,11 +26,14 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 @if (customer == null) { 
-                    <li><a href="@Url.FrontUrl().PageUrl("Login")">Sign in</a></li>
+                    <li><a href="@Url.FrontUrl().PageUrl("Login")"><i class="fa fa-sign-in"></i> @("Sign in".Localize())</a></li>
                 }
                 else
                 {
-                    <li>Welcome, <a href="#">@customer.LastName</a></li>
+                    <li><a href="#"><i class="fa fa-user"></i> @customer.LastName</a></li>
+                    <li>
+                        <a href="#" data-toggle="submit-form" data-form="#logout-form"><i class="fa fa-sign-out"></i> @("Sign out".Localize())</a>
+                    </li>
                 }
                 @Html.FrontHtml().RenderView("Cart-Mini")
             </ul>
@@ -38,3 +41,6 @@
     </div>
 </nav>
  
+<form style="display:none" id="logout-form" method="post" action="@Url.FrontUrl().SubmissionUrl("LogoutCustomer")">
+    @Html.AntiForgeryToken()
+</form>

@@ -12,13 +12,9 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
     {
         public string FirstName { get; set; }
 
-        public string MiddleName { get; set; }
-
         public string LastName { get; set; }
 
         public Gender Gender { get; set; }
-
-        public string Phone { get; set; }
 
         [Required]
         public string Email { get; set; }
@@ -26,9 +22,8 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
         [Required]
         public string Password { get; set; }
 
-        public int? CountryId { get; set; }
-
-        public string City { get; set; }
+        [Required, Compare("Password")]
+        public string PasswordConfirm { get; set; }
 
         public IDictionary<string, string> CustomFields { get; set; }
 

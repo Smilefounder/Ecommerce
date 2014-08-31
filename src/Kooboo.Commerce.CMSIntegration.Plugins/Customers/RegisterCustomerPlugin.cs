@@ -32,12 +32,8 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 AccountId = user.UUID,
                 Email = model.Email,
                 FirstName = model.FirstName,
-                MiddleName = model.MiddleName,
                 LastName = model.LastName,
-                Gender = model.Gender,
-                Phone = model.Phone,
-                City = model.City,
-                CountryId = model.CountryId
+                Gender = model.Gender
             };
 
             if (model.CustomFields != null)
