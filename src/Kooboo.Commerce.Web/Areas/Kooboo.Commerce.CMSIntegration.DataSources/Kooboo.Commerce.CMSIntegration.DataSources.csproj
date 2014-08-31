@@ -106,6 +106,7 @@
     <Compile Include="Generic\GenericCommerceDataSourceSettings.cs" />
     <Compile Include="ICommerceDataSource.cs" />
     <Compile Include="Impl\CategoryBreadcrumbDataSource.cs" />
+    <Compile Include="Impl\CurrentCustomerDataSource.cs" />
     <Compile Include="ModelBinders\CommerceDataSourceModelBinder.cs" />
     <Compile Include="Models\GenericDataSourceModel.cs" />
     <Compile Include="Models\FilterModel.cs" />

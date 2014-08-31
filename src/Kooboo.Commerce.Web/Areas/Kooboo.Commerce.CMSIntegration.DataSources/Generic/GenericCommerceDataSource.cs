@@ -62,6 +62,15 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
             get { return null; }
         }
 
+        [JsonProperty]
+        public virtual bool SupportTakeOperationSelection
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public object Execute(CommerceDataSourceContext context)
         {
             ParsedGenericCommerceDataSourceSettings settings;

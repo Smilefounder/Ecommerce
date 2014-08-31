@@ -35,7 +35,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
         public string PageNumber { get; set; }
 
         [DataMember]
-        public TakeOperation TakeOperation { get; set; }
+        public TakeOperation? TakeOperation { get; set; }
 
         public GenericCommerceDataSourceSettings()
         {

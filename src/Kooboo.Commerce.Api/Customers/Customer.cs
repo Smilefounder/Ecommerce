@@ -44,6 +44,7 @@ namespace Kooboo.Commerce.Api.Customers
             get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); }
         }
 
+        [OptionalInclude]
         public IDictionary<string, string> CustomFields { get; set; }
 
         public Customer()

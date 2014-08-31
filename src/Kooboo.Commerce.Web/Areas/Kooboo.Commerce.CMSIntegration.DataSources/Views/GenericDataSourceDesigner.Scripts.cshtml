@@ -9,8 +9,6 @@
 <script>
     $(function () {
 
-        var viewModel = new ViewModel();
-
         function ViewModel() {
             var _this = this;
             var _mappingOptions = {
@@ -196,6 +194,8 @@
                 $.validator.unobtrusive.parse($form);
             }
         }
+
+        var viewModel = new ViewModel();
 
         ko.applyBindings(viewModel, document.getElementById('generic-commerce-datasource'));
     });

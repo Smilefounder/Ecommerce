@@ -33,6 +33,14 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
             get { return GetQueryDescriptor().OptionalIncludeFields; }
         }
 
+        public override bool SupportTakeOperationSelection
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         protected override object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
         {
             var query = Query(context.Site.Commerce());

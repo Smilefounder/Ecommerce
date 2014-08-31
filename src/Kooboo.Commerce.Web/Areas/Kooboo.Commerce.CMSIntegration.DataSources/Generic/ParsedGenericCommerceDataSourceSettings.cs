@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 
         public SortDirection SortDirection { get; set; }
 
-        public TakeOperation TakeOperation { get; set; }
+        public TakeOperation? TakeOperation { get; set; }
 
         public int? Top { get; set; }
 

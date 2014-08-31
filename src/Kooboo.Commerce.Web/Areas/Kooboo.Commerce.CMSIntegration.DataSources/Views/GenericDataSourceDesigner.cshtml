@@ -74,7 +74,7 @@
                 </div>
             </td>
         </tr>
-        <tr>
+        <tr data-bind="visible: DataSource.SupportTakeOperationSelection">
             <th>@("Query type".Localize())</th>
             <td>
                 <div class="clearfix">
@@ -82,7 +82,7 @@
                     <label for="TakeOperation_List" class="inline">@("List of contents".Localize())</label>
                 </div>
                 <div class="clearfix" style="margin-top:10px">
-                    <input type="radio" id="TakeOperation_FirstOrDefault" name="DataSource.CommerceDataSource.Settings.TakeOperation" value="1" data-bind="checked: DataSource.Settings.TakeOperation" />
+                    <input type="radio" id="TakeOperation_First" name="DataSource.CommerceDataSource.Settings.TakeOperation" value="1" data-bind="checked: DataSource.Settings.TakeOperation" />
                     <label for="TakeOperation_First" class="inline">@("First or default (one content item)".Localize())</label>
                 </div>
             </td>
