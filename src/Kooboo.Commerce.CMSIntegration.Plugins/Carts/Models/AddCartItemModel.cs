@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models
 {
-    public class AddItemModel
+    public class AddCartItemModel
     {
         public int ProductVariantId { get; set; }
 

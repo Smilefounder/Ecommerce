@@ -1,37 +1,50 @@
 ﻿@using Kooboo.Commerce.Api.Carts
 @{
     var cart = ViewBag.ShoppingCart as ShoppingCart;
-    var totalQty = cart.Items.Sum(it => it.Quantity);
+    var totalQty = cart == null ? 0 : cart.Items.Sum(it => it.Quantity);
 } 
 
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-shopping-cart"></i> Cart
+        <i class="fa fa-shopping-cart"></i> @("Cart".Localize())
         @if (totalQty > 0)
         {
             <span class="badge" style="background:red">@totalQty</span>
         }
         <span class="caret"></span>
     </a>
-    @if (cart.Items.Count > 0) { 
     <div class="dropdown-menu" role="menu">
         <div style="padding:10px;min-width:300px">
             <div>
-                @foreach (var item in cart.Items)
+                @if (cart != null && cart.Items.Count > 0) { 
+                    foreach (var item in cart.Items)
+                    {
+                        <div style="padding-bottom:10px;border-bottom:#eee 1px solid;margin-bottom:10px">
+                            <div>
+                                <strong style="font-size:16px">@item.Product.Name</strong> x @item.Quantity
+                                <span class="pull-right" style="color:orange">&euro; @item.Total</span>
+                            </div>
+                            <div class="text-muted">
+                                @String.Join(", ", item.ProductVariant.VariantFields.Select(f => f.FieldLabel + ": " + f.FieldText))
+                            </div>
+                        </div>
+                    }
+                }
+                else
                 {
-                    <div style="padding-bottom:10px;border-bottom:#eee 1px solid;margin-bottom:10px">
-                        @item.Product.Name x @item.Quantity
-                        <span class="pull-right" style="color:orange">&euro; @item.Total</span>
+                    <div class="alert text-center">
+                        <p class="text-muted">
+                            <i class="fa fa-shopping-cart"></i> @("Cart is empty".Localize())
+                        </p>
                     </div>
                 }
             </div>
-            <div>
-                <div class="btn-group btn-group-justified">
+            @if (cart != null && cart.Items.Count > 0) {
+                <div class="text-right">
                     <a href="@Url.FrontUrl().PageUrl("Cart")" class="btn btn-default"><i class="fa fa-shopping-cart"></i> Go to cart</a>
                     <a href="@Url.FrontUrl().PageUrl("Checkout")" class="btn btn-success"><i class="fa fa-euro"></i> Checkout</a>
                 </div>
-            </div>
+            }
         </div>
     </div>
-    }
 </li>

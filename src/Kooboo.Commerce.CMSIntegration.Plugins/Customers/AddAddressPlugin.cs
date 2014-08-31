@@ -24,6 +24,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 Postcode = model.Postcode,
                 Phone = model.Phone,
                 City = model.City,
+                State = model.State,
                 CountryId = model.CountryId,
                 Address1 = model.Address1,
                 Address2 = model.Address2
@@ -35,11 +36,20 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 address.LastName = customer.LastName;
             }
 
-            var addressId = Site.Commerce().Customers.AddAddress(customer.Id, address);
+            var addressId = Api.Customers.AddAddress(customer.Id, address);
+
+            if (model.SetDefaultShippingAddress)
+            {
+                Api.Customers.SetDefaultShippingAddress(customer.Id, addressId);
+            }
+            if (model.SetDefaultBillingAddress)
+            {
+                Api.Customers.SetDefaultBillingAddress(customer.Id, addressId);
+            }
 
             return new SubmissionExecuteResult
             {
-                RedirectUrl = ResolveUrl(model.SuccessUrl, ControllerContext),
+                RedirectUrl = ResolveUrl(model.ReturnUrl, ControllerContext),
                 Data = new AddAddressResult
                 {
                     AddressId = addressId

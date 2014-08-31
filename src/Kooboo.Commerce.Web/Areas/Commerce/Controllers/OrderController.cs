@@ -159,17 +159,17 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             if (order.ShippingAddress == null)
             {
                 order.ShippingAddress = new OrderAddress();
-                if (customer.ShippingAddress != null)
+                if (customer.DefaultShippingAddress != null)
                 {
-                    order.ShippingAddress = OrderAddress.CreateFrom(customer.ShippingAddress);
+                    order.ShippingAddress = OrderAddress.CreateFrom(customer.DefaultShippingAddress);
                 }
             }
             if (order.BillingAddress == null)
             {
                 order.BillingAddress = new OrderAddress();
-                if (customer.BillingAddress != null)
+                if (customer.DefaultBillingAddress != null)
                 {
-                    order.BillingAddress = OrderAddress.CreateFrom(customer.BillingAddress);
+                    order.BillingAddress = OrderAddress.CreateFrom(customer.DefaultBillingAddress);
                 }
             }
 

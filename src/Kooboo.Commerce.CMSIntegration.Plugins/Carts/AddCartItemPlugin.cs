@@ -10,9 +10,9 @@ using Kooboo.CMS.Sites.Membership;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 {
-    public class AddCartItemPlugin : SubmissionPluginBase<AddItemModel>
+    public class AddCartItemPlugin : SubmissionPluginBase<AddCartItemModel>
     {
-        protected override SubmissionExecuteResult Execute(AddItemModel model)
+        protected override SubmissionExecuteResult Execute(AddCartItemModel model)
         {
             var cartId = HttpContext.CurrentCartId();
             var itemId = Api.ShoppingCarts.AddItem(cartId, model.ProductVariantId, model.Quantity);

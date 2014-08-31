@@ -59,9 +59,9 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
 
             Address defaultAddr = null;
 
-            if (customer.ShippingAddressId != null)
+            if (customer.DefaultShippingAddressId != null)
             {
-                defaultAddr = customer.Addresses.FirstOrDefault(a => a.Id == customer.ShippingAddressId.Value);
+                defaultAddr = customer.Addresses.FirstOrDefault(a => a.Id == customer.DefaultShippingAddressId.Value);
             }
 
             if (defaultAddr == null)

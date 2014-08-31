@@ -73,5 +73,19 @@ namespace Kooboo.Commerce.Api.Local.Customers
                 Address2 = addr.Address2
             };
         }
+
+        public void SetDefaultShippingAddress(int customerId, int addressId)
+        {
+            var customer = _context.Services.Customers.GetById(customerId);
+            customer.DefaultShippingAddressId = addressId;
+            _context.Database.SaveChanges();
+        }
+
+        public void SetDefaultBillingAddress(int customerId, int addressId)
+        {
+            var customer = _context.Services.Customers.GetById(customerId);
+            customer.DefaultBillingAddressId = addressId;
+            _context.Database.SaveChanges();
+        }
     }
 }

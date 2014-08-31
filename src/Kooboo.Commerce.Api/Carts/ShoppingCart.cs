@@ -8,52 +8,29 @@ using System.Text;
 
 namespace Kooboo.Commerce.Api.Carts
 {
-    /// <summary>
-    /// shopping cart
-    /// </summary>
     public class ShoppingCart
     {
-        /// <summary>
-        /// shopping cart id
-        /// </summary>
         public int Id { get; set; }
-        /// <summary>
-        /// session id
-        /// </summary>
+
         public string SessionId { get; set; }
-        /// <summary>
-        /// shopping cart items
-        /// </summary>
+
         [OptionalInclude]
         public IList<ShoppingCartItem> Items { get; set; }
-        /// <summary>
-        /// shipping address
-        /// will copy to order's shipping address when create order from shopping cart
-        /// </summary>
+
         [OptionalInclude]
         public Address ShippingAddress { get; set; }
 
         [OptionalInclude]
+        public Address BillingAddress { get; set; }
+
+        [OptionalInclude]
         public ShippingMethod ShippingMethod { get; set; }
 
-        /// <summary>
-        /// billing address
-        /// will copy to order's billing address when create order from shopping cart
-        [OptionalInclude]
-        public Address BillingAddress { get; set; }
-        /// <summary>
-        /// customer info
-        /// </summary>
         [OptionalInclude]
         public Customer Customer { get; set; }
-        /// <summary>
-        /// use coupon code
-        /// </summary>
+
         public string CouponCode { get; set; }
 
-        /// <summary>
-        /// Applicable promotions for this shopping cart.
-        /// </summary>
         public IList<Promotion> AppliedPromotions { get; set; }
 
         public decimal ShippingCost { get; set; }

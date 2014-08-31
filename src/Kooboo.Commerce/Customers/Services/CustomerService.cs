@@ -73,7 +73,7 @@ namespace Kooboo.Commerce.Customers.Services
             {
                 foreach (var address in customer.Addresses)
                 {
-                    var dbAddress = dbCustomer.Addresses.Find(a => a.Id == address.Id);
+                    var dbAddress = dbCustomer.Addresses.FirstOrDefault(a => a.Id == address.Id);
                     if (dbAddress == null)
                     {
                         dbAddress = new Address();

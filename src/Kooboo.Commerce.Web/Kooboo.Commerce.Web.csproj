@@ -1585,6 +1585,8 @@
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Layouts\OneColumn\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Login\setting.config" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Login\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Checkout\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Checkout\template.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

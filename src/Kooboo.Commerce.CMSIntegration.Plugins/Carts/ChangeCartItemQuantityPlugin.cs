@@ -7,9 +7,9 @@ using Kooboo.CMS.Sites.Membership;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 {
-    public class ChangeCartItemQuantityPlugin : SubmissionPluginBase<ChangeItemQuantityModel>
+    public class ChangeCartItemQuantityPlugin : SubmissionPluginBase<ChangeCartItemQuantityModel>
     {
-        protected override SubmissionExecuteResult Execute(ChangeItemQuantityModel model)
+        protected override SubmissionExecuteResult Execute(ChangeCartItemQuantityModel model)
         {
             var cartId = HttpContext.CurrentCartId();
             Api.ShoppingCarts.ChangeItemQuantity(cartId, model.ItemId, model.NewQuantity);

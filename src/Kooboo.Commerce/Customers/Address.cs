@@ -12,8 +12,6 @@ namespace Kooboo.Commerce.Countries
 
         public int CustomerId { get; set; }
 
-        public int CountryId { get; set; }
-
         [Param]
         public string FirstName { get; set; }
 
@@ -33,13 +31,14 @@ namespace Kooboo.Commerce.Countries
         public string Postcode { get; set; }
 
         [Param]
-        public string State { get; set; }
+        public string City { get; set; }
 
         [Param]
-        public string City { get; set; }
+        public string State { get; set; }
+
+        public int CountryId { get; set; }
 
         [Reference]
         public virtual Country Country { get; set; }
-
     }
 }

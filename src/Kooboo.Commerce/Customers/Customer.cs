@@ -2,6 +2,7 @@
 using System.Linq;
 using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Rules;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kooboo.Commerce.Customers
 {
@@ -45,31 +46,33 @@ namespace Kooboo.Commerce.Customers
         [Param]
         public Gender Gender { get; set; }
 
-        public int? ShippingAddressId { get; set; }
+        public int? DefaultShippingAddressId { get; set; }
 
-        public int? BillingAddressId { get; set; }
+        public int? DefaultBillingAddressId { get; set; }
 
-        public virtual List<Address> Addresses { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
 
-        public virtual Address ShippingAddress
+        [NotMapped]
+        public virtual Address DefaultShippingAddress
         {
             get
             {
-                if (Addresses != null && ShippingAddressId.HasValue)
+                if (Addresses != null && DefaultShippingAddressId.HasValue)
                 {
-                    return Addresses.FirstOrDefault(o => o.Id == ShippingAddressId.Value);
+                    return Addresses.FirstOrDefault(o => o.Id == DefaultShippingAddressId.Value);
                 }
                 return null;
             }
         }
 
-        public virtual Address BillingAddress
+        [NotMapped]
+        public virtual Address DefaultBillingAddress
         {
             get
             {
-                if (Addresses != null && BillingAddressId.HasValue)
+                if (Addresses != null && DefaultBillingAddressId.HasValue)
                 {
-                    return Addresses.FirstOrDefault(o => o.Id == BillingAddressId.Value);
+                    return Addresses.FirstOrDefault(o => o.Id == DefaultBillingAddressId.Value);
                 }
                 return null;
             }

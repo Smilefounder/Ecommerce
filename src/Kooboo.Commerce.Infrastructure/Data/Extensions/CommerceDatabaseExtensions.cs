@@ -8,7 +8,7 @@ namespace Kooboo.Commerce
 {
     public static class CommerceDatabaseExtensions
     {
-        public static void WithTransaction(this ICommerceDatabase database, Action action)
+        public static void Transactional(this ICommerceDatabase database, Action action)
         {
             using (var tx = database.BeginTransaction())
             {
@@ -17,7 +17,7 @@ namespace Kooboo.Commerce
             }
         }
 
-        public static T WithTransaction<T>(this ICommerceDatabase database, Func<T> action)
+        public static T Transactional<T>(this ICommerceDatabase database, Func<T> action)
         {
             T result;
 

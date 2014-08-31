@@ -13,11 +13,11 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
         protected override SubmissionExecuteResult Execute(ChangeShippingAddressModel model)
         {
             var cartId = HttpContext.CurrentCartId();
-            Api.ShoppingCarts.ChangeShippingAddress(cartId, new Address { Id = model.ShippingAddressId });
+            Api.ShoppingCarts.ChangeShippingAddress(cartId, new Address { Id = model.AddressId });
 
             return new SubmissionExecuteResult
             {
-                RedirectUrl = ResolveUrl(model.SuccessUrl, ControllerContext)
+                RedirectUrl = ResolveUrl(model.ReturnUrl, ControllerContext)
             };
         }
     }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
 {
-    public class RemoveCartItemPlugin : SubmissionPluginBase<RemoveItemModel>
+    public class RemoveCartItemPlugin : SubmissionPluginBase<RemoveCartItemModel>
     {
-        protected override SubmissionExecuteResult Execute(RemoveItemModel model)
+        protected override SubmissionExecuteResult Execute(RemoveCartItemModel model)
         {
             var cartId = HttpContext.CurrentCartId();
             Api.ShoppingCarts.RemoveItem(cartId, model.ItemId);

@@ -18,23 +18,23 @@ namespace Kooboo.Commerce.Api.Customers
 
         public string LastName { get; set; }
 
-        public string Email { get; set; }
-
-        public Gender Gender { get; set; }
-
-        public int? ShippingAddressId { get; set; }
-
-        public int? BillingAddressId { get; set; }
-
-        [OptionalInclude]
-        public IList<Address> Addresses { get; set; }
-
-        public int SavingPoints { get; set; }
-
         public string FullName
         {
             get { return string.Format("{0} {1}", FirstName, LastName); }
         }
+
+        public string Email { get; set; }
+
+        public Gender Gender { get; set; }
+
+        public int SavingPoints { get; set; }
+
+        public int? DefaultShippingAddressId { get; set; }
+
+        public int? DefaultBillingAddressId { get; set; }
+
+        [OptionalInclude]
+        public IList<Address> Addresses { get; set; }
 
         [OptionalInclude]
         public IDictionary<string, string> CustomFields { get; set; }

@@ -14,26 +14,13 @@
             success: function (responseData, statusText, xhr, $form) {
                 form.find("[type=submit]").removeClass("disabled").removeAttr("disabled");
                 if (!responseData.Success) {
-                    var validator = form.validate();
-                    //                            var errors = [];
-                    for (var i = 0; i < responseData.FieldErrors.length; i++) {
-                        var obj = {};
-                        var fieldName = responseData.FieldErrors[i].FieldName;
-                        if (fieldName == "") {
-                            alert(responseData.FieldErrors[i].ErrorMessage);
-                        }
-                        obj[fieldName] = responseData.FieldErrors[i].ErrorMessage;
-                        validator.showErrors(obj);
-                    }
-                }
-                else {
+                    applyRemoteValidationResult(responseData);
+                } else {
                     if (responseData.RedirectUrl != null) {
                         location.href = responseData.RedirectUrl;
-                    }
-                    else {
+                    } else {
                         location.reload();
                     }
-
                 }
             },
             error: function () {
@@ -43,6 +30,19 @@
 
         });
     });
+
+    window.applyRemoteValidationResult = function (responseData) {
+        var validator = form.validate();
+        for (var i = 0; i < responseData.FieldErrors.length; i++) {
+            var obj = {};
+            var fieldName = responseData.FieldErrors[i].FieldName;
+            if (fieldName == "") {
+                alert(responseData.FieldErrors[i].ErrorMessage);
+            }
+            obj[fieldName] = responseData.FieldErrors[i].ErrorMessage;
+            validator.showErrors(obj);
+        }
+    }
 
     $(document).on('click', '[data-toggle="submit-form"]', function () {
         var $form = null;

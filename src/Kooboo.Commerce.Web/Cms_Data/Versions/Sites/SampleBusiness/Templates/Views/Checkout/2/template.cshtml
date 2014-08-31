@@ -1,0 +1,195 @@
+﻿@using Kooboo.Commerce.Api.Customers
+@using Kooboo.Commerce.Api.Carts
+@{
+    var customer = ViewBag.CurrentCustomer as Customer;
+    var cart = ViewBag.ShoppingCart as ShoppingCart;
+}
+
+<div class="page-header">
+    <h1><i class="fa fa-euro"></i> @("Checkout".Localize())</h1>
+</div>
+
+<fieldset>
+    <legend>
+        <i class="fa fa-shopping-cart"></i> @("Cart detail".Localize())
+        <a href="@Url.FrontUrl().PageUrl("Cart")" title="@("Edit".Localize())" class="fa fa-edit pull-right"></a>
+    </legend>
+    <div>
+        @foreach (var item in cart.Items)
+        {
+            var imageUrl = item.Product.GetImageUrl("List");
+            var productUrl = Url.FrontUrl().PageUrl("Product", new { productId = item.Product.Id });
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="media">
+                        <a href="@productUrl" class="pull-left">
+                            <img src="@imageUrl" class="media-object" style="width:150px" />
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a href="@productUrl">@item.Product.Name</a>
+                                @if (item.Product.Brand != null)
+                                {
+                                    <span class="text-muted">(@item.Product.Brand.Name)</span>
+                                }
+                                x
+                                @item.Quantity
+                            </h4>
+                            <div class="media-content">
+                                <p>
+                                    @String.Join(", ", item.ProductVariant.VariantFields.Select(f => f.FieldLabel + ": " + f.FieldValue))
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <strong style="color:orange">
+                        &euro; @item.Total.ToString("f2")
+                    </strong>
+                    @if (item.Discount > 0)
+                    {
+                        <div>
+                            <span class="label label-success">&euro; @item.Discount.ToString("f2")</span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <hr />
+        }
+        <div class="clearfix">
+            @if (!String.IsNullOrEmpty(cart.CouponCode))
+            {
+                <div class="pull-left current-coupon-holder">
+                    <b>Coupon code:</b><br />
+                    <b style="font-size:28px;color:orange">@cart.CouponCode</b>
+                </div>
+            }
+            <div class="pull-right">
+                <strong>
+                    <span style="font-size:26px;color:orange">&euro; @cart.Total.ToString("f2")</span>
+                </strong>
+                @if (cart.TotalDiscount > 0)
+                {
+                    <div class="text-right" style="margin-top:5px">
+                        <span class="label label-success">
+                            Discount: &euro; @cart.TotalDiscount.ToString("f2")
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend><i class="fa fa-truck"></i> @("Shipping address".Localize())</legend>
+    <div>
+        @if (customer.Addresses.Count > 0)
+        {
+            <div>
+                @foreach (var address in customer.Addresses)
+                {
+                    <div class="radio">
+                        <input type="radio" name="ShippingAddressId" value="@address.Id" />
+                        @address.FirstName @address.LastName<br />
+                        @address.Address1 @address.Address2<br />
+                        @address.City, @address.State, @address.Country.Name
+                    </div>
+                }
+            </div>
+        }
+        <div>
+            <a href="#" class="btn btn-default"><i class="fa fa-plus"></i> @("Add address".Localize())</a>
+        </div>
+    </div>
+</fieldset>
+
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">@("Add Address".Localize())</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@("First name".Localize())</label>
+                                <input type="text" name="FirstName" maxlength="20"
+                                       data-val="true" data-val-required="@("Required".Localize())" />
+                                @Html.ValidationMessage("FirstName")
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@("Last name".Localize())</label>
+                                <input type="text" name="LastName" maxlength="20"
+                                       data-val="true" data-val-required="@("Required".Localize())" />
+                                @Html.ValidationMessage("LastName")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@("Phone".Localize())</label>
+                                <input type="text" name="Phone" maxlength="20"
+                                       data-val="true" data-val-required="@("Required".Localize())" />
+                                @Html.ValidationMessage("Phone")
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@("Postal code".Localize())</label>
+                                <input type="text" name="Postcode" maxlength="20"
+                                       data-val="true" data-val-required="@("Required".Localize())" />
+                                @Html.ValidationMessage("Postcode")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>@("Address 1".Localize())</label>
+                        <input type="text" name="Address1" maxlength="50"
+                               data-val="true" data-val-required="@("Required".Localize())" />
+                        @Html.ValidationMessage("Address1")
+                    </div>
+                    <div class="form-group">
+                        <label>@("Address 2".Localize())</label>
+                        <input type="text" name="Address2" maxlength="50" />
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@("City".Localize())</label>
+                                <input type="text" name="City" maxlength="50"
+                                       data-val="true" data-val-required="@("Required".Localize())" />
+                                @Html.ValidationMessage("City")
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@("State/Province".Localize())</label>
+                                <input type="text" name="State" maxlength="50" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>@("Country".Localize())</label>
+                        <select name="CountryId" data-val="true" data-val-required="@("Required".Localize())">
+                            <option value=""></option>
+                        </select>
+                        @Html.ValidationMessage("CountryId")
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@("Cancel".Localize())</button>
+                    <button type="submit" class="btn btn-success">@("Save".Localize())</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

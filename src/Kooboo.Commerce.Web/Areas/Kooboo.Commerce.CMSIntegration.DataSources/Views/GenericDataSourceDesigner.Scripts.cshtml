@@ -24,6 +24,10 @@
 
             this.Init = function () {
                 _this.UpdateAllPathsIncluded();
+
+                if (_this.DataSource.SupportTakeOperationSelection() && !_this.DataSource.Settings.TakeOperation()) {
+                    _this.DataSource.Settings.TakeOperation(0);
+                }
             }
 
             this.DataSources = ko.observableArray();
@@ -169,8 +173,11 @@
             this.AllPathsIncluded = ko.observable();
 
             this.UpdateAllPathsIncluded = function () {
-                _this.AllPathsIncluded(
-                    _this.DataSource.OptionalIncludeFields().length === _this.DataSource.Settings.Includes().length);
+                if (_this.DataSource.OptionalIncludeFields || !_this.DataSource.OptionalIncludeFields() || _this.DataSource.OptionalIncludeFields().length === 0) {
+                    return;
+                }
+
+                _this.AllPathsIncluded(_this.DataSource.OptionalIncludeFields().length === _this.DataSource.Settings.Includes().length);
             }
 
             this.ToggleIncludeAll = function () {
@@ -196,6 +203,7 @@
         }
 
         var viewModel = new ViewModel();
+        viewModel.Init();
 
         ko.applyBindings(viewModel, document.getElementById('generic-commerce-datasource'));
     });

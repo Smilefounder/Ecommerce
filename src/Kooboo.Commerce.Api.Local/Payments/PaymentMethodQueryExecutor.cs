@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Api.Local.Payments
 
         protected override IQueryable<Core.PaymentMethod> CreateLocalQuery()
         {
-            return ApiContext.Services.PaymentMethods.Query();
+            return ApiContext.Services.PaymentMethods.Query().Where(it => it.IsEnabled);
         }
 
         protected override IQueryable<Core.PaymentMethod> ApplyFilter(IQueryable<Core.PaymentMethod> query, QueryFilter filter)

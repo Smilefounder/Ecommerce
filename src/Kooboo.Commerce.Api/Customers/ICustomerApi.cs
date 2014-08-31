@@ -11,6 +11,10 @@ namespace Kooboo.Commerce.Api.Customers
 
         int Create(Customer customer);
 
-        int AddAddress(int customerId, Address address);    
+        int AddAddress(int customerId, Address address);
+
+        void SetDefaultShippingAddress(int customerId, int addressId);
+
+        void SetDefaultBillingAddress(int customerId, int addressId);
     }
 }

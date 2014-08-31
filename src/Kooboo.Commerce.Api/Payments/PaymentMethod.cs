@@ -17,9 +17,7 @@ namespace Kooboo.Commerce.Api.Payments
 
         public decimal AdditionalFeeAmount { get; set; }
 
-        public float AdditionalFeePercent { get; set; }
-
-        public string PaymentProcessorName { get; set; }
+        public decimal AdditionalFeePercent { get; set; }
 
         public decimal GetPaymentMethodFee(decimal total)
         {
