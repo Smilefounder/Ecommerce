@@ -8,10 +8,19 @@
              <div class="col-sm-3">
                  <div class="thumbnail">
                      @if (image != null) { 
-                        <img src="@image.ImageUrl" alt="@item.Name" />
+                        <img src="@image.ImageUrl" alt="@item.Name" class="img-responsive" />
+                     }
+                     else
+                     {
+                         <img src="http://placehold.it/300x200" class="img-responsive" />
                      }
                      <div class="caption">
-                         <h4><a href="#">@item.Name</a></h4>
+                         <h4>
+                            <a href="@Url.FrontUrl().PageUrl("Product", new { productId = @item.Id })">@item.Name</a>
+                         </h4>
+                         <p style="font-size:16px;font-weight:bold;color:orange">
+                             &euro; @item.LowestPrice - &euro; @item.HighestPrice
+                         </p>
                      </div>
                  </div>
              </div>

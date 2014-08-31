@@ -1,0 +1,113 @@
+﻿@using Kooboo.Commerce.Api.Products 
+@{
+     var product = ViewBag.Product;
+     if (product == null)
+     {
+         throw new HttpException(404, "Page not found");
+     }
+
+     var overviewImageUrl = product.GetImageUrl("Detail");
+ }
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            @if (String.IsNullOrEmpty(overviewImageUrl))
+            {
+                <img src="http://placehold.it/400x350&text=@product.Name" class="img-responsive" />
+            }
+            else { 
+                <img src="@overviewImageUrl" class="img-responsive" />
+            }
+        </div>
+        <div class="col-sm-8">
+            <h1 style="margin-top:0">@product.Name</h1>
+            <div style="font-size:32px;color:orange;margin-bottom:10px">
+                <div class="variant-content">&euro; @product.LowestPrice - @product.HighestPrice</div>
+                @foreach (var variant in product.Variants)
+                {
+                    <div class="variant-content" data-variant-id="@variant.Id" style="display:none">
+                        @if (variant.FinalPrice == variant.Price)
+                        {
+                            <text>&euro; @variant.FinalPrice</text>
+                        }
+                        else
+                        {
+                            <text><del>&euro; @variant.Price</del> &euro; @variant.FinalPrice</text>
+                        }
+                    </div>
+                }
+            </div>
+            <div>
+                @foreach (var variant in product.Variants)
+                {
+                    var fields = variant.VariantFields as IEnumerable<CustomField>;
+                    
+                    <a href="#" class="btn btn-default btn-select-variant" data-variant-id="@variant.Id">@String.Join(", ", fields.Select(f => f.FieldName + ": " + f.FieldText))</a>
+                }
+            </div>
+            <div style="margin-top:20px">
+                @foreach (var variant in product.Variants)
+                {
+                    <div data-variant-id="@variant.Id" style="display:none;line-height:1.5em;" class="variant-content dl-horizontal">
+                        @foreach (var each in variant.VariantFields)
+                        {
+                            <strong style="display:inline-block;min-width:100px;">@each.FieldName:</strong> @each.FieldText<br />
+                        }
+                    </div>
+                }
+            </div>
+            <div style="margin-top:20px">
+                <form method="post" action="@Url.FrontUrl().SubmissionUrl("AddCartItem")">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Quantity" value="1" />
+                    <input type="hidden" name="ProductVariantId" value="" />
+                    <button type="submit" class="btn btn-lg btn-success btn-add-to-cart" style="display:none"><i class="fa fa-shopping-cart"></i> Add to cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<fieldset style="margin-top:30px">
+    <legend>Product details</legend>
+    <div>
+        @foreach (var field in product.CustomFields)
+        {
+            <h4>@field.FieldName</h4>
+            <div>
+                @Html.Raw(field.FieldText)
+            </div>
+        }
+    </div>
+</fieldset>
+
+<script>
+    $('.btn-select-variant').on('click', function () {
+        $('.btn-select-variant').removeClass('btn-warning');
+        $(this).addClass('btn-warning');
+
+        var variantId = $(this).data('variant-id');
+        $('.variant-content').hide();
+        $('.variant-content[data-variant-id="' + variantId + '"]').show();
+
+        $('[name="ProductVariantId"]').val(variantId);
+        $('.btn-add-to-cart').show();
+
+        return false;
+    });
+
+    $('.btn-add-to-cart').click(function () {
+        var $form = $(this).closest('form');
+        $.ajax({
+            url: $form.attr('action'),
+            type: 'POST',
+            data: $form.serializeArray()
+        })
+        .done(function (data) {
+            location.href = location.pathname + location.search;
+        });
+
+        return false;
+    });
+</script>

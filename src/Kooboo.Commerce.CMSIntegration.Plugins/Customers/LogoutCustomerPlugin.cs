@@ -8,9 +8,9 @@ using Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 {
-    public class CustomerLogoutPlugin : SubmissionPluginBase<CustomerLogoutModel>
+    public class LogoutCustomerPlugin : SubmissionPluginBase<LogoutCustomerModel>
     {
-        protected override SubmissionExecuteResult Execute(CustomerLogoutModel model)
+        protected override SubmissionExecuteResult Execute(LogoutCustomerModel model)
         {
             HttpContext.Membership().SignOut();
             return new SubmissionExecuteResult

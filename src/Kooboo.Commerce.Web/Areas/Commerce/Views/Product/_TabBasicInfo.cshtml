@@ -4,7 +4,7 @@
             <tr>
                 <th>@("Name".Localize())</th>
                 <td>
-                    <input type="text" name="Name" data-bind="value: name" class="medium" 
+                    <input type="text" name="Name" data-bind="value: name" class="medium"
                            data-val="true"
                            data-val-required="@("Required".Localize())" />
                     <span data-valmsg-for="Name" data-valmsg-replace="true"></span>
@@ -13,7 +13,7 @@
             <tr>
                 <th>@("Brand".Localize())</th>
                 <td>
-                    <div class="medium" data-bind="select2: brand, select2Options: { textField: 'name', ajax: { url: '/Commerce/Product/SearchBrands' }}"></div>
+                    <div class="medium" data-bind="select2: $root.selectedBrand, select2Options: { textField: 'name', ajax: { url: '/Commerce/Product/SearchBrands' }}"></div>
                 </td>
             </tr>
             <tr>
@@ -29,3 +29,40 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    window.ProductEditor.tabs['BasicInfo'] = {
+        init: function (context) {
+            var model = context.model;
+            var product = model.product;
+
+            // Brand might be null, we use a always-non-null helper field 'selectedBrand' to help data binding
+            model.selectedBrand = {
+                id: ko.observable(),
+                name: ko.observable()
+            };
+
+            var brand = ko.toJS(product.brand);
+            if (brand) {
+                model.selectedBrand.id(brand.id);
+                model.selectedBrand.name(brand.name);
+            }
+        },
+
+        onSubmitting: function (context) {
+            var model = context.model;
+
+            if (model.selectedBrand.id()) {
+                if (!model.product.brand || !model.product.brand()) {
+                    model.product.brand = {
+                        id: ko.observable(),
+                        name: ko.observable()
+                    };
+                }
+
+                model.product.brand.id(model.selectedBrand.id());
+                model.product.brand.name(model.selectedBrand.name());
+            }
+        }
+    }
+</script>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
 {
-    public class CustomerLogoutModel
+    public class LogoutCustomerModel
     {
         public string ReturnUrl { get; set; }
     }

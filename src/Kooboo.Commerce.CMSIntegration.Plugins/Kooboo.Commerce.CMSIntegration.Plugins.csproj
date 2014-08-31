@@ -64,7 +64,8 @@
     <Compile Include="Carts\ChangeShippingAddressPlugin.cs" />
     <Compile Include="Carts\ChangeShippingMethodPlugin.cs" />
     <Compile Include="Carts\Models\ChangeShippingMethodModel.cs" />
-    <Compile Include="Customers\Models\CustomerLogoutModel.cs" />
+    <Compile Include="Customers\Models\LogoutCustomerModel.cs" />
+    <Compile Include="Customers\RequireLoginPlugin.cs" />
     <Compile Include="Extensions\HttpContextExtensions.cs" />
     <Compile Include="Carts\Models\ChangeBillingAddressModel.cs" />
     <Compile Include="Carts\Models\ChangeShippingAddressModel.cs" />
@@ -75,11 +76,11 @@
     <Compile Include="Carts\Models\RemoveItemModel.cs" />
     <Compile Include="Customers\AddAddressPlugin.cs" />
     <Compile Include="Customers\AddAddressResult.cs" />
-    <Compile Include="Customers\CustomerLoginPlugin.cs" />
-    <Compile Include="Customers\CustomerLoginResult.cs" />
-    <Compile Include="Customers\CustomerLogoutPlugin.cs" />
+    <Compile Include="Customers\LoginCustomerPlugin.cs" />
+    <Compile Include="Customers\LoginCustomerResult.cs" />
+    <Compile Include="Customers\LogoutCustomerPlugin.cs" />
     <Compile Include="Customers\Models\AddAddressModel.cs" />
-    <Compile Include="Customers\Models\CustomerLoginModel.cs" />
+    <Compile Include="Customers\Models\LoginCustomerModel.cs" />
     <Compile Include="Customers\Models\RegisterCustomerModel.cs" />
     <Compile Include="Customers\RegisterCustomerPlugin.cs" />
     <Compile Include="Customers\RegisterCustomerResult.cs" />
@@ -108,7 +109,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Cms_Data\Sites\Vitaminstore\Assemblies\"
+    <PostBuildEvent>xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Cms_Data\Sites\SampleBusiness\Assemblies\"
 xcopy /y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"
 xcopy /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)Kooboo.Commerce.Web\Bin\"</PostBuildEvent>
   </PropertyGroup>

@@ -25,11 +25,12 @@ namespace Kooboo.Commerce.Api
             });
         }
 
-        static void FindOptionalIncludeFields(Type type, string prefix, HashSet<string> paths, HashSet<PropertyInfo> visitedProperties)
+        static void FindOptionalIncludeFields(Type type, string prefix, HashSet<string> paths, HashSet<PropertyInfo> visitedPropertiesInThisPath)
         {
             foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                if (visitedProperties.Contains(prop))
+                // Detected circular reference, ignore it
+                if (visitedPropertiesInThisPath.Contains(prop))
                 {
                     continue;
                 }
@@ -38,7 +39,6 @@ namespace Kooboo.Commerce.Api
                 if (attr != null)
                 {
                     paths.Add(prefix + prop.Name);
-                    visitedProperties.Add(prop);
 
                     if (IsComplexType(prop.PropertyType))
                     {
@@ -66,6 +66,9 @@ namespace Kooboo.Commerce.Api
 
                         if (nextType != null)
                         {
+                            var visitedProperties = new HashSet<PropertyInfo>(visitedPropertiesInThisPath);
+                            visitedProperties.Add(prop);
+
                             FindOptionalIncludeFields(nextType, prefix + prop.Name + ".", paths, visitedProperties);
                         }
                     }

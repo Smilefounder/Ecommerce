@@ -473,6 +473,7 @@
     <Content Include="Areas\Commerce\Styles\images\media-library.png" />
     <Content Include="Areas\Commerce\Styles\images\stripe.png" />
     <Content Include="Areas\Commerce\Styles\styles.css" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Scripts\app.js" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Scripts\bootstrap.js" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Themes\Default\fonts\fontawesome-webfont.svg" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Themes\Default\fonts\glyphicons-halflings-regular.svg" />
@@ -1572,6 +1573,16 @@
     <Content Include="Areas\Commerce\Views\Product\Edit.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_TabImages.cshtml" />
     <Content Include="Areas\Commerce\Views\Product\_TabVariants.Scripts.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Product\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Product\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Cart-Mini\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Cart-Mini\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Cart\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Cart\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Header\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Header\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Layouts\OneColumn\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Layouts\OneColumn\template.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

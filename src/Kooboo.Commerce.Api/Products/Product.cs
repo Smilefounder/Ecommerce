@@ -51,14 +51,35 @@ namespace Kooboo.Commerce.Api.Products
             Variants = new List<ProductVariant>();
         }
 
-        public ProductImage GetImage(string size)
+        public ProductImage GetImage(string type)
         {
             if (Images != null)
             {
-                return Images.FirstOrDefault(o => o.Type == size);
+                return Images.FirstOrDefault(it => it.Type == type);
             }
 
             return null;
+        }
+
+        public string GetImageUrl(string type)
+        {
+            var image = GetImage(type);
+            return image == null ? null : image.ImageUrl;
+        }
+
+        public IEnumerable<ProductImage> GetImages(string type)
+        {
+            if (Images != null)
+            {
+                return Images.Where(it => it.Type == type);
+            }
+
+            return Enumerable.Empty<ProductImage>();
+        }
+
+        public IEnumerable<string> GetImageUrls(string type)
+        {
+            return GetImages(type).Select(it => it.ImageUrl);
         }
 
         public CustomField GetCustomField(string fieldName)

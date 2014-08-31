@@ -12,7 +12,15 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts
         protected override SubmissionExecuteResult Execute(ApplyCouponModel model)
         {
             var cartId = HttpContext.CurrentCartId();
-            var success = Api.ShoppingCarts.ApplyCoupon(cartId, model.Coupon);
+            var success = Api.ShoppingCarts.ApplyCoupon(cartId, model.CouponCode);
+
+            if (!success)
+            {
+                throw new InvalidModelStateException(new Dictionary<string, string>
+                {
+                    { "CouponCode", "Invalid coupon code" }
+                });
+            }
 
             return new SubmissionExecuteResult
             {

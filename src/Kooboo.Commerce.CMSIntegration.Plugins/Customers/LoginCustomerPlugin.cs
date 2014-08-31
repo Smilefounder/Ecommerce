@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 {
-    public class CustomerLoginPlugin : SubmissionPluginBase<CustomerLoginModel>
+    public class LoginCustomerPlugin : SubmissionPluginBase<LoginCustomerModel>
     {
         private MembershipUserManager _userManager;
 
-        public CustomerLoginPlugin(MembershipUserManager userManager)
+        public LoginCustomerPlugin(MembershipUserManager userManager)
         {
             _userManager = userManager;
         }
 
-        protected override SubmissionExecuteResult Execute(CustomerLoginModel model)
+        protected override SubmissionExecuteResult Execute(LoginCustomerModel model)
         {
             var membership = MemberPluginHelper.GetMembership();
             var valid = _userManager.Validate(membership, model.Email, model.Password);
@@ -57,7 +57,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
             return new SubmissionExecuteResult
             {
                 RedirectUrl = returnUrl,
-                Data = new CustomerLoginResult
+                Data = new LoginCustomerResult
                 {
                     CustomerId = customer.Id,
                     Email = model.Email

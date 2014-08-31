@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
 {
-    public class CustomerLoginModel
+    public class LoginCustomerModel
     {
         [Required, EmailAddress]
         public string Email { get; set; }

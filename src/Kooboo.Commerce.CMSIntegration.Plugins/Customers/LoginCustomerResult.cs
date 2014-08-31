@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 {
-    public class CustomerLoginResult
+    public class LoginCustomerResult
     {
         public int CustomerId { get; set; }
 

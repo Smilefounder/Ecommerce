@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Carts.Models
 {
     public class ApplyCouponModel
     {
-        public string Coupon { get; set; }
+        public string CouponCode { get; set; }
 
         public string SuccessUrl { get; set; }
     }
