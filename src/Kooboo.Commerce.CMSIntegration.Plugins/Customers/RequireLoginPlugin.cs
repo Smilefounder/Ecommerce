@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
             }
 
             // TODO: How to get login url?
-            var loginUrl = pageContext.FrontUrl.PageUrl("Login").ToString();
+            var loginUrl = pageContext.FrontUrl.PageUrl("Login", new { ReturnUrl = pageContext.ControllerContext.HttpContext.Request.RawUrl }).ToString();
 
             return new RedirectResult(loginUrl);
         }

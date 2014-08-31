@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 });
             }
 
-            HttpContext.Membership().SetAuthCookie(model.Email, model.RememberMe);
+            HttpContext.Membership().SetAuthCookie(model.Email, model.RememberMe.GetValueOrDefault(false));
 
             var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(false);
             if (!String.IsNullOrWhiteSpace(sessionId))
