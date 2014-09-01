@@ -22,6 +22,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Html
         private string _ajaxFormId = null;
         private string _customHtml;
         private RouteValueDictionary _buttonAttributes;
+        private RouteValueDictionary _containerAttributes;
 
         private HeaderPanelButtonCollection _dropdownItems;
 
@@ -100,6 +101,17 @@ namespace Kooboo.Commerce.Web.Framework.UI.Html
             return this;
         }
 
+        public HeaderPanelButton WithContainerAttributes(object attributes)
+        {
+            _containerAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(attributes);
+            return this;
+        }
+
+        public HeaderPanelButton AsSeparator()
+        {
+            return WithContainerAttributes(new { @class = "separator" });
+        }
+
         public HeaderPanelButton Dropdown(Action<HeaderPanelButtonCollection> dropdownBuilder)
         {
             dropdownBuilder(_dropdownItems);
@@ -114,6 +126,11 @@ namespace Kooboo.Commerce.Web.Framework.UI.Html
             }
 
             var item = new TagBuilder("li");
+
+            if (_containerAttributes != null)
+            {
+                item.MergeAttributes(_containerAttributes);
+            }
 
             if (_dropdownItems.Count > 0)
             {

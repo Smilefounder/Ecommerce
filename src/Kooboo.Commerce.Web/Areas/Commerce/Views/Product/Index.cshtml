@@ -17,6 +17,9 @@
                     items.Add(pt.Name).WithUrl(Url.Action("Create", RouteValues.From(Request.QueryString).Merge("productTypeId", pt.Id).Merge("return", Request.RawUrl)));
                 }
             }
+
+            items.Add("").AsSeparator();
+            items.Add("Create product type").WithUrl(Url.Action("Create", "ProductType", new { @return = Request.RawUrl }));
         });
 
         buttons.AddDeleteButton();
