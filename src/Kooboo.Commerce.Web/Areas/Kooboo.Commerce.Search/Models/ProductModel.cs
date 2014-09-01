@@ -8,6 +8,7 @@ using Kooboo.Commerce.Products;
 using System.Globalization;
 using Kooboo.Commerce.Web.Framework.UI.Form;
 using System.Text;
+using Kooboo.Commerce.Categories;
 
 namespace Kooboo.Commerce.Search.Models
 {
@@ -23,6 +24,11 @@ namespace Kooboo.Commerce.Search.Models
         [Field(Field.Index.NOT_ANALYZED)]
         public string Brand { get; set; }
 
+        /// <summary>
+        /// Categories of all levels of the product. 
+        /// This is different from Product.Categories where only the leaf categories are included.
+        /// e.g., The category of Product A is Computer -> Laptops, then this field will be [Computer, Laptops]
+        /// </summary>
         [Field(Field.Index.NOT_ANALYZED)]
         public IList<string> Categories { get; set; }
 
@@ -48,7 +54,7 @@ namespace Kooboo.Commerce.Search.Models
             VariantFieldValues = new Dictionary<string, HashSet<string>>();
         }
 
-        public static ProductModel Create(Product product, CultureInfo culture)
+        public static ProductModel Create(Product product, CultureInfo culture, CategoryCache categoryCache)
         {
             var doc = new ProductModel
             {
@@ -61,10 +67,24 @@ namespace Kooboo.Commerce.Search.Models
                 doc.Brand = product.Brand.GetText("Name", culture) ?? product.Brand.Name;
             }
 
+            var categoryNames = new HashSet<string>();
+
             foreach (var category in product.Categories)
             {
-                doc.Categories.Add(category.GetText("Name", culture) ?? category.Name);
+                foreach (var each in categoryCache.Find(category.Id).PathFromRoot())
+                {
+                    var name = Localizer.GetText(new EntityKey(typeof(Category), each.Id), "Name", culture);
+                    if (String.IsNullOrEmpty(name))
+                    {
+                        name = each.Name;
+                    }
+
+                    categoryNames.Add(name);
+                }
             }
+
+            doc.Categories = categoryNames.ToList();
+
             foreach (var variant in product.Variants)
             {
                 doc.Prices.Add(variant.Price);

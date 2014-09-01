@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Data;
+﻿using Kooboo.Commerce.Categories;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Search.Models;
 using System;
@@ -24,7 +25,7 @@ namespace Kooboo.Commerce.Search.Rebuild
             foreach (var data in new BatchedQuery<Product>(Query(instance), 1000))
             {
                 var product = data as Product;
-                yield return ProductModel.Create(product, culture);
+                yield return ProductModel.Create(product, culture, CategoryCache.Get(instance.Name));
             }
         }
     }

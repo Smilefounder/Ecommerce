@@ -73,6 +73,9 @@
     <Compile Include="Brands\BrandCustomField.cs" />
     <Compile Include="Brands\Services\BrandService.cs" />
     <Compile Include="Brands\Services\IBrandService.cs" />
+    <Compile Include="Categories\CategoryCache.cs" />
+    <Compile Include="Categories\CategoryCacheEntry.cs" />
+    <Compile Include="Categories\CategoryCacheRefresher.cs" />
     <Compile Include="Categories\CategoryCustomField.cs" />
     <Compile Include="Categories\Services\CategoryService.cs" />
     <Compile Include="Categories\Services\ICategoryService.cs" />

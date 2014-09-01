@@ -21,7 +21,7 @@
                 {
                     foreach (var category in ViewBag.RootCategories)
                     {
-                        <li><a href="#">@category.Name</a></li>
+                        <li><a href="@Url.FrontUrl().PageUrl("Category", new { category = category.Name })">@category.Name</a></li>
                     }
                 }
             </ul>

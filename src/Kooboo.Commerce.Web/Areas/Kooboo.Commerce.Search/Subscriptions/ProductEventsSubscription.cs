@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Data;
+﻿using Kooboo.Commerce.Categories;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Multilingual.Events;
@@ -110,7 +111,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
             foreach (var culture in cultures)
             {
                 var indexer = IndexStores.Get<ProductModel>(CommerceInstance.Current.Name, culture);
-                indexer.Index(ProductModel.Create(product, culture));
+                indexer.Index(ProductModel.Create(product, culture, CategoryCache.Get(CommerceInstance.Current.Name)));
                 indexer.Commit();
             }
         }

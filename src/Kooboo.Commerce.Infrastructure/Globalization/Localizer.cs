@@ -23,15 +23,35 @@ namespace Kooboo.Commerce
 
         public static TextDictionary GetText(this ILocalizable entity, IEnumerable<string> properties, CultureInfo culture)
         {
-            var textInfo = GetTextInfo(entity, properties);
-            var result = GetTextInfos(new Dictionary<EntityKey, EntityTextInfo> { { textInfo.EntityKey, textInfo } }, culture);
-            return result[textInfo.EntityKey].Properties;
+            var key = EntityKey.Get(entity);
+            var texts = GetTextInfo(entity, properties);
+            return GetText(new Dictionary<EntityKey, TextDictionary> { { key, texts } }, culture)[key];
         }
 
-        static EntityTextInfo GetTextInfo(ILocalizable entity, IEnumerable<string> properties)
+        public static string GetText(EntityKey key, string property, CultureInfo culture)
+        {
+            return GetText(key, new[] { property }, culture)[property];
+        }
+
+        public static IDictionary<EntityKey, string> GetText(IEnumerable<EntityKey> keys, string property, CultureInfo culture)
+        {
+            return GetText(keys, new[] { property }, culture).ToDictionary(it => it.Key, it => it.Value[property]);
+        }
+
+        public static IDictionary<EntityKey, TextDictionary> GetText(IEnumerable<EntityKey> keys, IEnumerable<string> properties, CultureInfo culture)
+        {
+            return GetText(keys.ToDictionary(it => it, _ => new TextDictionary()), culture);
+        }
+
+        public static TextDictionary GetText(EntityKey key, IEnumerable<string> properties, CultureInfo culture)
+        {
+            return GetText(new Dictionary<EntityKey, TextDictionary> { { key, new TextDictionary() } }, culture)[key];
+        }
+
+        static TextDictionary GetTextInfo(ILocalizable entity, IEnumerable<string> properties)
         {
             var entityKey = EntityKey.Get(entity);
-            var entityProperties = new Dictionary<string, string>();
+            var texts = new TextDictionary();
 
             foreach (var propName in properties)
             {
@@ -39,18 +59,18 @@ namespace Kooboo.Commerce
                 if (prop != null)
                 {
                     var value = prop.GetValue(entity, null) as string;
-                    entityProperties.Add(propName, value);
+                    texts.Add(propName, value);
                 }
             }
 
-            return new EntityTextInfo(entityKey, entityProperties);
+            return texts;
         }
 
-        static IDictionary<EntityKey, EntityTextInfo> GetTextInfos(IDictionary<EntityKey, EntityTextInfo> originalTextInfos, CultureInfo culture)
+        static IDictionary<EntityKey, TextDictionary> GetText(IDictionary<EntityKey, TextDictionary> originalTextInfos, CultureInfo culture)
         {
             var @event = new GetText(originalTextInfos, culture);
             Event.Raise(@event);
-            return @event.TextInfos;
+            return @event.Texts;
         }
     }
 }

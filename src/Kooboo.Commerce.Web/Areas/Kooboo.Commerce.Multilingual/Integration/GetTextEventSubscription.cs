@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Multilingual.Integration
 
         public void Handle(GetText @event)
         {
-            var entityKeys = @event.TextInfos.Select(m => m.Key).ToArray();
+            var entityKeys = @event.Texts.Select(m => m.Key).ToArray();
             var translations = _translationStore.Find(@event.Culture, entityKeys);
 
             for (var i = 0; i < translations.Length; i++)

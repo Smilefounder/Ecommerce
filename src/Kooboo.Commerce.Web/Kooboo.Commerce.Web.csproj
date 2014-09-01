@@ -475,6 +475,7 @@
     <Content Include="Areas\Commerce\Styles\styles.css" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Scripts\app.js" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Scripts\bootstrap.js" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Scripts\typeahead.bundle.js" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Themes\Default\fonts\fontawesome-webfont.svg" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Themes\Default\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Themes\Default\bootstrap.css" />
@@ -1589,6 +1590,8 @@
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Checkout\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\SearchResult\setting.config" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\SearchResult\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CategoryProducts\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CategoryProducts\template.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -7,7 +7,7 @@
         <div class="list-group">
             @foreach (var item in ViewBag.Categories)
             {
-                <a href="#" class="list-group-item">@item.Name</a>
+                <a href="@Url.FrontUrl().PageUrl("Category", new { category = item.Name })" class="list-group-item">@item.Name</a>
             }
         </div>
     </div>

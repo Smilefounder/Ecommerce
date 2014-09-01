@@ -172,7 +172,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                 {
                     foreach (var value in facetResult.Values)
                     {
-                        var paramName = Inflector.Camelize(facetResult.Name);
+                        var paramName = facetResult.Name;
                         value.Url = UrlUtility.RemoveQuery(url, paramName);
                         value.Url = UrlUtility.AddQueryParam(value.Url, paramName, value.Term);
                     }
