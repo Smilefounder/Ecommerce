@@ -20,8 +20,10 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
 
             model.SkuAlias = product.ProductType.SkuAlias;
 
-            model.LowestPrice = product.Variants.Min(v => v.Price);
-            model.HighestPrice = product.Variants.Max(v => v.Price);
+            if (product.Variants.Count > 0)
+            {
+                model.Prices = new PriceRange(product.Variants.Min(v => v.Price), product.Variants.Max(v => v.Price));
+            }
 
             return model;
         }

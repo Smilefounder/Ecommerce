@@ -20,9 +20,24 @@ namespace Kooboo.Commerce.Api.Products
 
         public int ProductTypeId { get; set; }
 
-        public decimal LowestPrice { get; set; }
+        public PriceRange Prices { get; set; }
 
-        public decimal HighestPrice { get; set; }
+        public PriceRange FinalPrices
+        {
+            get
+            {
+                decimal lowest = 0m;
+                decimal highest = 0m;
+
+                if (Variants.Count > 0)
+                {
+                    lowest = Variants.Min(v => v.FinalPrice);
+                    highest = Variants.Max(v => v.FinalPrice);
+                }
+
+                return new PriceRange(lowest, highest);
+            }
+        }
 
         public DateTime CreatedAtUtc { get; set; }
 

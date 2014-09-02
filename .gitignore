@@ -18,3 +18,5 @@ TestResults
 /src/Kooboo.Commerce.Web/Cms_Data/Sites/SampleSite/Assemblies
 /src/Kooboo.Commerce.Web/Cms_Data/Sites/Vitaminstore/Assemblies
 /src/Kooboo.Commerce.Web/App_Data/MailBox
+/src/Kooboo.Commerce.Web/Cms_Data/Sites/SampleBusiness/Assemblies/Kooboo.Commerce.Payments.Fake.CMSIntegration.dll
+/src/Kooboo.Commerce.Web/Cms_Data/Sites/SampleBusiness/Assemblies/Kooboo.Commerce.CMSIntegration.Plugins.dll

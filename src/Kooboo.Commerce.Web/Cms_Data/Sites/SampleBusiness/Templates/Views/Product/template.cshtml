@@ -23,7 +23,17 @@
         <div class="col-sm-8">
             <h1 style="margin-top:0">@product.Name</h1>
             <div style="font-size:32px;color:orange;margin-bottom:10px">
-                <div class="variant-content">&euro; @product.LowestPrice - @product.HighestPrice</div>
+                <div class="variant-content">
+                    @if (product.Prices.Equals(product.FinalPrices))
+                    {
+                        <span>&euro; @product.Prices.Lowest.ToString("f2") - &euro; @product.Prices.Highest.ToString("f2")</span>
+                    }
+                    else
+                    {
+                        <del>&euro; @product.Prices.Lowest.ToString("f2") - &euro; @product.Prices.Highest.ToString("f2")</del><br />
+                        <span>&euro; @product.FinalPrices.Lowest.ToString("f2") - &euro; @product.Prices.Highest.ToString("f2")</span>
+                    }
+                </div>
                 @foreach (var variant in product.Variants)
                 {
                     <div class="variant-content" data-variant-id="@variant.Id" style="display:none">

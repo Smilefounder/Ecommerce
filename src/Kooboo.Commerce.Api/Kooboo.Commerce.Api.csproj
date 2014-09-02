@@ -107,6 +107,7 @@
     <Compile Include="Payments\PaymentMethodFilters.cs" />
     <Compile Include="Payments\PaymentMethodQueryDescriptor.cs" />
     <Compile Include="Payments\PaymentMethodQueryExtensions.cs" />
+    <Compile Include="Products\PriceRange.cs" />
     <Compile Include="Products\ProductFilters.cs" />
     <Compile Include="Products\ProductQueryDescriptor.cs" />
     <Compile Include="Products\ProductQueryExtensions.cs" />
