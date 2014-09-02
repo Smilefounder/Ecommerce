@@ -5,22 +5,22 @@ using System.Text;
 
 namespace Kooboo.Commerce.Categories
 {
-    public class CategoryCacheEntry
+    public class CategoryTreeNode
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public CategoryCacheEntry Parent { get; set; }
+        public CategoryTreeNode Parent { get; set; }
 
-        public IList<CategoryCacheEntry> Children { get; set; }
+        public IList<CategoryTreeNode> Children { get; set; }
 
-        public CategoryCacheEntry()
+        public CategoryTreeNode()
         {
-            Children = new List<CategoryCacheEntry>();
+            Children = new List<CategoryTreeNode>();
         }
 
-        public IEnumerable<CategoryCacheEntry> Descendants()
+        public IEnumerable<CategoryTreeNode> Descendants()
         {
             foreach (var child in Children)
             {
@@ -33,11 +33,11 @@ namespace Kooboo.Commerce.Categories
             }
         }
 
-        public IList<CategoryCacheEntry> PathFromRoot()
+        public IList<CategoryTreeNode> PathFromRoot()
         {
-            var path = new List<CategoryCacheEntry>();
+            var path = new List<CategoryTreeNode>();
 
-            CategoryCacheEntry entry = this;
+            CategoryTreeNode entry = this;
 
             while (entry != null)
             {

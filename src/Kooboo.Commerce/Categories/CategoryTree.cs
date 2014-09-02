@@ -9,16 +9,29 @@ using System.Text;
 
 namespace Kooboo.Commerce.Categories
 {
-    public class CategoryCache
+    public class CategoryTree
     {
-        public IList<CategoryCacheEntry> Categories { get; private set; }
+        public IList<CategoryTreeNode> Categories { get; private set; }
 
-        public CategoryCache()
+        public CategoryTree()
         {
-            Categories = new List<CategoryCacheEntry>();
+            Categories = new List<CategoryTreeNode>();
         }
 
-        public CategoryCacheEntry Find(int id)
+        public IEnumerable<CategoryTreeNode> Desendants()
+        {
+            foreach (var category in Categories)
+            {
+                yield return category;
+
+                foreach (var descendant in category.Descendants())
+                {
+                    yield return descendant;
+                }
+            }
+        }
+
+        public CategoryTreeNode Find(int id)
         {
             foreach (var category in Categories)
             {
@@ -37,7 +50,7 @@ namespace Kooboo.Commerce.Categories
             return null;
         }
 
-        public void ForEach(Action<CategoryCacheEntry> action)
+        public void ForEach(Action<CategoryTreeNode> action)
         {
             foreach (var root in Categories)
             {
@@ -50,7 +63,7 @@ namespace Kooboo.Commerce.Categories
             }
         }
 
-        public CategoryCache Localize(CultureInfo culture)
+        public CategoryTree Localize(CultureInfo culture)
         {
             var texts = Localizer.GetText(GetAllCategoryKeys(), "Name", culture);
             var clone = Clone();
@@ -66,9 +79,9 @@ namespace Kooboo.Commerce.Categories
             return clone;
         }
 
-        public CategoryCache Clone()
+        public CategoryTree Clone()
         {
-            var clone = new CategoryCache();
+            var clone = new CategoryTree();
             foreach (var root in Categories)
             {
                 clone.Categories.Add(CloneEntry(root, null));
@@ -77,9 +90,9 @@ namespace Kooboo.Commerce.Categories
             return clone;
         }
 
-        private CategoryCacheEntry CloneEntry(CategoryCacheEntry entry, CategoryCacheEntry parent)
+        private CategoryTreeNode CloneEntry(CategoryTreeNode entry, CategoryTreeNode parent)
         {
-            var clone = new CategoryCacheEntry
+            var clone = new CategoryTreeNode
             {
                 Id = entry.Id,
                 Name = entry.Name,
@@ -110,9 +123,9 @@ namespace Kooboo.Commerce.Categories
             return keys;
         }
 
-        static readonly ConcurrentDictionary<string, CategoryCache> _caches = new ConcurrentDictionary<string, CategoryCache>(StringComparer.OrdinalIgnoreCase);
+        static readonly ConcurrentDictionary<string, CategoryTree> _caches = new ConcurrentDictionary<string, CategoryTree>(StringComparer.OrdinalIgnoreCase);
 
-        public static CategoryCache Get(string instance)
+        public static CategoryTree Get(string instance)
         {
             Require.NotNullOrEmpty(instance, "instance");
 
@@ -127,13 +140,13 @@ namespace Kooboo.Commerce.Categories
         {
             Require.NotNullOrEmpty(instance, "instance");
 
-            CategoryCache cache;
+            CategoryTree cache;
             _caches.TryRemove(instance, out cache);
         }
 
-        public static CategoryCache BuildFrom(IEnumerable<Category> all)
+        public static CategoryTree BuildFrom(IEnumerable<Category> all)
         {
-            var cache = new CategoryCache();
+            var cache = new CategoryTree();
             var roots = all.Where(c => c.Parent == null);
             foreach (var root in roots)
             {
@@ -143,9 +156,9 @@ namespace Kooboo.Commerce.Categories
             return cache;
         }
 
-        static CategoryCacheEntry BuildEntry(Category category, IEnumerable<Category> all)
+        static CategoryTreeNode BuildEntry(Category category, IEnumerable<Category> all)
         {
-            var entry = new CategoryCacheEntry
+            var entry = new CategoryTreeNode
             {
                 Id = category.Id,
                 Name = category.Name

@@ -14,14 +14,15 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 
         public FacetMode Mode { get; set; }
 
+        public static readonly FacetDefinition Brand = new FacetDefinition { Name = "Brand", Field = "Brand", Mode = FacetMode.Default };
+
+        public static readonly FacetDefinition Category = new FacetDefinition { Name = "Category", Field = "Categories", Mode = FacetMode.Default };
+
+        public static readonly FacetDefinition Price = new FacetDefinition { Name = "Price", Field = "Prices", Mode = FacetMode.Ranges };
+
         public static IList<FacetDefinition> GetFacetDefinitions(IEnumerable<ProductType> productTypes)
         {
-            var facets = new List<FacetDefinition>
-            {
-                new FacetDefinition { Name = "Brand", Field = "Brand", Mode = FacetMode.Default },
-                new FacetDefinition { Name = "Category", Field = "Categories", Mode = FacetMode.Default },
-                new FacetDefinition { Name = "Price", Field = "Prices", Mode = FacetMode.Ranges }
-            };
+            var facets = new List<FacetDefinition> { Brand, Category, Price };
 
             foreach (var productType in productTypes)
             {

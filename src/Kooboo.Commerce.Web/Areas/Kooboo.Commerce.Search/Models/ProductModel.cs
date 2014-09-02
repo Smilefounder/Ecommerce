@@ -54,7 +54,7 @@ namespace Kooboo.Commerce.Search.Models
             VariantFieldValues = new Dictionary<string, HashSet<string>>();
         }
 
-        public static ProductModel Create(Product product, CultureInfo culture, CategoryCache categoryCache)
+        public static ProductModel Create(Product product, CultureInfo culture, CategoryTree categoryCache)
         {
             var doc = new ProductModel
             {

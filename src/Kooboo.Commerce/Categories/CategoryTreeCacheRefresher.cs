@@ -8,21 +8,21 @@ using System.Text;
 
 namespace Kooboo.Commerce.Categories
 {
-    class CategoryCacheRefresher : IHandle<CategoryCreated>, IHandle<CategoryUpdated>, IHandle<CategoryDeleted>
+    class CategoryTreeCacheRefresher : IHandle<CategoryCreated>, IHandle<CategoryUpdated>, IHandle<CategoryDeleted>
     {
         public void Handle(CategoryCreated @event)
         {
-            CategoryCache.Remove(CommerceInstance.Current.Name);
+            CategoryTree.Remove(CommerceInstance.Current.Name);
         }
 
         public void Handle(CategoryUpdated @event)
         {
-            CategoryCache.Remove(CommerceInstance.Current.Name);
+            CategoryTree.Remove(CommerceInstance.Current.Name);
         }
 
         public void Handle(CategoryDeleted @event)
         {
-            CategoryCache.Remove(CommerceInstance.Current.Name);
+            CategoryTree.Remove(CommerceInstance.Current.Name);
         }
     }
 }

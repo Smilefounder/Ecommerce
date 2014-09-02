@@ -24,6 +24,11 @@ namespace Kooboo.Commerce
             return items.Except(second, new Comparer<T> { PropertyAccessor = by });
         }
 
+        public static IEnumerable<T> Intersect<T>(this IEnumerable<T> items, IEnumerable<T> second, Func<T, object> by)
+        {
+            return items.Intersect(second, new Comparer<T> { PropertyAccessor = by });
+        }
+
         public static IEnumerable<T> DistinctBy<T>(this IEnumerable<T> items, Func<T, object> property)
         {
             return items.Distinct(new Comparer<T> { PropertyAccessor = property });

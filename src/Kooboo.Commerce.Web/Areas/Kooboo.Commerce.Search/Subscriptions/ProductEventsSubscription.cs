@@ -111,7 +111,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
             foreach (var culture in cultures)
             {
                 var indexer = IndexStores.Get<ProductModel>(CommerceInstance.Current.Name, culture);
-                indexer.Index(ProductModel.Create(product, culture, CategoryCache.Get(CommerceInstance.Current.Name)));
+                indexer.Index(ProductModel.Create(product, culture, CategoryTree.Get(CommerceInstance.Current.Name)));
                 indexer.Commit();
             }
         }

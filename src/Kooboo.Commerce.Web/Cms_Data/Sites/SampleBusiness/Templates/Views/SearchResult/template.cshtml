@@ -16,7 +16,12 @@
     <div class="container">
         @foreach (var facet in result.Facets)
         {
-            if (String.IsNullOrEmpty(Request.QueryString[facet.Name]))
+            if (!String.IsNullOrEmpty(Request.QueryString[facet.Name]))
+            {
+                selectedFacets.Add(facet.Name, Request.QueryString[facet.Name]);
+            }
+            
+            if (facet.Name == "Category" && facet.Values.Count > 0 || String.IsNullOrEmpty(Request.QueryString[facet.Name]))
             {
                 <div class="row" style="font-size:16px;line-height:1.6em;border-bottom:#eee 1px dotted;padding:5px 0">
                     <div class="col-sm-1 text-right">
@@ -29,10 +34,6 @@
                         }
                     </div>
                 </div>
-            }
-            else
-            {
-                selectedFacets.Add(facet.Name, Request.QueryString[facet.Name]);
             }
         }
         @if (selectedFacets.Count > 0)
