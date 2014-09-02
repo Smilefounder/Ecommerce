@@ -23,10 +23,10 @@ namespace Kooboo.Commerce.Search.Subscriptions
         private IServiceFactory _serviceFactory;
         private ILanguageStore _languageStore;
 
-        public ProductEventsSubscription(IServiceFactory serviceFactory, ILanguageStore languageStore)
+        public ProductEventsSubscription(IServiceFactory serviceFactory)
         {
             _serviceFactory = serviceFactory;
-            _languageStore = languageStore;
+            _languageStore = LanguageStores.Get(CommerceInstance.Current.Name);
         }
 
         #region Language Events

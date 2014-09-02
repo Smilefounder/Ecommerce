@@ -18,10 +18,10 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         private IBrandService _brandService;
         private ITranslationStore _translationStore;
 
-        public BrandController(IBrandService brandService, ITranslationStore translationStore)
+        public BrandController(IBrandService brandService)
         {
             _brandService = brandService;
-            _translationStore = translationStore;
+            _translationStore = TranslationStores.Get(CurrentInstance.Name);
         }
 
         public ActionResult Index(string culture, string search, int page = 1, int pageSize = 50)

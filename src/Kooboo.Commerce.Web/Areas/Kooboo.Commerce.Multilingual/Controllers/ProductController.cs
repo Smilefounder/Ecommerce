@@ -22,10 +22,10 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         private IServiceFactory _services;
         private ITranslationStore _translationStore;
 
-        public ProductController(IServiceFactory serviceFactory, ITranslationStore translationStore)
+        public ProductController(IServiceFactory serviceFactory)
         {
             _services = serviceFactory;
-            _translationStore = translationStore;
+            _translationStore = TranslationStores.Get(CurrentInstance.Name);
         }
 
         public ActionResult Index(string culture, string search, int page = 1, int pageSize = 50)

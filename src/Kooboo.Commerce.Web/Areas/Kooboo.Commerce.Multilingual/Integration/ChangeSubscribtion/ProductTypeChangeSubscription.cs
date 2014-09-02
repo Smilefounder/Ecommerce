@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Events;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.ProductTypes;
 using Kooboo.Commerce.Multilingual.Storage;
 using Kooboo.Commerce.Products;
@@ -11,10 +12,10 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscribtion
         private ILanguageStore _languageStore;
         private ITranslationStore _translationStore;
 
-        public ProductTypeChangeSubscription(ILanguageStore languageStore, ITranslationStore translationStore)
+        public ProductTypeChangeSubscription()
         {
-            _languageStore = languageStore;
-            _translationStore = translationStore;
+            _languageStore = LanguageStores.Get(CommerceInstance.Current.Name);
+            _translationStore = TranslationStores.Get(CommerceInstance.Current.Name);
         }
 
         public void Handle(ProductTypeUpdated @event)

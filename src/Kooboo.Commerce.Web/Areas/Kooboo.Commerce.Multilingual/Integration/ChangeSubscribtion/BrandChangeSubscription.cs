@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Brands;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Brands;
 using Kooboo.Commerce.Multilingual.Storage;
@@ -11,10 +12,10 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscription
         private ILanguageStore _languageStore;
         private ITranslationStore _translationStore;
 
-        public BrandChangeSubscription(ILanguageStore languageStore, ITranslationStore translationStore)
+        public BrandChangeSubscription()
         {
-            _languageStore = languageStore;
-            _translationStore = translationStore;
+            _languageStore = LanguageStores.Get(CommerceInstance.Current.Name);
+            _translationStore = TranslationStores.Get(CommerceInstance.Current.Name);
         }
 
         public void Handle(BrandUpdated @event)

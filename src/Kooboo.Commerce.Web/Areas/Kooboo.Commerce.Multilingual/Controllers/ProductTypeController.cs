@@ -18,10 +18,10 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         private IRepository<ProductType> _repository;
         private ITranslationStore _translationStore;
 
-        public ProductTypeController(IRepository<ProductType> repository, ITranslationStore translationStore)
+        public ProductTypeController(IRepository<ProductType> repository)
         {
             _repository = repository;
-            _translationStore = translationStore;
+            _translationStore = TranslationStores.Get(CurrentInstance.Name);
         }
 
         public ActionResult Index(string culture, int page = 1, int pageSize = 50)

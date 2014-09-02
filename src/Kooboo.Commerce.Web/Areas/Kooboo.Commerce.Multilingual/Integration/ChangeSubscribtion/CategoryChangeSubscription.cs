@@ -1,4 +1,5 @@
 ﻿using Kooboo.Commerce.Categories;
+using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Categories;
 using Kooboo.Commerce.Multilingual.Storage;
@@ -11,10 +12,10 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscription
         private ILanguageStore _languageStore;
         private ITranslationStore _translationStore;
 
-        public CategoryChangeSubscription(ILanguageStore languageStore, ITranslationStore translationStore)
+        public CategoryChangeSubscription()
         {
-            _languageStore = languageStore;
-            _translationStore = translationStore;
+            _languageStore = LanguageStores.Get(CommerceInstance.Current.Name);
+            _translationStore = TranslationStores.Get(CommerceInstance.Current.Name);
         }
 
         public void Handle(CategoryUpdated @event)

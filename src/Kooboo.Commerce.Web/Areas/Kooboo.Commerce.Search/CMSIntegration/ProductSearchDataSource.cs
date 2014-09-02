@@ -79,7 +79,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 
             if (!String.IsNullOrEmpty(context.Site.Culture))
             {
-                var languageStore = EngineContext.Current.Resolve<ILanguageStore>();
+                var languageStore = LanguageStores.Get(context.Instance);
                 if (languageStore.Exists(context.Site.Culture))
                 {
                     culture = CultureInfo.GetCultureInfo(context.Site.Culture);

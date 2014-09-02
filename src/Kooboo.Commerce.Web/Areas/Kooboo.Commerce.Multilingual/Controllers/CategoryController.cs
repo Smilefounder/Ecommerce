@@ -18,10 +18,10 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         private IRepository<Category> _repository;
         private ITranslationStore _translationStore;
 
-        public CategoryController(IRepository<Category> repository, ITranslationStore translationStore)
+        public CategoryController(IRepository<Category> repository)
         {
             _repository = repository;
-            _translationStore = translationStore;
+            _translationStore = TranslationStores.Get(CurrentInstance.Name);
         }
 
         public ActionResult Index()

@@ -16,9 +16,9 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
     {
         public static void Configure()
         {
-            // Generate db folder for each instances
-            var manager = EngineContext.Current.Resolve<ICommerceInstanceManager>();
-            foreach (var instance in manager.GetInstances())
+            // Ensure sqlce db folder for each instances
+            var instances = EngineContext.Current.Resolve<ICommerceInstanceManager>().GetInstances().ToList();
+            foreach (var instance in instances)
             {
                 var folder = DataFolders.Instances.GetFolder(instance.Name).GetFolder("Multilingual");
                 if (!folder.Exists)
@@ -29,6 +29,13 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
             // Configure DbConfiguration
             DbConfiguration.Loaded += DbConfiguration_Loaded;
+
+            // Register stores
+            foreach (var instance in instances)
+            {
+                LanguageStores.Register(instance.Name, new CachedLanguageStore(new SqlceLanguageStore(instance.Name)));
+                TranslationStores.Register(instance.Name, new CachedTranslactionStore(new SqlceTranslationStore(instance.Name)));
+            }
         }
 
         static void DbConfiguration_Loaded(object sender, System.Data.Entity.Infrastructure.DependencyResolution.DbConfigurationLoadedEventArgs e)

@@ -12,9 +12,9 @@ namespace Kooboo.Commerce.Multilingual.Controllers
     {
         private ILanguageStore _languageStore;
 
-        public LanguageController(ILanguageStore languageStore)
+        public LanguageController()
         {
-            _languageStore = languageStore;
+            _languageStore = LanguageStores.Get(CurrentInstance.Name);
         }
 
         public ActionResult Index()

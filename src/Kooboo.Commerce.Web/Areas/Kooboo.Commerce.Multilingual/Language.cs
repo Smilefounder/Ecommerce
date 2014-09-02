@@ -10,5 +10,10 @@ namespace Kooboo.Commerce.Multilingual
         public string Name { get; set; }
 
         public string DisplayName { get; set; }
+
+        public Language Clone()
+        {
+            return (Language)base.MemberwiseClone();
+        }
     }
 }

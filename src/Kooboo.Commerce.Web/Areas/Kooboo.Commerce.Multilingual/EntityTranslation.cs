@@ -17,9 +17,15 @@ namespace Kooboo.Commerce.Multilingual
         public IList<PropertyTranslation> PropertyTranslations { get; set; }
 
         public EntityTransaltion(string culture, EntityKey entityKey)
+            : this(culture, entityKey, null)
+        {
+        }
+
+        public EntityTransaltion(string culture, EntityKey entityKey, IEnumerable<PropertyTranslation> propertyTranslations)
         {
             Culture = culture;
             EntityKey = entityKey;
+            PropertyTranslations = propertyTranslations == null ? new List<PropertyTranslation>() : propertyTranslations.ToList();
         }
 
         public string GetTranslatedText(string property)
@@ -32,6 +38,17 @@ namespace Kooboo.Commerce.Multilingual
         {
             var translation = PropertyTranslations.FirstOrDefault(t => t.Property == property);
             return translation == null ? null : translation.OriginalText;
+        }
+
+        public EntityTransaltion Clone()
+        {
+            var clone = new EntityTransaltion(Culture, EntityKey)
+            {
+                IsOutOfDate = IsOutOfDate,
+                PropertyTranslations = PropertyTranslations.Select(t => t.Clone()).ToList()
+            };
+
+            return clone;
         }
     }
 }

@@ -188,17 +188,21 @@
     <Compile Include="Events\LanguageAdded.cs" />
     <Compile Include="Events\LanguageDeleted.cs" />
     <Compile Include="Events\TranslationUpdated.cs" />
+    <Compile Include="Storage\CachedLanguageStore.cs" />
+    <Compile Include="Storage\CachedTranslactionStore.cs" />
     <Compile Include="Storage\ILanguageStore.cs" />
     <Compile Include="MultilingualAreaRegistration.cs" />
     <Compile Include="Menu\MultilingualMenuInjection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\ITranslationStore.cs" />
-    <Compile Include="Storage\Sqlce\DbDirectorySynchronizer.cs" />
+    <Compile Include="Storage\LanguageStores.cs" />
+    <Compile Include="Storage\Sqlce\InstanceEventHandlers.cs" />
     <Compile Include="Storage\Sqlce\EntityTranslationDbEntry.cs" />
     <Compile Include="Storage\Sqlce\MultilingualDbContext.cs" />
     <Compile Include="Storage\Sqlce\SqlceConfiguration.cs" />
     <Compile Include="Storage\Sqlce\SqlceLanguageStore.cs" />
     <Compile Include="Storage\Sqlce\SqlceTranslationStore.cs" />
+    <Compile Include="Storage\TranslationStores.cs" />
     <Compile Include="Strings.cs" />
   </ItemGroup>
   <ItemGroup>

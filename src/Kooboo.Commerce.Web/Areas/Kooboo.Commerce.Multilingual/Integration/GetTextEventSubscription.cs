@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Events;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Globalization.Events;
 using Kooboo.Commerce.Multilingual.Storage;
 using System;
@@ -8,17 +9,12 @@ namespace Kooboo.Commerce.Multilingual.Integration
 {
     class GetTextEventSubscription : IHandle<GetText>
     {
-        private ITranslationStore _translationStore;
-
-        public GetTextEventSubscription(ITranslationStore translationStore)
-        {
-            _translationStore = translationStore;
-        }
-
         public void Handle(GetText @event)
         {
+            var store = TranslationStores.Get(CommerceInstance.Current.Name);
+
             var entityKeys = @event.Texts.Select(m => m.Key).ToArray();
-            var translations = _translationStore.Find(@event.Culture, entityKeys);
+            var translations = store.Find(@event.Culture, entityKeys);
 
             for (var i = 0; i < translations.Length; i++)
             {

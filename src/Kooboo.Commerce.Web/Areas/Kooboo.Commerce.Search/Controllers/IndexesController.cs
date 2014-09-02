@@ -19,9 +19,9 @@ namespace Kooboo.Commerce.Search.Controllers
     {
         private ILanguageStore _languageStore;
 
-        public IndexesController(ILanguageStore languageStore)
+        public IndexesController()
         {
-            _languageStore = languageStore;
+            _languageStore = LanguageStores.Get(CommerceInstance.Current.Name);
         }
 
         public ActionResult Index()

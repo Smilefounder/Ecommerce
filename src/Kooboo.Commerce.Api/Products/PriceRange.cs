@@ -29,7 +29,10 @@ namespace Kooboo.Commerce.Api.Products
 
         public override int GetHashCode()
         {
-            return Lowest.GetHashCode() * 397 ^ Highest.GetHashCode();
+            unchecked
+            {
+                return Lowest.GetHashCode() * 397 ^ Highest.GetHashCode();
+            }
         }
 
         public override string ToString()

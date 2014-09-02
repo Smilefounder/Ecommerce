@@ -17,15 +17,6 @@ namespace Kooboo.Commerce.Multilingual
 {
     public class MultilingualMenuInjection : CommerceInstanceMenuInjection
     {
-        private ILanguageStore _languageStore;
-        private ITranslationStore _translationStore;
-
-        public MultilingualMenuInjection(ILanguageStore languageStore, ITranslationStore translationStore)
-        {
-            _languageStore = languageStore;
-            _translationStore = translationStore;
-        }
-
         public override void Inject(Menu menu, System.Web.Mvc.ControllerContext controllerContext)
         {
             if (CommerceInstance.Current == null)
@@ -49,9 +40,10 @@ namespace Kooboo.Commerce.Multilingual
                 Action = "Index"
             });
 
-            var database = CommerceInstance.Current.Database;
+            var instance = CommerceInstance.Current;
+            var database = instance.Database;
 
-            foreach (var lang in _languageStore.All())
+            foreach (var lang in LanguageStores.Get(instance.Name).All())
             {
                 var langItem = new MenuItem
                 {
@@ -76,8 +68,10 @@ namespace Kooboo.Commerce.Multilingual
 
         private void AddLanguageChildItem<T>(MenuItem parent, CultureInfo culture, string text, string controller, IQueryable<T> originalDataQuery)
         {
-            var totalPending = originalDataQuery.Count() - _translationStore.TotalTranslated(culture, typeof(T))
-                                                         + _translationStore.TotalOutOfDate(culture, typeof(T));
+            var store = TranslationStores.Get(CommerceInstance.Current.Name);
+
+            var totalPending = originalDataQuery.Count() - store.TotalTranslated(culture, typeof(T))
+                                                         + store.TotalOutOfDate(culture, typeof(T));
 
             parent.Items.Add(new LanguageSpecificMenuItem(culture.Name)
             {
