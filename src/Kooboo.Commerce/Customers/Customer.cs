@@ -3,6 +3,7 @@ using System.Linq;
 using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Rules;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kooboo.Commerce.Customers
 {
@@ -17,16 +18,16 @@ namespace Kooboo.Commerce.Customers
         [Param]
         public int Id { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string Group { get; set; }
 
         [Param]
         public int SavingPoints { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string FirstName { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string LastName { get; set; }
 
         [Param]
@@ -38,7 +39,7 @@ namespace Kooboo.Commerce.Customers
             }
         }
 
-        [Param]
+        [Param, StringLength(100)]
         public string Email { get; set; }
 
         [Param]
@@ -78,32 +79,17 @@ namespace Kooboo.Commerce.Customers
 
         public virtual ICollection<CustomerCustomField> CustomFields { get; set; }
 
-        public void SetCustomFields(IDictionary<string, string> fields)
+        public void SetCustomField(string name, string value)
         {
-            foreach (var field in CustomFields.ToList())
+            var field = CustomFields.FirstOrDefault(f => f.Name == name);
+            if (field == null)
             {
-                if (!fields.ContainsKey(field.Name))
-                {
-                    CustomFields.Remove(field);
-                }
+                field = new CustomerCustomField(name, value);
+                CustomFields.Add(field);
             }
-
-            foreach (var kv in fields)
+            else
             {
-                var field = CustomFields.FirstOrDefault(f => f.Name == kv.Key);
-                if (field == null)
-                {
-                    field = new CustomerCustomField
-                    {
-                        Name = kv.Key,
-                        Value = kv.Value
-                    };
-                    CustomFields.Add(field);
-                }
-                else
-                {
-                    field.Value = kv.Value;
-                }
+                field.Value = value;
             }
         }
     }

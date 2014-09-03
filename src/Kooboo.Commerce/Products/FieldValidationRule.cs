@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Products
 
         public int Id { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(500)]
         public string ErrorMessage { get; set; }
 
         [Required, StringLength(50)]

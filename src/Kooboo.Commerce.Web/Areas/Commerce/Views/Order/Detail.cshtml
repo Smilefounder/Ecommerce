@@ -1,7 +1,7 @@
 ﻿@using Kooboo.Commerce.Orders
 @model Order
 @{
-    ViewBag.Title = "Order Detail".Localize();
+    ViewBag.Title = "Order".Localize() + " #" + Model.Id;
     Layout = "~/Areas/Commerce/Views/Shared/Blank.cshtml";
 }
 
@@ -14,7 +14,6 @@
     })
 }
 
-<h1 class="title">Order #@Model.Id</h1>
 <div class="block simple-table">
     <table>
         <thead>
@@ -57,7 +56,7 @@
                             @p.Quantity
                         </td>
                         <td>
-                            @p.SubTotal
+                            @p.Subtotal
                         </td>
                     </tr>
                 }

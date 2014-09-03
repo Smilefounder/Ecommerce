@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Shipping;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kooboo.Commerce.Carts
 {
@@ -10,6 +11,7 @@ namespace Kooboo.Commerce.Carts
     {
         public int Id { get; set; }
 
+        [StringLength(50)]
         public string SessionId { get; set; }
 
         public virtual Customer Customer { get; set; }
@@ -22,6 +24,7 @@ namespace Kooboo.Commerce.Carts
 
         public virtual ShippingMethod ShippingMethod { get; set; }
 
+        [StringLength(50)]
         public string CouponCode { get; set; }
 
         public ShoppingCart()

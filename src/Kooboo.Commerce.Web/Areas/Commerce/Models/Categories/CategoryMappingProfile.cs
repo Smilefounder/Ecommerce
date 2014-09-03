@@ -12,6 +12,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Categories
         protected override void Configure()
         {
             Mapper.CreateMap<Category, IdName>();
+            Mapper.CreateMap<CategoryCustomField, NameValue>();
+            Mapper.CreateMap<Category, CategoryEditorModel>();
         }
     }
 }

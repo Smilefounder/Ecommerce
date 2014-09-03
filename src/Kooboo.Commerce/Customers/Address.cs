@@ -3,6 +3,7 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -16,28 +17,28 @@ namespace Kooboo.Commerce.Customers
         [Column]
         protected int? CustomerId { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string FirstName { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string LastName { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string Phone { get; set; }
 
-        [Param]
+        [Param, StringLength(100)]
         public string Address1 { get; set; }
 
-        [Param]
+        [Param, StringLength(100)]
         public string Address2 { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string Postcode { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string City { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string State { get; set; }
 
         public int CountryId { get; set; }

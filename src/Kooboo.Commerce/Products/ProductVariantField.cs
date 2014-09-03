@@ -14,6 +14,7 @@ namespace Kooboo.Commerce.Products
         [Key]
         protected int Id { get; set; }
 
+        [StringLength(50)]
         public string FieldName { get; set; }
 
         public string FieldValue { get; set; }

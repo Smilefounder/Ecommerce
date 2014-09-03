@@ -14,7 +14,7 @@
             success: function (responseData, statusText, xhr, $form) {
                 form.find("[type=submit]").removeClass("disabled").removeAttr("disabled");
                 if (!responseData.Success) {
-                    applyRemoteValidationResult(responseData);
+                    applyRemoteValidationResult(form, responseData);
                 } else {
                     if (responseData.RedirectUrl != null) {
                         location.href = responseData.RedirectUrl;
@@ -31,8 +31,8 @@
         });
     });
 
-    window.applyRemoteValidationResult = function (responseData) {
-        var validator = form.validate();
+    window.applyRemoteValidationResult = function ($form, responseData) {
+        var validator = $form.validate();
         for (var i = 0; i < responseData.FieldErrors.length; i++) {
             var obj = {};
             var fieldName = responseData.FieldErrors[i].FieldName;

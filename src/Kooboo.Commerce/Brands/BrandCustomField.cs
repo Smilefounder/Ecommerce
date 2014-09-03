@@ -4,17 +4,40 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Brands
 {
-    public class BrandCustomField
+    public class BrandCustomField : IOrphanable
     {
-        [Key, Column(Order=0)]
-        public int BrandId { get; set; }
+        [Key]
+        protected int Id { get; set; }
 
-        [Key, Column(Order = 1)]
-        public string Name { get; set; }
+        [Required, StringLength(50)]
+        public string Name { get; protected set; }
 
         public string Value { get; set; }
+
+        [Column]
+        protected int? BrandId { get; set; }
+
+        protected BrandCustomField() { }
+
+        public BrandCustomField(string name, string value)
+        {
+            Require.NotNullOrEmpty(name, "name");
+            Name = name;
+            Value = value;
+        }
+
+        bool IOrphanable.IsOrphan()
+        {
+            return BrandId == null;
+        }
+
+        public override string ToString()
+        {
+            return Name + " = " + Value;
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Products
         [StringLength(50)]
         public string Label { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(500)]
         public string Tooltip { get; set; }
 
         [Required, StringLength(50)]
@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.Products
             }
         }
 
-        [StringLength(1000)]
+        [StringLength(500)]
         public string DefaultValue { get; set; }
 
         public int Sequence { get; set; }

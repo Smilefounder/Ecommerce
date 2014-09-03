@@ -18,8 +18,12 @@
                 }
             }
 
-            items.Add("").AsSeparator();
-            items.Add("Create product type").WithUrl(Url.Action("Create", "ProductType", new { @return = Request.RawUrl }));
+            if (productTypes != null && productTypes.Any())
+            {
+                items.Add("").AsSeparator();
+            }
+            
+            items.Add("Create product type").WithUrl(Url.Action("Create", "ProductType", RouteValues.From(Request.QueryString).Merge("return", Request.RawUrl)));
         });
 
         buttons.AddDeleteButton();

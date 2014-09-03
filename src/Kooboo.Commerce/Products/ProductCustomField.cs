@@ -14,9 +14,7 @@ namespace Kooboo.Commerce.Products
         [Key]
         protected int Id { get; set; }
 
-        /// <summary>
-        /// Redundant custom field name to speed up query perfromance.
-        /// </summary>
+        [StringLength(50)]
         public string FieldName { get; set; }
 
         public string FieldValue { get; set; }

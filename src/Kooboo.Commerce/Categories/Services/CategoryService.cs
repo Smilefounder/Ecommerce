@@ -12,15 +12,11 @@ namespace Kooboo.Commerce.Categories.Services
     [Dependency(typeof(ICategoryService))]
     public class CategoryService : ICategoryService
     {
-        private readonly ICommerceDatabase _db;
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<CategoryCustomField> _categoryCustomFieldRepository;
+        private IRepository<Category> _categoryRepository;
 
-        public CategoryService(ICommerceDatabase db, IRepository<Category> categoryRepository, IRepository<CategoryCustomField> categoryCustomFieldRepository)
+        public CategoryService(IRepository<Category> categoryRepository)
         {
-            _db = db;
             _categoryRepository = categoryRepository;
-            _categoryCustomFieldRepository = categoryCustomFieldRepository;
         }
 
         public Category GetById(int id)
@@ -41,25 +37,8 @@ namespace Kooboo.Commerce.Categories.Services
 
         public void Update(Category category)
         {
-            var dbCategory = _categoryRepository.Find(category.Id);
-
-            dbCategory.CustomFields.Clear();
-
-            if (category.CustomFields != null && category.CustomFields.Count > 0)
-            {
-                foreach (var field in category.CustomFields)
-                {
-                    dbCategory.CustomFields.Add(new CategoryCustomField
-                    {
-                        Name = field.Name,
-                        Value = field.Value
-                    });
-                }
-            }
-
-            _categoryRepository.Update(dbCategory, category);
-
-            Event.Raise(new CategoryUpdated(dbCategory));
+            _categoryRepository.Update(category);
+            Event.Raise(new CategoryUpdated(category));
         }
 
         public void Delete(Category category)

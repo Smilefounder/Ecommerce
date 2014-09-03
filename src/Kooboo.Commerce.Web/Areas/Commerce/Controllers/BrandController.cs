@@ -11,6 +11,7 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Brands;
 using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
+using AutoMapper;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -43,17 +44,33 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Edit(int id)
         {
             var brand = _brandService.GetById(id);
-            var model = new BrandEditorModel(brand);
+            var model = Mapper.Map<Brand, BrandEditorModel>(brand);
             return View(model);
         }
 
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult Save(BrandEditorModel model, string @return)
         {
-            model.CustomFields = FormHelper.BindToModels<BrandCustomFieldModel>(Request.Form, "CustomFields.");
+            Brand brand = null;
 
-            var brand = new Brand();
-            model.UpdateTo(brand);
+            if (model.Id > 0)
+            {
+                brand = _brandService.GetById(model.Id);
+            }
+            else
+            {
+                brand = new Brand();
+            }
+
+            brand.Name = model.Name;
+            brand.Description = model.Description;
+
+            brand.CustomFields.Clear();
+
+            foreach (var field in model.CustomFields)
+            {
+                brand.CustomFields.Add(new BrandCustomField(field.Name, field.Value));
+            }
 
             if (model.Id > 0)
             {

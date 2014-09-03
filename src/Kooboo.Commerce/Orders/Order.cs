@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Rules;
@@ -35,6 +36,7 @@ namespace Kooboo.Commerce.Orders
         [StringLength(50)]
         public string ProcessingStatus { get; set; }
 
+        [StringLength(50)]
         public string Coupon { get; set; }
 
         public decimal Subtotal { get; set; }
@@ -63,9 +65,7 @@ namespace Kooboo.Commerce.Orders
         /// </summary>
         public decimal TotalPaid { get; set; }
 
-        /// <summary>
-        /// Remark from users who ordered it.
-        /// </summary>
+        [StringLength(500)]
         public string Remark { get; set; }
 
         // TODO: How to calculate?
@@ -83,5 +83,19 @@ namespace Kooboo.Commerce.Orders
         public virtual OrderAddress BillingAddress { get; set; }
 
         public virtual ICollection<OrderCustomField> CustomFields { get; set; }
+
+        public void SetCustomField(string name, string value)
+        {
+            var field = CustomFields.FirstOrDefault(f => f.Name == name);
+            if (field != null)
+            {
+                field.Value = value;
+            }
+            else
+            {
+                field = new OrderCustomField(name, value);
+                CustomFields.Add(field);
+            }
+        }
     }
 }

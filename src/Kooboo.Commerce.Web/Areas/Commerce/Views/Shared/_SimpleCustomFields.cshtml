@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Kooboo.Commerce.Web.Areas.Commerce.Models.NameValue>
 
 <div id="customFields">
-    <table>
+    <table style="display:none">
         <thead>
             <tr>
                 <th>@("Name".Localize())</th>
@@ -35,6 +35,10 @@
 
         var $container = $('#customFields');
 
+        if ($container.find('tbody tr').length > 0) {
+            $container.find('table').show();
+        }
+
         $('.btn-add-customfield').on('click', function () {
             var index = $container.find('table tbody tr').length;
 
@@ -46,6 +50,7 @@
                             + '</td>'
                      + '</tr>';
 
+            $container.find('table').show();
             $container.find('table tbody').append(html);
         });
 
@@ -62,6 +67,10 @@
             });
 
             $tr.remove();
+
+            if ($container.find('tbody tr').length === 0) {
+                $container.find('table').hide();
+            }
         });
 
     })(jQuery);

@@ -7,6 +7,7 @@ using Kooboo.Commerce.Carts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kooboo.Commerce.Products
 {
@@ -18,7 +19,7 @@ namespace Kooboo.Commerce.Products
         [Param]
         public int ProductId { get; set; }
 
-        [Param]
+        [Param, StringLength(50)]
         public string Sku { get; set; }
 
         [Param]

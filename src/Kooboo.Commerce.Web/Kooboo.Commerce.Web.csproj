@@ -380,8 +380,6 @@
       <DependentUpon>UploadHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Menu\EventsMenuInjection.cs" />
-    <Compile Include="Areas\Commerce\Models\Brands\BrandCustomFieldModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Categories\CategoryCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEntry.cs" />
     <Compile Include="Areas\Commerce\Models\Instances\CommerceInstanceEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Instances\CommerceInstanceModel.cs" />
@@ -3882,7 +3880,7 @@
     <Content Include="Areas\Commerce\Views\Category\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Commerce\Views\Category\_CategoryEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Category\_Editor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Commerce\Views\Category\Edit.cshtml" />
@@ -3918,7 +3916,7 @@
     <Content Include="Areas\Commerce\Views\Brand\Create.cshtml" />
     <Content Include="Areas\Commerce\Views\Brand\Edit.cshtml" />
     <Content Include="Areas\Commerce\Views\Brand\Index.cshtml" />
-    <Content Include="Areas\Commerce\Views\Brand\_BrandEditor.cshtml" />
+    <Content Include="Areas\Commerce\Views\Brand\_Editor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\base.less" />

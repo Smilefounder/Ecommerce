@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Products
         [StringLength(50)]
         public string Type { get; set; }
 
-        [StringLength(500)]
+        [StringLength(255)]
         public string ImageUrl { get; set; }
 
         [Column]

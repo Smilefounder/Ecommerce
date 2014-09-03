@@ -13,12 +13,10 @@ namespace Kooboo.Commerce.Brands.Services
     public class BrandService : IBrandService
     {
         private readonly IRepository<Brand> _brandRepository;
-        private readonly IRepository<BrandCustomField> _customFieldRepository;
 
-        public BrandService(IRepository<Brand> brandRepository, IRepository<BrandCustomField> customFieldRepository)
+        public BrandService(IRepository<Brand> brandRepository)
         {
             _brandRepository = brandRepository;
-            _customFieldRepository = customFieldRepository;
         }
 
         public Brand GetById(int id)
@@ -38,23 +36,9 @@ namespace Kooboo.Commerce.Brands.Services
             Event.Raise(new BrandCreated(brand));
         }
 
-        public void Update(Brand model)
+        public void Update(Brand brand)
         {
-            var brand = _brandRepository.Find(model.Id);
-
-            brand.CustomFields.Clear();
-
-            foreach (var field in model.CustomFields)
-            {
-                brand.CustomFields.Add(new BrandCustomField
-                {
-                    Name = field.Name,
-                    Value = field.Value
-                });
-            }
-
-            _brandRepository.Update(brand, model);
-
+            _brandRepository.Update(brand);
             Event.Raise(new BrandUpdated(brand));
         }
 

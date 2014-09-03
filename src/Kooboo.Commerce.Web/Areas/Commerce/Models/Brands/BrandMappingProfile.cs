@@ -12,6 +12,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Brands
         protected override void Configure()
         {
             Mapper.CreateMap<Brand, IdName>();
+            Mapper.CreateMap<BrandCustomField, NameValue>();
+            Mapper.CreateMap<Brand, BrandEditorModel>();
         }
     }
 }

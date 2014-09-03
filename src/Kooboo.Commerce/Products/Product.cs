@@ -31,8 +31,7 @@ namespace Kooboo.Commerce.Products
         [Key, Param]
         public int Id { get; set; }
 
-        [Param]
-        [Localizable]
+        [Param, Localizable, StringLength(100)]
         public string Name { get; set; }
 
         public virtual ProductType ProductType { get; set; }

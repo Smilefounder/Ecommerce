@@ -83,7 +83,7 @@ namespace Kooboo.Commerce.Orders.Services
                 var orderItem = OrderItem.CreateFrom(cartItem, item.UnitPrice);
                 orderItem.UnitPrice = item.UnitPrice;
                 orderItem.Discount = item.Discount;
-                orderItem.SubTotal = item.Subtotal;
+                orderItem.Subtotal = item.Subtotal;
                 orderItem.Total = item.Subtotal - item.Discount;
 
                 order.OrderItems.Add(orderItem);

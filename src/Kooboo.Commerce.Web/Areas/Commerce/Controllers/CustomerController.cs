@@ -94,7 +94,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             customer.SavingPoints = model.SavingPoints;
             customer.Gender = model.Gender;
 
-            customer.SetCustomFields(model.CustomFields.ToDictionary(f => f.Name, f => f.Value));
+            customer.CustomFields.Clear();
+
+            foreach (var field in model.CustomFields)
+            {
+                customer.CustomFields.Add(new CustomerCustomField(field.Name, field.Value));
+            }
 
             if (model.Id > 0)
             {

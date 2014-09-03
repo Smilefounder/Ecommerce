@@ -12,14 +12,15 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.Commerce.Categories;
 using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
+using Kooboo.Globalization;
+using AutoMapper;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-
     public class CategoryController : CommerceController
     {
-
         private readonly ICategoryService _categoryService;
+
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
@@ -56,36 +57,64 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Create(int? parentId)
         {
-            var model = new CategoryEditorModel();
-            if (parentId.HasValue)
+            var model = new CategoryEditorModel
             {
-                model.ParentId = parentId.Value.ToString();
-                var parent = _categoryService.GetById(parentId.Value);
-                model.SetParentCrumble(parent);
-            }
+                ParentId = parentId
+            };
+
+            PrepareEditor(model);
+
             return View(model);
         }
 
         public ActionResult Edit(int id)
         {
             var category = _categoryService.GetById(id);
-            var model = new CategoryEditorModel(category);
+            var model = Mapper.Map<Category, CategoryEditorModel>(category);
+            PrepareEditor(model);
+
             return View(model);
+        }
+
+        private void PrepareEditor(CategoryEditorModel model)
+        {
+            ViewBag.ParentPath = "None".Localize();
+            if (model.ParentId != null)
+            {
+                var parent = CategoryTree.Get(CurrentInstance.Name).Find(model.ParentId.Value);
+                ViewBag.ParentPath = String.Join(" >> ", parent.PathFromRoot().Select(c => c.Name));
+            }
         }
 
         [HttpPost, HandleAjaxFormError]
         public ActionResult Save(CategoryEditorModel model, string @return)
         {
-            model.CustomFields = FormHelper.BindToModels<CategoryCustomFieldModel>(Request.Form, "CustomFields.");
+            Category category = null;
 
-            var category = new Category();
-            var parentId = Request.RequestContext.GetRequestValue("ParentId");
-            if (!string.IsNullOrEmpty(parentId))
+            if (model.Id > 0)
             {
-                category.Parent = _categoryService.GetById(int.Parse(parentId));
+                category = _categoryService.GetById(model.Id);
+            }
+            else
+            {
+                category = new Category();
             }
 
-            model.UpdateTo(category);
+            category.Name = model.Name;
+            category.Description = model.Description;
+            category.Photo = model.Photo;
+
+            if (model.ParentId != null)
+            {
+                category.Parent = _categoryService.GetById(model.ParentId.Value);
+            }
+
+            category.CustomFields.Clear();
+
+            foreach (var field in model.CustomFields)
+            {
+                category.CustomFields.Add(new CategoryCustomField(field.Name, field.Value));
+            }
 
             if (model.Id > 0)
             {

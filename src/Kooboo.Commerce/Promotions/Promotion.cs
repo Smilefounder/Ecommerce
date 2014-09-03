@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Promotions
 
         public bool RequireCouponCode { get; set; }
 
-        [StringLength(20)]
+        [StringLength(50)]
         public string CouponCode { get; set; }
 
         public bool IsEnabled { get; set; }
