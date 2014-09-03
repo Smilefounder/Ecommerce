@@ -20,10 +20,7 @@
         <thead>
             <tr>
                 <th>
-                    @("Product Name".Localize())
-                </th>
-                <th>
-                    @("Variants".Localize())
+                    @("Product".Localize())
                 </th>
                 <th>
                     @("Sku".Localize())
@@ -46,20 +43,12 @@
                 {
                     <tr>
                         <td>
-                            @p.ProductPrice.Product.Name
+                            @p.ProductVariant.Product.Name
+                            <br />
+                            @String.Join(", ", p.ProductVariant.VariantFields.Select(f => f.FieldName + ": " + f.FieldValue))
                         </td>
                         <td>
-                            @foreach (var variant in p.ProductPrice.VariantValues)
-                            {
-                                <div class="block">
-                                    <span>@variant.CustomField.Name</span>
-                                    <span>:</span>
-                                    <span>@variant.FieldValue</span>
-                                </div>
-                            }
-                        </td>
-                        <td>
-                            @p.ProductPrice.Sku
+                            @p.ProductVariant.Sku
                         </td>
                         <td>
                             @p.UnitPrice
@@ -90,12 +79,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>@("Middle Name".Localize())</th>
-                    <td>
-                        @Model.Customer.MiddleName
-                    </td>
-                </tr>
-                <tr>
                     <th>@("Last Name".Localize())</th>
                     <td>
                         @Model.Customer.LastName
@@ -105,24 +88,6 @@
                     <th>@("Gender".Localize())</th>
                     <td>
                         @Model.Customer.Gender
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("Phone".Localize())</th>
-                    <td>
-                        @Model.Customer.Phone
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("Country".Localize())</th>
-                    <td>
-                        @(Model.Customer.Country == null ? "" : Model.Customer.Country.Name)
-                    </td>
-                </tr>
-                <tr>
-                    <th>@("City".Localize())</th>
-                    <td>
-                        @Model.Customer.City
                     </td>
                 </tr>
                 <tr>

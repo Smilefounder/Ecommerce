@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Orders
         public string State { get; set; }
 
         [Reference]
-        public Country Country { get; set; }
+        public virtual Country Country { get; set; }
 
         public static OrderAddress CreateFrom(Address address)
         {

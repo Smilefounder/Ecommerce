@@ -7,8 +7,6 @@
 @section Panel {
     @(Html.HeaderPanel().Buttons(buttons =>
     {
-        buttons.AddCreateButton();
-        buttons.AddDeleteButton();
         buttons.AddTopbarCommands(TopbarCommands.GetCommands(ViewContext.Controller.ControllerContext), typeof(Order));
     }))
 }

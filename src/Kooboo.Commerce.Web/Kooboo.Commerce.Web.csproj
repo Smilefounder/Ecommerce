@@ -3389,11 +3389,7 @@
     <Content Include="Areas\Commerce\Styles\fonts\opensans-semibold-webfont.eot" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-semibold-webfont.ttf" />
     <Content Include="Areas\Commerce\Styles\fonts\opensans-semibold-webfont.woff" />
-    <Content Include="Areas\Commerce\Views\Order\Create.cshtml" />
     <Content Include="Areas\Commerce\Views\Order\Detail.cshtml" />
-    <Content Include="Areas\Commerce\Views\Order\FillOrderInfo.cshtml" />
-    <Content Include="Areas\Commerce\Views\Order\SelectProduct.cshtml" />
-    <Content Include="Areas\Commerce\Views\Order\_Address.cshtml" />
     <Content Include="Areas\Commerce\Views\Order\_AddressDetail.cshtml" />
     <Content Include="Areas\Commerce\Views\Instance\Edit.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Products.Accessories\setting.config" />
@@ -3529,7 +3525,6 @@
     <Content Include="Areas\Sites\Views\DataSource\Edit.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\Index.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\_Designers.cshtml" />
-    <Content Include="Areas\Commerce\Views\Order\ProductList.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\Policy.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\BasicInfo.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\Promotion\Policy.Scripts.cshtml" />
