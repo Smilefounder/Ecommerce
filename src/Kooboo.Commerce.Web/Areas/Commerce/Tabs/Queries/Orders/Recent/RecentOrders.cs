@@ -38,8 +38,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Orders.Recent
             var lastDate = DateTime.Today.AddDays(-1 * parameters.Days).ToUniversalTime();
 
             var db = context.Instance.Database;
-            var customerQuery = db.GetRepository<Customer>().Query();
-            var query = db.GetRepository<Order>()
+            var customerQuery = db.Repository<Customer>().Query();
+            var query = db.Repository<Order>()
                           .Query()
                           .ByKeywords(context.Keywords)
                           .Join(customerQuery,

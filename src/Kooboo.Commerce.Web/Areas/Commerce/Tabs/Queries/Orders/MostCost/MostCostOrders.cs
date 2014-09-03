@@ -36,8 +36,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Orders.MostCost
         {
             var parameters = context.Config as MostCostOrdersConfig ?? new MostCostOrdersConfig();
             var db = context.Instance.Database;
-            var customerQuery = db.GetRepository<Customer>().Query();
-            var query = db.GetRepository<Order>()
+            var customerQuery = db.Repository<Customer>().Query();
+            var query = db.Repository<Order>()
                           .Query()
                           .ByKeywords(context.Keywords)
                           .Join(customerQuery,

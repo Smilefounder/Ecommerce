@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         protected override IQueryable<Core.ShoppingCart> CreateLocalQuery()
         {
-            return ApiContext.Database.GetRepository<Core.ShoppingCart>().Query().OrderBy(c => c.Id);
+            return ApiContext.Database.Repository<Core.ShoppingCart>().Query().OrderBy(c => c.Id);
         }
 
         protected override IQueryable<Core.ShoppingCart> ApplyFilter(IQueryable<Core.ShoppingCart> query, QueryFilter filter)

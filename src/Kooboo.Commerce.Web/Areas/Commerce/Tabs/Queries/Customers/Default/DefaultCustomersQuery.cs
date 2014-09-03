@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Customers.Default
         public override Pagination Execute(QueryContext context)
         {
             var db = context.Instance.Database;
-            var query = db.GetRepository<Customer>().Query();
+            var query = db.Repository<Customer>().Query();
 
             var config = context.Config as DefaultCustomersQueryConfig;
             if (config != null)

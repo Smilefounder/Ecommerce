@@ -121,7 +121,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
         {
             var service = new Core.ShoppingCartService(_context.Database);
             var cart = service.GetById(cartId);
-            var method = _context.Database.GetRepository<Kooboo.Commerce.Shipping.ShippingMethod>().Find(shippingMethodId);
+            var method = _context.Database.Repository<Kooboo.Commerce.Shipping.ShippingMethod>().Find(shippingMethodId);
             
             _context.Database.Transactional(() =>
             {
@@ -159,7 +159,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
             var customerCart = service.GetByCustomer(customerId);
             if (customerCart == null)
             {
-                var customer = _context.Database.GetRepository<Kooboo.Commerce.Customers.Customer>().Find(customerId);
+                var customer = _context.Database.Repository<Kooboo.Commerce.Customers.Customer>().Find(customerId);
                 customerCart = Kooboo.Commerce.Carts.ShoppingCart.Create(customer, session);
                 service.Create(customerCart);
             }

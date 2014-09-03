@@ -47,13 +47,13 @@ namespace Kooboo.Commerce.Data
             DbContext = CommerceDbContext.Create(instanceSettings, dbProvider);
         }
 
-        public IRepository GetRepository(Type entityType)
+        public IRepository Repository(Type entityType)
         {
             ThrowIfDisposed();
             return new CommerceRepository(this, entityType);
         }
 
-        public IRepository<T> GetRepository<T>() where T : class
+        public IRepository<T> Repository<T>() where T : class
         {
             ThrowIfDisposed();
             return new CommerceRepository<T>(this);

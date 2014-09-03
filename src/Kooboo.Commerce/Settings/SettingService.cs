@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Settings
 
         public SettingService(ICommerceDatabase database)
         {
-            _repository = database.GetRepository<SettingItem>();
+            _repository = database.Repository<SettingItem>();
         }
 
         public void Set<T>(T value)

@@ -132,7 +132,7 @@ namespace Kooboo.Commerce.Categories
             return _caches.GetOrAdd(instance, instanceName =>
             {
                 var manager = EngineContext.Current.Resolve<ICommerceInstanceManager>();
-                return BuildFrom(manager.GetInstance(instanceName).Database.GetRepository<Category>().Query().ToList());
+                return BuildFrom(manager.GetInstance(instanceName).Database.Repository<Category>().Query().ToList());
             });
         }
 

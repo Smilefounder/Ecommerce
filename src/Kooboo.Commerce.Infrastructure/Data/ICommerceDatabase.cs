@@ -15,9 +15,9 @@ namespace Kooboo.Commerce.Data
     {
         CommerceInstanceSettings InstanceSettings { get; }
 
-        IRepository GetRepository(Type entityType);
+        IRepository Repository(Type entityType);
 
-        IRepository<T> GetRepository<T>() where T : class;
+        IRepository<T> Repository<T>() where T : class;
 
         ICommerceDbTransaction Transaction { get; }
 
@@ -26,5 +26,32 @@ namespace Kooboo.Commerce.Data
         ICommerceDbTransaction BeginTransaction(IsolationLevel isolationLevel);
 
         void SaveChanges();
+    }
+
+    public static class CommerceDatabaseExtensions
+    {
+        public static T Find<T>(this ICommerceDatabase database, params object[] ids)
+            where T : class
+        {
+            return database.Repository<T>().Find(ids);
+        }
+
+        public static IQueryable<T> Query<T>(this ICommerceDatabase database)
+            where T : class
+        {
+            return database.Repository<T>().Query();
+        }
+
+        public static void Insert<T>(this ICommerceDatabase database, T entity)
+            where T : class
+        {
+            database.Repository<T>().Insert(entity);
+        }
+
+        public static void Delete<T>(this ICommerceDatabase database, T entity)
+            where T : class
+        {
+            database.Repository<T>().Delete(entity);
+        }
     }
 }

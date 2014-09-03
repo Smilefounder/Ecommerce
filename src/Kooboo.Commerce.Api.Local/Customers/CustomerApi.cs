@@ -77,14 +77,14 @@ namespace Kooboo.Commerce.Api.Local.Customers
 
         public void SetDefaultShippingAddress(int customerId, int addressId)
         {
-            var customer = _context.Database.GetRepository<Customer>().Find(customerId);
+            var customer = _context.Database.Repository<Customer>().Find(customerId);
             customer.DefaultShippingAddressId = addressId;
             _context.Database.SaveChanges();
         }
 
         public void SetDefaultBillingAddress(int customerId, int addressId)
         {
-            var customer = _context.Database.GetRepository<Customer>().Find(customerId);
+            var customer = _context.Database.Repository<Customer>().Find(customerId);
             customer.DefaultBillingAddressId = addressId;
             _context.Database.SaveChanges();
         }

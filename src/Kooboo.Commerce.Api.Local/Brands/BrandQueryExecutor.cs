@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Api.Local.Brands
 
         protected override IQueryable<Core.Brand> CreateLocalQuery()
         {
-            return ApiContext.Database.GetRepository<Core.Brand>().Query();
+            return ApiContext.Database.Repository<Core.Brand>().Query();
         }
 
         protected override IQueryable<Core.Brand> ApplyFilter(IQueryable<Core.Brand> query, QueryFilter filter)

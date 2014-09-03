@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Payments
 
         public PaymentService(ICommerceDatabase database)
         {
-            _repository = database.GetRepository<Payment>();
+            _repository = database.Repository<Payment>();
         }
 
         public Payment GetById(int id)

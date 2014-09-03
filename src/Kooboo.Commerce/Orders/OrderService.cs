@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Orders
         public OrderService(ICommerceDatabase database)
         {
             _database = database;
-            _orderRepository = _database.GetRepository<Order>();
+            _orderRepository = _database.Repository<Order>();
         }
 
         public Order GetById(int id)

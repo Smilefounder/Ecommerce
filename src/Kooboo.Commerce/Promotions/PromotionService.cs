@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Promotions
 
         public PromotionService(ICommerceDatabase database)
         {
-            _repository = database.GetRepository<Promotion>();
+            _repository = database.Repository<Promotion>();
         }
 
         public Promotion GetById(int id)

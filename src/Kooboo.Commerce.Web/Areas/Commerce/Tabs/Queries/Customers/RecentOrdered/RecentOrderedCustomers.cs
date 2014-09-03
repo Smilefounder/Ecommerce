@@ -42,9 +42,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Customers.RecentOrdere
             var db = context.Instance.Database;
             var lastDate = DateTime.Today.AddDays(-1 * config.Days);
 
-            var orderQuery = db.GetRepository<Order>().Query().Where(o => o.CreatedAtUtc > lastDate);
+            var orderQuery = db.Repository<Order>().Query().Where(o => o.CreatedAtUtc > lastDate);
 
-            var query = db.GetRepository<Customer>()
+            var query = db.Repository<Customer>()
                           .Query()
                           .ByKeywords(context.Keywords)
                           .GroupJoin(orderQuery,

@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Api.Local.Orders
 
         protected override IQueryable<Core.Order> CreateLocalQuery()
         {
-            return ApiContext.Database.GetRepository<Core.Order>().Query().OrderByDescending(o => o.Id);
+            return ApiContext.Database.Repository<Core.Order>().Query().OrderByDescending(o => o.Id);
         }
 
         protected override IQueryable<Core.Order> ApplyFilter(IQueryable<Core.Order> query, QueryFilter filter)

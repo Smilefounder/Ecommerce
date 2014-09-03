@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Countries
 
         public CountryService(ICommerceDatabase database)
         {
-            _countryRepository = database.GetRepository<Country>();
+            _countryRepository = database.Repository<Country>();
         }
 
         public Country GetById(int id)

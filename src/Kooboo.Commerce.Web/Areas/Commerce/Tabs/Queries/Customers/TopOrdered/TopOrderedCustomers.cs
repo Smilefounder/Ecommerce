@@ -49,8 +49,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Customers.TopOrdered
             var parameters = context.Config as TopOrderedCustomersConfig ?? new TopOrderedCustomersConfig();
             var db = context.Instance.Database;
 
-            var orderQuery = db.GetRepository<Order>().Query();
-            IQueryable<TopOrderedCustomer> query = db.GetRepository<Customer>().Query().ByKeywords(context.Keywords)
+            var orderQuery = db.Repository<Order>().Query();
+            IQueryable<TopOrderedCustomer> query = db.Repository<Customer>().Query().ByKeywords(context.Keywords)
                 .GroupJoin(orderQuery,
                            customer => customer.Id,
                            order => order.CustomerId,

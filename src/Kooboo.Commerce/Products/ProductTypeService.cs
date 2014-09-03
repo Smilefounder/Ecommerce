@@ -18,8 +18,8 @@ namespace Kooboo.Commerce.Products
 
         public ProductTypeService(ICommerceDatabase database)
         {
-            _productTypes = database.GetRepository<ProductType>();
-            _customFields = database.GetRepository<CustomFieldDefinition>();
+            _productTypes = database.Repository<ProductType>();
+            _customFields = database.Repository<CustomFieldDefinition>();
         }
 
         public ProductType GetById(int id)

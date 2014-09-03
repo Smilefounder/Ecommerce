@@ -29,7 +29,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products.Default
         public override Pagination Execute(QueryContext context)
         {
             var db = context.Instance.Database;
-            var query = db.GetRepository<Product>()
+            var query = db.Repository<Product>()
                           .Query()
                           .ByKeywords(context.Keywords);
 

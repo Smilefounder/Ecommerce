@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Carts
 
         public ShoppingCartService(ICommerceDatabase database)
         {
-            _repository = database.GetRepository<ShoppingCart>();
+            _repository = database.Repository<ShoppingCart>();
         }
 
         public ShoppingCart GetById(int id)

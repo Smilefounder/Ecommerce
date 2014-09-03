@@ -24,40 +24,40 @@ namespace Kooboo.Commerce.Products
 
         public Product GetById(int id)
         {
-            return _database.GetRepository<Product>().Find(id);
+            return _database.Repository<Product>().Find(id);
         }
 
         public IQueryable<Product> Query()
         {
-            return _database.GetRepository<Product>().Query();
+            return _database.Repository<Product>().Query();
         }
 
         public IQueryable<ProductVariant> ProductVariants()
         {
-            return _database.GetRepository<ProductVariant>().Query();
+            return _database.Repository<ProductVariant>().Query();
         }
 
         public ProductVariant GetProductVariantById(int id)
         {
-            return _database.GetRepository<ProductVariant>().Find(id);
+            return _database.Repository<ProductVariant>().Find(id);
         }
 
         public void Create(Product product)
         {
-            _database.GetRepository<Product>().Insert(product);
+            _database.Repository<Product>().Insert(product);
             Event.Raise(new ProductCreated(product));
         }
 
         public void Update(Product product)
         {
-            _database.GetRepository<Product>().Update(product);
+            _database.Repository<Product>().Update(product);
             Event.Raise(new ProductUpdated(product));
         }
 
         public void Delete(Product model)
         {
-            var product = _database.GetRepository<Product>().Find(model.Id);
-            _database.GetRepository<Product>().Delete(product);
+            var product = _database.Repository<Product>().Find(model.Id);
+            _database.Repository<Product>().Delete(product);
             Event.Raise(new ProductDeleted(product));
         }
 

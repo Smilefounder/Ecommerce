@@ -81,7 +81,7 @@ namespace Kooboo.Commerce.Rules.Activities.ChangeSavingPoints
 
         private Customer GetCustomer(IOrderEvent @event)
         {
-            var order = _database.GetRepository<Order>().Find(@event.OrderId);
+            var order = _database.Repository<Order>().Find(@event.OrderId);
             return order == null ? null : order.Customer;
         }
 

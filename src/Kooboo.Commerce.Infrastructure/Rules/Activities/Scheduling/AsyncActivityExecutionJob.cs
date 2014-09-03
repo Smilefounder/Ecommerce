@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Activities.Jobs
                 using (var scope = Scope.Begin(instance))
                 {
                     var batchSize = 100;
-                    var queue = instance.Database.GetRepository<ScheduledActivity>();
+                    var queue = instance.Database.Repository<ScheduledActivity>();
                     var query = queue.Query()
                                      .Where(x => x.Status == ActivityExecutionStatus.Pending && x.ScheduledExecutionTimeUtc <= now)
                                      .OrderBy(x => x.Id);

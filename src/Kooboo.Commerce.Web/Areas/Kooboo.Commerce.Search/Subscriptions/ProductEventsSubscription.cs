@@ -72,7 +72,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         public void Handle(ProductCreated @event)
         {
-            var product = CommerceInstance.Current.Database.GetRepository<Product>().Find(@event.ProductId);
+            var product = CommerceInstance.Current.Database.Repository<Product>().Find(@event.ProductId);
             if (product.IsPublished)
             {
                 Index(product, GetAllCultures());
@@ -81,7 +81,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         public void Handle(ProductUpdated @event)
         {
-            var product = CommerceInstance.Current.Database.GetRepository<Product>().Find(@event.ProductId);
+            var product = CommerceInstance.Current.Database.Repository<Product>().Find(@event.ProductId);
             if (product.IsPublished)
             {
                 Index(product, GetAllCultures());
@@ -90,7 +90,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         public void Handle(ProductPublished @event)
         {
-            var product = CommerceInstance.Current.Database.GetRepository<Product>().Find(@event.ProductId);
+            var product = CommerceInstance.Current.Database.Repository<Product>().Find(@event.ProductId);
             Index(product, GetAllCultures());
         }
 

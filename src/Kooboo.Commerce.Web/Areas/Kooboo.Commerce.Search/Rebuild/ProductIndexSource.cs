@@ -17,7 +17,7 @@ namespace Kooboo.Commerce.Search.Rebuild
 
         private IQueryable<Product> Query(CommerceInstance instance)
         {
-            return instance.Database.GetRepository<Product>().Query().Where(p => p.IsPublished).OrderBy(p => p.Id);
+            return instance.Database.Repository<Product>().Query().Where(p => p.IsPublished).OrderBy(p => p.Id);
         }
 
         public System.Collections.IEnumerable Enumerate(CommerceInstance instance, CultureInfo culture)

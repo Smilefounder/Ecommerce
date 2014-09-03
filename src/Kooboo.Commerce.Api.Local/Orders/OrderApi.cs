@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Api.Local.Orders
 
         public PaymentResult Pay(PaymentRequest request)
         {
-            var paymentMethod = _context.Database.GetRepository<Core.PaymentMethod>().Find(request.PaymentMethodId);
+            var paymentMethod = _context.Database.Repository<Core.PaymentMethod>().Find(request.PaymentMethodId);
             var payment = new Kooboo.Commerce.Payments.Payment(request.OrderId, request.Amount, paymentMethod, request.Description);
 
             var paymentService = new Core.PaymentService(_context.Database);

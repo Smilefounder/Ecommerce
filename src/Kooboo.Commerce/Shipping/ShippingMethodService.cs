@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Shipping
 
         public ShippingMethodService(ICommerceDatabase database)
         {
-            _repository = database.GetRepository<ShippingMethod>();
+            _repository = database.Repository<ShippingMethod>();
         }
 
         public ShippingMethod GetById(int id)

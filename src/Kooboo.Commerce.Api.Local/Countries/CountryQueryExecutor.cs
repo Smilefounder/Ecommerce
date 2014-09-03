@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Api.Local.Countries
 
         protected override IQueryable<Core.Country> CreateLocalQuery()
         {
-            return ApiContext.Database.GetRepository<Core.Country>().Query().OrderBy(c => c.Id);
+            return ApiContext.Database.Repository<Core.Country>().Query().OrderBy(c => c.Id);
         }
 
         protected override IQueryable<Core.Country> ApplyFilter(IQueryable<Core.Country> query, QueryFilter filter)

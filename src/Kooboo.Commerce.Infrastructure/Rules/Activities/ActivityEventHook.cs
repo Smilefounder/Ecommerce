@@ -65,7 +65,7 @@ namespace Kooboo.Commerce.Rules.Activities
 
         private void ScheduleActivities(IEnumerable<ConfiguredActivity> configuredActivities, IEvent @event, ICommerceDatabase database)
         {
-            var repository = database.GetRepository<ScheduledActivity>();
+            var repository = database.Repository<ScheduledActivity>();
             foreach (var each in configuredActivities)
             {
                 repository.Insert(new ScheduledActivity(@event, each));

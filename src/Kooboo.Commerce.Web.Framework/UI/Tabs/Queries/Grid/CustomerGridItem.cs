@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Web.Framework.UI.Tabs.Queries.Grid
             }
 
             var instance = CommerceInstance.Current;
-            var customer = instance.Database.GetRepository<Customer>().Find(model.Id);
+            var customer = instance.Database.Repository<Customer>().Find(model.Id);
 
             var classes = new List<string>();
             foreach (var button in TopbarCommands.GetCommands(GridModel.ViewContext.Controller.ControllerContext, customer, instance))

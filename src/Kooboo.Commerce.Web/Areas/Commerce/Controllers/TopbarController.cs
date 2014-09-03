@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             var command = TopbarCommands.GetCommand(commandName);
             var entityType = Type.GetType(itemType, true);
-            var repository = CurrentInstance.Database.GetRepository(entityType);
+            var repository = CurrentInstance.Database.Repository(entityType);
             var idProperty = EntityKey.GetKeyProperty(entityType);
             var items = new List<object>();
 

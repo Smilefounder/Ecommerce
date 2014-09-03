@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Products
 
         public PredefinedCustomFieldService(ICommerceDatabase database)
         {
-            _repository = database.GetRepository<CustomFieldDefinition>();
+            _repository = database.Repository<CustomFieldDefinition>();
         }
 
         public CustomFieldDefinition GetById(int id)

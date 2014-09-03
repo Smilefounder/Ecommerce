@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Categories
 
         public CategoryService(ICommerceDatabase database)
         {
-            _categoryRepository = database.GetRepository<Category>();
+            _categoryRepository = database.Repository<Category>();
         }
 
         public Category GetById(int id)

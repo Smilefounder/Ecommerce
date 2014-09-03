@@ -60,10 +60,10 @@ namespace Kooboo.Commerce.Multilingual
         {
             var culture = CultureInfo.GetCultureInfo(lang.Name);
 
-            AddLanguageChildItem<Brand>(parent, culture, "Brands", "Brand", database.GetRepository<Brand>().Query());
-            AddLanguageChildItem<Category>(parent, culture, "Categories", "Category", database.GetRepository<Category>().Query());
-            AddLanguageChildItem<Product>(parent, culture, "Products", "Product", database.GetRepository<Product>().Query());
-            AddLanguageChildItem<ProductType>(parent, culture, "Product types", "ProductType", database.GetRepository<ProductType>().Query());
+            AddLanguageChildItem<Brand>(parent, culture, "Brands", "Brand", database.Repository<Brand>().Query());
+            AddLanguageChildItem<Category>(parent, culture, "Categories", "Category", database.Repository<Category>().Query());
+            AddLanguageChildItem<Product>(parent, culture, "Products", "Product", database.Repository<Product>().Query());
+            AddLanguageChildItem<ProductType>(parent, culture, "Product types", "ProductType", database.Repository<ProductType>().Query());
         }
 
         private void AddLanguageChildItem<T>(MenuItem parent, CultureInfo culture, string text, string controller, IQueryable<T> originalDataQuery)

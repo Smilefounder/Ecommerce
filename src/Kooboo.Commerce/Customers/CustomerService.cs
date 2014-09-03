@@ -16,8 +16,8 @@ namespace Kooboo.Commerce.Customers
 
         public CustomerService(ICommerceDatabase database)
         {
-            _customerRepository = database.GetRepository<Customer>();
-            _addressRepository = database.GetRepository<Address>();
+            _customerRepository = database.Repository<Customer>();
+            _addressRepository = database.Repository<Address>();
         }
 
         public Customer GetById(int id)

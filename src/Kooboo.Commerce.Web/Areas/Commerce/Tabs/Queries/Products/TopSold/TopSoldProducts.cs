@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products.TopSold
             var lastDate = DateTime.Today.AddDays(-1 * parameters.Days);
             var db = context.Instance.Database;
 
-            IQueryable<SaledProduct> orderItemQuery = db.GetRepository<OrderItem>()
+            IQueryable<SaledProduct> orderItemQuery = db.Repository<OrderItem>()
                                    .Query()
                                    .GroupBy(o => o.ProductVariantId)
                                    .Select(g => new SaledProduct
@@ -59,7 +59,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Products.TopSold
             var total = orderItemQuery.Count();
             orderItemQuery = orderItemQuery.Skip(context.PageSize * context.PageIndex).Take(context.PageSize);
 
-            var productQuery = db.GetRepository<Product>().Query().ByKeywords(context.Keywords);
+            var productQuery = db.Repository<Product>().Query().ByKeywords(context.Keywords);
             
             var saledProduct = orderItemQuery.Join(productQuery,
                                                    saled => saled.ProductId,

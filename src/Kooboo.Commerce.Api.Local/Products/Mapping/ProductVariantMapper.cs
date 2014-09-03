@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
 
             if (targetProperty.Name == "VariantFields" && context.Includes.Includes(propertyPath))
             {
-                var product = context.ApiContext.Database.GetRepository<Kooboo.Commerce.Products.Product>().Find(variant.ProductId);
+                var product = context.ApiContext.Database.Repository<Kooboo.Commerce.Products.Product>().Find(variant.ProductId);
                 var productType = product.ProductType;
                 
                 var controls = FormControls.Controls().ToList();
