@@ -40,7 +40,6 @@ namespace Kooboo.Commerce.Api.Local.Customers
         {
             var mapped = new Kooboo.Commerce.Customers.Customer
             {
-                AccountId = customer.AccountId,
                 Email = customer.Email,
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,

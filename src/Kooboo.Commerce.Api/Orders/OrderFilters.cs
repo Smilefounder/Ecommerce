@@ -12,8 +12,6 @@ namespace Kooboo.Commerce.Api.Orders
 
         public static readonly FilterDescription ByCustomerId = new FilterDescription("ByCustomerId", new Int32ParameterDescription("CustomerId", true));
 
-        public static readonly FilterDescription ByCustomerAccountId = new FilterDescription("ByCustomerAccountId", new StringParameterDescription("CustomerAccountId", true));
-
         public static readonly FilterDescription ByUtcCreatedDate = new FilterDescription("ByUtcCreatedDate", new ParameterDescription("FromDate", typeof(DateTime?), false), new ParameterDescription("ToDate", typeof(DateTime?), false));
 
         public static readonly FilterDescription ByOrderStatus = new FilterDescription("ByOrderStatus", new ParameterDescription("OrderStatus", typeof(OrderStatus), true));

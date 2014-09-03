@@ -33,11 +33,6 @@ namespace Kooboo.Commerce.Api.Local.Carts
                 var sessionId = filter.GetParameterValueOrDefault<string>("SessionId");
                 query = query.Where(it => it.SessionId == sessionId);
             }
-            else if (filter.Name == ShoppingCartFilters.ByAccountId.Name)
-            {
-                var accountId = filter.GetParameterValueOrDefault<string>("AccountId");
-                query = query.Where(it => it.Customer.AccountId == accountId);
-            }
 
             return query;
         }

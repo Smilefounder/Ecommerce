@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Plugins.Vitaminstore
             var accountId = context.CurrentCustomerAccountId();
             if (!String.IsNullOrWhiteSpace(accountId))
             {
-                return Site.Current.Commerce().ShoppingCarts.GetCartIdByAccountId(accountId);
+                return Site.Current.Commerce().ShoppingCarts.GetCartIdByCustomer(accountId);
             }
 
             var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(true);

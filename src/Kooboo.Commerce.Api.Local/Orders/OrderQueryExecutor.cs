@@ -31,11 +31,6 @@ namespace Kooboo.Commerce.Api.Local.Orders
                 var customerId = filter.GetParameterValueOrDefault<int>("CustomerId");
                 query = query.Where(o => o.Customer.Id == customerId);
             }
-            else if (filter.Name == OrderFilters.ByCustomerAccountId.Name)
-            {
-                var accountId = filter.GetParameterValueOrDefault<string>("CustomerAccountId");
-                query = query.Where(o => o.Customer.AccountId == accountId);
-            }
             else if (filter.Name == OrderFilters.ByUtcCreatedDate.Name)
             {
                 var fromDate = (DateTime?)filter.Parameters["FromDate"];

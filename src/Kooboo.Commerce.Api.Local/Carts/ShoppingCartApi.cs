@@ -22,12 +22,12 @@ namespace Kooboo.Commerce.Api.Local.Carts
             return query;
         }
 
-        public int GetCartIdByAccountId(string accountId)
+        public int GetCartIdByCustomer(string email)
         {
-            var cart = _context.Services.Carts.GetByAccountId(accountId);
+            var cart = _context.Services.Carts.GetByCustomer(email);
             if (cart == null)
             {
-                var customer = _context.Services.Customers.GetByAccountId(accountId);
+                var customer = _context.Services.Customers.GetByEmail(email);
                 cart = Kooboo.Commerce.Carts.ShoppingCart.Create(customer);
                 _context.Services.Carts.Create(cart);
             }

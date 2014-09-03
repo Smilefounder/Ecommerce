@@ -14,16 +14,16 @@ namespace Kooboo.Commerce.Api
 
         public string Currency { get; set; }
 
-        public string CustomerAccountId { get; set; }
+        public string CustomerEmail { get; set; }
 
         public ApiContext() { }
 
-        public ApiContext(string instance, CultureInfo culture, string currency, string customerAccountId)
+        public ApiContext(string instance, CultureInfo culture, string currency, string customerEmail)
         {
             Instance = instance;
             Culture = culture;
             Currency = currency;
-            CustomerAccountId = customerAccountId;
+            CustomerEmail = customerEmail;
         }
     }
 }

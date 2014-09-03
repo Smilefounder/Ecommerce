@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
                     var user = context.HttpContext.GetMembershipUser();
                     if (user != null)
                     {
-                        query = query.ByAccountId(user.UUID);
+                        query = query.ByCustomerEmail(user.Email);
                     }
                     else
                     {

@@ -20,10 +20,9 @@ namespace Kooboo.Commerce.Api
             return query;
         }
 
-        public static Query<ShoppingCart> ByAccountId(this Query<ShoppingCart> query, string accountId)
+        public static Query<ShoppingCart> ByCustomerEmail(this Query<ShoppingCart> query, string customerEmail)
         {
-            query.Filters.Add(ShoppingCartFilters.ByAccountId.CreateFilter(new { AccountId = accountId }));
-            return query;
+            return query.AddFilter(ShoppingCartFilters.ByCustomerEmail.CreateFilter(new { CustomerEmail = customerEmail }));
         }
     }
 }

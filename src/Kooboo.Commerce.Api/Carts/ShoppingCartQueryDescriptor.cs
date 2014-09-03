@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Api.Carts
         {
             get
             {
-                return new[] { ShoppingCartFilters.ById, ShoppingCartFilters.BySessionId, ShoppingCartFilters.ByAccountId };
+                return new[] { ShoppingCartFilters.ById, ShoppingCartFilters.BySessionId };
             }
         }
 

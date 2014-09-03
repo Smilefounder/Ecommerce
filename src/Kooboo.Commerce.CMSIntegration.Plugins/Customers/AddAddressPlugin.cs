@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
         protected override SubmissionExecuteResult Execute(AddAddressModel model)
         {
             var member = HttpContext.Membership().GetMembershipUser();
-            var customer = Site.Commerce().Customers.Query().ByAccountId(member.UUID).FirstOrDefault();
+            var customer = Site.Commerce().Customers.Query().ByEmail(member.Email).FirstOrDefault();
 
             var address = new Address
             {

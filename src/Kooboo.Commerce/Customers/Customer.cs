@@ -17,8 +17,6 @@ namespace Kooboo.Commerce.Customers
         [Param]
         public int Id { get; set; }
 
-        public string AccountId { get; set; }
-
         [Param]
         public string Group { get; set; }
 

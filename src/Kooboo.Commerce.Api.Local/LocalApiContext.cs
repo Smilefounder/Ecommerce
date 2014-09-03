@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Api.Local
         public IServiceFactory Services { get; set; }
 
         public LocalApiContext(ApiContext context, ICommerceDatabase database, IServiceFactory serviceFactory)
-            : base(context.Instance, context.Culture, context.Currency, context.CustomerAccountId)
+            : base(context.Instance, context.Culture, context.Currency, context.CustomerEmail)
         {
             Database = database;
             Services = serviceFactory;

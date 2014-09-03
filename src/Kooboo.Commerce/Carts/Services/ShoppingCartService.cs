@@ -46,11 +46,6 @@ namespace Kooboo.Commerce.Carts.Services
             return Query().FirstOrDefault(c => c.SessionId == sessionId);
         }
 
-        public ShoppingCart GetByAccountId(string accountId)
-        {
-            return Query().FirstOrDefault(c => c.Customer != null && c.Customer.AccountId == accountId);
-        }
-
         public ShoppingCart GetByCustomer(int customerId)
         {
             return Query().FirstOrDefault(c => c.Customer != null && c.Customer.Id == customerId);

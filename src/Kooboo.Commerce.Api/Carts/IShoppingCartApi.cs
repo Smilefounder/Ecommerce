@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Api.Carts
     {
         Query<ShoppingCart> Query();
 
-        int GetCartIdByAccountId(string accountId);
+        int GetCartIdByCustomer(string email);
 
         int GetCartIdBySessionId(string sessionId);
 

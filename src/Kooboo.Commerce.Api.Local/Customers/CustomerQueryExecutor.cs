@@ -31,11 +31,6 @@ namespace Kooboo.Commerce.Api.Local.Customers
                 var email = filter.GetParameterValueOrDefault<string>("Email");
                 query = query.Where(c => c.Email == email);
             }
-            else if (filter.Name == CustomerFilters.ByAccountId.Name)
-            {
-                var accountId = filter.GetParameterValueOrDefault<string>("AccountId");
-                query = query.Where(c => c.AccountId == accountId);
-            }
             else if (filter.Name == CustomerFilters.ByCustomField.Name)
             {
                 var fieldName = (string)filter.Parameters["FieldName"];

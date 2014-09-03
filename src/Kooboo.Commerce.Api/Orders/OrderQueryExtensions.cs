@@ -18,11 +18,6 @@ namespace Kooboo.Commerce.Api
             return query.AddFilter(OrderFilters.ByCustomField.CreateFilter(new { CustomerId = customerId }));
         }
 
-        public static Query<Order> ByCustomerAccountId(this Query<Order> query, string customerAccountId)
-        {
-            return query.AddFilter(OrderFilters.ByCustomerAccountId.CreateFilter(new { CustomerAccountId = customerAccountId }));
-        }
-
         public static Query<Order> ByUtcCreatedDate(this Query<Order> query, DateTime? fromDate, DateTime? toDate)
         {
             return query.AddFilter(OrderFilters.ByUtcCreatedDate.CreateFilter(new { FromDate = fromDate, ToDate = toDate }));

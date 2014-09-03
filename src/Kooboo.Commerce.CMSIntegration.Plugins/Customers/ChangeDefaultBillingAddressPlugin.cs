@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
         protected override SubmissionExecuteResult Execute(ChangeDefaultBillingAddressModel model)
         {
             var member = HttpContext.Membership().GetMembershipUser();
-            var customer = Api.Customers.Query().ByAccountId(member.UUID).FirstOrDefault();
+            var customer = Api.Customers.Query().ByEmail(member.Email).FirstOrDefault();
 
             Api.Customers.SetDefaultBillingAddress(customer.Id, model.AddressId);
 

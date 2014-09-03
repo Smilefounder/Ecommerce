@@ -29,7 +29,6 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 
             var customer = new Customer
             {
-                AccountId = user.UUID,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,

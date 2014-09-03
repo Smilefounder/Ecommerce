@@ -17,13 +17,6 @@ namespace Kooboo.Commerce.Carts.Services
 
         ShoppingCart GetBySessionId(string sessionId);
 
-        /// <summary>
-        /// 根据CMS中关联的Membership用户ID获取购物车实例。
-        /// </summary>
-        /// <param name="accountId"></param>
-        /// <returns></returns>
-        ShoppingCart GetByAccountId(string accountId);
-
         ShoppingCart GetByCustomer(int customerId);
 
         ShoppingCart GetByCustomer(string customerEmail);

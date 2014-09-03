@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Api.Customers
         {
             get
             {
-                return new[] { CustomerFilters.ById, CustomerFilters.ByAccountId, CustomerFilters.ByEmail, CustomerFilters.ByCustomField };
+                return new[] { CustomerFilters.ById, CustomerFilters.ByEmail, CustomerFilters.ByCustomField };
             }
         }
 

@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
                 return null;
             }
 
-            var query = context.Site.Commerce().Customers.Query().ByAccountId(user.UUID);
+            var query = context.Site.Commerce().Customers.Query().ByEmail(user.Email);
 
             if (settings.Includes != null)
             {

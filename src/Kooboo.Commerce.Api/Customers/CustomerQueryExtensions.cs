@@ -14,12 +14,6 @@ namespace Kooboo.Commerce.Api
             return query;
         }
 
-        public static Query<Customer> ByAccountId(this Query<Customer> query, string accountId)
-        {
-            query.AddFilter(CustomerFilters.ByAccountId.CreateFilter(new { AccountId = accountId }));
-            return query;
-        }
-
         public static Query<Customer> ByEmail(this Query<Customer> query, string email)
         {
             query.AddFilter(CustomerFilters.ByEmail.CreateFilter(new { Email = email }));

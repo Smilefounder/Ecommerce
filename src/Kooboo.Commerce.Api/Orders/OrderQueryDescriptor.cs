@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Api.Orders
             get
             {
                 return new[] { 
-                    OrderFilters.ById, OrderFilters.ByCustomerId, OrderFilters.ByCustomerAccountId, 
+                    OrderFilters.ById, OrderFilters.ByCustomerId,
                     OrderFilters.ByUtcCreatedDate, OrderFilters.ByOrderStatus, OrderFilters.ByProcessingStatus, 
                     OrderFilters.ByCouponCode, OrderFilters.ByTotal, OrderFilters.ByCustomField 
                 };

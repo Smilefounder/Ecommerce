@@ -12,18 +12,18 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
 {
     static class HttpContextExtensions
     {
-        public static string CurrentCustomerAccountId(this HttpContextBase context)
+        public static string CurrentCustomerEmail(this HttpContextBase context)
         {
             var member = context.Membership().GetMembershipUser();
-            return member == null ? null : member.UUID;
+            return member == null ? null : member.Email;
         }
 
         public static int CurrentCartId(this HttpContextBase context)
         {
-            var accountId = context.CurrentCustomerAccountId();
-            if (!String.IsNullOrWhiteSpace(accountId))
+            var email = context.CurrentCustomerEmail();
+            if (!String.IsNullOrWhiteSpace(email))
             {
-                return Site.Current.Commerce().ShoppingCarts.GetCartIdByAccountId(accountId);
+                return Site.Current.Commerce().ShoppingCarts.GetCartIdByCustomer(email);
             }
 
             var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(true);

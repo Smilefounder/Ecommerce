@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
             var api = Site.Commerce();
 
             var member = HttpContext.Membership().GetMembershipUser();
-            var cart = api.ShoppingCarts.Query().ByAccountId(member.UUID).FirstOrDefault();
+            var cart = api.ShoppingCarts.Query().ByCustomerEmail(member.Email).FirstOrDefault();
             var orderId = api.Orders.CreateFromCart(cart.Id, new ShoppingContext
             {
                 Currency = Site.GetCurrency(),

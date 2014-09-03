@@ -10,8 +10,6 @@ namespace Kooboo.Commerce.Api.Customers
     {
         public int Id { get; set; }
 
-        public string AccountId { get; set; }
-
         public string Group { get; set; }
 
         public string FirstName { get; set; }

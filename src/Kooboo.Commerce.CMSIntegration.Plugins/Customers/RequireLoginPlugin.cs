@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
             var user = pageContext.ControllerContext.HttpContext.Membership().GetMembershipUser();
             if (user != null)
             {
-                var customer = Site.Current.Commerce().Customers.Query().ByAccountId(user.UUID).FirstOrDefault();
+                var customer = Site.Current.Commerce().Customers.Query().ByEmail(user.Email).FirstOrDefault();
                 if (customer != null)
                 {
                     return null;

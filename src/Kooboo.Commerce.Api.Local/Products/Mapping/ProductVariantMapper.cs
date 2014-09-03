@@ -22,9 +22,9 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
                 Currency = context.ApiContext.Currency
             };
 
-            if (context.ApiContext.CustomerAccountId != null)
+            if (context.ApiContext.CustomerEmail != null)
             {
-                var customer = ((LocalApiContext)context.ApiContext).Services.Customers.GetByAccountId(context.ApiContext.CustomerAccountId);
+                var customer = ((LocalApiContext)context.ApiContext).Services.Customers.GetByEmail(context.ApiContext.CustomerEmail);
                 if (customer != null)
                 {
                     shoppingContext.CustomerId = customer.Id;
