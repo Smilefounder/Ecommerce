@@ -1,6 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Shipping.ByWeight.Models;
-using Kooboo.Commerce.Shipping.Services;
+using Kooboo.Commerce.Shipping;
 using Kooboo.Commerce.Web.Areas.Commerce.Controllers;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Newtonsoft.Json;
@@ -14,9 +14,9 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
 {
     public class ConfigController : CommerceController
     {
-        private IShippingMethodService _service;
+        private ShippingMethodService _service;
 
-        public ConfigController(IShippingMethodService service)
+        public ConfigController(ShippingMethodService service)
         {
             _service = service;
         }

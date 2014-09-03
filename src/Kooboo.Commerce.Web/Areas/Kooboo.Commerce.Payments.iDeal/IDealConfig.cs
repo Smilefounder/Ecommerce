@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using Kooboo.Commerce.Settings.Services;
 
 namespace Kooboo.Commerce.Payments.iDeal
 {

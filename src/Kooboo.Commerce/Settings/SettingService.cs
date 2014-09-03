@@ -6,17 +6,21 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Newtonsoft.Json;
 
-namespace Kooboo.Commerce.Settings.Services
+namespace Kooboo.Commerce.Settings
 {
-
-    [Dependency(typeof(ISettingService))]
-    public class SettingService : ISettingService
+    [Dependency(typeof(SettingService))]
+    public class SettingService
     {
         private readonly IRepository<SettingItem> _repository;
 
-        public SettingService(IRepository<SettingItem> repository)
+        public SettingService(ICommerceDatabase database)
         {
-            _repository = repository;
+            _repository = database.GetRepository<SettingItem>();
+        }
+
+        public void Set<T>(T value)
+        {
+            Set(typeof(T).Name, value);
         }
 
         public void Set(string key, object value)
@@ -46,6 +50,11 @@ namespace Kooboo.Commerce.Settings.Services
         private SettingItem FindEntry(string key)
         {
             return _repository.Find(key);
+        }
+
+        public T Get<T>()
+        {
+            return Get<T>(typeof(T).Name);
         }
 
         public T Get<T>(string key)

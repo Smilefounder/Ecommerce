@@ -1,8 +1,6 @@
 ﻿using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Orders;
-using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Payments;
-using Kooboo.Commerce.Payments.Services;
 using System;
 
 namespace Kooboo.Commerce.Orders
@@ -10,10 +8,10 @@ namespace Kooboo.Commerce.Orders
     class OrderingProcessManager
         : IHandle<PaymentStatusChanged>
     {
-        private IOrderService _orderService;
-        private IPaymentService _paymentService;
+        private OrderService _orderService;
+        private PaymentService _paymentService;
 
-        public OrderingProcessManager(IOrderService orderService, IPaymentService paymentService)
+        public OrderingProcessManager(OrderService orderService, PaymentService paymentService)
         {
             _orderService = orderService;
             _paymentService = paymentService;

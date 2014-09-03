@@ -1,4 +1,4 @@
-﻿using Kooboo.Commerce.Products.Services;
+﻿using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Framework.UI;
 using Kooboo.Commerce.Web.Framework.UI.Tabs;
 using System;

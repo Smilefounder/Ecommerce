@@ -10,7 +10,6 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.Commerce.Categories;
-using Kooboo.Commerce.Categories.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Globalization;
 using AutoMapper;
@@ -19,9 +18,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class CategoryController : CommerceController
     {
-        private readonly ICategoryService _categoryService;
+        private readonly CategoryService _categoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(CategoryService categoryService)
         {
             _categoryService = categoryService;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Products.Services
+namespace Kooboo.Commerce.Products
 {
     public class UpdateProductTypeRequest
     {

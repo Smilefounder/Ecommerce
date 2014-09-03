@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Products.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes.Mapping
             Mapper.CreateMap<ProductType, ProductTypeModel>()
                   .BeforeMap((source, model) =>
                   {
-                      var service = EngineContext.Current.Resolve<IPredefinedCustomFieldService>();
+                      var service = EngineContext.Current.Resolve<PredefinedCustomFieldService>();
                       model.PredefinedFields = service.Query()
                                                       .OrderBy(f => f.Sequence)
                                                       .ThenBy(f => f.Id)

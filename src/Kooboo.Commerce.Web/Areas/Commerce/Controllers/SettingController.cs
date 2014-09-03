@@ -7,8 +7,6 @@ using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Settings;
 using Kooboo.Commerce.Settings;
-using Kooboo.Commerce.Settings.Services;
-using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Web.Framework.Mvc;
 
@@ -16,10 +14,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class SettingController : CommerceController
     {
-        private readonly ISettingService _settings;
-        private readonly IPredefinedCustomFieldService _predefinedFields;
+        private readonly SettingService _settings;
+        private readonly PredefinedCustomFieldService _predefinedFields;
 
-        public SettingController(ISettingService settings, IPredefinedCustomFieldService predefinedFields)
+        public SettingController(SettingService settings, PredefinedCustomFieldService predefinedFields)
         {
             _settings = settings;
             _predefinedFields = predefinedFields;

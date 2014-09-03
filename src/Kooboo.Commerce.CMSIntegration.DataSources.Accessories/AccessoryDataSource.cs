@@ -4,7 +4,6 @@ using Kooboo.Commerce.Accessories;
 using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Products.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +55,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Accessories
         // because ICommerceSource will be resolved in CMS data source management page
         // where there's no a commerce instance context
         // while IProductService requires a commerce instance context.
-        public Func<IProductService> ProductService = () => EngineContext.Current.Resolve<IProductService>();
+        public Func<ProductService> ProductService = () => EngineContext.Current.Resolve<ProductService>();
 
         public Func<IProductAccessoryService> ProductAccessoryService = () => EngineContext.Current.Resolve<IProductAccessoryService>();
 

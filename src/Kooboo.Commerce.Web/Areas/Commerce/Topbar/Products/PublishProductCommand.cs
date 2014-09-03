@@ -1,7 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Framework.UI;
 using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using System;
@@ -45,7 +44,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Topbar.Products
 
         public override ActionResult Execute(IEnumerable<Product> products, object config, CommerceInstance instance)
         {
-            var service = EngineContext.Current.Resolve<IProductService>();
+            var service = new ProductService(instance.Database);
             foreach (var product in products)
             {
                 service.Publish(product);

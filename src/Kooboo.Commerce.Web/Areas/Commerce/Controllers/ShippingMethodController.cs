@@ -1,14 +1,13 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
-using Kooboo.Commerce.Shipping.Services;
+using Kooboo.Commerce.Shipping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.ShippingMethods;
-using Kooboo.Commerce.Shipping;
 using Kooboo.Commerce.Web.Areas.Commerce.Models;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
@@ -17,11 +16,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ShippingMethodController : CommerceController
     {
-        private IShippingMethodService _shippingMethodService;
+        private ShippingMethodService _shippingMethodService;
         private IShippingRateProviderFactory _shippingRateProviderFactory;
 
         public ShippingMethodController(
-            IShippingMethodService shippingMethodService,
+            ShippingMethodService shippingMethodService,
             IShippingRateProviderFactory shippingRateProviderFactory)
         {
             _shippingMethodService = shippingMethodService;

@@ -1,6 +1,6 @@
-﻿using Kooboo.Commerce.Orders.Services;
+﻿using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Payments.Fake.Models;
-using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Web;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using System;
@@ -13,10 +13,10 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
 {
     public class HomeController : CommerceController
     {
-        private IPaymentService _paymentService;
-        private IPaymentMethodService _paymentMethodService;
+        private PaymentService _paymentService;
+        private PaymentMethodService _paymentMethodService;
 
-        public HomeController(IPaymentService paymentService, IPaymentMethodService paymentMethodService)
+        public HomeController(PaymentService paymentService, PaymentMethodService paymentMethodService)
         {
             _paymentService = paymentService;
             _paymentMethodService = paymentMethodService;

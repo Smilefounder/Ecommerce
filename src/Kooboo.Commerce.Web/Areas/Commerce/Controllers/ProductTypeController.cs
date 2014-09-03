@@ -8,7 +8,6 @@ using Kooboo.Web.Mvc.Paging;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.ProductTypes;
 using Kooboo.Commerce.Web.Framework.Mvc;
@@ -18,10 +17,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ProductTypeController : CommerceController
     {
-        private readonly IProductTypeService _productTypeService;
-        private readonly IPredefinedCustomFieldService _customFieldService;
+        private readonly ProductTypeService _productTypeService;
+        private readonly PredefinedCustomFieldService _customFieldService;
 
-        public ProductTypeController(IProductTypeService productTypeService, IPredefinedCustomFieldService customFieldService)
+        public ProductTypeController(ProductTypeService productTypeService, PredefinedCustomFieldService customFieldService)
         {
             _productTypeService = productTypeService;
             _customFieldService = customFieldService;

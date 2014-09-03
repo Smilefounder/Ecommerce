@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Shipping.Services
+namespace Kooboo.Commerce.Shipping
 {
-    [Dependency(typeof(IShippingMethodService))]
-    public class ShippingMethodService : IShippingMethodService
+    [Dependency(typeof(ShippingMethodService))]
+    public class ShippingMethodService
     {
         private IRepository<ShippingMethod> _repository;
 
-        public ShippingMethodService(IRepository<ShippingMethod> repository)
+        public ShippingMethodService(ICommerceDatabase database)
         {
-            _repository = repository;
+            _repository = database.GetRepository<ShippingMethod>();
         }
 
         public ShippingMethod GetById(int id)

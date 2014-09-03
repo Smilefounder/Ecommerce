@@ -71,19 +71,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brands\BrandCustomField.cs" />
-    <Compile Include="Brands\Services\BrandService.cs" />
-    <Compile Include="Brands\Services\IBrandService.cs" />
+    <Compile Include="Brands\BrandService.cs" />
     <Compile Include="Categories\CategoryTree.cs" />
     <Compile Include="Categories\CategoryTreeNode.cs" />
     <Compile Include="Categories\CategoryTreeCacheRefresher.cs" />
     <Compile Include="Categories\CategoryCustomField.cs" />
-    <Compile Include="Categories\Services\CategoryService.cs" />
-    <Compile Include="Categories\Services\ICategoryService.cs" />
-    <Compile Include="DefaultServiceFactory.cs" />
+    <Compile Include="Categories\CategoryService.cs" />
     <Compile Include="Events\ProductTypes\ProductTypeCreated.cs" />
     <Compile Include="Events\ProductTypes\ProductTypeDeleted.cs" />
     <Compile Include="Events\ProductTypes\ProductTypeUpdated.cs" />
-    <Compile Include="IServiceFactory.cs" />
     <Compile Include="Products\ICustomField.cs" />
     <Compile Include="Products\OrderedCustomFieldDefinitionCollection.cs" />
     <Compile Include="Events\Categories\CategoryCreated.cs" />
@@ -128,16 +124,14 @@
     <Compile Include="Events\Promotions\IPromotionEvent.cs" />
     <Compile Include="Events\Promotions\PromotionEnabled.cs" />
     <Compile Include="Products\CustomFieldExtensions.cs" />
-    <Compile Include="Products\Services\CreateProductTypeRequest.cs" />
-    <Compile Include="Products\Services\PredefinedCustomFieldService.cs" />
-    <Compile Include="Products\Services\IPredefinedCustomFieldService.cs" />
-    <Compile Include="Products\Services\UpdateProductTypeRequest.cs" />
+    <Compile Include="Products\CreateProductTypeRequest.cs" />
+    <Compile Include="Products\PredefinedCustomFieldService.cs" />
+    <Compile Include="Products\UpdateProductTypeRequest.cs" />
     <Compile Include="Events\Customers\ICustomerEvent.cs" />
     <Compile Include="Events\Products\IProductEvent.cs" />
     <Compile Include="Events\Carts\ICartEvent.cs" />
     <Compile Include="Events\Orders\IOrderEvent.cs" />
-    <Compile Include="Countries\Services\CountryService.cs" />
-    <Compile Include="Countries\Services\ICountryService.cs" />
+    <Compile Include="Countries\CountryService.cs" />
     <Compile Include="Data\Mapping\BrandMap.cs" />
     <Compile Include="Data\Mapping\CategoryMap.cs" />
     <Compile Include="Data\Mapping\CountryMap.cs" />
@@ -171,9 +165,7 @@
     <Compile Include="Payments\PaymentProcessorException.cs" />
     <Compile Include="Payments\Payment.cs" />
     <Compile Include="Payments\ProcessPaymentResult.cs" />
-    <Compile Include="Payments\Services\IPaymentService.cs" />
-    <Compile Include="Orders\Services\IOrderService.cs" />
-    <Compile Include="Payments\Services\PaymentService.cs" />
+    <Compile Include="Payments\PaymentService.cs" />
     <Compile Include="Products\Product.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -198,22 +190,15 @@
     <Compile Include="Products\Internal\ProductTypeVariantFieldDefintion.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\Services\IProductService.cs">
+    <Compile Include="Products\ProductService.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Products\Services\IProductTypeService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Products\Services\ProductService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Products\Services\ProductTypeService.cs">
+    <Compile Include="Products\ProductTypeService.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Promotions\CheckPromotionConditionResult.cs" />
     <Compile Include="Promotions\Extensions\PromotionsExtensions.cs" />
     <Compile Include="Promotions\IHasCustomPromotionPolicyConfigEditor.cs" />
-    <Compile Include="Promotions\PromotionPolicyEditor.cs" />
     <Compile Include="Promotions\PromotionMatcher.cs" />
     <Compile Include="Promotions\PromotionConditionContextModel.cs" />
     <Compile Include="Promotions\PromotionConditionChecker.cs" />
@@ -221,16 +206,13 @@
     <Compile Include="Promotions\PromotionContext.cs" />
     <Compile Include="Promotions\PromotionSpecifications.cs" />
     <Compile Include="Settings\ImageSettings.cs" />
-    <Compile Include="Settings\Services\ISettingService.cs" />
-    <Compile Include="Settings\Services\SettingService.cs" />
+    <Compile Include="Settings\SettingService.cs" />
     <Compile Include="Promotions\PromotionOverlappingUsage.cs" />
-    <Compile Include="Payments\Services\IPaymentMethodService.cs" />
-    <Compile Include="Payments\Services\PaymentMethodService.cs" />
+    <Compile Include="Payments\PaymentMethodService.cs" />
     <Compile Include="Events\Customers\CustomerCreated.cs" />
-    <Compile Include="Customers\Services\CustomerService.cs" />
-    <Compile Include="Customers\Services\ICustomerService.cs" />
+    <Compile Include="Customers\CustomerService.cs" />
     <Compile Include="Gender.cs" />
-    <Compile Include="Orders\Services\OrderService.cs" />
+    <Compile Include="Orders\OrderService.cs" />
     <Compile Include="Payments\PaymentMethod.cs" />
     <Compile Include="Payments\PaymentProcessingContext.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
@@ -250,19 +232,15 @@
     <Compile Include="Promotions\IPromotionPolicyProvider.cs" />
     <Compile Include="Promotions\IPromotionPolicy.cs" />
     <Compile Include="Promotions\Promotion.cs" />
-    <Compile Include="Promotions\Services\IPromotionService.cs" />
-    <Compile Include="Promotions\Services\PromotionService.cs" />
+    <Compile Include="Promotions\PromotionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shipping\IHasCustomShippingRateProviderConfigEditor.cs" />
     <Compile Include="Shipping\IShippingRateProvider.cs" />
     <Compile Include="Shipping\IShippingRateProviderFactory.cs" />
-    <Compile Include="Shipping\Services\IShippingMethodService.cs" />
-    <Compile Include="Shipping\Services\ShippingMethodService.cs" />
+    <Compile Include="Shipping\ShippingMethodService.cs" />
     <Compile Include="Shipping\ShippingRateCalculationContext.cs" />
     <Compile Include="Shipping\ShippingMethod.cs" />
-    <Compile Include="Shipping\ShippingRateProviderEditor.cs" />
-    <Compile Include="Carts\Services\IShoppingCartService.cs" />
-    <Compile Include="Carts\Services\ShoppingCartService.cs" />
+    <Compile Include="Carts\ShoppingCartService.cs" />
     <Compile Include="Carts\ShoppingCart.cs" />
     <Compile Include="Carts\ShoppingCartItem.cs" />
     <Compile Include="Carts\ShoppingCartExtensions.cs" />

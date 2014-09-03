@@ -54,6 +54,10 @@
       <Project>{cd168c81-aa6f-480a-94ec-87e3ba0a5871}</Project>
       <Name>Kooboo.Commerce.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.Commerce.Infrastructure\Kooboo.Commerce.Infrastructure.csproj">
+      <Project>{e22af3f7-7f7f-4571-89da-8e39dabb6926}</Project>
+      <Name>Kooboo.Commerce.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

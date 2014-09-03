@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Api.Local.Categories
 
         protected override IQueryable<Core.Category> CreateLocalQuery()
         {
-            return ApiContext.Services.Categories.Query().OrderBy(c => c.Id);
+            return ApiContext.Database.GetRepository<Core.Category>().Query().OrderBy(c => c.Id);
         }
 
         protected override IQueryable<Core.Category> ApplyFilters(IQueryable<Core.Category> query, IEnumerable<QueryFilter> filters)

@@ -1,6 +1,6 @@
-﻿using Kooboo.Commerce.Orders.Services;
-using Kooboo.Commerce.Payments.Services;
-using Kooboo.Commerce.Settings.Services;
+﻿using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.Payments;
+using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Web;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Mollie.iDEAL;
@@ -14,14 +14,14 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 {
     public class iDealController : Controller
     {
-        private ISettingService _keyValueService;
-        private IPaymentService _paymentService;
-        private IPaymentMethodService _paymentMethodService;
+        private SettingService _keyValueService;
+        private PaymentService _paymentService;
+        private PaymentMethodService _paymentMethodService;
 
         public iDealController(
-            ISettingService keyValueService,
-            IPaymentService paymentService,
-            IPaymentMethodService paymentMethodService)
+            SettingService keyValueService,
+            PaymentService paymentService,
+            PaymentMethodService paymentMethodService)
         {
             _keyValueService = keyValueService;
             _paymentService = paymentService;

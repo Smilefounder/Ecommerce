@@ -9,7 +9,6 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Brands;
 using Kooboo.Commerce.Brands;
-using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using AutoMapper;
 
@@ -17,9 +16,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class BrandController : CommerceController
     {
-        private IBrandService _brandService;
+        private BrandService _brandService;
 
-        public BrandController(IBrandService brandService)
+        public BrandController(BrandService brandService)
         {
             _brandService = brandService;
         }
@@ -27,10 +26,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         public ActionResult Index(int page = 1, int pageSize = 50)
         {
             var brands = _brandService.Query()
-                                .OrderByDescending(x => x.Id)
-                                .Paginate(page - 1, pageSize)
-                                .Transform(x => new BrandRowModel(x))
-                                .ToPagedList();
+                                      .OrderByDescending(x => x.Id)
+                                      .Paginate(page - 1, pageSize)
+                                      .Transform(x => new BrandRowModel(x))
+                                      .ToPagedList();
 
             return View(brands);
         }

@@ -1,5 +1,5 @@
 ﻿using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Orders.Services;
+using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Rules.Activities;
 using Kooboo.Commerce.Web.Areas.Commerce.Topbar.Orders.Events;
 using System;
@@ -19,9 +19,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Topbar.Orders
             }
         }
 
-        private IOrderService _service;
+        private OrderService _service;
 
-        public MarkApprovedActivity(IOrderService service)
+        public MarkApprovedActivity(OrderService service)
         {
             _service = service;
         }

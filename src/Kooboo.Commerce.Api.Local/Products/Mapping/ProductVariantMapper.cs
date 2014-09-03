@@ -24,7 +24,8 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
 
             if (context.ApiContext.CustomerEmail != null)
             {
-                var customer = ((LocalApiContext)context.ApiContext).Services.Customers.GetByEmail(context.ApiContext.CustomerEmail);
+                var service = new Kooboo.Commerce.Customers.CustomerService(context.ApiContext.Database);
+                var customer = service.GetByEmail(context.ApiContext.CustomerEmail);
                 if (customer != null)
                 {
                     shoppingContext.CustomerId = customer.Id;
@@ -43,9 +44,7 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
 
             if (targetProperty.Name == "VariantFields" && context.Includes.Includes(propertyPath))
             {
-                var services = (context.ApiContext as LocalApiContext).Services;
-
-                var product = services.Products.GetById(variant.ProductId);
+                var product = context.ApiContext.Database.GetRepository<Kooboo.Commerce.Products.Product>().Find(variant.ProductId);
                 var productType = product.ProductType;
                 
                 var controls = FormControls.Controls().ToList();

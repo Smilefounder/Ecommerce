@@ -1,6 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Customers;
-using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using System;
@@ -52,7 +51,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Topbar.Customers
 
         public override ActionResult Execute(IEnumerable<Customer> customers, object config, CommerceInstance instance)
         {
-            var service = EngineContext.Current.Resolve<ICustomerService>();
+            var service = new CustomerService(instance.Database);
             foreach (var customer in customers)
             {
                 service.Delete(customer);

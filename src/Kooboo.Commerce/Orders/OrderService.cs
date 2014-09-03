@@ -8,47 +8,24 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Countries;
-using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Carts;
 using Kooboo.CMS.Membership.Models;
-using Kooboo.Commerce.Customers.Services;
-using Kooboo.Commerce.Carts.Services;
 using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Orders.Pricing;
 
-namespace Kooboo.Commerce.Orders.Services
+namespace Kooboo.Commerce.Orders
 {
-    [Dependency(typeof(IOrderService))]
-    public class OrderService : IOrderService
+    [Dependency(typeof(OrderService))]
+    public class OrderService
     {
-        private readonly ICommerceDatabase _db;
-        private readonly ICustomerService _customerService;
-        private readonly IRepository<Customer> _customerRepository;
+        private readonly ICommerceDatabase _database;
         private readonly IRepository<Order> _orderRepository;
-        private readonly IRepository<OrderItem> _orderItemRepository;
-        private readonly IRepository<Address> _addressRepository;
-        private readonly IRepository<OrderAddress> _orderAddressRepository;
-        private readonly IRepository<OrderCustomField> _orderCustomFieldRepository;
-        private readonly IRepository<PaymentMethod> _paymentMethodRepository;
-        private readonly IRepository<Country> _countryRepository;
-        private readonly IShoppingCartService _cartService;
-        private readonly IProductService _productService;
 
-        public OrderService(ICommerceDatabase db, ICustomerService customerService, IRepository<Customer> customerRepository, IRepository<Order> orderRepository, IRepository<OrderItem> orderItemRepository, IRepository<Address> addressRepository, IRepository<OrderAddress> orderAddressRepository, IRepository<OrderCustomField> orderCustomFieldRepository, IRepository<PaymentMethod> paymentMethodRepository, IRepository<Country> countryRepository, IShoppingCartService shoppingCartService, IProductService productService)
+        public OrderService(ICommerceDatabase database)
         {
-            _db = db;
-            _customerService = customerService;
-            _customerRepository = customerRepository;
-            _orderRepository = orderRepository;
-            _orderItemRepository = orderItemRepository;
-            _addressRepository = addressRepository;
-            _orderAddressRepository = orderAddressRepository;
-            _orderCustomFieldRepository = orderCustomFieldRepository;
-            _paymentMethodRepository = paymentMethodRepository;
-            _countryRepository = countryRepository;
-            _cartService = shoppingCartService;
-            _productService = productService;
+            _database = database;
+            _orderRepository = _database.GetRepository<Order>();
         }
 
         public Order GetById(int id)
@@ -69,7 +46,7 @@ namespace Kooboo.Commerce.Orders.Services
             Require.That(cart.Items.Count > 0, "cart.Items", "Cannot create order from an empty cart.");
 
             // Recalculate price
-            var pricingContext = _cartService.CalculatePrice(cart, context);
+            var pricingContext = new ShoppingCartService(_database).CalculatePrice(cart, context);
 
             var order = new Order();
             order.ShoppingCartId = cart.Id;
@@ -123,7 +100,7 @@ namespace Kooboo.Commerce.Orders.Services
                 var oldStatus = order.Status;
                 order.Status = newStatus;
 
-                _db.SaveChanges();
+                _database.SaveChanges();
 
                 Event.Raise(new OrderStatusChanged(order, oldStatus, newStatus));
             }
@@ -139,7 +116,7 @@ namespace Kooboo.Commerce.Orders.Services
             order.Total += payment.PaymentMethodCost;
             order.PaymentMethodCost += payment.PaymentMethodCost;
 
-            _db.SaveChanges();
+            _database.SaveChanges();
 
             if (order.TotalPaid >= order.Total)
             {

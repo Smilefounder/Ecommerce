@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Products.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 using Kooboo.Commerce.Web.Framework.UI.Grid2;
 using Kooboo.Web.Mvc.Grid2.Design;

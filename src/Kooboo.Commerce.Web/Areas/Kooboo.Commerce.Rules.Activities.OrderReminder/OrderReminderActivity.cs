@@ -12,10 +12,10 @@ using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Events.Customers;
 using System.Text;
 using Kooboo.Commerce.Events.Brands;
-using Kooboo.Commerce.Orders.Services;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Activities;
 using Kooboo.Commerce.Rules.Conditions;
+using Kooboo.Commerce.Orders;
 
 namespace Kooboo.Commerce.Rules.Activities.OrderReminder
 {
@@ -53,9 +53,9 @@ namespace Kooboo.Commerce.Rules.Activities.OrderReminder
             }
         }
 
-        private IOrderService _orderService;
+        private OrderService _orderService;
 
-        public OrderReminderActivity(IOrderService orderService)
+        public OrderReminderActivity(OrderService orderService)
         {
             _orderService = orderService;
         }

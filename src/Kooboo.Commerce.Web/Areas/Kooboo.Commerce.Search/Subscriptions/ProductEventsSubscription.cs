@@ -20,12 +20,10 @@ namespace Kooboo.Commerce.Search.Subscriptions
         , IHandle<TranslationUpdated>
         , IHandle<LanguageAdded>, IHandle<LanguageDeleted>
     {
-        private IServiceFactory _serviceFactory;
         private ILanguageStore _languageStore;
 
-        public ProductEventsSubscription(IServiceFactory serviceFactory)
+        public ProductEventsSubscription()
         {
-            _serviceFactory = serviceFactory;
             _languageStore = LanguageStores.Get(CommerceInstance.Current.Name);
         }
 
@@ -47,9 +45,11 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         public void Handle(TranslationUpdated @event)
         {
+            var service = new ProductService(CommerceInstance.Current.Database);
+
             if (@event.EntityKey.EntityType == typeof(Product))
             {
-                var product = _serviceFactory.Products.GetById((int)@event.EntityKey.Value);
+                var product = service.GetById((int)@event.EntityKey.Value);
                 if (product.IsPublished)
                 {
                     Index(product, new[] { @event.Culture });
@@ -57,8 +57,8 @@ namespace Kooboo.Commerce.Search.Subscriptions
             }
             else if (@event.EntityKey.EntityType == typeof(ProductVariant))
             {
-                var variant = _serviceFactory.Products.GetProductVariantById((int)@event.EntityKey.Value);
-                var product = _serviceFactory.Products.GetById(variant.ProductId);
+                var variant = service.GetProductVariantById((int)@event.EntityKey.Value);
+                var product = service.GetById(variant.ProductId);
                 if (product.IsPublished)
                 {
                     Index(product, new[] { @event.Culture });
@@ -72,7 +72,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         public void Handle(ProductCreated @event)
         {
-            var product = _serviceFactory.Products.GetById(@event.ProductId);
+            var product = CommerceInstance.Current.Database.GetRepository<Product>().Find(@event.ProductId);
             if (product.IsPublished)
             {
                 Index(product, GetAllCultures());
@@ -81,7 +81,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         public void Handle(ProductUpdated @event)
         {
-            var product = _serviceFactory.Products.GetById(@event.ProductId);
+            var product = CommerceInstance.Current.Database.GetRepository<Product>().Find(@event.ProductId);
             if (product.IsPublished)
             {
                 Index(product, GetAllCultures());
@@ -90,7 +90,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         public void Handle(ProductPublished @event)
         {
-            var product = _serviceFactory.Products.GetById(@event.ProductId);
+            var product = CommerceInstance.Current.Database.GetRepository<Product>().Find(@event.ProductId);
             Index(product, GetAllCultures());
         }
 

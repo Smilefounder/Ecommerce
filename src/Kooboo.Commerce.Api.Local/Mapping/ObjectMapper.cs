@@ -14,22 +14,22 @@ namespace Kooboo.Commerce.Api.Local.Mapping
 {
     public static class ObjectMapper
     {
-        public static TTarget Map<TSource, TTarget>(TSource source, ApiContext apiContext, IncludeCollection includes)
+        public static TTarget Map<TSource, TTarget>(TSource source, LocalApiContext apiContext, IncludeCollection includes)
         {
             return Map<TSource, TTarget>(source, (TTarget)Activator.CreateInstance(typeof(TTarget)), apiContext, includes);
         }
 
-        public static TTarget Map<TSource, TTarget>(TSource source, TTarget target, ApiContext apiContext, IncludeCollection includes)
+        public static TTarget Map<TSource, TTarget>(TSource source, TTarget target, LocalApiContext apiContext, IncludeCollection includes)
         {
             return (TTarget)Map(source, target, typeof(TSource), typeof(TTarget), apiContext, includes);
         }
 
-        public static object Map(object source, Type sourceType, Type targetType, ApiContext apiContext, IncludeCollection includes)
+        public static object Map(object source, Type sourceType, Type targetType, LocalApiContext apiContext, IncludeCollection includes)
         {
             return Map(source, Activator.CreateInstance(targetType), sourceType, targetType, apiContext, includes);
         }
 
-        public static object Map(object source, object target, Type sourceType, Type targetType, ApiContext apiContext, IncludeCollection includes)
+        public static object Map(object source, object target, Type sourceType, Type targetType, LocalApiContext apiContext, IncludeCollection includes)
         {
             var mapper = GetMapper(sourceType, targetType);
             return mapper.Map(source, target, sourceType, targetType, null, new MappingContext(apiContext, includes));

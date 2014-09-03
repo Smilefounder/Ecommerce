@@ -1,6 +1,5 @@
 ﻿using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Promotions;
-using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Conditions;
 using System;
@@ -12,12 +11,12 @@ namespace Kooboo.Commerce.Orders.Pricing.Modules
 {
     public class PromotionModule : IPriceCalculationModule
     {
-        private IPromotionService _promotionService;
+        private PromotionService _promotionService;
         private IPromotionPolicyProvider _policyFactory;
         private ConditionEvaluator _ruleEngine;
 
         public PromotionModule(
-            IPromotionService promotionService,
+            PromotionService promotionService,
             IPromotionPolicyProvider policyFactory,
             ConditionEvaluator ruleEngine)
         {

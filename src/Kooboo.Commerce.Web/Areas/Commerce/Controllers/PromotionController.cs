@@ -2,7 +2,6 @@
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Promotions;
-using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Promotions;
 using Newtonsoft.Json;
 using System;
@@ -24,10 +23,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class PromotionController : CommerceController
     {
-        private IPromotionService _promotionService;
+        private PromotionService _promotionService;
         private IPromotionPolicyProvider _policyProvider;
 
-        public PromotionController(IPromotionService promotionService, IPromotionPolicyProvider policyProvider)
+        public PromotionController(PromotionService promotionService, IPromotionPolicyProvider policyProvider)
         {
             _promotionService = promotionService;
             _policyProvider = policyProvider;

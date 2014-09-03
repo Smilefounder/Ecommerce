@@ -2,14 +2,12 @@
 using System.Linq;
 using System.Web.Mvc;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Settings.Services;
-using Kooboo.Commerce.Brands.Services;
-using Kooboo.Commerce.Categories.Services;
+using Kooboo.Commerce.Settings;
+using Kooboo.Commerce.Brands;
+using Kooboo.Commerce.Categories;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Categories;
 using Kooboo.CMS.Common;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using Kooboo.Commerce.Web.Areas.Commerce.Topbar;
@@ -27,18 +25,18 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class ProductController : CommerceController
     {
-        private ISettingService _settingService;
-        private IProductService _productService;
-        private IProductTypeService _productTypeService;
-        private IBrandService _brandService;
-        private ICategoryService _categoryService;
+        private SettingService _settingService;
+        private ProductService _productService;
+        private ProductTypeService _productTypeService;
+        private BrandService _brandService;
+        private CategoryService _categoryService;
 
         public ProductController(
-                ISettingService settingService,
-                IProductService productService,
-                IProductTypeService productTypeService,
-                IBrandService brandService,
-                ICategoryService categoryService)
+                SettingService settingService,
+                ProductService productService,
+                ProductTypeService productTypeService,
+                BrandService brandService,
+                CategoryService categoryService)
         {
             _settingService = settingService;
             _productService = productService;

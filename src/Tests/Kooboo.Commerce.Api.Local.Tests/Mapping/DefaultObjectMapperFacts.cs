@@ -1,6 +1,7 @@
 ﻿using Kooboo.Commerce.Api.Local.Mapping;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Xunit;
@@ -24,7 +25,8 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                     Type = SourceProductType.Type2
                 };
 
-                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, new MappingContext(new ApiContext())) as TargetProduct;
+                var context = new MappingContext();
+                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, context) as TargetProduct;
 
                 Assert.Equal(5, target.Id);
                 Assert.Equal("Product name", target.Name);
@@ -88,7 +90,9 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 var mapper = new DefaultObjectMapper();
                 var includes = new IncludeCollection();
                 includes.Add("Brand");
-                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, new MappingContext(new ApiContext(), includes)) as TargetProduct;
+
+                var context = new MappingContext(includes);
+                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, context) as TargetProduct;
 
                 Assert.NotNull(target.Brand);
                 Assert.Equal(10, target.Brand.Id);
@@ -108,7 +112,8 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 var includes = new IncludeCollection();
                 includes.Add("Brand");
 
-                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, new MappingContext(new ApiContext(), includes)) as TargetProduct;
+                var context = new MappingContext(new LocalApiContext(new ApiContext(), null), includes);
+                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, context) as TargetProduct;
 
                 Assert.Equal(1024, target.Id);
                 Assert.Equal("1024 Product", target.Name);
@@ -126,7 +131,8 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 };
 
                 var mapper = new DefaultObjectMapper();
-                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, new MappingContext(new ApiContext())) as TargetProduct;
+                var context = new MappingContext();
+                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, context) as TargetProduct;
 
                 Assert.Equal("Product 1", target.Name);
                 Assert.Null(target.Brand);
@@ -150,7 +156,8 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 var includes = new IncludeCollection();
                 includes.Add("Product.Brand");
 
-                var target = mapper.Map(source, new TargetOrderItem(), typeof(SourceOrderItem), typeof(TargetOrderItem), null, new MappingContext(new ApiContext(), includes)) as TargetOrderItem;
+                var context = new MappingContext(includes);
+                var target = mapper.Map(source, new TargetOrderItem(), typeof(SourceOrderItem), typeof(TargetOrderItem), null, context) as TargetOrderItem;
 
                 Assert.Equal(1, target.Id);
                 Assert.NotNull(target.Product);
@@ -217,7 +224,7 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 };
 
                 var mapper = new DefaultObjectMapper();
-                var context = new MappingContext(new ApiContext());
+                var context = new MappingContext(new LocalApiContext(new ApiContext(), null));
                 context.Includes.Add("Variants");
 
                 var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, context) as TargetProduct;
@@ -246,7 +253,7 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 };
 
                 var mapper = new DefaultObjectMapper();
-                var context = new MappingContext(new ApiContext());
+                var context = new MappingContext();
                 context.Includes.Add("Variants");
 
                 var target = mapper.Map(source, new TargetProduct_ArrayVariants(), typeof(SourceProduct), typeof(TargetProduct_ArrayVariants), null, context) as TargetProduct_ArrayVariants;
@@ -275,7 +282,7 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 };
 
                 var mapper = new DefaultObjectMapper();
-                var context = new MappingContext(new ApiContext());
+                var context = new MappingContext();
                 context.Includes.Add("Variants");
 
                 var target = mapper.Map(source, new TargetProduct_IListVariants(), typeof(SourceProduct), typeof(TargetProduct_IListVariants), null, context) as TargetProduct_IListVariants;
@@ -304,7 +311,8 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 };
 
                 var mapper = new DefaultObjectMapper();
-                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, new MappingContext(new ApiContext())) as TargetProduct;
+                var context = new MappingContext();
+                var target = mapper.Map(source, new TargetProduct(), typeof(SourceProduct), typeof(TargetProduct), null, context) as TargetProduct;
 
                 Assert.Equal(10, target.Id);
                 Assert.Null(target.Variants);
@@ -324,7 +332,7 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 };
 
                 var mapper = new DefaultObjectMapper();
-                var context = new MappingContext(new ApiContext());
+                var context = new MappingContext();
                 context.Includes.Add("Variants");
 
                 var target = new TargetProduct();
@@ -389,7 +397,7 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                 };
 
                 var mapper = new DefaultObjectMapper();
-                var context = new MappingContext(new ApiContext());
+                var context = new MappingContext();
                 context.Includes.Add("Brand");
 
                 mapper.GetMapper = (sourceType, targetType) =>
@@ -429,7 +437,7 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
                     return mapper;
                 };
 
-                var context = new MappingContext(new ApiContext());
+                var context = new MappingContext(new LocalApiContext(new ApiContext(), null));
                 context.Includes.Add("Brands");
 
                 var target = mapper.Map(source, new TargetBrandCollection(), typeof(SourceBrandCollection), typeof(TargetBrandCollection), null, context) as TargetBrandCollection;

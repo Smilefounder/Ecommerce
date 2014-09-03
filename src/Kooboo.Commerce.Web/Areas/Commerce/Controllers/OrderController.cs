@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Kooboo.Commerce.Orders.Services;
-using Kooboo.Commerce.Customers.Services;
-using Kooboo.Commerce.Products.Services;
-using Kooboo.Commerce.Countries.Services;
-using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.Customers;
+using Kooboo.Commerce.Products;
+using Kooboo.Commerce.Countries;
+using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Orders.Default;
@@ -13,9 +13,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class OrderController : CommerceController
     {
-        private readonly IOrderService _orderService;
+        private readonly OrderService _orderService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(OrderService orderService)
         {
             _orderService = orderService;
         }

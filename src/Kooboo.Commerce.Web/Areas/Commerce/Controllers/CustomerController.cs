@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Web.Mvc;
 using Kooboo.Commerce.Customers;
-using Kooboo.Commerce.Customers.Services;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Orders.Services;
+using Kooboo.Commerce.Orders;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Customers;
-using Kooboo.Commerce.Countries.Services;
+using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.UI.Topbar;
 using Kooboo.Commerce.Web.Areas.Commerce.Topbar;
@@ -16,17 +15,16 @@ using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Customers;
 using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Customers.Default;
 using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
 using AutoMapper;
-using Kooboo.Commerce.Countries;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class CustomerController : CommerceController
     {
-        private readonly ICustomerService _customerService;
-        private readonly IOrderService _orderService;
-        private readonly ICountryService _countryService;
+        private readonly CustomerService _customerService;
+        private readonly OrderService _orderService;
+        private readonly CountryService _countryService;
 
-        public CustomerController(ICustomerService customerService, ICountryService countryService, IOrderService orderService)
+        public CustomerController(CustomerService customerService, CountryService countryService, OrderService orderService)
         {
             _customerService = customerService;
             _countryService = countryService;

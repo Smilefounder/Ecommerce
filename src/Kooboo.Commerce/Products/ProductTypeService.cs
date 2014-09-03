@@ -5,24 +5,21 @@ using System.Text;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Products;
-using Kooboo.Commerce.Products.Services;
-using Kooboo.Web.Mvc.Paging;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.ProductTypes;
 
-namespace Kooboo.Commerce.Products.Services
+namespace Kooboo.Commerce.Products
 {
-
-    [Dependency(typeof(IProductTypeService))]
-    public class ProductTypeService : IProductTypeService
+    [Dependency(typeof(ProductTypeService))]
+    public class ProductTypeService
     {
         private readonly IRepository<ProductType> _productTypes;
         private readonly IRepository<CustomFieldDefinition> _customFields;
 
-        public ProductTypeService(IRepository<ProductType> productTypes, IRepository<CustomFieldDefinition> customFields)
+        public ProductTypeService(ICommerceDatabase database)
         {
-            _productTypes = productTypes;
-            _customFields = customFields;
+            _productTypes = database.GetRepository<ProductType>();
+            _customFields = database.GetRepository<CustomFieldDefinition>();
         }
 
         public ProductType GetById(int id)

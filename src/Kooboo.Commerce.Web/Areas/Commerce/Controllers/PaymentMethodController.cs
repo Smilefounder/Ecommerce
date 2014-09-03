@@ -12,7 +12,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Kooboo.Commerce.Payments.Services;
 using Kooboo.Commerce.Web.Areas.Commerce.Models;
 using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
@@ -22,9 +21,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
     public class PaymentMethodController : CommerceController
     {
         private IPaymentProcessorProvider _processorProvider;
-        private IPaymentMethodService _paymentMethodService;
+        private PaymentMethodService _paymentMethodService;
 
-        public PaymentMethodController(IPaymentProcessorProvider processorProvider, IPaymentMethodService paymentMethodService)
+        public PaymentMethodController(IPaymentProcessorProvider processorProvider, PaymentMethodService paymentMethodService)
         {
             _processorProvider = processorProvider;
             _paymentMethodService = paymentMethodService;

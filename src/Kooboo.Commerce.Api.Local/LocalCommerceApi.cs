@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Api.Local
             HttpContext.Current.Items["instance"] = context.Instance;
             HttpContext.Current.Items["language"] = context.Culture.Name;
 
-            _context = new LocalApiContext(context, CommerceInstance.Current.Database, EngineContext.Current.Resolve<IServiceFactory>());
+            _context = new LocalApiContext(context, CommerceInstance.Current.Database);
         }
 
         public ICountryApi Countries

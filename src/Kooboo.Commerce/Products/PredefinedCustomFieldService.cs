@@ -6,16 +6,16 @@ using Kooboo.Commerce.Data;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Products;
 
-namespace Kooboo.Commerce.Products.Services
+namespace Kooboo.Commerce.Products
 {
-    [Dependency(typeof(IPredefinedCustomFieldService))]
-    public class PredefinedCustomFieldService : IPredefinedCustomFieldService
+    [Dependency(typeof(PredefinedCustomFieldService))]
+    public class PredefinedCustomFieldService
     {
         private readonly IRepository<CustomFieldDefinition> _repository;
 
-        public PredefinedCustomFieldService(IRepository<CustomFieldDefinition> repository)
+        public PredefinedCustomFieldService(ICommerceDatabase database)
         {
-            _repository = repository;
+            _repository = database.GetRepository<CustomFieldDefinition>();
         }
 
         public CustomFieldDefinition GetById(int id)

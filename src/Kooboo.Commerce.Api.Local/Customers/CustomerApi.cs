@@ -20,7 +20,8 @@ namespace Kooboo.Commerce.Api.Local.Customers
 
         public int AddAddress(int customerId, Address address)
         {
-            var customer = _context.Services.Customers.GetById(customerId);
+            var service = new Kooboo.Commerce.Customers.CustomerService(_context.Database);
+            var customer = service.GetById(customerId);
             var addr = CreateAddress(address);
 
             if (String.IsNullOrEmpty(addr.FirstName) && String.IsNullOrEmpty(addr.LastName))
@@ -29,32 +30,33 @@ namespace Kooboo.Commerce.Api.Local.Customers
                 addr.LastName = customer.LastName;
             }
 
-            _context.Services.Customers.AddAddress(customer, addr);
+            service.AddAddress(customer, addr);
 
             address.Id = addr.Id;
 
             return addr.Id;
         }
 
-        public int Create(Customer customer)
+        public int Create(Customer model)
         {
-            var mapped = new Kooboo.Commerce.Customers.Customer
+            var customer = new Kooboo.Commerce.Customers.Customer
             {
-                Email = customer.Email,
-                FirstName = customer.FirstName,
-                LastName = customer.LastName,
-                Gender = (Kooboo.Commerce.Gender)(int)customer.Gender
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = (Kooboo.Commerce.Gender)(int)model.Gender
             };
 
-            foreach (var address in customer.Addresses)
+            foreach (var address in model.Addresses)
             {
-                mapped.Addresses.Add(CreateAddress(address));
+                customer.Addresses.Add(CreateAddress(address));
             }
 
-            _context.Services.Customers.Create(mapped);
-            customer.Id = mapped.Id;
+            new Kooboo.Commerce.Customers.CustomerService(_context.Database).Create(customer);
 
-            return mapped.Id;
+            model.Id = customer.Id;
+
+            return customer.Id;
         }
 
         private Kooboo.Commerce.Customers.Address CreateAddress(Address addr)
@@ -75,14 +77,14 @@ namespace Kooboo.Commerce.Api.Local.Customers
 
         public void SetDefaultShippingAddress(int customerId, int addressId)
         {
-            var customer = _context.Services.Customers.GetById(customerId);
+            var customer = _context.Database.GetRepository<Customer>().Find(customerId);
             customer.DefaultShippingAddressId = addressId;
             _context.Database.SaveChanges();
         }
 
         public void SetDefaultBillingAddress(int customerId, int addressId)
         {
-            var customer = _context.Services.Customers.GetById(customerId);
+            var customer = _context.Database.GetRepository<Customer>().Find(customerId);
             customer.DefaultBillingAddressId = addressId;
             _context.Database.SaveChanges();
         }

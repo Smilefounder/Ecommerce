@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Kooboo.Commerce.Api.Customers;
 using Kooboo.Commerce.Api.Carts;
+using Core = Kooboo.Commerce.Carts;
 
 namespace Kooboo.Commerce.Api.Local.Carts
 {
@@ -24,12 +25,13 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         public int GetCartIdByCustomer(string email)
         {
-            var cart = _context.Services.Carts.GetByCustomer(email);
+            var service = new Core.ShoppingCartService(_context.Database);
+            var cart = service.GetByCustomer(email);
             if (cart == null)
             {
-                var customer = _context.Services.Customers.GetByEmail(email);
+                var customer = new Kooboo.Commerce.Customers.CustomerService(_context.Database).GetByEmail(email);
                 cart = Kooboo.Commerce.Carts.ShoppingCart.Create(customer);
-                _context.Services.Carts.Create(cart);
+                service.Create(cart);
             }
 
             return cart.Id;
@@ -37,11 +39,12 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         public int GetCartIdBySessionId(string sessionId)
         {
-            var cart = _context.Services.Carts.GetBySessionId(sessionId);
+            var service = new Core.ShoppingCartService(_context.Database);
+            var cart = service.GetBySessionId(sessionId);
             if (cart == null)
             {
                 cart = Kooboo.Commerce.Carts.ShoppingCart.Create(sessionId);
-                _context.Services.Carts.Create(cart);
+                service.Create(cart);
             }
 
             return cart.Id;
@@ -51,17 +54,18 @@ namespace Kooboo.Commerce.Api.Local.Carts
         {
             return _context.Database.Transactional(() =>
             {
-                var service = _context.Services.Carts;
+                var service = new Core.ShoppingCartService(_context.Database);
                 var cart = service.GetById(cartId);
                 return service.ApplyCoupon(cart, coupon);
             });
         }
 
-        public int AddItem(int cartId, int productPriceId, int quantity)
+        public int AddItem(int cartId, int productVariantId, int quantity)
         {
-            var cartService = _context.Services.Carts;
+            var database = _context.Database;
+            var cartService = new Core.ShoppingCartService(database);
             var cart = cartService.GetById(cartId);
-            var variant = _context.Services.Products.GetProductVariantById(productPriceId);
+            var variant = new Kooboo.Commerce.Products.ProductService(_context.Database).GetProductVariantById(productVariantId);
 
             return _context.Database.Transactional(() =>
             {
@@ -71,7 +75,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         public bool RemoveItem(int cartId, int itemId)
         {
-            var service = _context.Services.Carts;
+            var service = new Core.ShoppingCartService(_context.Database);
             var cart = service.GetById(cartId);
             return _context.Database.Transactional(() =>
             {
@@ -81,7 +85,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         public void ChangeShippingAddress(int cartId, Address address)
         {
-            var service = _context.Services.Carts;
+            var service = new Core.ShoppingCartService(_context.Database);
             var cart = service.GetById(cartId);
 
             _context.Database.Transactional(() =>
@@ -98,7 +102,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         public void ChangeBillingAddress(int cartId, Address address)
         {
-            var service = _context.Services.Carts;
+            var service = new Core.ShoppingCartService(_context.Database);
             var cart = service.GetById(cartId);
 
             _context.Database.Transactional(() =>
@@ -115,9 +119,9 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         public void ChangeShippingMethod(int cartId, int shippingMethodId)
         {
-            var service = _context.Services.Carts;
+            var service = new Core.ShoppingCartService(_context.Database);
             var cart = service.GetById(cartId);
-            var method = _context.Services.ShippingMethods.GetById(shippingMethodId);
+            var method = _context.Database.GetRepository<Kooboo.Commerce.Shipping.ShippingMethod>().Find(shippingMethodId);
             
             _context.Database.Transactional(() =>
             {
@@ -127,16 +131,17 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         private Kooboo.Commerce.Customers.Address GetOrCreateAddress(int customerId, Address address)
         {
+            var service = new Kooboo.Commerce.Customers.CustomerService(_context.Database);
             Kooboo.Commerce.Customers.Address addr = null;
 
             if (address.Id > 0)
             {
-                addr = _context.Services.Customers.Addresses().ById(address.Id);
+                addr = service.Addresses().ById(address.Id);
             }
             else
             {
                 _customerApi.AddAddress(customerId, address);
-                addr = _context.Services.Customers.Addresses().ById(address.Id);
+                addr = service.Addresses().ById(address.Id);
             }
 
             return addr;
@@ -144,7 +149,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         public void MigrateCart(int customerId, string session)
         {
-            var service = _context.Services.Carts;
+            var service = new Core.ShoppingCartService(_context.Database);
             var sessionCart = service.GetBySessionId(session);
             if (sessionCart == null)
             {
@@ -154,7 +159,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
             var customerCart = service.GetByCustomer(customerId);
             if (customerCart == null)
             {
-                var customer = _context.Services.Customers.GetById(customerId);
+                var customer = _context.Database.GetRepository<Kooboo.Commerce.Customers.Customer>().Find(customerId);
                 customerCart = Kooboo.Commerce.Carts.ShoppingCart.Create(customer, session);
                 service.Create(customerCart);
             }
@@ -164,7 +169,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         public void ChangeItemQuantity(int cartId, int itemId, int newQuantity)
         {
-            var service = _context.Services.Carts;
+            var service = new Core.ShoppingCartService(_context.Database);
             var cart = service.GetById(cartId);
             var item = cart.Items.FirstOrDefault(i => i.Id == itemId);
             if (item != null)
@@ -178,7 +183,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
 
         public void ExpireCart(int cartId)
         {
-            var service = _context.Services.Carts;
+            var service = new Core.ShoppingCartService(_context.Database);
             var shoppingCart = service.Query().Where(o => o.Id == cartId).FirstOrDefault();
             if (shoppingCart != null)
             {

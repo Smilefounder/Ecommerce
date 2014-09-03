@@ -1,7 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Payments.Services;
-using Kooboo.Commerce.Settings.Services;
+using Kooboo.Commerce.Payments;
+using Kooboo.Commerce.Settings;
 using Kooboo.Commerce.Web;
 using Kooboo.Web.Url;
 using Mollie.iDEAL;

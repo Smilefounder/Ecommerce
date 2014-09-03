@@ -7,10 +7,10 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Brands;
 
-namespace Kooboo.Commerce.Brands.Services
+namespace Kooboo.Commerce.Brands
 {
-    [Dependency(typeof(IBrandService))]
-    public class BrandService : IBrandService
+    [Dependency(typeof(BrandService))]
+    public class BrandService
     {
         private readonly IRepository<Brand> _brandRepository;
 

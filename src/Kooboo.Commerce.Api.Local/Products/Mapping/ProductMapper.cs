@@ -13,8 +13,6 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
     {
         public override object Map(object source, object target, Type sourceType, Type targetType, string prefix, MappingContext context)
         {
-            var services = (context.ApiContext as LocalApiContext).Services;
-
             var model = base.Map(source, target, sourceType, targetType, prefix, context) as Product;
             var product = source as Kooboo.Commerce.Products.Product;
 
@@ -34,8 +32,6 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
 
             if (targetProperty.Name == "CustomFields" && context.Includes.Includes(propertyPath))
             {
-                var services = (context.ApiContext as LocalApiContext).Services;
-
                 var product = source as Kooboo.Commerce.Products.Product;
                 var productType = product.ProductType;
 

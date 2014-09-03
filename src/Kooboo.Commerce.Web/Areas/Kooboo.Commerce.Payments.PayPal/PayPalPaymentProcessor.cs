@@ -1,8 +1,7 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Orders.Services;
-using Kooboo.Commerce.Payments.Services;
+using Kooboo.Commerce.Orders;
+using Kooboo.Commerce.Payments;
 using Kooboo.Commerce.Settings;
-using Kooboo.Commerce.Settings.Services;
 using Kooboo.Commerce.Web;
 using Kooboo.Web.Url;
 using PayPal;
@@ -19,8 +18,8 @@ namespace Kooboo.Commerce.Payments.PayPal
 {
     public class PayPalPaymentProcessor : IPaymentProcessor
     {
-        private IOrderService _orderService;
-        private ISettingService _settingsService;
+        private OrderService _orderService;
+        private SettingService _settingsService;
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
@@ -41,8 +40,8 @@ namespace Kooboo.Commerce.Payments.PayPal
         }
 
         public PayPalPaymentProcessor(
-            IOrderService orderService,
-            ISettingService settingService)
+            OrderService orderService,
+            SettingService settingService)
         {
             _orderService = orderService;
             _settingsService = settingService;

@@ -3,16 +3,16 @@ using System.Linq;
 using Kooboo.Commerce.Api.Orders;
 using Kooboo.Commerce.Api.Carts;
 using Kooboo.Commerce.Api.Payments;
-using Kooboo.Commerce.Payments;
+using Core = Kooboo.Commerce.Payments;
 
 namespace Kooboo.Commerce.Api.Local.Orders
 {
     public class OrderApi : IOrderApi
     {
         private LocalApiContext _context;
-        private IPaymentProcessorProvider _paymentProcessorProvider;
+        private Core.IPaymentProcessorProvider _paymentProcessorProvider;
 
-        public OrderApi(LocalApiContext context, IPaymentProcessorProvider paymentProcessorProvider)
+        public OrderApi(LocalApiContext context, Core.IPaymentProcessorProvider paymentProcessorProvider)
         {
             _context = context;
             _paymentProcessorProvider = paymentProcessorProvider;
@@ -25,11 +25,13 @@ namespace Kooboo.Commerce.Api.Local.Orders
 
         public int CreateFromCart(int cartId, ShoppingContext context)
         {
-            var cart = _context.Services.Carts.GetById(cartId);
+            var service = new Kooboo.Commerce.Carts.ShoppingCartService(_context.Database);
+            var cart = service.GetById(cartId);
 
             return _context.Database.Transactional(() =>
             {
-                var order = _context.Services.Orders.CreateFromCart(cart, new Kooboo.Commerce.Carts.ShoppingContext
+                var orderService = new Kooboo.Commerce.Orders.OrderService(_context.Database);
+                var order = orderService.CreateFromCart(cart, new Kooboo.Commerce.Carts.ShoppingContext
                 {
                     Culture = context.Culture,
                     Currency = context.Currency,
@@ -42,10 +44,12 @@ namespace Kooboo.Commerce.Api.Local.Orders
 
         public PaymentResult Pay(PaymentRequest request)
         {
-            var paymentMethod = _context.Services.PaymentMethods.GetById(request.PaymentMethodId);
+            var paymentMethod = _context.Database.GetRepository<Core.PaymentMethod>().Find(request.PaymentMethodId);
             var payment = new Kooboo.Commerce.Payments.Payment(request.OrderId, request.Amount, paymentMethod, request.Description);
 
-            _context.Services.Payments.Create(payment);
+            var paymentService = new Core.PaymentService(_context.Database);
+
+            paymentService.Create(payment);
 
             // TODO: Consider move ProcessPayment to PaymentService
             var processor = _paymentProcessorProvider.FindByName(paymentMethod.ProcessorName);
@@ -63,7 +67,7 @@ namespace Kooboo.Commerce.Api.Local.Orders
                 Parameters = request.Parameters
             });
 
-            _context.Services.Payments.AcceptProcessResult(payment, processResult);
+            paymentService.AcceptProcessResult(payment, processResult);
 
             return new PaymentResult
             {

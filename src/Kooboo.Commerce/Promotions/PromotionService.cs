@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Promotions.Services
+namespace Kooboo.Commerce.Promotions
 {
-    [Dependency(typeof(IPromotionService))]
-    public class PromotionService : IPromotionService
+    [Dependency(typeof(PromotionService))]
+    public class PromotionService
     {
         private IRepository<Promotion> _repository;
 
-        public PromotionService(IRepository<Promotion> repository)
+        public PromotionService(ICommerceDatabase database)
         {
-            _repository = repository;
+            _repository = database.GetRepository<Promotion>();
         }
 
         public Promotion GetById(int id)

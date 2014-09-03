@@ -19,18 +19,16 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 {
     public class ProductController : CommerceController
     {
-        private IServiceFactory _services;
         private ITranslationStore _translationStore;
 
-        public ProductController(IServiceFactory serviceFactory)
+        public ProductController()
         {
-            _services = serviceFactory;
             _translationStore = TranslationStores.Get(CurrentInstance.Name);
         }
 
         public ActionResult Index(string culture, string search, int page = 1, int pageSize = 50)
         {
-            var query = _services.Products.Query();
+            var query = CurrentInstance.Database.GetRepository<Product>().Query();
             if (!String.IsNullOrWhiteSpace(search))
             {
                 search = search.Trim();
@@ -69,7 +67,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         {
             var items = _translationStore.FindOutOfDate(CultureInfo.GetCultureInfo(culture), typeof(Product), page - 1, pageSize);
             var productIds = items.Select(p => (int)p.EntityKey.Value).ToArray();
-            var products = _services.Products.Query().Where(p => productIds.Contains(p.Id)).ToList();
+            var products = CurrentInstance.Database.GetRepository<Product>().Query().Where(p => productIds.Contains(p.Id)).ToList();
 
             var models = items.Transform(t =>
             {
@@ -90,7 +88,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 
         public ActionResult Translate(int id, string culture)
         {
-            var product = _services.Products.GetById(id);
+            var product = CurrentInstance.Database.GetRepository<Product>().Find(id);
             var productType = product.ProductType;
 
             var controls = FormControls.Controls().ToList();
@@ -163,7 +161,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         [HttpPost, HandleAjaxFormError, ValidateInput(false)]
         public ActionResult Translate(string culture, ProductModel model, string @return)
         {
-            var product = _services.Products.GetById(model.Id);
+            var product = CurrentInstance.Database.GetRepository<Product>().Find(model.Id);
             var productType = product.ProductType;
             var controls = FormControls.Controls().ToList();
 

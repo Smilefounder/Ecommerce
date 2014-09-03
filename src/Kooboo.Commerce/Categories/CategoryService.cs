@@ -7,16 +7,16 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Categories;
 
-namespace Kooboo.Commerce.Categories.Services
+namespace Kooboo.Commerce.Categories
 {
-    [Dependency(typeof(ICategoryService))]
-    public class CategoryService : ICategoryService
+    [Dependency(typeof(CategoryService))]
+    public class CategoryService
     {
         private IRepository<Category> _categoryRepository;
 
-        public CategoryService(IRepository<Category> categoryRepository)
+        public CategoryService(ICommerceDatabase database)
         {
-            _categoryRepository = categoryRepository;
+            _categoryRepository = database.GetRepository<Category>();
         }
 
         public Category GetById(int id)

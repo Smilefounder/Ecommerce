@@ -10,10 +10,10 @@ using Kooboo.Commerce.Events.Products;
 using Kooboo.Commerce.Brands;
 using Kooboo.Commerce.Categories;
 
-namespace Kooboo.Commerce.Products.Services
+namespace Kooboo.Commerce.Products
 {
-    [Dependency(typeof(IProductService))]
-    public class ProductService : IProductService
+    [Dependency(typeof(ProductService))]
+    public class ProductService
     {
         private readonly ICommerceDatabase _database;
 

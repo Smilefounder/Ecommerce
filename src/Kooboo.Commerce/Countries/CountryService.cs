@@ -7,17 +7,18 @@ using Kooboo.Commerce.Data;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 
-namespace Kooboo.Commerce.Countries.Services
+namespace Kooboo.Commerce.Countries
 {
-    [Dependency(typeof(ICountryService))]
-    public class CountryService : ICountryService
+    [Dependency(typeof(CountryService))]
+    public class CountryService
     {
         private readonly IRepository<Country> _countryRepository;
 
-        public CountryService(IRepository<Country> countryRepository)
+        public CountryService(ICommerceDatabase database)
         {
-            _countryRepository = countryRepository;
+            _countryRepository = database.GetRepository<Country>();
         }
+
         public Country GetById(int id)
         {
             return _countryRepository.Find(id);

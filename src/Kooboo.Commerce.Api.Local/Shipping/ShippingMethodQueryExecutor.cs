@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Api.Local.Shipping
 
         protected override IQueryable<Core.ShippingMethod> CreateLocalQuery()
         {
-            return ApiContext.Services.ShippingMethods.Query().OrderBy(it => it.Id);
+            return ApiContext.Database.GetRepository<Core.ShippingMethod>().Query().OrderBy(it => it.Id);
         }
 
         protected override IQueryable<Core.ShippingMethod> ApplyFilter(IQueryable<Core.ShippingMethod> query, QueryFilter filter)

@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Api.Local.Categories
         public IList<Category> Breadcrumb(int currentCategoryId)
         {
             var breadcrumb = new List<Category>();
-            var category = _context.Services.Categories.GetById(currentCategoryId);
+            var category = _context.Database.GetRepository<Core.Category>().Find(currentCategoryId);
             while (category != null)
             {
                 breadcrumb.Add(ObjectMapper.Map<Core.Category, Category>(category, _context, null));

@@ -6,10 +6,10 @@ using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Customers;
 using Kooboo.Commerce.Countries;
 
-namespace Kooboo.Commerce.Customers.Services
+namespace Kooboo.Commerce.Customers
 {
-    [Dependency(typeof(ICustomerService))]
-    public class CustomerService : ICustomerService
+    [Dependency(typeof(CustomerService))]
+    public class CustomerService
     {
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Address> _addressRepository;

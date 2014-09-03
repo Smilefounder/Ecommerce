@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Payments.Services
+namespace Kooboo.Commerce.Payments
 {
-    [Dependency(typeof(IPaymentMethodService))]
-    public class PaymentMethodService : IPaymentMethodService
+    [Dependency(typeof(PaymentMethodService))]
+    public class PaymentMethodService
     {
         private IRepository<PaymentMethod> _repository;
 
-        public PaymentMethodService(IRepository<PaymentMethod> repository)
+        public PaymentMethodService(ICommerceDatabase database)
         {
-            _repository = repository;
+            _repository = database.GetRepository<PaymentMethod>();
         }
 
         public PaymentMethod GetById(int id)

@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.Commerce.Settings.Services;
+using Kooboo.Commerce.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +10,9 @@ namespace Kooboo.Commerce.Accessories
     [Dependency(typeof(IProductAccessoryService))]
     public class ProductAccessoryService : IProductAccessoryService
     {
-        private ISettingService _settings;
+        private SettingService _settings;
 
-        public ProductAccessoryService(ISettingService settings)
+        public ProductAccessoryService(SettingService settings)
         {
             _settings = settings;
         }

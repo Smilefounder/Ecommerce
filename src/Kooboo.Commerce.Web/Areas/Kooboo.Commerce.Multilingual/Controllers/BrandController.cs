@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.Brands;
-using Kooboo.Commerce.Brands.Services;
 using Kooboo.Commerce.Globalization;
 using Kooboo.Commerce.Multilingual.Models;
 using Kooboo.Commerce.Multilingual.Storage;
@@ -15,10 +14,10 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 {
     public class BrandController : CommerceController
     {
-        private IBrandService _brandService;
+        private BrandService _brandService;
         private ITranslationStore _translationStore;
 
-        public BrandController(IBrandService brandService)
+        public BrandController(BrandService brandService)
         {
             _brandService = brandService;
             _translationStore = TranslationStores.Get(CurrentInstance.Name);

@@ -6,28 +6,24 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Data;
-using Kooboo.Commerce.Customers.Services;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Promotions;
-using Kooboo.Commerce.Promotions.Services;
 using Kooboo.Commerce.Orders.Pricing;
 using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Carts;
 using Kooboo.Commerce.Countries;
 using Kooboo.Commerce.Shipping;
 
-namespace Kooboo.Commerce.Carts.Services
+namespace Kooboo.Commerce.Carts
 {
-    [Dependency(typeof(IShoppingCartService))]
-    public class ShoppingCartService : IShoppingCartService
+    [Dependency(typeof(ShoppingCartService))]
+    public class ShoppingCartService
     {
         private IRepository<ShoppingCart> _repository;
-        private ICustomerService _customerService;
 
-        public ShoppingCartService(IRepository<ShoppingCart> repository, ICustomerService customerService)
+        public ShoppingCartService(ICommerceDatabase database)
         {
-            _repository = repository;
-            _customerService = customerService;
+            _repository = database.GetRepository<ShoppingCart>();
         }
 
         public ShoppingCart GetById(int id)
