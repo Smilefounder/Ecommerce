@@ -79,5 +79,34 @@ namespace Kooboo.Commerce.Customers
         }
 
         public virtual ICollection<CustomerCustomField> CustomFields { get; set; }
+
+        public void SetCustomFields(IDictionary<string, string> fields)
+        {
+            foreach (var field in CustomFields.ToList())
+            {
+                if (!fields.ContainsKey(field.Name))
+                {
+                    CustomFields.Remove(field);
+                }
+            }
+
+            foreach (var kv in fields)
+            {
+                var field = CustomFields.FirstOrDefault(f => f.Name == kv.Key);
+                if (field == null)
+                {
+                    field = new CustomerCustomField
+                    {
+                        Name = kv.Key,
+                        Value = kv.Value
+                    };
+                    CustomFields.Add(field);
+                }
+                else
+                {
+                    field.Value = kv.Value;
+                }
+            }
+        }
     }
 }

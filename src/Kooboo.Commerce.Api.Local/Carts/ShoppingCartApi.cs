@@ -125,9 +125,9 @@ namespace Kooboo.Commerce.Api.Local.Carts
             });
         }
 
-        private Kooboo.Commerce.Countries.Address GetOrCreateAddress(int customerId, Address address)
+        private Kooboo.Commerce.Customers.Address GetOrCreateAddress(int customerId, Address address)
         {
-            Kooboo.Commerce.Countries.Address addr = null;
+            Kooboo.Commerce.Customers.Address addr = null;
 
             if (address.Id > 0)
             {

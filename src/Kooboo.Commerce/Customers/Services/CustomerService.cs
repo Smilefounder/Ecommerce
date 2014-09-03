@@ -12,14 +12,12 @@ namespace Kooboo.Commerce.Customers.Services
     public class CustomerService : ICustomerService
     {
         private readonly IRepository<Customer> _customerRepository;
-        private readonly IRepository<CustomerCustomField> _customerCustomFieldRepository;
         private readonly IRepository<Address> _addressRepository;
 
-        public CustomerService(IRepository<Customer> customerRepository, IRepository<Address> addressRepository, IRepository<CustomerCustomField> customerCustomFieldRepository)
+        public CustomerService(ICommerceDatabase database)
         {
-            _customerRepository = customerRepository;
-            _addressRepository = addressRepository;
-            _customerCustomFieldRepository = customerCustomFieldRepository;
+            _customerRepository = database.GetRepository<Customer>();
+            _addressRepository = database.GetRepository<Address>();
         }
 
         public Customer GetById(int id)
@@ -61,58 +59,25 @@ namespace Kooboo.Commerce.Customers.Services
 
         public void Create(Customer customer)
         {
+            if (!CanUseEmail(customer, customer.Email))
+                throw new BusinessRuleViolationException("Email was already taken by others.");
+
             _customerRepository.Insert(customer);
             Event.Raise(new CustomerCreated(customer));
         }
 
         public void Update(Customer customer)
         {
-            var dbCustomer = _customerRepository.Find(customer.Id);
+            if (!CanUseEmail(customer, customer.Email))
+                throw new BusinessRuleViolationException("Email was already taken by others.");
 
-            if (customer.Addresses != null)
-            {
-                foreach (var address in customer.Addresses)
-                {
-                    var dbAddress = dbCustomer.Addresses.FirstOrDefault(a => a.Id == address.Id);
-                    if (dbAddress == null)
-                    {
-                        dbAddress = new Address();
-                    }
+            _customerRepository.Update(customer);
+            Event.Raise(new CustomerUpdated(customer));
+        }
 
-                    dbAddress.FirstName = address.FirstName;
-                    dbAddress.LastName = address.LastName;
-                    dbAddress.Phone = address.Phone;
-                    dbAddress.Postcode = address.Postcode;
-                    dbAddress.Address1 = address.Address1;
-                    dbAddress.Address2 = address.Address2;
-                    dbAddress.City = address.City;
-                    dbAddress.State = address.State;
-                    dbAddress.CountryId = address.CountryId;
-
-                    if (dbAddress.Id == 0)
-                    {
-                        dbCustomer.Addresses.Add(dbAddress);
-                    }
-                }
-            }
-
-            dbCustomer.CustomFields.Clear();
-
-            if (customer.CustomFields != null && customer.CustomFields.Count > 0)
-            {
-                foreach (var field in customer.CustomFields)
-                {
-                    dbCustomer.CustomFields.Add(new CustomerCustomField
-                    {
-                        Name = field.Name,
-                        Value = field.Value
-                    });
-                }
-            }
-
-            _customerRepository.Update(dbCustomer, customer);
-
-            Event.Raise(new CustomerUpdated(dbCustomer));
+        private bool CanUseEmail(Customer customer, string email)
+        {
+            return !_customerRepository.Query().Any(c => c.Id != customer.Id && c.Email == email);
         }
 
         public void Delete(Customer customer)

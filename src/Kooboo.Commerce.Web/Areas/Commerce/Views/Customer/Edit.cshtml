@@ -15,7 +15,7 @@
 }
 
 <div class="block">
-    <form>
+    <form id="customer-form">
         <div id="J_CustomerTabs">
             <ul>
                 <li>
@@ -23,11 +23,6 @@
                         @("Profile".Localize())
                     </a>
                 </li>
-                @*<li>
-                        <a href="#changePassword">
-                            @("Password".Localize())
-                        </a>
-                    </li>*@
                 <li>
                     <a href="#address">
                         @("Addresses".Localize())
@@ -38,92 +33,69 @@
                         @("Custom Fields".Localize())
                     </a>
                 </li>
-                <li>
-                    <a href="#orders">
-                        @("Orders".Localize())
-                    </a>
-                </li>
             </ul>
             <div id="profile" class="common-form">
                 <table>
-                    <tbody data-bind="with:data">
+                    <tbody>
                         <tr>
                             <th>@("Group".Localize())</th>
                             <td>
-                                <input data-bind="value:Group" type="text" class="medium" maxlength="50" />
+                                <input data-bind="value:group" type="text" class="medium" maxlength="50" name="Group" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@("Email".Localize())</th>
+                            <td>
+                                <input data-bind="value:email" type="text" class="medium" name="Email"
+                                       data-val="true"
+                                       data-val-required="@("Required".Localize())"
+                                       data-val-email="@("Invalid email format".Localize())" />
+                                <span data-valmsg-for="Email" data-valmsg-replace="true"></span>
                             </td>
                         </tr>
                         <tr>
                             <th>@("First name".Localize())</th>
                             <td>
-                                <input data-bind="value:FirstName" type="text" class="medium">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Middle name".Localize())</th>
-                            <td>
-                                <input data-bind="value:MiddleName" type="text" class="medium">
+                                <input data-bind="value:firstName" type="text" class="medium" name="FirstName"
+                                       data-val="true"
+                                       data-val-required="@("Required".Localize())" />
+                                <span data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
                             </td>
                         </tr>
                         <tr>
                             <th>@("Last name".Localize())</th>
                             <td>
-                                <input data-bind="value:LastName" type="text" class="medium">
+                                <input data-bind="value:lastName" type="text" class="medium" name="LastName" />
+                                <span data-valmsg-for="LastName" data-valmsg-replace="true"></span>
                             </td>
                         </tr>
                         <tr>
                             <th>@("Gender".Localize())</th>
                             <td>
                                 <ul class="form-list">
-                                    <!-- ko foreach: $root.Genders -->
                                     <li>
-                                        <input type="radio" name="gender" data-bind="value: Value, checked: $root.BindGender, attr: {id: Name}">
-                                        <label class="inline" data-bind="text:Name, attr: {for: Name}"></label>
+                                        <input type="radio" name="Gender" id="Gender_Unknown" value="Unknown" data-bind="checked: gender">
+                                        <label class="inline" for="Gender_Unknown">@("Unknown".Localize())</label>
                                     </li>
-                                    <!-- /ko -->
+                                    <li>
+                                        <input type="radio" name="Gender" id="Gender_Male" value="Male" data-bind="checked: gender">
+                                        <label class="inline" for="Gender_Male">@("Male".Localize())</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="Gender" id="Gender_Female" value="Female" data-bind="checked: gender">
+                                        <label class="inline" for="Gender_Female">@("Female".Localize())</label>
+                                    </li>
                                 </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Phone".Localize())</th>
-                            <td>
-                                <input data-bind="value:Phone" type="text" class="medium">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Country".Localize())</th>
-                            <td>
-                                <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId" class="medium"></select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("City".Localize())</th>
-                            <td>
-                                <input data-bind="value:City" type="text" class="medium">
                             </td>
                         </tr>
                         <tr>
                             <th>@("Saving Points".Localize())</th>
                             <td>
-                                <input data-bind="value:SavingPoints" type="text" class="medium">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Email".Localize())</th>
-                            <td>
-                                <input data-bind="value:Email" type="text" class="medium">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Default Shipping Address".Localize())</th>
-                            <td>
-                                <select data-bind="options: $data.Addresses, optionsText: 'Address1', optionsValue: 'Id', optionsCaption: ' ', value: ShippingAddressId" class="medium"></select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@("Default Billing Address".Localize())</th>
-                            <td>
-                                <select data-bind="options: $data.Addresses, optionsText: 'Address1', optionsValue: 'Id', optionsCaption: ' ', value: BillingAddressId" class="medium"></select>
+                                <input data-bind="value:savingPoints" type="text" class="medium" name="SavingPoints"
+                                       data-val="true"
+                                       data-val-required="@("Required".Localize())"
+                                       data-val-digits="@("Saving points should be digits".Localize())" />
+                                <span data-valmsg-for="SavingPoints" data-valmsg-replace="true"></span>
                             </td>
                         </tr>
                     </tbody>
@@ -132,9 +104,9 @@
             <div id="address">
                 <div class="simple-table">
                     <div class="toolbar">
-                        <a class="button" href="javascript:;" data-bind="click: $root.AddAddress">@("Add".Localize())</a>
+                        <a class="button" href="javascript:;" data-bind="click: $root.addAddress">@("Add".Localize())</a>
                     </div>
-                    <table data-bind="with: data">
+                    <table>
                         <thead>
                             <tr>
                                 <th>@("First name".Localize())</th>
@@ -145,14 +117,19 @@
                                 <th class="action"></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach: Addresses">
+                        <tbody data-bind="foreach: addresses">
                             <tr>
-                                <td data-bind="text:FirstName"></td>
-                                <td data-bind="text:LastName"></td>
-                                <td data-bind="text:Phone"></td>
-                                <td data-bind="text:Address1"></td>
-                                <td class="action"><a href="javascript:;" data-bind="click: $root.EditAddress" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a></td>
-                                <td class="action"><a href="javascript:;" data-bind="click: $root.RemoveAddress" title="@("Delete".Localize())">@Html.IconImage("minus-small")</a></td>
+                                <td data-bind="text:firstName"></td>
+                                <td data-bind="text:lastName"></td>
+                                <td data-bind="text:phone"></td>
+                                <td data-bind="text:address1"></td>
+                                <td class="action"><a href="javascript:;" data-bind="click: $root.editAddress" title="@("Edit".Localize())">@Html.IconImage("edit-small")</a></td>
+                                <td class="action"><a href="javascript:;" data-bind="click: $root.removeAddress" title="@("Delete".Localize())">@Html.IconImage("minus-small")</a></td>
+                            </tr>
+                        </tbody>
+                        <tbody data-bind="visible: addresses().length === 0">
+                            <tr class="empty">
+                                <td colspan="100">@("Empty".Localize())</td>
                             </tr>
                         </tbody>
                     </table>
@@ -161,9 +138,9 @@
             <div id="customFields">
                 <div class="simple-table">
                     <div class="toolbar">
-                        <a class="button" href="javascript:;" data-bind="click: $root.AddCustomField">Add</a>
+                        <a class="button" href="javascript:;" data-bind="click: $root.addCustomField">Add</a>
                     </div>
-                    <table data-bind="with: data">
+                    <table>
                         <thead>
                             <tr>
                                 <th>@("Name".Localize())</th>
@@ -171,35 +148,16 @@
                                 <th class="action"></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach: CustomFields">
+                        <tbody data-bind="foreach: customFields">
                             <tr>
-                                <td><input data-bind="value:Name" type="text"></td>
-                                <td><input data-bind="value:Value" type="text"></td>
-                                <td class="action"><a href="javascript:;" data-bind="click: $root.RemoveCustomField">@Html.IconImage("minus small")</a></td>
+                                <td><input data-bind="value:name" type="text"></td>
+                                <td><input data-bind="value:value" type="text"></td>
+                                <td class="action"><a href="javascript:;" data-bind="click: $root.removeCustomField">@Html.IconImage("minus small")</a></td>
                             </tr>
                         </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="orders">
-                <div class="simple-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>@("Order id".Localize())</th>
-                                <th>@("Order date".Localize())</th>
-                                <th>@("Total price".Localize())</th>
-                                <th>@("Total weight".Localize())</th>
-                                <th>@("Order status".Localize())</th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach: $root.Orders">
-                            <tr>
-                                <td data-bind="text:Id"></td>
-                                <td data-bind="text:CreatedAtUtc"></td>
-                                <td data-bind="text:Total"></td>
-                                <td data-bind="text:TotalWeight"></td>
-                                <td data-bind="text:OrderStatus"></td>
+                        <tbody data-bind="visible: customFields().length === 0">
+                            <tr class="empty">
+                                <td colspan="100">@("Empty".Localize())</td>
                             </tr>
                         </tbody>
                     </table>
@@ -209,7 +167,7 @@
     </form>
 </div>
 <div class="hide">
-    <div id="addressDiv">
+    <div id="address-dialog">
         <div class="topbar">
             <h1 class="title">@("Address".Localize())</h1>
         </div>
@@ -217,74 +175,85 @@
             <form class="common-form">
                 <div>
                     <table>
-                        <tbody data-bind="with: EditingAddress">
+                        <tbody data-bind="with: editingAddress">
                             <tr>
                                 <th>@("First Name".Localize())</th>
                                 <td>
-                                    <input data-bind="value:FirstName" type="text" class="xlarge">
+                                    <input data-bind="value:firstName" type="text" class="xlarge" name="FirstName"
+                                           data-val="true"
+                                           data-val-required="@("Required".Localize())" />
+                                    <span data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>@("Last Name".Localize())</th>
                                 <td>
-                                    <input data-bind="value:LastName" type="text" class="xlarge">
+                                    <input data-bind="value:lastName" type="text" class="xlarge" name="LastName"
+                                           data-val="true"
+                                           data-val-required="@("Required".Localize())" />
+                                    <span data-valmsg-for="LastName" data-valmsg-replace="true"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>@("Phone".Localize())</th>
                                 <td>
-                                    <input data-bind="value:Phone" type="text" class="xlarge">
+                                    <input data-bind="value:phone" type="text" class="xlarge" name="Phone" />
                                 </td>
                             </tr>
                             <tr>
                                 <th>@("Country".Localize())</th>
                                 <td>
-                                    <select data-bind="options: $root.Countries, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' ', value: CountryId" class="xlarge"></select>
+                                    <select name="Country" data-bind="options: $root.countries, optionsText: 'name', optionsValue: 'id', optionsCaption: ' ', value: countryId" class="xlarge"
+                                            data-val="true"
+                                            data-val-required="@("Required".Localize())"></select>
+                                    <span data-valmsg-for="Country" data-valmsg-replace="true"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>@("State".Localize())</th>
                                 <td>
-                                    <input data-bind="value:State" type="text" class="xlarge">
+                                    <input data-bind="value:state" type="text" class="xlarge" name="State" />
                                 </td>
                             </tr>
                             <tr>
                                 <th>@("City".Localize())</th>
                                 <td>
-                                    <input data-bind="value:City" type="text" class="xlarge">
+                                    <input data-bind="value:city" type="text" class="xlarge" name="City"
+                                           data-val="true"
+                                           data-val-required="@("Required".Localize())" />
+                                    <span data-valmsg-for="City" data-valmsg-replace="true"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>@("Postcode".Localize())</th>
                                 <td>
-                                    <input data-bind="value:Postcode" type="text" class="xlarge">
+                                    <input data-bind="value:postcode" type="text" class="xlarge" name="Postcode"
+                                           data-val="true"
+                                           data-val-required="@("Required".Localize())" />
+                                    <span data-valmsg-for="Postcode" data-valmsg-replace="true"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>@("Address1".Localize())</th>
                                 <td>
-                                    <input data-bind="value:Address1" type="text" class="xlarge">
+                                    <input data-bind="value:address1" type="text" class="xlarge" name="Address1"
+                                           data-val="true"
+                                           data-val-required="@("Required".Localize())" />
+                                    <span data-valmsg-for="Address1" data-valmsg-replace="true"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>@("Address2".Localize())</th>
                                 <td>
-                                    <input data-bind="value:Address2" type="text" class="xlarge">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th></th>
-                                <td>
-                                    <input data-bind="checked:IsDefault" type="checkbox" id="IsDefault">
-                                    <label class="inline" for="IsDefault">@("Set as default address".Localize())</label>
+                                    <input data-bind="value:address2" type="text" class="xlarge" name="Address2" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <p class="buttons">
-                    <input type="button" class="button" onclick="vm.SaveAddress();" value="@("OK".Localize())">
-                    <a class="button gray" onclick="vm.CancelAddress();">@("Cancel".Localize())</a>
+                    <input type="button" class="button" onclick="viewModel.saveAddress();" value="@("OK".Localize())">
+                    <a class="button gray" onclick="viewModel.cancelAddress();">@("Cancel".Localize())</a>
                 </p>
             </form>
         </div>
@@ -295,121 +264,140 @@
         info.show(message, (level || 'info') == 'info');
     };
 
-    var vm;
     $(function () {
-        vm = new ObjectModel({
-            getQueryUrl: function (self) {
-                return '/Commerce/Customer/Get?id=@(Request.QueryString["Id"])';
-            },
-            getSaveUrl: function (self) {
-                return '/Commerce/Customer/Save';
-            },
-            onQuerySuccess: function (self) {
-                $('#J_CustomerTabs').tabs();
-                vm.GetOrders();
-            },
-            onSaveSuccess: function (self, info) {
-                utils.showMessage('Notice', info.message, 'info');
-                window.leaveConfirm.pass();
-                window.location.href = '/Commerce/Customer/Index?siteName=@Request.QueryString["siteName"]&instance=@Request.QueryString["instance"]';
-                //$('#J_CustomerTabs').tabs();
-            },
-            onInit: function (self) {
-                self.Orders = ko.observableArray([]);
-                self.Countries = ko.observableArray([]);
-                self.Genders = ko.observableArray([
-                    { 'Name': 'Unknown', 'Value': 0 },
-                    { 'Name': 'Male', 'Value': 1 },
-                    { 'Name': 'Female', 'Value': 2 }
-                ]);
-                self.BindGender = ko.computed({
-                    read: function () {
-                        if (this.data())
-                            return this.data().Gender().toString();
-                        return null;
-                    },
-                    write: function (newValue) {
-                        this.data().Gender(newValue);
-                    },
-                    owner: self
-                });
-                self.EditingAddress = ko.observable(null);
-                self.AddAddress = function () {
-                    var item = {
-                        Id: ko.observable(utils.newid()),
-                        CustomerId: ko.observable(self.data().Id()),
-                        FirstName: ko.observable(''),
-                        LastName: ko.observable(''),
-                        Address1: ko.observable(null),
-                        Address2: ko.observable(null),
-                        Postcode: ko.observable(null),
-                        CountryId: ko.observable(null),
-                        City: ko.observable(null),
-                        State: ko.observable(null),
-                        Phone: ko.observable(null),
-                        IsDefault: ko.observable(false)
-                    }
-                    item.isNew = true;
-                    self.data().Addresses.push(item);
-                    self.EditAddress(item);
-                };
-                self.RemoveAddress = function (item) {
-                    self.data().Addresses.remove(item);
-                };
-                self.EditAddress = function (item) {
-                    self.EditingAddress(item);
-                    utils.showDialog('#addressDiv', 'Edit Address', null, null, null, null, {
-                        buttons: null, create: function () {
-                            $(document).dialogScroll();
-                        }
-                    });
-                };
-                self.SaveAddress = function () {
-                    if (vm.EditingAddress().isNew)
-                        vm.EditingAddress().isNew = false;
-                    $('#addressDiv').dialog("close");
-                };
-                self.CancelAddress = function () {
-                    if (vm.EditingAddress().isNew) {
-                        vm.data().Addresses.remove(vm.EditingAddress());
-                    }
-                    $('#addressDiv').dialog("close");
-                }
-                self.AddCustomField = function () {
-                    var item = {
-                        Name: ko.observable(null),
-                        Value: ko.observable(null)
-                    };
-                    item.isNew = true;
-                    self.data().CustomFields.push(item);
-                };
-                self.RemoveCustomField = function (item) {
-                    vm.data().CustomFields.remove(item);
-                };
-                self.OrderPageIndex = ko.observable(1);
-                self.OrderPageIndex.subscribe(function (newVal) {
-                    self.GetOrders();
-                });
-                self.GetOrders = function () {
-                    var url = '/Commerce/Customer/GetOrders?siteName=@Request.QueryString["siteName"]&customerId=' + self.data().Id();
-                    url += '&page=' + self.OrderPageIndex() + '&pageSize=50';
-                    utils.getJson(url, null, function (orders) {
-                        ko.mapping.viewModel(orders, vm.Orders);
-                    });
-                };
-            }
-        });
+        var AppViewModel = function () {
+            var self = this;
 
-        ko.applyBindings(vm);
-        utils.getJson('/Commerce/Customer/GetCountries?siteName=@Request.QueryString["siteName"]', null, function (dc) {
-            ko.mapping.viewModel(dc, vm.Countries);
-            vm.getData();
-        });
-        $('#J_CustomerTabs').tabs();
+            self.init = function () {
+                $('#address-dialog').dialog({
+                    modal: true,
+                    autoOpen: false,
+                    create: function () {
+                        $(document).dialogScroll();
+                    }
+                });
+
+                $.validator.unobtrusive.reparse($('#address-dialog form'));
+            }
+
+            self.countries = ko.observableArray([]);
+
+            self.editingAddress = ko.observable(null);
+
+            self.addAddress = function () {
+                var item = {
+                    id: ko.observable(),
+                    firstName: ko.observable(),
+                    lastName: ko.observable(),
+                    address1: ko.observable(),
+                    address2: ko.observable(),
+                    postcode: ko.observable(),
+                    countryId: ko.observable(),
+                    city: ko.observable(),
+                    state: ko.observable(),
+                    phone: ko.observable()
+                };
+
+                item.isNew = true;
+
+                self.addresses.push(item);
+                self.editAddress(item);
+            };
+
+            self.removeAddress = function (item) {
+                self.addresses.remove(item);
+            };
+
+            self.editAddress = function (item) {
+                if (!item.isNew) {
+                    item.memo = ko.mapping.toJS(item);
+                }
+                self.editingAddress(item);
+                $('#address-dialog').dialog('open');
+            };
+
+            self.saveAddress = function () {
+                $('#address-dialog :focus').blur();
+
+                if (!$('#address-dialog form').valid()) {
+                    return false;
+                }
+
+                var address = self.editingAddress();
+                delete address.memo;
+                delete address.isNew;
+                $('#address-dialog').dialog("close");
+            };
+
+            self.cancelAddress = function () {
+                var address = self.editingAddress();
+                if (address.isNew) {
+                    self.addresses.remove(address);
+                } else {
+                    ko.mapping.fromJS(address, {}, address.memo);
+                    delete address.memo;
+                }
+
+                $('#address-dialog').dialog("close");
+            }
+
+            self.addCustomField = function () {
+                var item = {
+                    name: ko.observable(),
+                    value: ko.observable()
+                };
+                self.customFields.push(item);
+            };
+
+            self.removeCustomField = function (item) {
+                self.customFields.remove(item);
+            };
+
+            self.save = function () {
+                if (!$('#customer-form').valid()) {
+                    return false;
+                }
+
+                window.loading.show();
+
+                $.ajax({
+                    url: '@Url.Action("Save")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(ko.mapping.toJS(self))
+                })
+                .done(function () {
+                    window.loading.hide();
+                    info.show('@("Customer is successfully saved")', true);
+                    setTimeout(function () {
+                        window.leaveConfirm.pass();
+                        location.href = '@Html.Raw(ViewContext.RequestContext.GetRequestValue("return"))';
+                    });
+                })
+                .fail(function (xhr) {
+                    window.loading.hide();
+                    info.show(JSON.parse(xhr.responseText).message, false);
+                });
+            }
+        };
+
+        window.viewModel = new AppViewModel();
+
+        ko.mapping.fromJS(@Html.Raw(JsonEncoder.Encode(Model, true)), {}, viewModel);
+
+        viewModel.init();
+
+        $.get('@Url.Action("GetCountries")')
+         .done(function (data) {
+             ko.mapping.fromJS(data, {}, viewModel.countries);
+             ko.applyBindings(window.viewModel);
+
+             $('#J_CustomerTabs').tabs();
+         });
     });
 
     window.submitForm = function () {
         $(':focus').blur();
-        vm.saveData();
+        viewModel.save();
     }
 </script>

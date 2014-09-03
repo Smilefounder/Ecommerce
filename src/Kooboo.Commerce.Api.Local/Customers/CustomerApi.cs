@@ -58,9 +58,9 @@ namespace Kooboo.Commerce.Api.Local.Customers
             return mapped.Id;
         }
 
-        private Kooboo.Commerce.Countries.Address CreateAddress(Address addr)
+        private Kooboo.Commerce.Customers.Address CreateAddress(Address addr)
         {
-            return new Commerce.Countries.Address
+            return new Commerce.Customers.Address
             {
                 FirstName = addr.FirstName,
                 LastName = addr.LastName,

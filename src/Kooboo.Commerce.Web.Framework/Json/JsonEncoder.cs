@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,16 @@ namespace Kooboo.Commerce.Web.Framework.Json
 {
     public static class JsonEncoder
     {
-        public static string Encode(object data, bool camelCase = false)
+        public static string Encode(object data, bool usingClientConvention = false)
         {
             var settings = new JsonSerializerSettings();
 
-            if (camelCase)
+            if (usingClientConvention)
             {
                 settings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
             }
+
+            settings.Converters.Add(new StringEnumConverter());
 
             return JsonConvert.SerializeObject(data, settings);
         }

@@ -283,7 +283,10 @@
   <ItemGroup>
     <Compile Include="Areas\Commerce\Models\Brands\BrandMappingProfile.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryMappingProfile.cs" />
+    <Compile Include="Areas\Commerce\Models\Customers\AddressModel.cs" />
+    <Compile Include="Areas\Commerce\Models\Customers\CustomerMappingProfile.cs" />
     <Compile Include="Areas\Commerce\Models\IdName.cs" />
+    <Compile Include="Areas\Commerce\Models\NameValue.cs" />
     <Compile Include="Areas\Commerce\Models\Products\ProductMappingProfile.cs" />
     <Compile Include="Areas\Commerce\Models\Products\ProductEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Products\ProductVariantModel.cs" />
@@ -384,7 +387,6 @@
     <Compile Include="Areas\Commerce\Models\Instances\CommerceInstanceModel.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\BuildConditionModelsRequest.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\ChangePasswordModel.cs" />
-    <Compile Include="Areas\Commerce\Models\Customers\CustomerCustomFieldModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CategoryDataSource.cs" />
     <Compile Include="Areas\Commerce\Menu\EventMenuItemInitializer.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandEditorModel.cs" />

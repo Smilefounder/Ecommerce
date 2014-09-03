@@ -1,7 +1,7 @@
 ﻿<script>
     (function ($) {
 
-        var DefaultVariantModel = @Html.Raw(JsonEncoder.Encode(ViewBag.DefaultVariantModel, camelCase: true));
+        var DefaultVariantModel = @Html.Raw(JsonEncoder.Encode(ViewBag.DefaultVariantModel, true));
 
         ProductEditor.tabs['Variants'] = {
             init: function (context) {

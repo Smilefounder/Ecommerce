@@ -14,6 +14,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
     {
         public int Id { get; set; }
 
+        public string Group { get; set; }
+
+        public int SavingPoints { get; set; }
+
         [Required(ErrorMessage = "Required")]
         [RegularExpression(RegexPatterns.EmailAddress, ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
@@ -21,45 +25,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Customers
         [Required(ErrorMessage = "Required")]
         public string FirstName { get; set; }
 
-        public string MiddleName { get; set; }
-
         [Required(ErrorMessage = "Required")]
         public string LastName { get; set; }
-
-        public IList<SelectListItem> GenderList { get; set; }
 
         [Required(ErrorMessage = "Required")]
         public Gender Gender { get; set; }
 
-        public string Phone { get; set; }
+        public IList<AddressModel> Addresses { get; set; }
 
-        public IEnumerable<SelectListItem> CountryList { get; set; }
-
-        public int? CountryId { get; set; }
-
-        public string City { get; set; }
+        public IList<NameValue> CustomFields { get; set; }
 
         public CustomerEditorModel()
         {
-        }
-
-        public CustomerEditorModel(Customer customer)
-        {
-            Id = customer.Id;
-
-            Email = customer.Email;
-            FirstName = customer.FirstName;
-            LastName = customer.LastName;
-            Gender = customer.Gender;
-        }
-
-        public void UpdateTo(Customer customer)
-        {
-            customer.Id = Id;
-            customer.Email = Email.Trim();
-            customer.FirstName = FirstName;
-            customer.LastName = LastName;
-            customer.Gender = Gender;
+            Addresses = new List<AddressModel>();
+            CustomFields = new List<NameValue>();
         }
     }
 }

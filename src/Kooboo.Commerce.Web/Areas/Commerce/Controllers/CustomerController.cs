@@ -15,6 +15,8 @@ using Kooboo.Commerce.Web.Areas.Commerce.Models.TabQueries;
 using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Customers;
 using Kooboo.Commerce.Web.Areas.Commerce.Tabs.Queries.Customers.Default;
 using Kooboo.Commerce.Web.Framework.Mvc.ModelBinding;
+using AutoMapper;
+using Kooboo.Commerce.Countries;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -39,49 +41,104 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Create()
         {
-            return View("Edit");
+            return View("Edit", new CustomerEditorModel());
         }
 
         public ActionResult Edit(int id)
         {
             var customer = _customerService.GetById(id);
+            var model = Mapper.Map<Customer, CustomerEditorModel>(customer);
 
             ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, customer, CurrentInstance);
 
-            return View("Edit");
+            return View(model);
         }
 
         [HttpGet]
         public ActionResult Get(int? id = null)
         {
-            var obj = id == null ? null : _customerService.GetById(id.Value);
-            if (obj == null)
+            CustomerEditorModel model = null;
+
+            if (id != null && id > 0)
             {
-                obj = new Customer();
+                var customer = _customerService.GetById(id.Value);
+                model = Mapper.Map<Customer, CustomerEditorModel>(customer);
             }
-            return JsonNet(obj);
+            else
+            {
+                model = new CustomerEditorModel();
+            }
+
+            return JsonNet(model).UsingClientConvention();
         }
 
-        [HttpPost, Transactional]
-        public ActionResult Save(Customer obj)
+        [HttpPost, HandleAjaxError, Transactional]
+        public void Save(CustomerEditorModel model)
         {
-            try
+            Customer customer = null;
+
+            if (model.Id > 0)
             {
-                if (obj.Id > 0)
+                customer = _customerService.GetById(model.Id);
+            }
+            else
+            {
+                customer = new Customer();
+            }
+
+            customer.Email = model.Email;
+
+            customer.FirstName = model.FirstName;
+            customer.LastName = model.LastName;
+            customer.Group = model.Group;
+            customer.SavingPoints = model.SavingPoints;
+            customer.Gender = model.Gender;
+
+            customer.SetCustomFields(model.CustomFields.ToDictionary(f => f.Name, f => f.Value));
+
+            if (model.Id > 0)
+            {
+                _customerService.Update(customer);
+            }
+            else
+            {
+                _customerService.Create(customer);
+            }
+
+            foreach (var address in customer.Addresses.ToList())
+            {
+                if (!model.Addresses.Any(it => it.Id == address.Id))
                 {
-                    _customerService.Update(obj);
+                    customer.Addresses.Remove(address);
                 }
-                else
+            }
+
+            foreach (var addressModel in model.Addresses)
+            {
+                var address = customer.Addresses.FirstOrDefault(it => it.Id == addressModel.Id);
+                if (address == null)
                 {
-                    _customerService.Create(obj);
+                    address = new Address();
+                    customer.Addresses.Add(address);
                 }
 
-                return this.JsonNet(new { status = 0, message = "customer succssfully saved." });
+                UpdateAddress(address, addressModel);
             }
-            catch (Exception ex)
-            {
-                return this.JsonNet(new { status = 1, message = ex.Message });
-            }
+
+            _customerService.Update(customer);
+        }
+
+        private void UpdateAddress(Address address, AddressModel model)
+        {
+            address.FirstName = model.FirstName;
+            address.LastName = model.LastName;
+            address.Phone = model.Phone;
+            address.Postcode = model.Postcode;
+            address.Address1 = model.Address1;
+            address.Address2 = model.Address2;
+            address.City = model.City;
+            address.State = model.State;
+            address.Country = _countryService.GetById(model.CountryId);
         }
 
         [HttpPost, HandleAjaxFormError]
@@ -99,20 +156,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult GetCountries()
         {
-
-            var objs = _countryService.Query();
-            return JsonNet(objs);
-        }
-
-        [HttpGet]
-        public ActionResult GetOrders(int customerId, int page = 1, int pageSize = 50)
-        {
-            var objs = _orderService.Query()
-                                    .Where(o => o.CustomerId == customerId)
-                                    .OrderByDescending(o => o.Id)
-                                    .Paginate(page - 1, pageSize)
-                                    .ToPagedList();
-            return JsonNet(objs);
+            var countries = _countryService.Query();
+            return JsonNet(countries).UsingClientConvention();
         }
     }
 }

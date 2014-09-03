@@ -1,16 +1,20 @@
-﻿using Kooboo.Commerce.Rules;
+﻿using Kooboo.Commerce.Countries;
+using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Rules;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.Commerce.Countries
+namespace Kooboo.Commerce.Customers
 {
-    public class Address
+    public class Address : IOrphanable
     {
         public int Id { get; set; }
 
-        public int CustomerId { get; set; }
+        [Column]
+        protected int? CustomerId { get; set; }
 
         [Param]
         public string FirstName { get; set; }
@@ -40,5 +44,10 @@ namespace Kooboo.Commerce.Countries
 
         [Reference]
         public virtual Country Country { get; set; }
+
+        bool IOrphanable.IsOrphan()
+        {
+            return CustomerId == null;
+        }
     }
 }
