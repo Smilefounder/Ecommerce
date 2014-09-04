@@ -21,7 +21,7 @@
                 {
                     foreach (var category in ViewBag.RootCategories)
                     {
-                        <li><a href="@Url.FrontUrl().PageUrl("Category", new { category = category.Name })">@category.Name</a></li>
+                        <li><a href="@Url.FrontUrl().PageUrl("Category", new { categoryId = category.Id })">@category.Name</a></li>
                     }
                 }
             </ul>
@@ -68,6 +68,41 @@
             $(this).animate({
                 width: '200px'
             }, 500);
+        });
+
+        // Search suggestion
+        var engine = new Bloodhound({
+            name: 'products',
+            remote: {
+                url: '/Kooboo-DataSource/SearchSuggestions?keywords=%QUERY',
+                filter: function (data) {
+                    return data.Products;
+                }
+            },
+            datumTokenizer: function (d) {
+                return Bloodhound.tokenizers.whitespace(d.val);
+            },
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+        });
+
+        engine.initialize();
+
+        $('.search-keywords').typeahead({
+            highlight: true,
+            hint: false
+        }, {
+            name: 'products',
+            displayKey: 'Name',
+            source: engine.ttAdapter(),
+            templates: {
+                suggestion: function (data) {
+                    return $.format('<p><strong>{0}</strong></p> <span style="color:orange">&euro; {1}</span>', data.Name, data.Prices.Lowest);
+                }
+            }
+        });
+
+        $('.search-keywords').on('typeahead:selected', function (e, data) {
+            location.href = '/Product/' + data.Id;
         });
     });
 </script>

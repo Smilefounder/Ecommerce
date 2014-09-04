@@ -24,6 +24,9 @@ namespace Kooboo.Commerce.Search.Models
         [Field(Field.Index.NOT_ANALYZED)]
         public string Brand { get; set; }
 
+        [Field(Field.Index.NOT_ANALYZED)]
+        public int BrandId { get; set; }
+
         /// <summary>
         /// Categories of all levels of the product. 
         /// This is different from Product.Categories where only the leaf categories are included.
@@ -31,6 +34,9 @@ namespace Kooboo.Commerce.Search.Models
         /// </summary>
         [Field(Field.Index.NOT_ANALYZED)]
         public IList<string> Categories { get; set; }
+
+        [Field(Field.Index.NOT_ANALYZED)]
+        public IList<int> CategoryIds { get; set; }
 
         [Field(Field.Index.NOT_ANALYZED, Numeric = true)]
         public decimal LowestPrice { get; set; }
@@ -65,9 +71,11 @@ namespace Kooboo.Commerce.Search.Models
             if (product.Brand != null)
             {
                 doc.Brand = product.Brand.GetText("Name", culture) ?? product.Brand.Name;
+                doc.BrandId = product.Brand.Id;
             }
 
             var categoryNames = new HashSet<string>();
+            var categoryIds = new HashSet<int>();
 
             foreach (var category in product.Categories)
             {
@@ -80,10 +88,12 @@ namespace Kooboo.Commerce.Search.Models
                     }
 
                     categoryNames.Add(name);
+                    categoryIds.Add(each.Id);
                 }
             }
 
             doc.Categories = categoryNames.ToList();
+            doc.CategoryIds = categoryIds.ToList();
 
             foreach (var variant in product.Variants)
             {

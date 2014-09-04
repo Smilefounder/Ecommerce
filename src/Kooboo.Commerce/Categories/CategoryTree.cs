@@ -65,15 +65,18 @@ namespace Kooboo.Commerce.Categories
 
         public CategoryTree Localize(CultureInfo culture)
         {
-            var texts = Localizer.GetText(GetAllCategoryKeys(), "Name", culture);
+            return Localize(culture, "Name", "Description");
+        }
+
+        public CategoryTree Localize(CultureInfo culture, params string[] fields)
+        {
+            var texts = Localizer.GetText(GetAllCategoryKeys(), fields, culture);
             var clone = Clone();
             clone.ForEach(entry =>
             {
-                var localizedName = texts[new EntityKey(typeof(Category), entry.Id)];
-                if (!String.IsNullOrEmpty(localizedName))
-                {
-                    entry.Name = localizedName;
-                }
+                var entityTexts = texts[new EntityKey(typeof(Category), entry.Id)];
+                entry.Name = entityTexts["Name"] ?? entry.Name;
+                entry.Description = entityTexts["Description"] ?? entry.Description;
             });
 
             return clone;
@@ -161,7 +164,10 @@ namespace Kooboo.Commerce.Categories
             var entry = new CategoryTreeNode
             {
                 Id = category.Id,
-                Name = category.Name
+                Name = category.Name,
+                Description = category.Description,
+                Photo = category.Photo,
+                CustomFields = category.CustomFields.ToDictionary(f => f.Name, f => f.Value)
             };
 
             foreach (var child in all.Where(c => c.Parent != null && c.Parent.Id == category.Id))

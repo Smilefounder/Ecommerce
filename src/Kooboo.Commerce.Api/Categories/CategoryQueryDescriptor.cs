@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Api.Categories
             get
             {
                 var fields = OptionalIncludeAttribute.GetOptionalIncludeFields(typeof(Category)).ToList();
-                fields.Add("WholeCategoryTree");
+                fields.Add("Subtrees");
                 return fields;
             }
         }

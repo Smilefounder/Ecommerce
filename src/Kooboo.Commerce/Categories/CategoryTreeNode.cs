@@ -11,13 +11,20 @@ namespace Kooboo.Commerce.Categories
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
+        public string Photo { get; set; }
+
         public CategoryTreeNode Parent { get; set; }
 
         public IList<CategoryTreeNode> Children { get; set; }
 
+        public IDictionary<string, string> CustomFields { get; set; }
+
         public CategoryTreeNode()
         {
             Children = new List<CategoryTreeNode>();
+            CustomFields = new Dictionary<string, string>();
         }
 
         public IEnumerable<CategoryTreeNode> Descendants()

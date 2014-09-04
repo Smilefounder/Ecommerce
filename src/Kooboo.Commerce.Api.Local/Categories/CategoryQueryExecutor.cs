@@ -7,19 +7,20 @@ using Core = Kooboo.Commerce.Categories;
 
 namespace Kooboo.Commerce.Api.Local.Categories
 {
-    class CategoryQueryExecutor : QueryExecutorBase<Category, Core.Category>
+    class CategoryQueryExecutor : QueryExecutorBase<Category, Core.CategoryTreeNode>
     {
         public CategoryQueryExecutor(LocalApiContext apiContext)
             : base(apiContext)
         {
         }
 
-        protected override IQueryable<Core.Category> CreateLocalQuery()
+        protected override IQueryable<Core.CategoryTreeNode> CreateLocalQuery()
         {
-            return ApiContext.Database.Repository<Core.Category>().Query().OrderBy(c => c.Id);
+            var tree = Core.CategoryTree.Get(ApiContext.Instance).Localize(ApiContext.Culture);
+            return tree.Desendants().AsQueryable();
         }
 
-        protected override IQueryable<Core.Category> ApplyFilters(IQueryable<Core.Category> query, IEnumerable<QueryFilter> filters)
+        protected override IQueryable<Core.CategoryTreeNode> ApplyFilters(IQueryable<Core.CategoryTreeNode> query, IEnumerable<QueryFilter> filters)
         {
             query = base.ApplyFilters(query, filters);
 
@@ -33,7 +34,7 @@ namespace Kooboo.Commerce.Api.Local.Categories
             return query;
         }
 
-        protected override IQueryable<Core.Category> ApplyFilter(IQueryable<Core.Category> query, QueryFilter filter)
+        protected override IQueryable<Core.CategoryTreeNode> ApplyFilter(IQueryable<Core.CategoryTreeNode> query, QueryFilter filter)
         {
             if (filter.Name == CategoryFilters.ById.Name)
             {
@@ -50,18 +51,18 @@ namespace Kooboo.Commerce.Api.Local.Categories
                 var parentId = (int?)filter.Parameters["ParentId"];
                 if (parentId != null && parentId.Value > 0)
                 {
-                    query = query.Where(c => c.ParentId == parentId.Value);
+                    query = query.Where(c => c.Parent != null && c.Parent.Id == parentId.Value);
                 }
                 else
                 {
-                    query = query.Where(c => c.ParentId == null);
+                    query = query.Where(c => c.Parent == null);
                 }
             }
             else if (filter.Name == CategoryFilters.ByCustomField.Name)
             {
                 var fieldName = (string)filter.Parameters["FieldName"];
                 var fieldValue = (string)filter.Parameters["FieldValue"];
-                query = query.Where(c => c.CustomFields.Any(f => f.Name == fieldName && f.Value == fieldValue));
+                query = query.Where(c => c.CustomFields.ContainsKey(fieldName) && c.CustomFields[fieldName] == fieldValue);
             }
 
             return query;

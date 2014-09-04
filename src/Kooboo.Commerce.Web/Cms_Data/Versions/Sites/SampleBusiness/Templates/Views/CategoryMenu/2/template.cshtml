@@ -1,0 +1,14 @@
+﻿@if (ViewBag.Categories != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">Categories</h4>
+        </div>
+        <div class="list-group">
+            @foreach (var item in ViewBag.Categories)
+            {
+                <a href="@Url.FrontUrl().PageUrl("Category", new { categoryId = item.Id })" class="list-group-item">@item.Name</a>
+            }
+        </div>
+    </div>
+}

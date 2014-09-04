@@ -37,7 +37,9 @@ namespace Kooboo.Commerce.Search.CMSIntegration
             {
                 Keywords,
                 new FilterDefinition { Name = "Brand", Field = "Brand" },
+                new FilterDefinition { Name = "BrandId", Field = "BrandId" },
                 new FilterDefinition { Name = "Category", Field = "Categories" },
+                new FilterDefinition { Name = "CategoryId", Field = "CategoryIds" },
                 new FilterDefinition { Name = "LowestPrice", Field = "LowestPrice", SupportRangeFiltering = true },
                 new FilterDefinition { Name = "HighestPrice", Field = "HighestPrice", SupportRangeFiltering = true }
             };

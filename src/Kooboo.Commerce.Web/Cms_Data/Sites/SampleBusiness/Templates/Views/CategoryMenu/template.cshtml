@@ -1,13 +1,66 @@
-﻿@if (ViewBag.Categories != null)
+﻿@using Kooboo.Commerce.Api.Categories
+@{
+    var currentCategory = ViewBag.CurrentCategory as Kooboo.Commerce.Api.Categories.Category;
+    var parent = currentCategory;
+    var categories = ViewBag.CategoryTree as IEnumerable<Kooboo.Commerce.Api.Categories.Category>;
+}
+
+@if (categories != null && categories.Any())
 {
+    var subcategories = categories;
+    if (currentCategory != null)
+    {
+        if (currentCategory.Children.Count > 0)
+        {
+            subcategories = currentCategory.Children;
+        }
+        else
+        {
+            var parentId = currentCategory.ParentId;
+            if (parentId != null)
+            {
+                foreach (var category in categories)
+                {
+                    if (category.Id == parentId.Value)
+                    {
+                        parent = category;
+                        break;
+                    }
+
+                    parent = category.Descendants().FirstOrDefault(c => c.Id == parent.Id);
+                    if (parent != null)
+                    {
+                        break;
+                    }
+                }
+
+                subcategories = parent.Children;
+            }
+            else
+            {
+                subcategories = categories;
+            }
+        }
+    }
+    
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title">Categories</h4>
+            <h4 class="panel-title">
+                @if (parent != null)
+                {
+                    <a href="@Url.FrontUrl().PageUrl("Category", new { categoryId = parent.Id })">@parent.Name</a>
+                }
+                else
+                {
+                    @("Categories".Localize())
+                }
+            </h4>
         </div>
         <div class="list-group">
-            @foreach (var item in ViewBag.Categories)
+            @foreach (var item in subcategories)
             {
-                <a href="@Url.FrontUrl().PageUrl("Category", new { category = item.Name })" class="list-group-item">@item.Name</a>
+                var isActive = currentCategory != null && currentCategory.Id == item.Id;
+                <a href="@Url.FrontUrl().PageUrl("Category", new { categoryId = item.Id })" class="list-group-item @(isActive ? "active" : "")">@item.Name</a>
             }
         </div>
     </div>

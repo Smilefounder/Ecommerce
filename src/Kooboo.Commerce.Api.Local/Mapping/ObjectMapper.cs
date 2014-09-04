@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Api.Local.Mapping
 
         static ObjectMapper()
         {
-            AddMapper(typeof(Kooboo.Commerce.Categories.Category), typeof(Category), new CategoryMapper());
+            AddMapper(typeof(Kooboo.Commerce.Categories.CategoryTreeNode), typeof(Category), new CategoryMapper());
             AddMapper(typeof(Kooboo.Commerce.Products.Product), typeof(Product), new ProductMapper());
             AddMapper(typeof(Kooboo.Commerce.Products.ProductVariant), typeof(ProductVariant), new ProductVariantMapper());
             AddMapper(typeof(Kooboo.Commerce.Carts.ShoppingCart), typeof(ShoppingCart), new ShoppingCartMapper());

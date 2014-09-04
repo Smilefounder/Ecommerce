@@ -1,0 +1,30 @@
+﻿@using Kooboo.Commerce.Api.Categories
+@{
+    var currentCategory = ViewBag.CurrentCategory as Kooboo.Commerce.Api.Categories.Category;
+    var rootCategories = ViewBag.RootCategories as IEnumerable<Kooboo.Commerce.Api.Categories.Category>;
+    var categories = currentCategory == null ? rootCategories : currentCategory.Children;
+}
+
+@if (categories != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                @if (currentCategory != null)
+                {
+                    <a href="@Url.FrontUrl().PageUrl("Category", new { categoryId = currentCategory.Id })">@currentCategory.Name</a>
+                }
+                else
+                {
+                    @("Categories".Localize())
+                }
+            </h4>
+        </div>
+        <div class="list-group">
+            @foreach (var item in categories)
+            {
+                <a href="@Url.FrontUrl().PageUrl("Category", new { categoryId = item.Id })" class="list-group-item">@item.Name</a>
+            }
+        </div>
+    </div>
+}

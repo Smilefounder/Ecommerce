@@ -141,7 +141,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                     {
                         if (localizedCategoryTree == null)
                         {
-                            localizedCategoryTree = CategoryTree.Get(context.Instance).Localize(culture);
+                            localizedCategoryTree = CategoryTree.Get(context.Instance).Localize(culture, "Name");
                         }
 
                         var filter = facetFilters.FirstOrDefault(f => f.Name == FacetDefinition.Category.Name);

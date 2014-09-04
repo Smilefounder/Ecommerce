@@ -10,7 +10,7 @@
     var site = Kooboo.CMS.Sites.Models.Site.Current;
     var instanceName = site.GetCommerceInstanceName();
     var instance = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ICommerceInstanceManager>().GetInstance(instanceName);
-    var productTypes = instance.Database.GetRepository<ProductType>().Query().ToList();
+    var productTypes = instance.Database.Repository<ProductType>().Query().ToList();
 
     var facetDefinitions = FacetDefinition.GetFacetDefinitions(productTypes);
     var filterDefinitions = FilterDefinition.GetFilterDefinitions(productTypes);
