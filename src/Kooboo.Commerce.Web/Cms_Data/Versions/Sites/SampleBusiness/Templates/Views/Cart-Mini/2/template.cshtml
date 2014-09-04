@@ -1,6 +1,6 @@
 ﻿@using Kooboo.Commerce.Api.Carts
 @{
-    var cart = ViewBag.SlimShoppingCart as ShoppingCart;
+    var cart = ViewBag.ShoppingCart as ShoppingCart;
     var totalQty = cart == null ? 0 : cart.Items.Sum(it => it.Quantity);
 } 
 

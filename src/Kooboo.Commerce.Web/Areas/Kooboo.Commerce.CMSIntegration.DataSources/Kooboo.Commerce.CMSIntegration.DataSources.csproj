@@ -124,7 +124,7 @@
     <Compile Include="Impl\OrderDataSource.cs" />
     <Compile Include="Impl\PaymentMethodDataSource.cs" />
     <Compile Include="Impl\ProductDataSource.cs" />
-    <Compile Include="Impl\ShoppingCartDataSource.cs" />
+    <Compile Include="Impl\CurrentShoppingCartDataSource.cs" />
     <Compile Include="Generic\ParsedFilter.cs" />
     <Compile Include="Strings.cs" />
     <Compile Include="StringConvert.cs" />

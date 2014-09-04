@@ -4,7 +4,7 @@
 @using Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
 @{
     var customer = ViewBag.CurrentCustomer as Customer;
-    var cart = ViewBag.FullShoppingCart as ShoppingCart;
+    var cart = ViewBag.ShoppingCart as ShoppingCart;
     var paymentMethods = ViewBag.PaymentMethods as IList<PaymentMethod>;
 }
 

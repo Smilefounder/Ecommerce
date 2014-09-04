@@ -382,6 +382,67 @@ namespace Kooboo.Commerce.Api.Local.Tests.Mapping
             }
         }
 
+        public class DictionaryMapping
+        {
+            [Fact]
+            public void can_map_between_dictionaries()
+            {
+                var target = new DefaultObjectMapper().Map(new SourceBrand
+                {
+                    CustomFields = new Dictionary<string, string> {
+                        { "key1", "value1" },
+                        { "key2", "value2" }
+                    }
+                }, new TargetBrand(), null, new MappingContext(new IncludeCollection(new[] { "CustomFields" }))) as TargetBrand;
+
+                Assert.Equal(2, target.CustomFields.Count);
+                Assert.Equal("value1", target.CustomFields["key1"]);
+                Assert.Equal("value2", target.CustomFields["key2"]);
+            }
+
+            [Fact]
+            public void treat_name_property_as_key_if_source_type_is_not_dictionary()
+            {
+                var target = new DefaultObjectMapper().Map(new SourceBrand2
+                {
+                    CustomFields = new List<BrandField>{
+                        new BrandField{ Name = "name1", Value = "value1"},
+                        new BrandField{Name = "name2", Value = "value2"},
+                        new BrandField{Name = "name3", Value = "value3"}
+                    }
+                }, new TargetBrand(), null, new MappingContext(new IncludeCollection(new[] { "CustomFields" }))) as TargetBrand;
+
+                Assert.Equal(3, target.CustomFields.Count);
+                Assert.Equal("value1", target.CustomFields["name1"]);
+                Assert.Equal("value2", target.CustomFields["name2"]);
+                Assert.Equal("value3", target.CustomFields["name3"]);
+            }
+
+            public class SourceBrand
+            {
+                [OptionalInclude]
+                public IDictionary<string, string> CustomFields { get; set; }
+            }
+
+            public class SourceBrand2
+            {
+                public ICollection<BrandField> CustomFields { get; set; }
+            }
+
+            public class TargetBrand
+            {
+                [OptionalInclude]
+                public IDictionary<string, string> CustomFields { get; set; }
+            }
+
+            public class BrandField
+            {
+                public string Name { get; set; }
+
+                public string Value { get; set; }
+            }
+        }
+
         public class CustomizedMappers
         {
             [Fact]

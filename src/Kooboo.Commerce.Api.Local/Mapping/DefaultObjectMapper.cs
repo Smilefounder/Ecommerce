@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kooboo.Commerce.Reflection;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,49 +86,95 @@ namespace Kooboo.Commerce.Api.Local.Mapping
                 return;
             }
 
-            Type targetElementType;
+            var targetPropTypeInfo = ModelTypeInfo.GetTypeInfo(targetProperty.PropertyType);
 
-            if (IsCollection(targetProperty.PropertyType, out targetElementType))
+            if (targetPropTypeInfo.IsCollection)
             {
-                var sourceElementType = GetCollectionElementType(sourceProperty.PropertyType);
+                var sourcePropTypeInfo = ModelTypeInfo.GetTypeInfo(sourceProperty.PropertyType);
 
-                var elementMapper = GetMapperOrDefault(sourceElementType, targetElementType);
-                if (elementMapper == null)
+                if (targetPropTypeInfo.IsDictionary)
                 {
-                    return;
-                }
-
-                var targetList = Activator.CreateInstance(typeof(List<>).MakeGenericType(targetElementType));
-                var addMethod = targetList.GetType().GetMethod("Add", BindingFlags.Public | BindingFlags.Instance, null, new[] { targetElementType }, null);
-
-                var sourceList = sourcePropValue as IEnumerable;
-                var elementPrefix = propertyPath + ".";
-                var totalElements = 0;
-
-                foreach (var sourceElement in sourceList)
-                {
-                    var targetElement = elementMapper.Map(sourceElement, Activator.CreateInstance(targetElementType), sourceElementType, targetElementType, elementPrefix, context);
-                    addMethod.Invoke(targetList, new[] { targetElement });
-                    totalElements++;
-                }
-
-                if (!Object.ReferenceEquals(targetList, targetPropValue))
-                {
-                    if (targetProperty.PropertyType.IsArray)
+                    if (sourcePropTypeInfo.IsDictionary)
                     {
-                        var array = Array.CreateInstance(targetElementType, totalElements);
-                        var i = 0;
-                        foreach (var item in targetList as IEnumerable)
+                        // Map between dictionaries
+                        var targetDic = Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(targetPropTypeInfo.DictionaryKeyType, targetPropTypeInfo.DictionaryValueType)) as IDictionary;
+                        targetProperty.SetValue(target, targetDic, null);
+
+                        var sourceDic = sourcePropValue as IDictionary;
+                        foreach (var key in sourceDic.Keys)
                         {
-                            array.SetValue(item, i);
-                            i++;
+                            targetDic.Add(key, sourceDic[key]);
+                        }
+                    }
+                    else if (sourcePropTypeInfo.IsCollection)
+                    {
+                        // source collection element: Name or Key field -> dictionary key, Value field -> dictionary value
+                        var keyProp = sourcePropTypeInfo.ElementType.GetProperty("Key", BindingFlags.Public | BindingFlags.Instance);
+                        if (keyProp == null)
+                        {
+                            keyProp = sourcePropTypeInfo.ElementType.GetProperty("Name", BindingFlags.Public | BindingFlags.Instance);
                         }
 
-                        targetProperty.SetValue(target, array, null);
+                        if (keyProp != null)
+                        {
+                            var valueProp = sourcePropTypeInfo.ElementType.GetProperty("Value", BindingFlags.Public | BindingFlags.Instance);
+                            if (valueProp != null)
+                            {
+                                var targetDic = Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(targetPropTypeInfo.DictionaryKeyType, targetPropTypeInfo.DictionaryValueType)) as IDictionary;
+                                foreach (var item in sourcePropValue as IEnumerable)
+                                {
+                                    var key = keyProp.GetValue(item, null);
+                                    var value = valueProp.GetValue(item, null);
+                                    targetDic.Add(key, value);
+                                }
+
+                                targetProperty.SetValue(target, targetDic, null);
+                            }
+                        }
                     }
-                    else
+                }
+                else // List or Array
+                {
+                    var sourceElementType = sourcePropTypeInfo.ElementType;
+
+                    var elementMapper = GetMapperOrDefault(sourceElementType, targetPropTypeInfo.ElementType);
+                    if (elementMapper == null)
                     {
-                        targetProperty.SetValue(target, targetList, null);
+                        return;
+                    }
+
+                    var targetList = Activator.CreateInstance(typeof(List<>).MakeGenericType(targetPropTypeInfo.ElementType));
+                    var addMethod = targetList.GetType().GetMethod("Add", BindingFlags.Public | BindingFlags.Instance, null, new[] { targetPropTypeInfo.ElementType }, null);
+
+                    var sourceList = sourcePropValue as IEnumerable;
+                    var elementPrefix = propertyPath + ".";
+                    var totalElements = 0;
+
+                    foreach (var sourceElement in sourceList)
+                    {
+                        var targetElement = elementMapper.Map(sourceElement, Activator.CreateInstance(targetPropTypeInfo.ElementType), sourceElementType, targetPropTypeInfo.ElementType, elementPrefix, context);
+                        addMethod.Invoke(targetList, new[] { targetElement });
+                        totalElements++;
+                    }
+
+                    if (!Object.ReferenceEquals(targetList, targetPropValue))
+                    {
+                        if (targetProperty.PropertyType.IsArray)
+                        {
+                            var array = Array.CreateInstance(targetPropTypeInfo.ElementType, totalElements);
+                            var i = 0;
+                            foreach (var item in targetList as IEnumerable)
+                            {
+                                array.SetValue(item, i);
+                                i++;
+                            }
+
+                            targetProperty.SetValue(target, array, null);
+                        }
+                        else
+                        {
+                            targetProperty.SetValue(target, targetList, null);
+                        }
                     }
                 }
             }
@@ -172,42 +219,6 @@ namespace Kooboo.Commerce.Api.Local.Mapping
         private object ResolveSourcePropertyValue(PropertyInfo property, object source, MappingContext context)
         {
             return SourcePropertyValueResolver.Resolve(property, source, context);
-        }
-
-        protected bool IsCollection(Type type, out Type elementType)
-        {
-            if (type.IsArray)
-            {
-                elementType = type.GetElementType();
-                return true;
-            }
-
-            foreach (var @interface in type.GetInterfaces())
-            {
-                if (@interface.IsGenericType)
-                {
-                    var genericTypeDef = @interface.GetGenericTypeDefinition();
-                    if (genericTypeDef == typeof(IEnumerable<>))
-                    {
-                        elementType = @interface.GetGenericArguments()[0];
-                        return true;
-                    }
-                }
-            }
-
-            elementType = null;
-
-            return false;
-        }
-
-        private Type GetCollectionElementType(Type type)
-        {
-            if (type.IsArray)
-            {
-                return type.GetElementType();
-            }
-
-            return type.GetGenericArguments()[0];
         }
 
         protected bool IsComplexType(Type type)

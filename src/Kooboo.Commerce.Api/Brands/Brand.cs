@@ -15,6 +15,12 @@ namespace Kooboo.Commerce.Api.Brands
 
         public string Logo { get; set; }
 
+        [OptionalInclude]
         public IDictionary<string, string> CustomFields { get; set; }
+
+        public Brand()
+        {
+            CustomFields = new Dictionary<string, string>();
+        }
     }
 }
