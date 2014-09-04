@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Api.Local.Categories
 
         protected override IQueryable<Core.CategoryTreeNode> CreateLocalQuery()
         {
-            var tree = Core.CategoryTree.Get(ApiContext.Instance).Localize(ApiContext.Culture);
+            var tree = Core.CategoryTree.Get(ApiContext.Instance);
             return tree.Desendants().AsQueryable();
         }
 

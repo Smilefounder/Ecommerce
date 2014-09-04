@@ -1,18 +1,8 @@
 ﻿ @{
      var result = ViewBag.CategoryProducts as Kooboo.Commerce.Search.CMSIntegration.ProductSearchResult;
-     var breadcrumb = ViewBag.CategoryBreadcrumb;
  }
 
 <div class="container">
-    <div class="row">
-        <ol class="breadcrumb">
-            <li><a href="/"><i class="fa fa-home"></i> @("Home".Localize())</a></li>
-            @foreach (var item in breadcrumb)
-            {
-                <li><a href="@Url.FrontUrl().PageUrl("Category", new { categoryId = item.Id })">@item.Name</a></li>
-            }
-        </ol>
-    </div>
     <div class="row">
         @if (result.Total > 0)
         {

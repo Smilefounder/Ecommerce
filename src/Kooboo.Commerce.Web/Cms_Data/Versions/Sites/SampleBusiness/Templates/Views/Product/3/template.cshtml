@@ -8,18 +8,18 @@
 
      var overviewImageUrl = product.GetImageUrl("Detail");
 
-     var breadcrumb = ViewBag.ProductBreadcrumb;
+     var breadcrumb = ViewBag.CategoryBreadcrumb;
  }
 
 <div class="container">
     <div class="row">
-        <ol class="breadcrumb">
-            <li><a href="/"><i class="fa fa-home"></i> @("Home".Localize())</a></li>
+        <div class="breadcrumb">
+            <a href="/">@("Home".Localize())</a>
             @foreach (var item in breadcrumb)
             {
-                <li><a href="@Url.FrontUrl().PageUrl("Category", new { categoryId = item.Id })">@item.Name</a></li>
+                <a href="@Url.FrontUrl().PageUrl("Category", new { categoryId = item.Id })">@item.Name</a>
             }
-        </ol>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-4">

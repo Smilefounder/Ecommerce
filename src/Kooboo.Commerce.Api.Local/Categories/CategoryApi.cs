@@ -22,23 +22,15 @@ namespace Kooboo.Commerce.Api.Local.Categories
 
         public IList<Category> Breadcrumb(int currentCategoryId)
         {
+            var tree = Core.CategoryTree.Get(_context.Instance);
+            var currentCategory = tree.Find(currentCategoryId);
+
             var breadcrumb = new List<Category>();
-            var category = _context.Database.Repository<Core.Category>().Find(currentCategoryId);
-            while (category != null)
+            foreach (var category in currentCategory.PathFromRoot())
             {
-                breadcrumb.Add(ObjectMapper.Map<Core.Category, Category>(category, _context, null));
-
-                if (category.Parent == null)
-                {
-                    break;
-                }
-                else
-                {
-                    category = category.Parent;
-                }
+                var model = ObjectMapper.Map<Core.CategoryTreeNode, Category>(category, _context, null);
+                breadcrumb.Add(model);
             }
-
-            breadcrumb.Reverse();
 
             return breadcrumb;
         }
