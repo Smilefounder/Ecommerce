@@ -174,7 +174,7 @@
     <Compile Include="Engine\Jobs\Scheduler.cs" />
     <Compile Include="Engine\Jobs\Schedulers.cs" />
     <Compile Include="Engine\UserItemPair.cs" />
-    <Compile Include="Engine\AggregateRecommendationEngine.cs" />
+    <Compile Include="Engine\WeightedRecommendationEngineCollection.cs" />
     <Compile Include="Engine\WeightedRecommendationEngine.cs" />
     <Compile Include="Engine\WeightedRelatedItemsProvider.cs" />
     <Compile Include="Menu\RecommendationMenuItem.cs" />

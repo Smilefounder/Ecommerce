@@ -97,7 +97,7 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
 
                 toIgnoreItems = new HashSet<string> { productId.ToString() };
 
-                return new FeatureBasedRecommendationEngine(new[] { new Feature(productId.ToString()) }, RelatedItemsProviders.All(context.Instance));
+                return new FeatureBasedRecommendationEngine(new[] { new Feature(productId.ToString()) }, RelatedItemsProviders.GetProviders(context.Instance));
             }
             else
             {
@@ -112,7 +112,7 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
                     }
                 }
 
-                return RecommendationEngines.Get(context.Instance);
+                return RecommendationEngines.GetEngines(context.Instance);
             }
         }
     }

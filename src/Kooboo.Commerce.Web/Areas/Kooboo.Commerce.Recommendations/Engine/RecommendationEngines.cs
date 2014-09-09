@@ -7,27 +7,30 @@ namespace Kooboo.Commerce.Recommendations.Engine
 {
     public static class RecommendationEngines
     {
-        static readonly Dictionary<string, IRecommendationEngine> _enginesByInstance = new Dictionary<string, IRecommendationEngine>();
+        static readonly Dictionary<string, WeightedRecommendationEngineCollection> _enginesByInstance = new Dictionary<string, WeightedRecommendationEngineCollection>();
 
-        public static IRecommendationEngine Get(string instance)
+        public static WeightedRecommendationEngineCollection GetEngines(string instance)
         {
             return _enginesByInstance[instance];
         }
 
-        public static bool Remove(string instance)
+        public static bool RemoveEngines(string instance)
         {
             return _enginesByInstance.Remove(instance);
         }
 
-        public static void Set(string instance, IRecommendationEngine engine)
+        public static void Register(string instance, IRecommendationEngine engine, float weight = 1f)
         {
             if (!_enginesByInstance.ContainsKey(instance))
             {
-                _enginesByInstance.Add(instance, engine);
+                _enginesByInstance.Add(instance, new WeightedRecommendationEngineCollection
+                {
+                    new WeightedRecommendationEngine(engine, weight)
+                });
             }
             else
             {
-                _enginesByInstance[instance] = engine;
+                _enginesByInstance[instance].Add(engine, weight);
             }
         }
     }

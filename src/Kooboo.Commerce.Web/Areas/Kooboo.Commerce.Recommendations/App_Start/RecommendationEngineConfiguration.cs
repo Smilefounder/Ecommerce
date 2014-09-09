@@ -67,11 +67,11 @@ namespace Kooboo.Commerce.Recommendations
 
                 var matrix = new SqlceSimilarityMatrix(instance, behaviorType, "Similarity_" + behaviorType);
                 SimilarityMatrixes.Register(instance, behaviorType, matrix);
-                RelatedItemsProviders.Register(instance, new ItemToItemRelatedItemsProvider(matrix).Weighted(weight));
+                RelatedItemsProviders.Register(instance, new ItemToItemRelatedItemsProvider(matrix), weight);
             }
 
-            BehaviorReceivers.Set(instance, new BufferedBehaviorReceiver(new BehaviorReceiver(instance), 1000, TimeSpan.FromSeconds(10)));
-            RecommendationEngines.Set(instance, new AggregateRecommendationEngine(CreateRecommendationEngines(instance)));
+            BehaviorReceivers.Set(instance, new BufferedBehaviorReceiver(new BehaviorReceiver(instance), 1000, TimeSpan.FromSeconds(5)));
+            RecommendationEngines.Register(instance, CreateRecommendationEngines(instance));
 
             Schedulers.Start(instance);
             ScheduleJobs(instance);
@@ -79,8 +79,7 @@ namespace Kooboo.Commerce.Recommendations
 
         public static void ChangeBehaviorWeights(string instance, IDictionary<string, float> weights)
         {
-            // TODO: Ugly cast
-            var providers = RelatedItemsProviders.All(instance).OfType<WeightedRelatedItemsProvider>().ToList();
+            var providers = RelatedItemsProviders.GetProviders(instance);
             foreach (var provider in providers)
             {
                 var matrix = ((ItemToItemRelatedItemsProvider)provider.UnderlyingProvider).SimilarityMatrix as SqlceSimilarityMatrix;
@@ -90,9 +89,8 @@ namespace Kooboo.Commerce.Recommendations
 
         public static IDictionary<string, float> GetBehaviorWeights(string instance)
         {
-            // TODO: Ugly cast
             var weights = new Dictionary<string, float>();
-            var providers = RelatedItemsProviders.All(instance).OfType<WeightedRelatedItemsProvider>().ToList();
+            var providers = RelatedItemsProviders.GetProviders(instance);
             foreach (var provider in providers)
             {
                 var matrix = ((ItemToItemRelatedItemsProvider)provider.UnderlyingProvider).SimilarityMatrix as SqlceSimilarityMatrix;
@@ -104,13 +102,13 @@ namespace Kooboo.Commerce.Recommendations
 
         public static void Dispose(string instance)
         {
-            RecommendationEngines.Remove(instance);
+            RecommendationEngines.RemoveEngines(instance);
 
             Schedulers.Stop(instance);
             BehaviorReceivers.Remove(instance);
             BehaviorStores.Remove(instance);
             SimilarityMatrixes.Remove(instance);
-            RelatedItemsProviders.Remove(instance);
+            RelatedItemsProviders.RemoveProviders(instance);
         }
 
         static void ScheduleJobs(string instance)
@@ -140,8 +138,10 @@ namespace Kooboo.Commerce.Recommendations
             }
         }
 
-        static IEnumerable<IRecommendationEngine> CreateRecommendationEngines(string instance)
+        static WeightedRecommendationEngineCollection CreateRecommendationEngines(string instance)
         {
+            var engines = new WeightedRecommendationEngineCollection();
+
             foreach (var behaviorType in BehaviorTypes.All())
             {
                 var featureBuilder = new BehaviorBasedFeatureBuilder(() =>
@@ -150,8 +150,11 @@ namespace Kooboo.Commerce.Recommendations
                     return store.GetRecentBehaviors(50);
                 });
 
-                yield return new FeatureBasedRecommendationEngine(featureBuilder, RelatedItemsProviders.All(instance));
+                var engine = new FeatureBasedRecommendationEngine(featureBuilder, RelatedItemsProviders.GetProviders(instance));
+                engines.Add(engine, 1f);
             }
+
+            return engines;
         }
     }
 }

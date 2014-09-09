@@ -29,7 +29,10 @@ namespace Kooboo.Commerce.Recommendations.Engine
 
         public override int GetHashCode()
         {
-            return UserId.GetHashCode() * 397 ^ ItemId.GetHashCode();
+            unchecked
+            {
+                return UserId.GetHashCode() * 397 ^ ItemId.GetHashCode();
+            }
         }
     }
 }

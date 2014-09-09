@@ -7,32 +7,36 @@ namespace Kooboo.Commerce.Recommendations.Engine
 {
     public static class RelatedItemsProviders
     {
-        static readonly Dictionary<string, List<IRelatedItemsProvider>> _providersByInstances = new Dictionary<string,List<IRelatedItemsProvider>>();
+        static readonly Dictionary<string, List<WeightedRelatedItemsProvider>> _providersByInstances = new Dictionary<string, List<WeightedRelatedItemsProvider>>();
 
-        public static IEnumerable<IRelatedItemsProvider> All(string instance)
+        public static IEnumerable<WeightedRelatedItemsProvider> GetProviders(string instance)
         {
             return _providersByInstances[instance];
         }
 
-        public static void Remove(string instance)
+        public static void RemoveProviders(string instance)
         {
             _providersByInstances.Remove(instance);
         }
 
-        public static void Register(string instance, IRelatedItemsProvider provider)
+        public static void Register(string instance, IRelatedItemsProvider provider, float weight = 1f)
         {
-            Register(instance, new[] { provider });
+            Register(instance, new[] { new WeightedRelatedItemsProvider(provider, weight) });
         }
 
-        public static void Register(string instance, IEnumerable<IRelatedItemsProvider> providers)
+        public static void Register(string instance, IEnumerable<WeightedRelatedItemsProvider> providers)
         {
             if (!_providersByInstances.ContainsKey(instance))
             {
-                _providersByInstances.Add(instance, providers.ToList());
+                _providersByInstances.Add(instance, new List<WeightedRelatedItemsProvider>(providers));
             }
             else
             {
-                _providersByInstances[instance].AddRange(providers);
+                var collection = _providersByInstances[instance];
+                foreach (var provider in providers)
+                {
+                    collection.Add(provider);
+                }
             }
         }
     }

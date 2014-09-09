@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine
 {
-    public class AggregateRecommendationEngine : IRecommendationEngine
+    public class WeightedRecommendationEngineCollection : Collection<WeightedRecommendationEngine>, IRecommendationEngine
     {
-        private List<IRecommendationEngine> _engines;
-
-        public AggregateRecommendationEngine()
+        public WeightedRecommendationEngineCollection()
         {
-            _engines = new List<IRecommendationEngine>();
         }
 
-        public AggregateRecommendationEngine(IEnumerable<IRecommendationEngine> engines)
+        public WeightedRecommendationEngineCollection(IEnumerable<WeightedRecommendationEngine> engines)
+            : base(engines.ToList())
         {
-            _engines = new List<IRecommendationEngine>(engines);
         }
 
-        public void Add(IRecommendationEngine engine)
+        public void Add(IRecommendationEngine engine, float weight)
         {
-            _engines.Add(engine);
+            Add(new WeightedRecommendationEngine(engine, weight));
         }
 
         public IEnumerable<RecommendedItem> Recommend(string userId, int topN, ISet<string> ignoredItems)
         {
             var items = new Dictionary<string, RecommendedItem>();
-            foreach (var engine in _engines)
+
+            foreach (var engine in Items)
             {
                 foreach (var item in engine.Recommend(userId, topN, ignoredItems))
                 {

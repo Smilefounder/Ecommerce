@@ -5,6 +5,9 @@ using System.Web;
 
 namespace Kooboo.Commerce.Recommendations.Engine
 {
+    /// <summary>
+    /// 表示一个特征。
+    /// </summary>
     public class Feature
     {
         public string Id { get; set; }

@@ -9,10 +9,10 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
 {
     public class ItemSimilarity
     {
-        [Key, Column(Order = 0)]
+        [Key, Column(Order = 0), StringLength(50)]
         public string Item1 { get; set; }
 
-        [Key, Column(Order = 1)]
+        [Key, Column(Order = 1), StringLength(50)]
         public string Item2 { get; set; }
 
         public double Similarity { get; set; }
