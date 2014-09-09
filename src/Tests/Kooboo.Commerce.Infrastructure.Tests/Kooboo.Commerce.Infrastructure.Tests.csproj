@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\EventHostFacts.cs" />
     <Compile Include="Extensions\CollectionExtensionsFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\ModelTypeInfoFacts.cs" />

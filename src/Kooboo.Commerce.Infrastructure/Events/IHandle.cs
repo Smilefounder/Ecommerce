@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events
 {
-    public interface IHandle<TEvent>
+    public interface IHandle<in TEvent>
         where TEvent: IEvent
     {
         void Handle(TEvent @event);

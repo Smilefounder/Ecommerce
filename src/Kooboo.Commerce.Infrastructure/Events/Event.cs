@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Kooboo.CMS.Common.Runtime;
 using System.Reflection;
+using System.Linq;
 
 namespace Kooboo.Commerce.Events
 {
@@ -17,53 +18,33 @@ namespace Kooboo.Commerce.Events
             TimestampUtc = DateTime.UtcNow;
         }
 
-        public static void Raise(IEvent @event)
+        public static void Raise<TEvent>(TEvent @event)
+            where TEvent : IEvent
         {
-            Require.NotNull(@event, "event");
-
-            var manager = EventHandlerManager.Instance;
-            if (manager == null)
-                throw new InvalidOperationException("Cannot retrieve instance of " + typeof(EventHandlerManager) + ".");
-
-            var handleMethods = manager.FindHandlers(@event.GetType());
-            foreach (var handleMethod in handleMethods)
-            {
-                ExecuteHandler(handleMethod, @event);
-            }
+            EventHost.Instance.Raise<TEvent>(@event);
         }
 
-        static void ExecuteHandler(MethodInfo handleMethod, IEvent @event)
+        public static void Listen(Type eventType, Type handlerType)
         {
-            var handlerType = handleMethod.ReflectedType;
-            object handler = null;
-
-            try
-            {
-                handler = CreateEventHandler(handlerType);
-            }
-            catch (Exception ex)
-            {
-                throw new EventHandlerException("Error creating event handler instance, see inner exception for detail. Handler type: " + handlerType + ".", ex);
-            }
-
-            if (handler == null)
-            {
-                throw new EventHandlerException("Error creating event handler instance.");
-            }
-
-            try
-            {
-                handleMethod.Invoke(handler, new[] { @event });
-            }
-            catch (Exception ex)
-            {
-                throw new EventHandlerException("Error executing event handler, see inner exception for detail. Handler type: " + handlerType + ".", ex);
-            }
+            EventHost.Instance.Listen(eventType, handlerType);
         }
 
-        static object CreateEventHandler(Type type)
+        public static void Listen<TEvent>(Type handlerType)
+            where TEvent : IEvent
         {
-            return EngineContext.Current.Resolve(type);
+            EventHost.Instance.Listen<TEvent>(handlerType);
+        }
+
+        public static void Listen<TEvent>(IHandle<TEvent> handler)
+            where TEvent : IEvent
+        {
+            EventHost.Instance.Listen<TEvent>(handler);
+        }
+
+        public static void Listen<TEvent>(Action<TEvent> handler)
+            where TEvent : IEvent
+        {
+            EventHost.Instance.Listen<TEvent>(handler);
         }
     }
 }

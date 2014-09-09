@@ -106,6 +106,8 @@
     <Compile Include="Data\Pagination.cs" />
     <Compile Include="Data\Pagination`.cs" />
     <Compile Include="EntityKey.cs" />
+    <Compile Include="Events\EventHost.cs" />
+    <Compile Include="Events\RelayEventHandler.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Globalization\Events\GetText.cs" />
     <Compile Include="Globalization\ILocalizable.cs" />
@@ -156,8 +158,6 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Extensions\LinqDynamicExtension.cs" />
     <Compile Include="Data\Extensions\QueryableExtensions.cs" />
-    <Compile Include="Events\Extensions\HandlerTypeExtensions.cs" />
-    <Compile Include="Events\EventHandlerManager.cs" />
     <Compile Include="Events\EventHandlerException.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\IEvent.cs" />
