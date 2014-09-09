@@ -5,6 +5,12 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events
 {
+    /// <summary>
+    /// 用于事件注册、执行的容器。
+    /// </summary>
+    /// <remarks>
+    /// 每个容器都互相隔离，以方便单元测试，运行时只会有一个容器存在。本类为内部使用，普通开发人员应使用 Event 上的方法。
+    /// </remarks>
     public class EventHost
     {
         public static readonly EventHost Instance = new EventHost();
