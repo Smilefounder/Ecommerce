@@ -7,6 +7,6 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
 {
     public interface IBehaviorReceiver
     {
-        void OnReceive(IEnumerable<Behavior> behaviors);
+        void Receive(IEnumerable<Behavior> behaviors);
     }
 }

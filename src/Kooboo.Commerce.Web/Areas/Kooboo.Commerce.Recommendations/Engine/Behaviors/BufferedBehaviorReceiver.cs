@@ -18,14 +18,14 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
             _buffer = new Buffer<Behavior>(bufferCapacity, flushInterval, DoFlush);
         }
 
-        public void OnReceive(IEnumerable<Behavior> behaviors)
+        public void Receive(IEnumerable<Behavior> behaviors)
         {
             _buffer.Add(behaviors);
         }
 
         private void DoFlush(IEnumerable<Behavior> behaviors)
         {
-            _receiver.OnReceive(behaviors);
+            _receiver.Receive(behaviors);
         }
     }
 }

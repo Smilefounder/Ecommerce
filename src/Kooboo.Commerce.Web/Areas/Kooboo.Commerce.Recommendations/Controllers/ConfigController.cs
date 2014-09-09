@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.Data.Folders;
-using Kooboo.Commerce.Recommendations.Bootstrapping;
 using Kooboo.Commerce.Recommendations.Engine;
 using Kooboo.Commerce.Recommendations.Engine.Jobs;
 using Kooboo.Commerce.Recommendations.Models;

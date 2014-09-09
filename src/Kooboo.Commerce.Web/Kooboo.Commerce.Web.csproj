@@ -531,6 +531,10 @@
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\SearchResult\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CategoryProducts\setting.config" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CategoryProducts\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Recommendations\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Recommendations\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CurrentProductRecommendations\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CurrentProductRecommendations\template.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

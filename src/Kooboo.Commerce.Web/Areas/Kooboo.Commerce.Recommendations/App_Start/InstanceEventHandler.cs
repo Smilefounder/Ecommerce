@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Kooboo.Commerce.Recommendations.Bootstrapping
+namespace Kooboo.Commerce.Recommendations
 {
-    class InstanceChangeEventHandler : IHandle<CommerceInstanceCreated>, IHandle<CommerceInstanceDeleted>
+    class InstanceEventHandler : IHandle<CommerceInstanceCreated>, IHandle<CommerceInstanceDeleted>
     {
         public void Handle(CommerceInstanceCreated @event)
         {

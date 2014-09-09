@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.Recommendations.Bootstrapping;
-using Kooboo.Commerce.Web.Framework.Mvc;
+﻿using Kooboo.Commerce.Web.Framework.Mvc;
 using Kooboo.Web.Mvc;
 using System;
 using System.Collections.Generic;

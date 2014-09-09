@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
             Instance =instance;
         }
 
-        public void OnReceive(IEnumerable<Behavior> behaviors)
+        public void Receive(IEnumerable<Behavior> behaviors)
         {
             foreach (var each in behaviors.GroupBy(it => it.Type))
             {

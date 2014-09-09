@@ -16,9 +16,9 @@ using System.Linq;
 using System.Web;
 using Kooboo.Commerce.Recommendations.Engine;
 
-namespace Kooboo.Commerce.Recommendations.Bootstrapping
+namespace Kooboo.Commerce.Recommendations
 {
-    public static class RecommendationEngineConfiguration
+    static class RecommendationEngineConfiguration
     {
         public static void Configure()
         {
@@ -49,9 +49,8 @@ namespace Kooboo.Commerce.Recommendations.Bootstrapping
         {
             var defaultBehaviorWeights = new Dictionary<string, float>
             {
-                { BehaviorTypes.View, .6f },
-                { BehaviorTypes.Like, .7f },
-                { BehaviorTypes.AddToCart, .8f },
+                { BehaviorTypes.View, .5f },
+                { BehaviorTypes.AddToCart, .7f },
                 { BehaviorTypes.Purchase, 1f }
             };
 

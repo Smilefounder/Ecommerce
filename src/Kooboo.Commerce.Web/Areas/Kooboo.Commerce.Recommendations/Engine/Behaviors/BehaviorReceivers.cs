@@ -26,11 +26,19 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
             _observersByInstance.Remove(instance);
         }
 
-        public static void OnReceive(string instance, IEnumerable<Behavior> behaviors)
+        public static void Receive(string instance, Behavior behavior)
         {
+            Receive(instance, new[] { behavior });
+        }
+
+        public static void Receive(string instance, IEnumerable<Behavior> behaviors)
+        {
+            if (String.IsNullOrWhiteSpace(instance))
+                throw new ArgumentException("Instance name is required", "instance");
+
             if (_observersByInstance.ContainsKey(instance))
             {
-                _observersByInstance[instance].OnReceive(behaviors);
+                _observersByInstance[instance].Receive(behaviors);
             }
         }
     }

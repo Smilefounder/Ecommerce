@@ -118,10 +118,13 @@
     <Reference Include="System.Web.Services" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CMSIntegration\HttpContextVisitorCookieExtensions.cs" />
+    <Compile Include="Tracking\HttpContextVisitorCookieExtensions.cs" />
     <Compile Include="CMSIntegration\RecommendationDataSource.cs" />
     <Compile Include="CMSIntegration\RecommendedItemExtensions.cs" />
     <Compile Include="CMSIntegration\ProductRecommendation.cs" />
+    <Compile Include="Tracking\AddToCartTracker.cs" />
+    <Compile Include="Tracking\PurchaseTracker.cs" />
+    <Compile Include="Tracking\ViewTracker.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Engine\Behaviors\BehaviorReceivers.cs" />
     <Compile Include="Engine\Behaviors\BehaviorStores.cs" />
@@ -141,8 +144,8 @@
     <Compile Include="Engine\RecommendationsDataFolder.cs" />
     <Compile Include="Engine\RelatedItemsProviders.cs" />
     <Compile Include="Engine\StaticFeatureBuilder.cs" />
-    <Compile Include="Bootstrapping\InstanceChangeEventHandler.cs" />
-    <Compile Include="Bootstrapping\RecommendationEngineConfiguration.cs" />
+    <Compile Include="App_Start\InstanceEventHandler.cs" />
+    <Compile Include="App_Start\RecommendationEngineConfiguration.cs" />
     <Compile Include="Engine\Jobs\IJob.cs" />
     <Compile Include="Engine\Jobs\RecomputeSimilarityMatrixJob.cs" />
     <Compile Include="Engine\Collaborative\ISimilarityMatrix.cs" />

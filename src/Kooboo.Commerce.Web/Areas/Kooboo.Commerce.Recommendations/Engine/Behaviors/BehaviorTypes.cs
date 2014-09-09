@@ -9,15 +9,13 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
     {
         public static readonly string View = "View";
 
-        public static readonly string Like = "Like";
-
         public static readonly string AddToCart = "AddToCart";
 
         public static readonly string Purchase = "Purchase";
 
         public static IEnumerable<string> All()
         {
-            return new[] { View, Like, AddToCart, Purchase };
+            return new[] { View, AddToCart, Purchase };
         }
     }
 }
