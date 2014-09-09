@@ -7,6 +7,6 @@ namespace Kooboo.Commerce.Recommendations.Engine
 {
     public interface IRecommendationEngine
     {
-        IEnumerable<RecommendedItem> Recommend(string userId, int topN);
+        IEnumerable<RecommendedItem> Recommend(string userId, int topN, ISet<string> ignoredItems);
     }
 }

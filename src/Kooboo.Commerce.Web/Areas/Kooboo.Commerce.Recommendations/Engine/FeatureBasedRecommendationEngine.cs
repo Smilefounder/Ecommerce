@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Recommendations.Engine
     public class FeatureBasedRecommendationEngine : IRecommendationEngine
     {
         private IFeatureBuilder _featureBuilder;
-        private List<IRelatedItemsProvider> _relatedItemsReaders;
+        private List<IRelatedItemsProvider> _relatedItemsProviders;
 
         public FeatureBasedRecommendationEngine(IEnumerable<Feature> features, IEnumerable<IRelatedItemsProvider> relatedItemsReaders)
             : this(new StaticFeatureBuilder(features), relatedItemsReaders)
@@ -34,18 +34,18 @@ namespace Kooboo.Commerce.Recommendations.Engine
         public FeatureBasedRecommendationEngine(IFeatureBuilder featureBuilder, IEnumerable<IRelatedItemsProvider> relatedItemsReaders)
         {
             _featureBuilder = featureBuilder;
-            _relatedItemsReaders = relatedItemsReaders.ToList();
+            _relatedItemsProviders = relatedItemsReaders.ToList();
         }
 
-        public IEnumerable<RecommendedItem> Recommend(string userId, int topN)
+        public IEnumerable<RecommendedItem> Recommend(string userId, int topN, ISet<string> ignoredItems)
         {
             var result = new Dictionary<string, RecommendedItem>();
             var features = _featureBuilder.BuildFeatures(userId);
             foreach (var feature in features)
             {
-                foreach (var reader in _relatedItemsReaders)
+                foreach (var provider in _relatedItemsProviders)
                 {
-                    var relatedItems = reader.GetRelatedItems(feature.Id, topN);
+                    var relatedItems = provider.GetRelatedItems(feature.Id, topN, ignoredItems);
                     foreach (var item in relatedItems)
                     {
                         RecommendedItem recommendedItem;

@@ -71,16 +71,33 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Collaborative
             return result;
         }
 
-        public IDictionary<string, double> GetMostSimilarItems(string itemId, int topN)
+        public IDictionary<string, double> GetMostSimilarItems(string itemId, int topN, ISet<string> ignoredItems)
         {
             using (var db = CreateDbContext())
             {
+                // 因为此处我们不需要非常精确的取出前N个最相似物品，多一些少一些是影响不大的，
+                // 所以直接多取一些数据出来，然后再过滤掉要忽略的物品，以免进行多次查询。
+                var takeCount = topN;
+                if (ignoredItems != null && ignoredItems.Count > 0)
+                {
+                    takeCount += ignoredItems.Count;
+                }
+
                 var items = db.Similarities.Where(it => it.Item1 == itemId)
                                            .OrderByDescending(it => it.Similarity)
-                                           .Take(topN)
+                                           .Take(takeCount)
                                            .ToList();
 
-                return items.ToDictionary(it => it.Item2, it => it.Similarity);
+                var result = new Dictionary<string, double>();
+                foreach (var item in items)
+                {
+                    if (ignoredItems == null || ignoredItems.Count == 0 || !ignoredItems.Contains(item.Item2))
+                    {
+                        result.Add(item.Item2, item.Similarity);
+                    }
+                }
+
+                return result;
             }
         }
 

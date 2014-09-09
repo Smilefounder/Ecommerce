@@ -25,9 +25,9 @@ namespace Kooboo.Commerce.Recommendations.Engine
             Weight = weight;
         }
 
-        public IDictionary<string, double> GetRelatedItems(string featureId, int topN)
+        public IDictionary<string, double> GetRelatedItems(string featureId, int topN, ISet<string> ignoredItems)
         {
-            var relatedItems = _provider.GetRelatedItems(featureId, topN);
+            var relatedItems = _provider.GetRelatedItems(featureId, topN, ignoredItems);
             foreach (var key in relatedItems.Keys.ToList())
             {
                 relatedItems[key] *= Weight;

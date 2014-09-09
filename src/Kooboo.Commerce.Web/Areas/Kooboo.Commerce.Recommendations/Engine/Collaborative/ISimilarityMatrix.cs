@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
 
         double[] GetSimilarities(params ItemPair[] itemPairs);
 
-        IDictionary<string, double> GetMostSimilarItems(string itemId, int topN);
+        IDictionary<string, double> GetMostSimilarItems(string itemId, int topN, ISet<string> ignoredItems);
 
         void AddSimilarities(IDictionary<ItemPair, double> similarities);
 

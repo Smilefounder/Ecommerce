@@ -81,6 +81,24 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
             }
         }
 
+        public IEnumerable<string> GetItemsUserHadBehaviorsOn(string userId, int take)
+        {
+            using (var db = CreateDbContext())
+            {
+                var query = db.Behaviors.Where(it => it.Type == BehaviorType && it.UserId == userId)
+                                   .OrderByDescending(it => it.UtcTimestamp)
+                                   .Select(it => it.ItemId)
+                                   .Distinct();
+
+                if (take > 0)
+                {
+                    query = query.Take(take);
+                }
+
+                return query.ToList();
+            }
+        }
+
         public int GetUserActiveRate(string userId)
         {
             using (var db = CreateDbContext())
@@ -92,7 +110,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
             }
         }
 
-        public int GetTotalUsersHaveBehaviorsOn(string itemId)
+        public int GetTotalUsersHadBehaviorsOn(string itemId)
         {
             using (var db = CreateDbContext())
             {
@@ -100,7 +118,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Storage.Sqlce.Behaviors
             }
         }
 
-        public IEnumerable<string> GetUsersHaveBehaviorsOnBoth(string item1, string item2)
+        public IEnumerable<string> GetUsersHadBehaviorsOnBoth(string item1, string item2)
         {
             using (var db = CreateDbContext())
             {

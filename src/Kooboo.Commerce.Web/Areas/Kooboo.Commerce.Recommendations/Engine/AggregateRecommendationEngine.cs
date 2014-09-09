@@ -24,12 +24,12 @@ namespace Kooboo.Commerce.Recommendations.Engine
             _engines.Add(engine);
         }
 
-        public IEnumerable<RecommendedItem> Recommend(string userId, int topN)
+        public IEnumerable<RecommendedItem> Recommend(string userId, int topN, ISet<string> ignoredItems)
         {
             var items = new Dictionary<string, RecommendedItem>();
             foreach (var engine in _engines)
             {
-                foreach (var item in engine.Recommend(userId, topN))
+                foreach (var item in engine.Recommend(userId, topN, ignoredItems))
                 {
                     RecommendedItem existing;
                     if (items.TryGetValue(item.ItemId, out existing))

@@ -13,7 +13,7 @@ namespace Kooboo.Commerce.Recommendations.Engine
         /// <summary>
         /// 获取和指定的特征相关联的物品及其权重。
         /// </summary>
-        IDictionary<string, double> GetRelatedItems(string featureId, int topN);
+        IDictionary<string, double> GetRelatedItems(string featureId, int topN, ISet<string> ignoredItems);
     }
 
     public static class RelatedItemsProviderExtensions

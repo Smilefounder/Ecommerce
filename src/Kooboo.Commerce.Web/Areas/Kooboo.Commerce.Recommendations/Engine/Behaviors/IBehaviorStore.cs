@@ -11,11 +11,13 @@ namespace Kooboo.Commerce.Recommendations.Engine.Behaviors
 
         DateTime GetBehaviorTimestamp(string userId, string itemId);
 
-        int GetTotalUsersHaveBehaviorsOn(string itemId);
+        int GetTotalUsersHadBehaviorsOn(string itemId);
 
-        IEnumerable<string> GetUsersHaveBehaviorsOnBoth(string item1, string item2);
+        IEnumerable<string> GetUsersHadBehaviorsOnBoth(string item1, string item2);
 
-        IEnumerable<Behavior> GetRecentBehaviors(int count);
+        IEnumerable<Behavior> GetRecentBehaviors(int take);
+
+        IEnumerable<string> GetItemsUserHadBehaviorsOn(string userId, int take);
 
         int GetUserActiveRate(string userId);
 

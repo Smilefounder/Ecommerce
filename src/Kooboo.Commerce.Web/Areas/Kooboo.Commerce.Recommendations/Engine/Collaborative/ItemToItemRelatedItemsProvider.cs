@@ -25,9 +25,9 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
             _matrix = matrix;
         }
 
-        public IDictionary<string, double> GetRelatedItems(string featureId, int topN)
+        public IDictionary<string, double> GetRelatedItems(string featureId, int topN, ISet<string> ignoredItems)
         {
-            return _matrix.GetMostSimilarItems(featureId, topN);
+            return _matrix.GetMostSimilarItems(featureId, topN, ignoredItems);
         }
     }
 }

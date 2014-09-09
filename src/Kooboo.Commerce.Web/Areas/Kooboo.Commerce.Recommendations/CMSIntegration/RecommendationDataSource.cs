@@ -5,6 +5,7 @@ using Kooboo.Commerce.CMSIntegration;
 using Kooboo.Commerce.CMSIntegration.DataSources;
 using Kooboo.Commerce.CMSIntegration.DataSources.Generic;
 using Kooboo.Commerce.Recommendations.Engine;
+using Kooboo.Commerce.Recommendations.Engine.Behaviors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,9 +33,11 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
             var userId = context.HttpContext.GetVisitorUniqueId();
 
             var top = settings.Top.GetValueOrDefault(4);
-            var engine = GetRecommendationEngine(context, settings);
+            ISet<string> toIgnoreItems;
 
-            var items = engine.Recommend(userId, top);
+            var engine = GetRecommendationEngine(context, settings, out toIgnoreItems);
+
+            var items = engine.Recommend(userId, top, toIgnoreItems);
             var itemIds = items.Select(it => Convert.ToInt32(it.ItemId)).ToArray();
 
             var reasonItemIds = new List<int>();
@@ -85,17 +88,30 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
             return result;
         }
 
-        private IRecommendationEngine GetRecommendationEngine(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings)
+        private IRecommendationEngine GetRecommendationEngine(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings, out ISet<string> toIgnoreItems)
         {
             var filter = settings.Filters.Find(f => f.Name == "ByProduct");
             if (filter != null)
             {
                 var productId = (int)filter.GetParameterValue("ProductId");
-                var features = new[] { new Feature(productId.ToString()) };
-                return new FeatureBasedRecommendationEngine(features, RelatedItemsProviders.All(context.Instance));
+
+                toIgnoreItems = new HashSet<string> { productId.ToString() };
+
+                return new FeatureBasedRecommendationEngine(new[] { new Feature(productId.ToString()) }, RelatedItemsProviders.All(context.Instance));
             }
             else
             {
+                toIgnoreItems = new HashSet<string>();
+
+                foreach (var behaviorType in BehaviorTypes.All())
+                {
+                    var store = BehaviorStores.Get(context.Instance, behaviorType);
+                    foreach (var itemId in store.GetItemsUserHadBehaviorsOn(context.HttpContext.EnsureVisitorUniqueId(), 10000))
+                    {
+                        toIgnoreItems.Add(itemId);
+                    }
+                }
+
                 return RecommendationEngines.Get(context.Instance);
             }
         }

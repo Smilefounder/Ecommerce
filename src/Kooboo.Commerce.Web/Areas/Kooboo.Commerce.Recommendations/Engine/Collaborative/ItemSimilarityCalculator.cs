@@ -51,7 +51,7 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
 
         public double CalculateSimilarity(string item1, string item2)
         {
-            var usersBehavedOnBothItems = _behaviorStore.GetUsersHaveBehaviorsOnBoth(item1, item2);
+            var usersBehavedOnBothItems = _behaviorStore.GetUsersHadBehaviorsOnBoth(item1, item2);
             var numerator = ComputeNumerator(item1, item2, usersBehavedOnBothItems);
             var denorminator = ComputeDenominator(item1, item2);
 
@@ -90,8 +90,8 @@ namespace Kooboo.Commerce.Recommendations.Engine.Collaborative
 
         private double ComputeDenominator(string item1, string item2)
         {
-            var totalBehavingUsersOfItem1 = _behaviorStore.GetTotalUsersHaveBehaviorsOn(item1);
-            var totalBehavingUsersOfItem2 = _behaviorStore.GetTotalUsersHaveBehaviorsOn(item2);
+            var totalBehavingUsersOfItem1 = _behaviorStore.GetTotalUsersHadBehaviorsOn(item1);
+            var totalBehavingUsersOfItem2 = _behaviorStore.GetTotalUsersHadBehaviorsOn(item2);
 
             var power1 = .5f;
             var power2 = .5f;
