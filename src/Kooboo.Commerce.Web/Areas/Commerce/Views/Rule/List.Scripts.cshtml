@@ -21,7 +21,7 @@
 
     $(function () {
 
-        var eventName = '@(ViewBag.Event.EventName)';
+        var eventName = '@(ViewBag.EventName)';
         var activeRuleIndex = @(Request.QueryString["activeRule"] ?? "null");
         var originalRules = @Html.Raw(JsonConvert.SerializeObject(Model, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
 

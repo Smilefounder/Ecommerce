@@ -48,20 +48,20 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             return model;
         }
 
-        public override Rule ToRule(EventEntry @event)
+        public override Rule ToRule(EventSlot slot)
         {
-            var param = RuleParameterProviders.Providers.GetParameter(@event.EventType, Parameter);
+            var param = RuleParameterProviders.Providers.GetParameter(slot.EventType, Parameter);
             var rule = new SwitchCaseRule(param);
 
             foreach (var caze in Cases)
             {
                 var value = Convert.ChangeType(caze.Value, param.ValueType);
-                rule.Cases.Add(value, caze.Rules.Select(r => r.ToRule(@event)).ToList());
+                rule.Cases.Add(value, caze.Rules.Select(r => r.ToRule(slot)).ToList());
             }
 
             foreach (var defaultRule in Default)
             {
-                rule.Default.Add(defaultRule.ToRule(@event));
+                rule.Default.Add(defaultRule.ToRule(slot));
             }
 
             return rule;

@@ -1,4 +1,9 @@
-﻿using Kooboo.Commerce.Activities;
+﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Data.Folders;
+using Kooboo.Commerce.Events;
+using Kooboo.Commerce.Rules.Activities;
+using Kooboo.Commerce.Rules.Activities.Scheduling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,30 +13,74 @@ namespace Kooboo.Commerce.Rules
 {
     public class EventSlot
     {
-        public string EventName { get; private set; }
+        public Type EventType { get; private set; }
 
-        public IList<Rule> Rules { get; private set; }
+        public string ShortName { get; private set; }
 
-        public EventSlot(string eventName)
+        public EventSlot(Type eventType)
+            : this(eventType, null)
         {
-            Require.NotNullOrEmpty(eventName, "eventName");
-
-            EventName = eventName;
-            Rules = new List<Rule>();
         }
 
-        public EventSlot(string eventName, IEnumerable<Rule> rules)
+        public EventSlot(Type eventType, string shortName)
         {
-            Require.NotNullOrEmpty(eventName, "eventName");
-            Require.NotNull(rules, "rules");
-
-            EventName = eventName;
-            Rules = rules.ToList();
+            Require.NotNull(eventType, "eventType");
+            EventType = eventType;
+            ShortName = shortName;
         }
 
-        public override string ToString()
+        public void Initialize()
         {
-            return EventName;
+            Event.Listen(EventType, Handle);
+        }
+
+        private void Handle(IEvent @event)
+        {
+            // TODO: Need to be passed in?
+            var instance = CommerceInstance.Current;
+
+            var rules = RuleManager.GetManager(instance.Name).GetRules(@event.GetType().Name);
+            var activities = new List<ConfiguredActivity>();
+            foreach (var rule in rules)
+            {
+                activities.AddRange(rule.Execute(@event));
+            }
+
+            ScheduleActivities(activities.Where(it => it.Async), @event, instance);
+            ExecuteActivities(activities.Where(it => !it.Async), @event);
+        }
+
+        private void ScheduleActivities(IEnumerable<ConfiguredActivity> activities, IEvent @event, CommerceInstance instance)
+        {
+            var repository = instance.Database.Repository<ScheduledActivity>();
+
+            foreach (var activity in activities)
+            {
+                repository.Insert(new ScheduledActivity(@event, activity));
+            }
+        }
+
+        private void ExecuteActivities(IEnumerable<ConfiguredActivity> configuredActivities, IEvent @event)
+        {
+            var activityProvider = EngineContext.Current.Resolve<IActivityProvider>();
+
+            foreach (var configuredActivity in configuredActivities)
+            {
+                var activity = activityProvider.FindByName(configuredActivity.ActivityName);
+                // If the activity is missing, then ignore it
+                if (activity == null)
+                {
+                    continue;
+                }
+
+                object config = null;
+                if (activity.ConfigType != null)
+                {
+                    config = configuredActivity.LoadConfigModel(activity.ConfigType);
+                }
+
+                activity.Execute(@event, new ActivityContext(config, false));
+            }
         }
     }
 }

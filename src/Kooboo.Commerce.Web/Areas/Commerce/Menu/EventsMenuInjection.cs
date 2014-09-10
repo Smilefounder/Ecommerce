@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Rules.Activities;
+﻿using Kooboo.Commerce.Rules;
+using Kooboo.Commerce.Rules.Activities;
 using Kooboo.Commerce.Web.Framework.UI.Menu;
 using Kooboo.Web.Mvc.Menu;
 using System;
@@ -28,34 +29,34 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                 }
             });
 
-            var manager = ActivityEventManager.Instance;
+            var manager = EventSlotManager.Instance;
 
-            foreach (var category in manager.Categories)
+            foreach (var group in manager.GetGroups())
             {
-                var categoryMenuItem = new MenuItem
+                var groupItem = new MenuItem
                 {
-                    Text = category,
-                    Name = category
+                    Text = group,
+                    Name = group
                 };
 
-                parent.Items.Add(categoryMenuItem);
+                parent.Items.Add(groupItem);
 
-                var events = manager.FindEvents(category).ToList();
+                var slots = manager.GetSlots(group).ToList();
 
-                foreach (var each in events)
+                foreach (var each in slots)
                 {
-                    var eventMenuItem = new MenuItem
+                    var eventItem = new MenuItem
                     {
-                        Name = each.EventName,
-                        Text = each.ShortName ?? each.DisplayName ?? each.EventName,
+                        Name = each.EventType.Name,
+                        Text = each.ShortName ?? each.EventType.Name,
                         Controller = "Rule",
                         Action = "List",
                         Area = "Commerce",
-                        RouteValues = new RouteValueDictionary(new { eventName = each.EventName }),
+                        RouteValues = new RouteValueDictionary(new { eventName = each.EventType.Name }),
                         Initializer = new EventMenuItemInitializer()
                     };
 
-                    categoryMenuItem.Items.Add(eventMenuItem);
+                    groupItem.Items.Add(eventItem);
                 }
             }
         }

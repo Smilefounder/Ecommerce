@@ -118,11 +118,10 @@
     <Compile Include="Rules\Activities\ActivityEventAttribute.cs" />
     <Compile Include="Rules\Activities\Activity.cs" />
     <Compile Include="Rules\Activities\ActivityContext.cs" />
-    <Compile Include="Rules\Activities\ActivityEventManager.cs" />
-    <Compile Include="Rules\Activities\EventEntry.cs" />
+    <Compile Include="Rules\EventSlot.cs" />
+    <Compile Include="Rules\EventSlotManager.cs" />
     <Compile Include="Rules\Activities\Scheduling\ActivityExecutionStatus.cs" />
     <Compile Include="Rules\Activities\Scheduling\ScheduledActivity.cs" />
-    <Compile Include="Rules\Activities\ActivityEventHook.cs" />
     <Compile Include="Rules\Activities\IActivity.cs" />
     <Compile Include="Rules\Activities\IActivityProvider.cs" />
     <Compile Include="Rules\Activities\IHasCustomActivityConfigEditor.cs" />
@@ -170,7 +169,6 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Rules\Activities\ConfiguredActivity.cs" />
     <Compile Include="Rules\AlwaysRule.cs" />
-    <Compile Include="Rules\EventSlot.cs" />
     <Compile Include="Rules\IfElseRule.cs" />
     <Compile Include="Rules\Rule.cs" />
     <Compile Include="Rules\Conditions\Operators\ComparisonOperatorCollection.cs" />

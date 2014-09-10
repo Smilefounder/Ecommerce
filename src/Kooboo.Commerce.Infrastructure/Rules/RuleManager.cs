@@ -14,7 +14,8 @@ namespace Kooboo.Commerce.Rules
 {
     public class RuleManager
     {
-        readonly Lazy<Dictionary<string, DataFile>> _slots;
+        private readonly Lazy<Dictionary<string, DataFile>> _eventFiles;
+        private EventSlotManager _slotManager = EventSlotManager.Instance;
 
         public string InstanceName { get; private set; }
 
@@ -23,29 +24,25 @@ namespace Kooboo.Commerce.Rules
             Require.NotNullOrEmpty(instanceName, "instanceName");
 
             InstanceName = instanceName;
-            _slots = new Lazy<Dictionary<string, DataFile>>(Reload, true);
+            _eventFiles = new Lazy<Dictionary<string, DataFile>>(Reload, true);
         }
 
         private Dictionary<string, DataFile> Reload()
         {
             var dictionary = new Dictionary<string, DataFile>();
-            var folder = DataFolders.Instances.GetFolder(InstanceName).GetFolder("Rules", RulesFileFormat.Instance);
+            var folder = DataFolders.Instances.GetFolder(InstanceName).GetFolder("Rules");
             if (folder.Exists)
             {
                 foreach (var file in folder.GetFiles("*.config"))
                 {
                     var eventName = Path.GetFileNameWithoutExtension(file.Name);
-                    // Cache the file content
-                    dictionary.Add(eventName, file.Cached());
+                    var slot = _slotManager.GetSlot(eventName);
+                    file.Format = new RulesFileFormat(slot);
+                    dictionary.Add(eventName, file.Cached()); // Cache file content
                 }
             }
 
             return dictionary;
-        }
-
-        public IEnumerable<EventSlot> GetSlots()
-        {
-            return _slots.Value.Values.Select(f => f.Read<EventSlot>()).ToList();
         }
 
         public IEnumerable<Rule> GetRules(string eventName)
@@ -54,18 +51,9 @@ namespace Kooboo.Commerce.Rules
 
             DataFile file;
 
-            if (_slots.Value.TryGetValue(eventName, out file))
+            if (_eventFiles.Value.TryGetValue(eventName, out file))
             {
-                var slot = file.Read<EventSlot>();
-                if (slot == null)
-                {
-                    return Enumerable.Empty<Rule>();
-                }
-
-                // Here we directly return the result instead of returning a copy
-                // is because this method might be used very frequently.
-                // So ensure that calling code don't change the result.
-                return slot.Rules;
+                return file.Read<IList<Rule>>();
             }
 
             return Enumerable.Empty<Rule>();
@@ -77,21 +65,23 @@ namespace Kooboo.Commerce.Rules
 
             DataFile file = null;
 
-            if (!_slots.Value.ContainsKey(eventName))
+            if (!_eventFiles.Value.ContainsKey(eventName))
             {
+                var slot = _slotManager.GetSlot(eventName);
+
                 file = DataFolders.Instances
                                   .GetFolder(InstanceName)
                                   .GetFolder("Rules")
-                                  .GetFile(eventName + ".config", RulesFileFormat.Instance)
+                                  .GetFile(eventName + ".config", new RulesFileFormat(slot))
                                   .Cached(); // Cache file content
-                _slots.Value.Add(eventName, file);
+                _eventFiles.Value.Add(eventName, file);
             }
             else
             {
-                file = _slots.Value[eventName];
+                file = _eventFiles.Value[eventName];
             }
 
-            file.Write(new EventSlot(eventName, rules));
+            file.Write(rules);
         }
 
         #region Factory
@@ -121,7 +111,12 @@ namespace Kooboo.Commerce.Rules
 
         class RulesFileFormat : IDataFileFormat
         {
-            public static readonly RulesFileFormat Instance = new RulesFileFormat();
+            public EventSlot Slot { get; set; }
+
+            public RulesFileFormat(EventSlot slot)
+            {
+                Slot = slot;
+            }
 
             public string Serialize(object content)
             {
@@ -130,7 +125,7 @@ namespace Kooboo.Commerce.Rules
                     return null;
                 }
 
-                return new RuleSerializer().SerializeSlot(content as EventSlot).ToString();
+                return new RuleSerializer().SerializeRules(content as IEnumerable<Rule>).ToString();
             }
 
             public object Deserialize(string content, Type type)
@@ -140,7 +135,7 @@ namespace Kooboo.Commerce.Rules
                     return null;
                 }
 
-                return new RuleSerializer().DeserializeSlot(content);
+                return new RuleSerializer().DeserializeRules(Slot, content);
             }
         }
 

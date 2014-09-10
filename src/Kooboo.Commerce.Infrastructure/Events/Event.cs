@@ -41,6 +41,11 @@ namespace Kooboo.Commerce.Events
             EventHost.Instance.Listen<TEvent>(handler);
         }
 
+        public static void Listen(Type eventType, Action<IEvent> handler)
+        {
+            EventHost.Instance.Listen(eventType, handler);
+        }
+
         public static void Listen<TEvent>(Action<TEvent> handler)
             where TEvent : IEvent
         {

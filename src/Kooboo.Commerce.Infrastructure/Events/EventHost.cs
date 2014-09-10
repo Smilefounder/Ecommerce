@@ -50,6 +50,11 @@ namespace Kooboo.Commerce.Events
             DoListen(typeof(TEvent), handler);
         }
 
+        public void Listen(Type eventType, Action<IEvent> handler)
+        {
+            DoListen(eventType, handler);
+        }
+
         public void Listen<TEvent>(Action<TEvent> handler)
             where TEvent : IEvent
         {

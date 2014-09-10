@@ -35,6 +35,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             throw new NotSupportedException();
         }
 
-        public abstract Rule ToRule(EventEntry @event);
+        public abstract Rule ToRule(EventSlot slot);
     }
 }

@@ -44,19 +44,19 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
             return model;
         }
 
-        public override Rule ToRule(EventEntry @event)
+        public override Rule ToRule(EventSlot slot)
         {
             var rule = new IfElseRule();
             rule.Conditions = Conditions.ToList();
 
             foreach (var thenRuleModel in Then)
             {
-                rule.Then.Add(thenRuleModel.ToRule(@event));
+                rule.Then.Add(thenRuleModel.ToRule(slot));
             }
 
             foreach (var elseRuleModel in Else)
             {
-                rule.Else.Add(elseRuleModel.ToRule(@event));
+                rule.Else.Add(elseRuleModel.ToRule(slot));
             }
 
             return rule;

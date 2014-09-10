@@ -16,20 +16,5 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Rules
         {
             Rules = new List<RuleModelBase>();
         }
-
-        public static EventSlotModel FromEventSlot(EventSlot slot)
-        {
-            var model = new EventSlotModel
-            {
-                EventName = slot.EventName
-            };
-
-            foreach (var rule in slot.Rules)
-            {
-                model.Rules.Add(RuleModelBase.FromRule(rule));
-            }
-
-            return model;
-        }
     }
 }

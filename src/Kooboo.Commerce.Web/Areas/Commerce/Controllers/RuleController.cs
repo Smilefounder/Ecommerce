@@ -26,14 +26,30 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Index()
         {
-            var manager = RuleManager.GetManager(CurrentInstance.Name);
-            var slots = manager.GetSlots();
+            var slotManager = EventSlotManager.Instance;
+            var ruleManager = RuleManager.GetManager(CurrentInstance.Name);
             var models = new List<EventSlotModel>();
-            foreach (var slot in slots)
+
+            foreach (var group in slotManager.GetGroups())
             {
-                if (slot.Rules.Count > 0)
+                var slots = slotManager.GetSlots(group);
+                foreach (var slot in slots)
                 {
-                    models.Add(EventSlotModel.FromEventSlot(slot));
+                    var rules = ruleManager.GetRules(slot.EventType.Name);
+                    if (rules.Any())
+                    {
+                        var model = new EventSlotModel
+                        {
+                            EventName = slot.EventType.Name
+                        };
+
+                        foreach (var rule in rules)
+                        {
+                            model.Rules.Add(RuleModelBase.FromRule(rule));
+                        }
+
+                        models.Add(model);
+                    }
                 }
             }
 
@@ -42,8 +58,8 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult List(string eventName)
         {
-            var eventEntry = ActivityEventManager.Instance.FindEvent(eventName);
-            var availableActivities = _activityProvider.FindBindableTo(eventEntry.EventType)
+            var slot = EventSlotManager.Instance.GetSlot(eventName);
+            var availableActivities = _activityProvider.FindBindableTo(slot.EventType)
                                                        .Select(x => new
                                                        {
                                                            x.Name,
@@ -51,10 +67,10 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                                                        })
                                                        .ToList();
 
-            ViewBag.Event = eventEntry;
-            ViewBag.EventTypeName = eventEntry.EventType.AssemblyQualifiedNameWithoutVersion();
+            ViewBag.EventName = slot.EventType.Name;
+            ViewBag.EventTypeName = slot.EventType.AssemblyQualifiedNameWithoutVersion();
             ViewBag.AvailableActivities = availableActivities;
-            ViewBag.AvailableParameters = RuleParameterProviders.Providers.GetParameters(eventEntry.EventType).ToList();
+            ViewBag.AvailableParameters = RuleParameterProviders.Providers.GetParameters(slot.EventType).ToList();
 
             var manager = RuleManager.GetManager(CurrentInstance.Name);
             var rules = manager.GetRules(eventName);
@@ -71,13 +87,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxError]
         public void Save(string eventName, string json)
         {
-            var @event = ActivityEventManager.Instance.FindEvent(eventName);
+            var slot = EventSlotManager.Instance.GetSlot(eventName);
             var models = JsonConvert.DeserializeObject<List<RuleModelBase>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });         
             var rules = new List<Rule>();
 
             foreach (var model in models)
             {
-                rules.Add(model.ToRule(@event));
+                rules.Add(model.ToRule(slot));
             }
 
             var manager = RuleManager.GetManager(CurrentInstance.Name);
