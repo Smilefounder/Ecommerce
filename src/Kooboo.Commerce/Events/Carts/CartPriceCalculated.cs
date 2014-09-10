@@ -1,5 +1,4 @@
 ﻿using Kooboo.Commerce.Orders.Pricing;
-using Kooboo.Commerce.Rules.Activities;
 using Kooboo.Commerce.Carts;
 using Newtonsoft.Json;
 using System;
@@ -9,7 +8,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Carts
 {
-    [ActivityEvent(Order = 500)]
     public class CartPriceCalculated : Event, ICartEvent
     {
         public int CartId { get; private set; }

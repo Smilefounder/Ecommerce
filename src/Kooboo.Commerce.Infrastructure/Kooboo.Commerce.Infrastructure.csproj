@@ -115,7 +115,6 @@
     <Compile Include="Globalization\Localizer.cs" />
     <Compile Include="Globalization\TextDictionary.cs" />
     <Compile Include="Reflection\ModelTypeInfo.cs" />
-    <Compile Include="Rules\Activities\ActivityEventAttribute.cs" />
     <Compile Include="Rules\Activities\Activity.cs" />
     <Compile Include="Rules\Activities\ActivityContext.cs" />
     <Compile Include="Rules\EventSlot.cs" />

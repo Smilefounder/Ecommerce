@@ -1,6 +1,5 @@
 ﻿using Kooboo.Commerce.Products;
 using Kooboo.Commerce.Rules;
-using Kooboo.Commerce.Rules.Activities;
 using Kooboo.Commerce.Carts;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Carts
 {
-    [ActivityEvent(Order = 200)]
     public class CartItemAdded : Event, ICartEvent
     {
         public int CartId { get; protected set; }

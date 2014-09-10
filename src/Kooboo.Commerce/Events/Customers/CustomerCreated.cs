@@ -1,6 +1,5 @@
 ﻿using Kooboo.Commerce.Customers;
 using Kooboo.Commerce.Rules;
-using Kooboo.Commerce.Rules.Activities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +8,6 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Customers
 {
-    [ActivityEvent(Order = 100)]
     public class CustomerCreated : Event, ICustomerEvent
     {
         [Reference(typeof(Customer))]
