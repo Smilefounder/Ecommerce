@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Web.Framework.UI.Menu;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Web.Framework.UI.Menu;
 using Kooboo.Web.Mvc.Menu;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,15 @@ namespace Kooboo.Commerce.Search.Menu
         }
     }
 
-    public class SearchMenuInjection : CommerceInstanceMenuInjection
+    public class SearchMenuInjection : CommerceMenuInjection
     {
-        public override void Inject(Kooboo.Web.Mvc.Menu.Menu menu, System.Web.Mvc.ControllerContext controllerContext)
+        public override void Inject(Kooboo.Web.Mvc.Menu.MenuItem menu, System.Web.Mvc.ControllerContext controllerContext)
         {
+            if (CommerceInstance.Current == null)
+            {
+                return;
+            }
+
             var root = new MenuItem
             {
                 Text = "Search"

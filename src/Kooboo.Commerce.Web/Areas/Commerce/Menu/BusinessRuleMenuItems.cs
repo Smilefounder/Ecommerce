@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Rules;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Rules;
 using Kooboo.Commerce.Rules.Activities;
 using Kooboo.Commerce.Web.Framework.UI.Menu;
 using Kooboo.Web.Mvc.Menu;
@@ -10,13 +11,11 @@ using System.Web.Routing;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 {
-    public class EventsMenuInjection : CommerceInstanceMenuInjection
+    static class BusinessRuleMenuItems
     {
-        public override void Inject(Kooboo.Web.Mvc.Menu.Menu menu, System.Web.Mvc.ControllerContext controllerContext)
+        public static IEnumerable<MenuItem> GetMenuItems()
         {
-            var parent = menu.Items.FirstOrDefault(it => it.Name == "BusinessRules");
-
-            parent.Items.Add(new MenuItem
+            yield return new MenuItem
             {
                 Text = "Overview",
                 Name = "Overview",
@@ -27,7 +26,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                 {
                     { "activeByAction", "true" }
                 }
-            });
+            };
 
             var manager = EventSlotManager.Instance;
 
@@ -38,8 +37,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                     Text = group,
                     Name = group
                 };
-
-                parent.Items.Add(groupItem);
 
                 var slots = manager.GetSlots(group).ToList();
 
@@ -53,11 +50,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
                         Action = "List",
                         Area = "Commerce",
                         RouteValues = new RouteValueDictionary(new { eventName = each.EventType.Name }),
-                        Initializer = new EventMenuItemInitializer()
+                        Initializer = new BusinessRuleMenuItemInitializer()
                     };
 
                     groupItem.Items.Add(eventItem);
                 }
+
+                yield return groupItem;
             }
         }
     }

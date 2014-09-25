@@ -15,9 +15,9 @@ using System.Web.Routing;
 
 namespace Kooboo.Commerce.Multilingual
 {
-    public class MultilingualMenuInjection : CommerceInstanceMenuInjection
+    public class MultilingualMenuInjection : CommerceMenuInjection
     {
-        public override void Inject(Menu menu, System.Web.Mvc.ControllerContext controllerContext)
+        public override void Inject(MenuItem menu, System.Web.Mvc.ControllerContext controllerContext)
         {
             if (CommerceInstance.Current == null)
             {

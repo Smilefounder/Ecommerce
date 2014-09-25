@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Commerce.Web.Areas.Commerce.Menu;
 using Kooboo.Commerce.Web.Framework.UI.Menu;
 using Kooboo.Web.Mvc.Menu;
 using System;
@@ -20,10 +21,14 @@ namespace Kooboo.Commerce.Web.Bootstrapping
 
         public void Register(IContainerManager containerManager, CMS.Common.Runtime.ITypeFinder typeFinder)
         {
+            containerManager.AddComponent(typeof(IMenuInjection), typeof(GlobalMenuInjection), "GlobalMenuInjection", ComponentLifeStyle.Singleton);
+            containerManager.AddComponent(typeof(IMenuInjection), typeof(InstanceMenuInjection), "InstanceMenuInjection", ComponentLifeStyle.Singleton);
+
             foreach (var type in typeFinder.FindClassesOfType<IMenuInjection>())
             {
-                if (typeof(CommerceGlobalMenuInjection).IsAssignableFrom(type)
-                    || typeof(CommerceInstanceMenuInjection).IsAssignableFrom(type))
+                if (typeof(CommerceMenuInjection).IsAssignableFrom(type)
+                    && type != typeof(GlobalMenuInjection)
+                    && type != typeof(InstanceMenuInjection))
                 {
                     containerManager.AddComponent(typeof(IMenuInjection), type, type.FullName, ComponentLifeStyle.Transient);
                 }

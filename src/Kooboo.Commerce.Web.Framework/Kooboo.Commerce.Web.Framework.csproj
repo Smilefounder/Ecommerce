@@ -128,9 +128,8 @@
     <Compile Include="UI\Html\HeaderPanelHtmlExtensions.cs" />
     <Compile Include="UI\Html\HeadPanelButtonCollectionExtensions.cs" />
     <Compile Include="UI\Html\IVisibleRule.cs" />
-    <Compile Include="UI\Menu\CommerceGlobalMenuInjection.cs" />
-    <Compile Include="UI\Menu\CommerceInstanceMenuInjection.cs" />
-    <Compile Include="UI\Menu\CommerceInstanceMenuItemInitializer.cs" />
+    <Compile Include="UI\Menu\CommerceMenuItemInitializer.cs" />
+    <Compile Include="UI\Menu\CommerceMenuInjection.cs" />
     <Compile Include="UI\MvcRoute.cs" />
     <Compile Include="UI\MvcRoutes.cs" />
     <Compile Include="UI\Tabs\Queries\CustomerTabQuery.cs" />

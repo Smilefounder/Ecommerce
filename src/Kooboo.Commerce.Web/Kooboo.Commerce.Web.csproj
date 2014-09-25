@@ -281,6 +281,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Commerce\Menu\CommerceMenuItem.cs" />
+    <Compile Include="Areas\Commerce\Menu\CommerceRootMenuItemInjection.cs" />
+    <Compile Include="Areas\Commerce\Menu\GlobalMenuInjection.cs" />
+    <Compile Include="Areas\Commerce\Menu\GlobalMenuItemInitializer.cs" />
+    <Compile Include="Areas\Commerce\Menu\InstanceMenuInjection.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandMappingProfile.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryMappingProfile.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\AddressModel.cs" />
@@ -379,14 +384,14 @@
     <Compile Include="Areas\Commerce\Handlers\UploadHandler.ashx.cs">
       <DependentUpon>UploadHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Commerce\Menu\EventsMenuInjection.cs" />
+    <Compile Include="Areas\Commerce\Menu\BusinessRuleMenuItems.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEntry.cs" />
     <Compile Include="Areas\Commerce\Models\Instances\CommerceInstanceEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Instances\CommerceInstanceModel.cs" />
     <Compile Include="Areas\Commerce\Models\Conditions\BuildConditionModelsRequest.cs" />
     <Compile Include="Areas\Commerce\Models\Customers\ChangePasswordModel.cs" />
     <Compile Include="Areas\Commerce\Models\DataSources\CategoryDataSource.cs" />
-    <Compile Include="Areas\Commerce\Menu\EventMenuItemInitializer.cs" />
+    <Compile Include="Areas\Commerce\Menu\BusinessRuleMenuItemInitializer.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandEditorModel.cs" />
     <Compile Include="Areas\Commerce\Models\Brands\BrandRowModel.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEditorModel.cs" />
@@ -2369,7 +2374,6 @@
     <Content Include="Areas\Commerce\Views\AddInManagement\Versions.cshtml" />
     <Content Include="Areas\Commerce\Views\AddInManagement\_ModuleNode.cshtml" />
     <Content Include="Areas\Commerce\Views\Shared\_InstancesDropdown.cshtml" />
-    <Content Include="Areas\Commerce\CommerceGlobalMenu.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\MyOrders\template.cshtml" />
     <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
@@ -2684,9 +2688,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_MenuItem.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Commerce\CommerceInstanceMenu.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Grid2.cshtml" />

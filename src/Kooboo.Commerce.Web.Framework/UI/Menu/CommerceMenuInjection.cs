@@ -1,5 +1,4 @@
-﻿using Kooboo.Commerce.Data;
-using Kooboo.Web.Mvc.Menu;
+﻿using Kooboo.Web.Mvc.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +6,20 @@ using System.Text;
 
 namespace Kooboo.Commerce.Web.Framework.UI.Menu
 {
-    public abstract class CommerceInstanceMenuInjection : IMenuInjection
+    public abstract class CommerceMenuInjection : IMenuInjection
     {
-        public abstract void Inject(Kooboo.Web.Mvc.Menu.Menu menu, System.Web.Mvc.ControllerContext controllerContext);
+        public abstract void Inject(Kooboo.Web.Mvc.Menu.MenuItem menu, System.Web.Mvc.ControllerContext controllerContext);
 
         void IMenuInjection.Inject(Kooboo.Web.Mvc.Menu.Menu menu, System.Web.Mvc.ControllerContext controllerContext)
         {
-            if (menu.Name == "Commerce" && CommerceInstance.Current != null)
+            if (menu.Name == "AreasMenu" || menu.Name == "Sites")
             {
-                Inject(menu, controllerContext);
-                PrepareItems(menu.Items, new CommerceMenuItemInitializer());
+                var commerce = menu.Items.FirstOrDefault(it => it.Name == "Commerce");
+                if (commerce != null)
+                {
+                    Inject(commerce, controllerContext);
+                    PrepareItems(commerce.Items, new CommerceMenuItemInitializer());
+                }
             }
         }
 

@@ -8,7 +8,7 @@ using Kooboo.Commerce.Web.Framework.UI.Menu;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Menu
 {
-    public class EventMenuItemInitializer : CommerceMenuItemInitializer
+    public class BusinessRuleMenuItemInitializer : CommerceMenuItemInitializer
     {
         protected override bool GetIsActive(Kooboo.Web.Mvc.Menu.MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
         {

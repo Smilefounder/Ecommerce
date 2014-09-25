@@ -9,10 +9,11 @@ using Kooboo.Globalization;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Sites.Extension.ModuleArea.Management;
 using Kooboo.CMS.Sites.Services;
+using Kooboo.Commerce.Web.Framework.Mvc;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
-    public class AddInManagementController : Controller
+    public class AddInManagementController : CommerceController
     {
         #region .ctor
         IModuleInstaller _moduleInstaller;
