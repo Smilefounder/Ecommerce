@@ -68,7 +68,7 @@ namespace Kooboo.Commerce.Rules.Activities.OrderReminder
                 return;
             }
 
-            var order = _orderService.GetById(@event.OrderId);
+            var order = _orderService.Find(@event.OrderId);
             if (order != null)
             {
                 if (config.CancelConditions != null && config.CancelConditions.Count > 0)

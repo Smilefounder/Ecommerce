@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Topbar.Orders
 
         protected override void Execute(ApproveOrder @event, ActivityContext context)
         {
-            var order = _service.GetById(@event.OrderId);
+            var order = _service.Find(@event.OrderId);
             order.ProcessingStatus = "Approved";
         }
     }

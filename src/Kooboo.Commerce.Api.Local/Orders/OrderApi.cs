@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Api.Local.Orders
         public int CreateFromCart(int cartId, ShoppingContext context)
         {
             var service = new Kooboo.Commerce.Carts.ShoppingCartService(_context.Database);
-            var cart = service.GetById(cartId);
+            var cart = service.Find(cartId);
 
             return _context.Database.Transactional(() =>
             {

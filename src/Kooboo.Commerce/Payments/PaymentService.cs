@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Payments
             _repository = database.Repository<Payment>();
         }
 
-        public Payment GetById(int id)
+        public Payment Find(int id)
         {
             return _repository.Find(id);
         }

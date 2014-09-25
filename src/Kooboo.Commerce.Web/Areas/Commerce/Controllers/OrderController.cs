@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            var order = _orderService.GetById(id);
+            var order = _orderService.Find(id);
 
             ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, order, CurrentInstance).ToList();
             ViewBag.Return = "/Commerce/Order?siteName=" + Request.QueryString["siteName"] + "&instance=" + Request.QueryString["instance"];

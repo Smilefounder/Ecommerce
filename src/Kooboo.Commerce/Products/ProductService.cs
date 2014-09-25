@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Products
             _database = database;
         }
 
-        public Product GetById(int id)
+        public Product Find(int id)
         {
             return _database.Repository<Product>().Find(id);
         }
@@ -37,21 +37,36 @@ namespace Kooboo.Commerce.Products
             return _database.Repository<ProductVariant>().Query();
         }
 
-        public ProductVariant GetProductVariantById(int id)
+        public ProductVariant FindVariant(int id)
         {
             return _database.Repository<ProductVariant>().Find(id);
         }
 
         public void Create(Product product)
         {
+            SyncPriceRange(product);
             _database.Repository<Product>().Insert(product);
             Event.Raise(new ProductCreated(product));
         }
 
         public void Update(Product product)
         {
+            SyncPriceRange(product);
             _database.Repository<Product>().Update(product);
             Event.Raise(new ProductUpdated(product));
+        }
+
+        private void SyncPriceRange(Product product)
+        {
+            if (product.Variants.Count == 0)
+            {
+                product.PriceFrom = product.PriceTo = 0;
+            }
+            else
+            {
+                product.PriceFrom = product.Variants.Min(v => v.Price);
+                product.PriceTo = product.Variants.Max(v => v.Price);
+            }
         }
 
         public void Delete(Product model)

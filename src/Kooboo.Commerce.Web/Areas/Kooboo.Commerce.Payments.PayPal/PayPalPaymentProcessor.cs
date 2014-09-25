@@ -137,7 +137,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             // If the website don't pass in customer info,
             // then we try to fill these info automatically
             var orderId = request.Payment.OrderId;
-            var order = _orderService.GetById(orderId);
+            var order = _orderService.Find(orderId);
 
             card.first_name = order.Customer.FirstName;
             card.last_name = order.Customer.LastName;

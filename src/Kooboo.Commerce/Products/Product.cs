@@ -13,10 +13,6 @@ using Kooboo.Commerce.Categories;
 
 namespace Kooboo.Commerce.Products
 {
-    /// <summary>
-    /// This class store the product information, but the sale items. The items to be sold stored in the ProductVariant. 
-    /// One product can have multiple variants, each variant contains some field values and some price, stock, etc. 
-    /// </summary>
     public class Product : ILocalizable
     {
         public Product()
@@ -53,6 +49,16 @@ namespace Kooboo.Commerce.Products
         public virtual ICollection<ProductCustomField> CustomFields { get; set; }
 
         public virtual ICollection<ProductVariant> Variants { get; set; }
+
+        /// <summary>
+        /// The start price of the product. This is a duplicate field used to improve query performance.
+        /// </summary>
+        public virtual decimal PriceFrom { get; set; }
+
+        /// <summary>
+        /// The maximum price of the product. This is a duplicate field used to improve query performance.
+        /// </summary>
+        public virtual decimal PriceTo { get; set; }
 
         public virtual decimal GetFinalPrice(int variantId, ShoppingContext context)
         {

@@ -50,7 +50,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var each in model)
             {
                 var methodId = each.Id;
-                var method = _shippingMethodService.GetById(methodId);
+                var method = _shippingMethodService.Find(methodId);
                 _shippingMethodService.Enable(method);
             }
 
@@ -60,7 +60,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, Transactional]
         public void EnableShippingMethod(int id)
         {
-            var method = _shippingMethodService.GetById(id);
+            var method = _shippingMethodService.Find(id);
             _shippingMethodService.Enable(method);
         }
 
@@ -70,7 +70,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var each in model)
             {
                 var methodId = each.Id;
-                var method = _shippingMethodService.GetById(methodId);
+                var method = _shippingMethodService.Find(methodId);
                 _shippingMethodService.Disable(method);
             }
 
@@ -83,7 +83,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var each in model)
             {
                 var methodId = each.Id;
-                var method = _shippingMethodService.GetById(methodId);
+                var method = _shippingMethodService.Find(methodId);
                 _shippingMethodService.Delete(method);
             }
 
@@ -116,7 +116,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (id != null)
             {
-                var method = _shippingMethodService.GetById(id.Value);
+                var method = _shippingMethodService.Find(id.Value);
                 model.Id = method.Id;
                 model.Name = method.Name;
                 model.Description = method.Description;
@@ -129,7 +129,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxFormError, Transactional]
         public ActionResult BasicInfo(ShippingMethodEditorModel model)
         {
-            var method = model.Id > 0 ? _shippingMethodService.GetById(model.Id) : new ShippingMethod();
+            var method = model.Id > 0 ? _shippingMethodService.Find(model.Id) : new ShippingMethod();
 
             method.Name = model.Name;
             method.Description = model.Description;
@@ -158,7 +158,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult ShippingRateProvider(int id)
         {
-            var method = _shippingMethodService.GetById(id);
+            var method = _shippingMethodService.Find(id);
             var shippingRateProvider = _shippingRateProviderFactory.FindByName(method.ShippingRateProviderName);
             var editorModel = new ShippingRateProviderConfigEditorModel
             {
@@ -175,13 +175,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxError, Transactional]
         public void UpdateShippingRateProviderConfig(int shippingMethodId, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config)
         {
-            var method = _shippingMethodService.GetById(shippingMethodId);
+            var method = _shippingMethodService.Find(shippingMethodId);
             method.UpdateShippingRateProviderConfig(config);
         }
 
         public ActionResult Complete(int id)
         {
-            var method = _shippingMethodService.GetById(id);
+            var method = _shippingMethodService.Find(id);
             return View(method);
         }
     }

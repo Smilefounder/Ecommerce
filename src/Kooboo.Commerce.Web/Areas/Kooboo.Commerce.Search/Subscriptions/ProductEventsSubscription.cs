@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
             if (@event.EntityKey.EntityType == typeof(Product))
             {
-                var product = service.GetById((int)@event.EntityKey.Value);
+                var product = service.Find((int)@event.EntityKey.Value);
                 if (product.IsPublished)
                 {
                     Index(product, new[] { @event.Culture });
@@ -57,8 +57,8 @@ namespace Kooboo.Commerce.Search.Subscriptions
             }
             else if (@event.EntityKey.EntityType == typeof(ProductVariant))
             {
-                var variant = service.GetProductVariantById((int)@event.EntityKey.Value);
-                var product = service.GetById(variant.ProductId);
+                var variant = service.FindVariant((int)@event.EntityKey.Value);
+                var product = service.Find(variant.ProductId);
                 if (product.IsPublished)
                 {
                     Index(product, new[] { @event.Culture });

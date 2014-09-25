@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Edit(int id)
         {
-            var country = _countryService.GetById(id);
+            var country = _countryService.Find(id);
             var model = new CountryEditorModel(country);
 
             return View(model);
@@ -69,7 +69,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var item in model)
             {
-                var obj = _countryService.GetById(item.Id);
+                var obj = _countryService.Find(item.Id);
                 _countryService.Delete(obj);
             }
 

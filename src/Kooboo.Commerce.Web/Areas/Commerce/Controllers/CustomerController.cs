@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Edit(int id)
         {
-            var customer = _customerService.GetById(id);
+            var customer = _customerService.Find(id);
             var model = Mapper.Map<Customer, CustomerEditorModel>(customer);
 
             ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, customer, CurrentInstance);
@@ -59,7 +59,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (id != null && id > 0)
             {
-                var customer = _customerService.GetById(id.Value);
+                var customer = _customerService.Find(id.Value);
                 model = Mapper.Map<Customer, CustomerEditorModel>(customer);
             }
             else
@@ -77,7 +77,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (model.Id > 0)
             {
-                customer = _customerService.GetById(model.Id);
+                customer = _customerService.Find(model.Id);
             }
             else
             {
@@ -141,7 +141,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             address.Address2 = model.Address2;
             address.City = model.City;
             address.State = model.State;
-            address.Country = _countryService.GetById(model.CountryId);
+            address.Country = _countryService.Find(model.CountryId);
         }
 
         [HttpPost, HandleAjaxFormError]
@@ -149,7 +149,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var obj in model)
             {
-                var customer = _customerService.GetById(obj.Id);
+                var customer = _customerService.Find(obj.Id);
                 _customerService.Delete(customer);
             }
 

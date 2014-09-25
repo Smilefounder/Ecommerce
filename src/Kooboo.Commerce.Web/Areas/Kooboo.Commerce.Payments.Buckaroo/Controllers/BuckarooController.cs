@@ -27,8 +27,8 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
         public ActionResult Return(string commerceReturnUrl)
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
-            var payment = _paymentService.GetById(paymentId);
-            var method = _paymentMethodService.GetById(payment.PaymentMethodId);
+            var payment = _paymentService.Find(paymentId);
+            var method = _paymentMethodService.Find(payment.PaymentMethodId);
             var result = ProcessResponse(payment, method.LoadProcessorConfig<BuckarooConfig>());
             _paymentService.AcceptProcessResult(payment, result);
 
@@ -39,8 +39,8 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
         public void Push()
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
-            var payment = _paymentService.GetById(paymentId);
-            var method = _paymentMethodService.GetById(payment.PaymentMethodId);
+            var payment = _paymentService.Find(paymentId);
+            var method = _paymentMethodService.Find(payment.PaymentMethodId);
             var result = ProcessResponse(payment, method.LoadProcessorConfig<BuckarooConfig>());
             _paymentService.AcceptProcessResult(payment, result);
         }

@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Countries
             _countryRepository = database.Repository<Country>();
         }
 
-        public Country GetById(int id)
+        public Country Find(int id)
         {
             return _countryRepository.Find(id);
         }

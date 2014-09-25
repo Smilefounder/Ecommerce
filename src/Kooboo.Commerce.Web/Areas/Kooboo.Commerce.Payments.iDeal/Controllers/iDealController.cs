@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
 
         public ActionResult Return(int paymentId, string commerceReturnUrl)
         {
-            var payment = _paymentService.GetById(paymentId);
+            var payment = _paymentService.Find(paymentId);
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
 
@@ -40,7 +40,7 @@ namespace Kooboo.Commerce.Payments.iDeal.Controllers
             var iDealTransactionId = Request["transaction_id"];
             var payment = _paymentService.Query().ByThirdPartyTransactionId(iDealTransactionId, "iDeal");
 
-            var paymentMethod = _paymentMethodService.GetById(payment.PaymentMethodId);
+            var paymentMethod = _paymentMethodService.Find(payment.PaymentMethodId);
             var settings = paymentMethod.LoadProcessorConfig<IDealConfig>();
             var idealCheck = new IdealCheck(settings.PartnerId, settings.TestMode, iDealTransactionId);
 

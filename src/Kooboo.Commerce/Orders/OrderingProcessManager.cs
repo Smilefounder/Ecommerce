@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Orders
 
         public void Handle(PaymentStatusChanged @event)
         {
-            var payment = _paymentService.GetById(@event.PaymentId);
+            var payment = _paymentService.Find(@event.PaymentId);
 
             if (@event.NewStatus != PaymentStatus.Success)
             {
@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Orders
             }
 
             var orderId = @payment.OrderId;
-            var order = _orderService.GetById(orderId);
+            var order = _orderService.Find(orderId);
             _orderService.AcceptPayment(order, payment);
         }
     }

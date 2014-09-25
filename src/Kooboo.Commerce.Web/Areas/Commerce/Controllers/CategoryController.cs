@@ -68,7 +68,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Edit(int id)
         {
-            var category = _categoryService.GetById(id);
+            var category = _categoryService.Find(id);
             var model = Mapper.Map<Category, CategoryEditorModel>(category);
             PrepareEditor(model);
 
@@ -92,7 +92,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (model.Id > 0)
             {
-                category = _categoryService.GetById(model.Id);
+                category = _categoryService.Find(model.Id);
             }
             else
             {
@@ -105,7 +105,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (model.ParentId != null)
             {
-                category.Parent = _categoryService.GetById(model.ParentId.Value);
+                category.Parent = _categoryService.Find(model.ParentId.Value);
             }
 
             category.CustomFields.Clear();
@@ -136,7 +136,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 foreach (var obj in model)
                 {
-                    var cate = _categoryService.GetById(obj.Id);
+                    var cate = _categoryService.Find(obj.Id);
                     _categoryService.Delete(cate);
                 }
                 data.ReloadPage = true;

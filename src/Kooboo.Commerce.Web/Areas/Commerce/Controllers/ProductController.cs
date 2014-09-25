@@ -20,6 +20,7 @@ using AutoMapper;
 using Kooboo.Commerce.Web.Areas.Commerce.Models.Products;
 using Kooboo.Commerce.Web.Areas.Commerce.Models;
 using System.Collections.Generic;
+using Kooboo.Globalization;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -56,13 +57,9 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult Create(int productTypeId)
         {
-            var productType = _productTypeService.GetById(productTypeId);
+            var productType = _productTypeService.Find(productTypeId);
 
-            ViewBag.ProductType = productType;
-            ViewBag.DefaultVariantModel = CreateDefaultVariantModel(productType);
-            ViewBag.ImageTypes = _settingService.Get<GlobalSettings>().Image.Types;
-
-            this.LoadTabPlugins();
+            PrepareProductEditing(productType, null);
 
             return View("Edit");
         }
@@ -70,18 +67,33 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var product = _productService.GetById(id);
+            var product = _productService.Find(id);
             var productType = product.ProductType;
 
-            ViewBag.Product = product;
+            PrepareProductEditing(productType, product);
+
+            return View("Edit");
+        }
+
+        private void PrepareProductEditing(ProductType productType, Product product)
+        {
+            if (product != null)
+            {
+                ViewBag.Product = product;
+                ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, product, CurrentInstance);
+            }
+
             ViewBag.ProductType = productType;
             ViewBag.DefaultVariantModel = CreateDefaultVariantModel(productType);
             ViewBag.ImageTypes = _settingService.Get<GlobalSettings>().Image.Types;
-            ViewBag.ToolbarCommands = TopbarCommands.GetCommands(ControllerContext, product, CurrentInstance);
+
+            var settings = _settingService.Get<GlobalSettings>();
+            if (settings != null && !String.IsNullOrEmpty(settings.Currency))
+            {
+                ViewBag.CurrencySymbol = CurrencyInfo.GetCurrencyInfoByISOSymbol(settings.Currency).Symbol;
+            }
 
             this.LoadTabPlugins();
-
-            return View("Edit");
         }
 
         [HttpGet]
@@ -90,13 +102,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             Product product = null;
             if (id.HasValue)
             {
-                product = _productService.GetById(id.Value);
+                product = _productService.Find(id.Value);
             }
             if (product == null)
             {
                 product = new Product
                 {
-                    ProductType = _productTypeService.GetById(productTypeId.Value)
+                    ProductType = _productTypeService.Find(productTypeId.Value)
                 };
             }
 
@@ -123,14 +135,14 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 product = new Product
                 {
-                    ProductType = _productTypeService.GetById(model.ProductTypeId)
+                    ProductType = _productTypeService.Find(model.ProductTypeId)
                 };
                 UpdateProduct(product, model);
                 _productService.Create(product);
             }
             else
             {
-                product = _productService.GetById(model.Id);
+                product = _productService.Find(model.Id);
                 UpdateProduct(product, model);
                 _productService.Update(product);
             }
@@ -150,12 +162,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         private void UpdateProduct(Product product, ProductEditorModel model)
         {
             product.Name = model.Name;
-            product.Brand = model.Brand == null ? null : _brandService.GetById(model.Brand.Id);
+            product.Brand = model.Brand == null ? null : _brandService.Find(model.Brand.Id);
 
             product.Categories.Clear();
             foreach (var category in model.Categories)
             {
-                product.Categories.Add(_categoryService.GetById(category.Id));
+                product.Categories.Add(_categoryService.Find(category.Id));
             }
 
             product.SetCustomFields(model.CustomFields);
@@ -223,7 +235,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             try
             {
-                var product = _productService.GetById(id);
+                var product = _productService.Find(id);
                 _productService.Delete(product);
                 return this.JsonNet(new JsonResultData()
                 {
@@ -242,7 +254,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             {
                 foreach (var item in model)
                 {
-                    var product = _productService.GetById(item.Id);
+                    var product = _productService.Find(item.Id);
                     _productService.Delete(product);
                 }
                 return this.JsonNet(new JsonResultData()
@@ -267,7 +279,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult GetProductType(int id)
         {
-            var obj = _productTypeService.GetById(id);
+            var obj = _productTypeService.Find(id);
             return JsonNet(obj);
         }
 

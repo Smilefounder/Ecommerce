@@ -37,12 +37,12 @@
                 <div class="variant-content">
                     @if (product.Prices.Equals(product.FinalPrices))
                     {
-                        <span>&euro; @product.Prices.Lowest.ToString("f2") - &euro; @product.Prices.Highest.ToString("f2")</span>
+                        <span>&euro; @product.Prices.From.ToString("f2") - &euro; @product.Prices.To.ToString("f2")</span>
                     }
                     else
                     {
-                        <del>&euro; @product.Prices.Lowest.ToString("f2") - &euro; @product.Prices.Highest.ToString("f2")</del><br />
-                        <span>&euro; @product.FinalPrices.Lowest.ToString("f2") - &euro; @product.Prices.Highest.ToString("f2")</span>
+                        <del>&euro; @product.Prices.From.ToString("f2") - &euro; @product.Prices.To.ToString("f2")</del><br />
+                        <span>&euro; @product.FinalPrices.From.ToString("f2") - &euro; @product.Prices.To.ToString("f2")</span>
                     }
                 </div>
                 @foreach (var variant in product.Variants)

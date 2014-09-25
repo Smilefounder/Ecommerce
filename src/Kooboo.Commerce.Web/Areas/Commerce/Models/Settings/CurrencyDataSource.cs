@@ -12,43 +12,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Models.Settings
 {
     public class CurrencyDataSource : ISelectListDataSource
     {
-        static IEnumerable<CurrencyInfo> _currencies;
+        static List<CurrencyInfo> _currencies;
 
         static CurrencyDataSource()
         {
-            _currencies = GetCurrencies();
-        }
-
-        static IEnumerable<CurrencyInfo> GetCurrencies()
-        {
-            var cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            var list = new List<CurrencyInfo>();
-            //loop through all the cultures found
-            foreach (CultureInfo culture in cultures)
-            {
-                //pass the current culture's Locale ID (http://msdn.microsoft.com/en-us/library/0h88fahh.aspx)
-                //to the RegionInfo contructor to gain access to the information for that culture
-                try
-                {
-                    RegionInfo region = new RegionInfo(culture.LCID);
-                    if (list.Any(i => i.EnglishName == region.CurrencyEnglishName) == false)
-                    {
-                        list.Add(new CurrencyInfo
-                        {
-                            EnglishName = region.CurrencyEnglishName,
-                            NativeName = region.CurrencyNativeName,
-                            Symbol = region.CurrencySymbol,
-                            ISOSymbol = region.ISOCurrencySymbol
-                        });
-                    }
-                }
-                catch (System.Exception)
-                {
-                    //next 
-                }
-            }
-
-            return list;
+            _currencies = CurrencyInfo.GetCurrencies().ToList();
         }
 
         public IEnumerable<SelectListItem> GetSelectListItems(RequestContext requestContext, string filter = null)

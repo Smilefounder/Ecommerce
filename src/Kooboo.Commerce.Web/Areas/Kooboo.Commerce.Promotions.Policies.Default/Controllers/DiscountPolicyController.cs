@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Controllers
 
         public ActionResult Load(int promotionId)
         {
-            var promotion = _promotionService.GetById(promotionId);
+            var promotion = _promotionService.Find(promotionId);
             var settings = promotion.LoadPolicyConfig<DefaultPromotionPolicyConfig>() ?? new DefaultPromotionPolicyConfig();
             var model = new ConfigModel
             {
@@ -39,7 +39,7 @@ namespace Kooboo.Commerce.Promotions.Policies.Default.Controllers
         [HttpPost, HandleAjaxError, Transactional]
         public void Save(int promotionId, ConfigModel model)
         {
-            var promotion = _promotionService.GetById(promotionId);
+            var promotion = _promotionService.Find(promotionId);
             var policyData = new DefaultPromotionPolicyConfig
             {
                 DiscountMode = (DiscountMode)Enum.Parse(typeof(DiscountMode), model.DiscountMode),

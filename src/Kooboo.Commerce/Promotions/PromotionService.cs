@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Promotions
             _repository = database.Repository<Promotion>();
         }
 
-        public Promotion GetById(int id)
+        public Promotion Find(int id)
         {
             return _repository.Find(id);
         }

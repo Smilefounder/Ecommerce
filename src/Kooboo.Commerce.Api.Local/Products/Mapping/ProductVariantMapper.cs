@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
             if (context.ApiContext.CustomerEmail != null)
             {
                 var service = new Kooboo.Commerce.Customers.CustomerService(context.ApiContext.Database);
-                var customer = service.GetByEmail(context.ApiContext.CustomerEmail);
+                var customer = service.FindByEmail(context.ApiContext.CustomerEmail);
                 if (customer != null)
                 {
                     shoppingContext.CustomerId = customer.Id;

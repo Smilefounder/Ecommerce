@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Products
             _repository = database.Repository<CustomFieldDefinition>();
         }
 
-        public CustomFieldDefinition GetById(int id)
+        public CustomFieldDefinition Find(int id)
         {
             return _repository.Find(id);
         }

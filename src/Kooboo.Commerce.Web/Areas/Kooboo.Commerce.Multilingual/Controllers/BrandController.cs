@@ -79,7 +79,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 
         public ActionResult Translate(int id, string culture)
         {
-            var brand = _brandService.GetById(id);
+            var brand = _brandService.Find(id);
             var compared = new BrandModel
             {
                 Id = brand.Id,
@@ -117,7 +117,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
         public ActionResult Translate(BrandModel model, string culture, string @return)
         {
             var brandKey = new EntityKey(typeof(Brand), model.Id);
-            var brand = _brandService.GetById(model.Id);
+            var brand = _brandService.Find(model.Id);
 
             var props = new List<PropertyTranslation>
             {

@@ -71,7 +71,10 @@
                 {
                     <td data-bind="text: variantFields['@field.Name']"></td>
                 }
-                <td class="mini" data-bind="text:price"></td>
+                <td class="mini">
+                    @ViewBag.CurrencySymbol
+                    <span data-bind="text:price"></span>
+                </td>
                 <td><a data-bind="click: $root.editVariant" title="Edit">@Html.IconImage("edit-small")</a></td>
                 <td><a data-bind="click: $root.deleteVariant" title="Delete">@Html.IconImage("minus-small")</a></td>
             </tr>
@@ -92,7 +95,7 @@
                                        }, ViewContext)
                     </td>
                 }
-                <td class="mini"><input type="text" data-bind="value:price" class="mini"></td>
+                <td class="mini">@ViewBag.CurrencySymbol <input type="text" data-bind="value:price" class="mini"></td>
                 <td><a data-bind="click: $root.commitVariantEditing" title="Save">@Html.IconImage("save-small")</a></td>
                 <td><a data-bind="click: $root.cancelVariantEditing" title="Cancel">@Html.IconImage("minus-small")</a></td>
             </tr>

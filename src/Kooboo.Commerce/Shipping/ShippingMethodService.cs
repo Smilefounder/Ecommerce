@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Shipping
             _repository = database.Repository<ShippingMethod>();
         }
 
-        public ShippingMethod GetById(int id)
+        public ShippingMethod Find(int id)
         {
             return _repository.Find(id);
         }

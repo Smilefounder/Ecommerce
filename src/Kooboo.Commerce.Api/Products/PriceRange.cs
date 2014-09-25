@@ -7,19 +7,19 @@ namespace Kooboo.Commerce.Api.Products
 {
     public class PriceRange : IEquatable<PriceRange>
     {
-        public decimal Lowest { get; private set; }
+        public decimal From { get; private set; }
 
-        public decimal Highest { get; private set; }
+        public decimal To { get; private set; }
 
-        public PriceRange(decimal lowest, decimal highest)
+        public PriceRange(decimal from, decimal to)
         {
-            Lowest = lowest;
-            Highest = highest;
+            From = from;
+            To = to;
         }
 
         public bool Equals(PriceRange other)
         {
-            return other != null && other.Lowest == Lowest && other.Highest == Highest;
+            return other != null && other.From == From && other.To == To;
         }
 
         public override bool Equals(object obj)
@@ -31,13 +31,13 @@ namespace Kooboo.Commerce.Api.Products
         {
             unchecked
             {
-                return Lowest.GetHashCode() * 397 ^ Highest.GetHashCode();
+                return From.GetHashCode() * 397 ^ To.GetHashCode();
             }
         }
 
         public override string ToString()
         {
-            return Lowest.ToString("c") + "-" + Highest.ToString("c");
+            return From.ToString("c") + "-" + To.ToString("c");
         }
     }
 }

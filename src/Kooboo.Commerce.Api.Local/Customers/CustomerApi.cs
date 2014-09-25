@@ -21,7 +21,7 @@ namespace Kooboo.Commerce.Api.Local.Customers
         public int AddAddress(int customerId, Address address)
         {
             var service = new Kooboo.Commerce.Customers.CustomerService(_context.Database);
-            var customer = service.GetById(customerId);
+            var customer = service.Find(customerId);
             var addr = CreateAddress(address);
 
             if (String.IsNullOrEmpty(addr.FirstName) && String.IsNullOrEmpty(addr.LastName))

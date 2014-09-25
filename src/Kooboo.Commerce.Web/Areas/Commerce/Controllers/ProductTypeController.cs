@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var item in model)
             {
-                var type = _productTypeService.GetById(item.Id);
+                var type = _productTypeService.Find(item.Id);
                 _productTypeService.Enable(type);
             }
 
@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var item in model)
             {
-                var type = _productTypeService.GetById(item.Id);
+                var type = _productTypeService.Find(item.Id);
                 _productTypeService.Disable(type);
             }
 
@@ -70,7 +70,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var item in model)
             {
-                var productType = _productTypeService.GetById(item.Id);
+                var productType = _productTypeService.Find(item.Id);
                 _productTypeService.Delete(productType);
             }
 
@@ -85,7 +85,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Edit(int id, string @return)
         {
-            var productType = _productTypeService.GetById(id);
+            var productType = _productTypeService.Find(id);
             var model = Mapper.Map<ProductTypeModel>(productType);
             return View(model);
         }

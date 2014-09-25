@@ -23,7 +23,7 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
 
         public ActionResult Load(int methodId)
         {
-            var method = _service.GetById(methodId);
+            var method = _service.Find(methodId);
             var config = method.LoadShippingRateProviderConfig<ByWeightShippingRateProviderConfig>() ?? new ByWeightShippingRateProviderConfig();
             var ruleModels = config.Rules.Select(r => new ByWeightShippingRuleModel
             {
@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.Shipping.ByWeight.Controllers
         [HttpPost, HandleAjaxError, Transactional]
         public void Save(ByWeightShippingRulesModel model)
         {
-            var method = _service.GetById(model.ShippingMethodId);
+            var method = _service.Find(model.ShippingMethodId);
             var rules = model.Rules.Select(r => new ByWeightShippingRule
             {
                 FromWeight = Convert.ToDecimal(r.FromWeight),

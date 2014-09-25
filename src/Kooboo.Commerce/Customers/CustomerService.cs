@@ -20,13 +20,13 @@ namespace Kooboo.Commerce.Customers
             _addressRepository = database.Repository<Address>();
         }
 
-        public Customer GetById(int id)
+        public Customer Find(int id)
         {
             var customer = _customerRepository.Find(id);
             return customer;
         }
 
-        public Customer GetByEmail(string email)
+        public Customer FindByEmail(string email)
         {
             return _customerRepository.Find(o => o.Email == email);
         }

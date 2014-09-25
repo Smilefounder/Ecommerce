@@ -54,7 +54,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (id != null)
             {
-                var method = _paymentMethodService.GetById(id.Value);
+                var method = _paymentMethodService.Find(id.Value);
                 model.Id = method.Id;
                 model.Name = method.Name;
                 model.UserKey = method.UserKey;
@@ -74,7 +74,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (model.Id > 0)
             {
-                method = _paymentMethodService.GetById(model.Id);
+                method = _paymentMethodService.Find(model.Id);
                 model.UpdateTo(method);
             }
             else
@@ -107,7 +107,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Processor(int id)
         {
-            var method = _paymentMethodService.GetById(id);
+            var method = _paymentMethodService.Find(id);
             var processor = _processorProvider.FindByName(method.ProcessorName);
 
             var editorModel = new PaymentProcessorConfigEditorModel
@@ -125,13 +125,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxError, Transactional]
         public void UpdateProcessorConfig(int paymentMethodId, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config)
         {
-            var method = _paymentMethodService.GetById(paymentMethodId);
+            var method = _paymentMethodService.Find(paymentMethodId);
             method.UpdateProcessorConfig(config);
         }
 
         public ActionResult Complete(int id)
         {
-            var method = _paymentMethodService.GetById(id);
+            var method = _paymentMethodService.Find(id);
             return View(method);
         }
 
@@ -149,7 +149,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var each in model)
             {
-                var method = _paymentMethodService.GetById(each.Id);
+                var method = _paymentMethodService.Find(each.Id);
                 _paymentMethodService.Enable(method);
             }
 
@@ -159,7 +159,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, Transactional]
         public void EnablePaymentMethod(int id)
         {
-            var method = _paymentMethodService.GetById(id);
+            var method = _paymentMethodService.Find(id);
             _paymentMethodService.Enable(method);
         }
 
@@ -168,7 +168,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var each in model)
             {
-                var method = _paymentMethodService.GetById(each.Id);
+                var method = _paymentMethodService.Find(each.Id);
                 _paymentMethodService.Disable(method);
             }
 
@@ -180,7 +180,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var each in model)
             {
-                var method = _paymentMethodService.GetById(each.Id);
+                var method = _paymentMethodService.Find(each.Id);
                 _paymentMethodService.Delete(method);
             }
 

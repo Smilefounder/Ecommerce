@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Carts
             _repository = database.Repository<ShoppingCart>();
         }
 
-        public ShoppingCart GetById(int id)
+        public ShoppingCart Find(int id)
         {
             var cart = _repository.Find(id);
             if (cart.SessionId != null && cart.SessionId.StartsWith("EXPIRED_"))
@@ -37,17 +37,17 @@ namespace Kooboo.Commerce.Carts
             return cart;
         }
 
-        public ShoppingCart GetBySessionId(string sessionId)
+        public ShoppingCart FindBySessionId(string sessionId)
         {
             return Query().FirstOrDefault(c => c.SessionId == sessionId);
         }
 
-        public ShoppingCart GetByCustomer(int customerId)
+        public ShoppingCart FindByCustomerId(int customerId)
         {
             return Query().FirstOrDefault(c => c.Customer != null && c.Customer.Id == customerId);
         }
 
-        public ShoppingCart GetByCustomer(string customerEmail)
+        public ShoppingCart FindByCustomerEmail(string customerEmail)
         {
             return Query().FirstOrDefault(c => c.Customer != null && c.Customer.Email == customerEmail);
         }

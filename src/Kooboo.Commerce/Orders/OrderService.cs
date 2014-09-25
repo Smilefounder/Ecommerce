@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Orders
             _orderRepository = _database.Repository<Order>();
         }
 
-        public Order GetById(int id)
+        public Order Find(int id)
         {
             return _orderRepository.Find(id);
         }

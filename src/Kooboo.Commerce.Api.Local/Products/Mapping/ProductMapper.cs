@@ -17,11 +17,7 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
             var product = source as Kooboo.Commerce.Products.Product;
 
             model.SkuAlias = product.ProductType.SkuAlias;
-
-            if (product.Variants.Count > 0)
-            {
-                model.Prices = new PriceRange(product.Variants.Min(v => v.Price), product.Variants.Max(v => v.Price));
-            }
+            model.Prices = new PriceRange(product.PriceFrom, product.PriceTo);
 
             return model;
         }

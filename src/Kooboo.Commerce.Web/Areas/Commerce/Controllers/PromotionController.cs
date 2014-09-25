@@ -48,7 +48,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, Transactional]
         public ActionResult EnablePromotion(int id)
         {
-            var promotion = _promotionService.GetById(id);
+            var promotion = _promotionService.Find(id);
             _promotionService.Enable(promotion);
 
             return AjaxForm().ReloadPage();
@@ -60,7 +60,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var each in model)
             {
                 var promotionId = each.Id;
-                var promotion = _promotionService.GetById(promotionId);
+                var promotion = _promotionService.Find(promotionId);
                 _promotionService.Enable(promotion);
             }
 
@@ -73,7 +73,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             foreach (var each in model)
             {
                 var promotionId = each.Id;
-                var promotion = _promotionService.GetById(promotionId);
+                var promotion = _promotionService.Find(promotionId);
                 _promotionService.Disable(promotion);
             }
 
@@ -85,7 +85,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var each in model)
             {
-                var promotion = _promotionService.GetById(each.Id);
+                var promotion = _promotionService.Find(each.Id);
                 _promotionService.Delete(promotion);
             }
 
@@ -106,7 +106,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (id != null)
             {
-                var promotion = _promotionService.GetById(id.Value);
+                var promotion = _promotionService.Find(id.Value);
                 model.UpdateFrom(promotion);
                 model.OtherPromotions = GetOtherPromotions(promotion.Id);
 
@@ -134,7 +134,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, Transactional]
         public ActionResult BasicInfo(PromotionEditorModel model)
         {
-            var promotion = model.Id > 0 ? _promotionService.GetById(model.Id) : new Promotion();
+            var promotion = model.Id > 0 ? _promotionService.Find(model.Id) : new Promotion();
 
             model.UpdateSimplePropertiesTo(promotion);
 
@@ -147,7 +147,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             foreach (var other in model.OtherPromotions.Where(x => x.IsSelected))
             {
-                promotion.OverlappablePromotions.Add(_promotionService.GetById(other.Id));
+                promotion.OverlappablePromotions.Add(_promotionService.Find(other.Id));
             }
 
             return AjaxForm().RedirectTo(Url.Action("Conditions", RouteValues.From(Request.QueryString).Merge("id", promotion.Id)));
@@ -155,7 +155,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Conditions(int id)
         {
-            var promotion = _promotionService.GetById(id);
+            var promotion = _promotionService.Find(id);
             var policy = _policyProvider.FindByName(promotion.PromotionPolicyName);
             var editor = policy as IHasCustomPromotionPolicyConfigEditor;
 
@@ -179,13 +179,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, Transactional]
         public void UpdateConditions(int promotionId, IEnumerable<Condition> conditions)
         {
-            var promotion = _promotionService.GetById(promotionId);
+            var promotion = _promotionService.Find(promotionId);
             promotion.Conditions = conditions;
         }
 
         public ActionResult Policy(int id)
         {
-            var promotion = _promotionService.GetById(id);
+            var promotion = _promotionService.Find(id);
             var policy = _policyProvider.FindByName(promotion.PromotionPolicyName);
 
             var editorModel = new PromotionPolicyConfigEditorModel
@@ -203,13 +203,13 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpPost, HandleAjaxError, Transactional]
         public void UpdatePolicyConfig(int promotionId, [ModelBinder(typeof(BindingTypeAwareModelBinder))]object config)
         {
-            var promotion = _promotionService.GetById(promotionId);
+            var promotion = _promotionService.Find(promotionId);
             promotion.UpdatePolicyConfig(config);
         }
 
         public ActionResult Complete(int id)
         {
-            var promotion = _promotionService.GetById(id);
+            var promotion = _promotionService.Find(id);
             return View(promotion);
         }
     }

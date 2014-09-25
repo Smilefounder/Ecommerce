@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Brands
             _database = database;
         }
 
-        public Brand GetById(int id)
+        public Brand Find(int id)
         {
             var query = Query();
             return query.Where(o => o.Id == id).FirstOrDefault();

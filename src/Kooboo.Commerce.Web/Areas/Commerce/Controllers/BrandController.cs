@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
         public ActionResult Edit(int id)
         {
-            var brand = _brandService.GetById(id);
+            var brand = _brandService.Find(id);
             var model = Mapper.Map<Brand, BrandEditorModel>(brand);
             return View(model);
         }
@@ -54,7 +54,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 
             if (model.Id > 0)
             {
-                brand = _brandService.GetById(model.Id);
+                brand = _brandService.Find(model.Id);
             }
             else
             {
@@ -88,7 +88,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         {
             foreach (var m in model)
             {
-                var brand = _brandService.GetById(m.Id);
+                var brand = _brandService.Find(m.Id);
                 _brandService.Delete(brand);
             }
 

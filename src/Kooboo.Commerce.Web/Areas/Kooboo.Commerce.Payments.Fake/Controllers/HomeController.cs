@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
 
         public ActionResult Gateway(int paymentId, string currency, string commerceReturnUrl)
         {
-            var payment = _paymentService.GetById(paymentId);
+            var payment = _paymentService.Find(paymentId);
 
             var model = new GatewayViewModel
             {
@@ -41,7 +41,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
         [Transactional]
         public ActionResult FakeSuccess(int paymentId, string commerceReturnUrl)
         {
-            var payment = _paymentService.GetById(paymentId);
+            var payment = _paymentService.Find(paymentId);
             _paymentService.AcceptProcessResult(payment, ProcessPaymentResult.Success(Guid.NewGuid().ToString("N")));
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
         [Transactional]
         public ActionResult FakeFailure(int paymentId, string commerceReturnUrl)
         {
-            var payment = _paymentService.GetById(paymentId);
+            var payment = _paymentService.Find(paymentId);
             _paymentService.AcceptProcessResult(payment, ProcessPaymentResult.Failed("Payment failed.", Guid.NewGuid().ToString("N")));
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }

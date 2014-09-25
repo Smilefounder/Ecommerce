@@ -20,7 +20,7 @@
     {
         buttons.Add("Save", "save").Dropdown(dropdown =>
         {
-            if (product.IsPublished)
+            if (product != null && product.IsPublished)
             {
                 dropdown.Add("Save").WithUrl("javascript:viewModel.submit(true);");
                 dropdown.Add("Save as draft").WithUrl("javascript:viewModel.submit(false);");

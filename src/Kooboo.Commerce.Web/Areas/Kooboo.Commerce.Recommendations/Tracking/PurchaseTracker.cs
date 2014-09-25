@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Recommendations.Tracking
             var behaviors = new List<Behavior>();
 
             var instance = CommerceInstance.Current;
-            var order = new OrderService(instance.Database).GetById(@event.OrderId);
+            var order = new OrderService(instance.Database).Find(@event.OrderId);
             foreach (var item in order.OrderItems)
             {
                 behaviors.Add(new Behavior

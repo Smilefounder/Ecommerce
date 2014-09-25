@@ -19,7 +19,7 @@ namespace Kooboo.Commerce.Categories
             _categoryRepository = database.Repository<Category>();
         }
 
-        public Category GetById(int id)
+        public Category Find(int id)
         {
             return _categoryRepository.Find(id);
         }

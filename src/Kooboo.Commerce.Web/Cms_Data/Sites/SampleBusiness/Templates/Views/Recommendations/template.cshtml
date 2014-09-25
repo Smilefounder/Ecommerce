@@ -27,7 +27,7 @@
                             <a href="@Url.FrontUrl().PageUrl("Product", new { productId = @item.Id })">@item.Name</a>
                         </h4>
                         <p style="font-size:16px;font-weight:bold;color:orange">
-                            <span>&euro; @item.Prices.Lowest.ToString("f2")</span>
+                            <span>&euro; @item.Prices.From.ToString("f2")</span>
                         </p>
                     </div>
                 </div>

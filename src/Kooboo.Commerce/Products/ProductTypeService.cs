@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Products
             _customFields = database.Repository<CustomFieldDefinition>();
         }
 
-        public ProductType GetById(int id)
+        public ProductType Find(int id)
         {
             return _productTypes.Find(id);
         }
