@@ -22,10 +22,6 @@
                     <div class="medium" data-bind="select2: categories, select2Options: { multiple: true, textField: 'name', ajax: { url: '/Commerce/Product/SearchCategories' }}"></div>
                 </td>
             </tr>
-            <tr>
-                <th>@("Publish".Localize())</th>
-                <td><input type="checkbox" data-bind="checked: isPublished" /></td>
-            </tr>
         </tbody>
     </table>
 </div>

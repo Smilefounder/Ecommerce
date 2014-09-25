@@ -18,7 +18,20 @@
 @section Panel {
     @Html.HeaderPanel().Buttons(buttons =>
     {
-        buttons.Add("Save", "save").WithUrl("javascript:viewModel.submit();");
+        buttons.Add("Save", "save").Dropdown(dropdown =>
+        {
+            if (product.IsPublished)
+            {
+                dropdown.Add("Save").WithUrl("javascript:viewModel.submit(true);");
+                dropdown.Add("Save as draft").WithUrl("javascript:viewModel.submit(false);");
+            }
+            else
+            {
+                dropdown.Add("Save").WithUrl("javascript:viewModel.submit(false);");
+                dropdown.Add("Save and publish").WithUrl("javascript:viewModel.submit(true);");
+            }            
+        });
+        
         buttons.AddTopbarCommands(ViewBag.ToolbarCommands as IEnumerable<ITopbarCommand>, typeof(Product), product == null ? null : (int?)product.Id);
         buttons.AddCancelButton();
     })

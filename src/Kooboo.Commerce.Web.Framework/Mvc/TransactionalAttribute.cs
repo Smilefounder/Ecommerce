@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Web.Framework.Mvc
 {
     public class TransactionalAttribute : ActionFilterAttribute
     {
-        private ICommerceDbTransaction _transaction;
+        const string _currentDbTransactionKey = "CurrentDbTransaction";
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -21,23 +21,23 @@ namespace Kooboo.Commerce.Web.Framework.Mvc
             if (instance == null)
                 throw new InvalidOperationException(typeof(TransactionalAttribute).Name + " can only be applied to an action within commerce instance context.");
 
-            _transaction = instance.Database.BeginTransaction();
+            filterContext.HttpContext.Items[_currentDbTransactionKey] = instance.Database.BeginTransaction();
         }
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
+            var transaction = filterContext.HttpContext.Items[_currentDbTransactionKey] as ICommerceDbTransaction;
+
             try
             {
-                if (filterContext.Exception == null && !_transaction.IsCommitted)
+                if (filterContext.Exception == null && !transaction.IsCommitted)
                 {
-                    _transaction.Commit();
+                    transaction.Commit();
                 }
             }
             finally
             {
-                // reset fields to null in case the filter instance is cached by asp.net mvc
-                _transaction.Dispose();
-                _transaction = null;
+                transaction.Dispose();
             }
 
             base.OnActionExecuted(filterContext);

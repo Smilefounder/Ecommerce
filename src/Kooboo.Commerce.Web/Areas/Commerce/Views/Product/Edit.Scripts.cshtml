@@ -34,7 +34,7 @@
 
             self.product = {};
 
-            self.submit = function () {
+            self.submit = function (publish) {
 
                 if (tinyMCE) {
                     tinyMCE.triggerSave();
@@ -60,11 +60,14 @@
                     }
                 }
 
+                var model = ko.mapping.toJS(self.product);
+                model.isPublished = publish;
+
                 $.ajax({
                     url: '@Url.Action("Save")',
                     type: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify(ko.mapping.toJS(self.product))
+                    data: JSON.stringify(model)
                 })
                 .done(function () {
                     window.leaveConfirm.pass();
