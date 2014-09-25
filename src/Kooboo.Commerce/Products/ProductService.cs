@@ -15,11 +15,13 @@ namespace Kooboo.Commerce.Products
     [Dependency(typeof(ProductService))]
     public class ProductService
     {
+        private readonly CommerceInstance _instance;
         private readonly ICommerceDatabase _database;
 
-        public ProductService(ICommerceDatabase database)
+        public ProductService(CommerceInstance instance)
         {
-            _database = database;
+            _instance = instance;
+            _database = instance.Database;
         }
 
         public Product Find(int id)
@@ -46,14 +48,14 @@ namespace Kooboo.Commerce.Products
         {
             SyncPriceRange(product);
             _database.Repository<Product>().Insert(product);
-            Event.Raise(new ProductCreated(product));
+            Event.Raise(new ProductCreated(product), _instance);
         }
 
         public void Update(Product product)
         {
             SyncPriceRange(product);
             _database.Repository<Product>().Update(product);
-            Event.Raise(new ProductUpdated(product));
+            Event.Raise(new ProductUpdated(product), _instance);
         }
 
         private void SyncPriceRange(Product product)
@@ -73,7 +75,7 @@ namespace Kooboo.Commerce.Products
         {
             var product = _database.Repository<Product>().Find(model.Id);
             _database.Repository<Product>().Delete(product);
-            Event.Raise(new ProductDeleted(product));
+            Event.Raise(new ProductDeleted(product), _instance);
         }
 
         public bool Publish(Product product)
@@ -87,7 +89,7 @@ namespace Kooboo.Commerce.Products
 
             _database.SaveChanges();
 
-            Event.Raise(new ProductPublished(product));
+            Event.Raise(new ProductPublished(product), _instance);
 
             return true;
         }
@@ -103,7 +105,7 @@ namespace Kooboo.Commerce.Products
 
             _database.SaveChanges();
 
-            Event.Raise(new ProductUnpublished(product));
+            Event.Raise(new ProductUnpublished(product), _instance);
 
             return true;
         }

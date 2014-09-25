@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Topbar.Products
 
         public override ActionResult Execute(IEnumerable<Product> products, object config, CommerceInstance instance)
         {
-            var service = new ProductService(instance.Database);
+            var service = new ProductService(instance);
             foreach (var product in products)
             {
                 service.Unpublish(product);

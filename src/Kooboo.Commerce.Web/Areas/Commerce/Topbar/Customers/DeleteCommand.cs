@@ -51,7 +51,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Topbar.Customers
 
         public override ActionResult Execute(IEnumerable<Customer> customers, object config, CommerceInstance instance)
         {
-            var service = new CustomerService(instance.Database);
+            var service = new CustomerService(instance);
             foreach (var customer in customers)
             {
                 service.Delete(customer);

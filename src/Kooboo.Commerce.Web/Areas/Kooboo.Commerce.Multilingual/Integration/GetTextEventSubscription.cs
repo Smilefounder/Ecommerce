@@ -9,7 +9,7 @@ namespace Kooboo.Commerce.Multilingual.Integration
 {
     class GetTextEventSubscription : IHandle<GetText>
     {
-        public void Handle(GetText @event)
+        public void Handle(GetText @event, CommerceInstance instance)
         {
             var store = TranslationStores.Get(CommerceInstance.Current.Name);
 

@@ -12,11 +12,13 @@ namespace Kooboo.Commerce.Shipping
     [Dependency(typeof(ShippingMethodService))]
     public class ShippingMethodService
     {
+        private CommerceInstance _instance;
         private IRepository<ShippingMethod> _repository;
 
-        public ShippingMethodService(ICommerceDatabase database)
+        public ShippingMethodService(CommerceInstance instance)
         {
-            _repository = database.Repository<ShippingMethod>();
+            _instance = instance;
+            _repository = _instance.Database.Repository<ShippingMethod>();
         }
 
         public ShippingMethod Find(int id)
@@ -54,7 +56,7 @@ namespace Kooboo.Commerce.Shipping
             method.IsEnabled = true;
             _repository.Database.SaveChanges();
 
-            Event.Raise(new ShippingMethodEnabled(method));
+            Event.Raise(new ShippingMethodEnabled(method), _instance);
 
             return true;
         }
@@ -69,7 +71,7 @@ namespace Kooboo.Commerce.Shipping
             method.IsEnabled = false;
             _repository.Database.SaveChanges();
 
-            Event.Raise(new ShippingMethodDisabled(method));
+            Event.Raise(new ShippingMethodDisabled(method), _instance);
 
             return true;
         }

@@ -19,11 +19,13 @@ namespace Kooboo.Commerce.Carts
     [Dependency(typeof(ShoppingCartService))]
     public class ShoppingCartService
     {
+        private CommerceInstance _instance;
         private IRepository<ShoppingCart> _repository;
 
-        public ShoppingCartService(ICommerceDatabase database)
+        public ShoppingCartService(CommerceInstance instance)
         {
-            _repository = database.Repository<ShoppingCart>();
+            _instance = instance;
+            _repository = _instance.Database.Repository<ShoppingCart>();
         }
 
         public ShoppingCart Find(int id)
@@ -62,7 +64,7 @@ namespace Kooboo.Commerce.Carts
             Require.NotNull(cart, "cart");
 
             _repository.Insert(cart);
-            Event.Raise(new CartCreated(cart));
+            Event.Raise(new CartCreated(cart), _instance);
         }
 
         public PriceCalculationContext CalculatePrice(ShoppingCart cart, ShoppingContext shoppingContext)
@@ -78,7 +80,7 @@ namespace Kooboo.Commerce.Carts
 
             new PriceCalculator().Calculate(context);
 
-            Event.Raise(new CartPriceCalculated(cart, context));
+            Event.Raise(new CartPriceCalculated(cart, context), _instance);
 
             return context;
         }
@@ -117,7 +119,7 @@ namespace Kooboo.Commerce.Carts
             cart.Items.Add(item);
             _repository.Database.SaveChanges();
 
-            Event.Raise(new CartItemAdded(cart, item));
+            Event.Raise(new CartItemAdded(cart, item), _instance);
         }
 
         public ShoppingCartItem AddItem(ShoppingCart cart, Product product, ProductVariant productPrice, int quantity)
@@ -152,7 +154,7 @@ namespace Kooboo.Commerce.Carts
             cart.Items.Remove(item);
             _repository.Database.SaveChanges();
 
-            Event.Raise(new CartItemRemoved(cart, item));
+            Event.Raise(new CartItemRemoved(cart, item), _instance);
 
             return true;
         }
@@ -181,7 +183,7 @@ namespace Kooboo.Commerce.Carts
 
                 _repository.Database.SaveChanges();
 
-                Event.Raise(new CartItemQuantityChanged(cart, item, oldQuantity));
+                Event.Raise(new CartItemQuantityChanged(cart, item, oldQuantity), _instance);
             }
         }
 
@@ -245,7 +247,7 @@ namespace Kooboo.Commerce.Carts
             cart.SessionId = string.Format("EXPIRED_{0}_{1}", cart.SessionId, DateTime.UtcNow.Ticks.ToString());
             _repository.Database.SaveChanges();
 
-            Event.Raise(new CartExpired(cart));
+            Event.Raise(new CartExpired(cart), _instance);
         }
     }
 }

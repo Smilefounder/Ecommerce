@@ -38,6 +38,9 @@ namespace Kooboo.Commerce.Web.Bootstrapping
             // Repository and ICommerceDatabase
             var container = ((Kooboo.CMS.Common.Runtime.Dependency.Ninject.ContainerManager)containerManager).Container;
 
+            container.Bind<CommerceInstance>()
+                     .ToMethod(ctx => CommerceInstance.Current);
+
             container.Bind<ICommerceDatabase>()
                      .ToMethod(ctx =>
                      {

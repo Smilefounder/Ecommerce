@@ -9,21 +9,37 @@ namespace Kooboo.Commerce.Api.Local
 {
     public class LocalApiContext : ApiContext
     {
-        public ICommerceDatabase Database { get; set; }
+        private CommerceInstance _instance;
 
-        public LocalApiContext(ApiContext context, ICommerceDatabase database)
+        public CommerceInstance Instance
         {
-            Instance = context.Instance;
+            get
+            {
+                return _instance;
+            }
+        }
+
+        public ICommerceDatabase Database
+        {
+            get
+            {
+                return _instance.Database;
+            }
+        }
+
+        public LocalApiContext(ApiContext context, CommerceInstance instance)
+        {
+            InstanceName = context.InstanceName;
             Culture = context.Culture;
             Currency = context.Currency;
             CustomerEmail = context.CustomerEmail;
-            Database = database;
+            _instance = instance;
         }
 
-        public LocalApiContext(string instance, CultureInfo culture, string currency, ICommerceDatabase database)
-            : base(instance, culture, currency)
+        public LocalApiContext(CultureInfo culture, string currency, CommerceInstance instance)
+            : base(instance.Name, culture, currency)
         {
-            Database = database;
+            _instance = instance;
         }
     }
 }

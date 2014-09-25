@@ -69,7 +69,7 @@ namespace Kooboo.Commerce
         static IDictionary<EntityKey, TextDictionary> GetText(IDictionary<EntityKey, TextDictionary> originalTextInfos, CultureInfo culture)
         {
             var @event = new GetText(originalTextInfos, culture);
-            Event.Raise(@event);
+            Event.Raise(@event, CommerceInstance.Current);
             return @event.Texts;
         }
     }

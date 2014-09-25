@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Events;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,17 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
                 var host = new EventHost();
                 var value = 0;
 
-                host.Listen<MyEvent>(@event =>
+                host.Listen<MyEvent>((@event, instance) =>
                 {
                     value += @event.Value;
                 });
 
                 Assert.Equal(0, value);
 
-                host.Raise(new MyEvent { Value = 5 });
+                host.Raise(new MyEvent { Value = 5 }, null);
                 Assert.Equal(5, value);
 
-                host.Raise(new MyEvent { Value = 3 });
+                host.Raise(new MyEvent { Value = 3 }, null);
                 Assert.Equal(8, value);
             }
 
@@ -41,10 +42,10 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
 
                 host.Listen<MyEvent>(handler);
 
-                host.Raise(new MyEvent { Value = 6 });
+                host.Raise(new MyEvent { Value = 6 }, null);
                 Assert.Equal(6, handler.Value);
 
-                host.Raise(new MyEvent { Value = 7 });
+                host.Raise(new MyEvent { Value = 7 }, null);
                 Assert.Equal(13, handler.Value);
             }
 
@@ -55,10 +56,10 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
 
                 host.Listen<MyEvent>(typeof(MyEventHandlerWithStaticValue));
 
-                host.Raise(new MyEvent { Value = 16 });
+                host.Raise(new MyEvent { Value = 16 }, null);
                 Assert.Equal(16, MyEventHandlerWithStaticValue.Value);
 
-                host.Raise(new MyEvent { Value = 3 });
+                host.Raise(new MyEvent { Value = 3 }, null);
                 Assert.Equal(19, MyEventHandlerWithStaticValue.Value);
             }
 
@@ -71,7 +72,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
             {
                 public int Value { get; set; }
 
-                public void Handle(MyEvent @event)
+                public void Handle(MyEvent @event, CommerceInstance instance)
                 {
                     Value += @event.Value;
                 }
@@ -81,7 +82,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
             {
                 public static int Value = 0;
 
-                public void Handle(MyEvent @event)
+                public void Handle(MyEvent @event, CommerceInstance instance)
                 {
                     Value += @event.Value;
                 }
@@ -98,7 +99,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
                 host.Listen<BaseEvent>(typeof(BaseEventHandler));
 
                 var @event = new DerivedEvent();
-                host.Raise(@event);
+                host.Raise(@event, null);
 
                 Assert.Equal(1, @event.Value);
             }
@@ -112,12 +113,12 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
 
                 var @event = new BaseEvent();
 
-                host.Raise(@event);
+                host.Raise(@event, null);
                 Assert.Equal(5, @event.Value);
 
                 @event = new DerivedEvent();
 
-                host.Raise(@event);
+                host.Raise(@event, null);
                 Assert.Equal(5, @event.Value);
             }
 
@@ -132,7 +133,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
 
             public class BaseEventHandler : IHandle<BaseEvent>
             {
-                public void Handle(BaseEvent @event)
+                public void Handle(BaseEvent @event, CommerceInstance instance)
                 {
                     @event.Value++;
                 }
@@ -140,7 +141,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
 
             public class DerivedEventHandler : IHandle<DerivedEvent>
             {
-                public void Handle(DerivedEvent @event)
+                public void Handle(DerivedEvent @event, CommerceInstance instance)
                 {
                     @event.Value += 2;
                 }
@@ -148,7 +149,7 @@ namespace Kooboo.Commerce.Infrastructure.Tests.Events
 
             public class AllEventHandler : IHandle<IEvent>
             {
-                public void Handle(IEvent @event)
+                public void Handle(IEvent @event, CommerceInstance instance)
                 {
                     var evnt = @event as BaseEvent;
                     evnt.Value += 5;

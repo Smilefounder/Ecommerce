@@ -77,7 +77,7 @@ namespace Kooboo.Commerce.Multilingual
             {
                 Text = text,
                 Controller = controller,
-                Badge = new Badge
+                Badge = totalPending == 0 ? null : new Badge
                 {
                     Text = totalPending.ToString(),
                     HtmlAttributes = new Dictionary<string, object>

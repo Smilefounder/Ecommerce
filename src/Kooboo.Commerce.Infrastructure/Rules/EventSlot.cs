@@ -34,7 +34,7 @@ namespace Kooboo.Commerce.Rules
             Event.Listen(EventType, Handle);
         }
 
-        private void Handle(IEvent @event)
+        private void Handle(IEvent @event, CommerceInstance commerceInstance)
         {
             // TODO: Need to be passed in?
             var instance = CommerceInstance.Current;

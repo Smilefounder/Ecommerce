@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Events;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Events;
 using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Payments;
 using System;
@@ -17,7 +18,7 @@ namespace Kooboo.Commerce.Orders
             _paymentService = paymentService;
         }
 
-        public void Handle(PaymentStatusChanged @event)
+        public void Handle(PaymentStatusChanged @event, CommerceInstance instance)
         {
             var payment = _paymentService.Find(@event.PaymentId);
 

@@ -11,13 +11,15 @@ namespace Kooboo.Commerce.Customers
     [Dependency(typeof(CustomerService))]
     public class CustomerService
     {
+        private CommerceInstance _instance;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Address> _addressRepository;
 
-        public CustomerService(ICommerceDatabase database)
+        public CustomerService(CommerceInstance instance)
         {
-            _customerRepository = database.Repository<Customer>();
-            _addressRepository = database.Repository<Address>();
+            _instance = instance;
+            _customerRepository = _instance.Database.Repository<Customer>();
+            _addressRepository = _instance.Database.Repository<Address>();
         }
 
         public Customer Find(int id)
@@ -53,7 +55,7 @@ namespace Kooboo.Commerce.Customers
                 throw new BusinessRuleViolationException("Email was already taken by others.");
 
             _customerRepository.Insert(customer);
-            Event.Raise(new CustomerCreated(customer));
+            Event.Raise(new CustomerCreated(customer), _instance);
         }
 
         public void Update(Customer customer)
@@ -62,7 +64,7 @@ namespace Kooboo.Commerce.Customers
                 throw new BusinessRuleViolationException("Email was already taken by others.");
 
             _customerRepository.Update(customer);
-            Event.Raise(new CustomerUpdated(customer));
+            Event.Raise(new CustomerUpdated(customer), _instance);
         }
 
         private bool CanUseEmail(Customer customer, string email)
@@ -73,7 +75,7 @@ namespace Kooboo.Commerce.Customers
         public void Delete(Customer customer)
         {
             _customerRepository.Delete(customer);
-            Event.Raise(new CustomerDeleted(customer));
+            Event.Raise(new CustomerDeleted(customer), _instance);
         }
     }
 }

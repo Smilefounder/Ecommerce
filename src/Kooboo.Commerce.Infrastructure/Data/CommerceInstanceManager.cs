@@ -81,7 +81,7 @@ namespace Kooboo.Commerce.Data
                 }
             }
 
-            Event.Raise(new CommerceInstanceCreated(settings.Name, settings));
+            Event.Raise(new CommerceInstanceCreated(settings.Name, settings), GetInstance(settings.Name));
         }
 
         static void CreatePhysicalDatabaseIfNotExists(string connectionString, ICommerceDbProvider provider)
@@ -101,6 +101,8 @@ namespace Kooboo.Commerce.Data
             var settings = _settingsManager.Get(name);
             if (settings == null)
                 throw new InvalidOperationException("Cannot find metadata for commerce instance: " + name + ".");
+
+            var instance = GetInstance(name);
 
             try
             {
@@ -124,7 +126,7 @@ namespace Kooboo.Commerce.Data
             var folder = DataFolders.Instances.GetFolder(settings.Name);
             folder.Delete();
 
-            Event.Raise(new CommerceInstanceDeleted(settings.Name, settings));
+            Event.Raise(new CommerceInstanceDeleted(settings.Name, settings), instance);
         }
 
         public CommerceInstanceSettings GetInstanceSettings(string instanceName)

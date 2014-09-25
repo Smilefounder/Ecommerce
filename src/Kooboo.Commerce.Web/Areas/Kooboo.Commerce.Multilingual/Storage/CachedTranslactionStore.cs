@@ -55,6 +55,13 @@ namespace Kooboo.Commerce.Multilingual.Storage
                         }
                     }
                 }
+                else
+                {
+                    for (var i = 0; i < keys.Length; i++)
+                    {
+                        uncachedKeys.Add(new KeyValuePair<EntityKey,int>(keys[i], i));
+                    }
+                }
             }
             finally
             {
@@ -63,7 +70,7 @@ namespace Kooboo.Commerce.Multilingual.Storage
 
             if (uncachedKeys.Count > 0)
             {
-                var translations = _underlyingStore.Find(culture, uncachedKeys.Select(it => it.Key).ToArray());
+                var translations = FindInUnderlyingStore(culture, uncachedKeys.Select(it => it.Key).ToArray());
                 for (var i = 0; i < translations.Length; i++)
                 {
                     var translation = translations[i];
@@ -75,6 +82,21 @@ namespace Kooboo.Commerce.Multilingual.Storage
             }
 
             return result;
+        }
+
+        private EntityTransaltion[] FindInUnderlyingStore(CultureInfo culture, EntityKey[] keys)
+        {
+            var translations = _underlyingStore.Find(culture, keys);
+            for (var i = 0; i < translations.Length; i++)
+            {
+                // 始终保证返回的结果不为null, 这样便可以缓存“未翻译”的结果
+                if (translations[i] == null)
+                {
+                    translations[i] = new EntityTransaltion(culture.Name, keys[i]);
+                }
+            }
+
+            return translations;
         }
 
         public int TotalTranslated(System.Globalization.CultureInfo culture, Type entityType)
@@ -95,7 +117,7 @@ namespace Kooboo.Commerce.Multilingual.Storage
         public void AddOrUpdate(System.Globalization.CultureInfo culture, EntityKey key, IEnumerable<PropertyTranslation> propertyTranslations)
         {
             _underlyingStore.AddOrUpdate(culture, key, propertyTranslations);
-            UpdateCache(culture, new List<EntityTransaltion> { new EntityTransaltion(culture.Name, key) });
+            UpdateCache(culture, new List<EntityTransaltion> { new EntityTransaltion(culture.Name, key, propertyTranslations) });
         }
 
         public void MarkOutOfDate(System.Globalization.CultureInfo culture, EntityKey key)
@@ -129,7 +151,7 @@ namespace Kooboo.Commerce.Multilingual.Storage
             {
                 if (!_cache.ContainsKey(culture))
                 {
-                    return;
+                    _cache.Add(culture, new Dictionary<EntityKey, EntityTransaltion>());
                 }
 
                 var cache = _cache[culture];

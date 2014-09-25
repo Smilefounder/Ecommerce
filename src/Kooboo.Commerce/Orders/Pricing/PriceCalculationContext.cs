@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.Commerce.Data;
 
 namespace Kooboo.Commerce.Orders.Pricing
 {
@@ -119,8 +120,9 @@ namespace Kooboo.Commerce.Orders.Pricing
         /// </summary>
         public static decimal GetFinalPrice(int productId, int variantId, decimal originalPrice, ShoppingContext shoppingContext)
         {
+            // TODO: Avoid using Current
             var @event = new GetPrice(productId, variantId, originalPrice, shoppingContext);
-            Event.Raise(@event);
+            Event.Raise(@event, CommerceInstance.Current);
             return @event.FinalPrice;
         }
 

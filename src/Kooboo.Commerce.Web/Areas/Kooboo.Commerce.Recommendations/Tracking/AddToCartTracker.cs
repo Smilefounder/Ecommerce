@@ -11,7 +11,7 @@ namespace Kooboo.Commerce.Recommendations.Tracking
 {
     class AddToCartTracker : IHandle<CartItemAdded>
     {
-        public void Handle(CartItemAdded @event)
+        public void Handle(CartItemAdded @event, CommerceInstance instance)
         {
             BehaviorReceivers.Receive(CommerceInstance.Current.Name,
                 new Behavior {

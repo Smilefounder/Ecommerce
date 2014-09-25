@@ -13,13 +13,15 @@ namespace Kooboo.Commerce.Products
     [Dependency(typeof(ProductTypeService))]
     public class ProductTypeService
     {
+        private readonly CommerceInstance _instance;
         private readonly IRepository<ProductType> _productTypes;
         private readonly IRepository<CustomFieldDefinition> _customFields;
 
-        public ProductTypeService(ICommerceDatabase database)
+        public ProductTypeService(CommerceInstance instance)
         {
-            _productTypes = database.Repository<ProductType>();
-            _customFields = database.Repository<CustomFieldDefinition>();
+            _instance = instance;
+            _productTypes = _instance.Database.Repository<ProductType>();
+            _customFields = _instance.Database.Repository<CustomFieldDefinition>();
         }
 
         public ProductType Find(int id)
@@ -76,7 +78,7 @@ namespace Kooboo.Commerce.Products
 
             _productTypes.Insert(type);
 
-            Event.Raise(new ProductTypeCreated(type));
+            Event.Raise(new ProductTypeCreated(type), _instance);
 
             return type;
         }
@@ -137,7 +139,7 @@ namespace Kooboo.Commerce.Products
 
             _productTypes.Database.SaveChanges();
 
-            Event.Raise(new ProductTypeUpdated(type));
+            Event.Raise(new ProductTypeUpdated(type), _instance);
 
             return type;
         }
@@ -157,7 +159,7 @@ namespace Kooboo.Commerce.Products
         {
             Disable(type);
             _productTypes.Delete(type);
-            Event.Raise(new ProductTypeDeleted(type));
+            Event.Raise(new ProductTypeDeleted(type), _instance);
         }
 
         public bool Enable(ProductType type)
@@ -170,7 +172,7 @@ namespace Kooboo.Commerce.Products
             type.IsEnabled = true;
             _productTypes.Database.SaveChanges();
 
-            Event.Raise(new ProductTypeEnabled(type));
+            Event.Raise(new ProductTypeEnabled(type), _instance);
 
             return true;
         }
@@ -185,7 +187,7 @@ namespace Kooboo.Commerce.Products
             type.IsEnabled = false;
             _productTypes.Database.SaveChanges();
 
-            Event.Raise(new ProductTypeDisabled(type));
+            Event.Raise(new ProductTypeDisabled(type), _instance);
 
             return true;
         }

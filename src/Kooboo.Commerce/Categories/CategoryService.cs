@@ -12,11 +12,13 @@ namespace Kooboo.Commerce.Categories
     [Dependency(typeof(CategoryService))]
     public class CategoryService
     {
+        private CommerceInstance _instance;
         private IRepository<Category> _categoryRepository;
 
-        public CategoryService(ICommerceDatabase database)
+        public CategoryService(CommerceInstance instance)
         {
-            _categoryRepository = database.Repository<Category>();
+            _instance = instance;
+            _categoryRepository = instance.Database.Repository<Category>();
         }
 
         public Category Find(int id)
@@ -32,19 +34,19 @@ namespace Kooboo.Commerce.Categories
         public void Create(Category category)
         {
             _categoryRepository.Insert(category);
-            Event.Raise(new CategoryCreated(category));
+            Event.Raise(new CategoryCreated(category), _instance);
         }
 
         public void Update(Category category)
         {
             _categoryRepository.Update(category);
-            Event.Raise(new CategoryUpdated(category));
+            Event.Raise(new CategoryUpdated(category), _instance);
         }
 
         public void Delete(Category category)
         {
             _categoryRepository.Delete(category);
-            Event.Raise(new CategoryDeleted(category));
+            Event.Raise(new CategoryDeleted(category), _instance);
         }
     }
 }

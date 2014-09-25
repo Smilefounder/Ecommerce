@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscription
             _translationStore = TranslationStores.Get(CommerceInstance.Current.Name);
         }
 
-        public void Handle(CategoryUpdated @event)
+        public void Handle(CategoryUpdated @event, CommerceInstance instance)
         {
             var key = new EntityKey(typeof(Category), @event.CategoryId);
             foreach (var lang in _languageStore.All())
@@ -27,7 +27,7 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscription
             }
         }
 
-        public void Handle(CategoryDeleted @event)
+        public void Handle(CategoryDeleted @event, CommerceInstance instance)
         {
             var key = new EntityKey(typeof(Category), @event.CategoryId);
 

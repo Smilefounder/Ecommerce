@@ -13,12 +13,17 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 {
     public class SqlceTranslationStore : ITranslationStore
     {
-        public string Instance { get; private set; }
+        private ICommerceInstanceManager _instanceManager;
 
-        public SqlceTranslationStore(string instance)
+        public string InstanceName { get; private set; }
+
+        public SqlceTranslationStore(string instanceName, ICommerceInstanceManager instanceManager)
         {
-            Require.NotNullOrEmpty(instance, "instance");
-            Instance = instance;
+            Require.NotNullOrEmpty(instanceName, "instanceName");
+            Require.NotNull(instanceManager, "instanceManager");
+
+            InstanceName = instanceName;
+            _instanceManager = instanceManager;
         }
 
         public EntityTransaltion Find(System.Globalization.CultureInfo culture, EntityKey key)
@@ -30,7 +35,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
         {
             var result = new EntityTransaltion[keys.Length];
 
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 for (var i = 0; i < keys.Length; i++)
                 {
@@ -55,7 +60,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public int TotalTranslated(CultureInfo culture, Type entityType)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 return db.Translations.Where(it => it.Culture == culture.Name && it.EntityType == entityType.Name).Count();
             }
@@ -63,7 +68,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public int TotalOutOfDate(CultureInfo culture, Type entityType)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 return db.Translations.Where(it => it.Culture == culture.Name && it.EntityType == entityType.Name && it.IsOutOfDate).Count();
             }
@@ -71,7 +76,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public Pagination<EntityTransaltion> FindOutOfDate(CultureInfo culture, Type entityType, int pageInex, int pageSize)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 return db.Translations
                          .Where(t => t.Culture == culture.Name && t.EntityType == entityType.Name && t.IsOutOfDate)
@@ -93,7 +98,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public void AddOrUpdate(System.Globalization.CultureInfo culture, EntityKey key, IEnumerable<PropertyTranslation> propertyTranslations)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 var entry = db.Translations.Find(GetUnderlyingEntityKey(culture.Name, key));
                 if (entry == null)
@@ -116,13 +121,13 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
                 db.SaveChanges();
 
-                Event.Raise(new TranslationUpdated(key, propertyTranslations, culture));
+                Event.Raise(new TranslationUpdated(key, propertyTranslations, culture), GetInstance());
             }
         }
 
         public void MarkOutOfDate(CultureInfo culture, EntityKey key)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 var entry = db.Translations.Find(GetUnderlyingEntityKey(culture.Name, key));
                 if (entry != null)
@@ -135,7 +140,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public void Delete(CultureInfo culture, EntityKey key)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 var entry = db.Translations.Find(GetUnderlyingEntityKey(culture.Name, key));
                 if (entry != null)
@@ -149,6 +154,11 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
         private object[] GetUnderlyingEntityKey(string culture, EntityKey key)
         {
             return new[] { culture, key.EntityType.Name, key.Value.ToString() };
+        }
+
+        private CommerceInstance GetInstance()
+        {
+            return _instanceManager.GetInstance(InstanceName);
         }
     }
 }

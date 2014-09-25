@@ -19,13 +19,13 @@ namespace Kooboo.Commerce.Orders
     [Dependency(typeof(OrderService))]
     public class OrderService
     {
-        private readonly ICommerceDatabase _database;
+        private readonly CommerceInstance _instance;
         private readonly IRepository<Order> _orderRepository;
 
-        public OrderService(ICommerceDatabase database)
+        public OrderService(CommerceInstance instance)
         {
-            _database = database;
-            _orderRepository = _database.Repository<Order>();
+            _instance = instance;
+            _orderRepository = _instance.Database.Repository<Order>();
         }
 
         public Order Find(int id)
@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.Orders
             Require.That(cart.Items.Count > 0, "cart.Items", "Cannot create order from an empty cart.");
 
             // Recalculate price
-            var pricingContext = new ShoppingCartService(_database).CalculatePrice(cart, context);
+            var pricingContext = new ShoppingCartService(_instance).CalculatePrice(cart, context);
 
             var order = new Order();
             order.ShoppingCartId = cart.Id;
@@ -89,7 +89,7 @@ namespace Kooboo.Commerce.Orders
         public bool Create(Order order)
         {
             _orderRepository.Insert(order);
-            Event.Raise(new OrderCreated(order));
+            Event.Raise(new OrderCreated(order), _instance);
             return true;
         }
 
@@ -100,9 +100,9 @@ namespace Kooboo.Commerce.Orders
                 var oldStatus = order.Status;
                 order.Status = newStatus;
 
-                _database.SaveChanges();
+                _orderRepository.Database.SaveChanges();
 
-                Event.Raise(new OrderStatusChanged(order, oldStatus, newStatus));
+                Event.Raise(new OrderStatusChanged(order, oldStatus, newStatus), _instance);
             }
         }
 
@@ -116,7 +116,7 @@ namespace Kooboo.Commerce.Orders
             order.Total += payment.PaymentMethodCost;
             order.PaymentMethodCost += payment.PaymentMethodCost;
 
-            _database.SaveChanges();
+            _orderRepository.Database.SaveChanges();
 
             if (order.TotalPaid >= order.Total)
             {

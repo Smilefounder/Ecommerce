@@ -12,7 +12,7 @@ namespace Kooboo.Commerce.Recommendations.Tracking
 {
     class PurchaseTracker : IHandle<OrderStatusChanged>
     {
-        public void Handle(OrderStatusChanged @event)
+        public void Handle(OrderStatusChanged @event, CommerceInstance instance)
         {
             if (@event.NewStatus != OrderStatus.Paid)
             {
@@ -21,8 +21,7 @@ namespace Kooboo.Commerce.Recommendations.Tracking
 
             var behaviors = new List<Behavior>();
 
-            var instance = CommerceInstance.Current;
-            var order = new OrderService(instance.Database).Find(@event.OrderId);
+            var order = new OrderService(instance).Find(@event.OrderId);
             foreach (var item in order.OrderItems)
             {
                 behaviors.Add(new Behavior

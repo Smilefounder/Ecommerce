@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Api.Local.Carts.Mapping
             var cart = source as Core.ShoppingCart;
 
             // Update cart prices
-            var priceContext = new Core.ShoppingCartService(context.ApiContext.Database).CalculatePrice(cart, null);
+            var priceContext = new Core.ShoppingCartService(context.ApiContext.Instance).CalculatePrice(cart, null);
             if (model.Items != null && model.Items.Count > 0)
             {
                 foreach (var priceItem in priceContext.Items)

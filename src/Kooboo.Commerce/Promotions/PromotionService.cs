@@ -12,11 +12,13 @@ namespace Kooboo.Commerce.Promotions
     [Dependency(typeof(PromotionService))]
     public class PromotionService
     {
+        private CommerceInstance _instance;
         private IRepository<Promotion> _repository;
 
-        public PromotionService(ICommerceDatabase database)
+        public PromotionService(CommerceInstance instance)
         {
-            _repository = database.Repository<Promotion>();
+            _instance = instance;
+            _repository = instance.Database.Repository<Promotion>();
         }
 
         public Promotion Find(int id)
@@ -50,7 +52,7 @@ namespace Kooboo.Commerce.Promotions
 
             _repository.Database.SaveChanges();
 
-            Event.Raise(new PromotionEnabled(promotion));
+            Event.Raise(new PromotionEnabled(promotion), _instance);
 
             return true;
         }
@@ -66,7 +68,7 @@ namespace Kooboo.Commerce.Promotions
 
             _repository.Database.SaveChanges();
 
-            Event.Raise(new PromotionDisabled(promotion));
+            Event.Raise(new PromotionDisabled(promotion), _instance);
 
             return true;
         }

@@ -22,7 +22,7 @@ namespace Kooboo.Commerce.Api.Local.Categories
 
         public IList<Category> Breadcrumb(int currentCategoryId)
         {
-            var tree = Core.CategoryTree.Get(_context.Instance);
+            var tree = Core.CategoryTree.Get(_context.InstanceName);
             var currentCategory = tree.Find(currentCategoryId);
 
             var breadcrumb = new List<Category>();

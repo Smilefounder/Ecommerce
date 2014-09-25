@@ -36,10 +36,10 @@ namespace Kooboo.Commerce.Api.Local
         {
             // TODO: Not good! But without this, we are not able to resolve services.
             //       So we might need to think about improving the design of service apis. No idea for now.
-            HttpContext.Current.Items["instance"] = context.Instance;
+            HttpContext.Current.Items["instance"] = context.InstanceName;
             HttpContext.Current.Items["language"] = context.Culture.Name;
 
-            _context = new LocalApiContext(context, CommerceInstance.Current.Database);
+            _context = new LocalApiContext(context, CommerceInstance.Current);
         }
 
         public ICountryApi Countries

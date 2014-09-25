@@ -27,7 +27,8 @@ namespace Kooboo.Commerce.Data
 
         public override int SaveChanges()
         {
-            Event.Raise(new SavingDbChanges(this));
+            // TODO: Pass in commerce instance
+            Event.Raise(new SavingDbChanges(this), null);
 
             // Delete orphans
             var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Modified && e.Entity is IOrphanable);

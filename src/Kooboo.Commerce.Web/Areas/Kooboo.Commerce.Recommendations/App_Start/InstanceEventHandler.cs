@@ -1,4 +1,5 @@
-﻿using Kooboo.Commerce.Data.Events;
+﻿using Kooboo.Commerce.Data;
+using Kooboo.Commerce.Data.Events;
 using Kooboo.Commerce.Events;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,12 @@ namespace Kooboo.Commerce.Recommendations
 {
     class InstanceEventHandler : IHandle<CommerceInstanceCreated>, IHandle<CommerceInstanceDeleted>
     {
-        public void Handle(CommerceInstanceCreated @event)
+        public void Handle(CommerceInstanceCreated @event, CommerceInstance instance)
         {
             RecommendationEngineConfiguration.Initialize(@event.InstanceName);
         }
 
-        public void Handle(CommerceInstanceDeleted @event)
+        public void Handle(CommerceInstanceDeleted @event, CommerceInstance instance)
         {
             RecommendationEngineConfiguration.Dispose(@event.InstanceName);
         }

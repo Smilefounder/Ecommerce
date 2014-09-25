@@ -10,17 +10,22 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 {
     public class SqlceLanguageStore : ILanguageStore
     {
-        public string Instance { get; private set; }
+        private ICommerceInstanceManager _instanceManager;
 
-        public SqlceLanguageStore(string instance)
+        public string InstanceName { get; private set; }
+
+        public SqlceLanguageStore(string instanceName, ICommerceInstanceManager instanceManager)
         {
-            Require.NotNullOrEmpty(instance, "instance");
-            Instance = instance;
+            Require.NotNull(instanceName, "instanceName");
+            Require.NotNull(instanceManager, "instanceManager");
+
+            InstanceName = instanceName;
+            _instanceManager = instanceManager;
         }
 
         public IEnumerable<Language> All()
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 return db.Languages.ToList();
             }
@@ -28,7 +33,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public bool Exists(string name)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 return db.Languages.Any(l => l.Name == name);
             }
@@ -36,7 +41,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public Language Find(string name)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 return db.Languages.Find(name);
             }
@@ -44,18 +49,18 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public void Add(Language language)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 db.Languages.Add(language);
                 db.SaveChanges();
 
-                Event.Raise(new LanguageAdded(language.Name));
+                Event.Raise(new LanguageAdded(language.Name), GetInstance());
             }
         }
 
         public void Update(Language language)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 var existing = db.Languages.Find(language.Name);
                 existing.DisplayName = language.DisplayName;
@@ -65,14 +70,19 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
         public void Delete(string name)
         {
-            using (var db = new MultilingualDbContext(Instance))
+            using (var db = new MultilingualDbContext(InstanceName))
             {
                 var lang = db.Languages.Find(name);
                 db.Languages.Remove(lang);
                 db.SaveChanges();
 
-                Event.Raise(new LanguageDeleted(lang.Name));
+                Event.Raise(new LanguageDeleted(lang.Name), GetInstance());
             }
+        }
+
+        private CommerceInstance GetInstance()
+        {
+            return _instanceManager.GetInstance(InstanceName);
         }
     }
 }

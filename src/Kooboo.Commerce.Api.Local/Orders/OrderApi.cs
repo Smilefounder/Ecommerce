@@ -25,12 +25,12 @@ namespace Kooboo.Commerce.Api.Local.Orders
 
         public int CreateFromCart(int cartId, ShoppingContext context)
         {
-            var service = new Kooboo.Commerce.Carts.ShoppingCartService(_context.Database);
+            var service = new Kooboo.Commerce.Carts.ShoppingCartService(_context.Instance);
             var cart = service.Find(cartId);
 
             return _context.Database.Transactional(() =>
             {
-                var orderService = new Kooboo.Commerce.Orders.OrderService(_context.Database);
+                var orderService = new Kooboo.Commerce.Orders.OrderService(_context.Instance);
                 var order = orderService.CreateFromCart(cart, new Kooboo.Commerce.Carts.ShoppingContext
                 {
                     Culture = context.Culture,
@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Api.Local.Orders
             var paymentMethod = _context.Database.Repository<Core.PaymentMethod>().Find(request.PaymentMethodId);
             var payment = new Kooboo.Commerce.Payments.Payment(request.OrderId, request.Amount, paymentMethod, request.Description);
 
-            var paymentService = new Core.PaymentService(_context.Database);
+            var paymentService = new Core.PaymentService(_context.Instance);
 
             paymentService.Create(payment);
 

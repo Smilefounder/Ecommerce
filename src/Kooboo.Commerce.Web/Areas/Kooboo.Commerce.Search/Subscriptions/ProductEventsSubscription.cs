@@ -29,12 +29,12 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         #region Language Events
 
-        public void Handle(LanguageAdded @event)
+        public void Handle(LanguageAdded @event, CommerceInstance instance)
         {
 
         }
 
-        public void Handle(LanguageDeleted @event)
+        public void Handle(LanguageDeleted @event, CommerceInstance instance)
         {
 
         }
@@ -43,9 +43,9 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         #region Translation Events
 
-        public void Handle(TranslationUpdated @event)
+        public void Handle(TranslationUpdated @event, CommerceInstance instance)
         {
-            var service = new ProductService(CommerceInstance.Current.Database);
+            var service = new ProductService(instance);
 
             if (@event.EntityKey.EntityType == typeof(Product))
             {
@@ -70,7 +70,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         #region Product Events
 
-        public void Handle(ProductCreated @event)
+        public void Handle(ProductCreated @event, CommerceInstance instance)
         {
             var product = CommerceInstance.Current.Database.Repository<Product>().Find(@event.ProductId);
             if (product.IsPublished)
@@ -79,7 +79,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
             }
         }
 
-        public void Handle(ProductUpdated @event)
+        public void Handle(ProductUpdated @event, CommerceInstance instance)
         {
             var product = CommerceInstance.Current.Database.Repository<Product>().Find(@event.ProductId);
             if (product.IsPublished)
@@ -88,18 +88,18 @@ namespace Kooboo.Commerce.Search.Subscriptions
             }
         }
 
-        public void Handle(ProductPublished @event)
+        public void Handle(ProductPublished @event, CommerceInstance instance)
         {
             var product = CommerceInstance.Current.Database.Repository<Product>().Find(@event.ProductId);
             Index(product, GetAllCultures());
         }
 
-        public void Handle(ProductUnpublished @event)
+        public void Handle(ProductUnpublished @event, CommerceInstance instance)
         {
             DeleteIndex(@event.ProductId);
         }
 
-        public void Handle(ProductDeleted @event)
+        public void Handle(ProductDeleted @event, CommerceInstance instance)
         {
             DeleteIndex(@event.ProductId);
         }

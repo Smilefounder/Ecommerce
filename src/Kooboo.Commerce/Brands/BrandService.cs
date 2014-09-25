@@ -12,11 +12,11 @@ namespace Kooboo.Commerce.Brands
     [Dependency(typeof(BrandService))]
     public class BrandService
     {
-        private readonly ICommerceDatabase _database;
+        private readonly CommerceInstance _instance;
 
-        public BrandService(ICommerceDatabase database)
+        public BrandService(CommerceInstance instance)
         {
-            _database = database;
+            _instance = instance;
         }
 
         public Brand Find(int id)
@@ -27,25 +27,25 @@ namespace Kooboo.Commerce.Brands
 
         public IQueryable<Brand> Query()
         {
-            return _database.Query<Brand>();
+            return _instance.Database.Query<Brand>();
         }
 
         public void Create(Brand brand)
         {
-            _database.Insert(brand);;
-            Event.Raise(new BrandCreated(brand));
+            _instance.Database.Insert(brand);;
+            Event.Raise(new BrandCreated(brand), _instance);
         }
 
         public void Update(Brand brand)
         {
-            _database.Repository<Brand>().Update(brand);
-            Event.Raise(new BrandUpdated(brand));
+            _instance.Database.Repository<Brand>().Update(brand);
+            Event.Raise(new BrandUpdated(brand), _instance);
         }
 
         public void Delete(Brand brand)
         {
-            _database.Repository<Brand>().Delete(brand);
-            Event.Raise(new BrandDeleted(brand));
+            _instance.Database.Repository<Brand>().Delete(brand);
+            Event.Raise(new BrandDeleted(brand), _instance);
         }
     }
 }

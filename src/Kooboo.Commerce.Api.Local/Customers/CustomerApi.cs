@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Api.Local.Customers
 
         public int AddAddress(int customerId, Address address)
         {
-            var service = new Kooboo.Commerce.Customers.CustomerService(_context.Database);
+            var service = new Kooboo.Commerce.Customers.CustomerService(_context.Instance);
             var customer = service.Find(customerId);
             var addr = CreateAddress(address);
 
@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Api.Local.Customers
                 customer.Addresses.Add(CreateAddress(address));
             }
 
-            new Kooboo.Commerce.Customers.CustomerService(_context.Database).Create(customer);
+            new Kooboo.Commerce.Customers.CustomerService(_context.Instance).Create(customer);
 
             model.Id = customer.Id;
 

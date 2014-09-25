@@ -12,11 +12,13 @@ namespace Kooboo.Commerce.Payments
     [Dependency(typeof(PaymentMethodService))]
     public class PaymentMethodService
     {
+        private CommerceInstance _instance;
         private IRepository<PaymentMethod> _repository;
 
-        public PaymentMethodService(ICommerceDatabase database)
+        public PaymentMethodService(CommerceInstance instance)
         {
-            _repository = database.Repository<PaymentMethod>();
+            _instance = instance;
+            _repository = instance.Database.Repository<PaymentMethod>();
         }
 
         public PaymentMethod Find(int id)
@@ -44,7 +46,7 @@ namespace Kooboo.Commerce.Payments
             if (method.MarkEnabled())
             {
                 _repository.Database.SaveChanges();
-                Event.Raise(new PaymentMethodEnabled(method));
+                Event.Raise(new PaymentMethodEnabled(method), _instance);
                 return true;
             }
 
@@ -56,7 +58,7 @@ namespace Kooboo.Commerce.Payments
             if (method.MarkDisabled())
             {
                 _repository.Database.SaveChanges();
-                Event.Raise(new PaymentMethodDisabled(method));
+                Event.Raise(new PaymentMethodDisabled(method), _instance);
                 return true;
             }
 

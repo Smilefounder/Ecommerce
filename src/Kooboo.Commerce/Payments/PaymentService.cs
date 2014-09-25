@@ -12,11 +12,13 @@ namespace Kooboo.Commerce.Payments
     [Dependency(typeof(PaymentService))]
     public class PaymentService
     {
+        private CommerceInstance _instance;
         private IRepository<Payment> _repository;
 
-        public PaymentService(ICommerceDatabase database)
+        public PaymentService(CommerceInstance instance)
         {
-            _repository = database.Repository<Payment>();
+            _instance = instance;
+            _repository = _instance.Database.Repository<Payment>();
         }
 
         public Payment Find(int id)
@@ -51,7 +53,7 @@ namespace Kooboo.Commerce.Payments
 
                 _repository.Database.SaveChanges();
 
-                Event.Raise(new PaymentStatusChanged(payment, oldStatus, newStatus));
+                Event.Raise(new PaymentStatusChanged(payment, oldStatus, newStatus), _instance);
             }
         }
     }

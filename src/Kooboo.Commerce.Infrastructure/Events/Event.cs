@@ -18,10 +18,10 @@ namespace Kooboo.Commerce.Events
             TimestampUtc = DateTime.UtcNow;
         }
 
-        public static void Raise<TEvent>(TEvent @event)
+        public static void Raise<TEvent>(TEvent @event, CommerceInstance instance)
             where TEvent : IEvent
         {
-            EventHost.Instance.Raise<TEvent>(@event);
+            EventHost.Instance.Raise<TEvent>(@event, instance);
         }
 
         public static void Listen(Type eventType, Type handlerType)
@@ -41,12 +41,12 @@ namespace Kooboo.Commerce.Events
             EventHost.Instance.Listen<TEvent>(handler);
         }
 
-        public static void Listen(Type eventType, Action<IEvent> handler)
+        public static void Listen(Type eventType, Action<IEvent, CommerceInstance> handler)
         {
             EventHost.Instance.Listen(eventType, handler);
         }
 
-        public static void Listen<TEvent>(Action<TEvent> handler)
+        public static void Listen<TEvent>(Action<TEvent, CommerceInstance> handler)
             where TEvent : IEvent
         {
             EventHost.Instance.Listen<TEvent>(handler);

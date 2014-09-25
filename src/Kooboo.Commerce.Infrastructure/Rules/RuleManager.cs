@@ -98,7 +98,7 @@ namespace Kooboo.Commerce.Rules
         // Remove cache when the instance is deleted
         class CacheUpdateHandler : IHandle<CommerceInstanceDeleted>
         {
-            public void Handle(CommerceInstanceDeleted @event)
+            public void Handle(CommerceInstanceDeleted @event, CommerceInstance instance)
             {
                 RuleManager manager;
                 _managers.TryRemove(@event.Settings.Name, out manager);
