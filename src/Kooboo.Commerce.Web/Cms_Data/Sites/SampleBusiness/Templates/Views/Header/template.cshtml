@@ -96,7 +96,7 @@
             source: engine.ttAdapter(),
             templates: {
                 suggestion: function (data) {
-                    return $.format('<p><strong>{0}</strong></p> <span style="color:orange">&euro; {1}</span>', data.Name, data.Prices.Lowest);
+                    return $.format('<p><strong>{0}</strong></p> <span style="color:orange">&euro; {1}</span>', data.Name, data.Prices.From);
                 }
             }
         });
