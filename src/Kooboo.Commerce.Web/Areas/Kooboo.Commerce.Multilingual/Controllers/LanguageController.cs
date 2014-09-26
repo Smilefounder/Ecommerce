@@ -37,6 +37,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
 
         public ActionResult Edit(string name)
         {
+            ViewBag.IsEditing = true;
             var model = _languageStore.Find(name);
             return View(model);
         }

@@ -3,7 +3,19 @@
 @using (Html.BeginForm())
 {
     <table>
-        @Html.EditorFor(m => m.Name)
+        @if (ViewBag.IsEditing == true)
+        {
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.Name)</th>
+                <td>
+                    @Model.Name
+                </td>
+            </tr>
+        }
+        else
+        {
+            @Html.EditorFor(m => m.Name)
+        }
         @Html.EditorFor(m => m.DisplayName)
     </table>
 }

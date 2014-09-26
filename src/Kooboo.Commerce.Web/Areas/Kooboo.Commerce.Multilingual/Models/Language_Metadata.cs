@@ -20,7 +20,7 @@ namespace Kooboo.Commerce.Multilingual.Models
         [Display(Name = "Language")]
         [UIHint("DropDownList")]
         [DataSource(typeof(LangaugeSelectListDataSource))]
-        [LinkColumn("Edit", HeaderText = "Code")]
+        [LinkColumn("Edit", HeaderText = "Language")]
         public string Name { get; set; }
 
         [Required]
