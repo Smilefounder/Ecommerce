@@ -111,15 +111,7 @@ namespace Kooboo.Commerce.Search
             var property = ModelType.GetProperty(field, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
             if (property != null)
             {
-                var fieldAttr = property.GetCustomAttribute<FieldAttribute>();
-                if (fieldAttr != null && fieldAttr.Numeric)
-                {
-                    sortType = Lucene.Net.Search.SortField.DOUBLE;
-                }
-                else
-                {
-                    sortType = LuceneUtility.GetSortType(property.PropertyType);
-                }
+                sortType = LuceneUtility.GetSortType(property.PropertyType);
             }
 
             SortFields.Add(new SortField(field, sortType, reverse));
