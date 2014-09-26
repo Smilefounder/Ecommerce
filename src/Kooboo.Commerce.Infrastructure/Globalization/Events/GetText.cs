@@ -19,14 +19,5 @@ namespace Kooboo.Commerce.Globalization.Events
             Texts = texts;
             Culture = culture;
         }
-
-        public void SetText(EntityKey key, string property, string text)
-        {
-            TextDictionary texts;
-            if (Texts.TryGetValue(key, out texts))
-            {
-                texts[property] = text;
-            }
-        }
     }
 }

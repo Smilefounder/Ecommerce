@@ -23,7 +23,7 @@ namespace Kooboo.Commerce
 
         public static TextDictionary GetText(this ILocalizable entity, IEnumerable<string> properties, CultureInfo culture)
         {
-            var key = EntityKey.Get(entity);
+            var key = EntityKey.FromEntity(entity);
             var texts = GetTextInfo(entity, properties);
             return GetText(new Dictionary<EntityKey, TextDictionary> { { key, texts } }, culture)[key];
         }
@@ -50,7 +50,7 @@ namespace Kooboo.Commerce
 
         static TextDictionary GetTextInfo(ILocalizable entity, IEnumerable<string> properties)
         {
-            var entityKey = EntityKey.Get(entity);
+            var entityKey = EntityKey.FromEntity(entity);
             var texts = new TextDictionary();
 
             foreach (var propName in properties)

@@ -64,16 +64,24 @@ namespace Kooboo.Commerce
             return new EntityKey(typeof(T), key);
         }
 
-        public static EntityKey Get(object entity)
+        public static EntityKey FromEntity(object entity)
         {
+            // NOTE: 不要随意添加此方法的泛型版本，因为调用处可能会是
+            // 
+            //       ILocalizable localizable = ... as ILocalizable;
+            //       var texts = localization.GetText(...);
+            //       
+            //       GetText() 方法会调用 FromEntity(...)，因此即便加了泛型版本的 FromEntity，
+            //       也必须使用 entity.GetType() 来获取类型信息，而不能用 typeof(T)
+
             var entityType = entity.GetType();
             // Unwarp entity framework proxy
             entityType = ObjectContext.GetObjectType(entityType);
 
-            return Get(entity, entityType);
+            return FromEntity(entity, entityType);
         }
 
-        static EntityKey Get(object entity, Type entityType)
+        static EntityKey FromEntity(object entity, Type entityType)
         {
             Require.NotNull(entity, "entity");
 
@@ -89,29 +97,28 @@ namespace Kooboo.Commerce
         public static PropertyInfo GetKeyProperty(Type type)
         {
             Require.NotNull(type, "type");
-            return _cache.GetOrAdd(type, LoadKeyProperty);
-        }
 
-        static PropertyInfo LoadKeyProperty(Type entityType)
-        {
-            PropertyInfo conventionIdProp = null;
-
-            foreach (var prop in entityType.GetProperties())
+            return _cache.GetOrAdd(type, entityType =>
             {
-                var attr = prop.GetCustomAttribute<KeyAttribute>(false);
-                if (attr != null)
+                PropertyInfo conventionIdProp = null;
+
+                foreach (var prop in entityType.GetProperties())
                 {
-                    return prop;
+                    var attr = prop.GetCustomAttribute<KeyAttribute>(false);
+                    if (attr != null)
+                    {
+                        return prop;
+                    }
+
+                    if (prop.Name == "Id")
+                    {
+                        conventionIdProp = prop;
+                    }
                 }
 
-                if (prop.Name == "Id")
-                {
-                    conventionIdProp = prop;
-                }
-            }
-
-            // If no explicit keys defined, use the conventional "Id" property as key
-            return conventionIdProp;
+                // If no explicit keys defined, use the conventional "Id" property as key
+                return conventionIdProp;
+            });
         }
 
         #endregion

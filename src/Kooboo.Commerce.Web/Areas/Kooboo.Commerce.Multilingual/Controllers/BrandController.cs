@@ -97,7 +97,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 Id = brand.Id
             };
 
-            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), EntityKey.Get(brand));
+            var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), EntityKey.FromEntity(brand));
             if (translation != null)
             {
                 translated.Name = translation.GetTranslatedText("Name");

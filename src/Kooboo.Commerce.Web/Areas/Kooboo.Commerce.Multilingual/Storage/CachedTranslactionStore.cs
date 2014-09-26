@@ -15,8 +15,8 @@ namespace Kooboo.Commerce.Multilingual.Storage
     {
         private ITranslationStore _underlyingStore;
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
-        private Dictionary<CultureInfo, Dictionary<EntityKey, EntityTransaltion>> _cache = new Dictionary<CultureInfo, Dictionary<EntityKey, EntityTransaltion>>();
         private HashSet<Type> _typesToCache;
+        private Dictionary<CultureInfo, Dictionary<EntityKey, EntityTransaltion>> _cache = new Dictionary<CultureInfo, Dictionary<EntityKey, EntityTransaltion>>();
 
         public CachedTranslactionStore(ITranslationStore underlyingStore)
             : this(underlyingStore, new[] { typeof(Brand), typeof(Category), typeof(ProductType) })

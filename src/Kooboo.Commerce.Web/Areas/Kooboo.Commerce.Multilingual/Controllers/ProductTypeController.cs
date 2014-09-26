@@ -120,7 +120,7 @@ namespace Kooboo.Commerce.Multilingual.Controllers
                 Name = compared.Name
             };
 
-            var entityKey = EntityKey.Get(productType);
+            var entityKey = EntityKey.FromEntity(productType);
             var translation = _translationStore.Find(CultureInfo.GetCultureInfo(culture), entityKey);
 
             foreach (var field in compared.CustomFieldDefinitions)
