@@ -199,7 +199,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                     var filter = new Filter
                     {
                         Name = facet.Name,
-                        Field = facet.Field,
+                        Fields = facet.Field,
                         FieldValue = filterValue
                     };
 

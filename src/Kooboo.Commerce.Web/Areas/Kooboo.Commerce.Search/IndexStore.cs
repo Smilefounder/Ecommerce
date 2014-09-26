@@ -10,6 +10,7 @@ namespace Kooboo.Commerce.Search
     {
         private Directory _directory;
         private readonly object _lock = new object();
+        private Analyzer _analyzer;
         private IndexWriter _writer;
         private IndexSearcher _searcher;
 
@@ -19,6 +20,7 @@ namespace Kooboo.Commerce.Search
         {
             ModelType = modelType;
             _directory = directory;
+            _analyzer = analyzer;
             _writer = new IndexWriter(_directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
             _searcher = new IndexSearcher(_writer.GetReader());
         }
@@ -41,7 +43,7 @@ namespace Kooboo.Commerce.Search
 
         public IndexQuery Query()
         {
-            return new IndexQuery(ModelType, GetSearcher());
+            return new IndexQuery(ModelType, GetSearcher(), _analyzer);
         }
 
         public void Index(object model)

@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Search.Models
         [Field(Field.Index.NOT_ANALYZED)]
         public int Id { get; set; }
 
-        [Field(Field.Index.ANALYZED)]
+        [Field(Field.Index.ANALYZED, Boost = 1.5f)]
         public string Name { get; set; }
 
         [Field(Field.Index.NOT_ANALYZED)]
@@ -68,12 +68,14 @@ namespace Kooboo.Commerce.Search.Models
                 Name = product.GetText("Name", culture) ?? product.Name
             };
 
+            // Brand
             if (product.Brand != null)
             {
                 doc.Brand = product.Brand.GetText("Name", culture) ?? product.Brand.Name;
                 doc.BrandId = product.Brand.Id;
             }
 
+            // Categories
             var categoryNames = new HashSet<string>();
             var categoryIds = new HashSet<int>();
 
@@ -95,17 +97,16 @@ namespace Kooboo.Commerce.Search.Models
             doc.Categories = categoryNames.ToList();
             doc.CategoryIds = categoryIds.ToList();
 
+            // Prices
             foreach (var variant in product.Variants)
             {
                 doc.Prices.Add(variant.Price);
             }
 
-            if (doc.Prices.Count > 0)
-            {
-                doc.LowestPrice = doc.Prices.Min();
-                doc.HighestPrice = doc.Prices.Max();
-            }
+            doc.LowestPrice = product.LowestPrice;
+            doc.HighestPrice = product.HighestPrice;
 
+            // Variant fields
             var controls = FormControls.Controls().ToList();
 
             foreach (var variant in product.Variants)
@@ -149,7 +150,7 @@ namespace Kooboo.Commerce.Search.Models
                 }
             }
 
-            // Build search text
+            // Search text
             var searchText = new StringBuilder();
             searchText.Append(doc.Name);
             searchText.Append(" ").Append(doc.Brand);

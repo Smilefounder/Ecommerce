@@ -17,13 +17,10 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         public string Name { get; set; }
 
         [DataMember]
-        public string Field { get; set; }
+        public string Fields { get; set; }
 
         [DataMember]
         public bool UseRangeFiltering { get; set; }
-
-        [DataMember]
-        public bool LowercaseInput { get; set; }
 
         [DataMember]
         public string FieldValue { get; set; }
@@ -40,22 +37,30 @@ namespace Kooboo.Commerce.Search.CMSIntegration
         [DataMember]
         public bool ToInclusive { get; set; }
 
+        [DataMember]
+        public bool AnalyzeInput { get; set; }
+
         public Filter Parse(IValueProvider valueProvider)
         {
             var parsed = new Filter
             {
                 Name = Name,
-                Field = Field,
+                Fields = Fields,
                 UseRangeFiltering = UseRangeFiltering,
-                LowercaseInput = LowercaseInput,
                 FieldValue = ParameterizedFieldValue.GetFieldValue(FieldValue, valueProvider),
                 FromValue = ParameterizedFieldValue.GetFieldValue(FromValue, valueProvider),
                 FromInclusive = FromInclusive,
                 ToValue = ParameterizedFieldValue.GetFieldValue(ToValue, valueProvider),
-                ToInclusive = ToInclusive
+                ToInclusive = ToInclusive,
+                AnalyzeInput = AnalyzeInput
             };
 
             return parsed;
+        }
+
+        public string[] GetFields()
+        {
+            return Fields.Split(',');
         }
     }
 }

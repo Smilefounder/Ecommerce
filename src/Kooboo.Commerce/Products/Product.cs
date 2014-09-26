@@ -53,12 +53,12 @@ namespace Kooboo.Commerce.Products
         /// <summary>
         /// The start price of the product. This is a duplicate field used to improve query performance.
         /// </summary>
-        public virtual decimal PriceFrom { get; set; }
+        public virtual decimal LowestPrice { get; set; }
 
         /// <summary>
         /// The maximum price of the product. This is a duplicate field used to improve query performance.
         /// </summary>
-        public virtual decimal PriceTo { get; set; }
+        public virtual decimal HighestPrice { get; set; }
 
         public virtual decimal GetFinalPrice(int variantId, ShoppingContext context)
         {

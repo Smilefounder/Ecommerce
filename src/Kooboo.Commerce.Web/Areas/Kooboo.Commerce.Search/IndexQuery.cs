@@ -2,6 +2,7 @@
 using Kooboo.Commerce.Search.Facets;
 using Lucene.Net.Analysis;
 using Lucene.Net.Index;
+using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Kooboo.Commerce.Search
 {
     public class IndexQuery
     {
-        private Query _query = new MatchAllDocsQuery();
+        private Query _nativeQuery = new MatchAllDocsQuery();
         private IndexSearcher _searcher;
 
         private List<SortField> _sortFields;
@@ -32,10 +33,29 @@ namespace Kooboo.Commerce.Search
 
         public Type ModelType { get; private set; }
 
-        public IndexQuery(Type modelType, IndexSearcher searcher)
+        public Analyzer Analyzer { get; private set; }
+
+        public IndexQuery(Type modelType, IndexSearcher searcher, Analyzer analyzer)
         {
             ModelType = modelType;
             _searcher = searcher;
+            Analyzer = analyzer;
+        }
+
+        public IndexQuery Search(string field, string keywords)
+        {
+            if (!String.IsNullOrWhiteSpace(keywords))
+            {
+                var parser = new QueryParser(Analyzers.Version, field, Analyzer);
+                return Where(parser.Parse(keywords));
+            }
+
+            return this;
+        }
+
+        public IndexQuery Where(Query query)
+        {
+            return And(query);
         }
 
         public IndexQuery WhereEquals(string field, object value)
@@ -119,6 +139,20 @@ namespace Kooboo.Commerce.Search
             return this;
         }
 
+        public IndexQuery And(Action<IndexQuery> action)
+        {
+            var query = new IndexQuery(ModelType, _searcher, Analyzer);
+            action(query);
+            return And(query._nativeQuery);
+        }
+
+        public IndexQuery Or(Action<IndexQuery> action)
+        {
+            var query = new IndexQuery(ModelType, _searcher, Analyzer);
+            action(query);
+            return Or(query._nativeQuery);
+        }
+
         public Pagination Paginate(int pageIndex, int pageSize)
         {
             Sort sort = null;
@@ -132,11 +166,11 @@ namespace Kooboo.Commerce.Search
 
             if (sort == null)
             {
-                docs = _searcher.Search(_query, null, Int32.MaxValue);
+                docs = _searcher.Search(_nativeQuery, null, Int32.MaxValue);
             }
             else
             {
-                docs = _searcher.Search(_query, null, Int32.MaxValue, sort);
+                docs = _searcher.Search(_nativeQuery, null, Int32.MaxValue, sort);
             }
 
             var items = new List<object>();
@@ -164,7 +198,7 @@ namespace Kooboo.Commerce.Search
             }
 
             var searcher = new FacetedSearcher(_searcher);
-            return searcher.Search(_query, facets);
+            return searcher.Search(_nativeQuery, facets);
         }
 
         private Query CreateNumericRangeQuery(string property, Type propType, object fromValue, object toValue, bool minInclusive, bool maxInclusive)
@@ -192,22 +226,32 @@ namespace Kooboo.Commerce.Search
 
         private IndexQuery And(Query query)
         {
+            return Boolean(query, Occur.MUST);
+        }
+
+        private IndexQuery Or(Query query)
+        {
+            return Boolean(query, Occur.SHOULD);
+        }
+
+        private IndexQuery Boolean(Query query, Occur occur)
+        {
             if (query == null)
             {
                 return this;
             }
 
-            if (_query is MatchAllDocsQuery)
+            if (_nativeQuery is MatchAllDocsQuery)
             {
-                _query = query;
+                _nativeQuery = query;
             }
             else
             {
                 var newQuery = new BooleanQuery();
-                newQuery.Add(_query, Occur.MUST);
-                newQuery.Add(query, Occur.MUST);
+                newQuery.Add(_nativeQuery, occur);
+                newQuery.Add(query, occur);
 
-                _query = newQuery;
+                _nativeQuery = newQuery;
             }
 
             return this;

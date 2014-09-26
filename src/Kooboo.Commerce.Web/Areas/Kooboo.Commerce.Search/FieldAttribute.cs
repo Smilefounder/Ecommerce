@@ -14,6 +14,8 @@ namespace Kooboo.Commerce.Search
 
         public bool Numeric { get; set; }
 
+        public float Boost { get; set; }
+
         public FieldAttribute(Field.Index index)
             : this(index, Field.Store.YES)
         {
@@ -23,16 +25,23 @@ namespace Kooboo.Commerce.Search
         {
             Store = store;
             Index = index;
+            Boost = 1.0f;
         }
 
         public IFieldable CreateLuceneField(string fieldName, object fieldValue)
         {
             if (!Numeric)
             {
-                return new Field(fieldName, LuceneUtility.ToFieldStringValue(fieldValue), Store, Index);
+                return new Field(fieldName, LuceneUtility.ToFieldStringValue(fieldValue), Store, Index)
+                {
+                    Boost = Boost
+                };
             }
 
-            var field = new NumericField(fieldName, Store, Index != Field.Index.NO);
+            var field = new NumericField(fieldName, Store, Index != Field.Index.NO)
+            {
+                Boost = Boost
+            };
 
             if (fieldValue is Int32)
             {

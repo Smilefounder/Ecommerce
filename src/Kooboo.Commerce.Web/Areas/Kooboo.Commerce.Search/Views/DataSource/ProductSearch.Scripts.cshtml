@@ -165,7 +165,7 @@
                 var result = [];
                 $.each(Metadata.FilterDefinitions, function () {
                     var def = this;
-                    if (!_.any(self.DataSource.Filters(), function (f) { return f.Field() == def.Field })) {
+                    if (!_.any(self.DataSource.Filters(), function (f) { return f.Name() == def.Name })) {
                         result.push(def);
                     }
                 });
@@ -190,8 +190,8 @@
                 var def = self.SelectedFilterDefinition();
                 self.DataSource.Filters.push({
                     Name: ko.observable(def.Name),
-                    Field: ko.observable(def.Field),
-                    LowercaseInput: ko.observable(def.LowercaseInput),
+                    Fields: ko.observable(def.Fields),
+                    AnalyzeInput: ko.observable(def.AnalyzeInput),
                     UseRangeFiltering: ko.observable(def.SupportRangeFiltering),
                     FieldValue: ko.observable(),
                     FromValue: ko.observable(),
@@ -205,9 +205,9 @@
                 self.DataSource.Filters.remove(filter);
             }
 
-            self.IsRangeFilteringSupported = function (filterFieldName) {
+            self.IsRangeFilteringSupported = function (filterName) {
                 var filter = _.find(Metadata.FilterDefinitions, function (def) {
-                    return def.Field === filterFieldName;
+                    return def.Name === filterName;
                 });
                 return filter.SupportRangeFiltering;
             }

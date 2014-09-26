@@ -62,12 +62,12 @@ namespace Kooboo.Commerce.Products
         {
             if (product.Variants.Count == 0)
             {
-                product.PriceFrom = product.PriceTo = 0;
+                product.LowestPrice = product.HighestPrice = 0;
             }
             else
             {
-                product.PriceFrom = product.Variants.Min(v => v.Price);
-                product.PriceTo = product.Variants.Max(v => v.Price);
+                product.LowestPrice = product.Variants.Min(v => v.Price);
+                product.HighestPrice = product.Variants.Max(v => v.Price);
             }
         }
 

@@ -11,24 +11,14 @@ namespace Kooboo.Commerce.CMSIntegration
 {
     public static class SiteExtensions
     {
-        public static string ApiType(this Site site)
-        {
-            if (site.CustomFields.ContainsKey("CommerceApiType"))
-            {
-                return site.CustomFields["CommerceApiType"];
-            }
-
-            return "Local";
-        }
-
-        public static string CommerceInstanceName(this Site site)
+        public static string GetCommerceInstanceName(this Site site)
         {
             return site.CustomFields["CommerceInstance"];
         }
 
         public static ICommerceApi Commerce(this Site site)
         {
-            var context = new ApiContext(site.CommerceInstanceName(), CultureInfo.GetCultureInfo(site.Culture));
+            var context = new ApiContext(site.GetCommerceInstanceName(), CultureInfo.GetCultureInfo(site.Culture));
 
             var user = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
             if (user != null)

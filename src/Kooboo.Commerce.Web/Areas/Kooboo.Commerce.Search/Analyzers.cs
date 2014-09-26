@@ -10,7 +10,7 @@ namespace Kooboo.Commerce.Search
 {
     public static class Analyzers
     {
-        static Lucene.Net.Util.Version Version = Lucene.Net.Util.Version.LUCENE_30;
+        public static Lucene.Net.Util.Version Version = Lucene.Net.Util.Version.LUCENE_30;
 
         public static readonly Analyzer Default = new StandardAnalyzer(Version);
 

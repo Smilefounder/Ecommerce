@@ -10,50 +10,58 @@ namespace Kooboo.Commerce.Search.CMSIntegration
     {
         public string Name { get; set; }
 
-        public string Field { get; set; }
-
         /// <summary>
-        /// If need to lowercase the input when searching. Analyzed fields need to lowercase the input (default behavior of StandardAnalyzer).
+        /// Filter对应的Lucene Document中的字段，如果对应多个字段，则用半角逗号分隔，相当于查询 Field1 = FieldValue OR Field2 = FieldValue。
         /// </summary>
-        public bool LowercaseInput { get; set; }
+        public string Fields { get; set; }
 
         public bool SupportRangeFiltering { get; set; }
+
+        /// <summary>
+        /// 是否需要对输入字符串进行分词，对于Analyzed字段，这个属性值通常都应该是true。
+        /// </summary>
+        public bool AnalyzeInput { get; set; }
 
         public Filter CreateFilter()
         {
             return new Filter
             {
                 Name = Name,
-                Field = Field,
-                LowercaseInput = LowercaseInput
+                Fields = Fields,
+                AnalyzeInput = AnalyzeInput
             };
         }
 
-        public static FilterDefinition Keywords = new FilterDefinition { Name = "Keywords", Field = "SearchText", LowercaseInput = true };
+        public static readonly FilterDefinition Keywords = new FilterDefinition { Name = "Keywords", Fields = "Name,SearchText", AnalyzeInput = true };
+
+        /// <summary>
+        /// 所有静态字段的过滤器定义，不包含可动态添加的Custom Field的过滤器。
+        /// </summary>
+        public static readonly FilterDefinition[] StaticFieldFilters = new[] {
+            Keywords,
+            new FilterDefinition { Name = "Name", Fields = "Name" },
+            new FilterDefinition { Name = "Brand", Fields = "Brand" },
+            new FilterDefinition { Name = "BrandId", Fields = "BrandId" },
+            new FilterDefinition { Name = "Category", Fields = "Categories" },
+            new FilterDefinition { Name = "CategoryId", Fields = "CategoryIds" },
+            new FilterDefinition { Name = "LowestPrice", Fields = "LowestPrice", SupportRangeFiltering = true },
+            new FilterDefinition { Name = "HighestPrice", Fields = "HighestPrice", SupportRangeFiltering = true }
+        };
 
         public static IList<FilterDefinition> GetFilterDefinitions(IEnumerable<ProductType> productTypes)
         {
-            var filters = new List<FilterDefinition>
-            {
-                Keywords,
-                new FilterDefinition { Name = "Brand", Field = "Brand" },
-                new FilterDefinition { Name = "BrandId", Field = "BrandId" },
-                new FilterDefinition { Name = "Category", Field = "Categories" },
-                new FilterDefinition { Name = "CategoryId", Field = "CategoryIds" },
-                new FilterDefinition { Name = "LowestPrice", Field = "LowestPrice", SupportRangeFiltering = true },
-                new FilterDefinition { Name = "HighestPrice", Field = "HighestPrice", SupportRangeFiltering = true }
-            };
+            var filters = new List<FilterDefinition>(StaticFieldFilters);
 
             foreach (var productType in productTypes)
             {
                 foreach (var fieldDef in productType.VariantFieldDefinitions)
                 {
-                    if (!filters.Any(f => f.Field == fieldDef.Name))
+                    if (!filters.Any(f => f.Fields == fieldDef.Name))
                     {
                         filters.Add(new FilterDefinition
                         {
                             Name = fieldDef.Name,
-                            Field = ModelConverter.GetDictionaryFieldName("VariantFieldValues", fieldDef.Name)
+                            Fields = ModelConverter.GetDictionaryFieldName("VariantFieldValues", fieldDef.Name)
                         });
                     }
                 }

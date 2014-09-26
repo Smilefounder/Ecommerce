@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lucene.Net.QueryParsers;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -14,10 +15,10 @@ namespace Kooboo.Commerce.Search.CMSIntegration
             {
                 if (filter.UseRangeFiltering)
                 {
-                    var fromValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Field, filter.FromValue);
-                    var toValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Field, filter.ToValue);
+                    var fromValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Fields, filter.FromValue);
+                    var toValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Fields, filter.ToValue);
 
-                    query = query.WhereBetween(filter.Field, fromValue, toValue, filter.FromInclusive, filter.ToInclusive);
+                    query = query.WhereBetween(filter.Fields, fromValue, toValue, filter.FromInclusive, filter.ToInclusive);
                 }
                 else
                 {
@@ -26,15 +27,25 @@ namespace Kooboo.Commerce.Search.CMSIntegration
                         continue;
                     }
 
-                    var filterValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Field, filter.FieldValue);
-                    if (filterValue != null)
+                    // 如果需要分析输入，则需要调用Search方法。动态的Custom Field字段都不用分析输入，其实只有SearchText字段才需要分析输入
+                    if (filter.AnalyzeInput)
                     {
-                        if (filterValue is String && filter.LowercaseInput)
+                        // 如果一个Filter对应了多个字段，则要同时对它们进行搜索，然后做OR操作
+                        foreach (var field in filter.GetFields())
                         {
-                            filterValue = (filterValue as String).ToLower(culture);
+                            query = query.Or(_ => _.Search(field, filter.FieldValue));
                         }
-
-                        query = query.WhereEquals(filter.Field, filterValue);
+                    }
+                    else
+                    {
+                        var filterValue = ModelConverter.ParseFieldValue(query.ModelType, filter.Fields, filter.FieldValue);
+                        if (filterValue != null)
+                        {
+                            foreach (var field in filter.GetFields())
+                            {
+                                query = query.Or(_ => _.WhereEquals(field, filterValue));
+                            }
+                        }
                     }
                 }
             }
