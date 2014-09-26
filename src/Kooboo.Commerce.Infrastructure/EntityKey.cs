@@ -59,6 +59,11 @@ namespace Kooboo.Commerce
 
         static readonly ConcurrentDictionary<Type, PropertyInfo> _cache = new ConcurrentDictionary<Type, PropertyInfo>();
 
+        public static EntityKey Create<T>(object key)
+        {
+            return new EntityKey(typeof(T), key);
+        }
+
         public static EntityKey Get(object entity)
         {
             var entityType = entity.GetType();

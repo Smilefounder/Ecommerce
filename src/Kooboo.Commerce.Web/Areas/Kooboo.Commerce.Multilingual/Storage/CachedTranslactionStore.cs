@@ -16,11 +16,17 @@ namespace Kooboo.Commerce.Multilingual.Storage
         private ITranslationStore _underlyingStore;
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
         private Dictionary<CultureInfo, Dictionary<EntityKey, EntityTransaltion>> _cache = new Dictionary<CultureInfo, Dictionary<EntityKey, EntityTransaltion>>();
-        private HashSet<Type> _typesNeedToBeCached = new HashSet<Type> { typeof(Category), typeof(Brand), typeof(ProductType) };
+        private HashSet<Type> _typesToCache;
 
         public CachedTranslactionStore(ITranslationStore underlyingStore)
+            : this(underlyingStore, new[] { typeof(Brand), typeof(Category), typeof(ProductType) })
+        {
+        }
+
+        public CachedTranslactionStore(ITranslationStore underlyingStore, IEnumerable<Type> typesToCache)
         {
             _underlyingStore = underlyingStore;
+            _typesToCache = new HashSet<Type>(typesToCache);
         }
 
         public EntityTransaltion Find(System.Globalization.CultureInfo culture, EntityKey key)
@@ -47,7 +53,7 @@ namespace Kooboo.Commerce.Multilingual.Storage
                         EntityTransaltion translation;
                         if (cache.TryGetValue(keys[i], out translation))
                         {
-                            result[i] = translation.Clone();
+                            result[i] = translation == null ? null : translation.Clone();
                         }
                         else
                         {
@@ -59,7 +65,7 @@ namespace Kooboo.Commerce.Multilingual.Storage
                 {
                     for (var i = 0; i < keys.Length; i++)
                     {
-                        uncachedKeys.Add(new KeyValuePair<EntityKey,int>(keys[i], i));
+                        uncachedKeys.Add(new KeyValuePair<EntityKey, int>(keys[i], i));
                     }
                 }
             }
@@ -68,6 +74,7 @@ namespace Kooboo.Commerce.Multilingual.Storage
                 _lock.ExitReadLock();
             }
 
+            // 对于不在缓存中的Key，要从底下的真实存储中查询
             if (uncachedKeys.Count > 0)
             {
                 var translations = FindInUnderlyingStore(culture, uncachedKeys.Select(it => it.Key).ToArray());
@@ -75,7 +82,7 @@ namespace Kooboo.Commerce.Multilingual.Storage
                 {
                     var translation = translations[i];
                     var resultIndex = uncachedKeys[i].Value;
-                    result[resultIndex] = translation.Clone();
+                    result[resultIndex] = IsEmptyTranslation(translation) ? null : translation.Clone();
                 }
 
                 UpdateCache(culture, translations);
@@ -89,10 +96,10 @@ namespace Kooboo.Commerce.Multilingual.Storage
             var translations = _underlyingStore.Find(culture, keys);
             for (var i = 0; i < translations.Length; i++)
             {
-                // 始终保证返回的结果不为null, 这样便可以缓存“未翻译”的结果
+                // 保证返回的结果不为null, 这样在更新缓存时可以得到EntityKey和Culture信息，以便缓存“未翻译”结果
                 if (translations[i] == null)
                 {
-                    translations[i] = new EntityTransaltion(culture.Name, keys[i]);
+                    translations[i] = new EmptyEntityTranslation(culture.Name, keys[i]);
                 }
             }
 
@@ -134,11 +141,12 @@ namespace Kooboo.Commerce.Multilingual.Storage
 
         private bool NeedToBeCached(Type entityType)
         {
-            return _typesNeedToBeCached.Contains(entityType);
+            return _typesToCache.Contains(entityType);
         }
 
         private void UpdateCache(CultureInfo culture, IEnumerable<EntityTransaltion> translations)
         {
+            // 只有指定的类型才需要缓存
             var translationsNeedToBeCached = translations.Where(t => NeedToBeCached(t.EntityKey.EntityType)).ToList();
             if (translationsNeedToBeCached.Count == 0)
             {
@@ -158,13 +166,15 @@ namespace Kooboo.Commerce.Multilingual.Storage
 
                 foreach (var translation in translationsNeedToBeCached)
                 {
+                    var cacheItem = IsEmptyTranslation(translation) ? null : translation.Clone();
+
                     if (cache.ContainsKey(translation.EntityKey))
                     {
-                        cache[translation.EntityKey] = translation.Clone();
+                        cache[translation.EntityKey] = cacheItem;
                     }
                     else
                     {
-                        cache.Add(translation.EntityKey, translation);
+                        cache.Add(translation.EntityKey, cacheItem);
                     }
                 }
             }
@@ -188,6 +198,19 @@ namespace Kooboo.Commerce.Multilingual.Storage
             finally
             {
                 _lock.ExitWriteLock();
+            }
+        }
+
+        private bool IsEmptyTranslation(EntityTransaltion translation)
+        {
+            return translation == null || translation is EmptyEntityTranslation;
+        }
+
+        public class EmptyEntityTranslation : EntityTransaltion
+        {
+            public EmptyEntityTranslation(string culture, EntityKey entityKey)
+                : base(culture, entityKey)
+            {
             }
         }
     }
