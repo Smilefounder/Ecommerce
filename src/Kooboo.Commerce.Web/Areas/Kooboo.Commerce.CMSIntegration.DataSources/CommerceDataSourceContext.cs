@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
                 HttpContext = httpContext,
                 Site = context.Site,
                 Page = context.Page,
-                Instance = context.Site.GetCommerceInstanceName(),
+                Instance = context.Site.CommerceInstanceName(),
                 ValueProvider = context.ValueProvider
             };
 

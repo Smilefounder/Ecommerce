@@ -9,8 +9,6 @@ namespace Kooboo.Commerce.Api.Carts
     {
         public int? CustomerId { get; set; }
 
-        public string Currency { get; set; }
-
         public string Culture { get; set; }
 
         public IDictionary<string, string> Items { get; private set; }
@@ -20,11 +18,11 @@ namespace Kooboo.Commerce.Api.Carts
             Items = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public ShoppingContext(int? customerId, string culture, string currency)
+        public ShoppingContext(int? customerId, string culture)
+            : this()
         {
             CustomerId = customerId;
             Culture = culture;
-            Currency = currency;
         }
     }
 }

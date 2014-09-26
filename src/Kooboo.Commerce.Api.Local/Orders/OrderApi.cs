@@ -34,7 +34,6 @@ namespace Kooboo.Commerce.Api.Local.Orders
                 var order = orderService.CreateFromCart(cart, new Kooboo.Commerce.Carts.ShoppingContext
                 {
                     Culture = context.Culture,
-                    Currency = context.Currency,
                     CustomerId = context.CustomerId
                 });
 

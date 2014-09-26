@@ -36,9 +36,6 @@ namespace Kooboo.Commerce.Orders.Pricing
         public string Culture { get; set; }
 
         [Param]
-        public string Currency { get; set; }
-
-        [Param]
         public string CouponCode { get; set; }
 
         [Reference]
@@ -111,7 +108,7 @@ namespace Kooboo.Commerce.Orders.Pricing
         public decimal GetFinalUnitPrice(int productId, int productPriceId, decimal originalPrice)
         {
             var customerId = Customer == null ? null : (int?)Customer.Id;
-            var shoppingContext = new ShoppingContext(customerId, Culture, Currency);
+            var shoppingContext = new ShoppingContext(customerId, Culture);
             return PriceCalculationContext.GetFinalPrice(productId, productPriceId, originalPrice, shoppingContext);
         }
 

@@ -31,13 +31,12 @@ namespace Kooboo.Commerce.Api.Local
         {
             InstanceName = context.InstanceName;
             Culture = context.Culture;
-            Currency = context.Currency;
-            CustomerEmail = context.CustomerEmail;
+            Customer = context.Customer;
             _instance = instance;
         }
 
-        public LocalApiContext(CultureInfo culture, string currency, CommerceInstance instance)
-            : base(instance.Name, culture, currency)
+        public LocalApiContext(CultureInfo culture, CommerceInstance instance)
+            : base(instance.Name, culture)
         {
             _instance = instance;
         }

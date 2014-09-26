@@ -21,25 +21,23 @@ namespace Kooboo.Commerce.CMSIntegration
             return "Local";
         }
 
-        public static string GetCommerceInstanceName(this Site site)
+        public static string CommerceInstanceName(this Site site)
         {
             return site.CustomFields["CommerceInstance"];
         }
 
-        public static string GetCurrency(this Site site)
-        {
-            return null;
-        }
-
         public static ICommerceApi Commerce(this Site site)
         {
-            var user = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
-            var accountId = user == null ? null : user.UUID;
+            var context = new ApiContext(site.CommerceInstanceName(), CultureInfo.GetCultureInfo(site.Culture));
 
-            var context = new ApiContext(site.GetCommerceInstanceName(), CultureInfo.GetCultureInfo(site.Culture), site.GetCurrency())
+            var user = new HttpContextWrapper(HttpContext.Current).Membership().GetMembershipUser();
+            if (user != null)
             {
-                CustomerEmail = accountId
-            };
+                context.Customer = new CustomerIdentity
+                {
+                    Email = user.UUID
+                };
+            }
 
             var apiType = "Local";
             if (site.CustomFields.ContainsKey("CommerceApiType"))

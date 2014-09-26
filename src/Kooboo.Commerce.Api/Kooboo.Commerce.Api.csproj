@@ -83,6 +83,7 @@
     <Compile Include="Countries\CountryFilters.cs" />
     <Compile Include="Countries\CountryQueryDescriptor.cs" />
     <Compile Include="Countries\CountryQueryExtensions.cs" />
+    <Compile Include="CustomerIdentity.cs" />
     <Compile Include="Customers\Customer.cs" />
     <Compile Include="Customers\CustomerFilters.cs" />
     <Compile Include="Customers\CustomerQueryDescriptor.cs" />

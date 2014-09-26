@@ -13,9 +13,6 @@ namespace Kooboo.Commerce.Carts
         public int? CustomerId { get; set; }
 
         [Param]
-        public string Currency { get; set; }
-
-        [Param]
         public string Culture { get; set; }
 
         public IDictionary<string, string> Items { get; private set; }
@@ -25,11 +22,10 @@ namespace Kooboo.Commerce.Carts
             Items = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public ShoppingContext(int? customerId, string culture, string currency)
+        public ShoppingContext(int? customerId, string culture)
         {
             CustomerId = customerId;
             Culture = culture;
-            Currency = currency;
         }
 
         public ShoppingContext Clone()
@@ -37,7 +33,6 @@ namespace Kooboo.Commerce.Carts
             return new ShoppingContext
             {
                 CustomerId = CustomerId,
-                Currency = Currency,
                 Culture = Culture,
                 Items = new Dictionary<string, string>(Items)
             };

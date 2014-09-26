@@ -18,14 +18,13 @@ namespace Kooboo.Commerce.Api.Local.Products.Mapping
             // Final price
             var shoppingContext = new Kooboo.Commerce.Carts.ShoppingContext
             {
-                Culture = context.ApiContext.Culture.Name,
-                Currency = context.ApiContext.Currency
+                Culture = context.ApiContext.Culture.Name
             };
 
-            if (context.ApiContext.CustomerEmail != null)
+            if (!context.ApiContext.Customer.IsGuest())
             {
                 var service = new Kooboo.Commerce.Customers.CustomerService(context.ApiContext.Instance);
-                var customer = service.FindByEmail(context.ApiContext.CustomerEmail);
+                var customer = service.FindByEmail(context.ApiContext.Customer.Email);
                 if (customer != null)
                 {
                     shoppingContext.CustomerId = customer.Id;

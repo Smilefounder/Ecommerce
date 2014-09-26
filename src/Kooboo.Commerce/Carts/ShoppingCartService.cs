@@ -74,7 +74,6 @@ namespace Kooboo.Commerce.Carts
             var context = PriceCalculationContext.CreateFrom(cart);
             if (shoppingContext != null)
             {
-                context.Currency = shoppingContext.Currency;
                 context.Culture = shoppingContext.Culture;
             }
 

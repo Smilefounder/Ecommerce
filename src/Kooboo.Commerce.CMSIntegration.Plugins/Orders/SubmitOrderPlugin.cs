@@ -25,7 +25,6 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
             var cart = api.ShoppingCarts.Query().ByCustomerEmail(member.Email).FirstOrDefault();
             var orderId = api.Orders.CreateFromCart(cart.Id, new ShoppingContext
             {
-                Currency = Site.GetCurrency(),
                 Culture = Site.Culture
             });
 

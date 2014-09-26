@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Recommendations.CMSIntegration
             int productId;
             if (Int32.TryParse(value, out productId))
             {
-                BehaviorReceivers.Receive(Site.Current.GetCommerceInstanceName(), 
+                BehaviorReceivers.Receive(Site.Current.CommerceInstanceName(), 
                             new Behavior
                             {
                                 Type = BehaviorTypes.View,
