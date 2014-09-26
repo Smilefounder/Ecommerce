@@ -19,6 +19,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
         public LoginCustomerPlugin(MembershipUserManager userManager)
         {
             _userManager = userManager;
+            Parameters["MigrateCart"] = true;
         }
 
         protected override SubmissionExecuteResult Execute(LoginCustomerModel model)
@@ -46,10 +47,10 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
 
             HttpContext.Membership().SetAuthCookie(model.Email, model.RememberMe.GetValueOrDefault(false));
 
-            var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(false);
-            if (!String.IsNullOrWhiteSpace(sessionId))
+            var sessionId = EngineContext.Current.Resolve<ICartSessionIdProvider>().GetCurrentSessionId(false);
+            if (!String.IsNullOrWhiteSpace(sessionId) && model.MigrateCart)
             {
-                Site.Commerce().ShoppingCarts.MigrateCart(customer.Id, sessionId);
+                Site.Commerce().ShoppingCarts.MigrateCart(customer.Id, sessionId, false);
             }
 
             var returnUrl = ResolveUrl(model.ReturnUrl, ControllerContext);

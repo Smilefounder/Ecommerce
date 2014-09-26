@@ -8,7 +8,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders.Models
 {
     public class SubmitOrderModel
     {
-        public bool ExpireCart { get; set; }
+        public bool ClearCart { get; set; }
 
         public string ReturnUrl { get; set; }
     }

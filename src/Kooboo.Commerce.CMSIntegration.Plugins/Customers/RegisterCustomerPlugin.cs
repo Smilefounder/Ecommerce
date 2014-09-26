@@ -50,10 +50,10 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers
                 var auth = new MembershipAuthentication(Site, membership, HttpContext);
                 auth.SetAuthCookie(customer.Email, false);
 
-                var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(false);
+                var sessionId = EngineContext.Current.Resolve<ICartSessionIdProvider>().GetCurrentSessionId(false);
                 if (!String.IsNullOrWhiteSpace(sessionId))
                 {
-                    Site.Commerce().ShoppingCarts.MigrateCart(customerId, sessionId);
+                    Site.Commerce().ShoppingCarts.MigrateCart(customerId, sessionId, false);
                 }
             }
 

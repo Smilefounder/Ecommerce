@@ -17,6 +17,8 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Customers.Models
 
         public bool? RememberMe { get; set; }
 
+        public bool MigrateCart { get; set; }
+
         public string ReturnUrl { get; set; }
     }
 }

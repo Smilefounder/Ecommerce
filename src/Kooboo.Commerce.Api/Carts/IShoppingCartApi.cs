@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Api.Carts
 
         void ChangeShippingMethod(int cartId, int shippingMethodId);
 
-        void MigrateCart(int customerId, string sessionId);
+        void MigrateCart(int customerId, string sessionId, bool removeSessionCart);
 
         /// <summary>
         /// Add a product to the shopping cart.
@@ -54,8 +54,8 @@ namespace Kooboo.Commerce.Api.Carts
         void ChangeItemQuantity(int cartId, int itemId, int newQuantity);
 
         /// <summary>
-        /// Expire the shopping cart.
+        /// Clear all items from the shopping cart. It can be used when the order is submitted.
         /// </summary>
-        void ExpireCart(int cartId);
+        void ClearCart(int cartId);
     }
 }

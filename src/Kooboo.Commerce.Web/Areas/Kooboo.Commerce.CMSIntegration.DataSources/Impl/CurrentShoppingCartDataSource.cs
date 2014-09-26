@@ -36,7 +36,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Impl
             var user = context.HttpContext.GetMembershipUser();
             if (user == null)
             {
-                var sessionIdProvider = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>();
+                var sessionIdProvider = EngineContext.Current.Resolve<ICartSessionIdProvider>();
                 cartId = context.Site.Commerce().ShoppingCarts.GetCartIdBySessionId(sessionIdProvider.GetCurrentSessionId(true));
             }
             else

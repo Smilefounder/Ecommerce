@@ -60,12 +60,10 @@ namespace Kooboo.Commerce.Web.Bootstrapping
             manager.Register<PromotionEnabled>("Promotions", "Enabled");
             manager.Register<PromotionDisabled>("Promotions", "Disabled");
 
-            manager.Register<CartCreated>("Carts", "Created");
             manager.Register<CartItemAdded>("Carts", "Item Added");
             manager.Register<CartItemQuantityChanged>("Carts", "Item Quantity Changed");
             manager.Register<CartItemRemoved>("Carts", "Item Removed");
             manager.Register<CartPriceCalculated>("Carts", "Price Calculated");
-            manager.Register<CartExpired>("Carts", "Expires");
 
             manager.Register<OrderCreated>("Orders", "Created");
             manager.Register<OrderStatusChanged>("Orders", "Status Changed");

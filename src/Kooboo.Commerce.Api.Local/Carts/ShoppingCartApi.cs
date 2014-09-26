@@ -146,7 +146,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
             return addr;
         }
 
-        public void MigrateCart(int customerId, string session)
+        public void MigrateCart(int customerId, string session, bool removeSessionCart)
         {
             var service = new Core.ShoppingCartService(_context.Instance);
             var sessionCart = service.FindBySessionId(session);
@@ -163,7 +163,7 @@ namespace Kooboo.Commerce.Api.Local.Carts
                 service.Create(customerCart);
             }
 
-            service.MigrateCart(sessionCart, customerCart);
+            service.MigrateCart(sessionCart, customerCart, removeSessionCart);
         }
 
         public void ChangeItemQuantity(int cartId, int itemId, int newQuantity)
@@ -180,14 +180,14 @@ namespace Kooboo.Commerce.Api.Local.Carts
             }
         }
 
-        public void ExpireCart(int cartId)
+        public void ClearCart(int cartId)
         {
             var service = new Core.ShoppingCartService(_context.Instance);
-            var shoppingCart = service.Query().Where(o => o.Id == cartId).FirstOrDefault();
-            if (shoppingCart != null)
+            var cart = service.Find(cartId);
+            _context.Database.Transactional(() =>
             {
-                service.ExpireCart(shoppingCart);
-            }
+                service.ClearCart(cart);
+            });
         }
     }
 }

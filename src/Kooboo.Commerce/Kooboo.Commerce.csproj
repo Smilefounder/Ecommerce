@@ -101,13 +101,9 @@
     <Compile Include="Events\ShippingMethods\IShippingMethodEvent.cs" />
     <Compile Include="Events\ShippingMethods\ShippingMethodDisabled.cs" />
     <Compile Include="Events\ShippingMethods\ShippingMethodEnabled.cs" />
-    <Compile Include="Events\Carts\CartExpired.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Events\Carts\CartItemAdded.cs" />
     <Compile Include="Events\Carts\CartItemQuantityChanged.cs" />
     <Compile Include="Events\Carts\CartItemRemoved.cs" />
-    <Compile Include="Events\Carts\CartCreated.cs" />
     <Compile Include="Events\Carts\CartPriceCalculated.cs" />
     <Compile Include="Customers\AddressExtensions.cs" />
     <Compile Include="Customers\CustomerCustomField.cs" />

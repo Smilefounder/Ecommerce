@@ -7,8 +7,8 @@ using System.Web;
 
 namespace Kooboo.Commerce.CMSIntegration
 {
-    [Dependency(typeof(IShoppingCartSessionIdProvider))]
-    public class DefaultShoppingCartSessionIdProvider : IShoppingCartSessionIdProvider
+    [Dependency(typeof(ICartSessionIdProvider))]
+    public class DefaultCartSessionIdProvider : ICartSessionIdProvider
     {
         public string GetCurrentSessionId(bool ensure)
         {

@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins
                 return Site.Current.Commerce().ShoppingCarts.GetCartIdByCustomer(email);
             }
 
-            var sessionId = EngineContext.Current.Resolve<IShoppingCartSessionIdProvider>().GetCurrentSessionId(true);
+            var sessionId = EngineContext.Current.Resolve<ICartSessionIdProvider>().GetCurrentSessionId(true);
             return Site.Current.Commerce().ShoppingCarts.GetCartIdBySessionId(sessionId);
         }
     }

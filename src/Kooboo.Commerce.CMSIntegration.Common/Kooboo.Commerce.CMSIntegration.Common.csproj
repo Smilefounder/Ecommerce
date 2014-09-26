@@ -53,8 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultShoppingCartSessionIdProvider.cs" />
-    <Compile Include="IShoppingCartSessionIdProvider.cs" />
+    <Compile Include="DefaultCartSessionIdProvider.cs" />
+    <Compile Include="ICartSessionIdProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SiteExtensions.cs" />
   </ItemGroup>

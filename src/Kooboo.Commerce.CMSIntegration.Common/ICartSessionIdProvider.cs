@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.CMSIntegration
 {
-    public interface IShoppingCartSessionIdProvider
+    public interface ICartSessionIdProvider
     {
         string GetCurrentSessionId(bool ensure);
     }

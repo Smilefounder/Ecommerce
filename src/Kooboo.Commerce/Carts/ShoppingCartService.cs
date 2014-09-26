@@ -62,9 +62,7 @@ namespace Kooboo.Commerce.Carts
         public void Create(ShoppingCart cart)
         {
             Require.NotNull(cart, "cart");
-
             _repository.Insert(cart);
-            Event.Raise(new CartCreated(cart), _instance);
         }
 
         public PriceCalculationContext CalculatePrice(ShoppingCart cart, ShoppingContext shoppingContext)
@@ -213,7 +211,7 @@ namespace Kooboo.Commerce.Carts
             }
         }
 
-        public void MigrateCart(ShoppingCart from, ShoppingCart to)
+        public void MigrateCart(ShoppingCart from, ShoppingCart to, bool removeOldCart = false)
         {
             Require.NotNull(from, "from");
             Require.NotNull(to, "to");
@@ -228,25 +226,25 @@ namespace Kooboo.Commerce.Carts
                 AddItem(to, item.ProductVariant.Product, item.ProductVariant, item.Quantity);
             }
 
-            from.Items.Clear();
-            _repository.Delete(from);
+            if (removeOldCart)
+            {
+                Delete(from);
+            }
+        }
+
+        public void ClearCart(ShoppingCart cart)
+        {
+            cart.Items.Clear();
+            cart.CouponCode = null;
+            _repository.Database.SaveChanges();
         }
 
         public void Delete(ShoppingCart cart)
         {
             Require.NotNull(cart, "cart");
 
+            cart.Items.Clear();
             _repository.Delete(cart);
-        }
-
-        public void ExpireCart(ShoppingCart cart)
-        {
-            Require.NotNull(cart, "cart");
-
-            cart.SessionId = string.Format("EXPIRED_{0}_{1}", cart.SessionId, DateTime.UtcNow.Ticks.ToString());
-            _repository.Database.SaveChanges();
-
-            Event.Raise(new CartExpired(cart), _instance);
         }
     }
 }

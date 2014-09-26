@@ -14,7 +14,7 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
     {
         public SubmitOrderPlugin()
         {
-            Parameters["ExpireCart"] = "true";
+            Parameters["ClearCart"] = "true";
         }
 
         protected override SubmissionExecuteResult Execute(SubmitOrderModel model)
@@ -28,9 +28,9 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
                 Culture = Site.Culture
             });
 
-            if (model.ExpireCart)
+            if (model.ClearCart)
             {
-                api.ShoppingCarts.ExpireCart(cart.Id);
+                api.ShoppingCarts.ClearCart(cart.Id);
             }
 
             return new SubmissionExecuteResult
