@@ -12,12 +12,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 {
     [DataContract]
     [KnownType(typeof(GenericCommerceDataSource))]
-    public abstract class GenericCommerceDataSource : ICommerceDataSource
+    public abstract class GenericCommerceDataSource : CommerceDataSource
     {
-        [JsonProperty]
-        public abstract string Name { get; }
-
-        public string EditorVirtualPath
+        public override string EditorVirtualPath
         {
             get
             {
@@ -71,7 +68,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
             }
         }
 
-        public object Execute(CommerceDataSourceContext context)
+        public override object Execute(CommerceDataSourceContext context)
         {
             ParsedGenericCommerceDataSourceSettings settings;
             if (TryParseSettings(context, out settings))
@@ -84,12 +81,12 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
 
         protected abstract object DoExecute(CommerceDataSourceContext context, ParsedGenericCommerceDataSourceSettings settings);
 
-        public virtual IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)
+        public override IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)
         {
             return new Dictionary<string, object>();
         }
 
-        public virtual IEnumerable<string> GetParameters()
+        public override IEnumerable<string> GetParameters()
         {
             var parser = new FormulaParser();
             var parameters = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -120,7 +117,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Generic
             return parameters;
         }
 
-        public virtual bool IsEnumerable()
+        public override bool IsEnumerable()
         {
             if (Settings.TakeOperation == TakeOperation.First)
             {

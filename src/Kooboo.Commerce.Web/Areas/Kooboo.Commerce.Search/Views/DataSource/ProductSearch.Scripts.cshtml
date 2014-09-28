@@ -16,6 +16,8 @@
     var filterDefinitions = FilterDefinition.GetFilterDefinitions(productTypes);
 
     var serializerSettings = new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() } };
+
+    var dataSource = ViewBag.DataSource as Kooboo.Commerce.CMSIntegration.DataSources.CommerceDataSource;
 }
 
 <script>
@@ -41,7 +43,7 @@
         var ViewModel = function () {
             var self = this;
 
-            self.DataSource = ko.mapping.fromJS(@(Html.Raw(JsonConvert.SerializeObject(ViewBag.CommerceDataSource))), MappingOptions);
+            self.DataSource = ko.mapping.fromJS(@(Html.Raw(JsonConvert.SerializeObject(dataSource))), MappingOptions);
 
             self.SelectedFacetName = ko.observable();
 
@@ -154,11 +156,11 @@
             }
 
             self.GetFacetHtmlName = function (index, field) {
-                return 'DataSource.CommerceDataSource.Facets[' + index + '].' + field;
+                return 'DataSource.Facets[' + index + '].' + field;
             }
 
             self.GetFacetRangeHtmlName = function (facetIndex, rangeIndex, field) {
-                return 'DataSource.CommerceDataSource.Facets[' + facetIndex + '].Ranges[' + rangeIndex + '].' + field;
+                return 'DataSource.Facets[' + facetIndex + '].Ranges[' + rangeIndex + '].' + field;
             }
 
             self.UnaddedFilterDefinitions = ko.computed(function () {

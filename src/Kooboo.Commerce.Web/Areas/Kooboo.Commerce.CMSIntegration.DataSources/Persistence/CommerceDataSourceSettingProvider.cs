@@ -23,9 +23,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Persistence
         const string DIRNAME = "DataSources";
         static System.Threading.ReaderWriterLockSlim @lock = new System.Threading.ReaderWriterLockSlim();
         IDataSourceDesigner[] _designers;
-        ICommerceDataSource[] _commerceDataSources;
+        CommerceDataSource[] _commerceDataSources;
 
-        public CommerceDataSourceSettingProvider(IDataSourceDesigner[] designers, ICommerceDataSource[] commerceDataSources)
+        public CommerceDataSourceSettingProvider(IDataSourceDesigner[] designers, CommerceDataSource[] commerceDataSources)
         {
             _designers = designers;
             _commerceDataSources = commerceDataSources;
@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Persistence
         protected override IFileStorage<DataSourceSetting> GetFileStorage(Site site)
         {
             var basePath = Path.Combine(site.PhysicalPath, DIRNAME);
-            var knownTypes = _designers.Select(it => it.CreateDataSource().GetType()).ToList();
+            var knownTypes = _designers.Where(it => !(it is CommerceDataSourceDesigner)).Select(it => it.CreateDataSource().GetType()).ToList();
             knownTypes.AddRange(_commerceDataSources.Select(it => it.GetType()));
 
             return new XmlObjectFileStorage<DataSourceSetting>(basePath, @lock, knownTypes);

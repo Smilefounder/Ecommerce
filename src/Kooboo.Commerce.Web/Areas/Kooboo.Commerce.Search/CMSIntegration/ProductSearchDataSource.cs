@@ -21,14 +21,14 @@ namespace Kooboo.Commerce.Search.CMSIntegration
 {
     [DataContract]
     [KnownType(typeof(ProductSearchDataSource))]
-    public class ProductSearchDataSource : ICommerceDataSource
+    public class ProductSearchDataSource : CommerceDataSource
     {
-        public string Name
+        public override string Name
         {
             get { return "ProductSearch"; }
         }
 
-        public string EditorVirtualPath
+        public override string EditorVirtualPath
         {
             get
             {
@@ -73,7 +73,7 @@ namespace Kooboo.Commerce.Search.CMSIntegration
             PageNumber = "{page}";
         }
 
-        public object Execute(CommerceDataSourceContext context)
+        public override object Execute(CommerceDataSourceContext context)
         {
             var culture = CultureInfo.InvariantCulture;
 
@@ -282,17 +282,17 @@ namespace Kooboo.Commerce.Search.CMSIntegration
             return page;
         }
 
-        public IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)
+        public override IDictionary<string, object> GetDefinitions(CommerceDataSourceContext context)
         {
             return new Dictionary<string, object>();
         }
 
-        public IEnumerable<string> GetParameters()
+        public override IEnumerable<string> GetParameters()
         {
             return Enumerable.Empty<string>();
         }
 
-        public bool IsEnumerable()
+        public override bool IsEnumerable()
         {
             return false;
         }

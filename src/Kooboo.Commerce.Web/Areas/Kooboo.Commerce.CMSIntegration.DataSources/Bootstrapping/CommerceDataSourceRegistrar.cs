@@ -18,11 +18,11 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources.Bootstrapping
 
         public void Register(IContainerManager containerManager, CMS.Common.Runtime.ITypeFinder typeFinder)
         {
-            foreach (var type in typeFinder.FindClassesOfType<ICommerceDataSource>())
+            foreach (var type in typeFinder.FindClassesOfType<CommerceDataSource>())
             {
                 if (type.IsClass && !type.IsAbstract)
                 {
-                    containerManager.AddComponent(typeof(ICommerceDataSource), type, type.FullName, ComponentLifeStyle.Transient);
+                    containerManager.AddComponent(typeof(CommerceDataSource), type, type.FullName, ComponentLifeStyle.Transient);
                 }
             }
         }

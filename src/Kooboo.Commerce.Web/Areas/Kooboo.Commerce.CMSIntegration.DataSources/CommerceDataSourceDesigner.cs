@@ -1,4 +1,5 @@
-﻿using Kooboo.CMS.Common.Runtime.Dependency;
+﻿using Kooboo.CMS.Common.Runtime;
+using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Sites.DataSource;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,9 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
     {
         public IDataSource CreateDataSource()
         {
-            return new CommerceDataSourceAdapter();
+            var dataSourceType = HttpContext.Current.Request.Form["CommerceDataSourceType"];
+            var dataSource = EngineContext.Current.Resolve(Type.GetType(dataSourceType, true)) as IDataSource;
+            return dataSource;
         }
 
         public string DesignerVirtualPath
@@ -25,7 +28,7 @@ namespace Kooboo.Commerce.CMSIntegration.DataSources
 
         public bool IsEditorFor(IDataSource dataSource)
         {
-            return dataSource is CommerceDataSourceAdapter;
+            return dataSource is CommerceDataSource;
         }
 
         public string Name

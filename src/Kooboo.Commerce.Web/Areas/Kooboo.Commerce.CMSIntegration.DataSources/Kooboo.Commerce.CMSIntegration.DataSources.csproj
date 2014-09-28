@@ -94,8 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapping\CommerceDataSourceRegistrar.cs" />
-    <Compile Include="Bootstrapping\DataSourceHttpApplicationEvents.cs" />
-    <Compile Include="CommerceDataSourceAdapter.cs" />
+    <Compile Include="CommerceDataSource.cs" />
     <Compile Include="CommerceDataSourceContext.cs" />
     <Compile Include="CommerceDataSourceDesigner.cs" />
     <Compile Include="Extensions\HttpContextExtensions.cs" />
@@ -104,10 +103,8 @@
     <Compile Include="Generic\SavedFilter.cs" />
     <Compile Include="Generic\GenericCommerceDataSource.cs" />
     <Compile Include="Generic\GenericCommerceDataSourceSettings.cs" />
-    <Compile Include="ICommerceDataSource.cs" />
     <Compile Include="Impl\CategoryBreadcrumbDataSource.cs" />
     <Compile Include="Impl\CurrentCustomerDataSource.cs" />
-    <Compile Include="ModelBinders\CommerceDataSourceModelBinder.cs" />
     <Compile Include="Models\GenericDataSourceModel.cs" />
     <Compile Include="Models\FilterModel.cs" />
     <Compile Include="ModuleAreaRegistration.cs" />

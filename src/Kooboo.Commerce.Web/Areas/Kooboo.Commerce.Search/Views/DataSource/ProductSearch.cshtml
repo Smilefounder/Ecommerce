@@ -68,7 +68,7 @@
         <tr>
             <th></th>
             <td>
-                <input type="checkbox" id="IncludeFacets" name="DataSource.CommerceDataSource.IncludeFacets" value="true" data-bind="checked: DataSource.IncludeFacets" />
+                <input type="checkbox" id="IncludeFacets" name="DataSource.IncludeFacets" value="true" data-bind="checked: DataSource.IncludeFacets" />
                 <label class="inline" for="IncludeFacets">@("Include facets".Localize())</label>
             </td>
         </tr>
@@ -173,7 +173,7 @@
                 <tr>
                     <th>@("Sort field".Localize())</th>
                     <td>
-                        <input type="text" name="DataSource.CommerceDataSource.SortField" data-bind="value: DataSource.SortField" />
+                        <input type="text" name="DataSource.SortField" data-bind="value: DataSource.SortField" />
                         <em class="tip">
                             @("Use + prefix for asc sorting, or use - prefix for desc sorting. Leave empty to use default sorting (by relevance).");
                         </em>
@@ -182,13 +182,13 @@
                 <tr>
                     <th>@("Page size".Localize())</th>
                     <td>
-                        <input type="text" name="DataSource.CommerceDataSource.PageSize" data-bind="value: DataSource.PageSize" />
+                        <input type="text" name="DataSource.PageSize" data-bind="value: DataSource.PageSize" />
                     </td>
                 </tr>
                 <tr>
                     <th>@("Page number".Localize())</th>
                     <td>
-                        <input type="text" name="DataSource.CommerceDataSource.PageNumber" data-bind="value: DataSource.PageNumber" />
+                        <input type="text" name="DataSource.PageNumber" data-bind="value: DataSource.PageNumber" />
                     </td>
                 </tr>
             </table>

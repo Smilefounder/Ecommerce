@@ -5,15 +5,11 @@
     {
         model = new Kooboo.CMS.Sites.DataSource.DataSourceSetting();
     }
-
-    var adapter = Model.DataSource as CommerceDataSourceAdapter;
-    if (adapter == null)
-    {
-        adapter = new CommerceDataSourceAdapter();
-    }
-
-    var allDataSources = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<ICommerceDataSource>().OrderBy(it => it.Name).ToList();
-    var dataSource = adapter.CommerceDataSource;
+    
+    var allDataSources = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<CommerceDataSource>()
+                                                                        .OrderBy(it => it.Name)
+                                                                        .ToList();
+    var dataSource = model.DataSource as CommerceDataSource;
     if (dataSource == null)
     {
         var dataSourceName = ViewContext.RequestContext.GetRequestValue("CommerceDataSource");
@@ -26,19 +22,16 @@
             dataSource = allDataSources.FirstOrDefault();
         }
 
-        adapter.CommerceDataSource = dataSource;
+        model.DataSource = dataSource;
     }
 
-    ViewBag.CommerceDataSource = dataSource;
+    ViewBag.DataSource = model.DataSource;
 }
 
 @using (Html.BeginForm())
 {
     @Html.Hidden("Designer", ((Kooboo.CMS.Sites.DataSource.IDataSourceDesigner)ViewBag.Designer).Name)
-    // This field is for model binding
-    @Html.Hidden("CommerceDataSourceType", dataSource.GetType().FullName)
-    // This field is for CommerceDataSourceAdapter serialization
-    @Html.Hidden("DataSource.CommerceDataSourceType", dataSource.GetType().AssemblyQualifiedNameWithoutVersion())
+    @Html.Hidden("CommerceDataSourceType", dataSource.GetType().AssemblyQualifiedName);
 
     <h1 class="title">@ViewBag.Title</h1>
     <div class="block common-form">
@@ -74,9 +67,11 @@
             </tr>
         </table>
     </div>
-    <div class="block">
-        @Html.Partial(dataSource.EditorVirtualPath)
-    </div>
+    if (!String.IsNullOrEmpty(dataSource.EditorVirtualPath)) { 
+        <div class="block">
+            @Html.Partial(dataSource.EditorVirtualPath)
+        </div>
+    }
 }
 
 @{
