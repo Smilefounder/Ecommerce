@@ -56,7 +56,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Topbar.Orders
         {
             foreach (var order in orders)
             {
-                Event.Raise(new ApproveOrder(order.Id), instance);
+                Event.Raise(new ApproveOrder(order.Id), new EventContext(instance));
             }
 
             return null;

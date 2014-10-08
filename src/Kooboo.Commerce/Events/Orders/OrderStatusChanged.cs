@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Orders
 {
-    public class OrderStatusChanged : Event, IOrderEvent
+    public class OrderStatusChanged : IOrderEvent
     {
         [Reference(typeof(Order))]
         public int OrderId { get; set; }

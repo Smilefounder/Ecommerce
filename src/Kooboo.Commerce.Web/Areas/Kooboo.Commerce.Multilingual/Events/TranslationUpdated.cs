@@ -7,13 +7,13 @@ using System.Web;
 
 namespace Kooboo.Commerce.Multilingual.Events
 {
-    public class TranslationUpdated : Event
+    public class TranslationUpdated : IEvent
     {
-        public CultureInfo Culture { get; private set; }
+        public CultureInfo Culture { get; set; }
 
-        public EntityKey EntityKey { get; private set; }
+        public EntityKey EntityKey { get; set; }
 
-        public IEnumerable<PropertyTranslation> PropertyTranslations { get; private set; }
+        public IEnumerable<PropertyTranslation> PropertyTranslations { get; set; }
 
         public TranslationUpdated(EntityKey entityKey, IEnumerable<PropertyTranslation> propertyTranslations, CultureInfo culture)
         {

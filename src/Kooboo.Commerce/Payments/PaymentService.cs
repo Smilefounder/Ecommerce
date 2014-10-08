@@ -53,7 +53,7 @@ namespace Kooboo.Commerce.Payments
 
                 _repository.Database.SaveChanges();
 
-                Event.Raise(new PaymentStatusChanged(payment, oldStatus, newStatus), _instance);
+                Event.Raise(new PaymentStatusChanged(payment, oldStatus, newStatus), new EventContext(_instance));
             }
         }
     }

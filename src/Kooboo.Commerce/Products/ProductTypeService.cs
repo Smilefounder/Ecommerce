@@ -78,7 +78,7 @@ namespace Kooboo.Commerce.Products
 
             _productTypes.Insert(type);
 
-            Event.Raise(new ProductTypeCreated(type), _instance);
+            Event.Raise(new ProductTypeCreated(type), new EventContext(_instance));
 
             return type;
         }
@@ -139,7 +139,7 @@ namespace Kooboo.Commerce.Products
 
             _productTypes.Database.SaveChanges();
 
-            Event.Raise(new ProductTypeUpdated(type), _instance);
+            Event.Raise(new ProductTypeUpdated(type), new EventContext(_instance));
 
             return type;
         }
@@ -159,7 +159,7 @@ namespace Kooboo.Commerce.Products
         {
             Disable(type);
             _productTypes.Delete(type);
-            Event.Raise(new ProductTypeDeleted(type), _instance);
+            Event.Raise(new ProductTypeDeleted(type), new EventContext(_instance));
         }
 
         public bool Enable(ProductType type)
@@ -172,7 +172,7 @@ namespace Kooboo.Commerce.Products
             type.IsEnabled = true;
             _productTypes.Database.SaveChanges();
 
-            Event.Raise(new ProductTypeEnabled(type), _instance);
+            Event.Raise(new ProductTypeEnabled(type), new EventContext(_instance));
 
             return true;
         }
@@ -187,7 +187,7 @@ namespace Kooboo.Commerce.Products
             type.IsEnabled = false;
             _productTypes.Database.SaveChanges();
 
-            Event.Raise(new ProductTypeDisabled(type), _instance);
+            Event.Raise(new ProductTypeDisabled(type), new EventContext(_instance));
 
             return true;
         }

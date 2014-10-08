@@ -10,12 +10,12 @@ namespace Kooboo.Commerce.Recommendations
 {
     class InstanceEventHandler : IHandle<CommerceInstanceCreated>, IHandle<CommerceInstanceDeleted>
     {
-        public void Handle(CommerceInstanceCreated @event, CommerceInstance instance)
+        public void Handle(CommerceInstanceCreated @event, EventContext context)
         {
             RecommendationEngineConfiguration.Initialize(@event.InstanceName);
         }
 
-        public void Handle(CommerceInstanceDeleted @event, CommerceInstance instance)
+        public void Handle(CommerceInstanceDeleted @event, EventContext context)
         {
             RecommendationEngineConfiguration.Dispose(@event.InstanceName);
         }

@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Customers
                 throw new BusinessRuleViolationException("Email was already taken by others.");
 
             _customerRepository.Insert(customer);
-            Event.Raise(new CustomerCreated(customer), _instance);
+            Event.Raise(new CustomerCreated(customer), new EventContext(_instance));
         }
 
         public void Update(Customer customer)
@@ -64,7 +64,7 @@ namespace Kooboo.Commerce.Customers
                 throw new BusinessRuleViolationException("Email was already taken by others.");
 
             _customerRepository.Update(customer);
-            Event.Raise(new CustomerUpdated(customer), _instance);
+            Event.Raise(new CustomerUpdated(customer), new EventContext(_instance));
         }
 
         private bool CanUseEmail(Customer customer, string email)
@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.Customers
         public void Delete(Customer customer)
         {
             _customerRepository.Delete(customer);
-            Event.Raise(new CustomerDeleted(customer), _instance);
+            Event.Raise(new CustomerDeleted(customer), new EventContext(_instance));
         }
     }
 }

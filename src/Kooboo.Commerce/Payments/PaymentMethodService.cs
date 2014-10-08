@@ -46,7 +46,7 @@ namespace Kooboo.Commerce.Payments
             if (method.MarkEnabled())
             {
                 _repository.Database.SaveChanges();
-                Event.Raise(new PaymentMethodEnabled(method), _instance);
+                Event.Raise(new PaymentMethodEnabled(method), new EventContext(_instance));
                 return true;
             }
 
@@ -58,7 +58,7 @@ namespace Kooboo.Commerce.Payments
             if (method.MarkDisabled())
             {
                 _repository.Database.SaveChanges();
-                Event.Raise(new PaymentMethodDisabled(method), _instance);
+                Event.Raise(new PaymentMethodDisabled(method), new EventContext(_instance));
                 return true;
             }
 

@@ -9,17 +9,17 @@ namespace Kooboo.Commerce.Events
     public class RelayEventHandler<TEvent> : IHandle<TEvent>
         where TEvent : IEvent
     {
-        private Action<TEvent, CommerceInstance> _action;
+        private Action<TEvent, EventContext> _action;
 
-        public RelayEventHandler(Action<TEvent, CommerceInstance> action)
+        public RelayEventHandler(Action<TEvent, EventContext> action)
         {
             Require.NotNull(action, "action");
             _action = action;
         }
 
-        public void Handle(TEvent @event, CommerceInstance instance)
+        public void Handle(TEvent @event, EventContext context)
         {
-            _action(@event, instance);
+            _action(@event, context);
         }
     }
 }

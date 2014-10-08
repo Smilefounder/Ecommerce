@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Promotions
 {
-    public class PromotionEnabled : Event, IPromotionEvent
+    public class PromotionEnabled : IPromotionEvent
     {
         [Reference(typeof(Promotion))]
         public int PromotionId { get; set; }
 
-        protected PromotionEnabled() { }
+        public PromotionEnabled() { }
 
         public PromotionEnabled(Promotion promotion)
         {

@@ -56,7 +56,7 @@ namespace Kooboo.Commerce.Shipping
             method.IsEnabled = true;
             _repository.Database.SaveChanges();
 
-            Event.Raise(new ShippingMethodEnabled(method), _instance);
+            Event.Raise(new ShippingMethodEnabled(method), new EventContext(_instance));
 
             return true;
         }
@@ -71,7 +71,7 @@ namespace Kooboo.Commerce.Shipping
             method.IsEnabled = false;
             _repository.Database.SaveChanges();
 
-            Event.Raise(new ShippingMethodDisabled(method), _instance);
+            Event.Raise(new ShippingMethodDisabled(method), new EventContext(_instance));
 
             return true;
         }

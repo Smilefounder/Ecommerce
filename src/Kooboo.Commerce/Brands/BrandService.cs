@@ -32,20 +32,20 @@ namespace Kooboo.Commerce.Brands
 
         public void Create(Brand brand)
         {
-            _instance.Database.Insert(brand);;
-            Event.Raise(new BrandCreated(brand), _instance);
+            _instance.Database.Insert(brand); ;
+            Event.Raise(new BrandCreated(brand), new EventContext(_instance));
         }
 
         public void Update(Brand brand)
         {
             _instance.Database.Repository<Brand>().Update(brand);
-            Event.Raise(new BrandUpdated(brand), _instance);
+            Event.Raise(new BrandUpdated(brand), new EventContext(_instance));
         }
 
         public void Delete(Brand brand)
         {
             _instance.Database.Repository<Brand>().Delete(brand);
-            Event.Raise(new BrandDeleted(brand), _instance);
+            Event.Raise(new BrandDeleted(brand), new EventContext(_instance));
         }
     }
 }

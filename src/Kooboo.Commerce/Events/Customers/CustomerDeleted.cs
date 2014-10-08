@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Customers
 {
-    public class CustomerDeleted : Event, ICustomerEvent
+    public class CustomerDeleted : ICustomerEvent
     {
         [Param]
         public int CustomerId { get; set; }
 
-        protected CustomerDeleted() { }
+        public CustomerDeleted() { }
 
         public CustomerDeleted(Customer customer)
         {

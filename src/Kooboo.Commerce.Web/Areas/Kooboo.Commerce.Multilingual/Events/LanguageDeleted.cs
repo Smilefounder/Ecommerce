@@ -6,13 +6,8 @@ using System.Web;
 
 namespace Kooboo.Commerce.Multilingual.Events
 {
-    public class LanguageDeleted : Event
+    public class LanguageDeleted : IEvent
     {
-        public string Name { get; private set; }
-
-        public LanguageDeleted(string name)
-        {
-            Name = name;
-        }
+        public string Name { get; set; }
     }
 }

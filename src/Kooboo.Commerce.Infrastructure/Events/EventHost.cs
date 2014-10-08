@@ -18,15 +18,16 @@ namespace Kooboo.Commerce.Events
 
         private readonly Dictionary<Type, List<object>> _handlersByEvents = new Dictionary<Type, List<object>>();
 
-        public void Raise<TEvent>(TEvent @event, CommerceInstance instance)
+        public void Raise<TEvent>(TEvent @event, EventContext context)
             where TEvent : IEvent
         {
             Require.NotNull(@event, "event");
+            Require.NotNull(context, "context");
 
             var handlers = GetEventHandlers(@event.GetType());
             foreach (var handler in handlers)
             {
-                ExecuteEventHandler<TEvent>(handler, @event, instance);
+                ExecuteEventHandler<TEvent>(handler, @event, context);
             }
         }
 
@@ -51,12 +52,12 @@ namespace Kooboo.Commerce.Events
             DoListen(typeof(TEvent), handler);
         }
 
-        public void Listen(Type eventType, Action<IEvent, CommerceInstance> handler)
+        public void Listen(Type eventType, Action<IEvent, EventContext> handler)
         {
             DoListen(eventType, handler);
         }
 
-        public void Listen<TEvent>(Action<TEvent, CommerceInstance> handler)
+        public void Listen<TEvent>(Action<TEvent, EventContext> handler)
             where TEvent : IEvent
         {
             Require.NotNull(handler, "handler");
@@ -110,14 +111,14 @@ namespace Kooboo.Commerce.Events
             return Enumerable.Empty<object>();
         }
 
-        private void ExecuteEventHandler<TEvent>(object handler, TEvent @event, CommerceInstance instance)
+        private void ExecuteEventHandler<TEvent>(object handler, TEvent @event, EventContext context)
              where TEvent : IEvent
         {
             var handlerInstance = ResolveEventHandlerInstance<TEvent>(handler);
 
             try
             {
-                (handlerInstance as IHandle<TEvent>).Handle(@event, instance);
+                (handlerInstance as IHandle<TEvent>).Handle(@event, context);
             }
             catch (Exception ex)
             {
@@ -152,7 +153,7 @@ namespace Kooboo.Commerce.Events
             }
 
             // 'handler' might be an Action<TEvent>
-            var action = handler as Action<TEvent, CommerceInstance>;
+            var action = handler as Action<TEvent, EventContext>;
             if (action != null)
             {
                 return new RelayEventHandler<TEvent>(action);

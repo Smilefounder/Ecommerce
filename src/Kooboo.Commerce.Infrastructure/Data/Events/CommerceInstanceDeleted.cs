@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data.Events
 {
-    public class CommerceInstanceDeleted : Event
+    public class CommerceInstanceDeleted : IEvent
     {
         public string InstanceName { get; private set; }
 

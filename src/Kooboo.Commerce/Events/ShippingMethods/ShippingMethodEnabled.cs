@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.ShippingMethods
 {
-    public class ShippingMethodEnabled : Event, IShippingMethodEvent
+    public class ShippingMethodEnabled : IShippingMethodEvent
     {
         [Reference(typeof(ShippingMethod))]
-        public int ShippingMethodId { get; protected set; }
+        public int ShippingMethodId { get; set; }
 
-        protected ShippingMethodEnabled() { }
+        public ShippingMethodEnabled() { }
 
         public ShippingMethodEnabled(ShippingMethod method)
         {

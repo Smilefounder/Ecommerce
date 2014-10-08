@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Globalization.Events
 {
-    public class GetText : Event
+    public class GetText : IEvent
     {
         public IDictionary<EntityKey, TextDictionary> Texts { get; private set; }
 

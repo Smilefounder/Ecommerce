@@ -89,7 +89,7 @@ namespace Kooboo.Commerce.Orders
         public bool Create(Order order)
         {
             _orderRepository.Insert(order);
-            Event.Raise(new OrderCreated(order), _instance);
+            Event.Raise(new OrderCreated(order), new EventContext(_instance));
             return true;
         }
 
@@ -102,7 +102,7 @@ namespace Kooboo.Commerce.Orders
 
                 _orderRepository.Database.SaveChanges();
 
-                Event.Raise(new OrderStatusChanged(order, oldStatus, newStatus), _instance);
+                Event.Raise(new OrderStatusChanged(order, oldStatus, newStatus), new EventContext(_instance));
             }
         }
 

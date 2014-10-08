@@ -8,22 +8,22 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Carts
 {
-    public class CartItemAdded : Event, ICartEvent
+    public class CartItemAdded : ICartEvent
     {
-        public int CartId { get; protected set; }
+        public int CartId { get; set; }
 
-        public int ItemId { get; protected set; }
+        public int ItemId { get; set; }
 
         [Reference(typeof(Product))]
-        public int ProductId { get; protected set; }
+        public int ProductId { get; set; }
 
         [Reference(typeof(ProductVariant))]
-        public int ProductPriceId { get; protected set; }
+        public int ProductPriceId { get; set; }
 
         [Param]
-        public int Quantity { get; protected set; }
+        public int Quantity { get; set; }
 
-        protected CartItemAdded() { }
+        public CartItemAdded() { }
 
         public CartItemAdded(ShoppingCart cart, ShoppingCartItem item)
         {

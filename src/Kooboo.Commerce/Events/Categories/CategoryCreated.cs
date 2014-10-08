@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Categories
 {
-    public class CategoryCreated : Event, ICategoryEvent
+    public class CategoryCreated : ICategoryEvent
     {
         [Reference(typeof(Category))]
         public int CategoryId { get; set; }
 
-        protected CategoryCreated() { }
+        public CategoryCreated() { }
 
         public CategoryCreated(Category category)
         {

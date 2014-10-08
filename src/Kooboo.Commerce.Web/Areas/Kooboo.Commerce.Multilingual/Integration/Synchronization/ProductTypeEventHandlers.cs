@@ -14,8 +14,9 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscribtion
 
         public Func<string, ITranslationStore> GetTranlsationStoreByInstance = instance => TranslationStores.Get(instance);
 
-        public void Handle(ProductTypeUpdated @event, CommerceInstance instance)
+        public void Handle(ProductTypeUpdated @event, EventContext context)
         {
+            var instance = context.Instance;
             var languageStore = GetLanguageStoreByInstance(instance.Name);
             var translationStore = GetTranlsationStoreByInstance(instance.Name);
 
@@ -26,8 +27,9 @@ namespace Kooboo.Commerce.Multilingual.Integration.ChangeSubscribtion
             }
         }
 
-        public void Handle(ProductTypeDeleted @event, CommerceInstance instance)
+        public void Handle(ProductTypeDeleted @event, EventContext context)
         {
+            var instance = context.Instance;
             var languageStore = GetLanguageStoreByInstance(instance.Name);
             var translationStore = GetTranlsationStoreByInstance(instance.Name);
             

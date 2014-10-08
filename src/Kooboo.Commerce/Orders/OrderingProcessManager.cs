@@ -9,18 +9,9 @@ namespace Kooboo.Commerce.Orders
     class OrderingProcessManager
         : IHandle<PaymentStatusChanged>
     {
-        private OrderService _orderService;
-        private PaymentService _paymentService;
-
-        public OrderingProcessManager(OrderService orderService, PaymentService paymentService)
+        public void Handle(PaymentStatusChanged @event, EventContext context)
         {
-            _orderService = orderService;
-            _paymentService = paymentService;
-        }
-
-        public void Handle(PaymentStatusChanged @event, CommerceInstance instance)
-        {
-            var payment = _paymentService.Find(@event.PaymentId);
+            var payment = new PaymentService(context.Instance).Find(@event.PaymentId);
 
             if (@event.NewStatus != PaymentStatus.Success)
             {
@@ -28,8 +19,9 @@ namespace Kooboo.Commerce.Orders
             }
 
             var orderId = @payment.OrderId;
-            var order = _orderService.Find(orderId);
-            _orderService.AcceptPayment(order, payment);
+            var orderService = new OrderService(context.Instance);
+            var order = orderService.Find(orderId);
+            orderService.AcceptPayment(order, payment);
         }
     }
 }

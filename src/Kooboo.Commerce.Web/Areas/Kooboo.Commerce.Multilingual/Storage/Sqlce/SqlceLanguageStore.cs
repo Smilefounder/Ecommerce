@@ -54,7 +54,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
                 db.Languages.Add(language);
                 db.SaveChanges();
 
-                Event.Raise(new LanguageAdded(language.Name), GetInstance());
+                Event.Raise(new LanguageAdded { Name = language.Name }, new EventContext(GetInstance()));
             }
         }
 
@@ -76,7 +76,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
                 db.Languages.Remove(lang);
                 db.SaveChanges();
 
-                Event.Raise(new LanguageDeleted(lang.Name), GetInstance());
+                Event.Raise(new LanguageDeleted { Name = lang.Name }, new EventContext(GetInstance()));
             }
         }
 

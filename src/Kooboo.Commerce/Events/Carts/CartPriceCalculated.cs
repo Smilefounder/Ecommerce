@@ -8,14 +8,14 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Carts
 {
-    public class CartPriceCalculated : Event, ICartEvent
+    public class CartPriceCalculated : ICartEvent
     {
         public int CartId { get; private set; }
 
         [JsonIgnore]
         public PriceCalculationContext Context { get; private set; }
 
-        protected CartPriceCalculated() { }
+        public CartPriceCalculated() { }
 
         public CartPriceCalculated(ShoppingCart cart, PriceCalculationContext context)
         {

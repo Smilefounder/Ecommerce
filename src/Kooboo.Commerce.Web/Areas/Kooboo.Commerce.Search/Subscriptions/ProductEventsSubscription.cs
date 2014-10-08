@@ -29,12 +29,12 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         #region Language Events
 
-        public void Handle(LanguageAdded @event, CommerceInstance instance)
+        public void Handle(LanguageAdded @event, EventContext context)
         {
 
         }
 
-        public void Handle(LanguageDeleted @event, CommerceInstance instance)
+        public void Handle(LanguageDeleted @event, EventContext context)
         {
 
         }
@@ -43,9 +43,9 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         #region Translation Events
 
-        public void Handle(TranslationUpdated @event, CommerceInstance instance)
+        public void Handle(TranslationUpdated @event, EventContext context)
         {
-            var service = new ProductService(instance);
+            var service = new ProductService(context.Instance);
 
             if (@event.EntityKey.EntityType == typeof(Product))
             {
@@ -70,7 +70,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
 
         #region Product Events
 
-        public void Handle(ProductCreated @event, CommerceInstance instance)
+        public void Handle(ProductCreated @event, EventContext context)
         {
             var product = CommerceInstance.Current.Database.Repository<Product>().Find(@event.ProductId);
             if (product.IsPublished)
@@ -79,7 +79,7 @@ namespace Kooboo.Commerce.Search.Subscriptions
             }
         }
 
-        public void Handle(ProductUpdated @event, CommerceInstance instance)
+        public void Handle(ProductUpdated @event, EventContext context)
         {
             var product = CommerceInstance.Current.Database.Repository<Product>().Find(@event.ProductId);
             if (product.IsPublished)
@@ -88,18 +88,18 @@ namespace Kooboo.Commerce.Search.Subscriptions
             }
         }
 
-        public void Handle(ProductPublished @event, CommerceInstance instance)
+        public void Handle(ProductPublished @event, EventContext context)
         {
             var product = CommerceInstance.Current.Database.Repository<Product>().Find(@event.ProductId);
             Index(product, GetAllCultures());
         }
 
-        public void Handle(ProductUnpublished @event, CommerceInstance instance)
+        public void Handle(ProductUnpublished @event, EventContext context)
         {
             DeleteIndex(@event.ProductId);
         }
 
-        public void Handle(ProductDeleted @event, CommerceInstance instance)
+        public void Handle(ProductDeleted @event, EventContext context)
         {
             DeleteIndex(@event.ProductId);
         }

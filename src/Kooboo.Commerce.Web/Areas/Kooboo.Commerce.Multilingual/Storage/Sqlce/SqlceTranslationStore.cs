@@ -121,7 +121,7 @@ namespace Kooboo.Commerce.Multilingual.Storage.Sqlce
 
                 db.SaveChanges();
 
-                Event.Raise(new TranslationUpdated(key, propertyTranslations, culture), GetInstance());
+                Event.Raise(new TranslationUpdated(key, propertyTranslations, culture), new EventContext(GetInstance()));
             }
         }
 

@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Topbar.Orders.Events
 {
-    public class ApproveOrder : Event
+    public class ApproveOrder : IEvent
     {
         [Reference(typeof(Order))]
         public int OrderId { get; set; }

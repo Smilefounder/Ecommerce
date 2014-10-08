@@ -14,8 +14,9 @@ namespace Kooboo.Commerce.Multilingual.Integration.Synchronization
 
         public Func<string, ITranslationStore> GetTranlsationStoreByInstance = instance => TranslationStores.Get(instance);
 
-        public void Handle(CategoryUpdated @event, CommerceInstance instance)
+        public void Handle(CategoryUpdated @event, EventContext context)
         {
+            var instance = context.Instance;
             var languageStore = GetLanguageStoreByInstance(instance.Name);
             var translationStore = GetTranlsationStoreByInstance(instance.Name);
 
@@ -26,8 +27,9 @@ namespace Kooboo.Commerce.Multilingual.Integration.Synchronization
             }
         }
 
-        public void Handle(CategoryDeleted @event, CommerceInstance instance)
+        public void Handle(CategoryDeleted @event, EventContext context)
         {
+            var instance = context.Instance;
             var languageStore = GetLanguageStoreByInstance(instance.Name);
             var translationStore = GetTranlsationStoreByInstance(instance.Name);
 

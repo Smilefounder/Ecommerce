@@ -12,8 +12,9 @@ namespace Kooboo.Commerce.Multilingual.Integration
     {
         public Func<string, ITranslationStore> GetTranslationStoreByInstance = instance => TranslationStores.Get(instance);
 
-        public void Handle(GetText @event, CommerceInstance instance)
+        public void Handle(GetText @event, EventContext context)
         {
+            var instance = context.Instance;
             var store = GetTranslationStoreByInstance(instance.Name);
 
             var entityKeys = @event.Texts.Select(m => m.Key).ToArray();

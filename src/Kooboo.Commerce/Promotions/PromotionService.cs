@@ -52,7 +52,7 @@ namespace Kooboo.Commerce.Promotions
 
             _repository.Database.SaveChanges();
 
-            Event.Raise(new PromotionEnabled(promotion), _instance);
+            Event.Raise(new PromotionEnabled(promotion), new EventContext(_instance));
 
             return true;
         }
@@ -68,7 +68,7 @@ namespace Kooboo.Commerce.Promotions
 
             _repository.Database.SaveChanges();
 
-            Event.Raise(new PromotionDisabled(promotion), _instance);
+            Event.Raise(new PromotionDisabled(promotion), new EventContext(_instance));
 
             return true;
         }

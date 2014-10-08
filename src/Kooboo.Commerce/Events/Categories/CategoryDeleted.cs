@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Categories
 {
-    public class CategoryDeleted : Event, ICategoryEvent
+    public class CategoryDeleted : ICategoryEvent
     {
         [Param]
         public int CategoryId { get; set; }
@@ -15,7 +15,7 @@ namespace Kooboo.Commerce.Events.Categories
         [Param]
         public string CategoryName { get; set; }
 
-        protected CategoryDeleted() { }
+        public CategoryDeleted() { }
 
         public CategoryDeleted(Category category)
         {

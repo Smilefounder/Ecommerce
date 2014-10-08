@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Carts
 {
-    public class CartItemQuantityChanged : Event, ICartEvent
+    public class CartItemQuantityChanged : ICartEvent
     {
         public int CartId { get; set; }
 
@@ -26,7 +26,7 @@ namespace Kooboo.Commerce.Events.Carts
         [Param]
         public int NewQuantity { get; set; }
 
-        protected CartItemQuantityChanged() { }
+        public CartItemQuantityChanged() { }
 
         public CartItemQuantityChanged(ShoppingCart cart, ShoppingCartItem item, int oldQuantity)
         {

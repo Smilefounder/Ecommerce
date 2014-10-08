@@ -10,19 +10,19 @@ namespace Kooboo.Commerce.Categories
 {
     class CategoryTreeCacheRefresher : IHandle<CategoryCreated>, IHandle<CategoryUpdated>, IHandle<CategoryDeleted>
     {
-        public void Handle(CategoryCreated @event, CommerceInstance instance)
+        public void Handle(CategoryCreated @event, EventContext context)
         {
-            CategoryTree.Remove(CommerceInstance.Current.Name);
+            CategoryTree.Remove(context.Instance.Name);
         }
 
-        public void Handle(CategoryUpdated @event, CommerceInstance instance)
+        public void Handle(CategoryUpdated @event, EventContext context)
         {
-            CategoryTree.Remove(CommerceInstance.Current.Name);
+            CategoryTree.Remove(context.Instance.Name);
         }
 
-        public void Handle(CategoryDeleted @event, CommerceInstance instance)
+        public void Handle(CategoryDeleted @event, EventContext context)
         {
-            CategoryTree.Remove(CommerceInstance.Current.Name);
+            CategoryTree.Remove(context.Instance.Name);
         }
     }
 }

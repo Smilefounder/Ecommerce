@@ -119,7 +119,7 @@ namespace Kooboo.Commerce.Orders.Pricing
         {
             // TODO: Avoid using Current
             var @event = new GetPrice(productId, variantId, originalPrice, shoppingContext);
-            Event.Raise(@event, CommerceInstance.Current);
+            Event.Raise(@event, new EventContext(CommerceInstance.Current));
             return @event.FinalPrice;
         }
 

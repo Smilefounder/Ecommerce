@@ -48,14 +48,14 @@ namespace Kooboo.Commerce.Products
         {
             SyncPriceRange(product);
             _database.Repository<Product>().Insert(product);
-            Event.Raise(new ProductCreated(product), _instance);
+            Event.Raise(new ProductCreated(product), new EventContext(_instance));
         }
 
         public void Update(Product product)
         {
             SyncPriceRange(product);
             _database.Repository<Product>().Update(product);
-            Event.Raise(new ProductUpdated(product), _instance);
+            Event.Raise(new ProductUpdated(product), new EventContext(_instance));
         }
 
         private void SyncPriceRange(Product product)
@@ -75,7 +75,7 @@ namespace Kooboo.Commerce.Products
         {
             var product = _database.Repository<Product>().Find(model.Id);
             _database.Repository<Product>().Delete(product);
-            Event.Raise(new ProductDeleted(product), _instance);
+            Event.Raise(new ProductDeleted(product), new EventContext(_instance));
         }
 
         public bool Publish(Product product)
@@ -89,7 +89,7 @@ namespace Kooboo.Commerce.Products
 
             _database.SaveChanges();
 
-            Event.Raise(new ProductPublished(product), _instance);
+            Event.Raise(new ProductPublished(product), new EventContext(_instance));
 
             return true;
         }
@@ -105,7 +105,7 @@ namespace Kooboo.Commerce.Products
 
             _database.SaveChanges();
 
-            Event.Raise(new ProductUnpublished(product), _instance);
+            Event.Raise(new ProductUnpublished(product), new EventContext(_instance));
 
             return true;
         }

@@ -34,10 +34,9 @@ namespace Kooboo.Commerce.Rules
             Event.Listen(EventType, Handle);
         }
 
-        private void Handle(IEvent @event, CommerceInstance commerceInstance)
+        private void Handle(IEvent @event, EventContext context)
         {
-            // TODO: Need to be passed in?
-            var instance = CommerceInstance.Current;
+            var instance = context.Instance;
 
             var rules = RuleManager.GetManager(instance.Name).GetRules(@event.GetType().Name);
             var activities = new List<ConfiguredActivity>();

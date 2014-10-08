@@ -81,7 +81,7 @@ namespace Kooboo.Commerce.Data
                 }
             }
 
-            Event.Raise(new CommerceInstanceCreated(settings.Name, settings), GetInstance(settings.Name));
+            Event.Raise(new CommerceInstanceCreated(settings.Name, settings), new EventContext(GetInstance(settings.Name)));
         }
 
         static void CreatePhysicalDatabaseIfNotExists(string connectionString, ICommerceDbProvider provider)
@@ -126,7 +126,7 @@ namespace Kooboo.Commerce.Data
             var folder = DataFolders.Instances.GetFolder(settings.Name);
             folder.Delete();
 
-            Event.Raise(new CommerceInstanceDeleted(settings.Name, settings), instance);
+            Event.Raise(new CommerceInstanceDeleted(settings.Name, settings), new EventContext(instance));
         }
 
         public CommerceInstanceSettings GetInstanceSettings(string instanceName)

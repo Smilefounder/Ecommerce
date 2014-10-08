@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Products
 {
-    public class GetPrice : Event, IProductEvent
+    public class GetPrice : IProductEvent
     {
         [Reference(typeof(Product))]
         public int ProductId { get; private set; }
@@ -25,7 +25,7 @@ namespace Kooboo.Commerce.Events.Products
 
         public decimal FinalPrice { get; set; }
 
-        protected GetPrice() { }
+        public GetPrice() { }
 
         public GetPrice(int productId, int variantId, decimal originalPrice, ShoppingContext shoppingContext)
         {

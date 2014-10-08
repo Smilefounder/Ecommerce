@@ -77,7 +77,7 @@ namespace Kooboo.Commerce.Carts
 
             new PriceCalculator().Calculate(context);
 
-            Event.Raise(new CartPriceCalculated(cart, context), _instance);
+            Event.Raise(new CartPriceCalculated(cart, context), new EventContext(_instance));
 
             return context;
         }
@@ -116,7 +116,7 @@ namespace Kooboo.Commerce.Carts
             cart.Items.Add(item);
             _repository.Database.SaveChanges();
 
-            Event.Raise(new CartItemAdded(cart, item), _instance);
+            Event.Raise(new CartItemAdded(cart, item), new EventContext(_instance));
         }
 
         public ShoppingCartItem AddItem(ShoppingCart cart, Product product, ProductVariant productPrice, int quantity)
@@ -151,7 +151,7 @@ namespace Kooboo.Commerce.Carts
             cart.Items.Remove(item);
             _repository.Database.SaveChanges();
 
-            Event.Raise(new CartItemRemoved(cart, item), _instance);
+            Event.Raise(new CartItemRemoved(cart, item), new EventContext(_instance));
 
             return true;
         }
@@ -180,7 +180,7 @@ namespace Kooboo.Commerce.Carts
 
                 _repository.Database.SaveChanges();
 
-                Event.Raise(new CartItemQuantityChanged(cart, item, oldQuantity), _instance);
+                Event.Raise(new CartItemQuantityChanged(cart, item, oldQuantity), new EventContext(_instance));
             }
         }
 

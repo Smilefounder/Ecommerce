@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Brands
 {
-    public class BrandDeleted : Event, IBrandEvent
+    public class BrandDeleted : IBrandEvent
     {
         [Param]
         public int BrandId { get; set; }
@@ -16,7 +16,7 @@ namespace Kooboo.Commerce.Events.Brands
         [Param]
         public string BrandName { get; set; }
 
-        protected BrandDeleted() { }
+        public BrandDeleted() { }
 
         public BrandDeleted(Brand brand)
         {

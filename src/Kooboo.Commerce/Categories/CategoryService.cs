@@ -34,19 +34,19 @@ namespace Kooboo.Commerce.Categories
         public void Create(Category category)
         {
             _categoryRepository.Insert(category);
-            Event.Raise(new CategoryCreated(category), _instance);
+            Event.Raise(new CategoryCreated(category), new EventContext(_instance));
         }
 
         public void Update(Category category)
         {
             _categoryRepository.Update(category);
-            Event.Raise(new CategoryUpdated(category), _instance);
+            Event.Raise(new CategoryUpdated(category), new EventContext(_instance));
         }
 
         public void Delete(Category category)
         {
             _categoryRepository.Delete(category);
-            Event.Raise(new CategoryDeleted(category), _instance);
+            Event.Raise(new CategoryDeleted(category), new EventContext(_instance));
         }
     }
 }
