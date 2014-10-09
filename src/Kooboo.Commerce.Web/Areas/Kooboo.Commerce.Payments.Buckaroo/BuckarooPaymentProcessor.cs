@@ -30,7 +30,7 @@ namespace Kooboo.Commerce.Payments.Buckaroo
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
-        public ProcessPaymentResult Process(PaymentProcessingContext context)
+        public PaymentProcessResult Process(PaymentProcessingContext context)
         {
             var settings = context.ProcessorConfig as BuckarooConfig;
 

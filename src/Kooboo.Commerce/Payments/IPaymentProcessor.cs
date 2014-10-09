@@ -23,6 +23,6 @@ namespace Kooboo.Commerce.Payments
         /// <summary>
         /// 处理支付请求，并返回结果。
         /// </summary>
-        ProcessPaymentResult Process(PaymentProcessingContext context);
+        PaymentProcessResult Process(PaymentProcessingContext context);
     }
 }

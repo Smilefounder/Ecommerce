@@ -44,34 +44,23 @@ namespace Kooboo.Commerce.Api.Local.Orders
         public PaymentResult Pay(PaymentRequest request)
         {
             var paymentMethod = _context.Database.Repository<Core.PaymentMethod>().Find(request.PaymentMethodId);
-            var payment = new Kooboo.Commerce.Payments.Payment(request.OrderId, request.Amount, paymentMethod, request.Description);
+            var orderService = new Kooboo.Commerce.Orders.OrderService(_context.Instance);
 
-            var paymentService = new Core.PaymentService(_context.Instance);
-
-            paymentService.Create(payment);
-
-            // TODO: Consider move ProcessPayment to PaymentService
-            var processor = _paymentProcessorProvider.FindByName(paymentMethod.ProcessorName);
-            object config = null;
-
-            if (processor.ConfigType != null)
+            var processResult = orderService.ProcessPayment(new Commerce.Orders.PaymentRequest
             {
-                config = paymentMethod.LoadProcessorConfig(processor.ConfigType);
-            }
-
-            var processResult = processor.Process(new Kooboo.Commerce.Payments.PaymentProcessingContext(payment, config)
-            {
+                OrderId = request.OrderId,
+                Description = request.Description,
+                Amount = request.Amount,
                 CurrencyCode = request.CurrencyCode,
                 ReturnUrl = request.ReturnUrl,
+                PaymentMethod = paymentMethod,
                 Parameters = request.Parameters
             });
-
-            paymentService.AcceptProcessResult(payment, processResult);
 
             return new PaymentResult
             {
                 Message = processResult.Message,
-                PaymentId = payment.Id,
+                PaymentId = processResult.PaymentId,
                 PaymentStatus = (Kooboo.Commerce.Api.Payments.PaymentStatus)(int)processResult.PaymentStatus,
                 RedirectUrl = processResult.RedirectUrl
             };

@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Payments.iDeal
             }
         }
 
-        public ProcessPaymentResult Process(PaymentProcessingContext context)
+        public PaymentProcessResult Process(PaymentProcessingContext context)
         {
             if (context.Amount < (decimal)1.19)
                 throw new FormatException("Amount cannot be less than € 1,19");
@@ -60,7 +60,7 @@ namespace Kooboo.Commerce.Payments.iDeal
             if (idealFetch.Error)
                 throw new PaymentProcessorException(idealFetch.ErrorMessage);
 
-            return ProcessPaymentResult.Pending(idealFetch.Url, idealFetch.TransactionId);
+            return PaymentProcessResult.Pending(idealFetch.Url, idealFetch.TransactionId);
         }
     }
 }

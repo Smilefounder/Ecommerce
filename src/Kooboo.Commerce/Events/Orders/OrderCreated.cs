@@ -7,12 +7,14 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events.Orders
 {
-    public class OrderCreated : OrderStatusChanged
+    public class OrderCreated : IOrderEvent
     {
+        [Reference(typeof(Order))]
+        public int OrderId { get; set; }
+
         protected OrderCreated() { }
 
         public OrderCreated(Order order)
-            : base(order, null, OrderStatus.Created)
         {
             OrderId = order.Id;
         }

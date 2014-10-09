@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Payments.PayPal
             _settingsService = settingService;
         }
 
-        public ProcessPaymentResult Process(PaymentProcessingContext context)
+        public PaymentProcessResult Process(PaymentProcessingContext context)
         {
             if (String.IsNullOrEmpty(context.CurrencyCode))
             {
@@ -73,10 +73,10 @@ namespace Kooboo.Commerce.Payments.PayPal
                 paymentStatus = PaymentStatus.Failed;
             }
 
-            return new ProcessPaymentResult
+            return new PaymentProcessResult
             {
                 PaymentStatus = paymentStatus,
-                ThirdPartyTransactionId = result.id
+                TransactionId = result.id
             };
         }
 

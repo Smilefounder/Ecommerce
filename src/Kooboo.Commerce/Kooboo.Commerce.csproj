@@ -80,6 +80,8 @@
     <Compile Include="Events\ProductTypes\ProductTypeCreated.cs" />
     <Compile Include="Events\ProductTypes\ProductTypeDeleted.cs" />
     <Compile Include="Events\ProductTypes\ProductTypeUpdated.cs" />
+    <Compile Include="Orders\PaymentRequest.cs" />
+    <Compile Include="Orders\PaymentResult.cs" />
     <Compile Include="Products\ICustomField.cs" />
     <Compile Include="Products\OrderedCustomFieldDefinitionCollection.cs" />
     <Compile Include="Events\Categories\CategoryCreated.cs" />
@@ -141,7 +143,6 @@
     <Compile Include="Data\Mapping\ShoppingCartMap.cs" />
     <Compile Include="Orders\OrderAddress.cs" />
     <Compile Include="Orders\OrderCustomField.cs" />
-    <Compile Include="Orders\OrderingProcessManager.cs" />
     <Compile Include="Orders\Pricing\PriceCalculationItem.cs" />
     <Compile Include="Orders\Pricing\IPriceCalculationModule.cs" />
     <Compile Include="Orders\Pricing\PriceCalculationContext.cs" />
@@ -160,8 +161,7 @@
     <Compile Include="Payments\PaymentMethodInfo.cs" />
     <Compile Include="Payments\PaymentProcessorException.cs" />
     <Compile Include="Payments\Payment.cs" />
-    <Compile Include="Payments\ProcessPaymentResult.cs" />
-    <Compile Include="Payments\PaymentService.cs" />
+    <Compile Include="Payments\PaymentProcessResult.cs" />
     <Compile Include="Products\Product.cs">
       <SubType>Code</SubType>
     </Compile>

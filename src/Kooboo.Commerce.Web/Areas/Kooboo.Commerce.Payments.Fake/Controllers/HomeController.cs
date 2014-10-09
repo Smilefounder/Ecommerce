@@ -13,18 +13,10 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
 {
     public class HomeController : CommerceController
     {
-        private PaymentService _paymentService;
-        private PaymentMethodService _paymentMethodService;
-
-        public HomeController(PaymentService paymentService, PaymentMethodService paymentMethodService)
-        {
-            _paymentService = paymentService;
-            _paymentMethodService = paymentMethodService;
-        }
-
         public ActionResult Gateway(int paymentId, string currency, string commerceReturnUrl)
         {
-            var payment = _paymentService.Find(paymentId);
+            var orderService = new OrderService(CurrentInstance);
+            var payment = orderService.Payments().ById(paymentId);
 
             var model = new GatewayViewModel
             {
@@ -41,16 +33,18 @@ namespace Kooboo.Commerce.Payments.Fake.Controllers
         [Transactional]
         public ActionResult FakeSuccess(int paymentId, string commerceReturnUrl)
         {
-            var payment = _paymentService.Find(paymentId);
-            _paymentService.AcceptProcessResult(payment, ProcessPaymentResult.Success(Guid.NewGuid().ToString("N")));
+            var orderService = new OrderService(CurrentInstance);
+            var payment = orderService.Payments().ById(paymentId);
+            orderService.AcceptPaymentProcessResult(payment, PaymentProcessResult.Success(Guid.NewGuid().ToString("N")));
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
 
         [Transactional]
         public ActionResult FakeFailure(int paymentId, string commerceReturnUrl)
         {
-            var payment = _paymentService.Find(paymentId);
-            _paymentService.AcceptProcessResult(payment, ProcessPaymentResult.Failed("Payment failed.", Guid.NewGuid().ToString("N")));
+            var orderService = new OrderService(CurrentInstance);
+            var payment = orderService.Payments().ById(paymentId);
+            orderService.AcceptPaymentProcessResult(payment, PaymentProcessResult.Failed("Payment failed.", Guid.NewGuid().ToString("N")));
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
     }

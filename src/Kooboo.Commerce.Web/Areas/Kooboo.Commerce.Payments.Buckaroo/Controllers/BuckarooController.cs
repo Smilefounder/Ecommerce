@@ -14,12 +14,12 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
 {
     public class BuckarooController : CommerceController
     {
-        private PaymentService _paymentService;
+        private OrderService _orderService;
         private PaymentMethodService _paymentMethodService;
 
-        public BuckarooController(PaymentService paymentService, PaymentMethodService paymentMethodService)
+        public BuckarooController(OrderService paymentService, PaymentMethodService paymentMethodService)
         {
-            _paymentService = paymentService;
+            _orderService = paymentService;
             _paymentMethodService = paymentMethodService;
         }
 
@@ -27,10 +27,10 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
         public ActionResult Return(string commerceReturnUrl)
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
-            var payment = _paymentService.Find(paymentId);
+            var payment = _orderService.Payments().ById(paymentId);
             var method = _paymentMethodService.Find(payment.PaymentMethodId);
             var result = ProcessResponse(payment, method.LoadProcessorConfig<BuckarooConfig>());
-            _paymentService.AcceptProcessResult(payment, result);
+            _orderService.AcceptPaymentProcessResult(payment, result);
 
             return Redirect(Url.Payment().DecorateReturn(commerceReturnUrl, payment));
         }
@@ -39,13 +39,13 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
         public void Push()
         {
             var paymentId = Convert.ToInt32(Request["add_paymentId"]);
-            var payment = _paymentService.Find(paymentId);
+            var payment = _orderService.Payments().ById(paymentId);
             var method = _paymentMethodService.Find(payment.PaymentMethodId);
             var result = ProcessResponse(payment, method.LoadProcessorConfig<BuckarooConfig>());
-            _paymentService.AcceptProcessResult(payment, result);
+            _orderService.AcceptPaymentProcessResult(payment, result);
         }
 
-        private ProcessPaymentResult ProcessResponse(Payment payment, BuckarooConfig settings)
+        private PaymentProcessResult ProcessResponse(Payment payment, BuckarooConfig settings)
         {
             var signature = BuckarooUtil.GetSignature(Request.Form, settings.SecretKey);
             if (signature != Request["brq_signature"])
@@ -60,23 +60,23 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
             // Failed / Validation Failure / Technical Failure
             if (statusCode == "490" || statusCode == "491" || statusCode == "492")
             {
-                return ProcessPaymentResult.Failed(statusCode + ": " + statusMessage);
+                return PaymentProcessResult.Failed(statusCode + ": " + statusMessage);
             }
             // Rejected by the (third party) payment provider
             if (statusCode == "690")
             {
-                return ProcessPaymentResult.Failed(statusCode + ": " + statusMessage);
+                return PaymentProcessResult.Failed(statusCode + ": " + statusMessage);
             }
             // Cancelled by Customer / Merchant
             if (statusCode == "890" || statusCode == "891")
             {
-                return ProcessPaymentResult.Cancelled();
+                return PaymentProcessResult.Cancelled();
             }
 
             // 190: Success (but might later become reserved)
             if (statusCode != "190")
             {
-                return ProcessPaymentResult.Pending(null);
+                return PaymentProcessResult.Pending(null);
             }
 
             if (methodId == "simplesepadirectdebit")
@@ -84,18 +84,18 @@ namespace Kooboo.Commerce.Payments.Buckaroo.Controllers
                 // Reserved
                 if (transactionType == "C501")
                 {
-                    return ProcessPaymentResult.Pending(transactionId);
+                    return PaymentProcessResult.Pending(transactionId);
                 }
 
-                return ProcessPaymentResult.Pending(null);
+                return PaymentProcessResult.Pending(null);
             }
             else if (methodId == "ideal")
             {
-                return ProcessPaymentResult.Success(transactionId);
+                return PaymentProcessResult.Success(transactionId);
             }
             else if (methodId == "paypal")
             {
-                return ProcessPaymentResult.Success(transactionId);
+                return PaymentProcessResult.Success(transactionId);
             }
 
             throw new NotSupportedException("Not support payment method: " + methodId + ".");

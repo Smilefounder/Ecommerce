@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Payments.Fake
 
         public Func<HttpContextBase> HttpContextAccessor = () => new HttpContextWrapper(HttpContext.Current);
 
-        public ProcessPaymentResult Process(PaymentProcessingContext context)
+        public PaymentProcessResult Process(PaymentProcessingContext context)
         {
             var instance = CommerceInstance.Current.Name;
             var redirectUrl = Strings.AreaName
@@ -42,7 +42,7 @@ namespace Kooboo.Commerce.Payments.Fake
 
             redirectUrl = redirectUrl.ToFullUrl(HttpContextAccessor());
 
-            return ProcessPaymentResult.Pending(redirectUrl, Guid.NewGuid().ToString("N"));
+            return PaymentProcessResult.Pending(redirectUrl, Guid.NewGuid().ToString("N"));
         }
     }
 }

@@ -13,14 +13,32 @@ using Kooboo.Commerce.Carts;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.Commerce.Events.Orders;
 using Kooboo.Commerce.Orders.Pricing;
+using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.Commerce.Orders
 {
     [Dependency(typeof(OrderService))]
     public class OrderService
     {
-        private readonly CommerceInstance _instance;
-        private readonly IRepository<Order> _orderRepository;
+        private CommerceInstance _instance;
+        private IRepository<Order> _orderRepository;
+        private IPaymentProcessorProvider _paymentProcessorProvider;
+
+        public IPaymentProcessorProvider PaymentProcessorProvider
+        {
+            get
+            {
+                if (_paymentProcessorProvider == null)
+                {
+                    _paymentProcessorProvider = EngineContext.Current.Resolve<IPaymentProcessorProvider>();
+                }
+                return _paymentProcessorProvider;
+            }
+            set
+            {
+                _paymentProcessorProvider = value;
+            }
+        }
 
         public OrderService(CommerceInstance instance)
         {
@@ -36,6 +54,16 @@ namespace Kooboo.Commerce.Orders
         public IQueryable<Order> Query()
         {
             return _orderRepository.Query();
+        }
+
+        public IQueryable<Payment> Payments()
+        {
+            return _instance.Database.Query<Payment>();
+        }
+
+        public IQueryable<Payment> Payments(int orderId)
+        {
+            return _instance.Database.Repository<Payment>().Query().Where(it => it.OrderId == orderId).OrderByDescending(it => it.Id);
         }
 
         public Order CreateFromCart(ShoppingCart cart, ShoppingContext context)
@@ -106,7 +134,70 @@ namespace Kooboo.Commerce.Orders
             }
         }
 
-        public void AcceptPayment(Order order, Payment payment)
+        public PaymentResult ProcessPayment(PaymentRequest request)
+        {
+            var finalAmount = request.Amount + request.PaymentMethod.GetPaymentMethodCost(request.Amount);
+            var payment = new Payment(request.OrderId, finalAmount, request.PaymentMethod, request.Description);
+
+            CreatePayment(payment);
+
+            var processor = PaymentProcessorProvider.FindByName(request.PaymentMethod.ProcessorName);
+            object config = null;
+
+            if (processor.ConfigType != null)
+            {
+                config = request.PaymentMethod.LoadProcessorConfig(processor.ConfigType);
+            }
+
+            var result = processor.Process(new PaymentProcessingContext(payment, config)
+            {
+                CurrencyCode = request.CurrencyCode,
+                ReturnUrl = request.ReturnUrl,
+                Parameters = request.Parameters
+            });
+
+            return new PaymentResult
+            {
+                Message = result.Message,
+                PaymentId = payment.Id,
+                PaymentStatus = result.PaymentStatus,
+                RedirectUrl = result.RedirectUrl
+            };
+        }
+
+        public void AcceptPaymentProcessResult(Payment payment, PaymentProcessResult result)
+        {
+            if (result.PaymentStatus == PaymentStatus.Success)
+            {
+                ChangePaymentStatus(payment, PaymentStatus.Success);
+            }
+        }
+
+        private void CreatePayment(Payment payment)
+        {
+            _instance.Database.Repository<Payment>().Insert(payment);
+        }
+
+        public void ChangePaymentStatus(Payment payment, PaymentStatus newStatus)
+        {
+            if (payment.Status != newStatus)
+            {
+                var oldStatus = payment.Status;
+                payment.Status = newStatus;
+
+                _instance.Database.SaveChanges();
+
+                Event.Raise(new PaymentStatusChanged(payment, oldStatus, newStatus), new EventContext(_instance));
+
+                if (newStatus == PaymentStatus.Success)
+                {
+                    var order = _orderRepository.Find(payment.OrderId);
+                    AcceptPayment(order, payment);
+                }
+            }
+        }
+
+        private void AcceptPayment(Order order, Payment payment)
         {
             Require.NotNull(payment, "payment");
             Require.That(payment.Status == PaymentStatus.Success, "payment", "Can only accept succeeded payment.");

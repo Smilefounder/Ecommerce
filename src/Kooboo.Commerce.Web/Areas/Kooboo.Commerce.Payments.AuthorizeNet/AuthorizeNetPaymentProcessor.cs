@@ -24,7 +24,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             }
         }
 
-        public ProcessPaymentResult Process(PaymentProcessingContext context)
+        public PaymentProcessResult Process(PaymentProcessingContext context)
         {
             var settings = context.ProcessorConfig as AuthorizeNetConfig;
 
@@ -32,7 +32,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
             var gateway = new Gateway(settings.LoginId, settings.TransactionKey, settings.SandboxMode);
             var response = gateway.Send(authRequest, context.Payment.Description);
 
-            var result = new ProcessPaymentResult();
+            var result = new PaymentProcessResult();
 
             if (response.Approved)
             {
@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Payments.AuthorizeNet
                 result.Message = response.ResponseCode + ": " + response.Message;
             }
 
-            result.ThirdPartyTransactionId = response.TransactionID;
+            result.TransactionId = response.TransactionID;
 
             return result;
         }

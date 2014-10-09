@@ -18,7 +18,7 @@ namespace Kooboo.Commerce.Events.Orders
         public decimal Amount { get; set; }
 
         [Param]
-        public PaymentStatus? OldStatus { get; set; }
+        public PaymentStatus OldStatus { get; set; }
 
         [Param]
         public PaymentStatus NewStatus { get; set; }
@@ -28,7 +28,7 @@ namespace Kooboo.Commerce.Events.Orders
 
         protected PaymentStatusChanged() { }
 
-        public PaymentStatusChanged(Payment payment, PaymentStatus? oldStatus, PaymentStatus newStatus)
+        public PaymentStatusChanged(Payment payment, PaymentStatus oldStatus, PaymentStatus newStatus)
         {
             OrderId = payment.OrderId;
             PaymentId = payment.Id;

@@ -15,16 +15,13 @@ namespace Kooboo.Commerce.CMSIntegration.Plugins.Orders
         protected override SubmissionExecuteResult Execute(TModel model)
         {
             var order = Site.Commerce().Orders.Query().ById(model.OrderId).FirstOrDefault();
-            var paymentMethod = Site.Commerce().PaymentMethods.Query().ById(model.PaymentMethodId).FirstOrDefault();
-
             var returnUrl = ResolveUrl(model.ReturnUrl, ControllerContext);
 
-            // TODO: Don't calculate payment method cost here, calculate in the commerce side
             var request = new PaymentRequest
             {
                 OrderId = model.OrderId,
                 Description = "Order #" + model.OrderId,
-                Amount = order.Total + paymentMethod.GetPaymentMethodFee(order.Total),
+                Amount = order.Total,
                 PaymentMethodId = model.PaymentMethodId,
                 ReturnUrl = returnUrl
             };
