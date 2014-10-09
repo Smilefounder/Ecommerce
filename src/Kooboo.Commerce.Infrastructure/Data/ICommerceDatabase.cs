@@ -45,7 +45,7 @@ namespace Kooboo.Commerce.Data
         public static void Insert<T>(this ICommerceDatabase database, T entity)
             where T : class
         {
-            database.Repository<T>().Insert(entity);
+            database.Repository<T>().Create(entity);
         }
 
         public static void Delete<T>(this ICommerceDatabase database, T entity)

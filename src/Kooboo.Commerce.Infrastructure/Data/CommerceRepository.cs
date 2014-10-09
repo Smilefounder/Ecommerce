@@ -44,7 +44,7 @@ namespace Kooboo.Commerce.Data
             return DbContext.Set(EntityType);
         }
 
-        public void Insert(object entity)
+        public void Create(object entity)
         {
             DbContext.Set(EntityType).Add(entity);
             DbContext.SaveChanges();
@@ -57,18 +57,10 @@ namespace Kooboo.Commerce.Data
             {
                 var keys = DbContext.GetKeys(entity);
                 var dbEntity = DbContext.Set(EntityType).Find(keys);
-                Update(dbEntity, entry);
+                var dbEntry = DbContext.Entry(dbEntity);
+                dbEntry.CurrentValues.SetValues(entity);
             }
-            else
-            {
-                DbContext.SaveChanges();
-            }
-        }
 
-        public void Update(object entity, object values)
-        {
-            var entry = DbContext.Entry(entity);
-            entry.CurrentValues.SetValues(values);
             DbContext.SaveChanges();
         }
 

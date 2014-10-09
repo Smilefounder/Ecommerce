@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Kooboo.Commerce.Data
 {
+    // TODO: Remove to make it simpler
     public interface IOrphanable
     {
         bool IsOrphan();

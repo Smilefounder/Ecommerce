@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Shipping
 
         public void Create(ShippingMethod method)
         {
-            _repository.Insert(method);
+            _repository.Create(method);
         }
 
         public void Delete(ShippingMethod method)

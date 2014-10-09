@@ -31,7 +31,7 @@ namespace Kooboo.Commerce.Countries
 
         public void Create(Country country)
         {
-            _countryRepository.Insert(country);
+            _countryRepository.Create(country);
         }
 
         public void Update(Country country)

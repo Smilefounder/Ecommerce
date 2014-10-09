@@ -55,7 +55,7 @@ namespace Kooboo.Commerce.Rules
 
             foreach (var activity in activities)
             {
-                repository.Insert(new ScheduledActivity(@event, activity));
+                repository.Create(new ScheduledActivity(@event, activity));
             }
         }
 

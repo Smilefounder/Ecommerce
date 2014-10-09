@@ -37,7 +37,7 @@ namespace Kooboo.Commerce.Settings
             {
                 entry = new SettingItem(key);
                 entry.SetValue(value);
-                _repository.Insert(entry);
+                _repository.Create(entry);
             }
         }
 

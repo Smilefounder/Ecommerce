@@ -16,11 +16,9 @@ namespace Kooboo.Commerce.Data
 
         IQueryable Query();
 
-        void Insert(object entity);
+        void Create(object entity);
 
         void Update(object entity);
-
-        void Update(object entity, object values);
 
         void Delete(object entity);
     }

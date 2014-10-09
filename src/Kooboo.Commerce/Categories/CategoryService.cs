@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Categories
 
         public void Create(Category category)
         {
-            _categoryRepository.Insert(category);
+            _categoryRepository.Create(category);
             Event.Raise(new CategoryCreated(category), new EventContext(_instance));
         }
 

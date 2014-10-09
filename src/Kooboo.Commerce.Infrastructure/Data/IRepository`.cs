@@ -16,16 +16,10 @@ namespace Kooboo.Commerce.Data
 
         IQueryable<T> Query();
 
-        void Insert(T entity);
+        void Create(T entity);
 
         void Update(T entity);
 
-        void Update(T entity, object values);
-
-        void Update(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> update);
-
         void Delete(T entity);
-
-        void Delete(Expression<Func<T, bool>> predicate);
     }
 }

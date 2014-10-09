@@ -76,7 +76,7 @@ namespace Kooboo.Commerce.Products
                 }
             }
 
-            _productTypes.Insert(type);
+            _productTypes.Create(type);
 
             Event.Raise(new ProductTypeCreated(type), new EventContext(_instance));
 

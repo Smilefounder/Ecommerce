@@ -47,7 +47,7 @@ namespace Kooboo.Commerce.Products
         public void Create(Product product)
         {
             SyncPriceRange(product);
-            _database.Repository<Product>().Insert(product);
+            _database.Repository<Product>().Create(product);
             Event.Raise(new ProductCreated(product), new EventContext(_instance));
         }
 

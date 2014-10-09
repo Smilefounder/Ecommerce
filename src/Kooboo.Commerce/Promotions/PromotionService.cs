@@ -38,7 +38,7 @@ namespace Kooboo.Commerce.Promotions
                 throw new InvalidOperationException("Coupon code has been taken.");
             }
 
-            _repository.Insert(promotion);
+            _repository.Create(promotion);
         }
 
         public bool Enable(Promotion promotion)

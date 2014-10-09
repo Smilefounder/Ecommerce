@@ -19,6 +19,7 @@ namespace Kooboo.Commerce.Data
 
         public CommerceInstanceSettings Settings { get; private set; }
 
+        private Func<CommerceInstanceSettings, ICommerceDatabase> _databaseFactory;
         private ICommerceDatabase _database;
 
         public ICommerceDatabase Database
@@ -27,7 +28,7 @@ namespace Kooboo.Commerce.Data
             {
                 if (_database == null)
                 {
-                    _database = new CommerceDatabase(Settings);
+                    _database = _databaseFactory(Settings);
                 }
 
                 return _database;
@@ -35,9 +36,17 @@ namespace Kooboo.Commerce.Data
         }
 
         public CommerceInstance(CommerceInstanceSettings settings)
+            : this(settings, cfg => new CommerceDatabase(cfg))
+        {
+        }
+
+        public CommerceInstance(CommerceInstanceSettings settings, Func<CommerceInstanceSettings, ICommerceDatabase> databaseFactory)
         {
             Require.NotNull(settings, "settings");
+            Require.NotNull(databaseFactory, "databaseFactory");
+
             Settings = settings;
+            _databaseFactory = databaseFactory;
         }
 
         public void Dispose()

@@ -22,23 +22,11 @@ namespace Kooboo.Commerce.Orders
     {
         private CommerceInstance _instance;
         private IRepository<Order> _orderRepository;
-        private IPaymentProcessorProvider _paymentProcessorProvider;
 
-        public IPaymentProcessorProvider PaymentProcessorProvider
+        public Func<string, IPaymentProcessor> GetPaymentProcessorByName = name =>
         {
-            get
-            {
-                if (_paymentProcessorProvider == null)
-                {
-                    _paymentProcessorProvider = EngineContext.Current.Resolve<IPaymentProcessorProvider>();
-                }
-                return _paymentProcessorProvider;
-            }
-            set
-            {
-                _paymentProcessorProvider = value;
-            }
-        }
+            return EngineContext.Current.Resolve<IPaymentProcessorProvider>().FindByName(name);
+        };
 
         public OrderService(CommerceInstance instance)
         {
@@ -114,11 +102,10 @@ namespace Kooboo.Commerce.Orders
             return order;
         }
 
-        public bool Create(Order order)
+        public void Create(Order order)
         {
-            _orderRepository.Insert(order);
+            _orderRepository.Create(order);
             Event.Raise(new OrderCreated(order), new EventContext(_instance));
-            return true;
         }
 
         public void ChangeStatus(Order order, OrderStatus newStatus)
@@ -141,7 +128,7 @@ namespace Kooboo.Commerce.Orders
 
             CreatePayment(payment);
 
-            var processor = PaymentProcessorProvider.FindByName(request.PaymentMethod.ProcessorName);
+            var processor = GetPaymentProcessorByName(request.PaymentMethod.ProcessorName);
             object config = null;
 
             if (processor.ConfigType != null)
@@ -156,6 +143,8 @@ namespace Kooboo.Commerce.Orders
                 Parameters = request.Parameters
             });
 
+            AcceptPaymentProcessResult(payment, result);
+
             return new PaymentResult
             {
                 Message = result.Message,
@@ -167,18 +156,27 @@ namespace Kooboo.Commerce.Orders
 
         public void AcceptPaymentProcessResult(Payment payment, PaymentProcessResult result)
         {
-            if (result.PaymentStatus == PaymentStatus.Success)
+            if (payment.Status == result.PaymentStatus)
             {
-                ChangePaymentStatus(payment, PaymentStatus.Success);
+                return;
             }
+
+            // 支付一旦成功，就不再接受失败的支付结果，因为有可能网关返回两次结果，
+            // 第一次失败而第二次成功，但因某些原因导致第一次的失败结果延迟到达
+            if (payment.Status == PaymentStatus.Success)
+            {
+                return;
+            }
+
+            ChangePaymentStatus(payment, result.PaymentStatus);
         }
 
         private void CreatePayment(Payment payment)
         {
-            _instance.Database.Repository<Payment>().Insert(payment);
+            _instance.Database.Repository<Payment>().Create(payment);
         }
 
-        public void ChangePaymentStatus(Payment payment, PaymentStatus newStatus)
+        private void ChangePaymentStatus(Payment payment, PaymentStatus newStatus)
         {
             if (payment.Status != newStatus)
             {

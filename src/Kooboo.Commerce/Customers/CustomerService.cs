@@ -54,7 +54,7 @@ namespace Kooboo.Commerce.Customers
             if (!CanUseEmail(customer, customer.Email))
                 throw new BusinessRuleViolationException("Email was already taken by others.");
 
-            _customerRepository.Insert(customer);
+            _customerRepository.Create(customer);
             Event.Raise(new CustomerCreated(customer), new EventContext(_instance));
         }
 

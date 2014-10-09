@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using EntityFramework.Extensions;
 
 namespace Kooboo.Commerce.Data
 {
@@ -54,7 +53,7 @@ namespace Kooboo.Commerce.Data
             return Query().Where(predicate).FirstOrDefault();
         }
 
-        public void Insert(T entity)
+        public void Create(T entity)
         {
             Require.NotNull(entity, "entity");
 
@@ -71,24 +70,11 @@ namespace Kooboo.Commerce.Data
             {
                 var keys = DbContext.GetKeys(entity);
                 var dbEntity = DbContext.Set<T>().Find(keys);
-                Update(dbEntity, entity);
+                var dbEntry = DbContext.Entry(dbEntity);
+                dbEntry.CurrentValues.SetValues(entity);
             }
-            else
-            {
-                DbContext.SaveChanges();
-            }
-        }
 
-        public void Update(T entity, object values)
-        {
-            var entry = DbContext.Entry(entity);
-            entry.CurrentValues.SetValues(values);
             DbContext.SaveChanges();
-        }
-
-        public void Update(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> update)
-        {
-            DbContext.Set<T>().Where(predicate).Update(update);
         }
 
         public void Delete(T entity)
@@ -97,11 +83,6 @@ namespace Kooboo.Commerce.Data
 
             DbContext.Set<T>().Remove(entity);
             DbContext.SaveChanges();
-        }
-
-        public void Delete(Expression<Func<T, bool>> predicate)
-        {
-            DbContext.Set<T>().Where(predicate).Delete();
         }
     }
 }

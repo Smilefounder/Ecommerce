@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Products
 
         public void Create(CustomFieldDefinition field)
         {
-            _repository.Insert(field);
+            _repository.Create(field);
         }
 
         public void Update(CustomFieldDefinition field)
@@ -49,7 +49,7 @@ namespace Kooboo.Commerce.Products
                 from: newFields,
                 by: f => f.Id,
                 onUpdateItem: (oldField, newField) => oldField.UpdateFrom(newField),
-                onAddItem: (item) => _repository.Insert(item),
+                onAddItem: (item) => _repository.Create(item),
                 onRemoveItem: (item) => _repository.Delete(item));
         }
 

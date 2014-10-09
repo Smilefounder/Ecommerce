@@ -6,6 +6,19 @@ using System.Text;
 
 namespace Kooboo.Commerce.Events
 {
+    public class EventHostEventArgs : EventArgs
+    {
+        public IEvent Event { get; private set; }
+
+        public EventContext Context { get; private set; }
+
+        public EventHostEventArgs(IEvent @event, EventContext context)
+        {
+            Event = @event;
+            Context = context;
+        }
+    }
+
     /// <summary>
     /// 用于事件注册、执行的容器。
     /// </summary>
@@ -18,17 +31,27 @@ namespace Kooboo.Commerce.Events
 
         private readonly Dictionary<Type, List<object>> _handlersByEvents = new Dictionary<Type, List<object>>();
 
+        public event EventHandler<EventHostEventArgs> EventRaising;
+
         public void Raise<TEvent>(TEvent @event, EventContext context)
             where TEvent : IEvent
         {
             Require.NotNull(@event, "event");
             Require.NotNull(context, "context");
 
+            if (EventRaising != null)
+                EventRaising(this, new EventHostEventArgs(@event, context));
+
             var handlers = GetEventHandlers(@event.GetType());
             foreach (var handler in handlers)
             {
                 ExecuteEventHandler<TEvent>(handler, @event, context);
             }
+        }
+
+        public void Clear()
+        {
+            _handlersByEvents.Clear();
         }
 
         public void Listen(Type eventType, Type handlerType)

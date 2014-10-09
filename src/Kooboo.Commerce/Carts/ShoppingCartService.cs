@@ -62,7 +62,7 @@ namespace Kooboo.Commerce.Carts
         public void Create(ShoppingCart cart)
         {
             Require.NotNull(cart, "cart");
-            _repository.Insert(cart);
+            _repository.Create(cart);
         }
 
         public PriceCalculationContext CalculatePrice(ShoppingCart cart, ShoppingContext shoppingContext)

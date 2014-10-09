@@ -33,7 +33,7 @@ namespace Kooboo.Commerce.Payments
 
         public void Create(PaymentMethod method)
         {
-            _repository.Insert(method);
+            _repository.Create(method);
         }
 
         public void Delete(PaymentMethod method)
