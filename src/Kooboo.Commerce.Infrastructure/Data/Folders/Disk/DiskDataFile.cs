@@ -36,12 +36,34 @@ namespace Kooboo.Commerce.Data.Folders.Disk
             return Format.Deserialize(content, type);
         }
 
-        public override void Write(object content)
+        public override int Write(Stream stream)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(PhysicalPath));
 
-            var text = Format.Serialize(content);
-            File.WriteAllText(PhysicalPath, text);
+            var length = 0;
+
+            using (var fs = new FileStream(PhysicalPath, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                var buffer = new byte[2048];
+
+                while (true)
+                {
+                    var count = stream.Read(buffer, 0, buffer.Length);
+                    if (count > 0)
+                    {
+                        length += count;
+                        fs.Write(buffer, 0, count);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                fs.Flush();
+            }
+
+            return length;
         }
 
         public override void Delete()

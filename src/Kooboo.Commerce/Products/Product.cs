@@ -115,20 +115,21 @@ namespace Kooboo.Commerce.Products
 
             foreach (var image in newImageList)
             {
-                var current = Images.FirstOrDefault(i => i.Id == image.Id);
-                if (current == null)
+                if (image.Id > 0)
                 {
-                    current = new ProductImage
+                    var current = Images.FirstOrDefault(i => i.Id == image.Id);
+                    current.Type = image.Type;
+                    current.ImageUrl = image.ImageUrl;
+                }
+                else
+                {
+                    var newImage = new ProductImage
                     {
                         Type = image.Type,
                         ImageUrl = image.ImageUrl
                     };
-                    Images.Add(current);
-                }
-                else
-                {
-                    current.Type = image.Type;
-                    current.ImageUrl = image.ImageUrl;
+
+                    Images.Add(newImage);
                 }
             }
         }

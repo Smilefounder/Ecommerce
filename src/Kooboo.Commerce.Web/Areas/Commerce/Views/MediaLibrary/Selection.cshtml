@@ -29,7 +29,7 @@
         <a class="button upload left">
             @("Upload".Localize())
             <span>
-                <input data-toggle="upload" class="upload-input" type="file" name="files[]" data-url="/Areas/Commerce/Handlers/UploadHandler.ashx?owner=@Request.QueryString["owner"]&path=@Request.QueryString["path"]" />
+                <input data-toggle="upload" class="upload-input" type="file" name="files[]" data-url="/Commerce/MediaLibrary/Upload?instance=@Request.QueryString["instance"]&path=@Request.QueryString["path"]" />
             </span>
         </a>
         <a href="javascript:;" class="button gray right" onclick="utils.closeDialog();">@("Cancel".Localize())</a>

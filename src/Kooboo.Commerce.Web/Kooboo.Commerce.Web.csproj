@@ -381,9 +381,6 @@
       <DependentUpon>ImageHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Handlers\ImageHelper.cs" />
-    <Compile Include="Areas\Commerce\Handlers\UploadHandler.ashx.cs">
-      <DependentUpon>UploadHandler.ashx</DependentUpon>
-    </Compile>
     <Compile Include="Areas\Commerce\Menu\BusinessRuleMenuItems.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEntry.cs" />
     <Compile Include="Areas\Commerce\Models\Instances\CommerceInstanceEditorModel.cs" />
@@ -2406,7 +2403,6 @@
     <Content Include="Areas\Commerce\Views\ShippingMethod\ShippingRateProvider.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\Index.cshtml" />
     <Content Include="Areas\Commerce\Handlers\ImageHandler.ashx" />
-    <Content Include="Areas\Commerce\Handlers\UploadHandler.ashx" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\ImageCrop.cshtml" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\_MediaLibrary.cshtml" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\_MediaLibrary.Scripts.cshtml" />

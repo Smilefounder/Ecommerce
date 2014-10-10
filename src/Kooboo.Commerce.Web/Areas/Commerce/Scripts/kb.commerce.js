@@ -74,7 +74,7 @@
             })
             .fail(function (xhr) {
                 var result = JSON.parse(xhr.responseText);
-                showError(result);
+                kb.message.show(result);
             });
         }
     };
@@ -107,6 +107,24 @@
             return null;
         }
     };
+
+    kb.message = {
+        show: function (message, level) {
+            level = level || 'info';
+
+            if (typeof (message) === 'object') {
+                if (message.success) {
+                    level = 'success';
+                } else {
+                    level = 'error';
+                }
+
+                message = message.message;
+            }
+
+            info.show(message, level === 'error');
+        }
+    }
 
     var math = kb.registerNamespace('kb.math');
 
@@ -157,11 +175,6 @@
         }
 
         return result;
-    }
-
-    function showError(error) {
-        window.loading.hide();
-        info.show(error.message, false);
     }
 
     $.ajaxSetup({
@@ -268,7 +281,7 @@
             }
 
             var instance = kb.utils.currentInstanceName();
-            var handlerUrl = '/Areas/Commerce/Handlers/UploadHandler.ashx?owner=' + instance + '&path=';
+            var handlerUrl = '/Commerce/MediaLibrary/Upload?instance=' + instance + '&path=';
 
             $file.attr('data-url', handlerUrl);
             $file.fileupload({
@@ -290,7 +303,6 @@
                     }
                 },
                 fail: function (e, data) {
-                    console.log(arguments);
                     alert('Upload failed');
                 },
                 stop: function (e, data) {

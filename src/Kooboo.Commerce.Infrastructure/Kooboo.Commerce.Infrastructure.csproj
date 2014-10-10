@@ -96,6 +96,7 @@
     <Compile Include="Data\Folders\DataFolderFactory.cs" />
     <Compile Include="Data\Folders\Disk\DiskDataFolderFactory.cs" />
     <Compile Include="Data\Folders\IDataFileFormat.cs" />
+    <Compile Include="Data\CommerceInstanceDataFolders.cs" />
     <Compile Include="Data\Folders\JsonDataFileFormat.cs" />
     <Compile Include="Data\IOrphanable.cs" />
     <Compile Include="Data\IRepository`.cs" />

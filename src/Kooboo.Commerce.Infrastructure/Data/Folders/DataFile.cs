@@ -45,7 +45,20 @@ namespace Kooboo.Commerce.Data.Folders
 
         public abstract object Read(Type type);
 
-        public abstract void Write(object content);
+        public virtual void Write(object content)
+        {
+            var text = Format.Serialize(content);
+            using (var stream = new MemoryStream())
+            {
+                var data = Encoding.UTF8.GetBytes(text);
+                stream.Write(data, 0, data.Length);
+                stream.Position = 0;
+
+                Write(stream);
+            }
+        }
+
+        public abstract int Write(Stream stream);
 
         public abstract void Delete();
     }

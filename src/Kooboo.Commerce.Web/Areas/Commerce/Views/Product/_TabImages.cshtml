@@ -23,8 +23,12 @@
                                 </div>
                             </li>
                         </ul>
-                        <a href="#" class="action J_Upload" data-owner="@(Request.QueryString["instance"])"
-                           data-property="Products/@type.Name" data-multiple="@(type.AllowMultiple ? "true" : "false")">@Html.IconImage("plus-small")</a>
+                        <a href="#" class="action J_Upload"
+                            data-id="@(type.Name)"
+                            data-imgtype="@(type.Name)"
+                            data-instance="@(Request.QueryString["instance"])"
+                            data-path="Products/@type.Name" 
+                            data-multiple="@(type.AllowMultiple ? "true" : "false")">@Html.IconImage("plus-small")</a>
                     </td>
                 </tr>
             }
@@ -59,11 +63,10 @@
             // Init uploaders
             $('.J_Upload').upload({
                 on_file_select: function (data) {
-                    // TODO: Hack for now
-                    var parts = data.property.split('/');
-                    var imgType = parts[1];
+                    var parts = data.path.split('/');
+                    var imageType = $(data.element).data('imgtype');
                     $.each(data.files, function (i, n) {
-                        model.addImage(imgType, n.Url);
+                        model.addImage(imageType, n.Url);
                         $('.crop_image').cropimage({
                             on_image_croped: function (data) {
                                 $(data.element).attr('src', data.url + '?v=' + new Date().getTime())

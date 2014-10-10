@@ -48,6 +48,12 @@ namespace Kooboo.Commerce.Data.Folders.Disk
         public override DataFolder GetFolder(string name, IDataFileFormat defaultFileFormat)
         {
             Require.NotNullOrEmpty(name, "name");
+
+            if (name == "/")
+            {
+                return this;
+            }
+
             return new DiskDataFolder(UrlUtility.Combine(VirtualPath, name), defaultFileFormat ?? DefaultFileFormat);
         }
 

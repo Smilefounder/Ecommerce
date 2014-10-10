@@ -1,5 +1,8 @@
-﻿using Kooboo.Commerce.Handlers;
+﻿using Kooboo.Commerce.Data.Folders;
+using Kooboo.Commerce.Handlers;
 using Kooboo.Commerce.Web.Framework.Mvc;
+using Kooboo.Web.Url;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,17 +16,6 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
     public class MediaLibraryController : CommerceController
     {
-        private string uploadFolder = "~/Uploads/";
-
-        public MediaLibraryController()
-        {
-            uploadFolder = ConfigurationManager.AppSettings["UploadPath"] ?? "~/Uploads/";
-            if (!uploadFolder.EndsWith("/"))
-            {
-                uploadFolder += "/";
-            }
-        }
-
         public ActionResult Index()
         {
             return View();
@@ -43,32 +35,29 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             return View("OpenUpload", paras);
         }
 
-        private DirectoryInfo GetFolder(string owner, string path, out string[] subPaths)
+        private IList<string> GetBreadcrumb(string path)
         {
-            if (string.IsNullOrEmpty(owner))
-                owner = "public";
-
             var paths = new List<string>();
-            paths.Add(owner);
+            paths.Add(CurrentInstance.DataFolders.Media.Name);
             paths.AddRange(path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries));
-
-            var dir = new DirectoryInfo(Server.MapPath(uploadFolder));
-            foreach (var p in paths)
-            {
-                var dp = Path.Combine(dir.FullName, p);
-                dir = new DirectoryInfo(dp);
-                if (!dir.Exists)
-                    dir.Create();
-            }
-            subPaths = paths.ToArray();
-            return dir;
+            return paths;
         }
 
         [HttpGet]
-        public ActionResult Files(string owner, string path, string search = null, int orderBy = 0, int pi = 0, int ps = 50)
+        public ActionResult Files(string path, string search = null, int orderBy = 0, int pi = 0, int ps = 50)
         {
-            string[] paths = new string[0];
-            var dir = GetFolder(owner, path, out paths);
+            if (String.IsNullOrEmpty(path))
+            {
+                path = "/";
+            }
+
+            var dir = new DirectoryInfo(Server.MapPath(CurrentInstance.DataFolders.Media.GetFolder(path).VirtualPath));
+
+            // TODO: return empty instead of create folder
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
 
             IEnumerable<DirectoryInfo> folders = Enumerable.Empty<DirectoryInfo>();
             IEnumerable<FileInfo> files = Enumerable.Empty<FileInfo>();
@@ -124,7 +113,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 }
                 folders = folders.Skip(pi * ps).Take(ps);
             }
-            string basePath = (uploadFolder + string.Join("/", paths.ToArray())).TrimStart('~') + "/";
+
             var vs = folders.Select(o => new
             {
                 Name = o.Name
@@ -134,29 +123,115 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 FileName = f.Name,
                 FileType = FileType.GetFileType(f.Extension),
                 CreationDate = f.CreationTime.ToShortDateString(),
-                Url = basePath + f.Name,
+                Url = UrlUtility.Combine(CurrentInstance.DataFolders.Media.VirtualPath, path, f.Name),
                 FileSize = FileType.GetFriendlyFileSize((int)f.Length),
                 IsImage = FileType.IsImage(f.Extension)
             }).ToArray();
             var pagers = ps <= 0 ? null : new { TotalRecords = totalRecords, TotalPages = totalPages, StartIndex = startIndex, EndIndex = endIndex, PageIndex = pi, PageSize = ps };
-            return Json(new { Paths = paths, Folders = vs, Files = vfs, Pager = pagers }, JsonRequestBehavior.AllowGet);
+            return Json(new { 
+                Paths = GetBreadcrumb(path), 
+                Folders = vs, 
+                Files = vfs, 
+                Pager = pagers 
+            }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public ActionResult AddFolder(string owner, string path, string folder)
+        [HandleAjaxError]
+        public void AddFolder(string path, string folder)
         {
-            string[] paths = new string[0];
-            var dir = GetFolder(owner, path, out paths);
-            dir = new DirectoryInfo(Path.Combine(dir.FullName, folder));
-            if (!dir.Exists)
+            var parent = CurrentInstance.DataFolders.Media.GetFolder(path);
+            parent.GetFolder(folder).Create();
+        }
+
+        [HttpPost]
+        public void Upload(string path)
+        {
+            var context = ControllerContext.HttpContext;
+            var statuses = new List<FilesStatus>();
+            var headers = context.Request.Headers;
+
+            if (string.IsNullOrEmpty(headers["X-File-Name"]))
             {
-                dir.Create();
-                return Json(new { status = 0, message = string.Format("Folder {0} created.", folder) }, JsonRequestBehavior.AllowGet);
+                UploadWholeFile(path, statuses);
             }
             else
             {
-                return Json(new { status = 1, message = string.Format("Folder {0} already exists.", folder) }, JsonRequestBehavior.AllowGet);
+                UploadPartialFile(path, headers["X-File-Name"], statuses);
             }
+
+            WriteJsonIframeSafe(context, statuses);
+        }
+
+        // Upload partial file
+        private void UploadPartialFile(string path, string fileName, List<FilesStatus> statuses)
+        {
+            if (Request.Files.Count != 1)
+                throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
+
+            var folder = CurrentInstance.DataFolders.Media;
+            if (!String.IsNullOrEmpty(path))
+            {
+                folder = folder.GetFolder(path);
+            }
+
+            var file = GetRenamedFileIfExists(folder, fileName);
+
+            var length = file.Write(Request.Files[0].InputStream);
+
+            statuses.Add(new FilesStatus(fileName, file.Name, length, folder.VirtualPath));
+        }
+
+        // Upload entire file
+        private void UploadWholeFile(string path, List<FilesStatus> statuses)
+        {
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                var file = Request.Files[i];
+                var folder = CurrentInstance.DataFolders.Media;
+                if (!String.IsNullOrEmpty(path))
+                {
+                    folder = folder.GetFolder(path);
+                }
+
+                var dataFile = GetRenamedFileIfExists(folder, file.FileName);
+                var length = dataFile.Write(file.InputStream);
+
+                statuses.Add(new FilesStatus(file.FileName, dataFile.Name, length, folder.VirtualPath));
+            }
+        }
+
+        private void WriteJsonIframeSafe(HttpContextBase context, List<FilesStatus> statuses)
+        {
+            context.Response.AddHeader("Vary", "Accept");
+
+            if (context.Request["HTTP_ACCEPT"].Contains("application/json"))
+            {
+                context.Response.ContentType = "application/json";
+            }
+            else
+            {
+                context.Response.ContentType = "text/plain";
+            }
+
+            var json = JsonConvert.SerializeObject(statuses);
+            context.Response.Write(json);
+        }
+
+        private DataFile GetRenamedFileIfExists(DataFolder folder, string fileName)
+        {
+            var fileNameWithExt = Path.GetFileNameWithoutExtension(fileName);
+            var ext = Path.GetExtension(fileName);
+
+            var file = folder.GetFile(fileName);
+            int index = 1;
+            while (file.Exists)
+            {
+                fileNameWithExt = String.Format("{0}({1}){2}", fileNameWithExt, index, ext);
+                file = folder.GetFile(fileNameWithExt + ext);
+                index++;
+            }
+
+            return file;
         }
 
         [HttpGet]

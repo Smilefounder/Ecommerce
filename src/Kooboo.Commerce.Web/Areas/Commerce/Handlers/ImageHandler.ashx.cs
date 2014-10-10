@@ -8,9 +8,6 @@ using System.Drawing;
 
 namespace Kooboo.Commerce.Handlers
 {
-    /// <summary>
-    /// Summary description for Image
-    /// </summary>
     public class ImageHandler : IHttpHandler
     {
         public void ProcessRequest(HttpContext context)

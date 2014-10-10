@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Runtime;
 using Kooboo.Commerce.Data.Context;
+using Kooboo.Commerce.Data.Folders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,21 @@ namespace Kooboo.Commerce.Data
                 }
 
                 return _database;
+            }
+        }
+
+        private CommerceInstanceDataFolders _dataFolders;
+
+        public CommerceInstanceDataFolders DataFolders
+        {
+            get
+            {
+                if (_dataFolders == null)
+                {
+                    _dataFolders = new CommerceInstanceDataFolders(this);
+                }
+
+                return _dataFolders;
             }
         }
 

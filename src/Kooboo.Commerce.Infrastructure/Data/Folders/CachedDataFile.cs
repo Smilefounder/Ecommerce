@@ -43,12 +43,13 @@ namespace Kooboo.Commerce.Data.Folders
             return _cache.Content;
         }
 
-        public override void Write(object content)
+        public override int Write(System.IO.Stream stream)
         {
             lock (_file)
             {
-                _file.Write(content);
+                var length = _file.Write(stream);
                 _cache = null;
+                return length;
             }
         }
 

@@ -14,7 +14,6 @@ TestResults
 /src/Kooboo.Commerce.Web/Uploads
 /src/Kooboo.Commerce.Web/Commerce_Data/
 /src/Kooboo.Commerce.Web/Cms_Data/Contents/*/Search/Index/
-/src/Kooboo.Commerce.WebAPI/App_Data/Commerce
 /src/Kooboo.Commerce.Web/Cms_Data/Sites/SampleSite/Assemblies
 /src/Kooboo.Commerce.Web/Cms_Data/Sites/Vitaminstore/Assemblies
 /src/Kooboo.Commerce.Web/App_Data/MailBox

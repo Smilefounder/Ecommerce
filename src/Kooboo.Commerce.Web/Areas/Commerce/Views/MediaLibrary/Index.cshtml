@@ -28,7 +28,7 @@
         <li>
             <a class="upload-button">
                 <span>
-                    <input data-toggle="upload" class="upload-input" type="file" name="files[]" data-url="/Areas/Commerce/Handlers/UploadHandler.ashx?owner=@Request.QueryString["owner"]&path=@Request.QueryString["path"]" />
+                    <input data-toggle="upload" class="upload-input" type="file" name="files[]" data-url="/Commerce/MediaLibrary/Upload?instance=@Request.QueryString["instance"]&path=@Request.QueryString["path"]" />
                 </span>
                 @Html.IconImage("upload")@("Upload".Localize())
             </a>

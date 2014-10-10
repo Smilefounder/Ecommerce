@@ -1,9 +1,10 @@
 ﻿(function ($) {
     $.widget('media.upload', {
         options: {
+            id: null,
             url: '/Commerce/MediaLibrary/Selection',
-            owner: '',
-            property: '',
+            instance: '',
+            path: '',
             width: 180,
             height: 220,
             multiple: false,
@@ -16,15 +17,17 @@
             var self = this,
                 ops = self.options,
                 ele = self.element;
-            if (typeof ops.owner == "function") { ops.owner = ops.owner(ele); }
-            if (typeof ops.property == "function") { ops.property = ops.property(ele); }
+            if (typeof ops.id == 'function') { ops.id = ops.id(ele); }
+            if (typeof ops.instance == "function") { ops.instance = ops.instance(ele); }
+            if (typeof ops.path == "function") { ops.path = ops.path(ele); }
             if (typeof ops.width == "function") { ops.width = ops.width(ele); }
             if (typeof ops.height == "function") { ops.height = ops.height(ele); }
             if (typeof ops.multiple == "function") { ops.multiple = ops.multiple(ele); }
             if (typeof ops.src == "function") { ops.src = ops.src(ele); }
 
-            ops.owner = $(ele).attr('data-owner') || ops.owner;
-            ops.property = $(ele).attr('data-property') || ops.property;
+            ops.id = $(ele).attr('data-id') || ops.id;
+            ops.instance = $(ele).attr('data-instance') || ops.instance;
+            ops.path = $(ele).attr('data-path') || ops.path;
             ops.width = $(ele).attr('data-width') || ops.width;
             ops.height = $(ele).attr('data-height') || ops.height;
             ops.multiple = $(ele).attr('data-multiple') || ops.multiple;
@@ -35,8 +38,8 @@
             })
 
             utils.onReceiveMessage("fileselected", function (msg) {
-                if (msg.owner == ops.owner && msg.property == ops.property) {
-                    if (typeof ops.on_file_select == "function") {
+                if (msg.opener == ops.id) {
+                    if (ops.on_file_select) {
                         msg.element = ele;
                         ops.on_file_select(msg);
                     }
@@ -53,14 +56,15 @@
                 ops = self.options,
                 ele = self.element;
 
-            owner = $(ele).attr('data-owner') || ops.owner;
-            property = $(ele).attr('data-property') || ops.property;
-            width = $(ele).attr('data-width') || ops.width;
-            height = $(ele).attr('data-height') || ops.height;
-            multiple = $(ele).attr('data-multiple') || ops.multiple;
-            src = $(ele).attr('data-src') || ops.src;
+            var id = $(ele).attr('data-id') || ops.id;
+            var instance = $(ele).attr('data-instance') || ops.instance;
+            var path = $(ele).attr('data-path') || ops.path;
+            var width = $(ele).attr('data-width') || ops.width;
+            var height = $(ele).attr('data-height') || ops.height;
+            var multiple = $(ele).attr('data-multiple') || ops.multiple;
+            var src = $(ele).attr('data-src') || ops.src;
 
-            var url = ops.url + '?owner=' + owner + '&path=' + property + '&width=' + width + '&height=' + height + '&max_file_size=' + ops.max_file_size + '&multiple=' + multiple + '&accept_file_types=' + ops.accept_file_types + '&file=' + src;
+            var url = ops.url + '?instance=' + instance + '&opener=' + id + '&path=' + path + '&width=' + width + '&height=' + height + '&max_file_size=' + ops.max_file_size + '&multiple=' + multiple + '&accept_file_types=' + ops.accept_file_types + '&file=' + src;
             utils.openDialog('select file...', url, 800, 500);
         },
         destroy: function () {
@@ -73,8 +77,8 @@
     $.widget('media.cropimage', {
         options: {
             crop_handler: '/Commerce/MediaLibrary/OpenImage',
-            owner: '',
-            property: '',
+            instance: '',
+            path: '',
             width: 180,
             height: 220,
             src: '',
@@ -87,15 +91,15 @@
                 ops = self.options,
                 ele = self.element;
 
-            if (typeof ops.owner == "function") { ops.owner = ops.owner(ele); }
-            if (typeof ops.property == "function") { ops.property = ops.property(ele); }
+            if (typeof ops.instance == "function") { ops.instance = ops.instance(ele); }
+            if (typeof ops.path == "function") { ops.path = ops.path(ele); }
             if (typeof ops.width == "function") { ops.width = ops.width(ele); }
             if (typeof ops.height == "function") { ops.height = ops.height(ele); }
             if (typeof ops.src == "function") { ops.src = ops.src(ele); }
             if (typeof ops.keep_ratio == "function") { ops.keep_ratio = ops.keep_ratio(ele); }
 
-            ops.owner = $(ele).attr('data-owner') || ops.owner;
-            ops.property = $(ele).attr('data-property') || ops.property;
+            ops.instance = $(ele).attr('data-instance') || ops.instance;
+            ops.path = $(ele).attr('data-path') || ops.path;
             ops.width = $(ele).attr('data-width') || ops.width;
             ops.height = $(ele).attr('data-height') || ops.height;
             ops.src = $(ele).attr('src') || $(ele).attr('data-src') || ops.src;
@@ -106,7 +110,7 @@
             $(ele).on('click', null, function () { self.open(); });
 
             utils.onReceiveMessage("cropimage", function (msg) {
-                if (msg.owner == ops.owner && msg.property == ops.property) {
+                if (msg.instance == ops.instance && msg.path == ops.path) {
                     if (typeof ops.on_image_croped == "function") {
                         msg.element = ele;
                         ops.on_image_croped(msg);
@@ -115,7 +119,7 @@
             });
 
             utils.onReceiveMessage("canceldialog", function (msg) {
-                if (msg.owner == ops.owner && msg.property == ops.property) {
+                if (msg.instance == ops.instance && msg.path == ops.path) {
                     if (typeof ops.on_cancel == "function") {
                         msg.element = ele;
                         ops.on_cancel(msg);
@@ -130,8 +134,8 @@
                 ops = self.options,
                 ele = self.element;
 
-            owner = $(ele).attr('data-owner') || ops.owner;
-            property = $(ele).attr('data-property') || ops.property;
+            instance = $(ele).attr('data-instance') || ops.instance;
+            path = $(ele).attr('data-path') || ops.path;
             width = $(ele).attr('data-width') || ops.width;
             height = $(ele).attr('data-height') || ops.height;
             src = $(ele).attr('src') || $(ele).attr('data-src') || ops.src;
@@ -141,7 +145,7 @@
                 height = $(ele).height();
             }
 
-            var url = ops.crop_handler + '?file=' + src + '&width=' + width + '&height=' + height + '&owner=' + owner + '&property=' + property + '&keepRatio=' + keep_ratio;
+            var url = ops.crop_handler + '?file=' + src + '&width=' + width + '&height=' + height + '&instance=' + instance + '&path=' + path + '&keepRatio=' + keep_ratio;
             utils.openDialog('Crop Image', url, 500, 500);
         },
         destroy: function () {

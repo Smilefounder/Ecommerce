@@ -1,7 +1,4 @@
 ﻿<script type="text/javascript">
-    utils.showMessage = function (title, message, level, funcClose) {
-        info.show(message, (level || 'info') == 'info');
-    };
     var vm;
     $(function () {
         vm = new FVM();
@@ -80,7 +77,7 @@
             if(!path) {
                 path = self.GetCurrentPath();
             }
-            var url = '/Commerce/MediaLibrary/Files?owner=@Request.QueryString["owner"]&path=' + path + '&search=' + (self.SearchWord() ? self.SearchWord() : '') + '&pi=' + self.PageIndex().toString() + '&ps=' + self.PageSize().toString();
+            var url = '/Commerce/MediaLibrary/Files?instance=@Request.QueryString["instance"]&path=' + path + '&search=' + (self.SearchWord() ? self.SearchWord() : '') + '&pi=' + self.PageIndex().toString() + '&ps=' + self.PageSize().toString();
             utils.getJson(url, null, function (data) {
                 ko.mapping.viewModel(data, vm.data);
                 vm.CurrentPathIndex(data.Paths.length - 1);
@@ -88,7 +85,7 @@
                     vm.PageIndex(data.Pager.PageIndex);
                     vm.PageSize(data.Pager.PageSize);
                 }
-                var postUrl = '/Areas/Commerce/Handlers/UploadHandler.ashx?owner=@Request.QueryString["owner"]&path=' + path;
+                var postUrl = '/Commerce/MediaLibrary/Upload?instance=@Request.QueryString["instance"]&path=' + path;
                 $('#upload_form').attr('action', postUrl);
                 $('div.loading').hide();
             })
@@ -148,18 +145,19 @@
         self.CheckFolder = function (item) {
             var folder = $.grep(vm.data().Folders(), function (n, i) { return n.Name() == item.Name(); })[0];
             if (folder && !folder.IsNew) {
-                utils.showMessage('info', 'Folder ' + item.Name() + ' already exists.', 'info');
+                kb.message.show('Folder ' + item.Name() + ' already exists.', 'error');
                 return false;
             }
             return true;
         };
         self.SaveFolder = function (item) {
             if(vm.CheckFolder(item)) {
-                var url = '/Commerce/MediaLibrary/AddFolder?owner=@Request.QueryString["owner"]&path=' + vm.GetCurrentPath() + '&folder=' + item.Name();
-                utils.getJson(url, null, function(data) {
-                    utils.showMessage('info', data.message, data.status == 0 ? 'info' : 'error');
-                    item.IsNew(false);
-                })
+                var url = '/Commerce/MediaLibrary/AddFolder?instance=@Request.QueryString["instance"]&path=' + vm.GetCurrentPath() + '&folder=' + item.Name();
+                $.get(url)
+                 .done(function (data) {
+                     item.IsNew(false);
+                 })
+                 .fail(kb.message.show);
             }
         };
         self.RemoveFolder = function (item) {
@@ -178,14 +176,17 @@
             vm.getData(path);
         };
         self.InsertFile = function () {
-            utils.postMessage("fileselected", { 
-                owner: '@Request.QueryString["owner"]', 
-                property: '@Request.QueryString["path"]', 
-                files: ko.toJS(self.SelectedFiles())
-            }, 
-            window.top);
+            var files = self.SelectedFiles();
+            if (files.length > 0) {
+                utils.postMessage("fileselected", {
+                    opener: '@Request.QueryString["opener"]',
+                    path: '@Request.QueryString["path"]', 
+                    files: ko.toJS(files)
+                }, 
+                window.top);
 
-            utils.closeDialog();
+                utils.closeDialog();
+            }
         };
         self.SelectFile = function (item, event) {
             stopEvent(event);
