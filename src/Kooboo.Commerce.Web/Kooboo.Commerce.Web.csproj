@@ -377,9 +377,6 @@
     <Compile Include="Areas\Commerce\Controllers\TopbarController.cs" />
     <Compile Include="Areas\Commerce\Handlers\FilesStatus.cs" />
     <Compile Include="Areas\Commerce\Handlers\FileType.cs" />
-    <Compile Include="Areas\Commerce\Handlers\ImageHandler.ashx.cs">
-      <DependentUpon>ImageHandler.ashx</DependentUpon>
-    </Compile>
     <Compile Include="Areas\Commerce\Handlers\ImageHelper.cs" />
     <Compile Include="Areas\Commerce\Menu\BusinessRuleMenuItems.cs" />
     <Compile Include="Areas\Commerce\Models\Categories\CategoryEntry.cs" />
@@ -537,6 +534,8 @@
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\Recommendations\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CurrentProductRecommendations\setting.config" />
     <Content Include="Cms_Data\Sites\SampleBusiness\Templates\Views\CurrentProductRecommendations\template.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_CropImageDialog.cshtml" />
+    <Content Include="Areas\Commerce\Views\Shared\_CropImageDialog.Scripts.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -2402,7 +2401,6 @@
     <Content Include="Areas\Commerce\Views\ShippingMethod\ShippingRateProvider.cshtml" />
     <Content Include="Areas\Commerce\Views\ShippingMethod\ShippingRateProvider.Scripts.cshtml" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\Index.cshtml" />
-    <Content Include="Areas\Commerce\Handlers\ImageHandler.ashx" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\ImageCrop.cshtml" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\_MediaLibrary.cshtml" />
     <Content Include="Areas\Commerce\Views\MediaLibrary\_MediaLibrary.Scripts.cshtml" />

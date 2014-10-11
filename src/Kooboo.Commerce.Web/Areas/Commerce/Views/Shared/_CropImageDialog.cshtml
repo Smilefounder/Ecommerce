@@ -1,0 +1,40 @@
+﻿<script type="text/html" id="CropImageDialogTemplate">
+    <div class="topbar">
+        <h1 class="title">
+            @("Crop Image".Localize())
+            <span style="font-size:14px">(<span data-bind="text: width"></span> x <span data-bind="text: height"></span>)</span>
+        </h1>
+    </div>
+    <div class="wrap">
+        <div class="columns">
+            <div class="span8">
+                <img class="image-canvas img-none" src="" style="display:inline-block;" />
+            </div>
+            <div class="span4">
+                <div style="overflow:hidden;">
+                    <img class="image-preview img-none" src="" style="display: inline-block;" />
+                </div>
+            </div>
+        </div>
+        <div class="columns" style="margin-top:15px">
+            <div class="span12">
+                <input type="checkbox" id="OverrideOriginalImage" data-bind="checked: overrideOriginalImage" />
+                <label class="inline" for="OverrideOriginalImage">
+                    @("Override original image".Localize())
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="buttons">
+        <div class="row form-actions">
+            <a class="button" href="#" data-bind="click: crop">
+                @("Save".Localize())
+            </a>
+            <a class="button gray" href="#" data-bind="click: cancel">
+                @("Cancel".Localize())
+            </a>
+        </div>
+    </div>
+</script>
+
+@Html.Partial("_CropImageDialog.Scripts")

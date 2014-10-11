@@ -1,16 +1,12 @@
-﻿@model IDictionary<string, object>
-@{
+﻿@{
     Layout = "~/Views/Shared/Popup.cshtml";
     ViewBag.Title = "Crop Image".Localize();
-    var model = Model ?? new Dictionary<string, object>();
-    string dialogId = model.ContainsKey("file") ? model["dialogId"].ToString() : "";
-    string file = model.ContainsKey("file") ? model["file"].ToString() : "/Images/nopicture.gif";
-    int width = model.ContainsKey("width") ? Convert.ToInt32(model["width"]) : 120;
-    int height = model.ContainsKey("height") ? Convert.ToInt32(model["height"]) : 120;
-    string owner = model.ContainsKey("owner") ? model["owner"].ToString() : "";
-    string property = model.ContainsKey("property") ? model["property"].ToString() : "";
-    string args = model.ContainsKey("args") ? model["args"].ToString() : "";
-    bool keepRatio = model.ContainsKey("keepRatio") ? Convert.ToBoolean(model["keepRatio"]) : true;
+    
+    string file = Request.QueryString["file"];
+    int width = Convert.ToInt32(Request.QueryString["width"]);
+    int height = Convert.ToInt32(Request.QueryString["height"]);
+    string path = Request.QueryString["path"];
+    bool keepRatio = Convert.ToBoolean(Request.QueryString["keepRatio"] ?? "true");
 }
 
 <div id="main-container">
@@ -108,10 +104,10 @@
             var bw = $('#originalImg').width();
             var bh = $('#originalImg').height();
 
-            var cx = cropCoords.x / bw * tw;
-            var cy = cropCoords.y / bh * th;
-            var cw = cropCoords.w / bw * tw;
-            var ch = cropCoords.h / bh * th;
+            var cx = Math.round(cropCoords.x / bw * tw);
+            var cy = Math.round(cropCoords.y / bh * th);
+            var cw = Math.round(cropCoords.w / bw * tw);
+            var ch = Math.round(cropCoords.h / bh * th);
             return { x: cx, y: cy, w: cw, h: ch };
         }
 
@@ -122,28 +118,28 @@
             utils.getJson(url, function(data) {
                 InitImage(src);
                 if(typeof window.OnCroppedImage == "function"){
-                    window.OnCroppedImage(data, '@args', '@dialogId');
+                    window.OnCroppedImage(data);
                 }
-                utils.postMessage("cropimage", { url: data, owner: '@owner', property: '@property', args:'@args', dialogId:'@dialogId' });
-                utils.closeDialog('@dialogId');
+                utils.postMessage("cropimage", { url: data.url, instance: '@Request.QueryString["instance"]', path: '@path', dialogId:'@Request.QueryString["dialogId"]' });
+                utils.closeDialog('@Request.QueryString["dialogId"]');
             });
         }
 
         function NotCropImage() {
             var src = $('#originalImg').attr('src');
             if(typeof window.OnCroppedImage == "function"){
-                window.OnCroppedImage(src, '@args', '@dialogId');
+                window.OnCroppedImage(src);
             }
-            utils.postMessage("cropimage", { url: src, owner: '@owner', property: '@property', args:'@args', dialogId:'@dialogId' });
-            utils.closeDialog('@dialogId');
+            utils.postMessage("cropimage", { url: src, instance: '@Request.QueryString["instance"]', path: '@path', dialogId:'@Request.QueryString["dialogId"]' });
+            utils.closeDialog('@Request.QueryString["dialogId"]');
         }
 
         function Cancel(){
             if(typeof window.OnCancel == "function"){
-                window.OnCancel('@dialogId');
+                window.OnCancel('@Request.QueryString["dialogId"]');
             }
-            utils.postMessage('canceldialog', { dialogId:'@dialogId' });
-            utils.closeDialog('@dialogId');
+            utils.postMessage('canceldialog', { dialogId:'@Request.QueryString["dialogId"]' });
+            utils.closeDialog('@Request.QueryString["dialogId"]');
         }
     </script>
 }

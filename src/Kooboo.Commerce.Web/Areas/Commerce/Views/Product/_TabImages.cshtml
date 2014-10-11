@@ -17,6 +17,7 @@
                             <li>
                                 <div class="file-thumbnail">
                                     <img class="crop_image" style="max-height:100px"
+                                         data-instance="@(Request.QueryString["instance"])"
                                          data-width="@type.Width" data-height="@type.Height"
                                          data-bind="attr: { src: imageUrl }" />
                                     <a href="#" class="action" data-bind="click: $root.removeImage">@Html.IconImage("minus-small")</a>
@@ -37,50 +38,62 @@
 </div>
 
 <script>
-    window.ProductEditor.tabs['Images'] = {
-        init: function (context) {
-            var model = context.model;
 
-            // Extend model
-            model.getImages = function (type) {
-                return _.filter(model.product.images(), function (image) {
-                    return image.type() === type;
-                });
-            }
+    (function () {
+        var ImageTypes = @Html.Raw(JsonEncoder.Encode(imageTypes, true));
 
-            model.addImage = function (type, url) {
-                model.product.images.push({
-                    id: ko.observable(),
-                    type: ko.observable(type),
-                    imageUrl: ko.observable(url)
-                });
-            }
+        window.ProductEditor.tabs['Images'] = {
+            init: function (context) {
+                var model = context.model;
+                var cropImageDialog = new CropImageDialog();
 
-            model.removeImage = function (image) {
-                model.product.images.remove(image);
-            }
-
-            // Init uploaders
-            $('.J_Upload').upload({
-                on_file_select: function (data) {
-                    var parts = data.path.split('/');
-                    var imageType = $(data.element).data('imgtype');
-                    $.each(data.files, function (i, n) {
-                        model.addImage(imageType, n.Url);
-                        $('.crop_image').cropimage({
-                            on_image_croped: function (data) {
-                                $(data.element).attr('src', data.url + '?v=' + new Date().getTime())
-                            }
-                        });
+                // Extend model
+                model.getImages = function (type) {
+                    return _.filter(model.product.images(), function (image) {
+                        return image.type() === type;
                     });
                 }
-            });
 
-            $('.crop_image').cropimage({
-                on_image_croped: function (data) {
-                    $(data.element).attr('src', data.url + '?v=' + new Date().getTime())
+                model.addImage = function (type, url) {
+                    var image = {
+                        id: ko.observable(),
+                        type: ko.observable(type),
+                        imageUrl: ko.observable(url)
+                    };
+                    model.product.images.push(image);
+                    return image;
                 }
-            });
-        }
-    };
+
+                model.removeImage = function (image) {
+                    model.product.images.remove(image);
+                }
+
+                // Init uploaders
+                $('.J_Upload').upload({
+                    on_file_select: function (data) {
+                        var parts = data.path.split('/');
+                        var file = data.files[0];
+                        var imageTypeName = $(data.element).data('imgtype');
+                        var imageType = getImageType(imageTypeName);
+
+                        cropImageDialog.open({
+                            url: file.Url,
+                            width: imageType.width,
+                            height: imageType.height,
+                            onCropped: function (data) {
+                                var imageUrl = data.url + '?v=' + new Date().getTime();
+                                model.addImage(imageTypeName, imageUrl);
+                            }
+                        });
+                    }
+                });
+
+                function getImageType(name) {
+                    return _.find(ImageTypes, function (t) {
+                        return t.name === name;
+                    });
+                }
+            }
+        };
+    })();
 </script>

@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.Globalization;
 
 namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
 {
@@ -38,7 +39,7 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         private IList<string> GetBreadcrumb(string path)
         {
             var paths = new List<string>();
-            paths.Add(CurrentInstance.DataFolders.Media.Name);
+            paths.Add("Root".Localize());
             paths.AddRange(path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries));
             return paths;
         }
@@ -128,11 +129,12 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 IsImage = FileType.IsImage(f.Extension)
             }).ToArray();
             var pagers = ps <= 0 ? null : new { TotalRecords = totalRecords, TotalPages = totalPages, StartIndex = startIndex, EndIndex = endIndex, PageIndex = pi, PageSize = ps };
-            return Json(new { 
-                Paths = GetBreadcrumb(path), 
-                Folders = vs, 
-                Files = vfs, 
-                Pager = pagers 
+            return Json(new
+            {
+                Paths = GetBreadcrumb(path),
+                Folders = vs,
+                Files = vfs,
+                Pager = pagers
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -174,11 +176,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                 folder = folder.GetFolder(path);
             }
 
-            var file = GetRenamedFileIfExists(folder, fileName);
-
+            var newFileName = GetRenamedFileNameIfExists(folder.VirtualPath, fileName);
+            var file = folder.GetFile(newFileName);
             var length = file.Write(Request.Files[0].InputStream);
 
-            statuses.Add(new FilesStatus(fileName, file.Name, length, folder.VirtualPath));
+            statuses.Add(new FilesStatus(fileName, newFileName, length, folder.VirtualPath));
         }
 
         // Upload entire file
@@ -193,10 +195,11 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
                     folder = folder.GetFolder(path);
                 }
 
-                var dataFile = GetRenamedFileIfExists(folder, file.FileName);
-                var length = dataFile.Write(file.InputStream);
+                var newFileName = GetRenamedFileNameIfExists(folder.VirtualPath, file.FileName);
+                var newFile = folder.GetFile(newFileName);
+                var length = newFile.Write(file.InputStream);
 
-                statuses.Add(new FilesStatus(file.FileName, dataFile.Name, length, folder.VirtualPath));
+                statuses.Add(new FilesStatus(file.FileName, newFile.Name, length, folder.VirtualPath));
             }
         }
 
@@ -217,21 +220,22 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
             context.Response.Write(json);
         }
 
-        private DataFile GetRenamedFileIfExists(DataFolder folder, string fileName)
+        private string GetRenamedFileNameIfExists(string directory, string fileName)
         {
-            var fileNameWithExt = Path.GetFileNameWithoutExtension(fileName);
+            var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
+            var newFileNameWithoutExt = fileNameWithoutExt;
             var ext = Path.GetExtension(fileName);
 
-            var file = folder.GetFile(fileName);
+            var fileVirtualPath = UrlUtility.Combine(directory, fileName);
             int index = 1;
-            while (file.Exists)
+            while (System.IO.File.Exists(Server.MapPath(fileVirtualPath)))
             {
-                fileNameWithExt = String.Format("{0}({1}){2}", fileNameWithExt, index, ext);
-                file = folder.GetFile(fileNameWithExt + ext);
+                newFileNameWithoutExt = String.Format("{0}({1})", fileNameWithoutExt, index);
+                fileVirtualPath = UrlUtility.Combine(directory, newFileNameWithoutExt + ext);
                 index++;
             }
 
-            return file;
+            return newFileNameWithoutExt + ext;
         }
 
         [HttpGet]
@@ -267,36 +271,51 @@ namespace Kooboo.Commerce.Web.Areas.Commerce.Controllers
         [HttpGet]
         public ActionResult OpenImage()
         {
-            Dictionary<string, object> paras = new Dictionary<string, object>();
-            foreach (var k in Request.QueryString.AllKeys)
-                paras.Add(k, Request.QueryString[k]);
-            return View("ImageCrop", paras);
+            return View("ImageCrop");
         }
 
-        [HttpGet]
-        public ActionResult SaveImage(string file, float x, float y, float width, float height, int? toWidth = null, int? toHeight = null)
+        [HttpPost]
+        public ActionResult CropImage(string file, int x, int y, int width, int height, int? toWidth = null, int? toHeight = null, bool @override = false)
         {
             if (file.IndexOf('?') >= 0)
             {
                 file = file.Substring(0, file.IndexOf('?'));
             }
-            string path = Server.MapPath(file);
+
+            var folderVirtualPath = VirtualPathUtility.GetDirectory(file);
+            var originalImagePath = Server.MapPath(file);
 
             if (x >= 0 && y >= 0 && width > 0 && height > 0)
             {
-                Image img = Image.FromFile(path);
-                RectangleF rect = new RectangleF(x, y, width, height);
-                var cropImg = ImageHelper.Crop(img, rect);
+                var tempPath = Server.MapPath(UrlUtility.Combine(folderVirtualPath, Guid.NewGuid().ToString()));
+
+                Kooboo.Drawing.ImageTools.CropImage(originalImagePath, tempPath, x, y, width, height);
 
                 if (toWidth.HasValue && toHeight.HasValue)
                 {
-                    cropImg = ImageHelper.Resize(cropImg, new Size(toWidth.Value, toHeight.Value));
+                    var tempPath2 = Server.MapPath(UrlUtility.Combine(folderVirtualPath, Guid.NewGuid().ToString()));
+                    Kooboo.Drawing.ImageTools.ResizeImage(tempPath, tempPath2, toWidth.Value, toHeight.Value, true, 80);
+                    tempPath = tempPath2;
                 }
 
-                cropImg.Save(path);
+                if (@override)
+                {
+                    System.IO.File.Delete(originalImagePath);
+                    System.IO.File.Move(tempPath, originalImagePath);
+                }
+                else
+                {
+                    var newFileName = GetRenamedFileNameIfExists(folderVirtualPath, Path.GetFileNameWithoutExtension(file) + "_cropped" + Path.GetExtension(file));
+                    var newFileVirtualPath = UrlUtility.Combine(folderVirtualPath, newFileName);
+                    System.IO.File.Move(tempPath, Server.MapPath(newFileVirtualPath));
+                    file = newFileVirtualPath;
+                }
             }
 
-            return Json(file, JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                url = file
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

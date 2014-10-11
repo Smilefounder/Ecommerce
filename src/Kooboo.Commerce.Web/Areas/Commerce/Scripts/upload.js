@@ -105,8 +105,6 @@
             ops.src = $(ele).attr('src') || $(ele).attr('data-src') || ops.src;
             ops.keep_ratio = $(ele).attr('data-keep-ratio') || ops.keep_ratio;
 
-            $(ele).css({ width: ops.width + 'px', height: ops.height + 'px' });
-
             $(ele).on('click', null, function () { self.open(); });
 
             utils.onReceiveMessage("cropimage", function (msg) {

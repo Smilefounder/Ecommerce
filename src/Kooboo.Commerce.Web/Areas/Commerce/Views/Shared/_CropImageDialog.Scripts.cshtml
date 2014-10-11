@@ -1,0 +1,177 @@
+﻿<script>
+    (function ($) {
+        window.CropImageDialog = function () {
+            var self = this;
+            var $dialog = null;
+            var $canvas = null;
+            var $preview = null;
+            var canvasSize = { width: 400, height: null };
+            var previewSize = { width: 120, height: null };
+            var jcrop = null;
+            var cropCoords = null;
+
+            self.options = {};
+
+            self.title = ko.observable('Crop Image');
+
+            self.url = ko.observable();
+
+            self.width = ko.observable();
+
+            self.height = ko.observable();
+
+            self.aspectRatio = ko.observable(true);
+
+            self.overrideOriginalImage = ko.observable(false);
+
+            self.open = function (options) {
+                if (!options.width) throw 'options.width is required.';
+                if (!options.height) throw 'options.height is required.';
+
+                var dialogId = '__cropimage_dialog_' + new Date().getTime();
+                $('#main-container>.wrap').append('<div id="' + dialogId + '"></div>');
+
+                // Without this setTimeout, the dialog won't open, why?
+                setTimeout(function () {
+
+                    self.options = options;
+
+                    self.url(options.url);
+
+                    if (options.previewWidth) {
+                        previewSize.width = options.previewWidth;
+                    }
+                    if (options.canvasWidth) {
+                        canvasSize.width = options.canvasWidth;
+                    }
+
+                    self.width(options.width);
+                    self.height(options.height);
+                    self.aspectRatio(options.aspectRatio === undefined ? true : options.aspectRatio);
+
+                    $dialog = $('#' + dialogId).dialog({
+                        autoOpen: false,
+                        modal: true,
+                        height: 500
+                    });
+
+                    $dialog.html($('#CropImageDialogTemplate').html());
+
+                    ko.applyBindings(self, $dialog[0]);
+
+                    $canvas = $dialog.find('.image-canvas');
+                    $preview = $dialog.find('.image-preview');
+
+                    $dialog.dialog('open');
+
+                    setTimeout(function () {
+                        $(document).dialogScroll();
+                    });
+
+                    self.load(options.url);
+                });
+            }
+
+            self.load = function (url) {
+                if (url.indexOf('?') > 0) {
+                    url += '&';
+                } else {
+                    url += '?';
+                }
+
+                url += 'r=' + new Date().getTime();
+
+                $('<img src="' + url + '"/>').load(function () {
+                    if (jcrop) {
+                        jcrop.destroy();
+                    }
+
+                    $canvas.attr('src', url);
+                    $preview.attr('src', url);
+
+                    canvasSize.height = Math.round((self.height() / self.width()) * canvasSize.width);
+                    // init
+                    $canvas.Jcrop({
+                        boxWidth: canvasSize.width,
+                        onChange: preview,
+                        onSelect: preview
+                    }, function () {
+                        jcrop = this;
+
+                        previewSize.height = Math.round((self.height() / self.width()) * previewSize.width);
+                        $preview.parent().css(previewSize);
+
+                        var initialSelection = [0, 0, self.width(), self.height()];
+
+                        jcrop.setOptions({
+                            setSelect: initialSelection,
+                            aspectRatio: self.aspectRatio()
+                        });
+                    });
+                });
+            }
+
+            self.crop = function () {
+                var coords = self.coords();
+                $.ajax({
+                    url: '/Commerce/MediaLibrary/CropImage?file=' + encodeURIComponent(self.url())
+                        + '&x=' + coords.x + '&y=' + coords.y
+                        + '&width=' + coords.w + '&height=' + coords.h
+                        + '&override=' + self.overrideOriginalImage(),
+                    type: 'POST'
+                })
+                .done(function (data) {
+                    if (self.options.onCropped) {
+                        self.options.onCropped.apply(self, [data]);
+                    }
+
+                    self.close();
+                });
+            }
+
+            self.coords = function () {
+                return {
+                    x: Math.round(cropCoords.x),
+                    y: Math.round(cropCoords.y),
+                    w: Math.round(cropCoords.w),
+                    h: Math.round(cropCoords.h)
+                };
+            }
+
+            self.cancel = function () {
+                if (self.options.onCancelled) {
+                    self.options.onCancelled.apply(self);
+                }
+
+                self.close();
+            }
+
+            self.close = function () {
+                $dialog.dialog('close');
+                $dialog.remove();
+                $dialog = null;
+            }
+
+            function preview(coords) {
+                if (parseInt(coords.w) === 0) {
+                    return;
+                }
+
+                cropCoords = coords;
+
+                var rx = previewSize.width / coords.w;
+                var ry = previewSize.height / coords.h;
+
+                var iw = $canvas.width();
+                var ih = $canvas.height();
+
+                $preview.css({
+                    width: Math.round(rx * iw) + 'px',
+                    height: Math.round(ry * ih) + 'px',
+                    marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+                    marginTop: '-' + Math.round(ry * coords.y) + 'px'
+                });
+            }
+        }
+    })(jQuery);
+</script>
